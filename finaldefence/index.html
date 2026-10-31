@@ -48,6 +48,8 @@ body {
   font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.65;
+  word-break: keep-all;
+  overflow-wrap: break-word;
   background-color: var(--mat);
   background-image:
     linear-gradient(var(--mat-line-major) 1px, transparent 1px),
@@ -182,6 +184,20 @@ body {
 .play:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
 
 footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
+
+.masthead .start-link { margin: 28px 0 0; }
+
+.start-link a {
+  display: inline-block;
+  padding: 8px 16px 9px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-weight: 600;
+  text-decoration: none;
+  transform: rotate(-1.5deg);
+}
+
+.start-link a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
 </style>
 </head>
 <body>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<style>
+  body { margin: 0; font-family: -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+  .felt { background: radial-gradient(ellipse 120% 90% at 50% 25%, #34965f, #124d35); }
+  #icon { width: 1024px; height: 1024px; position: relative; overflow: hidden; }
+  #feature { width: 1024px; height: 500px; position: relative; overflow: hidden; display: none; }
+  .card { position: absolute; background: #fff; border-radius: 9%/6.4%; box-shadow: 0 14px 40px rgba(0,0,0,.35), inset 0 0 0 2px rgba(0,0,0,.08); }
+  .card svg { width: 100%; height: 100%; display: block; }
+  .card text { font-family: -apple-system-ui-rounded, ui-rounded, -apple-system, "Noto Sans KR", sans-serif; font-weight: 800; }
+  .red { color: #d4161d; fill: #d4161d; } .black { color: #111214; fill: #111214; }
+  .title { position: absolute; left: 64px; top: 120px; color: #fff; }
+  .title h1 { margin: 0; font-size: 92px; font-weight: 800; letter-spacing: -3px; }
+  .title p { margin: 18px 0 0; font-size: 34px; font-weight: 600; opacity: .9; }
+  .title .pills { margin-top: 26px; display: flex; gap: 12px; }
+  .title .pills span { font-size: 24px; font-weight: 700; padding: 10px 18px; border-radius: 99px; background: rgba(0,0,0,.22); }
+</style></head>
+<body>
+<div id="icon" class="felt"></div>
+<div id="feature" class="felt"><div class="title"><h1>포켓 솔리테어</h1><p>큰 글자로 편하게, 정통 클론다이크</p><div class="pills"><span>오늘의 도전</span><span>무제한 되돌리기</span><span>힌트</span></div></div></div>
+<script type="module">
+  import { installSuitSymbols, simpleFace } from '../../src/cardart.js';
+  installSuitSymbols();
+  const card = (host, s, r, x, y, w, rot) => {
+    const el = document.createElement('div');
+    el.className = `card ${s === 1 || s === 2 ? 'red' : 'black'}`;
+    Object.assign(el.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${w * 1.42}px`, transform: `rotate(${rot}deg)` });
+    el.innerHTML = simpleFace(s, r).replace('class="art simple"', 'class="art simple" fill="currentColor"');
+    host.appendChild(el);
+  };
+  const mode = location.hash.slice(1) || 'icon';
+  if (mode === 'icon') {
+    const h = document.getElementById('icon');
+    card(h, 1, 13, 300, 210, 430, 12);
+    card(h, 0, 1, 230, 250, 430, -8);
+  } else {
+    document.getElementById('icon').style.display = 'none';
+    const f = document.getElementById('feature'); f.style.display = 'block';
+    card(f, 2, 12, 640, 110, 200, -14);
+    card(f, 0, 13, 720, 80, 200, -2);
+    card(f, 1, 1, 805, 100, 200, 12);
+  }
+  document.body.dataset.ready = '1';
+</script>
+</body></html>

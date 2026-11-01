@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>네온 브릭 (엔크로키)</title>
+<meta name="description" content="공을 튕겨 네온 벽돌을 깨고, 별 셋에 도전하는 스테이지형 벽돌깨기">
+<meta property="og:type" content="website">
+<meta property="og:title" content="네온 브릭">
+<meta property="og:description" content="공을 튕겨 네온 벽돌을 깨고, 별 셋에 도전하는 스테이지형 벽돌깨기">
+<meta property="og:url" content="https://ncroquis.github.io/neon-brick/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&family=Nanum+Pen+Script&display=swap">
+<style>
+:root {
+  --mat: #2f5d50;
+  --mat-line: rgba(236, 214, 120, 0.13);
+  --mat-line-major: rgba(236, 214, 120, 0.28);
+  --paper: #fdfdfb;
+  --ink: #1f2623;
+  --graphite: #57605b;
+  --on-mat: #f3f7f4;
+  --on-mat-soft: #c4dace;
+  --tape-dev: #f1c94f;
+  --tape-test: #93c4ec;
+  --tape-live: #e9664c;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mat: #213f36;
+    --paper: #eceee9;
+    --mat-line: rgba(236, 214, 120, 0.1);
+    --mat-line-major: rgba(236, 214, 120, 0.2);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--on-mat);
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  background-color: var(--mat);
+  background-image:
+    linear-gradient(var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(var(--mat-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: -1px -1px;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 64px 20px 72px; }
+
+.masthead h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(48px, 10vw, 96px);
+  line-height: 1;
+}
+
+.masthead p { margin: 16px 0 0; max-width: 34em; color: var(--on-mat-soft); font-size: 18px; }
+
+.board {
+  list-style: none;
+  margin: 64px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 44px 28px;
+}
+
+.sheet {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 34px 22px 18px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 12px 20px -12px rgba(0, 0, 0, 0.55);
+}
+
+.board li:nth-child(3n + 1) .sheet { transform: rotate(-0.7deg); }
+.board li:nth-child(3n + 2) .sheet { transform: rotate(0.5deg); }
+.board li:nth-child(3n) .sheet { transform: rotate(-0.25deg); }
+
+.board .sheet h2 a { color: inherit; text-decoration: none; }
+.board .sheet h2 a::after { content: ""; position: absolute; inset: 0; }
+.board .sheet h2 a:focus-visible { outline: none; }
+.board .sheet:focus-within { outline: 3px solid var(--tape-dev); outline-offset: 5px; }
+
+.tape {
+  position: absolute;
+  top: -12px;
+  left: 18px;
+  padding: 3px 12px 4px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  transform: rotate(-2.5deg);
+  opacity: 0.95;
+}
+
+.tape[data-status="테스트 중"] { background: var(--tape-test); }
+.tape[data-status="출시"] { background: var(--tape-live); color: #fff; }
+
+.sheet h2 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.summary { margin: 10px 0 0; }
+
+.note {
+  margin: 18px 0 0;
+  color: var(--graphite);
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.empty {
+  margin: 64px 0 0;
+  max-width: 30em;
+  padding: 24px;
+  border: 2px dashed var(--on-mat-soft);
+  color: var(--on-mat-soft);
+}
+
+.back {
+  color: var(--on-mat);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.page { max-width: 760px; margin: 0 auto; padding: 32px 20px 72px; }
+
+.page .sheet {
+  margin-top: 44px;
+  padding: 52px clamp(22px, 6vw, 60px) 40px;
+  transform: rotate(-0.35deg);
+}
+
+.page .sheet h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(40px, 8vw, 64px);
+  line-height: 1.05;
+}
+
+.lead { margin: 16px 0 0; font-size: 20px; line-height: 1.5; }
+
+.pitch { margin: 24px 0 0; max-width: 34em; }
+
+.play {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 22px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pending { margin: 24px 0 0; color: var(--graphite); }
+
+.back:focus-visible,
+.play:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+
+footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
+
+.masthead .start-link { margin: 28px 0 0; }
+
+.start-link a {
+  display: inline-block;
+  padding: 8px 16px 9px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-weight: 600;
+  text-decoration: none;
+  transform: rotate(-1.5deg);
+}
+
+.start-link a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+</style>
+</head>
+<body>
+<main class="page">
+  <a class="back" href="../">전체 프로젝트 보기</a>
+  <article class="sheet">
+    <span class="tape" data-status="개발 중">개발 중</span>
+    <h1>네온 브릭</h1>
+    <p class="lead">공을 튕겨 네온 벽돌을 깨고, 별 셋에 도전하는 스테이지형 벽돌깨기</p>
+    <p class="pitch">조준하고 손을 떼면 공이 쏟아져 네온 벽돌을 부숩니다. 적은 턴으로 깰수록 별을 더 받고, 클리어하면 별 개수에 맞춰 네온맨이 음악에 맞춰 춤을 춥니다. 틈을 노리는 한 방, 벽을 타는 반사, 레이저 연쇄로 한 번에 크게 터뜨리는 손맛을 즐겨 보세요.</p>
+    <p class="pending">플레이 버전은 준비 중이에요.</p>
+    <p class="note">neon-brick, 2026.11.1 시작</p>
+  </article>
+  <footer>© 2026 엔크로키</footer>
+</main>
+</body>
+</html>

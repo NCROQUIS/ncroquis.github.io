@@ -375,14 +375,90 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
   white-space: nowrap;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .idea, .steps > li, .say li { transform: none; }
+/* 시작하기 | 출시하기 탭 (페이지 사이) */
+.guide-tabs { margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.guide-tabs a {
+  padding: 7px 18px 8px;
+  border: 2px solid var(--on-mat-soft);
+  color: var(--on-mat);
+  font-weight: 600;
+  text-decoration: none;
 }
+.guide-tabs a[aria-current="page"] {
+  background: var(--tape-dev);
+  border-color: var(--tape-dev);
+  color: #2b2a20;
+  transform: rotate(-1.5deg);
+}
+.guide-tabs a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+
+/* 출시하기: 플랫폼 탭 (스크립트가 없으면 같은 페이지 안 바로가기) */
+.platforms { margin: 56px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.platforms a {
+  padding: 10px 20px 11px;
+  border: 2px solid var(--on-mat-soft);
+  color: var(--on-mat);
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.platforms a[aria-selected="true"] { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+.platforms a:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.guide .panels > .sheet { margin-top: 28px; }
+.guide .panels > .sheet + .sheet { margin-top: 60px; }
+.guide .panels.tabs-on > .sheet { margin-top: 26px; }
+
+.guide .sheet h3 {
+  margin: 34px 0 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 1.2;
+}
+
+/* 명령: 왼쪽 포스트잇(복사), 오른쪽 하는 일 */
+.cmds { list-style: none; margin: 22px 0 0; padding: 0; }
+.cmds > li {
+  display: grid;
+  grid-template-columns: minmax(0, 15.5em) minmax(0, 1fr);
+  gap: 12px 24px;
+  align-items: start;
+}
+.cmds > li + li { margin-top: 22px; }
+.cmd-note {
+  padding: 13px 14px 11px;
+  background: #f8e8a6;
+  color: #2b2a20;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 12px -10px rgba(0, 0, 0, 0.45);
+  transform: rotate(-0.8deg);
+}
+.cmds > li:nth-child(even) .cmd-note { transform: rotate(0.7deg); }
+.guide .sheet .cmd-note p {
+  margin: 0;
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: 25px;
+  line-height: 1.12;
+}
+.cmd-note .copy { margin-top: 10px; }
+.guide .sheet .does { margin: 4px 0 0; }
+
+@media (max-width: 560px) {
+  .cmds > li { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .guide .sheet .does { margin: 0 0 0 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* 기울임은 :nth-child 규칙이 더 구체적이라 !important로 끈다 */
+  .idea, .steps > li, .say li, .cmd-note, .guide-tabs a { transform: none !important; }
+}
+
+.tape.soon-tape { background: var(--tape-test); }
 </style>
 </head>
 <body>
 <main class="guide">
   <a class="back" href="../">전체 프로젝트 보기</a>
+  <nav class="guide-tabs" aria-label="시작 가이드"><a href="./" aria-current="page">시작하기</a><a href="release/">출시하기</a></nav>
 
   <header class="guide-head">
     <h1>게임 만들기,<br>여기서 시작해요</h1>
@@ -502,6 +578,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
         <li><p id="release-start">pushpath 출시하고 싶어</p><button class="copy" type="button" data-copy="release-start">복사</button></li>
       </ul>
       <p class="pencil">처음 출시할 때만 Play Console에서 앱을 만드는 일이 한 번 있어요. Claude가 입력표를 만들어 줘요. 스토어 아이콘(512x512 PNG)과 스크린샷은 드라이브 프로젝트 폴더의 '스토어 이미지'에 넣어요. 그 아이콘이 앱 아이콘도 돼요.</p>
+      <a class="button" href="release/">플랫폼별 출시 명령 보기</a>
     </li>
   </ol>
 
@@ -594,6 +671,62 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
       }
     });
   });
+})();
+
+// 출시하기의 플랫폼 탭: 스크립트가 없으면 모든 플랫폼이 다 보이는 바로가기, 있으면 한 번에 하나씩 (주소 #web 등으로 바로 열림)
+(function () {
+  var nav = document.querySelector(".platforms");
+  var panels = document.querySelector(".panels");
+  if (!nav || !panels) { return; }
+  var tabs = Array.prototype.slice.call(nav.querySelectorAll("a[href^='#']"));
+  var ids = tabs.map(function (tab) { return tab.getAttribute("href").slice(1); });
+  if (!tabs.length || ids.some(function (id) { return !document.getElementById(id); })) { return; }
+  nav.setAttribute("role", "tablist");
+  panels.classList.add("tabs-on");
+  tabs.forEach(function (tab, i) {
+    var panel = document.getElementById(ids[i]);
+    tab.setAttribute("role", "tab");
+    tab.id = "tab-" + ids[i];
+    tab.setAttribute("aria-controls", ids[i]);
+    panel.setAttribute("role", "tabpanel");
+    panel.setAttribute("aria-labelledby", tab.id);
+  });
+  function select(id, focus) {
+    tabs.forEach(function (tab, i) {
+      var on = ids[i] === id;
+      tab.setAttribute("aria-selected", on ? "true" : "false");
+      tab.setAttribute("tabindex", on ? "0" : "-1");
+      document.getElementById(ids[i]).hidden = !on;
+      if (on && focus) { tab.focus(); }
+    });
+  }
+  function remember(id) {
+    if (window.history && window.history.replaceState) { window.history.replaceState(null, "", "#" + id); }
+  }
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener("click", function (event) {
+      event.preventDefault();
+      select(ids[i], false);
+      remember(ids[i]);
+    });
+    tab.addEventListener("keydown", function (event) {
+      var j = -1;
+      if (event.key === "ArrowRight") { j = (i + 1) % tabs.length; }
+      else if (event.key === "ArrowLeft") { j = (i - 1 + tabs.length) % tabs.length; }
+      else if (event.key === "Home") { j = 0; }
+      else if (event.key === "End") { j = tabs.length - 1; }
+      if (j < 0) { return; }
+      event.preventDefault();
+      select(ids[j], true);
+      remember(ids[j]);
+    });
+  });
+  function fromHash(first) {
+    var id = window.location.hash.slice(1);
+    if (ids.indexOf(id) >= 0) { select(id, false); } else if (first) { select(ids[0], false); }
+  }
+  window.addEventListener("hashchange", function () { fromHash(false); });
+  fromHash(true);
 })();
 </script>
 </body>

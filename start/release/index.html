@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>엔크로키 출시 가이드</title>
+<meta name="description" content="웹 공개, 구글플레이, 토스에 게임을 내보낼 때 Claude에게 하는 말과 그 말을 하면 일어나는 일이에요.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="다 만들었으면, 이렇게 내보내요">
+<meta property="og:description" content="웹 공개, 구글플레이, 토스에 게임을 내보낼 때 Claude에게 하는 말이에요.">
+<meta property="og:url" content="https://ncroquis.github.io/start/release/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&family=Nanum+Pen+Script&display=swap">
+<style>
+:root {
+  --mat: #2f5d50;
+  --mat-line: rgba(236, 214, 120, 0.13);
+  --mat-line-major: rgba(236, 214, 120, 0.28);
+  --paper: #fdfdfb;
+  --ink: #1f2623;
+  --graphite: #57605b;
+  --on-mat: #f3f7f4;
+  --on-mat-soft: #c4dace;
+  --tape-dev: #f1c94f;
+  --tape-test: #93c4ec;
+  --tape-live: #e9664c;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mat: #213f36;
+    --paper: #eceee9;
+    --mat-line: rgba(236, 214, 120, 0.1);
+    --mat-line-major: rgba(236, 214, 120, 0.2);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--on-mat);
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  background-color: var(--mat);
+  background-image:
+    linear-gradient(var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(var(--mat-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: -1px -1px;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 64px 20px 72px; }
+
+.masthead h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(48px, 10vw, 96px);
+  line-height: 1;
+}
+
+.masthead p { margin: 16px 0 0; max-width: 34em; color: var(--on-mat-soft); font-size: 18px; }
+
+.board {
+  list-style: none;
+  margin: 64px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 44px 28px;
+}
+
+.sheet {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 34px 22px 18px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 12px 20px -12px rgba(0, 0, 0, 0.55);
+}
+
+.board li:nth-child(3n + 1) .sheet { transform: rotate(-0.7deg); }
+.board li:nth-child(3n + 2) .sheet { transform: rotate(0.5deg); }
+.board li:nth-child(3n) .sheet { transform: rotate(-0.25deg); }
+
+.board .sheet h2 a { color: inherit; text-decoration: none; }
+.board .sheet h2 a::after { content: ""; position: absolute; inset: 0; }
+.board .sheet h2 a:focus-visible { outline: none; }
+.board .sheet:focus-within { outline: 3px solid var(--tape-dev); outline-offset: 5px; }
+
+.tape {
+  position: absolute;
+  top: -12px;
+  left: 18px;
+  padding: 3px 12px 4px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  transform: rotate(-2.5deg);
+  opacity: 0.95;
+}
+
+.tape[data-status="테스트 중"] { background: var(--tape-test); }
+.tape[data-status="출시"] { background: var(--tape-live); color: #fff; }
+
+.sheet h2 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.summary { margin: 10px 0 0; }
+
+.note {
+  margin: 18px 0 0;
+  color: var(--graphite);
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.empty {
+  margin: 64px 0 0;
+  max-width: 30em;
+  padding: 24px;
+  border: 2px dashed var(--on-mat-soft);
+  color: var(--on-mat-soft);
+}
+
+.back {
+  color: var(--on-mat);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.page { max-width: 760px; margin: 0 auto; padding: 32px 20px 72px; }
+
+.page .sheet {
+  margin-top: 44px;
+  padding: 52px clamp(22px, 6vw, 60px) 40px;
+  transform: rotate(-0.35deg);
+}
+
+.page .sheet h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(40px, 8vw, 64px);
+  line-height: 1.05;
+}
+
+.lead { margin: 16px 0 0; font-size: 20px; line-height: 1.5; }
+
+.pitch { margin: 24px 0 0; max-width: 34em; }
+
+.play {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 22px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pending { margin: 24px 0 0; color: var(--graphite); }
+
+.back:focus-visible,
+.play:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+
+footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
+
+.masthead .start-link { margin: 28px 0 0; }
+
+.start-link a {
+  display: inline-block;
+  padding: 8px 16px 9px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-weight: 600;
+  text-decoration: none;
+  transform: rotate(-1.5deg);
+}
+
+.start-link a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+
+.guide { max-width: 760px; margin: 0 auto; padding: 32px 20px 72px; }
+
+.guide-head { margin-top: 44px; }
+
+.guide-head h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(46px, 10vw, 84px);
+  line-height: 1.02;
+}
+
+.guide-lead { margin: 20px 0 0; max-width: 31em; color: var(--on-mat-soft); font-size: 18px; }
+
+.idea {
+  margin: 44px 0 0;
+  max-width: 540px;
+  padding: 30px 28px 20px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  transform: rotate(-1.4deg);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 16px 22px -14px rgba(0, 0, 0, 0.6);
+}
+
+.idea-text {
+  margin: 0;
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: clamp(32px, 6.4vw, 42px);
+  line-height: 1.12;
+}
+
+.idea figcaption {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  font-size: 15px;
+}
+
+.guide .sheet { margin-top: 60px; padding: 46px clamp(22px, 6vw, 52px) 34px; }
+
+.steps { list-style: none; margin: 0; padding: 0; }
+.steps > li:nth-child(odd) { transform: rotate(-0.35deg); }
+.steps > li:nth-child(even) { transform: rotate(0.3deg); }
+
+.guide .sheet h2 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(28px, 5.4vw, 38px);
+  line-height: 1.15;
+}
+
+.guide .tape { font-size: 15px; padding: 3px 14px 4px; }
+.tape.help-tape { background: var(--tape-test); }
+
+.when { margin: 6px 0 0; color: var(--graphite); }
+
+.guide .sheet p { margin: 16px 0 0; max-width: 36em; }
+
+.kit { margin: 18px 0 0; padding: 0; list-style: none; }
+.kit li { position: relative; padding-left: 34px; max-width: 36em; }
+.kit li + li { margin-top: 14px; }
+.kit li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--ink);
+}
+.kit b { display: block; }
+
+.do { margin: 18px 0 0; padding-left: 1.4em; max-width: 36em; }
+.do li { padding-left: 4px; }
+.do li + li { margin-top: 10px; }
+.do li::marker { font-weight: 600; }
+
+.button {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 12px 20px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.slip {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border: 2px dashed var(--graphite);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+.slip span { font-weight: 600; overflow-wrap: anywhere; }
+
+.copy {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+}
+
+.pencil {
+  color: var(--graphite);
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: 24px;
+  line-height: 1.25;
+}
+.guide .sheet p.pencil { margin-top: 22px; }
+
+.say {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 18px;
+}
+.say li {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 16px 14px;
+  background: #f8e8a6;
+  color: #2b2a20;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 12px -10px rgba(0, 0, 0, 0.45);
+}
+.say li:nth-child(odd) { transform: rotate(-1deg); }
+.say li:nth-child(even) { transform: rotate(0.8deg); }
+.say p { margin: 0; font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif; font-size: 27px; line-height: 1.15; }
+.guide .sheet .say p { margin: 0; }
+.say .copy { align-self: flex-start; }
+
+.caution { margin: 20px 0 0; padding: 12px 16px; border-left: 6px solid var(--tape-live); background: #fbeae6; max-width: 36em; }
+.guide .sheet p.caution { margin-top: 20px; }
+
+.made { margin: 18px 0 0; max-width: 36em; }
+.made dt { font-weight: 600; }
+.made dd { margin: 2px 0 0; }
+.made dd + dt { margin-top: 14px; }
+
+.faq { margin-top: 18px; }
+.faq details { border-top: 1px solid rgba(31, 38, 35, 0.18); padding: 12px 0; max-width: 36em; }
+.faq details:last-child { border-bottom: 1px solid rgba(31, 38, 35, 0.18); }
+.faq summary { cursor: pointer; font-weight: 600; }
+.faq details p { margin: 8px 0 0; }
+.guide .sheet .faq details p { margin-top: 8px; }
+
+.guide .sheet a:not(.button) { color: inherit; text-underline-offset: 3px; }
+
+.copy:focus-visible,
+.button:focus-visible,
+.guide .sheet a:focus-visible,
+.faq summary:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.idea .copy:focus-visible { outline-color: var(--ink); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* 시작하기 | 출시하기 탭 (페이지 사이) */
+.guide-tabs { margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.guide-tabs a {
+  padding: 7px 18px 8px;
+  border: 2px solid var(--on-mat-soft);
+  color: var(--on-mat);
+  font-weight: 600;
+  text-decoration: none;
+}
+.guide-tabs a[aria-current="page"] {
+  background: var(--tape-dev);
+  border-color: var(--tape-dev);
+  color: #2b2a20;
+  transform: rotate(-1.5deg);
+}
+.guide-tabs a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+
+/* 출시하기: 플랫폼 탭 (스크립트가 없으면 같은 페이지 안 바로가기) */
+.platforms { margin: 56px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.platforms a {
+  padding: 10px 20px 11px;
+  border: 2px solid var(--on-mat-soft);
+  color: var(--on-mat);
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.platforms a[aria-selected="true"] { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+.platforms a:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.guide .panels > .sheet { margin-top: 28px; }
+.guide .panels > .sheet + .sheet { margin-top: 60px; }
+.guide .panels.tabs-on > .sheet { margin-top: 26px; }
+
+.guide .sheet h3 {
+  margin: 34px 0 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 1.2;
+}
+
+/* 명령: 왼쪽 포스트잇(복사), 오른쪽 하는 일 */
+.cmds { list-style: none; margin: 22px 0 0; padding: 0; }
+.cmds > li {
+  display: grid;
+  grid-template-columns: minmax(0, 15.5em) minmax(0, 1fr);
+  gap: 12px 24px;
+  align-items: start;
+}
+.cmds > li + li { margin-top: 22px; }
+.cmd-note {
+  padding: 13px 14px 11px;
+  background: #f8e8a6;
+  color: #2b2a20;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 12px -10px rgba(0, 0, 0, 0.45);
+  transform: rotate(-0.8deg);
+}
+.cmds > li:nth-child(even) .cmd-note { transform: rotate(0.7deg); }
+.guide .sheet .cmd-note p {
+  margin: 0;
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: 25px;
+  line-height: 1.12;
+}
+.cmd-note .copy { margin-top: 10px; }
+.guide .sheet .does { margin: 4px 0 0; }
+
+@media (max-width: 560px) {
+  .cmds > li { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .guide .sheet .does { margin: 0 0 0 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* 기울임은 :nth-child 규칙이 더 구체적이라 !important로 끈다 */
+  .idea, .steps > li, .say li, .cmd-note, .guide-tabs a { transform: none !important; }
+}
+
+.tape.soon-tape { background: var(--tape-test); }
+</style>
+</head>
+<body>
+<main class="guide">
+  <a class="back" href="../../">전체 프로젝트 보기</a>
+  <nav class="guide-tabs" aria-label="시작 가이드"><a href="../">시작하기</a><a href="./" aria-current="page">출시하기</a></nav>
+
+  <header class="guide-head">
+    <h1>다 만들었으면,<br>이렇게 내보내요</h1>
+    <p class="guide-lead">출시도 Claude에게 말로 해요. 빌드와 업로드는 클라우드에서 해서 PC에 아무것도 깔지 않아도 돼요. 플랫폼마다 하는 말과, 그 말을 하면 일어나는 일을 모았어요.</p>
+  </header>
+
+  <section class="sheet" aria-labelledby="flow-title">
+    <span class="tape">모든 빌드</span>
+    <h2 id="flow-title">빌드는 늘 이 순서예요</h2>
+    <ol class="do">
+      <li>말하면 Claude가 지난 빌드 이후 바뀐 점을 정리해 보여 줘요. 처음이면 지금까지 만든 내용을 보여 줘요.</li>
+      <li>버전을 물어요. 추천 버전과 이유를 보여 주고, 원하는 번호를 말해도 돼요. 답하기 전에는 빌드하지 않아요.</li>
+      <li>답하면 클라우드에서 빌드하고, 빌드한 커밋에 버전 이름표(태그)를 달아요. 나중에 어느 버전이 어떤 코드였는지 찾을 수 있어요.</li>
+    </ol>
+    <p class="pencil">커밋 메시지가 '추가: …', '수정: …'으로 시작하면 바뀐 점 정리와 버전 추천이 더 정확해져요. Claude Code는 공통 지침대로 이렇게 써요.</p>
+  </section>
+
+  <nav class="platforms" aria-label="출시 플랫폼">
+    <a href="#web">웹 공개</a>
+    <a href="#googleplay">구글플레이</a>
+    <a href="#toss">토스</a>
+  </nav>
+
+  <div class="panels">
+    <section class="sheet" id="web" aria-labelledby="web-title">
+      <span class="tape">바로 써요</span>
+      <h2 id="web-title">웹 공개</h2>
+      <p class="when">플레이할 수 있는 화면이 생기면요. 웹으로 만든 게임만 돼요.</p>
+      <p>이 사이트의 프로젝트 주소 아래 play/에 게임을 올려요. 링크를 받은 사람은 휴대폰 브라우저에서 바로 해 볼 수 있고, 프로젝트 소개 페이지에 '플레이해 보기' 버튼이 생겨요.</p>
+      <ul class="cmds">
+        <li>
+          <div class="cmd-note"><p id="web-share">pushpath 테스트 링크 만들어 줘</p><button class="copy" type="button" data-copy="web-share">복사</button></div>
+          <p class="does">바뀐 점과 추천 버전을 보여 주고 버전을 물어요. 처음이면 0.1.0을 추천해요. 답하면 1~3분 뒤 플레이 주소를 알려 줘요.</p>
+        </li>
+        <li>
+          <div class="cmd-note"><p id="web-clean">테스트 기능은 끄고 올려 줘</p><button class="copy" type="button" data-copy="web-clean">복사</button></div>
+          <p class="does">치트·디버그 메뉴 같은 테스트 기능을 빼고 올려요. 말하지 않으면 테스트 기능을 켜고 올려요.</p>
+        </li>
+      </ul>
+      <p class="caution">누구나 열 수 있는 주소예요. 아직 보여 주면 안 되는 내용은 올리지 않아요.</p>
+      <p class="pencil">올린 뒤 1~2분은 예전 화면이 보일 수 있어요. 화면이 하얗게 나오면 Claude가 알려 준 오류를 Claude Code에 붙여 "이거 고쳐 줘"라고 해요.</p>
+    </section>
+
+    <section class="sheet" id="googleplay" aria-labelledby="gp-title">
+      <span class="tape">바로 써요</span>
+      <h2 id="gp-title">구글플레이</h2>
+      <p class="when">테스트해 보고 앱으로 내보낼 때요. 웹 게임은 같은 빌드를 안드로이드 앱으로 감싸고, Unity 게임은 Unity로 빌드해요.</p>
+      <dl class="made">
+        <dt>테스트 빌드 → 내부 테스트</dt>
+        <dd>따로 말하지 않으면 이걸로 만들어요. 테스트 기능을 켤 수 있고, 광고는 늘 구글 테스트 광고예요. 정식 출시로는 못 가요.</dd>
+        <dt>배포용 빌드 → 비공개 테스트</dt>
+        <dd>테스트 기능을 모두 끄고 진짜 광고를 넣어, 정식 출시 기준으로 진단한 뒤 올려요. 정식 출시(프로덕션)는 이 빌드만 갈 수 있어요.</dd>
+      </dl>
+      <ul class="cmds">
+        <li>
+          <div class="cmd-note"><p id="gp-release">pushpath 출시하고 싶어</p><button class="copy" type="button" data-copy="gp-release">복사</button></div>
+          <p class="does">처음이면 마켓부터 물어요. 테스트 기능·광고·인앱 상품을 켤지 고르고, 막히는 곳이 있는지 진단한 뒤 버전·출시 노트·테스터를 확인해서 테스트 빌드를 만들어요. 처음 올리는 앱은 1.0.0을 추천해요.</p>
+        </li>
+        <li>
+          <div class="cmd-note"><p id="gp-console">Play Console 다 했어</p><button class="copy" type="button" data-copy="gp-console">복사</button></div>
+          <p class="does">첫 출시 때만 써요. 콘솔에서 앱을 만들고 첫 파일을 올린 뒤 말하면, 스토어 문구·그래픽·데이터 보안을 올리고 테스터를 연결해요.</p>
+        </li>
+        <li>
+          <div class="cmd-note"><p id="gp-update">pushpath 업데이트 올리자</p><button class="copy" type="button" data-copy="gp-update">복사</button></div>
+          <p class="does">바뀐 점과 버전, 출시 노트를 확인하고 테스트 빌드를 내부 테스트에 올려요. 테스트 참여 링크도 알려 줘요.</p>
+        </li>
+        <li>
+          <div class="cmd-note"><p id="gp-final">pushpath 배포용 빌드 만들어 줘</p><button class="copy" type="button" data-copy="gp-final">복사</button></div>
+          <p class="does">테스트 기능을 모두 끄고 진짜 광고를 넣어 비공개 테스트에 올려요. "정식 출시하자", "출시용으로 해 줘"라고 해도 돼요. 광고를 쓰면 관리자가 광고 키를 승인한 뒤에 만들 수 있어요.</p>
+        </li>
+        <li>
+          <div class="cmd-note"><p id="gp-build">빌드 어때?</p><button class="copy" type="button" data-copy="gp-build">복사</button></div>
+          <p class="does">빌드가 끝났는지 보고, 끝났으면 이어서 올려요.</p>
+        </li>
+        <li>
+          <div class="cmd-note"><p id="gp-testers">테스터에 friend@gmail.com 넣어 줘</p><button class="copy" type="button" data-copy="gp-testers">복사</button></div>
+          <p class="does">내부 테스트 테스터로 넣어요. 테스트 폰의 플레이 스토어 계정이 Claude에 로그인한 계정과 다를 때 써요.</p>
+        </li>
+        <li>
+          <div class="cmd-note"><p id="gp-production">pushpath 프로덕션에 10%로 올려 줘</p><button class="copy" type="button" data-copy="gp-production">복사</button></div>
+          <p class="does">관리자만 해요. 비공개 테스트에 올린 배포용 빌드를 정식 출시해요. 비율만 바꿔 다시 말하면 조금씩 늘어나요. 관리자가 아니면 관리자에게 부탁해요.</p>
+        </li>
+        <li>
+          <div class="cmd-note"><p id="gp-status">pushpath 출시 상태 알려 줘</p><button class="copy" type="button" data-copy="gp-status">복사</button></div>
+          <p class="does">트랙마다 올라간 버전과 상태를 알려 줘요.</p>
+        </li>
+      </ul>
+      <h3>처음 출시할 때 한 번 더 할 일</h3>
+      <ol class="do">
+        <li>스토어 아이콘(512x512 PNG), 그래픽 이미지(1024x500), 스크린샷 2~8장을 드라이브 프로젝트 폴더의 '스토어 이미지'에 넣어요. 그 아이콘이 앱 아이콘도 돼요.</li>
+        <li>스토어 문구와 앱 콘텐츠 답변(콘텐츠 등급 설문 포함)은 Claude가 초안을 써서 보여 줘요. 고칠 곳만 말하면 저장해요.</li>
+        <li>빌드가 끝나면 Claude가 Play Console 입력표와 서명된 앱 파일 링크를 줘요. 입력표대로 Play Console에서 앱을 만들고 첫 파일을 올려요.</li>
+        <li>"Play Console 다 했어"라고 말하면 나머지는 Claude가 올려요.</li>
+      </ol>
+      <p class="caution">정식 출시는 배포용 빌드로만 해요. 테스트 빌드는 내부 테스트까지만 가요.</p>
+      <p class="pencil">광고를 켜면 광고 키는 관리자 승인을 거쳐 만들어져요. 승인 상태는 빌드 전 보고에 같이 나와요.</p>
+    </section>
+
+    <section class="sheet" id="toss" aria-labelledby="toss-title">
+      <span class="tape soon-tape">등급분류 자료만</span>
+      <h2 id="toss-title">토스 (앱인토스)</h2>
+      <p class="when">앱인토스에 처음 낼 때요. 토스에 빌드를 올리는 일은 아직 준비 중이에요.</p>
+      <p>토스에 게임을 처음 내면 앱인토스 콘솔의 '게임 등급분류' 화면을 채워야 해요. Claude가 그 화면의 칸 순서대로 입력표(구글 시트)를 드라이브에 만들어 링크로 줘요.</p>
+      <ul class="cmds">
+        <li>
+          <div class="cmd-note"><p id="toss-first">pushpath 토스 첫 출시 준비해 줘</p><button class="copy" type="button" data-copy="toss-first">복사</button></div>
+          <p class="does">입력표, 프로젝트 자료 폴더, 회사 공통 자료 링크를 주고 남은 할 일을 알려 줘요.</p>
+        </li>
+        <li>
+          <div class="cmd-note"><p id="toss-check">토스 등급분류 자료 다시 확인해 줘</p><button class="copy" type="button" data-copy="toss-check">복사</button></div>
+          <p class="does">입력표에 적은 값과 넣은 화면을 보고 남은 것만 알려 줘요. 적은 값은 지워지지 않아요.</p>
+        </li>
+      </ul>
+      <h3>등급분류는 이 순서로</h3>
+      <ol class="do">
+        <li>구글플레이 첫 출시부터 해요. Play Console에서 콘텐츠 등급 설문을 내면 게임물관리위원회에 자체등급분류 결과가 생겨요.</li>
+        <li><a href="https://www.grac.or.kr/Statistics/SelfRateGameStatistics.aspx">게임물관리위원회 자체등급분류 게임물 조회</a>에서 게임 이름으로 찾아 등급분류일자·번호·이용등급·내용정보를 입력표에 적어요.</li>
+        <li>내용정보가 있으면 항목마다 같은 장면을 두 장 찍어 자료 폴더에 넣어요. 구글플레이 버전 화면과 토스 앱 화면이에요.</li>
+        <li><a href="https://apps-in-toss.toss.im/workspace">앱인토스 콘솔</a>에서 앱 등록하기 → 게임 등급분류에 입력표 순서대로 넣어요.</li>
+      </ol>
+      <p class="pencil">회사 정보(등록 정보, 대표자 인감·사인, 증빙자료)는 관리자가 한 번 준비해 둬서 모든 게임이 같이 써요. 전체 이용가면 내용정보와 화면은 없어요.</p>
+      <p>더 자세한 건 앱인토스 안내 <a href="https://toss.im/apps-in-toss/blog/self-rated_game_distribution">자체등급분류 게임물 정보 입력하기</a>를 봐요.</p>
+    </section>
+  </div>
+
+  <section class="sheet" aria-labelledby="after-title">
+    <span class="tape">올린 뒤에</span>
+    <h2 id="after-title">얼마나 하는지 보기</h2>
+    <p>웹 게임의 웹 공개·구글플레이 빌드에는 지표 모듈이 저절로 들어가요. 게임 코드에 할 일은 없어요.</p>
+    <ul class="cmds">
+      <li>
+        <div class="cmd-note"><p id="after-metrics">pushpath 지표 보여 줘</p><button class="copy" type="button" data-copy="after-metrics">복사</button></div>
+        <p class="does">하루 사용자(DAU), 신규, 다시 온 비율(리텐션), 플레이 시간을 버전·트랙별로 보여 줘요.</p>
+      </li>
+      <li>
+        <div class="cmd-note"><p id="after-all">게임들 지표 요약해 줘</p><button class="copy" type="button" data-copy="after-all">복사</button></div>
+        <p class="does">모든 게임의 어제 사용자와 최근 리텐션을 한 번에 봐요.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="sheet" aria-labelledby="help-title">
+    <span class="tape help-tape">막힐 때</span>
+    <h2 id="help-title">출시하다 막히면</h2>
+    <div class="faq">
+      <details>
+        <summary>버전은 뭘로 해요?</summary>
+        <p>Claude가 지난 빌드 이후 바뀐 점을 보고 추천해요. 새 기능이 있으면 가운데 숫자를, 고친 것만 있으면 끝자리를 올려요. 웹 공개는 0.1.0부터, 구글플레이 첫 출시는 1.0.0부터 시작해요.</p>
+      </details>
+      <details>
+        <summary>빌드가 실패했어요</summary>
+        <p>Claude가 이유와 해결 방법을 알려 줘요. 코드 문제면 그 내용을 Claude Code에 붙여 "이거 고쳐 줘"라고 하고, 고친 뒤 다시 빌드해요. 실패한 빌드의 버전은 다시 써도 돼요.</p>
+      </details>
+      <details>
+        <summary>테스트 폰에서 내부 테스트 앱이 안 보여요</summary>
+        <p>테스트 폰의 플레이 스토어 계정이 테스터로 들어가 있어야 해요. "테스터에 (그 계정) 넣어 줘"라고 한 뒤, Claude가 준 테스트 참여 링크를 그 폰에서 열어 참여해요.</p>
+      </details>
+      <details>
+        <summary>광고가 테스트 광고로 나와요</summary>
+        <p>테스트 빌드에는 늘 구글 테스트 광고가 나와요 (웹 공개에서는 '광고 자리' 화면만 보여요). 진짜 광고는 관리자가 광고 키를 승인한 뒤 만든 배포용 빌드에 들어가요.</p>
+      </details>
+      <details>
+        <summary>Unity로 만든 게임도 되나요?</summary>
+        <p>구글플레이 출시는 돼요. Unity로 빌드해요. 웹 공개는 웹으로 만든 게임만 돼요.</p>
+      </details>
+    </div>
+  </section>
+
+  <p class="sr-only" aria-live="polite" id="copy-status"></p>
+  <footer>© 2026 엔크로키</footer>
+</main>
+<script>
+(function () {
+  var status = document.getElementById("copy-status");
+  function selectText(node) {
+    var range = document.createRange();
+    range.selectNodeContents(node);
+    var selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+  function announce(button, message) {
+    var label = button.getAttribute("data-label") || button.textContent;
+    button.setAttribute("data-label", label);
+    button.textContent = message;
+    status.textContent = message;
+    window.setTimeout(function () { button.textContent = label; }, 1600);
+  }
+  document.querySelectorAll("[data-copy]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var source = document.getElementById(button.getAttribute("data-copy"));
+      if (!source) { return; }
+      var text = source.textContent.trim();
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function () {
+          announce(button, "복사했어요");
+        }, function () {
+          selectText(source);
+          announce(button, "선택했어요. 복사해서 쓰세요");
+        });
+      } else {
+        selectText(source);
+        announce(button, "선택했어요. 복사해서 쓰세요");
+      }
+    });
+  });
+})();
+
+// 출시하기의 플랫폼 탭: 스크립트가 없으면 모든 플랫폼이 다 보이는 바로가기, 있으면 한 번에 하나씩 (주소 #web 등으로 바로 열림)
+(function () {
+  var nav = document.querySelector(".platforms");
+  var panels = document.querySelector(".panels");
+  if (!nav || !panels) { return; }
+  var tabs = Array.prototype.slice.call(nav.querySelectorAll("a[href^='#']"));
+  var ids = tabs.map(function (tab) { return tab.getAttribute("href").slice(1); });
+  if (!tabs.length || ids.some(function (id) { return !document.getElementById(id); })) { return; }
+  nav.setAttribute("role", "tablist");
+  panels.classList.add("tabs-on");
+  tabs.forEach(function (tab, i) {
+    var panel = document.getElementById(ids[i]);
+    tab.setAttribute("role", "tab");
+    tab.id = "tab-" + ids[i];
+    tab.setAttribute("aria-controls", ids[i]);
+    panel.setAttribute("role", "tabpanel");
+    panel.setAttribute("aria-labelledby", tab.id);
+  });
+  function select(id, focus) {
+    tabs.forEach(function (tab, i) {
+      var on = ids[i] === id;
+      tab.setAttribute("aria-selected", on ? "true" : "false");
+      tab.setAttribute("tabindex", on ? "0" : "-1");
+      document.getElementById(ids[i]).hidden = !on;
+      if (on && focus) { tab.focus(); }
+    });
+  }
+  function remember(id) {
+    if (window.history && window.history.replaceState) { window.history.replaceState(null, "", "#" + id); }
+  }
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener("click", function (event) {
+      event.preventDefault();
+      select(ids[i], false);
+      remember(ids[i]);
+    });
+    tab.addEventListener("keydown", function (event) {
+      var j = -1;
+      if (event.key === "ArrowRight") { j = (i + 1) % tabs.length; }
+      else if (event.key === "ArrowLeft") { j = (i - 1 + tabs.length) % tabs.length; }
+      else if (event.key === "Home") { j = 0; }
+      else if (event.key === "End") { j = tabs.length - 1; }
+      if (j < 0) { return; }
+      event.preventDefault();
+      select(ids[j], true);
+      remember(ids[j]);
+    });
+  });
+  function fromHash(first) {
+    var id = window.location.hash.slice(1);
+    if (ids.indexOf(id) >= 0) { select(id, false); } else if (first) { select(ids[0], false); }
+  }
+  window.addEventListener("hashchange", function () { fromHash(false); });
+  fromHash(true);
+})();
+</script>
+</body>
+</html>

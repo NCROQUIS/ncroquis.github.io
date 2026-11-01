@@ -1,0 +1,1217 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>스테이션 제로 아트 시안</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one mission-console column — live battle from the real engine, then the station's growth strip, tile types, and enemies. Single dark look by design (the game is set in space). */
+:root {
+  --bg: #070a14; --panel: #0d1324; --line: #1f2a44; --fg: #e7ecf6; --mute: #93a0bb;
+  --cyan: #6fd3ff; --gold: #ffd166; --pink: #ff6f9f;
+  --f-display: "Oxanium", "IBM Plex Sans KR", sans-serif;
+  --f-body: "IBM Plex Sans KR", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body { background: var(--bg); color: var(--fg); font: 15px/1.6 var(--f-body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 56px; display: grid; gap: 44px; }
+header { display: grid; gap: 18px; }
+.eyebrow { font: 500 12px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); }
+h1 { font: 700 clamp(30px, 6vw, 52px)/1.05 var(--f-display); margin: 0; text-wrap: balance; letter-spacing: .01em; }
+h2 { font: 700 24px/1.2 var(--f-display); margin: 0; text-wrap: balance; }
+h3 { font: 600 17px/1.3 var(--f-body); margin: 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+p { margin: 0; max-width: 65ch; color: var(--mute); }
+.hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.stage { position: relative; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #04060d; aspect-ratio: 4 / 5; max-width: 100%; }
+canvas { display: block; width: 100%; height: 100%; }
+.stage .tag { position: absolute; left: 12px; top: 12px; font: 500 11px/1 var(--f-mono); letter-spacing: .1em; color: var(--gold); background: rgba(4,6,13,.7); border: 1px solid rgba(255,209,102,.4); padding: 6px 8px; border-radius: 3px; }
+.facts { display: grid; gap: 0; align-content: start; }
+.fact { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; padding-block: 12px; border-top: 1px solid var(--line); }
+.fact b { font: 500 12px/1.5 var(--f-mono); color: var(--cyan); letter-spacing: .06em; }
+.fact span { color: var(--fg); font-size: 14px; }
+.fact small { display: block; color: var(--mute); font-size: 13px; }
+section { display: grid; gap: 18px; }
+.strip { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.strip .view { aspect-ratio: 4 / 1.25; background: #04060d; max-width: 100%; }
+.ticks { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; padding: 10px 6px 14px; gap: 6px; }
+.ticks span { font: 500 12px/1.4 var(--f-mono); color: var(--fg); letter-spacing: .04em; }
+.ticks small { display: block; font: 400 12px/1.4 var(--f-body); color: var(--mute); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; }
+.card .view { aspect-ratio: 16 / 9; background: #04060d; max-width: 100%; }
+.card .body { padding: 12px 14px 16px; display: grid; gap: 6px; align-content: start; }
+.card .body p { font-size: 13.5px; }
+.swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.role { font: 500 11px/1 var(--f-mono); letter-spacing: .06em; color: var(--mute); }
+.wide { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); background: var(--panel); border: 1px solid rgba(255,209,102,.5); border-radius: 6px; overflow: hidden; }
+.wide .view { aspect-ratio: 16 / 7; background: #04060d; max-width: 100%; }
+.wide .body { padding: 16px 18px; display: grid; gap: 10px; align-content: center; }
+.badge { font: 500 11px/1 var(--f-mono); letter-spacing: .08em; color: #1a1406; background: var(--gold); padding: 4px 7px; border-radius: 3px; }
+.ticks5 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 2fr; font: 500 11px/1 var(--f-mono); color: var(--mute); text-align: center; padding: 8px 0 10px; }
+details { border-top: 1px solid var(--line); padding-top: 18px; }
+summary { cursor: pointer; font: 600 15px var(--f-body); color: var(--fg); }
+summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+details .grid { margin-top: 16px; }
+.howto { display: grid; gap: 10px; border-top: 1px solid var(--line); padding-top: 22px; }
+ol { margin: 0; padding-left: 20px; color: var(--fg); display: grid; gap: 6px; max-width: 65ch; }
+code { font: 500 13px var(--f-mono); color: var(--gold); }
+@media (max-width: 760px) { .hero, .wide { grid-template-columns: minmax(0, 1fr); } .strip .view { aspect-ratio: 4 / 2; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Station Zero · Art Direction v2</div>
+    <h1>커지는 만큼 강해지는 정거장</h1>
+    <p>확정 방향은 <b style="color:var(--gold)">헥사 코어 + 오비탈, 생체 스웜</b>입니다. 육각 슬롯에 붙는 타일 하나하나가 기능이고, 격납고 타일에서는 요격기 편대가 출격해 싸웁니다. 아래 전투 장면은 실제 게임 엔진을 그대로 돌린 것입니다.</p>
+  </header>
+
+  <div class="hero">
+    <div class="stage"><canvas id="cv-hero" aria-label="실제 엔진 전투: 격납고에서 출격한 요격기 편대와 오비탈 위성이 생체 스웜을 요격"></canvas><span class="tag">실제 엔진 · 실시간</span></div>
+    <div class="facts">
+      <h2 style="margin-bottom:14px">한눈에</h2>
+      <div class="fact"><b>본체</b><div><span>육각 슬롯 6개</span><small>최고 웨이브 8·15·22·30·40·50에서 하나씩 열립니다. 빈 슬롯은 점선 도킹 틀로 보여 다음 성장을 예고합니다.</small></div></div>
+      <div class="fact"><b>기능</b><div><span>격납고 · 포대 · 방벽 · 수집기</span><small>슬롯마다 하나를 고르고 언제든 무료로 바꿉니다. 데이터로 올린 슬롯 레벨은 유지됩니다.</small></div></div>
+      <div class="fact"><b>요격기</b><div><span>격납고 1개 = 2기</span><small>방어 구역 안의 적을 좌우로 끼고 돌며 사격하고, 하늘이 비면 정거장 주위를 선회합니다.</small></div></div>
+      <div class="fact"><b>오비탈</b><div><span>웨이브 50·65·80</span><small>링이 완성되면 위성이 합류해 궤도의 적을 들이받고 원거리 적의 탄을 막습니다.</small></div></div>
+      <div class="fact"><b>배경</b><div><span>원경 · 3D 별 · 루나</span><small>별이 멀리서 천천히 다가오고, 겹마다 속도가 달라 원근이 생깁니다.</small></div></div>
+    </div>
+  </div>
+
+  <section aria-labelledby="h-grow">
+    <h2 id="h-grow">정거장 성장 단계</h2>
+    <p>같은 정거장이 슬롯이 열릴 때마다 커지고, 링이 닫히면 오비탈이 붙습니다. 날개 패널도 타일 수에 맞춰 길어집니다.</p>
+    <div class="strip">
+      <div class="view"><canvas id="cv-grow" aria-label="정거장 성장 4단계"></canvas></div>
+      <div class="ticks"><div><span>시작</span><small>코어 + 빈 도킹 틀</small></div><div><span>슬롯 3</span><small>웨이브 22</small></div><div><span>링 완성</span><small>웨이브 50</small></div><div><span>오비탈 3</span><small>웨이브 80</small></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-tile">
+    <h2 id="h-tile">기능 타일 4종</h2>
+    <p>타일 테두리 색과 안쪽 장치 모양으로 기능을 구분합니다. 적 색(초록·주황·보라·분홍)과 겹치지 않게 골랐습니다.</p>
+    <div class="grid" id="tile-grid"></div>
+  </section>
+
+  <section aria-labelledby="h-en">
+    <h2 id="h-en">적: 생체 스웜</h2>
+    <div class="wide">
+      <div><div class="view"><canvas id="cv-bio" aria-label="생체 스웜 5종"></canvas></div><div class="ticks5"><span>드론</span><span>돌격</span><span>사수</span><span>운석</span><span>보스</span></div></div>
+      <div class="body"><h3>생체 스웜 <span class="badge">확정</span></h3><p>말벌 드론, 딱정벌레 돌격병, 해파리 사수, 여왕 둥지 보스입니다. 기계 정거장과 금속 요격기에 맞서는 생물 실루엣이라 아군과 적이 한눈에 갈립니다.</p><p>남은 일: 실제 크기에서 드론이 나뭇잎처럼 보이는 문제, 보스를 더 위협적으로 다듬는 일.</p></div>
+    </div>
+  </section>
+
+  <details>
+    <summary>검토 후 제외한 시안 보기</summary>
+    <div class="grid" id="old-grid"></div>
+  </details>
+
+  <div class="howto">
+    <h2>게임에서 직접 보기</h2>
+    <ol>
+      <li>프로토타입 v2를 주소 끝에 <code>#ncq-test</code>를 붙여 엽니다.</li>
+      <li>기록 탭 맨 아래 <b>구조 전부 해금</b>을 누릅니다 (슬롯 6개 · 오비탈 3기).</li>
+      <li>조선소 › <b>구조</b>에서 슬롯마다 타일을 고르고 출격합니다.</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+/* Station Zero — battle engine v2 (growth restructure). Pure logic, fixed tick, seeded RNG. No DOM. */
+(function (root) {
+  const TICK = 1 / 30;
+  const WAVE_SEC = 20;
+  const RUN_CAP_GAME_SEC = 15 * 60 * 2; // 15 real minutes at the default 2x
+  const STATION_R = 7, SPAWN_R = 108;
+  const TUNE = { hpG: 1.05, hpG2: 1.04, atkG: 1.04, energyG: 1.0, late: 25, hpMul: 1.55, rateStep: 0.04, inrunG: 1.35, regenAbs: 0, polyK: 0.07, polyP: 1.3, swarm: 2.5, rush: 0.4, spdG: 0.005, spdMax: 1.6, rangedG: 0.002, hullBase: 80, regenPct: 0.0015, regenG: 0.4 }; // hull 80 + slow regen: chip damage sticks, so the hull drains from wave 2 instead of collapsing at wave 9-10 // rush + light speed/ranged growth (6-seed auto-play keeps ≈+1.8 waves per level over Lv0-30) // v2: polynomial shipyard effects — ≈+2 waves/level to Lv20, then flattening (6-seed auto-play)
+
+  function mulberry32(a) {
+    return function () {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  // ---- shipyard (permanent): effects grow polynomially, like The Tower workshop ----
+  const poly = L => Math.pow(1 + TUNE.polyK * L, TUNE.polyP);
+  const STATS = [
+    { id: 'dmg',    tab: 'atk', name: '피해',      base: 1.0, desc: L => `${(4 * poly(L)).toFixed(1)}` },
+    { id: 'rate',   tab: 'atk', name: '연사 속도',  base: 1.2, desc: L => `${(1.2 * (1 + TUNE.rateStep * L)).toFixed(2)}/초` },
+    { id: 'crit',   tab: 'atk', name: '치명타 확률', base: 1.5, desc: L => `${Math.round(Math.min(60, 5 + L))}%` },
+    { id: 'range',  tab: 'atk', name: '사거리',     base: 1.2, desc: L => `${Math.round(40 + L)}` },
+    { id: 'hull',   tab: 'def', name: '선체 내구도', base: 1.0, desc: L => `${Math.round(TUNE.hullBase * poly(L))}` },
+    { id: 'regen',  tab: 'def', name: '선체 재생',  base: 1.2, desc: L => `${(TUNE.regenPct * 100 * (1 + TUNE.regenG * L)).toFixed(2)}%/초` },
+    { id: 'armor',  tab: 'def', name: '피해 감소',  base: 1.5, desc: L => `${Math.min(50, L)}%` },
+    { id: 'energy', tab: 'utl', name: '에너지 획득', base: 1.5, desc: L => `+${5 * L}%` },
+    { id: 'datab',  tab: 'utl', name: '웨이브당 데이터', base: 2.0, desc: L => `+${3 * L}%` }
+  ];
+  const statCost = (id, L) => {
+    const s = STATS.find(x => x.id === id);
+    return Math.ceil(s.base * Math.pow(L + 1, 1.5));
+  };
+
+  // ---- research (real time) ----
+  const RESEARCH = [
+    { id: 'cap',   name: '강화 상한 해제', desc: n => `조선소 상한 +1 (현재 ${20 + n})` },
+    { id: 'econ',  name: '데이터 연구',   desc: n => `데이터 수입 +3% (현재 +${3 * n}%)` },
+    { id: 'start', name: '출격 준비',     desc: n => `시작 에너지 +15 (현재 ${15 * n})` }
+  ];
+  const researchCost = n => Math.ceil(8 * n * n); // data cost for research level n
+  const CELL_MINUTES = 20; // one energy cell shortens a running research by 20 minutes
+  const RESEARCH_HOURS = n => 3.2 * n * Math.min(1, Math.pow(n / 8, 2)); // balance sheet v4: Lv1 3min, Lv2 24min, Lv3 81min, Lv4 3.2h, Lv8+ 3.2×n h
+
+  // ---- enhancement (2nd layer, data sink): ×(1 + 1% per level), exponential cost ----
+  const ENH = [
+    { id: 'dmg',  name: '피해 강화',   desc: L => `피해 ×${(1 + 0.01 * L).toFixed(2)}` },
+    { id: 'hull', name: '선체 강화',   desc: L => `선체 ×${(1 + 0.01 * L).toFixed(2)}` },
+    { id: 'data', name: '데이터 강화', desc: L => `데이터 ×${(1 + 0.01 * L).toFixed(2)}` }
+  ];
+  const ENH_UNLOCK_WAVE = 40, ENH_MAX = 100;
+  const enhCost = L => Math.ceil(2000 * Math.pow(1.17, L));
+
+  // ---- in-run ----
+  const INRUN = [
+    { id: 'dmg',   name: '피해 +12%' },
+    { id: 'rate',  name: '연사 +6%' },
+    { id: 'hull',  name: '선체 +12%' },
+    { id: 'regen', name: '재생 +12%' }
+  ];
+  const inrunCost = lv => Math.ceil(8 * Math.pow(TUNE.inrunG, lv));
+
+  const CARDS = [
+    { id: 'overcharge', name: '과충전 탄두',  text: '피해 +25%' },
+    { id: 'rapid',      name: '속사 회로',    text: '연사 속도 +20%' },
+    { id: 'scope',      name: '치명 조준경',  text: '치명타 확률 +10%p' },
+    { id: 'plating',    name: '보강 장갑',    text: '선체 최대치 +30%, 즉시 회복' },
+    { id: 'chain',      name: '연쇄 번개',    text: '치명타 시 주변 1기에 50% 피해' },
+    { id: 'thorns',     name: '반격 실드',    text: '받은 접촉 피해의 30% 반사' },
+    { id: 'coolant',    name: '병기 냉각기',  text: '궤도 병기 쿨타임 -20%' },
+    { id: 'harvest',    name: '데이터 수집기', text: '이번 판 데이터 +20%' },
+    { id: 'optics',     name: '사거리 확장',  text: '사거리 +15%' },
+    { id: 'pierce',     name: '관통탄',      text: '투사체가 적 1기를 관통' }
+  ];
+
+  // ---- station structure: hex slots hold function tiles; orbitals join once the ring is complete ----
+  const TAU = Math.PI * 2;
+  const tileMul = L => 1 + 0.15 * (Math.max(1, L) - 1);
+  const TILE_TYPES = [
+    { id: 'hangar',    name: '격납고', col: '#ffd166', desc: L => `요격기 2기 출격 · 방어 구역 안 추격 · 사격 피해 주포의 ${Math.round(25 * tileMul(L))}%` },
+    { id: 'battery',   name: '포대',   col: '#6fd3ff', desc: L => `보조 포대 · 가장 먼 적부터 · 피해 주포의 ${Math.round(40 * tileMul(L))}%` },
+    { id: 'shield',    name: '방벽',   col: '#8fa2ff', desc: L => `선체 +${Math.round(8 * tileMul(L))}% · 재생 +${Math.round(10 * tileMul(L))}% · 피해 감소 +2%p` },
+    { id: 'collector', name: '수집기', col: '#c8fff0', desc: L => `에너지 +${Math.round(12 * tileMul(L))}% · 데이터 +${Math.round(6 * tileMul(L))}%` }
+  ];
+  const SLOT_WAVES = [8, 15, 22, 30, 40, 50];   // best wave that opens each hex slot
+  const SLOT_ORDER = [1, 3, 5, 0, 2, 4];        // hex positions in unlock order: a triangle first, then the ring closes
+  const ORBITAL_WAVES = [50, 65, 80];           // satellites join after the ring is complete (Luna recaptured)
+  const TILE_MAX = 10;
+  const tileCost = L => Math.ceil(12 * Math.pow(L + 1, 1.6)); // data to raise a slot from L to L+1
+  const TILE_D = 8.7; // core → ring-1 tile center, world units (art draws the hull at STATION_R × 1.3)
+  const slotPos = k => { const a = Math.PI / 6 + k * Math.PI / 3; return { x: Math.cos(a) * TILE_D, y: Math.sin(a) * TILE_D, a }; };
+  const ORBIT = { a: 26, b: 14, tilt: -0.35, w: 1.2 };
+  function orbitalPos(t, i, n) {
+    const th = t * ORBIT.w + i * TAU / n, lx = Math.cos(th) * ORBIT.a, ly = Math.sin(th) * ORBIT.b;
+    return { x: lx * Math.cos(ORBIT.tilt) - ly * Math.sin(ORBIT.tilt), y: lx * Math.sin(ORBIT.tilt) + ly * Math.cos(ORBIT.tilt), depth: Math.sin(th) };
+  }
+  const PROTO_TILES = { 1: 'hangar', 3: 'battery', 5: 'hangar' };
+  function stationOf(save, b) {
+    const tiles = [null, null, null, null, null, null];
+    if (b && b.opts && b.opts.prologue) { for (let k = 0; k < 6; k++) tiles[k] = { type: k % 2 ? 'hangar' : 'battery', lv: 10 }; return { tiles, open: 6, orbitals: 3, proto: false }; }
+    if (b && b.module === 'proto') { for (const k in PROTO_TILES) tiles[k] = { type: PROTO_TILES[k], lv: 1, proto: true }; return { tiles, open: 3, orbitals: 0, proto: true }; }
+    const best = save.best || 0, open = SLOT_WAVES.filter(w => best >= w).length;
+    const slots = (save.station && save.station.slots) || [];
+    for (let i = 0; i < open; i++) if (slots[i] && slots[i].type) tiles[SLOT_ORDER[i]] = { type: slots[i].type, lv: slots[i].lv || 1 };
+    return { tiles, open, orbitals: ORBITAL_WAVES.filter(w => best >= w).length, proto: false };
+  }
+
+  const ENEMY = {
+    drone:   { hp: 3,  atk: 4,  spd: 14, r: 2.0, energy: 1 },
+    meteor:  { hp: 10, atk: 10, spd: 7,  r: 3.4, energy: 2 },
+    charger: { hp: 6,  atk: 14, spd: 22, r: 2.4, energy: 2 },
+    shooter: { hp: 8,  atk: 6,  spd: 10, r: 2.6, energy: 3 },
+    boss:    { hp: 90, atk: 25, spd: 5,  r: 7.0, energy: 20 }
+  };
+
+  function derived(save, b) {
+    const L = id => save.shipyard[id] || 0;
+    const c = id => b ? (b.cardCount[id] || 0) : 0;
+    const inr = id => b ? b.inrun[id] : 0;
+    const moduleMul = b && b.module === 'proto' ? 1.5 : 1;
+    const st = stationOf(save, b), tsum = type => st.tiles.reduce((a, t) => a + (t && t.type === type ? tileMul(t.lv) : 0), 0), tcount = type => st.tiles.filter(t => t && t.type === type).length;
+    const shieldM = tsum('shield'), collM = tsum('collector');
+    const enh = id => 1 + 0.01 * ((save.enh && save.enh[id]) || 0);
+    const hullMax = TUNE.hullBase * poly(L('hull')) * enh('hull') * (1 + 0.12 * inr('hull')) * (1 + 0.3 * c('plating')) * (1 + 0.08 * shieldM);
+    const out = {
+      dmg: 4 * poly(L('dmg')) * enh('dmg') * (1 + 0.12 * inr('dmg')) * (1 + 0.25 * c('overcharge')) * moduleMul,
+      rate: Math.min(12, 1.2 * (1 + TUNE.rateStep * L('rate')) * (1 + 0.06 * inr('rate')) * (1 + 0.2 * c('rapid'))),
+      crit: Math.min(0.75, 0.05 + 0.01 * L('crit') + 0.1 * c('scope')),
+      range: (40 + L('range')) * (1 + 0.15 * c('optics')),
+      hullMax,
+      regen: (TUNE.regenAbs ? TUNE.regenAbs * (1 + 0.15 * L('regen')) : hullMax * TUNE.regenPct * (1 + TUNE.regenG * L('regen'))) * (1 + 0.12 * inr('regen')) * (1 + 0.1 * shieldM),
+      armor: Math.min(0.6, 0.01 * L('armor') + 0.02 * tcount('shield')),
+      energyMul: (1 + 0.05 * L('energy')) * (1 + 0.12 * collM),
+      dataMul: enh('data') * (1 + 0.03 * L('datab')) * (1 + 0.03 * (save.research.levels.econ || 0)) * (1 + 0.2 * c('harvest')) * (1 + 0.06 * collM),
+      cdMul: Math.pow(0.8, c('coolant')),
+      pierce: c('pierce'), chain: c('chain'), thorns: c('thorns')
+    };
+    if (b && b.opts && b.opts.prologue) Object.assign(out, { dmg: 400, rate: 12, crit: 0.5, range: 95, hullMax: 5000, regen: 0, armor: 0, pierce: 2, chain: 1, cdMul: 1 });
+    return out;
+  }
+
+  class Battle {
+    constructor(save, opts) {
+      this.save = save;
+      this.opts = Object.assign({ seed: 1, tutorial: false, prologue: false, headless: false, autoUpgrade: false, autoWeapons: false }, opts);
+      this.waveSec = this.opts.prologue ? 3 : this.opts.tutorial ? 12 : WAVE_SEC; // tutorial waves are short so the first minute is dense
+      this.rng = mulberry32(this.opts.seed >>> 0);
+      this.t = 0; this.wave = 1; this.waveT = 0;
+      this.enemies = []; this.projs = []; this.bullets = [];
+      this.inrun = { dmg: 0, rate: 0, hull: 0, regen: 0 };
+      this.cardCount = {}; this.cardsTaken = [];
+      this.module = null; // 'proto' during tutorial
+      this.weapons = {
+        rail: { unlocked: !this.opts.tutorial || this.opts.prologue, cd: 0, max: this.opts.prologue ? 4 : 25 },
+        emp:  { unlocked: this.opts.prologue || (!this.opts.tutorial && (save.best || 0) >= 20), cd: 0, max: this.opts.prologue ? 7 : 40 }
+      };
+      this.energy = 15 * (save.research.levels.start || 0);
+      this.data = 0; this.kills = 0; this.cells = 0;
+      this.spawnPlan = []; this.fireT = 0;
+      this.events = []; this.over = false; this.reason = null; this.paused = false;
+      this.planetCleared = false;
+      const d = derived(save, this);
+      this.hull = d.hullMax; this.d = d;
+      this.craft = []; this.batteries = []; this.orbitals = 0;
+      this.setupStation();
+      this.planWave();
+    }
+    refresh() {
+      const old = this.d.hullMax;
+      this.d = derived(this.save, this);
+      if (this.d.hullMax > old) this.hull += this.d.hullMax - old;
+      this.setupStation();
+    }
+    // build interceptors / batteries / orbitals from the current tiles; existing craft keep flying
+    setupStation() {
+      const st = stationOf(this.save, this); this.station = st;
+      const want = [];
+      st.tiles.forEach((t, k) => { if (t && t.type === 'hangar') for (let j = 0; j < 2; j++) want.push({ k, j, lv: t.lv }); });
+      const old = this.craft;
+      this.craft = want.map(w => {
+        const o = old.find(c => c.k === w.k && c.j === w.j); if (o) { o.lv = w.lv; return o; }
+        const p = slotPos(w.k); if (!this.opts.headless) this.events.push({ type: 'launch', x: p.x, y: p.y });
+        return { k: w.k, j: w.j, lv: w.lv, x: p.x, y: p.y, vx: Math.cos(p.a) * 40, vy: Math.sin(p.a) * 40, ang: p.a, cd: 0.4 + 0.3 * w.j, tgt: null };
+      });
+      const oldB = this.batteries;
+      this.batteries = []; st.tiles.forEach((t, k) => { if (t && t.type === 'battery') { const o = oldB.find(x => x.k === k); this.batteries.push({ k, lv: t.lv, fireT: o ? o.fireT : 0.15 * k, aim: o ? o.aim : slotPos(k).a }); } });
+      this.orbitals = st.orbitals;
+    }
+    scale(w) { return Math.pow(TUNE.hpG, w - 1) * Math.pow(TUNE.hpG2, Math.max(0, w - TUNE.late)); }
+    planWave() {
+      const w = this.wave, plan = [];
+      if (this.opts.prologue) { // a swarm the endgame station shreds
+        for (let i = 0; i < 72; i++) plan.push({ at: (i / 72) * 2.8, type: i % 6 === 0 ? 'meteor' : i % 9 === 0 ? 'charger' : 'drone' });
+        if (w === 7) plan.unshift({ at: 0, type: 'boss' });
+        this.spawnPlan = plan; return;
+      }
+      if (this.opts.tutorial && w <= 3) { // dense, one-shot drones so the first seconds feel alive
+        const n0 = 14 + 4 * w;
+        for (let i = 0; i < n0; i++) plan.push({ at: (i / n0) * 10, type: 'drone' });
+        this.spawnPlan = plan; return;
+      }
+      const n = Math.round((6 + 0.8 * (w - 1)) * TUNE.swarm); // denser waves of weaker enemies: same total threat, more on screen
+      // part of each wave (from wave 6) arrives together as a 3-way rush at 10s: one moment per wave where the screen fills up
+      const nRush = w >= 6 ? Math.round(n * TUNE.rush * Math.min(1, 0.4 + (w - 6) * 0.05)) : 0, nPack = n - nRush; // rush grows from 16% to 40% of the wave
+      const PACK = 7, packs = Math.max(1, Math.ceil(nPack / PACK)); // the rest arrive in packs from one direction
+      const shooterShare = Math.min(0.35, (w >= 12 ? 2 / 12 : 0) + TUNE.rangedG * Math.max(0, w - 12)); // ranged enemies grow later, so range alone stops winning
+      const pick = () => {
+        if (this.rng() < shooterShare) return 'shooter';
+        const roll = this.rng() * (w >= 3 ? 10 : 8);
+        return roll < 5 ? 'drone' : roll < 8 ? 'meteor' : 'charger';
+      };
+      for (let i = 0; i < nPack; i++) {
+        const type = pick(), p = Math.floor(i / PACK);
+        plan.push({ at: (p / packs) * 15 + (i % PACK) * 0.12, type: (type === 'meteor' && i % 3) ? 'drone' : type, pack: p });
+      }
+      this.packAng = Array.from({ length: packs + 3 }, () => this.rng() * Math.PI * 2);
+      if (nRush) {
+        plan.push({ at: 9.6, type: 'rushwarn' });
+        for (let i = 0; i < nRush; i++) { const type = pick(); plan.push({ at: 10 + (i % 12) * 0.1, type: (type === 'meteor' && i % 2) ? 'drone' : type, pack: packs + (i % 3) }); }
+      }
+      plan.sort((x, y) => x.at - y.at);
+      if (w % 10 === 0) plan.unshift({ at: 0, type: 'boss' });
+      this.spawnPlan = plan;
+    }
+    spawn(type, pack) {
+      const E = ENEMY[type], s = this.scale(this.wave);
+      const a = (pack !== undefined && this.packAng) ? this.packAng[pack] + (this.rng() - 0.5) * 0.5 : this.rng() * Math.PI * 2;
+      let hpMul = 1, atkMul = 1;
+      const dil = (!this.opts.prologue && !(this.opts.tutorial && this.wave <= 3) && type !== 'boss') ? 1 / TUNE.swarm : 1; // split the wave's threat across more bodies
+      if (this.opts.prologue) { hpMul = type === 'boss' ? 400 : 6; atkMul = type === 'boss' ? 1 : 0.05; }
+      else if (this.opts.tutorial) { // gentle first minutes, then a scripted first destruction
+        if (this.wave >= 13) { hpMul = 3; atkMul = 1.6; } else if (this.wave <= 3) { hpMul = 0.35; atkMul = 0.4; } else { hpMul = 1.8; atkMul = 0.6; }
+      }
+      const e = {
+        type, x: Math.cos(a) * SPAWN_R, y: Math.sin(a) * SPAWN_R, ang: a,
+        hp: E.hp * s * hpMul * TUNE.hpMul * dil, maxhp: E.hp * s * hpMul * TUNE.hpMul * dil, atk: E.atk * Math.pow(TUNE.atkG, this.wave - 1) * atkMul * dil,
+        spd: E.spd * (this.opts.prologue || this.opts.tutorial ? 1 : Math.min(TUNE.spdMax, 1 + TUNE.spdG * (this.wave - 1))), r: E.r, stun: 0, shootCd: 2.5, biteCd: 0, dead: false
+      };
+      this.enemies.push(e);
+      if (type === 'boss') this.events.push({ type: 'boss', wave: this.wave });
+    }
+    damageStation(amount) {
+      const dealt = amount * (1 - this.d.armor);
+      this.hull -= dealt;
+      if (this.d.thorns) return dealt * 0.3 * this.d.thorns;
+      return 0;
+    }
+    killEnemy(e) {
+      if (e.dead) return;
+      e.dead = true; this.kills++;
+      if (e.type === 'boss') { this.cells++; this.events.push({ type: 'cell', x: e.x, y: e.y }); }
+      this.energy += ENEMY[e.type].energy * this.d.energyMul * Math.pow(TUNE.energyG, this.wave - 1);
+      this.events.push({ type: 'kill', x: e.x, y: e.y, etype: e.type });
+    }
+    hit(e, dmg, crit) {
+      e.hp -= dmg;
+      if (!this.opts.headless) this.events.push({ type: 'hit', x: e.x, y: e.y, v: dmg, crit });
+      if (crit) this.events.push({ type: 'crit', x: e.x, y: e.y, v: dmg });
+      if (e.hp <= 0) this.killEnemy(e);
+    }
+    nearest(x, y, maxR, exclude) {
+      let best = null, bd = maxR * maxR;
+      for (const e of this.enemies) {
+        if (e.dead || e === exclude) continue;
+        const dx = e.x - x, dy = e.y - y, d2 = dx * dx + dy * dy;
+        if (d2 < bd) { bd = d2; best = e; }
+      }
+      return best;
+    }
+    buyInrun(id) {
+      const c = inrunCost(this.inrun[id]);
+      if (this.energy < c || this.over) return false;
+      this.energy -= c; this.inrun[id]++; this.refresh();
+      this.events.push({ type: 'inrun', id });
+      return true;
+    }
+    takeCard(id) {
+      this.cardCount[id] = (this.cardCount[id] || 0) + 1; this.cardsTaken.push(id);
+      this.refresh();
+      if (id === 'plating') this.hull = this.d.hullMax;
+      this.paused = false;
+    }
+    offerCards() {
+      const pool = CARDS.slice(), pick = [];
+      for (let i = 0; i < 3; i++) pick.push(pool.splice(Math.floor(this.rng() * pool.length), 1)[0]);
+      return pick;
+    }
+    fireWeapon(id) {
+      const w = this.weapons[id];
+      if (!w.unlocked || w.cd > 0 || this.over) return false;
+      const target = this.nearest(0, 0, 200);
+      if (!target) return false;
+      w.cd = w.max * this.d.cdMul;
+      if (id === 'rail') {
+        const a = Math.atan2(target.y, target.x), ux = Math.cos(a), uy = Math.sin(a);
+        for (const e of this.enemies) {
+          if (e.dead) continue;
+          const along = e.x * ux + e.y * uy, perp = Math.abs(-e.x * uy + e.y * ux);
+          if (along > 0 && along < 140 && perp < 5 + e.r) this.hit(e, this.d.dmg * 20, false);
+        }
+        this.events.push({ type: 'rail', a });
+      } else {
+        for (const e of this.enemies) {
+          if (e.dead) continue;
+          if (e.x * e.x + e.y * e.y < 70 * 70) { e.stun = 3; this.hit(e, this.d.dmg * 5, false); }
+        }
+        this.events.push({ type: 'emp' });
+      }
+      return true;
+    }
+    step() {
+      if (this.over || this.paused) return;
+      const dt = TICK, d = this.d;
+      this.t += dt; this.waveT += dt;
+      // spawns
+      while (this.spawnPlan.length && this.spawnPlan[0].at <= this.waveT) { const sp = this.spawnPlan.shift(); if (sp.type === 'rushwarn') this.events.push({ type: 'rush', wave: this.wave }); else this.spawn(sp.type, sp.pack); }
+      // wave advance
+      if (this.waveT >= this.waveSec) {
+        this.data += 3 * d.dataMul;
+        this.events.push({ type: 'wave', wave: this.wave });
+        if (this.wave === 50 && !this.planetCleared) { this.planetCleared = true; this.events.push({ type: 'planet' }); }
+        this.wave++; this.waveT = 0; this.planWave();
+        if ((this.wave - 1) % 5 === 0 && !this.opts.prologue) { this.paused = true; this.events.push({ type: 'cards', cards: this.offerCards() }); }
+      }
+      // weapons cooldown + auto
+      for (const k in this.weapons) { const w = this.weapons[k]; if (w.cd > 0) w.cd = Math.max(0, w.cd - dt); }
+      if (this.opts.autoWeapons) { this.fireWeapon('rail'); this.fireWeapon('emp'); }
+      // enemies
+      for (const e of this.enemies) {
+        if (e.dead) continue;
+        if (e.stun > 0) { e.stun -= dt; continue; }
+        const dist = Math.hypot(e.x, e.y);
+        const stopAt = e.type === 'shooter' ? 60 : e.type === 'boss' ? STATION_R + e.r : STATION_R + e.r;
+        if (dist > stopAt) {
+          const mv = Math.min(e.spd * dt, dist - stopAt);
+          e.x -= e.x / dist * mv; e.y -= e.y / dist * mv;
+        } else if (e.type === 'shooter') {
+          e.shootCd -= dt;
+          if (e.shootCd <= 0) { e.shootCd = 2.5; this.bullets.push({ x: e.x, y: e.y, atk: e.atk }); }
+        } else if (e.type === 'boss') {
+          e.biteCd -= dt;
+          if (e.biteCd <= 0) { e.biteCd = 1.5; const ref = this.damageStation(e.atk); if (ref) this.hit(e, ref, false); }
+        } else {
+          const ref = this.damageStation(e.atk);
+          e.dead = true; // kamikaze, no energy
+          if (ref) { /* reflected damage has no target left */ }
+        }
+      }
+      // enemy bullets
+      for (let i = this.bullets.length - 1; i >= 0; i--) {
+        const b = this.bullets[i], dist = Math.hypot(b.x, b.y);
+        if (dist <= STATION_R) { this.damageStation(b.atk); this.bullets.splice(i, 1); continue; }
+        b.x -= b.x / dist * 30 * dt; b.y -= b.y / dist * 30 * dt;
+      }
+      // turret
+      this.fireT -= dt;
+      if (this.fireT <= 0) {
+        let tgt = null, bd = d.range * d.range;
+        for (const e of this.enemies) {
+          if (e.dead || (e.pending || 0) >= e.hp) continue; // already doomed by shots in flight
+          const d2 = e.x * e.x + e.y * e.y;
+          if (d2 < bd) { bd = d2; tgt = e; }
+        }
+        if (tgt) {
+          this.fireT = 1 / d.rate;
+          const crit = this.rng() < d.crit, dmg = d.dmg * (crit ? 2 : 1);
+          tgt.pending = (tgt.pending || 0) + dmg;
+          this.projs.push({ x: 0, y: 0, tgt, dmg, crit, pierce: d.pierce, booked: dmg });
+        } else this.fireT = 0;
+      }
+      // projectiles (homing)
+      for (let i = this.projs.length - 1; i >= 0; i--) {
+        const p = this.projs[i];
+        if (p.tgt.dead) {
+          if (p.pierce > 0) { const n = this.nearest(p.x, p.y, 25); if (n) { p.tgt = n; p.booked = 0; } else { this.projs.splice(i, 1); continue; } }
+          else { this.projs.splice(i, 1); continue; }
+        }
+        const dx = p.tgt.x - p.x, dy = p.tgt.y - p.y, dist = Math.hypot(dx, dy), mv = 130 * dt;
+        if (dist <= mv + p.tgt.r) {
+          const tgt = p.tgt;
+          if (p.booked) { tgt.pending = Math.max(0, (tgt.pending || 0) - p.booked); p.booked = 0; }
+          this.hit(tgt, p.dmg, p.crit);
+          if (p.crit && d.chain) { const n = this.nearest(tgt.x, tgt.y, 25, tgt); if (n) { this.hit(n, p.dmg * 0.5 * d.chain, false); this.events.push({ type: 'chain', x1: tgt.x, y1: tgt.y, x2: n.x, y2: n.y }); } }
+          if (p.pierce > 0) { p.pierce--; p.x = tgt.x; p.y = tgt.y; const n = this.nearest(p.x, p.y, 25, tgt); if (n) { p.tgt = n; p.booked = 0; continue; } }
+          this.projs.splice(i, 1); continue;
+        }
+        p.x += dx / dist * mv; p.y += dy / dist * mv;
+      }
+      // batteries: secondary turrets on their tiles
+      for (const bt of this.batteries) {
+        bt.fireT -= dt; if (bt.fireT > 0) continue;
+        // long-range battery: prefers the farthest threat it can reach (shooters parked outside main range)
+        let tgt = null, bd = -1; const R2 = d.range * d.range;
+        for (const e of this.enemies) { if (e.dead || (e.pending || 0) >= e.hp) continue; const d2 = e.x * e.x + e.y * e.y; if (d2 < R2 && d2 > bd) { bd = d2; tgt = e; } }
+        if (!tgt) { bt.fireT = 0; continue; }
+        const p = slotPos(bt.k); bt.fireT = 1 / (d.rate * 0.6); bt.aim = Math.atan2(tgt.y - p.y, tgt.x - p.x);
+        const crit = this.rng() < d.crit, dmg = d.dmg * 0.4 * tileMul(bt.lv) * (crit ? 2 : 1);
+        tgt.pending = (tgt.pending || 0) + dmg;
+        this.projs.push({ x: p.x, y: p.y, tgt, dmg, crit, pierce: 0, booked: dmg, src: 'battery' });
+      }
+      // interceptors: leave the station, strafe a target, return when the sky is clear
+      if (this.craft.length) {
+        const leash = d.range, L2 = leash * leash, cdBase = 1.1 / Math.sqrt(Math.max(1, d.rate / 1.2));
+        for (const e of this.enemies) e.claims = 0;
+        for (const c of this.craft) if (c.tgt && !c.tgt.dead) c.tgt.claims++;
+        for (const c of this.craft) {
+          if (c.tgt && (c.tgt.dead || c.tgt.x * c.tgt.x + c.tgt.y * c.tgt.y > L2 * 1.3)) c.tgt = null;
+          if (!c.tgt) {
+            let best = null, bs = Infinity;
+            for (const e of this.enemies) {
+              if (e.dead) continue; const r2 = e.x * e.x + e.y * e.y; if (r2 > L2) continue;
+              const dx = e.x - c.x, dy = e.y - c.y, sc = dx * dx + dy * dy + (e.claims || 0) * 900 + r2 * 0.3;
+              if (sc < bs) { bs = sc; best = e; }
+            }
+            c.tgt = best; if (best) best.claims = (best.claims || 0) + 1;
+          }
+          let gx, gy;
+          if (c.tgt) { const ta = Math.atan2(c.y - c.tgt.y, c.x - c.tgt.x) + (c.j ? 0.9 : -0.9); gx = c.tgt.x + Math.cos(ta) * 9; gy = c.tgt.y + Math.sin(ta) * 9; }
+          else { const oa = this.t * 1.1 + c.j * Math.PI + c.k * 1.05; gx = Math.cos(oa) * 17; gy = Math.sin(oa) * 17; }
+          const dx = gx - c.x, dy = gy - c.y, dist = Math.hypot(dx, dy) || 1, sp = c.tgt ? 62 : 38, k = Math.min(1, dt * 4);
+          c.vx += (dx / dist * sp - c.vx) * k; c.vy += (dy / dist * sp - c.vy) * k;
+          c.x += c.vx * dt; c.y += c.vy * dt; c.ang = Math.atan2(c.vy, c.vx);
+          c.cd -= dt;
+          if (c.tgt && c.cd <= 0) {
+            const ex = c.tgt.x - c.x, ey = c.tgt.y - c.y;
+            if (ex * ex + ey * ey < 20 * 20) {
+              c.cd = cdBase; const crit = this.rng() < d.crit, dmg = d.dmg * 0.25 * tileMul(c.lv) * (crit ? 2 : 1);
+              if (!this.opts.headless) this.events.push({ type: 'zap', x1: c.x, y1: c.y, x2: c.tgt.x, y2: c.tgt.y });
+              this.hit(c.tgt, dmg, crit);
+            }
+          }
+        }
+      }
+      // orbitals: ram enemies on their path and swallow enemy shots
+      for (let i = 0; i < this.orbitals; i++) {
+        const o = orbitalPos(this.t, i, this.orbitals);
+        for (let j = this.bullets.length - 1; j >= 0; j--) { const bl = this.bullets[j], dx = bl.x - o.x, dy = bl.y - o.y; if (dx * dx + dy * dy < 30) { this.bullets.splice(j, 1); if (!this.opts.headless) this.events.push({ type: 'block', x: o.x, y: o.y }); } }
+        for (const e of this.enemies) {
+          if (e.dead || (e.orbT || 0) > this.t) continue;
+          const dx = e.x - o.x, dy = e.y - o.y, rr = 3.5 + e.r;
+          if (dx * dx + dy * dy < rr * rr) { e.orbT = this.t + 0.5; this.hit(e, d.dmg * 1.5, false); }
+        }
+      }
+      if (this.enemies.length > 64) this.enemies = this.enemies.filter(e => !e.dead);
+      // regen + auto upgrade
+      this.hull = Math.min(d.hullMax, this.hull + d.regen * dt);
+      if (this.opts.autoUpgrade) {
+        let best = null;
+        for (const u of INRUN) { const c = inrunCost(this.inrun[u.id]); if (!best || c < best.c) best = { id: u.id, c }; }
+        if (best && this.energy >= best.c) this.buyInrun(best.id);
+      }
+      // prologue: once the mothership arrives, it charges and destroys the endgame station
+      if (this.opts.prologue && this.wave >= 7) {
+        this.motherT = (this.motherT || 0) + dt;
+        if (this.motherT > 3.2 && !this.beamFired) { this.beamFired = true; this.events.push({ type: 'beam' }); }
+        if (this.motherT > 4.0) { this.hull = 0; }
+      }
+      // end conditions
+      if (this.hull <= 0) { this.hull = 0; this.end(this.opts.prologue ? 'prologue' : 'destroyed'); }
+      else if (this.t >= RUN_CAP_GAME_SEC) this.end('retreat');
+    }
+    end(reason) {
+      if (this.over) return;
+      this.over = true; this.reason = reason;
+      this.events.push({ type: 'end', reason });
+    }
+    get reachedWave() { return this.wave; }
+  }
+
+  function newSave() {
+    return {
+      v: 2, data: 0, cells: 0, enh: { dmg: 0, hull: 0, data: 0 }, best: 0, runs: 0, module: false, planet1: false,
+      shipyard: Object.fromEntries(STATS.map(s => [s.id, 0])),
+      research: { levels: { cap: 0, econ: 0, start: 0 }, slots: [null, null] },
+      station: { slots: [null, null, null, null, null, null] },
+      tutorial: 0, settings: { speed: 2, researchScale: 1, autoUpgrade: false, autoWeapons: false },
+      log: [], funnel: {}, lastSeen: 0, offline: null
+    };
+  }
+  const capOf = save => 20 + (save.research.levels.cap || 0);
+
+  // ---- offline (idle) reward: an automated patrol keeps sending data while the app is closed ----
+  // Active play earns ≈ 3 data × dataMul per wave, 6 waves per real minute at the default 2x (≈18/min).
+  // Offline pays eff (8%) of that, scaled up by the best wave, capped at capH hours:
+  //   8h at Lv0 ≈ 700 data (~40 min of active play); with the 2x ad ≈ 80 min.
+  const OFFLINE = { eff: 0.08, capH: 8, minMin: 5, unlockBest: 5, bestK: 50 };
+  const offlineUnlocked = save => (save.tutorial || 0) >= 2 && (save.best || 0) >= OFFLINE.unlockBest;
+  function offlineRate(save) { // data per real minute
+    if (!offlineUnlocked(save)) return 0;
+    const d = derived(save, null);
+    return OFFLINE.eff * 18 * d.dataMul * (1 + (save.best || 0) / OFFLINE.bestK);
+  }
+  // elapsedMs → { min (counted, capped), rawMin, capped, data }; null when too short or locked
+  function offlineReward(save, elapsedMs) {
+    if (!offlineUnlocked(save) || !(elapsedMs > 0)) return null;
+    const rawMin = elapsedMs / 60000;
+    if (rawMin < OFFLINE.minMin) return null;
+    const min = Math.min(rawMin, OFFLINE.capH * 60);
+    return { min: Math.floor(min), rawMin: Math.floor(rawMin), capped: rawMin > OFFLINE.capH * 60, data: Math.floor(offlineRate(save) * min) };
+  }
+
+  // Headless: run one full battle with auto-play, return the reached wave.
+  function simulateRun(save, seed) {
+    const b = new Battle(save, { seed, headless: true, autoUpgrade: true, autoWeapons: true });
+    b.weapons.rail.unlocked = true; b.weapons.emp.unlocked = true;
+    const prio = ['overcharge', 'rapid', 'plating', 'scope', 'chain', 'pierce', 'optics', 'thorns', 'coolant', 'harvest'];
+    let guard = 0;
+    while (!b.over && guard++ < 200000) {
+      b.step();
+      for (const ev of b.events) if (ev.type === 'cards') {
+        const pick = ev.cards.slice().sort((x, y) => prio.indexOf(x.id) - prio.indexOf(y.id))[0];
+        b.takeCard(pick.id);
+      }
+      b.events.length = 0;
+    }
+    return { wave: b.wave, data: b.data, reason: b.reason, t: b.t, kills: b.kills };
+  }
+
+  root.SZE = { TUNE, poly, researchCost, CELL_MINUTES, ENH, ENH_UNLOCK_WAVE, ENH_MAX, enhCost, TICK, WAVE_SEC, STATION_R, SPAWN_R, STATS, statCost, RESEARCH, RESEARCH_HOURS, INRUN, inrunCost, CARDS, ENEMY,
+    derived, Battle, newSave, capOf, simulateRun, OFFLINE, offlineUnlocked, offlineRate, offlineReward,
+    TILE_TYPES, SLOT_WAVES, SLOT_ORDER, ORBITAL_WAVES, TILE_MAX, tileCost, tileMul, slotPos, orbitalPos, stationOf, ORBIT };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+// Station Zero art module: 3D-parallax space background, station designs, enemy sprite families.
+// Shared by the game (index.src.html) and the art mockup page (sian.src.html). No game logic here.
+(function (root) {
+  'use strict';
+  const TAU = Math.PI * 2;
+  const COL = { drone: '#5fe39a', meteor: '#9aa3b8', charger: '#ff9f4d', shooter: '#c08bff', boss: '#ff6f9f' };
+
+  // ---------- shared glow sprite cache ----------
+  const GLOW = {};
+  function glowSprite(col) {
+    if (GLOW[col]) return GLOW[col];
+    const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d');
+    const gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+    gr.addColorStop(0, '#ffffff'); gr.addColorStop(0.18, col); gr.addColorStop(0.45, col + '66'); gr.addColorStop(1, col + '00');
+    g.fillStyle = gr; g.fillRect(0, 0, 64, 64); GLOW[col] = c; return c;
+  }
+  function glow(ctx, x, y, r, col, a) { ctx.globalAlpha = a; ctx.drawImage(glowSprite(col), x - r, y - r, r * 2, r * 2); }
+  function rng(seed) { let a = seed >>> 0; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+
+  // ======================================================================
+  // Background: deep layer (nebula, galaxy, dust stars) + 3D starfield + Luna.
+  // A slow camera drift and a slow forward glide give every layer its own speed (parallax).
+  // ======================================================================
+  const ZN = 0.5, ZF = 6, VZ = 0.05;
+  function makeBackground() { return { key: '', stars: null, deep: null, luna: null, glint: null, r: rng(7) }; }
+  function buildBackground(bg, W, H) {
+    bg.key = W + 'x' + H; const r = rng(11);
+    const DW = Math.round(W * 1.1), DH = Math.round(H * 1.1);
+    const d = document.createElement('canvas'); d.width = DW; d.height = DH; const g = d.getContext('2d');
+    g.fillStyle = '#04060d'; g.fillRect(0, 0, DW, DH);
+    const neb = (x, y, rr, c) => { const gr = g.createRadialGradient(x, y, 0, x, y, rr); gr.addColorStop(0, c); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(0, 0, DW, DH); };
+    const M = Math.max(DW, DH);
+    neb(DW * 0.12, DH * 0.22, M * 0.6, 'rgba(60,40,140,0.34)');
+    neb(DW * 0.92, DH * 0.72, M * 0.55, 'rgba(20,90,140,0.28)');
+    neb(DW * 0.62, DH * 0.04, M * 0.36, 'rgba(140,40,110,0.18)');
+    neb(DW * 0.35, DH * 0.55, M * 0.25, 'rgba(40,70,160,0.10)');
+    // faint dust lane
+    g.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < 900; i++) {
+      const t = r(), x = DW * (-0.1 + 1.2 * t), y = DH * (0.18 + 0.55 * t) + (r() - 0.5) * DH * 0.16 * (1 - Math.abs(t - 0.5));
+      g.fillStyle = `rgba(150,170,255,${0.03 + r() * 0.05})`; g.fillRect(x, y, 1 + r() * 2, 1 + r() * 2);
+    }
+    // static far star dust
+    for (let i = 0; i < 520; i++) { g.fillStyle = `rgba(220,230,255,${0.08 + r() * 0.22})`; const s = r() < 0.9 ? 1 : 1.6; g.fillRect(r() * DW, r() * DH, s, s); }
+    g.globalCompositeOperation = 'source-over';
+    bg.deep = d;
+    // spiral galaxy, upper right: a face-on sprite that drawBackground tilts and slowly spins in its own plane
+    const gR = Math.min(DW, DH) * 0.12, GS = Math.ceil(gR * 2.2), gc = document.createElement('canvas'); gc.width = gc.height = GS;
+    const gg2 = gc.getContext('2d'), m = GS / 2; gg2.globalCompositeOperation = 'lighter';
+    const core = gg2.createRadialGradient(m, m, 0, m, m, gR * 0.45); core.addColorStop(0, 'rgba(255,236,205,0.6)'); core.addColorStop(1, 'rgba(255,236,205,0)');
+    gg2.fillStyle = core; gg2.fillRect(0, 0, GS, GS);
+    for (let arm = 0; arm < 2; arm++) for (let i = 0; i < 300; i++) {
+      const th = i * 0.04, rr = gR * 0.07 * Math.exp(0.3 * th); if (rr > gR) break;
+      const a = th + arm * Math.PI + (r() - 0.5) * 0.35, s = rr < gR * 0.3 ? 1.6 : 1.3;
+      gg2.fillStyle = `rgba(200,215,255,${0.38 * (1 - rr / gR) + 0.05})`; gg2.fillRect(m + Math.cos(a) * rr, m + Math.sin(a) * rr, s, s);
+    }
+    bg.galaxy = gc; bg.galaxyAt = [DW * 0.8, DH * 0.15];
+    // Luna: own layer so it can move a little faster than the deep layer
+    const pr = Math.min(W, H) * 0.42, L = document.createElement('canvas'); L.width = L.height = Math.ceil(pr * 2.3); const lg = L.getContext('2d'), c0 = L.width / 2;
+    const atm = lg.createRadialGradient(c0, c0, pr * 0.95, c0, c0, pr * 1.12); atm.addColorStop(0, 'rgba(111,211,255,0.18)'); atm.addColorStop(1, 'rgba(111,211,255,0)');
+    lg.fillStyle = atm; lg.fillRect(0, 0, L.width, L.height);
+    const pg = lg.createRadialGradient(c0 + pr * 0.35, c0 - pr * 0.35, pr * 0.1, c0, c0, pr);
+    pg.addColorStop(0, '#5a6584'); pg.addColorStop(0.7, '#232a40'); pg.addColorStop(1, '#0b0e18');
+    lg.fillStyle = pg; lg.beginPath(); lg.arc(c0, c0, pr, 0, TAU); lg.fill();
+    lg.save(); lg.beginPath(); lg.arc(c0, c0, pr, 0, TAU); lg.clip();
+    for (let i = 0; i < 26; i++) { const a = -1.75 + r() * 1.9, dd = pr * (0.2 + r() * 0.75), cr = pr * (0.015 + r() * 0.05); lg.fillStyle = 'rgba(0,0,0,0.2)'; lg.beginPath(); lg.arc(c0 + Math.cos(a) * dd, c0 + Math.sin(a) * dd, cr, 0, TAU); lg.fill(); lg.strokeStyle = 'rgba(160,175,210,0.12)'; lg.lineWidth = 1; lg.beginPath(); lg.arc(c0 + Math.cos(a) * dd - cr * 0.15, c0 + Math.sin(a) * dd - cr * 0.15, cr, 3.6, 5.6); lg.stroke(); }
+    lg.restore();
+    lg.strokeStyle = 'rgba(111,211,255,0.38)'; lg.lineWidth = Math.max(2, pr * 0.012); lg.beginPath(); lg.arc(c0, c0, pr, -1.9, -0.05); lg.stroke();
+    bg.luna = L; bg.lunaPos = [-pr * 0.25 - c0, H + pr * 0.05 - c0];
+    // glint sprite for the nearest stars
+    const gs = document.createElement('canvas'); gs.width = gs.height = 32; const gg = gs.getContext('2d');
+    const gd = gg.createRadialGradient(16, 16, 0, 16, 16, 7); gd.addColorStop(0, 'rgba(255,255,255,1)'); gd.addColorStop(1, 'rgba(255,255,255,0)'); gg.fillStyle = gd; gg.fillRect(0, 0, 32, 32);
+    for (const [x0, y0, x1, y1] of [[2, 16, 30, 16], [16, 2, 16, 30]]) { const lgd = gg.createLinearGradient(x0, y0, x1, y1); lgd.addColorStop(0, 'rgba(200,225,255,0)'); lgd.addColorStop(0.5, 'rgba(230,240,255,0.9)'); lgd.addColorStop(1, 'rgba(200,225,255,0)'); gg.strokeStyle = lgd; gg.lineWidth = 1.2; gg.beginPath(); gg.moveTo(x0, y0); gg.lineTo(x1, y1); gg.stroke(); }
+    bg.glint = gs;
+    // stars in a view-aligned box; z is depth (smaller = nearer)
+    bg.stars = Array.from({ length: 260 }, (_, i) => { const s = {}; spawn(bg, s, W, H, ZN + bg.r() * (ZF - ZN), 0, 0); s.m = 0.5 + Math.pow(bg.r(), 2.5) * 1.6; s.ph = bg.r() * TAU; s.tw = 0.8 + bg.r() * 2.2; s.c = i % 9 === 0 ? '#bcd7ff' : i % 13 === 0 ? '#ffe2b8' : '#ffffff'; return s; });
+  }
+  function spawn(bg, s, W, H, z, cx, cy) {
+    const F = Math.min(W, H) * 0.9;
+    s.z = z; s.x = cx + (bg.r() * 2 - 1) * (W / 2 / F) * z * 1.15; s.y = cy + (bg.r() * 2 - 1) * (H / 2 / F) * z * 1.15; s.born = z;
+  }
+  function drawBackground(ctx, bg, W, H, time, dt, lite) {
+    if (bg.key !== W + 'x' + H) buildBackground(bg, W, H);
+    dt = Math.min(0.1, Math.max(0, dt || 0));
+    const F = Math.min(W, H) * 0.9;
+    const cx = 0.22 * Math.sin(time * 0.021), cy = 0.12 * Math.sin(time * 0.015 + 1);
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    const dx = -W * 0.05 - cx * F / 24, dy = -H * 0.05 - cy * F / 24;
+    ctx.drawImage(bg.deep, dx, dy);
+    // galaxy turns slowly (one turn ≈ 2 minutes), tilted like a disc seen at an angle
+    ctx.save(); ctx.translate(dx + bg.galaxyAt[0], dy + bg.galaxyAt[1]); ctx.rotate(-0.5); ctx.scale(1, 0.42); ctx.rotate(-time * 0.048);
+    ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(bg.galaxy, -bg.galaxy.width / 2, -bg.galaxy.height / 2); ctx.restore();
+    ctx.globalCompositeOperation = 'source-over';
+    const k = Math.min(W, H) / 390; // ~device px per css px
+    ctx.globalCompositeOperation = 'lighter';
+    const step = lite ? 2 : 1;
+    for (let i = 0; i < bg.stars.length; i += step) {
+      const s = bg.stars[i];
+      s.z -= dt * VZ;
+      let px = W / 2 + (s.x - cx) / s.z * F, py = H / 2 + (s.y - cy) / s.z * F;
+      if (s.z < ZN || px < -20 || px > W + 20 || py < -20 || py > H + 20) { spawn(bg, s, W, H, ZF * (0.85 + 0.15 * bg.r()), cx, cy); continue; }
+      const fade = Math.min(1, (s.born - s.z) / 0.6 + (s.born < ZF * 0.8 ? 1 : 0));
+      const tw = 0.75 + 0.25 * Math.sin(time * s.tw + s.ph);
+      const a = Math.min(1, 0.22 + 0.8 / s.z) * fade * tw;
+      const size = Math.min(3.2, s.m * Math.pow(1.6 / s.z, 0.75)) * k;
+      if (!lite && size > 1.9 * k) { ctx.globalAlpha = a; const gsz = size * 4.5; ctx.drawImage(bg.glint, px - gsz / 2, py - gsz / 2, gsz, gsz); }
+      else { ctx.globalAlpha = a; ctx.fillStyle = s.c; ctx.fillRect(px - size / 2, py - size / 2, size, size); }
+    }
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    ctx.drawImage(bg.luna, bg.lunaPos[0] - cx * F / 4, bg.lunaPos[1] - cy * F / 4);
+  }
+
+  // ======================================================================
+  // Stations. Drawn in world units around (0,0); R = collision radius.
+  // tier 0 = starting hull, 1 = module attached, 2 = endgame (prologue).
+  // ======================================================================
+  const STATION_STYLES = [
+    { id: 'hex', name: 'A · 헥사 코어', rec: true, desc: '육각 코어에 타일을 붙여 커지는 모듈형입니다. 모듈·연구가 타일 하나로 보여 성장이 가장 잘 읽히고, AI로 타일 아트를 늘리기도 쉽습니다.', pro: '성장 단계가 한눈에 보임 · 타일 단위로 아트 확장', con: '정지한 느낌 → 코어 회전·패널 점멸로 보완' },
+    { id: 'ring', name: 'B · 링 스테이션', desc: '회전하는 거주 링과 스포크로 된 고전 우주정거장입니다. 처음 보는 사람도 바로 우주정거장으로 읽습니다.', pro: '장르가 즉시 읽힘 · 회전 링이 살아 있는 느낌', con: '링을 겹치는 방식이라 단계별 차이가 작음' },
+    { id: 'orbital', name: 'C · 크리스탈 오비탈', desc: '결정 코어 주위를 위성 포드가 입체 궤도로 돕니다. 앞뒤로 도는 위성이 원근감을 가장 크게 줍니다.', pro: '입체감 최고 · 보석 같은 수집 욕구', con: '위성이 적과 섞여 보일 수 있음 · 정거장보다 무기처럼 보임' }
+  ];
+  function hexPath(ctx, x, y, r, rot) { ctx.beginPath(); for (let i = 0; i < 6; i++) { const a = rot + i * TAU / 6; const px = x + Math.cos(a) * r, py = y + Math.sin(a) * r; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.closePath(); }
+  function panel(ctx, x0, x1, h, R, t, seed) {
+    const sx = Math.sign(x1 - x0) || 1, w = Math.abs(x1 - x0), xa = Math.min(x0, x1);
+    ctx.fillStyle = '#0f2148'; ctx.fillRect(xa, -h / 2, w, h);
+    ctx.strokeStyle = '#3d7bd9'; ctx.lineWidth = R * 0.035;
+    ctx.beginPath(); for (let x = R * 0.2; x < w; x += R * 0.2) { ctx.moveTo(xa + x, -h / 2); ctx.lineTo(xa + x, h / 2); } ctx.moveTo(xa, 0); ctx.lineTo(xa + w, 0); ctx.stroke();
+    ctx.strokeStyle = '#7fb4ff'; ctx.lineWidth = R * 0.05; ctx.strokeRect(xa, -h / 2, w, h);
+    // sweep of reflected light
+    const p = ((t * 0.18 + seed) % 1.6) - 0.3; if (p > 0 && p < 1) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.28 * Math.sin(p * Math.PI); ctx.fillStyle = '#bfe0ff'; ctx.fillRect(sx > 0 ? x0 + w * p - R * 0.08 : x0 - w * p - R * 0.08, -h / 2, R * 0.16, h); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
+  }
+  function drawStation(ctx, style, t, o) {
+    const R = o.R, tier = o.tier || 0, mod = o.mod || '#6fd3ff', grow = o.grow == null ? 1 : o.grow;
+    ctx.save(); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    if (style === 'ring') ringStation(ctx, t, R, tier, mod, grow);
+    else if (style === 'orbital') orbitalStation(ctx, t, R, tier, mod, grow);
+    else hexStation(ctx, t, R, o);
+    // turret on the core, pointing at the current target
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    ctx.save(); ctx.rotate(o.aim || 0);
+    ctx.fillStyle = '#2a3c58'; ctx.fillRect(R * 0.1, -R * 0.13, R * 0.42, R * 0.26);
+    ctx.fillStyle = '#dfe8f5'; ctx.fillRect(R * 0.2, -R * 0.065, R * 0.78, R * 0.13);
+    ctx.fillStyle = '#9fe6ff'; ctx.fillRect(R * 0.9, -R * 0.05, R * 0.12, R * 0.1);
+    ctx.restore();
+    ctx.fillStyle = '#d6f3ff'; ctx.beginPath(); ctx.arc(0, 0, R * 0.2, 0, TAU); ctx.fill();
+    ctx.globalCompositeOperation = 'lighter'; glow(ctx, 0, 0, R * 0.6, '#9fe6ff', 0.85);
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    if (o._front) { o._front(); o._front = null; }
+    ctx.restore(); ctx.globalAlpha = 1;
+  }
+  // hex core: ring-1 slots carry function tiles; empty open slots show a docking frame; orbitals circle outside
+  const TILE_COL = { hangar: '#ffd166', battery: '#6fd3ff', shield: '#8fa2ff', collector: '#c8fff0' };
+  const SLOT_ORDER = [1, 3, 5, 0, 2, 4];
+  const ORBIT = { a: 26, b: 14, tilt: -0.35, w: 1.2 }; // world units at R = 9.1 (must match engine ORBIT)
+  function orbitPos(t, i, n, sc) {
+    const th = t * ORBIT.w + i * TAU / n, lx = Math.cos(th) * ORBIT.a * sc, ly = Math.sin(th) * ORBIT.b * sc;
+    return { x: lx * Math.cos(ORBIT.tilt) - ly * Math.sin(ORBIT.tilt), y: lx * Math.sin(ORBIT.tilt) + ly * Math.cos(ORBIT.tilt), depth: Math.sin(th), th };
+  }
+  function tierTiles(tier) {
+    const t = [null, null, null, null, null, null];
+    if (tier >= 1) { t[1] = { type: 'hangar' }; t[3] = { type: 'battery' }; t[5] = { type: 'hangar' }; }
+    if (tier >= 2) { t[0] = { type: 'shield' }; t[2] = { type: 'battery' }; t[4] = { type: 'collector' }; }
+    return t;
+  }
+  function tileArt(ctx, x, y, r, a, tl, t, k, aim, R) {
+    const col = tl.proto ? '#ffd166' : (TILE_COL[tl.type] || '#6fd3ff');
+    hexPath(ctx, x, y, r, 0); ctx.fillStyle = '#0e1b2f'; ctx.fill(); ctx.strokeStyle = col; ctx.lineWidth = R * 0.07; ctx.stroke();
+    hexPath(ctx, x, y, r * 0.66, 0); ctx.fillStyle = '#14294a'; ctx.fill();
+    ctx.save(); ctx.translate(x, y);
+    if (tl.type === 'hangar') {
+      ctx.rotate(a); ctx.fillStyle = '#04070e'; ctx.fillRect(-r * 0.5, -r * 0.24, r * 1.0, r * 0.48);
+      ctx.strokeStyle = col; ctx.lineWidth = R * 0.04; ctx.strokeRect(-r * 0.5, -r * 0.24, r * 1.0, r * 0.48);
+      ctx.globalCompositeOperation = 'lighter'; const on = Math.sin(t * 5 + k) > 0;
+      glow(ctx, r * 0.42, -r * 0.16, r * 0.22, col, on ? 1 : 0.3); glow(ctx, r * 0.42, r * 0.16, r * 0.22, col, on ? 0.3 : 1);
+    } else if (tl.type === 'battery') {
+      ctx.beginPath(); ctx.arc(0, 0, r * 0.4, 0, TAU); ctx.fillStyle = '#1b2a40'; ctx.fill(); ctx.strokeStyle = col; ctx.lineWidth = R * 0.05; ctx.stroke();
+      ctx.rotate(aim == null ? a : aim); ctx.fillStyle = '#dfe8f5'; ctx.fillRect(0, -r * 0.1, r * 0.95, r * 0.2);
+      ctx.fillStyle = col; ctx.fillRect(r * 0.85, -r * 0.08, r * 0.14, r * 0.16);
+    } else if (tl.type === 'shield') {
+      ctx.rotate(a); ctx.strokeStyle = col; ctx.lineWidth = R * 0.08; ctx.beginPath(); ctx.arc(-r * 0.2, 0, r * 0.62, -1.1, 1.1); ctx.stroke();
+      ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.25 + 0.2 * Math.sin(t * 2 + k); ctx.lineWidth = R * 0.18; ctx.stroke();
+    } else if (tl.type === 'collector') {
+      ctx.rotate(a); ctx.strokeStyle = col; ctx.lineWidth = R * 0.05; ctx.beginPath(); ctx.ellipse(0, 0, r * 0.28, r * 0.5, 0, 0, TAU); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(r * 0.75, 0); ctx.stroke();
+      ctx.globalCompositeOperation = 'lighter'; glow(ctx, r * 0.75, 0, r * 0.3, col, 0.5 + 0.5 * Math.max(0, Math.sin(t * 3 + k)));
+    }
+    ctx.restore(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  }
+  function hexStation(ctx, t, R, o) {
+    const tiles = o.tiles || tierTiles(o.tier || 0), grow = o.grow == null ? 1 : o.grow;
+    const openK = o.openK || SLOT_ORDER.filter(k => tiles[k]);
+    const nT = tiles.filter(Boolean).length, cr = R * 0.52, d = cr * Math.sqrt(3) * 1.06, tr = cr * 0.9;
+    const nO = o.orbitals == null ? ((o.tier || 0) >= 2 ? 3 : 0) : o.orbitals, ot = o.ot == null ? t : o.ot, sc = R / 9.1;
+    const sat = (front) => {
+      if (!nO) return;
+      ctx.save(); ctx.rotate(ORBIT.tilt); ctx.strokeStyle = '#ffd166'; ctx.lineWidth = R * 0.03; ctx.globalAlpha = front ? 0.4 : 0.14;
+      ctx.beginPath(); ctx.ellipse(0, 0, ORBIT.a * sc, ORBIT.b * sc, 0, front ? 0 : Math.PI, front ? Math.PI : TAU); ctx.stroke(); ctx.restore(); ctx.globalAlpha = 1;
+      for (let i = 0; i < nO; i++) {
+        const p = orbitPos(ot, i, nO, sc); if ((p.depth >= 0) !== front) continue;
+        const z = 0.8 + 0.25 * p.depth; ctx.globalAlpha = front ? 1 : 0.55;
+        hexPath(ctx, p.x, p.y, R * 0.3 * z, p.th); ctx.fillStyle = '#13253e'; ctx.fill(); ctx.strokeStyle = '#ffd166'; ctx.lineWidth = R * 0.06; ctx.stroke();
+        ctx.globalCompositeOperation = 'lighter'; glow(ctx, p.x, p.y, R * 0.42 * z, '#ffd166', front ? 0.85 : 0.35); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+      }
+    };
+    sat(false);
+    // solar wings grow with the hull
+    const wl = R * (0.85 + 0.17 * nT + (o.outer ? 0.6 : 0)), wh = R * (0.36 + 0.03 * nT);
+    for (const s of [-1, 1]) {
+      ctx.strokeStyle = '#5c6d88'; ctx.lineWidth = R * 0.09; ctx.beginPath(); ctx.moveTo(s * cr * 0.8, 0); ctx.lineTo(s * (d + R * 0.25), 0); ctx.stroke();
+      panel(ctx, s * (d + R * 0.25), s * (d + R * 0.25 + wl), wh, R, t, s > 0 ? 0 : 0.7);
+    }
+    const pos = (k, dist) => { const a = TAU / 12 + k * TAU / 6; return [Math.cos(a) * dist, Math.sin(a) * dist, a]; };
+    if (o.outer) { const OT = ['battery', 'hangar', 'shield', 'battery', 'hangar', 'collector']; for (let k = 0; k < 6; k++) { const [x, y, a] = pos(k, d * 2); ctx.strokeStyle = '#3a4d6a'; ctx.lineWidth = R * 0.1; ctx.beginPath(); ctx.moveTo(x * 0.5, y * 0.5); ctx.lineTo(x, y); ctx.stroke(); tileArt(ctx, x, y, tr * 0.82, a, { type: OT[k] }, t, k + 6, null, R); } }
+    for (let k = 0; k < 6; k++) {
+      const tl = tiles[k], [x, y, a] = pos(k, d);
+      if (!tl) {
+        if (openK.includes(k)) { hexPath(ctx, x, y, tr, 0); ctx.setLineDash([R * 0.18, R * 0.14]); ctx.strokeStyle = 'rgba(111,211,255,0.55)'; ctx.lineWidth = R * 0.05; ctx.stroke(); ctx.setLineDash([]); }
+        continue;
+      }
+      const g = tl.isNew ? grow : 1; if (g <= 0.01) continue;
+      const [gx, gy] = pos(k, d * (0.55 + 0.45 * g));
+      ctx.strokeStyle = '#3a4d6a'; ctx.lineWidth = R * 0.12; ctx.beginPath(); ctx.moveTo(Math.cos(a) * cr * 0.8, Math.sin(a) * cr * 0.8); ctx.lineTo(gx, gy); ctx.stroke();
+      tileArt(ctx, gx, gy, tr * g, a, tl, t, k, o.aims && o.aims[k], R);
+    }
+    hexPath(ctx, 0, 0, cr, 0); ctx.fillStyle = '#123152'; ctx.fill(); ctx.strokeStyle = '#9fe6ff'; ctx.lineWidth = R * 0.09; ctx.stroke();
+    hexPath(ctx, 0, 0, cr * 0.66, t * 0.8); ctx.strokeStyle = '#6fd3ff'; ctx.lineWidth = R * 0.045; ctx.globalAlpha = 0.8; ctx.stroke(); ctx.globalAlpha = 1;
+    o._front = () => sat(true);
+  }
+  function ringStation(ctx, t, R, tier, mod, grow) {
+    // antenna mast with a beacon
+    ctx.strokeStyle = '#5c6d88'; ctx.lineWidth = R * 0.07; ctx.beginPath(); ctx.moveTo(0, -R * 0.4); ctx.lineTo(0, -R * 1.95); ctx.moveTo(-R * 0.25, -R * 1.65); ctx.lineTo(R * 0.25, -R * 1.65); ctx.stroke();
+    ctx.globalCompositeOperation = 'lighter'; glow(ctx, 0, -R * 1.95, R * 0.28, '#ff4d5e', Math.sin(t * 3) > 0.4 ? 1 : 0.25); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    if (tier >= 2) for (const s of [-1, 1]) panel(ctx, s * R * 2.55, s * R * 3.5, R * 0.5, R, t, s > 0 ? 0 : 0.7);
+    // outer weapon rings
+    const outer = tier >= 2 ? [[1.75, -0.5, mod, 4], [2.4, 0.35, '#ffd166', 6]] : tier >= 1 ? [[1.75, -0.5, mod, 4]] : [];
+    for (const [k, w, c, n] of outer) {
+      const rr = R * k * (0.75 + 0.25 * grow);
+      ctx.save(); ctx.rotate(t * w);
+      ctx.strokeStyle = '#1b2b44'; ctx.lineWidth = R * 0.16; ctx.beginPath(); ctx.arc(0, 0, rr, 0, TAU); ctx.stroke();
+      ctx.strokeStyle = c; ctx.lineWidth = R * 0.05; for (let i = 0; i < n; i++) { ctx.beginPath(); ctx.arc(0, 0, rr, i * TAU / n + 0.2, i * TAU / n + TAU / n - 0.2); ctx.stroke(); }
+      for (let i = 0; i < n; i++) { const a = i * TAU / n; ctx.save(); ctx.translate(Math.cos(a) * rr, Math.sin(a) * rr); ctx.rotate(a); ctx.fillStyle = '#0e1b2f'; ctx.fillRect(-R * 0.17, -R * 0.17, R * 0.34, R * 0.34); ctx.strokeStyle = c; ctx.lineWidth = R * 0.05; ctx.strokeRect(-R * 0.17, -R * 0.17, R * 0.34, R * 0.34); ctx.fillStyle = '#c9d6ea'; ctx.fillRect(R * 0.15, -R * 0.04, R * 0.22, R * 0.08); ctx.restore(); }
+      ctx.restore();
+    }
+    // habitat ring + spokes, rotating
+    const rot = t * 0.35, hr = R * 1.12;
+    ctx.save(); ctx.rotate(rot);
+    ctx.strokeStyle = '#2b3d58'; ctx.lineWidth = R * 0.13; ctx.beginPath(); for (let i = 0; i < 3; i++) { const a = i * TAU / 3; ctx.moveTo(Math.cos(a) * R * 0.4, Math.sin(a) * R * 0.4); ctx.lineTo(Math.cos(a) * hr, Math.sin(a) * hr); } ctx.stroke();
+    ctx.strokeStyle = '#15253c'; ctx.lineWidth = R * 0.34; ctx.beginPath(); ctx.arc(0, 0, hr, 0, TAU); ctx.stroke();
+    ctx.strokeStyle = '#6fd3ff'; ctx.lineWidth = R * 0.05; ctx.beginPath(); ctx.arc(0, 0, hr + R * 0.17, 0, TAU); ctx.stroke();
+    ctx.strokeStyle = '#3d6b8f'; ctx.lineWidth = R * 0.04; ctx.beginPath(); ctx.arc(0, 0, hr - R * 0.17, 0, TAU); ctx.stroke();
+    for (let i = 0; i < 18; i++) { const a = i * TAU / 18; ctx.fillStyle = i % 3 ? '#ffe9a8' : '#bfefff'; ctx.fillRect(Math.cos(a) * hr - R * 0.05, Math.sin(a) * hr - R * 0.05, R * 0.1, R * 0.1); }
+    ctx.restore();
+    ctx.beginPath(); ctx.arc(0, 0, R * 0.48, 0, TAU); ctx.fillStyle = '#123152'; ctx.fill(); ctx.strokeStyle = '#9fe6ff'; ctx.lineWidth = R * 0.09; ctx.stroke();
+  }
+  function orbitalStation(ctx, t, R, tier, mod, grow) {
+    const orbits = [{ a: 1.6, b: 0.5, tilt: -0.35, w: 0.9, n: 2, c: '#6fd3ff', g: 1 }];
+    if (tier >= 1) orbits.push({ a: 2.05, b: 0.7, tilt: 0.65, w: -0.7, n: 2, c: mod, g: grow });
+    if (tier >= 2) orbits.push({ a: 2.6, b: 0.9, tilt: 1.45, w: 0.5, n: 3, c: '#ffd166', g: 1 });
+    const sat = (o, front) => {
+      for (let i = 0; i < o.n; i++) {
+        const th = t * o.w + i * TAU / o.n, depth = Math.sin(th); if ((depth >= 0) !== front) continue;
+        const lx = Math.cos(th) * o.a * R * o.g, ly = Math.sin(th) * o.b * R * o.g;
+        const x = lx * Math.cos(o.tilt) - ly * Math.sin(o.tilt), y = lx * Math.sin(o.tilt) + ly * Math.cos(o.tilt);
+        const sc = 0.8 + 0.25 * depth; ctx.globalAlpha = front ? 1 : 0.55;
+        hexPath(ctx, x, y, R * 0.24 * sc, th); ctx.fillStyle = '#13253e'; ctx.fill(); ctx.strokeStyle = o.c; ctx.lineWidth = R * 0.06; ctx.stroke();
+        ctx.globalCompositeOperation = 'lighter'; glow(ctx, x, y, R * 0.3 * sc, o.c, front ? 0.8 : 0.35); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+      }
+    };
+    const path = (o, front) => {
+      ctx.save(); ctx.rotate(o.tilt); ctx.strokeStyle = o.c; ctx.lineWidth = R * 0.03; ctx.globalAlpha = front ? 0.45 : 0.15;
+      ctx.beginPath(); ctx.ellipse(0, 0, o.a * R * o.g, o.b * R * o.g, 0, front ? 0 : Math.PI, front ? Math.PI : TAU); ctx.stroke(); ctx.restore(); ctx.globalAlpha = 1;
+    };
+    for (const o of orbits) { path(o, false); sat(o, false); }
+    // crystal core, rocking as if turning in 3D
+    const wx = R * 0.62 * (0.5 + 0.5 * Math.abs(Math.cos(t * 0.6))), hy = R * 1.05;
+    ctx.beginPath(); ctx.moveTo(0, -hy); ctx.lineTo(wx, 0); ctx.lineTo(0, hy); ctx.lineTo(-wx, 0); ctx.closePath(); ctx.fillStyle = '#1a4a72'; ctx.fill();
+    const lit = Math.cos(t * 0.6) > 0 ? -1 : 1;
+    ctx.beginPath(); ctx.moveTo(0, -hy); ctx.lineTo(lit * wx, 0); ctx.lineTo(0, 0); ctx.closePath(); ctx.fillStyle = '#3b8fc4'; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(0, -hy); ctx.lineTo(wx, 0); ctx.lineTo(0, hy); ctx.lineTo(-wx, 0); ctx.closePath(); ctx.strokeStyle = '#bff3ff'; ctx.lineWidth = R * 0.07; ctx.stroke();
+    ctx.strokeStyle = 'rgba(191,243,255,0.5)'; ctx.lineWidth = R * 0.03; ctx.beginPath(); ctx.moveTo(0, -hy); ctx.lineTo(0, hy); ctx.moveTo(-wx, 0); ctx.lineTo(wx, 0); ctx.stroke();
+    for (const o of orbits) { path(o, true); sat(o, true); }
+  }
+
+  // ======================================================================
+  // Enemies. Each family draws every type facing +x in unit space ([-1,1]),
+  // baked into pre-rotated sprites (ROT buckets × 2 animation frames).
+  // ======================================================================
+  const ENEMY_STYLES = [
+    { id: 'bio', name: '1 · 생체 스웜', rec: true, desc: '말벌·딱정벌레·해파리·여왕 둥지. 기계 정거장과 대비되는 생물 실루엣이라 아군·적 구분이 즉시 되고, 세계관의 \'스웜\'과도 맞습니다.', pro: '아군과 확실히 구분 · 날개짓으로 살아 있는 느낌', con: '징그러움 수위 조절 필요 → 네온 윤곽으로 순화' },
+    { id: 'mech', name: '2 · 기계 함대', desc: '전투기·충각선·포함·모함. 정통 SF 함대전 분위기이고 진영 확장(해적·제국)이 쉽습니다.', pro: '정통 SF · 함선 수집·스킨 확장이 쉬움', con: '정거장과 재질이 같아 아군과 덜 구분됨' },
+    { id: 'geo', name: '3 · 네온 도형 (현재)', desc: '삼각·사각·육각 네온 도형. The Tower처럼 추상적이고 가장 가볍습니다.', pro: '가장 가볍고 읽기 쉬움', con: 'The Tower와 너무 비슷함 · 세계관이 안 보임' }
+  ];
+  const ROT = 24, ESPR = {};
+  const SPR_S = { boss: 168, meteor: 88 };
+  function ell(g, x, y, rx, ry, rot) { g.beginPath(); g.ellipse(x, y, rx, ry, rot || 0, 0, TAU); }
+  function polyU(g, pts) { g.beginPath(); pts.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.closePath(); }
+  function body(g, col, px, lw, dark) { g.fillStyle = dark || '#0b111d'; g.fill(); g.globalAlpha = 0.32; g.fillStyle = col; g.fill(); g.globalAlpha = 1; g.strokeStyle = col; g.lineWidth = (lw || 2.4) * px; g.stroke(); }
+  function dot(g, x, y, r, c) { g.beginPath(); g.arc(x, y, r, 0, TAU); g.fillStyle = c; g.fill(); }
+  function softGlow(g, x, y, r, c, a) { const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, c); gr.addColorStop(1, c + '00'); g.globalAlpha = a; g.fillStyle = gr; g.fillRect(x - r, y - r, r * 2, r * 2); g.globalAlpha = 1; }
+  function meteorShape(g, col, px) {
+    const rr = [1, 0.82, 0.95, 0.78, 0.9, 1, 0.8, 0.92, 0.85, 0.97];
+    polyU(g, rr.map((k, i) => [Math.cos(i / rr.length * TAU) * k * 0.82, Math.sin(i / rr.length * TAU) * k * 0.82]));
+    g.fillStyle = '#2c3343'; g.fill(); g.strokeStyle = col; g.lineWidth = 2.2 * px; g.stroke();
+    for (const [x, y, r] of [[0.22, -0.22, 0.17], [-0.3, 0.12, 0.13], [0.12, 0.38, 0.09], [-0.12, -0.42, 0.07]]) { ell(g, x, y, r, r); g.fillStyle = '#1b2130'; g.fill(); g.strokeStyle = '#5d667c'; g.lineWidth = 1.2 * px; g.stroke(); }
+    g.strokeStyle = '#d3d9e6'; g.globalAlpha = 0.55; g.lineWidth = 1.6 * px; g.beginPath(); g.arc(0, 0, 0.7, 3.5, 4.6); g.stroke(); g.globalAlpha = 1;
+    g.strokeStyle = '#ff9f4d'; g.globalAlpha = 0.6; g.lineWidth = 1.2 * px; g.beginPath(); g.moveTo(-0.05, 0.05); g.lineTo(0.25, 0.15); g.lineTo(0.38, 0.05); g.stroke(); g.globalAlpha = 1;
+  }
+  const DRAW = {
+    bio: {
+      drone(g, col, px, f) {
+        for (const s of [-1, 1]) {
+          ell(g, -0.12, s * 0.4, 0.46, 0.17, s * (f ? 0.32 : 0.78)); g.fillStyle = col + '38'; g.fill(); g.strokeStyle = col; g.lineWidth = 1.4 * px; g.stroke();
+          ell(g, -0.34, s * 0.3, 0.3, 0.11, s * (f ? 0.6 : 1.05)); g.fillStyle = col + '28'; g.fill(); g.stroke();
+        }
+        ell(g, -0.5, 0, 0.42, 0.24); body(g, col, px);
+        g.strokeStyle = col; g.lineWidth = 1.8 * px; g.beginPath(); g.moveTo(-0.38, -0.22); g.lineTo(-0.38, 0.22); g.moveTo(-0.62, -0.19); g.lineTo(-0.62, 0.19); g.stroke();
+        g.beginPath(); g.moveTo(-0.9, 0); g.lineTo(-1.04, 0); g.stroke();
+        ell(g, 0.04, 0, 0.2, 0.17); body(g, col, px);
+        ell(g, 0.36, 0, 0.16, 0.16); body(g, col, px);
+        dot(g, 0.43, -0.08, 0.06, '#eaffef'); dot(g, 0.43, 0.08, 0.06, '#eaffef');
+        g.strokeStyle = col; g.lineWidth = 1.6 * px; g.beginPath(); g.moveTo(0.5, -0.06); g.lineTo(0.62, -0.13); g.lineTo(0.66, -0.03); g.moveTo(0.5, 0.06); g.lineTo(0.62, 0.13); g.lineTo(0.66, 0.03); g.stroke();
+      },
+      charger(g, col, px, f) {
+        g.strokeStyle = col; g.lineWidth = 2 * px;
+        for (let i = 0; i < 3; i++) { const x = 0.2 - i * 0.32, w = (i % 2 ? 1 : -1) * (f ? 0.07 : -0.07); g.beginPath(); g.moveTo(x, -0.36); g.lineTo(x - 0.12 + w, -0.66); g.moveTo(x, 0.36); g.lineTo(x - 0.12 - w, 0.66); g.stroke(); }
+        ell(g, -0.12, 0, 0.6, 0.47); body(g, col, px, 2.6);
+        g.strokeStyle = col; g.globalAlpha = 0.7; g.lineWidth = 1.6 * px; g.beginPath(); g.moveTo(-0.7, 0); g.lineTo(0.22, 0); g.stroke(); g.globalAlpha = 1;
+        dot(g, -0.32, -0.22, 0.075, '#ffd8b0'); dot(g, -0.32, 0.22, 0.075, '#ffd8b0'); dot(g, -0.02, -0.25, 0.05, '#ffd8b0'); dot(g, -0.02, 0.25, 0.05, '#ffd8b0');
+        ell(g, 0.43, 0, 0.19, 0.24); body(g, col, px);
+        polyU(g, [[0.52, -0.13], [1.05, 0], [0.52, 0.13]]); g.fillStyle = '#ffd0a0'; g.fill(); g.strokeStyle = col; g.lineWidth = 1.6 * px; g.stroke();
+        dot(g, 0.52, -0.17, 0.045, '#ffffff'); dot(g, 0.52, 0.17, 0.045, '#ffffff');
+      },
+      shooter(g, col, px, f) {
+        g.strokeStyle = col; g.lineWidth = 1.9 * px; g.globalAlpha = 0.9;
+        for (let k = -2; k <= 2; k++) { const y0 = k * 0.13, w = (k % 2 ? 1 : -1) * (f ? 0.14 : -0.14); g.beginPath(); g.moveTo(-0.15, y0); g.quadraticCurveTo(-0.55, y0 + w, -0.98, y0 * 1.5 - w * 0.5); g.stroke(); }
+        g.globalAlpha = 1;
+        g.beginPath(); g.moveTo(-0.22, -0.44); g.quadraticCurveTo(0.75, -0.62, 0.68, 0); g.quadraticCurveTo(0.75, 0.62, -0.22, 0.44); g.quadraticCurveTo(-0.1, 0, -0.22, -0.44); body(g, col, px, 2.6);
+        for (const a of [-0.9, -0.45, 0.45, 0.9]) dot(g, 0.22 + Math.cos(a) * 0.38, Math.sin(a) * 0.38, 0.04, '#f0e0ff');
+        softGlow(g, 0.2, 0, 0.32, col, 0.8); dot(g, 0.2, 0, 0.16, col); dot(g, 0.2, 0, 0.07, '#ffffff');
+        dot(g, 0.66, 0, f ? 0.09 : 0.065, '#f3e6ff');
+      },
+      meteor: meteorShape,
+      boss(g, col, px, f) {
+        g.strokeStyle = col; g.lineWidth = 3 * px;
+        for (const s of [-1, 1]) { g.beginPath(); g.moveTo(0.5, s * 0.28); g.quadraticCurveTo(1.08, s * 0.5, 0.96, s * 0.04); g.quadraticCurveTo(0.8, s * 0.3, 0.5, s * 0.28); body(g, col, px, 2.4); }
+        for (let i = 0; i < 6; i++) { const a = TAU / 12 + i * TAU / 6 + Math.PI / 6; g.save(); g.translate(Math.cos(a) * 0.66, Math.sin(a) * 0.62); g.rotate(a); ell(g, 0, 0, 0.2, 0.15); body(g, col, px, 2.2); dot(g, 0.02, 0, 0.075, (i + f) % 2 ? '#ffd0e0' : col); g.restore(); }
+        ell(g, 0, 0, 0.64, 0.56); body(g, col, px, 3, '#160b14');
+        g.strokeStyle = col; g.globalAlpha = 0.6; g.lineWidth = 1.8 * px;
+        g.beginPath(); g.arc(-0.05, 0, 0.42, -2.2, 2.2); g.stroke(); g.beginPath(); g.arc(-0.05, 0, 0.26, -2.4, 2.4); g.stroke(); g.globalAlpha = 1;
+        softGlow(g, -0.06, 0, 0.36, col, f ? 0.9 : 0.6); dot(g, -0.06, 0, 0.15, col); dot(g, -0.06, 0, 0.06, '#ffffff');
+        dot(g, 0.47, 0, 0.065, '#ffffff'); dot(g, 0.41, -0.15, 0.05, '#ffe0ec'); dot(g, 0.41, 0.15, 0.05, '#ffe0ec');
+      }
+    },
+    mech: {
+      drone(g, col, px, f) {
+        softGlow(g, -0.36, 0, f ? 0.42 : 0.3, col, 0.9); dot(g, -0.33, 0, f ? 0.12 : 0.09, '#ffffff');
+        polyU(g, [[1, 0], [-0.55, 0.72], [-0.28, 0], [-0.55, -0.72]]); body(g, col, px, 2.4);
+        g.strokeStyle = col; g.globalAlpha = 0.6; g.lineWidth = 1.4 * px; g.beginPath(); g.moveTo(0.7, 0); g.lineTo(-0.2, 0); g.moveTo(0.2, -0.3); g.lineTo(-0.35, -0.48); g.moveTo(0.2, 0.3); g.lineTo(-0.35, 0.48); g.stroke(); g.globalAlpha = 1;
+        ell(g, 0.3, 0, 0.15, 0.08); g.fillStyle = '#eaffef'; g.fill();
+      },
+      charger(g, col, px, f) {
+        for (const s of [-1, 1]) { softGlow(g, -0.8, s * 0.3, f ? 0.3 : 0.22, col, 0.9); g.fillStyle = '#2a2f3c'; g.fillRect(-0.86, s * 0.3 - 0.1, 0.22, 0.2); g.strokeStyle = col; g.lineWidth = 1.4 * px; g.strokeRect(-0.86, s * 0.3 - 0.1, 0.22, 0.2); }
+        polyU(g, [[1.02, 0], [0.25, 0.44], [-0.68, 0.5], [-0.68, -0.5], [0.25, -0.44]]); body(g, col, px, 2.6);
+        g.strokeStyle = col; g.globalAlpha = 0.65; g.lineWidth = 1.5 * px; g.beginPath(); g.moveTo(0.25, -0.44); g.lineTo(-0.15, -0.16); g.lineTo(-0.15, 0.16); g.lineTo(0.25, 0.44); g.moveTo(-0.15, -0.16); g.lineTo(-0.68, -0.22); g.moveTo(-0.15, 0.16); g.lineTo(-0.68, 0.22); g.stroke(); g.globalAlpha = 1;
+        polyU(g, [[0.55, -0.1], [1.04, 0], [0.55, 0.1]]); g.fillStyle = '#ffe3c8'; g.fill();
+      },
+      shooter(g, col, px, f) {
+        for (const s of [-1, 1]) { g.beginPath(); g.rect(-0.66, s > 0 ? 0.3 : -0.6, 0.78, 0.3); body(g, col, px, 2); softGlow(g, -0.68, s * 0.45, 0.2, col, 0.8); }
+        g.strokeStyle = '#3a3150'; g.lineWidth = 3 * px; g.beginPath(); g.moveTo(-0.2, -0.3); g.lineTo(-0.2, 0.3); g.stroke();
+        g.beginPath(); g.rect(-0.46, -0.23, 0.86, 0.46); body(g, col, px, 2.4);
+        g.fillStyle = '#e0d0ff'; g.fillRect(0.38, -0.07, 0.6, 0.14);
+        softGlow(g, 0.98, 0, f ? 0.3 : 0.18, col, 1); dot(g, -0.02, 0, 0.09, '#f3e6ff');
+      },
+      meteor: meteorShape,
+      boss(g, col, px, f) {
+        for (const s of [-1, 1]) softGlow(g, -0.86, s * 0.28, f ? 0.32 : 0.24, col, 0.9);
+        polyU(g, Array.from({ length: 6 }, (_, i) => [Math.cos(i * TAU / 6) * 0.86, Math.sin(i * TAU / 6) * 0.86])); body(g, col, px, 3, '#150b12');
+        polyU(g, Array.from({ length: 6 }, (_, i) => [Math.cos(i * TAU / 6) * 0.56, Math.sin(i * TAU / 6) * 0.56])); g.strokeStyle = col; g.globalAlpha = 0.55; g.lineWidth = 1.6 * px; g.stroke(); g.globalAlpha = 1;
+        for (let i = 0; i < 4; i++) { g.fillStyle = (i + f) % 2 ? '#ffd0e0' : '#5a2a3c'; g.fillRect(0.6, -0.3 + i * 0.17, 0.16, 0.08); }
+        for (const [x, y] of [[0.3, -0.62], [0.3, 0.62], [-0.45, -0.6], [-0.45, 0.6]]) { dot(g, x, y, 0.1, '#2a1a24'); g.strokeStyle = col; g.lineWidth = 1.6 * px; g.beginPath(); g.arc(x, y, 0.1, 0, TAU); g.stroke(); g.fillStyle = '#e8d6e0'; g.fillRect(x, y - 0.025, 0.2, 0.05); }
+        softGlow(g, 0, 0, 0.34, col, f ? 0.95 : 0.7); dot(g, 0, 0, 0.15, '#ff3f74'); dot(g, 0, 0, 0.06, '#ffffff');
+      }
+    },
+    geo: {} // current look: n-gon outlines, built in enemySprite
+  };
+  function enemySprite(style, type, bucket, frame) {
+    const key = style + type + bucket + '_' + frame; if (ESPR[key]) return ESPR[key];
+    const S = style === 'geo' ? (type === 'boss' ? 96 : 48) : (SPR_S[type] || 76);
+    const c = document.createElement('canvas'); c.width = c.height = S; const g = c.getContext('2d'), col = COL[type], m = S / 2;
+    const gr = g.createRadialGradient(m, m, 0, m, m, m); gr.addColorStop(0, col + (style === 'geo' ? '55' : '30')); gr.addColorStop(0.5, col + (style === 'geo' ? '22' : '12')); gr.addColorStop(1, col + '00');
+    g.fillStyle = gr; g.fillRect(0, 0, S, S);
+    g.translate(m, m); g.rotate(bucket / ROT * TAU); g.lineJoin = 'round'; g.lineCap = 'round';
+    if (style === 'geo') {
+      const n = { drone: 3, meteor: 7, charger: 4, shooter: 4, boss: 6 }[type], rr = S * 0.26, rot = type === 'shooter' ? 0.785 : 0;
+      const shape = (r, ro) => { g.beginPath(); for (let i = 0; i < n; i++) { const a = ro + i / n * TAU; const px = Math.cos(a) * r, py = Math.sin(a) * r; i ? g.lineTo(px, py) : g.moveTo(px, py); } g.closePath(); };
+      shape(rr, rot); g.globalAlpha = 0.25; g.fillStyle = col; g.fill(); g.globalAlpha = 1; g.strokeStyle = col; g.lineWidth = 2 * S / 48; g.stroke();
+      if (type === 'boss') { shape(rr * 0.55, -rot); g.stroke(); }
+    } else {
+      const u = S * 0.4; g.scale(u, u); DRAW[style][type](g, col, 1 / u, frame);
+    }
+    ESPR[key] = c; return c;
+  }
+  // visual radius (world units) of each type, matching the current balance of sizes
+  const SIZE = { drone: 1.8, meteor: 1.5, charger: 1.875, shooter: 1.5, boss: 1.2 };
+  function drawEnemy(ctx, style, e, time) {
+    const type = e.type, ext = SIZE[type] * e.r;
+    let a, frame = 0, half;
+    if (style === 'geo') {
+      half = ext / 0.52;
+      a = type === 'meteor' ? e.ang + time * 0.5 : type === 'shooter' ? time : type === 'boss' ? time * 0.4 : Math.atan2(-e.y, -e.x);
+    } else {
+      half = ext * 1.18 / 0.8;
+      a = type === 'meteor' ? e.ang + time * 0.5 : Math.atan2(-e.y, -e.x);
+      if (e._ph == null) e._ph = Math.random() * 10;
+      frame = Math.floor(time * (type === 'drone' ? 14 : type === 'boss' ? 3 : 6) + e._ph) % 2;
+    }
+    const bucket = ((Math.round(a / TAU * ROT) % ROT) + ROT) % ROT;
+    ctx.drawImage(enemySprite(style, type, bucket, frame), e.x - half, e.y - half, half * 2, half * 2);
+  }
+
+  // interceptor: slim dart with forward-swept blades (original design), baked into rotation buckets
+  const CSPR = {};
+  function craftSprite(bucket, col) {
+    const key = bucket + col; if (CSPR[key]) return CSPR[key];
+    const S = 40, c = document.createElement('canvas'); c.width = c.height = S; const g = c.getContext('2d'), u = S * 0.4, px = 1 / u;
+    g.translate(S / 2, S / 2); g.rotate(bucket / ROT * TAU); g.scale(u, u); g.lineJoin = 'round';
+    softGlow(g, -0.82, 0, 0.42, '#9fe6ff', 0.95); dot(g, -0.8, 0, 0.12, '#ffffff');
+    for (const sd of [-1, 1]) { polyU(g, [[-0.25, sd * 0.12], [0.5, sd * 0.78], [0.28, sd * 0.9], [-0.55, sd * 0.32]]); body(g, col, px, 2.2, '#101826'); }
+    polyU(g, [[1, 0], [0.2, 0.17], [-0.7, 0.13], [-0.86, 0], [-0.7, -0.13], [0.2, -0.17]]); body(g, col, px, 2.4, '#101826');
+    ell(g, 0.32, 0, 0.16, 0.07); g.fillStyle = '#eaf6ff'; g.fill();
+    CSPR[key] = c; return c;
+  }
+  function drawCraft(ctx, c, col) {
+    const half = 2.4, bucket = ((Math.round(c.ang / TAU * ROT) % ROT) + ROT) % ROT;
+    ctx.drawImage(craftSprite(bucket, col || '#ffd166'), c.x - half, c.y - half, half * 2, half * 2);
+  }
+
+  root.SZA = { COL, glowSprite, glow, makeBackground, drawBackground, STATION_STYLES, drawStation, ENEMY_STYLES, enemySprite, drawEnemy, ROT, drawCraft, craftSprite, TILE_COL, orbitPos };
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+(function () {
+  const A = window.SZA, E = window.SZE, TAU = Math.PI * 2;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const views = [];
+  const R = E.STATION_R * 1.3;
+  function fit(cv) { const dpr = Math.min(2, devicePixelRatio || 1); const w = Math.round(cv.clientWidth * dpr), h = Math.round(cv.clientHeight * dpr); if (w && h && (cv.width !== w || cv.height !== h)) { cv.width = w; cv.height = h; } }
+  const T = k => ({ hangar: { type: 'hangar' }, battery: { type: 'battery' }, shield: { type: 'shield' }, collector: { type: 'collector' } })[k];
+
+  // ---- hero: the real engine, a mid-game station with every tile type and 3 orbitals ----
+  const hero = document.getElementById('cv-hero'), BG = A.makeBackground();
+  function newBattle() {
+    const s = E.newSave(); for (const k in s.shipyard) s.shipyard[k] = 14; s.best = 80;
+    s.station.slots = ['hangar', 'battery', 'hangar', 'shield', 'hangar', 'collector'].map(t => ({ type: t, lv: 5 }));
+    const b = new E.Battle(s, { seed: 7, autoUpgrade: true, autoWeapons: false });
+    b.wave = 12; b.planWave(); return b;
+  }
+  let B = newBattle(), acc = 0; const fx = [];
+  views.push({ cv: hero, draw(ctx, W, H, t, dt) {
+    acc += Math.min(0.05, dt);
+    while (acc >= E.TICK) { acc -= E.TICK; B.step(); if (B.paused) B.takeCard('rapid'); }
+    for (const ev of B.events) {
+      if (ev.type === 'kill') fx.push({ k: 'boom', x: ev.x, y: ev.y, c: A.COL[ev.etype], r: ev.etype === 'boss' ? 20 : 5, t: 0 });
+      else if (ev.type === 'zap') fx.push({ k: 'zap', ...ev, t: 0 });
+    }
+    B.events.length = 0;
+    if (B.over || B.wave > 30) { B = newBattle(); }
+    ctx.setTransform(1, 0, 0, 1, 0, 0); A.drawBackground(ctx, BG, W, H, t, dt, false);
+    const s = Math.min(W, H) / 2 / 80; ctx.setTransform(s, 0, 0, s, W / 2, H / 2);
+    ctx.globalCompositeOperation = 'lighter'; A.glow(ctx, 0, 0, 7 * 2.4, '#3fb8ff', 0.45); ctx.globalCompositeOperation = 'source-over';
+    const aims = {}; for (const bt of B.batteries) aims[bt.k] = bt.aim;
+    let newest = null; for (let i = B.projs.length - 1; i >= 0; i--) if (!B.projs[i].src) { newest = B.projs[i]; break; }
+    const aim = newest && newest.tgt ? Math.atan2(newest.tgt.y, newest.tgt.x) : -0.5;
+    A.drawStation(ctx, 'hex', t, { R, tiles: B.station.tiles, openK: E.SLOT_ORDER, orbitals: B.orbitals, ot: B.t, aims, aim });
+    for (const e of B.enemies) { if (e.dead) continue; if (e.type === 'boss') { ctx.globalCompositeOperation = 'lighter'; A.glow(ctx, e.x, e.y, e.r * 3.4, A.COL.boss, 0.5); ctx.globalCompositeOperation = 'source-over'; } A.drawEnemy(ctx, 'bio', e, t); }
+    ctx.globalCompositeOperation = 'lighter';
+    for (const c of B.craft) { const tr = c._tr || (c._tr = []); tr.push(c.x, c.y); if (tr.length > 16) tr.splice(0, 2); ctx.globalAlpha = 0.45; ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 0.9; ctx.beginPath(); ctx.moveTo(tr[0], tr[1]); for (let i = 2; i < tr.length; i += 2) ctx.lineTo(tr[i], tr[i + 1]); ctx.stroke(); }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    for (const c of B.craft) A.drawCraft(ctx, c, '#ffd166');
+    ctx.globalCompositeOperation = 'lighter';
+    for (const bl of B.bullets) A.glow(ctx, bl.x, bl.y, 2.4, '#c08bff', 0.9);
+    for (const p of B.projs) A.glow(ctx, p.x, p.y, p.crit ? 4 : 3, p.crit ? '#ffd166' : '#8fe0ff', 1);
+    for (let i = fx.length - 1; i >= 0; i--) {
+      const f = fx[i]; f.t += dt;
+      if (f.k === 'boom') { const k = f.t / 0.45; A.glow(ctx, f.x, f.y, f.r * (1 + k), '#ffffff', Math.max(0, 0.9 - k * 1.5)); A.glow(ctx, f.x, f.y, f.r * 1.6 * (0.6 + k), f.c, Math.max(0, 0.7 - k)); if (k >= 1) fx.splice(i, 1); }
+      else { const k = f.t / 0.14; ctx.globalAlpha = Math.max(0, 1 - k); ctx.strokeStyle = '#fff2c4'; ctx.lineWidth = 0.8; ctx.beginPath(); ctx.moveTo(f.x1, f.y1); ctx.lineTo(f.x2, f.y2); ctx.stroke(); if (k >= 1) fx.splice(i, 1); }
+    }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.setTransform(1, 0, 0, 1, 0, 0);
+  } });
+
+  // ---- growth strip ----
+  const stages = [
+    { tiles: [null, null, null, null, null, null], openK: [1], orb: 0 },
+    { tiles: [null, T('hangar'), null, T('battery'), null, T('hangar')], openK: [1, 3, 5, 0], orb: 0 },
+    { tiles: [T('shield'), T('hangar'), T('battery'), T('battery'), T('collector'), T('hangar')], openK: [0, 1, 2, 3, 4, 5], orb: 0 },
+    { tiles: [T('shield'), T('hangar'), T('battery'), T('battery'), T('collector'), T('hangar')], openK: [0, 1, 2, 3, 4, 5], orb: 3 }
+  ];
+  views.push({ cv: document.getElementById('cv-grow'), draw(ctx, W, H, t) {
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#04060d'; ctx.fillRect(0, 0, W, H);
+    stages.forEach((st, i) => {
+      const cx = W * (i + 0.5) / 4, s = Math.min(W / 4, H) / 2 / 31;
+      ctx.setTransform(s, 0, 0, s, cx, H / 2);
+      ctx.globalCompositeOperation = 'lighter'; A.glow(ctx, 0, 0, 7 * 2.3, '#3fb8ff', 0.35); ctx.globalCompositeOperation = 'source-over';
+      A.drawStation(ctx, 'hex', t, { R, tiles: st.tiles, openK: st.openK, orbitals: st.orb, ot: t, aim: -0.6 + Math.sin(t * 0.7) * 0.8 });
+    });
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+  } });
+
+  // ---- tile cards ----
+  const ROLE = { hangar: '공격 · 기동', battery: '공격 · 고정', shield: '방어', collector: '경제' };
+  for (const tt of E.TILE_TYPES) {
+    const el = document.createElement('article'); el.className = 'card';
+    el.innerHTML = `<div class="view"><canvas aria-label="${tt.name} 타일"></canvas></div><div class="body"><h3><span class="swatch" style="background:${tt.col}"></span>${tt.name} <span class="role">${ROLE[tt.id]}</span></h3><p>${tt.desc(1)}</p></div>`;
+    document.getElementById('tile-grid').appendChild(el);
+    const tiles = [null, null, null, null, null, null]; tiles[0] = T(tt.id); tiles[2] = T(tt.id); tiles[4] = T(tt.id);
+    const crafts = tt.id === 'hangar' ? [0, 1, 2, 3].map(i => ({ i })) : [];
+    views.push({ cv: el.querySelector('canvas'), draw(ctx, W, H, t) {
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#04060d'; ctx.fillRect(0, 0, W, H);
+      const s = Math.min(W, H) / 2 / 24; ctx.setTransform(s, 0, 0, s, W / 2, H / 2);
+      A.drawStation(ctx, 'hex', t, { R, tiles, openK: [0, 2, 4], aim: -0.5, aims: { 0: t * 0.8, 2: t * 0.8 + 2, 4: t * 0.8 + 4 } });
+      for (const c of crafts) { const a = t * 1.3 + c.i * TAU / 4; c.x = Math.cos(a) * 19; c.y = Math.sin(a) * 12; c.ang = a + Math.PI / 2; A.drawCraft(ctx, c, '#ffd166'); }
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+    } });
+  }
+
+  // ---- enemies ----
+  const TYPES = [['drone', 2], ['charger', 2.4], ['shooter', 2.6], ['meteor', 3.4], ['boss', 7]];
+  function enemyRow(style) {
+    return function (ctx, W, H, t) {
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#04060d'; ctx.fillRect(0, 0, W, H);
+      const cols = [1, 1, 1, 1, 2], sum = 6, s = W / sum / 15; let x0 = 0;
+      TYPES.forEach(([type, r], i) => {
+        const cw = W * cols[i] / sum, cx = x0 + cw / 2; x0 += cw;
+        ctx.setTransform(s, 0, 0, s, cx, H * 0.5);
+        const far = 1e4, bob = Math.sin(t * 2 + i) * 0.5;
+        ctx.translate(far, 0); A.drawEnemy(ctx, style, { type, r, ang: i * 1.3, x: -far, y: bob, _ph: i * 3.1 }, t);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+      });
+    };
+  }
+  views.push({ cv: document.getElementById('cv-bio'), draw: enemyRow('bio') });
+
+  // ---- rejected options, kept for reference ----
+  const old = [
+    { name: 'B · 링 스테이션', note: '정거장으로 바로 읽히지만 단계 차이가 작음', draw: (ctx, W, H, t) => { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#04060d'; ctx.fillRect(0, 0, W, H); const s = Math.min(W, H) / 2 / 20; ctx.setTransform(s, 0, 0, s, W / 2, H / 2); A.drawStation(ctx, 'ring', t, { R: 7, tier: 1, aim: -0.5 }); ctx.setTransform(1, 0, 0, 1, 0, 0); } },
+    { name: 'C · 크리스탈 오비탈 (헥사 코어에 위성으로 흡수)', note: '입체 궤도 위성은 링 완성 뒤 오비탈로 살렸음', draw: (ctx, W, H, t) => { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#04060d'; ctx.fillRect(0, 0, W, H); const s = Math.min(W, H) / 2 / 20; ctx.setTransform(s, 0, 0, s, W / 2, H / 2); A.drawStation(ctx, 'orbital', t, { R: 7, tier: 1, aim: -0.5 }); ctx.setTransform(1, 0, 0, 1, 0, 0); } },
+    { name: '2 · 기계 함대', note: '정거장·요격기와 재질이 같아 아군과 덜 구분됨', draw: enemyRow('mech') },
+    { name: '3 · 네온 도형 (이전)', note: 'The Tower와 너무 비슷함', draw: enemyRow('geo') }
+  ];
+  for (const o of old) {
+    const el = document.createElement('article'); el.className = 'card';
+    el.innerHTML = `<div class="view"><canvas aria-label="${o.name}"></canvas></div><div class="body"><h3>${o.name}</h3><p>${o.note}</p></div>`;
+    document.getElementById('old-grid').appendChild(el);
+    views.push({ cv: el.querySelector('canvas'), draw: o.draw });
+  }
+
+  const vis = new Set();
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? vis.add(e.target) : vis.delete(e.target))) : null;
+  views.forEach(v => io ? io.observe(v.cv) : vis.add(v.cv));
+  let last = null;
+  function frame(ms) {
+    const t = ms / 1000, dt = last == null ? 0.016 : t - last; last = t;
+    for (const v of views) {
+      if (io && !vis.has(v.cv) && v.drawn) continue;
+      fit(v.cv); if (!v.cv.width) continue;
+      v.draw(v.cv.getContext('2d'), v.cv.width, v.cv.height, reduce ? 3 : t, reduce ? 0.016 : dt); v.drawn = true;
+    }
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  if (reduce) for (let i = 0; i < 300; i++) B.step();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body></html>

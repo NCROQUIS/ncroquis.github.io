@@ -1,0 +1,254 @@
+<title>스테이션 제로 아트 시안</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one mission-console column — live battle from the real engine, then the station's growth strip, tile types, and enemies. Single dark look by design (the game is set in space). */
+:root {
+  --bg: #070a14; --panel: #0d1324; --line: #1f2a44; --fg: #e7ecf6; --mute: #93a0bb;
+  --cyan: #6fd3ff; --gold: #ffd166; --pink: #ff6f9f;
+  --f-display: "Oxanium", "IBM Plex Sans KR", sans-serif;
+  --f-body: "IBM Plex Sans KR", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+html { background: var(--bg); }
+body { background: var(--bg); color: var(--fg); font: 15px/1.6 var(--f-body); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 56px; display: grid; gap: 44px; }
+header { display: grid; gap: 18px; }
+.eyebrow { font: 500 12px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); }
+h1 { font: 700 clamp(30px, 6vw, 52px)/1.05 var(--f-display); margin: 0; text-wrap: balance; letter-spacing: .01em; }
+h2 { font: 700 24px/1.2 var(--f-display); margin: 0; text-wrap: balance; }
+h3 { font: 600 17px/1.3 var(--f-body); margin: 0; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+p { margin: 0; max-width: 65ch; color: var(--mute); }
+.hero { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 22px; align-items: start; }
+.stage { position: relative; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #04060d; aspect-ratio: 4 / 5; max-width: 100%; }
+canvas { display: block; width: 100%; height: 100%; }
+.stage .tag { position: absolute; left: 12px; top: 12px; font: 500 11px/1 var(--f-mono); letter-spacing: .1em; color: var(--gold); background: rgba(4,6,13,.7); border: 1px solid rgba(255,209,102,.4); padding: 6px 8px; border-radius: 3px; }
+.facts { display: grid; gap: 0; align-content: start; }
+.fact { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; padding-block: 12px; border-top: 1px solid var(--line); }
+.fact b { font: 500 12px/1.5 var(--f-mono); color: var(--cyan); letter-spacing: .06em; }
+.fact span { color: var(--fg); font-size: 14px; }
+.fact small { display: block; color: var(--mute); font-size: 13px; }
+section { display: grid; gap: 18px; }
+.strip { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.strip .view { aspect-ratio: 4 / 1.25; background: #04060d; max-width: 100%; }
+.ticks { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; padding: 10px 6px 14px; gap: 6px; }
+.ticks span { font: 500 12px/1.4 var(--f-mono); color: var(--fg); letter-spacing: .04em; }
+.ticks small { display: block; font: 400 12px/1.4 var(--f-body); color: var(--mute); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; display: grid; grid-template-rows: auto 1fr; }
+.card .view { aspect-ratio: 16 / 9; background: #04060d; max-width: 100%; }
+.card .body { padding: 12px 14px 16px; display: grid; gap: 6px; align-content: start; }
+.card .body p { font-size: 13.5px; }
+.swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.role { font: 500 11px/1 var(--f-mono); letter-spacing: .06em; color: var(--mute); }
+.wide { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); background: var(--panel); border: 1px solid rgba(255,209,102,.5); border-radius: 6px; overflow: hidden; }
+.wide .view { aspect-ratio: 16 / 7; background: #04060d; max-width: 100%; }
+.wide .body { padding: 16px 18px; display: grid; gap: 10px; align-content: center; }
+.badge { font: 500 11px/1 var(--f-mono); letter-spacing: .08em; color: #1a1406; background: var(--gold); padding: 4px 7px; border-radius: 3px; }
+.ticks5 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 2fr; font: 500 11px/1 var(--f-mono); color: var(--mute); text-align: center; padding: 8px 0 10px; }
+details { border-top: 1px solid var(--line); padding-top: 18px; }
+summary { cursor: pointer; font: 600 15px var(--f-body); color: var(--fg); }
+summary:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+details .grid { margin-top: 16px; }
+.howto { display: grid; gap: 10px; border-top: 1px solid var(--line); padding-top: 22px; }
+ol { margin: 0; padding-left: 20px; color: var(--fg); display: grid; gap: 6px; max-width: 65ch; }
+code { font: 500 13px var(--f-mono); color: var(--gold); }
+@media (max-width: 760px) { .hero, .wide { grid-template-columns: minmax(0, 1fr); } .strip .view { aspect-ratio: 4 / 2; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Station Zero · Art Direction v2</div>
+    <h1>커지는 만큼 강해지는 정거장</h1>
+    <p>확정 방향은 <b style="color:var(--gold)">헥사 코어 + 오비탈, 생체 스웜</b>입니다. 육각 슬롯에 붙는 타일 하나하나가 기능이고, 격납고 타일에서는 요격기 편대가 출격해 싸웁니다. 아래 전투 장면은 실제 게임 엔진을 그대로 돌린 것입니다.</p>
+  </header>
+
+  <div class="hero">
+    <div class="stage"><canvas id="cv-hero" aria-label="실제 엔진 전투: 격납고에서 출격한 요격기 편대와 오비탈 위성이 생체 스웜을 요격"></canvas><span class="tag">실제 엔진 · 실시간</span></div>
+    <div class="facts">
+      <h2 style="margin-bottom:14px">한눈에</h2>
+      <div class="fact"><b>본체</b><div><span>육각 슬롯 6개</span><small>최고 웨이브 8·15·22·30·40·50에서 하나씩 열립니다. 빈 슬롯은 점선 도킹 틀로 보여 다음 성장을 예고합니다.</small></div></div>
+      <div class="fact"><b>기능</b><div><span>격납고 · 포대 · 방벽 · 수집기</span><small>슬롯마다 하나를 고르고 언제든 무료로 바꿉니다. 데이터로 올린 슬롯 레벨은 유지됩니다.</small></div></div>
+      <div class="fact"><b>요격기</b><div><span>격납고 1개 = 2기</span><small>방어 구역 안의 적을 좌우로 끼고 돌며 사격하고, 하늘이 비면 정거장 주위를 선회합니다.</small></div></div>
+      <div class="fact"><b>오비탈</b><div><span>웨이브 50·65·80</span><small>링이 완성되면 위성이 합류해 궤도의 적을 들이받고 원거리 적의 탄을 막습니다.</small></div></div>
+      <div class="fact"><b>배경</b><div><span>원경 · 3D 별 · 루나</span><small>별이 멀리서 천천히 다가오고, 겹마다 속도가 달라 원근이 생깁니다.</small></div></div>
+    </div>
+  </div>
+
+  <section aria-labelledby="h-grow">
+    <h2 id="h-grow">정거장 성장 단계</h2>
+    <p>같은 정거장이 슬롯이 열릴 때마다 커지고, 링이 닫히면 오비탈이 붙습니다. 날개 패널도 타일 수에 맞춰 길어집니다.</p>
+    <div class="strip">
+      <div class="view"><canvas id="cv-grow" aria-label="정거장 성장 4단계"></canvas></div>
+      <div class="ticks"><div><span>시작</span><small>코어 + 빈 도킹 틀</small></div><div><span>슬롯 3</span><small>웨이브 22</small></div><div><span>링 완성</span><small>웨이브 50</small></div><div><span>오비탈 3</span><small>웨이브 80</small></div></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-tile">
+    <h2 id="h-tile">기능 타일 4종</h2>
+    <p>타일 테두리 색과 안쪽 장치 모양으로 기능을 구분합니다. 적 색(초록·주황·보라·분홍)과 겹치지 않게 골랐습니다.</p>
+    <div class="grid" id="tile-grid"></div>
+  </section>
+
+  <section aria-labelledby="h-en">
+    <h2 id="h-en">적: 생체 스웜</h2>
+    <div class="wide">
+      <div><div class="view"><canvas id="cv-bio" aria-label="생체 스웜 5종"></canvas></div><div class="ticks5"><span>드론</span><span>돌격</span><span>사수</span><span>운석</span><span>보스</span></div></div>
+      <div class="body"><h3>생체 스웜 <span class="badge">확정</span></h3><p>말벌 드론, 딱정벌레 돌격병, 해파리 사수, 여왕 둥지 보스입니다. 기계 정거장과 금속 요격기에 맞서는 생물 실루엣이라 아군과 적이 한눈에 갈립니다.</p><p>남은 일: 실제 크기에서 드론이 나뭇잎처럼 보이는 문제, 보스를 더 위협적으로 다듬는 일.</p></div>
+    </div>
+  </section>
+
+  <details>
+    <summary>검토 후 제외한 시안 보기</summary>
+    <div class="grid" id="old-grid"></div>
+  </details>
+
+  <div class="howto">
+    <h2>게임에서 직접 보기</h2>
+    <ol>
+      <li>프로토타입 v2를 주소 끝에 <code>#ncq-test</code>를 붙여 엽니다.</li>
+      <li>기록 탭 맨 아래 <b>구조 전부 해금</b>을 누릅니다 (슬롯 6개 · 오비탈 3기).</li>
+      <li>조선소 › <b>구조</b>에서 슬롯마다 타일을 고르고 출격합니다.</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+/*ENGINE*/
+</script>
+<script>
+/*ART*/
+</script>
+<script>
+(function () {
+  const A = window.SZA, E = window.SZE, TAU = Math.PI * 2;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const views = [];
+  const R = E.STATION_R * 1.3;
+  function fit(cv) { const dpr = Math.min(2, devicePixelRatio || 1); const w = Math.round(cv.clientWidth * dpr), h = Math.round(cv.clientHeight * dpr); if (w && h && (cv.width !== w || cv.height !== h)) { cv.width = w; cv.height = h; } }
+  const T = k => ({ hangar: { type: 'hangar' }, battery: { type: 'battery' }, shield: { type: 'shield' }, collector: { type: 'collector' } })[k];
+
+  // ---- hero: the real engine, a mid-game station with every tile type and 3 orbitals ----
+  const hero = document.getElementById('cv-hero'), BG = A.makeBackground();
+  function newBattle() {
+    const s = E.newSave(); for (const k in s.shipyard) s.shipyard[k] = 14; s.best = 80;
+    s.station.slots = ['hangar', 'battery', 'hangar', 'shield', 'hangar', 'collector'].map(t => ({ type: t, lv: 5 }));
+    const b = new E.Battle(s, { seed: 7, autoUpgrade: true, autoWeapons: false });
+    b.wave = 12; b.planWave(); return b;
+  }
+  let B = newBattle(), acc = 0; const fx = [];
+  views.push({ cv: hero, draw(ctx, W, H, t, dt) {
+    acc += Math.min(0.05, dt);
+    while (acc >= E.TICK) { acc -= E.TICK; B.step(); if (B.paused) B.takeCard('rapid'); }
+    for (const ev of B.events) {
+      if (ev.type === 'kill') fx.push({ k: 'boom', x: ev.x, y: ev.y, c: A.COL[ev.etype], r: ev.etype === 'boss' ? 20 : 5, t: 0 });
+      else if (ev.type === 'zap') fx.push({ k: 'zap', ...ev, t: 0 });
+    }
+    B.events.length = 0;
+    if (B.over || B.wave > 30) { B = newBattle(); }
+    ctx.setTransform(1, 0, 0, 1, 0, 0); A.drawBackground(ctx, BG, W, H, t, dt, false);
+    const s = Math.min(W, H) / 2 / 80; ctx.setTransform(s, 0, 0, s, W / 2, H / 2);
+    ctx.globalCompositeOperation = 'lighter'; A.glow(ctx, 0, 0, 7 * 2.4, '#3fb8ff', 0.45); ctx.globalCompositeOperation = 'source-over';
+    const aims = {}; for (const bt of B.batteries) aims[bt.k] = bt.aim;
+    let newest = null; for (let i = B.projs.length - 1; i >= 0; i--) if (!B.projs[i].src) { newest = B.projs[i]; break; }
+    const aim = newest && newest.tgt ? Math.atan2(newest.tgt.y, newest.tgt.x) : -0.5;
+    A.drawStation(ctx, 'hex', t, { R, tiles: B.station.tiles, openK: E.SLOT_ORDER, orbitals: B.orbitals, ot: B.t, aims, aim });
+    for (const e of B.enemies) { if (e.dead) continue; if (e.type === 'boss') { ctx.globalCompositeOperation = 'lighter'; A.glow(ctx, e.x, e.y, e.r * 3.4, A.COL.boss, 0.5); ctx.globalCompositeOperation = 'source-over'; } A.drawEnemy(ctx, 'bio', e, t); }
+    ctx.globalCompositeOperation = 'lighter';
+    for (const c of B.craft) { const tr = c._tr || (c._tr = []); tr.push(c.x, c.y); if (tr.length > 16) tr.splice(0, 2); ctx.globalAlpha = 0.45; ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 0.9; ctx.beginPath(); ctx.moveTo(tr[0], tr[1]); for (let i = 2; i < tr.length; i += 2) ctx.lineTo(tr[i], tr[i + 1]); ctx.stroke(); }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    for (const c of B.craft) A.drawCraft(ctx, c, '#ffd166');
+    ctx.globalCompositeOperation = 'lighter';
+    for (const bl of B.bullets) A.glow(ctx, bl.x, bl.y, 2.4, '#c08bff', 0.9);
+    for (const p of B.projs) A.glow(ctx, p.x, p.y, p.crit ? 4 : 3, p.crit ? '#ffd166' : '#8fe0ff', 1);
+    for (let i = fx.length - 1; i >= 0; i--) {
+      const f = fx[i]; f.t += dt;
+      if (f.k === 'boom') { const k = f.t / 0.45; A.glow(ctx, f.x, f.y, f.r * (1 + k), '#ffffff', Math.max(0, 0.9 - k * 1.5)); A.glow(ctx, f.x, f.y, f.r * 1.6 * (0.6 + k), f.c, Math.max(0, 0.7 - k)); if (k >= 1) fx.splice(i, 1); }
+      else { const k = f.t / 0.14; ctx.globalAlpha = Math.max(0, 1 - k); ctx.strokeStyle = '#fff2c4'; ctx.lineWidth = 0.8; ctx.beginPath(); ctx.moveTo(f.x1, f.y1); ctx.lineTo(f.x2, f.y2); ctx.stroke(); if (k >= 1) fx.splice(i, 1); }
+    }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.setTransform(1, 0, 0, 1, 0, 0);
+  } });
+
+  // ---- growth strip ----
+  const stages = [
+    { tiles: [null, null, null, null, null, null], openK: [1], orb: 0 },
+    { tiles: [null, T('hangar'), null, T('battery'), null, T('hangar')], openK: [1, 3, 5, 0], orb: 0 },
+    { tiles: [T('shield'), T('hangar'), T('battery'), T('battery'), T('collector'), T('hangar')], openK: [0, 1, 2, 3, 4, 5], orb: 0 },
+    { tiles: [T('shield'), T('hangar'), T('battery'), T('battery'), T('collector'), T('hangar')], openK: [0, 1, 2, 3, 4, 5], orb: 3 }
+  ];
+  views.push({ cv: document.getElementById('cv-grow'), draw(ctx, W, H, t) {
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#04060d'; ctx.fillRect(0, 0, W, H);
+    stages.forEach((st, i) => {
+      const cx = W * (i + 0.5) / 4, s = Math.min(W / 4, H) / 2 / 31;
+      ctx.setTransform(s, 0, 0, s, cx, H / 2);
+      ctx.globalCompositeOperation = 'lighter'; A.glow(ctx, 0, 0, 7 * 2.3, '#3fb8ff', 0.35); ctx.globalCompositeOperation = 'source-over';
+      A.drawStation(ctx, 'hex', t, { R, tiles: st.tiles, openK: st.openK, orbitals: st.orb, ot: t, aim: -0.6 + Math.sin(t * 0.7) * 0.8 });
+    });
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+  } });
+
+  // ---- tile cards ----
+  const ROLE = { hangar: '공격 · 기동', battery: '공격 · 고정', shield: '방어', collector: '경제' };
+  for (const tt of E.TILE_TYPES) {
+    const el = document.createElement('article'); el.className = 'card';
+    el.innerHTML = `<div class="view"><canvas aria-label="${tt.name} 타일"></canvas></div><div class="body"><h3><span class="swatch" style="background:${tt.col}"></span>${tt.name} <span class="role">${ROLE[tt.id]}</span></h3><p>${tt.desc(1)}</p></div>`;
+    document.getElementById('tile-grid').appendChild(el);
+    const tiles = [null, null, null, null, null, null]; tiles[0] = T(tt.id); tiles[2] = T(tt.id); tiles[4] = T(tt.id);
+    const crafts = tt.id === 'hangar' ? [0, 1, 2, 3].map(i => ({ i })) : [];
+    views.push({ cv: el.querySelector('canvas'), draw(ctx, W, H, t) {
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#04060d'; ctx.fillRect(0, 0, W, H);
+      const s = Math.min(W, H) / 2 / 24; ctx.setTransform(s, 0, 0, s, W / 2, H / 2);
+      A.drawStation(ctx, 'hex', t, { R, tiles, openK: [0, 2, 4], aim: -0.5, aims: { 0: t * 0.8, 2: t * 0.8 + 2, 4: t * 0.8 + 4 } });
+      for (const c of crafts) { const a = t * 1.3 + c.i * TAU / 4; c.x = Math.cos(a) * 19; c.y = Math.sin(a) * 12; c.ang = a + Math.PI / 2; A.drawCraft(ctx, c, '#ffd166'); }
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+    } });
+  }
+
+  // ---- enemies ----
+  const TYPES = [['drone', 2], ['charger', 2.4], ['shooter', 2.6], ['meteor', 3.4], ['boss', 7]];
+  function enemyRow(style) {
+    return function (ctx, W, H, t) {
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#04060d'; ctx.fillRect(0, 0, W, H);
+      const cols = [1, 1, 1, 1, 2], sum = 6, s = W / sum / 15; let x0 = 0;
+      TYPES.forEach(([type, r], i) => {
+        const cw = W * cols[i] / sum, cx = x0 + cw / 2; x0 += cw;
+        ctx.setTransform(s, 0, 0, s, cx, H * 0.5);
+        const far = 1e4, bob = Math.sin(t * 2 + i) * 0.5;
+        ctx.translate(far, 0); A.drawEnemy(ctx, style, { type, r, ang: i * 1.3, x: -far, y: bob, _ph: i * 3.1 }, t);
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+      });
+    };
+  }
+  views.push({ cv: document.getElementById('cv-bio'), draw: enemyRow('bio') });
+
+  // ---- rejected options, kept for reference ----
+  const old = [
+    { name: 'B · 링 스테이션', note: '정거장으로 바로 읽히지만 단계 차이가 작음', draw: (ctx, W, H, t) => { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#04060d'; ctx.fillRect(0, 0, W, H); const s = Math.min(W, H) / 2 / 20; ctx.setTransform(s, 0, 0, s, W / 2, H / 2); A.drawStation(ctx, 'ring', t, { R: 7, tier: 1, aim: -0.5 }); ctx.setTransform(1, 0, 0, 1, 0, 0); } },
+    { name: 'C · 크리스탈 오비탈 (헥사 코어에 위성으로 흡수)', note: '입체 궤도 위성은 링 완성 뒤 오비탈로 살렸음', draw: (ctx, W, H, t) => { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#04060d'; ctx.fillRect(0, 0, W, H); const s = Math.min(W, H) / 2 / 20; ctx.setTransform(s, 0, 0, s, W / 2, H / 2); A.drawStation(ctx, 'orbital', t, { R: 7, tier: 1, aim: -0.5 }); ctx.setTransform(1, 0, 0, 1, 0, 0); } },
+    { name: '2 · 기계 함대', note: '정거장·요격기와 재질이 같아 아군과 덜 구분됨', draw: enemyRow('mech') },
+    { name: '3 · 네온 도형 (이전)', note: 'The Tower와 너무 비슷함', draw: enemyRow('geo') }
+  ];
+  for (const o of old) {
+    const el = document.createElement('article'); el.className = 'card';
+    el.innerHTML = `<div class="view"><canvas aria-label="${o.name}"></canvas></div><div class="body"><h3>${o.name}</h3><p>${o.note}</p></div>`;
+    document.getElementById('old-grid').appendChild(el);
+    views.push({ cv: el.querySelector('canvas'), draw: o.draw });
+  }
+
+  const vis = new Set();
+  const io = 'IntersectionObserver' in window ? new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? vis.add(e.target) : vis.delete(e.target))) : null;
+  views.forEach(v => io ? io.observe(v.cv) : vis.add(v.cv));
+  let last = null;
+  function frame(ms) {
+    const t = ms / 1000, dt = last == null ? 0.016 : t - last; last = t;
+    for (const v of views) {
+      if (io && !vis.has(v.cv) && v.drawn) continue;
+      fit(v.cv); if (!v.cv.width) continue;
+      v.draw(v.cv.getContext('2d'), v.cv.width, v.cv.height, reduce ? 3 : t, reduce ? 0.016 : dt); v.drawn = true;
+    }
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  if (reduce) for (let i = 0; i < 300; i++) B.step();
+  requestAnimationFrame(frame);
+})();
+</script>

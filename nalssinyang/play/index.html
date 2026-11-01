@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f7f2">
+<title>날씨냥</title>
+  <script type="module" crossorigin src="./assets/index-DmSa_Pk9.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BdgdANas.css">
+</head>
+<body>
+<div id="lock" role="button" tabindex="0" aria-label="날씨냥 열기">
+  <div class="l-date" id="lDate"></div>
+  <div class="l-time" id="lTime"></div>
+  <div class="widget">
+    <div class="w-ico" id="wIco"></div>
+    <div class="w-main">
+      <div class="w-temp" id="wTemp">--°</div>
+      <div class="w-meta" id="wMeta">날씨를 불러오는 중</div>
+    </div>
+    <div class="w-cat" id="wCat"></div>
+    <div class="w-line" id="wLine">잠깐만 기다리라냥.</div>
+  </div>
+  <div class="l-hint">잠금화면 위젯 미리보기 · 탭해서 열기</div>
+</div>
+
+<main id="app">
+  <header class="head">
+    <div class="eyebrow">A LITTLE WEATHER, A LITTLE PURR</div>
+    <h1 id="headline">오늘 하루도, 포근하냥.</h1>
+    <p class="lede">나가기 전, 하늘도 보고 냥이도 보고.</p>
+    <div class="head-actions">
+      <button id="toLock" class="ghost" aria-label="잠금화면 위젯 미리보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/></svg></button>
+      <button id="refresh" class="ghost" aria-label="새로고침"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></button>
+    </div>
+  </header>
+
+  <section class="hero" aria-label="현재 날씨">
+    <div class="hero-top">
+      <button id="placeBtn" class="place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg><span id="placeName">위치 확인 중</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+      <span class="pill" id="pill">불러오는 중</span>
+    </div>
+    <div class="hero-body">
+      <div class="hero-text">
+        <div class="now-temp" id="nTemp">--°</div>
+        <div class="now-label" id="nLabel">-</div>
+        <div class="now-sub" id="nSub"></div>
+      </div>
+      <div class="hero-art">
+        <div id="art"></div>
+        <button class="cat-btn" id="cat" aria-label="고양이를 톡 치면 농담을 해요"></button>
+      </div>
+    </div>
+    <div class="hero-foot">
+      <p class="say" id="say" aria-live="polite"><span class="say-mark">냥</span><span id="joke">잠깐만 기다리라냥.</span></p>
+      <span class="tip" id="tip"></span>
+    </div>
+  </section>
+
+  <div class="notice" id="notice" hidden></div>
+
+  <section class="card">
+    <div class="card-head"><h2>시간별 날씨</h2><span>오늘, 하늘의 흐름</span></div>
+    <div class="hourly" id="hourly"></div>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>7일 예보</h2><span>이번 주 기온</span></div>
+    <div class="week" id="week"></div>
+  </section>
+
+  <section class="grid" id="grid" aria-label="상세 정보"></section>
+
+  <p class="credit">날씨 데이터 Open-Meteo · <span id="updated"></span></p>
+</main>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-bg" id="sheetBg"></div>
+  <div class="sheet-card" role="dialog" aria-label="지역 선택">
+    <h2>지역 선택</h2>
+    <button class="loc-btn" id="useGps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg>현재 위치 사용</button>
+    <div class="cities" id="cities"></div>
+  </div>
+</div>
+
+</body>
+</html>

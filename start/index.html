@@ -392,67 +392,60 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
 }
 .guide-tabs a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
 
-/* 출시하기: 플랫폼 탭 (스크립트가 없으면 같은 페이지 안 바로가기) */
-.platforms { margin: 56px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
-.platforms a {
-  padding: 10px 20px 11px;
-  border: 2px solid var(--on-mat-soft);
-  color: var(--on-mat);
-  font-size: 17px;
-  font-weight: 600;
-  text-decoration: none;
+/* 출시하기: 게임 이름 칸과 하고 싶은 일마다 한 마디 */
+.name-box { margin: 22px 0 0; padding: 14px 16px 12px; border: 2px dashed var(--graphite); max-width: 30em; }
+.name-box label { display: block; font-weight: 600; }
+.name-box input {
+  margin-top: 8px;
+  width: 100%;
+  font: inherit;
+  font-size: 18px;
+  padding: 8px 10px;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
 }
-.platforms a[aria-selected="true"] { background: var(--paper); border-color: var(--paper); color: var(--ink); }
-.platforms a:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
-.guide .panels > .sheet { margin-top: 28px; }
-.guide .panels > .sheet + .sheet { margin-top: 60px; }
-.guide .panels.tabs-on > .sheet { margin-top: 26px; }
+.name-box input:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+.guide .sheet .name-box p { margin: 6px 0 0; color: var(--graphite); font-size: 14px; }
 
-.guide .sheet h3 {
-  margin: 34px 0 0;
+.game-name { padding: 0 3px; border-bottom: 2px dashed currentColor; }
+.game-name.filled { padding: 0; border-bottom: 0; }
+
+.wants { list-style: none; margin: 30px 0 0; padding: 0; }
+.wants > li + li { margin-top: 30px; padding-top: 28px; border-top: 1px solid rgba(31, 38, 35, 0.18); }
+.guide .sheet .wants h3 {
+  margin: 0;
   font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
   font-weight: 400;
   font-size: 23px;
   line-height: 1.2;
 }
-
-/* 명령: 왼쪽 포스트잇(복사), 오른쪽 하는 일 */
-.cmds { list-style: none; margin: 22px 0 0; padding: 0; }
-.cmds > li {
-  display: grid;
-  grid-template-columns: minmax(0, 15.5em) minmax(0, 1fr);
-  gap: 12px 24px;
-  align-items: start;
-}
-.cmds > li + li { margin-top: 22px; }
+.note-label { display: block; margin: 16px 0 0; color: var(--graphite); font-size: 15px; font-weight: 600; }
 .cmd-note {
+  margin: 12px 0 0;
+  max-width: 24em;
   padding: 13px 14px 11px;
   background: #f8e8a6;
   color: #2b2a20;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 12px -10px rgba(0, 0, 0, 0.45);
   transform: rotate(-0.8deg);
 }
-.cmds > li:nth-child(even) .cmd-note { transform: rotate(0.7deg); }
+.note-label + .cmd-note { margin-top: 6px; }
+.wants > li:nth-child(even) .cmd-note { transform: rotate(0.7deg); }
 .guide .sheet .cmd-note p {
   margin: 0;
   font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
-  font-size: 25px;
+  font-size: 26px;
   line-height: 1.12;
 }
 .cmd-note .copy { margin-top: 10px; }
-.guide .sheet .does { margin: 4px 0 0; }
-
-@media (max-width: 560px) {
-  .cmds > li { grid-template-columns: minmax(0, 1fr); gap: 10px; }
-  .guide .sheet .does { margin: 0 0 0 4px; }
-}
+.guide .sheet .wants .does { margin: 14px 0 0; }
 
 @media (prefers-reduced-motion: reduce) {
   /* 기울임은 :nth-child 규칙이 더 구체적이라 !important로 끈다 */
   .idea, .steps > li, .say li, .cmd-note, .guide-tabs a { transform: none !important; }
 }
-
-.tape.soon-tape { background: var(--tape-test); }
 </style>
 </head>
 <body>
@@ -564,8 +557,9 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
       <p class="when">플레이할 수 있는 화면이 생기면요.</p>
       <p>Claude에게 테스트 링크를 만들어 달라고 해요. 1~3분 뒤 이 사이트의 프로젝트 주소 아래 play/에 게임이 올라가요. 링크를 받은 사람은 휴대폰 브라우저에서 바로 해 볼 수 있고, 프로젝트 소개 페이지에는 '플레이해 보기' 버튼이 생겨요.</p>
       <ul class="say">
-        <li><p id="share-link">pushpath 테스트 링크 만들어 줘</p><button class="copy" type="button" data-copy="share-link">복사</button></li>
+        <li><p id="share-link"><span class="game-name">게임 이름</span> 테스트 링크 만들어 줘</p><button class="copy" type="button" data-copy="share-link">복사</button></li>
       </ul>
+      <p class="pencil">'게임 이름' 자리에 내 게임 이름을 넣어요. 한글 이름도 돼요.</p>
       <p class="caution">누구나 열 수 있는 주소예요. 아직 보여 주면 안 되는 내용은 올리지 않아요.</p>
     </li>
 
@@ -573,12 +567,9 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
       <span class="tape">7</span>
       <h2 id="step7">구글플레이에 올리기</h2>
       <p class="when">테스트해 보고 앱으로 내보낼 때가 되면요.</p>
-      <p>"출시하고 싶어"라고 말하면 Claude가 테스트 기능과 광고를 켤지, 버전과 출시 노트가 맞는지 차례로 물어봐요. 확인하면 같은 웹 게임을 안드로이드 앱으로 만들어 구글플레이 내부 테스트에 올려요. PC에 아무것도 설치하지 않아도 돼요.</p>
-      <ul class="say">
-        <li><p id="release-start">pushpath 출시하고 싶어</p><button class="copy" type="button" data-copy="release-start">복사</button></li>
-      </ul>
-      <p class="pencil">처음 출시할 때만 Play Console에서 앱을 만드는 일이 한 번 있어요. Claude가 입력표를 만들어 줘요. 스토어 아이콘(512x512 PNG)과 스크린샷은 드라이브 프로젝트 폴더의 '스토어 이미지'에 넣어요. 그 아이콘이 앱 아이콘도 돼요.</p>
-      <a class="button" href="release/">플랫폼별 출시 명령 보기</a>
+      <p>안드로이드 앱으로 테스트하거나 구글플레이에 업데이트할 때 하는 말은 '출시하기' 탭에 모아 뒀어요. 하고 싶은 일마다 한 마디면 돼요. 빌드와 업로드는 Claude가 해서 PC에 아무것도 설치하지 않아도 돼요.</p>
+      <a class="button" href="release/">출시하기 탭 보기</a>
+      <p class="pencil">처음 출시할 때만 Play Console에서 앱을 만드는 일이 한 번 있어요. Claude가 입력표를 만들어 줘요. 스토어 아이콘(512x512 PNG)과 스크린샷은 웹 게임이면 Claude가 게임을 돌려 만들어 줘요. 직접 만든 이미지는 드라이브 프로젝트 폴더의 '스토어 이미지'에 넣으면 그게 먼저예요. 그 아이콘이 앱 아이콘도 돼요.</p>
     </li>
   </ol>
 
@@ -624,7 +615,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
       </details>
       <details>
         <summary>이미 킥오프한 프로젝트를 고치고 싶어요</summary>
-        <p>새 대화에서도 "pushpath 엔진을 Unity로 바꿔 줘"처럼 코드네임과 바꿀 것만 말하면 돼요. 말하지 않은 건 그대로 둬요.</p>
+        <p>새 대화에서도 "<span class="game-name">게임 이름</span> 엔진을 Unity로 바꿔 줘"처럼 게임 이름(코드네임)과 바꿀 것만 말하면 돼요. 말하지 않은 건 그대로 둬요.</p>
       </details>
       <details>
         <summary>불편한 점이나 아이디어를 알리고 싶어요</summary>
@@ -657,7 +648,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
     button.addEventListener("click", function () {
       var source = document.getElementById(button.getAttribute("data-copy"));
       if (!source) { return; }
-      var text = source.textContent.trim();
+      var text = source.textContent.replace(/\s+/g, " ").trim();
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(function () {
           announce(button, "복사했어요");
@@ -673,60 +664,31 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
   });
 })();
 
-// 출시하기의 플랫폼 탭: 스크립트가 없으면 모든 플랫폼이 다 보이는 바로가기, 있으면 한 번에 하나씩 (주소 #web 등으로 바로 열림)
+// '게임 이름' 자리: 출시하기의 이름 칸에 적으면 페이지의 모든 말에 그 이름이 들어가요 (이 브라우저에만 기억)
 (function () {
-  var nav = document.querySelector(".platforms");
-  var panels = document.querySelector(".panels");
-  if (!nav || !panels) { return; }
-  var tabs = Array.prototype.slice.call(nav.querySelectorAll("a[href^='#']"));
-  var ids = tabs.map(function (tab) { return tab.getAttribute("href").slice(1); });
-  if (!tabs.length || ids.some(function (id) { return !document.getElementById(id); })) { return; }
-  nav.setAttribute("role", "tablist");
-  panels.classList.add("tabs-on");
-  tabs.forEach(function (tab, i) {
-    var panel = document.getElementById(ids[i]);
-    tab.setAttribute("role", "tab");
-    tab.id = "tab-" + ids[i];
-    tab.setAttribute("aria-controls", ids[i]);
-    panel.setAttribute("role", "tabpanel");
-    panel.setAttribute("aria-labelledby", tab.id);
+  var slots = Array.prototype.slice.call(document.querySelectorAll(".game-name"));
+  if (!slots.length) { return; }
+  var KEY = "ncq-guide-game-name";
+  var input = document.getElementById("game-name");
+  function fill(name) {
+    slots.forEach(function (slot) {
+      slot.textContent = name || "게임 이름";
+      if (name) { slot.classList.add("filled"); } else { slot.classList.remove("filled"); }
+    });
+  }
+  var saved = "";
+  try { saved = window.localStorage.getItem(KEY) || ""; } catch (e) { saved = ""; }
+  saved = saved.replace(/\s+/g, " ").trim().slice(0, 40);
+  if (input) { input.value = saved; }
+  fill(saved);
+  if (!input) { return; }
+  input.addEventListener("input", function () {
+    var name = input.value.replace(/\s+/g, " ").trim().slice(0, 40);
+    fill(name);
+    try {
+      if (name) { window.localStorage.setItem(KEY, name); } else { window.localStorage.removeItem(KEY); }
+    } catch (e) { /* 저장소를 못 쓰면 이번에만 */ }
   });
-  function select(id, focus) {
-    tabs.forEach(function (tab, i) {
-      var on = ids[i] === id;
-      tab.setAttribute("aria-selected", on ? "true" : "false");
-      tab.setAttribute("tabindex", on ? "0" : "-1");
-      document.getElementById(ids[i]).hidden = !on;
-      if (on && focus) { tab.focus(); }
-    });
-  }
-  function remember(id) {
-    if (window.history && window.history.replaceState) { window.history.replaceState(null, "", "#" + id); }
-  }
-  tabs.forEach(function (tab, i) {
-    tab.addEventListener("click", function (event) {
-      event.preventDefault();
-      select(ids[i], false);
-      remember(ids[i]);
-    });
-    tab.addEventListener("keydown", function (event) {
-      var j = -1;
-      if (event.key === "ArrowRight") { j = (i + 1) % tabs.length; }
-      else if (event.key === "ArrowLeft") { j = (i - 1 + tabs.length) % tabs.length; }
-      else if (event.key === "Home") { j = 0; }
-      else if (event.key === "End") { j = tabs.length - 1; }
-      if (j < 0) { return; }
-      event.preventDefault();
-      select(ids[j], true);
-      remember(ids[j]);
-    });
-  });
-  function fromHash(first) {
-    var id = window.location.hash.slice(1);
-    if (ids.indexOf(id) >= 0) { select(id, false); } else if (first) { select(ids[0], false); }
-  }
-  window.addEventListener("hashchange", function () { fromHash(false); });
-  fromHash(true);
 })();
 </script>
 </body>

@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f6f7f2">
 <title>날씨냥</title>
-  <script type="module" crossorigin src="./assets/index-C7hEaJa8.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Dyu31kQ8.css">
+  <script type="module" crossorigin src="./assets/index-Cx0esEs6.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-4P7eTsYF.css">
 </head>
 <body>
 <div id="lock" role="button" tabindex="0" aria-label="날씨냥 열기">
@@ -50,15 +50,22 @@
       <div class="hero-art">
         <div id="art"></div>
         <button class="cat-btn" id="cat" aria-label="고양이를 톡 치면 농담을 해요"></button>
+        <button class="dress" id="dressBtn">꾸미기</button>
       </div>
     </div>
     <div class="hero-foot">
-      <p class="say" id="say" aria-live="polite"><span class="say-mark">냥</span><span id="joke">잠깐만 기다리라냥.</span></p>
+      <p class="say" id="say" aria-live="polite"><span class="say-mark" id="catName">냥</span><span class="new-tag" id="newTag" hidden>NEW</span><span id="joke">잠깐만 기다리라냥.</span></p>
       <span class="tip" id="tip"></span>
     </div>
   </section>
 
   <div class="notice" id="notice" hidden></div>
+
+  <button class="book-card" id="bookBtn" aria-label="대사 도감 열기">
+    <span class="book-top"><span class="book-title">대사 도감</span><span class="book-count" id="bookCount">0 / 0</span></span>
+    <span class="book-bar"><i id="bookBar"></i></span>
+    <span class="book-sub" id="bookSub">시간과 날씨에 따라 고양이가 다른 말을 해요</span>
+  </button>
 
   <section class="card">
     <div class="card-head"><h2>시간별 날씨</h2><span>오늘, 하늘의 흐름</span></div>
@@ -73,7 +80,56 @@
   <section class="grid" id="grid" aria-label="상세 정보"></section>
 
   <p class="credit">날씨 데이터 Open-Meteo · <span id="updated"></span></p>
+  <div class="reset" id="resetBox" hidden>
+    <button class="text-btn" id="resetBtn">처음부터 다시 하기 (초기화)</button>
+    <div class="reset-confirm" id="resetConfirm" hidden role="alertdialog" aria-labelledby="resetQ">
+      <p id="resetQ">입양한 고양이, 지역, 음악 설정을 모두 지우고 처음 화면으로 돌아갈까요?</p>
+      <div class="reset-actions">
+        <button class="btn-sub" id="resetNo">취소</button>
+        <button class="btn-danger" id="resetYes">초기화</button>
+      </div>
+    </div>
+  </div>
 </main>
+
+<section class="adopt" id="adopt" data-wx="sun" hidden aria-labelledby="adoptTitle">
+  <div class="adopt-inner">
+    <div class="adopt-head">
+      <div class="eyebrow" id="adoptEyebrow">날씨냥 입양하기</div>
+      <h1 id="adoptTitle">나만의 날씨냥을 만들어요</h1>
+      <p class="lede" id="adoptLede"></p>
+    </div>
+    <div class="adopt-stage">
+      <svg class="adopt-bg" viewBox="0 0 400 300" aria-hidden="true"><circle cx="200" cy="150" r="128" class="h-halo1"/><circle cx="70" cy="66" r="34" class="h-sun"/><g class="h-cloud"><circle cx="120" cy="252" r="40"/><circle cx="188" cy="230" r="54"/><circle cx="262" cy="242" r="46"/><circle cx="308" cy="262" r="30"/><rect x="120" y="252" width="188" height="48"/></g></svg>
+      <div class="adopt-cat" id="adoptCat"></div>
+    </div>
+    <div class="adopt-name">
+      <label for="catNameInput">이름</label>
+      <input id="catNameInput" maxlength="8" autocomplete="off" placeholder="예: 모카">
+    </div>
+    <div class="tabs" role="tablist" id="partTabs"></div>
+    <div class="tiles" id="partTiles" role="tabpanel"></div>
+    <button class="text-btn" id="adoptReset">기본 고양이로 되돌리기</button>
+  </div>
+  <div class="adopt-bar">
+    <button class="btn-sub" id="adoptRandom">랜덤으로 뽑기</button>
+    <button class="btn-main" id="adoptDone">입양하기</button>
+  </div>
+</section>
+
+<section class="book" id="book" hidden aria-labelledby="bookTitle">
+  <div class="book-inner">
+    <div class="book-head">
+      <div>
+        <div class="eyebrow">COLLECTION</div>
+        <h1 id="bookTitle">대사 도감</h1>
+        <p class="lede" id="bookLede"></p>
+      </div>
+      <button class="ghost close" id="bookClose" aria-label="도감 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="book-list" id="bookList"></div>
+  </div>
+</section>
 
 <div class="sheet" id="sheet" hidden>
   <div class="sheet-bg" id="sheetBg"></div>

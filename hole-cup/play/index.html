@@ -520,7 +520,7 @@ td.good{color:var(--win);font-weight:700} td.bad{color:var(--lose)}
         <button class="danger" id="resetBtn">진행 기록 초기화</button>
       </div>
       <button class="btn btn-plain press" id="settingsClose">닫기</button>
-      <p class="ver" style="text-align:center;margin:0">홀컵 원정대 v0.46</p>
+      <p class="ver" style="text-align:center;margin:0">홀컵 원정대 v0.47</p>
     </div>
   </section>
   <section class="overlay bottom" id="tryOnSheet" hidden>
@@ -1050,6 +1050,31 @@ const TOSS=!!window.__TOSS__,AIT=()=>window.AIT||null;
 // window.HCApp: close the app, save or share a replay video through the Java side. That build has no ad SDK and no Play billing
 // yet, so ads and paid packs are off there (the same switches the Toss build uses without its ad keys).
 const ANDROID=!TOSS&&!!window.__ANDROID__,HCApp=()=>window.HCApp||null;
+// ---------------- Google Play ads through the kickoff build (v0.47) ----------------
+// The kickoff Android build (Capacitor, window.NCQ.NCQ_PLATFORM 'android') has no window.HCApp. Its ads come from the release
+// kit's ad tool window.NcqAds (AdMob + Google's consent form), which the build loads before this script. The game keeps the
+// window.AIT ads contract the Toss build uses (ready/load/available/show), so this maps that contract onto two NcqAds slots:
+// NCQ_ADS_REWARDED: 보상형 광고 (멀리건, 결과·미션 2배, 캐디 가이드, 타임어택 추가 도전, 상점 무료 코인)
+// NCQ_ADS_INTERSTITIAL: 판 사이 전면 광고 (2분 30초에 한 번까지, 광고가 나온다고 먼저 알려요)
+// A build with both slots off (or without approved ad units) gets NcqAds.can false here and stays ad-free, exactly as before.
+if(ANDROID&&window.NCQ&&window.NcqAds&&!window.__ANDROID_STORE__)(()=>{
+  const N=window.NcqAds,slot=k=>k==='rewarded'?'REWARDED':'INTERSTITIAL',T0=Date.now();let last=0;
+  const can=k=>{try{return !!N.can(slot(k));}catch(e){return false;}};
+  if(!can('rewarded')&&!can('interstitial'))return;
+  // The interstitial is announced first ("광고 한 편 보고…"), so it only counts as ready when NcqAds would really show it now:
+  // loaded, no other ad on screen, and outside NcqAds' quiet times (30 s after opening the app, 60 s after the last ad).
+  // Rewarded ads are always ready: NcqAds shows its own "loading" card and a "no ad right now" notice.
+  const ready=k=>{if(!can(k))return false;if(k==='rewarded')return true;
+    try{const s=N.status(),u=s.slots&&s.slots.INTERSTITIAL,now=Date.now();return !!(s.ready&&!s.busy&&u&&u.loaded)&&now-T0>=30000&&now-last>=60000;}catch(e){return false;}};
+  const play=k=>k==='rewarded'?window.NcqAds.rewarded("REWARDED"):window.NcqAds.interstitial("INTERSTITIAL");
+  window.__ANDROID_STORE__={ads:true,iap:false}; // ads on, paid packs stay off (no Play billing in this build)
+  window.AIT=Object.assign(window.AIT||{},{ready:true,ads:{ready,available:can,load(){},quiet:true,
+    show(k,o){let snd=false;try{snd=!!AC&&AC.state==='running';if(snd)AC.suspend();}catch(e){} // sound off while the ad plays
+      const done=(earned,failed)=>{last=Date.now();try{if(snd&&!document.hidden)AC.resume();}catch(e){}try{if(o&&o.onClose)o.onClose(earned,failed);}catch(e){}};
+      Promise.resolve().then(()=>play(k)).then(ok=>done(!!ok,false),()=>done(false,true));return true;}}});
+  // the settings row '개인정보 선택' appears once NcqAds knows the player is in a consent region
+  Promise.resolve(N.ready()).then(()=>{try{syncSwitches();}catch(e){}},()=>{});
+})();
 // analytics → Apps-in-Toss console > 분석 > 이벤트. Queued until window.AIT is ready (it loads after this script). Event list: toss/README.md
 const trackQ=[];
 // v0.35: gameplay events for retention/funnel analysis (Toss analytics). day = days since first launch (D0, D1, D7…)
@@ -1092,12 +1117,13 @@ function swipeBack(on){if(!TOSS)return;const a=AIT();if(a&&a.swipeBack)a.swipeBa
 // v0.45 (global): the Android app can plug Google Play Billing / AdMob into the same code paths the Toss build uses.
 // It sets window.__ANDROID_STORE__={iap:true,ads:true} before this script and installs window.AIT with the same
 // iap/ads interface (see android/GLOBAL_STORE_BRIDGE.md), then fires 'ait:ready'. Without it, Android stays ad-free and unpaid.
+// v0.47: the kickoff Google Play build gets the same switch from the NcqAds adapter above ({ads:true,iap:false}).
 const AST=ANDROID&&window.__ANDROID_STORE__||null,NATIVE=TOSS||!!AST,STORE_NAME=TOSS?'토스':'Google Play';
 const PAID_ITEMS=!ANDROID||!!(AST&&AST.iap);
 // v0.23: ads on/off. Web build: always on (test overlay). Toss build: ADS_ENABLED in toss/src/config.js, which vite puts in
 // window.__TOSS_ADS__ (off until the ad keys exist). Off → no rewarded-ad button anywhere (mulligan, result x2, missions x2, caddie,
 // time attack, shop), no interstitials, nothing preloaded, and the '광고 제거' pack is not sold (there is nothing to remove).
-// Android (v0.26): off, no ad SDK in that build yet
+// Android (v0.26): off, no ad SDK in that build yet. v0.47: on in the kickoff Google Play build when its ad slots are switched on
 const ADS_ON=TOSS?!!window.__TOSS_ADS__:ANDROID?!!(AST&&AST.ads):true;
 document.documentElement.classList.toggle('ads-off',!ADS_ON);
 // v0.22: the shop's ad-reward items (무료 코인 100, 캐디 가이드 1개) stay hidden in the Toss build even with ads on. true brings them back.
@@ -1345,9 +1371,11 @@ function newSolo(ci,hi){if(!holeOpen(ci,hi))hi=firstOpen(ci);clearTimeout(G.demo
 
 // ---------------- settings / unlock ----------------
 function syncSwitches(){$('soundSw').setAttribute('aria-checked',!!SAVE.sound);
-  const hp=ANDROID&&HCApp(),pr=$('privRow');if(pr)pr.hidden=!(hp&&typeof hp.privacyRequired==='function'&&hp.privacyRequired());
+  // 개인정보 선택: the old native app (HCApp) or, in the kickoff build, NcqAds (only once it knows a consent region applies)
+  const hp=ANDROID&&HCApp(),nq=ANDROID&&window.__ANDROID_STORE__&&window.NcqAds,pr=$('privRow');
+  if(pr)pr.hidden=!(hp&&typeof hp.privacyRequired==='function'?hp.privacyRequired():!!(nq&&nq.privacyRequired()));
   const I=window.__I18N,lr=$('langRow');if(lr){lr.hidden=!(I&&I.canSwitch);if(I)$('langBtn').textContent=I.lang==='en'?'English ▾':'한국어 ▾';}}
-$('privBtn').onclick=()=>{const h=HCApp();sfx.tap();if(h&&h.showPrivacy)h.showPrivacy();logEv('privacy_options');};
+$('privBtn').onclick=()=>{const h=HCApp();sfx.tap();if(h&&h.showPrivacy)h.showPrivacy();else if(ANDROID&&window.NcqAds)window.NcqAds.showPrivacyOptions();logEv('privacy_options');};
 $('langBtn').onclick=()=>{const I=window.__I18N;if(!I||!I.canSwitch)return;sfx.tap();logEv('lang_switch',{to:I.lang==='en'?'ko':'en'});I.set(I.lang==='en'?'ko':'en');};
 
 $('soundSw').onclick=()=>{SAVE.sound=!SAVE.sound;save();syncSwitches();sfx.tap();};
@@ -2377,6 +2405,7 @@ function adShow(kind,placement,cb){if(NATIVE){tossAd(kind,placement,cb);return;}
   $('adClose').onclick=()=>finish(true);const sk=$('adSkip');if(sk)sk.onclick=()=>finish(false);$('adX').onclick=()=>finish(kind!=='rewarded');}
 // Toss build: the real ad (preloaded by toss/src/main.js) instead of the test overlay. Same contract as the overlay: cb(true) after a
 // rewarded ad was watched to the end (the reward is granted once the ad has closed), and an interstitial always calls cb so play goes on.
+// v0.47: the Google Play build comes through here too (AdMob via NcqAds, the adapter after ANDROID at the top).
 function tossAd(kind,placement,cb){const a=AIT(),k=kind==='rewarded'?'rewarded':'interstitial',ready=!!a&&a.ads.ready(k);
   track('event','ad_request',{kind:k,where:placement,ready});
   const fail=()=>{track('event','ad_result',{kind:k,where:placement,result:'failed'});if(k==='interstitial'){if(cb)cb(false);}else showToast('광고를 불러오고 있어요. 잠시 후 다시 눌러 주세요',1600);};
@@ -2386,7 +2415,8 @@ function tossAd(kind,placement,cb){const a=AIT(),k=kind==='rewarded'?'rewarded':
     track('event','ad_result',{kind:k,where:placement,result:failed?'failed':k==='interstitial'?'closed':earned?'rewarded':'closed_early'});
     if(k==='interstitial'){if(cb)cb(true);return;}
     if(earned){if(cb)cb(true);return;}
-    showToast(failed?'광고를 불러오지 못했어요. 잠시 후 다시 눌러 주세요':'광고를 끝까지 보면 보상을 받아요',1600);if(cb)cb(false);}});
+    // v0.47: a quiet ad tool (NcqAds in the Google Play build) has already told the player why there was no reward
+    if(failed||!a.ads.quiet)showToast(failed?'광고를 불러오지 못했어요. 잠시 후 다시 눌러 주세요':'광고를 끝까지 보면 보상을 받아요',1600);if(cb)cb(false);}});
   if(!shown){G.paused=wasPaused;fail();}}
 const adP=()=>SAVE.noAds?'':'광고 보고 ';
 function showRewarded(placement,onReward){if(SAVE.noAds){track('event','ad_skipped',{where:placement});onReward();return;}if(!ADS_ON){showToast('지금은 광고를 볼 수 없어요',1400);return;}adShow('rewarded',placement,ok=>{if(ok)onReward();});}
@@ -2980,8 +3010,8 @@ if(TOSS||ANDROID){
     if(a.swipeBack)a.swipeBack(app.dataset.screen==='home'||app.dataset.screen==='title');
     // in-app purchase: console products, then unfinished orders, new-phone restore and refunds
     Promise.resolve(loadTossProducts(true)).catch(()=>{}).then(restorePurchases); // v0.22: products first, so SKU links are ready for restore
-    // v0.25 launch: no test hook in any Toss build
-    if(TOSS)setTimeout(()=>{try{delete window.__golf;}catch(e){window.__golf=undefined;}},0);};
+    // v0.25 launch: no test hook in any Toss build. v0.47: nor in the Google Play build with ads (debug builds of the old app keep it)
+    if(TOSS||!(window.__ANDROID__&&window.__ANDROID__.debug))setTimeout(()=>{try{delete window.__golf;}catch(e){window.__golf=undefined;}},0);};
   if(window.AIT&&window.AIT.ready)onReady();else addEventListener('ait:ready',onReady,{once:true});
   }
   // Android (v0.26): no test hook in the store build (debug builds keep it for the emulator check in CI)

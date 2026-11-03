@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.46.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.holecup"});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "1.0.1", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.holecup"});
 Object.assign(window, window.NCQ);
 
 /* 엔크로키 지표 모듈 (ncq_build.py가 ncq-flags.js 뒤에 붙여요. 직접 고치지 마세요)
@@ -270,4 +270,4 @@ Object.assign(window, window.NCQ);
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"hole-cup","pf":"web","mk":"web","tr":"share","vn":"0.46.0","vc":0,"cm":"3c4ffb6","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"hole-cup","pf":"web","mk":"web","tr":"share","vn":"1.0.1","vc":0,"cm":"2dc610e","ft":[]});

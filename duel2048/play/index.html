@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" /><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#faf8ef" />
+  <title>2048 대결</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%23edc22e%22/%3E%3Ctext x=%2232%22 y=%2242%22 font-size=%2222%22 font-weight=%22800%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22sans-serif%22%3E2048%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="top">
+      <div class="title-row">
+        <h1 class="logo">2048</h1>
+        <div class="scores">
+          <div class="score-box"><span class="label">점수</span><span id="score" class="value">0</span></div>
+          <div class="score-box"><span class="label">최고</span><span id="best" class="value">0</span></div>
+        </div>
+      </div>
+      <button id="modeChip" class="mode-chip" type="button">주간 도전</button>
+    </header>
+
+    <section id="duelBar" class="duel-bar" hidden>
+      <div class="duel-text"><span id="duelLabel">상대</span><strong id="duelGap"></strong></div>
+      <div class="duel-track"><div id="duelFill" class="duel-fill"></div><div class="duel-flag"></div></div>
+    </section>
+
+    <main class="board-wrap">
+      <div id="board" class="board" aria-label="게임 판">
+        <div class="grid" id="grid"></div>
+        <div class="tiles" id="tiles"></div>
+      </div>
+    </main>
+
+    <nav class="actions">
+      <!-- NCQ_ADS_UNDO 보상형 광고로 되돌리기 1회 -->
+      <button id="undoBtn" class="act" type="button"><span class="ico">↶</span><span>되돌리기</span><em class="ad-tag">광고</em></button>
+      <button id="newBtn" class="act" type="button"><span class="ico">＋</span><span>새 게임</span></button>
+      <button id="rankBtn" class="act" type="button"><span class="ico">🏆</span><span>랭킹</span></button>
+      <button id="setBtn" class="act" type="button"><span class="ico">⚙︎</span><span>설정</span></button>
+    </nav>
+    <div id="testPanel" class="test-panel" hidden></div>
+  </div>
+
+  <!-- 결과 / 모드 선택 / 랭킹 / 설정 -->
+  <div id="sheet" class="sheet" hidden>
+    <div class="sheet-card" id="sheetCard"></div>
+  </div>
+  <div id="toast" class="toast" hidden></div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

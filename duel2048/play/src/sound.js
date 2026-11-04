@@ -40,7 +40,8 @@ export function createSfx(isOn) {
     for (let i = 0; i < n.length; i++) n[i] = Math.random() * 2 - 1;
   }
 
-  const ready = () => ctx && isOn() && !document.hidden && ctx.state === "running";
+  // 아직 깨어나는 중(suspended)이어도 예약해 두면 켜지는 순간 바로 남 → 첫 스와이프 소리도 안 빠짐
+  const ready = () => ctx && isOn() && !document.hidden && ctx.state !== "closed";
   const out = (node, dry = 1) => { const g = ctx.createGain(); g.gain.value = dry; node.connect(g).connect(master); node.connect(wet); };
 
   // 마림바 음: 기본음 + 4배 배음(나무 막대 특유의 '똥' 소리), 빠른 감쇠
@@ -85,11 +86,17 @@ export function createSfx(isOn) {
   }
 
   const api = {
+    // 반드시 사용자 동작(touchend·click·keydown) 안에서 불러야 함 — 아이폰 사파리는 touchstart를 인정하지 않음
     unlock() {
       try {
         if (!ctx) setup();
-        if (ctx.state === "suspended") ctx.resume();
-      } catch { ctx = null; }
+        if (ctx.state !== "running") {
+          ctx.resume();
+          // 아이폰 오디오 잠금 풀기: 아주 짧은 무음을 한 번 재생
+          const b = ctx.createBuffer(1, 1, 22050), src = ctx.createBufferSource();
+          src.buffer = b; src.connect(ctx.destination); src.start(0);
+        }
+      } catch { /* 소리를 못 쓰는 환경 */ }
     },
     // 밀기: 나무 블록 톡
     slide() { if (ready()) knock(0, 1, 0.14); },

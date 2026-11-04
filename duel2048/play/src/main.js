@@ -512,12 +512,18 @@ function sparkleBest() {
   }
 }
 
+// 소리 켜기: 휴대폰 브라우저는 '손을 뗄 때(touchend)·클릭·키 입력' 안에서만 소리를 허락함
+// (아이폰 사파리는 touchstart를 인정하지 않아서, 예전처럼 touchstart에서 켜면 끝까지 무음이었음)
+// capture로 등록해 스와이프 처리보다 먼저 켜지게 하고, 멈춰 있으면 매번 다시 깨움
+for (const type of ["touchend", "pointerup", "click", "keydown"]) {
+  document.addEventListener(type, () => sfx.unlock(), { capture: true, passive: true });
+}
+
 // 스와이프
 let t0 = null;
 window.addEventListener("touchstart", (e) => {
   if (e.touches.length !== 1) return;
   t0 = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-  sfx.unlock();
 }, { passive: true });
 window.addEventListener("touchend", (e) => {
   if (!t0) return;
@@ -530,7 +536,7 @@ window.addEventListener("touchend", (e) => {
 document.addEventListener("touchmove", (e) => { if (!e.target.closest(".sheet-card")) e.preventDefault(); }, { passive: false });
 // 마우스 드래그 (PC 테스트)
 let m0 = null;
-window.addEventListener("mousedown", (e) => { if (!e.target.closest("button,.sheet")) { m0 = { x: e.clientX, y: e.clientY }; sfx.unlock(); } });
+window.addEventListener("mousedown", (e) => { if (!e.target.closest("button,.sheet")) { m0 = { x: e.clientX, y: e.clientY }; } });
 window.addEventListener("mouseup", (e) => {
   if (!m0) return;
   const dx = e.clientX - m0.x, dy = e.clientY - m0.y; m0 = null;
@@ -540,7 +546,7 @@ window.addEventListener("mouseup", (e) => {
 const KEYS = { ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right", w: "up", s: "down", a: "left", d: "right" };
 window.addEventListener("keydown", (e) => {
   if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-  const d = KEYS[e.key]; if (d) { e.preventDefault(); sfx.unlock(); requestMove(d); }
+  const d = KEYS[e.key]; if (d) { e.preventDefault(); requestMove(d); }
 });
 
 // ── 버튼 ──────────────────────────────────

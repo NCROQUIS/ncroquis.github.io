@@ -1,9 +1,10 @@
-import { generate, daily, kstDateKey, prevDateKey, nextDateKey, dailyDifficulty, DIFFICULTY, PEERS, UNITS, boxOf, stars, formatTime,
+import { rng, INTRO_SEED, generate, daily, kstDateKey, prevDateKey, nextDateKey, dailyDifficulty, DIFFICULTY, geometry, findLastCell, stars, formatTime,
   shareText, findSingle, candidates, computeStreak, streakAtRisk, monthProgress, daysInMonth, badges } from "./sudoku.js";
 import { load, save, reset } from "./store.js";
 import { NcqAds } from "./ads.js";
 import { haptic, setHapticEnabled, hapticSupported } from "./haptic.js";
 import { drawResultCard, canvasToBlob } from "./card.js";
+import { initNemo, renderNemoCard, nemoBack } from "./nemo.js";
 
 const $ = (id) => document.getElementById(id);
 let data = load();
@@ -105,7 +106,18 @@ function renderHome() {
   $("today-date").textContent = `${dt.getUTCMonth() + 1}월 ${dt.getUTCDate()}일 ${DAYS[dt.getUTCDay()]}요일 · ${DIFFICULTY[dailyDifficulty(t)].label}`;
   const rec = data.daily[t];
   const btn = $("btn-daily");
-  if (rec) {
+  const isNew = !data.tutorialDone;
+  $("first-card").classList.toggle("hidden", !isNew);
+  if (isNew) {
+    const st = data.tutorialProgress?.stage || data.tutorialStage || 1;
+    $("btn-first").textContent = st > 1 || data.tutorialProgress ? `이어서 하기 · ${st}/3단계` : "첫 판 시작하기";
+  }
+  btn.disabled = isNew;
+  if (isNew) {
+    btn.textContent = "첫 판을 풀면 열려요";
+    btn.className = "btn ghost big";
+    $("today-sub").textContent = "전국이 같은 문제를 풀어요";
+  } else if (rec) {
     btn.textContent = `완료 ${"⭐".repeat(rec.stars)} · ${formatTime(rec.seconds)} — 결과 보기`;
     btn.className = "btn done big";
     $("today-sub").textContent = "내일 새 문제가 열려요";
@@ -131,7 +143,7 @@ function renderHome() {
 
   // 어제를 놓쳤을 때: 어제 문제 풀고 연속 기록 지키기
   const y = prevDateKey(t);
-  const risk = streakAtRisk(data.daily, t);
+  const risk = !isNew && streakAtRisk(data.daily, t);
   $("risk-card").classList.toggle("hidden", !risk);
   if (risk) $("risk-title").textContent = `🔥 ${computeStreak(data.daily, prevDateKey(y)).current}일 연속이 끊기기 직전이에요`;
 
@@ -167,16 +179,20 @@ function renderHome() {
   // 클래식
   const unlocked = data.classicUnlocked;
   $("classic-lock").textContent = unlocked ? "무제한으로 즐겨요" : "오늘의 한 판을 풀면 열려요";
-  $("diff-grid").innerHTML = Object.entries(DIFFICULTY).map(([id, d]) =>
+  $("diff-grid").innerHTML = Object.entries(DIFFICULTY).filter(([, d]) => !d.hidden).map(([id, d]) =>
     `<button class="diff-btn" data-diff="${id}" ${unlocked ? "" : "disabled"}><b>${d.label}</b><small>${
       data.stats.best[id] ? "최고 " + formatTime(data.stats.best[id]) : "기록 없음"}</small></button>`).join("");
   const resumable = data.inProgress?.mode === "classic";
   $("btn-resume").classList.toggle("hidden", !resumable);
   if (resumable) $("btn-resume").textContent = `이어하기 · ${DIFFICULTY[data.inProgress.difficulty].label} ${formatTime(data.inProgress.seconds)}`;
+
+  renderNemoCard();
 }
 
+$("btn-first").onclick = () => startTutorial();
 $("btn-daily").onclick = () => {
   const t = today();
+  if (!data.tutorialDone) return;
   if (data.daily[t]) { from = "home"; return showResult(data.daily[t], t, true); }
   startDaily(t, "home");
 };
@@ -247,7 +263,7 @@ function renderRecords() {
     : past ? `<b>${mp.done}/${mp.total}일</b> 풀었어요` : `<b>${mp.done}/${mp.total}일</b> · 완주까지 ${mp.total - mp.done}일`;
 
   $("badges").innerHTML = badges(data, t).map((b) => `<div class="badge ${b.got ? "" : "off"}"><i>${b.icon}</i>${b.label}</div>`).join("");
-  $("bests").innerHTML = Object.entries(DIFFICULTY).map(([id, d]) =>
+  $("bests").innerHTML = Object.entries(DIFFICULTY).filter(([, d]) => !d.hidden).map(([id, d]) =>
     `<div><b>${data.stats.best[id] ? formatTime(data.stats.best[id]) : "-"}</b><small>${d.label}</small></div>`).join("");
 }
 $("cal").onclick = (e) => {
@@ -262,14 +278,17 @@ $("btn-records-back").onclick = () => { renderHome(); show("home"); };
 
 // ---------- 게임 ----------
 function newGame(p, mode, dateKey) {
+  const n = p.n || 9;
   return {
-    mode, dateKey, difficulty: p.difficulty,
+    mode, dateKey, difficulty: p.difficulty, n,
     puzzle: p.puzzle, solution: p.solution,
-    values: p.puzzle.slice(), notes: new Array(81).fill(0),
+    values: p.puzzle.slice(), notes: new Array(n * n).fill(0),
     mistakes: 0, seconds: 0, history: [], sel: -1, noteMode: false,
-    boxMistakes: new Array(9).fill(0), hinted: new Array(9).fill(0), done: false, continued: false,
+    boxMistakes: new Array(n).fill(0), hinted: new Array(n).fill(0), done: false, continued: false,
   };
 }
+// 지금 판의 모양 (예전에 저장된 판은 9x9)
+const geo = () => geometry(G?.n || 9);
 
 let from = "home";
 let hintShown = null;
@@ -282,22 +301,33 @@ function startGame(state, origin = "home") {
 
 function persist() {
   if (!G || G.done) return;
-  if (G.mode === "daily") data.dailyProgress[G.dateKey] = G; else data.inProgress = G;
+  if (G.mode === "daily") data.dailyProgress[G.dateKey] = G;
+  else if (G.mode === "tutorial") data.tutorialProgress = G;
+  else data.inProgress = G;
   save(data);
 }
 
 function buildBoard() {
+  const g = geo();
   const b = $("board"); b.innerHTML = "";
-  for (let i = 0; i < 81; i++) {
+  b.style.gridTemplateColumns = `repeat(${g.n}, 1fr)`;
+  b.dataset.size = g.n;
+  for (let i = 0; i < g.cells; i++) {
     const c = document.createElement("div");
-    c.className = "cell" + (i % 9 === 2 || i % 9 === 5 ? " br" : "") + (Math.floor(i / 9) === 2 || Math.floor(i / 9) === 5 ? " bb" : "");
+    const r = g.row(i), col = g.col(i);
+    c.className = "cell"
+      + (col === g.n - 1 ? " lc" : (col % g.bw === g.bw - 1 ? " br" : ""))
+      + (r === g.n - 1 ? " lr" : (r % g.bh === g.bh - 1 ? " bb" : ""));
     c.dataset.i = i;
     b.appendChild(c);
   }
-  $("pad").innerHTML = [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => `<button class="num" data-n="${n}">${n}<small></small></button>`).join("");
+  $("pad").style.gridTemplateColumns = `repeat(${g.n}, 1fr)`;
+  $("pad").dataset.size = g.n;
+  $("pad").innerHTML = [...Array(g.n).keys()].map((k) => `<button class="num" data-n="${k + 1}">${k + 1}<small></small></button>`).join("");
   // NCQ_TEST_CHEAT: 정답 채우기 버튼
   $("t-cheat").classList.toggle("hidden", !window.NCQ_TEST_CHEAT && !isDev());
   $("hint-box").classList.add("hidden");
+  $("coach").classList.add("hidden");
 }
 function isDev() { return !window.NCQ && /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && params.has("cheat"); }
 
@@ -308,7 +338,7 @@ const isSolved = (i) => G.values[i] === G.solution[i];
 function lastCellSuggestion() {
   const i = G.sel;
   if (i < 0 || isSolved(i)) return 0;
-  for (const u of UNITS) {
+  for (const u of geo().units) {
     if (!u.cells.includes(i)) continue;
     if (u.cells.every((k) => k === i || isSolved(k))) return G.solution[i];
   }
@@ -318,9 +348,11 @@ function lastCellSuggestion() {
 function render() {
   const cells = $("board").children;
   const selV = G.sel >= 0 ? G.values[G.sel] : 0;
-  const peers = G.sel >= 0 ? new Set(PEERS[G.sel]) : new Set();
-  const hintUnit = hintShown?.unit ? new Set(hintShown.unit.cells) : hintShown ? new Set(PEERS[hintShown.cell]) : null;
-  for (let i = 0; i < 81; i++) {
+  const g = geo();
+  const peers = G.sel >= 0 ? new Set(g.peers[G.sel]) : new Set();
+  const hintUnit = hintShown?.unit ? new Set(hintShown.unit.cells) : hintShown ? new Set(g.peers[hintShown.cell]) : null;
+  const digits = [...Array(g.n).keys()].map((k) => k + 1);
+  for (let i = 0; i < g.cells; i++) {
     const c = cells[i], v = G.values[i];
     const wrong = v && v !== G.solution[i];
     c.classList.toggle("given", !!G.puzzle[i]);
@@ -331,22 +363,23 @@ function render() {
     c.classList.toggle("hint-unit", !!hintUnit && hintUnit.has(i) && i !== hintShown.cell);
     c.classList.toggle("hint-cell", !!hintShown && i === hintShown.cell);
     if (v) c.textContent = v;
-    else if (G.notes[i]) c.innerHTML = `<div class="notes">${[1,2,3,4,5,6,7,8,9].map((n) => `<span>${G.notes[i] & (1 << n) ? n : ""}</span>`).join("")}</div>`;
+    else if (G.notes[i]) c.innerHTML = `<div class="notes">${digits.map((n) => `<span>${G.notes[i] & (1 << n) ? n : ""}</span>`).join("")}</div>`;
     else c.textContent = "";
   }
   const counts = new Array(10).fill(0);
   G.values.forEach((v, i) => { if (v && v === G.solution[i]) counts[v]++; });
   const sug = lastCellSuggestion();
   for (const b of $("pad").children) {
-    const n = +b.dataset.n; const left = 9 - counts[n];
+    const n = +b.dataset.n; const left = g.n - counts[n];
     b.classList.toggle("used", left === 0);
-    b.classList.toggle("suggest", !G.noteMode && n === sug);
+    b.classList.toggle("suggest", !G.noteMode && (n === sug || (G.coach === 2 && G.sel === G.coachCell && n === G.solution[G.sel])));
     b.querySelector("small").textContent = left;
   }
   const label = G.mode === "daily"
     ? (G.dateKey === today() ? "오늘의 한 판" : `${keyLabel(G.dateKey)} 문제`)
-    : "클래식";
+    : G.mode === "tutorial" ? `연습 ${G.stage || 3}/3` : "클래식";
   $("game-mode").textContent = `${label} · ${DIFFICULTY[G.difficulty].label}`;
+  renderCoach();
   const limited = G.mode === "classic" && data.settings.mistakeLimit;
   $("game-mistakes").innerHTML = limited ? `<span class="${G.mistakes ? "bad" : ""}">실수 ${G.mistakes}/${MAX_MISTAKES}</span>` : `실수 ${G.mistakes}`;
   $("game-time").textContent = formatTime(G.seconds);
@@ -354,7 +387,8 @@ function render() {
   $("note-state").textContent = G.noteMode ? "ON" : "OFF";
   $("pad").classList.toggle("note-mode", G.noteMode);
   const hb = $("hint-badge");
-  if (data.hints > 0) { hb.textContent = data.hints; hb.className = ""; }
+  if (G.mode === "tutorial") { hb.textContent = "무료"; hb.className = ""; }
+  else if (data.hints > 0) { hb.textContent = data.hints; hb.className = ""; }
   else { hb.textContent = "AD"; hb.className = NcqAds.can("HINT") ? "ad" : "hidden"; }
   const vl = $("vs-line");
   const fr = G.mode === "daily" ? (data.friends[G.dateKey] || []) : [];
@@ -369,16 +403,19 @@ $("board").addEventListener("pointerdown", (e) => {
   const c = e.target.closest(".cell"); if (!c || G.done) return;
   if (hintShown) closeHint();
   if (G.sel !== +c.dataset.i) haptic("select");
-  G.sel = +c.dataset.i; render();
+  G.sel = +c.dataset.i;
+  if (G.coach === 1 && !isSolved(G.sel)) G.coach = 2;
+  render();
 });
 $("pad").addEventListener("click", (e) => { const b = e.target.closest(".num"); if (b) input(+b.dataset.n); });
 document.addEventListener("keydown", (e) => {
   if (!$("game").classList.contains("active") || !G || G.done || e.target.tagName === "INPUT") return;
-  if (/^[1-9]$/.test(e.key)) input(+e.key);
+  if (/^[1-9]$/.test(e.key) && +e.key <= geo().n) input(+e.key);
   else if (e.key === "Backspace" || e.key === "Delete") erase();
   else if (e.key.startsWith("Arrow") && G.sel >= 0) {
-    const d = { ArrowUp: -9, ArrowDown: 9, ArrowLeft: -1, ArrowRight: 1 }[e.key];
-    G.sel = (G.sel + d + 81) % 81; render();
+    const n = geo().n;
+    const d = { ArrowUp: -n, ArrowDown: n, ArrowLeft: -1, ArrowRight: 1 }[e.key];
+    G.sel = (G.sel + d + n * n) % (n * n); render();
   }
 });
 
@@ -397,8 +434,9 @@ function input(n) {
   snapshot();
   G.values[i] = n;
   if (n !== G.solution[i]) {
-    G.mistakes++; G.boxMistakes[boxOf(i)]++;
+    G.mistakes++; G.boxMistakes[geo().box(i)]++;
     sfx.wrong(); haptic("wrong");
+    if (G.mode === "tutorial" && !G.wrongTold) { G.wrongTold = true; toast("빨간 숫자는 틀린 거예요. ⌫ 지우기로 지워요"); }
     render(); persist();
     if (G.mode === "classic" && data.settings.mistakeLimit && G.mistakes >= MAX_MISTAKES) return gameOver();
     return;
@@ -410,8 +448,10 @@ function input(n) {
 function placed(i, kind) {
   const n = G.values[i];
   G.notes[i] = 0;
-  for (const p of PEERS[i]) G.notes[p] &= ~(1 << n); // 메모 자동 정리
+  for (const p of geo().peers[i]) G.notes[p] &= ~(1 << n); // 메모 자동 정리
   sfx.place(); haptic(kind);
+  if (G.coach === 1 || G.coach === 2) G.coach = 3;
+  else if (G.coach === 4) G.coach = 5;
   render();
   const el = $("board").children[i];
   el.classList.add("pop"); setTimeout(() => el.classList.remove("pop"), 200);
@@ -422,7 +462,7 @@ function placed(i, kind) {
 
 function flashUnits(i) {
   let any = false;
-  for (const u of UNITS) {
+  for (const u of geo().units) {
     if (!u.cells.includes(i) || !u.cells.every(isSolved)) continue;
     any = true;
     u.cells.forEach((k, idx) => setTimeout(() => {
@@ -451,7 +491,7 @@ $("t-auto").onclick = () => {
   if (G.done) return;
   snapshot();
   const cand = candidates(correctGrid());
-  for (let i = 0; i < 81; i++) if (!G.values[i]) G.notes[i] = cand[i];
+  for (let i = 0; i < geo().cells; i++) if (!G.values[i]) G.notes[i] = cand[i];
   haptic("note"); render(); persist();
   toast("빈칸마다 들어갈 수 있는 숫자를 메모했어요");
 };
@@ -460,7 +500,8 @@ $("t-auto").onclick = () => {
 $("t-hint").onclick = async () => {
   if (G.done) return;
   if (hintShown) return;
-  if (data.hints <= 0) {
+  const free = G.mode === "tutorial";
+  if (!free && data.hints <= 0) {
     if (!NcqAds.can("HINT")) return toast("힌트를 다 썼어요");
     paused = true;
     // NCQ_ADS_HINT: 힌트 충전 보상형 광고
@@ -469,12 +510,12 @@ $("t-hint").onclick = async () => {
     if (!ok) return;
     data.hints += 1;
   }
-  let h = findSingle(correctGrid());
+  let h = (G.mode === "tutorial" && findLastCell(correctGrid())) || findSingle(correctGrid());
   if (!h) {
     // 싱글로 안 풀리는 단계 (어려움·전문가): 후보가 가장 적은 칸의 답을 알려요
     const cand = candidates(correctGrid());
     let best = -1, bn = 10;
-    for (let i = 0; i < 81; i++) {
+    for (let i = 0; i < geo().cells; i++) {
       if (isSolved(i)) continue;
       const n = cand[i].toString(2).split("1").length - 1;
       if (n < bn) { bn = n; best = i; }
@@ -483,14 +524,15 @@ $("t-hint").onclick = async () => {
     h = { cell: best, value: G.solution[best], unit: null,
       text: `지금은 메모로 후보를 줄여야 하는 단계예요. 후보가 가장 적은 이 칸의 답은 ${G.solution[best]}이에요.` };
   }
-  data.hints--; save(data);
-  G.hinted[boxOf(h.cell)]++;
+  if (!free) { data.hints--; save(data); }
+  if (G.coach === 3) G.coach = 4;
+  G.hinted[geo().box(h.cell)]++;
   hintShown = h; G.sel = h.cell;
   $("hint-text").textContent = h.text;
   $("hint-box").classList.remove("hidden");
   haptic("hint"); render(); persist();
 };
-function closeHint() { hintShown = null; $("hint-box").classList.add("hidden"); render(); }
+function closeHint() { hintShown = null; $("hint-box").classList.add("hidden"); if (G?.coach === 4) G.coach = 5; render(); }
 $("hint-close").onclick = closeHint;
 $("hint-fill").onclick = () => {
   if (!hintShown) return;
@@ -540,7 +582,11 @@ function win() {
   const before = new Set(badges(data, today()).filter((b) => b.got).map((b) => b.id));
   const starCount = stars(G);
   const rec = { seconds: G.seconds, mistakes: G.mistakes, stars: starCount, boxMistakes: G.boxMistakes, hinted: G.hinted, difficulty: G.difficulty };
-  if (G.mode === "daily") {
+  if (G.mode === "tutorial") {
+    rec.stage = G.stage || 3;
+    if (rec.stage >= 3) finishTutorial();
+    else { data.tutorialProgress = null; data.tutorialStage = rec.stage + 1; }
+  } else if (G.mode === "daily") {
     rec.solvedOn = today();
     data.daily[G.dateKey] = rec;
     delete data.dailyProgress[G.dateKey];
@@ -578,6 +624,9 @@ function shareLink(dateKey, seconds) {
 }
 
 function showResult(rec, dateKey, fromHome, mode = "daily") {
+  if (mode === "tutorial") return showTutorialResult(rec);
+  $("btn-result-next").className = "btn ghost";
+  $("btn-share").className = "btn primary"; $("btn-share").textContent = "결과 공유하기";
   const sc = rec.stars;
   const isDaily = mode === "daily";
   $("result-stars").innerHTML = [1, 2, 3].map((n) => `<span class="${n <= sc ? "" : "off"}">⭐</span>`).join("");
@@ -620,6 +669,77 @@ function showResult(rec, dateKey, fromHome, mode = "daily") {
     }
     startGame(newGame(generate((Math.random() * 2 ** 32) >>> 0, rec.difficulty), "classic", 0), from);
   };
+  $("result").classList.remove("hidden");
+}
+
+// ---------- 신규 유저 첫 판: 4×4 → 6×6 → 9×9 세 단계 ----------
+const STAGES = { 1: "mini4", 2: "mini6", 3: "intro" };
+// 코치: 1 칸 고르기 → 2 숫자 넣기 → 3 힌트 눌러 보기 → 4 힌트 채우기 → 5 혼자 풀기 (1단계)
+//       6 = 2단계 시작 안내, 7 = 3단계 시작 안내, 0 = 끝
+const COACH = {
+  1: "빈칸을 하나 눌러 보세요. 반짝이는 칸부터 해 볼까요?",
+  2: "아래 숫자를 눌러 칸을 채워요. 같은 가로줄·세로줄·박스에 같은 숫자가 있으면 안 돼요.",
+  3: "잘했어요! 막히면 💡 힌트가 이유와 함께 알려 줘요. 한번 눌러 보세요.",
+  5: "이제 혼자 끝까지 풀어 봐요. 줄이나 박스를 다 채우면 반짝여요!",
+  6: "이번엔 6×6이에요. 줄이나 박스에 빈칸이 하나만 남은 곳부터 채워 보세요.",
+  7: "이제 진짜 크기 9×9예요! 숫자 1~9와 3×3 박스 9개로 이뤄져요. 막히면 힌트를 써요.",
+};
+function startStage(stage) {
+  const g = newGame(generate(INTRO_SEED, STAGES[stage]), "tutorial", 0);
+  g.stage = stage;
+  g.coach = stage === 1 ? 1 : stage === 2 ? 6 : 7;
+  g.coachCell = stage === 1 ? (findLastCell(g.puzzle) || findSingle(g.puzzle))?.cell ?? -1 : -1;
+  startGame(g, "home");
+}
+function startTutorial() {
+  if (data.tutorialProgress) return startGame(data.tutorialProgress, "home");
+  startStage(data.tutorialStage || 1);
+}
+function renderCoach() {
+  const box = $("coach");
+  const step = G?.coach || 0;
+  const text = COACH[step];
+  box.classList.toggle("hidden", !text || !!hintShown);
+  if (text) $("coach-text").textContent = text;
+  $("coach-ok").classList.toggle("hidden", ![5, 6, 7].includes(step));
+  const cells = $("board").children;
+  for (let i = 0; i < cells.length; i++) cells[i].classList.toggle("coach-cell", step === 1 && i === G.coachCell);
+  $("t-hint").classList.toggle("coach-tool", step === 3);
+}
+$("coach-ok").onclick = () => { if (G) { G.coach = 0; render(); persist(); } };
+
+function finishTutorial() { data.tutorialDone = true; data.tutorialProgress = null; data.tutorialStage = 3; save(data); }
+
+function showTutorialResult(rec) {
+  const stage = rec.stage || 3;
+  $("result-stars").innerHTML = [1, 2, 3].map((n) => `<span class="${n <= rec.stars ? "" : "off"}">⭐</span>`).join("");
+  $("r-time").textContent = formatTime(rec.seconds);
+  $("r-mistakes").textContent = rec.mistakes;
+  $("share-img").classList.add("hidden");
+  const next = $("btn-result-next"), alt = $("btn-share");
+  next.disabled = false; next.className = "btn primary";
+  if (stage < 3) {
+    $("result-title").textContent = `${stage}단계 완료! 👏`;
+    $("r-streak").textContent = `${stage}/3`;
+    $("r-third-label").textContent = "단계";
+    $("result-rank").textContent = stage === 1 ? "규칙을 익혔어요! 다음은 조금 큰 6×6이에요." : "좋아요! 마지막은 진짜 크기 9×9예요.";
+    next.textContent = `${stage + 1}단계 하기`;
+    next.onclick = () => { $("result").classList.add("hidden"); clearInterval(timer); G = null; startStage(stage + 1); };
+    // 1단계 뒤에는 스도쿠를 아는 사람이 바로 넘어갈 수 있게
+    alt.className = "btn ghost";
+    alt.classList.toggle("hidden", stage !== 1);
+    alt.textContent = "스도쿠를 알아요 · 바로 오늘의 한 판";
+    alt.onclick = () => { finishTutorial(); $("result").classList.add("hidden"); clearInterval(timer); G = null; startDaily(today(), "home"); };
+  } else {
+    $("result-title").textContent = "첫 판 완료! 🎉";
+    $("r-streak").textContent = "열림";
+    $("r-third-label").textContent = "오늘의 한 판";
+    $("result-rank").textContent = "이제 매일 새 문제가 열려요. 전국이 함께 푸는 오늘의 한 판에 도전해 볼까요?";
+    alt.classList.add("hidden");
+    next.textContent = "오늘의 한 판 시작하기";
+    next.onclick = () => { $("result").classList.add("hidden"); clearInterval(timer); G = null; startDaily(today(), "home"); };
+  }
+  $("result-rank").classList.remove("hidden");
   $("result").classList.remove("hidden");
 }
 
@@ -701,7 +821,7 @@ $("btn-settings").onclick = async () => {
   wrap.appendChild(info);
   const actions = [];
   if (await NcqAds.ready() && NcqAds.privacyRequired()) actions.push(["개인정보 설정", () => NcqAds.showPrivacyOptions(), "ghost"]);
-  actions.push(["진행 초기화", () => dialog("정말 초기화할까요?", "연속 기록, 배지, 친구 기록, 진행 중인 게임이 모두 지워져요.", [
+  actions.push(["진행 초기화", () => dialog("정말 초기화할까요?", "연속 기록, 배지, 친구 기록, 네모로직 기록, 진행 중인 게임이 모두 지워져요.", [
     ["초기화", () => { data = reset(); applySettings(); renderHome(); toast("초기화했어요"); }, "danger"],
     ["취소", null, "ghost"],
   ]), "danger"]);
@@ -714,12 +834,46 @@ window.ncqBack = () => {
   if (!$("dialog").classList.contains("hidden")) { closeDialog(); return true; }
   if (!$("result").classList.contains("hidden")) { closeResult(); return true; }
   if (hintShown) { closeHint(); return true; }
+  if (nemoBack()) return true;
   if ($("game").classList.contains("active")) { leaveGame(); return true; }
   if ($("records").classList.contains("active")) { renderHome(); show("home"); return true; }
-  return false;
+  return false; // 시작 화면·홈은 첫 화면이에요
 };
 
 // 날짜가 바뀐 채로 열려 있으면 홈 갱신
 setInterval(() => { if ($("home").classList.contains("active")) renderHome(); }, 60000);
 
-renderHome();
+// ---------- 시작 화면 ----------
+// 날마다 바뀌는 1~9 배치를 하나씩 띄워요 (오늘 문제의 답과는 상관없는 순서라 힌트가 되지 않아요)
+function renderSplash() {
+  const t = today();
+  const r = rng((t * 40503) >>> 0);
+  const box = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  for (let i = 8; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [box[i], box[j]] = [box[j], box[i]]; }
+  const hl = t % 9;
+  $("splash-grid").innerHTML = box.map((v, i) => `<span class="${i === hl ? "hl" : ""}" style="animation-delay:${i * 45}ms">${v}</span>`).join("");
+  const dt = keyToDate(t);
+  const st = computeStreak(data.daily, t).current;
+  const dayText = `${dt.getUTCMonth() + 1}월 ${dt.getUTCDate()}일 ${DAYS[dt.getUTCDay()]}요일`;
+  $("splash-today").textContent = !data.tutorialDone ? `${dayText} · 쉬운 첫 판부터 시작해요`
+    : data.daily[t] ? `${dayText} · 오늘 문제 완료 ✓`
+    : st > 0 ? `${dayText} · 🔥 ${st}일 연속 중` : `${dayText} · 오늘의 문제가 열렸어요`;
+  const sv = $("splash-vs");
+  if (vs && vs.dateKey === t && !data.daily[t]) { sv.textContent = `🏁 ${vs.name} 님이 ${formatTime(vs.seconds)} 기록으로 도전장을 보냈어요`; sv.classList.remove("hidden"); }
+  else sv.classList.add("hidden");
+}
+function startFromSplash() {
+  if (!$("splash").classList.contains("active")) return;
+  beep(660, 0.05); // 첫 터치에서 소리를 깨워요
+  haptic("place");
+  renderHome(); show("home");
+}
+$("splash").addEventListener("click", startFromSplash);
+
+// ---------- 오늘의 네모로직 ----------
+initNemo({
+  getData: () => data, save: () => save(data), show, toast, dialog, sfx, today, renderHome,
+  isCheat: () => !!window.NCQ_TEST_CHEAT || isDev(),
+});
+
+renderSplash();

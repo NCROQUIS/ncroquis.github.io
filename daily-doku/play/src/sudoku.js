@@ -99,7 +99,11 @@ export const DIFFICULTY = {
   medium: { label: "보통",   clues: 34, target: 10 * 60 },
   hard:   { label: "어려움", clues: 29, target: 15 * 60 },
   expert: { label: "전문가", clues: 25, target: 22 * 60 },
+  intro:  { label: "9×9",   clues: 61, target: 4 * 60, hidden: true }, // 신규 유저 3단계 (클래식 목록에는 안 보여요)
+  mini4:  { label: "4×4",   clues: 10, target: 60, hidden: true },     // 신규 유저 1단계
+  mini6:  { label: "6×6",   clues: 24, target: 2 * 60, hidden: true }, // 신규 유저 2단계
 };
+export const INTRO_SEED = 20261104; // 첫 판은 모두 같은 문제
 
 // 유일해를 지키며 칸을 지워 문제 만들기 (한 번 시도)
 function carve(seed, difficulty) {
@@ -137,7 +141,10 @@ function carve(seed, difficulty) {
 // 쉬움·보통: 싱글 기법(한 칸에 한 숫자, 한 줄·박스에 한 자리)만으로 풀려야 해요
 // 어려움·전문가: 싱글만으로는 막혀서 메모를 써야 해요
 export function generate(seed, difficulty = "easy") {
-  const wantSingles = difficulty === "easy" || difficulty === "medium";
+  if (difficulty === "intro") return generateIntro(seed);
+  if (difficulty === "mini4") return generateMini(seed, 4, 6);
+  if (difficulty === "mini6") return generateMini(seed, 6, 12);
+  const wantSingles = difficulty === "easy" || difficulty === "medium" || difficulty === "intro";
   let last = null;
   for (let attempt = 0; attempt < 40; attempt++) {
     const p = carve((seed + attempt * 0x9e3779b1) >>> 0, difficulty);
@@ -149,22 +156,34 @@ export function generate(seed, difficulty = "easy") {
   return last; // 드물게 조건을 못 맞추면 마지막 문제를 써요
 }
 
-// ---------- 사람이 쓰는 풀이 기법 ----------
-const UNITS = (() => {
-  const u = [];
-  for (let r = 0; r < 9; r++) u.push({ kind: "row", idx: r, cells: [...Array(9).keys()].map((c) => r * 9 + c) });
-  for (let c = 0; c < 9; c++) u.push({ kind: "col", idx: c, cells: [...Array(9).keys()].map((r) => r * 9 + c) });
-  for (let b = 0; b < 9; b++) u.push({ kind: "box", idx: b, cells: [...Array(81).keys()].filter((i) => BOX(i) === b) });
-  return u;
-})();
+// ---------- 판 크기별 모양 (4x4: 2x2 박스, 6x6: 가로 3 x 세로 2 박스, 9x9: 3x3 박스) ----------
+const GEOS = {};
+export function geometry(n = 9) {
+  if (GEOS[n]) return GEOS[n];
+  const bw = n === 6 ? 3 : Math.round(Math.sqrt(n)); // 박스 가로 칸 수
+  const bh = n / bw;                                  // 박스 세로 칸 수
+  const row = (i) => Math.floor(i / n), col = (i) => i % n;
+  const box = (i) => Math.floor(row(i) / bh) * (n / bw) + Math.floor(col(i) / bw);
+  const cells = n * n;
+  const units = [];
+  for (let r = 0; r < n; r++) units.push({ kind: "row", idx: r, cells: [...Array(n).keys()].map((c) => r * n + c) });
+  for (let c = 0; c < n; c++) units.push({ kind: "col", idx: c, cells: [...Array(n).keys()].map((r) => r * n + c) });
+  for (let b = 0; b < n; b++) units.push({ kind: "box", idx: b, cells: [...Array(cells).keys()].filter((i) => box(i) === b) });
+  const peers = Array.from({ length: cells }, (_, i) => [...Array(cells).keys()].filter((j) =>
+    j !== i && (row(j) === row(i) || col(j) === col(i) || box(j) === box(i))));
+  return (GEOS[n] = { n, bw, bh, cells, row, col, box, units, peers, full: ((1 << (n + 1)) - 2) });
+}
+export const sizeOf = (values) => Math.round(Math.sqrt(values.length));
+const UNITS = geometry(9).units;
 export { UNITS };
 
-// 칸마다 들어갈 수 있는 숫자 (비트마스크)
+// 칸마다 들어갈 수 있는 숫자 (비트마스크) — 판 크기는 칸 수로 알아요
 export function candidates(values) {
+  const g = geometry(sizeOf(values));
   return values.map((v, i) => {
     if (v) return 0;
-    let m = 0x3fe;
-    for (const p of PEERS[i]) if (values[p]) m &= ~(1 << values[p]);
+    let m = g.full;
+    for (const p of g.peers[i]) if (values[p]) m &= ~(1 << values[p]);
     return m;
   });
 }
@@ -175,11 +194,12 @@ export const iga = (n) => `${n}${[1, 3, 6, 7, 8].includes(n) ? "이" : "가"}`;
 
 // 다음에 둘 수 있는 수를 하나 찾아요 (사람이 찾기 쉬운 순서: 박스 → 줄 → 칸)
 export function findSingle(values) {
+  const geo = geometry(sizeOf(values));
   const cand = candidates(values);
   for (const kind of ["box", "row", "col"]) {
-    for (const u of UNITS) {
+    for (const u of geo.units) {
       if (u.kind !== kind) continue;
-      for (let v = 1; v <= 9; v++) {
+      for (let v = 1; v <= geo.n; v++) {
         if (u.cells.some((i) => values[i] === v)) continue;
         const spots = u.cells.filter((i) => cand[i] & (1 << v));
         if (spots.length === 1) {
@@ -189,13 +209,98 @@ export function findSingle(values) {
       }
     }
   }
-  for (let i = 0; i < 81; i++) {
+  for (let i = 0; i < geo.cells; i++) {
     if (values[i] || popcount(cand[i]) !== 1) continue;
     const v = Math.log2(cand[i]);
     return { cell: i, value: v, kind: "naked", unit: null,
       text: `같은 가로줄·세로줄·박스에 다른 숫자가 모두 있어서 이 칸에는 ${v}만 들어갈 수 있어요.` };
   }
   return null;
+}
+
+// 줄·박스에 빈칸이 하나만 남은 곳 (가장 쉬운 수)
+export function findLastCell(values) {
+  const geo = geometry(sizeOf(values));
+  for (const u of geo.units) {
+    const empty = u.cells.filter((i) => !values[i]);
+    if (empty.length !== 1) continue;
+    const used = new Set(u.cells.map((i) => values[i]));
+    for (let v = 1; v <= geo.n; v++) if (!used.has(v)) {
+      const name = { row: "가로줄", col: "세로줄", box: "박스" }[u.kind];
+      return { cell: empty[0], value: v, kind: "last", unit: u,
+        text: `이 ${name}에는 빈칸이 하나만 남았어요. 빠진 숫자 ${iga(v)} 들어가요.` };
+    }
+  }
+  return null;
+}
+
+export function easySteps(puzzle) {
+  const g = puzzle.slice();
+  let last = 0, other = 0;
+  while (g.some((v) => !v)) {
+    const l = findLastCell(g);
+    if (l) { g[l.cell] = l.value; last++; continue; }
+    const s = findSingle(g);
+    if (!s) return { solved: false, last, other };
+    g[s.cell] = s.value; other++;
+  }
+  return { solved: true, last, other };
+}
+
+// 작은 판(4x4·6x6)과 일반 해 세기 (칸이 적어서 단순한 되돌아가기로 충분해요)
+function countGeneric(grid, limit = 2) {
+  const geo = geometry(sizeOf(grid));
+  const g = grid.slice();
+  let count = 0;
+  (function go() {
+    const i = g.indexOf(0);
+    if (i < 0) { count++; return; }
+    for (let v = 1; v <= geo.n && count < limit; v++) {
+      if (geo.peers[i].some((p) => g[p] === v)) continue;
+      g[i] = v; go(); g[i] = 0;
+    }
+  })();
+  return count;
+}
+export { countGeneric };
+
+export function generateMini(seed, n, blanks) {
+  const geo = geometry(n);
+  for (let attempt = 0; attempt < 60; attempt++) {
+    const rand = rng((seed + attempt * 7919) >>> 0);
+    const sol = new Array(geo.cells).fill(0);
+    (function fill(i) {
+      if (i === geo.cells) return true;
+      for (const v of shuffle([...Array(n).keys()].map((x) => x + 1), rand)) {
+        if (geo.peers[i].every((p) => sol[p] !== v)) { sol[i] = v; if (fill(i + 1)) return true; }
+      }
+      sol[i] = 0; return false;
+    })(0);
+    const puzzle = sol.slice();
+    let removed = 0;
+    for (const i of shuffle([...Array(geo.cells).keys()], rand)) {
+      if (removed >= blanks) break;
+      const keep = puzzle[i]; puzzle[i] = 0;
+      if (countGeneric(puzzle) !== 1 || !solveWithSingles(puzzle).solved) puzzle[i] = keep;
+      else removed++;
+    }
+    if (removed === blanks) return { puzzle, solution: sol, clues: geo.cells - blanks, difficulty: `mini${n}`, seed, n };
+  }
+  throw new Error("mini puzzle failed");
+}
+
+// 9x9 첫 판: 빈칸 약 20개, 대부분 '하나만 남은 칸'이고 박스 자리 찾기는 2~5번
+export function generateIntro(seed) {
+  let last = null;
+  for (let attempt = 0; attempt < 200; attempt++) {
+    const p = carve((seed + attempt * 0x9e3779b1) >>> 0, "intro");
+    const st = easySteps(p.puzzle);
+    p.technique = "singles"; p.easy = st;
+    const blanks = 81 - p.clues;
+    if (st.solved && blanks >= 19 && blanks <= 21 && st.other >= 2 && st.other <= 5) return p;
+    if (st.solved) last = p;
+  }
+  return last;
 }
 
 export function solveWithSingles(puzzle) {

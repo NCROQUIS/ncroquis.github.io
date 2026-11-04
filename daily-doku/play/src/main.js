@@ -110,7 +110,7 @@ function renderHome() {
   $("first-card").classList.toggle("hidden", !isNew);
   if (isNew) {
     const st = data.tutorialProgress?.stage || data.tutorialStage || 1;
-    $("btn-first").textContent = st > 1 || data.tutorialProgress ? `이어서 하기 · ${st}/3단계` : "첫 판 시작하기";
+    $("btn-first").textContent = st > 1 || data.tutorialProgress ? `이어서 하기 · ${st}/${LAST_STAGE}단계` : "첫 판 시작하기";
   }
   btn.disabled = isNew;
   if (isNew) {
@@ -377,7 +377,7 @@ function render() {
   }
   const label = G.mode === "daily"
     ? (G.dateKey === today() ? "오늘의 한 판" : `${keyLabel(G.dateKey)} 문제`)
-    : G.mode === "tutorial" ? `연습 ${G.stage || 3}/3` : "클래식";
+    : G.mode === "tutorial" ? `연습 ${G.stage || LAST_STAGE}/${LAST_STAGE}` : "클래식";
   $("game-mode").textContent = `${label} · ${DIFFICULTY[G.difficulty].label}`;
   renderCoach();
   const limited = G.mode === "classic" && data.settings.mistakeLimit;
@@ -583,8 +583,8 @@ function win() {
   const starCount = stars(G);
   const rec = { seconds: G.seconds, mistakes: G.mistakes, stars: starCount, boxMistakes: G.boxMistakes, hinted: G.hinted, difficulty: G.difficulty };
   if (G.mode === "tutorial") {
-    rec.stage = G.stage || 3;
-    if (rec.stage >= 3) finishTutorial();
+    rec.stage = G.stage || LAST_STAGE;
+    if (rec.stage >= LAST_STAGE) finishTutorial();
     else { data.tutorialProgress = null; data.tutorialStage = rec.stage + 1; }
   } else if (G.mode === "daily") {
     rec.solvedOn = today();
@@ -672,8 +672,9 @@ function showResult(rec, dateKey, fromHome, mode = "daily") {
   $("result").classList.remove("hidden");
 }
 
-// ---------- 신규 유저 첫 판: 4×4 → 6×6 → 9×9 세 단계 ----------
-const STAGES = { 1: "mini4", 2: "mini6", 3: "intro" };
+// ---------- 신규 유저 첫 판: 4×4 → 9×9 두 단계 ----------
+const STAGES = { 1: "mini4", 2: "intro" };
+const LAST_STAGE = 2;
 // 코치: 1 칸 고르기 → 2 숫자 넣기 → 3 힌트 눌러 보기 → 4 힌트 채우기 → 5 혼자 풀기 (1단계)
 //       6 = 2단계 시작 안내, 7 = 3단계 시작 안내, 0 = 끝
 const COACH = {
@@ -681,13 +682,12 @@ const COACH = {
   2: "아래 숫자를 눌러 칸을 채워요. 같은 가로줄·세로줄·박스에 같은 숫자가 있으면 안 돼요.",
   3: "잘했어요! 막히면 💡 힌트가 이유와 함께 알려 줘요. 한번 눌러 보세요.",
   5: "이제 혼자 끝까지 풀어 봐요. 줄이나 박스를 다 채우면 반짝여요!",
-  6: "이번엔 6×6이에요. 줄이나 박스에 빈칸이 하나만 남은 곳부터 채워 보세요.",
   7: "이제 진짜 크기 9×9예요! 숫자 1~9와 3×3 박스 9개로 이뤄져요. 막히면 힌트를 써요.",
 };
 function startStage(stage) {
   const g = newGame(generate(INTRO_SEED, STAGES[stage]), "tutorial", 0);
   g.stage = stage;
-  g.coach = stage === 1 ? 1 : stage === 2 ? 6 : 7;
+  g.coach = stage === 1 ? 1 : 7;
   g.coachCell = stage === 1 ? (findLastCell(g.puzzle) || findSingle(g.puzzle))?.cell ?? -1 : -1;
   startGame(g, "home");
 }
@@ -701,28 +701,28 @@ function renderCoach() {
   const text = COACH[step];
   box.classList.toggle("hidden", !text || !!hintShown);
   if (text) $("coach-text").textContent = text;
-  $("coach-ok").classList.toggle("hidden", ![5, 6, 7].includes(step));
+  $("coach-ok").classList.toggle("hidden", ![5, 7].includes(step));
   const cells = $("board").children;
   for (let i = 0; i < cells.length; i++) cells[i].classList.toggle("coach-cell", step === 1 && i === G.coachCell);
   $("t-hint").classList.toggle("coach-tool", step === 3);
 }
 $("coach-ok").onclick = () => { if (G) { G.coach = 0; render(); persist(); } };
 
-function finishTutorial() { data.tutorialDone = true; data.tutorialProgress = null; data.tutorialStage = 3; save(data); }
+function finishTutorial() { data.tutorialDone = true; data.tutorialProgress = null; data.tutorialStage = LAST_STAGE; save(data); }
 
 function showTutorialResult(rec) {
-  const stage = rec.stage || 3;
+  const stage = rec.stage || LAST_STAGE;
   $("result-stars").innerHTML = [1, 2, 3].map((n) => `<span class="${n <= rec.stars ? "" : "off"}">⭐</span>`).join("");
   $("r-time").textContent = formatTime(rec.seconds);
   $("r-mistakes").textContent = rec.mistakes;
   $("share-img").classList.add("hidden");
   const next = $("btn-result-next"), alt = $("btn-share");
   next.disabled = false; next.className = "btn primary";
-  if (stage < 3) {
+  if (stage < LAST_STAGE) {
     $("result-title").textContent = `${stage}단계 완료! 👏`;
-    $("r-streak").textContent = `${stage}/3`;
+    $("r-streak").textContent = `${stage}/${LAST_STAGE}`;
     $("r-third-label").textContent = "단계";
-    $("result-rank").textContent = stage === 1 ? "규칙을 익혔어요! 다음은 조금 큰 6×6이에요." : "좋아요! 마지막은 진짜 크기 9×9예요.";
+    $("result-rank").textContent = "규칙을 익혔어요! 다음은 진짜 크기 9×9예요.";
     next.textContent = `${stage + 1}단계 하기`;
     next.onclick = () => { $("result").classList.add("hidden"); clearInterval(timer); G = null; startStage(stage + 1); };
     // 1단계 뒤에는 스도쿠를 아는 사람이 바로 넘어갈 수 있게

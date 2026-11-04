@@ -69,7 +69,7 @@ with sync_playwright() as p:
         check(f"{dev} 신규: 첫 판 카드·오늘의 한 판 잠김·클래식 잠김",
               page.locator("#first-card:not(.hidden)").count() == 1 and page.locator("#btn-daily").is_disabled() and page.locator(".diff-btn").first.is_disabled())
         page.click("#btn-first"); page.wait_for_timeout(200)
-        check(f"{dev} 1단계: 4×4 판·빈칸 6", "연습 1/3" in page.inner_text("#game-mode") and page.locator(".cell").count() == 16 and len(empties(page)) == 6 and page.locator(".num").count() == 4)
+        check(f"{dev} 1단계: 4×4 판·빈칸 6", "연습 1/2" in page.inner_text("#game-mode") and page.locator(".cell").count() == 16 and len(empties(page)) == 6 and page.locator(".num").count() == 4)
         check(f"{dev} 안내 1: 칸 고르기 + 반짝이는 칸", "빈칸을 하나" in page.inner_text("#coach-text") and page.locator(".cell.coach-cell").count() == 1)
         page.screenshot(path=f"{OUT}/{dev}_02_stage1_coach.png")
         cc = page.evaluate("[...document.querySelectorAll('.cell')].findIndex(x=>x.classList.contains('coach-cell'))")
@@ -84,19 +84,14 @@ with sync_playwright() as p:
         check(f"{dev} 안내 5: 혼자 풀기", "혼자 끝까지" in page.inner_text("#coach-text"))
         page.click("#coach-ok")
         page.click("#t-cheat"); page.wait_for_timeout(1300)
-        check(f"{dev} 1단계 완료·건너뛰기 버튼", "1단계 완료" in page.inner_text("#result-title") and "바로 오늘의 한 판" in page.inner_text("#btn-share"))
+        check(f"{dev} 1단계 완료·건너뛰기 버튼", "1단계 완료" in page.inner_text("#result-title") and "바로 오늘의 한 판" in page.inner_text("#btn-share") and "9×9" in page.inner_text("#result-rank"))
         page.screenshot(path=f"{OUT}/{dev}_04_stage1_done.png")
         page.click("#btn-result-next"); page.wait_for_timeout(300)
-        check(f"{dev} 2단계: 6×6 판·빈칸 12·안내", "연습 2/3" in page.inner_text("#game-mode") and page.locator(".cell").count() == 36 and len(empties(page)) == 12 and "6×6" in page.inner_text("#coach-text"))
-        page.screenshot(path=f"{OUT}/{dev}_05_stage2.png")
+        check(f"{dev} 2단계: 바로 9×9·빈칸 약 20·안내", "연습 2/2" in page.inner_text("#game-mode") and page.locator(".cell").count() == 81 and 19 <= len(empties(page)) <= 21 and "9×9" in page.inner_text("#coach-text"))
+        page.screenshot(path=f"{OUT}/{dev}_05_stage2_9x9.png")
         page.click("#btn-back"); page.wait_for_timeout(150)
-        check(f"{dev} 홈: 이어서 하기 2/3단계", "2/3단계" in page.inner_text("#btn-first"))
+        check(f"{dev} 홈: 이어서 하기 2/2단계", "2/2단계" in page.inner_text("#btn-first"))
         page.click("#btn-first"); page.wait_for_timeout(200)
-        page.click("#coach-ok"); page.click("#t-cheat"); page.wait_for_timeout(1300)
-        check(f"{dev} 2단계 완료", "2단계 완료" in page.inner_text("#result-title") and page.locator("#btn-share.hidden").count() == 1)
-        page.click("#btn-result-next"); page.wait_for_timeout(300)
-        check(f"{dev} 3단계: 9×9 판·빈칸 약 20", "연습 3/3" in page.inner_text("#game-mode") and page.locator(".cell").count() == 81 and 19 <= len(empties(page)) <= 21)
-        page.screenshot(path=f"{OUT}/{dev}_06_stage3.png")
         page.click("#coach-ok"); page.click("#t-cheat"); page.wait_for_timeout(1300)
         check(f"{dev} 첫 판 완료 화면", "첫 판 완료" in page.inner_text("#result-title") and page.locator("#btn-share.hidden").count() == 1)
         page.click("#btn-result-next"); page.wait_for_timeout(300)
@@ -227,6 +222,31 @@ with sync_playwright() as p:
         page.click("#btn-daily"); page.wait_for_timeout(200)
         page.locator(".cell").nth(em[2]).dispatch_event("pointerdown"); page.click(f'.num[data-n="{sol[em[2]]}"]')
         check(f"햅틱 {label}: 끄면 멈춤", len(page.evaluate("window.__h")) == n)
+        ctx.close()
+
+    # 메모 숫자 자리 고정: 다른 숫자를 메모해도 각 숫자의 위치가 그대로여야 해요 (9×9와 4×4)
+    for label, data_, open_btn, combos in [
+        ("9×9", {"tutorialDone": True}, "#btn-daily", [[5], [1, 5], [5, 9], [1, 5, 9], [9], [3, 9], [7]]),
+        ("4×4", {}, "#btn-first", None),
+    ]:
+        ctx = browser.new_context(viewport={"width": 390, "height": 844}, device_scale_factor=2)
+        preset(ctx, data_)
+        page = new_page(ctx, "notes")
+        page.click(open_btn); page.wait_for_timeout(200)
+        if page.locator("#coach:not(.hidden)").count() and page.locator("#coach-ok:not(.hidden)").count(): page.click("#coach-ok")
+        e = page.evaluate("[...document.querySelectorAll('.cell')].findIndex(x=>!x.textContent)")
+        page.locator(".cell").nth(e).dispatch_event("pointerdown"); page.click("#t-note")
+        if combos is None:  # 4×4: 다 쓴 숫자는 숫자판에서 사라져서 남은 숫자로 조합해요
+            av = page.evaluate("[...document.querySelectorAll('.num:not(.used)')].map(b=>+b.dataset.n)")
+            combos = [[av[-1]], av[:], [av[0], av[-1]], [av[-1]]]
+        seen = {}
+        for combo in combos:
+            cur = set(page.evaluate(f"[...document.querySelectorAll('.cell')[{e}].querySelectorAll('.notes span')].filter(s=>s.textContent).map(s=>+s.textContent)"))
+            for n in sorted(set(combo) ^ cur): page.click(f'.num[data-n="{n}"]')
+            for n in combo:
+                r = page.evaluate(f"(()=>{{const s=document.querySelectorAll('.cell')[{e}].querySelectorAll('.notes span')[{n - 1}].getBoundingClientRect();return [Math.round(s.x),Math.round(s.y)]}})()")
+                seen.setdefault(n, set()).add(tuple(r))
+        check(f"메모 숫자 자리 고정 {label}", all(len(v) == 1 for v in seen.values()))
         ctx.close()
     browser.close()
 

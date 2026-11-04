@@ -84,3 +84,12 @@ test("신규 유저 1·2단계: 4x4·6x6 미니 판", () => {
   }
   assert.deepEqual([geometry(6).bw, geometry(6).bh], [3, 2]);
 });
+
+test("예전 6×6 진행은 9×9 단계로 옮겨요", async () => {
+  globalThis.localStorage = { _s: {}, getItem(k) { return this._s[k] ?? null; }, setItem(k, v) { this._s[k] = v; }, removeItem(k) { delete this._s[k]; } };
+  const { load } = await import("../src/store.js");
+  localStorage.setItem("dailydoku.v1", JSON.stringify({ tutorialStage: 3, tutorialProgress: { n: 6, stage: 2 } }));
+  let d = load(); assert.equal(d.tutorialStage, 2); assert.equal(d.tutorialProgress, null);
+  localStorage.setItem("dailydoku.v1", JSON.stringify({ tutorialProgress: { n: 9, stage: 3 } }));
+  d = load(); assert.equal(d.tutorialProgress.stage, 2);
+});

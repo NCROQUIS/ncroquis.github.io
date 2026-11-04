@@ -14,7 +14,7 @@ export function defaultData() {
     dailyProgress: {},  // 풀다 만 날짜별 문제 { [dateKey]: 게임 상태 }
     tutorialDone: false,    // 신규 유저 첫 판(쉬운 연습)을 마쳤는지
     tutorialProgress: null, // 풀다 만 첫 판
-    tutorialStage: 1,       // 다음에 할 첫 판 단계 (1: 4×4, 2: 6×6, 3: 9×9)
+    tutorialStage: 1,       // 다음에 할 첫 판 단계 (1: 4×4, 2: 9×9)
     nemo: { daily: {}, progress: {}, introDone: false }, // 오늘의 네모로직 { daily: { [dateKey]: 기록 }, progress: { [dateKey]: 풀다 만 판 } }
     settings: { sound: true, haptic: true, big: false, theme: "auto", mistakeLimit: true, name: "" },
   };
@@ -29,6 +29,10 @@ export function load() {
     const out = { ...def, ...d, settings: { ...def.settings, ...(d.settings || {}) }, nemo: { ...def.nemo, ...(d.nemo || {}) } };
     // 이미 플레이한 적 있는 사람은 첫 판을 건너뛰어요
     if (!d.tutorialDone && (Object.keys(out.daily).length || out.stats?.classicPlayed)) out.tutorialDone = true;
+    // 예전 3단계(4×4→6×6→9×9) 진행: 6×6은 빠졌어요 → 9×9 단계로 옮겨요
+    if (out.tutorialProgress?.n === 6) out.tutorialProgress = null;
+    if (out.tutorialProgress?.stage === 3) out.tutorialProgress.stage = 2;
+    if (out.tutorialStage > 2) out.tutorialStage = 2;
     // 예전 형식: 오늘의 한 판 이어하기가 inProgress에 있었어요
     if (out.inProgress?.mode === "daily") { out.dailyProgress[out.inProgress.dateKey] = out.inProgress; out.inProgress = null; }
     return out;

@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" /><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#F6F3EC" />
+  <title>데일리도쿠</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%233182F6%27/%3E%3Ctext x=%2716%27 y=%2723%27 font-size=%2720%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27 font-weight=%27700%27%3E9%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- 홈 -->
+    <section id="home" class="screen active">
+      <header class="home-top">
+        <h1 class="logo">데일리<span>도쿠</span></h1>
+        <div class="top-actions">
+          <button class="icon-btn" id="btn-records" aria-label="기록">🏆</button>
+          <button class="icon-btn" id="btn-settings" aria-label="설정">⚙</button>
+        </div>
+      </header>
+
+      <div class="risk-card hidden" id="risk-card">
+        <div class="risk-text"><b id="risk-title"></b><span>어제 문제를 오늘 안에 풀면 연속 기록이 이어져요</span></div>
+        <button class="btn warm" id="btn-risk">어제 문제</button>
+      </div>
+
+      <div class="today-card">
+        <div class="today-date" id="today-date"></div>
+        <div class="today-title">오늘의 한 판</div>
+        <div class="today-sub" id="today-sub">전국이 같은 문제를 풀어요</div>
+        <div class="vs-banner hidden" id="vs-banner"></div>
+        <button class="btn primary big" id="btn-daily">시작하기</button>
+        <div class="streak-row">
+          <div><b id="streak-cur">0</b><small>연속</small></div>
+          <div><b id="streak-best">0</b><small>최고 연속</small></div>
+          <div><b id="daily-count">0</b><small>푼 날</small></div>
+        </div>
+        <div class="week" id="week"></div>
+        <div class="ranking hidden" id="ranking">
+          <div class="ranking-title">오늘의 친구 순위</div>
+          <ol id="ranking-list"></ol>
+        </div>
+      </div>
+
+      <button class="month-strip" id="month-strip">
+        <span id="month-label"></span>
+        <span class="bar"><i id="month-bar"></i></span>
+        <span class="go">보관함 ›</span>
+      </button>
+
+      <div class="classic-card" id="classic-card">
+        <div class="section-title">클래식 <small id="classic-lock">오늘의 한 판을 풀면 열려요</small></div>
+        <div class="diff-grid" id="diff-grid"></div>
+        <button class="btn ghost hidden" id="btn-resume">이어하기</button>
+      </div>
+    </section>
+
+    <!-- 기록·보관함 -->
+    <section id="records" class="screen">
+      <header class="game-top">
+        <button class="icon-btn" id="btn-records-back" aria-label="뒤로">‹</button>
+        <div class="game-info"><div class="game-mode">기록 · 보관함</div></div>
+        <span class="icon-btn"></span>
+      </header>
+      <div class="panel">
+        <div class="cal-head">
+          <button class="icon-btn" id="cal-prev" aria-label="이전 달">‹</button>
+          <b id="cal-title"></b>
+          <button class="icon-btn" id="cal-next" aria-label="다음 달">›</button>
+        </div>
+        <div class="cal-dow"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div>
+        <div class="cal" id="cal"></div>
+        <div class="cal-foot" id="cal-foot"></div>
+        <div class="cal-legend"><span><i class="lg done"></i>푼 날</span><span><i class="lg late"></i>다음 날 메움</span><span><i class="lg open"></i>지난 문제</span></div>
+      </div>
+      <div class="panel">
+        <div class="section-title">배지</div>
+        <div class="badges" id="badges"></div>
+      </div>
+      <div class="panel">
+        <div class="section-title">클래식 최고 기록</div>
+        <div class="bests" id="bests"></div>
+      </div>
+    </section>
+
+    <!-- 게임 -->
+    <section id="game" class="screen">
+      <header class="game-top">
+        <button class="icon-btn" id="btn-back" aria-label="뒤로">‹</button>
+        <div class="game-info">
+          <div class="game-mode" id="game-mode"></div>
+          <div class="game-meta"><span id="game-mistakes"></span> · <span id="game-time">0:00</span></div>
+        </div>
+        <button class="icon-btn" id="btn-pause" aria-label="일시정지">Ⅱ</button>
+      </header>
+      <div class="vs-line hidden" id="vs-line"></div>
+      <div class="board-wrap"><div class="board" id="board"></div></div>
+      <div class="hint-box hidden" id="hint-box">
+        <p id="hint-text"></p>
+        <div class="hint-actions">
+          <button class="btn ghost small" id="hint-close">닫기</button>
+          <button class="btn primary small" id="hint-fill">채우기</button>
+        </div>
+      </div>
+      <div class="tools">
+        <button class="tool" id="t-undo"><i>↶</i><span>되돌리기</span></button>
+        <button class="tool" id="t-erase"><i>⌫</i><span>지우기</span></button>
+        <button class="tool" id="t-note"><i>✎</i><span>메모 <b id="note-state">OFF</b></span></button>
+        <button class="tool" id="t-auto"><i>⋯</i><span>자동 메모</span></button>
+        <button class="tool" id="t-hint"><i>💡</i><span>힌트</span><em id="hint-badge">3</em></button>
+      </div>
+      <div class="pad" id="pad"></div>
+      <button class="btn ghost small hidden" id="t-cheat">[테스트] 정답 채우기</button>
+    </section>
+
+    <!-- 결과 -->
+    <div class="modal hidden" id="result">
+      <div class="sheet">
+        <div class="result-stars" id="result-stars"></div>
+        <div class="result-title" id="result-title">해냈어요!</div>
+        <div class="result-stats">
+          <div><b id="r-time"></b><small>시간</small></div>
+          <div><b id="r-mistakes"></b><small>실수</small></div>
+          <div><b id="r-streak"></b><small id="r-third-label">연속</small></div>
+        </div>
+        <img class="share-img hidden" id="share-img" alt="결과 카드" />
+        <div class="result-rank hidden" id="result-rank"></div>
+        <button class="btn primary" id="btn-share">결과 공유하기</button>
+        <button class="btn ghost" id="btn-result-next">홈으로</button>
+      </div>
+    </div>
+
+    <!-- 공용 다이얼로그 -->
+    <div class="modal hidden" id="dialog">
+      <div class="sheet">
+        <div class="dialog-title" id="dialog-title"></div>
+        <div class="dialog-body" id="dialog-body"></div>
+        <div class="dialog-actions" id="dialog-actions"></div>
+      </div>
+    </div>
+
+    <div class="toast hidden" id="toast"></div>
+  </div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

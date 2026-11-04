@@ -1,12 +1,12 @@
 const Core=require('./core.js');let pass=0,fail=0;
 const ok=(name,cond)=>{if(cond){pass++;console.log('PASS',name)}else{fail++;console.log('FAIL',name)}};
 // 1. stages are deterministic and valid
-for(let n=1;n<=36;n++){const a=Core.makeStage(n),b=Core.makeStage(n);
+for(let n=1;n<=Core.STAGES;n++){const a=Core.makeStage(n),b=Core.makeStage(n);
   if(JSON.stringify(a)!==JSON.stringify(b)){ok('deterministic '+n,false);continue}
   const keys=new Set();let dup=false;a.bricks.forEach(x=>{const k=x.r+','+x.c;if(keys.has(k))dup=true;keys.add(k)});
   a.items.forEach(x=>{if(keys.has(x.r+','+x.c))dup=true});
-  if(dup||a.bricks.some(x=>x.c<0||x.c>(a.cols||7)-1||x.hp<1||x.r>(a.cols?7:5)||!['n','b','xh','xv'].includes(x.type))||a.par3>=a.par2){ok('stage valid '+n,false)}}
-ok('36 stages deterministic and valid',true);
+  if(dup||a.bricks.some(x=>x.c<0||x.c>(a.cols||7)-1||x.hp<1||x.r>(a.cols?7:(n>=Core.MAIN_FIRST?7:5))||!['n','b','xh','xv'].includes(x.type))||a.par3>=a.par2){ok('stage valid '+n,false)}}
+ok(Core.STAGES+' stages deterministic and valid',Core.STAGES===106);
 // 2. star thresholds
 {const s=Core.newGame(Core.makeStage(5));ok('3 stars at par3',Core.starsFor(s,s.stage.par3)===3);ok('2 stars at par2',Core.starsFor(s,s.stage.par2)===2);ok('1 star after par2',Core.starsFor(s,s.stage.par2+1)===1);s.continued=true;ok('continue caps at 1 star',Core.starsFor(s,1)===1);}
 // 3. single shot: balls all land, turn advances, bricks descend
@@ -83,4 +83,25 @@ ok('36 stages deterministic and valid',true);
 {const st={n:0,ch:4,cols:11,rows:14,balls:1,bricks:[{r:12,c:10,hp:999,type:'n'}],items:[],par3:1,par2:2};const g=Core.newGame(st);Core.runShot(g,Math.PI/2);ok('fail line follows the taller board (row 13 of 14)',g.status==='fail');}
 {const st={n:0,ch:4,cols:11,rows:14,balls:1,bricks:[{r:11,c:10,hp:999,type:'n'}],items:[],par3:1,par2:2};const g=Core.newGame(st);Core.runShot(g,Math.PI/2);ok('one row above the line is still alive',g.status==='aim');}
 {const t=Date.now();const r=Core.playStage(Core.makeStage(36),'expert');ok(`expert clears the widest stage (${r.turns} turns, ${((Date.now()-t)/1000).toFixed(1)}s)`,r.status==='clear');}
+
+// special balls (first ball of a shot) and golden aim
+{const mk=bricks=>({n:0,ch:1,balls:1,bricks,items:[],par3:1,par2:2});
+ const run=(st,type,a=Math.PI/2)=>{const g=Core.newGame(st);g.ballType=type;Core.startShot(g,a);const evs=[];g.events=evs;while(g.status==='shooting')Core.step(g);return {g,evs};};
+ // a column of four 1-hp bricks straight above the launcher (launch x 3.5)
+ const col=[1,2,3,4].map(r=>({r,c:3,hp:1,type:'n'}));
+ {const {g}=run(mk(col.map(b=>({...b}))),null);ok('plain ball breaks one brick of the column',g.bricks.size===3);}
+ {const {g,evs}=run(mk(col.map(b=>({...b}))),'pierce');ok(`pierce ball goes through all 4 (${4-g.bricks.size} broken)`,g.bricks.size===0&&evs.filter(e=>e.type==='special').length===4);}
+ const ring=[];for(let r=1;r<=3;r++)for(let c=2;c<=4;c++)ring.push({r,c,hp:2,type:'n'});
+ {const {g}=run(mk(ring.map(b=>({...b}))),'explode');const dmg=ring.length*2-[...g.bricks.values()].reduce((a,b)=>a+b.hp,0);ok(`blast ball hits the bricks around it (${dmg} damage)`,dmg>=6);}
+ {const {g}=run(mk(ring.map(b=>({...b}))),null);const dmg=ring.length*2-[...g.bricks.values()].reduce((a,b)=>a+b.hp,0);ok(`plain ball does less (${dmg} damage)`,dmg<6);}
+ {const g=Core.newGame(mk([{r:2,c:3,hp:50,type:'n'}])),evs=[];g.ballType='split';g.events=evs;Core.startShot(g,Math.PI/2);let most=0;while(g.status==='shooting'){Core.step(g);if(g.shot)most=Math.max(most,g.shot.balls.length);}
+  const sp=evs.filter(e=>e.type==='special').length;ok(`split ball adds 2 balls per split (${sp} splits, ${most} balls)`,sp>=1&&sp<=3&&most===1+2*sp);}
+ {const {g}=run(mk([{r:2,c:3,hp:50,type:'n'}]),'split');ok('split balls are not kept for next turn',g.balls===1);}
+ {const st=Core.makeStage(12),a=Core.playStage(st,'novice',77),b=Core.playStage(st,'novice',77,60,null);ok('no special ball = same game as before',JSON.stringify(a)===JSON.stringify(b));}
+ {const g=Core.newGame(Core.makeStage(5));ok('golden aim turns on once',Core.applyBooster(g,'gold')&&g.goldAim&&!Core.applyBooster(g,'gold'));
+  ok('golden aim path is longer',Core.aimPath(g,1.1,6).length>Core.aimPath(g,1.1).length);}}
+// 100-stage curve: main stages 37..106 are shown as 31..100
+ok('stage 37 is shown as 31, 106 as 100',Core.mainIndex(37)===31&&Core.mainIndex(106)===100&&Core.mainIndex(30)===30);
+{const t=[...Array(100)].map((_,i)=>Core.target(i+1>30?i+7:i+1));ok('targets stay between 55% and 97%',t.every(x=>x>=0.55&&x<=0.97));
+ const avg=(a,b)=>{let s=0;for(let m=a;m<=b;m++)s+=t[m-1];return s/(b-a+1)};ok(`average falls by chapter (${[1,5,10].map(c=>avg(c*10-9,c*10).toFixed(2))})`,avg(1,10)>avg(41,50)&&avg(41,50)>avg(91,100));}
 console.log(`\n${pass} passed, ${fail} failed`);process.exit(fail?1:0);

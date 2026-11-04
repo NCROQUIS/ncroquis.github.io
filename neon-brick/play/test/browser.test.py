@@ -14,7 +14,7 @@ async def main():
         await pg.screenshot(path="shots/01-title.png")
         ok("title screen visible", await pg.is_visible("#btnPlay"))
         await pg.click("#btnPlay"); await pg.wait_for_timeout(300)
-        ok("map shows 30 stages + 6 wide specials", await pg.locator(".grid button").count()==36)
+        ok("map shows 100 stages + 6 wide specials", await pg.locator(".grid button").count()==106)
         ok("only stage 1 unlocked", await pg.locator(".grid button:not([disabled])").count()==1)
         await pg.screenshot(path="shots/02-map.png")
         await pg.click(".grid button >> nth=0"); await pg.wait_for_timeout(1300)

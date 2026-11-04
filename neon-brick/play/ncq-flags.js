@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_TEST_FAKE_STORE": true, "NCQ_TEST_UNLOCK": true, "NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.1.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.neonbrick"});
+window.NCQ = Object.freeze({"NCQ_TEST_FAKE_STORE": true, "NCQ_TEST_UNLOCK": true, "NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.2.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.neonbrick"});
 Object.assign(window, window.NCQ);
 
 /* 엔크로키 지표 모듈 (ncq_build.py가 ncq-flags.js 뒤에 붙여요. 직접 고치지 마세요)
@@ -270,4 +270,4 @@ Object.assign(window, window.NCQ);
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"neon-brick","pf":"web","mk":"web","tr":"share","vn":"0.1.0","vc":0,"cm":"f7799fe","ft":["FAKE_STORE","UNLOCK"]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"neon-brick","pf":"web","mk":"web","tr":"share","vn":"0.2.0","vc":0,"cm":"c076280","ft":["FAKE_STORE","UNLOCK"]});

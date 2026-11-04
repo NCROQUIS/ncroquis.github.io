@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f6f7f2">
 <title>날씨냥</title>
-  <script type="module" crossorigin src="./assets/index-Cx0esEs6.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-4P7eTsYF.css">
+  <script type="module" crossorigin src="./assets/index-LQ432aa0.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CYQn_YA8.css">
 </head>
 <body>
 <div id="lock" role="button" tabindex="0" aria-label="날씨냥 열기">
@@ -19,7 +19,7 @@
       <div class="w-meta" id="wMeta">날씨를 불러오는 중</div>
     </div>
     <div class="w-cat" id="wCat"></div>
-    <div class="w-line" id="wLine">잠깐만 기다리라냥.</div>
+    <div class="w-line"><span class="say-track" id="wLine">잠깐만 기다리라냥.</span></div>
   </div>
   <div class="l-hint">잠금화면 위젯 미리보기 · 탭해서 열기</div>
 </div>
@@ -54,8 +54,8 @@
       </div>
     </div>
     <div class="hero-foot">
-      <p class="say" id="say" aria-live="polite"><span class="say-mark" id="catName">냥</span><span class="new-tag" id="newTag" hidden>NEW</span><span id="joke">잠깐만 기다리라냥.</span></p>
-      <span class="tip" id="tip"></span>
+      <div class="say-top"><span class="say-mark" id="catName">냥</span><span class="new-tag" id="newTag" hidden>NEW</span><span class="tip" id="tip"></span></div>
+      <p class="say" id="say" aria-live="polite"><span class="say-track" id="joke">잠깐만 기다리라냥.</span></p>
     </div>
   </section>
 
@@ -80,6 +80,7 @@
   <section class="grid" id="grid" aria-label="상세 정보"></section>
 
   <p class="credit">날씨 데이터 Open-Meteo · <span id="updated"></span></p>
+  <div class="home-ad" id="homeAd" hidden></div>
   <div class="reset" id="resetBox" hidden>
     <button class="text-btn" id="resetBtn">처음부터 다시 하기 (초기화)</button>
     <div class="reset-confirm" id="resetConfirm" hidden role="alertdialog" aria-labelledby="resetQ">

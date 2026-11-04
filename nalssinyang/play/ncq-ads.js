@@ -1,5 +1,5 @@
 /* 엔크로키 광고 도구 NcqAds — 출시 빌드(ncq_build.py)가 웹 빌드에 넣어요. 출시 서버가 최신으로 바꾸니 직접 고치지 마세요.
- * ncq-ads 1
+ * ncq-ads 4
  *
  * 게임 코드에서 (지면 이름은 코드의 광고 지면 표시 NCQ_ADS_<이름>의 <이름>, 예: REVIVE)
  *   NcqAds.can(지면)                 이 빌드에서 이 지면 광고를 보여 줄 수 있으면 true (보상 버튼을 보일지 정할 때)
@@ -14,15 +14,20 @@
  *
  * 어디서 도는지에 따라
  *   안드로이드 출시 빌드(광고 지면을 켠 빌드): 관리자가 승인한 AdMob 광고 (테스트 기능을 켠 빌드는 구글 테스트 광고)
+ *   토스(앱인토스) 빌드: 토스 인앱 광고 (테스트 빌드는 토스 테스트 광고, 배포용 빌드는 콘솔에서 만든 광고 그룹).
+ *                        빌드가 넣는 ncq-toss.js(window.NcqToss)의 웹 프레임워크 광고 함수로 불러요.
+ *                        실제 기기 대응: 광고는 한 번에 하나씩 불러요(동시에 부르면 이벤트가 빠지는 안드로이드 기기).
+ *                        닫힘 신호가 끝내 안 오는 기기는 광고가 뜬 뒤 화면에 들어온 첫 터치를 '닫힘'으로 봐요
+ *                        (광고가 떠 있는 동안 웹뷰는 터치를 받지 않아요). 광고를 띄웠는데 8초 동안 아무 신호가 없으면 실패예요
  *   공유 테스트(웹): 진짜 광고 대신 '광고 자리' 화면 (어디서 어떻게 나오는지 미리 봐요)
  *   광고를 끈 빌드: 아무것도 하지 않아요 (can·rewarded·interstitial 모두 false)
- * 광고 동의(유럽 등)는 앱을 열 때 NcqAds가 구글 동의 화면(UMP)으로 물어요.
+ * 광고 동의(유럽 등)는 안드로이드 앱을 열 때 NcqAds가 구글 동의 화면(UMP)으로 물어요.
  */
 (function (w, d) {
   "use strict";
   if (w.NcqAds && w.NcqAds.version) return; // 두 번 들어와도 하나만
 
-  var VERSION = 1;
+  var VERSION = 4;
   var GAP = 60000; // 전면 광고 사이 최소 간격 (보상형 광고를 본 뒤에도)
   var START_GAP = 30000; // 앱을 열고 이 시간 안에는 전면 광고를 띄우지 않아요
   var WAIT = 10000; // 보상형 광고를 불러오며 기다리는 최대 시간
@@ -30,6 +35,11 @@
   var SAFETY = 300000; // 광고가 닫혔다는 신호가 끝내 안 오면 이 시간 뒤 정리
   var MAX_AGE = 3300000; // 불러 둔 광고는 1시간쯤 지나면 못 써요 (구글 권장). 55분이 지나면 새로 불러요
   var CALL_WAIT = 4000; // 배너 명령이 이 시간 안에 대답이 없으면 (플러그인이 이미 떠 있는 배너를 보면 대답하지 않아요)
+  var LOAD_WAIT = 30000; // 토스 광고 불러오기가 이 시간 안에 끝나지 않으면 실패로 보고 나중에 다시
+  var SHOW_WAIT = 8000; // 토스 광고를 띄웠는데 이 시간 동안 아무 신호가 없으면 실패 (게임이 멈춘 채 남지 않게)
+  var TOUCH_ARM = 500; // 토스 광고가 뜬 뒤 이만큼 지나서 화면에 들어온 터치는 '광고가 닫힘'으로 봐요
+  var REWARD_GRACE = 600; // 보상 신호가 닫힘보다 늦게 오는 기기가 있어서 닫힌 뒤 이만큼 더 기다려요
+  var TOSS_BANNER = 102; // 토스 배너 높이 (앱인토스 권장, 글이 길면 조금 달라질 수 있어요)
   var KINDS = {
     interstitial: {prepare: "prepareInterstitial", show: "showInterstitial",
                    dismissed: "interstitialAdDismissed", failed: "interstitialAdFailedToShow"},
@@ -58,16 +68,21 @@
     want: null, banner: null, bannerFails: 0, bannerTimer: 0, space: {top: 0, bottom: 0}, warned: {}
   };
   var full = {}; // 광고 단위 ID → {loaded, at(불러온 때), loading, fails, timer}
+  var tossChain = Promise.resolve(); // 토스 광고는 한 번에 하나씩 불러요 (동시에 부르면 이벤트가 빠지는 안드로이드 기기가 있어요)
   var bannerChain = Promise.resolve();
   var seen = null;
 
-  /** 출시 빌드 표시 (ncq-flags.js의 window.NCQ). 처음 쓸 때 읽어요 (표시 파일이 이 파일보다 늦게 돌아도 되게). */
+  /** 출시 빌드 표시 (ncq-flags.js의 window.NCQ). 처음 쓸 때 읽어요 (표시 파일이 이 파일보다 늦게 돌아도 되게).
+   * cfg는 광고 설정 {test, units: {지면: 광고 ID}, formats: {지면: 형식}}: 안드로이드는 NCQ_ADMOB, 토스는 NCQ_TOSS_ADS. */
   function env() {
     if (seen) return seen;
     var ncq = w.NCQ || {};
-    var cfg = ncq.NCQ_ADMOB && typeof ncq.NCQ_ADMOB === "object" ? ncq.NCQ_ADMOB : null;
     var platform = String(ncq.NCQ_PLATFORM || "");
-    var e = {ncq: ncq, cfg: cfg, platform: platform, sim: platform === "web", native: !!cfg && platform === "android"};
+    var admob = ncq.NCQ_ADMOB && typeof ncq.NCQ_ADMOB === "object" ? ncq.NCQ_ADMOB : null;
+    var tossAds = ncq.NCQ_TOSS_ADS && typeof ncq.NCQ_TOSS_ADS === "object" ? ncq.NCQ_TOSS_ADS : null;
+    var cfg = platform === "toss" ? tossAds : admob;
+    var e = {ncq: ncq, cfg: cfg, platform: platform, sim: platform === "web", native: !!admob && platform === "android",
+             toss: !!tossAds && platform === "toss"};
     if (w.NCQ) seen = e;
     return e;
   }
@@ -146,6 +161,38 @@
     }
   }
 
+  // ------------------------------------------------------------ 토스 광고 함수 (ncq-toss.js가 window.NcqToss에 둬요)
+  function bridge() {
+    var b = w.NcqToss;
+    return b && typeof b === "object" ? b : null;
+  }
+
+  /** 지금 토스 앱이 이 광고 함수를 지원하는지 (토스 밖 브라우저나 오래된 토스 앱이면 false) */
+  function supported(fn) {
+    try {
+      return typeof fn === "function" && (typeof fn.isSupported !== "function" || !!fn.isSupported());
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function tossFull() {
+    var b = bridge();
+    return !!b && supported(b.loadFullScreenAd) && supported(b.showFullScreenAd);
+  }
+
+  function tossBanners() {
+    var b = bridge();
+    return !!b && !!b.TossAds && supported(b.TossAds.initialize) && supported(b.TossAds.attachBanner);
+  }
+
+  /** 구독을 끝내는 함수 (토스 광고 함수가 돌려준 것). 오류가 나도 게임을 멈추지 않게 */
+  function stopper(fn) {
+    return function () {
+      try { if (typeof fn === "function") fn(); } catch (e) { /* 이미 끝난 구독 */ }
+    };
+  }
+
   function retryDelay(fails) { return RETRY[Math.min(Math.max(fails, 1), RETRY.length) - 1]; }
 
   /** 부른 함수(banner·interstitial·rewarded)가 이 지면의 광고 단위 형식과 맞는지 */
@@ -156,10 +203,21 @@
     return ok || (!f && method === "banner");
   }
 
-  // ------------------------------------------------------------ 준비 (안드로이드)
+  // ------------------------------------------------------------ 준비 (안드로이드·토스)
   function init() {
     if (st.init) return st.init;
     st.init = (async function () {
+      if (env().toss) { // 토스: 동의는 토스 앱이 맡아요. 켠 지면의 전면·보상형 광고를 미리 불러 둬요 (한 번에 하나씩)
+        if (!bridge()) {
+          st.off = true;
+          warn("토스 광고 함수(ncq-toss.js)가 없어서 광고를 보여 줄 수 없어요");
+          return false;
+        }
+        st.ready = true;
+        preload();
+        if (st.want) applyBanner();
+        return true;
+      }
       if (!env().native) return false;
       if (!plugin()) {
         st.off = true;
@@ -194,9 +252,7 @@
       await sleep(300);
       st.ready = true;
       watchBanner();
-      Object.keys(units()).forEach(function (k) {
-        if (flagOn(k) && KINDS[formatOf(k)]) load(k);
-      });
+      preload();
       if (st.want) applyBanner();
       return true;
     })().catch(function (e) {
@@ -207,19 +263,28 @@
     return st.init;
   }
 
+  /** 켠 지면의 전면·보상형 광고를 미리 불러 둔다 */
+  function preload() {
+    Object.keys(units()).forEach(function (k) {
+      if (flagOn(k) && KINDS[formatOf(k)]) load(k);
+    });
+  }
+
+
   /** 전면·보상형 광고를 미리 불러온다. 불러왔으면 true. 실패하면 조금 뒤 다시 시도한다.
    * 다시 시도를 기다리는 중이면 건너뛴다 (force: 사용자가 보상형 광고를 직접 눌렀을 때는 바로). */
   function load(k, force) {
     var id = unit(k);
     var kind = KINDS[formatOf(k)];
     if (!id || !kind || !st.ready) return Promise.resolve(false);
-    var a = full[id] || (full[id] = {loaded: false, loading: null, fails: 0, timer: 0});
+    if (env().toss && !tossFull()) return Promise.resolve(false);
+    var a = full[id] || (full[id] = {loaded: false, loading: null, fails: 0, timer: 0, stop: null});
     if (a.loaded) return Promise.resolve(true);
     if (a.loading) return a.loading;
     if (a.timer && !force) return Promise.resolve(false);
     clearTimeout(a.timer);
     a.timer = 0;
-    a.loading = call(kind.prepare, {adId: id}).then(function () {
+    a.loading = (env().toss ? tossQueue(a, id) : call(kind.prepare, {adId: id})).then(function () {
       a.loaded = true;
       a.at = Date.now();
       a.fails = 0;
@@ -236,12 +301,46 @@
     return a.loading;
   }
 
+  /** 토스 광고 불러오기를 줄 세운다: 앞 광고 불러오기가 끝난 뒤에 시작해요 */
+  function tossQueue(a, id) {
+    var run = tossChain.then(function () { return tossLoad(a, id); });
+    tossChain = run.then(noop, noop);
+    return run;
+  }
+
+  /** 토스 전면·보상형 광고를 미리 불러온다 (loaded를 받으면 성공). 같은 광고 그룹은 한 번에 하나만 불러요. */
+  function tossLoad(a, id) {
+    return new Promise(function (resolve, reject) {
+      var settled = false;
+      var timer = 0;
+      function done(ok, err) {
+        if (settled) return;
+        settled = true;
+        clearTimeout(timer);
+        if (ok) return resolve(true);
+        if (a.stop) { a.stop(); a.stop = null; }
+        reject(err || new Error("광고를 불러오지 못했어요"));
+      }
+      timer = setTimeout(function () { done(false, new Error("대답이 없어요")); }, LOAD_WAIT);
+      try {
+        a.stop = stopper(bridge().loadFullScreenAd({
+          options: {adGroupId: id},
+          onEvent: function (ev) { if (ev && ev.type === "loaded") done(true); },
+          onError: function (e) { done(false, e); }
+        }));
+      } catch (e) {
+        done(false, e);
+      }
+    });
+  }
+
   /** 불러 둔 광고가 있고 아직 쓸 수 있는지 (오래됐으면 버리고 false) */
   function fresh(id) {
     var a = full[id];
     if (!a || !a.loaded) return false;
     if (Date.now() - a.at < MAX_AGE) return true;
     a.loaded = false;
+    if (a.stop) { a.stop(); a.stop = null; }
     return false;
   }
 
@@ -262,11 +361,62 @@
         done = true;
         clearTimeout(safety);
         stops.forEach(function (stop) { stop(); });
-        if (a) a.loaded = false;
+        if (a) {
+          a.loaded = false;
+          if (a.stop) { a.stop(); a.stop = null; } // 보여 준 광고의 불러오기 구독도 끝내요 (토스)
+        }
         st.busy = false;
         st.last = Date.now();
         setTimeout(function () { load(k); }, 1000); // 다음 광고를 미리
         resolve(result);
+      }
+      safety = setTimeout(function () { finish(kind.reward ? earned : true); }, SAFETY);
+      if (env().toss) { // 토스: 보상은 userEarnedReward를 받았을 때만, 닫히면(dismissed) 끝
+        var seen = false;
+        var armed = 0;
+        var closing = false;
+        var closed = function () { // 닫힘: dismissed, 또는 닫힘 신호가 안 오는 기기에서 광고가 뜬 뒤 첫 터치
+          if (closing) return;
+          closing = true;
+          if (kind.reward) setTimeout(function () { finish(earned); }, REWARD_GRACE); // 보상 신호가 늦게 와도 받게
+          else finish(true);
+        };
+        var touched = function () { closed(); };
+        var quiet = setTimeout(function () { // 띄웠는데 아무 신호가 없으면 실패 (게임이 멈춘 채 남지 않게)
+          if (seen) return;
+          warn("광고가 대답하지 않아요 (" + k + ")");
+          finish(false);
+        }, SHOW_WAIT);
+        stops.push(function () {
+          clearTimeout(quiet);
+          clearTimeout(armed);
+          d.removeEventListener("pointerdown", touched, true);
+        });
+        try {
+          stops.push(stopper(bridge().showFullScreenAd({
+            options: {adGroupId: id},
+            onEvent: function (ev) {
+              var type = ev && ev.type;
+              seen = true;
+              if (type === "show" && !armed) { // 광고가 떠 있는 동안 웹뷰는 터치를 받지 않아요
+                armed = setTimeout(function () { d.addEventListener("pointerdown", touched, true); }, TOUCH_ARM);
+              } else if (type === "userEarnedReward") earned = true;
+              else if (type === "dismissed") closed();
+              else if (type === "failedToShow") {
+                warn("광고를 보여 주지 못했어요 (" + k + ")");
+                finish(false);
+              }
+            },
+            onError: function (e) {
+              warn("광고를 보여 주지 못했어요 (" + k + ")", e);
+              finish(kind.reward ? earned : false);
+            }
+          })));
+        } catch (e) {
+          warn("광고를 보여 주지 못했어요 (" + k + ")", e);
+          finish(false);
+        }
+        return;
       }
       stops.push(listen(kind.dismissed, function () {
         if (kind.reward) setTimeout(function () { finish(earned); }, 400); // 보상 신호가 닫힘보다 늦게 와도 받게
@@ -277,7 +427,6 @@
         finish(false);
       }));
       if (kind.reward) stops.push(listen(kind.reward, function () { earned = true; }));
-      safety = setTimeout(function () { finish(kind.reward ? earned : true); }, SAFETY);
       call(kind.show, {adId: id}).then(function () {
         if (kind.reward) earned = true; // 보상형은 보상을 받았을 때 끝나요
       }, function (e) {
@@ -292,6 +441,7 @@
     var k = slotKey(slot);
     if (!k) return false;
     if (env().sim) return true;
+    if (env().toss) return !st.off && flagOn(k) && !!unit(k) && (formatOf(k) === "banner" ? tossBanners() : tossFull());
     return env().native && !st.off && flagOn(k) && !!unit(k) && !!plugin();
   }
 
@@ -365,8 +515,99 @@
     return st.ready ? applyBanner().then(noop) : Promise.resolve();
   }
 
+  // ------------------------------------------------------------ 토스 배너 (TossAds: initialize를 한 번 기다린 뒤 attachBanner)
+  var tossInit = null;
+
+  function tossAdsInit() {
+    if (tossInit) return tossInit;
+    tossInit = new Promise(function (resolve) {
+      var settled = false;
+      function done(ok, e) {
+        if (settled) return;
+        settled = true;
+        if (!ok) {
+          warn("토스 배너를 준비하지 못했어요", e);
+          setTimeout(function () { tossInit = null; }, 30000); // 조금 뒤 다시 해 볼 수 있게
+        }
+        resolve(ok);
+      }
+      setTimeout(function () { done(false, new Error("대답이 없어요")); }, 8000);
+      try {
+        bridge().TossAds.initialize({callbacks: {
+          onInitialized: function () { done(true); },
+          onInitializationFailed: function (e) { // 이미 준비돼 있으면 그대로 쓴다
+            done(/already initialized/i.test(String((e && e.message) || e || "")), e);
+          }
+        }});
+      } catch (e) {
+        done(false, e);
+      }
+    });
+    return tossInit;
+  }
+
+  function removeTossBanner() {
+    var b = st.banner;
+    if (!b) return;
+    st.banner = null;
+    try {
+      if (b.slot && typeof b.slot.destroy === "function") b.slot.destroy();
+    } catch (e) {
+      warn("배너를 지우지 못했어요", e);
+    }
+    b.box.remove();
+    setSpace(0, 0);
+  }
+
+  /** 토스 배너: 화면 너비 그대로, 아래(또는 위)에 붙여요. 다 그려지면 가린 높이를 알려요. 숨기면 지워요. */
+  function applyTossBanner() {
+    var run = bannerChain.then(async function () {
+      if (!st.ready) return false;
+      var want = st.want;
+      var cur = st.banner;
+      if (cur && (!want || cur.id !== unit(want.k) || cur.pos !== want.pos)) removeTossBanner();
+      if (!want) return false;
+      var id = unit(want.k);
+      if (!id || !tossBanners()) return false;
+      if (st.banner) return true; // 같은 배너가 이미 있어요
+      if (!(await tossAdsInit()) || st.want !== want) return false;
+      var top = want.pos === "top";
+      var box = el("div", "position:fixed;left:0;right:0;z-index:" + Z + ";" + (top
+        ? "top:0;padding-top:env(safe-area-inset-top,0px);" : "bottom:0;padding-bottom:env(safe-area-inset-bottom,0px);"));
+      var slotBox = el("div", "width:100%;min-height:" + TOSS_BANNER + "px");
+      box.appendChild(slotBox);
+      mount(box);
+      var b = {k: want.k, id: id, pos: want.pos, box: box, slot: null};
+      st.banner = b;
+      function gone(why, e) {
+        if (st.banner !== b) return;
+        if (why) warn(why, e);
+        box.style.display = "none";
+        setSpace(0, 0);
+      }
+      b.slot = bridge().TossAds.attachBanner(id, slotBox, {theme: "auto", tone: "blackAndWhite", variant: "expanded",
+        callbacks: {
+          onAdRendered: function () {
+            if (st.banner !== b) return;
+            box.style.display = "";
+            var h = Math.max(0, Math.round(box.getBoundingClientRect().height || 0));
+            setSpace(top ? h : 0, top ? 0 : h);
+          },
+          onNoFill: function () { gone(""); },
+          onAdFailedToRender: function (p) { gone("배너 광고를 보여 주지 못했어요", p && p.error); }
+        }});
+      return true;
+    }).catch(function (e) {
+      warn("배너를 보여 주지 못했어요", e);
+      return false;
+    });
+    bannerChain = run.then(noop, noop);
+    return run;
+  }
+
   /** st.want(보이고 싶은 배너)에 맞춘다. 한 번에 하나씩 차례로. 플러그인 명령은 모두 시간 제한을 둔다. */
   function applyBanner() {
+    if (env().toss) return applyTossBanner();
     var run = bannerChain.then(async function () {
       if (!st.ready) return false;
       var want = st.want;
@@ -470,7 +711,7 @@
   /** 광고 준비(동의 확인·초기화)가 끝날 때까지. 광고를 쓸 수 있으면 true (공유 테스트는 바로 true). */
   function ready() {
     if (env().sim) return Promise.resolve(true);
-    if (!env().native) return Promise.resolve(false);
+    if (!env().native && !env().toss) return Promise.resolve(false);
     return init();
   }
 
@@ -496,7 +737,8 @@
       slots[k] = {on: flagOn(k), format: formatOf(k) || null, loaded: !!(a && a.loaded)};
     });
     return {
-      version: VERSION, platform: e.platform, mode: e.sim ? "simulate" : e.native ? "admob" : "off", plugin: !!plugin(),
+      version: VERSION, platform: e.platform, mode: e.sim ? "simulate" : e.native ? "admob" : e.toss ? "toss" : "off",
+      plugin: e.toss ? !!bridge() : !!plugin(),
       ready: st.ready, off: st.off, test: !!(e.cfg && e.cfg.test), busy: st.busy, privacyRequired: st.privacy,
       banner: st.banner ? {slot: st.banner.k, position: st.banner.pos, hidden: st.banner.hidden} : null,
       space: bannerSpace(), slots: slots
@@ -626,8 +868,8 @@
   };
   try { Object.freeze(api); } catch (e) { /* 얼리지 못해도 괜찮아요 */ }
   w.NcqAds = api;
-  function boot() { // 앱을 열 때 동의를 묻고 광고를 미리 불러 둬요
-    if (env().native) init();
+  function boot() { // 앱을 열 때 동의를 묻고(안드로이드) 광고를 미리 불러 둬요
+    if (env().native || env().toss) init();
   }
   if (d.readyState === "loading") d.addEventListener("DOMContentLoaded", boot);
   else setTimeout(boot, 0);

@@ -7,6 +7,10 @@
 
 export const SIZE = 4;
 export const DIRS = { up: [-1, 0], down: [1, 0], left: [0, -1], right: [0, 1] };
+// 수순 기록 코드: 0~3 방향, 4 이어하기(부활)
+export const OPS = ["up", "down", "left", "right"];
+export const OP_REVIVE = 4;
+export const MILESTONES = [128, 256, 512, 1024, 2048];
 
 // mulberry32 — 작고 빠른 시드 난수. 상태가 숫자 하나라 되돌리기 저장이 쉽다.
 export function nextRandom(rng) {
@@ -37,6 +41,9 @@ export function newGame(seed) {
     nextId: 1,
     over: false,
     won: false,
+    log: [],      // 실제로 움직인 수순 (고스트·점수 검증용)
+    firsts: {},   // 타일 값 → 처음 만든 수 (128 이상)
+    revives: 0,
   };
   spawn(g);
   spawn(g);
@@ -48,6 +55,8 @@ export function cloneGame(g) {
     ...g,
     rng: { s: g.rng.s },
     cells: g.cells.map((t) => (t ? { ...t } : null)),
+    log: [...(g.log || [])],
+    firsts: { ...(g.firsts || {}) },
   };
 }
 
@@ -117,6 +126,8 @@ export function move(g, dir) {
   g.cells = next;
   g.score += gained;
   g.moves += 1;
+  if (g.log) g.log.push(OPS.indexOf(dir));
+  if (g.firsts) for (const m of merges) if (m.tile.v >= 128 && !g.firsts[m.tile.v]) g.firsts[m.tile.v] = g.moves;
   const spawned = spawn(g);
   g.over = !canMove(g);
   return { moved, gained, slides, merges, spawned };
@@ -172,4 +183,109 @@ export function weekKey(date = new Date()) {
 
 export function weeklySeed(date = new Date()) {
   return hashSeed("duel2048:" + weekKey(date));
+}
+
+// ── 이어하기 ──────────────────────────────
+// 가장 작은 타일 2개를 지운다 (값이 같으면 앞 칸부터). 난수는 쓰지 않아 대결 공정성이 유지된다.
+export function revive(g) {
+  const idx = g.cells
+    .map((t, i) => (t ? { i, v: t.v } : null))
+    .filter(Boolean)
+    .sort((a, b) => a.v - b.v || a.i - b.i)
+    .slice(0, 2)
+    .map((x) => x.i);
+  for (const i of idx) g.cells[i] = null;
+  g.over = false;
+  g.revives = (g.revives || 0) + 1;
+  if (g.log) g.log.push(OP_REVIVE);
+  return idx;
+}
+
+// ── 리플레이 ──────────────────────────────
+// 같은 시드 + 수순이면 판이 그대로 재현된다. 수마다 점수와 판(값 배열)을 남긴다.
+export function replay(seed, ops) {
+  const g = newGame(seed);
+  const frames = [{ score: 0, cells: g.cells.map((t) => (t ? t.v : 0)) }];
+  let valid = true;
+  for (const op of ops) {
+    if (op === OP_REVIVE) {
+      if (!g.over) { valid = false; break; }
+      revive(g);
+    } else {
+      const dir = OPS[op];
+      if (!dir) { valid = false; break; }
+      const r = move(g, dir);
+      if (!r.moved) { valid = false; break; }
+    }
+    // 이어하기는 '수'가 아니라서 같은 수 번호의 판을 덮어쓴다
+    const f = { score: g.score, cells: g.cells.map((t) => (t ? t.v : 0)) };
+    if (op === OP_REVIVE) frames[frames.length - 1] = f; else frames.push(f);
+  }
+  return { game: g, frames, valid, score: g.score, best: maxTile(g), firsts: g.firsts, revives: g.revives };
+}
+
+// ── 수순 압축: 3비트씩, 글자 하나에 2수 (base64url) ──
+const B64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+export function encodeOps(ops) {
+  let out = "";
+  for (let i = 0; i < ops.length; i += 2) {
+    const a = ops[i] & 7, b = i + 1 < ops.length ? ops[i + 1] & 7 : 7; // 7 = 끝
+    out += B64[(a << 3) | b];
+  }
+  return out;
+}
+export function decodeOps(str) {
+  const ops = [];
+  for (const ch of str || "") {
+    const n = B64.indexOf(ch);
+    if (n < 0) return null;
+    const a = n >> 3, b = n & 7;
+    if (a === 7) break;
+    ops.push(a);
+    if (b === 7) break;
+    ops.push(b);
+  }
+  return ops;
+}
+
+// ── 대결 링크 v2: ?g=<시드>.<점수>.<최고타일>.<수순>.<이름> ──
+export function encodeDuel2({ seed, score, best, ops, name }) {
+  const n = encodeURIComponent((name || "").slice(0, 10));
+  return `${(seed >>> 0).toString(36)}.${score.toString(36)}.${best.toString(36)}.${encodeOps(ops || [])}.${n}`;
+}
+export function decodeDuel2(str) {
+  if (!str) return null;
+  const [s, sc, b, o, ...rest] = str.split(".");
+  const ok = (x) => typeof x === "string" && /^[0-9a-z]{1,8}$/.test(x);
+  if (!ok(s) || !ok(sc) || !ok(b) || typeof o !== "string") return null;
+  const ops = decodeOps(o);
+  if (!ops) return null;
+  let name = "";
+  try { name = decodeURIComponent(rest.join(".")).slice(0, 10); } catch { name = ""; }
+  return { seed: parseInt(s, 36) >>> 0, score: parseInt(sc, 36), best: parseInt(b, 36), ops, name: name || "친구" };
+}
+
+// ── 오늘의 판 ─────────────────────────────
+export function dayKey(date = new Date()) {
+  const p = (n) => String(n).padStart(2, "0");
+  return `${date.getFullYear()}-${p(date.getMonth() + 1)}-${p(date.getDate())}`;
+}
+export function dailySeed(date = new Date()) {
+  return hashSeed("duel2048:day:" + dayKey(date));
+}
+export function prevDayKey(key) {
+  const [y, m, d] = key.split("-").map(Number);
+  return dayKey(new Date(y, m - 1, d - 1));
+}
+
+// ── 오늘의 목표 ───────────────────────────
+// 날짜마다 정해진 목표 하나 (모든 사람이 같음). 종류: 타일 만들기, 점수 넘기기, 한 번에 3쌍 합치기
+export function dailyGoal(date = new Date()) {
+  const key = dayKey(date);
+  const rng = { s: hashSeed("duel2048:goal:" + key) };
+  const t = Math.floor(nextRandom(rng) * 3);
+  const lv = Math.floor(nextRandom(rng) * 3);
+  if (t === 0) { const v = [256, 512, 1024][lv]; return { key, type: "tile", target: v, text: `${v} 타일 만들기` }; }
+  if (t === 1) { const v = [3000, 6000, 12000][lv]; return { key, type: "score", target: v, text: `한 판에 ${v.toLocaleString("ko-KR")}점 넘기기` }; }
+  return { key, type: "combo", target: 1, text: "한 번에 3쌍 합치기" };
 }

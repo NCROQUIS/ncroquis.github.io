@@ -1,0 +1,262 @@
+{
+ "1": {
+  "f": 0.6,
+  "p": [
+   4,
+   6
+  ],
+  "target": 0.98,
+  "clearRate": 1,
+  "median": 4,
+  "first": 2.7,
+  "expertTurns": 4,
+  "role": "쉬움"
+ },
+ "2": {
+  "f": 1,
+  "p": [
+   2,
+   3
+  ],
+  "target": 0.98,
+  "clearRate": 1,
+  "median": 3,
+  "first": 29.5,
+  "expertTurns": 2,
+  "role": "연쇄"
+ },
+ "3": {
+  "f": 0.89,
+  "p": [
+   7,
+   10
+  ],
+  "target": 0.7,
+  "clearRate": 0.7,
+  "median": 8,
+  "first": 1.6,
+  "expertTurns": 5,
+  "role": "약간 어려움"
+ },
+ "4": {
+  "f": 0.837,
+  "p": [
+   7,
+   10
+  ],
+  "target": 0.85,
+  "clearRate": 0.925,
+  "median": 9,
+  "first": 2.7,
+  "expertTurns": 5,
+  "role": "normal"
+ },
+ "5": {
+  "f": 0.67,
+  "p": [
+   8,
+   10
+  ],
+  "target": 0.85,
+  "clearRate": 0.9,
+  "median": 9,
+  "first": 4.1,
+  "expertTurns": 6,
+  "role": "normal"
+ },
+ "6": {
+  "f": 0.908,
+  "p": [
+   9,
+   11
+  ],
+  "target": 0.85,
+  "clearRate": 0.9,
+  "median": 9,
+  "first": 2.1,
+  "expertTurns": 6,
+  "role": "normal"
+ },
+ "7": {
+  "f": 0.505,
+  "p": [
+   7,
+   8
+  ],
+  "target": 0.85,
+  "clearRate": 0.925,
+  "median": 8,
+  "first": 2.6,
+  "expertTurns": 6,
+  "role": "normal"
+ },
+ "8": {
+  "f": 0.606,
+  "p": [
+   8,
+   10
+  ],
+  "target": 0.7,
+  "clearRate": 0.65,
+  "median": 9,
+  "first": 2.2,
+  "expertTurns": 7,
+  "role": "hard"
+ },
+ "9": {
+  "f": 0.526,
+  "p": [
+   10,
+   11
+  ],
+  "target": 0.7,
+  "clearRate": 0.8,
+  "median": 10,
+  "first": 1.5,
+  "expertTurns": 8,
+  "role": "hard"
+ },
+ "10": {
+  "f": 0.495,
+  "p": [
+   9,
+   10
+  ],
+  "target": 0.6,
+  "clearRate": 0.625,
+  "median": 9,
+  "first": 1.9,
+  "expertTurns": 7,
+  "role": "boss"
+ },
+ "11": {
+  "f": 0.837,
+  "p": [
+   12,
+   14
+  ],
+  "target": 0.92,
+  "clearRate": 0.925,
+  "median": 12,
+  "first": 2,
+  "expertTurns": 9,
+  "role": "easy"
+ },
+ "12": {
+  "f": 0.559,
+  "p": [
+   12,
+   13
+  ],
+  "target": 0.9,
+  "clearRate": 0.925,
+  "median": 12,
+  "first": 1.6,
+  "expertTurns": 9,
+  "role": "easy"
+ },
+ "13": {
+  "f": 0.594,
+  "p": [
+   12,
+   15
+  ],
+  "target": 0.9,
+  "clearRate": 0.975,
+  "median": 13,
+  "first": 5.6,
+  "expertTurns": 11,
+  "role": "easy"
+ },
+ "14": {
+  "f": 0.412,
+  "p": [
+   12,
+   13
+  ],
+  "target": 0.82,
+  "clearRate": 0.825,
+  "median": 12,
+  "first": 4.6,
+  "expertTurns": 10,
+  "role": "normal"
+ },
+ "15": {
+  "f": 0.429,
+  "p": [
+   13,
+   14
+  ],
+  "target": 0.82,
+  "clearRate": 0.8,
+  "median": 13,
+  "first": 2.8,
+  "expertTurns": 12,
+  "role": "normal"
+ },
+ "16": {
+  "f": 0.438,
+  "p": [
+   14,
+   16
+  ],
+  "target": 0.82,
+  "clearRate": 0.875,
+  "median": 14,
+  "first": 4,
+  "expertTurns": 12,
+  "role": "normal"
+ },
+ "17": {
+  "f": 0.351,
+  "p": [
+   14,
+   16
+  ],
+  "target": 0.82,
+  "clearRate": 0.95,
+  "median": 15,
+  "first": 5.1,
+  "expertTurns": 12,
+  "role": "normal"
+ },
+ "18": {
+  "f": 0.337,
+  "p": [
+   14,
+   15
+  ],
+  "target": 0.68,
+  "clearRate": 0.575,
+  "median": 14,
+  "first": 3.9,
+  "expertTurns": 12,
+  "role": "hard"
+ },
+ "19": {
+  "f": 0.351,
+  "p": [
+   15,
+   16
+  ],
+  "target": 0.68,
+  "clearRate": 0.8,
+  "median": 15,
+  "first": 3,
+  "expertTurns": 13,
+  "role": "hard"
+ },
+ "20": {
+  "f": 0.438,
+  "p": [
+   8,
+   9
+  ],
+  "target": 0.58,
+  "clearRate": 0.65,
+  "median": 8,
+  "first": 1.4,
+  "expertTurns": 7,
+  "role": "boss"
+ }
+}

@@ -1,0 +1,197 @@
+{
+ "21": {
+  "score": 93,
+  "parts": {
+   "skill": 30,
+   "burst": 18,
+   "tension": 15,
+   "chase": 8,
+   "flow": 22
+  },
+  "skill": 0.58,
+  "tail": 0.77,
+  "dryRatio": 0.02,
+  "chain": 10.8,
+  "first": 4.3,
+  "comeback": 0.34,
+  "near3": 0.2,
+  "clearRate": 0.92,
+  "warn": []
+ },
+ "22": {
+  "score": 94,
+  "parts": {
+   "skill": 30,
+   "burst": 16,
+   "tension": 15,
+   "chase": 10,
+   "flow": 23
+  },
+  "skill": 0.6,
+  "tail": 0.46,
+  "dryRatio": 0,
+  "chain": 10.1,
+  "first": 3.4,
+  "comeback": 0.38,
+  "near3": 0.35,
+  "clearRate": 1,
+  "warn": []
+ },
+ "23": {
+  "score": 93,
+  "parts": {
+   "skill": 30,
+   "burst": 17,
+   "tension": 15,
+   "chase": 10,
+   "flow": 21
+  },
+  "skill": 0.58,
+  "tail": 0.98,
+  "dryRatio": 0.02,
+  "chain": 10.3,
+  "first": 3.7,
+  "comeback": 0.36,
+  "near3": 0.36,
+  "clearRate": 0.94,
+  "warn": []
+ },
+ "24": {
+  "score": 95,
+  "parts": {
+   "skill": 30,
+   "burst": 19,
+   "tension": 15,
+   "chase": 9,
+   "flow": 22
+  },
+  "skill": 0.62,
+  "tail": 0.79,
+  "dryRatio": 0.04,
+  "chain": 11.3,
+  "first": 2.1,
+  "comeback": 0.45,
+  "near3": 0.23,
+  "clearRate": 0.92,
+  "warn": []
+ },
+ "25": {
+  "score": 93,
+  "parts": {
+   "skill": 30,
+   "burst": 16,
+   "tension": 15,
+   "chase": 10,
+   "flow": 22
+  },
+  "skill": 0.66,
+  "tail": 0.79,
+  "dryRatio": 0.03,
+  "chain": 9.9,
+  "first": 3.4,
+  "comeback": 0.41,
+  "near3": 0.32,
+  "clearRate": 0.92,
+  "warn": []
+ },
+ "26": {
+  "score": 90,
+  "parts": {
+   "skill": 30,
+   "burst": 19,
+   "tension": 10,
+   "chase": 10,
+   "flow": 21
+  },
+  "skill": 0.7,
+  "tail": 0.85,
+  "dryRatio": 0.04,
+  "chain": 11.5,
+  "first": 5.1,
+  "comeback": 0.57,
+  "near3": 0.3,
+  "clearRate": 0.83,
+  "warn": []
+ },
+ "27": {
+  "score": 92,
+  "parts": {
+   "skill": 30,
+   "burst": 16,
+   "tension": 14,
+   "chase": 10,
+   "flow": 22
+  },
+  "skill": 0.68,
+  "tail": 0.73,
+  "dryRatio": 0.01,
+  "chain": 10.2,
+  "first": 4.7,
+  "comeback": 0.48,
+  "near3": 0.35,
+  "clearRate": 0.96,
+  "warn": []
+ },
+ "28": {
+  "score": 95,
+  "parts": {
+   "skill": 30,
+   "burst": 18,
+   "tension": 15,
+   "chase": 10,
+   "flow": 22
+  },
+  "skill": 0.69,
+  "tail": 0.65,
+  "dryRatio": 0.01,
+  "chain": 10.8,
+  "first": 3.4,
+  "comeback": 0.38,
+  "near3": 0.25,
+  "clearRate": 0.83,
+  "warn": []
+ },
+ "29": {
+  "score": 91,
+  "parts": {
+   "skill": 30,
+   "burst": 20,
+   "tension": 9,
+   "chase": 10,
+   "flow": 22
+  },
+  "skill": 0.68,
+  "tail": 0.73,
+  "dryRatio": 0.03,
+  "chain": 12.8,
+  "first": 2.8,
+  "comeback": 0.62,
+  "near3": 0.35,
+  "clearRate": 0.77,
+  "warn": [
+   [
+    "warn",
+    "거의 매번 바닥까지 몰려요. 숨 쉴 틈이 필요해요"
+   ]
+  ]
+ },
+ "30": {
+  "score": 93,
+  "parts": {
+   "skill": 30,
+   "burst": 20,
+   "tension": 13,
+   "chase": 9,
+   "flow": 21
+  },
+  "skill": 0.7,
+  "tail": 0.79,
+  "dryRatio": 0.14,
+  "chain": 12.5,
+  "first": 6.4,
+  "comeback": 0.51,
+  "near3": 0.23,
+  "clearRate": 0.73,
+  "warn": []
+ }
+}

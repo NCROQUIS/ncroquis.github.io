@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script>
+<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script>
 <script>(function(){var n=window.NCQ||{},p=n.NCQ_PLATFORM;if(p==='toss'){window.__TOSS__=1;document.documentElement.setAttribute('data-toss','')}else if(p==='android'){window.__ANDROID__=1}if((p==='toss'||p==='android')&&window.NCQ_TEST_UNLOCK){window.__TOSS_TEST__=1}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="color-scheme" content="dark">
@@ -145,6 +145,31 @@ body{background:var(--ink);color:var(--paper);font-family:var(--body);overflow:h
 .card.locked{opacity:.5;cursor:not-allowed}
 .quote{font-size:13px;font-weight:700;color:var(--muted);margin-top:8px;min-height:18px}
 .chaps{display:flex;flex-direction:column;gap:16px}
+.starter{display:flex;align-items:center;gap:10px;width:100%;margin:4px 0 10px;padding:10px;border-radius:16px;border:2px solid #ffd23f;background:linear-gradient(120deg,rgba(255,210,63,.22),rgba(255,77,94,.16));color:var(--paper);font:inherit;text-align:left;cursor:pointer}
+.starter canvas{width:100px;height:80px;flex:none}
+.starter b{display:block;font-family:var(--display);font-weight:400;font-size:18px;color:#ffd23f}
+.starter small{display:block;font-weight:800;font-size:12px;color:var(--paper);margin:2px 0 4px}
+.starter em{font-style:normal;font-weight:900;font-size:15px}.starter em s{color:var(--muted);font-weight:700;margin-right:4px}
+.passBox{display:flex;flex-direction:column;gap:8px;padding:10px 12px;border-radius:16px;border:2px solid #b98cff;background:linear-gradient(160deg,rgba(185,140,255,.18),var(--panel) 70%);margin-bottom:6px}
+.passBox .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.passBox .top b{font-family:var(--display);font-weight:400;font-size:16px;color:#d9c2ff}
+.passBox .top span{font-weight:900;font-size:12px;color:var(--muted)}
+.passBox .bar{display:block;height:8px;border-radius:4px;background:rgba(244,239,228,.12);overflow:hidden}
+.passBox .bar em{display:block;height:100%;background:linear-gradient(90deg,#b98cff,#ffd23f);border-radius:4px}
+.passBox .rowL{display:flex;align-items:center;gap:8px}.passBox .rowL small{width:34px;flex:none;font-weight:900;font-size:10px;letter-spacing:.08em;color:var(--muted)}
+.chips2{display:flex;gap:5px;flex-wrap:wrap}
+.chips2 span{font-weight:800;font-size:11px;padding:4px 7px;border-radius:8px;border:1.5px solid var(--line);color:var(--muted);white-space:nowrap}
+.chips2 span.got{border-color:#5ee05a;color:#5ee05a}.chips2 span.lock{opacity:.7}
+#shPrice s{color:var(--muted);font-weight:700}
+.hrLog{display:flex;flex-direction:column;gap:8px;margin:6px 0 14px;padding:10px 12px;border-radius:14px;background:var(--panel);border:1px solid var(--line)}
+.hrLog .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-weight:900;font-size:13px}
+.hrLog .top b{font-family:var(--display);font-weight:400;font-size:14px;color:#ffd23f}
+.hrLog .top span{color:var(--muted);font-size:12px}
+.hrLog .slots{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:5px}
+.hrLog .slot{aspect-ratio:1;border-radius:9px;border:2px dashed var(--line);display:grid;place-items:center;font:900 13px var(--body);color:var(--muted);position:relative;overflow:hidden}
+.hrLog .slot.got{border-style:solid;border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,transparent)}
+.hrLog .slot canvas{width:100%;height:100%}
+.hrLog .slot small{position:absolute;bottom:1px;right:3px;font-size:9px;color:var(--muted)}
 .chap{display:flex;flex-direction:column;gap:8px}
 .chapHead{display:flex;align-items:center;gap:8px;min-width:0}
 .chapHead i{width:10px;height:10px;border-radius:3px;background:var(--c);flex:none}
@@ -163,6 +188,11 @@ body{background:var(--ink);color:var(--paper);font-family:var(--body);overflow:h
 .card.shop{border-color:#ffd23f;background:linear-gradient(160deg,rgba(255,210,63,.14),var(--panel) 60%)}
 .card.shop i{color:#ffd23f;font-weight:900}
 #shopAsk canvas{display:block;margin:0 auto;width:150px;height:150px}
+#resetAsk,#shopAsk{z-index:9}
+#setSheet{z-index:7;justify-content:flex-end;background:rgba(8,6,12,.7);padding:0}
+#setSheet .sheet{max-height:92%}
+#setSheet .panel{padding-top:0}
+#setBtn svg{width:22px;height:22px}
 #chestAsk{z-index:7;justify-content:flex-end;background:rgba(8,6,12,.7);padding:0}
 #chestAsk canvas{display:block;margin:0 auto;width:160px;height:160px}
 #chestAsk .chName{font-family:var(--display);font-size:24px;color:#7df9ff;text-align:center;text-shadow:0 2px 0 rgba(0,0,0,.6)}
@@ -329,6 +359,9 @@ a.btn{text-decoration:none;display:inline-block}
 .sheet .need{font:800 12px var(--body);color:var(--muted)}
 .sheet .thanks{font:900 22px var(--display);color:var(--cone);text-align:center;margin:18px 0 4px}
 .sheet .row{margin-top:6px}
+.btn.ad{display:inline-flex;align-items:center;gap:8px;background:#b98cff;color:#1a0f2e;box-shadow:0 4px 0 #6b3fb3;font-size:15px}
+.btn.ad b{font-size:13px}
+#btBtn.ad{opacity:1;filter:none;animation:btReady 1.6s ease-in-out infinite}
 .btn.share{display:inline-flex;align-items:center;gap:8px;background:#4fe0ff;color:#06252d;box-shadow:0 4px 0 #1f8aa0}
 .btn.share svg{width:18px;height:18px}
 /* Toss mini app only (toss/ build sets html[data-toss]): the game-style top bar is transparent and keeps its ⋯ / ✕ buttons
@@ -400,6 +433,7 @@ html[data-toss] .tLogo{margin-top:max(34px,7vh,calc(var(--toss-top) + 12px))}
       <div class="nametag">ASSASSIN</div><div class="brand">Q-<span>BI</span></div>
       <div class="starChip" id="starTotal">★ 0</div>
       <button class="iconbtn snd" id="sndMenu" aria-label="Sound on" aria-pressed="true"></button>
+      <button class="iconbtn" id="setBtn" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.6a3.4 3.4 0 1 0 0 6.8 3.4 3.4 0 0 0 0-6.8z" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M19.4 13.5l1.6 1.2-1.8 3.1-1.9-.7a7.6 7.6 0 0 1-1.9 1.1l-.3 2h-3.6l-.3-2a7.6 7.6 0 0 1-1.9-1.1l-1.9.7-1.8-3.1 1.6-1.2a7.4 7.4 0 0 1 0-2.9l-1.6-1.2 1.8-3.1 1.9.7a7.6 7.6 0 0 1 1.9-1.1l.3-2h3.6l.3 2a7.6 7.6 0 0 1 1.9 1.1l1.9-.7 1.8 3.1-1.6 1.2a7.4 7.4 0 0 1 0 2.9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></button>
     </div>
     <div class="hero">
       <canvas id="lobbyArt" width="720" height="440" aria-label="Your Q-Bi. Tap to wave."></canvas>
@@ -412,15 +446,17 @@ html[data-toss] .tLogo{margin-top:max(34px,7vh,calc(var(--toss-top) + 12px))}
       <button class="tab" role="tab" id="tab-stages" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7.5" height="7.5" rx="2" fill="none" stroke="currentColor" stroke-width="2.4"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2" fill="none" stroke="currentColor" stroke-width="2.4"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2" fill="none" stroke="currentColor" stroke-width="2.4"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>Stages</button>
       <button class="tab" role="tab" id="tab-looks" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="9" r="5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Looks</button>
       <button class="tab" role="tab" id="tab-eps" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>Episodes</button>
-      <button class="tab" role="tab" id="tab-set" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="7" r="2.4" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="8" cy="17" r="2.4" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>Settings</button>
+      <button class="tab" role="tab" id="tab-shop" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16l-1.4 10.2a2 2 0 0 1-2 1.8H7.4a2 2 0 0 1-2-1.8z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M8.5 9V7a3.5 3.5 0 0 1 7 0v2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Shop</button>
     </div>
-    <div class="panel" id="p-stages" role="tabpanel"><div class="chaps" id="chaps"></div></div>
+    <div class="panel" id="p-stages" role="tabpanel"><div class="hrLog" id="hrLog"></div><div class="chaps" id="chaps"></div></div>
     <div class="panel" id="p-looks" role="tabpanel" hidden>
       <div class="sec">Pick your Q-Bi <span id="avCount" style="letter-spacing:0"></span></div>
       <div class="cards" id="cards"></div>
       <p class="how">Earn stars to unlock new looks. Each one has its own swing, sparkle and giggle. SHOP looks leave a trail of fire, frost, sparks or stars when you move.</p>
       <div class="sec">Pick your blade <span id="blCount" style="letter-spacing:0"></span></div>
       <div class="cards bladeRow" id="blades"></div>
+      <div class="sec">Takedown style</div>
+      <div class="cards" id="fxCards"></div>
       <p class="how">Every blade has its own takedown sound. Frost, flame and thunder blades burst with their element. Some only come off a boss, some from the SHOP.</p>
     </div>
     <div class="panel" id="p-eps" role="tabpanel" hidden>
@@ -430,7 +466,34 @@ html[data-toss] .tLogo{margin-top:max(34px,7vh,calc(var(--toss-top) + 12px))}
       </div>
       <div class="epsEmpty" id="epsEmpty">Clear stage 5 to unlock your first Damn Seconds episode. A new one opens every five stages.</div>
     </div>
-    <div class="panel" id="p-set" role="tabpanel" hidden>
+    <div class="panel" id="p-shop" role="tabpanel" hidden>
+      <button class="starter" id="starterBox" hidden><canvas width="200" height="160" aria-hidden="true"></canvas><span><b>Starter Pack</b><small id="starterLine"></small><em id="starterPrice"></em></span></button>
+      <div class="passBox" id="passBox">
+        <div class="top"><b>👑 Q-Bi Pass</b><span id="passTxt"></span></div>
+        <i class="bar"><em id="passBar"></em></i>
+        <div class="rowL"><small>FREE</small><div class="chips2" id="passFree"></div></div>
+        <div class="rowL"><small>PASS</small><div class="chips2" id="passPaid"></div></div>
+        <button class="btn" id="passBuy">Get the Q-Bi Pass</button>
+      </div>
+      <div class="sec">Shop · extras</div>
+      <div class="cards" id="shopExtras"></div>
+      <div class="sec">Shop · looks</div>
+      <div class="cards" id="shopLooks"></div>
+      <div class="sec">Shop · blades</div>
+      <div class="cards bladeRow" id="shopBlades"></div>
+      <p class="how" id="shopHow">Shop looks leave a trail of fire, frost, sparks or stars as Q-Bi moves. Shop blades burst with their own effect and sound.</p>
+      <div class="epsEmpty" id="shopEmpty" hidden>The shop is coming soon. Stars, bosses and hidden rooms still unlock plenty.</div>
+    </div>
+    <div class="fbar">
+      <a class="btn fb" id="fbBtn" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M8 9.5h8M8 12.5h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>피드백 주기</a>
+      <span class="fbnote" id="fbNote" hidden>피드백 설문을 준비하고 있어요. 조금만 기다려 주세요!</span>
+    </div>
+  </div>
+
+  <div class="overlay" id="setSheet" hidden role="dialog" aria-modal="true" aria-labelledby="setTitle">
+    <div class="sheet">
+      <div class="shead"><h3 id="setTitle">Settings</h3><button class="iconbtn" id="setX" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg></button></div>
+    <div class="panel" id="p-set">
       <div class="sec">Test &amp; controls</div>
     <div class="opts">
       <button class="opt" id="optUnlock" aria-pressed="false"><span>Unlock all stages &amp; looks<small>For testing. Turn off to go back to your own progress.</small></span><i class="sw"></i></button>
@@ -446,9 +509,6 @@ html[data-toss] .tLogo{margin-top:max(34px,7vh,calc(var(--toss-top) + 12px))}
     </div>
     <p class="how">Swipe, or use the arrow keys, to move one tile at a time. Step into a guard from behind or the side to take them out. Each stage has three stars: one for clearing, one for beating the time and one for staying within the step budget. Stars unlock new looks and blades, and every fifth stage unlocks a Damn Seconds episode.</p>
     </div>
-    <div class="fbar">
-      <a class="btn fb" id="fbBtn" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M8 9.5h8M8 12.5h5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>피드백 주기</a>
-      <span class="fbnote" id="fbNote" hidden>피드백 설문을 준비하고 있어요. 조금만 기다려 주세요!</span>
     </div>
   </div>
 
@@ -490,6 +550,7 @@ html[data-toss] .tLogo{margin-top:max(34px,7vh,calc(var(--toss-top) + 12px))}
       <div class="q" id="shDesc"></div>
       <div class="price" id="shPrice"></div>
       <div class="row"><button class="btn ghost" id="shNo">Not now</button><button class="btn" id="shBuy">Buy</button></div>
+      <div class="row"><button class="btn ad" id="shTry" hidden><b>▶</b> Watch an ad · try it for one stage</button></div>
     </div>
   </div>
 
@@ -544,6 +605,7 @@ html[data-toss] .tLogo{margin-top:max(34px,7vh,calc(var(--toss-top) + 12px))}
       <button class="btn" id="failRetry">Try again</button>
       <button class="btn ghost" id="failMenu">Menu</button>
     </div>
+    <button class="btn ad" id="failRevive" hidden><b>▶</b> Watch an ad · continue here</button>
   </div>
 </div>
 
@@ -584,6 +646,11 @@ const CHARS = [
   { id:'windup',  name:'Wind-Up',  art:'Toy Factory', body:'#8d99ae', tip:'#edf2f4', hand:'#ffb703', face:'mask', fx:['#ffb703','#edf2f4','#ffffff'], pitch:1.02, need:170, acc:'windkey', line:'Wound tight. Runs silent.' },
   { id:'noir',    name:'Noir',     art:'Detective',   body:'#5c4d3c', tip:'#c9b79c', hand:'#e9d8a6', face:'mask', fx:['#e9d8a6','#c9b79c','#ffffff'], pitch:.78,  need:200, acc:'fedora', line:'Rain, shadows, and one clean case.' },
   { id:'rocker',  name:'Rocker',   art:'Encore',      body:'#ff006e', tip:'#ffbe0b', hand:'#3a86ff', face:'mask', fx:['#ff006e','#ffbe0b','#3a86ff'], pitch:1.2,  need:240, acc:'mohawk', line:'Loud hair. Quiet feet.' },
+  // Found every hidden room (all 10 chapter chests)
+  { id:'explorer', name:'Explorer', art:'All hidden rooms', body:'#c58b3c', tip:'#f1d39a', hand:'#5ee05a', face:'mask', fx:['#ffd23f','#f1d39a','#ffffff'], pitch:1.04, secretAll:true, glow:'#ffd23f', trail:'star', acc:'fedora', line:'Every wall, checked twice.' },
+  // Q-Bi Pass rewards (free row: Agent · pass row: Royal)
+  { id:'agent',   name:'Agent',    art:'Q-Bi Pass',   body:'#2b2d42', tip:'#8d99ae', hand:'#ef233c', face:'mask', fx:['#ef233c','#edf2f4','#8d99ae'], pitch:.92, pass:'free', acc:'shades', line:'Licensed to swing.' },
+  { id:'royal',   name:'Royal',    art:'Q-Bi Pass',   body:'#5a189a', tip:'#ffd23f', hand:'#ffd23f', face:'mask', fx:['#ffd23f','#c77dff','#ffffff'], pitch:.88, pass:'pass', acc:'crown', glow:'#ffd23f', trail:'star', line:'Long live the cleaver.' },
   // Shop-only looks: bought in the app, each leaves its own trail while Q-Bi moves.
   // NCQ_IAP_LOOK_INFERNO: 인페르노 룩 (움직이면 불꽃)
   { id:'inferno', name:'Inferno',  art:'Shop · fire', body:'#c1121f', tip:'#ffba08', hand:'#ffd166', face:'mask', fx:['#ff7b00','#ffd166','#ffffff'], pitch:.86, iap:'LOOK_INFERNO', glow:'#ff7b00', trail:'fire',  acc:'horns', line:'Leaves nothing behind but embers.' },
@@ -598,8 +665,87 @@ const CHARS = [
 // the web/dev build and test builds can "buy" them for free to try them.
 const shopOn = () => !window.NCQ || !!window.NCQ_TEST_UNLOCK || Object.keys(window).some(k => k.startsWith('NCQ_IAP_') && window[k] === true);
 const owned = it => !(it.iap || it.chest) || !!(save.owned && save.owned[it.id]);
-const charOpen = (ch, total = totalStars()) => it_ok(ch) && (save.unlockAll && !ch.iap || (ch.iap ? owned(ch) : total >= ch.need));
+const charOpen = (ch, total = totalStars()) => it_ok(ch) && (save.unlockAll && !ch.iap || (ch.iap ? owned(ch) : ch.pass ? passHas(ch.id) : ch.secretAll ? roomsFound() >= ROOMS_ALL : total >= ch.need));
+const ROOMS_ALL = 10;
+const roomsFound = () => BLADES.filter(b => b.chest && owned(b)).length;
 function it_ok(it) { return !it.iap || shopOn(); }
+// Shop extras (not looks or blades)
+// Planned prices are shown as labels only: real payments are not connected yet (test builds grant for free).
+const EXTRAS = [
+  // NCQ_IAP_STARTER_PACK: 스타터 팩 (인페르노 룩 + 피닉스 블레이드 + 광고 제거, 첫 7일만)
+  { id:'starter', name:'Starter Pack', iap:'STARTER_PACK', price:'₩3,300', was:'₩8,800', gives:['inferno','phoenix','noads'], days:7, line:'Inferno look, Phoenix Blade and No Ads together. Only in your first 7 days.' },
+  // NCQ_IAP_QBI_PASS: 큐비 패스 (30칸 보상 줄의 유료 줄)
+  { id:'pass', name:'Q-Bi Pass', iap:'QBI_PASS', price:'₩5,500', line:'Unlock the pass row: Royal look, two katanas and the Ink takedown style. Every clear moves you along.' },
+  // NCQ_IAP_REMOVE_ADS: 광고 제거 (스테이지 사이 전면 광고 없음, 보상형 광고는 원할 때만)
+  { id:'noads', name:'No Ads', iap:'REMOVE_ADS', price:'₩3,300', line:'No more ads between stages, forever. Bonus ads you choose to watch stay available.' },
+  // NCQ_IAP_FX_PACK: 처치 효과 팩 (코믹·픽셀·꽃가루 처치 연출)
+  { id:'fxpack', name:'Takedown FX Pack', iap:'FX_PACK', price:'₩1,500', gives:['fx_comic','fx_pixel','fx_confetti'], line:'Three takedown styles: Comic, Pixel and Confetti. Pick one in Looks.' },
+  // NCQ_IAP_SET_FIRE: 불꽃 세트 (인페르노 룩 + 피닉스 블레이드)
+  { id:'setfire', name:'Fire Set', iap:'SET_FIRE', price:'₩4,400', was:'₩5,500', gives:['inferno','phoenix'], line:'Inferno look and Phoenix Blade. Leave nothing but embers.' },
+  // NCQ_IAP_SET_COSMOS: 우주 세트 (갤럭시 룩 + 보이드 블레이드)
+  { id:'setcosmos', name:'Cosmos Set', iap:'SET_COSMOS', price:'₩4,400', was:'₩5,500', gives:['galaxy','void'], line:'Galaxy look and Void Blade. Stars on the way in, nothing on the way out.' },
+];
+const PRICES = { inferno:'₩2,200', frost:'₩2,200', storm:'₩2,200', galaxy:'₩2,200', phoenix:'₩3,300', void:'₩3,300' };
+const starterOn = () => !owned(EXTRAS[0]) && Date.now() - (save.firstSeen || Date.now()) < 7 * 864e5;
+
+// Takedown styles: extra words and bits on every takedown. Classic is free; the pack and the pass add the rest.
+const FXS = [
+  { id:'classic',  name:'Classic' },
+  { id:'comic',    name:'Comic',    src:'fx_comic',    words:['POW!','BAM!','WHAM!'], colors:['#ffd23f','#ff4d5e','#ffffff'] },
+  { id:'pixel',    name:'Pixel',    src:'fx_pixel',    words:['K.O.','HIT!','1UP'],   colors:['#4fe0ff','#5ee05a','#ff5fa2','#ffd23f'] },
+  { id:'confetti', name:'Confetti', src:'fx_confetti', words:['TA-DA!','YAY!'],       colors:['#ff5fa2','#4fe0ff','#ffd23f','#5ee05a','#b98cff'] },
+  { id:'sparkle',  name:'Sparkle',  src:'pass_free',   words:['SHINE!','TWINKLE!'],   colors:['#ffffff','#fff1a8','#ffd23f'] },
+  { id:'ink',      name:'Ink',      src:'pass',        words:['SHHH...','HUSH!'],      colors:['#10002b','#3c096c','#e0c3fc'] },
+];
+const fxOpen = f => f.id === 'classic' || !!save.unlockAll || (f.src === 'pass_free' ? passHas('fx_sparkle') : f.src === 'pass' ? passHas('fx_ink') : !!(save.owned && save.owned[f.src]));
+function killFx(x, y) {
+  const f = FXS.find(z => z.id === save.fx); if (!f || f.id === 'classic' || !fxOpen(f)) return null;
+  const r = Math.random, C = f.colors;
+  if (f.id === 'comic') for (let k = 0; k < 10; k++) { const a = k / 10 * 2 * PI; S.particles.push({ kind:'star4', x, y, vx:Math.cos(a) * 3, vy:Math.sin(a) * 3, life:.5, max:.5, rot:0, vr:0, size:.12, color:C[k % C.length] }); }
+  else if (f.id === 'pixel') for (let k = 0; k < 18; k++) { const a = r() * 2 * PI, sp = 1.5 + r() * 2.5; S.particles.push({ kind:'dia', x, y, vx:Math.round(Math.cos(a) * 2) * sp / 2, vy:Math.round(Math.sin(a) * 2) * sp / 2, g:3, life:.7, max:.7, rot:PI / 4, vr:0, size:.07, color:C[k % C.length] }); }
+  else if (f.id === 'confetti') for (let k = 0; k < 26; k++) { const a = -PI / 2 + (r() - .5) * 2.4, sp = 2 + r() * 3; S.particles.push({ kind:'dia', x, y, vx:Math.cos(a) * sp, vy:Math.sin(a) * sp, g:3.5, life:1.1, max:1.1, rot:r() * 6, vr:(r() - .5) * 18, size:.05 + r() * .04, color:C[k % C.length] }); }
+  else if (f.id === 'sparkle') for (let k = 0; k < 12; k++) { const a = r() * 2 * PI, sp = .8 + r() * 2; S.particles.push({ kind:'star4', x, y, vx:Math.cos(a) * sp, vy:Math.sin(a) * sp, life:.9, max:.9, rot:0, vr:0, size:.07 + r() * .08, color:C[k % C.length] }); }
+  else if (f.id === 'ink') for (let k = 0; k < 14; k++) { const a = r() * 2 * PI, sp = 1 + r() * 2.2; S.particles.push({ kind:'drop', x, y, vx:Math.cos(a) * sp, vy:Math.sin(a) * sp, g:3, life:.8, max:.8, rot:0, vr:0, size:.06 + r() * .06, color:C[k % C.length] }); }
+  return f.words[Math.floor(r() * f.words.length)];
+}
+
+// Q-Bi Pass: 30 tiers, one per stage clear. The free row is for everyone, the pass row needs the Q-Bi Pass.
+const PASS_TIERS = 30;
+const PASS_REWARDS = [
+  { tier:5,  row:'free', kind:'fx',    id:'fx_sparkle',   name:'Sparkle style' },
+  { tier:12, row:'free', kind:'look',  id:'agent',        name:'Agent look' },
+  { tier:20, row:'free', kind:'fx',    id:'fx_sparkle2',  name:'Sparkle+ trail', hidden:true },
+  { tier:3,  row:'pass', kind:'blade', id:'neonkatana',   name:'Neon Katana' },
+  { tier:10, row:'pass', kind:'look',  id:'royal',        name:'Royal look' },
+  { tier:18, row:'pass', kind:'fx',    id:'fx_ink',       name:'Ink style' },
+  { tier:30, row:'pass', kind:'blade', id:'shadowkatana', name:'Shadow Katana' },
+].filter(r => !r.hidden);
+const passTier = () => Math.min(PASS_TIERS, save.passXP || 0);
+const passOwned = () => !!(save.owned && save.owned.pass);
+function passHas(id) { const r = PASS_REWARDS.find(x => x.id === id); return !!r && passTier() >= r.tier && (r.row === 'free' || passOwned()); }
+function passStep() {                                  // a stage clear moves the pass along; new rewards are announced
+  if ((save.passXP || 0) >= PASS_TIERS) return [];
+  const before = PASS_REWARDS.filter(r => passHas(r.id)).map(r => r.id);
+  save.passXP = (save.passXP || 0) + 1; persist();
+  return PASS_REWARDS.filter(r => passHas(r.id) && !before.includes(r.id));
+}
+
+// ---------- ads ----------
+// NcqAds comes with the release build (keys are set by the admin). While developing, this stand-in grants rewards at once
+// and shows no interstitials. A release build without NcqAds turns ads and rewards off.
+const ADS_DEV = !window.NCQ && !window.Capacitor;
+const NcqAds = window.NcqAds || { can: () => ADS_DEV, rewarded: async () => ADS_DEV, interstitial: async () => false,
+  banner: async () => false, hideBanner: async () => {}, ready: async () => false, privacyRequired: () => false,
+  showPrivacyOptions: async () => false, bannerSpace: () => ({ top: 0, bottom: 0 }) };
+const noAds = () => !!(save.owned && save.owned.noads);
+const AD_EVERY = 3;                                    // a stage-clear interstitial every 3rd clear, never in chapter 1
+let adBusy = false;
+async function withAd(run) {                           // the game and its sound wait while an ad is up
+  if (adBusy) return false; adBusy = true;
+  const was = paused; paused = true; SFX.hush(true); setPadDir(null);
+  try { if (!window.NcqAds) toast('Ad goes here'); return await run(); } catch (e) { return false; }
+  finally { SFX.hush(false); paused = was; last = performance.now(); adBusy = false; }
+}
 
 // Blades: a second unlock track. Stars open most of them; the last two come off bosses.
 const BLADES = [
@@ -627,6 +773,9 @@ const BLADES = [
   { id:'fireeater',name:'Fire-Eater Saber',chest:8,  snd:'fireHit',  fx:'#ff6b6b', word:'TA-DA!',   elem:'fire', glow:'#ff6b6b', col:['#fff1c1','#ff6b6b','#8a1f33'] },
   { id:'tide',     name:'Tidecaller',      chest:9,  snd:'iceHit',   fx:'#2ec4b6', word:'SPLASH!',  elem:'ice',  glow:'#2ec4b6', col:['#e0fffb','#2ec4b6','#0b5d55'] },
   { id:'vault',    name:'Vaultbreaker',    chest:10, snd:'voidHit',  fx:'#9be15d', word:'CRACK!',   elem:'void', glow:'#9be15d', col:['#e6ffd1','#9be15d','#2f5a10'] },
+  // Q-Bi Pass blades (pass row)
+  { id:'neonkatana',   name:'Neon Katana',   pass:'pass', snd:'zapHit',  fx:'#ff2bd6', word:'SLICE!', elem:'bolt', glow:'#ff2bd6', col:['#ffffff','#ff2bd6','#5c0a4f'] },
+  { id:'shadowkatana', name:'Shadow Katana', pass:'pass', snd:'voidHit', fx:'#9d4edd', word:'HUSH!',  elem:'void', glow:'#9d4edd', col:['#e0c3fc','#3c096c','#10002b'] },
   // NCQ_IAP_BLADE_PHOENIX: 피닉스 블레이드 (불새 날개 불꽃)
   { id:'phoenix',  name:'Phoenix Blade',  iap:'BLADE_PHOENIX', snd:'phoenixHit', fx:'#ff4d00', word:'PHOENIX!', elem:'fire', glow:'#ff4d00' },
   // NCQ_IAP_BLADE_VOID: 보이드 블레이드 (검은 소용돌이)
@@ -699,7 +848,7 @@ const LEVELS = [
   { name:'Curtain Call', cover:true, par:9, mpar:19, gim:'H', hint:'NEW · Curtains hide you, even inside a flashlight.',
     map:["#########","#.......#","#.......#","#..H.H..#","#.......#","#...H...#","#.......#","#.H...H.#","#.......#","#...H...#","#.......#","#...P...#","#########"],
     guards:[{type:'spin', at:[4,2], speed:.9, ang:UP}, {type:'patrol', path:[[1,9],[1,5]]}] },
-  { name:'Orchestra Pit', chest:'encore', room:["#########","#########","#########","#########","##H...H##","##..T..##","##......E","##.....##","##.....##","#########","#########","#########","#########"], par:24, mpar:22, hint:'The spinner never stops turning. Time your move.',
+  { name:'Orchestra Pit', chest:'encore', room:["#########","#########","#########","###T#H###","#..B...##","##...#.##","##......E","##....H##","##.....##","#########","#########","#########","#########"], roomName:'Dressing Room', par:24, mpar:22, hint:'The spinner never stops turning. Time your move.',
     map:["#########","#.......#","#.#...#.#","#.......#","#...#...#","#.......#","#.......#","#.......#","#...#...#","#.......#","W.#...#.#","#...P...#","#########"],
     guards:[{type:'spin', at:[4,6], speed:1.1, ang:UP}, {type:'patrol', path:[[1,1],[7,1]]}, {type:'patrol', path:[[7,3],[7,9]]}] },
   { name:'Creaky Boards', par:10, mpar:15, gim:'N', hint:'NEW · Brown boards creak. Nearby guards turn toward the sound.',
@@ -740,7 +889,7 @@ const LEVELS = [
   { name:'Sculpture Garden', par:18, mpar:19, hint:'Statues hide you too. Wait behind them between beams.',
     map:["#########","#.......#","#.H...H.#","#.......#","#LLL.lll#","#...H...#","#.H...H.#","#.......#","#.......#","#...H...#","#.......#","#...P...#","#########"],
     guards:[{type:'spin', at:[4,2], speed:.9, ang:UP}, {type:'patrol', path:[[1,8],[7,8]]}, {type:'turn', at:[7,5], angles:[LT,DN]}] },
-  { name:'Sliding Exhibit', chest:'crystal', room:["#########","#########","#########","#########","##H...H##","##..T..##","E......##","##.....##","##.....##","#########","#########","#########","#########"], par:21, mpar:35, hint:'Key first. Mind the waxed floor.',
+  { name:'Sliding Exhibit', chest:'crystal', room:["#########","#########","#########","##H...T##","##IIIII.#","##I#III.#","E.IIIII.#","##.III#.#","##H....##","#########","#########","#########","#########"], roomName:'Restorers’ Vault', par:21, mpar:35, hint:'Key first. Mind the waxed floor.',
     map:["#########","#...K...#","#.#####.#","#.#...#.#","#.#...#.#","#.##D##.#","#.......#","#.IIIII.#","#.IIIII.#","#.......W","#.......#","#...P...#","#########"],
     guards:[{type:'turn', at:[4,3], angles:[UP,LT,RT]}, {type:'patrol', path:[[1,1],[1,6]]}, {type:'patrol', path:[[7,6],[7,1]]}] },
   { name:'Restoration Room', par:27, mpar:23, hint:'A laser wall and a trapdoor. Two ways in.',
@@ -757,7 +906,7 @@ const LEVELS = [
   { name:'Soundstage', par:8, mpar:14, gim:'C', hint:'NEW · Cameras can\'t be taken out. Stay out of the red.',
     map:["#########","#.......#","#.......#","#.H...H.#","#.......#","#.......#","#.......#","#.H...H.#","#.......#","#.......#","#.......#","#...P...#","#########"],
     guards:[{type:'patrol', path:[[1,1],[7,1]]}, {type:'cam', mode:'spin', at:[4,5], speed:.8, ang:UP}] },
-  { name:'Blackout', chest:'clapper', room:["#########","#########","#########","#########","##H...H##","##..T..##","##.....##","##.....##","##.....##","####.####","####.####","####.####","####E####"], par:9, mpar:20, gim:'S', hint:'NEW · Step on the power switch to cut the cameras for 6 seconds.',
+  { name:'Blackout', chest:'clapper', room:["#########","#########","##H.T.H##","##.###.##","##..B..##","##.....##","###.#.###","###...###","###.#####","###.#####","###.#####","###.#####","###E#####"], roomName:'Prop Closet', par:9, mpar:20, gim:'S', hint:'NEW · Step on the power switch to cut the cameras for 6 seconds.',
     map:["#W#######","#.......#","#.......#","#.......#","#.......#","#.......#","#.......#","#.......#","#.......#","#.......#","#S......#","#...P...#","#########"],
     guards:[{type:'turn', at:[4,1], angles:[LT,RT]}, {type:'cam', mode:'turn', at:[2,5], angles:[RT,DN]}, {type:'cam', mode:'turn', at:[6,5], angles:[LT,DN]}, {type:'cam', mode:'spin', at:[4,3], speed:1.2, ang:UP}] },
   { name:'Stunt Floor', par:16, mpar:13, hint:'Time your slide for when the guard looks away.',
@@ -800,7 +949,7 @@ const LEVELS = [
   { name:'Gallery Wing', par:31, mpar:24, hint:'Glass in the laser wall. Grab the key, cross once.',
     map:["#########","#.......#","#.##D##.#","#.#...#.#","#.#...#.#","#.#####.#","#.......#","#LLGGGLL#","#.......#","#.......#","#K......#","#...P...#","#########"],
     guards:[{type:'turn', at:[4,4], angles:[UP,LT,RT]}, {type:'patrol', path:[[1,1],[7,1]]}, {type:'patrol', path:[[7,8],[1,8]]}] },
-  { name:'Conservatory', chest:'emerald', room:["#########","#########","#########","#########","##H...H##","##..T..##","E......##","##.....##","##.....##","#########","#########","#########","#########"], par:17, mpar:20, hint:'Two drones on their rounds. Hop between the plants.',
+  { name:'Conservatory', chest:'emerald', room:["#########","#########","#########","##T#H.H##","##I.....#","##I#B##.#","E.I.....#","##.....##","#########","#########","#########","#########","#########"], roomName:'Secret Study', par:17, mpar:20, hint:'Two drones on their rounds. Hop between the plants.',
     map:["#########","#.......#","#.H.H.H.#","#.......#","#.......#","#.H.H.H.#","#.......#","#.......#","#.H.H.H.#","#.......#","#.......W","#...P...#","#########"],
     guards:[{type:'turn', at:[2,1], angles:[RT,DN]}, {type:'turn', at:[6,1], angles:[LT,DN]}, {type:'cam', mode:'patrol', path:[[1,4],[7,4]]}, {type:'cam', mode:'patrol', path:[[7,7],[1,7]]}] },
   { name:'Library', par:13, mpar:15, hint:'Long aisles between the shelves. A chandelier hangs over the reading room.',
@@ -822,7 +971,7 @@ const LEVELS = [
   { name:'Water Towers', par:10, mpar:15, hint:'Hide behind the air units. Save the smoke for the open roof.',
     map:["#########","#.......#","#.H.#.H.#","#...#...#","#.......#","#.##.##.#","#.......#","#.H...H.#","#.......#","#...M...#","#.......#","#...P...#","#########"],
     guards:[{type:'patrol', path:[[1,4],[7,4]]}, {type:'turn', at:[4,1], angles:[LT,RT]}, {type:'patrol', path:[[7,8],[1,8]]}] },
-  { name:'Helipad', chest:'gale', room:["#########","#########","#########","#########","##H...H##","##..T..##","##......E","##.....##","##.....##","#########","#########","#########","#########"], par:18, mpar:19, gim:'Z', hint:'NEW · Lights out! Flip the switch and every flashlight shrinks for five seconds.',
+  { name:'Helipad', chest:'gale', room:["#########","#########","#########","##T...H##","#.IIIII##","#.III#I##","#.IIIII.E","#.#III.##","##....H##","#########","#########","#########","#########"], roomName:'Rooftop Hideout', par:18, mpar:19, gim:'Z', hint:'NEW · Lights out! Flip the switch and every flashlight shrinks for five seconds.',
     map:["#########","#.......#","#.......#","W.......#","#.......#","#.......#","#.......#","#.......#","#.......#","#Z......#","#.......#","#...P...#","#########"],
     guards:[{type:'spin', at:[4,4], speed:.8, ang:DN}, {type:'turn', at:[2,7], angles:[RT,DN]}, {type:'turn', at:[6,7], angles:[LT,DN]}] },
   { name:'Ventilation', par:18, mpar:28, hint:'The middle shaft drops you upstairs. Come back down the other vent.',
@@ -869,7 +1018,7 @@ const LEVELS = [
   { name:'High Stakes', par:9, mpar:13, hint:'A glass floor over the cash room. Each pane holds once.',
     map:["#########","#.......#","#.......#","#GGG.GGG#","#.......#","#.H.Z.H.#","#.......#","#GGG.GGG#","#.......#","#.......#","#...M...#","#...P...#","#########"],
     guards:[{type:'spin', at:[4,1], speed:.9, ang:DN}, {type:'patrol', path:[[1,4],[7,4]]}, {type:'patrol', path:[[7,8],[1,8]]}] },
-  { name:'Chandelier Lounge', chest:'jackpot', room:["#########","#########","#########","#########","##H...H##","##..T..##","E......##","##.....##","##.....##","#########","#########","#########","#########"], par:15, mpar:9, hint:'Three chandeliers, one rope. Wait for the crowd to line up.',
+  { name:'Chandelier Lounge', chest:'jackpot', room:["#########","#########","#########","###H#T###","##...B..#","##.#...##","E......##","##H....##","##.....##","#########","#########","#########","#########"], roomName:'High Roller Vault', par:15, mpar:9, hint:'Three chandeliers, one rope. Wait for the crowd to line up.',
     map:["#########","#.......#","#.O...O.#","#.......#","#.......W","#...O...#","#.......#","#.......#","#.......#","#Y.....Z#","#.......#","#...P...#","#########"],
     guards:[{type:'turn', at:[2,2], angles:[DN,RT]}, {type:'turn', at:[6,2], angles:[DN,LT]}, {type:'spin', at:[4,5], speed:.8, ang:UP}, {type:'patrol', path:[[1,7],[7,7]]}] },
   { name:'Back Office', par:11, mpar:23, hint:'The key is in the office on the right. The vent leads left.',
@@ -882,7 +1031,7 @@ const LEVELS = [
   { name:'Conveyor', par:12, mpar:12, gim:'>', hint:'NEW · Conveyor belts carry you until something stops you. Ride one past the guard.',
     map:["#########","#.......#","#.......#","#.......#","#>>>>>>.#","#.......#","#.......#","#.......#","#.......#","#.......#","#.......#","#...P...#","#########"],
     guards:[{type:'patrol', path:[[1,2],[7,2]]}, {type:'spin', at:[4,8], speed:.7, ang:UP}] },
-  { name:'Packing Room', chest:'gear', room:["#########","#########","#########","#########","##H...H##","##..T..##","##......E","##.....##","##.....##","#########","#########","#########","#########"], par:12, mpar:14, hint:'Boxes hide you. The belt only goes up.',
+  { name:'Packing Room', chest:'gear', room:["#########","#########","#########","##H.H#T##","#.....I##","#.##B#I##","#.....I.E","##.....##","#########","#########","#########","#########","#########"], roomName:'Prototype Lab', par:12, mpar:14, hint:'Boxes hide you. The belt only goes up.',
     map:["#########","#.......#","#.H.^.H.#","#...^...#","#...^...#","#.H.^.H.#","#.......#","#.......#","W.......#","#.H...H.#","#.......#","#...P...#","#########"],
     guards:[{type:'patrol', path:[[1,1],[7,1]]}, {type:'patrol', path:[[1,7],[7,7]]}, {type:'turn', at:[6,4], angles:[LT,DN]}] },
   { name:'Belt Maze', par:11, mpar:12, hint:'The belts wind around the foreman’s desk. Follow them in.',
@@ -929,7 +1078,7 @@ const LEVELS = [
   { name:'Lion Cage', par:20, mpar:33, hint:'The cage door is on the right. The key hangs up in the stands.',
     map:["#########","#K......#","#....H..#","#......L#","#.#####.#","#.#...#.#","#.#...D.#","#.#####.#","#......l#","#H......#","#.......#","#...P...#","#########"],
     guards:[{type:'turn', at:[4,6], angles:[RT,UP,LT]}, {type:'patrol', path:[[1,3],[6,3]]}, {type:'patrol', path:[[1,10],[1,5]]}] },
-  { name:'Spotlight Show', chest:'fireeater', room:["#########","#########","#########","#########","##H...H##","##..T..##","E......##","##.....##","##.....##","#########","#########","#########","#########"], par:16, mpar:22, hint:'The show is on. Kill the house lights, then the cameras.',
+  { name:'Spotlight Show', chest:'fireeater', room:["#########","#########","#########","##H...T##","##IIIII.#","##I#III.#","E.IIIII.#","##.III#.#","##H....##","#########","#########","#########","#########"], roomName:'Lion’s Den', par:16, mpar:22, hint:'The show is on. Kill the house lights, then the cameras.',
     map:["#########","#.......W","#.......#","#.H...H.#","#.......#","#.......#","#.......#","#.......#","#.H...H.#","#.......#","#Z.....S#","#...P...#","#########"],
     guards:[{type:'spin', at:[4,2], speed:1, ang:DN}, {type:'turn', at:[2,6], angles:[RT,DN]}, {type:'turn', at:[6,6], angles:[LT,DN]}, {type:'cam', mode:'spin', at:[4,5], speed:.9, ang:UP}] },
   { name:'Ring of Fire', par:19, mpar:13, hint:'Jump through the ring when the lasers blink.',
@@ -958,7 +1107,7 @@ const LEVELS = [
   { name:'Lighthouse', par:12, mpar:15, hint:'The lighthouse beam never stops. Smoke, lights, power.',
     map:["#########","#.......#","#.......#","#.H...H.#","#.......#","#.......#","#.......#","#.......#","#.H...H.#","#.......#","#Z..M..S#","#...P...#","#########"],
     guards:[{type:'cam', mode:'spin', at:[4,5], speed:1.1, ang:UP}, {type:'patrol', path:[[1,1],[7,1]]}, {type:'turn', at:[4,2], angles:[DN,LT,RT]}] },
-  { name:'Smugglers', chest:'tide', room:["#########","#########","#########","#########","##H...H##","##..T..##","E......##","##.....##","##.....##","#########","#########","#########","#########"], par:14, mpar:20, hint:'A hidden gate between the smugglers’ rooms.',
+  { name:'Smugglers', chest:'tide', room:["#########","#########","#########","##T#H.H##","##I.....#","##I#B##.#","E.I.....#","##.....##","#########","#########","#########","#########","#########"], roomName:'Smugglers’ Hold', par:14, mpar:20, hint:'A hidden gate between the smugglers’ rooms.',
     map:["#########","#...#...#","#.1.#.2.#","#...g...#","##.###.##","#.......#","#.......#","#.Q...H.#","#.......W","#.......#","#.2...1.#","#...P...#","#########"],
     guards:[{type:'turn', at:[2,1], angles:[DN,RT]}, {type:'turn', at:[6,1], angles:[DN,LT]}, {type:'patrol', path:[[1,5],[7,5]]}] },
   { name:'Ice Hold', par:10, mpar:9, hint:'A frozen hold behind a row of gates.',
@@ -987,7 +1136,7 @@ const LEVELS = [
   { name:'Laser Corridor', par:20, mpar:13, hint:'Three laser walls. Count the blinks.',
     map:["#########","#.......#","#lllllll#","#.......#","#LLLLLLL#","#.......#","#lllllll#","#.......#","#.H...H.#","#.......#","#...M...#","#...P...#","#########"],
     guards:[{type:'turn', at:[4,1], angles:[LT,RT]}, {type:'patrol', path:[[1,4],[7,4]]}, {type:'patrol', path:[[1,8],[7,8]]}] },
-  { name:'Deposit Boxes', chest:'vault', room:["#########","#########","#########","#########","##H...H##","##..T..##","##.....##","##.....##","##.....##","####.####","####.####","####.####","####E####"], par:14, mpar:13, hint:'Deposit crates and a gate to the boxes.',
+  { name:'Deposit Boxes', chest:'vault', room:["#########","#########","##H.T.H##","##IIIII##","##I#I#I##","##IIIII##","##.#.#.##","###...###","####.####","####.####","####.####","####.####","####E####"], roomName:'Deep Vault', par:14, mpar:13, hint:'Deposit crates and a gate to the boxes.',
     map:["##W######","#.......#","#.......#","#.B.g.B.#","#.......#","#.......#","#...Q...#","#.......#","#.B...B.#","#.......#","#.......#","#...P...#","#########"],
     guards:[{type:'patrol', path:[[1,1],[7,1]]}, {type:'turn', at:[4,4], angles:[DN,LT,RT]}, {type:'patrol', path:[[7,6],[1,6]]}] },
   { name:'Glass Atrium', par:17, mpar:17, hint:'Two glass bridges over the atrium. Each one holds you only once.',
@@ -1129,6 +1278,7 @@ while (save.stars.length < LEVELS.length) save.stars.push(0);
 if (save.voiceV !== 6 || !DAMN_FX[save.voice]) { save.voice = 'demon'; save.voiceV = 6; }   // monster DAMN by default; the rest in Settings
 while (save.best.length < LEVELS.length) save.best.push(null);
 const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) {} };
+if (!save.firstSeen) { save.firstSeen = Date.now(); persist(); }   // the starter pack shows for 7 days from here
 const totalStars = () => save.stars.reduce((a, b) => a + b, 0);
 const charById = id => CHARS.find(c => c.id === id) || CHARS[0];
 
@@ -1518,7 +1668,7 @@ function pushable(x, y, dx, dy) {
   if (tileAt(x, y) !== 'B') return false;
   if (dx === undefined) return true;
   const nx = x + dx, ny = y + dy, ch = tileAt(nx, ny);
-  return (ch === '.' || ch === 'N' || ch === 'o') && !camAt(nx, ny) && !S.cams.some(c => c.kind === 'patrol' && Math.hypot(c.x - nx - .5, c.y - ny - .5) < .7);
+  return (ch === '.' || ch === 'N' || ch === 'o') && !camAt(nx, ny) && !(!S.room && S.cams.some(c => c.kind === 'patrol' && Math.hypot(c.x - nx - .5, c.y - ny - .5) < .7));
 }
 function camAt(x, y) { return !S.room && S.cams.some(c => c.kind !== 'patrol' && Math.floor(c.x) === x && Math.floor(c.y) === y); }
 let SECRETS_OFF = false;   // the test bots plan without hidden rooms
@@ -1573,7 +1723,7 @@ function astar(sx, sy, ex, ey) {
 // ---------- level ----------
 function startLevel(i, intro) {
   const L = lvDef(i), bonus = isBonus(i);
-  S.lv = i; S.theme = L.theme != null ? L.theme : bonus ? (i - DS0) % THEMES.length : chapterOf(i); S.secretSeen = false; S.room = false; S.roomTiles = null; S.outer = null; S.chestOpened = false; S.screen = 'game'; S.time = 0; S.t0 = null;
+  S.lv = i; S.theme = L.theme != null ? L.theme : bonus ? (i - DS0) % THEMES.length : chapterOf(i); S.secretSeen = false; S.room = false; S.roomTiles = null; S.outer = null; S.chestOpened = false; S.revived = false; S.btRefilled = false; S.adDue = false; trialStage(i); S.screen = 'game'; S.time = 0; S.t0 = null;
   S.cine = 0; S.cineOn = false; S.cineDone = false; S.hitStop = 0; S.trail = []; S.btT = 0; S.btWake = 0; S.btN = L.bullet || 0; S.btUsed = 0; S.btDur = L.btDur || BT_T;
   S.particles = []; S.decals = []; S.shake = 0; S.moves = 0; S.hasKey = false; S.camOff = 0; S.near = false; S.fail = null; S.mood = null;
   S.combo = 0; S.comboT = 0; S.bonus = 0; S.bestCombo = 0; $('combo').hidden = true; $('comboGlow').style.opacity = 0;
@@ -1614,7 +1764,7 @@ function startLevel(i, intro) {
   $('hint').innerHTML = isNew ? '<b>NEW</b> · ' + L.hint.slice(6) : L.hint;
   $('hint').classList.remove('fade');
   clearTimeout(S.hintT); S.hintT = setTimeout(() => $('hint').classList.add('fade'), isNew ? 6000 : 3500);
-  ['menu','result','fail'].forEach(id => $(id).hidden = true);
+  ['menu','result','fail','setSheet'].forEach(id => $(id).hidden = true);
   $('damn').classList.remove('pop'); $('toast').classList.remove('show');
   S.cards = [];
   if (intro && !bonus && i % CH_LEN === 0) S.cards.push({ kind:'chapter' });
@@ -1764,7 +1914,8 @@ function enterRoom(x, y) {
   const [dx, dy] = [[1,0],[-1,0],[0,-1],[0,1]].find(([a, b]) => S.tiles[ey + b] && S.tiles[ey + b][ex + a] === '.');
   Object.assign(p, { x:ex + dx + .5, y:ey + dy + .5, tx:ex + dx + .5, ty:ey + dy + .5, t:1, sliding:false, face:Math.atan2(dy, dx), hdir:dx < 0 ? -1 : 1 });
   inputLockUntil = performance.now() + 260; warpFade(); SFX.play('vent');
-  if (!S.secretSeen) { S.secretSeen = true; haptic('combo'); setTimeout(() => toast('Hidden room!'), 120); }
+  if (!S.secretSeen) { S.secretSeen = true; haptic('combo'); }
+  setTimeout(() => toast((L.roomName || 'Hidden room') + '!'), 120);
 }
 function leaveRoom() {
   const p = S.player, o = S.outer; if (!o) return;
@@ -1791,7 +1942,10 @@ function showChest(bl, had) {
   paused = true; setPadDir(null);
   $('chTitle').textContent = had ? 'Already yours' : 'Rare blade found!';
   $('chName').textContent = bl.name; $('chName').style.color = bl.fx;
-  $('chDesc').textContent = had ? 'You found this chest before. The blade is still in your collection.' : 'A rare blade skin that only comes out of hidden chests. Every takedown sparkles.';
+  const n = roomsFound(), lb = lvDef(S.lv);
+  $('chDesc').textContent = had ? 'You found this chest before. The blade is still in your collection.'
+    : (lb.room ? `Hidden room ${n} of ${ROOMS_ALL}. ` : '') + (n >= ROOMS_ALL && lb.room ? 'Every hidden room found: the Explorer look is yours!' : 'A rare blade skin that only comes out of hidden chests.');
+  if (!had && n >= ROOMS_ALL && lb.room) { SFX.play('unlock', 0, .4); toast('Explorer look unlocked!'); }
   $('chEquip').textContent = save.blade === bl.id ? 'Equipped' : 'Equip now';
   $('chestAsk').hidden = false; $('chestAsk').dataset.id = bl.id;
   cancelAnimationFrame(chestRaf);
@@ -1879,7 +2033,7 @@ function pushCrate(bx, by, dx, dy) {
   S.under[nx + ',' + ny] = S.tiles[ny][nx]; S.tiles[ny][nx] = 'B';
   S.crate = { fx:bx, fy:by, x:nx, y:ny, t:0 };
   SFX.play('push');
-  const victim = aliveGuards().find(g => !(g.inv > 0) && !g.flee && Math.hypot(g.x - nx - .5, g.y - ny - .5) < .75);
+  const victim = !S.room && aliveGuards().find(g => !(g.inv > 0) && !g.flee && Math.hypot(g.x - nx - .5, g.y - ny - .5) < .75);   // nobody to flatten in a hidden room
   if (victim) takeDown(victim, 'crate');
 }
 function burst(x, y, color, n) {
@@ -1923,7 +2077,8 @@ function update(dt) {
     }
   } else if (S.phase === 'play' && S.room) {
     const p = S.player; p.bump = Math.max(0, p.bump - dt);
-    if (p.t < 1) { p.t = Math.min(1, p.t + dt / p.dur); const e = 1 - (1 - p.t) * (1 - p.t); p.x = p.fx + (p.tx - p.fx) * e; p.y = p.fy + (p.ty - p.fy) * e; p.bob += dt * 22; if (p.t >= 1) { p.x = p.tx; p.y = p.ty; arrive(); } }
+    if (p.t < 1) { p.t = Math.min(1, p.t + dt / p.dur); const e = p.sliding ? p.t : 1 - (1 - p.t) * (1 - p.t); p.x = p.fx + (p.tx - p.fx) * e; p.y = p.fy + (p.ty - p.fy) * e; p.bob += dt * 22; if (p.t >= 1) { p.x = p.tx; p.y = p.ty; arrive(); } }
+    if (S.crate) { S.crate.t += dt / STEP_T; if (S.crate.t >= 1) S.crate = null; }   // the room's puzzle crates slide like the stage's
     if (S.room && Math.random() < dt * 3) S.particles.push({ kind:'star4', x:2 + Math.random() * 5, y:4 + Math.random() * 5, vx:0, vy:-.2, life:1, max:1, rot:0, vr:0, size:.05 + Math.random() * .05, color:['#ffd23f','#ffffff','#7df9ff'][Math.floor(Math.random() * 3)] });
   } else if (S.phase === 'play') {
     const wdt = S.btT > 0 ? dt * BT_W : dt, pdt = S.btT > 0 ? dt * BT_P : dt;   // bullet time: the world crawls, Q-Bi slows less
@@ -2017,7 +2172,22 @@ function showFail() {
   $('failTitle').textContent = t[0]; $('failText').textContent = t[1];
   $('failTake').textContent = `TAKE ${S.take} · CUT!`;
   $('failQuip').textContent = QUIP_END[(S.take - 1) % QUIP_END.length];
+  $('failRevive').hidden = !(canRevive() && NcqAds.can('REVIVE'));
   $('fail').hidden = false;
+}
+const canRevive = () => !S.revived && S.lv < DS0;     // once per take, main stages only
+async function tryRevive() {
+  // NCQ_ADS_REVIVE: 잡혔을 때 그 자리에서 이어하기 보상형 광고
+  if (!canRevive() || !NcqAds.can('REVIVE')) return;
+  if (await withAd(() => NcqAds.rewarded('REVIVE'))) revive();
+}
+function revive() {                                    // back on the tile before the fatal step, wrapped in smoke
+  const p = S.player, bx = Math.floor(p.t < 1 ? p.fx : p.x), by = Math.floor(p.t < 1 ? p.fy : p.y);
+  const safe = !laserOnAt(tileAt(Math.floor(p.fx), Math.floor(p.fy)), S.time) ? [Math.floor(p.fx), Math.floor(p.fy)] : [bx, by];
+  Object.assign(p, { x:safe[0] + .5, y:safe[1] + .5, tx:safe[0] + .5, ty:safe[1] + .5, t:1, sliding:false, next:null });
+  S.revived = true; S.phase = 'play'; S.phaseT = 0; S.fail = null; S.mood = null; S.focus = null; S.zoom = 0; S.smokeT = SMOKE_T;
+  S.guards.forEach(g => { g.alert = 0; });
+  $('fail').hidden = true; SFX.music(true); SFX.play('smoke'); toast('Back in the shadows!');
 }
 
 function bossHit(g, how) {
@@ -2058,7 +2228,8 @@ function takeDown(g, how) {
   S.particles.push({ kind:'diamond', x:g.x, y:g.y, vx:0, vy:0, life:.5 + lvl*.08, max:.5 + lvl*.08, rot:0, vr:2, size:1 + lvl*.35, color:hot || c.fx[1] });
   for (let k = 1; k <= Math.max(0, lvl - 1); k++)   // extra shock rings from x3 up
     S.particles.push({ kind:'diamond', x:g.x, y:g.y, vx:0, vy:0, life:.5 + k*.12, max:.5 + k*.12, rot:k, vr:-2, size:1.4 + k*.5, color:k % 2 ? '#ffffff' : hot });
-  S.particles.push({ kind:'word', x:g.x, y:g.y - .7, vx:0, vy:-1.2, life:.8 + lvl*.15, max:.8 + lvl*.15, rot:-.15, vr:0, size:.42 + lvl*.06, color:hot || '#ffffff', text: info ? info.word : how === 'drop' ? 'CRASH!' : how === 'crate' ? 'SQUASH!' : bl.word });
+  const styleWord = killFx(g.x, g.y);
+  S.particles.push({ kind:'word', x:g.x, y:g.y - .7, vx:0, vy:-1.2, life:.8 + lvl*.15, max:.8 + lvl*.15, rot:-.15, vr:0, size:.42 + lvl*.06, color:hot || '#ffffff', text: info ? info.word : how === 'drop' ? 'CRASH!' : how === 'crate' ? 'SQUASH!' : styleWord || bl.word });
   for (let k = 0; k < 16 + lvl * 10; k++) {
     const a = Math.random()*2*PI, sp = 2 + Math.random()*(3.5 + lvl);
     S.particles.push({ kind:'dia', x:g.x, y:g.y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, g:2.5, life:.6 + lvl*.08, max:.6 + lvl*.08, rot:a, vr:(Math.random()-.5)*14, size:.06 + Math.random()*.08, color: hot && k % 2 ? hot : c.fx[k % 3] });
@@ -2077,7 +2248,7 @@ function takeDown(g, how) {
 // Three stars: one for the clear, one for the time, one for the step budget (Mr Bullet's ammo, our footsteps).
 function starsFor(i, t, moves) { const L = LEVELS[i]; return 1 + (t <= L.par ? 1 : 0) + (moves <= L.mpar ? 1 : 0); }
 const bossesBeaten = () => LEVELS.reduce((n, L, i) => n + (L.guards.some(d => d.boss) && save.stars[i] > 0 ? 1 : 0), 0);
-const bladeOpen = (b, total = totalStars(), bosses = bossesBeaten()) => it_ok(b) && (b.iap ? owned(b) : b.chest ? owned(b) || !!save.unlockAll : save.unlockAll || (b.boss ? bosses >= b.boss : total >= b.need));
+const bladeOpen = (b, total = totalStars(), bosses = bossesBeaten()) => it_ok(b) && (b.iap ? owned(b) : b.pass ? passHas(b.id) || !!save.unlockAll : b.chest ? owned(b) || !!save.unlockAll : save.unlockAll || (b.boss ? bosses >= b.boss : total >= b.need));
 function finishBonus() {
   const i = S.lv, k = i - DS0, L = BONUS[k], t = clearTime(), okT = t <= L.par, ok3 = t <= L.par3, st = 1 + (okT ? 1 : 0) + (ok3 ? 1 : 0);
   save.ds = save.ds || []; const prev = save.ds[k] || { stars:0, best:null };
@@ -2096,6 +2267,9 @@ function finishBonus() {
   setTimeout(() => { if (S.phase === 'clear') $('result').hidden = false; }, 250);
 }
 const GOALS_HTML = document.getElementById('resGoals').innerHTML;
+// Late chapters have no cracked wall. After a hidden-room stage has been played twice, the result screen drops a rumour.
+const RUMORS = ['A guard muttered: “Feel that draft? Came right out of the wall.”', 'Rumour has it one wall in here is only painted on.',
+  'Somebody heard footsteps… on the other side of the wall.', 'A guard yawned: “Never lean on that wall. Last guy fell right through.”'];
 function finishSecret() {
   const found = !!(lvDef(S.lv).chest && (S.chestOpened || (save.chests || {})[S.lv])), t = clearTime();
   SFX.music(false); SFX.play('clear', found ? 2 : 1, .45);
@@ -2138,7 +2312,9 @@ function finish() {
   $('gSteps').classList.toggle('ok', okS); $('gStepsV').textContent = okS ? '✓' : S.moves;
   const news = [...unlocked.map(c => c.name + ' look'), ...newBlades.map(b => b.name)];
   if (lastOfChapter && st > 0 && BONUS[chapterOf(i)] && !save.btNew?.[chapterOf(i)]) { save.btNew = save.btNew || []; save.btNew[chapterOf(i)] = 1; persist(); news.push(`⚡ Bullet stage ${chapterOf(i) + 1}`); }
-  $('resUnlock').textContent = news.length ? `Unlocked: ${news.join(', ')}!`
+  const rumor = LEVELS[i].room && !owned(bladeById(LEVELS[i].chest)) && !crackHint() && ((save.plays || [])[i] || 0) >= 2 && !S.chestOpened
+    ? RUMORS[i % RUMORS.length] : '';
+  $('resUnlock').textContent = news.length ? `Unlocked: ${news.join(', ')}!` : rumor ? rumor
     : lastOfChapter && i < LEVELS.length - 1 ? `Next up: ${THEMES[chapterOf(i) + 1].place}.`
     : st === 3 ? 'Clean work.' : !okS && okT ? 'Fewer steps, one more star.' : okS && !okT ? 'A bit faster, one more star.' : 'Faster and fewer steps earn more stars.';
   $('resNext').hidden = i >= LEVELS.length - 1;
@@ -2152,6 +2328,10 @@ function finish() {
     SFX.play('unlock', 0, 1.3);
   }
   S.lastResult = { i, t, st, moves:S.moves, combo:S.bestCombo, final: i === LEVELS.length - 1 };
+  save.clears = (save.clears || 0) + 1; persist();
+  const passNew = passStep();
+  if (passNew.length) setTimeout(() => toast('Q-Bi Pass: ' + passNew.map(r => r.name).join(', ') + '!'), 900);
+  S.adDue = !noAds() && i >= CH_LEN && save.clears % AD_EVERY === 0;
   setTimeout(() => { if (S.phase === 'clear') $('result').hidden = false; }, 250);
 }
 // ---------- share card: a square "DAMN! x.x SECONDS" image for stories and chats ----------
@@ -3232,8 +3412,10 @@ let shopItem = null, shopRaf = 0;
 function openShop(it, kind) {
   shopItem = { it, kind }; SFX.play('ui');
   $('shTitle').textContent = it.name;
-  $('shDesc').textContent = kind === 'look' ? `${it.line} Leaves a trail of ${({ fire:'fire', ice:'frost', spark:'sparks', star:'stars' })[it.trail]} as you move.` : `A ${({ fire:'burning', ice:'freezing', bolt:'crackling', void:'swirling' })[it.elem] || ''} blade with its own takedown burst and sound.`;
-  $('shPrice').textContent = window.NCQ ? 'In-app purchase' : 'Test build · free to try';
+  $('shTry').hidden = kind === 'extra' || owned(it) || !NcqAds.can('SHOP_TRY');
+  $('shDesc').textContent = kind === 'extra' ? it.line : kind === 'look' ? `${it.line} Leaves a trail of ${({ fire:'fire', ice:'frost', spark:'sparks', star:'stars' })[it.trail]} as you move.` : `A ${({ fire:'burning', ice:'freezing', bolt:'crackling', void:'swirling' })[it.elem] || ''} blade with its own takedown burst and sound.`;
+  const price = it.price || PRICES[it.id];
+  $('shPrice').innerHTML = (it.was ? `<s>${it.was}</s> ` : '') + (price || 'In-app purchase') + (window.NCQ && !window.NCQ_TEST_UNLOCK ? '' : ' · test build: free');
   $('shBuy').textContent = window.NCQ ? 'Buy' : 'Get (test)';
   $('shopAsk').hidden = false;
   cancelAnimationFrame(shopRaf);
@@ -3241,27 +3423,79 @@ function openShop(it, kind) {
   const loop = () => {
     if ($('shopAsk').hidden) return;
     const t = performance.now() / 1000; c.clearRect(0, 0, 300, 300);
-    if (kind === 'look') { if (it.trail === 'fire') drawFlames(c, 150, 255, 40, t, 3); drawQbi(c, 150, 170, 170, ch, t * 6, null, Math.sin(t) > 0 ? 1 : -1, 0, null, t); }
+    if (kind === 'extra') drawExtra(c, it, 150, 150, 220, t);
+    else if (kind === 'look') { if (it.trail === 'fire') drawFlames(c, 150, 255, 40, t, 3); drawQbi(c, 150, 170, 170, ch, t * 6, null, Math.sin(t) > 0 ? 1 : -1, 0, null, t); }
     else { c.save(); c.translate(150, 250); c.rotate(.3); c.lineJoin = 'round'; c.lineCap = 'round'; c.strokeStyle = '#0d0b12'; c.lineWidth = 5; drawBlade(c, 300, it.id, '#0d0b12', 5, t); c.restore(); }
     shopRaf = requestAnimationFrame(loop);
   };
   loop();
 }
+function drawExtra(c, it, x, y, s, t) {                // shop art for packs and extras
+  t = t || 0;
+  if (it.id === 'noads') return drawNoAds(c, x, y, s, t);
+  const blade = (bx, by, bs, id, rot) => { c.save(); c.translate(bx, by); c.rotate(rot); c.lineJoin = 'round'; c.lineCap = 'round'; c.strokeStyle = '#0d0b12'; c.lineWidth = Math.max(2, bs * .025); drawBlade(c, bs, id, '#0d0b12', Math.max(2, bs * .025), t); c.restore(); };
+  if (it.gives && it.gives.some(g => CHARS.some(ch => ch.id === g))) {        // a look + blade bundle
+    const look = charById(it.gives.find(g => CHARS.some(ch => ch.id === g))), bl = it.gives.find(g => BLADES.some(b => b.id === g && b.iap));
+    if (bl) blade(x + s * .3, y + s * .42, s * .9, bl, .45);
+    drawQbi(c, x - s * .08, y + s * .02, s * .7, look, t * 5, null, 1, 0, null, t);
+    if (it.gives.includes('noads')) drawNoAds(c, x - s * .32, y + s * .32, s * .34, t);
+    return;
+  }
+  if (it.id === 'pass') {                                  // a ticket with a crown
+    c.save(); c.translate(x, y + Math.sin(t * 2) * s * .02); c.rotate(-.12);
+    c.fillStyle = '#5a189a'; c.strokeStyle = '#0d0b12'; c.lineWidth = s * .04; roundRect(c, -s*.42, -s*.26, s*.84, s*.52, s*.08); c.fill(); c.stroke();
+    c.fillStyle = '#ffd23f'; c.beginPath(); c.moveTo(-s*.2, s*.02); c.lineTo(-s*.2, -s*.14); c.lineTo(-s*.1, -s*.04); c.lineTo(0, -s*.18); c.lineTo(s*.1, -s*.04); c.lineTo(s*.2, -s*.14); c.lineTo(s*.2, s*.02); c.closePath(); c.fill(); c.stroke();
+    c.font = `900 ${Math.round(s * .13)}px Bungee, sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('PASS', 0, s * .15);
+    c.restore(); return;
+  }
+  if (it.id === 'fxpack') {                                // three word bubbles
+    [['POW!', '#ffd23f', -.18, -.16, -.2], ['K.O.', '#4fe0ff', .2, -.02, .15], ['TA-DA!', '#ff5fa2', -.06, .2, -.08]].forEach(([w, col, dx, dy, r], k) => {
+      c.save(); c.translate(x + dx * s, y + dy * s + Math.sin(t * 3 + k) * s * .02); c.rotate(r);
+      c.font = `900 ${Math.round(s * .17)}px Bungee, sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.lineWidth = s * .05; c.strokeStyle = '#0d0b12'; c.strokeText(w, 0, 0); c.fillStyle = col; c.fillText(w, 0, 0); c.restore(); });
+  }
+}
+function drawNoAds(c, x, y, s, t) {                   // a TV with "AD" on it, struck through
+  c.save(); c.translate(x, y + Math.sin((t || 0) * 2) * s * .02); c.lineJoin = 'round'; c.lineCap = 'round';
+  c.fillStyle = '#2b2233'; c.strokeStyle = '#0d0b12'; c.lineWidth = s * .05;
+  roundRect(c, -s*.42, -s*.3, s*.84, s*.56, s*.08); c.fill(); c.stroke();
+  c.fillStyle = '#ffd23f'; c.font = `900 ${Math.round(s*.28)}px Bungee, sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('AD', 0, -s*.02);
+  c.strokeStyle = '#ff4d5e'; c.lineWidth = s * .08; c.beginPath(); c.moveTo(-s*.36, s*.22); c.lineTo(s*.36, -s*.26); c.stroke();
+  c.restore();
+}
 function closeShop() { $('shopAsk').hidden = true; cancelAnimationFrame(shopRaf); }
+// Try a shop look or blade for one stage after a reward ad (it goes back when you play another stage or open the lobby)
+async function tryShopItem() {
+  if (!shopItem || shopItem.kind === 'extra') return;
+  const { it, kind } = shopItem;
+  // NCQ_ADS_SHOP_TRY: 상점 룩·무기를 한 판 써 보는 보상형 광고
+  if (!NcqAds.can('SHOP_TRY')) return;
+  if (!(await withAd(() => NcqAds.rewarded('SHOP_TRY')))) return;
+  endTrial();
+  S.trial = { kind, id:it.id, char:save.char, blade:save.blade, lv:null };
+  if (kind === 'look') save.char = it.id; else save.blade = it.id;
+  closeShop(); SFX.play('unlock'); toast(`${it.name}: yours for the next stage`);
+  startLevel(nextStage());
+}
+function trialStage(i) { if (!S.trial) return; if (S.trial.lv == null) S.trial.lv = i; else if (S.trial.lv !== i) endTrial(); }
+function endTrial() { if (!S.trial) return; save.char = S.trial.char; save.blade = S.trial.blade; S.trial = null; persist(); }
 function buyShopItem() {
   if (!shopItem) return;
   const { it, kind } = shopItem;
   // NCQ_IAP_*: release builds call the store here; the free grant below is for web/dev and test builds only.
   if (window.NCQ && !window.NCQ_TEST_UNLOCK) { toast('Store coming soon'); return; }
-  save.owned = save.owned || {}; save.owned[it.id] = 1;
-  if (kind === 'look') save.char = it.id; else save.blade = it.id;
-  persist(); closeShop(); SFX.play('unlock'); toast(`${it.name} unlocked!`); renderMenu(); renderLobby(); LB.tapT = 0; LB.swing = 1;
+  save.owned = save.owned || {}; save.owned[it.id] = 1; (it.gives || []).forEach(g => save.owned[g] = 1);
+  if (kind === 'look') save.char = it.id; else if (kind === 'blade') save.blade = it.id;
+  else if (it.gives) { const lk = it.gives.find(g => CHARS.some(ch => ch.id === g)), bl = it.gives.find(g => BLADES.some(b => b.id === g)); if (lk) save.char = lk; if (bl) save.blade = bl;
+    if (it.id === 'fxpack') save.fx = 'comic'; }
+  persist(); closeShop(); SFX.play('unlock'); toast(it.id === 'noads' ? 'Ads removed. Thank you!' : it.id === 'pass' ? 'Q-Bi Pass unlocked!' : `${it.name} unlocked!`); renderMenu(); renderLobby(); LB.tapT = 0; LB.swing = 1;
 }
 $('shX').onclick = $('shNo').onclick = closeShop;
 $('shopAsk').addEventListener('click', e => { if (e.target === $('shopAsk')) closeShop(); });
 $('shBuy').onclick = buyShopItem;
+$('shTry').onclick = tryShopItem;
 function resetProgress() {
-  const keep = { char: owned(charById(save.char)) && charById(save.char).iap ? save.char : 'qbi', blade:'cleaver', voice:save.voice, voiceV:save.voiceV, unlockAll:save.unlockAll, owned:save.owned, noHaptic:save.noHaptic };   // purchases and settings stay
+  const keep = { char: owned(charById(save.char)) && charById(save.char).iap ? save.char : 'qbi', blade:'cleaver', voice:save.voice, voiceV:save.voiceV, unlockAll:save.unlockAll, owned:save.owned, noHaptic:save.noHaptic, firstSeen:save.firstSeen, passXP:save.passXP, fx:save.fx };   // purchases and settings stay
   save = Object.assign({ stars:LEVELS.map(() => 0), best:LEVELS.map(() => null) }, keep);
   persist(); $('resetAsk').hidden = true; renderMenu(); renderLobby(); setTab('stages'); toast('Progress reset');
 }
@@ -3278,7 +3512,13 @@ $('ctlRound').onclick = () => { ctl = save.controls = 'round'; persist(); applyC
 
 const KEYS = { ArrowUp:[0,-1], ArrowDown:[0,1], ArrowLeft:[-1,0], ArrowRight:[1,0], w:[0,-1], s:[0,1], a:[-1,0], d:[1,0] };
 const KEYNAME = { '0,-1':'up', '0,1':'down', '-1,0':'left', '1,0':'right' };
-$('btBtn').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); SFX.init(); useBullet(); });
+$('btBtn').addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); SFX.init(); if (!useBullet()) refillBullet(); });
+const canRefill = () => S.screen === 'game' && S.phase === 'play' && !(S.btN > 0) && !(S.btT > 0) && !(S.btWake > 0) && !S.btRefilled && NcqAds.can('BT_REFILL');
+async function refillBullet() {
+  // NCQ_ADS_BT_REFILL: 불릿타임을 다 썼을 때 한 번 더 받는 보상형 광고 (판마다 한 번)
+  if (!canRefill()) return;
+  if (await withAd(() => NcqAds.rewarded('BT_REFILL'))) { S.btN = (S.btN || 0) + 1; S.btRefilled = true; SFX.play('unlock'); toast('⚡ +1'); paintBullet(); }
+}
 window.addEventListener('keydown', e => {
   if ((e.key === ' ' || e.key === 'b' || e.key === 'B') && S.screen === 'game') { e.preventDefault(); useBullet(); return; }
   const k = KEYS[e.key.length === 1 ? e.key.toLowerCase() : e.key];
@@ -3481,8 +3721,40 @@ function renderBonus() {
     $('vids').appendChild(a);
   });
 }
+function renderHrLog() {
+  const n = roomsFound(), el = $('hrLog');
+  el.innerHTML = `<div class="top"><b>🔍 Hidden rooms ${n}/${ROOMS_ALL}</b><span>${n >= ROOMS_ALL ? 'Explorer look unlocked!' : 'One in every chapter. Walls can lie.'}</span></div><div class="slots"></div>`;
+  const slots = el.querySelector('.slots');
+  for (let ci = 0; ci < ROOMS_ALL; ci++) {
+    const b = BLADES.find(x => x.chest === ci + 1), got = b && owned(b), d = document.createElement('div');
+    d.className = 'slot' + (got ? ' got' : ''); d.style.setProperty('--c', (THEMES[ci] || THEMES[0]).accent);
+    d.setAttribute('aria-label', `Chapter ${ci + 1}: ${got ? b.name : 'not found yet'}`);
+    if (got) { d.innerHTML = `<canvas width="64" height="64"></canvas><small>${ci + 1}</small>`; const c = d.querySelector('canvas').getContext('2d');
+      c.save(); c.translate(32, 56); c.rotate(.5); c.lineJoin = 'round'; c.lineCap = 'round'; c.strokeStyle = '#0d0b12'; c.lineWidth = 2; drawBlade(c, 70, b.id, '#0d0b12', 2, 0); c.restore(); }
+    else d.innerHTML = `?<small>${ci + 1}</small>`;
+    slots.appendChild(d);
+  }
+}
+function renderFx() {
+  if (!FXS.some(f => f.id === save.fx) || !fxOpen(FXS.find(f => f.id === save.fx))) save.fx = 'classic';
+  $('fxCards').innerHTML = '';
+  FXS.forEach(f => {
+    if (f.src && f.src.startsWith('fx_') && !shopOn() && !fxOpen(f)) return;
+    const open = fxOpen(f), b = document.createElement('button');
+    b.className = 'card' + (save.fx === f.id ? ' sel' : '') + (open ? '' : ' locked'); b.id = 'fx-' + f.id;
+    const w = f.words ? f.words[0] : 'CHOP!', col = f.colors ? f.colors[0] : '#ffffff';
+    b.innerHTML = `<canvas width="128" height="128"></canvas><b>${f.name}</b><i>${open ? (save.fx === f.id ? 'On' : 'Ready') : f.src.startsWith('fx_') ? 'SHOP' : 'PASS'}</i>`;
+    const c = b.querySelector('canvas').getContext('2d');
+    c.font = `900 ${w.length > 5 ? 26 : 32}px Bungee, sans-serif`; c.textAlign = 'center'; c.textBaseline = 'middle'; c.save(); c.translate(64, 64); c.rotate(-.15);
+    c.lineWidth = 7; c.strokeStyle = '#0d0b12'; c.strokeText(w, 0, 0); c.fillStyle = f.id === 'ink' ? '#e0c3fc' : col; c.fillText(w, 0, 0); c.restore();
+    (f.colors || ['#ffffff']).forEach((cc, k) => { c.fillStyle = cc; c.fillRect(20 + k * 22, 100, 12, 12); });
+    b.onclick = () => { if (!open) { if (f.src.startsWith('fx_')) openShop(EXTRAS.find(x => x.id === 'fxpack'), 'extra'); else setTab('shop'); return; } save.fx = f.id; persist(); SFX.play('ui'); renderMenu(); };
+    $('fxCards').appendChild(b);
+  });
+}
 function renderMenu() {
   const total = totalStars();
+  renderHrLog(); renderShop(); renderFx();
   const all = !!save.unlockAll;
   if (!CHARS.some(c => c.id === save.char) || !charOpen(charById(save.char), total)) save.char = 'qbi';
   $('cards').innerHTML = '';
@@ -3491,8 +3763,8 @@ function renderMenu() {
     const locked = !charOpen(ch, total), shop = !!ch.iap, b = document.createElement('button');
     b.className = 'card' + (save.char === ch.id ? ' sel' : '') + (locked ? ' locked' : '') + (shop ? ' shop' : '');
     b.id = 'card-' + ch.id; b.setAttribute('aria-pressed', save.char === ch.id);
-    b.innerHTML = `<canvas width="128" height="128"></canvas><b>${ch.name}</b><i>${locked ? (shop ? 'SHOP' : '★' + ch.need) : ch.art}</i>`;
-    b.setAttribute('aria-label', locked ? (shop ? `${ch.name}, shop item` : `${ch.name}, locked, ${ch.need} stars to unlock`) : `${ch.name}, ${ch.art}`);
+    b.innerHTML = `<canvas width="128" height="128"></canvas><b>${ch.name}</b><i>${locked ? (shop ? 'SHOP' : ch.pass ? 'PASS' : ch.secretAll ? `🔍 ${roomsFound()}/${ROOMS_ALL}` : '★' + ch.need) : ch.art}</i>`;
+    b.setAttribute('aria-label', locked ? (shop ? `${ch.name}, shop item` : ch.secretAll ? `${ch.name}, locked, find all ${ROOMS_ALL} hidden rooms` : `${ch.name}, locked, ${ch.need} stars to unlock`) : `${ch.name}, ${ch.art}`);
     const c = b.querySelector('canvas').getContext('2d'); c.globalAlpha = locked && !shop ? .45 : 1; drawQbi(c, 64, 78, 80, ch, 0, null, 1, 0);
     b.onclick = () => { if (locked) { if (shop) openShop(ch, 'look'); return; } save.char = ch.id; persist(); renderMenu(); renderLobby(); LB.tapT = 0; LB.swing = 1; };
     $('cards').appendChild(b);
@@ -3505,7 +3777,7 @@ function renderMenu() {
     const locked = !bladeOpen(bl, total, bosses), shop = !!bl.iap, b = document.createElement('button');
     b.className = 'card bl' + (save.blade === bl.id ? ' sel' : '') + (locked ? ' locked' : '') + (shop ? ' shop' : '');
     b.id = 'blade-' + bl.id; b.setAttribute('aria-pressed', save.blade === bl.id);
-    const need = shop ? 'SHOP' : bl.chest ? 'SECRET · CH' + bl.chest : bl.boss ? `${bl.boss} bosses` : '★' + bl.need;
+    const need = shop ? 'SHOP' : bl.pass ? 'PASS' : bl.chest ? 'SECRET · CH' + bl.chest : bl.boss ? `${bl.boss} bosses` : '★' + bl.need;
     b.innerHTML = `<canvas width="128" height="128"></canvas><b>${bl.name}</b><i>${locked ? need : 'Ready'}</i>`;
     b.setAttribute('aria-label', locked ? `${bl.name}, locked, needs ${need}` : bl.name);
     const c = b.querySelector('canvas').getContext('2d'); c.globalAlpha = locked && !shop ? .45 : 1;
@@ -3558,11 +3830,49 @@ function renderMenu() {
   for (const b of vs.children) b.setAttribute('aria-pressed', String(b.id === 'voice-' + (save.voice || 'demon')));
 }
 let lobbyTab = 'stages';
+// Lobby tabs: Stages · Looks · Episodes · Shop. Settings live behind the gear at the top right (a sheet with a close button).
 function setTab(t) {
-  lobbyTab = t;
-  for (const k of ['stages','looks','eps','set']) { $('tab-' + k).setAttribute('aria-selected', String(k === t)); $('p-' + k).hidden = k !== t; }
+  if (t === 'set') { openSettings(); return; }
+  closeSettings(); lobbyTab = t;
+  for (const k of ['stages','looks','eps','shop']) { $('tab-' + k).setAttribute('aria-selected', String(k === t)); $('p-' + k).hidden = k !== t; }
 }
-['stages','looks','eps','set'].forEach(k => $('tab-' + k).onclick = () => { setTab(k); SFX.play('ui'); });
+function openSettings() { $('setSheet').hidden = false; $('setSheet').scrollTop = 0; }
+function closeSettings() { $('setSheet').hidden = true; }
+['stages','looks','eps','shop'].forEach(k => $('tab-' + k).onclick = () => { setTab(k); SFX.play('ui'); });
+$('setBtn').onclick = () => { SFX.init(); SFX.play('ui'); openSettings(); };
+$('setX').onclick = closeSettings;
+$('setSheet').addEventListener('click', e => { if (e.target === $('setSheet')) closeSettings(); });
+// Shop tab: every shop look and blade in one place (tap = the same buy sheet as in Looks)
+function renderShop() {
+  const on = shopOn(), mk = (it, kind) => {
+    const b = document.createElement('button'), have = owned(it);
+    b.className = 'card shop' + (have ? '' : '') + ((kind === 'look' ? save.char : save.blade) === it.id ? ' sel' : '');
+    b.id = 'shop-' + it.id;
+    b.innerHTML = `<canvas width="128" height="128"></canvas><b>${it.name}</b><i>${have ? 'Owned' : it.price || PRICES[it.id] || 'Buy'}</i>`;
+    const c = b.querySelector('canvas').getContext('2d');
+    if (kind === 'extra') drawExtra(c, it, 64, 66, 110, 0);
+    else if (kind === 'look') drawQbi(c, 64, 78, 80, it, 0, null, 1, 0);
+    else { c.save(); c.translate(64, 108); c.rotate(.35); c.lineJoin = 'round'; c.lineCap = 'round'; c.strokeStyle = '#0d0b12'; c.lineWidth = 3.5; drawBlade(c, 150, it.id, '#0d0b12', 3.5, 0); c.restore(); }
+    b.onclick = () => { if (have) { if (kind === 'extra') { if (it.id === 'fxpack') setTab('looks'); return; } if (kind === 'look') save.char = it.id; else save.blade = it.id; persist(); SFX.play('ui'); renderMenu(); renderLobby(); } else openShop(it, kind); };
+    return b;
+  };
+  $('shopLooks').innerHTML = ''; $('shopBlades').innerHTML = ''; $('shopExtras').innerHTML = '';
+  if (on) EXTRAS.filter(x => x.id !== 'starter' && x.id !== 'pass').forEach(x => $('shopExtras').appendChild(mk(x, 'extra')));
+  // starter pack (first 7 days) and the pass
+  const st = EXTRAS[0], sb = $('starterBox'); sb.hidden = !(on && starterOn());
+  if (!sb.hidden) { const left = Math.max(1, Math.ceil(7 - (Date.now() - save.firstSeen) / 864e5));
+    $('starterLine').textContent = `Inferno look + Phoenix Blade + No Ads · ${left} day${left > 1 ? 's' : ''} left`; $('starterPrice').innerHTML = `<s>${st.was}</s>${st.price}`;
+    const c = sb.querySelector('canvas').getContext('2d'); c.clearRect(0, 0, 200, 160); drawExtra(c, st, 96, 74, 130, 0); sb.onclick = () => openShop(st, 'extra'); }
+  const tier = passTier(), chip = r => `<span class="${passHas(r.id) ? 'got' : 'lock'}">${r.tier} · ${r.name}</span>`;
+  $('passTxt').textContent = `${tier}/${PASS_TIERS} clears${passOwned() ? ' · Pass ✓' : ''}`; $('passBar').style.width = (tier / PASS_TIERS * 100) + '%';
+  $('passFree').innerHTML = PASS_REWARDS.filter(r => r.row === 'free').sort((a, b) => a.tier - b.tier).map(chip).join('');
+  $('passPaid').innerHTML = PASS_REWARDS.filter(r => r.row === 'pass').sort((a, b) => a.tier - b.tier).map(chip).join('');
+  $('passBuy').hidden = !on || passOwned(); $('passBuy').textContent = `Get the Q-Bi Pass · ${EXTRAS[1].price}`; $('passBuy').onclick = () => openShop(EXTRAS[1], 'extra');
+  if (on) { CHARS.filter(c => c.iap).forEach(c => $('shopLooks').appendChild(mk(c, 'look'))); BLADES.filter(x => x.iap).forEach(x => $('shopBlades').appendChild(mk(x, 'blade'))); }
+  ['shopLooks','shopBlades','shopHow','shopExtras'].forEach(id => $(id).hidden = !on);
+  document.querySelectorAll('#p-shop .sec').forEach(e => e.hidden = !on);
+  $('shopEmpty').hidden = on;
+}
 function nextStage() {
   const all = !!save.unlockAll;
   for (let i = 0; i < LEVELS.length; i++) { const locked = !all && i > 0 && save.stars[i-1] === 0; if (!locked && save.stars[i] === 0) return i; }
@@ -3828,6 +4138,7 @@ $('tVer').textContent = GAME_VERSION;
 $('tMeta').innerHTML = `<b>★ ${totalStars()}</b> / ${LEVELS.length * 3} &nbsp;·&nbsp; ${LEVELS.length} stages &nbsp;·&nbsp; ${THEMES.length} chapters`;
 
 function showMenu() {
+  endTrial();
   if (!$('chestAsk').hidden) closeChest(false);
   S.screen = 'menu'; SFX.music(false); S.btT = 0; S.btWake = 0; paintBullet();
   ['result','fail'].forEach(id => $(id).hidden = true); $('chapterCard').hidden = true;
@@ -3837,10 +4148,16 @@ $('menuBtn').onclick = showMenu;
 document.querySelectorAll('.snd').forEach(b => b.addEventListener('click', () => { SFX.init(); SFX.setMuted(!SFX.isMuted()); SFX.play('ui'); }));
 document.addEventListener('click', e => { if (e.target.closest('.btn, .card, .lv, #menuBtn, .vid, .link, .opt, .seg button')) SFX.play('ui'); });
 SFX.paintButtons();
-$('resMenu').onclick = showMenu; $('failMenu').onclick = showMenu;
-$('resRetry').onclick = () => startLevel(S.lv);
+async function clearAd() {                             // a rest point: the player is leaving the result screen
+  if (!S.adDue) return; S.adDue = false;
+  // NCQ_ADS_STAGE_CLEAR: 스테이지 클리어 전면 광고 (3판에 한 번, 챕터 1 제외, 광고 제거 상품이 있으면 없음)
+  await withAd(() => NcqAds.interstitial('STAGE_CLEAR'));
+}
+$('resMenu').onclick = async () => { await clearAd(); showMenu(); }; $('failMenu').onclick = showMenu;
+$('resRetry').onclick = async () => { await clearAd(); startLevel(S.lv); };
 $('failRetry').onclick = () => startLevel(S.lv);
-$('resNext').onclick = () => startLevel(Math.min(S.lv + 1, LEVELS.length - 1), true);
+$('failRevive').onclick = tryRevive;
+$('resNext').onclick = async () => { await clearAd(); startLevel(Math.min(S.lv + 1, LEVELS.length - 1), true); };
 
 // ---------- App builds: Toss mini app (toss/) and Google Play app (android/) ----------
 // toss/vite.config.js sets window.__TOSS__ (and __TOSS_TEST__ for test builds); android/tools/build_web.py sets window.__ANDROID__.
@@ -3881,6 +4198,7 @@ if (window.__TOSS__ || window.__ANDROID__) {
     if (!$('ytPlayer').hidden) { closeVideo(); return true; }
     if (!$('survey').hidden) { $('survey').hidden = true; return true; }
     if (!$('resetAsk').hidden) { $('resetAsk').hidden = true; return true; }
+    if (!$('setSheet').hidden) { closeSettings(); return true; }
     if (!$('shopAsk').hidden) { closeShop(); return true; }
     if (!$('chestAsk').hidden) { closeChest(false); return true; }
     if ($('title').hidden) {
@@ -3929,8 +4247,9 @@ function paintBullet() {
   const L = S.lv != null ? lvDef(S.lv) : null, has = !!(L && L.bullet) && S.screen === 'game';
   b.hidden = !has; if (!has) return;
   const on = S.btT > 0 || S.btWake > 0;
-  b.classList.toggle('on', on); b.classList.toggle('empty', !on && !(S.btN > 0));
-  b.querySelector('small').textContent = on ? 'ACTIVE' : '×' + (S.btN || 0);
+  const refill = !on && !(S.btN > 0) && canRefill();
+  b.classList.toggle('on', on); b.classList.toggle('empty', !on && !(S.btN > 0) && !refill); b.classList.toggle('ad', refill);
+  b.querySelector('small').textContent = on ? 'ACTIVE' : refill ? '▶ +1' : '×' + (S.btN || 0);
   b.setAttribute('aria-label', `Bullet time, ${S.btN || 0} left`);
 }
 function startCine(g) {
@@ -3979,7 +4298,7 @@ requestAnimationFrame(frame);
 
 // test hooks
 window.__AA = {
-  S, LEVELS, BONUS, DS0, secretsOff(v) { SECRETS_OFF = !!v; }, hiddenRooms: () => LEVELS.map((L, i) => L.room ? i : -1).filter(i => i >= 0), hiddenCell, crackHint, enterRoom, leaveRoom, SECRET_LV, SECRET_TEST, openChest, closeChest, btOpen, haptic, hapticLog: () => hapticLog, resetProgress, openShop, closeShop, buyShopItem, charOpen, bladeOpen, spawnTrail, BT_T, BT_W, BT_P, useBullet, THEMES, CHARS, VIDEOS, SFX, startLevel, tryMove, astar, sees, simMove, blocked, tileAt, laserOnAt, isHiddenAt, camsActive, los,
+  S, LEVELS, BONUS, DS0, roomsFound, FXS, PASS_REWARDS, passTier, passHas, passStep, killFx, paintBullet, NcqAds, noAds, tryRevive, refillBullet, tryShopItem, clearAd, EXTRAS, RUMORS, secretsOff(v) { SECRETS_OFF = !!v; }, hiddenRooms: () => LEVELS.map((L, i) => L.room ? i : -1).filter(i => i >= 0), hiddenCell, crackHint, enterRoom, leaveRoom, SECRET_LV, SECRET_TEST, openChest, closeChest, btOpen, haptic, hapticLog: () => hapticLog, resetProgress, openShop, closeShop, buyShopItem, charOpen, bladeOpen, spawnTrail, BT_T, BT_W, BT_P, useBullet, THEMES, CHARS, VIDEOS, SFX, startLevel, tryMove, astar, sees, simMove, blocked, tileAt, laserOnAt, isHiddenAt, camsActive, los,
   RANGE, HEAR, DAMN_FX, drawQbi, rangeOf, BLADES, GIMS, pushable, starsFor, bossesBeaten, openSurvey, survey, mostFailed, save: () => save,
   busy: () => !!(S.crate || (S.drops && S.drops.some(d => !d.done)) || S.guards.some(g => g.flee)),
   skipIntro() { S.cards = []; S.phase = 'play'; S.phaseT = 0; $('chapterCard').hidden = true; },

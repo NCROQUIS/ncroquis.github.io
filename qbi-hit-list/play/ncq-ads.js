@@ -49,19 +49,28 @@
                             dismissed: "onRewardedInterstitialAdDismissed",
                             failed: "onRewardedInterstitialAdFailedToShow", reward: "onRewardedInterstitialAdReward"}
   };
-  var KO = /^ko/i.test(String((w.navigator && w.navigator.language) || ""));
-  var T = KO ? {
+  // 안내 글자: 게임이 공용 언어 모듈(NcqLang)을 쓰면 게임에서 고른 언어, 아니면 기기 언어. 한국어가 아니면 영어
+  var TEXT_KO = {
     loading: "광고를 불러오는 중이에요…", cancel: "취소", noAd: "지금은 볼 수 있는 광고가 없어요. 잠시 뒤 다시 해 주세요.",
     interstitial: "전면 광고 자리", rewarded: "보상형 광고 자리", banner: "배너 광고 자리",
     note: "공유 테스트에서는 진짜 광고 대신 이 화면이 나와요.", close: "닫기",
     reward: "끝까지 봤어요 (보상 받기)", skip: "그만 볼래요 (보상 없음)", privacy: "개인정보 설정은 출시 앱에서 열려요."
-  } : {
+  };
+  var TEXT_EN = {
     loading: "Loading ad…", cancel: "Cancel", noAd: "No ad is available right now. Please try again later.",
     interstitial: "Interstitial ad", rewarded: "Rewarded ad", banner: "Banner ad",
     note: "Test builds show this placeholder instead of a real ad.", close: "Close",
     reward: "Watched it all (get reward)", skip: "Stop watching (no reward)",
     privacy: "Privacy settings open in the released app."
   };
+  function T() {
+    var lang = "";
+    try {
+      if (w.NcqLang && w.NcqLang.ready) lang = String(w.NcqLang.lang || "");
+    } catch (e) { /* 언어 모듈이 없어도 기기 언어로 */ }
+    if (!lang) lang = String((w.navigator && w.navigator.language) || "");
+    return /^ko/i.test(lang) ? TEXT_KO : TEXT_EN;
+  }
 
   var st = {
     init: null, ready: false, off: false, busy: false, started: Date.now(), last: 0, privacy: false,
@@ -483,7 +492,7 @@
       if (box) box.remove();
       if (canceled || !ready || !fresh(id)) {
         st.busy = false;
-        if (!canceled) toast(T.noAd);
+        if (!canceled) toast(T().noAd);
         return false;
       }
       return showFull(k);
@@ -717,7 +726,7 @@
 
   function showPrivacyOptions() {
     if (env().sim) {
-      toast(T.privacy);
+      toast(T().privacy);
       return Promise.resolve(false);
     }
     if (!env().native || !plugin()) return Promise.resolve(false);
@@ -798,17 +807,17 @@
       var o = layer();
       var c = card();
       c.appendChild(el("div", "font-size:12px;letter-spacing:.08em;opacity:.65", "AD · " + k));
-      c.appendChild(el("div", "margin-top:6px;font-size:19px;font-weight:700", T[kind]));
-      c.appendChild(el("div", "margin:8px 0 6px;font-size:13px;opacity:.75", T.note));
+      c.appendChild(el("div", "margin-top:6px;font-size:19px;font-weight:700", T()[kind]));
+      c.appendChild(el("div", "margin:8px 0 6px;font-size:13px;opacity:.75", T().note));
       function end(result) {
         o.remove();
         resolve(result);
       }
       if (kind === "rewarded") {
-        c.appendChild(button(T.reward, true, function () { end(true); }));
-        c.appendChild(button(T.skip, false, function () { end(false); }));
+        c.appendChild(button(T().reward, true, function () { end(true); }));
+        c.appendChild(button(T().skip, false, function () { end(false); }));
       } else {
-        c.appendChild(button(T.close, true, function () { end(true); }));
+        c.appendChild(button(T().close, true, function () { end(true); }));
       }
       o.appendChild(c);
       mount(o);
@@ -834,7 +843,7 @@
     simBar = el("div", "position:fixed;left:0;right:0;" + (pos === "top" ? "top:0;" : "bottom:0;") + "height:" + h +
       "px;z-index:" + Z + ";display:flex;align-items:center;justify-content:center;box-sizing:border-box;" +
       "background:repeating-linear-gradient(135deg,#eef1f4 0 12px,#e2e7ec 12px 24px);color:#4a5561;" +
-      "border-" + (pos === "top" ? "bottom" : "top") + ":1px dashed #9aa6b2;" + FONT + "font-size:13px", T.banner + " · " + k);
+      "border-" + (pos === "top" ? "bottom" : "top") + ":1px dashed #9aa6b2;" + FONT + "font-size:13px", T().banner + " · " + k);
     mount(simBar);
     setSpace(pos === "top" ? h : 0, pos === "top" ? 0 : h);
   }
@@ -842,8 +851,8 @@
   function waiting(onCancel) {
     var o = layer();
     var c = card();
-    c.appendChild(el("div", "font-size:16px;font-weight:600", T.loading));
-    c.appendChild(button(T.cancel, false, onCancel));
+    c.appendChild(el("div", "font-size:16px;font-weight:600", T().loading));
+    c.appendChild(button(T().cancel, false, onCancel));
     o.appendChild(c);
     return mount(o);
   }

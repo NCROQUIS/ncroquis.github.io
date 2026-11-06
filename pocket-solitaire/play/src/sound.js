@@ -265,6 +265,9 @@ const SFX = {
 
 export const Sound = {
   get supported() { return !!(window.AudioContext || window.webkitAudioContext); },
+  // 광고를 보는 동안 멈추기
+  pause() { try { if (ctx && ctx.state === 'running') ctx.suspend(); } catch { /* 무시 */ } },
+  resume() { try { if (ctx && ctx.state === 'suspended' && !document.hidden) ctx.resume(); } catch { /* 무시 */ } },
   // 첫 터치에서 호출 (브라우저 자동재생 정책)
   unlock() {
     if (!init()) return;

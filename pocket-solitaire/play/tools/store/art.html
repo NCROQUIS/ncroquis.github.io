@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8">
+<html><head><meta charset="utf-8">
 <style>
   body { margin: 0; font-family: -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
   .felt { background: radial-gradient(ellipse 120% 90% at 50% 25%, #34965f, #124d35); }
@@ -14,10 +14,12 @@
   .title p { margin: 18px 0 0; font-size: 34px; font-weight: 600; opacity: .9; }
   .title .pills { margin-top: 26px; display: flex; gap: 12px; }
   .title .pills span { font-size: 24px; font-weight: 700; padding: 10px 18px; border-radius: 99px; background: rgba(0,0,0,.22); }
+  /* 영어 이름은 길어서 두 줄로 (카드와 겹치지 않게) */
+  .title.two { top: 58px; } .title.two h1 { line-height: .98; }
 </style></head>
 <body>
 <div id="icon" class="felt"></div>
-<div id="feature" class="felt"><div class="title"><h1>포켓 솔리테어</h1><p>큰 글자로 편하게, 정통 클론다이크</p><div class="pills"><span>오늘의 도전</span><span>무제한 되돌리기</span><span>힌트</span></div></div></div>
+<div id="feature" class="felt"><div class="title"><h1></h1><p></p><div class="pills"></div></div></div>
 <script type="module">
   import { installSuitSymbols, simpleFace } from '../../src/cardart.js';
   installSuitSymbols();
@@ -29,6 +31,18 @@
     host.appendChild(el);
   };
   const mode = location.hash.slice(1) || 'icon';
+  // 그래픽 글자: art.html?lang=en#feature (영어, 기본 언어 스토어) · ?lang=ko (한국어 스토어)
+  const lang = new URLSearchParams(location.search).get('lang') === 'en' ? 'en' : 'ko';
+  const TEXT = {
+    ko: { title: ['포켓 솔리테어'], sub: '큰 글자로 편하게, 정통 클론다이크', pills: ['오늘의 도전', '무제한 되돌리기', '힌트'] },
+    en: { title: ['Pocket', 'Solitaire'], sub: 'Classic Klondike in big print', pills: ['Daily Challenge', 'Unlimited Undo', 'Hints'] },
+  }[lang];
+  document.documentElement.lang = lang;
+  const box = document.querySelector('#feature .title');
+  box.classList.toggle('two', TEXT.title.length > 1);
+  box.querySelector('h1').innerHTML = TEXT.title.join('<br>');
+  box.querySelector('p').textContent = TEXT.sub;
+  box.querySelector('.pills').innerHTML = TEXT.pills.map((t) => `<span>${t}</span>`).join('');
   if (mode === 'icon') {
     const h = document.getElementById('icon');
     card(h, 1, 13, 300, 210, 430, 12);

@@ -1,8 +1,6 @@
 // 카드 앞면 그림 (직접 그린 SVG — 외부 이미지·저작권 없음)
 // 클래식: 진짜 카드처럼 무늬 배치(2~10) + 직접 그린 J·Q·K 인물, 큰 글자: 숫자와 무늬를 크게 (가독성 우선)
 
-export const SUIT_NAMES = ['스페이드', '하트', '다이아', '클로버'];
-
 // 무늬 모양 (0~100 상자)
 const SUIT_SHAPES = [
   '<path d="M50 4C62 22 94 38 94 62c0 16-12 26-26 26-8 0-13-4-16-8 1 8 5 14 12 18H36c7-4 11-10 12-18-3 4-8 8-16 8C18 88 6 78 6 62 6 38 38 22 50 4Z"/>',
@@ -15,7 +13,7 @@ const SUIT_SHAPES = [
 export function installSuitSymbols() {
   if (document.getElementById('suit-defs')) return;
   const wrap = document.createElement('div');
-  wrap.innerHTML = `<svg id="suit-defs" width="0" height="0" style="position:absolute" aria-hidden="true"><defs>${SUIT_SHAPES.map((d, i) => `<symbol id="suit-${i}" viewBox="0 0 100 100">${d}</symbol>`).join('')}</defs></svg>`;
+  wrap.innerHTML = `<svg id="suit-defs" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><defs>${SUIT_SHAPES.map((d, i) => `<symbol id="suit-${i}" viewBox="0 0 100 100">${d}</symbol>`).join('')}</defs></svg>`;
   document.body.appendChild(wrap.firstChild);
 }
 
@@ -88,13 +86,22 @@ export function faceSVG(s, r) {
 
 // 심플(기본): 중장년층도 한눈에 — 아주 큰 숫자, 큰 무늬, 꾸밈 없음
 // J·Q·K는 가운데에 큰 글자 (카드와 같은 흰 바탕, 꾸밈 없음)
-export function simpleFace(s, r) {
-  const tint = '';
+export function simpleFace(s, r, { narrow = false } = {}) {
+  if (narrow) return narrowFace(s, r);
   const big = r > 10
     ? `<text x="50" y="122" font-size="64" text-anchor="middle" class="ct">${RANK[r]}</text>`
     : use(s, 50, 98, r === 1 ? 62 : 52);
   const idx = r === 10
     ? '<text x="1" y="44" font-size="44" letter-spacing="-5">10</text>'
     : `<text x="5" y="46" font-size="50">${RANK[r]}</text>`;
-  return `<svg class="art simple" viewBox="0 0 100 142" aria-hidden="true"><g class="ix">${idx}${use(s, 80, 25, 30)}</g>${tint}${big}</svg>`;
+  return `<svg class="art simple" viewBox="0 0 100 142" aria-hidden="true"><g class="ix">${idx}${use(s, 80, 25, 30)}</g>${big}</svg>`;
+}
+
+// 좁은 카드(스파이더 10줄)용: 겹쳐 보이는 위쪽에 숫자·무늬를 더 크게 (2·4무늬도 겹친 채로 무늬가 보이게)
+function narrowFace(s, r) {
+  const idx = r === 10
+    ? '<text x="0" y="50" font-size="52" letter-spacing="-7">10</text>'
+    : `<text x="3" y="52" font-size="60">${RANK[r]}</text>`;
+  const big = r > 10 ? `<text x="50" y="128" font-size="62" text-anchor="middle" class="ct">${RANK[r]}</text>` : use(s, 50, 104, 54);
+  return `<svg class="art simple narrow" viewBox="0 0 100 150" aria-hidden="true"><g class="ix">${idx}${use(s, 80, 30, 36)}</g>${big}</svg>`;
 }

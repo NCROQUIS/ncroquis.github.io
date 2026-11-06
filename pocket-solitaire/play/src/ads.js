@@ -1,117 +1,98 @@
-// 광고 — 앱(안드로이드)에서는 AdMob(@capacitor-community/admob)으로 실제 광고를, 웹·개발 중에는 자리만 보여 줘요.
-// 모든 함수는 Promise를 돌려주고, 광고가 실패해도 게임은 멈추지 않아요.
-//
-// 출시 표시: 출시 빌드에서는 고른 광고 지면만 window에 true로 들어와요. 개발 중(NCQ_PLATFORM 없음)에는 전부 켜서 자리를 확인해요.
-// NCQ_ADS_BANNER: 하단 배너
-// NCQ_ADS_INTERSTITIAL: 판 사이 전면 광고 (2판에 1번)
-// NCQ_ADS_REWARDED: 보상형 광고 (오늘의 도전 연속 지키기)
-import { ADMOB } from './config.js';
-import { plugin, platform } from './platform.js';
+// 광고 — 엔크로키 공통 광고 도구 NcqAds로만 붙여요 (AGENTS.md '광고 (NcqAds)').
+// 광고 키(AdMob ID)는 관리자 승인 뒤 출시 서버가 빌드에 넣어요. 그래서 이 레포에는 AdMob ID도, 광고 플러그인도 없어요.
+// 개발 중(npm run serve)에는 NcqAds가 없어서 아래 대신 쓰는 것으로 '광고 자리'만 흉내 내요.
+// 출시 빌드인데 NcqAds가 없으면(window.NCQ·window.Capacitor가 있으면) 광고도 보상도 모두 꺼요.
 import { Analytics } from './analytics.js';
+import { Sound } from './sound.js';
+import { platform } from './platform.js';
 
-const inDev = () => platform() === 'dev';
-export const adSlotOn = (name) => inDev() || window[`NCQ_ADS_${name}`] === true;
-const admob = () => plugin('AdMob');
+const dev = !window.NCQ && !window.Capacitor;
+export const NcqAds = window.NcqAds || { can: () => dev, rewarded: async () => dev, interstitial: async () => false,
+  banner: async () => false, hideBanner: async () => {}, ready: async () => false, privacyRequired: () => false,
+  showPrivacyOptions: async () => false, bannerSpace: () => ({ top: 0, bottom: 0 }) };
 
-let lastInterstitial = 0;
+// 광고 지면 (이름표 주석은 출시 때 고르는 이름이 돼요)
+// NCQ_ADS_BANNER: 배너 (안드로이드는 화면 위, 토스는 화면 아래)
+// NCQ_ADS_GAME_END: 판이 끝난 뒤 전면 광고 (2판에 1번)
+// NCQ_ADS_HINT: 힌트 추가 보상형 광고
+// NCQ_ADS_STREAK: 오늘의 도전 연속 기록 지키기 보상형 광고
+// NCQ_ADS_DAILY_UNDO: 오늘의 도전 되돌리기 1번 더 보상형 광고
+// NCQ_ADS_STUCK_RESCUE: 막혔을 때 길 찾기 보상형 광고
+
+// 배너 자리: 안드로이드·웹은 위(자주 누르는 아래 버튼 막대에서 떼어 실수로 누르는 일을 줄여요),
+// 토스는 아래(토스의 ⋯·X 메뉴가 화면 오른쪽 위에 떠 있어서 겹치지 않게)
+export const bannerPos = () => (platform() === 'toss' ? 'bottom' : 'top');
+
+// 전면 광고 규칙: 처음 3판은 없음(첫인상), 2판에 1번, 앞 전면 광고 뒤 최소 3분 (NcqAds의 60초보다 넉넉하게)
+export const GAME_END_RULES = { skipFirstGames: 3, every: 2, minGapMs: 180000 };
 let gameEnds = 0;
-let ready = false;
-let interstitialLoaded = false;
-let rewardedLoaded = false;
-const INTERSTITIAL_GAP_MS = 90 * 1000; // 전면 광고 최소 간격
-const INTERSTITIAL_EVERY = 2; // 판이 끝날 때 2판에 1번만 (리듬이 끊기지 않게)
+const LAST_KEY = 'pocket-solitaire:lastad';
+const lastShown = () => { try { return Number(localStorage.getItem(LAST_KEY)) || 0; } catch { return 0; } };
+const markShown = () => { try { localStorage.setItem(LAST_KEY, String(Date.now())); } catch { /* 무시 */ } };
+export const isDevAds = () => !window.NcqAds && dev; // 개발 중: 화면에 '광고' 자리만 보여 줘요
 
-async function preloadInterstitial() {
-  const A = admob();
-  if (!A || !adSlotOn('INTERSTITIAL')) return;
-  try { await A.prepareInterstitial({ adId: ADMOB.interstitial, isTesting: ADMOB.testing }); interstitialLoaded = true; } catch { interstitialLoaded = false; }
-}
-async function preloadRewarded() {
-  const A = admob();
-  if (!A || !adSlotOn('REWARDED')) return;
-  try { await A.prepareRewardVideoAd({ adId: ADMOB.rewarded, isTesting: ADMOB.testing }); rewardedLoaded = true; } catch { rewardedLoaded = false; }
+// 광고를 보는 동안 게임 소리·시간을 멈춰요
+export const adState = { playing: false };
+async function during(fn) {
+  adState.playing = true;
+  Sound.pause();
+  try { return await fn(); } finally {
+    adState.playing = false;
+    Sound.resume();
+  }
 }
 
 export const Ads = {
-  removed: false, // 광고 제거 인앱 구매 시 true
-  log: [], // 테스트·디버깅용 기록
-  native: false,
+  removed: false, // 광고 제거 구매자
+  log: [], // 개발 중 기록 (테스트용)
 
-  // 앱 시작 시 한 번: 동의(유럽 등 필요한 지역만 창이 떠요) → 초기화 → 배너 → 전면·보상형 미리 받기
-  async init({ onBannerHeight } = {}) {
-    const A = admob();
-    if (!A || this.removed) return false;
-    this.native = true;
-    try {
-      await A.initialize({ initializeForTesting: ADMOB.testing });
-      try {
-        const info = await A.requestConsentInfo();
-        if (info && info.isConsentFormAvailable && info.status === 'REQUIRED') await A.showConsentForm();
-      } catch { /* 동의 기능이 없는 버전이면 건너뜀 */ }
-      ready = true;
-      if (adSlotOn('BANNER')) {
-        if (A.addListener) {
-          A.addListener('bannerAdSizeChanged', (s) => onBannerHeight && onBannerHeight(s && s.height ? s.height : 0));
-          A.addListener('bannerAdLoaded', () => Analytics.track('ad_impression', { type: 'banner' }));
-        }
-        await A.showBanner({ adId: ADMOB.banner, adSize: 'ADAPTIVE_BANNER', position: 'BOTTOM_CENTER', margin: this.bannerMargin || 0, isTesting: ADMOB.testing });
-      }
-      preloadInterstitial();
-      preloadRewarded();
-      return true;
-    } catch (e) {
-      console.warn('[ads] 초기화 실패', e);
-      return false;
-    }
+  // 광고 제거 구매자는 배너·전면 없음 (보상형 지면은 그대로 물어봐요 — 혜택은 main.js가 광고 없이 줘요)
+  can(slot) { return !this.removed || !['BANNER', 'GAME_END'].includes(slot) ? NcqAds.can(slot) : false; },
+
+  showBanner() {
+    if (this.removed || !NcqAds.can('BANNER')) return;
+    NcqAds.banner('BANNER', { position: bannerPos() }).then((shown) => { if (shown) Analytics.track('ad_impression', { type: 'banner', pos: bannerPos() }); });
   },
+  hideBanner() { return NcqAds.hideBanner(); },
 
-  bannerMargin: 0,
-  async hideBanner() { try { await admob()?.hideBanner(); } catch { /* 무시 */ } },
-  async resumeBanner() { try { await admob()?.resumeBanner(); } catch { /* 무시 */ } },
-
-  async showInterstitial(reason) {
+  // 판이 끝난 뒤 쉬는 지점에서만
+  // played: 지금까지 끝낸 판 수 (처음 3판은 전면 광고 없이)
+  async gameEnd(reason, { played = 99 } = {}) {
+    const R = GAME_END_RULES;
+    if (this.removed || !NcqAds.can('GAME_END') || played < R.skipFirstGames) return false;
+    if (Date.now() - lastShown() < R.minGapMs) return false; // 앞 광고 뒤 3분 안에는 세지도 않아요
     gameEnds += 1;
-    if (this.removed || !adSlotOn('INTERSTITIAL')) return false;
-    if (gameEnds % INTERSTITIAL_EVERY !== 0) return false;
-    const now = Date.now();
-    if (now - lastInterstitial < INTERSTITIAL_GAP_MS) return false;
-    const A = admob();
-    if (A && ready) {
-      if (!interstitialLoaded) { preloadInterstitial(); return false; }
-      try {
-        interstitialLoaded = false;
-        await A.showInterstitial();
-        lastInterstitial = Date.now();
-        Analytics.track('ad_impression', { type: 'interstitial', reason });
-        preloadInterstitial();
-        return true;
-      } catch { preloadInterstitial(); return false; }
-    }
-    lastInterstitial = now;
-    this.log.push({ type: 'interstitial', reason });
-    Analytics.track('ad_impression', { type: 'interstitial', reason, placeholder: 1 });
-    return true;
+    if (gameEnds % R.every !== 0) return false;
+    const shown = await during(() => NcqAds.interstitial('GAME_END'));
+    if (shown || isDevAds()) markShown();
+    if (shown) Analytics.track('ad_impression', { type: 'interstitial', reason });
+    if (isDevAds()) this.log.push({ type: 'interstitial', reason });
+    return shown;
   },
 
-  // 보상형 광고: 끝까지 보면 true
-  async showRewarded(reason) {
-    if (!adSlotOn('REWARDED')) return true; // 지면을 끈 빌드에서는 광고 없이 보상
-    const A = admob();
-    if (A && ready) {
-      if (!rewardedLoaded) { await preloadRewarded(); if (!rewardedLoaded) return false; }
-      try {
-        rewardedLoaded = false;
-        const reward = await A.showRewardVideoAd();
-        Analytics.track('ad_impression', { type: 'rewarded', reason });
-        preloadRewarded();
-        const ok = !!reward;
-        if (ok) Analytics.track('ad_reward', { reason });
-        return ok;
-      } catch { preloadRewarded(); return false; }
-    }
-    this.log.push({ type: 'rewarded', reason });
-    Analytics.track('ad_impression', { type: 'rewarded', reason, placeholder: 1 });
-    Analytics.track('ad_reward', { reason, placeholder: 1 });
-    return true;
+  // 보상형: 끝까지 봤을 때만 true
+  async hint() {
+    const ok = await during(() => NcqAds.rewarded('HINT'));
+    Analytics.track('ad_reward', { reason: 'hint', ok: ok ? 1 : 0 });
+    if (isDevAds()) this.log.push({ type: 'rewarded', reason: 'hint' });
+    return ok;
+  },
+  async dailyUndo() {
+    const ok = await during(() => NcqAds.rewarded('DAILY_UNDO'));
+    Analytics.track('ad_reward', { reason: 'daily_undo', ok: ok ? 1 : 0 });
+    if (isDevAds()) this.log.push({ type: 'rewarded', reason: 'daily_undo' });
+    return ok;
+  },
+  async stuckRescue() {
+    const ok = await during(() => NcqAds.rewarded('STUCK_RESCUE'));
+    Analytics.track('ad_reward', { reason: 'stuck_rescue', ok: ok ? 1 : 0 });
+    if (isDevAds()) this.log.push({ type: 'rewarded', reason: 'stuck_rescue' });
+    return ok;
+  },
+  async streak() {
+    const ok = await during(() => NcqAds.rewarded('STREAK'));
+    Analytics.track('ad_reward', { reason: 'streak', ok: ok ? 1 : 0 });
+    if (isDevAds()) this.log.push({ type: 'rewarded', reason: 'streak' });
+    return ok;
   },
 };

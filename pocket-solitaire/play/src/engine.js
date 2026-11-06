@@ -65,6 +65,8 @@ export function newGame({ seed = Date.now(), drawCount = 1 } = {}) {
     foundations: [[], [], [], []],
     tableau,
     moves: 0,
+    score: 0,
+    variant: 'klondike',
     recycles: 0,
   };
 }
@@ -143,12 +145,25 @@ export function applyMove(state, move) {
   const cards = src.splice(src.length - count, count);
   pileOf(next, move.to).push(...cards);
   // 테이블에서 뒷면 카드가 드러나면 뒤집기
+  let gain = 0;
   if (move.from.type === 'tableau' && src.length && !src[src.length - 1].up) {
     src[src.length - 1].up = true;
+    gain += SCORE.flip;
   }
+  // 표준 점수 (윈도우 솔리테어 방식)
+  const f = move.from.type;
+  const t = move.to.type;
+  if (t === 'foundation') gain += SCORE.toFoundation;
+  else if (f === 'waste') gain += SCORE.wasteToTableau;
+  else if (f === 'foundation') gain += SCORE.foundationToTableau;
+  next.score = Math.max(0, (next.score || 0) + gain);
   next.moves += 1;
   return next;
 }
+
+export const SCORE = { toFoundation: 10, wasteToTableau: 5, flip: 5, foundationToTableau: -15, recycle1: -100, recycle3: -20 };
+// 끝났을 때 시간 보너스 (30초 이상 걸린 판만)
+export const timeBonus = (sec) => (sec >= 30 ? Math.round(700000 / sec) : 0);
 
 // 덱 넘기기: 덱이 비면 버림 더미를 다시 덱으로 (무제한)
 export function draw(state) {
@@ -158,6 +173,7 @@ export function draw(state) {
     next.stock = next.waste.reverse().map((c) => ({ ...c, up: false }));
     next.waste = [];
     next.recycles += 1;
+    next.score = Math.max(0, (next.score || 0) + (next.drawCount === 3 ? SCORE.recycle3 : SCORE.recycle1));
   } else {
     const n = Math.min(next.drawCount, next.stock.length);
     for (let i = 0; i < n; i++) {

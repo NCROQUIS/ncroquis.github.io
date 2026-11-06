@@ -34,8 +34,8 @@
   --font-display: -apple-system-ui-rounded, ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
   --cw: 48px;
   --ch: 68px;
-  --safe-top: env(safe-area-inset-top, 0px);
-  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  /* 가장자리(상태 바·카메라 구멍·내비게이션 바·홈 인디케이터·토스 메뉴 줄·배너)는 ncq/safe.js(NcqSafe)의
+     --ncq-top·--ncq-bottom·--ncq-left·--ncq-right만큼 비워요 (웹 공개·안드로이드 앱·토스가 같은 값) */
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -90,7 +90,7 @@ svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width:
 svg .fill { fill: currentColor; stroke: none; }
 
 #app { display: flex; flex-direction: column; height: 100%; max-width: 760px; margin: 0 auto;
-  padding-top: var(--safe-top); padding-bottom: var(--safe-bottom); }
+  padding: var(--ncq-top) var(--ncq-right) var(--ncq-bottom) var(--ncq-left); }
 
 /* ---------- 상단 기록 막대 ---------- */
 .topbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 18px 4px; }
@@ -127,8 +127,6 @@ svg .fill { fill: currentColor; stroke: none; }
     linear-gradient(150deg, var(--back-a), var(--back-b));
   box-shadow: var(--card-shadow), inset 0 0 0 calc(var(--cw) * 0.06) rgba(255, 255, 255, 0.92), inset 0 0 0 calc(var(--cw) * 0.06 + 1px) rgba(0, 0, 0, 0.06);
 }
-.card .back::after { content: ""; position: absolute; inset: 22% 22%; border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.45); }
 .card.up .face { display: block; }
 .card.up .back { display: none; }
 .card.red { color: var(--card-red); }
@@ -171,7 +169,7 @@ svg .fill { fill: currentColor; stroke: none; }
 .toolbar button:disabled { opacity: 0.35; }
 
 /* ---------- 알림 (다이내믹 아일랜드 느낌의 캡슐) ---------- */
-.toast { position: fixed; left: 50%; top: calc(var(--safe-top) + 12px); transform: translate(-50%, -16px) scale(0.92); opacity: 0;
+.toast { position: fixed; left: 50%; top: calc(var(--ncq-top) + 12px); transform: translate(-50%, -16px) scale(0.92); opacity: 0;
   padding: 11px 18px; border-radius: 99px; background: rgba(20, 20, 22, 0.92); color: #fff; font-size: 14px; font-weight: 600;
   -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   transition: opacity 0.3s var(--spring), transform 0.45s var(--spring); pointer-events: none; z-index: 5000; white-space: nowrap; }
@@ -187,9 +185,14 @@ svg .fill { fill: currentColor; stroke: none; }
   .sheet { --label: #f5f5f7; --label-2: rgba(235, 235, 245, 0.6); --label-3: rgba(235, 235, 245, 0.28); --fill: rgba(118, 118, 128, 0.24); }
 }
 .sheet { position: relative; width: 100%; max-width: 480px; background: var(--sheet); color: var(--label); border-radius: 28px 28px 0 0;
-  padding: 26px 20px calc(20px + var(--safe-bottom)); max-height: 88vh; overflow-y: auto; touch-action: pan-y;
+  padding: 26px 20px calc(20px + var(--ncq-bottom)); max-height: 88vh; max-height: min(88dvh, calc(100dvh - var(--ncq-top) - 8px));
+  display: flex; flex-direction: column; overflow: hidden; touch-action: pan-y;
   box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.18); animation: up 0.5s var(--spring); }
 @keyframes up { from { transform: translateY(100%) } }
+/* 내용이 길면 내용 칸만 스크롤되고, 메인 버튼 줄(#modal-foot)은 창 아래 가리는 자리 바로 위에 늘 보여요 */
+#modal-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; margin: 0 -20px; padding: 0 20px; }
+.sheet-foot { flex: none; }
+.sheet-foot:not(:empty) { padding-top: 6px; }
 .grabber { position: absolute; top: 8px; left: 50%; width: 36px; height: 5px; margin-left: -18px; border-radius: 3px; background: var(--label-3); }
 .sheet h2 { margin: 0 0 4px; font-size: 28px; font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
 .sheet p.sub { margin: 0 0 18px; color: var(--label-2); font-size: 15px; line-height: 1.45; }
@@ -243,7 +246,7 @@ svg .fill { fill: currentColor; stroke: none; }
 
 /* ---------- 클리어 연출 ---------- */
 .card.hop { animation: hop 0.6s var(--spring) 2; }
-@keyframes hop { 0%, 100% { margin-top: 0 } 40% { margin-top: calc(var(--ch) * -0.45) } }
+@keyframes hop { 0%, 100% { translate: 0 0 } 40% { translate: 0 calc(var(--ch) * -0.45) } } /* 위치는 translate로 (다시 배치하지 않아 가벼워요) */
 .fireworks { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5400; }
 .clear-banner { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 5600; }
 .clear-banner b { font-family: var(--font-display); font-size: 48px; font-weight: 800; letter-spacing: -0.03em; color: #fff;
@@ -300,9 +303,9 @@ button.d:active { transform: scale(0.88); }
 svg.art .ix text { letter-spacing: -1px; }
 
 /* ---------- 카드 뒷면 4종 ---------- */
-:root { --back-pattern: rgba(255, 255, 255, 0.16); --back-rim: rgba(255, 255, 255, 0.92); --back-emblem: rgba(255, 255, 255, 0.5); }
+:root { --back-pattern: rgba(255, 255, 255, 0.16); --back-rim: rgba(255, 255, 255, 0.92); }
 html[data-back="red"] { --back-a: #e2453c; --back-b: #a3172b; }
-html[data-back="navy"] { --back-a: #24345e; --back-b: #121a33; --back-pattern: rgba(242, 190, 80, 0.22); --back-rim: #e6c06a; --back-emblem: rgba(242, 190, 80, 0.75); }
+html[data-back="navy"] { --back-a: #24345e; --back-b: #121a33; --back-pattern: rgba(242, 190, 80, 0.22); --back-rim: #e6c06a; }
 html[data-back="mint"] { --back-a: #4fd1b5; --back-b: #1b9a8a; }
 .card .back, .mini-back {
   background:
@@ -312,7 +315,6 @@ html[data-back="mint"] { --back-a: #4fd1b5; --back-b: #1b9a8a; }
     linear-gradient(150deg, var(--back-a), var(--back-b));
 }
 .card .back { box-shadow: var(--card-shadow), inset 0 0 0 calc(var(--cw) * 0.06) var(--back-rim), inset 0 0 0 calc(var(--cw) * 0.06 + 1px) rgba(0, 0, 0, 0.08); }
-.card .back::after { border-color: var(--back-emblem); }
 .mini-back[data-back="blue"] { --back-a: #3d8bff; --back-b: #5856d6; }
 .mini-back[data-back="red"] { --back-a: #e2453c; --back-b: #a3172b; }
 .mini-back[data-back="navy"] { --back-a: #24345e; --back-b: #121a33; --back-pattern: rgba(242, 190, 80, 0.22); --back-rim: #e6c06a; }
@@ -401,7 +403,7 @@ html[data-table="sage"] { --bar: rgba(255, 255, 255, 0.9); --label-2: rgba(60, 6
 .swatches button, .face-pick button, .back-pick button { font-size: 15px; }
 .clear-banner b { font-size: 56px; }
 /* 알림은 아래쪽 빈 공간에 (숫자·카드를 가리지 않게) */
-.toast { top: auto; bottom: calc(var(--safe-bottom) + 150px); transform: translate(-50%, 16px) scale(0.92); }
+.toast { top: auto; bottom: calc(var(--ncq-bottom) + 150px); transform: translate(-50%, 16px) scale(0.92); }
 .toast.show { transform: translate(-50%, 0) scale(1); }
 
 /* ---------- 출시 기능 ---------- */
@@ -425,3 +427,271 @@ html[data-table="sage"] { --bar: rgba(255, 255, 255, 0.9); --label-2: rgba(60, 6
 .sheet .list.perks .btn::after, .sheet .list .done-row::after { content: none; }
 .sheet .list .done-row { color: var(--green); font-weight: 600; }
 .sheet .list.perks .btn { justify-content: flex-start; }
+
+/* ---------- 되돌리기: 오늘의 도전 남은 횟수 · 되돌리기 없이 클리어 ---------- */
+.toolbar .badge.empty { background: rgba(255, 255, 255, 0.35); color: #fff; }
+.no-undo { display: flex; align-items: center; justify-content: center; gap: 6px; margin: -6px auto 14px; padding: 10px 16px; border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255, 204, 0, 0.22), rgba(255, 149, 0, 0.18)); color: #b86e00; font-size: 18px; font-weight: 800; flex-wrap: wrap; }
+.no-undo svg { width: 22px; height: 22px; color: #ffb800; }
+.no-undo small { flex-basis: 100%; text-align: center; font-size: 14px; font-weight: 600; color: var(--label-2); }
+.sel-rec { margin: -6px 2px 10px; font-size: 16px; color: var(--label); font-variant-numeric: tabular-nums; }
+.sel-rec b { color: var(--orange); }
+.sel-rec.rule { margin-top: 0; margin-bottom: 16px; font-size: 15px; color: var(--label-2); }
+
+/* NcqAds 배너가 가린 높이는 --ncq-top(위쪽 배너)·--ncq-bottom(아래쪽 배너)에 들어 있어요 (#app이 비워요) */
+
+/* =========================================================
+   게임 종류 추가 (스파이더·프리셀) · 진행 시스템 · 편의 기능
+   ========================================================= */
+/* 토스 게임: 맨 위 UI는 #app이 --ncq-top(상태 바 + 토스 메뉴 줄)만큼 내려서 토스 ⋯·✕ 메뉴와 겹치지 않아요 */
+
+.cell-slot { background: rgba(0, 0, 0, 0.16); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.28); }
+.found-slot.spider { font-size: calc(var(--cw) * 0.5); }
+#board[data-variant="spider"] .stock-slot { box-shadow: none; background: none; }
+
+/* 새 게임: 게임 종류 고르기 */
+.mode-pick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 16px; }
+.mode-pick button { display: flex; flex-direction: column; gap: 4px; padding: 14px 6px; border-radius: 14px; background: var(--group); box-shadow: inset 0 0 0 1px var(--sep); text-align: center; }
+.mode-pick button b { font-size: 18px; }
+.mode-pick button small { font-size: 12.5px; color: var(--label-2); line-height: 1.3; }
+.mode-pick button.on { box-shadow: inset 0 0 0 2.5px var(--accent); }
+.mode-pick button.on b { color: var(--accent); }
+.seg button { font-size: 16px; }
+
+/* 오늘의 할 일 */
+.todo { border-radius: 14px; background: var(--group); padding: 6px 14px 10px; margin: 10px 0 20px; }
+.todo-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; font-size: 18px; }
+.todo-row + .todo-row { box-shadow: inset 0 0.5px 0 var(--sep); }
+.todo-row i { flex: none; width: 26px; height: 26px; border-radius: 50%; box-shadow: inset 0 0 0 2px var(--label-3); display: flex; align-items: center; justify-content: center; font-style: normal; font-weight: 800; color: #fff; }
+.todo-row.done i { background: var(--green); box-shadow: none; }
+.todo-row.done span { color: var(--label-2); text-decoration: line-through; }
+.todo-row span { flex: 1; }
+.todo-row small { font-size: 15px; color: var(--label-2); font-variant-numeric: tabular-nums; }
+.todo-row.done small { color: var(--green); font-weight: 700; }
+.todo-foot { font-size: 14px; color: var(--label-2); padding-top: 6px; }
+.sheet h2.h2-sub { font-size: 24px; }
+
+/* 레벨·경험치 */
+.xp-box { border-radius: 14px; background: var(--group); padding: 12px 14px; margin-bottom: 16px; }
+.xp-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 17px; }
+.xp-head span { font-size: 15px; color: var(--orange); font-weight: 700; font-variant-numeric: tabular-nums; }
+.xp-box .bar { height: 8px; border-radius: 4px; background: var(--fill); overflow: hidden; margin-top: 8px; }
+.xp-box .bar i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, #ffb800, #ff9500); transition: width 0.6s var(--spring); }
+.xp-note { margin: 8px 0 0; font-size: 14px; color: var(--label-2); line-height: 1.4; }
+.xp-note.up { color: var(--orange); font-weight: 700; font-size: 15px; }
+.score-line { display: flex; justify-content: center; align-items: baseline; gap: 8px; margin: -4px 0 12px; font-size: 16px; color: var(--label-2); }
+.score-line b { font-size: 26px; color: var(--label); font-variant-numeric: tabular-nums; }
+.score-line em { font-style: normal; font-size: 14px; font-weight: 700; color: var(--orange); }
+
+/* 잠긴 테마 */
+.swatches button.locked i, .back-pick button.locked .mini-back { opacity: 0.35; filter: grayscale(0.6); }
+.swatches button, .back-pick button { position: relative; }
+.lock { position: absolute; top: 2px; right: 2px; font-style: normal; font-size: 10px; font-weight: 800; padding: 1px 5px; border-radius: 8px; background: var(--label); color: var(--group); }
+
+/* 기록 초기화 */
+.sheet .list .btn.danger { color: #e0322a; }
+.sheet .btn.danger-fill { background: #e0322a; color: #fff; }
+
+/* 움직임 줄이기 */
+html.calm .card { transition-duration: 0.12s; }
+html.calm .card.shake { animation-duration: 0.2s; }
+html.calm .sheet { animation-duration: 0.15s; }
+
+/* ---------- 시작 화면 ---------- */
+.home { position: fixed; inset: 0; z-index: 4000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  padding: calc(var(--ncq-top) + 20px) calc(var(--ncq-right) + 24px) calc(var(--ncq-bottom) + 24px) calc(var(--ncq-left) + 24px);
+  background: radial-gradient(ellipse 130% 85% at 50% 22%, var(--bg-top), var(--bg-bottom)); background-color: var(--bg-bottom);
+  color: var(--label); transition: opacity 0.28s ease; }
+.home[hidden] { display: none; }
+.home.out { opacity: 0; pointer-events: none; }
+.home h1 { margin: 6px 0 0; font-family: var(--font-display); font-size: clamp(34px, 10vw, 46px); font-weight: 800; letter-spacing: -0.02em; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.18); }
+.home-sub { margin: 0; font-size: 18px; font-weight: 600; color: var(--label-2); }
+.home-level { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 4px; }
+.home-level span { padding: 8px 14px; border-radius: 99px; font-size: 16px; font-weight: 600;
+  background: var(--glass); border: 0.5px solid var(--glass-line); }
+.home-actions { width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+.home .btn { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; min-height: 66px; padding: 12px 16px;
+  border-radius: 18px; font-size: 22px; font-weight: 700; background: rgba(255, 255, 255, 0.95); color: #1c1c1e;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18); transition: transform 0.2s var(--spring); }
+.home .btn small { font-size: 15px; font-weight: 600; opacity: 0.72; margin-top: 2px; }
+.home .btn.primary { background: var(--accent); color: #fff; }
+.home .btn.gold { background: #ffd34d; color: #2b1d00; }
+.home .btn:active { transform: scale(0.97); }
+
+/* 카드 다섯 장: 부채꼴로 펼쳐진 뒤 천천히 떠 있어요 */
+.home-cards { position: relative; width: 100%; height: clamp(150px, 27vh, 230px); --hw: clamp(72px, 21vw, 108px); cursor: pointer; }
+.hcard { position: absolute; left: 50%; top: 50%; width: var(--hw); height: calc(var(--hw) * 1.42);
+  margin: calc(var(--hw) * -0.6) 0 0 calc(var(--hw) * -0.5); border-radius: calc(var(--hw) * 0.14);
+  background: var(--card); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 22px rgba(0, 0, 0, 0.28);
+  transform-origin: 50% 135%; translate: calc(var(--i) * var(--hw) * 0.34) 0;
+  --rot: calc(var(--i) * 11deg); --lift: calc(var(--i) * var(--i) * 4px);
+  transform: rotate(var(--rot)) translateY(var(--lift)); }
+.hcard.red { color: var(--card-red); }
+.hcard.black { color: var(--card-black); }
+.hcard svg.art { position: absolute; inset: 0; width: 100%; height: 100%; fill: currentColor; stroke: none; overflow: visible; }
+.hcard svg.art text { font-family: var(--font-display); font-weight: 700; fill: currentColor; }
+.hcard svg.art .ct { font-weight: 800; }
+.home-cards.play .hcard { animation: fan-in 0.9s var(--spring) both, card-float 4.8s ease-in-out infinite;
+  animation-delay: calc((var(--i) + 2) * 90ms), calc((var(--i) + 2) * 300ms + 1s); }
+@keyframes fan-in {
+  from { transform: rotate(0deg) translateY(28px) scale(0.92); opacity: 0; }
+  60% { opacity: 1; }
+}
+@keyframes card-float {
+  0%, 100% { transform: rotate(var(--rot)) translateY(var(--lift)); }
+  50% { transform: rotate(calc(var(--rot) * 1.08)) translateY(calc(var(--lift) - 7px)); }
+}
+html.calm .home-cards.play .hcard { animation: none; }
+html.calm .home { transition: none; }
+@media (prefers-reduced-motion: reduce) { .home-cards.play .hcard { animation: none; } }
+
+/* 기록 옮기기 코드 */
+.code-box { width: 100%; margin: 4px 0 14px; padding: 12px; border-radius: 12px; border: 1px solid var(--sep); background: var(--group); color: var(--label);
+  font: 13px/1.4 ui-monospace, Menlo, monospace; word-break: break-all; resize: none; user-select: text; -webkit-user-select: text; touch-action: auto; }
+
+/* 작은 휴대폰(세로 740px 이하): 결과 창이 한 화면에 들어가게 줄여요 — '새 게임' 버튼이 스크롤 없이 보이게 */
+@media (max-height: 740px) {
+  .win-badge { margin: 0 0 4px; }
+  .win-badge svg { width: 48px; height: 48px; }
+  .win-badge ~ h2 { font-size: 24px; }
+  .win-badge ~ .sub { margin-bottom: 10px; }
+  .win-badge ~ .no-undo { padding: 6px 12px; margin-bottom: 10px; }
+  .win-badge ~ .no-undo small { display: none; }
+  .win-badge ~ .result-note { padding: 7px 12px; margin-bottom: 10px; }
+  .win-badge ~ .xp-box { padding: 9px 12px; margin-bottom: 10px; }
+  .win-badge ~ .stats { display: none; } /* 승리·승률·연승은 메뉴에서도 볼 수 있어요 */
+}
+
+/* ---------- 클리어 연출 다듬기 ---------- */
+/* 배너: 큰 글자 아래 걸린 시간(되돌리기 없이) 한 줄. 글자 뒤에 은은한 빛 */
+.clear-banner .cb-text { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  animation: banner 2.4s var(--spring) forwards; }
+.clear-banner .cb-text::before { content: ""; position: absolute; inset: -40px -60px; z-index: -1; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.35), transparent); }
+.clear-banner .cb-text b { animation: none; }
+.clear-banner .cb-text small { font-size: 20px; font-weight: 700; color: #fff; opacity: 0.92; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
+.clear-banner.big .cb-text b { background: linear-gradient(180deg, #fff6c2, #ffd23f 55%, #ffb000); -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-shadow: none; filter: drop-shadow(0 3px 10px rgba(255, 176, 0, 0.55)) drop-shadow(0 1px 0 rgba(0, 0, 0, 0.25)); }
+.clear-banner.big .ring { border-width: 4px; }
+.clear-banner .ring.r3 { animation-delay: 0.36s; border-color: rgba(255, 214, 10, 0.6); }
+
+/* 결과 창: 점수 숫자는 고정폭이라 올라가는 동안 흔들리지 않게, '최고 점수!'는 다 올라간 뒤 톡 */
+.score-line b { font-variant-numeric: tabular-nums; }
+.score-line em.pop { display: inline-block; opacity: 0; transform: scale(0.6); }
+.score-line em.pop.on { animation: pop-in 0.5s var(--spring) forwards; }
+@keyframes pop-in { 0% { opacity: 0; transform: scale(0.6) } 60% { opacity: 1; transform: scale(1.18) } 100% { opacity: 1; transform: scale(1) } }
+html.calm .score-line em.pop { opacity: 1; transform: none; }
+.xp-box .bar i { transition: width 0.9s var(--spring); }
+@media (prefers-reduced-motion: reduce) { .clear-banner .cb-text { animation: banner 2.4s linear forwards; } .score-line em.pop { opacity: 1; transform: none; } }
+
+/* ==========================================================================
+   볼륨감 — 빛은 위에서, 그림자는 아래로. 글자 대비는 그대로 두고 깊이만 더해요.
+   카드: 종이 두께(윗변 빛·아랫변 그늘) + 겹 그림자 / 테이블: 가장자리 그늘 / 카드 자리: 움푹 파인 홈
+   버튼: 아래 두께가 있는 입체 버튼, 누르면 쑥 들어가요
+   ========================================================================== */
+:root {
+  --card-shadow: 0 1px 1px rgba(0, 0, 0, 0.26), 0 3px 6px rgba(0, 0, 0, 0.2), 0 8px 16px rgba(0, 0, 0, 0.14);
+  --card-lift: 0 24px 40px rgba(0, 0, 0, 0.32), 0 8px 14px rgba(0, 0, 0, 0.2);
+  --vignette: rgba(0, 0, 0, 0.3);
+  --raise: 0 1px 2px rgba(0, 0, 0, 0.07), 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root { --card-shadow: 0 1px 1px rgba(0, 0, 0, 0.45), 0 3px 7px rgba(0, 0, 0, 0.35), 0 10px 20px rgba(0, 0, 0, 0.25); --raise: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.25); }
+}
+html[data-table="sage"] { --vignette: rgba(60, 80, 70, 0.1); --card-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.06); }
+
+/* 테이블: 가운데는 밝고 가장자리로 갈수록 그늘 — 펠트 위에 조명이 비치는 느낌 */
+body, .home {
+  background:
+    radial-gradient(ellipse 115% 95% at 50% 38%, transparent 55%, var(--vignette) 100%),
+    radial-gradient(ellipse 130% 85% at 50% 22%, var(--bg-top), var(--bg-bottom));
+  background-color: var(--bg-bottom);
+}
+
+/* 카드 앞면: 위가 살짝 밝은 종이, 윗변 빛줄기, 아랫변 두께 */
+.card .face {
+  background: linear-gradient(180deg, #ffffff 0%, var(--card) 45%, #ebebf0 100%);
+  box-shadow: var(--card-shadow), inset 0 1px 0 rgba(255, 255, 255, 1), inset 0 -2px 0 rgba(0, 0, 0, 0.07), inset 0 0 0 0.5px rgba(0, 0, 0, 0.14);
+}
+/* 카드 뒷면: 위쪽 광택 + 아래쪽 그늘 */
+.card .back { box-shadow: var(--card-shadow), inset 0 0 0 calc(var(--cw) * 0.06) var(--back-rim), inset 0 0 0 calc(var(--cw) * 0.06 + 1px) rgba(0, 0, 0, 0.1),
+  inset 0 calc(var(--ch) * -0.12) calc(var(--ch) * 0.16) rgba(0, 0, 0, 0.16); }
+.card .back::before { content: ""; position: absolute; inset: calc(var(--cw) * 0.06); border-radius: calc(var(--cw) * 0.11); pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 42%); }
+.card.dragging .face { box-shadow: var(--card-lift), inset 0 1px 0 #fff, inset 0 -2px 0 rgba(0, 0, 0, 0.07), inset 0 0 0 0.5px rgba(0, 0, 0, 0.14); }
+
+/* 카드 자리: 테이블에 움푹 파인 홈 */
+.slot { background: rgba(0, 0, 0, 0.14); box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3), inset 0 0 0 1.5px var(--label-3), 0 1px 0 rgba(255, 255, 255, 0.1); }
+.tab-slot { background: rgba(0, 0, 0, 0.06); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.18), inset 0 0 0 1.5px rgba(255, 255, 255, 0.16); }
+html[data-table="sage"] .slot { background: rgba(120, 130, 125, 0.1); box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08), inset 0 0 0 1.5px var(--label-3), 0 1px 0 #fff; }
+
+/* 위 막대 이름표·아래 버튼 막대: 살짝 떠 있는 판 */
+.title { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.16); }
+.toolbar { background: linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(0, 0, 0, 0.08)), var(--bar);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 -6px 18px rgba(0, 0, 0, 0.16); }
+.toolbar button { border-radius: 14px; }
+.toolbar button:active { background: rgba(0, 0, 0, 0.16); box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.25); }
+.toolbar .badge { box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+.ad-banner { box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2); }
+.auto-btn { background: linear-gradient(180deg, #3d97ff, #0068e6); box-shadow: 0 4px 0 #0050b0, 0 10px 24px rgba(0, 104, 230, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+.auto-btn:active { transform: translateX(-50%) translateY(3px); box-shadow: 0 1px 0 #0050b0, 0 4px 10px rgba(0, 104, 230, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+
+/* 창(시트) 안 버튼: 아래 두께가 있는 입체 버튼 */
+.sheet .row .btn, .sheet .cta .btn { box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.55); transition: transform 0.12s, box-shadow 0.12s; }
+.sheet .btn.primary { background: linear-gradient(180deg, #3d97ff, #0068e6); box-shadow: 0 3px 0 #0050b0, 0 8px 16px rgba(0, 104, 230, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+.sheet .btn.gold { background: linear-gradient(180deg, #ffb340, #f28a00); box-shadow: 0 3px 0 #c06a00, 0 8px 16px rgba(242, 138, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
+.sheet .btn.danger-fill { background: linear-gradient(180deg, #f0544c, #d42a22); box-shadow: 0 3px 0 #a51d17, 0 8px 16px rgba(212, 42, 34, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+.sheet .row .btn:active, .sheet .cta .btn:active { transform: translateY(2px); opacity: 1; box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
+@media (prefers-color-scheme: dark) { .sheet .row .btn, .sheet .cta .btn { box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08); } }
+/* 창 안의 묶음 상자(목록·기록·경험치·할 일): 살짝 떠 있게 */
+.sheet .list, .stats, .xp-box, .todo, .face-pick, .back-pick, .swatches, .result-note, .no-undo, .chip { box-shadow: var(--raise); }
+.seg { box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12); }
+.sheet { box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6); }
+@media (prefers-color-scheme: dark) { .sheet { box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08); } }
+
+/* 시작 화면: 입체 버튼, 떠 있는 카드, 글자 그림자 */
+.home h1 { text-shadow: 0 2px 0 rgba(0, 0, 0, 0.16), 0 6px 18px rgba(0, 0, 0, 0.25); }
+.home-level span { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 2px 8px rgba(0, 0, 0, 0.16); }
+.home .btn { background: linear-gradient(180deg, #ffffff, #e9e9ef); box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2), 0 10px 22px rgba(0, 0, 0, 0.22), inset 0 1px 0 #fff;
+  transition: transform 0.12s, box-shadow 0.12s; }
+.home .btn.primary { background: linear-gradient(180deg, #3d97ff, #0068e6); box-shadow: 0 4px 0 #0050b0, 0 10px 22px rgba(0, 60, 140, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+.home .btn.gold { background: linear-gradient(180deg, #ffe07a, #ffc21a); box-shadow: 0 4px 0 #c99000, 0 10px 22px rgba(120, 80, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.6); }
+.home .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.5); }
+.hcard { background: linear-gradient(180deg, #ffffff 0%, var(--card) 45%, #ebebf0 100%);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25), 0 12px 26px rgba(0, 0, 0, 0.32), inset 0 1px 0 #fff, inset 0 -3px 0 rgba(0, 0, 0, 0.07), inset 0 0 0 0.5px rgba(0, 0, 0, 0.14); }
+
+/* 클리어 때 날아가는 카드: 그림자를 한 겹으로 줄여 가볍게 */
+.card.flying .face, .card.flying .back { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.28); }
+.card.flying .back::before { display: none; }
+
+/* 시작 화면 맨 아래 이용 등급 (토스 게임 출시 기준: 3초 이상 보이게) */
+.home-rating { margin: 6px 0 0; }
+.home-rating b { display: inline-block; padding: 5px 12px; border-radius: 8px; font-size: 14px; font-weight: 700; color: var(--label);
+  background: rgba(0, 0, 0, 0.22); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, 0.5); }
+html[data-table="sage"] .home-rating b { background: rgba(255, 255, 255, 0.8); box-shadow: inset 0 0 0 1.5px rgba(0, 0, 0, 0.25); }
+
+/* 시작 화면: 세로가 짧은 휴대폰(토스 상단 바까지 있으면 더 짧아요)에서도 카드와 이름이 겹치지 않게 */
+.home-cards { --hw: clamp(56px, min(21vw, 13vh), 108px); height: calc(var(--hw) * 2.05); flex: none; }
+@media (max-height: 700px) {
+  .home { gap: 8px; }
+  .home h1 { font-size: clamp(28px, 8.5vw, 40px); margin-top: 2px; }
+  .home-sub { font-size: 16px; }
+  .home .btn { min-height: 56px; font-size: 20px; padding: 9px 14px; }
+  .home-actions { gap: 10px; margin-top: 4px; }
+  .home-level span { padding: 6px 12px; font-size: 15px; }
+}
+
+/* 위쪽 배너(안드로이드·웹): 맨 위에 붙고, 시간·점수 줄은 그 아래로 */
+.ad-banner.top { margin: 6px 12px 0; }
+
+/* ---------- 언어 (영어·한국어, src/texts.js) ---------- */
+/* 글자를 고른 언어로 채우기 전(여는 첫 순간)에는 HTML의 글자를 숨겨요. NcqLang이 <html lang>을 정하면 보여요 */
+html:not([lang]) [data-i18n] { visibility: hidden; }
+/* 메뉴의 언어 고르기: 지구본 + '언어 · Language' */
+.group-label.lang-label { display: flex; align-items: center; gap: 6px; }
+.group-label.lang-label svg { width: 18px; height: 18px; stroke-width: 2; flex: none; }
+/* 영어는 한국어보다 길어요: 알림은 화면 폭 안에서 줄바꿈, 창 글자는 넘치지 않게 */
+.toast { white-space: normal; width: max-content; max-width: calc(100vw - 32px); text-align: center; overflow-wrap: anywhere; }
+.sheet, .home { overflow-wrap: break-word; }
+/* 클리어 배너가 두 줄이 되면(오늘의 도전 성공! / Daily Cleared!) 가운데 맞춤 */
+.clear-banner .cb-text { text-align: center; }

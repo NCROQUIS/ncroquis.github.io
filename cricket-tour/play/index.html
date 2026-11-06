@@ -5,13 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
     <meta name="theme-color" content="#0c1630" />
     <title>Cricket Tour</title>
-    <script type="module" crossorigin src="./assets/index-DEYdSGpT.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-DtUJCv8V.css">
+    <script type="module" crossorigin src="./assets/index-BQrmzdFU.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-zLfppfm5.css">
   </head>
-  <body>
+  <body data-screen="home">
     <canvas id="field" aria-label="Cricket field"></canvas>
 
-    <div id="hud" class="hidden">
+    <!-- 위쪽 막대: 코인과 설정 (경기 화면 밖) -->
+    <div id="topbar">
+      <button id="btn-back" class="icon-btn" data-i18n-attr="aria-label:back">‹</button>
+      <div class="coin-chip"><span class="coin-ico"></span><b id="coins">0</b></div>
+      <button id="btn-settings-top" class="icon-btn" data-i18n-attr="aria-label:settings">⚙</button>
+    </div>
+
+    <!-- 로비 (홀컵의 로비처럼 지금 나라 카드 + 바로 시작) -->
+    <section id="scr-home" class="screen">
+      <div class="home-head">
+        <div class="tag" data-i18n="super_over"></div>
+        <h1 data-i18n="title"></h1>
+      </div>
+      <button id="hero" class="card hero press">
+        <div class="hero-flag" id="hero-flag"></div>
+        <div class="hero-body">
+          <div class="eyebrow" id="hero-country"></div>
+          <div class="hero-title" id="hero-stadium"></div>
+          <div class="bar"><i id="hero-bar"></i></div>
+          <div class="hero-meta"><b id="hero-stars"></b><span id="hero-next"></span></div>
+        </div>
+      </button>
+      <button id="btn-play" class="big-btn" data-i18n="play"></button>
+      <div class="row2">
+        <button id="btn-world" class="card tile press"><span class="tile-ico">🌏</span><span data-i18n="world_tour"></span></button>
+        <button id="btn-shop" class="card tile press"><span class="tile-ico">🏏</span><span data-i18n="shop"></span></button>
+      </div>
+      <div id="home-best" class="best"></div>
+    </section>
+
+    <!-- 월드 투어: 나라 목록 -->
+    <section id="scr-world" class="screen">
+      <h2 class="screen-title" data-i18n="world_tour"></h2>
+      <div id="world-list" class="list"></div>
+    </section>
+
+    <!-- 나라의 경기 목록 -->
+    <section id="scr-stages" class="screen">
+      <div class="card country-head">
+        <div class="eyebrow" id="st-country"></div>
+        <h2 id="st-stadium"></h2>
+        <div class="gimmick" id="st-gimmick"></div>
+        <div class="hero-meta"><b id="st-stars"></b></div>
+      </div>
+      <div id="stage-grid" class="grid"></div>
+      <div class="note" data-i18n="star_rules"></div>
+    </section>
+
+    <!-- 상점 (꾸미기) -->
+    <section id="scr-shop" class="screen">
+      <h2 class="screen-title" data-i18n="shop"></h2>
+      <div class="card shop-preview"><canvas id="shop-preview"></canvas></div>
+      <div id="shop-tabs" class="tabs"></div>
+      <div id="shop-grid" class="grid shop-grid"></div>
+    </section>
+
+    <!-- 경기 화면 HUD -->
+    <div id="hud">
       <div class="hud-row">
         <div class="hud-side">
           <div id="hud-stadium" class="hud-small"></div>
@@ -31,36 +88,45 @@
     <div id="hud-speed"></div>
     <div id="hint" class="hidden" data-i18n="hint"></div>
 
-    <section id="intro" class="overlay">
+    <!-- 경기 전 카드 -->
+    <section id="intro" class="overlay hidden">
       <div class="card">
-        <div class="tag" data-i18n="super_over"></div>
-        <h1 data-i18n="title"></h1>
+        <button class="x-btn" data-close="intro" data-i18n-attr="aria-label:close">✕</button>
+        <div class="tag" id="intro-match"></div>
         <div class="stadium">
           <div id="intro-stadium" class="stadium-name"></div>
           <div id="intro-city" class="stadium-city"></div>
         </div>
+        <div id="intro-gimmick" class="gimmick"></div>
         <div id="intro-rival" class="rival"></div>
         <div id="intro-chase" class="chase"></div>
-        <div id="intro-best" class="best"></div>
-        <button id="btn-play" class="big-btn" data-i18n="play"></button>
+        <div id="intro-stars" class="stars small"></div>
+        <button id="btn-start" class="big-btn" data-i18n="play"></button>
       </div>
-      <button id="btn-settings-intro" class="icon-btn corner" data-i18n-attr="aria-label:settings">⚙</button>
     </section>
 
     <section id="result" class="overlay hidden">
       <div class="card">
+        <button class="x-btn" data-close="result" data-i18n-attr="aria-label:close">✕</button>
         <h2 id="result-title"></h2>
         <div id="result-stars" class="stars"></div>
         <div id="result-score" class="result-score"></div>
         <div id="result-detail" class="result-detail"></div>
+        <div id="result-unlock" class="unlock-note hidden"></div>
         <div id="result-coins" class="coins"></div>
-        <button id="btn-retry" class="big-btn" data-i18n="retry"></button>
-        <button id="btn-home" class="text-btn" data-i18n="home"></button>
+        <button id="btn-extra" class="ad-btn hidden" data-i18n="extra_ball"></button>
+        <button id="btn-double" class="ad-btn hidden"></button>
+        <div id="result-note" class="note"></div>
+        <div class="row2">
+          <button id="btn-retry" class="plain-btn" data-i18n="retry"></button>
+          <button id="btn-next" class="big-btn slim" data-i18n="next"></button>
+        </div>
       </div>
     </section>
 
     <section id="settings" class="overlay hidden">
       <div class="card">
+        <button class="x-btn" data-close="settings" data-i18n-attr="aria-label:close">✕</button>
         <h2 data-i18n="settings"></h2>
         <div class="row">
           <span data-i18n="sound"></span>
@@ -68,10 +134,21 @@
         </div>
         <div id="lang-title" class="row-title"></div>
         <div id="lang-list" class="lang-list"></div>
+        <div id="cheat" class="cheat hidden">
+          <div class="row-title" data-i18n="cheat_title"></div>
+          <div class="cheat-grid">
+            <button data-cheat="win" data-i18n="cheat_win"></button>
+            <button data-cheat="lose" data-i18n="cheat_lose"></button>
+            <button data-cheat="coins" data-i18n="cheat_coins"></button>
+            <button data-cheat="unlock" data-i18n="cheat_unlock"></button>
+          </div>
+        </div>
         <button id="btn-close" class="big-btn" data-i18n="close"></button>
         <div id="app-version" class="version"></div>
       </div>
     </section>
+
+    <div id="toast" class="toast hidden"></div>
 
   </body>
 </html>

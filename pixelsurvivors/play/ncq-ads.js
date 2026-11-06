@@ -22,12 +22,15 @@
  *   공유 테스트(웹): 진짜 광고 대신 '광고 자리' 화면 (어디서 어떻게 나오는지 미리 봐요)
  *   광고를 끈 빌드: 아무것도 하지 않아요 (can·rewarded·interstitial 모두 false)
  * 광고 동의(유럽 등)는 안드로이드 앱을 열 때 NcqAds가 구글 동의 화면(UMP)으로 물어요.
+ * 지표 모듈(NcqMetrics)이 있으면 광고 기록을 보내요 (게임 코드는 할 일이 없어요): ad_load(불러옴)·ad_fail(못 불러옴·못 보여 줌)·
+ * ad_show(노출, 배너는 새로 불러올 때마다)·ad_reward(보상)·ad_call(게임이 전면·보상형 광고를 보여 달라고 한 결과 result:
+ * shown·rewarded·closed·not_ready·no_ad·too_soon·busy·canceled·failed·off). 켠 지면만 적고, 오류가 나도 광고는 그대로예요.
  */
 (function (w, d) {
   "use strict";
   if (w.NcqAds && w.NcqAds.version) return; // 두 번 들어와도 하나만
 
-  var VERSION = 4;
+  var VERSION = 6;
   var GAP = 60000; // 전면 광고 사이 최소 간격 (보상형 광고를 본 뒤에도)
   var START_GAP = 30000; // 앱을 열고 이 시간 안에는 전면 광고를 띄우지 않아요
   var WAIT = 10000; // 보상형 광고를 불러오며 기다리는 최대 시간
@@ -40,13 +43,19 @@
   var TOUCH_ARM = 500; // 토스 광고가 뜬 뒤 이만큼 지나서 화면에 들어온 터치는 '광고가 닫힘'으로 봐요
   var REWARD_GRACE = 600; // 보상 신호가 닫힘보다 늦게 오는 기기가 있어서 닫힌 뒤 이만큼 더 기다려요
   var TOSS_BANNER = 102; // 토스 배너 높이 (앱인토스 권장, 글이 길면 조금 달라질 수 있어요)
+  // 배너를 두는 가장자리: 기기 안전 영역(상태 바·홈 인디케이터) 바로 안쪽. 안드로이드 AdMob 배너도 내비게이션 바 위에
+  // 떠서, 어느 플랫폼에서나 --ncq-banner-*는 배너 높이만이고 게임은 안전 영역 + 배너를 비워요 (공용 모듈 NcqSafe의 --ncq-bottom).
+  // 토스는 env(safe-area-inset-*)가 0일 수 있어서 빌드가 넣는 --ncq-safe-*가 먼저예요. 앞의 top:0·bottom:0은 오래된 엔진용
+  var EDGE_TOP = "top:0;top:max(var(--ncq-toss-top,0px),var(--ncq-safe-top,env(safe-area-inset-top,0px)));";
+  var EDGE_BOTTOM = "bottom:0;bottom:var(--ncq-safe-bottom,env(safe-area-inset-bottom,0px));";
   var KINDS = {
-    interstitial: {prepare: "prepareInterstitial", show: "showInterstitial",
+    interstitial: {prepare: "prepareInterstitial", show: "showInterstitial", showed: "interstitialAdShowed",
                    dismissed: "interstitialAdDismissed", failed: "interstitialAdFailedToShow"},
-    rewarded: {prepare: "prepareRewardVideoAd", show: "showRewardVideoAd", dismissed: "onRewardedVideoAdDismissed",
-               failed: "onRewardedVideoAdFailedToShow", reward: "onRewardedVideoAdReward"},
+    rewarded: {prepare: "prepareRewardVideoAd", show: "showRewardVideoAd", showed: "onRewardedVideoAdShowed",
+               dismissed: "onRewardedVideoAdDismissed", failed: "onRewardedVideoAdFailedToShow",
+               reward: "onRewardedVideoAdReward"},
     rewarded_interstitial: {prepare: "prepareRewardInterstitialAd", show: "showRewardInterstitialAd",
-                            dismissed: "onRewardedInterstitialAdDismissed",
+                            showed: "onRewardedInterstitialAdShowed", dismissed: "onRewardedInterstitialAdDismissed",
                             failed: "onRewardedInterstitialAdFailedToShow", reward: "onRewardedInterstitialAdReward"}
   };
   // 안내 글자: 게임이 공용 언어 모듈(NcqLang)을 쓰면 게임에서 고른 언어, 아니면 기기 언어. 한국어가 아니면 영어
@@ -74,7 +83,8 @@
 
   var st = {
     init: null, ready: false, off: false, busy: false, started: Date.now(), last: 0, privacy: false,
-    want: null, banner: null, bannerFails: 0, bannerTimer: 0, space: {top: 0, bottom: 0}, warned: {}
+    want: null, banner: null, bannerFails: 0, bannerTimer: 0, space: {top: 0, bottom: 0}, warned: {},
+    shown: false // 마지막으로 띄운 전면·보상형 광고가 실제로 화면에 나왔는지 (ad_call의 결과)
   };
   var full = {}; // 광고 단위 ID → {loaded, at(불러온 때), loading, fails, timer}
   var tossChain = Promise.resolve(); // 토스 광고는 한 번에 하나씩 불러요 (동시에 부르면 이벤트가 빠지는 안드로이드 기기가 있어요)
@@ -111,6 +121,31 @@
 
   function sleep(ms) {
     return new Promise(function (resolve) { setTimeout(resolve, ms); });
+  }
+
+  // ------------------------------------------------------------ 지표 (지표 모듈 NcqMetrics가 있으면 광고 기록을 보내요)
+  /** 광고 기록 하나. fmt는 광고 단위 형식을 모를 때(공유 테스트의 광고 자리) 부른 함수의 형식 */
+  function note(name, k, fmt, extra) {
+    try {
+      var m = w.NcqMetrics;
+      if (!k || !m || typeof m._tool !== "function") return;
+      var p = {slot: k, format: formatOf(k) || fmt || ""};
+      if (extra) {
+        for (var x in extra) if (Object.prototype.hasOwnProperty.call(extra, x)) p[x] = extra[x];
+      }
+      m._tool(name, p);
+    } catch (e) { /* 지표 때문에 광고가 멈추면 안 돼요 */ }
+  }
+
+  /** 오류를 짧게 (광고 네트워크의 오류 코드나 글) */
+  function why(e) {
+    var v = e && (e.code != null && e.code !== "" ? e.code : (e.message || e.errorMessage));
+    return String(v || e || "").slice(0, 40);
+  }
+
+  /** 게임이 전면·보상형 광고를 보여 달라고 한 결과 (켠 지면만 적어요: 광고를 쓰지 않는 빌드의 호출은 남기지 않게) */
+  function called(k, fmt, result) {
+    if (env().sim || (flagOn(k) && unit(k))) note("ad_call", k, fmt, {result: result});
   }
 
   /** 대답이 끝내 없는 플러그인 명령에 묶이지 않게 시간 제한 */
@@ -297,9 +332,11 @@
       a.loaded = true;
       a.at = Date.now();
       a.fails = 0;
+      note("ad_load", k);
       return true;
     }, function (e) {
       a.fails += 1;
+      note("ad_fail", k, "", {stage: "load", why: why(e)});
       warn("광고를 불러오지 못했어요 (" + k + ")", e);
       a.timer = setTimeout(function () { a.timer = 0; load(k); }, retryDelay(a.fails));
       return false;
@@ -360,13 +397,27 @@
     var kind = KINDS[fmt];
     var a = full[id];
     st.busy = true;
+    st.shown = false;
     return new Promise(function (resolve) {
       var stops = [];
       var done = false;
       var earned = false;
       var safety = 0;
+      function impression() { // 광고가 화면에 나옴 (노출 신호, 없으면 보상·닫힘 신호로)
+        if (st.shown || done) return;
+        st.shown = true;
+        note("ad_show", k, fmt);
+      }
+      function failShow(text, e) {
+        note("ad_fail", k, fmt, {stage: "show", why: text});
+        warn("광고를 보여 주지 못했어요 (" + k + ")", e);
+      }
       function finish(result) {
         if (done) return;
+        if (kind.reward && result) {
+          impression();
+          note("ad_reward", k, fmt);
+        }
         done = true;
         clearTimeout(safety);
         stops.forEach(function (stop) { stop(); });
@@ -387,12 +438,14 @@
         var closed = function () { // 닫힘: dismissed, 또는 닫힘 신호가 안 오는 기기에서 광고가 뜬 뒤 첫 터치
           if (closing) return;
           closing = true;
+          impression();
           if (kind.reward) setTimeout(function () { finish(earned); }, REWARD_GRACE); // 보상 신호가 늦게 와도 받게
           else finish(true);
         };
         var touched = function () { closed(); };
         var quiet = setTimeout(function () { // 띄웠는데 아무 신호가 없으면 실패 (게임이 멈춘 채 남지 않게)
           if (seen) return;
+          note("ad_fail", k, fmt, {stage: "show", why: "no_signal"});
           warn("광고가 대답하지 않아요 (" + k + ")");
           finish(false);
         }, SHOW_WAIT);
@@ -407,39 +460,46 @@
             onEvent: function (ev) {
               var type = ev && ev.type;
               seen = true;
+              if (type === "show" || type === "impression") impression();
               if (type === "show" && !armed) { // 광고가 떠 있는 동안 웹뷰는 터치를 받지 않아요
                 armed = setTimeout(function () { d.addEventListener("pointerdown", touched, true); }, TOUCH_ARM);
               } else if (type === "userEarnedReward") earned = true;
               else if (type === "dismissed") closed();
               else if (type === "failedToShow") {
-                warn("광고를 보여 주지 못했어요 (" + k + ")");
+                failShow("failed_to_show");
                 finish(false);
               }
             },
             onError: function (e) {
-              warn("광고를 보여 주지 못했어요 (" + k + ")", e);
+              if (!st.shown) failShow(why(e), e);
+              else warn("광고를 보여 주지 못했어요 (" + k + ")", e);
               finish(kind.reward ? earned : false);
             }
           })));
         } catch (e) {
-          warn("광고를 보여 주지 못했어요 (" + k + ")", e);
+          failShow(why(e), e);
           finish(false);
         }
         return;
       }
+      stops.push(listen(kind.showed, impression));
       stops.push(listen(kind.dismissed, function () {
+        impression();
         if (kind.reward) setTimeout(function () { finish(earned); }, 400); // 보상 신호가 닫힘보다 늦게 와도 받게
         else finish(true);
       }));
       stops.push(listen(kind.failed, function (e) {
-        warn("광고를 보여 주지 못했어요 (" + k + ")", e);
+        failShow(why(e), e);
         finish(false);
       }));
       if (kind.reward) stops.push(listen(kind.reward, function () { earned = true; }));
       call(kind.show, {adId: id}).then(function () {
-        if (kind.reward) earned = true; // 보상형은 보상을 받았을 때 끝나요
+        if (kind.reward) { // 보상형은 보상을 받았을 때 대답해요 (전면 광고는 띄우라고 한 뒤 바로 대답해서 노출은 신호로 봐요)
+          earned = true;
+          impression();
+        }
       }, function (e) {
-        warn("광고를 보여 주지 못했어요 (" + k + ")", e);
+        failShow(why(e), e);
         finish(false);
       });
     });
@@ -461,21 +521,41 @@
 
   function interstitial(slot) {
     var k = slotKey(slot);
-    if (!can(k) || st.busy || tooSoon()) return Promise.resolve(false);
-    if (env().sim) return simulate(k, "interstitial");
+    if (!can(k) || st.busy || tooSoon()) {
+      if (k) called(k, "interstitial", !can(k) ? "off" : st.busy ? "busy" : "too_soon");
+      return Promise.resolve(false);
+    }
+    if (env().sim) {
+      return simulate(k, "interstitial").then(function (r) {
+        called(k, "interstitial", "shown");
+        return r;
+      });
+    }
     if (!fits(k, "interstitial")) return Promise.resolve(false);
     if (!st.ready || !fresh(unit(k))) { // 기다리게 하지 않아요 (다음을 위해 불러 둬요)
       if (st.ready) load(k);
       else init();
+      called(k, "interstitial", "not_ready");
       return Promise.resolve(false);
     }
-    return showFull(k);
+    return showFull(k).then(function (r) {
+      called(k, "interstitial", st.shown ? "shown" : "failed");
+      return r;
+    });
   }
 
   function rewarded(slot) {
     var k = slotKey(slot);
-    if (!can(k) || st.busy) return Promise.resolve(false);
-    if (env().sim) return simulate(k, "rewarded");
+    if (!can(k) || st.busy) {
+      if (k) called(k, "rewarded", !can(k) ? "off" : "busy");
+      return Promise.resolve(false);
+    }
+    if (env().sim) {
+      return simulate(k, "rewarded").then(function (r) {
+        called(k, "rewarded", r ? "rewarded" : "closed");
+        return r;
+      });
+    }
     if (!fits(k, "rewarded")) return Promise.resolve(false);
     st.busy = true; // 기다리는 동안 두 번 누르기·다른 광고를 막아요
     var id = unit(k);
@@ -493,9 +573,13 @@
       if (canceled || !ready || !fresh(id)) {
         st.busy = false;
         if (!canceled) toast(T().noAd);
+        called(k, "rewarded", canceled ? "canceled" : "no_ad");
         return false;
       }
-      return showFull(k);
+      return showFull(k).then(function (r) {
+        called(k, "rewarded", r ? "rewarded" : st.shown ? "closed" : "failed");
+        return r;
+      });
     }).catch(function (e) {
       st.busy = false;
       warn("보상형 광고 오류 (" + k + ")", e);
@@ -581,16 +665,15 @@
       if (st.banner) return true; // 같은 배너가 이미 있어요
       if (!(await tossAdsInit()) || st.want !== want) return false;
       var top = want.pos === "top";
-      var box = el("div", "position:fixed;left:0;right:0;z-index:" + Z + ";" + (top
-        ? "top:0;padding-top:env(safe-area-inset-top,0px);" : "bottom:0;padding-bottom:env(safe-area-inset-bottom,0px);"));
+      var box = el("div", "position:fixed;left:0;right:0;z-index:" + Z + ";" + (top ? EDGE_TOP : EDGE_BOTTOM));
       var slotBox = el("div", "width:100%;min-height:" + TOSS_BANNER + "px");
       box.appendChild(slotBox);
       mount(box);
       var b = {k: want.k, id: id, pos: want.pos, box: box, slot: null};
       st.banner = b;
-      function gone(why, e) {
+      function gone(text, e) {
         if (st.banner !== b) return;
-        if (why) warn(why, e);
+        if (text) warn(text, e);
         box.style.display = "none";
         setSpace(0, 0);
       }
@@ -601,9 +684,16 @@
             box.style.display = "";
             var h = Math.max(0, Math.round(box.getBoundingClientRect().height || 0));
             setSpace(top ? h : 0, top ? 0 : h);
+            note("ad_show", b.k, "banner");
           },
-          onNoFill: function () { gone(""); },
-          onAdFailedToRender: function (p) { gone("배너 광고를 보여 주지 못했어요", p && p.error); }
+          onNoFill: function () {
+            if (st.banner === b) note("ad_fail", b.k, "banner", {stage: "load", why: "no_fill"});
+            gone("");
+          },
+          onAdFailedToRender: function (p) {
+            if (st.banner === b) note("ad_fail", b.k, "banner", {stage: "show", why: why(p && p.error)});
+            gone("배너 광고를 보여 주지 못했어요", p && p.error);
+          }
         }});
       return true;
     }).catch(function (e) {
@@ -685,8 +775,14 @@
       var h = Math.max(0, Math.round(Number(info && info.height) || 0));
       setSpace(b.pos === "top" ? h : 0, b.pos === "top" ? 0 : h);
     });
-    listen("bannerAdLoaded", function () { st.bannerFails = 0; });
+    listen("bannerAdLoaded", function () { // 새로 불러올 때마다(배너 새로 고침 포함): 보이는 배너면 노출 하나
+      st.bannerFails = 0;
+      var b = st.banner;
+      if (st.want && b && !b.hidden) note("ad_show", b.k, "banner");
+    });
     listen("bannerAdFailedToLoad", function (e) { // 플러그인이 배너를 지웠어요. 조금 뒤 다시
+      var b = st.banner;
+      if (st.want && b && !b.hidden) note("ad_fail", b.k, "banner", {stage: "load", why: why(e)});
       warn("배너 광고를 불러오지 못했어요", e);
       st.banner = null;
       setSpace(0, 0);
@@ -821,7 +917,9 @@
       }
       o.appendChild(c);
       mount(o);
+      note("ad_show", k, kind);
     }).then(function (result) {
+      if (kind === "rewarded" && result) note("ad_reward", k, kind);
       st.busy = false;
       st.last = Date.now();
       return result;
@@ -829,6 +927,7 @@
   }
 
   var simBar = null;
+  var simShown = ""; // 지금 보이는 광고 자리 배너 (같은 배너를 다시 부르면 노출로 세지 않아요)
 
   function simBanner(k, pos) {
     if (simBar) {
@@ -836,11 +935,14 @@
       simBar = null;
     }
     if (!k) {
+      simShown = "";
       setSpace(0, 0);
       return;
     }
+    if (simShown !== k + "|" + pos) note("ad_show", k, "banner");
+    simShown = k + "|" + pos;
     var h = 50;
-    simBar = el("div", "position:fixed;left:0;right:0;" + (pos === "top" ? "top:0;" : "bottom:0;") + "height:" + h +
+    simBar = el("div", "position:fixed;left:0;right:0;" + (pos === "top" ? EDGE_TOP : EDGE_BOTTOM) + "height:" + h +
       "px;z-index:" + Z + ";display:flex;align-items:center;justify-content:center;box-sizing:border-box;" +
       "background:repeating-linear-gradient(135deg,#eef1f4 0 12px,#e2e7ec 12px 24px);color:#4a5561;" +
       "border-" + (pos === "top" ? "bottom" : "top") + ":1px dashed #9aa6b2;" + FONT + "font-size:13px", T().banner + " · " + k);
@@ -860,7 +962,8 @@
   function toast(text) {
     var gap = st.space.bottom + 24;
     var t = el("div", "position:fixed;left:50%;bottom:" + gap + "px;bottom:calc(" + gap +
-      "px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:" + (Z + 20) + ";max-width:90vw;" +
+      "px + var(--ncq-safe-bottom,env(safe-area-inset-bottom,0px)));transform:translateX(-50%);z-index:" + (Z + 20) +
+      ";max-width:90vw;" +
       "max-width:min(90vw,360px);box-sizing:border-box;" +
       "padding:10px 16px;border-radius:999px;background:rgba(20,24,30,.92);color:#fff;text-align:center;" +
       "pointer-events:none;word-break:keep-all;" + FONT + "font-size:14px", text);

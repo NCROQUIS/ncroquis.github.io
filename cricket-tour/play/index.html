@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" /><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#0c1630" />
+    <title>Cricket Tour</title>
+    <script type="module" crossorigin src="./assets/index-DEYdSGpT.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DtUJCv8V.css">
+  </head>
+  <body>
+    <canvas id="field" aria-label="Cricket field"></canvas>
+
+    <div id="hud" class="hidden">
+      <div class="hud-row">
+        <div class="hud-side">
+          <div id="hud-stadium" class="hud-small"></div>
+          <div class="hud-small"><span data-i18n="target"></span> <b id="hud-target"></b></div>
+        </div>
+        <div id="hud-score">0/0</div>
+        <button id="btn-settings" class="icon-btn" data-i18n-attr="aria-label:settings">⚙</button>
+      </div>
+      <div id="hud-balls"></div>
+      <div id="hud-need"></div>
+    </div>
+
+    <div id="flash">
+      <div id="flash-timing"></div>
+      <div id="flash-call"></div>
+    </div>
+    <div id="hud-speed"></div>
+    <div id="hint" class="hidden" data-i18n="hint"></div>
+
+    <section id="intro" class="overlay">
+      <div class="card">
+        <div class="tag" data-i18n="super_over"></div>
+        <h1 data-i18n="title"></h1>
+        <div class="stadium">
+          <div id="intro-stadium" class="stadium-name"></div>
+          <div id="intro-city" class="stadium-city"></div>
+        </div>
+        <div id="intro-rival" class="rival"></div>
+        <div id="intro-chase" class="chase"></div>
+        <div id="intro-best" class="best"></div>
+        <button id="btn-play" class="big-btn" data-i18n="play"></button>
+      </div>
+      <button id="btn-settings-intro" class="icon-btn corner" data-i18n-attr="aria-label:settings">⚙</button>
+    </section>
+
+    <section id="result" class="overlay hidden">
+      <div class="card">
+        <h2 id="result-title"></h2>
+        <div id="result-stars" class="stars"></div>
+        <div id="result-score" class="result-score"></div>
+        <div id="result-detail" class="result-detail"></div>
+        <div id="result-coins" class="coins"></div>
+        <button id="btn-retry" class="big-btn" data-i18n="retry"></button>
+        <button id="btn-home" class="text-btn" data-i18n="home"></button>
+      </div>
+    </section>
+
+    <section id="settings" class="overlay hidden">
+      <div class="card">
+        <h2 data-i18n="settings"></h2>
+        <div class="row">
+          <span data-i18n="sound"></span>
+          <button id="btn-sound" class="toggle"></button>
+        </div>
+        <div id="lang-title" class="row-title"></div>
+        <div id="lang-list" class="lang-list"></div>
+        <button id="btn-close" class="big-btn" data-i18n="close"></button>
+        <div id="app-version" class="version"></div>
+      </div>
+    </section>
+
+  </body>
+</html>

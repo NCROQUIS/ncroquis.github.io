@@ -163,3 +163,5 @@ brightcom.com, 23120, RESELLER
 undertone.com, 4108, RESELLER
 unity.com, 2222407, DIRECT, 96cabb5fbdde37a7
 bigo.sg, adidz3dyfp, RESELLER
+# Pangle (AdMob mediation bidding) - Pangle dashboard account ID, 2026-11-07
+pangleglobal.com, 5046126, DIRECT

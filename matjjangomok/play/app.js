@@ -17,7 +17,7 @@ const lastMoveMarker = el("last-move-marker");
 const ownClock = el("own-clock");
 const opponentClock = el("opponent-clock");
 const ownProgress = el("own-progress");
-const opponentProgress = el("opponent-meter");
+const opponentProgress = el("opponent-progress");
 const cells = [];
 let focused = 112;
 let selected = null;
@@ -35,6 +35,7 @@ let lobbyUnavailable = false;
 let lobbyLoading = false;
 let playerStats = null;
 let playerPhoto = null;
+let playerNickname = "";
 let profileLoading = false;
 let matchmaking = null;
 let authConfig;
@@ -45,6 +46,21 @@ let tournament;
 let turnDeadline = null;
 let turnFrame = 0;
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+const gaugeObserver = new ResizeObserver(entries => {
+  const inset = 4;
+  for (const { target, contentRect: { width, height } } of entries) {
+    if (height <= 2 * inset || width < height) continue;
+    const right = width - inset;
+    const bottom = height - inset;
+    const radius = height / 2 - inset;
+    target.querySelector("path").setAttribute("d",
+      `M ${width / 2} ${inset} H ${right - radius}
+       A ${radius} ${radius} 0 0 1 ${right - radius} ${bottom} H ${inset + radius}
+       A ${radius} ${radius} 0 0 1 ${inset + radius} ${inset} Z`);
+  }
+});
+for (const id of ["place-gauge", "opponent-gauge"]) gaugeObserver.observe(el(id));
 
 applyAppearance();
 const options = el("options");
@@ -160,7 +176,7 @@ function renderPlayers(game, playing) {
   cancelAnimationFrame(turnFrame);
   for (const id of ["opponent-panel", "own-panel", "live-actions"]) el(id).hidden = !playing;
   el("player-bar").hidden = playing;
-  const nickname = nicknameInput.value.trim() || t("guestNickname");
+  const nickname = nicknameInput.value.trim() || playerNickname || t("guestNickname");
   if (!playing) {
     for (const [color, seat] of [["black", 1], ["white", 2]]) {
       el(color + "-player-label").textContent = game.you === seat ? nickname : t("opponent");
@@ -173,7 +189,7 @@ function renderPlayers(game, playing) {
   const opponentTurn = !ownTurn;
   el("own-panel").dataset.active = el("place").dataset.active = String(ownTurn);
   el("opponent-panel").dataset.active = el("opponent-timer").dataset.active = String(opponentTurn);
-  el("opponent-turn").textContent = t(opponentTurn ? "theirTurn" : "turnWaiting");
+  el("opponent-turn").textContent = t(opponentTurn ? "turnActive" : "turnWaiting");
   el("own-nickname").textContent = nickname;
   el("own-nickname").title = nickname;
   renderOwnRank();
@@ -186,9 +202,9 @@ function renderPlayers(game, playing) {
     stone.className = "stone " + color;
     stone.setAttribute("aria-label", t(color));
   }
-  el("opponent-timer").hidden = el("opponent-time-bar").hidden = !timed;
-  el("place-gauge").toggleAttribute("hidden", !timed);
-  ownClock.hidden = el("place-divider").hidden = !timed;
+  for (const id of ["place-gauge", "opponent-gauge", "place-divider", "opponent-divider", "own-clock", "opponent-clock"]) {
+    el(id).toggleAttribute("hidden", !timed);
+  }
   if (!timed) return;
 
   const idleClock = ownTurn ? opponentClock : ownClock;
@@ -306,23 +322,34 @@ async function refreshPlayerCard() {
   profileLoading = true;
   try {
     const stats = await remoteRequest(client => client.profile());
-    if (stats.error) return;
-    playerStats = stats;
-    renderPlayerCard();
-    renderOwnRank();
-    const profile = await window.NcqAuth.profile?.().catch(() => null);
-    const photo = profile?.photoUrl ?? null;
-    if (photo !== playerPhoto) {
-      playerPhoto = photo;
-      for (const id of ["player-photo", "match-player-photo"]) {
-        const image = el(id);
-        image.hidden = true;
-        if (photo) image.src = photo;
-        else image.removeAttribute("src");
-      }
+    if (!stats.error) {
+      playerStats = stats;
+      renderPlayerCard();
+      renderOwnRank();
     }
+    await refreshAuthProfile();
   } finally {
     profileLoading = false;
+  }
+}
+
+async function refreshAuthProfile() {
+  const profile = await window.NcqAuth?.profile?.().catch(() => null);
+  if (!profile) return;
+  const photo = profile.photoUrl ?? null;
+  if (photo !== playerPhoto) {
+    playerPhoto = photo;
+    for (const id of ["player-photo", "match-player-photo"]) {
+      const image = el(id);
+      image.hidden = true;
+      if (photo) image.src = photo;
+      else image.removeAttribute("src");
+    }
+  }
+  const nickname = typeof profile.nickname === "string" ? profile.nickname.trim() : "";
+  if (nickname !== playerNickname) {
+    playerNickname = nickname;
+    render();
   }
 }
 
@@ -358,6 +385,7 @@ async function refreshLobby() {
 function render() {
   const game = room ?? archive;
   const playing = game?.phase === "playing";
+  nicknameInput.placeholder = playerNickname || t("guestNickname");
   el("language").value = NcqLang.lang;
   document.title = t("title");
   document.body.classList.toggle("in-match", Boolean(game));
@@ -588,6 +616,7 @@ async function openPlayerSession(force) {
     recordsScope = scope;
     records = loadRecords();
   }
+  await refreshAuthProfile();
 }
 
 async function ensureIdentity(force = false) {

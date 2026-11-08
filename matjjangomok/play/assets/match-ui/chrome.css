@@ -34,20 +34,6 @@
   background: linear-gradient(transparent, #c9a4838c 20% 80%, transparent);
 }
 
-.match-art-badge {
-  border: 1px solid #89786b;
-  border-radius: 999px;
-  background: linear-gradient(#4b4139, #332920);
-  color: #b8afa6;
-}
-
-.match-art-panel[data-active="true"] .match-art-badge {
-  border-color: #ffca6e;
-  background: linear-gradient(#925216, #572d0c);
-  color: #ffe0a5;
-  box-shadow: inset 0 1px #ffedbda0, 0 0 0.65rem #ff992b45;
-}
-
 .match-art-action {
   border: 1px solid #654b3a;
   border-radius: 0.88rem;
@@ -68,19 +54,11 @@
   color: #c5bcb2;
 }
 
-.match-art-gauge[data-shape="round"] {
-  background: radial-gradient(circle at 40% 25%, #392b1e, #1d140e 78%);
-}
-
 .match-art-gauge[data-active="true"] {
   border-color: #e0a74e;
   background: radial-gradient(ellipse at 38% 13%, #ba711c, #743b0b 80%);
   box-shadow: inset 0 0 0.65rem #ffd06070, 0 0 0.75rem #ff8b25a0;
   color: #fff0d1;
-}
-
-.match-art-gauge[data-shape="round"][data-active="true"] {
-  background: radial-gradient(circle at 40% 35%, #392819, #211408 78%);
 }
 
 .match-art-gauge-track {

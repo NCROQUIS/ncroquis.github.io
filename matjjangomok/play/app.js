@@ -12,6 +12,11 @@ const appearanceKey = "matjjangomok.appearance";
 const appearance = loadAppearance();
 const board = el("board");
 const boardGrid = el("board-grid");
+const lastMoveMarker = el("last-move-marker");
+const ownClock = el("own-clock");
+const opponentClock = el("opponent-clock");
+const ownProgress = el("own-progress");
+const opponentProgress = el("opponent-progress");
 const cells = [];
 let focused = 112;
 let selected = null;
@@ -115,7 +120,9 @@ function canPlace() {
 
 function updateTurnClock(now) {
   const remaining = Math.max(0, turnDeadline - now);
-  const activeClock = el(room.turn === 1 ? "black-clock" : "white-clock");
+  const ownTurn = room.turn === room.you;
+  const activeClock = ownTurn ? ownClock : opponentClock;
+  const progress = ownTurn ? ownProgress : opponentProgress;
   const seconds = String(Math.ceil(remaining / 1000)).padStart(2, "0");
   if (activeClock.textContent !== seconds) {
     activeClock.textContent = seconds;
@@ -124,37 +131,52 @@ function updateTurnClock(now) {
       { opacity: 1, transform: "translateY(0) scale(1)" },
     ], { duration: 190, easing: "ease-out" });
   }
-  const progress = Math.min(1, remaining / (room.turnSeconds * 1000));
-  el("place").style.setProperty("--turn-progress", progress.toFixed(4));
-  el("player-bar").toggleAttribute("data-time-low", remaining <= 5000);
+  const percent = Math.min(100, remaining / (room.turnSeconds * 1000) * 100);
+  progress.style.setProperty("--match-art-progress", percent.toFixed(2));
+  progress.toggleAttribute("data-empty", remaining === 0);
   if (remaining > 0) turnFrame = requestAnimationFrame(updateTurnClock);
   else {
     el("place").disabled = true;
     board.classList.remove("selectable");
+    for (const cell of cells) cell.setAttribute("aria-disabled", "true");
   }
 }
 
 function renderPlayers(game, playing) {
-  const timed = playing && turnDeadline !== null;
-  el("player-bar").toggleAttribute("data-playing", playing);
-  for (const [color, seat] of [["black", 1], ["white", 2]]) {
-    const own = game.you === seat;
-    const active = playing && game.turn === seat;
-    const clock = el(color + "-clock");
-    const turn = el(color + "-turn");
-    el(color + "-player-label").textContent = t(color) + " · " + t(own ? "you" : "opponent");
-    el(color + "-player").classList.toggle("active", active);
-    turn.hidden = !playing;
-    turn.textContent = t(active ? (own ? "yourTurn" : "theirTurn") : "turnWaiting");
-    clock.hidden = !timed;
-    if (timed && !active) clock.textContent = String(Math.ceil(game.turnSeconds)).padStart(2, "0");
-  }
   cancelAnimationFrame(turnFrame);
-  if (timed) updateTurnClock(performance.now());
-  else {
-    el("player-bar").removeAttribute("data-time-low");
-    el("place").style.removeProperty("--turn-progress");
+  for (const id of ["opponent-panel", "own-panel", "live-actions"]) el(id).hidden = !playing;
+  el("player-bar").hidden = playing;
+  if (!playing) {
+    for (const [color, seat] of [["black", 1], ["white", 2]]) {
+      const label = t(game.you === seat ? "you" : "opponent");
+      el(color + "-player-label").textContent = t(color) + " · " + label;
+    }
+    return;
   }
+
+  const timed = turnDeadline !== null;
+  const ownTurn = game.turn === game.you;
+  const opponentTurn = !ownTurn;
+  el("own-panel").dataset.active = el("place").dataset.active = String(ownTurn);
+  el("opponent-panel").dataset.active = el("opponent-timer").dataset.active = String(opponentTurn);
+  el("opponent-turn").textContent = t(opponentTurn ? "theirTurn" : "turnWaiting");
+  for (const [side, seat] of [["own", game.you], ["opponent", 3 - game.you]]) {
+    const color = seat === 1 ? "black" : "white";
+    el(side + "-stone").className = "stone " + color;
+    el(side + "-color").textContent = t(color);
+  }
+  el("opponent-timer").hidden = !timed;
+  el("place-gauge").toggleAttribute("hidden", !timed);
+  ownClock.hidden = !timed;
+  if (!timed) return;
+
+  const idleClock = ownTurn ? opponentClock : ownClock;
+  const idleProgress = ownTurn ? opponentProgress : ownProgress;
+  idleClock.getAnimations().forEach(animation => animation.cancel());
+  idleClock.textContent = String(Math.ceil(game.turnSeconds)).padStart(2, "0");
+  idleProgress.style.removeProperty("--match-art-progress");
+  idleProgress.removeAttribute("data-empty");
+  updateTurnClock(performance.now());
 }
 
 function feedback(id, message = "", error = false) {
@@ -240,9 +262,12 @@ async function refreshPlayerCard() {
     const photo = profile?.photoUrl ?? null;
     if (photo !== playerPhoto) {
       playerPhoto = photo;
-      el("player-photo").hidden = true;
-      if (photo) el("player-photo").src = photo;
-      else el("player-photo").removeAttribute("src");
+      for (const id of ["player-photo", "match-player-photo"]) {
+        const image = el(id);
+        image.hidden = true;
+        if (photo) image.src = photo;
+        else image.removeAttribute("src");
+      }
     }
   } finally {
     profileLoading = false;
@@ -280,9 +305,12 @@ async function refreshLobby() {
 
 function render() {
   const game = room ?? archive;
+  const playing = game?.phase === "playing";
   el("language").value = NcqLang.lang;
   document.title = t("title");
   document.body.classList.toggle("in-match", Boolean(game));
+  document.body.classList.toggle("match-art-backdrop", playing);
+  el("match").toggleAttribute("data-playing", playing);
   el("lobby").hidden = Boolean(game) || recordsOpen;
   el("records").hidden = Boolean(game) || !recordsOpen;
   el("match").hidden = !game;
@@ -302,7 +330,6 @@ function render() {
   }
   if (!game) return;
 
-  const playing = game.phase === "playing";
   const finished = game.phase === "finished";
   let status = "waiting";
   if (room && !connected) status = "reconnecting";
@@ -311,20 +338,21 @@ function render() {
 
   el("room-label").textContent = t(archive ? "records" : "room");
   el("room-id").textContent = "#" + game.number;
-  if (el("status").textContent !== t(status)) el("status").textContent = t(status);
-  el("round").textContent = t(playing ? "liveRound" : "round", { n: game.round, moves: game.moves.length });
-  const mode = game.mode === "tournament" ? "tournamentButton" : "onlineMatch";
+  const mode = game.mode === "tournament" ? "weeklyTournament" : "onlineMatch";
+  const heading = playing && connected ? t(mode) + " · " + t("movesCount", { n: game.moves.length }) : t(status);
+  if (el("status").textContent !== heading) el("status").textContent = heading;
+  el("status").setAttribute("aria-live", playing ? "off" : "polite");
+  if (playing && el("turn-announcement").textContent !== t(status)) el("turn-announcement").textContent = t(status);
+  el("round").textContent = t("round", { n: game.round });
   el("mode").textContent = t(finished ? (el("result").open ? "result" : "review") : mode);
-  el("match-actions").hidden = finished;
+  el("room-bar").hidden = playing;
   el("invite").hidden = playing || finished || el("share").open;
-  el("leave").disabled = busy;
+  el("leave").disabled = el("leave-match").disabled = busy;
   el("leave").textContent = t(archive ? "backToRecords" : "leave");
   el("leave").toggleAttribute("data-ncq-main", Boolean(archive));
 
   const place = el("place");
-  place.hidden = !playing;
   place.disabled = !canPlace() || selected === null;
-  place.classList.toggle("my-turn", playing && game.turn === game.you && connected);
   const placeLabel = game.turn !== game.you ? t("theirTurn")
     : selected === null ? t("selectStone") : t("place", { cell: coordinate(selected) });
   place.setAttribute("aria-label", placeLabel);
@@ -372,13 +400,15 @@ function render() {
 
   board.classList.toggle("selectable", canPlace());
   board.toggleAttribute("inert", !playing && !finished);
+  const lastCell = cells[last];
+  lastMoveMarker.toggleAttribute("hidden", !lastCell);
+  if (lastCell && lastMoveMarker.parentElement !== lastCell) lastCell.append(lastMoveMarker);
   for (const [index, cell] of cells.entries()) {
     const stone = displayedBoard[index];
     const isSelected = selected === index;
     const displayed = isSelected ? game.you : stone;
     cell.dataset.stone = stone;
     cell.classList.toggle("selected", isSelected);
-    cell.classList.toggle("last", index === last);
     cell.classList.toggle("win", winning.includes(index));
     cell.firstElementChild.hidden = !displayed;
     cell.firstElementChild.className = "stone " + (displayed === 1 ? "black" : "white");
@@ -740,7 +770,7 @@ el("close-records").addEventListener("click", () => {
   refreshLobby();
   el("show-records").focus();
 });
-el("leave").addEventListener("click", () => {
+function leaveMatch() {
   if (archive) {
     archive = null;
     render();
@@ -748,7 +778,9 @@ el("leave").addEventListener("click", () => {
     return;
   }
   if (window.confirm(t("confirmLeave"))) roomAction("leave", {}, () => exitRoom());
-});
+}
+el("leave").addEventListener("click", leaveMatch);
+el("leave-match").addEventListener("click", leaveMatch);
 el("place").addEventListener("click", () => {
   if (canPlace() && selected !== null) roomAction("move", { index: selected, version: room.version });
 });
@@ -835,8 +867,11 @@ if (backend ? /^[\da-f-]{36}$/.test(inviteCode) : /^[A-Z2-9]{6}$/i.test(inviteCo
 }
 render();
 refreshLobby();
-el("player-photo").addEventListener("load", () => { el("player-photo").hidden = false; });
-el("player-photo").addEventListener("error", () => { el("player-photo").hidden = true; });
+for (const id of ["player-photo", "match-player-photo"]) {
+  const image = el(id);
+  image.addEventListener("load", () => { image.hidden = false; });
+  image.addEventListener("error", () => { image.hidden = true; });
+}
 refreshPlayerCard();
 document.addEventListener("visibilitychange", refreshLobby);
 setInterval(refreshLobby, 2500);

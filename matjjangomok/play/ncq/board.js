@@ -56,8 +56,7 @@ function create({ apiUrl, getToken }) {
     leave: code => request(room(code, "leave"), {}),
     rematch: (code, input) => request(room(code, "rematch"), input),
     profile: () => request("/profile"),
-    records: () => request("/records"),
-    tournament: week => request("/tournament" + (week ? "?week=" + encodeURIComponent(week) : "")),
+    gameRequest: request,
   });
 }
 

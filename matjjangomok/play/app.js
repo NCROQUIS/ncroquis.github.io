@@ -1,6 +1,6 @@
 import { NcqLang } from "./ncq/lang.js";
 import { NcqBoard } from "./ncq/board.js";
-import { TEXTS } from "./texts.js";
+import { TEXTS } from "./texts.js?v=de46422cd34f";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -10,6 +10,7 @@ const columns = "ABCDEFGHJKLMNOP";
 const recordsKey = "matjjangomok.records";
 const appearanceKey = "matjjangomok.appearance";
 const nicknameKey = "matjjangomok.nickname";
+const stoneSoundKey = "matjjangomok.stoneSound";
 const appearance = loadAppearance();
 const board = el("board");
 const boardGrid = el("board-grid");
@@ -27,7 +28,7 @@ let connected = false;
 let busy = false;
 let reviewPly = 0;
 let archive = null;
-let recordsOpen = false;
+let lobbyView = "lobby";
 let recordsScope = recordsKey;
 let records = loadRecords();
 let liveGames = null;
@@ -46,6 +47,9 @@ let tournament;
 let turnDeadline = null;
 let turnFrame = 0;
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+let placementAudio;
+let placementBuffer;
+let activePlacementSound;
 
 const gaugeObserver = new ResizeObserver(entries => {
   const inset = 4;
@@ -65,6 +69,19 @@ for (const id of ["place-gauge", "opponent-gauge"]) gaugeObserver.observe(el(id)
 applyAppearance();
 const options = el("options");
 const nicknameInput = el("nickname");
+const stoneSoundToggle = el("stone-sound");
+try { stoneSoundToggle.checked = localStorage.getItem(stoneSoundKey) !== "off"; } catch { }
+stoneSoundToggle.addEventListener("change", () => {
+  if (stoneSoundToggle.checked) unlockPlacementAudio();
+  else stopPlacementSound();
+  try { localStorage.setItem(stoneSoundKey, stoneSoundToggle.checked ? "on" : "off"); } catch { }
+});
+document.addEventListener("click", unlockPlacementAudio, { capture: true });
+document.addEventListener("keydown", unlockPlacementAudio, { capture: true });
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) stopPlacementSound();
+  else if (placementAudio) unlockPlacementAudio();
+});
 try {
   nicknameInput.value = localStorage.getItem(nicknameKey) ?? "";
 } catch {
@@ -129,14 +146,73 @@ function loadAppearance() {
   let saved;
   try { saved = JSON.parse(localStorage.getItem(appearanceKey)); } catch { }
   return {
-    stones: ["classic", "glossy"].includes(saved?.stones) ? saved.stones : "reference",
-    board: ["classic", "wood"].includes(saved?.board) ? saved.board : "reference",
+    stones: ["classic", "glossy", "gilded"].includes(saved?.stones) ? saved.stones : "reference",
+    board: ["classic", "wood", "gilded"].includes(saved?.board) ? saved.board : "reference",
+    grid: saved?.grid === "soft" ? "soft" : "engraved",
   };
 }
 
 function applyAppearance() {
   document.documentElement.dataset.stoneStyle = appearance.stones;
   document.documentElement.dataset.boardStyle = appearance.board;
+  document.documentElement.dataset.gridStyle = appearance.grid;
+}
+
+function unlockPlacementAudio() {
+  if (!stoneSoundToggle.checked || document.hidden || placementAudio?.state === "running") return;
+  const Audio = window.AudioContext ?? window.webkitAudioContext;
+  if (!Audio) return;
+  try {
+    placementAudio ??= new Audio();
+    placementAudio.resume().catch(() => {});
+  } catch {
+    // The board remains playable on browsers that disable sound.
+  }
+}
+
+function stopPlacementSound() {
+  if (!activePlacementSound) return;
+  activePlacementSound.stop();
+  activePlacementSound = null;
+}
+
+function playPlacementSound(delay) {
+  if (!stoneSoundToggle.checked || document.hidden || placementAudio?.state !== "running") return;
+  if (!placementBuffer) {
+    const rate = placementAudio.sampleRate;
+    placementBuffer = placementAudio.createBuffer(1, Math.ceil(rate * .085), rate);
+    const samples = placementBuffer.getChannelData(0);
+    for (let i = 0; i < samples.length; i += 1) {
+      const time = i / rate;
+      const attack = Math.min(time / .0012, 1);
+      // A short, hard tick over a softer knock from the board.
+      const knock = .24 * Math.sin(2 * Math.PI * 470 * time) * Math.exp(-85 * time);
+      const tick = .09 * Math.sin(2 * Math.PI * 2350 * time) * Math.exp(-220 * time);
+      const noise = .06 * (Math.random() * 2 - 1) * Math.exp(-280 * time);
+      samples[i] = attack * (knock + tick + noise);
+    }
+  }
+  stopPlacementSound();
+  const source = placementAudio.createBufferSource();
+  source.buffer = placementBuffer;
+  source.connect(placementAudio.destination);
+  source.addEventListener("ended", () => {
+    source.disconnect();
+    if (activePlacementSound === source) activePlacementSound = null;
+  }, { once: true });
+  source.start(placementAudio.currentTime + delay);
+  activePlacementSound = source;
+}
+
+function presentPlacement(index) {
+  if (index == null || document.hidden) return;
+  const cell = cells[index];
+  if (!reducedMotion.matches) cell.classList.add("placing");
+  const animation = cell.firstElementChild.getAnimations().find(item => item.animationName === "stone-land");
+  const duration = animation ? animation.effect.getTiming().duration : 0;
+  playPlacementSound(duration * .6 / 1000);
+  if (animation) return animation.finished.catch(() => {}).finally(() => cell.classList.remove("placing"));
+  cell.classList.remove("placing");
 }
 
 function coordinate(index) {
@@ -172,11 +248,15 @@ function updateTurnClock(now) {
   }
 }
 
+function ownNickname() {
+  return nicknameInput.value.trim() || playerNickname || t("guestNickname");
+}
+
 function renderPlayers(game, playing) {
   cancelAnimationFrame(turnFrame);
   for (const id of ["opponent-panel", "own-panel", "live-actions"]) el(id).hidden = !playing;
   el("player-bar").hidden = playing;
-  const nickname = nicknameInput.value.trim() || playerNickname || t("guestNickname");
+  const nickname = ownNickname();
   if (!playing) {
     for (const [color, seat] of [["black", 1], ["white", 2]]) {
       el(color + "-player-label").textContent = game.you === seat ? nickname : t("opponent");
@@ -267,7 +347,9 @@ function entryRow(item, label, note, record = false) {
 
 function renderLobby() {
   renderPlayerCard();
-  el("live-count").textContent = liveGames?.length ?? "";
+  const count = el("live-count");
+  count.hidden = lobbyUnavailable || !liveGames;
+  count.textContent = t("liveCount", { n: liveGames?.length ?? 0 });
   const message = lobbyUnavailable ? "liveUnavailable" : liveGames ? "noLiveGames" : "liveLoading";
   el("live-message").textContent = t(message);
   el("live-message").hidden = !lobbyUnavailable && Boolean(liveGames?.length);
@@ -281,14 +363,17 @@ function ratingNumber(value) {
 }
 
 // Match the thresholds used by the NcqBoard Omok bot rank migration.
+const danMinimums = [2200, 2260, 2340, 2440, 2560, 2700, 2860, 3040, 3240];
+
 function rankLevel(rating) {
   if (rating < 1520) return 0;
-  if (rating < 2200) return 1 + Math.floor((rating - 1520) / 40);
-  return Math.min(26, 18 + Math.floor((rating - 2200) / 60));
+  if (rating < danMinimums[0]) return 1 + Math.floor((rating - 1520) / 40);
+  const nextDan = danMinimums.findIndex(minimum => rating < minimum);
+  return nextDan === -1 ? 26 : 17 + nextDan;
 }
 
 function rankMinimum(level) {
-  return level < 18 ? 1520 + 40 * (level - 1) : 2200 + 60 * (level - 18);
+  return level < 18 ? 1520 + 40 * (level - 1) : danMinimums[level - 18];
 }
 
 function rankName(level) {
@@ -303,7 +388,10 @@ function renderOwnRank() {
 }
 
 function renderPlayerCard() {
-  el("player-card").hidden = !playerStats;
+  const name = ownNickname();
+  el("lobby-player-name").textContent = name;
+  el("lobby-player-name").title = name;
+  el("player-career").hidden = !playerStats;
   if (!playerStats) return;
   el("player-record").textContent = t("careerRecord", playerStats);
   const { rating } = playerStats;
@@ -363,7 +451,7 @@ function renderRecords() {
 }
 
 async function refreshLobby() {
-  if (room || recordsOpen || lobbyLoading || document.hidden) return;
+  if (room || archive || lobbyView !== "lobby" || lobbyLoading || document.hidden) return;
   lobbyLoading = true;
   try {
     if (backend) {
@@ -391,15 +479,32 @@ function render() {
   document.body.classList.toggle("in-match", Boolean(game));
   document.body.classList.toggle("match-art-backdrop", playing);
   el("match").toggleAttribute("data-playing", playing);
-  el("lobby").hidden = Boolean(game) || recordsOpen;
-  el("records").hidden = Boolean(game) || !recordsOpen;
+  for (const view of ["lobby", "records", "tournament"]) {
+    el(view).hidden = Boolean(game) || lobbyView !== view;
+  }
   el("match").hidden = !game;
+  el("show-options").hidden = Boolean(game);
+  const nav = el("lobby-nav");
+  nav.hidden = Boolean(game);
+  for (const button of nav.querySelectorAll("button")) {
+    if (button.getAttribute("aria-controls") === lobbyView) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
+    button.disabled = busy;
+  }
+  const mainAction = !game && !matchmaking && !options.open;
   el("start").disabled = busy || Boolean(matchmaking);
-  el("start").toggleAttribute("data-ncq-main", !matchmaking && !el("tournament").open && !options.open);
-  el("show-records").disabled = busy;
-  el("show-tournament").hidden = !backend || Boolean(game) || recordsOpen;
+  el("start").toggleAttribute("data-ncq-main", mainAction && lobbyView === "lobby");
+  el("show-tournament").hidden = !backend;
+  el("show-tournament").disabled = busy;
+  const joinTournament = el("join-tournament");
+  joinTournament.hidden = !backend;
+  joinTournament.disabled = busy || Boolean(matchmaking);
+  joinTournament.toggleAttribute("data-ncq-main", mainAction && lobbyView === "tournament" && Boolean(backend));
+  el("show-lobby").toggleAttribute("data-ncq-main", mainAction &&
+    (lobbyView === "records" || (lobbyView === "tournament" && !backend)));
   if (!el("lobby").hidden) renderLobby();
   if (!el("records").hidden) renderRecords();
+  if (!el("tournament").hidden) renderTournament();
   if (matchmaking) {
     const { canceled, mode } = matchmaking;
     el("queue-status").textContent = t(canceled ? "canceling" : mode === "tournament" ? "tournamentWaiting" : "findingOpponent");
@@ -509,6 +614,8 @@ el("app-version").textContent = version ? "v" + version : "dev";
 function applyState(next) {
   if (room?.code === next.code && next.version <= room.version) return;
   const showResult = next.phase === "finished" && (room?.phase !== "finished" || room.round !== next.round);
+  const placed = room?.code === next.code && room.round === next.round && room.phase === "playing"
+    && next.moves.length === room.moves.length + 1 ? next.moves.at(-1) : null;
   room = next;
   turnDeadline = next.phase === "playing" && next.turnSeconds > 0
     && Number.isFinite(next.turnEndsAt) && Number.isFinite(next.serverNow)
@@ -530,10 +637,16 @@ function applyState(next) {
   }
   if (room.phase === "finished" && !backend) saveRecord(room);
   render();
+  const placement = presentPlacement(placed);
   if (showResult) {
-    el("result").showModal();
-    render();
-    refreshPlayerCard();
+    const openResult = () => {
+      if (room?.code !== next.code || room.round !== next.round || room.phase !== "finished" || el("result").open) return;
+      el("result").showModal();
+      render();
+      refreshPlayerCard();
+    };
+    if (placement) placement.then(openResult);
+    else openResult();
   }
 }
 
@@ -541,6 +654,7 @@ function exitRoom(message = "") {
   stream?.close();
   stream = null;
   connected = false;
+  stopPlacementSound();
   el("result").close();
   el("share").close();
   room = null;
@@ -663,7 +777,7 @@ async function run(action, success) {
 }
 
 function openRoom(next) {
-  recordsOpen = false;
+  lobbyView = "lobby";
   archive = null;
   const url = new URL(location.href);
   url.searchParams.set("room", next.code);
@@ -790,6 +904,7 @@ function startMatching(mode) {
 }
 
 el("start").addEventListener("click", () => startMatching("casual"));
+el("refresh-lobby").addEventListener("click", refreshLobby);
 el("cancel-match").addEventListener("click", requestCancel);
 el("matchmaking").addEventListener("cancel", event => {
   event.preventDefault();
@@ -806,7 +921,7 @@ function openArchive(record) {
 
 el("show-records").addEventListener("click", () => run(async () => {
   if (backend) {
-    const result = await remoteRequest(client => client.records());
+    const result = await remoteRequest(client => client.gameRequest("/records"));
     if (Array.isArray(result)) {
       const device = [...loadRecords(), ...loadRecords(recordsKey)].map(game => [game.id, { ...game, device: true }]);
       const combined = new Map([...device, ...result.map(game => [game.id, game])]);
@@ -821,40 +936,46 @@ el("show-records").addEventListener("click", () => run(async () => {
     return { error: "authFailed" };
   }
 }, () => {
-  recordsOpen = true;
+  lobbyView = "records";
   render();
   el("records-heading").focus();
 }));
-el("show-tournament").addEventListener("click", () => run(async () => {
-  const result = await remoteRequest(client => client.tournament());
-  if (!result.error) tournament = result;
-  return result;
-}, () => {
-  renderTournament();
-  el("tournament").showModal();
-  render();
-}));
-el("tournament").addEventListener("close", render);
-el("join-tournament").addEventListener("click", () => {
-  el("tournament").close();
-  startMatching("tournament");
-});
+function showRankings() {
+  run(async () => {
+    if (!backend) return {};
+    const result = await remoteRequest(client => client.gameRequest("/tournament"));
+    if (!result.error) tournament = result;
+    return result;
+  }, () => {
+    lobbyView = "tournament";
+    render();
+    el("tournament-title").focus();
+  });
+}
+el("show-tournament").addEventListener("click", showRankings);
+el("show-rankings").addEventListener("click", showRankings);
+el("join-tournament").addEventListener("click", () => startMatching("tournament"));
 
 function renderTournament() {
+  el("tournament-dates").hidden = !tournament;
+  const empty = el("rank-empty");
+  empty.textContent = t(backend ? "noStandings" : "rankingsUnavailable");
+  empty.hidden = Boolean(tournament?.standings.length);
   if (!tournament) return;
   const date = value => NcqLang.date(value, { month: "short", day: "numeric", timeZone: "Asia/Seoul" });
   el("tournament-dates").textContent = date(tournament.startsAt) + " – " + date(tournament.endsAt);
-  el("rank-empty").hidden = tournament.standings.length > 0;
   el("standings").replaceChildren(...tournament.standings.map(row => entryRow(
     row, row.rank + ". " + (row.you ? t("you") : t("playerAlias", { alias: row.alias })),
     t("pointsCount", { n: row.points }),
   )));
 }
-el("close-records").addEventListener("click", () => {
-  recordsOpen = false;
+el("show-lobby").addEventListener("click", () => {
+  if (lobbyView === "lobby") return;
+  lobbyView = "lobby";
+  feedback("lobby-error");
   render();
   refreshLobby();
-  el("show-records").focus();
+  el("lobby-heading").focus();
 });
 function leaveMatch() {
   if (archive) {

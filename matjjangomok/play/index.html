@@ -31,6 +31,7 @@
           <div class="player-career">
             <span id="player-record"></span>
             <strong id="player-rating"></strong>
+            <span id="player-next-rank" hidden></span>
           </div>
         </div>
         <div class="list-heading">
@@ -81,7 +82,7 @@
           </div>
           <div class="match-identity">
             <strong data-i18n="opponent"></strong>
-            <span class="seat"><span id="opponent-stone" class="stone" role="img"></span></span>
+            <span class="seat"><span id="opponent-stone" class="stone" role="img"></span><span id="opponent-rank" hidden></span></span>
           </div>
           <span class="match-art-divider" aria-hidden="true"></span>
           <div id="opponent-meter" class="opponent-meter">
@@ -237,7 +238,7 @@
         <h2 id="result-title"></h2>
         <p id="result-summary"></p>
         <div id="result-rating" class="result-rating" hidden>
-          <span data-i18n="ratingLabel"></span>
+          <span id="result-rank"></span>
           <strong id="rating-range"></strong>
           <span id="rating-delta" class="rating-delta"></span>
         </div>

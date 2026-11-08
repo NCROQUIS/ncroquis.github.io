@@ -177,6 +177,9 @@ function renderPlayers(game, playing) {
   el("own-nickname").textContent = nickname;
   el("own-nickname").title = nickname;
   renderOwnRank();
+  const opponentRank = el("opponent-rank");
+  opponentRank.hidden = game.botLevel == null;
+  if (!opponentRank.hidden) opponentRank.textContent = rankName(game.botLevel);
   for (const [side, seat] of [["own", game.you], ["opponent", 3 - game.you]]) {
     const color = seat === 1 ? "black" : "white";
     const stone = el(side + "-stone");
@@ -261,24 +264,41 @@ function ratingNumber(value) {
   return new Intl.NumberFormat(NcqLang.lang).format(value);
 }
 
+// Match the thresholds used by the NcqBoard Omok bot rank migration.
+function rankLevel(rating) {
+  if (rating < 1520) return 0;
+  if (rating < 2200) return 1 + Math.floor((rating - 1520) / 40);
+  return Math.min(26, 18 + Math.floor((rating - 2200) / 60));
+}
+
+function rankMinimum(level) {
+  return level < 18 ? 1520 + 40 * (level - 1) : 2200 + 60 * (level - 18);
+}
+
+function rankName(level) {
+  return level < 18 ? t("rankKyu", { n: 18 - level }) : t("rankDan", { n: level - 17 });
+}
+
 function renderOwnRank() {
   const rating = backend ? playerStats?.rating : 1500;
   const rank = el("own-rank");
   rank.hidden = !Number.isFinite(rating);
-  if (rank.hidden) return;
-  if (rating >= 2200) {
-    rank.textContent = t("rankDan", { n: Math.min(9, 1 + Math.floor((rating - 2200) / 60)) });
-  } else {
-    const kyu = rating < 1520 ? 18 : 17 - Math.floor((rating - 1520) / 40);
-    rank.textContent = t("rankKyu", { n: kyu });
-  }
+  if (!rank.hidden) rank.textContent = rankName(rankLevel(rating));
 }
 
 function renderPlayerCard() {
   el("player-card").hidden = !playerStats;
   if (!playerStats) return;
   el("player-record").textContent = t("careerRecord", playerStats);
-  el("player-rating").textContent = t("myRating", { rating: ratingNumber(playerStats.rating) });
+  const { rating } = playerStats;
+  const level = rankLevel(rating);
+  el("player-rating").textContent = t("rankRating", { rank: rankName(level), rating: ratingNumber(rating) });
+  el("player-next-rank").hidden = level === 26;
+  if (level < 26) {
+    el("player-next-rank").textContent = t("nextRank", {
+      rank: rankName(level + 1), points: ratingNumber(rankMinimum(level + 1) - rating),
+    });
+  }
 }
 
 async function refreshPlayerCard() {
@@ -412,6 +432,11 @@ function render() {
     const change = game.ratingChange;
     el("result-rating").hidden = !change;
     if (change) {
+      const beforeLevel = rankLevel(change.before);
+      const afterLevel = rankLevel(change.after);
+      const rank = rankName(afterLevel);
+      el("result-rank").textContent = afterLevel === beforeLevel ? rank :
+        t(afterLevel > beforeLevel ? "rankUp" : "rankDown", { rank });
       const delta = change.delta;
       el("rating-range").textContent = ratingNumber(change.before) + " → " + ratingNumber(change.after);
       el("rating-delta").textContent = delta > 0 ? "↑ +" + delta : delta < 0 ? "↓ −" + Math.abs(delta) : "±0";

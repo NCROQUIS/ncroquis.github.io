@@ -8,7 +8,10 @@ const el = id => document.getElementById(id);
 const size = 15;
 const columns = "ABCDEFGHJKLMNOP";
 const recordsKey = "matjjangomok.records";
+const appearanceKey = "matjjangomok.appearance";
+const appearance = loadAppearance();
 const board = el("board");
+const boardGrid = el("board-grid");
 const cells = [];
 let focused = 112;
 let selected = null;
@@ -37,6 +40,27 @@ let turnDeadline = null;
 let turnFrame = 0;
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
+applyAppearance();
+const options = el("options");
+el("show-options").addEventListener("click", () => {
+  options.showModal();
+  render();
+});
+options.addEventListener("close", render);
+for (const input of options.querySelectorAll("input[type=radio]")) {
+  input.checked = appearance[input.name] === input.value;
+  input.addEventListener("change", () => {
+    if (!input.checked) return;
+    appearance[input.name] = input.value;
+    applyAppearance();
+    try {
+      localStorage.setItem(appearanceKey, JSON.stringify(appearance));
+    } catch {
+      // The selected style still applies for this visit.
+    }
+  });
+}
+
 for (let row = 0; row < size; row += 1) {
   const rowEl = document.createElement("div");
   rowEl.className = "board-row";
@@ -57,7 +81,7 @@ for (let row = 0; row < size; row += 1) {
     rowEl.append(cell);
     cells.push(cell);
   }
-  board.append(rowEl);
+  boardGrid.append(rowEl);
 }
 
 for (const language of NcqLang.list()) {
@@ -65,6 +89,20 @@ for (const language of NcqLang.list()) {
 }
 el("language").addEventListener("change", event => NcqLang.set(event.target.value));
 NcqLang.onChange(render);
+
+function loadAppearance() {
+  let saved;
+  try { saved = JSON.parse(localStorage.getItem(appearanceKey)); } catch { }
+  return {
+    stones: saved?.stones === "classic" ? "classic" : "glossy",
+    board: saved?.board === "classic" ? "classic" : "wood",
+  };
+}
+
+function applyAppearance() {
+  document.documentElement.dataset.stoneStyle = appearance.stones;
+  document.documentElement.dataset.boardStyle = appearance.board;
+}
 
 function coordinate(index) {
   return columns[index % size] + (Math.floor(index / size) + 1);
@@ -249,7 +287,7 @@ function render() {
   el("records").hidden = Boolean(game) || !recordsOpen;
   el("match").hidden = !game;
   el("start").disabled = busy || Boolean(matchmaking);
-  el("start").toggleAttribute("data-ncq-main", !matchmaking && !el("tournament").open);
+  el("start").toggleAttribute("data-ncq-main", !matchmaking && !el("tournament").open && !options.open);
   el("show-records").disabled = busy;
   el("show-tournament").hidden = !backend || Boolean(game) || recordsOpen;
   if (!el("lobby").hidden) renderLobby();

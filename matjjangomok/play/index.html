@@ -34,7 +34,10 @@
         </div>
         <div class="list-heading">
           <h1 data-i18n="liveGames"></h1>
-          <span id="live-count" class="list-count" aria-hidden="true"></span>
+          <div class="list-tools">
+            <span id="live-count" class="list-count" aria-hidden="true"></span>
+            <button id="show-options" class="quiet" type="button" data-i18n="options"></button>
+          </div>
         </div>
         <div class="list-body">
           <p id="live-message" class="list-message"></p>
@@ -71,7 +74,17 @@
           </div>
           <span class="mode-chip" id="mode"></span>
         </div>
-        <div id="board" class="board" role="grid" data-i18n-attr="aria-label:board"></div>
+        <div id="board" class="board" role="grid" data-i18n-attr="aria-label:board">
+          <!-- Skip one middle strip per axis. The slices overlap slightly to avoid seams when scaled. -->
+          <svg class="board-art" viewBox="0 0 1180 1179" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <defs><image id="board-image" href="./assets/omok-board.webp" width="1254" height="1254"/></defs>
+            <svg width="556" height="547" viewBox="0 0 556 547"><use href="#board-image"/></svg>
+            <svg x="554" width="626" height="547" viewBox="628 0 626 547"><use href="#board-image"/></svg>
+            <svg y="545" width="556" height="634" viewBox="0 620 556 634"><use href="#board-image"/></svg>
+            <svg x="554" y="545" width="626" height="634" viewBox="628 620 626 634"><use href="#board-image"/></svg>
+          </svg>
+          <div id="board-grid" class="board-grid" role="rowgroup"></div>
+        </div>
         <div id="review" class="review" hidden>
           <div class="review-controls" role="group" data-i18n-attr="aria-label:review">
             <button type="button" data-step="first" data-i18n-attr="aria-label:firstMove">⏮</button>
@@ -103,6 +116,39 @@
         <p id="match-error" class="feedback" role="status" hidden></p>
       </section>
     </main>
+
+    <dialog id="options" aria-labelledby="options-title">
+      <form method="dialog">
+        <h2 id="options-title" data-i18n="options"></h2>
+        <fieldset class="appearance-group">
+          <legend data-i18n="stoneStyle"></legend>
+          <div class="appearance-choices">
+            <label class="appearance-choice">
+              <span class="stone-sample" data-stone-style="classic" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+              <input type="radio" name="stones" value="classic"><span data-i18n="classicStyle"></span>
+            </label>
+            <label class="appearance-choice">
+              <span class="stone-sample" data-stone-style="glossy" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+              <input type="radio" name="stones" value="glossy"><span data-i18n="glossyStones"></span>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset class="appearance-group">
+          <legend data-i18n="boardStyle"></legend>
+          <div class="appearance-choices">
+            <label class="appearance-choice">
+              <span class="board-sample classic" aria-hidden="true"></span>
+              <input type="radio" name="board" value="classic"><span data-i18n="classicStyle"></span>
+            </label>
+            <label class="appearance-choice">
+              <span class="board-sample wood" aria-hidden="true"></span>
+              <input type="radio" name="board" value="wood"><span data-i18n="woodBoard"></span>
+            </label>
+          </div>
+        </fieldset>
+        <button class="primary" data-ncq-main="Close options" data-i18n="done"></button>
+      </form>
+    </dialog>
 
     <dialog id="tournament" aria-labelledby="tournament-title">
       <h2 id="tournament-title" data-i18n="weeklyTournament"></h2>

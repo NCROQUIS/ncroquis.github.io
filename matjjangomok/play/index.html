@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=ed883a8c698d">
-  <script type="module" src="./app.js?v=ed883a8c698d"></script>
+  <link rel="stylesheet" href="./style.css?v=83693d6ba44e">
+  <script type="module" src="./app.js?v=83693d6ba44e"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -32,6 +32,9 @@
         <path d="m12 3 2.8 5.7 6.3.9-4.6 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2-4.6-4.4 6.3-.9z"/>
       </symbol>
       <symbol id="records-back-icon" viewBox="0 0 24 24"><path d="M20 12H4m7-7-7 7 7 7"/></symbol>
+      <symbol id="records-share-icon" viewBox="0 0 24 24">
+        <path d="M12 15V3M7.5 7.5 12 3l4.5 4.5M7 10H4v11h16V10h-3"/>
+      </symbol>
       <path id="board-line-path" vector-effect="non-scaling-stroke" d="M.5 .5H14.5V14.5H.5Z
         M.5 1.5H14.5 M.5 2.5H14.5 M.5 3.5H14.5 M.5 4.5H14.5 M.5 5.5H14.5
         M.5 6.5H14.5 M.5 7.5H14.5 M.5 8.5H14.5 M.5 9.5H14.5 M.5 10.5H14.5
@@ -156,9 +159,12 @@
               <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
             </span>
           </button>
-          <button class="record-favorite review-button" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-star"/></svg>
-          </button>
+          <div class="record-actions">
+            <button class="record-favorite review-button" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-star"/></svg>
+            </button>
+            <button class="record-visibility" type="button" aria-haspopup="dialog" aria-controls="record-share-dialog" hidden></button>
+          </div>
         </li>
       </template>
 
@@ -168,9 +174,15 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"/></svg>
           </button>
           <h1 id="review-heading" tabindex="-1" data-i18n="recordView"></h1>
-          <button id="review-favorite" type="button" class="record-favorite review-button">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-star"/></svg>
-          </button>
+          <div class="review-actions">
+            <button id="review-favorite" type="button" class="record-favorite review-button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-star"/></svg>
+            </button>
+            <button id="review-share" type="button" class="review-button" aria-haspopup="dialog"
+                    aria-controls="record-share-dialog" data-i18n-attr="aria-label:recordShare" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-share-icon"/></svg>
+            </button>
+          </div>
         </header>
         <div id="room-bar" class="room-bar">
           <div><span id="room-label" class="eyebrow"></span> <strong id="room-id"></strong></div>
@@ -485,6 +497,20 @@
         <label for="share-url" data-i18n="copyManually"></label>
         <input id="share-url" readonly>
         <button class="secondary" data-ncq-main="Close invite" data-i18n="done"></button>
+      </form>
+    </dialog>
+    <dialog id="record-share-dialog" aria-labelledby="record-share-title">
+      <form method="dialog">
+        <h2 id="record-share-title" data-i18n="recordShare"></h2>
+        <p id="record-share-note"></p>
+        <div id="record-link-panel" hidden>
+          <label for="record-link" data-i18n="recordPublicLink"></label>
+          <input id="record-link" readonly>
+          <button id="record-copy-link" class="secondary" type="button" data-i18n="recordCopyLink"></button>
+        </div>
+        <p id="record-share-feedback" class="feedback" role="status" hidden></p>
+        <button id="record-visibility-toggle" class="primary" type="button" hidden></button>
+        <button id="record-share-close" class="secondary" data-ncq-main="Close record sharing" data-i18n="done" autofocus></button>
       </form>
     </dialog>
     <dialog id="result" class="result" aria-labelledby="result-title">

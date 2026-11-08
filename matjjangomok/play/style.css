@@ -606,7 +606,9 @@ body.in-review, body.in-records {
 }
 .review-header h1 { font-size: clamp(1.22rem, 4.6vw, 1.65rem); line-height: 1.15; }
 .review-header .review-button { border-color: transparent; background: transparent; box-shadow: none; }
-.review-header .record-favorite { border-color: #fffcf6; background: #fffbf5; box-shadow: 0 2px 5px #694f342e; }
+#review-header { grid-template-columns: 92px minmax(0, 1fr) 92px; }
+.review-actions { display: flex; justify-content: end; gap: 4px; }
+.review-actions .review-button { border-color: #fffcf6; background: #fffbf5; box-shadow: 0 2px 5px #694f342e; }
 .review { display: grid; gap: clamp(8px, 1.9vw, 14px); }
 .review-controls, .review-result {
   border: 1px solid #fffaf2;
@@ -671,6 +673,7 @@ body.in-review, body.in-records {
   text-align: start;
 }
 .review-player:hover { background: #f4e9d9; }
+.review-player:disabled { opacity: 1; }
 .review-player[data-turn] { box-shadow: 0 0 0 2px #829048, 0 4px 7px #664d3533; }
 .review-player > .stone { width: clamp(20px, 6vw, 31px); box-shadow: 0 2px 3px #62442755; }
 .review-avatar {
@@ -800,6 +803,19 @@ body.in-review, body.in-records {
 .preview-black { fill: #252019; stroke: #080706; }
 .preview-white { fill: #fff9ea; stroke: #ae9269; }
 .record-card .record-favorite { background: transparent; border-color: transparent; box-shadow: none; }
+.record-actions { display: grid; justify-items: center; }
+.record-visibility {
+  min-height: 36px;
+  min-width: 44px;
+  border: 1px solid #e9decc;
+  border-radius: 8px;
+  background: #f7efe5;
+  color: #65503c;
+  font-size: .7rem;
+  font-weight: 750;
+  padding: 2px 4px;
+}
+.record-visibility[data-public] { color: #285a24; background: #ebf1df; border-color: #dce7ca; }
 .record-favorite[aria-pressed="true"] svg { fill: #d6a947; stroke: #795622; }
 @media (max-width: 335px) {
   .record-card .review-avatar { width: 28px; }
@@ -813,6 +829,12 @@ dialog { width: min(360px, 92vw); padding: 18px; border-radius: 16px; border: 1p
 dialog::backdrop { background: #19292096; }
 dialog form { display: grid; gap: 10px; }
 dialog input { width: 100%; }
+#record-share-dialog { background: #fffbf4; color: #48331f; }
+#record-share-dialog p { font-size: .9rem; }
+#record-share-dialog .feedback[data-error] { color: #a03529; }
+#record-link-panel { display: grid; gap: 6px; }
+#record-link-panel label { font-size: .8rem; font-weight: 700; }
+#record-link { border: 1px solid #d9c9b5; border-radius: 8px; padding: 8px; color: inherit; }
 .profile-dialog {
   inset-block: var(--ncq-top, 0px) var(--ncq-bottom, 0px);
   width: min(400px, 90vw);

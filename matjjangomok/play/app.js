@@ -129,8 +129,8 @@ function loadAppearance() {
   let saved;
   try { saved = JSON.parse(localStorage.getItem(appearanceKey)); } catch { }
   return {
-    stones: saved?.stones === "classic" ? "classic" : "glossy",
-    board: saved?.board === "classic" ? "classic" : "wood",
+    stones: ["classic", "glossy"].includes(saved?.stones) ? saved.stones : "reference",
+    board: ["classic", "wood"].includes(saved?.board) ? saved.board : "reference",
   };
 }
 

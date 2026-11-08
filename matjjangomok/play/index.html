@@ -11,6 +11,21 @@
   <script type="module" src="./app.js"></script>
 </head>
 <body>
+  <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <path id="board-line-path" vector-effect="non-scaling-stroke" d="M.5 .5H14.5V14.5H.5Z
+        M.5 1.5H14.5 M.5 2.5H14.5 M.5 3.5H14.5 M.5 4.5H14.5 M.5 5.5H14.5
+        M.5 6.5H14.5 M.5 7.5H14.5 M.5 8.5H14.5 M.5 9.5H14.5 M.5 10.5H14.5
+        M.5 11.5H14.5 M.5 12.5H14.5 M.5 13.5H14.5
+        M1.5 .5V14.5 M2.5 .5V14.5 M3.5 .5V14.5 M4.5 .5V14.5 M5.5 .5V14.5
+        M6.5 .5V14.5 M7.5 .5V14.5 M8.5 .5V14.5 M9.5 .5V14.5 M10.5 .5V14.5
+        M11.5 .5V14.5 M12.5 .5V14.5 M13.5 .5V14.5"/>
+      <g id="board-engraving">
+        <use class="board-line-highlight" href="#board-line-path" x=".033" y=".033"/>
+        <use href="#board-line-path"/>
+      </g>
+    </defs>
+  </svg>
   <div class="shell">
     <header class="topbar">
       <div class="brand"><span class="mark" aria-hidden="true"></span><span data-i18n="title">Omok Duel</span></div>
@@ -99,15 +114,11 @@
         </div>
         <div class="board-slot">
           <div id="board" class="board" role="grid" data-i18n-attr="aria-label:board">
-            <!-- Skip one middle strip per axis. The slices overlap slightly to avoid seams when scaled. -->
-            <svg class="board-art" viewBox="0 0 1180 1179" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-              <defs><image id="board-image" href="./assets/omok-board.webp" width="1254" height="1254"/></defs>
-              <svg width="556" height="547" viewBox="0 0 556 547"><use href="#board-image"/></svg>
-              <svg x="554" width="626" height="547" viewBox="628 0 626 547"><use href="#board-image"/></svg>
-              <svg y="545" width="556" height="634" viewBox="0 620 556 634"><use href="#board-image"/></svg>
-              <svg x="554" y="545" width="626" height="634" viewBox="628 620 626 634"><use href="#board-image"/></svg>
-            </svg>
-            <div id="board-grid" class="board-grid" role="rowgroup"></div>
+            <div id="board-grid" class="board-grid" role="rowgroup">
+              <svg class="board-lines" viewBox="0 0 15 15" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <use href="#board-engraving"/>
+              </svg>
+            </div>
             <svg id="last-move-marker" viewBox="0 0 24 24" aria-hidden="true" hidden>
               <use href="./assets/match-ui/icons.svg#last-move"/>
             </svg>
@@ -178,6 +189,10 @@
           <legend data-i18n="stoneStyle"></legend>
           <div class="appearance-choices">
             <label class="appearance-choice">
+              <span class="stone-sample" data-stone-style="reference" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+              <input type="radio" name="stones" value="reference"><span data-i18n="referenceStones"></span>
+            </label>
+            <label class="appearance-choice">
               <span class="stone-sample" data-stone-style="classic" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
               <input type="radio" name="stones" value="classic"><span data-i18n="classicStyle"></span>
             </label>
@@ -191,11 +206,21 @@
           <legend data-i18n="boardStyle"></legend>
           <div class="appearance-choices">
             <label class="appearance-choice">
-              <span class="board-sample classic" aria-hidden="true"></span>
+              <span class="board-sample" data-board-style="reference" aria-hidden="true">
+                <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
+              </span>
+              <input type="radio" name="board" value="reference"><span data-i18n="referenceBoard"></span>
+            </label>
+            <label class="appearance-choice">
+              <span class="board-sample" data-board-style="classic" aria-hidden="true">
+                <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
+              </span>
               <input type="radio" name="board" value="classic"><span data-i18n="classicStyle"></span>
             </label>
             <label class="appearance-choice">
-              <span class="board-sample wood" aria-hidden="true"></span>
+              <span class="board-sample" data-board-style="wood" aria-hidden="true">
+                <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
+              </span>
               <input type="radio" name="board" value="wood"><span data-i18n="woodBoard"></span>
             </label>
           </div>

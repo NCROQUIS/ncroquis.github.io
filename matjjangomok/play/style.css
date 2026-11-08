@@ -7,8 +7,6 @@
   --green: #215a42;
   --muted: #56665b;
   --border: #d5dbce;
-  --classic-grain: repeating-linear-gradient(91deg, #c88e3d14 0 1px, transparent 1px 4px, #ffedaf26 4px 7px),
-    linear-gradient(132deg, #f2d39b, #dfae71);
 }
 
 * { box-sizing: border-box; }
@@ -138,7 +136,11 @@ button.entry-body:hover { background: #ebeede; }
   border-radius: 50%;
   flex: none;
 }
-:root, [data-stone-style="classic"] {
+:root, [data-stone-style="reference"] {
+  --black-stone: url("./assets/reference-skin/black-stone.webp") center / 102% no-repeat;
+  --white-stone: url("./assets/reference-skin/white-stone.webp") center / 102% no-repeat;
+}
+[data-stone-style="classic"] {
   --black-stone: radial-gradient(circle at 33% 29%, #535754, #1e2523 62%, #0f1412);
   --white-stone: radial-gradient(circle at 33% 29%, #fffef7, #efeadb 65%, #c7c4b4);
 }
@@ -292,35 +294,59 @@ button.entry-body:hover { background: #ebeede; }
 }
 .live-actions svg { width: 17px; height: 17px; }
 
+:root, [data-board-style="classic"] {
+  --board-line: #775332;
+  --board-line-highlight: #fff0c94d;
+  --board-line-width: 1px;
+  --board-surface: repeating-linear-gradient(91deg, #c88e3d14 0 1px, transparent 1px 4px, #ffedaf26 4px 7px),
+    linear-gradient(132deg, #f2d39b, #dfae71);
+}
+[data-board-style="reference"] {
+  --board-line: #4a2914;
+  --board-line-highlight: #fff0c473;
+  --board-line-width: 1.1px;
+  --board-surface: #d8964e url("./assets/reference-skin/amber-wood.webp") center / cover no-repeat;
+}
+[data-board-style="wood"] {
+  --board-line: #5c3b1c;
+  --board-line-highlight: #fff6d285;
+  --board-line-width: 1px;
+  --board-surface: #ffce72 url("./assets/omok-board-surface.webp") center / cover no-repeat;
+}
 .board {
   position: relative;
+  isolation: isolate;
   width: min(100%, 520px, max(150px, 100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - 282px));
   aspect-ratio: 1;
   margin-inline: auto;
   border-radius: 2.5%;
+  background: var(--board-surface);
   box-shadow: 0 6px 12px #10131070;
 }
-.board-art {
+.board-grid-definitions { position: absolute; }
+.board-grid {
+  position: absolute;
+  inset: 2.6%;
+  display: grid;
+  grid-template-rows: repeat(15, minmax(0, 1fr));
+}
+.board-lines {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  border-radius: inherit;
+  fill: none;
+  stroke: var(--board-line);
+  stroke-width: var(--board-line-width);
   pointer-events: none;
 }
-.board-art svg { overflow: hidden; }
-/* These track sizes center each cell on the measured grid line in the artwork. */
-.board-grid {
-  position: absolute;
-  inset: 1.2511% 2.1521% 2.9237% 2.2064%;
-  display: grid;
-  grid-template-rows: 76.60fr 76.60fr 74.56fr 76.92fr 73.34fr 77.70fr 74.16fr 76.58fr
-    75.40fr 75.50fr 72.14fr 79.42fr 69.96fr 80.74fr 70.16fr;
+.board-line-highlight {
+  stroke: var(--board-line-highlight);
+  stroke-width: calc(var(--board-line-width) + var(--board-highlight-bleed, .5px));
 }
 .board-row {
   display: grid;
-  grid-template-columns: 77.29fr 77.29fr 75.97fr 74.87fr 74.15fr 74.79fr 73.37fr 74.55fr
-    73.57fr 74.95fr 72.61fr 75.03fr 77.15fr 73.83fr 79.15fr;
+  grid-template-columns: repeat(15, minmax(0, 1fr));
 }
 .cell {
   position: relative;
@@ -339,38 +365,39 @@ button.entry-body:hover { background: #ebeede; }
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.cell .stone { width: 84%; box-shadow: 1px 1px 3px #60452065; }
-.cell:focus-visible { z-index: 1; outline-offset: -1px; border-radius: 4px; }
+/* Shadows scale with the stone and sit below every stone, across all skins. */
+.cell:is([data-stone="1"], [data-stone="2"])::before {
+  content: "";
+  position: absolute;
+  left: 56%;
+  top: 57%;
+  width: 103%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(closest-side, #1c100ac9 55%, #1c100a92 73%, #1c100a4d 86%, #1c100a00);
+}
+.cell .stone { width: 84%; z-index: 2; }
+.cell:focus-visible { z-index: 4; outline-offset: -1px; border-radius: 4px; }
 .cell.selected .stone { opacity: .58; outline: 2px solid var(--green); }
-#last-move-marker { width: 58%; height: 58%; pointer-events: none; filter: drop-shadow(0 1px 2px #793b15); }
+#last-move-marker { width: 58%; height: 58%; z-index: 3; pointer-events: none; filter: drop-shadow(0 1px 2px #793b15); }
 .cell.win .stone { outline: 2px solid #e87432; outline-offset: -1px; }
+[data-board-style="reference"] .board {
+  box-shadow: inset 0 0 0 1px #66391460, 0 3px 0 #89552d, 0 6px 12px #10131070;
+}
 [data-board-style="classic"] .board {
   border: 1px solid #b18751;
   border-radius: 8px;
-  background: var(--classic-grain);
   box-shadow: 0 3px 0 #9e7549, 0 6px 12px #10131070;
 }
-[data-board-style="classic"] .board-art { display: none; }
-[data-board-style="classic"] .board-grid {
-  inset: 9px;
-  grid-template-rows: repeat(15, minmax(0, 1fr));
-}
-[data-board-style="classic"] .board-row { grid-template-columns: repeat(15, minmax(0, 1fr)); }
-[data-board-style="classic"] .cell {
-  --horizontal: linear-gradient(#775332 0 0) center / 100% 1px;
-  --vertical: linear-gradient(#775332 0 0) center / 1px 100%;
-  background: var(--horizontal) no-repeat, var(--vertical) no-repeat;
-}
-[data-board-style="classic"] .cell:first-child { --horizontal: linear-gradient(#775332 0 0) right center / 50% 1px; }
-[data-board-style="classic"] .cell:last-child { --horizontal: linear-gradient(#775332 0 0) left center / 50% 1px; }
-[data-board-style="classic"] .board-row:first-child .cell { --vertical: linear-gradient(#775332 0 0) center bottom / 1px 50%; }
-[data-board-style="classic"] .board-row:last-child .cell { --vertical: linear-gradient(#775332 0 0) center top / 1px 50%; }
-[data-board-style="classic"] .cell.star[data-stone="0"]:not(.selected)::after {
+[data-board-style="classic"] .board-grid { inset: 9px; }
+.cell.star[data-stone="0"]:not(.selected)::after {
   content: "";
   position: absolute;
   inset: 38%;
   border-radius: 50%;
-  background: #775332;
+  background: var(--board-line);
 }
 .player-bar {
   position: relative;
@@ -436,28 +463,41 @@ dialog input { width: 100%; }
 .nickname-field input { font-weight: 400; }
 .appearance-group { min-width: 0; margin: 0; padding: 0; border: 0; }
 .appearance-group legend { padding: 0; margin-bottom: 5px; font-weight: 750; }
-.appearance-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.appearance-choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .appearance-choice {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
   align-items: center;
-  gap: 5px 7px;
-  padding: 8px;
+  gap: 5px 4px;
+  padding: 7px 5px;
   border: 1px solid var(--border);
   border-radius: 10px;
   cursor: pointer;
+  font-size: .82rem;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 .appearance-choice:has(input:checked) { background: #e9f0e4; border-color: #5e896e; }
 .appearance-choice input { width: 16px; height: 16px; min-height: 0; padding: 0; margin: 0; accent-color: var(--green); }
 .stone-sample, .board-sample { grid-column: 1 / -1; justify-self: center; }
 .stone-sample { display: flex; align-items: center; gap: 6px; min-height: 32px; }
 .stone-sample .stone { width: 26px; box-shadow: 0 1px 2px #34281650; }
-.board-sample { width: 58px; aspect-ratio: 1; border-radius: 4px; }
-.board-sample.wood { background: url("./assets/omok-board.webp") center / cover no-repeat; }
-.board-sample.classic {
+.board-sample {
+  position: relative;
+  width: 58px;
+  aspect-ratio: 1;
   border: 1px solid #b18751;
-  background: repeating-linear-gradient(90deg, #77533280 0 1px, transparent 1px 6px) center / 82% 82% no-repeat,
-    repeating-linear-gradient(#77533280 0 1px, transparent 1px 6px) center / 82% 82% no-repeat, var(--classic-grain);
+  border-radius: 4px;
+  background: var(--board-surface);
+}
+.board-sample[data-board-style="wood"] { border: 0; }
+.board-sample .board-lines {
+  --board-line-width: .55px;
+  --board-highlight-bleed: .15px;
+  inset: 6%;
+  width: 88%;
+  height: 88%;
 }
 #tournament > * + * { margin-top: 10px; }
 #standings { max-height: min(32dvh, 280px); overflow: auto; }

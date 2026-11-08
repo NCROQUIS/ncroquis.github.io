@@ -1,6 +1,6 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=7174c328eaea";
-import { TEXTS } from "./texts.js?v=7174c328eaea";
+import { NcqBoard } from "./ncq/board.js?v=ed883a8c698d";
+import { TEXTS } from "./texts.js?v=ed883a8c698d";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -32,6 +32,9 @@ let spectator = null;
 let lobbyView = "lobby";
 let recordsScope = recordsKey;
 let records = loadRecords();
+let recordFilter = "all";
+let favoritesScope;
+let favorites = new Set();
 let liveGames = null;
 let lobbyUnavailable = false;
 let lobbyLoading = false;
@@ -79,6 +82,8 @@ el("own-profile").addEventListener("click", () => openPlayerProfile(room.you));
 el("opponent-profile").addEventListener("click", () => openPlayerProfile(3 - room.you));
 el("black-profile").addEventListener("click", () => openPlayerProfile(1));
 el("white-profile").addEventListener("click", () => openPlayerProfile(2));
+el("review-opponent-profile").addEventListener("click", () => openPlayerProfile(3 - (room ?? archive).you));
+el("review-own-profile").addEventListener("click", () => openPlayerProfile((room ?? archive).you));
 profileDialog.addEventListener("close", () => {
   if (!profileDialog.open) profileTarget = null;
   render();
@@ -298,7 +303,9 @@ function ownNickname() {
 function renderPlayers(game, playing, watching = false) {
   cancelAnimationFrame(turnFrame);
   for (const id of ["opponent-panel", "own-panel", "live-actions"]) el(id).hidden = !playing;
-  el("player-bar").hidden = playing;
+  const reviewing = !watching && game.phase === "finished";
+  el("player-bar").hidden = playing || reviewing;
+  if (reviewing) return;
   if (!playing) {
     for (const [color, seat] of [["black", 1], ["white", 2]]) {
       el(color + "-player-label").textContent = watching ? t(color) : game.you === seat ? ownNickname() : t("opponent");
@@ -360,8 +367,8 @@ function loadRecords(key = recordsScope) {
 function saveRecord(game) {
   const id = game.id + ":" + game.round;
   const existing = new Map([...records, ...loadRecords()].map(record => [record.id, record]));
-  const { number, round, moves, winner, line, you, finishedAt, endReason } = game;
-  existing.set(id, { id, number, round, moves, winner, line, you, finishedAt, endReason });
+  const { number, round, moves, winner, line, you, finishedAt, endReason, players, bot, mode } = game;
+  existing.set(id, { id, number, round, moves, winner, line, you, finishedAt, endReason, players, bot, mode });
   records = [...existing.values()].sort((a, b) => b.finishedAt - a.finishedAt).slice(0, 50);
   try {
     localStorage.setItem(recordsScope, JSON.stringify(records));
@@ -372,6 +379,94 @@ function saveRecord(game) {
 
 function describeOutcome(game) {
   return !game.winner ? "draw" : game.winner === game.you ? "won" : "lost";
+}
+
+function recordResult(game) {
+  if (!game.winner) return t("draw");
+  const reason = game.endReason;
+  const outcome = reason === "disconnect" ? "recordDisconnectWin"
+    : reason === "timeout" ? "recordTimeWin"
+    : reason === "resign" || game.actions?.some(action => action.type === "resign") ? "recordResignWin"
+    : reason === "win" || game.line?.length >= 5 ? "recordWin" : "recordUnknownWin";
+  return t(outcome, { color: t(game.winner === 1 ? "black" : "white") });
+}
+
+function recordPlayer(game, seat) {
+  const profile = game.players?.find(player => player.seat === seat);
+  const bot = profile?.bot || (game.bot && seat !== game.you);
+  const savedName = profile?.nickname || (profile?.guestCode ? t("recordGuest", { code: profile.guestCode }) : "");
+  return { ...profile, savedName, name: savedName || t(bot ? "recordBot" : seat === game.you ? "you" : "opponent") };
+}
+
+function recordPhoto(profile) {
+  return typeof profile?.photoUrl === "string" && /^https:\/\//i.test(profile.photoUrl) ? profile.photoUrl : "";
+}
+
+function recordRank(profile) {
+  return Number.isInteger(profile.rating) ? rankName(rankLevel(profile.rating)) : "";
+}
+
+function setRecordPhoto(image, profile) {
+  const url = recordPhoto(profile);
+  if (image.getAttribute("src") === (url || null)) return;
+  image.hidden = !url;
+  if (url) image.src = url;
+  else image.removeAttribute("src");
+}
+
+function recordFavorites() {
+  const key = recordsScope + ".favorites";
+  if (favoritesScope !== key) {
+    favoritesScope = key;
+    favorites = new Set();
+    try {
+      const ids = JSON.parse(localStorage.getItem(key));
+      if (Array.isArray(ids)) favorites = new Set(ids);
+    } catch {
+      // Favorites can still be used for this visit.
+    }
+  }
+  return favorites;
+}
+
+function toggleFavorite(id) {
+  const saved = recordFavorites();
+  const active = !saved.has(id);
+  if (active) saved.add(id);
+  else saved.delete(id);
+  try { localStorage.setItem(favoritesScope, JSON.stringify([...saved])); } catch {}
+  return active;
+}
+
+function markFavorite(button, active) {
+  button.setAttribute("aria-pressed", String(active));
+  button.setAttribute("aria-label", t("recordFavorite"));
+}
+
+function renderReview(game) {
+  const nextSeat = reviewPly < game.moves.length ? reviewPly % 2 + 1 : null;
+  for (const [side, seat] of [["opponent", 3 - game.you], ["own", game.you]]) {
+    const color = seat === 1 ? "black" : "white";
+    const profile = recordPlayer(game, seat);
+    const prefix = "review-" + side + "-";
+    const label = el(prefix + "name");
+    label.textContent = label.title = profile.name;
+    el(prefix + "seat").textContent = [t(side === "own" ? "you" : "opponent"), t(color), recordRank(profile)].filter(Boolean).join(" · ");
+    el(prefix + "stone").className = "stone " + color;
+    setRecordPhoto(el(prefix + "photo"), profile);
+    const active = nextSeat === seat;
+    el(prefix + "profile").toggleAttribute("data-turn", active);
+    const turn = el(prefix + "turn");
+    turn.hidden = !active;
+    if (active) turn.textContent = t("watchTurn", { color: t(color) });
+  }
+  const id = archive ? game.id : game.id + ":" + game.round;
+  const favorite = el("review-favorite");
+  favorite.dataset.recordId = id;
+  markFavorite(favorite, recordFavorites().has(id));
+  const winner = game.winner && recordPlayer(game, game.winner).savedName;
+  el("review-result").textContent = winner ? t("recordNamedResult", { name: winner, result: recordResult(game) }) : recordResult(game);
+  el("review-mode").textContent = t(game.mode === "tournament" ? "weeklyTournament" : game.bot ? "recordBotMatch" : "onlineMatch");
 }
 
 function entryRow(label, note, onOpen) {
@@ -523,11 +618,13 @@ async function openPlayerProfile(seat) {
 function renderPlayerProfile() {
   const { own, seat, online, loading, stats: opponentStats } = profileTarget;
   const stats = own ? playerStats : opponentStats;
-  const name = own ? ownNickname() : t("opponent");
+  const game = room ?? archive;
+  const saved = seat && game?.phase === "finished" ? recordPlayer(game, seat) : null;
+  const name = saved?.savedName || (own ? ownNickname() : t("opponent"));
   const title = el("player-profile-title");
   const status = el("profile-status");
   const photo = el("profile-photo");
-  const source = own ? playerPhoto : null;
+  const source = recordPhoto(saved) || (own ? playerPhoto : null);
   if (photo.getAttribute("src") !== source) {
     photo.hidden = true;
     if (source) photo.src = source;
@@ -600,13 +697,76 @@ async function refreshAuthProfile() {
   }
 }
 
+function recordDate(value) {
+  const minutes = Math.max(0, Math.floor((Date.now() - new Date(value)) / 60_000));
+  if (minutes < 7 * 24 * 60 && typeof Intl.RelativeTimeFormat === "function") {
+    const format = new Intl.RelativeTimeFormat(NcqLang.lang, { numeric: "auto" });
+    if (minutes < 60) return format.format(-minutes, "minute");
+    if (minutes < 24 * 60) return format.format(-Math.floor(minutes / 60), "hour");
+    return format.format(-Math.floor(minutes / (24 * 60)), "day");
+  }
+  return NcqLang.date(value, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+
+function drawRecordPreview(svg, moves) {
+  const stones = document.createDocumentFragment();
+  for (const [ply, cell] of moves.entries()) {
+    if (!Number.isInteger(cell) || cell < 0 || cell >= size * size) continue;
+    const stone = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    stone.setAttribute("cx", cell % size + .5);
+    stone.setAttribute("cy", Math.floor(cell / size) + .5);
+    stone.setAttribute("r", ".42");
+    stone.setAttribute("class", ply % 2 === 0 ? "preview-black" : "preview-white");
+    stones.append(stone);
+  }
+  svg.append(stones);
+}
+
+function recordCard(game, saved) {
+  const row = el("record-row").content.firstElementChild.cloneNode(true);
+  row.dataset.recordId = game.id;
+  const opponent = recordPlayer(game, 3 - game.you);
+  const own = recordPlayer(game, game.you);
+  const outcome = describeOutcome(game);
+  const avatar = row.querySelector("img");
+  avatar.addEventListener("error", () => { avatar.hidden = true; });
+  setRecordPhoto(avatar, opponent);
+  row.querySelector(".record-opponent").textContent = t("recordVersus", {
+    name: [recordRank(opponent), opponent.name].filter(Boolean).join(" "),
+  });
+  const badge = row.querySelector(".record-outcome");
+  badge.dataset.outcome = outcome;
+  badge.textContent = t({ won: "winBadge", lost: "lossBadge", draw: "drawBadge" }[outcome]);
+  row.querySelector(".record-summary").textContent = recordDate(game.finishedAt) + " · " + recordResult(game);
+  const context = [recordRank(own), own.name].filter(Boolean).join(" ");
+  row.querySelector(".record-context").textContent = context + (game.device ? " · " + t("deviceRecord") : "");
+  drawRecordPreview(row.querySelector(".record-preview svg"), game.moves);
+  row.querySelector(".record-open").addEventListener("click", () => openArchive(game));
+  const button = row.querySelector(".record-favorite");
+  markFavorite(button, saved);
+  button.addEventListener("click", () => {
+    const active = toggleFavorite(game.id);
+    if (recordFilter === "favorites") {
+      renderRecords();
+      el("record-filters").querySelector('[data-filter="favorites"]').focus();
+    } else {
+      markFavorite(button, active);
+    }
+  });
+  return row;
+}
+
 function renderRecords() {
-  el("records-empty").hidden = records.length > 0;
-  el("record-list").replaceChildren(...records.map(game => {
-    const date = NcqLang.date(game.finishedAt, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
-    const label = t(describeOutcome(game)) + " · " + t(game.device ? "deviceRecord" : "onlineMatch");
-    return entryRow(label, date + " · " + t("movesCount", { n: game.moves.length }), () => openArchive(game));
-  }));
+  const saved = recordFavorites();
+  const visible = records.filter(game => recordFilter === "all" ||
+    (recordFilter === "favorites" ? saved.has(game.id) : describeOutcome(game) === "won"));
+  for (const button of el("record-filters").querySelectorAll("button")) {
+    button.setAttribute("aria-pressed", String(button.dataset.filter === recordFilter));
+  }
+  const empty = el("records-empty");
+  empty.hidden = visible.length > 0;
+  empty.textContent = t({ all: "noRecords", favorites: "recordNoFavorites", wins: "recordNoWins" }[recordFilter]);
+  el("record-list").replaceChildren(...visible.map(game => recordCard(game, saved.has(game.id))));
 }
 
 async function refreshLobby() {
@@ -633,17 +793,23 @@ function render() {
   if (profileDialog.open) renderPlayerProfile();
   const game = room ?? archive ?? spectator?.game;
   const playing = !spectator && game?.phase === "playing";
+  const finished = !spectator && game?.phase === "finished";
   nicknameInput.placeholder = playerNickname || t("guestNickname");
   el("language").value = NcqLang.lang;
   document.title = t("title");
   document.body.classList.toggle("in-match", Boolean(game));
   document.body.classList.toggle("match-art-backdrop", playing);
   document.body.classList.toggle("spectating", Boolean(spectator));
+  document.body.classList.toggle("in-review", finished);
+  document.body.classList.toggle("in-records", !game && lobbyView === "records");
   el("match").toggleAttribute("data-playing", playing);
   for (const view of ["lobby", "records", "tournament"]) {
     el(view).hidden = Boolean(game) || lobbyView !== view;
   }
   el("match").hidden = !game;
+  el("review-header").hidden = !finished;
+  el("review-opponent-profile").hidden = !finished || el("result").open;
+  el("review-back").toggleAttribute("data-ncq-main", finished && !el("result").open && !profileDialog.open);
   el("show-options").hidden = Boolean(game);
   const nav = el("lobby-nav");
   nav.hidden = Boolean(game);
@@ -662,8 +828,8 @@ function render() {
   joinTournament.hidden = !backend;
   joinTournament.disabled = busy || Boolean(matchmaking);
   joinTournament.toggleAttribute("data-ncq-main", mainAction && lobbyView === "tournament" && Boolean(backend));
-  el("show-lobby").toggleAttribute("data-ncq-main", mainAction &&
-    (lobbyView === "records" || (lobbyView === "tournament" && !backend)));
+  el("show-lobby").toggleAttribute("data-ncq-main", mainAction && lobbyView === "tournament" && !backend);
+  el("records-back").toggleAttribute("data-ncq-main", mainAction && lobbyView === "records");
   if (!el("lobby").hidden) renderLobby();
   if (!el("records").hidden) renderRecords();
   if (!el("tournament").hidden) renderTournament();
@@ -681,10 +847,9 @@ function render() {
     return;
   }
 
-  for (const id of ["place", "rematch", "invite"]) {
+  for (const id of ["place", "invite"]) {
     el(id).toggleAttribute("data-ncq-main", !profileDialog.open);
   }
-  const finished = game.phase === "finished";
   let status = "waiting";
   if (room && !connected) status = "reconnecting";
   else if (playing) status = game.turn === game.you ? "yourTurn" : "theirTurn";
@@ -699,11 +864,12 @@ function render() {
   if (playing && el("turn-announcement").textContent !== t(status)) el("turn-announcement").textContent = t(status);
   el("round").textContent = t("round", { n: game.round });
   el("mode").textContent = t(finished ? (el("result").open ? "result" : "review") : mode);
-  el("room-bar").hidden = playing;
+  el("room-bar").hidden = playing || finished;
   el("invite").hidden = playing || finished || el("share").open;
   el("leave").disabled = el("leave-match").disabled = busy;
   el("leave").textContent = t(archive ? "backToRecords" : "leave");
-  el("leave").toggleAttribute("data-ncq-main", Boolean(archive) && !profileDialog.open);
+  el("leave").removeAttribute("data-ncq-main");
+  el("review-back").disabled = busy;
 
   const place = el("place");
   place.disabled = !canPlace() || selected === null;
@@ -713,18 +879,18 @@ function render() {
   place.title = placeLabel;
   renderPlayers(game, playing);
   el("review").hidden = !finished || el("result").open;
-  el("rematch").hidden = Boolean(archive) || game.mode === "tournament";
+  el("rematch").hidden = Boolean(archive) || game.mode === "tournament" || game.canRematch === false;
   el("rematch").disabled = !connected || busy || game.requested;
   el("rematch").textContent = t(game.requested ? "rematchWaiting" : game.rematch ? "rematchReady" : "rematch");
 
   let displayedBoard = game.board;
   let last = game.moves.at(-1);
-  let winning = game.line;
+  let winning = game.line ?? [];
   if (finished) {
     el("result-title").textContent = t(describeOutcome(game));
     const timeout = game.endReason === "timeout";
     const color = timeout ? 3 - game.winner : game.winner;
-    el("result-summary").textContent = t(timeout ? "resultTimeout" : game.winner ? "resultWinner" : "resultDraw", {
+    el("result-summary").textContent = game.winner && !timeout ? recordResult(game) : t(timeout ? "resultTimeout" : "resultDraw", {
       color: t(color === 1 ? "black" : "white"),
       n: game.moves.length,
     });
@@ -744,7 +910,9 @@ function render() {
       el("rating-delta").textContent = delta > 0 ? "↑ +" + delta : delta < 0 ? "↓ −" + Math.abs(delta) : "±0";
       el("rating-delta").dataset.direction = delta > 0 ? "up" : delta < 0 ? "down" : "same";
     }
-    el("move-count").textContent = reviewPly + " / " + game.moves.length;
+    renderReview(game);
+    el("review-ply").textContent = reviewPly;
+    el("review-total").textContent = " / " + game.moves.length;
     for (const button of el("review").querySelectorAll("[data-step]")) {
       const movesBack = ["first", "previous"].includes(button.dataset.step);
       button.disabled = movesBack ? reviewPly === 0 : reviewPly === game.moves.length;
@@ -1055,6 +1223,11 @@ function connectRoom(code) {
       const next = await remoteRequest(client => client.state(code));
       if (stream !== polling) return;
       if (["notFound", "forbidden", "authFailed"].includes(next.error)) {
+        if (room?.phase === "finished" && next.error === "notFound") {
+          connected = false;
+          render();
+          return;
+        }
         exitRoom(next.error === "authFailed" ? "authFailed" : "closed");
         return;
       }
@@ -1107,7 +1280,7 @@ function roomAction(action, details, success = applyState) {
 }
 
 function join(code) {
-  run(() => post("/rooms/" + code + "/join", {}, client => client.join(code)), openRoom);
+  run(() => post("/rooms/" + code + "/join", { nickname: ownNickname() }, client => client.join(code)), openRoom);
 }
 
 function closeMatching(message = "") {
@@ -1126,7 +1299,7 @@ async function cancelMatching(job) {
 async function findMatch(job) {
   job.pending = true;
   const input = { ticket: job.ticket, mode: job.mode };
-  const result = await post("/matchmaking", input, client => client.match(input));
+  const result = await post("/matchmaking", { ...input, nickname: ownNickname() }, client => client.match(input));
   job.pending = false;
   job.ticket = result.ticket ?? job.ticket;
   if (job.canceled) return cancelMatching(job);
@@ -1172,7 +1345,7 @@ function openArchive(record) {
   reviewPly = record.moves.length;
   feedback("match-error");
   render();
-  el("status").focus();
+  el("review-heading").focus();
 }
 
 el("show-records").addEventListener("click", () => run(async () => {
@@ -1225,13 +1398,22 @@ function renderTournament() {
     t("pointsCount", { n: row.points }),
   )));
 }
-el("show-lobby").addEventListener("click", () => {
+function showLobby() {
   if (lobbyView === "lobby") return;
   lobbyView = "lobby";
   feedback("lobby-error");
   render();
   refreshLobby();
   el("lobby-heading").focus();
+}
+el("show-lobby").addEventListener("click", showLobby);
+el("records-back").addEventListener("click", showLobby);
+el("record-filters").addEventListener("click", event => {
+  const button = event.target.closest("[data-filter]");
+  if (!button) return;
+  recordFilter = button.dataset.filter;
+  renderRecords();
+  el("record-list").parentElement.scrollTop = 0;
 });
 function leaveMatch() {
   if (spectator) {
@@ -1245,15 +1427,31 @@ function leaveMatch() {
   }
   if (archive) {
     cancelPlacement();
+    const id = archive.id;
     archive = null;
     render();
-    el("records-heading").focus();
+    const row = Array.from(el("record-list").children).find(item => item.dataset.recordId === id);
+    (row?.querySelector(".record-open") ?? el("records-heading")).focus();
     return;
   }
-  if (window.confirm(t("confirmLeave"))) roomAction("leave", {}, () => exitRoom());
+  if (room?.phase === "finished" && !connected) return exitRoom();
+  const resigning = room?.phase === "playing" && (room.moves.length > 0 || room.mode === "tournament");
+  if (room?.phase === "finished" || window.confirm(t(resigning ? "confirmResign" : "confirmLeave"))) roomAction("leave", {}, next => {
+    if (!backend && next.phase === "finished") saveRecord(next);
+    exitRoom();
+  });
 }
 el("leave").addEventListener("click", leaveMatch);
 el("leave-match").addEventListener("click", leaveMatch);
+el("review-back").addEventListener("click", leaveMatch);
+el("review-favorite").addEventListener("click", event => {
+  const button = event.currentTarget;
+  markFavorite(button, toggleFavorite(button.dataset.recordId));
+});
+for (const side of ["opponent", "own"]) {
+  const image = el("review-" + side + "-photo");
+  image.addEventListener("error", () => { image.hidden = true; });
+}
 el("place").addEventListener("click", () => {
   if (canPlace() && selected !== null) roomAction("move", { index: selected, version: room.version });
 });
@@ -1269,13 +1467,13 @@ el("review").addEventListener("click", event => {
   render();
   if (step === "next" && reviewPly > before) presentPlacement(game.moves[before]);
   else cancelPlacement();
-  if (event.target.disabled) {
+  if (event.target.closest("[data-step]").disabled) {
     el("review").querySelector(reviewPly ? '[data-step="previous"]' : '[data-step="next"]').focus();
   }
 });
 el("result").addEventListener("close", () => {
   render();
-  if (room?.phase === "finished") el("review").querySelector('[data-step="previous"]').focus();
+  if (room?.phase === "finished") el("review-heading").focus();
 });
 el("share").addEventListener("close", render);
 el("invite").addEventListener("click", async () => {

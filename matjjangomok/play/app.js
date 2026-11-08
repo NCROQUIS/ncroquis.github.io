@@ -91,8 +91,8 @@ function loadRecords(key = recordsScope) {
 function saveRecord(game) {
   const id = game.id + ":" + game.round;
   const existing = new Map([...records, ...loadRecords()].map(record => [record.id, record]));
-  const { number, round, bot, moves, winner, line, you, finishedAt } = game;
-  existing.set(id, { id, number, round, bot, moves, winner, line, you, finishedAt });
+  const { number, round, moves, winner, line, you, finishedAt } = game;
+  existing.set(id, { id, number, round, moves, winner, line, you, finishedAt });
   records = [...existing.values()].sort((a, b) => b.finishedAt - a.finishedAt).slice(0, 50);
   try {
     localStorage.setItem(recordsScope, JSON.stringify(records));
@@ -127,7 +127,7 @@ function renderLobby() {
   el("live-message").textContent = t(message);
   el("live-message").hidden = !lobbyUnavailable && Boolean(liveGames?.length);
   el("live-games").replaceChildren(...(lobbyUnavailable ? [] : liveGames ?? []).map(game => entryRow(
-    game, t(game.bot ? "botMatch" : "humanMatch") + " #" + game.number, t("movesCount", { n: game.moves }),
+    game, t("onlineMatch") + " #" + game.number, t("movesCount", { n: game.moves }),
   )));
 }
 
@@ -167,7 +167,7 @@ function renderRecords() {
   el("records-empty").hidden = records.length > 0;
   el("record-list").replaceChildren(...records.map(game => {
     const date = NcqLang.date(game.finishedAt, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
-    const label = t(describeOutcome(game)) + " · " + t(game.device ? "deviceRecord" : game.bot ? "botMatch" : "humanMatch");
+    const label = t(describeOutcome(game)) + " · " + t(game.device ? "deviceRecord" : "onlineMatch");
     return entryRow(game, label, date + " · " + t("movesCount", { n: game.moves.length }), true);
   }));
 }
@@ -207,10 +207,8 @@ function render() {
   if (!el("lobby").hidden) renderLobby();
   if (!el("records").hidden) renderRecords();
   if (matchmaking) {
-    const { canceled, waitMs } = matchmaking;
-    el("queue-status").textContent = waitMs === null || waitMs === 0 || canceled
-      ? t(canceled ? "canceling" : matchmaking.mode === "tournament" ? "tournamentWaiting" : "findingOpponent")
-      : t("botCountdown", { n: Math.ceil(waitMs / 1000) });
+    const { canceled, mode } = matchmaking;
+    el("queue-status").textContent = t(canceled ? "canceling" : mode === "tournament" ? "tournamentWaiting" : "findingOpponent");
     el("cancel-match").disabled = canceled;
   }
   for (const node of [el("lobby-error"), el("match-error")]) {
@@ -229,11 +227,10 @@ function render() {
   el("room-id").textContent = "#" + game.number;
   if (el("status").textContent !== t(status)) el("status").textContent = t(status);
   el("round").textContent = t(playing ? "liveRound" : "round", { n: game.round, moves: game.moves.length });
-  const mode = game.mode === "tournament" ? "tournamentButton" : game.bot ? "botMatch" : "humanMatch";
+  const mode = game.mode === "tournament" ? "tournamentButton" : "onlineMatch";
   el("mode").textContent = t(finished ? (el("result").open ? "result" : "review") : mode);
-  const opponent = game.bot ? "bot" : "opponent";
-  el("black-player-label").textContent = t("black") + " · " + t(game.you === 1 ? "you" : opponent);
-  el("white-player-label").textContent = t("white") + " · " + t(game.you === 2 ? "you" : opponent);
+  el("black-player-label").textContent = t("black") + " · " + t(game.you === 1 ? "you" : "opponent");
+  el("white-player-label").textContent = t("white") + " · " + t(game.you === 2 ? "you" : "opponent");
   el("black-player").classList.toggle("active", playing && game.turn === 1);
   el("white-player").classList.toggle("active", playing && game.turn === 2);
   el("match-actions").hidden = finished;
@@ -558,8 +555,6 @@ async function findMatch(job) {
     closeMatching();
     openRoom(result.game);
   } else {
-    job.waitMs = result.waitMs;
-    render();
     job.timer = setTimeout(() => findMatch(job), job.mode === "tournament" ? 1250 : 650);
   }
 }
@@ -575,7 +570,7 @@ function requestCancel() {
 
 function startMatching(mode) {
   if (matchmaking) return;
-  const job = { waitMs: null, canceled: false, mode };
+  const job = { canceled: false, mode };
   matchmaking = job;
   feedback("lobby-error");
   render();

@@ -48,6 +48,7 @@ function create({ apiUrl, getToken }) {
   const room = (code, op) => "/rooms/" + encodeURIComponent(code) + "/" + op;
   return Object.freeze({
     lobby: () => send("/lobby", undefined, undefined, 3500),
+    spectate: code => send("/spectate/" + encodeURIComponent(code), undefined, undefined, 3500),
     match: (input = {}) => request("/matchmaking", input),
     cancel: ticket => request("/matchmaking/cancel", { ticket }),
     state: code => request(room(code, "state")),

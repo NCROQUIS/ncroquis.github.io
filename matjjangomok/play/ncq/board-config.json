@@ -2,5 +2,5 @@
   "provider": "supabase",
   "environment": "prod",
   "ruleset": "omok-free-v1",
-  "apiUrl": "https://qqbajkltkhvhlwrxpgfn.supabase.co/functions/v1/ncq-board/matjjangomok"
+  "apiUrl": "https://qqbajkltkhvhlwrxpgfn.supabase.co/functions/v1/matjjangomok"
 }

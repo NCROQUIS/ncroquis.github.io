@@ -1,6 +1,6 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=3ea3b2c746dc";
-import { TEXTS } from "./texts.js?v=3ea3b2c746dc";
+import { NcqBoard } from "./ncq/board.js?v=1b32217c3cf4";
+import { TEXTS } from "./texts.js?v=1b32217c3cf4";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -1761,7 +1761,7 @@ board.addEventListener("keydown", event => {
 try {
   const config = await (await fetch("./ncq/board-config.json", { signal: AbortSignal.timeout(3500) })).json();
   if (config.enabled !== false &&
-      /^https:\/\/[a-z0-9]{20}\.supabase\.co\/functions\/v1\/ncq-board\/matjjangomok$/.test(config.apiUrl)) {
+      /^https:\/\/[a-z0-9]{20}\.supabase\.co\/functions\/v1\/(?:ncq-board\/)?matjjangomok$/.test(config.apiUrl)) {
     backend = NcqBoard.create({
       apiUrl: config.apiUrl,
       async getToken({ forceRefresh }) {

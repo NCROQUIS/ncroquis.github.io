@@ -9,6 +9,7 @@ const size = 15;
 const columns = "ABCDEFGHJKLMNOP";
 const recordsKey = "matjjangomok.records";
 const appearanceKey = "matjjangomok.appearance";
+const nicknameKey = "matjjangomok.nickname";
 const appearance = loadAppearance();
 const board = el("board");
 const boardGrid = el("board-grid");
@@ -16,7 +17,7 @@ const lastMoveMarker = el("last-move-marker");
 const ownClock = el("own-clock");
 const opponentClock = el("opponent-clock");
 const ownProgress = el("own-progress");
-const opponentProgress = el("opponent-progress");
+const opponentProgress = el("opponent-meter");
 const cells = [];
 let focused = 112;
 let selected = null;
@@ -47,6 +48,19 @@ const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
 applyAppearance();
 const options = el("options");
+const nicknameInput = el("nickname");
+try {
+  nicknameInput.value = localStorage.getItem(nicknameKey) ?? "";
+} catch {
+  // A nickname can still be set for this visit.
+}
+nicknameInput.addEventListener("input", () => {
+  try {
+    localStorage.setItem(nicknameKey, nicknameInput.value.trim());
+  } catch {
+    // The input retains its value for this visit.
+  }
+});
 el("show-options").addEventListener("click", () => {
   options.showModal();
   render();
@@ -146,10 +160,10 @@ function renderPlayers(game, playing) {
   cancelAnimationFrame(turnFrame);
   for (const id of ["opponent-panel", "own-panel", "live-actions"]) el(id).hidden = !playing;
   el("player-bar").hidden = playing;
+  const nickname = nicknameInput.value.trim() || t("guestNickname");
   if (!playing) {
     for (const [color, seat] of [["black", 1], ["white", 2]]) {
-      const label = t(game.you === seat ? "you" : "opponent");
-      el(color + "-player-label").textContent = t(color) + " · " + label;
+      el(color + "-player-label").textContent = game.you === seat ? nickname : t("opponent");
     }
     return;
   }
@@ -160,14 +174,18 @@ function renderPlayers(game, playing) {
   el("own-panel").dataset.active = el("place").dataset.active = String(ownTurn);
   el("opponent-panel").dataset.active = el("opponent-timer").dataset.active = String(opponentTurn);
   el("opponent-turn").textContent = t(opponentTurn ? "theirTurn" : "turnWaiting");
+  el("own-nickname").textContent = nickname;
+  el("own-nickname").title = nickname;
+  renderOwnRank();
   for (const [side, seat] of [["own", game.you], ["opponent", 3 - game.you]]) {
     const color = seat === 1 ? "black" : "white";
-    el(side + "-stone").className = "stone " + color;
-    el(side + "-color").textContent = t(color);
+    const stone = el(side + "-stone");
+    stone.className = "stone " + color;
+    stone.setAttribute("aria-label", t(color));
   }
-  el("opponent-timer").hidden = !timed;
+  el("opponent-timer").hidden = el("opponent-time-bar").hidden = !timed;
   el("place-gauge").toggleAttribute("hidden", !timed);
-  ownClock.hidden = !timed;
+  ownClock.hidden = el("place-divider").hidden = !timed;
   if (!timed) return;
 
   const idleClock = ownTurn ? opponentClock : ownClock;
@@ -243,6 +261,19 @@ function ratingNumber(value) {
   return new Intl.NumberFormat(NcqLang.lang).format(value);
 }
 
+function renderOwnRank() {
+  const rating = backend ? playerStats?.rating : 1500;
+  const rank = el("own-rank");
+  rank.hidden = !Number.isFinite(rating);
+  if (rank.hidden) return;
+  if (rating >= 2200) {
+    rank.textContent = t("rankDan", { n: Math.min(9, 1 + Math.floor((rating - 2200) / 60)) });
+  } else {
+    const kyu = rating < 1520 ? 18 : 17 - Math.floor((rating - 1520) / 40);
+    rank.textContent = t("rankKyu", { n: kyu });
+  }
+}
+
 function renderPlayerCard() {
   el("player-card").hidden = !playerStats;
   if (!playerStats) return;
@@ -258,6 +289,7 @@ async function refreshPlayerCard() {
     if (stats.error) return;
     playerStats = stats;
     renderPlayerCard();
+    renderOwnRank();
     const profile = await window.NcqAuth.profile?.().catch(() => null);
     const photo = profile?.photoUrl ?? null;
     if (photo !== playerPhoto) {

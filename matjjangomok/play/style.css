@@ -251,12 +251,23 @@ button.entry-body:hover { background: #ebeede; }
 }
 .match-avatar svg { width: 57%; }
 .match-avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.match-identity { display: grid; gap: 2px; line-height: 1.18; }
-.match-identity strong { font-size: clamp(.84rem, 3.6vw, 1.12rem); }
+.match-identity { display: grid; min-width: 0; gap: 2px; line-height: 1.18; }
+.match-identity strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: clamp(.84rem, 3.6vw, 1.12rem);
+}
 .match-identity .seat { display: flex; gap: 5px; align-items: center; color: #e1c6aa; font-size: .7rem; }
 .match-identity .stone { width: clamp(16px, 5vw, 23px); box-shadow: 0 1px 3px #0d0705aa; }
 .match-player .match-art-divider { height: 72%; }
-.opponent-meter { display: flex; justify-content: center; align-items: center; gap: clamp(4px, 1.5vw, 10px); }
+.opponent-meter {
+  display: grid;
+  grid-template-columns: min(46%, var(--player-height) - 22px) minmax(0, max-content);
+  justify-content: center;
+  align-items: center;
+  gap: 3px clamp(4px, 1.5vw, 10px);
+}
 .match-art-gauge {
   position: relative;
   display: flex;
@@ -264,7 +275,7 @@ button.entry-body:hover { background: #ebeede; }
   align-items: center;
   line-height: 1;
 }
-#opponent-timer { flex: none; width: min(46%, var(--player-height) - 13px); aspect-ratio: 1; }
+#opponent-timer { aspect-ratio: 1; }
 .match-art-gauge > svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .player-clock { font-size: clamp(1.12rem, 5.4vw, 1.85rem); font-weight: 800; font-variant-numeric: tabular-nums; }
 .opponent-meter .match-art-badge {
@@ -286,16 +297,42 @@ button.entry-body:hover { background: #ebeede; }
   visibility: hidden;
 }
 #opponent-panel[data-active="true"] .match-art-badge svg { visibility: visible; }
+.opponent-time-bar {
+  grid-column: 1 / -1;
+  height: 4px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #17100b;
+}
+.opponent-time-bar::before {
+  content: "";
+  display: block;
+  width: calc(var(--match-art-progress, 100) * 1%);
+  height: 100%;
+  border-radius: inherit;
+  background: #75685c;
+}
+#opponent-panel[data-active="true"] .opponent-time-bar::before {
+  background: linear-gradient(90deg, #dc872e, #ffda68);
+}
+.opponent-meter[data-empty] .match-art-gauge-progress { visibility: hidden; }
 #place {
+  --place-height: max(44px, var(--player-height) - 14px);
   gap: clamp(5px, 2vw, 12px);
   width: 100%;
-  height: max(44px, var(--player-height) - 14px);
+  height: var(--place-height);
   padding: 4px 9px;
   font-size: clamp(.92rem, 4.5vw, 1.5rem);
   font-weight: 800;
   opacity: 1;
 }
-#place .player-clock { padding-inline-start: clamp(5px, 2vw, 12px); border-inline-start: 1px solid currentColor; }
+#place-gauge-outline {
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  rx: calc(var(--place-height) / 2 - 5px);
+  ry: calc(var(--place-height) / 2 - 5px);
+}
+#place-divider { height: .95em; border-inline-start: 1px solid currentColor; opacity: .78; }
 #place:not(:disabled):hover, .live-actions button:not(:disabled):hover { filter: brightness(1.12); }
 .live-actions { display: grid; justify-items: center; }
 .live-actions button {
@@ -413,7 +450,7 @@ button.entry-body:hover { background: #ebeede; }
   font-weight: 650;
 }
 .player .stone { grid-area: stone; width: 19px; border: 1px solid #888; }
-.player-name { grid-area: name; }
+.player-name { grid-area: name; overflow-wrap: anywhere; }
 .player + .player {
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas: "name stone";
@@ -450,6 +487,8 @@ dialog::backdrop { background: #19292096; }
 dialog form { display: grid; gap: 10px; }
 dialog input { width: 100%; }
 #options { background: #fffcf4; }
+.nickname-field { display: grid; gap: 5px; font-weight: 750; }
+.nickname-field input { font-weight: 400; }
 .appearance-group { min-width: 0; margin: 0; padding: 0; border: 0; }
 .appearance-group legend { padding: 0; margin-bottom: 5px; font-weight: 750; }
 .appearance-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }

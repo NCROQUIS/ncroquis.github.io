@@ -82,13 +82,23 @@
           </div>
           <button id="rematch" class="primary" type="button" data-ncq-main="Rematch"></button>
         </div>
-        <div class="player-bar">
-          <div id="black-player" class="player"><span class="stone black" aria-hidden="true"></span><span id="black-player-label"></span></div>
+        <div id="player-bar" class="player-bar">
+          <div id="black-player" class="player">
+            <span class="stone black" aria-hidden="true"></span>
+            <span id="black-clock" class="player-clock" role="timer" hidden></span>
+            <span id="black-player-label" class="player-name"></span>
+            <span id="black-turn" class="player-turn" hidden></span>
+          </div>
+          <div id="white-player" class="player">
+            <span class="stone white" aria-hidden="true"></span>
+            <span id="white-clock" class="player-clock" role="timer" hidden></span>
+            <span id="white-player-label" class="player-name"></span>
+            <span id="white-turn" class="player-turn" hidden></span>
+          </div>
           <div id="match-actions">
             <button id="invite" class="primary" type="button" data-ncq-main="Copy invite" data-i18n="invite"></button>
-            <button id="place" class="primary" type="button" data-ncq-main="Place stone" hidden></button>
+            <button id="place" class="primary" type="button" data-ncq-main="Place stone" data-i18n="placeStone" hidden></button>
           </div>
-          <div id="white-player" class="player"><span class="stone white" aria-hidden="true"></span><span id="white-player-label"></span></div>
         </div>
         <p id="match-error" class="feedback" role="status" hidden></p>
       </section>

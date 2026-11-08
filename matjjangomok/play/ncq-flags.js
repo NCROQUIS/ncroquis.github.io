@@ -1,6 +1,39 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.2.1", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangomok"});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.3.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangomok"});
 Object.assign(window, window.NCQ);
+
+/* 화면 켜 두기 (ncq_build.py가 넣어요, 웹 공개). 게임을 보는 동안 휴대폰 화면이 저절로 꺼지지 않게 브라우저의
+ * Screen Wake Lock을 잡아요. 화면을 내리면 브라우저가 풀고, 다시 보면 다시 잡아요. 지원하지 않는 브라우저는 그대로이고,
+ * 브라우저가 거절하면(절전 모드, 첫 터치 전) 1초 뒤의 터치에 다시 해 봐요. 잡혀 있는지는 NcqAwake.held(). */
+(function (w, d) {
+  "use strict";
+  try {
+    var nav = w.navigator, wl = nav && nav.wakeLock;
+    if (!d || !wl || typeof wl.request !== "function" || w.NcqAwake) return;
+    var lock = null, asking = false, refused = 0;
+    var held = function () { return !!lock && lock.released !== true; };
+    var grab = function () {
+      if (held() || asking || d.visibilityState === "hidden" || new Date().getTime() - refused < 1000) return;
+      var p = wl.request("screen");
+      if (!p || typeof p.then !== "function") return;
+      asking = true;
+      p.then(function (s) {
+        asking = false;
+        if (!s || s.released === true) return;
+        lock = s;
+        try { s.addEventListener("release", function () { if (lock === s) lock = null; }); } catch (e) { /* 다음 확인 때 */ }
+      }, function () { asking = false; refused = new Date().getTime(); });
+    };
+    var poke = function () { try { grab(); } catch (e) { asking = false; refused = new Date().getTime(); } };
+    d.addEventListener("visibilitychange", poke);
+    w.addEventListener("pageshow", poke);
+    w.addEventListener("focus", poke);
+    var taps = ["pointerdown", "pointerup", "touchend", "keydown", "click"];
+    for (var i = 0; i < taps.length; i++) d.addEventListener(taps[i], poke, true);
+    w.NcqAwake = Object.freeze({version: 1, held: held});
+    poke();
+  } catch (e) { /* 화면 켜 두기가 안 돼도 게임은 그대로 */ }
+})(window, typeof document !== "undefined" ? document : null);
 
 /* 엔크로키 지표 모듈 (ncq_build.py가 ncq-flags.js 뒤에 붙여요. 직접 고치지 마세요)
    ncq-metrics 3 (2: 판 시작·끝 NcqMetrics.levelStart·levelEnd, 3: 광고·결제 도구가 보내는 광고·결제 이벤트)
@@ -352,4 +385,4 @@ Object.assign(window, window.NCQ);
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangomok","pf":"web","mk":"web","tr":"share","vn":"0.2.1","vc":0,"cm":"a3e298c","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangomok","pf":"web","mk":"web","tr":"share","vn":"0.3.0","vc":0,"cm":"f489e10","ft":[]});

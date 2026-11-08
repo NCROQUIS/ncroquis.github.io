@@ -33,6 +33,9 @@ let authSession;
 let authenticating;
 let backend;
 let tournament;
+let turnDeadline = null;
+let turnFrame = 0;
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
 for (let row = 0; row < size; row += 1) {
   const rowEl = document.createElement("div");
@@ -68,7 +71,52 @@ function coordinate(index) {
 }
 
 function canPlace() {
-  return room?.phase === "playing" && room.turn === room.you && connected && !busy;
+  return room?.phase === "playing" && room.turn === room.you && connected && !busy
+    && (turnDeadline === null || performance.now() < turnDeadline);
+}
+
+function updateTurnClock(now) {
+  const remaining = Math.max(0, turnDeadline - now);
+  const activeClock = el(room.turn === 1 ? "black-clock" : "white-clock");
+  const seconds = String(Math.ceil(remaining / 1000)).padStart(2, "0");
+  if (activeClock.textContent !== seconds) {
+    activeClock.textContent = seconds;
+    if (!reducedMotion.matches) activeClock.animate([
+      { opacity: .55, transform: "translateY(-3px) scale(1.12)" },
+      { opacity: 1, transform: "translateY(0) scale(1)" },
+    ], { duration: 190, easing: "ease-out" });
+  }
+  const progress = Math.min(1, remaining / (room.turnSeconds * 1000));
+  el("place").style.setProperty("--turn-progress", progress.toFixed(4));
+  el("player-bar").toggleAttribute("data-time-low", remaining <= 5000);
+  if (remaining > 0) turnFrame = requestAnimationFrame(updateTurnClock);
+  else {
+    el("place").disabled = true;
+    board.classList.remove("selectable");
+  }
+}
+
+function renderPlayers(game, playing) {
+  const timed = playing && turnDeadline !== null;
+  el("player-bar").toggleAttribute("data-playing", playing);
+  for (const [color, seat] of [["black", 1], ["white", 2]]) {
+    const own = game.you === seat;
+    const active = playing && game.turn === seat;
+    const clock = el(color + "-clock");
+    const turn = el(color + "-turn");
+    el(color + "-player-label").textContent = t(color) + " · " + t(own ? "you" : "opponent");
+    el(color + "-player").classList.toggle("active", active);
+    turn.hidden = !playing;
+    turn.textContent = t(active ? (own ? "yourTurn" : "theirTurn") : "turnWaiting");
+    clock.hidden = !timed;
+    if (timed && !active) clock.textContent = String(Math.ceil(game.turnSeconds)).padStart(2, "0");
+  }
+  cancelAnimationFrame(turnFrame);
+  if (timed) updateTurnClock(performance.now());
+  else {
+    el("player-bar").removeAttribute("data-time-low");
+    el("place").style.removeProperty("--turn-progress");
+  }
 }
 
 function feedback(id, message = "", error = false) {
@@ -91,8 +139,8 @@ function loadRecords(key = recordsScope) {
 function saveRecord(game) {
   const id = game.id + ":" + game.round;
   const existing = new Map([...records, ...loadRecords()].map(record => [record.id, record]));
-  const { number, round, moves, winner, line, you, finishedAt } = game;
-  existing.set(id, { id, number, round, moves, winner, line, you, finishedAt });
+  const { number, round, moves, winner, line, you, finishedAt, endReason } = game;
+  existing.set(id, { id, number, round, moves, winner, line, you, finishedAt, endReason });
   records = [...existing.values()].sort((a, b) => b.finishedAt - a.finishedAt).slice(0, 50);
   try {
     localStorage.setItem(recordsScope, JSON.stringify(records));
@@ -229,19 +277,21 @@ function render() {
   el("round").textContent = t(playing ? "liveRound" : "round", { n: game.round, moves: game.moves.length });
   const mode = game.mode === "tournament" ? "tournamentButton" : "onlineMatch";
   el("mode").textContent = t(finished ? (el("result").open ? "result" : "review") : mode);
-  el("black-player-label").textContent = t("black") + " · " + t(game.you === 1 ? "you" : "opponent");
-  el("white-player-label").textContent = t("white") + " · " + t(game.you === 2 ? "you" : "opponent");
-  el("black-player").classList.toggle("active", playing && game.turn === 1);
-  el("white-player").classList.toggle("active", playing && game.turn === 2);
   el("match-actions").hidden = finished;
   el("invite").hidden = playing || finished || el("share").open;
   el("leave").disabled = busy;
   el("leave").textContent = t(archive ? "backToRecords" : "leave");
   el("leave").toggleAttribute("data-ncq-main", Boolean(archive));
 
-  el("place").hidden = !playing;
-  el("place").disabled = !canPlace() || selected === null;
-  el("place").textContent = selected === null ? t("selectStone") : t("place", { cell: coordinate(selected) });
+  const place = el("place");
+  place.hidden = !playing;
+  place.disabled = !canPlace() || selected === null;
+  place.classList.toggle("my-turn", playing && game.turn === game.you && connected);
+  const placeLabel = game.turn !== game.you ? t("theirTurn")
+    : selected === null ? t("selectStone") : t("place", { cell: coordinate(selected) });
+  place.setAttribute("aria-label", placeLabel);
+  place.title = placeLabel;
+  renderPlayers(game, playing);
   el("review").hidden = !finished || el("result").open;
   el("rematch").hidden = Boolean(archive) || game.mode === "tournament";
   el("rematch").disabled = !connected || busy || game.requested;
@@ -252,8 +302,10 @@ function render() {
   let winning = game.line;
   if (finished) {
     el("result-title").textContent = t(describeOutcome(game));
-    el("result-summary").textContent = t(game.winner ? "resultWinner" : "resultDraw", {
-      color: t(game.winner === 1 ? "black" : "white"),
+    const timeout = game.endReason === "timeout";
+    const color = timeout ? 3 - game.winner : game.winner;
+    el("result-summary").textContent = t(timeout ? "resultTimeout" : game.winner ? "resultWinner" : "resultDraw", {
+      color: t(color === 1 ? "black" : "white"),
       n: game.moves.length,
     });
     const badge = !game.winner ? "drawBadge" : game.winner === game.you ? "winBadge" : "lossBadge";
@@ -305,6 +357,9 @@ function applyState(next) {
   if (room?.code === next.code && next.version <= room.version) return;
   const showResult = next.phase === "finished" && (room?.phase !== "finished" || room.round !== next.round);
   room = next;
+  turnDeadline = next.phase === "playing" && next.turnSeconds > 0
+    && Number.isFinite(next.turnEndsAt) && Number.isFinite(next.serverNow)
+    ? performance.now() + Math.max(0, next.turnEndsAt - next.serverNow) : null;
   selected = null;
   if (showResult) reviewPly = room.moves.length;
   if (room.phase !== "finished") el("result").close();
@@ -336,6 +391,8 @@ function exitRoom(message = "") {
   el("result").close();
   el("share").close();
   room = null;
+  turnDeadline = null;
+  cancelAnimationFrame(turnFrame);
   selected = null;
   sessionStorage.removeItem("matjjangomok.round");
   const url = new URL(location.href);

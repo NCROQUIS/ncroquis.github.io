@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=83693d6ba44e">
-  <script type="module" src="./app.js?v=83693d6ba44e"></script>
+  <link rel="stylesheet" href="./style.css?v=3ea3b2c746dc">
+  <script type="module" src="./app.js?v=3ea3b2c746dc"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -34,6 +34,13 @@
       <symbol id="records-back-icon" viewBox="0 0 24 24"><path d="M20 12H4m7-7-7 7 7 7"/></symbol>
       <symbol id="records-share-icon" viewBox="0 0 24 24">
         <path d="M12 15V3M7.5 7.5 12 3l4.5 4.5M7 10H4v11h16V10h-3"/>
+      </symbol>
+      <symbol id="result-loss-icon" viewBox="0 0 24 24">
+        <path d="M12 3 4 6v5a10 10 0 0 0 8 10 10 10 0 0 0 8-10V6l-8-3Zm0 5v7m-3-3 3 3 3-3"
+              fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="result-draw-icon" viewBox="0 0 24 24">
+        <path d="M6 9h12M6 15h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
       </symbol>
       <path id="board-line-path" vector-effect="non-scaling-stroke" d="M.5 .5H14.5V14.5H.5Z
         M.5 1.5H14.5 M.5 2.5H14.5 M.5 3.5H14.5 M.5 4.5H14.5 M.5 5.5H14.5
@@ -340,11 +347,20 @@
         <div class="profile-heading">
           <span id="profile-stone" class="stone white" aria-hidden="true"></span>
           <h2 id="player-profile-title"></h2>
-          <button class="profile-close" type="submit" data-i18n-attr="aria-label:done">
+          <button id="profile-nickname-edit" class="profile-edit" type="button" aria-controls="profile-nickname-editor"
+                  aria-expanded="false" data-i18n-attr="aria-label:editNickname; title:editNickname" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 16-.8 4.8 4.8-.8L20 8l-4-4L4 16Zm10.5-10.5 4 4"
+                 fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="profile-close" type="button" data-i18n-attr="aria-label:done">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"
                  fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
           </button>
         </div>
+        <label id="profile-nickname-editor" class="nickname-field" hidden>
+          <span data-i18n="nickname"></span>
+          <input id="nickname" type="text" maxlength="20" autocomplete="nickname" enterkeyhint="done">
+        </label>
         <div class="profile-identity">
           <span class="player-avatar" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
@@ -357,6 +373,9 @@
           <p id="profile-status" role="status"></p>
         </div>
         <dl id="profile-records" class="profile-records" hidden>
+          <div id="profile-rating-standing-row" hidden>
+            <dt data-i18n="profileRatingStanding"></dt><dd id="profile-rating-standing"></dd>
+          </div>
           <div><dt data-i18n="overallRecord"></dt><dd id="profile-record"></dd></div>
           <div><dt data-i18n="winRate"></dt><dd id="profile-win-rate"></dd></div>
           <div id="profile-rank-record-row" hidden>
@@ -475,10 +494,6 @@
             <span data-i18n="stoneSound"></span>
             <input id="stone-sound" type="checkbox" checked>
           </label>
-          <label class="nickname-field">
-            <span data-i18n="nickname"></span>
-            <input id="nickname" type="text" maxlength="20" autocomplete="nickname">
-          </label>
         </div>
         <button class="primary" data-ncq-main="Close options" data-i18n="done"></button>
       </form>
@@ -489,6 +504,42 @@
       <h2 id="queue-title" data-i18n="matching"></h2>
       <p id="queue-status"></p>
       <button id="cancel-match" class="secondary" type="button" data-ncq-main="Cancel matchmaking" data-i18n="cancel" autofocus></button>
+    </dialog>
+
+    <dialog id="match-intro" class="profile-dialog match-intro" aria-labelledby="match-intro-title">
+      <form method="dialog">
+        <div class="queue-mark" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></div>
+        <div class="match-intro-heading">
+          <img src="./assets/match-ui/laurel.svg" alt="" width="28" height="28">
+          <h2 id="match-intro-title" data-i18n="matchIntroTitle"></h2>
+          <img src="./assets/match-ui/laurel.svg" alt="" width="28" height="28">
+        </div>
+        <div class="match-intro-player match-intro-self">
+          <span class="player-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
+            <img id="match-intro-photo" alt="" referrerpolicy="no-referrer" hidden>
+          </span>
+          <div class="match-intro-identity">
+            <strong id="match-intro-own-name"></strong>
+            <span id="match-intro-own-rating" class="match-intro-rating" hidden></span>
+            <div id="match-intro-points" class="match-intro-points" hidden>
+              <span id="match-intro-win"></span><span id="match-intro-loss"></span>
+            </div>
+          </div>
+          <span class="match-intro-you" data-i18n="you"></span>
+        </div>
+        <div class="match-intro-versus" aria-hidden="true"><span>VS</span></div>
+        <div class="match-intro-player">
+          <span class="player-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
+          </span>
+          <div class="match-intro-identity">
+            <strong id="match-intro-opponent-name"></strong>
+            <span id="match-intro-opponent-rating" class="match-intro-rating" hidden></span>
+          </div>
+        </div>
+        <button class="primary" data-ncq-main="Confirm match start" data-i18n="confirmProfile" autofocus></button>
+      </form>
     </dialog>
 
     <dialog id="share">
@@ -513,18 +564,47 @@
         <button id="record-share-close" class="secondary" data-ncq-main="Close record sharing" data-i18n="done" autofocus></button>
       </form>
     </dialog>
-    <dialog id="result" class="result" aria-labelledby="result-title">
+    <dialog id="result" class="result" aria-labelledby="result-heading result-title">
       <form method="dialog">
-        <p class="eyebrow" data-i18n="result"></p>
-        <div id="result-badge" class="result-badge" aria-hidden="true"></div>
-        <h2 id="result-title"></h2>
-        <p id="result-summary"></p>
-        <div id="result-rating" class="result-rating" hidden>
-          <span id="result-rank"></span>
-          <strong id="rating-range"></strong>
-          <span id="rating-delta" class="rating-delta"></span>
+        <h2 id="result-heading" data-i18n="result"></h2>
+        <div class="result-hero">
+          <div class="result-medal">
+            <img class="result-laurel" src="./assets/match-ui/laurel.svg" alt="">
+            <div id="result-badge" class="result-badge">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><use id="result-symbol"></use></svg>
+              <strong id="result-title"></strong>
+            </div>
+            <img class="result-laurel" src="./assets/match-ui/laurel.svg" alt="">
+          </div>
+          <div class="result-details">
+            <div id="result-rating-change" class="result-rating-change" hidden>
+              <span data-i18n="profileRating"></span>
+              <strong id="rating-delta" class="rating-delta"></strong>
+              <span id="rating-range"></span>
+            </div>
+            <p id="result-summary"></p>
+          </div>
         </div>
-        <button class="primary" data-ncq-main="Review match" data-i18n="reviewMatch" autofocus></button>
+        <section id="result-rating" class="result-rating" aria-labelledby="result-meter-heading" hidden>
+          <div class="result-rating-heading">
+            <h3 id="result-meter-heading" data-i18n="promotionPoints"></h3>
+            <strong id="result-rank"></strong>
+          </div>
+          <div id="result-promotion-meter" class="promotion-meter result-promotion-meter" role="img">
+            <div class="promotion-meter-labels" aria-hidden="true">
+              <span id="result-promotion-lower-label"></span><span id="result-promotion-upper-label"></span>
+            </div>
+            <div class="promotion-meter-track" aria-hidden="true">
+              <span class="result-meter-fill"></span>
+              <span class="result-meter-marker"></span>
+              <span id="result-promotion-value"></span>
+            </div>
+            <div class="promotion-meter-ticks" aria-hidden="true">
+              <span id="result-promotion-lower"></span><span>0</span><span id="result-promotion-upper"></span>
+            </div>
+          </div>
+        </section>
+        <button class="primary" data-ncq-main="Review match" data-i18n="confirmProfile" autofocus></button>
       </form>
     </dialog>
   </div>

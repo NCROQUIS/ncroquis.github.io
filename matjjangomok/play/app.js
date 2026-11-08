@@ -1,6 +1,6 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=83693d6ba44e";
-import { TEXTS } from "./texts.js?v=83693d6ba44e";
+import { NcqBoard } from "./ncq/board.js?v=3ea3b2c746dc";
+import { TEXTS } from "./texts.js?v=3ea3b2c746dc";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -42,9 +42,11 @@ let lobbyLoading = false;
 let playerStats = null;
 let playerPhoto = null;
 let playerNickname = "";
+let nicknameOverride = "";
 let profileLoading = false;
 let profileTarget = null;
 let matchmaking = null;
+let matchIntro = null;
 let authConfig;
 let authSession;
 let authenticating;
@@ -78,7 +80,17 @@ for (const id of ["place-gauge", "opponent-gauge"]) gaugeObserver.observe(el(id)
 applyAppearance();
 const options = el("options");
 const profileDialog = el("player-profile");
-const playerPhotos = ["player-photo", "match-player-photo"].map(el);
+const nicknameEdit = el("profile-nickname-edit");
+const nicknameEditor = el("profile-nickname-editor");
+const nicknameInput = el("nickname");
+const matchIntroDialog = el("match-intro");
+const playerPhotos = ["player-photo", "match-player-photo", "match-intro-photo"].map(el);
+matchIntroDialog.addEventListener("close", () => {
+  if (matchIntroDialog.open) return;
+  clearTimeout(matchIntro?.timer);
+  matchIntro = null;
+  render();
+});
 el("player-card").addEventListener("click", () => openPlayerProfile());
 el("own-profile").addEventListener("click", () => openPlayerProfile(room.you));
 el("opponent-profile").addEventListener("click", () => openPlayerProfile(3 - room.you));
@@ -87,14 +99,32 @@ el("white-profile").addEventListener("click", () => openPlayerProfile(2));
 el("review-opponent-profile").addEventListener("click", () => openPlayerProfile(3 - (room ?? archive).you));
 el("review-own-profile").addEventListener("click", () => openPlayerProfile((room ?? archive).you));
 profileDialog.addEventListener("close", () => {
-  if (!profileDialog.open) profileTarget = null;
+  if (!profileDialog.open) {
+    profileTarget = null;
+    nicknameEditor.hidden = true;
+    nicknameEdit.setAttribute("aria-expanded", "false");
+  }
   render();
+});
+profileDialog.querySelector(".profile-close").addEventListener("click", () => profileDialog.close());
+nicknameEdit.addEventListener("click", () => {
+  const opening = nicknameEditor.hidden;
+  nicknameEditor.hidden = !opening;
+  nicknameEdit.setAttribute("aria-expanded", String(opening));
+  if (!opening) return;
+  nicknameInput.value = nicknameOverride;
+  nicknameInput.focus();
+  nicknameInput.select();
+});
+profileDialog.querySelector("form").addEventListener("submit", () => {
+  if (!profileTarget?.own || nicknameEditor.hidden) return;
+  nicknameOverride = nicknameInput.value.trim();
+  try { localStorage.setItem(nicknameKey, nicknameOverride); } catch { }
 });
 el("profile-rankings").addEventListener("click", () => {
   profileDialog.close();
   showRankings();
 });
-const nicknameInput = el("nickname");
 const stoneSoundToggle = el("stone-sound");
 try { stoneSoundToggle.checked = localStorage.getItem(stoneSoundKey) !== "off"; } catch { }
 stoneSoundToggle.addEventListener("change", () => {
@@ -109,17 +139,10 @@ document.addEventListener("visibilitychange", () => {
   else if (placementAudio) unlockPlacementAudio();
 });
 try {
-  nicknameInput.value = localStorage.getItem(nicknameKey) ?? "";
+  nicknameOverride = localStorage.getItem(nicknameKey)?.trim() ?? "";
 } catch {
   // A nickname can still be set for this visit.
 }
-nicknameInput.addEventListener("input", () => {
-  try {
-    localStorage.setItem(nicknameKey, nicknameInput.value.trim());
-  } catch {
-    // The input retains its value for this visit.
-  }
-});
 el("show-options").addEventListener("click", () => {
   options.showModal();
   render();
@@ -271,7 +294,7 @@ function coordinate(index) {
 
 function canPlace() {
   return room?.phase === "playing" && room.turn === room.you && connected && !busy
-    && (turnDeadline === null || performance.now() < turnDeadline);
+    && !matchIntroDialog.open && (turnDeadline === null || performance.now() < turnDeadline);
 }
 
 function updateTurnClock(now) {
@@ -299,7 +322,7 @@ function updateTurnClock(now) {
 }
 
 function ownNickname() {
-  return nicknameInput.value.trim() || playerNickname || t("guestNickname");
+  return nicknameOverride || playerNickname || t("guestNickname");
 }
 
 function renderPlayers(game, playing, watching = false) {
@@ -692,27 +715,33 @@ function winRate({ wins, draws, losses }) {
     : "—";
 }
 
-function renderPromotionMeter(level, rating) {
+function renderPromotionMeter(meterId, prefix, rating, previousRating = rating) {
+  const level = rankLevel(rating);
   const canDemote = level > 0;
   const canPromote = level < 26;
   const lower = canDemote ? rankMinimum(level) : 1500 - (rankMinimum(1) - 1500);
   const upper = canPromote ? rankMinimum(level + 1) : lower + (lower - rankMinimum(level - 1));
   const center = (lower + upper) / 2;
-  const position = Math.max(0, Math.min(100, 100 * (rating - lower) / (upper - lower)));
+  const position = score => Math.max(0, Math.min(100, 100 * (score - lower) / (upper - lower)));
   const signed = new Intl.NumberFormat(NcqLang.lang, { signDisplay: "exceptZero" });
   const value = signed.format(rating - center);
   const lowLabel = canDemote ? t("demotion") : t("lowestRank");
   const highLabel = canPromote ? t("promotion") : t("highestRank");
   const lowTick = canDemote ? signed.format(lower - center) : "—";
   const highTick = canPromote ? signed.format(upper - center) : "—";
-  const meter = el("profile-promotion-meter");
-  meter.style.setProperty("--promotion-position", `${position}%`);
+  const meter = el(meterId);
+  const from = position(previousRating);
+  const to = position(rating);
+  meter.style.setProperty("--promotion-position", `${to}%`);
+  meter.style.setProperty("--promotion-start", `${from}%`);
+  meter.style.setProperty("--promotion-fill", (to - 50) / 50);
+  meter.style.setProperty("--promotion-fill-start", (from - 50) / 50);
   meter.setAttribute("aria-label", t("promotionMeter", { value, lowLabel, lowTick, highLabel, highTick }));
-  el("promotion-value").textContent = value;
-  el("promotion-lower-label").textContent = lowLabel;
-  el("promotion-upper-label").textContent = highLabel;
-  el("promotion-lower").textContent = lowTick;
-  el("promotion-upper").textContent = highTick;
+  el(`${prefix}-value`).textContent = value;
+  el(`${prefix}-lower-label`).textContent = lowLabel;
+  el(`${prefix}-upper-label`).textContent = highLabel;
+  el(`${prefix}-lower`).textContent = lowTick;
+  el(`${prefix}-upper`).textContent = highTick;
 }
 
 async function openPlayerProfile(seat) {
@@ -728,12 +757,56 @@ async function openPlayerProfile(seat) {
   if (own) {
     await refreshPlayerCard();
   } else if (online) {
-    const stats = await remoteRequest(client => client.gameRequest(`/rooms/${code}/opponent-profile?round=${game.round}`));
+    const stats = await getOpponentProfile(code, game.round);
     if (profileTarget !== target || !profileDialog.open) return;
     target.loading = false;
     if (!stats.error) target.stats = stats;
     renderPlayerProfile();
   }
+}
+
+function getOpponentProfile(code, round) {
+  return remoteRequest(client => client.gameRequest(`/rooms/${code}/opponent-profile?round=${round}`));
+}
+
+function renderMatchIntro() {
+  const { opponentRating, opponentLevel } = matchIntro;
+  const ownRating = playerStats?.rating;
+  el("match-intro-own-name").textContent = ownNickname();
+  const level = Number.isFinite(opponentRating) ? rankLevel(opponentRating) : opponentLevel;
+  const name = t("opponent");
+  el("match-intro-opponent-name").textContent = level == null ? name : `${rankName(level)} ${name}`;
+  for (const [id, rating] of [["match-intro-own-rating", ownRating], ["match-intro-opponent-rating", opponentRating]]) {
+    const label = el(id);
+    label.hidden = !Number.isFinite(rating);
+    if (!label.hidden) label.textContent = t("matchIntroRating", { rating: ratingNumber(rating) });
+  }
+
+  const points = el("match-intro-points");
+  points.hidden = !Number.isFinite(ownRating) || !Number.isFinite(opponentRating);
+  if (points.hidden) return;
+  const expected = 1 / (1 + 10 ** ((opponentRating - ownRating) / 400));
+  const signed = new Intl.NumberFormat(NcqLang.lang, { signDisplay: "exceptZero" });
+  el("match-intro-win").textContent = t("matchIntroWin", { points: signed.format(Math.round(32 * (1 - expected))) });
+  el("match-intro-loss").textContent = t("matchIntroLoss", { points: signed.format(-Math.round(32 * expected)) });
+}
+
+async function openMatchIntro(game) {
+  if (game.phase !== "playing") return;
+  const intro = { opponentRating: null, opponentLevel: game.botLevel };
+  matchIntro = intro;
+  renderMatchIntro();
+  matchIntroDialog.showModal();
+  intro.timer = setTimeout(() => {
+    if (matchIntro === intro && matchIntroDialog.open) matchIntroDialog.close();
+  }, 5000);
+  render();
+  if (!backend) return;
+  if (!playerStats) refreshPlayerCard();
+  const stats = await getOpponentProfile(game.code, game.round);
+  if (matchIntro !== intro || !matchIntroDialog.open || !Number.isFinite(stats?.rating)) return;
+  intro.opponentRating = stats.rating;
+  renderMatchIntro();
 }
 
 function renderPlayerProfile() {
@@ -752,7 +825,10 @@ function renderPlayerProfile() {
     else photo.removeAttribute("src");
   }
   el("profile-stone").className = "stone " + (seat === 1 ? "black" : "white");
+  nicknameEdit.hidden = !own;
   el("profile-rating-section").hidden = el("profile-records").hidden = !stats;
+  const showStanding = own && stats && Object.hasOwn(stats, "ratingRank");
+  el("profile-rating-standing-row").hidden = !showStanding;
   el("profile-rankings").hidden = !own || !backend || Boolean(room ?? archive);
   el("profile-promotion").hidden = !own || !stats;
   status.hidden = Boolean(stats);
@@ -768,6 +844,14 @@ function renderPlayerProfile() {
   const level = rankLevel(rating);
   title.textContent = rankName(level) + " " + name;
   el("profile-rating").textContent = t("profileRatingValue", { rating: ratingNumber(rating) });
+  if (showStanding) {
+    const { ratingRank } = stats;
+    el("profile-rating-standing").textContent = ratingRank
+      ? t("profileRatingStandingValue", {
+        position: ratingNumber(ratingRank.position), players: ratingNumber(ratingRank.players),
+      })
+      : t("profileRatingStandingPending");
+  }
   const nextRank = nextRankText(level, rating);
   el("profile-next-rank").textContent = nextRank;
   el("profile-next-rank").hidden = !nextRank;
@@ -778,7 +862,7 @@ function renderPlayerProfile() {
     el("profile-rank-record").textContent = t("careerRecord", rankRecord);
     el("profile-rank-win-rate").textContent = t("currentRankWinRate", { rate: winRate(rankRecord) });
   }
-  if (own) renderPromotionMeter(level, rating);
+  if (own) renderPromotionMeter("profile-promotion-meter", "promotion", rating);
 }
 
 async function refreshPlayerCard() {
@@ -796,6 +880,7 @@ async function refreshPlayerCard() {
   } finally {
     profileLoading = false;
     if (profileDialog.open) renderPlayerProfile();
+    if (matchIntroDialog.open) renderMatchIntro();
   }
 }
 
@@ -915,9 +1000,41 @@ async function refreshLobby() {
   }
 }
 
+function renderResult(game) {
+  const outcome = describeOutcome(game);
+  const medals = { won: ["victoryMedal", "nav-ranking"], lost: ["defeatMedal", "result-loss-icon"],
+    draw: ["drawMedal", "result-draw-icon"] };
+  const [label, icon] = medals[outcome];
+  el("result").dataset.outcome = outcome;
+  el("result-title").textContent = t(label);
+  el("result-symbol").setAttribute("href", `#${icon}`);
+  const timeout = game.endReason === "timeout";
+  el("result-summary").textContent = game.winner && !timeout ? recordResult(game) : t(timeout ? "resultTimeout" : "resultDraw", {
+    color: t(game.winner === 2 ? "black" : "white"), n: game.moves.length,
+  });
+  const change = game.ratingChange;
+  el("result-rating").hidden = el("result-rating-change").hidden = !change;
+  if (!change) return;
+
+  const { before, after, delta } = change;
+  const beforeLevel = rankLevel(before);
+  const afterLevel = rankLevel(after);
+  const rank = rankName(afterLevel);
+  const rankLabel = beforeLevel === afterLevel ? rank : t(afterLevel > beforeLevel ? "rankUp" : "rankDown", { rank });
+  el("result-rank").textContent = rankLabel;
+  el("rating-range").textContent = `${ratingNumber(before)} → ${ratingNumber(after)}`;
+  const signed = new Intl.NumberFormat(NcqLang.lang, { signDisplay: "exceptZero" });
+  const deltaText = el("rating-delta");
+  deltaText.textContent = t("profileRatingValue", { rating: signed.format(delta) });
+  const direction = delta > 0 ? "up" : delta < 0 ? "down" : "same";
+  deltaText.dataset.direction = el("result-promotion-meter").dataset.direction = direction;
+  renderPromotionMeter("result-promotion-meter", "result-promotion", after, before);
+}
+
 function render() {
   if (profileDialog.open) renderPlayerProfile();
   renderRecordSharing();
+  if (matchIntroDialog.open) renderMatchIntro();
   const game = room ?? archive ?? spectator?.game;
   const playing = !spectator && game?.phase === "playing";
   const finished = !spectator && game?.phase === "finished";
@@ -975,7 +1092,7 @@ function render() {
   }
 
   for (const id of ["place", "invite"]) {
-    el(id).toggleAttribute("data-ncq-main", !profileDialog.open);
+    el(id).toggleAttribute("data-ncq-main", !profileDialog.open && !matchIntroDialog.open);
   }
   let status = "waiting";
   if (room && !connected) status = "reconnecting";
@@ -1014,29 +1131,7 @@ function render() {
   let last = game.moves.at(-1);
   let winning = game.line ?? [];
   if (finished) {
-    el("result-title").textContent = t(describeOutcome(game));
-    const timeout = game.endReason === "timeout";
-    const color = timeout ? 3 - game.winner : game.winner;
-    el("result-summary").textContent = game.winner && !timeout ? recordResult(game) : t(timeout ? "resultTimeout" : "resultDraw", {
-      color: t(color === 1 ? "black" : "white"),
-      n: game.moves.length,
-    });
-    const badge = !game.winner ? "drawBadge" : game.winner === game.you ? "winBadge" : "lossBadge";
-    el("result-badge").textContent = t(badge);
-    el("result-badge").dataset.result = badge;
-    const change = game.ratingChange;
-    el("result-rating").hidden = !change;
-    if (change) {
-      const beforeLevel = rankLevel(change.before);
-      const afterLevel = rankLevel(change.after);
-      const rank = rankName(afterLevel);
-      el("result-rank").textContent = afterLevel === beforeLevel ? rank :
-        t(afterLevel > beforeLevel ? "rankUp" : "rankDown", { rank });
-      const delta = change.delta;
-      el("rating-range").textContent = ratingNumber(change.before) + " → " + ratingNumber(change.after);
-      el("rating-delta").textContent = delta > 0 ? "↑ +" + delta : delta < 0 ? "↓ −" + Math.abs(delta) : "±0";
-      el("rating-delta").dataset.direction = delta > 0 ? "up" : delta < 0 ? "down" : "same";
-    }
+    renderResult(game);
     renderReview(game);
     el("review-ply").textContent = reviewPly;
     el("review-total").textContent = " / " + game.moves.length;
@@ -1119,6 +1214,7 @@ function applyState(next) {
   if (room.phase !== "finished") el("result").close();
   if (room.phase !== "finished") recordShareDialog.close();
   if (room.phase !== "waiting") el("share").close();
+  if (room.phase !== "playing") matchIntroDialog.close();
   const roundKey = room.code + ":" + room.round;
   const metricKey = "matjjangomok.round";
   const tracked = sessionStorage.getItem(metricKey);
@@ -1154,6 +1250,7 @@ function exitRoom(message = "") {
   el("result").close();
   el("share").close();
   recordShareDialog.close();
+  matchIntroDialog.close();
   room = null;
   turnDeadline = null;
   cancelAnimationFrame(turnFrame);
@@ -1437,6 +1534,7 @@ async function findMatch(job) {
   } else if (result.game) {
     closeMatching();
     openRoom(result.game);
+    openMatchIntro(result.game);
   } else {
     job.timer = setTimeout(() => findMatch(job), job.mode === "tournament" ? 1250 : 650);
   }

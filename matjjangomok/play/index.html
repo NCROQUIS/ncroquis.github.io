@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+  <script src="./ncq/safe.js"></script>
+  <meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8f5eb">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="mark" aria-hidden="true"></span><span data-i18n="title">Omok Duel</span></div>
+      <button id="show-tournament" class="quiet" type="button" data-i18n="tournamentButton" hidden></button>
+      <div class="language">
+        <label for="language" class="sr-only" data-i18n="language"></label>
+        <select id="language"></select>
+      </div>
+    </header>
+
+    <main>
+      <section id="lobby" class="lobby">
+        <div class="list-heading">
+          <h1 data-i18n="liveGames"></h1>
+          <span id="live-count" class="list-count" aria-hidden="true"></span>
+        </div>
+        <div class="list-body">
+          <p id="live-message" class="list-message"></p>
+          <ul id="live-games" class="entry-list"></ul>
+        </div>
+        <p id="lobby-error" class="feedback" role="status" hidden></p>
+        <div class="lobby-actions">
+          <small id="app-version" class="version"></small>
+          <button id="start" class="primary" type="button" data-ncq-main="Start" data-i18n="start"></button>
+          <button id="show-records" class="secondary" type="button" data-i18n="records"></button>
+        </div>
+      </section>
+
+      <section id="records" class="lobby" hidden>
+        <div class="list-heading"><h1 tabindex="-1" id="records-heading" data-i18n="myRecords"></h1></div>
+        <div class="list-body">
+          <p id="records-empty" class="list-message" data-i18n="noRecords"></p>
+          <ul id="record-list" class="entry-list"></ul>
+        </div>
+        <div class="lobby-actions">
+          <button id="close-records" class="primary" type="button" data-ncq-main="Back to lobby" data-i18n="backToLobby"></button>
+        </div>
+      </section>
+
+      <section id="match" class="match" hidden>
+        <div class="room-bar">
+          <div><span id="room-label" class="eyebrow"></span> <strong id="room-id"></strong></div>
+          <button id="leave" type="button" class="quiet"></button>
+        </div>
+        <div class="match-status">
+          <div>
+            <h1 id="status" tabindex="-1" aria-live="polite"></h1>
+            <p id="round"></p>
+          </div>
+          <span class="mode-chip" id="mode"></span>
+        </div>
+        <div id="board" class="board" role="grid" data-i18n-attr="aria-label:board"></div>
+        <div id="review" class="review" hidden>
+          <div class="review-controls" role="group" data-i18n-attr="aria-label:review">
+            <button type="button" data-step="first" data-i18n-attr="aria-label:firstMove">⏮</button>
+            <button type="button" data-step="previous" data-i18n-attr="aria-label:previousMove">‹</button>
+            <output id="move-count" aria-live="polite"></output>
+            <button type="button" data-step="next" data-i18n-attr="aria-label:nextMove">›</button>
+            <button type="button" data-step="last" data-i18n-attr="aria-label:lastMove">⏭</button>
+          </div>
+          <button id="rematch" class="primary" type="button" data-ncq-main="Rematch"></button>
+        </div>
+        <div class="player-bar">
+          <div id="black-player" class="player"><span class="stone black" aria-hidden="true"></span><span id="black-player-label"></span></div>
+          <div id="match-actions">
+            <button id="invite" class="primary" type="button" data-ncq-main="Copy invite" data-i18n="invite"></button>
+            <button id="place" class="primary" type="button" data-ncq-main="Place stone" hidden></button>
+          </div>
+          <div id="white-player" class="player"><span class="stone white" aria-hidden="true"></span><span id="white-player-label"></span></div>
+        </div>
+        <p id="match-error" class="feedback" role="status" hidden></p>
+      </section>
+    </main>
+
+    <dialog id="tournament" aria-labelledby="tournament-title">
+      <h2 id="tournament-title" data-i18n="weeklyTournament"></h2>
+      <p id="tournament-dates" class="version"></p>
+      <p id="rank-empty" class="list-message" data-i18n="noStandings"></p>
+      <ol id="standings" class="entry-list"></ol>
+      <button id="join-tournament" class="primary" type="button" data-ncq-main="Join tournament" data-i18n="joinTournament"></button>
+      <form method="dialog"><button class="secondary" data-i18n="done"></button></form>
+    </dialog>
+
+    <dialog id="matchmaking" class="matchmaking" aria-labelledby="queue-title">
+      <div class="queue-mark" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></div>
+      <h2 id="queue-title" data-i18n="matching"></h2>
+      <p id="queue-status"></p>
+      <button id="cancel-match" class="secondary" type="button" data-ncq-main="Cancel matchmaking" data-i18n="cancel" autofocus></button>
+    </dialog>
+
+    <dialog id="share">
+      <form method="dialog">
+        <h2 data-i18n="invite"></h2>
+        <label for="share-url" data-i18n="copyManually"></label>
+        <input id="share-url" readonly>
+        <button class="secondary" data-ncq-main="Close invite" data-i18n="done"></button>
+      </form>
+    </dialog>
+    <dialog id="result" class="result" aria-labelledby="result-title">
+      <form method="dialog">
+        <p class="eyebrow" data-i18n="result"></p>
+        <div id="result-badge" class="result-badge" aria-hidden="true"></div>
+        <h2 id="result-title"></h2>
+        <p id="result-summary"></p>
+        <button class="primary" data-ncq-main="Review match" data-i18n="reviewMatch" autofocus></button>
+      </form>
+    </dialog>
+  </div>
+</body>
+</html>

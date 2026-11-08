@@ -59,6 +59,34 @@ h1, h2, p { margin: 0; }
 :not(.in-match) > .shell { height: 100dvh; display: flex; flex-direction: column; }
 .shell > main { flex: 1; min-height: 0; }
 .lobby { height: 100%; display: flex; flex-direction: column; }
+.player-card {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fffcf4;
+}
+.player-avatar {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  color: var(--green);
+  background: #dce9dc;
+}
+.player-avatar svg { width: 22px; height: 22px; }
+.player-avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.player-career { display: flex; flex-wrap: wrap; align-items: baseline; gap: 3px 14px; }
+#player-record { color: var(--muted); font-size: .86rem; }
+#player-rating { color: var(--green); font-variant-numeric: tabular-nums; }
 .eyebrow { font-size: .75rem; font-weight: 800; letter-spacing: .11em; color: var(--green); }
 .list-heading {
   display: flex;
@@ -273,6 +301,30 @@ dialog input { width: 100%; }
   background: radial-gradient(circle at 35% 30%, #596148, #272c23);
 }
 #result-summary { color: var(--muted); margin-bottom: 5px; }
+.result-rating {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px 8px;
+  margin: 10px 0;
+  padding: 7px;
+  border-radius: 9px;
+  background: #f2eee1;
+  font-size: .88rem;
+  font-variant-numeric: tabular-nums;
+}
+.rating-delta { font-weight: 800; }
+.rating-delta[data-direction="up"] { color: #216142; --rating-start: 10px; }
+.rating-delta[data-direction="down"] { color: #963b32; --rating-start: -10px; }
+.result[open] .rating-delta:not([data-direction="same"]) { animation: rating-settle .48s ease-out both; }
+@keyframes rating-settle {
+  from { opacity: 0; transform: translateY(var(--rating-start)); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .result[open] .rating-delta:not([data-direction="same"]) { animation: none; }
+}
 .sr-only { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; }
 
 @media (max-height: 700px) {

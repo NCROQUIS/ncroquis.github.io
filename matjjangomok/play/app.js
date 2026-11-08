@@ -24,6 +24,9 @@ let records = loadRecords();
 let liveGames = null;
 let lobbyUnavailable = false;
 let lobbyLoading = false;
+let playerStats = null;
+let playerPhoto = null;
+let profileLoading = false;
 let matchmaking = null;
 let authConfig;
 let authSession;
@@ -118,6 +121,7 @@ function entryRow(item, label, note, record = false) {
 }
 
 function renderLobby() {
+  renderPlayerCard();
   el("live-count").textContent = liveGames?.length ?? "";
   const message = lobbyUnavailable ? "liveUnavailable" : liveGames ? "noLiveGames" : "liveLoading";
   el("live-message").textContent = t(message);
@@ -125,6 +129,38 @@ function renderLobby() {
   el("live-games").replaceChildren(...(lobbyUnavailable ? [] : liveGames ?? []).map(game => entryRow(
     game, t(game.bot ? "botMatch" : "humanMatch") + " #" + game.number, t("movesCount", { n: game.moves }),
   )));
+}
+
+function ratingNumber(value) {
+  return new Intl.NumberFormat(NcqLang.lang).format(value);
+}
+
+function renderPlayerCard() {
+  el("player-card").hidden = !playerStats;
+  if (!playerStats) return;
+  el("player-record").textContent = t("careerRecord", playerStats);
+  el("player-rating").textContent = t("myRating", { rating: ratingNumber(playerStats.rating) });
+}
+
+async function refreshPlayerCard() {
+  if (!backend || profileLoading) return;
+  profileLoading = true;
+  try {
+    const stats = await remoteRequest(client => client.profile());
+    if (stats.error) return;
+    playerStats = stats;
+    renderPlayerCard();
+    const profile = await window.NcqAuth.profile?.().catch(() => null);
+    const photo = profile?.photoUrl ?? null;
+    if (photo !== playerPhoto) {
+      playerPhoto = photo;
+      el("player-photo").hidden = true;
+      if (photo) el("player-photo").src = photo;
+      else el("player-photo").removeAttribute("src");
+    }
+  } finally {
+    profileLoading = false;
+  }
 }
 
 function renderRecords() {
@@ -226,6 +262,14 @@ function render() {
     const badge = !game.winner ? "drawBadge" : game.winner === game.you ? "winBadge" : "lossBadge";
     el("result-badge").textContent = t(badge);
     el("result-badge").dataset.result = badge;
+    const change = game.ratingChange;
+    el("result-rating").hidden = !change;
+    if (change) {
+      const delta = change.delta;
+      el("rating-range").textContent = ratingNumber(change.before) + " → " + ratingNumber(change.after);
+      el("rating-delta").textContent = delta > 0 ? "↑ +" + delta : delta < 0 ? "↓ −" + Math.abs(delta) : "±0";
+      el("rating-delta").dataset.direction = delta > 0 ? "up" : delta < 0 ? "down" : "same";
+    }
     el("move-count").textContent = reviewPly + " / " + game.moves.length;
     for (const button of el("review").querySelectorAll("[data-step]")) {
       const movesBack = ["first", "previous"].includes(button.dataset.step);
@@ -284,6 +328,7 @@ function applyState(next) {
   if (showResult) {
     el("result").showModal();
     render();
+    refreshPlayerCard();
   }
 }
 
@@ -302,6 +347,7 @@ function exitRoom(message = "") {
   feedback("lobby-error", message, Boolean(message));
   render();
   refreshLobby();
+  refreshPlayerCard();
   el("start").focus();
 }
 
@@ -699,5 +745,8 @@ if (backend ? /^[\da-f-]{36}$/.test(inviteCode) : /^[A-Z2-9]{6}$/i.test(inviteCo
 }
 render();
 refreshLobby();
+el("player-photo").addEventListener("load", () => { el("player-photo").hidden = false; });
+el("player-photo").addEventListener("error", () => { el("player-photo").hidden = true; });
+refreshPlayerCard();
 document.addEventListener("visibilitychange", refreshLobby);
 setInterval(refreshLobby, 2500);

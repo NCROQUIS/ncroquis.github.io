@@ -65,7 +65,7 @@ h1, h2, p { margin: 0; }
     radial-gradient(circle at 66% 67%, #96bf9e 0 13%, transparent 15%), var(--green);
 }
 
-.header-tools select, .quiet {
+#language, .quiet {
   min-height: 40px;
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -197,6 +197,20 @@ body:not(.in-match) .topbar { border-color: var(--lobby-border); }
 }
 .entry-body span { color: var(--muted); text-align: end; font-size: .83rem; }
 button.entry-body:hover { background: #ebeede; }
+.live-game-entry { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 11px; }
+.live-game-entry .live-game-players, .live-game-entry .live-game-stats { display: grid; gap: 4px; min-width: 0; }
+.live-game-entry .live-game-player {
+  display: grid;
+  grid-template-columns: 17px auto minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  text-align: start;
+}
+.live-game-entry .stone { width: 17px; box-shadow: 0 1px 2px #30241c50; }
+.live-game-entry .live-game-rank { color: var(--ink); white-space: nowrap; }
+.live-game-name { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.live-game-stats { white-space: nowrap; }
+.live-game-watchers { color: var(--lobby-green); }
 .ranking-tabs {
   flex: none;
   display: grid;
@@ -398,7 +412,7 @@ button.entry-body:hover { background: #ebeede; }
 .in-match > .shell, .in-match main { display: flex; flex-direction: column; }
 .in-match .topbar { border-color: #414842; }
 .in-match .eyebrow, .in-match .match-status p { color: #bcc5b9; }
-.in-match .quiet, .in-match select { background: #323932; color: #f5f3e9; border-color: #505950; }
+.in-match .quiet { background: #323932; color: #f5f3e9; border-color: #505950; }
 .in-match .quiet:not(:disabled):hover { background: #434d43; }
 .match { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 520px; margin-inline: auto; padding-block: 7px; }
 .match > * { flex: none; }
@@ -446,14 +460,16 @@ button.entry-body:hover { background: #ebeede; }
 .match[data-playing] .match-status::after { transform: scaleX(-1); }
 .match[data-playing] .match-status h1 { font-size: clamp(1rem, 4.8vw, 1.55rem); }
 .match[data-playing] :is(#round, #mode) { display: none; }
-.spectating > .shell { height: 100dvh; }
-.spectating .board-slot { flex: 1; min-height: 0; }
-.match[data-playing] .board-slot, .spectating .board-slot {
+.match[data-playing] .board-slot {
   display: grid;
   place-items: center;
   container-type: size;
 }
-.match[data-playing] .board, .spectating .board { width: min(100cqi, 100cqb); }
+.match[data-playing] .board { width: min(100cqi, 100cqb); }
+.spectating .match-status { position: relative; min-height: 44px; padding-inline: 44px; }
+#watch-back { position: absolute; inset-inline-start: 0; width: 40px; height: 40px; }
+.spectating :is(#match-player-photo, #review > :not(.review-controls)) { display: none; }
+.spectating :is(.match-profile-trigger, #place):disabled { opacity: 1; }
 
 .match-player {
   display: grid;
@@ -811,6 +827,20 @@ body.in-review, body.in-records {
 }
 #review-ply { font-size: 1.2em; }
 #review-total { color: #765d3c; }
+.spectating .review-controls {
+  border-color: #614739;
+  background: #33241b;
+  box-shadow: inset 0 1px #f6c3951c;
+}
+.spectating .review-button {
+  border-color: #654b3a;
+  background: linear-gradient(#483327, #302219);
+  color: #fae5ca;
+  box-shadow: 0 2px 4px #10080550;
+}
+.spectating .review-button:not(:disabled):hover { background: #604332; }
+.spectating #move-count { border-color: #795c45; }
+.spectating #review-total { color: #d7b998; }
 .review-player {
   display: grid;
   grid-template-columns: auto auto minmax(0, 1fr) auto;
@@ -983,6 +1013,24 @@ dialog { width: min(360px, 92vw); padding: 18px; border-radius: 16px; border: 1p
 dialog::backdrop { background: #19292096; }
 dialog form { display: grid; gap: 10px; }
 dialog input { width: 100%; }
+#options {
+  inset-block: var(--ncq-top, 0px) var(--ncq-bottom, 0px);
+  max-height: calc(100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - 16px);
+  background: #fffcf4;
+}
+.option-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 48px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-weight: 700;
+}
+.sound-option { cursor: pointer; }
+.sound-option input { width: 18px; height: 18px; min-height: 0; padding: 0; margin: 0; accent-color: var(--green); }
 #record-share-dialog { background: #fffbf4; color: #48331f; }
 #record-share-dialog p { font-size: .9rem; }
 #record-share-dialog .feedback[data-error] { color: #a03529; }
@@ -1220,8 +1268,7 @@ dialog input { width: 100%; }
 .shop-currency-card h3 { margin: 0; font-size: .88rem; }
 .shop-footer { display: grid; gap: 6px; }
 .shop-footer button { min-height: 39px; font-size: .86rem; padding-block: 4px; }
-#shop-actions { display: grid; grid-template-columns: 1.2fr 1fr; gap: 6px; }
-#shop-buy:not(:disabled) { color: #60451e; background: #fff0c8; border-color: #d4b66c; }
+#shop-action[data-purchase] { color: #60451e; background: #fff0c8; border-color: #d4b66c; }
 #shop-feedback { font-size: .78rem; font-weight: 650; }
 #shop-feedback[data-error] { color: #a03529; }
 .appearance-preview-panel {
@@ -1258,19 +1305,6 @@ dialog input { width: 100%; }
 .grid-choice + .grid-choice { margin-top: 4px; }
 .grid-choice:has(input:checked) { background: #e9f0e4; border-color: #5e896e; }
 .grid-choice input { flex: none; width: 14px; height: 14px; min-height: 0; padding: 0; margin: 0; accent-color: var(--green); }
-.stone-sound-setting {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  min-height: 38px;
-  padding: 5px 9px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-}
-.stone-sound-setting input { width: 16px; height: 16px; min-height: 0; padding: 0; margin: 0; accent-color: var(--green); }
 .appearance-group { min-width: 0; margin: 0; padding: 0; border: 0; }
 .appearance-group legend { padding: 0; margin-bottom: 5px; font-weight: 750; }
 .appearance-choices { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }

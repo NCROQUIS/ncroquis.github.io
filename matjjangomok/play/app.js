@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=e5482257de78";
-import { TEXTS } from "./texts.js?v=e5482257de78";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=e5482257de78";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=e5482257de78";
+import { NcqBoard } from "./ncq/board.js?v=c0664e6eb397";
+import { TEXTS } from "./texts.js?v=c0664e6eb397";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=c0664e6eb397";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=c0664e6eb397";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -99,6 +99,9 @@ for (const id of ["place-gauge", "opponent-gauge"]) gaugeObserver.observe(el(id)
 
 applyAppearance();
 const shop = el("shop");
+const shopAction = el("shop-action");
+const optionsDialog = el("options");
+const feedbackButton = el("send-feedback");
 const profileDialog = el("player-profile");
 const nicknameEdit = el("profile-nickname-edit");
 const nicknameEditor = el("profile-nickname-editor");
@@ -145,6 +148,25 @@ el("profile-rankings").addEventListener("click", () => {
   profileDialog.close();
   showRankings();
 });
+el("show-options").addEventListener("click", () => {
+  feedbackButton.hidden = Boolean(room ?? archive ?? spectator) || !window.NcqFeedback?.can();
+  optionsDialog.showModal();
+  render();
+});
+optionsDialog.addEventListener("close", render);
+feedbackButton.addEventListener("click", () => {
+  optionsDialog.close();
+  window.NcqFeedback.open();
+});
+window.ncqBack = () => {
+  if (window.NcqFeedback?.isOpen()) {
+    window.NcqFeedback.close();
+    return true;
+  }
+  if (!optionsDialog.open) return false;
+  optionsDialog.close();
+  return true;
+};
 const stoneSoundToggle = el("stone-sound");
 try { stoneSoundToggle.checked = localStorage.getItem(stoneSoundKey) !== "off"; } catch { }
 stoneSoundToggle.addEventListener("change", () => {
@@ -197,8 +219,7 @@ for (const input of shopRadios) {
     renderShop();
   });
 }
-el("shop-apply").addEventListener("click", () => saveShopSelection(false));
-el("shop-buy").addEventListener("click", () => saveShopSelection(true));
+shopAction.addEventListener("click", () => saveShopSelection(shopAction.hasAttribute("data-purchase")));
 window.addEventListener("storage", event => {
   if (event.key !== appearanceKey && event.key !== null) return;
   shopState = loadShopState();
@@ -281,7 +302,7 @@ function renderShop() {
   const skins = shopTab === "skins";
   el("shop-tab-skins").setAttribute("aria-pressed", String(skins));
   el("shop-tab-currency").setAttribute("aria-pressed", String(!skins));
-  el("shop-skins").hidden = el("shop-actions").hidden = !skins;
+  el("shop-skins").hidden = shopAction.hidden = !skins;
   el("shop-currency").hidden = skins;
   el("shop-balance").textContent = NcqLang.num(shopState.coins);
   el("shop-currency-amount").textContent = NcqLang.num(shopState.coins);
@@ -304,11 +325,12 @@ function renderShop() {
   }
   const { price } = shopPurchase(shopPreview, shopState);
   const changed = Object.keys(shopPreview).some(kind => shopPreview[kind] !== shopState.appearance[kind]);
+  const buying = price > 0;
   const enough = price <= shopState.coins;
-  el("shop-apply").disabled = shopSaving || !changed || price > 0;
-  el("shop-buy").disabled = shopSaving || !price || !enough;
-  el("shop-buy").textContent = price ? t("shopBuyPrice", { n: NcqLang.num(price) }) : t("shopBuy");
-  el("shop-preview-guide").textContent = t(price ? (enough ? "shopLockedPreview" : "shopNotEnough") : "shopPreviewGuide");
+  shopAction.toggleAttribute("data-purchase", buying);
+  shopAction.disabled = shopSaving || (buying ? !enough : !changed);
+  shopAction.textContent = buying ? t("shopBuyPrice", { n: NcqLang.num(price) }) : t("shopApply");
+  el("shop-preview-guide").textContent = t(buying ? (enough ? "shopLockedPreview" : "shopNotEnough") : "shopPreviewGuide");
   const status = el("shop-feedback");
   if (!status.hidden) status.textContent = t(status.dataset.message);
 }
@@ -488,9 +510,14 @@ function moveColor(game, ply) {
   return game.moveColors?.[ply] ?? ply % 2 + 1;
 }
 
-function updateTurnClock(now) {
-  const remaining = Math.max(0, turnDeadline - now);
-  const ownTurn = room.turn === room.you;
+function clockDeadline(game) {
+  return game.phase === "playing" && game.turnSeconds > 0
+    && Number.isFinite(game.turnEndsAt) && Number.isFinite(game.serverNow)
+    ? performance.now() + Math.max(0, game.turnEndsAt - game.serverNow) : null;
+}
+
+function updateTurnClock(now, deadline, secondsPerTurn, ownTurn, watching) {
+  const remaining = Math.max(0, deadline - now);
   const activeClock = ownTurn ? ownClock : opponentClock;
   const progress = ownTurn ? ownProgress : opponentProgress;
   const seconds = String(Math.ceil(remaining / 1000)).padStart(2, "0");
@@ -501,15 +528,23 @@ function updateTurnClock(now) {
       { opacity: 1, transform: "translateY(0) scale(1)" },
     ], { duration: 190, easing: "ease-out" });
   }
-  const percent = Math.min(100, remaining / (room.turnSeconds * 1000) * 100);
+  const percent = Math.min(100, remaining / (secondsPerTurn * 1000) * 100);
   progress.style.setProperty("--match-art-progress", percent.toFixed(2));
   progress.toggleAttribute("data-empty", remaining === 0);
-  if (remaining > 0) turnFrame = requestAnimationFrame(updateTurnClock);
-  else {
+  if (remaining > 0) {
+    turnFrame = requestAnimationFrame(time => updateTurnClock(time, deadline, secondsPerTurn, ownTurn, watching));
+  } else if (!watching) {
     el("place").disabled = true;
     board.classList.remove("selectable");
     for (const cell of cells) cell.setAttribute("aria-disabled", "true");
   }
+}
+
+function resetTurnGauge(clock, progress, text) {
+  clock.getAnimations().forEach(animation => animation.cancel());
+  clock.textContent = text;
+  progress.style.removeProperty("--match-art-progress");
+  progress.removeAttribute("data-empty");
 }
 
 function ownNickname() {
@@ -518,56 +553,61 @@ function ownNickname() {
 
 function renderPlayers(game, playing, watching = false) {
   cancelAnimationFrame(turnFrame);
-  for (const id of ["opponent-panel", "own-panel", "live-actions"]) el(id).hidden = !playing;
+  const showPanels = playing || watching;
+  for (const id of ["opponent-panel", "own-panel"]) el(id).hidden = !showPanels;
+  el("live-actions").hidden = !playing || watching;
+  for (const id of ["opponent-profile", "own-profile"]) el(id).disabled = watching;
   const reviewing = !watching && game.phase === "finished";
-  el("player-bar").hidden = playing || reviewing;
+  el("player-bar").hidden = showPanels || reviewing;
   if (reviewing) return;
-  if (!playing) {
+  if (!showPanels) {
     for (const [color, seat] of [["black", 1], ["white", 2]]) {
-      const profile = recordPlayer(game, watching && game.black === 2 ? 3 - seat : seat);
-      const publicName = [recordRank(profile), profile.savedName].filter(Boolean).join(" ");
-      el(color + "-player-label").textContent = watching ? (profile.savedName ? publicName : t(color))
-        : game.you === seat ? ownNickname() : profile.name;
-      el(color + "-profile").disabled = watching || (game.phase === "waiting" && game.you !== seat);
+      const profile = recordPlayer(game, seat);
+      el(color + "-player-label").textContent = game.you === seat ? ownNickname() : profile.name;
+      el(color + "-profile").disabled = game.phase === "waiting" && game.you !== seat;
     }
     return;
   }
 
-  const nickname = ownNickname();
-  const timed = turnDeadline !== null;
-  const ownTurn = game.turn === game.you;
-  const opponentTurn = !ownTurn;
+  const lowerSeat = watching ? game.black ?? 1 : game.you;
+  const deadline = watching ? spectator.deadline : turnDeadline;
+  const live = playing || (watching && game.phase === "playing" && !spectator.closed && !spectator.reconnecting);
+  const ownTurn = live && game.turn === lowerSeat;
+  const opponentTurn = live && !ownTurn;
   el("own-panel").dataset.active = el("place").dataset.active = String(ownTurn);
   el("opponent-panel").dataset.active = el("opponent-timer").dataset.active = String(opponentTurn);
   el("opponent-turn").textContent = t(opponentTurn ? "turnActive" : "turnWaiting");
-  el("own-nickname").textContent = nickname;
-  el("own-nickname").title = nickname;
-  renderOwnRank();
-  const opponent = recordPlayer(game, 3 - game.you);
-  el("opponent-nickname").textContent = opponent.name;
-  el("opponent-nickname").title = opponent.name;
-  const rank = recordRank(opponent) || (game.botLevel == null ? "" : rankName(game.botLevel));
-  const opponentRank = el("opponent-rank");
-  opponentRank.hidden = !rank;
-  opponentRank.textContent = rank;
-  for (const [side, seat] of [["own", game.you], ["opponent", 3 - game.you]]) {
+  for (const [side, seat] of [["own", lowerSeat], ["opponent", 3 - lowerSeat]]) {
     const color = colorName(seatColor(game, seat));
+    const profile = recordPlayer(game, seat);
+    const nickname = watching ? profile.savedName || t(color) : side === "own" ? ownNickname() : profile.name;
+    el(side + "-nickname").textContent = nickname;
+    el(side + "-nickname").title = nickname;
+    if (!watching && side === "own") renderOwnRank();
+    else {
+      const rank = recordRank(profile) || (!watching && game.botLevel != null ? rankName(game.botLevel) : "");
+      el(side + "-rank").hidden = !rank;
+      el(side + "-rank").textContent = rank;
+    }
     const stone = el(side + "-stone");
     stone.className = "stone " + color;
     stone.setAttribute("aria-label", t(color));
   }
   for (const id of ["place-gauge", "opponent-gauge", "place-divider", "opponent-divider", "own-clock", "opponent-clock"]) {
-    el(id).toggleAttribute("hidden", !timed);
+    el(id).toggleAttribute("hidden", !watching && deadline === null);
   }
-  if (!timed) return;
+  if (!live || deadline === null) {
+    if (watching) {
+      resetTurnGauge(ownClock, ownProgress, "—");
+      resetTurnGauge(opponentClock, opponentProgress, "—");
+    }
+    return;
+  }
 
   const idleClock = ownTurn ? opponentClock : ownClock;
   const idleProgress = ownTurn ? opponentProgress : ownProgress;
-  idleClock.getAnimations().forEach(animation => animation.cancel());
-  idleClock.textContent = String(Math.ceil(game.turnSeconds)).padStart(2, "0");
-  idleProgress.style.removeProperty("--match-art-progress");
-  idleProgress.removeAttribute("data-empty");
-  updateTurnClock(performance.now());
+  resetTurnGauge(idleClock, idleProgress, String(Math.ceil(game.turnSeconds)).padStart(2, "0"));
+  updateTurnClock(performance.now(), deadline, game.turnSeconds, ownTurn, watching);
 }
 
 function feedback(id, message = "", error = false) {
@@ -839,6 +879,28 @@ function entryRow(label, note, onOpen) {
   return row;
 }
 
+function liveGameRow(game, label) {
+  const row = el("live-game-row").content.firstElementChild.cloneNode(true);
+  const button = row.firstElementChild;
+  button.title = label;
+  const black = game.black ?? 1;
+  row.querySelectorAll(".live-game-player").forEach((playerRow, index) => {
+    const profile = recordPlayer(game, index === 0 ? black : 3 - black);
+    playerRow.querySelector(".stone").setAttribute("aria-label", t(colorName(index + 1)));
+    playerRow.querySelector(".live-game-rank").textContent = recordRank(profile);
+    const name = profile.savedName || t("guestNickname");
+    const nickname = playerRow.querySelector(".live-game-name");
+    nickname.textContent = name;
+    nickname.title = name;
+  });
+  const watchers = row.querySelector(".live-game-watchers");
+  watchers.hidden = !Number.isInteger(game.spectators);
+  watchers.textContent = watchers.hidden ? "" : t("liveWatchers", { n: game.spectators });
+  row.querySelector(".live-game-moves").textContent = t("liveMoves", { n: game.moves });
+  button.addEventListener("click", () => openSpectator(game.code));
+  return row;
+}
+
 function renderLobby() {
   renderPlayerCard();
   const count = el("live-count");
@@ -854,7 +916,8 @@ function renderLobby() {
     const mode = t(game.rule === "taraguchi" ? "ruleTaraguchiShort" : matchMode(game));
     const label = mode + " #" + game.number;
     if (!game.code) return entryRow(label, moves);
-    const row = entryRow(label, moves + " · " + t("spectate"), () => openSpectator(game.code));
+    const row = game.players?.length === 2 ? liveGameRow(game, label)
+      : entryRow(label, moves + " · " + t("spectate"), () => openSpectator(game.code));
     row.firstElementChild.dataset.watchCode = game.code;
     row.firstElementChild.disabled = busy;
     return row;
@@ -888,6 +951,7 @@ function rankName(level) {
 }
 
 function renderOwnRank() {
+  if (spectator) return;
   const rating = backend ? playerStats?.rating : 1500;
   const rank = el("own-rank");
   rank.hidden = !Number.isFinite(rating);
@@ -1253,19 +1317,22 @@ function render() {
   const game = room ?? archive ?? spectator?.game;
   const playing = !spectator && game?.phase === "playing";
   const finished = !spectator && game?.phase === "finished";
+  const liveLayout = playing || Boolean(spectator);
   nicknameInput.placeholder = playerNickname || t("guestNickname");
   el("language").value = NcqLang.lang;
   document.title = t("title");
   document.body.classList.toggle("in-match", Boolean(game));
-  document.body.classList.toggle("match-art-backdrop", playing);
+  document.body.classList.toggle("match-art-backdrop", liveLayout);
   document.body.classList.toggle("spectating", Boolean(spectator));
   document.body.classList.toggle("in-review", finished);
   document.body.classList.toggle("in-records", !game && lobbyView === "records");
-  el("match").toggleAttribute("data-playing", playing);
+  el("match").toggleAttribute("data-playing", liveLayout);
   for (const view of ["lobby", "records", "tournament"]) {
     el(view).hidden = Boolean(game) || lobbyView !== view;
   }
   el("match").hidden = !game;
+  el("watch-back").hidden = !spectator;
+  el("watch-back").toggleAttribute("data-ncq-main", Boolean(spectator));
   el("review-header").hidden = !finished;
   el("review-opponent-profile").hidden = !finished || el("result").open;
   el("review-back").toggleAttribute("data-ncq-main", finished && !el("result").open && !profileDialog.open && !recordShareDialog.open);
@@ -1278,7 +1345,8 @@ function render() {
     else button.removeAttribute("aria-current");
     button.disabled = busy;
   }
-  const mainAction = !game && !matchmaking && !shop.open && !ruleDialog.open && !profileDialog.open && !recordShareDialog.open;
+  const mainAction = !game && !matchmaking && !shop.open && !optionsDialog.open
+    && !ruleDialog.open && !profileDialog.open && !recordShareDialog.open;
   el("start").disabled = busy || Boolean(matchmaking);
   el("show-records").disabled = busy || Boolean(matchmaking);
   el("choose-rule").disabled = busy || Boolean(matchmaking) || availableRules.length < 2;
@@ -1377,35 +1445,42 @@ function render() {
   el("rematch").disabled = !connected || busy || game.requested;
   el("rematch").textContent = t(game.requested ? "rematchWaiting" : game.rematch ? "rematchReady" : "rematch");
 
-  let displayedBoard = game.board;
-  let last = game.moves.at(-1);
-  let winning = game.line ?? [];
   if (finished) {
     renderResult(game);
     renderReview(game);
-    el("review-ply").textContent = reviewPly;
-    el("review-total").textContent = " / " + game.moves.length;
-    for (const button of el("review").querySelectorAll("[data-step]")) {
-      const movesBack = ["first", "previous"].includes(button.dataset.step);
-      button.disabled = movesBack ? reviewPly === 0 : reviewPly === game.moves.length;
-    }
-    if (archive || reviewPly < game.moves.length) {
-      displayedBoard = Array(cells.length).fill(0);
-      for (let i = 0; i < reviewPly; i += 1) displayedBoard[game.moves[i]] = moveColor(game, i);
-      last = game.moves[reviewPly - 1];
-      if (reviewPly < game.moves.length) winning = [];
-    }
+    renderReplayControls(reviewPly, game.moves.length);
   }
 
   board.toggleAttribute("inert", !playing && !finished);
-  drawBoard(game, displayedBoard, last, winning);
+  drawGamePosition(game, finished ? reviewPly : game.moves.length);
 }
 
-function drawBoard(game, displayedBoard, last, winning) {
+function renderReplayControls(ply, total, watching = false) {
+  el("review-ply").textContent = ply;
+  el("review-total").textContent = " / " + total;
+  for (const button of el("review").querySelectorAll("[data-step]")) {
+    const step = button.dataset.step;
+    button.disabled = ["first", "previous"].includes(step) ? ply === 0 : ply === total;
+    button.toggleAttribute("data-ncq-main", watching && !button.disabled);
+    if (step === "last") button.setAttribute("aria-label", t(watching ? "watchLatestMove" : "lastMove"));
+  }
+}
+
+function drawGamePosition(game, ply) {
+  const latest = ply === game.moves.length;
+  let displayedBoard = game.board;
+  if (!latest || game === archive || !displayedBoard) {
+    displayedBoard = Array(cells.length).fill(0);
+    for (let i = 0; i < ply; i += 1) displayedBoard[game.moves[i]] = moveColor(game, i);
+  }
+  drawBoard(game, displayedBoard, game.moves[ply - 1], latest ? game.line ?? [] : [], latest);
+}
+
+function drawBoard(game, displayedBoard, last, winning, latest) {
   const selectable = canAct();
   const ownTurn = game === room && game.phase === "playing" && game.turn === game.you;
   const limits = ownTurn ? moveLimits(game) : [];
-  const offers = game.phase === "playing" ? game.offers ?? [] : [];
+  const offers = latest && game.phase === "playing" ? game.offers ?? [] : [];
   board.classList.toggle("selectable", selectable);
   const lastCell = cells[last];
   lastMoveMarker.toggleAttribute("hidden", !lastCell);
@@ -1434,31 +1509,36 @@ function drawBoard(game, displayedBoard, last, winning) {
   }
 }
 
-function renderSpectator({ game, closed, reconnecting }) {
-  let heading;
-  if (closed) heading = t("watchEnded");
-  else if (reconnecting) heading = t("reconnecting");
+function renderSpectator({ game, closed, reconnecting, ply }) {
+  let announcement;
+  if (closed) announcement = t("watchEnded");
+  else if (reconnecting) announcement = t("reconnecting");
   else if (game.phase === "finished") {
-    heading = game.winner ? t("watchWinner", { color: sideName(game, game.winner) }) : t("draw");
+    announcement = game.winner ? t("watchWinner", { color: sideName(game, game.winner) }) : t("draw");
   } else if (game.opening) {
-    heading = openingStatus(game);
-  } else heading = t("watchTurn", { color: sideName(game, game.turn) });
+    announcement = openingStatus(game);
+  } else announcement = t("watchTurn", { color: sideName(game, game.turn) });
+  const current = ply ?? game.moves.length;
+  const live = !closed && !reconnecting && game.phase === "playing";
+  const heading = ply !== null ? t("watchReplay", { n: current })
+    : live && !game.opening ? t(matchMode(game)) + " · " + t("movesCount", { n: current }) : announcement;
   const status = el("status");
-  status.setAttribute("aria-live", "polite");
+  status.setAttribute("aria-live", live ? "off" : "polite");
   if (status.textContent !== heading) status.textContent = heading;
-  el("round").textContent = t("round", { n: game.round }) + " · " + t("movesCount", { n: game.moves.length });
-  el("room-label").textContent = t("room");
-  el("room-id").textContent = "#" + game.number;
-  el("mode").textContent = game.rule ? t("spectate") + " · " + t(matchMode(game)) : t("spectate");
-  el("room-bar").hidden = false;
-  for (const id of ["review", "rematch", "invite"]) el(id).hidden = true;
-  const leave = el("leave");
-  leave.disabled = false;
-  leave.textContent = t("leaveSpectating");
-  leave.setAttribute("data-ncq-main", "Leave spectating");
+  if (el("turn-announcement").textContent !== announcement) el("turn-announcement").textContent = announcement;
+  el("room-bar").hidden = el("rematch").hidden = el("invite").hidden = true;
+  el("review").hidden = false;
+  const place = el("place");
+  place.disabled = true;
+  place.removeAttribute("data-ncq-main");
+  const lowerLabel = t(live && game.turn === (game.black ?? 1) ? "turnActive" : "turnWaiting");
+  el("place-text").textContent = lowerLabel;
+  place.setAttribute("aria-label", lowerLabel);
+  place.title = lowerLabel;
   renderPlayers(game, false, true);
+  renderReplayControls(current, game.moves.length, true);
   board.removeAttribute("inert");
-  drawBoard(game, game.board, game.moves.at(-1), game.line);
+  drawGamePosition(game, current);
 }
 
 const version = window.NCQ?.NCQ_VERSION;
@@ -1473,9 +1553,7 @@ function applyState(next) {
   const placed = room?.code === next.code && room.round === next.round && room.phase === "playing"
     && next.moves.length === room.moves.length + 1 ? next.moves.at(-1) : null;
   room = next;
-  turnDeadline = next.phase === "playing" && next.turnSeconds > 0
-    && Number.isFinite(next.turnEndsAt) && Number.isFinite(next.serverNow)
-    ? performance.now() + Math.max(0, next.turnEndsAt - next.serverNow) : null;
+  turnDeadline = clockDeadline(next);
   selected = null;
   if (showResult) reviewPly = room.moves.length;
   if (room.phase !== "finished") el("result").close();
@@ -1639,10 +1717,18 @@ async function run(action, success) {
   }
 }
 
-async function fetchSpectator(code) {
-  if (backend) return remoteRequest(client => client.spectate(code));
+function spectatorUrl(code, viewer) {
+  const base = boardApiUrl ? boardApiUrl + "/" : document.baseURI;
+  const url = new URL("api/spectate/" + encodeURIComponent(code), base);
+  if (viewer) url.searchParams.set("viewer", viewer);
+  return url;
+}
+
+async function fetchSpectator(code, viewer) {
   try {
-    const response = await fetch("./api/spectate/" + encodeURIComponent(code), { signal: AbortSignal.timeout(3500) });
+    const response = await fetch(spectatorUrl(code, viewer), {
+      credentials: "omit", cache: "no-store", redirect: "error", signal: AbortSignal.timeout(3500),
+    });
     if (!response.ok) return { error: response.status === 404 ? "notFound" : "network" };
     return await response.json();
   } catch {
@@ -1657,7 +1743,14 @@ function scheduleSpectator(session) {
 
 async function pollSpectator(session) {
   if (!document.hidden) {
-    const next = await fetchSpectator(session.game.code);
+    const renew = session.viewer && performance.now() >= session.renewAt;
+    const request = fetchSpectator(session.game.code, renew ? session.viewer : null);
+    if (renew) session.pendingPresence = request;
+    const next = await request;
+    if (renew) {
+      session.pendingPresence = null;
+      if (!next.error) session.renewAt = performance.now() + 5000;
+    }
     if (spectator !== session) return;
     if (next.error) {
       const closed = next.error === "notFound";
@@ -1669,9 +1762,11 @@ async function pollSpectator(session) {
     } else if (session.reconnecting || next.version !== session.game.version || next.phase !== session.game.phase) {
       const previous = session.game;
       session.game = next;
+      session.deadline = clockDeadline(next);
+      if (previous.round !== next.round) session.ply = null;
       session.reconnecting = false;
       render();
-      if (previous.round === next.round && next.moves.length === previous.moves.length + 1) {
+      if (session.ply === null && previous.round === next.round && next.moves.length === previous.moves.length + 1) {
         presentPlacement(next.moves.at(-1));
       }
     }
@@ -1681,18 +1776,35 @@ async function pollSpectator(session) {
 
 async function openSpectator(code) {
   if (room || archive || spectator || matchmaking || busy) return;
+  const viewer = crypto.randomUUID?.();
   await run(async () => {
-    const game = await fetchSpectator(code);
+    const game = await fetchSpectator(code, viewer);
     if (game.error !== "notFound") return game;
     refreshLobby();
     return { error: "watchEnded" };
   }, game => {
     selected = null;
     feedback("match-error");
-    spectator = { game, closed: false, reconnecting: false, timer: null };
+    spectator = {
+      game, viewer, renewAt: performance.now() + 5000, pendingPresence: null,
+      ply: null, deadline: clockDeadline(game), closed: false, reconnecting: false, timer: null,
+    };
     scheduleSpectator(spectator);
   });
   (spectator ? el("status") : el("lobby-heading")).focus();
+}
+
+async function releaseSpectator(session) {
+  // An in-flight renewal must reach the server before the leave request.
+  await session.pendingPresence;
+  try {
+    await fetch(spectatorUrl(session.game.code, session.viewer), {
+      method: "POST", credentials: "omit", keepalive: true, redirect: "error", signal: AbortSignal.timeout(3500),
+    });
+  } catch {
+    // If the connection is lost, presence expires on the server.
+  }
+  refreshLobby();
 }
 
 function openRoom(next) {
@@ -2038,11 +2150,14 @@ el("record-filters").addEventListener("click", event => {
 });
 function leaveMatch() {
   if (spectator) {
-    clearTimeout(spectator.timer);
+    const session = spectator;
+    clearTimeout(session.timer);
+    cancelAnimationFrame(turnFrame);
     spectator = null;
     cancelPlacement();
     render();
     refreshLobby();
+    if (session.viewer) releaseSpectator(session);
     el("lobby-heading").focus();
     return;
   }
@@ -2074,6 +2189,7 @@ function leaveMatch() {
   });
 }
 el("leave").addEventListener("click", leaveMatch);
+el("watch-back").addEventListener("click", leaveMatch);
 el("leave-match").addEventListener("click", leaveMatch);
 el("review-back").addEventListener("click", leaveMatch);
 el("review-favorite").addEventListener("click", event => {
@@ -2099,18 +2215,21 @@ el("pass-turn").addEventListener("click", () => {
 });
 el("rematch").addEventListener("click", () => roomAction("rematch", {}));
 el("review").addEventListener("click", event => {
-  const step = event.target.closest("[data-step]")?.dataset.step;
-  const game = room ?? archive;
-  if (!step || game?.phase !== "finished") return;
-  const before = reviewPly;
+  const button = event.target.closest("[data-step]");
+  const game = room ?? archive ?? spectator?.game;
+  if (!button || button.disabled || (!spectator && game?.phase !== "finished")) return;
+  const step = button.dataset.step;
   const last = game.moves.length;
-  const destination = { first: 0, previous: reviewPly - 1, next: reviewPly + 1, last };
-  reviewPly = Math.max(0, Math.min(last, destination[step]));
+  const before = spectator ? spectator.ply ?? last : reviewPly;
+  const destination = { first: 0, previous: before - 1, next: before + 1, last };
+  const ply = Math.max(0, Math.min(last, destination[step]));
+  if (spectator) spectator.ply = ply === last ? null : ply;
+  else reviewPly = ply;
   render();
-  if (step === "next" && reviewPly > before) presentPlacement(game.moves[before]);
+  if (step === "next" && ply > before) presentPlacement(game.moves[before]);
   else cancelPlacement();
-  if (event.target.closest("[data-step]").disabled) {
-    el("review").querySelector(reviewPly ? '[data-step="previous"]' : '[data-step="next"]').focus();
+  if (button.disabled) {
+    el("review").querySelector(ply ? '[data-step="previous"]' : '[data-step="next"]').focus();
   }
 });
 el("result").addEventListener("close", () => {

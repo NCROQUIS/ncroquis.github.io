@@ -2,13 +2,13 @@
 <html>
 <head>
   <script src="./ncq/safe.js"></script>
-  <meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script>
+  <meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=e5482257de78">
-  <script type="module" src="./app.js?v=e5482257de78"></script>
+  <link rel="stylesheet" href="./style.css?v=c0664e6eb397">
+  <script type="module" src="./app.js?v=c0664e6eb397"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -71,8 +71,7 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 12H4L5 8Zm4 2V6a3 3 0 0 1 6 0v4m-5 5h4m-2-2v4"/></svg>
           <span data-i18n="shop"></span>
         </button>
-        <label for="language" class="sr-only" data-i18n="language"></label>
-        <select id="language"></select>
+        <button id="show-options" class="quiet" type="button" aria-haspopup="dialog" aria-controls="options" data-i18n="options"></button>
       </div>
     </header>
 
@@ -97,6 +96,25 @@
         <div class="list-body">
           <p id="live-message" class="list-message"></p>
           <ul id="live-games" class="entry-list"></ul>
+          <template id="live-game-row">
+            <li class="entry-row">
+              <button class="entry-body live-game-entry" type="button">
+                <span class="live-game-players">
+                  <span class="live-game-player">
+                    <span class="stone black" role="img"></span><span class="live-game-rank"></span><strong class="live-game-name"></strong>
+                  </span>
+                  <span class="live-game-player">
+                    <span class="stone white" role="img"></span><span class="live-game-rank"></span><strong class="live-game-name"></strong>
+                  </span>
+                </span>
+                <span class="live-game-stats">
+                  <strong class="live-game-watchers"></strong>
+                  <span class="live-game-moves"></span>
+                </span>
+                <span class="chevron" aria-hidden="true"></span>
+              </button>
+            </li>
+          </template>
         </div>
         <button id="player-card" class="player-card" type="button" aria-haspopup="dialog" aria-controls="player-profile">
           <span class="player-avatar" aria-hidden="true">
@@ -258,11 +276,15 @@
           <button id="leave" type="button" class="quiet"></button>
         </div>
         <div class="match-status">
+          <button id="watch-back" class="review-button" type="button" data-i18n-attr="aria-label:leaveSpectating" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"/></svg>
+          </button>
           <div>
             <h1 id="status" tabindex="-1" aria-live="polite"></h1>
             <p id="round"></p>
           </div>
           <span class="mode-chip" id="mode"></span>
+          <p id="turn-announcement" class="sr-only" role="status"></p>
         </div>
         <div id="opponent-panel" class="match-art-panel match-player" hidden>
           <div class="match-art-avatar match-avatar" aria-hidden="true">
@@ -333,7 +355,6 @@
           </button>
         </div>
         <div id="live-actions" class="live-actions" hidden>
-          <p id="turn-announcement" class="sr-only" role="status"></p>
           <div id="opening-actions" class="opening-actions" hidden>
             <button type="button" class="match-art-action" data-opening="swap" data-i18n="swapColors"></button>
             <button type="button" class="match-art-action" data-opening="offerFive" data-i18n="offerFifthMoves"></button>
@@ -485,6 +506,22 @@
       </form>
     </dialog>
 
+    <dialog id="options" aria-labelledby="options-title">
+      <form method="dialog">
+        <h2 id="options-title" tabindex="-1" data-i18n="options" autofocus></h2>
+        <div class="option-row">
+          <label for="language" data-i18n="language"></label>
+          <select id="language"></select>
+        </div>
+        <label class="option-row sound-option">
+          <span data-i18n="stoneSound"></span>
+          <input id="stone-sound" type="checkbox" checked>
+        </label>
+        <button id="send-feedback" class="secondary" type="button" data-i18n="sendFeedback" hidden></button>
+        <button class="primary" type="submit" data-ncq-main="Close options" data-i18n="done"></button>
+      </form>
+    </dialog>
+
     <dialog id="shop" aria-labelledby="shop-title">
       <form method="dialog">
         <div class="shop-heading">
@@ -592,19 +629,12 @@
               </label>
             </div>
           </fieldset>
-          <label class="stone-sound-setting">
-            <span data-i18n="stoneSound"></span>
-            <input id="stone-sound" type="checkbox" checked>
-          </label>
         </div>
         </section>
         </div>
         <div class="shop-footer">
           <p id="shop-feedback" role="status" hidden></p>
-          <div id="shop-actions">
-            <button id="shop-apply" class="primary" type="button" data-i18n="shopApply" disabled></button>
-            <button id="shop-buy" class="secondary" type="button" disabled></button>
-          </div>
+          <button id="shop-action" class="primary" type="button" data-ncq-main="Apply or buy skins" disabled></button>
           <button class="secondary" type="submit" data-ncq-main="Close shop" data-i18n="shopClose"></button>
         </div>
       </form>

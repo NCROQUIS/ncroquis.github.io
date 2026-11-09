@@ -167,6 +167,20 @@ body {
   line-height: 1.2;
 }
 
+/* 만든 사람: 개발자 GitHub 아이디 (카드 전체 링크 위에서 따로 눌려요) */
+.by { margin: 4px 0 0; color: var(--graphite); font-size: 14px; }
+.dev {
+  position: relative;
+  z-index: 1;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.dev:hover { color: #34433c; }
+.dev:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+
 .empty {
   margin: 64px 0 0;
   max-width: 30em;
@@ -245,6 +259,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
     <p class="pitch">해변 주스바에서 잔을 좌우로 움직여 던지고, 같은 주스를 합쳐 더 큰 잔을 만들어 보세요. 점수 미션에 도전하며 11단계 주스 컬렉션을 채워 보세요.</p>
     <p><a class="play" href="play/">플레이해 보기</a> <span class="ver">v0.1.0</span></p>
     <p class="note">mergy-juice, 2026.11.9 시작</p>
+    <p class="by">만든 사람 <a class="dev" href="https://github.com/Heo-SD" rel="noopener" aria-label="개발자 GitHub Heo-SD">@Heo-SD</a></p>
   </article>
   <footer>© 2026 엔크로키</footer>
 </main>

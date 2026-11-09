@@ -167,6 +167,20 @@ body {
   line-height: 1.2;
 }
 
+/* 만든 사람: 개발자 GitHub 아이디 (카드 전체 링크 위에서 따로 눌려요) */
+.by { margin: 4px 0 0; color: var(--graphite); font-size: 14px; }
+.dev {
+  position: relative;
+  z-index: 1;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.dev:hover { color: #34433c; }
+.dev:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+
 .empty {
   margin: 64px 0 0;
   max-width: 30em;

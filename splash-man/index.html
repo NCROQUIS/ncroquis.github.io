@@ -167,6 +167,20 @@ body {
   line-height: 1.2;
 }
 
+/* 만든 사람: 개발자 GitHub 아이디 (카드 전체 링크 위에서 따로 눌려요) */
+.by { margin: 4px 0 0; color: var(--graphite); font-size: 14px; }
+.dev {
+  position: relative;
+  z-index: 1;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.dev:hover { color: #34433c; }
+.dev:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+
 .empty {
   margin: 64px 0 0;
   max-width: 30em;
@@ -245,6 +259,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
     <p class="pitch">손가락으로 당긴 만큼 세게, 바람을 읽고 각도를 맞춰 물풍선을 던지는 1:1 물싸움 게임이에요. 맑은 옥상부터 벚꽃 아침, 여름 바다, 눈 오는 날, 네온 시티까지 챕터마다 바람과 배경이 바뀌고, 보스 던전과 무한 모드가 기다려요. 레벨이 오를 때마다 스킬을 골라 나만의 조합을 만들고, 장비와 코스튬을 모아 강해져요.</p>
     <p><a class="play" href="play/">플레이해 보기</a> <span class="ver">v1.4.1</span></p>
     <p class="note">splash-man, 2026.11.2 시작</p>
+    <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
   </article>
   <footer>© 2026 엔크로키</footer>
 </main>

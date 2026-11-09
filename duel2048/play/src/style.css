@@ -188,6 +188,7 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 /* 설정 */
 .row { display: flex; align-items: center; justify-content: space-between; padding: 14px; background: #fff; border-radius: 14px; margin-top: 10px; }
 .row input[type=text] { width: 50%; padding: 8px 10px; border-radius: 8px; border: 1px solid #e3d8cc; font: inherit; text-align: right; user-select: text; -webkit-user-select: text; }
+.row .owned { color: var(--win); font-weight: 800; } /* 광고 제거를 산 뒤 설정에 보이는 표시 */
 .switch { width: 50px; height: 30px; border-radius: 15px; background: #d9cfc4; position: relative; transition: background 160ms; }
 .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: transform 160ms; }
 .switch.on { background: var(--win); }
@@ -378,8 +379,12 @@ button { font: inherit; color: inherit; border: 0; background: none; cursor: poi
 .test-panel .test-toggle { font-size: 11px; padding: 3px 9px; border-radius: 999px; background: transparent; color: #b3a697; border: 1px dashed #d8ccbd; }
 .test-panel:not(.open) button:not(.test-toggle) { display: none; }
 
-/* 대결 중에는 상대 바만큼 판을 줄임 */
-body.in-duel { --size: min(92vw, 440px, calc(100dvh - 405px - var(--ncq-toss-top, 0px) - var(--ncq-safe-bottom, 0px))); }
+/* 대결 중에는 상대 바만큼 판을 줄임
+   --cellsz는 :root에서 이미 계산된 값이 내려오므로, 판 크기를 바꾸는 곳에서 같이 다시 계산해야 타일이 판과 맞아요 */
+body.in-duel {
+  --size: min(92vw, 440px, calc(100dvh - 405px - var(--ncq-toss-top, 0px) - var(--ncq-safe-bottom, 0px)));
+  --cellsz: calc((var(--size) - var(--gap) * 5) / 4);
+}
 
 /* 숫자는 전용 글꼴로 (한글은 기기 글꼴로 자연스럽게 넘어감) */
 .logo, .tile .in, .score-box .value, .ghost span, .gained, .combo, .solo-score, .vs .pts, .mt, .miles li, .rank-list .sc, .duel-text strong, .tile-mini .in, .goal-prog { font-family: var(--num); }
@@ -578,3 +583,44 @@ body { background: radial-gradient(130% 70% at 50% 0%, #fffdf7 0%, #f8f3e8 60%, 
   animation: star 800ms ease-out forwards; opacity: 0;
 }
 @keyframes star { 0% { opacity: 1; transform: translate(0, 0) scale(.6); } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.3) rotate(90deg); } }
+
+/* ── 언어: 언어 메뉴 + 영어처럼 긴 글자도 넘치지 않게 ── */
+.seg { display: inline-grid; grid-auto-flow: column; gap: 4px; padding: 3px; border-radius: 10px; background: #efe5d6; box-shadow: inset 0 1px 3px rgba(0,0,0,.08); }
+.seg button { padding: 6px 12px; border-radius: 8px; font-size: 14px; font-weight: 700; color: var(--ink); }
+.seg button.on { background: #fff; color: var(--ink-strong); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.btn, .mode-item, .mode-item b, .mode-item span, .row > span, .skin b, .skin small, .tabs button,
+.goal-text, .duel-text, .duel-sub, .toast, .note, .sub, .vs .who, .vs .tilemax, .flag, .empty, .hint, .combo, .bigmoment span {
+  overflow-wrap: anywhere;
+}
+.row { gap: 12px; }
+.act > span:not(.ico) { white-space: nowrap; }
+
+/* 여는 첫 순간 다른 언어가 비치지 않게 (NcqLang.init이 <html lang>을 정함) */
+html:not([lang]) [data-i18n] { visibility: hidden; }
+
+/* ── 노을 스킨 (목표 도장판 1장 보상) ── */
+.skin-sunset.board, .sw.skin-sunset, .ghost.skin-sunset { background: #b88a8a; }
+.skin-sunset .grid i, .ghost.skin-sunset span { background: #cfa6a0; }
+.skin-sunset .tile .in { color: #fff; }
+.skin-sunset .v2 .in, .sw.skin-sunset .v2 { background: #fff1e6; color: #9a6b5c; }
+.skin-sunset .v4 .in { background: #ffe0c7; color: #9a6b5c; }
+.skin-sunset .v8 .in, .sw.skin-sunset .v8 { background: #ffc49b; }
+.skin-sunset .v16 .in { background: #ffa77a; } .skin-sunset .v32 .in { background: #ff8a6b; }
+.skin-sunset .v64 .in, .sw.skin-sunset .v64 { background: #f26d6d; } .skin-sunset .v128 .in { background: #e0607e; }
+.skin-sunset .v256 .in { background: #c95b91; } .skin-sunset .v512 .in, .sw.skin-sunset .v512 { background: #a35ba3; }
+.skin-sunset .v1024 .in { background: #7e5bb0; } .skin-sunset .v2048 .in { background: #5b5bb8; box-shadow: 0 0 22px 6px rgba(91,91,184,.45); }
+.skin-sunset .bloom { --bloom: #ff8a6b; }
+
+/* ── 목표 도장 (오늘의 목표 카드·내일 카드) ── */
+.stamps { display: inline-flex; gap: 3px; align-items: center; }
+.stamps i { width: 7px; height: 7px; border-radius: 50%; background: #e6dccf; box-shadow: inset 0 1px 1px rgba(0,0,0,.08); }
+.stamps i.on { background: var(--accent); box-shadow: none; }
+.goal-stamps { margin-left: auto; margin-right: 8px; }
+.goal.done .stamps i.on { background: var(--win); }
+
+/* ── 내일 카드 (결과 화면) ── */
+.tomorrow { background: var(--surface); box-shadow: var(--shadow-sm); border-radius: 14px; padding: 10px 14px; margin: 12px 0 4px; display: grid; gap: 7px; }
+.tm-row { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--ink-strong); overflow-wrap: anywhere; }
+.tm-ico { flex: none; width: 22px; text-align: center; }
+.tm-row small { margin-left: auto; color: #a39689; font-weight: 700; font-family: var(--num); }
+.mode-item em.shield { font-style: normal; font-size: 12px; margin-left: 4px; }

@@ -4,8 +4,10 @@ import {
   nextRandom, hashSeed,
 } from "./game.js";
 import { NcqAds } from "./ads.js";
+import { NcqIap } from "./iap.js";
 import { haptic, mergeKind } from "./haptics.js";
 import { createSfx } from "./sound.js";
+import { t, getLang, setLang, langList, langTitle, locale } from "./i18n.js";
 
 // ── 저장 ──────────────────────────────────
 const KEY = "duel2048:v1";
@@ -24,6 +26,9 @@ const defaults = () => ({
   daily: { date: "", best: 0, plays: 0, streak: 0, lastDone: "" },
   plays: { date: "", weekly: 0, daily: 0 },
   goal: { date: "", prog: 0, done: false }, // 오늘의 목표 진행
+  stamps: { n: 0, cards: 0 }, // 목표 도장판: 오늘의 목표를 이루면 도장 1개, 7개면 한 장 완성
+  shields: 0,   // 연속 기록 보호권 (7일 연속마다 1개, 최대 2개)
+  noAds: false, // 광고 제거를 샀는지 (NCQ_IAP_REMOVE_ADS). 진행 초기화해도 남겨요
   duels: {},    // 시드별 대결 기록 { name, oppScore, oppBest, oppOps, myBest, rounds, retries, updated }
   received: [], // 이번 주에 받은 도전장 상대들 [{name, score, best, week}]
   saved: null,  // 진행 중인 판
@@ -33,7 +38,7 @@ function load() {
   try {
     const d = defaults();
     const s = JSON.parse(localStorage.getItem(KEY) || "{}");
-    const out = { ...d, ...s, daily: { ...d.daily, ...(s.daily || {}) }, plays: { ...d.plays, ...(s.plays || {}) }, goal: { ...d.goal, ...(s.goal || {}) } };
+    const out = { ...d, ...s, daily: { ...d.daily, ...(s.daily || {}) }, plays: { ...d.plays, ...(s.plays || {}) }, goal: { ...d.goal, ...(s.goal || {}) }, stamps: { ...d.stamps, ...(s.stamps || {}) } };
     // 돈 불리기 스킨은 클래식으로 정하면서 뺐음 (2026-11-04) — 쓰던 사람은 클래식으로
     out.unlocked = out.unlocked.filter((id) => id !== "money");
     if (out.skin === "money") out.skin = "classic";
@@ -59,15 +64,34 @@ let wonShown = false;
 let recorded = false;
 let bestAtStart = 0;
 let newBestFired = false; // 이번 판 최고 기록 갱신 연출을 했는지     // 판 시작할 때의 최고 점수 (NEW 표시용)    // 이 판 기록을 이미 남겼는지 (이어하기 뒤 다시 끝나도 횟수는 한 번)
+let settingsShown = false; // 설정 시트가 열려 있는지 (상품 가격·광고 동의를 받아 오면 다시 그림)
+let privacyNeeded = false; // 광고 동의를 다시 물을 수 있어야 하는 지역인지 (NcqAds가 알려 줌)
+
+// ── 광고 제거 (인앱 상품) ─────────────────
+// NCQ_IAP_REMOVE_ADS: 광고 제거
+// 사면 보상형 광고 4곳(되돌리기·이어하기·재도전·연속 기록 지키기)을 광고 없이 바로 받아요. 횟수 제한은 그대로예요.
+// 지급은 여기 한 곳에서만 (새 구매, 끝나지 않은 구매, 다시 설치한 뒤 되찾은 구매 모두 여기로 와요)
+NcqIap.onGrant((id) => {
+  if (id !== "REMOVE_ADS") return false; // 모르는 상품은 지급하지 않아요
+  store.noAds = true; // 비소모성: 몇 번 와도 같게 (켜기만)
+  save();
+  if (game) renderHud();
+  if (settingsShown) showSettings();
+  return true;
+});
+const noAds = () => !!store.noAds;
 
 // ── 스킨 ──────────────────────────────────
 const SKINS = [
-  { id: "classic", name: "클래식", need: "기본" },
-  { id: "pastel", name: "파스텔", need: "512 타일 만들기", test: (s) => s.bestTile >= 512 },
-  { id: "animal", name: "동물 진화", need: "오늘의 판 3일 연속", test: (s) => s.daily.streak >= 3 },
-  { id: "neon", name: "네온", need: "대결 3연승", test: (s) => s.winStreakBest >= 3 },
-  { id: "ink", name: "먹물", need: "2048 타일 만들기", test: (s) => s.bestTile >= 2048 },
+  { id: "classic" },
+  { id: "pastel", test: (s) => s.bestTile >= 512 },
+  { id: "animal", test: (s) => s.daily.streak >= 3 },
+  { id: "neon", test: (s) => s.winStreakBest >= 3 },
+  { id: "sunset", test: (s) => s.stamps.cards >= 1 },
+  { id: "ink", test: (s) => s.bestTile >= 2048 },
 ];
+const skinName = (id) => t("skin_" + id);
+const skinNeed = (id) => t("need_" + id);
 const ANIMAL = { 2: "🥚", 4: "🐣", 8: "🐥", 16: "🐤", 32: "🐔", 64: "🦃", 128: "🦆", 256: "🦢", 512: "🦩", 1024: "🦅", 2048: "🐉" };
 function tileLabel(v) {
   if (store.skin === "animal") return `<span class="emo">${ANIMAL[v] || "🐲"}</span><span class="num">${v}</span>`;
@@ -79,12 +103,12 @@ function applySkin() {
   b.classList.add("skin-" + store.skin);
   $("ghost").className = "ghost skin-" + store.skin;
 }
-function checkUnlocks() {
+function checkUnlocks(quiet) {
   for (const sk of SKINS) {
     if (sk.test && !store.unlocked.includes(sk.id) && sk.test(store)) {
       store.unlocked.push(sk.id);
       save();
-      setTimeout(() => { toast(`새 스킨이 열렸어요: ${sk.name} (설정에서 바꾸기)`); buzz("success"); }, 900);
+      if (!quiet) setTimeout(() => { toast(t("skin_unlocked", { name: skinName(sk.id) })); buzz("success"); }, 900);
     }
   }
 }
@@ -174,7 +198,7 @@ function floatGain(n) {
 }
 function floatCombo(n) {
   const c = document.createElement("div");
-  c.className = "combo"; c.textContent = `한 번에 ${n}쌍!`;
+  c.className = "combo"; c.textContent = t("combo", { n });
   boardEl.appendChild(c);
   setTimeout(() => c.remove(), 1050);
 }
@@ -202,14 +226,18 @@ const emptyCount = () => game.cells.filter((t) => !t).length;
 // 위기: 빈칸이 2칸 이하면 판 테두리가 붉어짐
 function renderDanger() { boardEl.classList.toggle("danger", !game.over && emptyCount() <= 2); }
 
-const fmt = (n) => n.toLocaleString("ko-KR");
+const fmt = (n) => n.toLocaleString(locale());
+// 이름이 없는 링크는 엔진이 "친구"로 채움 → 지금 언어로 보여 줌
+const nm = (name) => (!name || name === "친구" ? t("friend") : name);
+// 오늘의 목표 글자 (엔진의 g.text 대신 지금 언어로)
+const goalText = (g) => t("goal_" + g.type, { v: fmt(g.target) });
 const duelRec = () => (opp ? store.duels[String(opp.seed)] : null);
 
 function modeLabel() {
-  if (mode === "duel") { const r = duelRec(); const n = (r?.rounds || 0) + (recorded ? 0 : 1); return `${opp.name}와 ${Math.max(1, n)}라운드`; }
-  if (mode === "daily") return `오늘의 판${store.daily.streak ? ` · 🔥${store.daily.streak}일` : ""}`;
-  if (mode === "weekly") return `주간 도전 · ${weekKey().slice(5)}`;
-  return "연습";
+  if (mode === "duel") { const r = duelRec(); const n = (r?.rounds || 0) + (recorded ? 0 : 1); return t("mode_duel", { name: nm(opp.name), n: Math.max(1, n) }); }
+  if (mode === "daily") return t("mode_daily") + (store.daily.streak ? t("mode_streak", { n: store.daily.streak }) : "");
+  if (mode === "weekly") return t("mode_weekly", { w: weekKey().slice(5) });
+  return t("mode_practice");
 }
 
 function renderHud() {
@@ -229,9 +257,10 @@ function renderHud() {
   if (mode === "duel") renderDuelBar();
 
   const undo = $("undoBtn");
-  // NCQ_ADS_UNDO: 되돌리기 보상형 광고
-  undo.hidden = !NcqAds.can("UNDO");
+  // NCQ_ADS_UNDO: 되돌리기 보상형 광고 (광고 제거를 샀으면 광고 없이)
+  undo.hidden = !(noAds() || NcqAds.can("UNDO"));
   undo.disabled = !snapshot || undoUsed || game.over;
+  undo.querySelector(".ad-tag").hidden = noAds();
 }
 
 // 대결 바: 고스트(상대가 같은 수일 때의 판) + 같은 수 점수 비교 + 최종 점수까지 진행
@@ -250,14 +279,14 @@ function renderDuelBar() {
       sp.textContent = v ? (store.skin === "animal" ? ANIMAL[v] || "🐲" : v) : "";
     });
     const diff = game.score - f.score;
-    $("duelLabel").textContent = game.moves > last ? `${opp.name} · ${last}수에서 끝남` : `${opp.name} · ${k}수째 ${fmt(f.score)}점`;
-    $("duelGap").textContent = diff > 0 ? `앞섬 +${fmt(diff)}` : diff < 0 ? `뒤짐 ${fmt(diff)}` : "동점";
+    $("duelLabel").textContent = game.moves > last ? t("duel_ended", { name: nm(opp.name), n: last }) : t("duel_at", { name: nm(opp.name), n: k, s: fmt(f.score) });
+    $("duelGap").textContent = diff > 0 ? t("ahead", { d: fmt(diff) }) : diff < 0 ? t("behind", { d: fmt(diff) }) : t("tied");
     bar.classList.toggle("ahead", diff >= 0);
     bar.classList.toggle("behind", diff < 0);
-    $("duelSub").textContent = finalGap > 0 ? `최종 ${fmt(opp.score)}점까지 ${fmt(finalGap)}점` : `최종 점수 추월! +${fmt(-finalGap)}`;
+    $("duelSub").textContent = finalGap > 0 ? t("final_gap", { s: fmt(opp.score), g: fmt(finalGap) }) : t("final_pass", { d: fmt(-finalGap) });
   } else {
-    $("duelLabel").textContent = `${opp.name} ${fmt(opp.score)}점`;
-    $("duelGap").textContent = finalGap > 0 ? `${fmt(finalGap)}점 남음` : `추월! +${fmt(-finalGap)}`;
+    $("duelLabel").textContent = t("opp_score", { name: nm(opp.name), s: fmt(opp.score) });
+    $("duelGap").textContent = finalGap > 0 ? t("pts_left", { g: fmt(finalGap) }) : t("passed", { d: fmt(-finalGap) });
     bar.classList.toggle("ahead", finalGap <= 0);
     bar.classList.remove("behind");
     $("duelSub").textContent = "";
@@ -299,14 +328,14 @@ async function startLimited(m) {
   const used = playsToday(m);
   if (used < FREE_PER_DAY) { start(m, seedFor(m)); return true; }
   // NCQ_ADS_RETRY: 재도전 보상형 광고 (주간·오늘의 판 4번째부터, 대결 두 번째 복수전부터)
-  if (NcqAds.can("RETRY") && await NcqAds.rewarded("RETRY")) { start(m, seedFor(m)); return true; }
-  toast("오늘 무료 도전을 다 썼어요. 내일 다시 3번 열려요");
+  if (noAds() || (NcqAds.can("RETRY") && await NcqAds.rewarded("RETRY"))) { start(m, seedFor(m)); return true; }
+  toast(t("no_free"));
   return false;
 }
-// 대결 같은 판 다시(복수전): 시드마다 첫 번은 무료, 그 뒤는 보상형 광고
+// 대결 같은 판 다시(복수전): 시드마다 첫 번은 무료, 그 뒤는 보상형 광고 (광고 제거를 샀으면 광고 없이)
 async function startRevenge() {
   const r = duelRec();
-  if (r && r.retries >= 1) {
+  if (r && r.retries >= 1 && !noAds()) {
     if (!(NcqAds.can("RETRY") && await NcqAds.rewarded("RETRY"))) return false;
   }
   if (r) { r.retries = (r.retries || 0) + 1; save(); }
@@ -385,7 +414,7 @@ function doMove(dir) {
   updateGoal(res);
   celebrateFirsts(before.firsts, game.firsts);
   renderGoal();
-  if (game.won && !wonShown) { wonShown = true; setTimeout(() => toast("2048 달성! 계속 가서 점수를 더 올려요"), 1700); }
+  if (game.won && !wonShown) { wonShown = true; setTimeout(() => toast(t("won_toast")), 1700); }
   persist();
   if (game.over) { queue.length = 0; $("overVeil").hidden = false; sfx.over(); setTimeout(() => buzz("error"), 120); setTimeout(showResult, 700); }
 }
@@ -401,12 +430,13 @@ function renderGoal() {
   el.hidden = mode === "duel"; // 대결 중엔 상대 바가 그 자리를 씀
   if (el.hidden) return;
   const g = dailyGoal(), st = goalState();
-  $("goalText").textContent = g.text;
+  $("goalText").textContent = goalText(g);
   el.classList.toggle("done", st.done);
   const cur = Math.min(st.prog, g.target);
   const pct = g.type === "tile" ? (cur ? Math.log2(cur) / Math.log2(g.target) : 0) : cur / g.target;
   $("goalFill").style.width = (st.done ? 100 : Math.round(pct * 100)) + "%";
-  $("goalProg").textContent = st.done ? "완료 ✓"
+  $("goalStamps").innerHTML = stampDots();
+  $("goalProg").textContent = st.done ? t("goal_done")
     : g.type === "combo" ? "0 / 1" : `${fmt(cur)} / ${fmt(g.target)}`;
 }
 function updateGoal(res) {
@@ -418,9 +448,95 @@ function updateGoal(res) {
     st.done = true;
     const el = $("goal");
     el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
-    setTimeout(() => { toast(`오늘의 목표 달성! ${g.text}`); buzz("success"); sfx.fanfare(); }, 200);
+    setTimeout(() => { toast(t("goal_toast", { text: goalText(g) })); buzz("success"); sfx.fanfare(); }, 200);
+    addStamp();
   }
   save();
+}
+
+// ── 목표 도장판: 오늘의 목표를 이루면 도장 1개, 7개 모으면 한 장 완성 ──
+const STAMPS = 7, MAX_SHIELDS = 2;
+function addStamp() {
+  const sp = store.stamps;
+  sp.n += 1;
+  let msg;
+  if (sp.n >= STAMPS) {
+    sp.n = 0; sp.cards += 1;
+    const before = store.unlocked.length;
+    checkUnlocks(true);
+    if (store.unlocked.length > before) msg = t("stamp_full_skin", { name: skinName("sunset") });
+    else if (store.shields < MAX_SHIELDS) { store.shields += 1; msg = t("stamp_full_shield"); }
+    else msg = t("stamp_full");
+  } else msg = t("stamp_got", { n: sp.n, total: STAMPS });
+  save();
+  renderGoal();
+  setTimeout(() => toast(msg), 2600);
+}
+function stampDots() {
+  return Array.from({ length: STAMPS }, (_, i) => `<i class="${i < store.stamps.n ? "on" : ""}"></i>`).join("");
+}
+
+// ── 연속 기록 지키기: 하루 빠지면 다음 날 보호권이나 광고로 이어 가기 ──
+function streakState() {
+  const d = store.daily, today = dayKey();
+  if (!d.streak) return "none";
+  if (d.lastDone === today || d.lastDone === prevDayKey(today)) return "alive";
+  if (d.lastDone === prevDayKey(prevDayKey(today))) return "risk"; // 어제 하루만 빠짐
+  return "lost";
+}
+function checkStreak() {
+  const st = streakState(), d = store.daily, today = dayKey();
+  if (st === "lost") { d.streak = 0; save(); renderHud(); return; }
+  if (st !== "risk" || d.offered === today || !$("sheet").hidden) return;
+  if (!store.shields && !noAds() && !NcqAds.can("STREAK")) return; // 지킬 방법이 없으면 묻지 않음
+  d.offered = today; save();
+  showStreakSave();
+}
+function keepStreak(how) {
+  const d = store.daily;
+  if (how === "shield") store.shields -= 1;
+  d.lastDone = prevDayKey(dayKey()); // 어제 한 것으로 쳐서 오늘의 판을 하면 이어짐
+  save(); closeSheet(); renderHud(); buzz("success"); sfx.fanfare();
+  toast(t("streak_kept", { n: d.streak }));
+}
+function showStreakSave() {
+  const n = store.daily.streak;
+  // NCQ_ADS_STREAK: 연속 기록 지키기 보상형 광고
+  // 광고 제거를 샀으면 보호권도 광고도 없이 바로 지켜요 (보호권은 아껴 둠)
+  const free = noAds();
+  const adOk = !free && NcqAds.can("STREAK");
+  openSheet(`
+    <div class="result-badge">🔥</div>
+    <h2 style="text-align:center">${t("streak_save_title", { n })}</h2>
+    <p class="sub" style="text-align:center">${t("streak_save_sub")}</p>
+    ${free ? `<button class="btn primary" data-free>${t("streak_keep_free")}</button>` : ""}
+    ${!free && store.shields > 0 ? `<button class="btn primary" data-shield>${t("streak_use_shield")} <small>🛡️ ${t("shields_n", { n: store.shields })}</small></button>` : ""}
+    ${adOk ? `<button class="btn ${store.shields > 0 ? "" : "primary"}" data-ad>${t("streak_watch_ad")}</button>` : ""}
+    <button class="btn ghost" data-drop>${t("streak_drop")}</button>
+    <p class="note">${t("streak_note")}</p>
+  `, (card) => {
+    const fr = card.querySelector("[data-free]");
+    if (fr) fr.onclick = () => keepStreak("free");
+    const sh = card.querySelector("[data-shield]");
+    if (sh) sh.onclick = () => keepStreak("shield");
+    const ad = card.querySelector("[data-ad]");
+    if (ad) ad.onclick = async () => { if (await NcqAds.rewarded("STREAK")) keepStreak("ad"); };
+    card.querySelector("[data-drop]").onclick = () => { store.daily.streak = 0; save(); closeSheet(); renderHud(); };
+  });
+}
+
+// 판이 끝난 뒤 '내일' 카드: 연속 기록 예고 + 내일의 목표 + 도장판
+function tomorrowCard() {
+  const d = store.daily, today = dayKey();
+  const now = new Date();
+  const tmr = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const streakLine = d.lastDone === today ? t("tmr_streak", { n: d.streak + 1 })
+    : streakState() === "alive" ? t("tmr_daily_today", { n: d.streak + 1 }) : t("tmr_daily_start");
+  return `<div class="tomorrow">
+    <div class="tm-row"><span class="tm-ico">🔥</span><span>${streakLine}</span></div>
+    <div class="tm-row"><span class="tm-ico">🎯</span><span>${t("tmr_goal", { text: goalText(dailyGoal(tmr)) })}</span></div>
+    <div class="tm-row"><span class="tm-ico">✅</span><span>${t("stamps_k")}</span><span class="stamps">${stampDots()}</span><small>${store.stamps.n}/${STAMPS}</small></div>
+  </div>`;
 }
 
 // 처음 판 안내는 첫 이동에서 사라지고 다시 안 나옴
@@ -441,8 +557,8 @@ function celebrateFirsts(prev, now) {
     const v = fresh[0];
     const record = v > store.bestTile;
     if (v >= 512) bigMoment(v, record);           // 512·1024·2048…: 큰 순간 연출
-    else if (record) { toast(`최고 타일 갱신! ${v}`); buzz("success"); sfx.fanfare(); }
-    else toast(`이번 판 첫 ${v}!`);
+    else if (record) { toast(t("best_tile_toast", { v })); buzz("success"); sfx.fanfare(); }
+    else toast(t("first_tile_toast", { v }));
   }
   if (top > store.bestTile) { store.bestTile = top; checkUnlocks(); }
 }
@@ -456,7 +572,7 @@ function bigMoment(v, record) {
   setTimeout(() => wash.remove(), 1100);
   const lab = document.createElement("div");
   lab.className = `bigmoment ${tileClass(v)}`;
-  lab.innerHTML = `<b>${v}</b><span>${v === 2048 ? "달성! 계속 가요" : record ? "최고 타일 갱신" : "이번 판 첫 " + v}</span>`;
+  lab.innerHTML = `<b>${v}</b><span>${v === 2048 ? t("big_2048") : record ? t("big_record") : t("big_first", { v })}</span>`;
   boardEl.appendChild(lab);
   setTimeout(() => lab.remove(), 1700);
   boardEl.classList.remove("thump"); void boardEl.offsetWidth; boardEl.classList.add("thump");
@@ -552,9 +668,9 @@ window.addEventListener("keydown", (e) => {
 // ── 버튼 ──────────────────────────────────
 $("undoBtn").onclick = async () => {
   if (!snapshot || undoUsed) return;
-  if (await NcqAds.rewarded("UNDO")) {
+  if (noAds() || await NcqAds.rewarded("UNDO")) {
     game = snapshot; snapshot = null; undoUsed = true;
-    persist(); renderAll(); toast("한 수 되돌렸어요 (판마다 1번)");
+    persist(); renderAll(); toast(t("undo_toast"));
   }
 };
 $("newBtn").onclick = showModes;
@@ -564,11 +680,12 @@ $("setBtn").onclick = showSettings;
 
 // ── 시트 ──────────────────────────────────
 function openSheet(html, bind) {
+  settingsShown = false;
   $("sheetCard").innerHTML = html;
   $("sheet").hidden = false;
   bind?.($("sheetCard"));
 }
-function closeSheet() { $("sheet").hidden = true; }
+function closeSheet() { $("sheet").hidden = true; settingsShown = false; }
 
 // 토스 뒤로가기: 열린 창이 있으면 닫고 true, 없으면 false(빌드가 종료를 물어요)
 window.ncqBack = () => {
@@ -580,22 +697,22 @@ const buzz = (kind) => haptic(kind, store.haptic);
 $("sheet").addEventListener("click", (e) => { if (e.target.id === "sheet" && !game.over) closeSheet(); });
 
 function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
-const myName = () => store.name || "나";
+const myName = () => store.name || t("me");
 
 function showModes() {
   const wk = store.weekly.key === weekKey() ? store.weekly : { best: 0 };
   const dl = store.daily.date === dayKey() ? store.daily : { best: 0 };
   const left = (m) => Math.max(0, FREE_PER_DAY - playsToday(m));
-  const freeTag = (m) => (left(m) > 0 ? `오늘 무료 ${left(m)}번 남음` : "광고 보고 도전");
+  const freeTag = (m) => (left(m) > 0 ? t("free_left", { n: left(m) }) : noAds() ? t("free") : t("ad_try"));
   const doneToday = store.daily.lastDone === dayKey();
   openSheet(`
-    <h2>새 게임</h2>
-    <p class="sub">같은 판(블록 순서)이면 누구든 공정하게 겨룰 수 있어요.</p>
-    <button class="mode-item" data-m="daily"><span class="emo ico-line"><svg viewBox="0 0 24 24"><path d="M12 22c4 0 7-2.7 7-6.8 0-3.4-2.3-5.6-3.6-7.2-.4 1.6-1.3 2.8-2.4 3.3C13.3 7.6 11.6 4.3 9 2c.2 3-1.5 5.1-3 7-1.2 1.6-2 3.4-2 5.4C4 19 7.4 22 12 22Z"/></svg></span><div><b>오늘의 판 ${store.daily.streak ? `<em class="streak">${store.daily.streak}일 연속</em>` : ""}</b><span>${doneToday ? "오늘 완료! " : "하루 한 판으로 연속 기록 · "}내 최고 ${fmt(dl.best || 0)}점 · ${freeTag("daily")}</span></div></button>
-    <button class="mode-item" data-m="weekly"><span class="emo ico-line"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span><div><b>주간 도전</b><span>이번 주 모두 같은 판 · 내 최고 ${fmt(wk.best || 0)}점 · ${freeTag("weekly")}</span></div></button>
-    ${opp ? `<button class="mode-item" data-m="duel"><span class="emo ico-line"><svg viewBox="0 0 24 24"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="M13 19l6-6M16 16l4 4M19 21l2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4M7 17l-3 3M3 19l2 2"/></svg></span><div><b>${esc(opp.name)}와 다시 대결</b><span>상대 ${fmt(opp.score)}점 · 같은 판으로</span></div></button>` : ""}
-    <button class="mode-item" data-m="practice"><span class="emo ico-line"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.5" cy="8.5" r="1.2"/><circle cx="15.5" cy="15.5" r="1.2"/><circle cx="12" cy="12" r="1.2"/></svg></span><div><b>연습</b><span>새로운 무작위 판 · 끝나면 친구에게 도전장</span></div></button>
-    <button class="btn ghost" data-close>닫기</button>
+    <h2>${t("new_game")}</h2>
+    <p class="sub">${t("modes_sub")}</p>
+    <button class="mode-item" data-m="daily"><span class="emo ico-line"><svg viewBox="0 0 24 24"><path d="M12 22c4 0 7-2.7 7-6.8 0-3.4-2.3-5.6-3.6-7.2-.4 1.6-1.3 2.8-2.4 3.3C13.3 7.6 11.6 4.3 9 2c.2 3-1.5 5.1-3 7-1.2 1.6-2 3.4-2 5.4C4 19 7.4 22 12 22Z"/></svg></span><div><b>${t("daily_title")} ${store.daily.streak ? `<em class="streak">${t("streak_badge", { n: store.daily.streak })}</em>` : ""}${store.shields ? ` <em class="shield">🛡️${store.shields}</em>` : ""}</b><span>${doneToday ? t("daily_done") : t("daily_desc")}${t("my_best", { s: fmt(dl.best || 0) })} · ${freeTag("daily")}</span></div></button>
+    <button class="mode-item" data-m="weekly"><span class="emo ico-line"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></span><div><b>${t("weekly_title")}</b><span>${t("weekly_desc")} · ${t("my_best", { s: fmt(wk.best || 0) })} · ${freeTag("weekly")}</span></div></button>
+    ${opp ? `<button class="mode-item" data-m="duel"><span class="emo ico-line"><svg viewBox="0 0 24 24"><path d="M14.5 17.5 3 6V3h3l11.5 11.5"/><path d="M13 19l6-6M16 16l4 4M19 21l2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5"/><path d="M5 14l4 4M7 17l-3 3M3 19l2 2"/></svg></span><div><b>${t("rematch_title", { name: esc(nm(opp.name)) })}</b><span>${t("rematch_desc", { s: fmt(opp.score) })}</span></div></button>` : ""}
+    <button class="mode-item" data-m="practice"><span class="emo ico-line"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.5" cy="8.5" r="1.2"/><circle cx="15.5" cy="15.5" r="1.2"/><circle cx="12" cy="12" r="1.2"/></svg></span><div><b>${t("practice_title")}</b><span>${t("practice_desc")}</span></div></button>
+    <button class="btn ghost" data-close>${t("close")}</button>
   `, (card) => {
     card.querySelectorAll("[data-m]").forEach((b) => b.onclick = async () => {
       const m = b.dataset.m;
@@ -624,7 +741,11 @@ function recordEnd() {
     if (d.date !== today) { d.date = today; d.best = 0; d.plays = 0; }
     if (first) d.plays += 1;
     if (game.score > d.best) d.best = game.score;
-    if (d.lastDone !== today) { d.streak = d.lastDone === prevDayKey(today) ? d.streak + 1 : 1; d.lastDone = today; }
+    if (d.lastDone !== today) {
+      d.streak = d.lastDone === prevDayKey(today) ? d.streak + 1 : 1; d.lastDone = today;
+      // 7일 연속마다 보호권 1개 (최대 2개)
+      if (d.streak % 7 === 0 && store.shields < MAX_SHIELDS) { store.shields += 1; setTimeout(() => toast(t("shield_earned", { n: d.streak })), 1400); }
+    }
   }
   if (mode === "duel") {
     const key = String(opp.seed);
@@ -650,8 +771,8 @@ function milestoneRows() {
     const a = mine[v], b = theirs[v];
     const meFaster = a && (!b || a < b), themFaster = b && (!a || b < a);
     return `<li><span class="mt ${tileClass(v)}">${v}</span>
-      <span class="${meFaster ? "fast" : ""}">${a ? `${a}수` : "—"}</span>
-      <span class="${themFaster ? "fast" : ""}">${b ? `${b}수` : "—"}</span></li>`;
+      <span class="${meFaster ? "fast" : ""}">${a ? t("moves_cell", { n: a }) : "—"}</span>
+      <span class="${themFaster ? "fast" : ""}">${b ? t("moves_cell", { n: b }) : "—"}</span></li>`;
   }).join("");
 }
 
@@ -660,48 +781,49 @@ function showResult() {
   endShown = true;
   recordEnd();
   const me = { name: myName(), score: game.score, best: maxTile(game) };
-  // NCQ_ADS_REVIVE: 게임 오버 이어하기 보상형 광고
-  const reviveOk = game.over && NcqAds.can("REVIVE") && !game.revives;
-  const reviveBtn = reviveOk ? `<button class="btn revive" data-revive>이어하기 <small>광고 보고 · 작은 타일 2개 지우기</small></button>` : "";
+  // NCQ_ADS_REVIVE: 게임 오버 이어하기 보상형 광고 (광고 제거를 샀으면 광고 없이)
+  const reviveOk = game.over && (noAds() || NcqAds.can("REVIVE")) && !game.revives;
+  const reviveBtn = reviveOk ? `<button class="btn revive" data-revive>${t("revive")} <small>${noAds() ? t("revive_sub_free") : t("revive_sub")}</small></button>` : "";
 
   let body;
   if (mode === "duel") {
     const win = me.score > opp.score, draw = me.score === opp.score;
     const r = duelRec();
     const rows = milestoneRows();
-    const revengeLabel = r && r.retries >= 1 ? `복수하기 <small>광고 보고</small>` : `복수하기 <small>무료</small>`;
+    const revengeLabel = `${t("revenge")} <small>${r && r.retries >= 1 && !noAds() ? t("ad_watch") : t("free")}</small>`;
     body = `
       <div class="result-badge">${win ? "🏆" : draw ? "🤝" : "😤"}</div>
-      <h2 style="text-align:center">${win ? "이겼어요!" : draw ? "비겼어요" : "아쉽게 졌어요"}</h2>
-      <p class="sub" style="text-align:center">${win ? `${store.winStreak >= 2 ? `${store.winStreak}연승 중! ` : ""}${esc(opp.name)}에게 결과를 보내 복수전을 받아 보세요` : `${fmt(opp.score - me.score)}점 차이예요. 같은 판으로 바로 복수해요`}</p>
+      <h2 style="text-align:center">${win ? t("win") : draw ? t("draw") : t("lose")}</h2>
+      <p class="sub" style="text-align:center">${win ? `${store.winStreak >= 2 ? t("win_streak", { n: store.winStreak }) : ""}${t("win_sub", { name: esc(nm(opp.name)) })}` : t("lose_sub", { d: fmt(opp.score - me.score) })}</p>
       <div class="vs">
-        <div class="side ${win ? "win" : ""}"><div class="who">${esc(me.name)}</div><div class="pts">${fmt(me.score)}</div><div class="tilemax">최고 타일 ${me.best}</div>${game.revives ? `<div class="flag">이어하기 ${game.revives}회</div>` : ""}</div>
+        <div class="side ${win ? "win" : ""}"><div class="who">${esc(me.name)}</div><div class="pts">${fmt(me.score)}</div><div class="tilemax">${t("best_tile", { v: me.best })}</div>${game.revives ? `<div class="flag">${t("revives_n", { n: game.revives })}</div>` : ""}</div>
         <div class="mid">VS</div>
-        <div class="side ${!win && !draw ? "win" : ""}"><div class="who">${esc(opp.name)}</div><div class="pts">${fmt(opp.score)}</div><div class="tilemax">최고 타일 ${opp.best}</div>${ghost ? `<div class="flag ok">✓ 기록 확인됨</div>` : opp.verified === false ? `<div class="flag">기록 확인 안 됨</div>` : ""}${ghost?.revives ? `<div class="flag">이어하기 ${ghost.revives}회</div>` : ""}</div>
+        <div class="side ${!win && !draw ? "win" : ""}"><div class="who">${esc(nm(opp.name))}</div><div class="pts">${fmt(opp.score)}</div><div class="tilemax">${t("best_tile", { v: opp.best })}</div>${ghost ? `<div class="flag ok">${t("verified")}</div>` : opp.verified === false ? `<div class="flag">${t("unverified")}</div>` : ""}${ghost?.revives ? `<div class="flag">${t("revives_n", { n: ghost.revives })}</div>` : ""}</div>
       </div>
-      ${rows ? `<div class="miles"><div class="miles-head"><span>타일</span><span>${esc(me.name)}</span><span>${esc(opp.name)}</span></div><ul>${rows}</ul></div>` : ""}
+      ${rows ? `<div class="miles"><div class="miles-head"><span>${t("tile")}</span><span>${esc(me.name)}</span><span>${esc(nm(opp.name))}</span></div><ul>${rows}</ul></div>` : ""}
       ${reviveBtn}
-      ${win ? `<button class="btn primary" data-share>결과 보내기</button><button class="btn" data-retry>같은 판 한 번 더</button>`
-            : `<button class="btn primary" data-retry>${revengeLabel}</button><button class="btn" data-share>결과 보내기</button>`}
-      <button class="btn ghost" data-new>다른 게임</button>
-      ${r ? `<p class="note">${esc(opp.name)}와 이 판으로 ${r.rounds}라운드째예요.</p>` : ""}`;
+      ${win ? `<button class="btn primary" data-share>${t("send_result")}</button><button class="btn" data-retry>${t("again_same")}</button>`
+            : `<button class="btn primary" data-retry>${revengeLabel}</button><button class="btn" data-share>${t("send_result")}</button>`}
+      <button class="btn ghost" data-new>${t("other_game")}</button>
+      ${r ? `<p class="note">${t("rounds_note", { name: esc(nm(opp.name)), n: r.rounds })}</p>` : ""}`;
   } else {
     const wk = mode === "weekly" ? store.weekly : null;
-    const sub = mode === "weekly" ? `이번 주 도전 ${wk.plays}번째 · 내 주간 최고 ${fmt(wk.best)}점`
-      : mode === "daily" ? `🔥 ${store.daily.streak}일 연속 · 오늘 최고 ${fmt(store.daily.best)}점`
-      : "이 판 그대로 친구에게 보내 겨뤄 봐요";
+    const sub = mode === "weekly" ? t("weekly_sub", { n: wk.plays, s: fmt(wk.best) })
+      : mode === "daily" ? t("daily_sub", { n: store.daily.streak, s: fmt(store.daily.best) })
+      : t("practice_sub");
     const again = mode === "weekly" || mode === "daily"
-      ? `<button class="btn" data-again>${mode === "weekly" ? "주간 도전" : "오늘의 판"} 다시 <small>${playsToday(mode) < FREE_PER_DAY ? `무료 ${FREE_PER_DAY - playsToday(mode)}번 남음` : "광고 보고"}</small></button>` : "";
+      ? `<button class="btn" data-again>${t("again", { mode: mode === "weekly" ? t("weekly_title") : t("daily_title") })} <small>${playsToday(mode) < FREE_PER_DAY ? t("free_n", { n: FREE_PER_DAY - playsToday(mode) }) : noAds() ? t("free") : t("ad_watch")}</small></button>` : "";
     body = `
-      <h2 style="text-align:center">게임 끝!</h2>
+      <h2 style="text-align:center">${t("game_over_title")}</h2>
       <p class="sub" style="text-align:center">${sub}</p>
       <div class="solo-score">${fmt(me.score)}</div>
-      <p class="sub" style="text-align:center">최고 타일 ${me.best} · ${game.moves}수${game.revives ? ` · 이어하기 ${game.revives}회` : ""}</p>
+      <p class="sub" style="text-align:center">${t("solo_line", { v: me.best, n: game.moves })}${game.revives ? t("solo_revives", { n: game.revives }) : ""}</p>
+      ${tomorrowCard()}
       ${reviveBtn}
-      <button class="btn primary" data-share>친구에게 도전장 보내기</button>
+      <button class="btn primary" data-share>${t("send_challenge")}</button>
       ${again}
-      <button class="btn ghost" data-new>다른 게임</button>
-      <p class="note">도전장을 받은 친구는 같은 블록 순서로 두면서, 내 판이 같은 수에서 어땠는지 옆에서 보며 겨뤄요.</p>`;
+      <button class="btn ghost" data-new>${t("other_game")}</button>
+      <p class="note">${t("solo_note")}</p>`;
   }
   openSheet(body, (card) => {
     card.querySelector("[data-share]").onclick = () => showShare(me);
@@ -712,11 +834,11 @@ function showResult() {
     if (retry) retry.onclick = async () => { if (await startRevenge()) closeSheet(); };
     const rv = card.querySelector("[data-revive]");
     if (rv) rv.onclick = async () => {
-      if (await NcqAds.rewarded("REVIVE")) {
+      if (noAds() || await NcqAds.rewarded("REVIVE")) {
         revive(game);
         endShown = false;
         closeSheet(); persist(); renderAll(); buzz("success");
-        toast("작은 타일 2개를 지웠어요. 다시 가요!");
+        toast(t("revive_toast"));
       }
     };
   });
@@ -725,19 +847,19 @@ function showResult() {
 // ── 공유: 결과 카드 이미지 + 도전장 링크 ────────
 function challengeLink(me) {
   const code = encodeDuel2({ seed: game.seed, score: me.score, best: me.best, ops: game.log, name: me.name });
-  // 공개 플레이 주소가 아닌 곳(Claude 아티팩트 등)에서는 공유 테스트 주소로 링크를 만든다
-  const base = /\.github\.io$|^localhost$|^127\./.test(location.hostname)
-    ? `${location.origin}${location.pathname}` : PLAY_URL;
+  // 공개 플레이 주소가 아닌 곳(안드로이드 앱·토스·Claude 아티팩트 등)에서는 공유 테스트 주소로 링크를 만든다
+  // 안드로이드 앱(Capacitor)도 주소가 https://localhost라서, localhost는 개발 중(DEV)일 때만 그대로 쓴다
+  const here = /\.github\.io$/.test(location.hostname) || (DEV && /^localhost$|^127\./.test(location.hostname));
+  const base = here ? `${location.origin}${location.pathname}` : PLAY_URL;
   return `${base}?g=${code}`;
 }
 
 function shareText(me) {
   if (mode === "duel") {
     const win = me.score > opp.score;
-    return win ? `2048 대결 ${fmt(me.score)} : ${fmt(opp.score)}로 이겼어! 같은 판으로 복수해 봐`
-      : `2048 대결 ${fmt(me.score)}점. 이번엔 졌지만 다음 판은 내가 이겨`;
+    return win ? t("share_duel_win", { a: fmt(me.score), b: fmt(opp.score) }) : t("share_duel_lose", { a: fmt(me.score) });
   }
-  return `2048 대결! 나는 ${fmt(me.score)}점 (최고 ${me.best}). 같은 블록 순서로 나를 이겨 봐`;
+  return t("share_solo", { s: fmt(me.score), v: me.best });
 }
 
 // 결과 카드 그리기 (1080×1350, 메신저에 붙이기 좋은 세로형)
@@ -751,21 +873,21 @@ function drawCard(me) {
   x.fillStyle = "#faf8ef"; x.fillRect(0, 0, W, H);
   x.fillStyle = "#776e65"; x.font = `800 120px ${F}`; x.textAlign = "left"; x.fillText("2048", 80, 180);
   const tw = x.measureText("2048").width;
-  x.font = `700 46px ${F}`; x.fillStyle = "#f67c5f"; x.fillText("대결", 80 + tw + 16, 175);
+  x.font = `700 46px ${F}`; x.fillStyle = "#f67c5f"; x.fillText("Duel", 80 + tw + 16, 175);
   x.font = `600 36px ${F}`; x.fillStyle = "#a39689"; x.textAlign = "right";
-  x.fillText(mode === "duel" ? "같은 판 대결 결과" : mode === "daily" ? `오늘의 판 · ${dayKey()}` : mode === "weekly" ? `주간 도전 · ${weekKey()}` : "도전장", W - 80, 175);
+  x.fillText(mode === "duel" ? t("card_duel") : mode === "daily" ? t("card_daily", { d: dayKey() }) : mode === "weekly" ? t("card_weekly", { w: weekKey() }) : t("card_challenge"), W - 80, 175);
   // 점수 상자
   const box = (X, w, who, pts, tile, win) => {
     rr(X, 240, w, 260, 32, "#ffffff");
     if (win) { x.lineWidth = 10; x.strokeStyle = "#2fb36d"; x.beginPath(); x.roundRect(X + 5, 245, w - 10, 250, 28); x.stroke(); }
     x.textAlign = "center"; x.fillStyle = "#776e65"; x.font = `700 40px ${F}`; x.fillText(who, X + w / 2, 315);
     x.fillStyle = "#4a443e"; x.font = `800 ${w > 600 ? 110 : 84}px ${F}`; x.fillText(fmt(pts), X + w / 2, 412);
-    x.fillStyle = "#a39689"; x.font = `600 32px ${F}`; x.fillText(`최고 타일 ${tile}`, X + w / 2, 470);
+    x.fillStyle = "#a39689"; x.font = `600 32px ${F}`; x.fillText(t("best_tile", { v: tile }), X + w / 2, 470);
   };
   if (mode === "duel") {
     const win = me.score > opp.score;
     box(80, 420, me.name, me.score, me.best, win);
-    box(580, 420, opp.name, opp.score, opp.best, !win && me.score !== opp.score);
+    box(580, 420, nm(opp.name), opp.score, opp.best, !win && me.score !== opp.score);
     x.fillStyle = "#b9ab9e"; x.font = `800 44px ${F}`; x.textAlign = "center"; x.fillText("VS", 540, 385);
   } else box(80, 920, me.name, me.score, me.best, false);
   // 내 마지막 판
@@ -782,8 +904,8 @@ function drawCard(me) {
     }
   });
   x.fillStyle = "#4a443e"; x.font = `800 52px ${F}`; x.textAlign = "center";
-  x.fillText(mode === "duel" && me.score > opp.score ? "같은 판으로 복수해 봐!" : "같은 블록 순서로 나를 이겨 봐!", W / 2, 1255);
-  x.fillStyle = "#a39689"; x.font = `600 30px ${F}`; x.fillText("링크를 열면 바로 같은 판이 시작돼요", W / 2, 1305);
+  x.fillText(mode === "duel" && me.score > opp.score ? t("card_cta_win") : t("card_cta"), W / 2, 1255);
+  x.fillStyle = "#a39689"; x.font = `600 30px ${F}`; x.fillText(t("card_foot"), W / 2, 1305);
   return c;
 }
 
@@ -799,19 +921,19 @@ async function showShare(me) {
   let canvas, imgUrl = "";
   try { canvas = drawCard(me); imgUrl = canvas.toDataURL("image/png"); } catch { /* 캔버스 불가 */ }
   openSheet(`
-    <h2>결과 보내기</h2>
-    <p class="sub">이미지와 링크를 같이 보내면 친구가 바로 같은 판으로 시작해요.</p>
-    ${imgUrl ? `<img class="share-img" src="${imgUrl}" alt="결과 카드" />` : ""}
-    <button class="btn primary" data-native>공유하기</button>
-    <button class="btn" data-copy>링크 복사</button>
+    <h2>${t("send_result")}</h2>
+    <p class="sub">${t("share_sub")}</p>
+    ${imgUrl ? `<img class="share-img" src="${imgUrl}" alt="${t("card_alt")}" />` : ""}
+    <button class="btn primary" data-native>${t("share")}</button>
+    <button class="btn" data-copy>${t("copy_link")}</button>
     <textarea id="linkBox" class="link-box" readonly rows="3" hidden>${esc(`${text}\n${url}`)}</textarea>
-    <button class="btn ghost" data-back>돌아가기</button>
+    <button class="btn ghost" data-back>${t("back")}</button>
   `, (card) => {
     const box = card.querySelector("#linkBox");
     const showBox = (msg) => { box.hidden = false; box.focus(); box.select(); toast(msg); };
     const copy = async () => {
-      try { await navigator.clipboard.writeText(`${text}\n${url}`); toast("링크를 복사했어요. 친구에게 붙여 넣어 보내 주세요"); }
-      catch { showBox("복사가 막혀 있어요. 아래 글을 길게 눌러 복사해 주세요"); }
+      try { await navigator.clipboard.writeText(`${text}\n${url}`); toast(t("copied")); }
+      catch { showBox(t("copy_blocked")); }
     };
     card.querySelector("[data-copy]").onclick = copy;
     card.querySelector("[data-native]").onclick = async () => {
@@ -822,7 +944,7 @@ async function showShare(me) {
           const file = new File([blob], "duel2048.png", { type: "image/png" });
           if (navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text: `${text}\n${url}` }); return; }
         }
-        if (navigator.share) { await navigator.share({ title: "2048 대결", text, url }); return; }
+        if (navigator.share) { await navigator.share({ title: "2048 Duel", text, url }); return; }
         await copy();
       } catch (e) { if (e?.name !== "AbortError") await copy(); }
     };
@@ -839,15 +961,15 @@ function showReply(d, rec) {
   opp = { ...d };
   openSheet(`
     <div class="result-badge">${meWin ? "😎" : draw ? "🤝" : "🔥"}</div>
-    <h2 style="text-align:center">${esc(d.name)}의 ${rec.rounds ? "복수전" : "답장"} 결과</h2>
-    <p class="sub" style="text-align:center">${meWin ? "아직 내가 이기고 있어요" : draw ? "동점이에요" : `${fmt(d.score - rec.myBest)}점 차이로 역전당했어요`}</p>
+    <h2 style="text-align:center">${t("reply_title", { name: esc(nm(d.name)), kind: rec.rounds ? t("kind_rematch") : t("kind_reply") })}</h2>
+    <p class="sub" style="text-align:center">${meWin ? t("still_win") : draw ? t("tie_now") : t("overtaken", { d: fmt(d.score - rec.myBest) })}</p>
     <div class="vs">
-      <div class="side ${meWin ? "win" : ""}"><div class="who">${esc(myName())}</div><div class="pts">${fmt(rec.myBest)}</div><div class="tilemax">내 최고 기록</div></div>
+      <div class="side ${meWin ? "win" : ""}"><div class="who">${esc(myName())}</div><div class="pts">${fmt(rec.myBest)}</div><div class="tilemax">${t("my_record")}</div></div>
       <div class="mid">VS</div>
-      <div class="side ${!meWin && !draw ? "win" : ""}"><div class="who">${esc(d.name)}</div><div class="pts">${fmt(d.score)}</div><div class="tilemax">최고 타일 ${d.best}</div></div>
+      <div class="side ${!meWin && !draw ? "win" : ""}"><div class="who">${esc(nm(d.name))}</div><div class="pts">${fmt(d.score)}</div><div class="tilemax">${t("best_tile", { v: d.best })}</div></div>
     </div>
-    <button class="btn primary" data-go>${meWin ? "한 판 더 붙기" : "다시 역전하기"}</button>
-    <button class="btn ghost" data-close>나중에</button>
+    <button class="btn primary" data-go>${meWin ? t("one_more") : t("retake")}</button>
+    <button class="btn ghost" data-close>${t("later")}</button>
   `, (card) => {
     card.querySelector("[data-go]").onclick = async () => { closeSheet(); start("duel", d.seed, { ...d }); };
     card.querySelector("[data-close]").onclick = () => { closeSheet(); };
@@ -871,28 +993,28 @@ function showRanking(tab = "weekly") {
   let list;
   if (tab === "weekly") {
     const rng = { s: hashSeed("friends:" + k) };
-    const names = ["민수", "지영", "현우", "수아", "도윤", "하은"];
-    const rows = names.map((n) => ({ name: n, score: Math.round((2000 + nextRandom(rng) ** 1.6 * 34000) / 4) * 4, tag: "목업" }));
-    for (const r of store.received.filter((x) => x.week === k)) rows.push({ name: r.name, score: r.score, tag: "도전장" });
+    const names = t("mock_names").split(",");
+    const rows = names.map((n) => ({ name: n, score: Math.round((2000 + nextRandom(rng) ** 1.6 * 34000) / 4) * 4, tag: t("tag_mock") }));
+    for (const r of store.received.filter((x) => x.week === k)) rows.push({ name: nm(r.name), score: r.score, tag: t("tag_challenge") });
     const live = mode === "weekly" && game ? game.score : 0;
     rows.push({ name: myName(), score: Math.max(store.weekly.key === k ? store.weekly.best : 0, live), me: true });
     rows.sort((a, b) => b.score - a.score);
-    list = `<p class="sub">이번 주 모두 같은 판이에요. 월요일에 새 판으로 바뀌어요.</p>
+    list = `<p class="sub">${t("rank_weekly_sub")}</p>
       <ol class="rank-list">${rows.map((r, i) => `<li class="${r.me ? "me" : ""}"><span class="no">${i + 1}</span><span class="nm">${esc(r.name)}${r.tag ? `<small>${r.tag}</small>` : ""}</span><span class="sc">${fmt(r.score)}</span></li>`).join("")}</ol>
-      <button class="btn primary" data-play>주간 도전 하기</button>`;
+      <button class="btn primary" data-play>${t("play_weekly")}</button>`;
   } else {
     const rows = friendRows();
     list = rows.length
-      ? `<p class="sub">도전장을 주고받은 친구와의 전적이에요. 판마다 내 최고 점수로 비교해요.</p>
-        <ol class="rank-list">${rows.map((r, i) => `<li><span class="no">${i + 1}</span><span class="nm">${esc(r.name)}<small>${r.games}판</small></span><span class="sc rec"><b class="w">${r.w}승</b> ${r.l}패${r.d ? ` ${r.d}무` : ""}</span></li>`).join("")}</ol>`
-      : `<div class="empty"><b>아직 친구 전적이 없어요</b><span>게임이 끝나면 '도전장 보내기'로 친구에게 같은 판을 보내 보세요. 주고받은 대결이 여기에 쌓여요.</span></div>`;
+      ? `<p class="sub">${t("friends_sub")}</p>
+        <ol class="rank-list">${rows.map((r, i) => `<li><span class="no">${i + 1}</span><span class="nm">${esc(nm(r.name))}<small>${t("games_n", { n: r.games })}</small></span><span class="sc rec"><b class="w">${t("wins", { n: r.w })}</b> ${t("losses", { n: r.l })}${r.d ? ` ${t("draws", { n: r.d })}` : ""}</span></li>`).join("")}</ol>`
+      : `<div class="empty"><b>${t("no_friends")}</b><span>${t("no_friends_sub")}</span></div>`;
   }
   openSheet(`
-    <h2>랭킹</h2>
-    <div class="tabs"><button class="${tab === "weekly" ? "on" : ""}" data-tab="weekly">주간 판 · ${k.slice(5)}</button><button class="${tab === "friends" ? "on" : ""}" data-tab="friends">친구 전적</button></div>
+    <h2>${t("ranking")}</h2>
+    <div class="tabs"><button class="${tab === "weekly" ? "on" : ""}" data-tab="weekly">${t("tab_weekly", { w: k.slice(5) })}</button><button class="${tab === "friends" ? "on" : ""}" data-tab="friends">${t("tab_friends")}</button></div>
     ${list}
-    <button class="btn ghost" data-close>닫기</button>
-    ${tab === "weekly" ? `<p class="note">프로토타입: '목업' 점수는 임시 데이터예요. 토스 친구 연동·랭킹 서버는 재미 검증 뒤에 붙여요.</p>` : ""}
+    <button class="btn ghost" data-close>${t("close")}</button>
+    ${tab === "weekly" ? `<p class="note">${t("rank_note")}</p>` : ""}
   `, (card) => {
     card.querySelectorAll("[data-tab]").forEach((b) => (b.onclick = () => showRanking(b.dataset.tab)));
     const play = card.querySelector("[data-play]");
@@ -909,19 +1031,47 @@ function showSettings() {
     const open = store.unlocked.includes(sk.id);
     return `<button class="skin ${store.skin === sk.id ? "on" : ""} ${open ? "" : "locked"}" data-skin="${sk.id}" ${open ? "" : "aria-disabled=\"true\""}>
       <span class="sw skin-${sk.id}"><i class="v2"></i><i class="v8"></i><i class="v64"></i><i class="v512"></i></span>
-      <b>${sk.name}</b><small>${open ? (store.skin === sk.id ? "사용 중" : "선택") : `🔒 ${sk.need}`}</small></button>`;
+      <b>${skinName(sk.id)}</b><small>${open ? (store.skin === sk.id ? t("in_use") : t("select")) : `🔒 ${skinNeed(sk.id)}`}</small></button>`;
   }).join("");
+  // 광고 제거: 샀으면 표시만, 아니면 스토어가 파는 상품일 때만 구매·구매 복원 (가격은 스토어 글 그대로)
+  const sell = !store.noAds && NcqIap.can("REMOVE_ADS");
+  const price = sell ? NcqIap.price("REMOVE_ADS") : "";
+  const adsBlock = store.noAds
+    ? `<div class="row"><span>${t("remove_ads")}</span><b class="owned">${t("remove_ads_owned")}</b></div>`
+    : sell ? `<button class="btn primary" data-buy>${t("remove_ads")}${price ? ` <small>${esc(price)}</small>` : ""}</button>
+      <p class="note">${t("remove_ads_desc")}</p>
+      <button class="btn ghost" data-restore>${t("restore")}</button>` : "";
   openSheet(`
-    <h2>설정</h2>
-    <div class="row"><span>내 이름</span><input id="nameIn" type="text" maxlength="10" placeholder="도전장에 표시돼요" value="${esc(store.name)}" /></div>
-    <div class="row"><span>소리</span><button id="sndSw" class="switch ${store.sound ? "on" : ""}" aria-label="소리"></button></div>
-    <div class="row"><span>진동</span><button id="hapSw" class="switch ${store.haptic ? "on" : ""}" aria-label="진동"></button></div>
-    <h3 class="sec">타일 스킨 <small>${store.unlocked.length}/${SKINS.length}</small></h3>
+    <h2>${t("settings")}</h2>
+    <div class="row"><span>${t("my_name")}</span><input id="nameIn" type="text" maxlength="10" placeholder="${t("name_ph")}" value="${esc(store.name)}" /></div>
+    <div class="row"><span>${t("sound")}</span><button id="sndSw" class="switch ${store.sound ? "on" : ""}" aria-label="${t("sound")}"></button></div>
+    <div class="row"><span>${t("haptics")}</span><button id="hapSw" class="switch ${store.haptic ? "on" : ""}" aria-label="${t("haptics")}"></button></div>
+    <div class="row"><span>${langTitle()}</span><div class="seg" id="langSeg">${langList().map(({ code, name, current }) => `<button class="${current ? "on" : ""}" data-lang="${code}" lang="${code}">${name}</button>`).join("")}</div></div>
+    ${adsBlock}
+    <h3 class="sec">${t("tile_skins")} <small>${store.unlocked.length}/${SKINS.length}</small></h3>
     <div class="skins">${skins}</div>
-    <button class="btn danger" data-reset>진행 초기화</button>
-    <button class="btn ghost" data-close>닫기</button>
-    <p class="note">초기화하면 최고 점수, 주간·오늘의 판 기록, 연속 기록, 친구 전적, 스킨, 진행 중인 판이 모두 지워져요.</p>
+    ${privacyNeeded ? `<button class="btn" data-privacy>${t("privacy_settings")}</button>` : ""}
+    <button class="btn danger" data-reset>${t("reset")}</button>
+    <button class="btn ghost" data-close>${t("close")}</button>
+    <p class="note">${t("reset_note")}${store.noAds ? ` ${t("reset_keeps_purchase")}` : ""}</p>
   `, (card) => {
+    const buy = card.querySelector("[data-buy]");
+    if (buy) buy.onclick = async () => {
+      buy.disabled = true;
+      // 비소모성(한 번 사는 것). 성공하면 onGrant가 먼저 불려요. 실패 안내는 NcqIap이 띄워요 (취소는 조용히)
+      const r = await NcqIap.buyOnce("REMOVE_ADS");
+      if (r.ok) { toast(t("remove_ads_done")); buzz("success"); }
+      if (settingsShown) showSettings();
+    };
+    const rs = card.querySelector("[data-restore]");
+    if (rs) rs.onclick = async () => {
+      rs.disabled = true;
+      const r = await NcqIap.restore(); // 되찾은 상품은 onGrant로 와요
+      if (r.ok) toast(store.noAds ? t("restore_done") : t("restore_none"));
+      if (settingsShown) showSettings();
+    };
+    const pv = card.querySelector("[data-privacy]");
+    if (pv) pv.onclick = () => NcqAds.showPrivacyOptions();
     const nameIn = card.querySelector("#nameIn");
     nameIn.oninput = () => { store.name = nameIn.value.trim().slice(0, 10); save(); };
     card.querySelector("#sndSw").onclick = (e) => { store.sound = !store.sound; e.currentTarget.classList.toggle("on", store.sound); save(); };
@@ -929,9 +1079,14 @@ function showSettings() {
       store.haptic = !store.haptic; e.currentTarget.classList.toggle("on", store.haptic); save();
       buzz("medium"); // 켤 때 바로 느껴 보게
     };
+    // 언어: 고르면 바로 바뀌고 저장됨 (새로 고침 없이 지금 화면을 다시 그림)
+    card.querySelectorAll("[data-lang]").forEach((b) => (b.onclick = () => {
+      if (b.dataset.lang === getLang()) return;
+      setLang(b.dataset.lang); renderAll(); showSettings();
+    }));
     card.querySelectorAll("[data-skin]").forEach((b) => (b.onclick = () => {
       const id = b.dataset.skin;
-      if (!store.unlocked.includes(id)) { toast(`잠겨 있어요: ${SKINS.find((s) => s.id === id).need}`); return; }
+      if (!store.unlocked.includes(id)) { toast(t("locked", { need: skinNeed(id) })); return; }
       store.skin = id; save(); applySkin(); renderAll(); showSettings();
     }));
     // 확인창 대신 버튼을 두 번 누르게 함 (아티팩트·웹뷰에서 confirm이 막힘)
@@ -939,18 +1094,21 @@ function showSettings() {
     resetBtn.onclick = () => {
       if (!resetBtn.dataset.armed) {
         resetBtn.dataset.armed = "1";
-        resetBtn.textContent = "한 번 더 누르면 모두 지워져요";
+        resetBtn.textContent = t("reset_confirm");
         return;
       }
+      const keepNoAds = store.noAds; // 산 상품은 지우지 않아요
       try { localStorage.removeItem(KEY); } catch { /* */ }
       store = defaults();
+      store.noAds = keepNoAds;
       closeSheet();
       applySkin();
       start("weekly", weeklySeed());
-      toast("초기화했어요");
+      toast(t("reset_done"));
     };
     card.querySelector("[data-close]").onclick = closeSheet;
   });
+  settingsShown = true;
 }
 
 let toastTimer;
@@ -980,20 +1138,28 @@ if (window.NCQ_TEST_CHEAT || DEV) {
   p.hidden = false;
   const add = (label, fn) => { const b = document.createElement("button"); b.textContent = label; b.onclick = fn; p.appendChild(b); return b; };
   // 평소엔 접어 두고 '테스트'를 누르면 펼침
-  add("테스트 ▾", () => p.classList.toggle("open")).className = "test-toggle";
+  add(t("test_toggle"), () => p.classList.toggle("open")).className = "test-toggle";
   add("1024×2", () => {
     const empty = game.cells.map((t, i) => (t ? -1 : i)).filter((i) => i >= 0).slice(0, 2);
     for (const i of empty) game.cells[i] = { id: game.nextId++, v: 1024 };
     persist(); renderAll();
   });
-  add("+5000점", () => { game.score += 5000; if (game.score > store.best) store.best = game.score; persist(); renderHud(); });
-  add("게임오버", () => {
+  add(t("cheat_score"), () => { game.score += 5000; if (game.score > store.best) store.best = game.score; persist(); renderHud(); });
+  add(t("cheat_over"), () => {
     game.cells = game.cells.map((_, i) => ({ id: game.nextId++, v: (i % 4 + Math.floor(i / 4)) % 2 ? 4 : 2 }));
     game.over = !canMove(game); persist(); renderAll(); sfx.over(); setTimeout(showResult, 700);
   });
-  add("도전장 받기", () => { location.href = `${location.pathname}?g=${fakeChallenge()}`; });
-  add("스킨 전부", () => { store.unlocked = SKINS.map((s) => s.id); save(); toast("스킨을 모두 열었어요"); });
+  add(t("cheat_challenge"), () => { location.href = `${location.pathname}?g=${fakeChallenge()}`; });
+  add(t("cheat_skins"), () => { store.unlocked = SKINS.map((s) => s.id); save(); toast(t("cheat_skins_toast")); });
+  add(t("cheat_noads"), () => { store.noAds = !store.noAds; save(); renderHud(); toast(t("cheat_noads_toast", { s: store.noAds ? "ON" : "OFF" })); });
 }
+
+// 상품 가격과 광고 동의 상태는 받아 오는 대로 반영 (설정이 열려 있으면 다시 그림)
+NcqIap.ready().then(() => { if (settingsShown && NcqIap.can("REMOVE_ADS")) showSettings(); }).catch(() => {});
+NcqAds.ready().then(() => {
+  privacyNeeded = !!NcqAds.privacyRequired();
+  if (settingsShown && privacyNeeded) showSettings();
+}).catch(() => {});
 
 // ── 시작 ──────────────────────────────────
 (function boot() {
@@ -1024,16 +1190,17 @@ if (window.NCQ_TEST_CHEAT || DEV) {
     }
     store.duels[String(d.seed)] = { name: d.name, oppScore: d.score, oppBest: d.best, rounds: 0, retries: 0, updated: Date.now() };
     start("duel", d.seed, d);
-    setTimeout(() => toast(`${d.name}의 도전장! 옆의 작은 판이 같은 수일 때 상대 판이에요`), 300);
+    setTimeout(() => toast(t("challenge_toast", { name: nm(d.name) })), 300);
     return;
   }
   if (!resume()) start("weekly", weeklySeed());
+  setTimeout(checkStreak, 400);
 })();
 
 // 테스트에서 상태를 볼 수 있게
 window.__duel = {
   get game() { return game; }, get mode() { return mode; }, get ghost() { return ghost; }, get store() { return store; },
-  doMove, requestMove, spawn, fakeChallenge, goal: () => dailyGoal(), sfx, bigMoment,
+  doMove, requestMove, spawn, fakeChallenge, goal: () => dailyGoal(), sfx, bigMoment, checkStreak, addStamp, streakState, dayKey, prevDayKey,
   finish() { game.over = true; persist(); endShown = false; showResult(); },
   setCells(vals) { game.cells = vals.map((v) => (v ? { id: game.nextId++, v } : null)); game.over = false; persist(); renderAll(); },
 };

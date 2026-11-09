@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=e53e965e0789">
-  <script type="module" src="./app.js?v=e53e965e0789"></script>
+  <link rel="stylesheet" href="./style.css?v=c3aad2aa1e19">
+  <script type="module" src="./app.js?v=c3aad2aa1e19"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -118,15 +118,49 @@
 
       <section id="tournament" class="lobby" hidden>
         <div class="list-heading">
-          <h1 id="tournament-title" tabindex="-1" data-i18n="weeklyTournament"></h1>
-          <p id="tournament-dates" class="version" hidden></p>
+          <h1 id="tournament-title" tabindex="-1" data-i18n="rankings"></h1>
         </div>
-        <div class="list-body">
-          <p id="rank-empty" class="list-message"></p>
-          <ol id="standings" class="entry-list"></ol>
+        <div id="ranking-tabs" class="ranking-tabs" role="tablist" aria-labelledby="tournament-title">
+          <button id="ranking-weekly-tab" type="button" role="tab" aria-selected="true"
+                  aria-controls="ranking-weekly-panel" data-ranking="weekly" data-i18n="currentTournament"></button>
+          <button id="ranking-previous-tab" type="button" role="tab" aria-selected="false" tabindex="-1"
+                  aria-controls="ranking-previous-panel" data-ranking="previous" data-i18n="previousTournament"></button>
+          <button id="ranking-rating-tab" type="button" role="tab" aria-selected="false" tabindex="-1"
+                  aria-controls="ranking-rating-panel" data-ranking="rating" data-i18n="ratingRankings"></button>
         </div>
-        <div class="lobby-actions">
-          <button id="join-tournament" class="primary" type="button" data-i18n="joinTournament" hidden></button>
+        <div id="ranking-weekly-panel" class="ranking-panel" role="tabpanel" aria-labelledby="ranking-weekly-tab" tabindex="0">
+          <div id="ranking-weekly-list" class="list-body">
+            <p id="ranking-weekly-dates" class="ranking-dates version" hidden></p>
+            <p id="ranking-weekly-own" class="ranking-own" hidden></p>
+            <p id="ranking-weekly-message" class="list-message" role="status"></p>
+            <button id="ranking-weekly-retry" class="quiet ranking-retry" type="button" data-i18n="rankingRetry" hidden></button>
+            <ol id="standings" class="entry-list"></ol>
+          </div>
+          <div id="tournament-entry" class="tournament-entry" hidden>
+            <p id="tournament-attempts" class="list-count" role="status" hidden></p>
+            <div class="lobby-actions">
+              <button id="join-tournament" class="primary" type="button" data-i18n="joinTournament"></button>
+            </div>
+          </div>
+        </div>
+        <div id="ranking-previous-panel" class="list-body" role="tabpanel" aria-labelledby="ranking-previous-tab" tabindex="0" hidden>
+          <p id="ranking-previous-dates" class="ranking-dates version" hidden></p>
+          <p id="ranking-previous-own" class="ranking-own" hidden></p>
+          <p id="ranking-previous-message" class="list-message" role="status"></p>
+          <button id="ranking-previous-retry" class="quiet ranking-retry" type="button" data-i18n="rankingRetry" hidden></button>
+          <ol id="previous-standings" class="entry-list"></ol>
+        </div>
+        <div id="ranking-rating-panel" class="ranking-panel" role="tabpanel" aria-labelledby="ranking-rating-tab" tabindex="0" hidden>
+          <div id="ranking-rating-list" class="list-body">
+            <p id="ranking-rating-message" class="list-message" role="status"></p>
+            <button id="ranking-rating-retry" class="quiet ranking-retry" type="button" data-i18n="rankingRetry" hidden></button>
+            <ol id="rating-standings" class="entry-list"></ol>
+          </div>
+          <div id="ranking-pagination" class="ranking-pagination" hidden>
+            <button id="ranking-prev" class="quiet" type="button" data-i18n="rankingPrevious"></button>
+            <span id="ranking-page" class="list-count" aria-live="polite"></span>
+            <button id="ranking-next" class="quiet" type="button" data-i18n="rankingNext"></button>
+          </div>
         </div>
       </section>
 
@@ -379,19 +413,31 @@
           </span>
           <div id="profile-rating-section" hidden>
             <div class="profile-rating-line"><span data-i18n="profileRating"></span><strong id="profile-rating"></strong></div>
+            <p id="profile-rating-standing-row" class="profile-rating-standing" hidden>
+              <span data-i18n="profileRatingStanding"></span>
+              <span id="profile-rating-standing"></span>
+            </p>
             <p id="profile-next-rank" hidden></p>
           </div>
           <p id="profile-status" role="status"></p>
         </div>
         <dl id="profile-records" class="profile-records" hidden>
-          <div id="profile-rating-standing-row" hidden>
-            <dt data-i18n="profileRatingStanding"></dt><dd id="profile-rating-standing"></dd>
+          <div>
+            <dt data-i18n="overallRecord"></dt>
+            <dd>
+              <span id="profile-record"></span>
+              <span id="profile-win-rate" class="profile-record-win-rate"></span>
+            </dd>
           </div>
-          <div><dt data-i18n="overallRecord"></dt><dd id="profile-record"></dd></div>
-          <div><dt data-i18n="winRate"></dt><dd id="profile-win-rate"></dd></div>
+          <div id="profile-opponent-win-rate-row" hidden>
+            <dt data-i18n="winRate"></dt><dd id="profile-opponent-win-rate"></dd>
+          </div>
           <div id="profile-rank-record-row" hidden>
             <dt data-i18n="currentRankRecord"></dt>
-            <dd><span id="profile-rank-record"></span><span id="profile-rank-win-rate"></span></dd>
+            <dd>
+              <span id="profile-rank-record"></span>
+              <span id="profile-rank-win-rate" class="profile-record-win-rate"></span>
+            </dd>
           </div>
         </dl>
         <section id="profile-promotion" aria-labelledby="profile-promotion-title" hidden>

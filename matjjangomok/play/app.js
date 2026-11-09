@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=e53e965e0789";
-import { TEXTS } from "./texts.js?v=e53e965e0789";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=e53e965e0789";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=e53e965e0789";
+import { NcqBoard } from "./ncq/board.js?v=c3aad2aa1e19";
+import { TEXTS } from "./texts.js?v=c3aad2aa1e19";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=c3aad2aa1e19";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=c3aad2aa1e19";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -61,7 +61,8 @@ let authSession;
 let authenticating;
 let backend;
 let boardApiUrl;
-let tournament;
+let rankingTab = "weekly";
+let rankingResults = {};
 let turnDeadline = null;
 let turnFrame = 0;
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
@@ -910,11 +911,15 @@ function renderPlayerProfile() {
   el("profile-next-rank").textContent = nextRank;
   el("profile-next-rank").hidden = !nextRank;
   el("profile-record").textContent = t("careerRecord", stats);
-  el("profile-win-rate").textContent = winRate(stats);
+  const overallWinRate = winRate(stats);
+  el("profile-win-rate").hidden = !own;
+  el("profile-opponent-win-rate-row").hidden = own;
+  if (own) el("profile-win-rate").textContent = t("profileWinRate", { rate: overallWinRate });
+  else el("profile-opponent-win-rate").textContent = overallWinRate;
   el("profile-rank-record-row").hidden = !rankRecord;
   if (rankRecord) {
     el("profile-rank-record").textContent = t("careerRecord", rankRecord);
-    el("profile-rank-win-rate").textContent = t("currentRankWinRate", { rate: winRate(rankRecord) });
+    el("profile-rank-win-rate").textContent = t("profileWinRate", { rate: winRate(rankRecord) });
   }
   if (own) renderPromotionMeter("profile-promotion-meter", "promotion", rating);
 }
@@ -1133,14 +1138,22 @@ function render() {
   el("show-tournament").hidden = !backend;
   el("show-tournament").disabled = busy;
   const joinTournament = el("join-tournament");
-  joinTournament.hidden = !backend;
-  joinTournament.disabled = busy || Boolean(matchmaking);
-  joinTournament.toggleAttribute("data-ncq-main", mainAction && lobbyView === "tournament" && Boolean(backend));
-  el("show-lobby").toggleAttribute("data-ncq-main", mainAction && lobbyView === "tournament" && !backend);
+  const canJoinTournament = Boolean(backend) && rankingTab === "weekly";
+  const tournamentStatus = rankingResults.weekly?.result;
+  const attempts = tournamentStatus?.remaining;
+  const attemptsLabel = el("tournament-attempts");
+  el("tournament-entry").hidden = !canJoinTournament;
+  attemptsLabel.hidden = !Number.isInteger(attempts);
+  attemptsLabel.textContent = attempts === 0 ? t("tournamentLimit") :
+    t("tournamentAttempts", { remaining: attempts, limit: tournamentStatus?.dailyLimit });
+  joinTournament.disabled = busy || Boolean(matchmaking) || !(attempts > 0);
+  const joinVisible = canJoinTournament && !joinTournament.disabled;
+  joinTournament.toggleAttribute("data-ncq-main", mainAction && lobbyView === "tournament" && joinVisible);
+  el("show-lobby").toggleAttribute("data-ncq-main", mainAction && lobbyView === "tournament" && !joinVisible);
   el("records-back").toggleAttribute("data-ncq-main", mainAction && lobbyView === "records");
   if (!el("lobby").hidden) renderLobby();
   if (!el("records").hidden) renderRecords();
-  if (!el("tournament").hidden) renderTournament();
+  if (!el("tournament").hidden) renderRankings();
   if (matchmaking) {
     const { canceled, mode, rule } = matchmaking;
     el("queue-status").textContent = t(canceled ? "canceling" : mode === "tournament" ? "tournamentWaiting" : "findingOpponent");
@@ -1334,6 +1347,7 @@ function applyState(next) {
 }
 
 function exitRoom(message = "") {
+  const tournamentMatch = room?.mode === "tournament";
   stream?.close();
   stream = null;
   connected = false;
@@ -1350,6 +1364,7 @@ function exitRoom(message = "") {
   const url = new URL(location.href);
   url.searchParams.delete("room");
   history.replaceState(null, "", url);
+  if (tournamentMatch) showRankings();
   feedback("lobby-error", message, Boolean(message));
   render();
   refreshLobby();
@@ -1539,13 +1554,13 @@ function connectRoom(code) {
       if (stream !== polling) return;
       const next = await remoteRequest(client => client.state(code));
       if (stream !== polling) return;
-      if (["notFound", "forbidden", "authFailed"].includes(next.error)) {
+      if (["notFound", "forbidden", "authFailed", "tournamentClosed"].includes(next.error)) {
         if (room?.phase === "finished" && next.error === "notFound") {
           connected = false;
           render();
           return;
         }
-        exitRoom(next.error === "authFailed" ? "authFailed" : "closed");
+        exitRoom(["authFailed", "tournamentClosed"].includes(next.error) ? next.error : "closed");
         return;
       }
       connected = !next.error;
@@ -1601,11 +1616,13 @@ function join(code) {
 }
 
 function closeMatching(message = "") {
+  const tournamentMatch = matchmaking?.mode === "tournament";
   matchmaking = null;
   el("matchmaking").close();
   feedback("lobby-error", message, Boolean(message));
   render();
-  el("start").focus();
+  (tournamentMatch ? el("ranking-weekly-tab") : el("start")).focus();
+  if (tournamentMatch && lobbyView === "tournament") loadRankings("weekly");
 }
 
 async function cancelMatching(job) {
@@ -1641,7 +1658,7 @@ function requestCancel() {
 }
 
 function startMatching(mode) {
-  if (matchmaking) return;
+  if (matchmaking || (mode === "tournament" && !(rankingResults.weekly?.result?.remaining > 0))) return;
   const job = { canceled: false, mode, rule: mode === "tournament" ? "free" : activeRule() };
   matchmaking = job;
   feedback("lobby-error");
@@ -1701,33 +1718,129 @@ el("show-records").addEventListener("click", () => run(async () => {
   el("records-heading").focus();
 }));
 function showRankings() {
-  run(async () => {
-    if (!backend) return {};
-    const result = await remoteRequest(client => client.gameRequest("/tournament"));
-    if (!result.error) tournament = result;
-    return result;
-  }, () => {
-    lobbyView = "tournament";
-    render();
-    el("tournament-title").focus();
-  });
+  lobbyView = "tournament";
+  rankingTab = "weekly";
+  for (const state of Object.values(rankingResults)) clearTimeout(state.refresh);
+  rankingResults = {};
+  feedback("lobby-error");
+  render();
+  el("tournament-title").focus();
+  loadRankings("weekly");
 }
 el("show-tournament").addEventListener("click", showRankings);
 el("show-rankings").addEventListener("click", showRankings);
 el("join-tournament").addEventListener("click", () => startMatching("tournament"));
 
-function renderTournament() {
-  el("tournament-dates").hidden = !tournament;
-  const empty = el("rank-empty");
-  empty.textContent = t(backend ? "noStandings" : "rankingsUnavailable");
-  empty.hidden = Boolean(tournament?.standings.length);
-  if (!tournament) return;
-  const date = value => NcqLang.date(value, { month: "short", day: "numeric", timeZone: "Asia/Seoul" });
-  el("tournament-dates").textContent = date(tournament.startsAt) + " – " + date(tournament.endsAt);
-  el("standings").replaceChildren(...tournament.standings.map(row => entryRow(
-    row.rank + ". " + (row.you ? t("you") : t("playerAlias", { alias: row.alias })),
-    t("pointsCount", { n: row.points }),
-  )));
+const rankingTabs = [...el("ranking-tabs").querySelectorAll("button")];
+for (const button of rankingTabs) {
+  const tab = button.dataset.ranking;
+  button.addEventListener("click", () => {
+    rankingTab = tab;
+    render();
+    if (!rankingResults[tab]) loadRankings(tab);
+  });
+  el("ranking-" + tab + "-retry").addEventListener("click", () => {
+    el("ranking-" + tab + "-panel").focus();
+    loadRankings(tab, rankingResults[tab]?.page);
+  });
+}
+el("ranking-tabs").addEventListener("keydown", event => {
+  const index = rankingTabs.indexOf(event.target);
+  const length = rankingTabs.length;
+  const destinations = {
+    ArrowLeft: (index + length - 1) % length,
+    ArrowRight: (index + 1) % length,
+    Home: 0,
+    End: length - 1,
+  };
+  const button = rankingTabs[destinations[event.key]];
+  if (!button) return;
+  event.preventDefault();
+  button.focus();
+  button.click();
+});
+for (const [direction, step] of [["prev", -1], ["next", 1]]) {
+  el("ranking-" + direction).addEventListener("click", event => {
+    if (event.currentTarget.getAttribute("aria-disabled") === "true") return;
+    loadRankings("rating", rankingResults.rating.page + step);
+  });
+}
+
+async function loadRankings(tab, page = 1) {
+  if (!backend || rankingResults[tab]?.loading) return;
+  clearTimeout(rankingResults[tab]?.refresh);
+  const state = { page, loading: true };
+  rankingResults[tab] = state;
+  const visible = () => lobbyView === "tournament" && rankingTab === tab && rankingResults[tab] === state;
+  if (visible()) render();
+  const path = tab === "rating" ? "/rankings/rating?page=" + page
+    : tab === "previous" ? "/tournament?view=previous" : "/tournament";
+  state.result = await remoteRequest(client => client.gameRequest(path));
+  state.loading = false;
+  if (rankingResults[tab] !== state) return;
+  const { resetsAt, serverNow, finalized, finalizesAt } = state.result;
+  const refreshAt = tab === "previous" && finalized === false ? finalizesAt : resetsAt;
+  const refreshAfter = Date.parse(refreshAt) - Date.parse(serverNow);
+  if (Number.isFinite(refreshAfter)) {
+    state.refresh = setTimeout(() => {
+      if (rankingResults[tab] !== state) return;
+      delete rankingResults[tab];
+      if (lobbyView === "tournament" && rankingTab === tab) loadRankings(tab, page);
+    }, Math.max(1000, refreshAfter + 100));
+  }
+  if (visible()) {
+    render();
+    el("ranking-" + tab + (tab === "previous" ? "-panel" : "-list")).scrollTop = 0;
+  }
+}
+
+function renderRankings() {
+  for (const button of rankingTabs) {
+    const selected = button.dataset.ranking === rankingTab;
+    button.setAttribute("aria-selected", String(selected));
+    button.tabIndex = selected ? 0 : -1;
+    el(button.getAttribute("aria-controls")).hidden = !selected;
+  }
+  const rating = rankingTab === "rating";
+  const previous = rankingTab === "previous";
+  const state = rankingResults[rankingTab];
+  const result = state?.result;
+  const rows = result?.standings ?? [];
+  const message = el("ranking-" + rankingTab + "-message");
+  const empty = rating ? "noRatingStandings" : previous
+    ? result?.finalized === false ? "tournamentFinalizing" : "noPreviousStandings"
+    : "noStandings";
+  message.textContent = t(!backend ? "rankingsUnavailable" : result?.error ? "rankingsLoadFailed" : result ? empty : "rankingsLoading");
+  message.hidden = rows.length > 0;
+  el("ranking-" + rankingTab + "-retry").hidden = !result?.error;
+  const standings = rating ? "rating-standings" : previous ? "previous-standings" : "standings";
+  el(standings).replaceChildren(...rows.map(row => {
+    const name = row.you ? t("you") : t("playerAlias", { alias: row.alias });
+    const value = rating ? t("rankRating", { rank: rankName(rankLevel(row.rating)), rating: ratingNumber(row.rating) })
+      : t("pointsCount", { n: row.points });
+    const entry = entryRow(ratingNumber(row.rank) + ". " + name, value);
+    entry.toggleAttribute("data-own-ranking", row.you);
+    return entry;
+  }));
+  if (!rating) {
+    const dates = el("ranking-" + rankingTab + "-dates");
+    dates.hidden = !result?.startsAt;
+    if (!dates.hidden) {
+      const date = value => NcqLang.date(value, { month: "short", day: "numeric", timeZone: "Asia/Seoul" });
+      dates.textContent = date(Date.parse(result.startsAt)) + " – " + date(Date.parse(result.endsAt) - 1);
+      if (previous) dates.textContent += " · " + t(result.finalized ? "tournamentFinalized" : "tournamentFinalizing");
+    }
+    const own = el("ranking-" + rankingTab + "-own");
+    own.hidden = !result?.own;
+    if (!own.hidden) own.textContent = t("tournamentOwnRank", result.own);
+  } else {
+    const page = state?.page ?? 1;
+    const pagination = el("ranking-pagination");
+    pagination.hidden = page === 1 && !result?.hasMore && (!state?.loading || pagination.hidden);
+    el("ranking-page").textContent = t("rankingPage", { page: ratingNumber(page) });
+    el("ranking-prev").setAttribute("aria-disabled", String(page === 1 || state?.loading === true));
+    el("ranking-next").setAttribute("aria-disabled", String(!result?.hasMore || state?.loading === true));
+  }
 }
 function showLobby() {
   if (lobbyView === "lobby") return;
@@ -1936,6 +2049,7 @@ window.addEventListener("hashchange", () => {
   if (sharedRecordToken() !== null || archive?.sharedView) location.reload();
 });
 render();
+if (lobbyView === "tournament" && !rankingResults[rankingTab]) loadRankings(rankingTab);
 refreshLobby();
 for (const image of [...playerPhotos, el("profile-photo")]) {
   image.addEventListener("load", () => { image.hidden = !image.hasAttribute("src"); });

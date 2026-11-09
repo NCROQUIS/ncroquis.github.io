@@ -182,6 +182,49 @@ body:not(.in-match) .topbar { border-color: var(--lobby-border); }
 }
 .entry-body span { color: var(--muted); text-align: end; font-size: .83rem; }
 button.entry-body:hover { background: #ebeede; }
+.ranking-tabs {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border-radius: 14px;
+  background: #efede5;
+}
+.ranking-tabs button {
+  min-height: 42px;
+  padding: 4px 3px;
+  border: 0;
+  border-radius: 10px;
+  color: var(--muted);
+  background: transparent;
+  font-size: .86rem;
+  font-weight: 750;
+}
+.ranking-tabs button[aria-selected="true"] { color: var(--lobby-green); background: #e0e8cf; }
+.ranking-dates { padding: 1px 2px 8px; font-size: .82rem; }
+.ranking-own {
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: #edf0e1;
+  color: var(--lobby-green);
+  font-size: .83rem;
+  font-weight: 700;
+}
+.tournament-entry { flex: none; text-align: center; }
+#tournament-attempts { margin: 0 0 5px; white-space: normal; }
+.ranking-panel { display: flex; flex: 1; flex-direction: column; min-height: 0; gap: 8px; }
+.ranking-pagination {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+}
+.ranking-pagination button[aria-disabled="true"] { opacity: .62; cursor: default; }
+.ranking-retry { display: block; margin: 8px auto; }
+.entry-row[data-own-ranking] { border-color: #c4d3a5; background: #eff3e6; }
 .lobby-actions {
   flex: none;
   display: flex;
@@ -936,13 +979,14 @@ dialog input { width: 100%; }
 .profile-identity .player-avatar svg { width: 34px; height: 34px; }
 .profile-rating-line { display: flex; align-items: baseline; flex-wrap: wrap; gap: 3px 9px; }
 .profile-rating-line strong { font-size: 1.16rem; font-variant-numeric: tabular-nums; }
-#profile-next-rank, #profile-status { color: var(--muted); font-size: .85rem; }
+.profile-rating-standing { display: flex; flex-wrap: wrap; gap: 0 7px; font-variant-numeric: tabular-nums; }
+.profile-rating-standing, #profile-next-rank, #profile-status { color: var(--muted); font-size: .85rem; }
 .profile-records { margin: 0; border-block: 1px solid var(--lobby-border); }
 .profile-records > div { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 9px 0; }
 .profile-records > div:not([hidden]) ~ div { border-top: 1px solid var(--lobby-border); }
 .profile-records dt { color: var(--muted); }
 .profile-records dd { margin: 0; text-align: end; font-variant-numeric: tabular-nums; font-weight: 700; }
-#profile-rank-win-rate { display: block; color: var(--muted); font-size: .85rem; font-weight: 500; }
+.profile-record-win-rate { display: block; color: var(--muted); font-size: .85rem; font-weight: 500; }
 #profile-promotion-title { margin: 0 0 6px; font-size: 1rem; }
 .promotion-meter {
   padding: 10px 12px;

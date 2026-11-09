@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=bbd02ae15df7";
-import { TEXTS } from "./texts.js?v=bbd02ae15df7";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=bbd02ae15df7";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=bbd02ae15df7";
+import { NcqBoard } from "./ncq/board.js?v=f03cf9712381";
+import { TEXTS } from "./texts.js?v=f03cf9712381";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=f03cf9712381";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=f03cf9712381";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -20,8 +20,14 @@ let matchAds = { freeRounds: [], lastShownAt: 0, lastAttemptedRound: null };
 let resultAdRound = null;
 const starterCoins = 0;
 const skinPrices = {
-  stones: { reference: 0, classic: 0, glossy: 120, gilded: 250, vintage: 0 },
-  board: { reference: 0, classic: 0, wood: 120, gilded: 250, vintage: 0 },
+  stones: {
+    reference: 0, classic: 0, glossy: 120, gilded: 250, vintage: 0,
+    porcelain: 0, jade: 0, lacquer: 0, ocean: 0, soda: 0,
+  },
+  board: {
+    reference: 0, classic: 0, wood: 120, gilded: 250, vintage: 0,
+    porcelain: 0, jade: 0, lacquer: 0, ocean: 0, soda: 0,
+  },
 };
 const skinKinds = Object.keys(skinPrices);
 let shopState = loadShopState();
@@ -31,6 +37,7 @@ let shopSaving = false;
 const board = el("board");
 const boardGrid = el("board-grid");
 const lastMoveMarker = el("last-move-marker");
+const reviewMoveNumbers = el("review-move-numbers");
 const ownClock = el("own-clock");
 const opponentClock = el("opponent-clock");
 const ownProgress = el("own-progress");
@@ -43,6 +50,7 @@ let stream = null;
 let connected = false;
 let busy = false;
 let reviewPly = 0;
+let showMoveNumbers = false;
 let archive = null;
 let spectator = null;
 let lobbyView = "lobby";
@@ -64,6 +72,7 @@ let profileLoading = false;
 let profileTarget = null;
 let matchmaking = null;
 const ruleNames = { renju: "ruleRenju", free: "ruleFree", taraguchi: "ruleTaraguchi" };
+const foulMarkers = { renjuDoubleThree: "33", renjuDoubleFour: "44", renjuOverline: "6+" };
 const defaultRule = "renju";
 const ruleDialog = el("rule-dialog");
 let availableRules = Object.keys(ruleNames);
@@ -196,12 +205,13 @@ try {
 const shopRadios = Array.from(shop.querySelectorAll('input[type="radio"]'));
 const skinCards = shopRadios.filter(input => input.name !== "grid").map(input => {
   const label = input.closest("label");
+  const boardSample = label.querySelector(".board-sample");
   const status = document.createElement("span");
   const price = document.createElement("span");
   status.className = "shop-skin-status";
   price.className = "shop-skin-price";
   label.append(status, price);
-  return { input, label, status, price };
+  return { input, label, boardSample, status, price };
 });
 el("show-shop").addEventListener("click", () => {
   shopPreview = { ...shopState.appearance };
@@ -320,12 +330,13 @@ function renderShop() {
     input.checked = shopPreview[input.name] === input.value;
     input.disabled = shopSaving;
   }
-  for (const { input, label, status, price } of skinCards) {
+  for (const { input, label, boardSample, status, price } of skinCards) {
     const { name, value, checked } = input;
     const applied = shopState.appearance[name] === value;
     const owned = ownsSkin(shopState, name, value);
     label.toggleAttribute("data-locked", !owned);
     label.toggleAttribute("data-applied", applied);
+    if (boardSample) boardSample.dataset.gridStyle = shopPreview.grid;
     status.textContent = t(!owned ? (checked ? "shopSelectedLocked" : "shopLocked")
       : applied ? "shopApplied" : checked ? "shopSelected" : "shopOwned");
     price.hidden = owned;
@@ -892,6 +903,7 @@ recordShareDialog.addEventListener("close", () => {
 });
 
 function renderReview(game) {
+  reviewMoveNumbers.setAttribute("aria-pressed", String(showMoveNumbers));
   const nextColor = reviewPly < game.moves.length ? moveColor(game, reviewPly) : null;
   for (const [side, seat] of [["opponent", 3 - game.you], ["own", game.you]]) {
     const stone = seatColor(game, seat);
@@ -1539,7 +1551,7 @@ function render() {
   }
 
   board.toggleAttribute("inert", !playing && !finished);
-  drawGamePosition(game, finished ? reviewPly : game.moves.length);
+  drawGamePosition(game, finished ? reviewPly : game.moves.length, finished);
 }
 
 function renderReplayControls(ply, total, watching = false) {
@@ -1553,22 +1565,31 @@ function renderReplayControls(ply, total, watching = false) {
   }
 }
 
-function drawGamePosition(game, ply) {
+function drawGamePosition(game, ply, reviewing = false) {
   const latest = ply === game.moves.length;
   let displayedBoard = game.board;
   if (!latest || game === archive || !displayedBoard) {
     displayedBoard = Array(cells.length).fill(0);
     for (let i = 0; i < ply; i += 1) displayedBoard[game.moves[i]] = moveColor(game, i);
   }
-  drawBoard(game, displayedBoard, game.moves[ply - 1], latest ? game.line ?? [] : [], latest);
+  const moveNumbers = reviewing && showMoveNumbers ? Array(cells.length) : null;
+  if (moveNumbers) {
+    for (let i = 0; i < ply; i += 1) moveNumbers[game.moves[i]] = i + 1;
+  }
+  const showReplayFouls = reviewing && !latest && hasForbiddenMoves(game.rule)
+    && moveColor(game, ply) === 1 && (game.rule !== "taraguchi" || ply >= 6);
+  drawBoard(game, displayedBoard, game.moves[ply - 1], latest ? game.line ?? [] : [], {
+    latest, moveNumbers, showReplayFouls,
+  });
 }
 
-function drawBoard(game, displayedBoard, last, winning, latest) {
+function drawBoard(game, displayedBoard, last, winning, { latest, moveNumbers, showReplayFouls }) {
   const selectable = canAct();
   const ownTurn = game === room && game.phase === "playing" && game.turn === game.you;
   const limits = ownTurn ? moveLimits(game) : [];
   const offers = latest && game.phase === "playing" ? game.offers ?? [] : [];
   board.classList.toggle("selectable", selectable);
+  board.toggleAttribute("data-move-numbers", Boolean(moveNumbers));
   const lastCell = cells[last];
   lastMoveMarker.toggleAttribute("hidden", !lastCell);
   if (lastCell && lastMoveMarker.parentElement !== lastCell) lastCell.append(lastMoveMarker);
@@ -1576,19 +1597,26 @@ function drawBoard(game, displayedBoard, last, winning, latest) {
     const stone = displayedBoard[index];
     const isSelected = selected === index;
     const displayed = isSelected ? game.stone ?? seatColor(game, game.you) : stone;
-    const restriction = limits[index];
+    const restriction = showReplayFouls ? forbiddenAt(displayedBoard, index, game.rule) : limits[index];
+    const foul = foulMarkers[restriction];
     const offer = offers.indexOf(index) + 1;
     cell.dataset.stone = stone;
-    cell.toggleAttribute("data-foul", Boolean(restriction?.startsWith("renju")));
+    if (foul) cell.dataset.foul = foul;
+    else cell.removeAttribute("data-foul");
     cell.toggleAttribute("data-outside-opening", restriction === "outsideOpening" || restriction === "chooseOffered");
     if (offer) cell.dataset.offer = offer;
     else cell.removeAttribute("data-offer");
     cell.classList.toggle("selected", isSelected);
     cell.classList.toggle("win", winning.includes(index));
-    cell.firstElementChild.hidden = !displayed;
-    cell.firstElementChild.className = "stone " + (displayed === 1 ? "black" : "white");
+    const stoneElement = cell.firstElementChild;
+    const moveNumber = moveNumbers?.[index];
+    const numberText = moveNumber ? String(moveNumber) : "";
+    stoneElement.hidden = !displayed;
+    stoneElement.className = "stone " + (displayed === 1 ? "black" : "white");
+    if (stoneElement.textContent !== numberText) stoneElement.textContent = numberText;
     const cellLabel = t(["square", "blackSquare", "whiteSquare"][stone], { cell: coordinate(index) });
-    const detail = restriction ? t(restriction) : offer ? t("fifthCandidate", { n: offer }) : "";
+    const detail = restriction ? t(restriction) : offer ? t("fifthCandidate", { n: offer })
+      : moveNumber ? t("moveNumber", { n: moveNumber }) : "";
     cell.setAttribute("aria-label", detail ? cellLabel + ". " + detail : cellLabel);
     cell.title = detail;
     cell.setAttribute("aria-selected", String(isSelected));
@@ -2335,6 +2363,10 @@ el("leave").addEventListener("click", leaveMatch);
 el("watch-back").addEventListener("click", leaveMatch);
 el("leave-match").addEventListener("click", leaveMatch);
 el("review-back").addEventListener("click", leaveMatch);
+reviewMoveNumbers.addEventListener("click", () => {
+  showMoveNumbers = !showMoveNumbers;
+  render();
+});
 el("review-favorite").addEventListener("click", event => {
   const button = event.currentTarget;
   markFavorite(button, toggleFavorite(button.dataset.recordId));

@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=bbd02ae15df7">
-  <script type="module" src="./app.js?v=bbd02ae15df7"></script>
+  <link rel="stylesheet" href="./style.css?v=f03cf9712381">
+  <script type="module" src="./app.js?v=f03cf9712381"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -258,9 +258,16 @@
 
       <section id="match" class="match" hidden>
         <header id="review-header" class="review-header" hidden>
-          <button id="review-back" type="button" class="review-button" data-i18n-attr="aria-label:reviewBack">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"/></svg>
-          </button>
+          <div class="review-leading">
+            <button id="review-back" type="button" class="review-button" data-i18n-attr="aria-label:reviewBack">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"/></svg>
+            </button>
+            <button id="review-move-numbers" type="button" class="review-button" aria-pressed="false"
+                    data-i18n-attr="aria-label:moveNumbers; title:moveNumbers">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m10 10 2-2v8"/></svg>
+              <span data-i18n="moveNumbersShort"></span>
+            </button>
+          </div>
           <h1 id="review-heading" tabindex="-1" data-i18n="recordView"></h1>
           <div class="review-actions">
             <button id="review-favorite" type="button" class="record-favorite review-button">
@@ -599,6 +606,26 @@
                 <input type="radio" name="stones" value="vintage"><span data-i18n="vintageStones"></span>
               </label>
               <label class="appearance-choice">
+                <span class="stone-sample" data-stone-style="porcelain" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <input type="radio" name="stones" value="porcelain"><span data-i18n="porcelainSkin"></span>
+              </label>
+              <label class="appearance-choice">
+                <span class="stone-sample" data-stone-style="jade" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <input type="radio" name="stones" value="jade"><span data-i18n="jadeSkin"></span>
+              </label>
+              <label class="appearance-choice">
+                <span class="stone-sample" data-stone-style="lacquer" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <input type="radio" name="stones" value="lacquer"><span data-i18n="lacquerSkin"></span>
+              </label>
+              <label class="appearance-choice">
+                <span class="stone-sample" data-stone-style="ocean" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <input type="radio" name="stones" value="ocean"><span data-i18n="oceanSkin"></span>
+              </label>
+              <label class="appearance-choice">
+                <span class="stone-sample" data-stone-style="soda" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <input type="radio" name="stones" value="soda"><span data-i18n="sodaSkin"></span>
+              </label>
+              <label class="appearance-choice">
                 <span class="stone-sample" data-stone-style="glossy" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
                 <input type="radio" name="stones" value="glossy"><span data-i18n="glossyStones"></span>
               </label>
@@ -628,6 +655,36 @@
                   <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
                 </span>
                 <input type="radio" name="board" value="vintage"><span data-i18n="vintageBoard"></span>
+              </label>
+              <label class="appearance-choice">
+                <span class="board-sample theme-sample" data-board-style="porcelain" aria-hidden="true">
+                  <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
+                </span>
+                <input type="radio" name="board" value="porcelain"><span data-i18n="porcelainSkin"></span>
+              </label>
+              <label class="appearance-choice">
+                <span class="board-sample theme-sample" data-board-style="jade" aria-hidden="true">
+                  <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
+                </span>
+                <input type="radio" name="board" value="jade"><span data-i18n="jadeSkin"></span>
+              </label>
+              <label class="appearance-choice">
+                <span class="board-sample theme-sample" data-board-style="lacquer" aria-hidden="true">
+                  <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
+                </span>
+                <input type="radio" name="board" value="lacquer"><span data-i18n="lacquerSkin"></span>
+              </label>
+              <label class="appearance-choice">
+                <span class="board-sample theme-sample" data-board-style="ocean" aria-hidden="true">
+                  <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
+                </span>
+                <input type="radio" name="board" value="ocean"><span data-i18n="oceanSkin"></span>
+              </label>
+              <label class="appearance-choice">
+                <span class="board-sample theme-sample" data-board-style="soda" aria-hidden="true">
+                  <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
+                </span>
+                <input type="radio" name="board" value="soda"><span data-i18n="sodaSkin"></span>
               </label>
               <label class="appearance-choice">
                 <span class="board-sample" data-board-style="wood" aria-hidden="true">

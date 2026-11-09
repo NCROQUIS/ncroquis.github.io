@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <script src="ncq/safe.js"></script>
 <script src="ncq/device.js"></script>
-<title>Jelly Block Blast</title>
+<title>Jellyblock - Puzzle Blast</title>
 <link rel="stylesheet" href="fonts/fonts.css">
 <style>
 :root{
@@ -32,6 +32,7 @@ html{-webkit-text-size-adjust:100%}
 *,*::before,*::after{box-sizing:border-box}
 body{font-size:14px;-webkit-tap-highlight-color:transparent}
 [hidden]{display:none!important}
+html:not([lang]) [data-i18n]{visibility:hidden}
 body{
   background:var(--bg);
   background-image:
@@ -83,7 +84,16 @@ canvas:active{cursor:grabbing}
 .tog[aria-pressed="false"]{opacity:.45}
 .tog[aria-pressed="false"] svg{fill:var(--ink-soft);stroke:var(--ink-soft)}
 .tog[aria-pressed="false"] .wave{opacity:0}
-.card .row.vib{width:100%;grid-template-columns:5.5em 1fr 2em}
+.card .row.lang{width:100%;display:flex;flex-direction:column;align-items:stretch;gap:6px}
+.lang-title{font-size:13px;color:var(--ink-soft);text-align:left}
+.lang-list{display:flex;gap:8px;flex-wrap:wrap}
+.lang-list button{flex:1 1 auto;min-width:0;border:0;border-radius:14px;padding:9px 12px;font:15px var(--f-body);color:var(--ink);cursor:pointer;
+  background:linear-gradient(var(--btn-top),var(--btn-bot));box-shadow:inset 0 -3px 0 var(--btn-rim);overflow-wrap:anywhere}
+.lang-list button[aria-pressed="true"]{background:linear-gradient(var(--accent-top),var(--accent));color:var(--on-accent);box-shadow:inset 0 -3px 0 var(--accent-rim)}
+.lang-list button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.card .row.vib{width:100%;grid-template-columns:auto minmax(64px,1fr) auto}
+.card .row.vib label{white-space:normal;text-align:left}
+.card .row.vib output{min-width:2em}
 #settings{position:fixed;inset:0;z-index:30;border-radius:0}
 
 /* lobby + splash */
@@ -98,15 +108,15 @@ canvas:active{cursor:grabbing}
 .lobby-gear{position:absolute;top:calc(var(--ncq-top,0px) + 16px);right:max(16px,var(--ncq-right,0px))}
 .logo{margin:0;flex:1 1 auto;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:jellyIn .9s both}
 .logo{font-weight:400}
-.logo-top{display:flex;gap:1px;font-family:"Lilita One",var(--f-display);font-size:clamp(52px,min(25vw,12.5vh),124px);line-height:1}
+.logo-top{display:flex;gap:1px;font-family:"Lilita One",var(--f-display);font-size:clamp(40px,min(15.5vw,9vh),84px);line-height:1}
 .lj,.le{display:inline-block;-webkit-text-stroke:var(--sw) var(--rim);paint-order:stroke fill;text-shadow:0 .07em 0 var(--rim);animation:bob 2.4s ease-in-out infinite;transform-origin:50% 100%}
-.lj{--sw:12px}
+.lj{--sw:10px}
 .l1{color:var(--j-straw);--rim:var(--j-straw-rim)}
 .l2{color:var(--j-soda);--rim:var(--j-soda-rim);animation-delay:-.45s}
 .l3{color:var(--j-lemon);--rim:var(--j-lemon-rim);animation-delay:-.9s}
 .l4{color:var(--j-lime);--rim:var(--j-lime-rim);animation-delay:-1.35s}
 .l5{color:var(--j-grape);--rim:var(--j-grape-rim);animation-delay:-1.8s}
-.logo-en{display:flex;gap:1px;margin-top:-2px;font-family:"Lilita One",var(--f-display);font-size:clamp(24px,min(10.5vw,5.4vh),56px);line-height:1}
+.logo-en{display:flex;gap:1px;margin-top:-2px;font-family:"Lilita One",var(--f-display);font-size:clamp(22px,min(8.2vw,4.6vh),46px);line-height:1}
 .lgap{width:.32em}
 .le{--sw:9px;--rim:var(--logo-rim);color:var(--on-accent)}
 .e1{color:var(--j-lime);--rim:var(--j-lime-rim)}.e2{color:var(--j-lemon);--rim:var(--j-lemon-rim);animation-delay:-.3s}
@@ -181,11 +191,11 @@ canvas:active{cursor:grabbing}
 <div class="app" data-ncq-no-main>
   <header class="hud">
     <div class="topbar">
-      <div class="bestbox" aria-label="최고 점수">
+      <div class="bestbox" aria-label="Best score" data-i18n-attr="aria-label:best_score">
         <svg class="crown" viewBox="0 0 32 24" aria-hidden="true"><path d="M3 20 L1 6 L9 12 L16 2 L23 12 L31 6 L29 20 Z" /><rect x="3" y="20" width="26" height="3" rx="1.5" /></svg>
         <span class="num best" id="best">0</span>
       </div>
-      <button class="gear" id="gear" type="button" aria-label="설정">
+      <button class="gear" id="gear" type="button" aria-label="Settings" data-i18n-attr="aria-label:settings">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm8.6 4.9-1.9 1.1.2 2.2-2.1.9-1 2-2.2-.4-1.6 1.6-1.6-1.6-2.2.4-1-2-2.1-.9.2-2.2-1.9-1.1.7-2.1-.7-2.1 1.9-1.1-.2-2.2 2.1-.9 1-2 2.2.4L12 1.5l1.6 1.6 2.2-.4 1 2 2.1.9-.2 2.2 1.9 1.1-.7 2.1Z"/></svg>
       </button>
     </div>
@@ -194,39 +204,40 @@ canvas:active{cursor:grabbing}
   </header>
 
   <div class="stage" id="stage">
-    <canvas id="cv" aria-label="Jelly Block Blast 게임판. 아래 조각을 끌어서 판에 놓으세요."></canvas>
+    <canvas id="cv" aria-label="Jellyblock board" data-i18n-attr="aria-label:board_label"></canvas>
 
     <div class="over" id="over" hidden>
       <div class="card">
-        <h2>더 놓을 자리가 없어요</h2>
-        <p>이번 점수</p>
+        <h2 data-i18n="no_room">No more room!</h2>
+        <p data-i18n="this_score">Score</p>
         <div class="big" id="finalScore">0</div>
         <p id="finalBest"></p>
-        <button class="btn primary" id="again" type="button" data-ncq-main="다시 하기 버튼">다시 하기</button>
+        <button class="btn primary" id="again" type="button" data-ncq-main="다시 하기 버튼" data-i18n="play_again">Play again</button>
       </div>
     </div>
 
     <div class="over" id="settings" hidden>
       <div class="card settings">
-        <h2>설정</h2>
+        <h2 data-i18n="settings">Settings</h2>
         <div class="toggles">
           <button class="tog" id="sound" type="button" aria-pressed="true">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke-width="2" stroke-linecap="round"/></svg>
-            <span>효과음</span>
+            <span data-i18n="sound">Sound</span>
           </button>
           <button class="tog" id="bgm" type="button" aria-pressed="true">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17.5V5l11-2v12.5"/><circle cx="6.5" cy="17.5" r="2.8"/><circle cx="17.5" cy="15.5" r="2.8"/><path d="M9 5l11-2v3L9 8z"/></svg>
-            <span>배경음</span>
+            <span data-i18n="music">Music</span>
           </button>
           <button class="tog" id="vibe" type="button" aria-pressed="true">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3" width="8" height="18" rx="2"/><path class="wave" d="M4.5 8v8M2 10v4M19.5 8v8M22 10v4" fill="none" stroke-width="1.8" stroke-linecap="round"/></svg>
-            <span>진동</span>
+            <span data-i18n="vibration">Vibration</span>
           </button>
         </div>
-        <div class="row vib"><label for="vibeLv">진동 세기</label><input id="vibeLv" type="range" min="1" max="3" step="1"><output id="vibeLvOut"></output></div>
-        <button class="btn primary wide" id="restart" type="button">다시 하기</button>
-        <button class="btn wide" id="home" type="button">홈으로</button>
-        <button class="btn wide" id="closeSettings" type="button">닫기</button>
+        <div class="row lang"><span class="lang-title" id="langTitle">Language</span><div class="lang-list" id="langList" role="group" aria-labelledby="langTitle"></div></div>
+        <div class="row vib"><label for="vibeLv" data-i18n="vibration_level">Vibration level</label><input id="vibeLv" type="range" min="1" max="3" step="1"><output id="vibeLvOut"></output></div>
+        <button class="btn primary wide" id="restart" type="button" data-i18n="restart">Restart</button>
+        <button class="btn wide" id="home" type="button" data-i18n="home">Home</button>
+        <button class="btn wide" id="closeSettings" type="button" data-i18n="close">Close</button>
         <span class="ver in-card" id="verSettings"></span>
       </div>
     </div>
@@ -235,18 +246,18 @@ canvas:active{cursor:grabbing}
 
 <!-- loading -> lobby, like the original's flow (studio splash, title with loading, then the lobby) -->
 <div class="screen" id="lobby">
-  <button class="gear lobby-gear" id="lobbyGear" type="button" aria-label="설정" hidden>
+  <button class="gear lobby-gear" id="lobbyGear" type="button" aria-label="Settings" data-i18n-attr="aria-label:settings" hidden>
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Zm8.6 4.9-1.9 1.1.2 2.2-2.1.9-1 2-2.2-.4-1.6 1.6-1.6-1.6-2.2.4-1-2-2.1-.9.2-2.2-1.9-1.1.7-2.1-.7-2.1 1.9-1.1-.2-2.2 2.1-.9 1-2 2.2.4L12 1.5l1.6 1.6 2.2-.4 1 2 2.1.9-.2 2.2 1.9 1.1-.7 2.1Z"/></svg>
   </button>
-  <h1 class="logo" aria-label="Jelly Block Blast">
-    <span class="logo-top" aria-hidden="true"><span class="lj l1">J</span><span class="lj l2">e</span><span class="lj l3">l</span><span class="lj l4">l</span><span class="lj l5">y</span></span>
-    <span class="logo-en" aria-hidden="true"><span class="le e1">B</span><span class="le e2">L</span><span class="le e3">O</span><span class="le e4">C</span><span class="le e5">K</span><span class="lgap"></span><span class="le w1">B</span><span class="le w2">L</span><span class="le w3">A</span><span class="le w4">S</span><span class="le w5">T</span></span>
+  <h1 class="logo" aria-label="Jellyblock - Puzzle Blast">
+    <span class="logo-top" aria-hidden="true"><span class="lj l1">J</span><span class="lj l2">e</span><span class="lj l3">l</span><span class="lj l4">l</span><span class="lj l5">y</span><span class="lj l1">b</span><span class="lj l2">l</span><span class="lj l3">o</span><span class="lj l4">c</span><span class="lj l5">k</span></span>
+    <span class="logo-en" aria-hidden="true"><span class="le e1">P</span><span class="le e2">U</span><span class="le e3">Z</span><span class="le e4">Z</span><span class="le e5">L</span><span class="le e1">E</span><span class="lgap"></span><span class="le w1">B</span><span class="le w2">L</span><span class="le w3">A</span><span class="le w4">S</span><span class="le w5">T</span></span>
   </h1>
   <div class="lobby-bottom">
     <div class="loading" id="loading" aria-live="polite">
       <div class="dots"><i></i><i></i><i></i></div>
       <div class="bar"><div class="fill" id="loadFill"></div></div>
-      <span class="loadtxt">불러오는 중</span>
+      <span class="loadtxt" data-i18n="loading">Loading</span>
     </div>
     <button class="playbtn" id="play" type="button" data-ncq-main="PLAY 버튼" hidden>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.9l10.2-6.5a1 1 0 0 0 0-1.8L9.5 4.6A1 1 0 0 0 8 5.5Z"/></svg>
@@ -259,7 +270,32 @@ canvas:active{cursor:grabbing}
   <div class="studio">NCROQUIS</div>
 </div>
 
-<script>
+<script type="module">
+import { NcqLang } from "./ncq/lang.js";
+
+/* ---------- screen text in every supported language (English is the default) ---------- */
+const TEXTS = {
+  en: {
+    best_score: "Best score", settings: "Settings", board_label: "Jellyblock board. Drag the pieces below onto the board.",
+    no_room: "No more room!", this_score: "Score", play_again: "Play again", new_best: "New best score!", best_n: "Best {n}",
+    sound: "Sound", music: "Music", vibration: "Vibration", vibration_level: "Vibration level",
+    vib_low: "Low", vib_mid: "Medium", vib_high: "High", language: "Language",
+    restart: "Restart", home: "Home", close: "Close", loading: "Loading",
+    combo_n: "Combo ×{n}", debug_difficulty: "Difficulty {d}% · set {n}",
+  },
+  ko: {
+    best_score: "최고 점수", settings: "설정", board_label: "Jellyblock 게임판. 아래 조각을 끌어서 판에 놓으세요.",
+    no_room: "더 놓을 자리가 없어요", this_score: "이번 점수", play_again: "다시 하기", new_best: "최고 점수를 새로 세웠어요", best_n: "최고 {n}점",
+    sound: "효과음", music: "배경음", vibration: "진동", vibration_level: "진동 세기",
+    vib_low: "약", vib_mid: "중", vib_high: "강", language: "언어",
+    restart: "다시 하기", home: "홈으로", close: "닫기", loading: "불러오는 중",
+    combo_n: "콤보 ×{n}", debug_difficulty: "난이도 {d}% · {n}번째 조각",
+  },
+};
+NcqLang.init({ id: "jellyblock", texts: TEXTS });   // ?lang= → chosen language → device language → English
+const t = NcqLang.t;
+const fmtNum = n => NcqLang.num(n);
+
 (() => {
 "use strict";
 const $ = id => document.getElementById(id);
@@ -1036,10 +1072,10 @@ function checkOver() {
     if (score > best) { best = score; try { localStorage.setItem("jelly-best", String(best)); } catch (e) {} }
     setTimeout(() => {
       if (!gameOver) return;
-      $("finalScore").textContent = score.toLocaleString("ko-KR");
-      $("finalBest").textContent = score >= best && score > 0 ? "최고 점수를 새로 세웠어요" : "최고 " + best.toLocaleString("ko-KR") + "점";
+      $("finalScore").textContent = fmtNum(score);
+      $("finalBest").textContent = score >= best && score > 0 ? t("new_best") : t("best_n", { n: fmtNum(best) });
       $("over").hidden = false;
-      $("best").textContent = best.toLocaleString("ko-KR");
+      $("best").textContent = fmtNum(best);
       SFX.over(); buzz("error");
     }, 700);
   }
@@ -1047,10 +1083,10 @@ function checkOver() {
 
 /* ---------- HUD ---------- */
 function bump(el) { el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
-function bumpScore(big) { const el = $("score"); el.classList.toggle("big-hit", !!big); bump(el); if (score > best) $("best").textContent = score.toLocaleString("ko-KR"); }
+function bumpScore(big) { const el = $("score"); el.classList.toggle("big-hit", !!big); bump(el); if (score > best) $("best").textContent = fmtNum(score); }
 function setCombo(pulse) {
   const el = $("combo");
-  el.textContent = combo >= 2 ? "콤보 ×" + combo : "";
+  el.textContent = combo >= 2 ? t("combo_n", { n: combo }) : "";
   if (pulse && combo >= 2) bump(el);
 }
 
@@ -1333,7 +1369,7 @@ function render() {
   if (window.NCQ_TEST_DIFFICULTY || DEBUG_DIFF) {
     ctx.save();
     ctx.font = `12px "Gowun Dodum", sans-serif`; ctx.fillStyle = "rgba(58,47,82,.65)";
-    ctx.fillText(`난이도 ${(lastDifficulty * 100).toFixed(0)}% · ${dealNo}번째 조각`, bx, H - 6);
+    ctx.fillText(t("debug_difficulty", { d: (lastDifficulty * 100).toFixed(0), n: dealNo }), bx, H - 6);
     ctx.restore();
   }
 
@@ -1435,7 +1471,7 @@ function frame(now) {
   if (shownScore !== score) {
     shownScore += Math.max(1, Math.ceil((score - shownScore) * 0.18));
     if (shownScore > score) shownScore = score;
-    $("score").textContent = shownScore.toLocaleString("ko-KR");
+    $("score").textContent = fmtNum(shownScore);
   }
   render();
   requestAnimationFrame(frame);
@@ -1450,7 +1486,7 @@ function syncTuneUI() {
   $("vibe").hidden = !canVib;
   document.querySelector(".row.vib").hidden = !canVib;
   $("vibeLv").value = P.vibeLv || 2;
-  $("vibeLvOut").textContent = ["", "약", "중", "강"][P.vibeLv || 2];
+  $("vibeLvOut").textContent = t(["", "vib_low", "vib_mid", "vib_high"][P.vibeLv || 2]);
   $("vibeLv").disabled = !vibrationOn();
 }
 $("gear").addEventListener("click", () => { ensureAudio(); openSettings(); });
@@ -1484,7 +1520,26 @@ function roundStart() { if (roundOpen) return; roundOpen = true; NcqMetrics.leve
 function roundEnd() { if (!roundOpen) return; roundOpen = false; NcqMetrics.levelEnd("endless", undefined, { score }); }
 
 /* ---------- screens ---------- */
+function renderLanguages() {
+  // menu title also says "Language" in English when another language is on, so anyone can find their way back
+  $("langTitle").textContent = NcqLang.lang === "en" ? t("language") : t("language") + " · Language";
+  const box = $("langList");
+  box.textContent = "";
+  for (const l of NcqLang.list()) {
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = l.name; b.lang = l.code;
+    b.setAttribute("aria-pressed", String(l.current));
+    b.addEventListener("click", () => { if (!l.current) { NcqLang.set(l.code); SFX.tap(); buzz("tap"); } });
+    box.appendChild(b);
+  }
+}
+NcqLang.onChange(() => {
+  renderLanguages(); syncTuneUI(); setCombo(false);
+  if (!$("over").hidden) $("finalBest").textContent = score >= best && score > 0 ? t("new_best") : t("best_n", { n: fmtNum(best) });
+  $("score").textContent = fmtNum(shownScore); $("best").textContent = fmtNum(Math.max(best, score));
+});
 function openSettings() {
+  renderLanguages();
   const inGame = screen === "game";
   $("restart").hidden = !inGame; $("home").hidden = !inGame;
   $("settings").hidden = false;
@@ -1632,12 +1687,12 @@ function start(data) {
       while (ti + 1 < THEMES.length && score >= THEMES[ti + 1].at) ti++;
       setTheme(ti, false);
       if (score > bestAtStart) bestCelebrated = true;
-      $("score").textContent = score.toLocaleString("ko-KR");
+      $("score").textContent = fmtNum(score);
       if (tray.every(x => !x)) deal();
       setCombo(false); checkOver();
     } catch (e) { newGame(false); }
   }
-  $("best").textContent = best.toLocaleString("ko-KR");
+  $("best").textContent = fmtNum(best);
   syncTuneUI();
   boot(!!(data && data.screen === "game"));
   window.claude?.hot?.snapshot?.(snapshot);

@@ -1,4 +1,4 @@
-<script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><title>네온 브릭 퀘스트</title>
+<script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><title>네온 브릭</title>
 <link rel="stylesheet" href="./fonts/fonts.css">
 <style>
 /* Layout: one full-bleed arcade screen; the board is centered between a thin HUD and a control bar, overlays stack on top. */
@@ -75,13 +75,14 @@ button.ghost{border-color:#3a3566;box-shadow:none;color:var(--dim)}
 .dbanner .dt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .dbanner .dt b{font-size:16px;color:var(--gold)}
 .dbanner .dt span{font-size:12px;color:var(--dim);font-weight:400}
+.dbanner.ch{border-color:var(--lime);box-shadow:0 0 12px rgba(182,255,61,.35),inset 0 0 10px rgba(182,255,61,.15)}.dbanner.ch .dt b{color:var(--lime)}.dbanner.ch .go{color:var(--lime)}
 .dbanner .go{font-family:var(--f-num);font-size:13px;color:var(--gold);white-space:nowrap}
 #daily{gap:14px}
 #daily > *{width:100%;max-width:440px;box-sizing:border-box}
 .dhero{background:var(--panel);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;border:1px solid #2a2650}
 .dhero h2{margin:0;font-family:var(--f-num);font-size:22px;color:var(--gold);text-shadow:0 0 10px rgba(255,225,77,.6)}
 .dhero .rule{font-size:13px;color:var(--dim);line-height:1.5}
-.dstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.dstats{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:8px}
 .dstat{background:#0b0918;border-radius:10px;padding:10px 8px;text-align:center}
 .dstat b{display:block;font-family:var(--f-num);font-size:20px;font-variant-numeric:tabular-nums}
 .dstat span{font-size:11px;color:var(--dim)}
@@ -130,6 +131,8 @@ button.ghost{border-color:#3a3566;box-shadow:none;color:var(--dim)}
 #title .play{font-size:20px;padding:14px 48px}
 .tap{font-family:var(--f-num);font-size:13px;letter-spacing:.12em;color:var(--magenta);text-shadow:0 0 8px rgba(255,61,203,.7);animation:hint 1.1s ease-in-out infinite}
 #title .hint{font-size:13px;color:var(--dim);text-align:center;max-width:300px;line-height:1.6}
+/* App version (the build puts it in window.NCQ.NCQ_VERSION; "dev" while developing): small and dim, title top-right under the Toss menu row. */
+#title .ver{position:absolute;top:calc(14px + var(--sat));right:max(14px,env(safe-area-inset-right,0px));font-family:var(--f-num);font-size:11px;letter-spacing:.06em;color:var(--dim);opacity:.75;pointer-events:none}
 #map{gap:18px}
 #map h2{font-family:var(--f-num);font-size:14px;letter-spacing:.2em;color:var(--dim);margin:6px 0 0;width:100%;max-width:420px}
 #map h2 em{font-style:normal;color:var(--ink);font-family:var(--f-ui);letter-spacing:0;font-size:17px;margin-left:8px}
@@ -147,6 +150,9 @@ button.ghost{border-color:#3a3566;box-shadow:none;color:var(--dim)}
 .grid button.ch3{border-color:var(--lime);box-shadow:0 0 10px rgba(182,255,61,.35),inset 0 0 8px rgba(182,255,61,.18)}
 .grid button.art{border-style:dashed}
 .grid button.boss{border-width:3px}
+.grid button.boss .wd{color:#ff8aa0;font-weight:700}
+.grid button.bonus{border-color:var(--gold);box-shadow:0 0 12px rgba(255,225,77,.45),inset 0 0 8px rgba(255,225,77,.2)}
+.grid button.bonus .wd{color:var(--gold);font-weight:700}
 #result{padding:0;justify-content:flex-end;background:rgba(5,4,12,.97)}
 #dance{position:absolute;inset:0;width:100%;height:100%;display:block}
 .rbox{position:relative;width:100%;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));box-sizing:border-box;pointer-events:none}
@@ -154,7 +160,46 @@ button.ghost{border-color:#3a3566;box-shadow:none;color:var(--dim)}
 .rtitle{font-family:var(--f-logo);font-size:clamp(30px,9vw,48px);color:#fff;text-shadow:0 0 6px var(--cyan),0 0 20px var(--cyan);text-align:center;line-height:1.1}
 .rtitle.fail{text-shadow:0 0 6px var(--magenta),0 0 20px var(--magenta)}
 .rsub{font-size:14px;color:var(--dim);min-height:20px;text-align:center}
-.rbtns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;opacity:0;transition:opacity .3s}
+.rbtns{display:flex;flex-direction:column;gap:8px;width:100%;max-width:380px;opacity:0;transition:opacity .3s}
+.rrow{display:flex;gap:10px;justify-content:center}
+.rrow > button{flex:1 1 0;min-width:0;padding-left:8px;padding-right:8px;white-space:nowrap}
+.rrow.main > button{min-height:52px;font-size:17px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;line-height:1.15}
+.rrow.main > button small{font-size:12px;font-weight:600;opacity:.85;display:flex;align-items:center;gap:4px}
+.rrow.main > button.hot{background:rgba(255,61,203,.14)}
+.rrow.sub > button{min-height:44px}
+.rrow.note{font-size:12px;color:var(--dim);margin-top:-4px}
+.rrow.extra > button{flex:0 0 auto;min-height:36px;font-size:14px;padding:6px 16px;border-radius:20px}
+.rrow > button.pink{border-color:var(--magenta);box-shadow:0 0 10px rgba(255,61,203,.45),inset 0 0 8px rgba(255,61,203,.2)}
+.rprog{position:absolute;left:16px;right:16px;top:calc(var(--sat,0px) + 52px);border:1px solid #2a2650;border-radius:14px;padding:12px 14px;background:rgba(5,4,12,.75);display:flex;flex-direction:column;gap:9px;z-index:2}
+.rprog .pt{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.rprog .pt b{font-size:17px;color:#fff}.rprog .pt em{font-style:normal;color:var(--magenta);font-family:var(--f-num);font-size:24px}
+.rprog .pt span{font-family:var(--f-num);color:var(--magenta);font-size:15px}
+.rprog .bar{height:9px;border-radius:5px;background:#1c1838;overflow:hidden}.rprog .bar i{display:block;height:100%;border-radius:5px;background:var(--magenta);box-shadow:0 0 10px var(--magenta)}
+.rprog .chips{display:flex;gap:6px}.rprog .chips i{font-style:normal;width:32px;height:32px;border-radius:6px;border:2px solid #9a6bff;color:#9a6bff;font-family:var(--f-num);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+.rprog .chips i.t-b{border-color:#ff8a3d;color:#ff8a3d}.rprog .chips i.t-xh,.rprog .chips i.t-xv{border-color:var(--lime);color:var(--lime)}
+.rhint:not([hidden]){display:inline-flex;gap:6px;align-items:center;padding:7px 14px;border-radius:999px;border:1px solid rgba(255,225,77,.5);font-family:var(--f-ui);font-weight:700;font-size:14px;animation:none}
+.rhint span{color:var(--dim);font-weight:400}
+.rcoins.card{align-self:stretch;width:100%;max-width:380px;box-sizing:border-box;border:1.5px solid rgba(255,225,77,.55);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:10px;background:rgba(255,225,77,.06);text-shadow:none;min-height:0}
+.rcoins.card .coin.big{width:30px;height:30px;border-width:3px;flex:0 0 auto}
+.rcoins.card .amt{flex:1 1 auto;display:flex;flex-direction:column;text-align:left;min-width:0}
+.rcoins.card .amt b{font-size:22px;color:var(--gold)}.rcoins.card .amt span{font-family:var(--f-ui);font-size:12px;color:var(--dim)}
+.rcoins.card button{min-height:44px;padding:0 12px;font-size:14px;white-space:nowrap}
+.rcoins.card button.gold{border-color:var(--gold);color:var(--gold);background:rgba(255,225,77,.14)}
+.rrow.icons{gap:28px}
+.rrow.icons > button.ic{flex:0 0 56px;width:56px;height:56px;min-height:0;border-radius:50%;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;color:#c9c6e8;position:relative}
+.rrow.icons > button.ic small{font-size:10px;font-weight:700;line-height:1}
+.rrow.icons > button.ic.gold{border-color:var(--gold);color:var(--gold)}
+.rrow.icons > button.ic.lime{border-color:var(--lime);color:var(--lime)}
+.rrow.icons > button.ic.dot::after{content:"";position:absolute;top:3px;right:3px;width:10px;height:10px;border-radius:50%;background:var(--magenta)}
+.rrow.link{margin-top:-2px}.rrow.link > button.link{flex:0 0 auto;border:0;box-shadow:none;background:none;color:var(--dim);text-decoration:underline;text-underline-offset:3px;font-size:14px;min-height:40px}
+.rrow.offer{display:block}.pack{position:relative;border:1.5px solid var(--lime);border-radius:16px;padding:14px 12px 12px;background:rgba(182,255,61,.06);display:flex;flex-direction:column;gap:9px;text-align:left}
+.pack .tag{position:absolute;top:-10px;left:12px;background:var(--lime);color:#05040c;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px}
+.pack .ph b{font-size:16px;color:#fff}.pack .pi{display:flex;gap:6px;flex-wrap:wrap}.pack .pi span{font-size:12px;color:#c9c6e8;border:1px solid #2a2650;border-radius:8px;padding:5px 8px}
+.pack button.lime{min-height:46px;border-color:var(--lime);color:var(--lime);background:rgba(182,255,61,.14);font-weight:700}
+.sheet p .loss{display:flex;flex-direction:column;gap:6px;margin-top:10px;padding:10px 12px;border-radius:12px;background:#17132e;white-space:normal}
+.sheet p .loss > span{display:flex;justify-content:space-between;gap:10px;color:var(--ink)}.sheet p .loss b{color:#ff6b8a}
+.sheet .row button.gold{border-color:var(--gold);color:var(--gold);background:rgba(255,225,77,.12)}
+.rrow > button.gold,.rrow > button.chip{border-color:var(--gold);color:var(--gold);box-shadow:0 0 10px rgba(255,225,77,.3)}
 .rbtns.show{opacity:1}
 .skip{position:absolute;right:max(14px,env(safe-area-inset-right,0px));top:calc(14px + var(--sat));font-size:12px;color:var(--dim);pointer-events:none}
 #editor{gap:12px;align-items:stretch}
@@ -224,7 +269,7 @@ html.toss{--sat:max(var(--ncq-toss-top,0px),calc(var(--ncq-safe-top,env(safe-are
     <div class="mid"><div class="stage" id="hudStage">STAGE 1</div><div class="chap" id="hudChap">네온 시티</div></div>
     <div class="meter"><div class="stars" id="hudStars"><span>★</span><span>★</span><span>★</span></div><div class="turns" id="hudTurns">턴 0</div></div>
   </header>
-  <div id="bar" hidden>
+  <div id="bar" hidden data-ncq-no-main>
     <div class="tray" id="tray" role="group" aria-label="부스터">
       <button class="bst" data-b="hammer" aria-label="망치: 벽돌 하나 제거"><span class="ic">⚒</span>망치<span class="ct">0</span></button>
       <button class="bst" data-b="laser" aria-label="레이저: 한 줄 제거"><span class="ic">⇹</span>레이저<span class="ct">0</span></button>
@@ -242,16 +287,18 @@ html.toss{--sat:max(var(--ncq-toss-top,0px),calc(var(--ncq-safe-top,env(safe-are
 
   <section class="screen" id="title">
     <div class="logo">Neon<b>Brick</b></div>
-    <div class="sub">네온 브릭 퀘스트</div>
+    <div class="sub">네온 브릭</div>
     <canvas id="titleMan" aria-label="장착한 댄스를 추는 네온맨"></canvas>
-    <button class="play hot" id="btnPlay">플레이</button>
+    <button class="play hot" id="btnPlay" data-ncq-main="플레이">플레이</button>
     <div class="tap" id="tapHint">화면을 터치하면 사운드가 켜져요</div>
     <div class="hint">드래그해서 조준하고 손을 떼면 발사.<br>적은 턴으로 깨면 별 3개, 네온맨이 춤을 춥니다.</div>
+    <div class="ver" id="appVer">dev</div>
   </section>
 
-  <section class="screen" id="map" hidden>
+  <section class="screen" id="map" hidden data-ncq-no-main>
     <div class="maphead"><button class="ghost" id="btnHome" aria-label="처음 화면">‹ 처음</button><button class="ghost coins" id="btnShop" aria-label="상점"><i class="coin"></i><span id="mapCoins">0</span> 상점</button><div class="total" id="starTotal">★ 0 / 90</div></div>
-    <div class="settings"><button id="btnSound" aria-pressed="true">사운드 켬</button><button id="btnHaptic" aria-pressed="true">진동 켬</button><button id="btnAutoFF" aria-pressed="true">자동 배속 켬</button><button id="btnLang" class="lang"></button><button id="btnMusic">음악: 랜덤</button><button id="btnEditor" class="hot">레벨 에디터</button><button id="btnUnlockAll" class="devbtn" aria-pressed="false">테스트: 전체 스테이지 해금</button><button id="btnReset" class="devbtn" aria-pressed="false">테스트: 진행 초기화</button></div>
+    <div class="settings"><button id="btnSound" aria-pressed="true">사운드 켬</button><button id="btnHaptic" aria-pressed="true">진동 켬</button><button id="btnAutoFF" aria-pressed="true">자동 배속 켬</button><button id="btnLang" class="lang"></button><button id="btnMusic">음악: 랜덤</button><button id="btnEditor" class="hot">레벨 에디터</button><button id="btnUnlockAll" class="devbtn" aria-pressed="false">테스트: 전체 스테이지 해금</button><button id="btnRestore" hidden>구매 복원</button><button id="btnReset" class="devbtn" aria-pressed="false">테스트: 진행 초기화</button></div>
+    <button class="dbanner ch" id="btnChallenge" hidden><span class="dt"><b>친구의 도전장</b><span id="chLine"></span></span><span class="go">도전 ›</span></button>
     <button class="dbanner" id="btnDaily"><span class="dt"><b>오늘의 챌린지</b><span id="dailyLine">모두가 같은 판, 가장 적은 턴으로</span></span><span class="go" id="dailyLeft">도전 ›</span></button>
     <button class="dbanner dz" id="btnDances"><span class="dt"><b>댄스 도감<span class="dot" id="danceDot" hidden></span></b><span id="danceLine">모은 댄스 3 / 10</span></span><span class="go">보기 ›</span></button>
     <h2>CH.1<em>네온 시티</em></h2>
@@ -319,13 +366,13 @@ html.toss{--sat:max(var(--ncq-toss-top,0px),calc(var(--ncq-safe-top,env(safe-are
     <div class="shophead"><button class="ghost" id="dailyBack">‹ 맵</button><div class="coins"><i class="coin"></i><span id="dailyCoins">0</span></div></div>
     <div class="dhero">
       <h2 id="dailyTitle">오늘의 챌린지</h2>
-      <div class="rule">팀 모두가 같은 판을 풀어요. 부스터와 이어하기 없이, 가장 적은 턴으로 깨면 1등. 몇 번이든 다시 도전할 수 있고 최고 기록만 남아요.</div>
-      <div class="dstats"><div class="dstat"><b id="dsBest">–</b><span>내 최고</span></div><div class="dstat"><b id="dsRank">–</b><span>오늘 순위</span></div><div class="dstat"><b id="dsStreak">0</b><span>연속 참여</span></div></div>
+      <div class="rule" id="dailyRule">팀 모두가 같은 판을 풀어요. 부스터와 이어하기 없이, 가장 적은 턴으로 깨면 1등. 몇 번이든 다시 도전할 수 있고 최고 기록만 남아요.</div>
+      <div class="dstats"><div class="dstat"><b id="dsBest">–</b><span>내 최고</span></div><div class="dstat" id="dsRankBox"><b id="dsRank">–</b><span>오늘 순위</span></div><div class="dstat"><b id="dsStreak">0</b><span>연속 참여</span></div></div>
       <div class="rule" id="dailyReward"></div>
-      <button class="hot" id="dailyPlay">도전하기</button>
+      <button class="hot" id="dailyPlay" data-ncq-main="도전하기">도전하기</button>
       <div class="rule" id="dailyReset"></div>
     </div>
-    <div class="ed-label">오늘의 순위</div>
+    <div class="ed-label" id="dailyBoardLabel">오늘의 순위</div>
     <div class="board" id="dailyBoard"></div>
   </section>
 
@@ -344,6 +391,7 @@ html.toss{--sat:max(var(--ncq-toss-top,0px),calc(var(--ncq-safe-top,env(safe-are
   <section class="screen" id="result" hidden>
     <canvas id="dance" aria-label="네온맨 클리어 댄스"></canvas>
     <div class="skip" id="skipHint">탭해서 건너뛰기</div>
+    <div class="rprog" id="rProg" hidden></div>
     <div class="rbox">
       <div class="rtitle" id="rTitle">STAGE CLEAR</div>
       <div class="rsub" id="rSub"></div>
@@ -365,6 +413,24 @@ const EN = {
 "네온 시티": "Neon City",
 "핑크 클럽": "Pink Club",
 "레이저 스트리트": "Laser Street",
+"보스 ·": "Boss ·",
+"친구의 도전장": "A friend's challenge",
+"네온 브릭 스테이지 {0}를 {1}턴에 깼어! 너는 몇 턴에 깰 수 있어?": "I beat Neon Brick stage {0} in {1} turns! Can you do better?",
+"네온 브릭 도전장": "Neon Brick challenge",
+"도전장 링크를 복사했어요": "Challenge link copied",
+"도전장": "Challenge",
+"닫기": "Close",
+"친구가 스테이지 {0}를 {1}턴에 깼어요. 더 적은 턴에 도전!": "A friend beat stage {0} in {1} turns. Beat it in fewer!",
+"목표: {0}턴 안에 클리어!": "Goal: clear in {0} turns or fewer!",
+"친구 {0}턴 vs 나 {1}턴 · 이겼어요!": "Friend {0} vs you {1} turns · You win!",
+"친구 {0}턴 vs 나 {1}턴 · 비겼어요": "Friend {0} vs you {1} turns · A tie",
+"친구 {0}턴 vs 나 {1}턴 · 아쉬워요": "Friend {0} vs you {1} turns · So close",
+"연습 판이라 기록은 저장되지 않아요": "practice run, nothing is saved",
+"친구에게 도전장 보내기": "Send a challenge to a friend",
+"보스 진격! 2줄 내려왔어요": "Boss march! Down 2 rows",
+"⚠ 보스 진격: 이번 턴이 끝나면 2줄 내려와요": "⚠ Boss march: bricks drop 2 rows after this turn",
+"보스": "BOSS",
+"구멍으로 쏘면 한 번에 다 깨져요!": "Shoot into the hole to break it all!",
 "네온 하이웨이": "Neon Highway",
 "사이버 마켓": "Cyber Market",
 "크롬 가든": "Chrome Garden",
@@ -514,6 +580,40 @@ const EN = {
 "공 +10": "Balls +10",
 "다음 발사 한 번에 공 10개를 더 쏴요.": "Shoot 10 extra balls on your next shot.",
 "밀어내기": "Push",
+"★3까지 {0}턴 <span>· 깨면 네온맨 군무</span>": "{0} turns to ★3 <span>· the Neon crew dances</span>",
+"★2까지 {0}턴 <span>· ★3까지 {1}턴</span>": "{0} turns to ★2 <span>· {1} to ★3</span>",
+"벽돌 <em>{0}</em>개만 남았어요!": "Only <em>{0}</em> bricks left!",
+"벽돌 <em>{0}</em>개 남았어요": "<em>{0}</em> bricks left",
+"벽돌 {0}% 부숨": "{0}% of bricks broken",
+"2배 받음": "Doubled",
+"보너스 {0} 포함": "incl. {0} bonus",
+"클리어 보상": "Clear reward",
+"받기": "Collect",
+"×2 받기": "×2 Collect",
+"한 번만": "One time only",
+"이어하기 {0}회": "{0} continues",
+"골든 조준 {0}": "Golden Aim ×{0}",
+"{0} 지금 이어하기": "{0} · Continue now",
+"이어하기 · {0} 코인": "Continue · {0} coins",
+"이어하기권 {0}개 중 1개": "Use 1 of {0} continue tickets",
+"두 번째부터 가격이 올라요": "The price goes up from the 2nd time",
+"아래 3줄 제거 · 별은 1개까지": "Clears the bottom 3 rows · max 1 star",
+"광고 보고 무료로 이어하기": "Watch an ad to continue free",
+"포기하기": "Give up",
+"부순 벽돌 {0}%": "{0}% of bricks broken",
+"처음부터 다시": "Start over",
+"첫 클리어 보상 {0} 코인": "First-clear reward {0} coins",
+"못 받아요": "Lost",
+"쓴 부스터 {0}개": "{0} boosters used",
+"돌려받지 못해요": "Not refunded",
+"정말 포기할까요?": "Give up this stage?",
+"벽돌이 {0}개만 남았어요.": "Only {0} bricks left.",
+"포기하면 이번 판에서 잃어요.": "If you give up, you lose:",
+"포기하고 나가기": "Give up",
+"이어하기권 쓰기": "Use a continue ticket",
+"이어하기 팩": "Continue Pack",
+"이어하기 5회 · 1,000 코인 · 골든 조준 2 (한 번만)": "5 continues · 1,000 coins · 2 Golden Aim (one time only)",
+"이어하기 팩 받음!": "Continue Pack added!",
 "골든 조준": "Golden Aim",
 "골든": "Golden",
 "골든 조준: 이 판 동안 조준선이 길어져요": "Golden Aim: longer aim line for this stage",
@@ -530,7 +630,10 @@ const EN = {
 "특수 공을 뺐어요": "Special ball unequipped",
 "이미 켜져 있어요": "Already on",
 "골든 조준!": "Golden Aim!",
-"이어하기 · {0} 코인": "Continue · {0} coins",
+"이어하기": "Continue",
+"광고 보기": "Watch ad",
+"이어하면 아래 3줄이 사라져요 · 별은 1개까지": "Continuing clears the bottom 3 rows · max 1 star",
+"▶ 광고 보고 +{0} 코인": "▶ Watch ad +{0} coins",
 "특수 공 · 한 번 사면 계속 · 발사마다 첫 공 1개": "Special balls · buy once, keep forever · first ball of every shot",
 "모든 벽돌을 2줄 위로 밀어 올려 위기에서 벗어나요.": "Push every brick up 2 rows to escape danger.",
 "코인 한 줌": "Handful of Coins",
@@ -550,7 +653,12 @@ const EN = {
 "{0}초": "{0}s",
 "끝": "Done",
 "테스트 결제": "Test purchase",
-"{0} ({1})\n실제 결제는 되지 않고 바로 지급돼요.": "{0} ({1})\nNo real payment. It's granted right away.",
+"{0}\n실제 결제는 되지 않고 바로 지급돼요.": "{0}\nNo real payment. It's granted right away.",
+"테스트 구매": "Test buy",
+"구매 복원": "Restore purchases",
+"구매를 복원했어요": "Purchases restored",
+"복원할 구매가 없어요": "Nothing to restore",
+"복원하지 못했어요": "Couldn't restore",
 "구매": "Buy",
 "광고 제거 완료": "Ads removed",
 "+{0} 코인": "+{0} coins",
@@ -579,7 +687,6 @@ const EN = {
 "0일": "0 days",
 "오늘 보상을 받았어요. 내일 또 하면 연속 보너스가 붙어요.": "Today's reward claimed. Play again tomorrow for a streak bonus.",
 "오늘 첫 클리어 보상: {0} 코인 (연속 참여할수록 +10, 최대 7일)": "First clear today: {0} coins (+10 per streak day, up to 7 days)",
-"<div class=\"brow\"><span class=\"rk\">–</span><span class=\"nm\">로그인하면 팀원과 순위를 겨룰 수 있어요</span><span class=\"sc\">{0}</span></div>": "<div class=\"brow\"><span class=\"rk\">–</span><span class=\"nm\">Sign in to compete with your team</span><span class=\"sc\">{0}</span></div>",
 "<div class=\"brow\"><span class=\"rk\">1</span><span class=\"nm\">아직 아무도 깨지 못했어요. 첫 기록의 주인공이 되세요</span><span class=\"sc\"></span></div>": "<div class=\"brow\"><span class=\"rk\">1</span><span class=\"nm\">Nobody has cleared it yet. Be the first!</span><span class=\"sc\"></span></div>",
 "<div class=\"brow {0} {1}\"><span class=\"rk\">{2}</span><span class=\"nm\"></span><span class=\"sc\">{3}턴<small>{4}회 도전</small></span></div>": "<div class=\"brow {0} {1}\"><span class=\"rk\">{2}</span><span class=\"nm\"></span><span class=\"sc\">{3} turns<small>{4} tries</small></span></div>",
 "나 ·": "Me ·",
@@ -667,7 +774,7 @@ const EN = {
 "JSON 복사됨": "JSON copied",
 "JSON 형식이 올바르지 않아요. 괄호와 쉼표를 확인하세요.": "Invalid JSON. Check brackets and commas.",
 "가져왔어요": "Imported",
-"네온 브릭 퀘스트": "Neon Brick",
+"네온 브릭": "Neon Brick",
 "턴 0": "Turn 0",
 "공": "Balls",
 "공 회수": "Recall balls",
@@ -719,6 +826,8 @@ const EN = {
 "네온 색 · 3스타 무대와 시작 화면의 네온맨 색": "Neon color · Neon Man's color on the 3-star stage and title",
 "댄스": "Dances",
 "팀 모두가 같은 판을 풀어요. 부스터와 이어하기 없이, 가장 적은 턴으로 깨면 1등. 몇 번이든 다시 도전할 수 있고 최고 기록만 남아요.": "Everyone on the team plays the same board. No boosters or continues: fewest turns wins. Retry as often as you like; only your best counts.",
+"모두가 같은 판을 풀어요. 부스터와 이어하기 없이, 가장 적은 턴으로 깨 보세요. 몇 번이든 다시 도전할 수 있고 최고 기록만 남아요.": "Everyone plays the same board. No boosters or continues: clear it in as few turns as you can. Retry as often as you like; only your best counts.",
+"기록 보기": "My record",
 "내 최고": "My best",
 "오늘 순위": "Today's rank",
 "연속 참여": "Streak",
@@ -756,7 +865,9 @@ const EN = {
 };
 let lang = "ko";
 try { const q = /[?&]lang=(ko|en)(&|$)/.exec(location.search), saved = localStorage.getItem("nbq-lang");
-  lang = q ? q[1] : saved === "ko" || saved === "en" ? saved : /^ko\b/i.test(navigator.language || "") ? "ko" : "en"; } catch (e) {}
+  // phone language: the first supported one in the user's preferred-language order, English if none
+  const pref = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""]).map(x => String(x).toLowerCase().split("-")[0]).find(c => c === "ko" || c === "en");
+  lang = q ? q[1] : saved === "ko" || saved === "en" ? saved : pref || "en"; } catch (e) {}
 const tr = k => { const m = /^(\s*)([\s\S]*?)(\s*)$/.exec(k), v = EN[m[2]]; return v === undefined ? null : m[1] + v + m[3]; };
 function $t(strs, ...vals) {
   if (typeof strs === "string") return lang === "en" ? (tr(strs) ?? strs) : strs;
@@ -784,7 +895,7 @@ $t.dom = root => {
 $t.lang = lang;
 $t.set = l => { try { localStorage.setItem("nbq-lang", l); } catch (e) {} location.replace(location.pathname + location.search.replace(/[?&]lang=(ko|en)/, "").replace(/^&/, "?") + location.hash); };
 document.documentElement.lang = lang;
-if (lang === "en") document.title = EN["네온 브릭 퀘스트"];
+if (lang === "en") document.title = EN["네온 브릭"];
 window.$t = $t;
 })();
 </script>
@@ -802,6 +913,14 @@ const Core = (() => {
   };
   // Hand-built stages. o = weak brick, O = tough brick, B = bomb, + = extra ball, - / | = laser.
   const CUSTOM = {
+    // Stage 1: a thick wall with one hole in the middle. The hole holds three laser items, so a shot that
+    // goes up through it fires every row again and again — one good shot breaks everything. Missing just chips the wall.
+    1: { balls: 8, bottom: 4, hp: { O: 5 }, bonus: true, hole: 3, rows: [
+      ".......",
+      ".......",
+      "OOO-OOO",
+      "OOO-OOO",
+      "OOO-OOO"] },
     2: { balls: 8, bottom: 5, hp: { o: 3, O: 4, B: 1 }, rows: [
       "OOO.OOO",
       "o.ooo.o",
@@ -812,17 +931,17 @@ const Core = (() => {
   };
   // Calibrated with the novice bot (test/calibrate.js): hp multiplier per stage so a casual player clears at the target rate,
   // and [3-star, 2-star] pars from the novice turn distribution (3 stars for about 35% of clears).
-  const TUNE = {1:{f:0.6,p:[4,6]},2:{f:1,p:[2,4]},3:{f:0.89,p:[7,10]},4:{f:0.837,p:[7,10]},5:{f:0.67,p:[8,10]},6:{f:0.908,p:[9,11]},7:{f:0.505,p:[7,9]},8:{f:0.606,p:[8,10]},9:{f:0.526,p:[10,12]},10:{f:0.495,p:[9,11]},11:{f:0.837,p:[12,14]},12:{f:0.559,p:[12,14]},13:{f:0.594,p:[12,15]},14:{f:0.412,p:[12,14]},15:{f:0.429,p:[13,15]},16:{f:0.438,p:[14,16]},17:{f:0.351,p:[14,16]},18:{f:0.337,p:[14,16]},19:{f:0.351,p:[15,17]},20:{f:0.438,p:[8,10]}};
+  const TUNE = {1:{f:1,p:[1,3]},2:{f:1,p:[2,4]},3:{f:0.715,p:[6,8]},4:{f:0.726,p:[7,9]},5:{f:0.655,p:[8,10]},6:{f:0.933,p:[8,11]},7:{f:0.582,p:[7,9]},8:{f:0.487,p:[8,10]},9:{f:0.446,p:[9,11]},10:{f:0.322,p:[6,8]},11:{f:0.737,p:[10,12]},12:{f:0.548,p:[11,13]},13:{f:0.548,p:[11,14]},14:{f:0.408,p:[11,14]},15:{f:0.42,p:[12,15]},16:{f:0.42,p:[13,15]},17:{f:0.317,p:[13,15]},18:{f:0.295,p:[12,14]},19:{f:0.313,p:[14,16]},20:{f:0.254,p:[5,7]}};
   const CHAPTERS = { 1: "네온 시티", 2: "핑크 클럽", 3: "레이저 스트리트", 4: "네온 하이웨이", 5: "사이버 마켓", 6: "크롬 가든", 7: "레이저 타워", 8: "퓨처 아케이드", 9: "오버드라이브", 10: "네온 코어" };
   // Chapter 3 stages were picked by test/build-ch3.js: many candidate layouts per slot, each tuned to its
   // target clear rate with the novice bot, kept only if the fun score was 90+ on two independent sets of bot runs.
-  const CH3 = {21:{seed:21001,f:0.358,p:[8,10]},22:{seed:22708,f:0.358,p:[6,8]},23:{seed:27603,f:0.297,p:[8,10]},24:{seed:24626,f:0.412,p:[10,12]},25:{seed:25038,f:0.412,p:[8,10]},26:{seed:26371,f:0.358,p:[11,13]},27:{seed:27503,f:0.258,p:[10,12]},28:{seed:28626,f:0.341,p:[12,14]},29:{seed:29741,f:0.297,p:[11,13]},30:{seed:30778,f:0.431,p:[12,14]}};
+  const CH3 = {21:{seed:21001,f:0.373,p:[8,10]},22:{seed:22708,f:0.396,p:[6,8]},23:{seed:27603,f:0.352,p:[8,10]},24:{seed:24626,f:0.402,p:[10,12]},25:{seed:25038,f:0.396,p:[8,10]},26:{seed:26371,f:0.322,p:[11,13]},27:{seed:27503,f:0.278,p:[11,13]},28:{seed:28626,f:0.342,p:[12,15]},29:{seed:29741,f:0.262,p:[11,13]},30:{seed:30778,f:0.295,p:[10,12]}};
   // Wide specials 31-36: 9, 9, 11, 11, 13, 13 columns. Picked by test/build-wide.js.
   const WIDE = {31:{seed:31008,f:0.276,p:[5,7]},32:{seed:32000,f:0.474,p:[5,7]},33:{seed:33001,f:0.276,p:[6,9]},34:{seed:34008,f:0.225,p:[6,8]},35:{seed:35015,f:0.409,p:[8,10]},36:{seed:36004,f:0.336,p:[9,12]}};
   const WIDE_COLS = { 31: 9, 32: 9, 33: 11, 34: 11, 35: 13, 36: 13 }, WIDE_ROWS = { 9: 12, 11: 14, 13: 16 };
   // Chapters 4-10 (stages 37-106) continue the main line after stage 30; the wide specials 31-36 stay a side branch.
   // Picked by test/build-main.js (fun 90+ on bot runs not used for picking). Filled in after the search.
-  const MAIN = {};
+  const MAIN = {37:{seed:37001,f:0.216,p:[12,14]},38:{seed:38112,f:0.24,p:[13,15]},39:{seed:39075,f:0.198,p:[15,17]},40:{seed:40001,f:0.247,p:[12,14]},41:{seed:41038,f:0.226,p:[14,16]},42:{seed:42112,f:0.24,p:[13,15]},43:{seed:43001,f:0.181,p:[14,16]},44:{seed:44075,f:0.233,p:[12,14]},45:{seed:45001,f:0.199,p:[13,15]},46:{seed:46149,f:0.202,p:[11,13]},47:{seed:47112,f:0.176,p:[15,17]},48:{seed:48075,f:0.247,p:[13,15]},49:{seed:49075,f:0.173,p:[14,16]},50:{seed:50038,f:0.226,p:[13,16]},51:{seed:51038,f:0.151,p:[14,16]},52:{seed:52038,f:0.233,p:[13,15]},53:{seed:53112,f:0.171,p:[16,18]},54:{seed:54149,f:0.213,p:[12,14]},55:{seed:55038,f:0.158,p:[15,17]},56:{seed:56186,f:0.158,p:[11,13]},57:{seed:57149,f:0.158,p:[13,15]},58:{seed:58186,f:0.183,p:[13,15]},59:{seed:59038,f:0.149,p:[15,17]},60:{seed:60260,f:0.173,p:[12,14]},61:{seed:61260,f:0.141,p:[14,17]},62:{seed:62038,f:0.151,p:[12,14]},63:{seed:63038,f:0.158,p:[14,16]},64:{seed:64149,f:0.133,p:[12,14]},65:{seed:65038,f:0.145,p:[14,16]},66:{seed:66149,f:0.111,p:[11,13]},67:{seed:67223,f:0.161,p:[14,16]},68:{seed:68001,f:0.121,p:[12,14]},69:{seed:69112,f:0.125,p:[14,16]},70:{seed:70001,f:0.139,p:[13,16]},71:{seed:71223,f:0.155,p:[13,15]},72:{seed:72112,f:0.184,p:[14,16]},73:{seed:73260,f:0.134,p:[16,18]},74:{seed:74112,f:0.1,p:[12,14]},75:{seed:75149,f:0.123,p:[14,16]},76:{seed:76186,f:0.096,p:[10,12]},77:{seed:77001,f:0.125,p:[15,18]},78:{seed:78001,f:0.129,p:[13,15]},79:{seed:79149,f:0.097,p:[14,16]},80:{seed:80001,f:0.121,p:[13,15]},81:{seed:81149,f:0.114,p:[14,16]},82:{seed:82334,f:0.121,p:[12,14]},83:{seed:83112,f:0.108,p:[14,16]},84:{seed:84038,f:0.106,p:[12,14]},85:{seed:85223,f:0.094,p:[14,16]},86:{seed:86149,f:0.102,p:[11,13]},87:{seed:87038,f:0.09,p:[15,17]},88:{seed:88001,f:0.154,p:[12,14]},89:{seed:89260,f:0.082,p:[15,18]},90:{seed:90075,f:0.106,p:[14,16]},91:{seed:91223,f:0.106,p:[14,16]},92:{seed:92149,f:0.096,p:[14,16]},93:{seed:93001,f:0.085,p:[15,17]},94:{seed:94001,f:0.076,p:[14,16]},95:{seed:95334,f:0.066,p:[14,16]},96:{seed:96297,f:0.085,p:[11,13]},97:{seed:97001,f:0.076,p:[13,15]},98:{seed:98112,f:0.1,p:[14,16]},99:{seed:99038,f:0.071,p:[13,15]},100:{seed:100149,f:0.076,p:[12,14]},101:{seed:101075,f:0.062,p:[15,17]},102:{seed:102001,f:0.073,p:[12,15]},103:{seed:103297,f:0.075,p:[14,16]},104:{seed:104186,f:0.072,p:[13,15]},105:{seed:105112,f:0.079,p:[14,16]},106:{seed:106112,f:0.05,p:[11,13]}};
   const STAGES = 106, MAIN_FIRST = 37;
   const mainIndex = n => n > 36 ? n - 6 : n;            // position on the main line (1-100)
   const WIDE_TGT = { 31: .88, 32: .85, 33: .82, 34: .80, 35: .78, 36: .72 };
@@ -840,7 +959,7 @@ const Core = (() => {
   function makeMain(n, seed, f, par) {
     const m = mainIndex(n), ch = 4 + Math.floor((m - 31) / 10), lasers = m % 2 === 0;
     let st = lasers ? makeCh3(m, seed, f, par) : makeStage(m, { seed, ch: 2, f });
-    st = { ...st, n, ch, chName: CHAPTERS[ch], art: false, style: lasers ? "laser" : "bomb", balls: Math.min(st.balls, 90) };
+    st = { ...st, n, ch, chName: CHAPTERS[ch], art: false, style: lasers ? "laser" : "bomb", balls: Math.min(st.balls, 90), boss: m % 10 === 0 };
     if (par) { st.par3 = par[0]; st.par2 = par[1]; }
     return st;
   }
@@ -857,7 +976,7 @@ const Core = (() => {
       });
     });
     const p = (t && t.p) || [3, 5];
-    return { n, ch, chName: CHAPTERS[ch], balls: def.balls, bricks, items, par3: p[0], par2: p[1], art: false, chain: true };
+    return { n, ch, chName: CHAPTERS[ch], balls: def.balls, bricks, items, par3: p[0], par2: p[1], art: false, chain: true, bonus: !!def.bonus, hole: def.hole };
   }
   // Daily challenge: the KST date picks the size and layout; everyone gets the same board that day.
   function dateSeed(date) { let x = 2166136261; for (const ch of "nbq-daily-" + date) { x ^= ch.charCodeAt(0); x = Math.imul(x, 16777619) >>> 0; } return x; }
@@ -891,7 +1010,7 @@ const Core = (() => {
         else if (R() < 0.06) items.push({ r, c, type: R() < 0.5 ? "lh" : "lv" });
       }
     }
-    return { n, ch: 3, chName: CHAPTERS[3], balls, bricks, items, par3: par ? par[0] : rowsN + 2, par2: par ? par[1] : rowsN + 5, art: false };
+    return { n, ch: 3, chName: CHAPTERS[3], boss: n === 30, balls, bricks, items, par3: par ? par[0] : rowsN + 2, par2: par ? par[1] : rowsN + 5, art: false };
   }
   // Wide stages are built around a planned "trick shot" (노림수), one of:
   //  pocket: a tough wall across the board with a one-cell gap; behind it a soft pocket packed with bombs and laser
@@ -967,7 +1086,7 @@ const Core = (() => {
       }
     }
     const p = t.p || [rowsN + 2, rowsN + 5];
-    return { n, ch, chName: CHAPTERS[ch], balls, bricks, items, par3: p[0], par2: p[1], art: !!ART[n] };
+    return { n, ch, chName: CHAPTERS[ch], balls, bricks, items, par3: p[0], par2: p[1], art: !!ART[n], boss: n === 10 || n === 20 };
   }
 
   // Special balls (bought with coins, one equipped): only the first ball of each shot. Bots never use them.
@@ -1105,15 +1224,18 @@ const Core = (() => {
     if (!BOOSTER_KEEPS_3STAR && s.boostersUsed && t <= s.stage.par3) return 2;
     return t <= s.stage.par3 ? 3 : t <= s.stage.par2 ? 2 : 1;
   }
+  const BOSS_EVERY = 3;
+  const bossMarch = (s, turn) => !!s.stage.boss && turn > 0 && turn % BOSS_EVERY === 0;   // true: the drop after this turn is 2 rows
   function endTurn(s) {
     const sh = s.shot; s.shot = null; s.turn++; s.balls += sh.gained; s.lastBreaks = sh.breaks;
     s.launchX = sh.landX ?? s.launchX;
     for (const [k, it] of s.items) if (it.used) s.items.delete(k);
     if (s.bricks.size === 0) { s.status = "clear"; s.stars = starsFor(s); ev(s, "clear", { stars: s.stars }); return; }
-    const nb = new Map(), ni = new Map(); let fail = false;
-    for (const br of s.bricks.values()) { br.r++; nb.set(key(br.r, br.c), br); if (br.r >= s.rows - 1) fail = true; }
-    for (const it of s.items.values()) { it.r++; if (it.r < s.rows - 1) ni.set(key(it.r, it.c), it); }
-    s.bricks = nb; s.items = ni;
+    // Boss stages (every 10th stage): every BOSS_EVERY-th turn the bricks march down two rows instead of one.
+    const nb = new Map(), ni = new Map(), drop = bossMarch(s, s.turn) ? 2 : 1; let fail = false;
+    for (const br of s.bricks.values()) { br.r += drop; nb.set(key(br.r, br.c), br); if (br.r >= s.rows - 1) fail = true; }
+    for (const it of s.items.values()) { it.r += drop; if (it.r < s.rows - 1) ni.set(key(it.r, it.c), it); }
+    s.bricks = nb; s.items = ni; if (drop > 1) ev(s, "march", {});
     if (fail) { s.status = "fail"; ev(s, "fail", {}); return; }
     s.status = "aim"; ev(s, "turn", {});
   }
@@ -1144,7 +1266,7 @@ const Core = (() => {
   }
   function continueGame(s) {
     for (const [k, br] of s.bricks) if (br.r >= s.rows - 4) s.bricks.delete(k);
-    s.continued = true; s.status = s.bricks.size ? "aim" : "clear";
+    s.continued = true; s.conts = (s.conts || 0) + 1; s.status = s.bricks.size ? "aim" : "clear";
     if (s.status === "clear") s.stars = 1;
   }
   function dangerRow(s) { let m = -99; for (const br of s.bricks.values()) m = Math.max(m, br.r); return m; }
@@ -1263,7 +1385,7 @@ const Core = (() => {
     return { trials, clearRate: wins.length / trials, p35: q(0.35), p75: q(0.75), median: q(0.5),
       first: runs.reduce((a, r) => a + r.first, 0) / trials, peak: Math.max(...runs.map(r => r.peak)) };
   }
-  return { makeMain, MAIN, target, mainIndex, MAIN_FIRST, WIDE_TGT, angleSkill, funReport, makeDaily, dateSeed, applyBooster, BALL_TYPES, BOTS, playStage, evaluate, customStage, CUSTOM, COLS, ROWS, FLOOR, BR, DT, GAP, MIN_A, ITEM_R, TUNE, CHAPTERS, key, makeStage, newGame, startShot, step, recall, starsFor, continueGame, dangerRow, clone, aimPath, botAngle, botPlay, runShot, clampAngle, makeCh3, CH3, makeWide, WIDE, WIDE_COLS, STAGES };
+  return { makeMain, MAIN, target, mainIndex, MAIN_FIRST, WIDE_TGT, angleSkill, funReport, makeDaily, dateSeed, applyBooster, BALL_TYPES, bossMarch, BOSS_EVERY, BOTS, playStage, evaluate, customStage, CUSTOM, COLS, ROWS, FLOOR, BR, DT, GAP, MIN_A, ITEM_R, TUNE, CHAPTERS, key, makeStage, newGame, startShot, step, recall, starsFor, continueGame, dangerRow, clone, aimPath, botAngle, botPlay, runShot, clampAngle, makeCh3, CH3, makeWide, WIDE, WIDE_COLS, STAGES };
 })();
 /*CORE-END*/
 if (typeof module !== "undefined") module.exports = Core;
@@ -1297,6 +1419,10 @@ const DEV_TOOLS = typeof window !== "undefined" && (NCQ_DEV_BUILD()
   : !!window.NCQ_TEST_UNLOCK);
 // Wide specials (31+) form their own track: the first opens after stage 10, then each one after the previous.
 const isWide = n => n > 30 && n < C.MAIN_FIRST, shown = n => C.mainIndex(n);   // 37..106 are shown as stage 31..100
+// Stage metrics (NcqMetrics, added by the web share and release builds; not on the development page). Names: stage-<number on
+// screen>, wide-<1..6>, daily. Editor test plays and challenge practice on a locked stage are not counted.
+const NcqMetrics = { levelStart: name => window.NcqMetrics && window.NcqMetrics.levelStart(name), levelEnd: (name, won) => window.NcqMetrics && window.NcqMetrics.levelEnd(name, won) };
+const levelName = (n, custom) => custom ? (custom.daily ? "daily" : null) : isWide(n) ? "wide-" + (n - 30) : "stage-" + shown(n);
 const prevOf = n => n === 31 ? 10 : n === C.MAIN_FIRST ? 30 : n - 1;
 const nextOf = n => n === 30 ? C.MAIN_FIRST : n === C.MAIN_FIRST - 1 || n >= C.STAGES ? 0 : n + 1;
 const unlocked = n => n === 1 || (DEV_TOOLS && !!progress.unlockAll) || (progress.stars[prevOf(n)] || 0) > 0;
@@ -1628,14 +1754,15 @@ function show(id) {
   const playing = id === null; $("hud").hidden = !playing && id !== "result" ? true : !playing; $("bar").hidden = !playing;
   screen = id || "play";
 }
-function startStage(n, custom) {
+function startStage(n, custom, practice) {
   A.init(); A.stopMusic(); A.setMuted(!settings.sound); A.bgmStart(); comboShown = 0; wallFx = []; rings = []; slowT = 0; flashA = 0; slowShot = null; shotT = 0; shotLen = 0; autoX = 1; speedUi();
   armed = null; $("sheet").hidden = true;
   st = C.newGame(custom || C.makeStage(n)); st.ballType = !custom && BALLS[wallet.ball] ? wallet.ball : null; parts = []; beams = []; aiming = false; tutorial = n === 1 && !custom;
+  st.metric = practice ? null : levelName(n, custom); if (st.metric) NcqMetrics.levelStart(st.metric);
   if (custom && custom.daily) { $("hudStage").textContent = "DAILY"; $("hudChap").textContent = $t("오늘의 챌린지 · 부스터 없음"); }
   else if (custom) { $("hudStage").textContent = "TEST"; $("hudChap").textContent = custom.name; }
   else if (isWide(n)) { $("hudStage").textContent = "WIDE " + (n - 30); $("hudChap").textContent = $t.k(st.stage.chName); }
-  else { $("hudStage").textContent = "STAGE " + shown(n); $("hudChap").textContent = (st.stage.art ? $t("아트 스테이지 · ") : "") + $t.k(st.stage.chName); }
+  else { $("hudStage").textContent = "STAGE " + shown(n); $("hudChap").textContent = (st.stage.boss ? $t("보스 · ") : st.stage.art ? $t("아트 스테이지 · ") : "") + $t.k(st.stage.chName); }
   $("hudStage").style.color = CH_COL[st.stage.ch]; $("hudStage").style.textShadow = "0 0 8px " + CH_COL[st.stage.ch];
   show(null); updateHud(); layout();
   toast(custom && custom.daily ? "DAILY" : custom ? "TEST PLAY" : isWide(n) ? $t`WIDE ${n - 30} · ${st.cols}칸` : "STAGE " + shown(n));
@@ -1717,6 +1844,7 @@ function drainEvents() {
     else if (e.type === "booster" && e.kind === "laser") { beams.push({ type: "lh", r: e.r, life: 0.35 }); }
     else if (e.type === "backshot") { st.backs = (st.backs || 0) + 1; toast("BACK SHOT!", "back"); A.backshot(); Hap.buzz([15, 30, 15], "back"); rings.push({ x: e.x, y: e.y, t: 0, col: "#b6ff3d" }); addBurst(e.x, e.y, "#b6ff3d", 14, 3); }
     else if (e.type === "launch") { A.launch(); if (st.shot && st.shot.spawned === 1) Hap.buzz(12, "launch"); }
+    else if (e.type === "march") { shake = Math.max(shake, 0.35); A.bomb(); Hap.buzz([60, 40, 90], "march"); toast($t("보스 진격! 2줄 내려왔어요"), true); }
     else if (e.type === "turn") { updateHud(); comboShown = 0; if (C.dangerRow(st) >= BF() - 3) { toast($t("위험!")); Hap.buzz([40, 60, 40], "danger"); } }
     else if (e.type === "clear") {
       // Last-brick explosion plays in slow motion, then a white flash cuts to the dance stage.
@@ -1834,6 +1962,14 @@ function draw(time) {
   // cancel zone: releasing a drag below CANCEL_Y cancels the shot. Shown faintly while aiming is possible,
   // lit up red while the finger is inside it.
   if (st.status === "aim" && !armed) drawCancelZone(time);
+  // Boss stage: warn on the turn whose end brings the two-row march, and show where the lowest bricks will land.
+  if (st.stage.boss && st.status === "aim" && C.bossMarch(st, st.turn + 1)) {
+    const low = C.dangerRow(st), land = low + 2;
+    g.save(); g.globalAlpha = 0.55 + 0.35 * Math.sin(time * 6); g.strokeStyle = "#ff4d6d"; g.lineWidth = 2; g.setLineDash([S * 0.12, S * 0.1]);
+    g.strokeRect(fx(0) + 2, fy(land), BC() * S - 4, S); g.setLineDash([]);
+    g.fillStyle = "#ff8aa0"; g.font = `700 ${Math.round(S * 0.3)}px "IBM Plex Sans KR",sans-serif`; g.textAlign = "center"; g.textBaseline = "middle";
+    g.fillText($t("⚠ 보스 진격: 이번 턴이 끝나면 2줄 내려와요"), fx(BC() / 2), fy(Math.min(land + 1.5, BF() - 0.6))); g.restore();
+  }
   // aim
   if (aiming && aimValid && st.status === "aim") {
     const gold = !!st.goldAim, pts = C.aimPath(st, aimA, gold ? 6 : 2); g.fillStyle = gold ? "#ffe14d" : "#fff"; let acc = 0;
@@ -1847,6 +1983,18 @@ function draw(time) {
   if (tutorial && st.status === "aim" && st.turn === 0) {
     g.fillStyle = "#eae8ff"; g.globalAlpha = 0.6 + 0.4 * Math.sin(time * 4); g.font = `600 ${Math.round(S * 0.3)}px "IBM Plex Sans KR",sans-serif`;
     g.fillText($t("드래그해서 조준 → 손을 떼면 발사"), fx(BC() / 2), fy(BF() - 1.6)); g.globalAlpha = 1;
+  }
+  // Bonus stage: gold chevrons rise into the hole under the wall until the wall is gone
+  if (st.stage.bonus && st.status === "aim" && st.stage.hole != null) {
+    let low = -1; for (const b of st.bricks.values()) if (b.c !== st.stage.hole) low = Math.max(low, b.r);
+    if (low >= 0) {
+      const hx = fx(st.stage.hole + 0.5), base = low + 1.15, k = (time * 1.6) % 1;
+      g.save(); g.strokeStyle = "#ffe14d"; g.shadowColor = "#ffe14d"; g.shadowBlur = 12; g.lineWidth = S * 0.07; g.lineCap = "round"; g.lineJoin = "round";
+      for (let i = 0; i < 3; i++) { const y = base + 1.5 - ((i + k) % 3) * 0.5; g.globalAlpha = Math.max(0, Math.min(1, (y - base) * 1.2)) * 0.9;
+        g.beginPath(); g.moveTo(hx - S * 0.22, fy(y + 0.14)); g.lineTo(hx, fy(y - 0.08)); g.lineTo(hx + S * 0.22, fy(y + 0.14)); g.stroke(); }
+      g.globalAlpha = 0.75 + 0.25 * Math.sin(time * 4); g.shadowBlur = 8; g.fillStyle = "#ffe14d"; g.font = `700 ${Math.round(S * 0.3)}px "IBM Plex Sans KR",sans-serif`; g.textAlign = "center";
+      g.fillText($t("구멍으로 쏘면 한 번에 다 깨져요!"), fx(BC() / 2), fy(base + 2.2)); g.restore();
+    }
   }
   // shockwave rings
   for (const r of rings) { if (r.t < 0) continue; const k = r.t / 0.7, rad = S * (r.big ? 0.5 + k * 6 : 0.3 + k * 2.6); g.save(); g.globalAlpha = (1 - k) * 0.9; g.strokeStyle = r.col; g.shadowColor = r.col; g.shadowBlur = 16; g.lineWidth = S * (r.big ? 0.16 : 0.08) * (1 - k) + 1; g.beginPath(); g.arc(fx(r.x), fy(r.y), rad, 0, 7); g.stroke(); g.restore(); }
@@ -1954,7 +2102,7 @@ $("btnHome").onclick = () => { show("title"); A.lobby(); };
 
 /* ---------- map ---------- */
 function openMap() {
-  st = null; show("map"); A.lobby(); syncCoins(); Daily.banner(); Dz.check(); Dz.badge();
+  st = null; show("map"); A.lobby(); syncCoins(); Daily.banner(); Challenge.banner(); Dz.check(); Dz.badge();
   let total = 0;
   const more = $("mapMore");
   if (!more.childElementCount) for (let ch = 4; ch <= 10; ch++) more.insertAdjacentHTML("beforeend", `<h2>CH.${ch}<em>${$t.k(C.CHAPTERS[ch])}</em></h2><div class="grid" id="grid${ch + 1}"></div>`);
@@ -1964,7 +2112,7 @@ function openMap() {
     for (let n = from; n <= to; n++) {
       const s = progress.stars[n] || 0; total += s; const m = shown(n), boss = !isWide(n) && m % 10 === 0;
       const b = document.createElement("button"); b.className = (g === 4 ? "ch4 " : g > 1 ? "ch" + (g > 4 ? (g % 2 ? 3 : 2) : g) + " " : "") + (boss ? "boss " : "") + (n % 10 === 0 && n <= 30 ? "art" : "");
-      b.innerHTML = g === 4 ? $t`W${n - 30}<span class="wd">${C.WIDE_COLS[n]}칸</span><small>${[0, 1, 2].map(i => i < s ? "<i>★</i>" : "★").join("")}</small>` : `${m}<small>${[0, 1, 2].map(i => i < s ? "<i>★</i>" : "★").join("")}</small>`;
+      b.innerHTML = boss ? `${m}<span class="wd">${$t("보스")}</span><small>${[0, 1, 2].map(i => i < s ? "<i>★</i>" : "★").join("")}</small>` : g === 4 ? $t`W${n - 30}<span class="wd">${C.WIDE_COLS[n]}칸</span><small>${[0, 1, 2].map(i => i < s ? "<i>★</i>" : "★").join("")}</small>` : `${m}<small>${[0, 1, 2].map(i => i < s ? "<i>★</i>" : "★").join("")}</small>`;
       b.disabled = !unlocked(n); b.setAttribute("aria-label", $t`스테이지 ${m}, 별 ${s}개`);
       b.onclick = () => startStage(n); grid.appendChild(b);
     }
@@ -2186,9 +2334,12 @@ function pickClearSong() {
 function openResult(kind) {
   if (!st) return;
   const s = st, n = s.stage.n;
+  // Stage metrics: the run ends once — a clear, or a fail with no continue left to pick (given up, or both continues used).
+  // A fail screen that still offers a continue is not the end; continuing keeps the same run.
+  if (s.metric && !s.metricDone && (kind === "clear" || s.stage.daily || s.gaveUp || (s.conts || 0) >= MAX_CONTINUES)) { s.metricDone = true; NcqMetrics.levelEnd(s.metric, kind === "clear"); }
   let reward = null;
   let unlocked = [];
-  if (kind === "clear" && !s.stage.custom && !s.rewarded) {
+  if (kind === "clear" && !s.stage.custom && !s.rewarded && !(s.challenge && s.challenge.practice)) {
     const prev = progress.stars[n] || 0; reward = clearReward(n, s.stars, prev); s.rewarded = reward;
     wallet.coins += reward.total; saveWallet();
     progress.stars[n] = Math.max(prev, s.stars); saveProgress();
@@ -2214,38 +2365,97 @@ function openResult(kind) {
   $("rSub").textContent = s.stage.daily ? (kind === "clear" ? $t`오늘의 챌린지 · ${s.turn}턴 클리어` : $t("오늘의 챌린지 · 벽돌이 바닥에 닿았어요")) : kind === "clear" ? $t`${s.stage.custom ? $t("테스트 ") + s.stage.name : isWide(n) ? $t`와이드 ${n - 30} (${s.cols}칸)` : $t("스테이지 ") + shown(n)} · ${s.turn}턴 클리어${s.continued ? $t(" · 이어하기 사용") : ""}` : isWide(n) ? $t`와이드 ${n - 30} · 벽돌이 바닥에 닿았어요` : $t`스테이지 ${shown(n)} · 벽돌이 바닥에 닿았어요`;
   const hint = $("rHint"), k3 = s.turn - s.stage.par3, k2 = s.turn - s.stage.par2;
   hint.hidden = !(kind === "clear" && stars < 3 && !s.continued);
-  if (!hint.hidden) hint.textContent = stars === 2 ? $t`${k3}턴만 줄이면 ★★★ 네온맨 군무!` : $t`${k2}턴 줄이면 ★★ · ${k3}턴 줄이면 ★★★`;
+  if (!hint.hidden) hint.innerHTML = stars === 2 ? $t`★3까지 ${k3}턴 <span>· 깨면 네온맨 군무</span>` : $t`★2까지 ${k2}턴 <span>· ★3까지 ${k3}턴</span>`;
   const chase = kind === "clear" && stars < 3 && !s.continued;
-  $("rCoins").textContent = reward ? $t`+${reward.total} 코인${reward.bonus ? $t` (보너스 ${reward.bonus} 포함)` : ""}` : "";
+  if (s.challenge && kind === "clear") {
+    const ft = s.challenge.turns, d = ft - s.turn; hint.hidden = false;
+    hint.innerHTML = (d > 0 ? $t`친구 ${ft}턴 vs 나 ${s.turn}턴 · 이겼어요!` : d === 0 ? $t`친구 ${ft}턴 vs 나 ${s.turn}턴 · 비겼어요` : $t`친구 ${ft}턴 vs 나 ${s.turn}턴 · 아쉬워요`);
+    if (s.challenge.practice) $("rSub").textContent += " · " + $t("연습 판이라 기록은 저장되지 않아요");
+    if (d >= 0) Challenge.done();
+  }
+  // Fail: how close it was (bricks left, share broken) at the top, and the title says so.
+  const total = s.stage.bricks.length, left = s.bricks.size, pct = total ? Math.max(0, Math.min(99, Math.round((1 - left / total) * 100))) : 0;
+  const prog = $("rProg"); prog.hidden = kind !== "fail";
+  if (kind === "fail") {
+    const chips = [...s.bricks.values()].sort((a, b) => a.hp - b.hp).slice(0, 6).map(b => `<i class="t-${b.type}">${b.hp}</i>`).join("");
+    prog.innerHTML = `<div class="pt"><b>${left <= 9 ? $t`벽돌 <em>${left}</em>개만 남았어요!` : $t`벽돌 <em>${left}</em>개 남았어요`}</b><span>${pct}%</span></div>
+      <div class="bar" role="img" aria-label="${$t`벽돌 ${pct}% 부숨`}"><i style="width:${pct}%"></i></div>${left <= 6 ? `<div class="chips" aria-hidden="true">${chips}</div>` : ""}`;
+    if (!s.stage.daily && !s.gaveUp && (left <= 3 || pct >= 80)) $("rTitle").textContent = (s.conts || 0) >= 1 ? "ONE MORE!" : "SO CLOSE!";
+  }
+  // Clear: the coin reward is one card — take it, or watch an ad for the base reward once more.
+  const rc = $("rCoins"); rc.className = "rcoins"; rc.textContent = "";
+  const drawReward = () => {
+    if (!reward) return; const dbl = !s.doubled && !s.collected && Ads.can("double");
+    rc.className = "rcoins card";
+    rc.innerHTML = `<i class="coin big" aria-hidden="true"></i><div class="amt"><b>+${reward.total + (s.doubled ? reward.base : 0)}</b><span>${s.doubled ? $t("2배 받음") : reward.bonus ? $t`보너스 ${reward.bonus} 포함` : $t("클리어 보상")}</span></div>` +
+      (dbl ? `<button id="btnTake" class="ghost">${$t("받기")}</button><button id="btnDouble" class="gold">▶ ${$t("×2 받기")}</button>` : "");
+    if (!dbl) return;
+    $("btnTake").onclick = e => { e.stopPropagation(); s.collected = true; A.combo(8); drawReward(); };
+    $("btnDouble").onclick = async e => { e.stopPropagation(); if ((await Ads.rewarded("double")) === "rewarded" && !s.doubled) { s.doubled = true; wallet.coins += reward.base; saveWallet(); drawReward(); toast($t("코인 2배!")); } else toast($t("보상을 받지 못했어요")); };
+  };
+  drawReward();
+  // Buttons: one wide main action; secondary actions as round icons; fail adds the continue offers and a small give-up link.
   const bb = $("rBtns"); bb.innerHTML = ""; bb.classList.remove("show");
-  const mk = (label, cls, fn) => { const b = document.createElement("button"); b.textContent = label; if (cls) b.className = cls; b.onclick = e => { e.stopPropagation(); A.stopMusic(); fn(); }; bb.appendChild(b); };
+  const rows = {}; for (const r of ["offer", "main", "note", "sub", "icons", "link"]) { rows[r] = document.createElement("div"); rows[r].className = "rrow " + r; }
+  const mk = (row, label, cls, fn, id) => { const b = document.createElement("button"); b.innerHTML = label; if (cls) b.className = cls; if (id) b.id = id; b.onclick = e => { e.stopPropagation(); A.stopMusic(); fn(); }; rows[row].appendChild(b); return b; };
+  const ic = (svg, label, cls, fn, id, text) => { const b = mk("icons", svg + (text ? `<small>${text}</small>` : ""), "ic " + (cls || ""), fn, id); b.setAttribute("aria-label", label); b.title = label; return b; };
+  const toMap = async () => { if (kind === "clear") await Ads.interstitialAfterClear(n); openMap(); };
   if (s.stage.daily) {
-    const out = Daily.finish(s, kind); if (!s.noted) { s.noted = true; unlocked = Dz.check(); } hint.hidden = !out.line; hint.textContent = out.line || ""; $("rCoins").textContent = out.coins ? $t`+${out.coins} 코인 (오늘 첫 클리어${out.streak > 1 ? $t` · ${out.streak}일 연속` : ""})` : "";
-    mk($t("순위 보기"), "hot", () => Daily.open()); mk($t("다시 도전"), "", () => Daily.play());
+    const out = Daily.finish(s, kind); if (!s.noted) { s.noted = true; unlocked = Dz.check(); } hint.hidden = !out.line; hint.textContent = out.line || ""; rc.textContent = out.coins ? $t`+${out.coins} 코인 (오늘 첫 클리어${out.streak > 1 ? $t` · ${out.streak}일 연속` : ""})` : "";
+    mk("main", Team.db ? $t("순위 보기") : $t("기록 보기"), "hot", () => Daily.open()); mk("sub", $t("다시 도전"), "", () => Daily.play()); mk("sub", $t("스테이지"), "ghost", () => openMap());
   }
-  else if (s.stage.custom) { mk($t("에디터로"), "hot", () => Ed.open()); mk($t("다시"), "", () => startStage(0, Ed.toStage())); }
-  else mk($t("스테이지"), "ghost", async () => { if (kind === "clear") await Ads.interstitialAfterClear(n); openMap(); });
-  if (!s.stage.custom) mk(chase ? $t("★3 도전") : $t("다시"), chase ? "hot" : "", () => startStage(n));
-  if (kind === "clear" && nextOf(n) && !s.stage.custom) mk(isWide(n) ? $t("다음 와이드") : $t("다음 스테이지"), chase ? "" : "hot", async () => { await Ads.interstitialAfterClear(n); startStage(nextOf(n)); });
-  if (reward && !s.doubled && Ads.can("double")) {
-    const b = document.createElement("button"); b.textContent = $t`광고 보고 +${reward.base} 코인`; b.className = "ghost"; b.id = "btnDouble";
-    b.onclick = async e => { e.stopPropagation(); if ((await Ads.rewarded("double")) === "rewarded" && !s.doubled) { s.doubled = true; wallet.coins += reward.base; saveWallet(); $("rCoins").textContent = $t`+${reward.total + reward.base} 코인 (2배 받음)`; b.remove(); toast($t("코인 2배!")); } else toast($t("보상을 받지 못했어요")); };
-    bb.appendChild(b);
+  else if (s.stage.custom) { mk("main", $t("에디터로"), "hot", () => Ed.open()); mk("sub", $t("다시"), "", () => startStage(0, Ed.toStage())); }
+  else if (kind === "clear") {
+    const practice = s.challenge && s.challenge.practice;
+    if (nextOf(n) && !practice) mk("main", (isWide(n) ? $t("다음 와이드") : $t("다음 스테이지")) + "  ›", "hot", async () => { await Ads.interstitialAfterClear(n); startStage(nextOf(n)); }, "btnNext");
+    else mk("main", $t("스테이지"), "hot", toMap);
+    ic(ICON.retry, chase ? $t("★3 도전") : $t("다시"), chase ? "gold" : "", () => startStage(n), "btnRetry", chase ? "★3" : "");
+    if (nextOf(n) && !practice) ic(ICON.list, $t("스테이지"), "ghost", toMap, "btnMap");
+    if (Challenge.canSend() && !s.continued) ic(ICON.send, $t("친구에게 도전장 보내기"), "lime", () => Challenge.send(n, s.turn), "btnSendChallenge", $t("도전장"));
+  } else {
+    const conts = s.conts || 0, open = conts < MAX_CONTINUES && !s.gaveUp, cost = CONTINUE_COSTS[Math.min(conts, CONTINUE_COSTS.length - 1)];
+    const goOn = () => { C.continueGame(s); A.bgmStart(A.lastTrack); show(null); updateHud(); toast($t("아래 3줄 제거!")); if (s.status === "clear") openResult("clear"); };
+    const payCoins = () => {
+      if (wallet.coins < cost) { toast($t`코인이 ${cost - wallet.coins} 부족해요`); A.failMusic(); return false; }
+      wallet.coins -= cost; saveWallet(); goOn(); return true;
+    };
+    if (open) {
+      const pack = conts >= 1 && !wallet.packBought && iapItems().find(it => it.id === "CONTPACK");
+      if (pack) {
+        rows.offer.innerHTML = `<div class="pack"><span class="tag">${$t("한 번만")}</span><div class="ph"><b>${pack.name}</b></div><div class="pi"><span>${$t`이어하기 ${pack.conts}회`}</span><span>${$t`${pack.coins.toLocaleString()} 코인`}</span><span>${$t`골든 조준 ${pack.gold}`}</span></div></div>`;
+        const pb = document.createElement("button"); pb.className = "lime"; pb.id = "btnPack"; pb.textContent = $t`${iapPrice(pack)} 지금 이어하기`;
+        pb.onclick = async e => { e.stopPropagation(); const ok = await buyIap(pack);
+          if (ok && wallet.contTokens > 0) { wallet.contTokens--; saveWallet(); A.stopMusic(); goOn(); } };
+        rows.offer.firstChild.appendChild(pb);
+      }
+      if (wallet.contTokens > 0) mk("main", `${$t("이어하기")}<small>${$t`이어하기권 ${wallet.contTokens}개 중 1개`}</small>`, "gold", () => { wallet.contTokens--; saveWallet(); goOn(); }, "btnTokenCont");
+      else mk("main", `${$t`이어하기 · ${cost} 코인`}<small>${conts ? $t("두 번째부터 가격이 올라요") : $t("아래 3줄 제거 · 별은 1개까지")}</small>`, wallet.coins >= cost ? "gold" : "ghost", payCoins, "btnCoinCont");
+      if (!conts && Ads.can("continue")) mk("sub", `▶ ${$t("광고 보고 무료로 이어하기")}`, "hot", async () => {
+        if ((await Ads.rewarded("continue")) !== "rewarded") { toast($t("광고를 끝까지 보면 이어할 수 있어요")); A.failMusic(); return; }
+        goOn();
+      }, "btnAdCont");
+      // Giving up asks once, showing what this attempt would lose.
+      const a = document.createElement("button"); a.className = "link"; a.id = "btnGiveUp"; a.textContent = $t("포기하기"); rows.link.appendChild(a);
+      a.onclick = async e => {
+        e.stopPropagation();
+        const first = !(progress.stars[n] > 0), used = s.boostersUsedUI || 0, fc = clearReward(n, 1, 0).total;
+        const lines = [[$t`부순 벽돌 ${pct}%`, $t("처음부터 다시")], ...(first ? [[$t`첫 클리어 보상 ${fc} 코인`, $t("못 받아요")]] : []), ...(used ? [[$t`쓴 부스터 ${used}개`, $t("돌려받지 못해요")]] : [])];
+        const pick = await sheetAsk($t("정말 포기할까요?"), { html: `${left <= 9 ? $t`벽돌이 ${left}개만 남았어요.` : ""} ${$t("포기하면 이번 판에서 잃어요.")}<span class="loss">${lines.map(([a, b]) => `<span><span>${a}</span><b>${b}</b></span>`).join("")}</span>` },
+          [[$t("포기하고 나가기"), "ghost", "quit"], [wallet.contTokens > 0 ? $t("이어하기권 쓰기") : $t`이어하기 · ${cost} 코인`, "gold", "go"]]);
+        if (pick === "go") { if (wallet.contTokens > 0) { wallet.contTokens--; saveWallet(); A.stopMusic(); goOn(); } else if (payCoins()) A.stopMusic(); }
+        else if (pick === "quit") { s.gaveUp = true; openResult("fail"); }
+      };
+    } else {
+      mk("main", $t("다시 도전"), "hot", () => startStage(n), "btnRetry");
+      ic(ICON.list, $t("스테이지"), "ghost", toMap, "btnMap");
+    }
   }
-  const goOn = () => { C.continueGame(s); A.bgmStart(A.lastTrack); show(null); updateHud(); toast($t("아래 3줄 제거!")); if (s.status === "clear") openResult("clear"); };
-  if (kind === "fail" && !s.continued && !s.stage.daily && Ads.can("continue")) mk($t("이어하기 (광고)"), "hot", async () => {
-    if ((await Ads.rewarded("continue")) !== "rewarded") { toast($t("광고를 끝까지 보면 이어할 수 있어요")); A.failMusic(); return; }
-    goOn();
-  });
-  // Continue with coins: always offered next to the ad (also when ads are off); not enough coins → it says how many are missing.
-  if (kind === "fail" && !s.continued && !s.stage.daily && !s.stage.custom) { mk($t`이어하기 · ${CONTINUE_COST} 코인`, wallet.coins >= CONTINUE_COST ? "" : "ghost", () => {
-    if (wallet.coins < CONTINUE_COST) { toast($t`코인이 ${CONTINUE_COST - wallet.coins} 부족해요`); A.failMusic(); return; }
-    wallet.coins -= CONTINUE_COST; saveWallet(); goOn();
-  }); bb.lastChild.id = "btnCoinCont"; }
   if (unlocked.length) {
     setTimeout(() => { toast($t`새 댄스 해금: ${unlocked[0]}!`, true); A.combo(24); Hap.buzz([30, 40, 30, 40, 80]); }, 2600);
-    mk($t("댄스 도감"), "", () => Dz.open());
+    ic(ICON.dance, $t("댄스 도감"), "lime dot", () => Dz.open(), "btnDanceBook");
   }
+  for (const b of rows.main.children) b.setAttribute("data-ncq-main", "결과 화면 큰 버튼");   // screen guide: the one wide main action
+  for (const r of Object.values(rows)) if (r.childNodes.length) bb.appendChild(r);
   setTimeout(() => bb.classList.add("show"), 1000);
   $("skipHint").hidden = false;
 }
@@ -2260,7 +2470,9 @@ function drawDance(now) {
   const w = dc.width / dpr, h = dc.height / dpr, c = dg, t = now - R.t0, b = t / R.beat, three = R.stars === 3, two = R.stars >= 2;
   c.setTransform(dpr, 0, 0, dpr, 0, 0); c.fillStyle = "#05040c"; c.fillRect(0, 0, w, h);
   if (R.kind === "clear" && three && b > drop && b < drop + 0.7) c.translate((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10);
-  const floorY = h * 0.67, u = Math.min(h * 0.44 / 2.75, w * 0.13), beatN = Math.floor(b), music = b < endB;
+  // keep the stage floor above the result text and buttons, however many button rows there are
+  const box = document.querySelector("#result .rbox"), boxTop = box ? box.getBoundingClientRect().top - dc.getBoundingClientRect().top : h;
+  const floorY = Math.max(h * 0.42, Math.min(h * 0.67, boxTop - h * 0.06)), u = Math.min((floorY - h * 0.2) / 2.75, h * 0.44 / 2.75, w * 0.13), beatN = Math.floor(b), music = b < endB;
   // spotlights
   const cones = R.kind === "fail" ? [["#ff3dcb", 0.5, 0]] : three ? [["#2ef6ff", 0.5, 0], ["#ff3dcb", 0.2, 0.6], ["#b6ff3d", 0.8, -0.6]] : two ? [["#2ef6ff", 0.5, 0], ["#ff3dcb", 0.22, 0.5], ["#ffe14d", 0.78, -0.5]] : [["#ffffff", 0.5, 0]];
   cones.forEach(([col, px, sw], i) => {
@@ -2347,25 +2559,38 @@ const BALLS = {
   explode: { name: $t("폭발 공"), ic: "✸", col: "#ff8a3d", price: 1800, desc: $t("처음 맞힌 벽돌 2개 주변을 함께 터뜨려요 (2 피해).") },
   pierce: { name: $t("관통 공"), ic: "➹", col: "#b6ff3d", price: 2500, desc: $t("튕기지 않고 벽돌 4개를 뚫고 지나가요.") }
 };
-const CONTINUE_COST = 250;   // coins for "continue" on the fail screen, next to the ad option
-// NCQ_TEST_FAKE_STORE: 테스트 결제 상점 (코인 바로 지급, 실제 결제 없음)
-// Real in-app purchases are not wired yet, so the coin store only exists in development or when this test flag is on.
-const FAKE_STORE = NCQ_DEV_BUILD() || !!window.NCQ_TEST_FAKE_STORE;
-// Real in-app products. Each one is sold only when the build turns its flag on (Google Play builds) and the store
-// plugin is present; Toss builds turn every NCQ_IAP_ flag off. The development page shows them through the test store.
-// NCQ_IAP_coins_s: 코인 한 줌 (600 코인)
-// NCQ_IAP_coins_m: 코인 주머니 (2,000 코인)
-// NCQ_IAP_coins_l: 코인 금고 (7,000 코인)
-// NCQ_IAP_noads: 광고 제거 (스테이지 사이 전면 광고 제거)
-const IAP_FLAG = { coins_s: () => !!window.NCQ_IAP_coins_s, coins_m: () => !!window.NCQ_IAP_coins_m, coins_l: () => !!window.NCQ_IAP_coins_l, noads: () => !!window.NCQ_IAP_noads };
+const CONTINUE_COSTS = [250, 500], CONTINUE_COST = CONTINUE_COSTS[0], MAX_CONTINUES = 2;   // coins per continue: the 2nd costs more
+const ICON = {
+  retry: '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  send: '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 3L3 10.5l7 2.5 2.5 7L21 3zM10 13l11-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg>',
+  list: '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  dance: '<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v7l-4 6M12 15l4 6M6 10l6 1 6-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+};
+/* In-app purchases go only through NcqIap, which the release build injects (Google Play and Toss use the same code).
+   Product names below are what the release server reads; the store product id is the lower-case name. Prices come
+   from the store (NcqIap.price), never from this code. Rewards are granted in one place: NcqIap.onGrant. */
+// NCQ_IAP_COINS_S: 코인 한 줌 (600 코인)
+// NCQ_IAP_COINS_M: 코인 주머니 (2,000 코인)
+// NCQ_IAP_COINS_L: 코인 금고 (7,000 코인)
+// NCQ_IAP_NOADS: 광고 제거 (스테이지 사이 전면 광고 제거)
+// NCQ_IAP_CONTPACK: 이어하기 팩 (이어하기권 5 + 1,000 코인 + 골든 조준 2, 한 번만 판매)
+const IAP_DEV = !window.NCQ && !window.Capacitor; let iapGrantFn = null;
+const NcqIap = window.NcqIap || { onGrant: fn => { iapGrantFn = fn; }, can: () => IAP_DEV, ready: async () => IAP_DEV,
+  price: () => "", owned: async () => false, restore: async () => ({ ok: IAP_DEV, restored: [] }),
+  buy: async id => (IAP_DEV && iapGrantFn && iapGrantFn(String(id).toUpperCase(), {}) !== false ? { ok: true, id } : { ok: false, id }),
+  buyOnce: async id => (IAP_DEV && iapGrantFn && iapGrantFn(String(id).toUpperCase(), {}) !== false ? { ok: true, id } : { ok: false, id }) };
 const IAP = [
-  { id: "coins_s", name: $t("코인 한 줌"), coins: 600, price: "₩1,200" },
-  { id: "coins_m", name: $t("코인 주머니"), coins: 2000, price: "₩3,300", tag: "+11%" },
-  { id: "coins_l", name: $t("코인 금고"), coins: 7000, price: "₩9,900", tag: "+30%" },
-  { id: "noads", name: $t("광고 제거"), coins: 0, price: "₩5,900", desc: $t("스테이지 사이 전면 광고 제거. 보상형 광고는 원할 때만.") }
+  { id: "COINS_S", name: $t("코인 한 줌"), coins: 600 },
+  { id: "COINS_M", name: $t("코인 주머니"), coins: 2000, tag: "+11%" },
+  { id: "COINS_L", name: $t("코인 금고"), coins: 7000, tag: "+30%" },
+  { id: "NOADS", name: $t("광고 제거"), coins: 0, desc: $t("스테이지 사이 전면 광고 제거. 보상형 광고는 원할 때만.") },
+  { id: "CONTPACK", name: $t("이어하기 팩"), coins: 1000, conts: 5, gold: 2, once: true, desc: $t("이어하기 5회 · 1,000 코인 · 골든 조준 2 (한 번만)") }
 ];
+// Each product's buy call is written out by name so the release server can find it (consumable: buy, one-time: buyOnce).
+const IAP_BUY = { COINS_S: () => NcqIap.buy("COINS_S"), COINS_M: () => NcqIap.buy("COINS_M"), COINS_L: () => NcqIap.buy("COINS_L"),
+  NOADS: () => NcqIap.buyOnce("NOADS"), CONTPACK: () => NcqIap.buy("CONTPACK") };
 const today = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
-const freshWallet = () => ({ coins: 300, boosters: { hammer: 2, laser: 1, balls: 2, push: 1, gold: 1 }, freeAds: { day: "", n: 0 }, noAds: false, clearsSinceAd: 0, firstClear: {}, ballsOwned: {}, ball: null });
+const freshWallet = () => ({ coins: 300, boosters: { hammer: 2, laser: 1, balls: 2, push: 1, gold: 1 }, freeAds: { day: "", n: 0 }, noAds: false, clearsSinceAd: 0, firstClear: {}, ballsOwned: {}, ball: null, contTokens: 0, packBought: false });
 let wallet = freshWallet();
 try { const raw = localStorage.getItem("nbq-wallet"); if (raw) { const w = JSON.parse(raw); wallet = { ...wallet, ...w, boosters: { hammer: 0, laser: 0, balls: 0, push: 0, gold: 0, ...w.boosters } }; } } catch (e) {}
 function saveWallet() { try { localStorage.setItem("nbq-wallet", JSON.stringify(wallet)); } catch (e) {} syncCoins(); }
@@ -2445,47 +2670,36 @@ const Ads = {
     if (!NCQ_DEV_BUILD()) A.setMuted(wasMuted); this.busy = false; if (shown) Team.logAd("interstitial", "shown"); return shown;
   }
 };
-const TestStore = {
-  // Development / NCQ_TEST_FAKE_STORE: grants instantly, no payment.
-  available: () => true, price: it => it.price,
-  async buy(item) { return await sheetAsk($t("테스트 결제"), $t`${item.name} (${item.price})\n실제 결제는 되지 않고 바로 지급돼요.`, [[$t("취소"), "ghost", false], [$t("구매"), "hot", true]]); }
-};
-/* Google Play through cordova-plugin-purchase (CdvPurchase). Rewards are granted only when the store approves the
-   transaction, then the transaction is finished; the no-ads purchase is restored whenever the store reports it owned. */
-const PlayStore = {
-  ready: false, pending: null,
-  init() {
-    const P = window.CdvPurchase; if (!P || this.ready) return; const { store, ProductType, Platform } = P;
-    const ids = IAP.filter(it => IAP_FLAG[it.id]()).map(it => it.id); if (!ids.length) return;
-    store.register(ids.map(id => ({ id, type: id === "noads" ? ProductType.NON_CONSUMABLE : ProductType.CONSUMABLE, platform: Platform.GOOGLE_PLAY })));
-    store.when()
-      .approved(tx => { for (const p of tx.products) grantIap(p.id); tx.finish(); if (this.pending) { this.pending(true); this.pending = null; } })
-      .productUpdated(p => { if (p.id === "noads" && p.owned && !wallet.noAds) { wallet.noAds = true; saveWallet(); } if (screen === "shop") renderShop(); });
-    store.error(() => { if (this.pending) { this.pending(false); this.pending = null; } });
-    store.initialize([Platform.GOOGLE_PLAY]).then(() => { this.ready = true; if (screen === "shop") renderShop(); });
-  },
-  available(it) { const p = this.ready && window.CdvPurchase.store.get(it.id); return !!(p && p.canPurchase !== false && p.getOffer()); },
-  price(it) { const p = this.ready && window.CdvPurchase.store.get(it.id), o = p && p.getOffer(); return (o && o.pricingPhases && o.pricingPhases[0] && o.pricingPhases[0].price) || it.price; },
-  buy(it) {
-    const p = window.CdvPurchase.store.get(it.id), o = p && p.getOffer(); if (!o) return Promise.resolve(false);
-    return new Promise(res => { this.pending = res; o.order().then(err => { if (err && this.pending) { this.pending(false); this.pending = null; } }); setTimeout(() => { if (this.pending === res) { this.pending = null; res(false); } }, 120000); });
-  }
-};
-const Store = () => FAKE_STORE ? TestStore : PlayStore;
-const iapItems = () => IAP.filter(it => FAKE_STORE || (IAP_FLAG[it.id]() && PlayStore.available(it)));
-function grantIap(id) {
-  const it = IAP.find(x => x.id === id); if (!it) return;
-  if (id === "noads") wallet.noAds = true; else wallet.coins += it.coins;
-  saveWallet(); if (screen === "shop") renderShop(); toast(id === "noads" ? $t("광고 제거 완료") : $t`+${it.coins.toLocaleString()} 코인`, true);
+const iapItems = () => IAP.filter(it => !(it.once && wallet.packBought) && NcqIap.can(it.id));
+const iapPrice = it => NcqIap.price(it.id) || (IAP_DEV ? $t("테스트 구매") : $t("구매"));
+// Development page: NcqIap is the stand-in above, which grants at once — ask first so it feels like a purchase.
+async function buyIap(it) {
+  if (it.id === "NOADS" && wallet.noAds) { toast($t("이미 광고가 제거됐어요")); return false; }
+  if (IAP_DEV && !(await sheetAsk($t("테스트 결제"), $t`${it.name}\n실제 결제는 되지 않고 바로 지급돼요.`, [[$t("취소"), "ghost", false], [$t("구매"), "hot", true]]))) return false;
+  const r = await IAP_BUY[it.id](); if (screen === "shop") renderShop(); return !!(r && r.ok);
 }
+// The only place purchases are granted: new purchases, unfinished ones after a restart, and restored one-time items.
+NcqIap.onGrant((id, info) => {
+  const it = IAP.find(x => x.id === id); if (!it) return false;
+  if (id === "NOADS") wallet.noAds = true;   // one-time: only switches on, however often it arrives
+  else {
+    wallet.coins += it.coins;
+    if (it.conts) { wallet.contTokens = (wallet.contTokens || 0) + it.conts; wallet.boosters.gold = (wallet.boosters.gold || 0) + it.gold; wallet.packBought = true; }
+  }
+  saveWallet(); if (screen === "shop") renderShop();
+  if (!(info && info.restored)) toast(id === "NOADS" ? $t("광고 제거 완료") : it.conts ? $t("이어하기 팩 받음!") : $t`+${it.coins.toLocaleString()} 코인`, true);
+  return true;
+});
+NcqIap.ready().then(() => { if (screen === "shop") renderShop(); syncRestoreBtn(); }).catch(() => {});
 
 // Korean subject particle: 이 after a final consonant, 가 otherwise (digits read as Korean numbers).
 function josa(w) { const ch = w.trim().slice(-1), code = ch.charCodeAt(0); if (code >= 0xac00 && code <= 0xd7a3) return (code - 0xac00) % 28 ? $t("이") : $t("가"); return "0136780".includes(ch) ? $t("이") : $t("가"); }
 /* bottom sheet used for booster offers and confirmations; resolves the chosen button's value */
 function sheetAsk(title, text, buttons) {
   return new Promise(resolve => {
-    $("sheetTitle").textContent = title; $("sheetText").textContent = text; const box = $("sheetBtns"); box.innerHTML = "";
+    $("sheetTitle").textContent = title; if (text && text.html != null) $("sheetText").innerHTML = text.html; else $("sheetText").textContent = text; const box = $("sheetBtns"); box.innerHTML = "";
     for (const [label, cls, val] of buttons) { const b = document.createElement("button"); b.textContent = label; if (cls) b.className = cls; b.onclick = () => { $("sheet").hidden = true; resolve(val); }; box.appendChild(b); }
+    sheetAsk.cancel = () => { $("sheet").hidden = true; resolve(null); };   // Toss back button: close without picking (every caller treats null as cancel)
     $("sheet").hidden = false; box.lastChild && box.lastChild.focus();
   });
 }
@@ -2666,7 +2880,13 @@ const Daily = {
     $("dailyReward").textContent = day && day.best != null ? $t`오늘 보상을 받았어요. 내일 또 하면 연속 보너스가 붙어요.` : $t`오늘 첫 클리어 보상: ${50 + 10 * Math.min((d.streak.n || 0) + 1, 7)} 코인 (연속 참여할수록 +10, 최대 7일)`;
     $("dailyReset").textContent = $t`새 챌린지까지 ${this.left()}`;
     const box = $("dailyBoard");
-    if (!Team.db) { box.innerHTML = $t`<div class="brow"><span class="rk">–</span><span class="nm">로그인하면 팀원과 순위를 겨룰 수 있어요</span><span class="sc">${day && day.best != null ? day.best + $t("턴") : ""}</span></div>`; return; }
+    // Team ranking works only on the claude.ai team page (Team.db). Elsewhere (Toss, Google Play, web share) there is no login,
+    // so the rank stat and the ranking stay hidden and the rule talks about your own best.
+    const team = !!Team.db;
+    $("dsRankBox").hidden = $("dailyBoardLabel").hidden = box.hidden = !team;
+    $("dailyRule").textContent = team ? $t("팀 모두가 같은 판을 풀어요. 부스터와 이어하기 없이, 가장 적은 턴으로 깨면 1등. 몇 번이든 다시 도전할 수 있고 최고 기록만 남아요.")
+      : $t("모두가 같은 판을 풀어요. 부스터와 이어하기 없이, 가장 적은 턴으로 깨 보세요. 몇 번이든 다시 도전할 수 있고 최고 기록만 남아요.");
+    if (!team) { box.innerHTML = ""; return; }
     if (!this.board.length) { box.innerHTML = $t`<div class="brow"><span class="rk">1</span><span class="nm">아직 아무도 깨지 못했어요. 첫 기록의 주인공이 되세요</span><span class="sc"></span></div>`; return; }
     await this.names4(this.board.map(r => r.id));
     const rows = this.board.slice(0, 20); if (me && me.rank > 20) rows.push(me);
@@ -2675,6 +2895,30 @@ const Daily = {
   }
 };
 $("btnDaily").onclick = () => Daily.open();
+/* ---------- friend challenge ----------
+   After a clear, the paper-plane button shares a link to the public web build with only the stage number and my turn
+   count (?ch=<stage>-<turns>) — nothing about the player leaves the device. Opening the link shows the challenge on the
+   map. A locked stage can still be played as a challenge, but then nothing is saved (no stars, no coins).
+   Not offered in the Toss build (no links that lead outside Toss). */
+const PLAY_URL = "https://ncroquis.github.io/neon-brick/play/";
+const Challenge = {
+  incoming: null,
+  parse() { const m = /[?&]ch=(\d{1,3})-(\d{1,2})(?:&|$)/.exec(location.search); if (!m) return; const n = +m[1], t = +m[2]; if (n >= 1 && n <= C.STAGES && t >= 1) this.incoming = { n, turns: t }; },
+  canSend: () => !(window.NCQ && window.NCQ.NCQ_PLATFORM === "toss"),
+  label: n => isWide(n) ? "W" + (n - 30) : String(shown(n)),
+  link: (n, turns) => `${PLAY_URL}?ch=${n}-${turns}`,
+  async send(n, turns) {
+    const url = this.link(n, turns), text = $t`네온 브릭 스테이지 ${this.label(n)}를 ${turns}턴에 깼어! 너는 몇 턴에 깰 수 있어?`;
+    if (navigator.share) { try { await navigator.share({ title: $t("네온 브릭 도전장"), text, url }); return "shared"; } catch (e) { if (e && e.name === "AbortError") return "cancel"; } }
+    try { await navigator.clipboard.writeText(text + " " + url); toast($t("도전장 링크를 복사했어요")); return "copied"; }
+    catch (e) { await sheetAsk($t("도전장"), text + "\n" + url, [[$t("닫기"), "hot", null]]); return "shown"; }
+  },
+  banner() { const b = $("btnChallenge"), c = this.incoming; b.hidden = !c; if (c) $("chLine").textContent = $t`친구가 스테이지 ${this.label(c.n)}를 ${c.turns}턴에 깼어요. 더 적은 턴에 도전!`; },
+  play() { const c = this.incoming; if (!c) return; const practice = !unlocked(c.n); startStage(c.n, undefined, practice); st.challenge = { turns: c.turns, practice }; toast($t`목표: ${c.turns}턴 안에 클리어!`, true); },
+  done() { this.incoming = null; try { history.replaceState(null, "", location.pathname + location.search.replace(/[?&]ch=[^&]*/, "").replace(/^&/, "?") + location.hash); } catch (e) {} }
+};
+Challenge.parse();
+$("btnChallenge").onclick = () => Challenge.play();
 $("dailyBack").onclick = () => openMap();
 $("dailyPlay").onclick = () => Daily.play();
 
@@ -2690,8 +2934,8 @@ function renderShop() {
   $("shopFree").className = left > 0 ? "hot" : "ghost";
   $("shopFree").hidden = $("shopFreeLabel").hidden = !Ads.can("free");
   const items = iapItems(); $("shopIap").hidden = $("shopIapLabel").hidden = !items.length;
-  $("shopIapLabel").textContent = FAKE_STORE ? $t("코인 · 테스트 결제 (실제 결제되지 않아요)") : $t("코인");
-  $("shopIap").innerHTML = items.map(it => `<div class="item"><div class="nm">${it.name}${it.tag ? ` <span style="color:var(--lime);font-size:12px">${it.tag}</span>` : ""}</div><div class="ds">${it.coins ? $t`<i class="coin"></i> ${it.coins.toLocaleString()} 코인` : it.desc}</div><div class="own">${it.id === "noads" && wallet.noAds ? $t("구매함") : ""}</div><button data-iap="${it.id}" ${it.id === "noads" && wallet.noAds ? "disabled" : ""}>${Store().price(it)}</button></div>`).join("");
+  $("shopIapLabel").textContent = IAP_DEV ? $t("코인 · 테스트 결제 (실제 결제되지 않아요)") : $t("코인");
+  $("shopIap").innerHTML = items.map(it => `<div class="item"><div class="nm">${it.name}${it.tag ? ` <span style="color:var(--lime);font-size:12px">${it.tag}</span>` : ""}</div><div class="ds">${it.desc ? it.desc : $t`<i class="coin"></i> ${it.coins.toLocaleString()} 코인`}</div><div class="own">${it.id === "NOADS" && wallet.noAds ? $t("구매함") : ""}</div><button data-iap="${it.id}" ${it.id === "NOADS" && wallet.noAds ? "disabled" : ""}>${iapPrice(it)}</button></div>`).join("");
 }
 $("shopBoosters").addEventListener("click", e => {
   const b = e.target.closest("[data-buy]"); if (!b) return; const k = b.dataset.buy, B = BOOSTERS[k];
@@ -2715,12 +2959,13 @@ $("shopFree").onclick = async () => {
 };
 $("shopIap").addEventListener("click", async e => {
   const b = e.target.closest("[data-iap]"); if (!b) return; const it = IAP.find(x => x.id === b.dataset.iap);
-  if (it.id === "noads" && wallet.noAds) { toast($t("이미 광고가 제거됐어요")); return; }
-  const store = Store();
-  if (store === TestStore) { if (await TestStore.buy(it)) grantIap(it.id); return; }
-  await PlayStore.buy(it);   // Play grants in its approved() handler
+  await buyIap(it);   // NcqIap calls onGrant first when the purchase succeeds
 });
 $("btnShop").onclick = () => openShop();
+// Settings: restore purchases (the one-time no-ads item comes back through onGrant).
+function syncRestoreBtn() { const b = $("btnRestore"); if (b) b.hidden = !IAP.some(it => NcqIap.can(it.id)); }
+$("btnRestore").onclick = async () => { const r = await NcqIap.restore().catch(() => null); toast(r && r.ok ? (r.restored && r.restored.length ? $t("구매를 복원했어요") : $t("복원할 구매가 없어요")) : $t("복원하지 못했어요")); };
+syncRestoreBtn();
 function syncUnlockBtn() {
   const b = $("btnUnlockAll"); b.hidden = !DEV_TOOLS; const on = !!progress.unlockAll;
   b.setAttribute("aria-pressed", on); b.textContent = on ? $t("테스트: 전체 해금 켜짐 · 눌러서 끄기") : $t("테스트: 전체 스테이지 해금");
@@ -2918,11 +3163,22 @@ Team.init().then(() => Team.touchPlayer());
 A.init(); A.setMuted(!settings.sound); A.lobby(); A.loadTrack();
 // Platform hooks. Toss: reserve the host's top-right buttons. Any platform: hidden app/tab → sound off right away.
 if (window.NCQ && window.NCQ.NCQ_PLATFORM === "toss") document.documentElement.classList.add("toss");
+// App version: the release build sets window.NCQ.NCQ_VERSION (web share, Google Play, Toss); the development page shows "dev".
+$("appVer").textContent = window.NCQ && window.NCQ.NCQ_VERSION ? "v" + window.NCQ.NCQ_VERSION : "dev";
+// Toss back button (Android back, the ‹ in Toss): the Toss build asks this first. true = handled here — the open dialog closes,
+// or the game goes one screen back the same way its own ‹ buttons do. false only on the title, where the build asks to quit.
+window.ncqBack = () => {
+  if (!$("sheet").hidden) { sheetAsk.cancel ? sheetAsk.cancel() : ($("sheet").hidden = true); return true; }
+  if (screen === "title") return false;
+  if (screen === "play") $("btnBack").click();             // stage → map (daily → challenge screen, editor test → editor)
+  else if (screen === "map") $("btnHome").click();         // map → title
+  else { A.stopMusic(); openMap(); }                       // result, shop, daily, dances, editor → map
+  return true;
+};
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) { A.setMuted(true); try { A.ctx && A.ctx.suspend(); } catch (e) {} if (A.track && !A.track.paused) { A.track.pause(); A.trackHeld = true; } }
   else { try { A.ctx && A.ctx.resume(); } catch (e) {} A.setMuted(!settings.sound); if (A.trackHeld) { A.trackHeld = false; if (R && R.track && screen === "result") A.track.play().catch(() => {}); } }
 });
-document.addEventListener("deviceready", () => PlayStore.init(), false); PlayStore.init();
 function audioReady() { return A.ctx && A.ctx.state === "running"; }
 function unlockAudio() {
   A.init(); A.setMuted(!settings.sound);

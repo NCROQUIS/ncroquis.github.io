@@ -104,4 +104,16 @@ ok(Core.STAGES+' stages deterministic and valid',Core.STAGES===106);
 ok('stage 37 is shown as 31, 106 as 100',Core.mainIndex(37)===31&&Core.mainIndex(106)===100&&Core.mainIndex(30)===30);
 {const t=[...Array(100)].map((_,i)=>Core.target(i+1>30?i+7:i+1));ok('targets stay between 55% and 97%',t.every(x=>x>=0.55&&x<=0.97));
  const avg=(a,b)=>{let s=0;for(let m=a;m<=b;m++)s+=t[m-1];return s/(b-a+1)};ok(`average falls by chapter (${[1,5,10].map(c=>avg(c*10-9,c*10).toFixed(2))})`,avg(1,10)>avg(41,50)&&avg(41,50)>avg(91,100));}
+
+// stage 1 is the bonus stage: one shot up the hole clears the whole wall, a shot beside it does not
+{const st=Core.makeStage(1),up=Core.newGame(st);Core.runShot(up,Math.PI/2);ok('hole stage 1 (5 hp): a shot up the hole clears everything in 1 turn',st.bonus&&up.status==='clear'&&up.turn===1&&Core.starsFor(up)===3);
+ const side=Core.newGame(st);Core.runShot(side,1.2);ok(`hole stage 1: missing the hole leaves the wall (${side.bricks.size} left)`,side.status==='aim'&&side.bricks.size>=12);
+ const rs=Array.from({length:30},(_,i)=>Core.playStage(st,'novice',500+i*7919)),cl=rs.filter(r=>r.status==='clear');ok(`hole stage 1: novice nearly always clears (${cl.length}/30, ${cl.filter(r=>r.turns===1).length} in one shot)`,cl.length>=27);}
+
+// boss stages: every 3rd turn the bricks march down two rows
+{const mk=boss=>({n:0,ch:1,balls:1,bricks:[{r:0,c:0,hp:9999,type:'n'}],items:[],par3:5,par2:8,boss});
+ const rows=boss=>{const g=Core.newGame(mk(boss)),out=[];for(let i=0;i<4;i++){Core.runShot(g,Math.PI/2);out.push([...g.bricks.values()][0].r);}return out.join(',');};
+ ok(`boss march: rows after each turn ${rows(true)} (normal ${rows(false)})`,rows(true)==='1,2,4,5'&&rows(false)==='1,2,3,4');
+ const bosses=[10,20,30,46,56,66,76,86,96,106].filter(n=>Core.makeStage(n).boss).length,others=[9,11,31,45,47,105].filter(n=>Core.makeStage(n).boss).length;
+ ok(`every 10th stage is a boss (${bosses}/10), others are not (${others})`,bosses===10&&others===0);}
 console.log(`\n${pass} passed, ${fail} failed`);process.exit(fail?1:0);

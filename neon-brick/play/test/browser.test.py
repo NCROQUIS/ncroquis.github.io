@@ -36,7 +36,7 @@ async def main():
         for _ in range(12):
             if await pg.evaluate("NBQ.state.status")!="aim": break
             await pg.evaluate("NBQ.Core.startShot(NBQ.state, NBQ.Core.botAngle(NBQ.state))")
-            await pg.wait_for_function("NBQ.state.status!=='shooting' || NBQ.slow()>0", timeout=30000)
+            await pg.wait_for_function("NBQ.state.status!=='shooting' || (NBQ.slow()>0 && NBQ.state.bricks.size===0)", timeout=30000)
             if await pg.evaluate("NBQ.slow()>0 && NBQ.state.bricks.size===0"):
                 await pg.wait_for_timeout(120); await pg.screenshot(path="shots/24-last-brick-slowmo.png")
                 ok("last brick triggers slow motion + shockwave", await pg.evaluate("NBQ.slow()>0 && NBQ.rings().length>0"))
@@ -84,10 +84,10 @@ async def main():
             await pg.wait_for_timeout(ms - (0 if name.endswith("a") else 0)); await pg.screenshot(path=f"shots/{name}.png")
         ok("no 3-star hint on a 3-star clear", await pg.evaluate("document.getElementById('rHint').hidden"))
         ok("buttons shown after dance", await pg.evaluate("document.getElementById('rBtns').classList.contains('show')"))
-        ok("next-stage button highlighted on 3 stars", await pg.locator("#rBtns button.hot").inner_text()=="다음 스테이지")
+        ok("next-stage button highlighted on 3 stars", (await pg.locator("#rBtns button.hot").inner_text()).startswith("다음 스테이지"))
         await pg.evaluate("NBQ.startStage(5)"); await pg.wait_for_timeout(300); await pg.evaluate("NBQ.forceClear(2)"); await pg.wait_for_timeout(2600); await pg.screenshot(path="shots/11-2star.png")
-        hint = await pg.inner_text("#rHint"); ok(f"2-star result shows 3-star hint '{hint}'", "턴만 줄이면" in hint and await pg.is_visible("#rHint"))
-        ok("retry becomes the highlighted '3-star challenge' button", await pg.locator("#rBtns button.hot").inner_text()=="★3 도전")
+        hint = await pg.inner_text("#rHint"); ok(f"2-star result shows 3-star hint '{hint}'", "★3까지" in hint and await pg.is_visible("#rHint"))
+        ok("retry becomes the gold 3-star challenge icon next to stage list", await pg.get_attribute("#btnRetry", "aria-label")=="★3 도전" and "gold" in await pg.get_attribute("#btnRetry", "class"))
         await pg.evaluate("NBQ.startStage(5)"); await pg.wait_for_timeout(300); await pg.evaluate("NBQ.forceClear(1)"); await pg.wait_for_timeout(2600); await pg.screenshot(path="shots/12-1star.png")
         # skip by tap
         await pg.evaluate("NBQ.startStage(5)"); await pg.wait_for_timeout(300); await pg.evaluate("NBQ.forceClear(3)"); await pg.wait_for_timeout(400)
@@ -97,8 +97,8 @@ async def main():
         await pg.evaluate("NBQ.startStage(12)"); await pg.wait_for_timeout(1300); await pg.screenshot(path="shots/13-stage12-bombs.png")
         await pg.evaluate("""()=>{const s=NBQ.state;for(const b of s.bricks.values())b.hp=99999;while(s.status==='aim')NBQ.Core.runShot(s,0.2);}""")
         await pg.wait_for_timeout(3200); await pg.screenshot(path="shots/14-fail.png")
-        ok("fail screen shows continue", await pg.locator("text=이어하기 (광고)").count()==1)
-        await pg.evaluate("NBQ.Ads.tickMs=40"); await pg.click("text=이어하기 (광고)")
+        ok("fail screen shows continue", await pg.locator("#rBtns button:has-text('무료로 이어하기')").count()==1)
+        await pg.evaluate("NBQ.Ads.tickMs=40"); await pg.click("#rBtns button:has-text('무료로 이어하기')")
         await pg.wait_for_selector("#adClose:not([hidden])", timeout=5000); await pg.click("#adClose"); await pg.wait_for_timeout(400)
         ok("continue resumes play", await pg.evaluate("NBQ.screen")=="play" and await pg.evaluate("NBQ.state.status")=="aim")
         # stage 20 art layout + small phone

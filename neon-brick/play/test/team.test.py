@@ -32,7 +32,7 @@ async def main():
         await pg.evaluate("""()=>{const s=NBQ.state;for(const b of s.bricks.values())b.hp=9999;while(s.status==='aim')NBQ.Core.runShot(s,0.2);}"""); await pg.wait_for_timeout(1800)
         rec = await pg.evaluate("window.__store.get('plays/u_tester/stages/1')")
         ok(f"play aggregate written {rec and {k: rec[k] for k in ('attempts','clears','fails')}}", rec and rec["attempts"]==2 and rec["clears"]==1 and rec["fails"]==1 and len(rec["turns"])==1)
-        await pg.evaluate("NBQ.Ads.tickMs=40"); await pg.click("#rBtns button:has-text('이어하기')")
+        await pg.evaluate("NBQ.Ads.tickMs=40"); await pg.click("#btnAdCont")
         await pg.wait_for_selector("#adClose:not([hidden])", timeout=5000); await pg.click("#adClose"); await pg.wait_for_timeout(300)
         await pg.evaluate("""()=>{const s=NBQ.state;for(const b of s.bricks.values())b.hp=1;while(s.status==='aim')NBQ.Core.runShot(s,1.2);}"""); await pg.wait_for_timeout(1800)
         rec = await pg.evaluate("window.__store.get('plays/u_tester/stages/1')")

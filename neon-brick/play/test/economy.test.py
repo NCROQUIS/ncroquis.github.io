@@ -82,9 +82,9 @@ async def main():
         ok("replaying a cleared stage pays base only (40)", await pg.evaluate("NBQ.wallet.coins") - c1 == 40)
         # continue requires a watched ad
         await pg.evaluate("NBQ.startStage(6)"); await pg.wait_for_timeout(200); await pg.evaluate("NBQ.forceFail()"); await pg.wait_for_timeout(1200)
-        await pg.click("#rBtns button:has-text('이어하기 (광고)')"); await pg.wait_for_function("!document.getElementById('adSkip').hidden && !document.getElementById('adOverlay').hidden", timeout=8000); await pg.evaluate("document.getElementById('adSkip').click()"); await pg.wait_for_timeout(300)
+        await pg.click("#rBtns button:has-text('무료로 이어하기')"); await pg.wait_for_function("!document.getElementById('adSkip').hidden && !document.getElementById('adOverlay').hidden", timeout=8000); await pg.evaluate("document.getElementById('adSkip').click()"); await pg.wait_for_timeout(300)
         ok("skipping the continue ad keeps the fail screen", await pg.evaluate("NBQ.screen") == "result")
-        await pg.click("#rBtns button:has-text('이어하기 (광고)')"); await pg.wait_for_selector("#adClose:not([hidden])", timeout=5000); await pg.click("#adClose"); await pg.wait_for_timeout(300)
+        await pg.click("#rBtns button:has-text('무료로 이어하기')"); await pg.wait_for_selector("#adClose:not([hidden])", timeout=5000); await pg.click("#adClose"); await pg.wait_for_timeout(300)
         ok("watching the continue ad resumes play", await pg.evaluate("NBQ.screen") == "play")
         # interstitial cadence: from stage 11, every 3rd clear, never with noAds
         shown = []
@@ -109,11 +109,11 @@ async def main():
             await pg.click("#shopFree"); await pg.wait_for_timeout(150)
             if await pg.is_visible("#adOverlay"): await pg.wait_for_selector("#adClose:not([hidden])", timeout=5000); await pg.click("#adClose"); await pg.wait_for_timeout(200)
         ok("free booster ads capped at 3 per day", await pg.evaluate("NBQ.wallet.freeAds.n") == 3 and "모두" in await pg.inner_text("#shopFree"))
-        await pg.click("[data-iap=coins_m]"); await pg.wait_for_timeout(150)
+        await pg.click("[data-iap=COINS_M]"); await pg.wait_for_timeout(150)
         ok("test purchase asks for confirmation", "테스트 결제" in await pg.inner_text("#sheet"))
         await pg.click("#sheetBtns button:has-text('구매')"); await pg.wait_for_timeout(150)
         ok("test purchase grants 2,000 coins", await pg.evaluate("NBQ.wallet.coins") == 2050)
-        await pg.click("[data-iap=noads]"); await pg.wait_for_timeout(100); await pg.click("#sheetBtns button:has-text('구매')"); await pg.wait_for_timeout(150)
+        await pg.click("[data-iap=NOADS]"); await pg.wait_for_timeout(100); await pg.click("#sheetBtns button:has-text('구매')"); await pg.wait_for_timeout(150)
         ok("ad removal blocks interstitials", await pg.evaluate("NBQ.wallet.noAds") and not await pg.evaluate("NBQ.wallet.clearsSinceAd=2, NBQ.Ads.interstitialAfterClear(15)"))
         await pg.reload(); await pg.wait_for_timeout(500)
         ok("wallet survives reload", await pg.evaluate("NBQ.wallet.coins") == 2050 and await pg.evaluate("NBQ.wallet.noAds"))

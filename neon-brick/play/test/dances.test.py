@@ -24,7 +24,7 @@ async def main():
             await pg.evaluate(f"NBQ.startStage({n})"); await pg.wait_for_timeout(80); await pg.evaluate("NBQ.forceClear(3)"); await pg.wait_for_timeout(150)
         ok("15 stars unlocks 네온 웨이브 and 5 straight 3-stars unlock 피버 댄스", await pg.evaluate("NBQ.Dz.st.owned.includes('wave') && NBQ.Dz.st.owned.includes('fever')"))
         await pg.wait_for_timeout(2700)
-        ok("unlock is announced on the result screen", "해금" in await pg.inner_text("#toast") and await pg.locator("#rBtns button:has-text('댄스 도감')").count() == 1)
+        ok("unlock is announced on the result screen", "해금" in await pg.inner_text("#toast") and await pg.locator("#btnDanceBook").count() == 1)
         await pg.screenshot(path="shots/82-unlock-toast.png")
         # a 2-star clear breaks the 3-star chain counter
         await pg.evaluate("NBQ.startStage(6)"); await pg.wait_for_timeout(80); await pg.evaluate("NBQ.forceClear(2)"); await pg.wait_for_timeout(150)

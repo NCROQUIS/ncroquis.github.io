@@ -1,6 +1,8 @@
 // Main line (stages 1-30 re-tuned, 37-106 new) on the gentle target curve C.target(n).
 //   node test/build-main.js 1-30          → re-tune: same layouts, brick hp scaled to the new target, fresh star pars
 //   node test/build-main.js 37,39,41,...  → search: candidate layouts per slot, keep one with fun 90+ (two bot sets)
+//   KSTART=5 node test/build-main.js 55,56   → second pass over more layouts; bake-main keeps the better one per slot
+//   KEEP=1 TAG=boss node test/build-main.js 46,56 → re-tune existing main stages (same layout, new hp and pars), e.g. after a rule change
 // Results go to test/main-<TAG>.json (TAG env, default first slot). Each slot: seed, f, p, target, fun Q/R, clear R.
 const C = require('./core.js'), fs = require('fs');
 const runs = (st, n, s0) => Array.from({ length: n }, (_, i) => C.playStage(st, 'novice', s0 + i * 7919));
@@ -14,7 +16,7 @@ function pars(rs) {
 }
 const parse = a => a.split(',').flatMap(x => x.includes('-') ? (([a, b]) => Array.from({ length: b - a + 1 }, (_, i) => a + i))(x.split('-').map(Number)) : [+x]);
 const slots = parse(process.argv[2]), TAG = process.env.TAG || String(slots[0]), out = {};
-const KMAX = +(process.env.KMAX || 5), MINS = +(process.env.MIN || 9), file = __dirname + '/main-' + TAG + '.json';
+const KSTART = +(process.env.KSTART || 0), KMAX = +(process.env.KMAX || 5), MINS = +(process.env.MIN || 9), file = __dirname + '/main-' + TAG + '.json';
 // generator for a slot: (f, par) → stage. Re-tuned stages keep their layout seed.
 function gen(n, seed) {
   if (n <= 20) return (f, p) => { const st = C.makeStage(n, { f }); if (p) { st.par3 = p[0]; st.par2 = p[1]; } return st; };
@@ -29,16 +31,16 @@ function calibrate(g, tgt) {
 }
 for (const n of slots) {
   if (n === 2) continue;   // hand-made combo stage, already 98%
-  const tgt = C.target(n), t0 = Date.now(), retune = n <= 30; let best = null, ok = null;
-  for (let k = 0; k < (retune ? 1 : KMAX) && !ok && Date.now() - t0 < MINS * 60e3; k++) {
-    const seed = n * 1000 + k * 37 + 1, g = gen(n, seed); let f = calibrate(g, tgt), rs = runs(g(f), 30, 900001);
+  const tgt = C.target(n), t0 = Date.now(), retune = n <= 30 || !!process.env.KEEP; let best = null, ok = null;
+  for (let k = KSTART; k < (retune ? 1 : KSTART + KMAX) && !ok && Date.now() - t0 < MINS * 60e3; k++) {
+    const seed = process.env.KEEP && C.MAIN[n] ? C.MAIN[n].seed : n * 1000 + k * 37 + 1, g = gen(n, seed); let f = calibrate(g, tgt), rs = runs(g(f), 30, 900001);
     // the 12-game search is coarse: nudge hp until 30 fresh games land within 8 points of the target
     for (let fix = 0; fix < 3; fix++) { const r = rs.filter(x => x.status === 'clear').length / 30; if (Math.abs(r - tgt) <= 0.08) break;
       f = +(f * (r > tgt ? 1.18 : 0.85)).toFixed(3); rs = runs(g(f), 30, 900001); }
     const p = pars(rs); if (!p) { console.log(n, 'cand', k, 'no clears at f', f); continue; }
     const st = g(f, p), ex = C.playStage(st, 'expert'), sk = C.angleSkill(st), q = C.funReport(st, runs(st, 30, 1300001), sk, ex);
     console.log(n, 'cand', k, st.style || '', 'f', f, 'par', p.join('/'), 'tgt', tgt, 'Q', q.score, 'skill', q.skill, 'clear', q.clearRate, JSON.stringify(q.parts));
-    const cand = { seed: retune ? undefined : seed, f, p, st, ex, sk, q };
+    const cand = { seed: n <= 30 ? undefined : seed, f, p, st, ex, sk, q };
     if (!best || q.score > best.q.score) best = cand;
     if (retune) { ok = cand; break; }
     if (q.score >= 91 && q.skill >= 0.55 && ex.status === 'clear' && Math.abs(q.clearRate - tgt) <= 0.12) {

@@ -1,0 +1,919 @@
+# Station Zero — English text table. One line per text: Korean ||| English.
+# {0}, {1}, {n} … are values filled in by the game; keep them in the English line.
+# Check for missing lines: python3 tools/i18n/extract.py && node tools/i18n/check.js
+# ---------- engine.js (tiles, skills, cards) ----------
+2.2초마다 미사일 · 적이 몰린 곳에 피해 주포의 {0}%, 주변에 폭발 ||| Missile every 2.2s · {0}% of main gun at the thickest swarm, splash damage
+3초 동안 적을 한곳으로 끌어모으고 조금씩 피해 ||| Pulls enemies together for 3s and wears them down
+4초 동안 최대 선체의 25% 회복 ||| Restores 25% of max hull over 4s
+5초 동안 받는 피해를 막고 접촉한 적에게 반사 ||| Blocks damage for 5s and reflects it on contact
+6초 동안 요격기 사격 속도 ×2, 피해 ×1.5 ||| Interceptors fire ×2 faster and deal ×1.5 for 6s
+6초 동안 적 이동·사격 속도 절반 ||| Halves enemy movement and fire rate for 6s
+8초 동안 주포·포대 연사 ×2 (포대 1개당 +10%) ||| Main gun and batteries fire ×2 for 8s (+10% per battery)
+EMP 링 ||| EMP Ring
+{0}%/초 ||| {0}%/s
+{0}/초 ||| {0}/s
+강화 상한 해제 ||| Raise upgrade cap
+격납고 ||| Hangar
+경제 ||| Economy
+공격 ||| Attack
+과충전 ||| Overcharge
+과충전 탄두 ||| Overcharged Warheads
+관통탄 ||| Piercing Rounds
+궤도 병기 쿨타임 -20% ||| Orbital weapon cooldown -20%
+데이터 ×{0} ||| Data ×{0}
+데이터 강화 ||| Data Boost
+데이터 수입 +3% (현재 +{0}%) ||| Data income +3% (now +{0}%)
+데이터 수집기 ||| Data Collector
+데이터 연구 ||| Data Research
+레일건 ||| Railgun
+미사일 ||| Missile
+미사일 12발을 가까운 적들에게 발사 ||| Fires 12 missiles at nearby enemies
+바깥 고리에 두면 손해 없음 ||| Fine on the outer ring
+반격 실드 ||| Counter Shield
+받은 접촉 피해의 30% 반사 ||| Reflects 30% of contact damage
+방벽 ||| Bulwark
+방벽 전개 ||| Aegis Wall
+방어 ||| Defense
+병기 냉각기 ||| Weapon Cooler
+보강 장갑 ||| Reinforced Plating
+보조 포대 · 가장 먼 적부터 · 피해 주포의 {0}% ||| Auxiliary battery · farthest first · {0}% of main gun
+보조 포탑 · 피해 주포의 {0}% ||| Auxiliary turret · {0}% of main gun
+사거리 ||| Range
+사거리 +15% ||| Range +15%
+사거리 확장 ||| Range Extender
+선체 +12% ||| Hull +12%
+선체 +{0}% · 재생 +{1}% · 피해 감소 +2%p ||| Hull +{0}% · regen +{1}% · damage taken -2%p
+선체 ×{0} ||| Hull ×{0}
+선체 강화 ||| Hull Upgrade
+선체 내구도 ||| Hull Integrity
+선체 재생 ||| Hull Regen
+선체 최대치 +30%, 즉시 회복 ||| Max hull +30%, fully repaired
+속사 회로 ||| Rapid-Fire Circuit
+수리 ||| Repair
+수리 드론 ||| Repair Drone
+수집기 ||| Collector
+크레딧 +{0}% ||| Credits +{0}%
+시간 왜곡 ||| Time Warp
+시작 에너지 +15 (현재 {0}) ||| Starting energy +15 (now {0})
+안쪽 고리 가운데에 둘수록 이웃이 많음 ||| More neighbours in the middle of the inner ring
+에너지 +{0}% · 데이터 +{1}% ||| Energy +{0}% · data +{1}%
+에너지 획득 ||| Energy Gain
+연사 +6% ||| Fire rate +6%
+연사 속도 ||| Fire Rate
+연사 속도 +20% ||| Fire rate +20%
+연쇄 번개 ||| Chain Lightning
+옆 격납고 1개당 요격기 +1 (최대 4) ||| +1 interceptor per adjacent hangar (max 4)
+옆 미사일 1개당 폭발 반경 +25% ||| +25% blast radius per adjacent missile
+옆 방벽 1개당 피해 감소 +2%p ||| -2%p damage taken per adjacent bulwark
+옆 타일 효과 +{0}% ||| Adjacent tiles +{0}%
+옆 포대 1개당 피해 +20% ||| +20% damage per adjacent battery
+요격기 2기 출격 · 방어 구역 안 추격 · 사격 피해 주포의 {0}% ||| Launches 2 interceptors · chase inside the defense zone · {0}% of main gun
+요격기 {0}기 출격 · 사격 피해 주포의 {1}% ||| Launches {0} interceptors · {1}% of main gun
+웨이브당 데이터 ||| Data per Wave
+이번 판 데이터 +20% ||| Data +20% this run
+일제 사격 ||| Salvo
+일직선 광선. 줄에 선 적 모두에게 주포 피해 ×20 ||| A straight beam. Every enemy in line takes main gun damage ×20
+재생 +12% ||| Regen +12%
+전투 중 초당 선체 +{0} · 전투 후 +{1} ||| Hull +{0}/s in battle · +{1} after
+조선소 상한 +1 (현재 {0}) ||| Shipyard cap +1 (now {0})
+주변 적 3초 기절 + 주포 피해 ×5 ||| Stuns nearby enemies 3s + main gun damage ×5
+중력 우물 ||| Gravity Well
+증폭기 ||| Amplifier
+증폭기와 함께 쓰면 좋음 ||| Works well next to an amplifier
+지원 ||| Support
+최대 선체 +{0} · 피해 감소 +{1}%p ||| Max hull +{0} · damage taken -{1}%p
+출격 준비 ||| Launch
+치명 조준경 ||| Crit Scope
+치명타 시 주변 1기에 50% 피해 ||| Crits deal 50% to one nearby enemy
+치명타 확률 ||| Crit Chance
+치명타 확률 +10%p ||| Crit chance +10%p
+투사체가 적 1기를 관통 ||| Shots pierce one enemy
+편대 돌격 ||| Squad Assault
+포대 ||| Battery
+피해 ||| Damage
+피해 +12% ||| Damage +12%
+피해 +25% ||| Damage +25%
+피해 ×{0} ||| Damage ×{0}
+피해 감소 ||| Damage Reduction
+피해 강화 ||| Damage Boost
+# ---------- run.js (map, events, story, shipyard, shop, expeditions) ----------
+"다음에 또 보자고." ||| "See you around."
+"좋은 물건 있어. 크레딧 50이면 넘길게. 뭔지는 열어 봐야 알지." ||| "Got something good. Yours for 50 credits. What is it? Open it and see."
+(첫 구매 2배) ||| (first purchase ×2)
++10단계 ||| +10 tiers
++28% · 가장 이득 ||| +28% · best value
+1회 · 가장 이득 ||| One-time · best value
+1회 한정 ||| One-time only
+30일 동안 매일 코어 조각 80 + 원정 즉시 귀환 하루 1번 더 ||| 80 core shards every day for 30 days + one more instant expedition return per day
+30일 보급 패스 ||| 30-Day Supply Pass
+30일 보급 패스 시작! 매일 본부 상점에서 코어 조각 80 ||| Supply Pass started! Collect 80 core shards in the HQ shop every day
+3판 플레이 ||| Play 3 runs
+5판 플레이 ||| Play 5 runs
+60%: 크레딧 +70 · 40%: 선체 -15 ||| 60%: credits +70 · 40%: hull -15
+6판 플레이 ||| Play 6 runs
+8판 플레이 ||| Play 8 runs
+EMP 링 병기 해금 (주변 적 기절) ||| Unlocks the EMP Ring (stuns nearby enemies)
+{0} 적용 ||| {0} applied
+{0} 해금 ||| {0} unlocked
+{0}이(가) Lv{1}이 되었고, {2}이(가) 타 버렸습니다. ||| {0} reached Lv{1}, and {2} burned out.
+…너희를 보낸 자들도 한때 우리처럼 싸웠다. 그리고 사라졌다… ||| …Those who sent you once fought as we do. Then they were gone…
+…쇠붙이의 생각이 또 돌아왔다… 부숴도 부숴도 돌아온다… ||| …The iron thought is back again… We break it, and it keeps coming back…
+…이 별들은 우리 것이었다. 너희가 오기 훨씬 전부터… ||| …These stars were ours. Long before you came…
+…저 신호, 우리를 '쇠붙이'라고 부르네요. 이상하죠? ||| …That signal calls us 'iron'. Strange, isn't it?
+★ 희귀 신호를 포착했어요! 대성공 예감 ||| ★ Rare signal picked up! Feels like a big haul
+⚠ 귀환 항로에 스웜 매복 감지! 호위가 필요해요 ||| ⚠ Swarm ambush on the way home! The squad needs an escort
+가까운 궤도를 돕니다. 안전하지만 수확이 적어요. ||| Circles a nearby orbit. Safe, but the haul is small.
+가동한다 ||| Switch it on
+강한 스웜. 위험하지만 유물 3개 중 1개를 고릅니다. ||| A strong swarm. Dangerous, but you pick 1 of 3 relics.
+강화 선체 ||| Reinforced Hull
+개척 가능 섹터 37곳. 스웜 둥지 반응 다수. 다음 지시를 기다립니다. ||| 37 sectors open for pioneering. Many swarm nests detected. Awaiting further orders.
+개척 지시서 1항 ||| Pioneer Directive, Article 1
+개척 코어 #{n} 가동. 다시 시작해요, 개척자님. ||| Pioneer core #{n} online. Let's start again, Pioneer.
+거절한다 ||| Decline
+격납고 1칸과 요격기 과급기로 시작 · 선체 -15 ||| Starts with a hangar and the Interceptor Booster · hull -15
+격납고 함선과 편대 돌격 스킬을 바로 해금 ||| Unlocks the hangar ship and its Squad Assault skill now
+격전 지대 ||| Battle Zone
+계속 가실 거죠? 저 너머에 다른 개척 코어들의 신호가 있어요. ||| You'll keep going, right? There are signals from other pioneer cores out there.
+고대 위성 ||| Ancient Satellite
+고물 자석 ||| Junk Magnet
+고폭 탄두 ||| High-Explosive Warhead
+공격한다 ||| Attack
+광고 없이 보상 ||| Rewards Without Ads
+광고를 보지 않고 바로 광고 보상(원정 2배·즉시 귀환·조각 보너스·판 2배)을 받고, 전면 광고도 없어요 ||| Get every ad reward (expedition ×2, instant return, shard bonus, run ×2) without watching, and no full-screen ads
+광석 결정을 실었어요 ||| Loaded ore crystals
+광석과 잔해가 많은 지대를 지킵니다. ||| Guards a zone rich in ore and wreckage.
+교역로 ||| Trade Route
+구조 신호 ||| Distress Signal
+구조된 정비사들이 선체를 고쳤습니다. 선체 +25 ||| The rescued mechanics repaired the hull. Hull +25
+구조한다 ||| Rescue
+군체 모함 ||| Hive Carrier
+균형 항로 ||| Balanced Route
+그냥 둔다 ||| Leave it
+그래도 저는 개척자님 편이에요. 처음부터 그랬어요. ||| I'm still on your side, Pioneer. I always have been.
+그리고 스웜은 이 우주에 원래 살던 종족이었다. ||| And the swarm were the ones who lived here first.
+기간 중 한 번 코어 조각 90 선물 ||| A one-time gift of 90 core shards during the event
+기본 선체 최대치 +30% ||| Base max hull +30%
+기억 전송 완료! 코어 #002에서 다시 깨어나셨어요. 지난 싸움을 기억하시죠? 그 기억 덕분에 조금 더 강해졌어요. ||| Memory transfer complete! You woke up again in core #002. Remember the last fight? Those memories made you a little stronger.
+기억 패스 ||| Memory Pass
+기억 패스 + 바로 10단계 + 시즌 스킨 바로 ||| Memory Pass + 10 tiers now + season skin now
+기억 패스 시작! 유료 줄 보상이 열렸어요 ||| Memory Pass active! The premium track is open
+기억 패스+ ||| Memory Pass+
+기억 패스+ 시작! 10단계 올리고 시즌 스킨 지급 ||| Memory Pass+ active! 10 tiers added and season skin granted
+기억 폭주 주간 ||| Memory Surge Week
+끈다 ||| Switch it off
+나노 수리 ||| Nano Repair
+누적 처치 1,500 ||| 1,500 total kills
+누적 처치 3,000 ||| 3,000 total kills
+다른 개척 AI의 신호가 근처에 있습니다. 연결을 시도할까요? ||| Another pioneer AI is signalling nearby. Attempt to connect?
+도감의 잠긴 스킬 칩을 모두 해금 (판 중 보상에 나와요) ||| Unlocks every locked skill chip in the codex (they appear as run rewards)
+돌아가는 길에 유성우를 맞았습니다. 선체 -8 ||| A meteor shower hit you on the way back. Hull -8
+두 번째 섹터예요. 여기부터 스웜 신호가 또렷하게 잡혀요. ||| Second sector. The swarm signals get clear from here.
+둥지가 깨어났습니다! ||| The nest woke up!
+떠도는 스웜 무리 {0}기를 쫓아냈어요 ||| Drove off a drifting pack of {0} swarm
+또 뵙네요, 지휘관님. 이번 코어는 좀 춥지 않으세요? …아, 아니에요. 신경 쓰지 마세요. ||| Good to see you again, Commander. Isn't this core a little cold? …Oh, never mind. Forget I said that.
+레일건 냉각기 ||| Railgun Cooler
+레일건 쿨타임 -30% ||| Railgun cooldown -30%
+루나 외곽 순찰 ||| Lunar Rim Patrol
+마지막 섹터, 스웜의 본거지예요. ||| The last sector, the swarm's home.
+멀리 돌아가요. 매복이 없지만 수확이 적어요. ||| Takes the long way. No ambushes, but a smaller haul.
+모든 적 체력 +10% 추가 ||| All enemy HP +10% more
+모든 적 체력 +15% 더 ||| All enemy HP +15% more
+모든 피해 +25% ||| All damage +25%
+모든 피해 +{0}% ||| All damage +{0}%
+모선 반응이에요! 저걸 잡아야 다음 섹터로 넘어가요. ||| Mothership contact! Take it down to reach the next sector.
+목표 지점 도착, 수색을 시작해요 ||| Arrived on target, starting the search
+무작위 공격 타일 Lv{0}로 시작 ||| Start with a random attack tile at Lv{0}
+무작위 타일 +1레벨 · 다른 타일 1개 파괴 ||| A random tile +1 level · another tile destroyed
+무작위 타일 Lv2 ||| Random Lv2 tile
+미사일 1칸과 고폭 탄두로 시작 · 선체 -10 ||| Starts with a missile tile and the High-Explosive Warhead · hull -10
+미사일 폭발 반경 +40% ||| Missile blast radius +40%
+미사일 함선과 일제 사격 스킬을 바로 해금 ||| Unlocks the missile ship and its Salvo skill now
+밀수업자 ||| Smuggler
+방벽 함선과 방벽 전개 스킬을 바로 해금 ||| Unlocks the bulwark ship and its Aegis Wall skill now
+방벽·수리 1칸씩으로 시작 · 선체 +20 · 피해 -15% ||| Starts with a bulwark and a repair tile · hull +20 · damage -15%
+버려진 화물 컨테이너를 열었어요 ||| Opened an abandoned cargo container
+변이 엘리트 ||| Mutant Elite
+보급 계약 ||| Supply Contract
+보급선 ||| Supply Ship
+보급선 가격 +20% ||| Supply ship prices +20%
+보급선 가격 +20% 더 ||| Supply ship prices +20% more
+보급선 가격 -{0}% ||| Supply ship prices -{0}%
+보급선 누적 3회 이용 ||| Use supply ships 3 times
+보급선이 많고 엘리트가 적습니다. ||| More supply ships, fewer elites.
+보상 다시 뽑기 없음 ||| No reward rerolls
+보상 선택지 3개 → 2개 ||| Reward choices 3 → 2
+보스 ||| Boss
+보스 체력 +25% ||| Boss HP +25%
+보스 체력 +25% 더 ||| Boss HP +25% more
+보통 항로예요. 가끔 매복이 있어요. ||| A normal route. Ambushes now and then.
+복원 실패. 남은 단어: 파종 · 개척 · 학습 · 반복. ||| Recovery failed. Remaining words: seed · pioneer · learn · repeat.
+볼트의 메모 ||| Volt's Note
+부서진 위성에서 회로를 떼어 냈어요 ||| Stripped circuits from a broken satellite
+불안정한 증폭 장치입니다. 타일 하나를 강화하지만, 과부하로 다른 타일 하나가 타 버립니다. ||| An unstable amplifier. It upgrades one tile, but the overload burns out another.
+비상 수리반 ||| Emergency Repair Crew
+빈 포드를 분해했습니다. 크레딧 +35 ||| Stripped the empty pod. Credits +35
+사람이 살 수 있는 우주를 만든다. 사람은 언제 오는가 — 기록 없음. ||| Build a universe where people can live. When will the people come — no record.
+산다 (크레딧 50) ||| Buy (50 credits)
+상인 연줄 ||| Merchant Ties
+상자 안에는 {0} Lv2가 있었습니다. ||| Inside the crate was a Lv2 {0}.
+새 우주를 개척하려고 보내진 AI, 아크 제로. ||| Ark Zero, an AI sent to pioneer a new universe.
+선체 +25 ||| Hull +25
+선체 +3 ||| Hull +3
+선체 -20 · 유물 1개 ||| Hull -20 · 1 relic
+선체 -8 ||| Hull -8
+선체를 수리하거나 타일 하나를 강화합니다. ||| Repair the hull or upgrade one tile.
+성운 가장자리를 지나고 있어요 ||| Passing the edge of a nebula
+섹터 1 · 루나 외곽 ||| Sector 1 · Lunar Rim
+섹터 1 보스 2회 격파 ||| Defeat the sector 1 boss twice
+섹터 1 보스 격파 ||| Defeat the sector 1 boss
+섹터 2 · 소행성대 ||| Sector 2 · Asteroid Belt
+섹터 2 도달 ||| Reach sector 2
+섹터 2 보스 격파 ||| Defeat the sector 2 boss
+섹터 3 · 스웜 본진 ||| Sector 3 · Swarm Heartland
+섹터마다 하나뿐인 변이체. 매우 위험하지만 유물 2개를 모두 얻습니다. ||| One mutant per sector. Very dangerous, but you get both relics.
+섹터의 끝. 이기면 다음 섹터로 넘어갑니다. ||| The end of the sector. Win to move on.
+소행성 잔해에서 쓸 만한 부품을 회수했어요 ||| Salvaged useful parts from asteroid debris
+소행성대 채굴 호위 ||| Asteroid Mining Escort
+수색한다 ||| Search
+스웜 둥지 ||| Swarm Nest
+스웜 모선 ||| Swarm Mothership
+스웜 번식지 ||| Swarm Breeding Ground
+스웜 본진 정찰 ||| Swarm Heartland Recon
+스웜 신호 해독 ||| Swarm Signal Decoded
+스웜 신호 해독 (일부) ||| Swarm Signal Decoded (partial)
+스웜 알이 터졌습니다! 선체 -15 ||| Swarm eggs burst! Hull -15
+스웜 여왕이에요. 이 우주에 가장 먼저 살던 존재죠… 조심하세요. ||| The swarm queen. The first being to live in this universe… Be careful.
+스웜 영역을 가로질러요. 수확이 크지만 매복이 잦아요. ||| Cuts through swarm space. A big haul, but frequent ambushes.
+스웜 이전 시대의 방어 위성입니다. 해체하면 장비를 얻을 수 있지만, 자폭 장치가 남아 있습니다. ||| A defense satellite from before the swarm. Dismantle it for gear, but the self-destruct is still armed.
+스웜 정찰병 {0}기를 격추했어요 ||| Shot down {0} swarm scouts
+스웜 편대와 교전. 이기면 미리 보이는 보상이 선택지에 꼭 들어갑니다. ||| Fight a swarm pack. Win and the previewed reward is always among your choices.
+스웜이 우리 전술을 따라 하기 시작했어요. 저쪽도 배우나 봐요. 우리처럼요. ||| The swarm has started copying our tactics. They learn too, it seems. Just like us.
+크레딧 +20% ||| Credits +20%
+크레딧 +35 ||| Credits +35
+크레딧으로 타일·유물·수리·강화를 삽니다. ||| Spend credits on tiles, relics, repairs and upgrades.
+스킨 2종 묶음 ||| 2-Skin Bundle
+스킨 2종 지급 ||| 2 skins granted
+스킨 · 심연 ||| Skin · Abyss
+스킨 · 황금 함대 ||| Skin · Golden Fleet
+스킬 칩 전부 해금 ||| Unlock All Skill Chips
+스킬 쿨타임 -2.5% ||| Skill cooldown -2.5%
+스킬 쿨타임 -{0}% ||| Skill cooldown -{0}%
+스타터 팩 ||| Starter Pack
+승무원 0명. 화물: 개척 코어 12기, 부관 로봇 1기. ||| Crew: 0. Cargo: 12 pioneer cores, 1 adjutant robot.
+시작 선체 -15 ||| Starting hull -15
+시작 선체 -15 더 ||| Starting hull -15 more
+시작 크레딧 +30 ||| Starting credits +30
+시작 크레딧 +{0} ||| Starting credits +{0}
+시작 크레딧 없음 ||| No starting credits
+시작 장비 ||| Starting Kit
+시작 타일 없음 ||| No starting tile
+시작 함선 전부 해금 ||| All starting ships unlocked
+시작·최대 선체 +{0} ||| Starting & max hull +{0}
+신호 ||| Signal
+신호가 많고, 신호가 잔해일 확률 2배. ||| More signals, and twice as likely to be wreckage.
+실험 증폭기 ||| Experimental Amplifier
+싸움 없이 유물이나 Lv2 타일 중 하나를 얻습니다. ||| Get a relic or a Lv2 tile without a fight.
+쓸 만한 장비가 없었습니다. 선체 -20 ||| Nothing useful inside. Hull -20
+아르고스 ||| Argos
+아무 일 없음 ||| Nothing happens
+아크 제로 ||| Ark Zero
+안전 항로 ||| Safe Route
+약 10판어치 ||| About 10 runs' worth
+엘리트 ||| Elite
+엘리트 누적 3회 격파 ||| Defeat 3 elites in total
+엘리트 전투 · 승리 시 유물 ||| Elite fight · relic on victory
+엘리트 처음 격파 ||| Defeat your first elite
+엘리트가 더 자주 나타남 ||| Elites appear more often
+엘리트가 많고, 전투 크레딧 +25%. ||| More elites, battle credits +25%.
+여왕 둥지 ||| Queen's Nest
+연료 재배분 완료 ||| Fuel redistributed
+오늘도 말하지 못했다. 마지막 섹터를 넘으시면, 그때 말씀드리자. ||| I couldn't tell them again today. Once they clear the last sector, I'll tell them then.
+오비탈 위성 ||| Orbital Satellite
+요격기 과급기 ||| Interceptor Booster
+요격기 사격 속도 +30% ||| Interceptor fire rate +30%
+요격기와 정거장 빛이 보랏빛이 돼요 (외형만) ||| Interceptors and station lights turn violet (cosmetic)
+요격기와 정거장 빛이 황금색이 돼요 (외형만) ||| Interceptors and station lights turn gold (cosmetic)
+우리는 사람이 아니었다. ||| We were never human.
+우회한다 ||| Go around
+원정 편대 +1 ||| Expedition squad +1
+원정 편대 영구 +1 (최대 4편대) ||| Permanent expedition squad +1 (max 4)
+위성 1기가 궤도를 돌며 들이받고 적 탄을 막음 (최대 3) ||| A satellite orbits, rams enemies and blocks shots (max 3)
+위성을 그대로 두고 떠납니다. ||| Leave the satellite alone.
+위험 항로 ||| Risky Route
+위험을 피해 항로를 유지합니다. ||| Avoid the danger and stay on course.
+위험한 만큼 값진 것을 찾아옵니다. ||| As dangerous as it is rewarding.
+은하 지도 수신 ||| Galaxy Map Received
+의무실 기록 ||| Medical Bay Log
+이 개체는 우리 전술을 배웠어요. 지난번처럼은 안 통할 거예요. ||| This one learned our tactics. Last time's trick won't work.
+이 함선으로 코어 조각 +10% ||| Core shards +10% with this ship
+이미 가지고 있어요 ||| You already own this
+이번 시즌 기억 패스를 이미 가지고 있어요 ||| You already have this season's Memory Pass
+이번 시즌 유료 줄 30단계 보상 (조각·전리품·시즌 스킨) ||| This season's 30-tier premium track (shards, spoils, season skin)
+이제 광고 없이 광고 보상을 받아요 ||| Ad rewards now come without ads
+이지스 ||| Aegis
+자폭 충격을 버티고 '{0}'을(를) 얻었습니다. 선체 -20 ||| Survived the self-destruct and got '{0}'. Hull -20
+잔해 지대 ||| Wreck Field
+잔해 컨테이너 ||| Wreck Container
+잠긴 시작 함선 3척과 고유 스킬을 바로 해금 (진행으로도 열려요) ||| Unlocks the 3 locked starting ships and their skills now (also unlock by playing)
+장거리 센서 ||| Long-Range Sensor
+장치를 봉인했습니다. ||| You sealed the device.
+재건 작전 기념 ||| Rebuild Operation Celebration
+적 공격력 +10% ||| Enemy attack +10%
+적 공격력 +10% 더 ||| Enemy attack +10% more
+적 이동 속도 +10% ||| Enemy speed +10%
+적 이동 속도 +10% 더 ||| Enemy speed +10% more
+적 체력 +10% ||| Enemy HP +10%
+적 체력 +10% 더 ||| Enemy HP +10% more
+전송 기록 #001 ||| Transfer Log #001
+전술 분석기 ||| Tactical Analyzer
+스킬 재충전 ||| Skill Recharge
+전원이 꺼진 화물선이 떠 있습니다. 화물칸에 무언가 남아 있을지 모릅니다. 하지만 스웜 알이 붙어 있을 수도 있습니다. ||| A dead freighter drifts by. Something may be left in the hold. But swarm eggs may be clinging to it.
+전투 ||| Battle
+전투 승리 시 선체 +8 ||| Hull +8 after each victory
+전투가 많고, 전투 보상이 Lv2일 때가 많습니다. ||| More battles, and rewards are often Lv2.
+정비 ||| Repair Dock
+정비·수리 회복 +{0}% ||| Dock & repair healing +{0}%
+정비·수리 회복 -20% 더 ||| Dock & repair healing -20% more
+정비·수리 회복 -30% ||| Dock & repair healing -30%
+정비가 많고 전투가 조금 적습니다. ||| More repair docks, slightly fewer battles.
+정적 지대 ||| Quiet Zone
+정체불명의 신호. 사건일 때가 많지만 매복·상인·잔해일 수도 있습니다. ||| An unknown signal. Usually an event, but it may be an ambush, a merchant or wreckage.
+주말 보급 작전 ||| Weekend Supply Op
+주포 개량 ||| Main Gun Upgrade
+주포 연사 +20% ||| Main gun fire rate +20%
+주포 탄이 적 1기를 관통 ||| Main gun shots pierce one enemy
+지급 완료 ||| Delivered
+지나친다 ||| Pass by
+지도에서 {0}층 앞까지 칸 정체가 보임 ||| See map nodes up to {0} floors ahead
+지워진 기록 ||| Erased Record
+지휘관 건강 검진: 해당 항목 없음. 검진할 몸이 등록되어 있지 않습니다. ||| Commander health check: no entry. No body is registered for examination.
+지휘관님, 여기를 넘으시면… 드릴 말씀이 있어요. ||| Commander, once we get past this… there's something I need to tell you.
+지휘관님은 매번 조금씩 더 똑똑해지세요. 사람은 원래… 그런 거겠죠? ||| You get a little smarter every time, Commander. That's just… how people are, right?
+지휘관님은 한 번도 '다시 살아난' 적이 없어요. 사람은 기억을 옮길 수 없거든요. ||| You've never 'come back to life', Commander. People can't move their memories.
+지휘관님이 또 꿈을 꿨다고 하셨다. 전송 중에는 꿈을 꿀 수 없는데. ||| The commander said they dreamed again. But nothing dreams during a transfer.
+첫 결제 팩 ||| First Purchase Pack
+첫 클리어 ||| First clear
+총 ◆2,400 ||| ◆2,400 total
+출항 명단 · 아크 7 ||| Departure Manifest · Ark 7
+코어 #003 가동. 기억은 전부 옮겨졌어요… 아마도요. ||| Core #003 online. All memories transferred… probably.
+코어 #12 응답 ||| Core #12 Responds
+코어 아크 제로 수신 완료. 기억 손상 없음. 지휘관 의식 재가동. ||| Core Ark Zero received. No memory damage. Commander consciousness restarted.
+코어 조각 +1,200 · 원정 편대 +1 · 원정 전리품 ||| Core shards +1,200 · expedition squad +1 · expedition spoils
+코어 조각 +400 · 스킨 황금 함대 ||| Core shards +400 · Golden Fleet skin
+코어 조각 +{0}% ||| Core shards +{0}%
+코어 조각 +{0}{1} ||| Core shards +{0}{1}
+코어 조각 1,200 + 원정 편대 +1 + 원정 전리품(유물) 1개 · 첫 클리어를 크게 앞당겨요 ||| 1,200 core shards + expedition squad +1 + 1 expedition spoil (relic) · Brings your first clear much closer
+코어 조각 2,200 ||| 2,200 Core Shards
+코어 조각 350 ||| 350 Core Shards
+코어 조각 4,900 ||| 4,900 Core Shards
+코어 조각 400 + 스킨 황금 함대 (◆ 약 1,100어치) ||| 400 core shards + Golden Fleet skin (about ◆1,100 of value)
+코어 조각 750 ||| 750 Core Shards
+코어 조각 9,000 ||| 9,000 Core Shards
+코어만 남은 기본 정거장. 무엇이든 될 수 있습니다. ||| A bare core, nothing else. It can become anything.
+탈출 포드가 구조 신호를 보내고 있습니다. 구조하면 승무원이 선체 수리를 돕겠다고 합니다. ||| An escape pod is calling for help. The crew offers to help repair the hull if rescued.
+토·일요일 판 종료 코어 조각 ×1.5 ||| Core shards ×1.5 at the end of runs on Sat & Sun
+통신 상태 양호. 계속 전진해요 ||| Comms good. Pressing on
+판 종료 코어 조각 ×2 ||| Core shards ×2 at the end of runs
+판마다 보상 다시 뽑기 {0}회 ||| {0} reward reroll(s) per run
+편대 출격. ||| Squad launched.
+편대 출격. {0} 항로로 향해요 ||| Squad launched. Heading for {0}
+편대 확장 ||| Squad Expansion
+편대 확장(상점) ||| Squad expansion (shop)
+편대가 산개해 스웜 {0}기를 정리했어요 ||| The squad fanned out and cleared {0} swarm
+포드를 회수한다 ||| Recover the pod
+표류 화물선 ||| Drifting Freighter
+표류하는 보급 캡슐을 건졌어요 ||| Fished out a drifting supply capsule
+피해 +2% ||| Damage +2%
+함선 · 아르고스 ||| Ship · Argos
+함선 · 이지스 ||| Ship · Aegis
+함선 · 헬파이어 ||| Ship · Hellfire
+함선 전부 해금 ||| Unlock All Ships
+항로 옆에 작은 둥지가 있습니다. 정리하면 둥지 속 장비를 얻을 수 있습니다. ||| A small nest sits beside the route. Clear it to take the gear inside.
+항로 이상 없음. 순항 중이에요 ||| Route clear. Cruising
+항로로 향해요 ||| heading out
+해냈어요, 지휘관님. 이제 말씀드릴게요. ||| We did it, Commander. Now I'll tell you.
+해체한다 ||| Dismantle
+헬파이어 ||| Hellfire
+화물칸에서 쓸 만한 부품을 찾았습니다. 크레딧 +70 ||| Found useful parts in the hold. Credits +70
+황금 함대 + 심연 (외형만) ||| Golden Fleet + Abyss (cosmetic)
+회수 장치 ||| Salvage Rig
+# ---------- index.src.html (screens) ----------
+(이미 하나 있어 이번엔 없음) ||| (you already hold one, so none this time)
+(지금: {0} → 교체) ||| (now: {0} → replaced)
+(쿨타임 {0}초) ||| (cooldown {0}s)
++ 스킨 '{0}' ||| + skin '{0}'
++10단계 · 스킨 바로 ||| +10 tiers · skin now
+, 그냥 돌아오면 |||, if it just comes home
+3섹터 돌파! ||| All 3 sectors cleared!
+ARC ZERO · 재건 작전 ||| ARC ZERO · Rebuild Operation
+ARC-7 · 재건 작전 ||| ARC-7 · Rebuild Operation
+ARC-7 · 최종 방어선 ||| ARC-7 · Last Line of Defense
+v2 방치형 ||| v2 idle
+{0} {1}번 칸 · {2} ||| {0} slot {1} · {2}
+{0} {1}에서 파괴 ||| Destroyed at {0} {1}
+{0} · {1}층 ||| {0} · Floor {1}
+{0} · {1}층 돌파 ||| {0} · Floor {1} cleared
+{0} · 코어 조각 +{1} ||| {0} · core shards +{1}
+{0} 격파 ||| {0} defeated
+{0} 구매 고마워요! {1}. ||| Thanks for buying {0}! {1}.
+{0} 받기 ({1}/{2}) ||| {0} claim ({1}/{2})
+{0} 숙련 ||| {0} mastery
+{0} 숙련 경험치 ||| {0} mastery XP
+{0} 숙련도 Lv{1}/{2} ||| {0} Mastery Lv{1}/{2}
+{0} 연속 처치! ||| {0} kill streak!
+{0} 타일 확정 ||| {0} tile guaranteed
+{0}. 빈 칸을 누르세요. ||| {0}. Tap an empty slot.
+{0}{1} 배치 ||| Place {0}{1}
+{0}분 {1}초 ||| {0}m {1}s
+{0}시간 {1}분 ||| {0}h {1}m
+{0}은 다시 차는 데 {1}초 걸려요. 버튼 둘레의 빛이 한 바퀴 다 차면 또 쏠 수 있어요. ||| {0} takes {1}s to recharge. When the light around the button goes all the way round, you can fire again.
+{0}을(를) 버리고 교체 · ||| Replace {0} ·
+{0}일 남음 ||| {0} days left
+{0}초 ||| {0}s
+{0}층 {1} ||| Floor {0} {1}
+{0}층 미확인 ||| Floor {0} unknown
+{0}코어 조각 2배 (+{1}) ||| {0}Core shards ×2 (+{1})
+{0}코어 조각 ◆{1} ||| {0}Core shards ◆{1}
+{0}판 · 클리어 {1}회 · 최고 위협 {2} ||| {0} runs · {1} clears · best threat {2}
+{1} (오늘 {2}번) ||| {1} ({2} today)
+{1} — 다음 판을 이 유물을 들고 시작해요. ||| {1} — your next run starts with this relic.
+{1} 타일이 하는 일 ||| What the {1} tile does
+{1}일 ||| {1}d
+{2} 타일{3} ||| {2} tile{3}
+{2}시간 ||| {2}h
+{3} 남음 ||| {3} left
+{3}층 ||| Floor {3}
+{3}코어 조각 ||| {3}core shards
+{5} · 돌아오면 ||| {5} · on return
+· {0} 교체 ||| · replaces {0}
+· 대성공 {7}% · 매복 {8}% · 전리품 {9}%{10} ||| · jackpot {7}% · ambush {8}% · spoils {9}%{10}
+· 스킨 '{0}' ||| · skin '{0}'
+· 스킬 {0} ||| · skill {0}
+· 최대 ||| · max
+▶ 광고 보고 ||| ▶ Watch ad:
+▶ 광고 보고 2배 ||| ▶ Watch ad for ×2
+▶ 광고 보고 바로 귀환 ||| ▶ Watch ad to return now
+▶ 광고 보고 코어 조각 2배 ||| ▶ Watch ad: core shards ×2
+▶ 프롤로그 ||| ▶ Prologue
+◆ {0} 부족 ||| ◆{0} short
+◇ 인트로 ||| ◇ Intro
+◈ 칩 없음 ||| ◈ No chip
+★ 대성공 ×2 ||| ★ Jackpot ×2
+⚠ 매복 ||| ⚠ Ambush
+⚡ 2배 받기 ||| ⚡ Claim ×2
+⚡ 바로 귀환 ||| ⚡ Return now
+가까운 적을 자동으로 쏘는 보조 포탑 ||| An auxiliary turret that shoots the nearest enemy
+가운데 자리 ||| Middle slot
+강화 ||| Upgrade
+강화할 타일을 고르세요 ||| Choose a tile to upgrade
+같은 종류 이웃 {0}개 ||| {0} matching neighbours
+개발용 가짜 결제 ||| Dev test checkout
+거대 모선 출현 ||| Giant mothership
+건너뛰기 ||| Skip
+건너뛰기 (크레딧 +20) ||| Skip (credits +20)
+결제가 취소되었어요 ||| Payment cancelled
+경고 · 거대 모선 출현 ||| Warning · giant mothership
+계속 ||| Continue
+광고 녹화 모드 ||| Ad recording mode
+광고를 끝까지 봐야 받을 수 있어요 ||| Watch the whole ad to get the reward
+광역 폭발 ||| Area blast
+광역! ||| Splash!
+교전 준비 ||| Get ready
+교체 ||| Replace
+구매 ||| Buy
+귀환 완료 ||| Returned
+귀환 항로에 스웜이 숨어 있어요. 호위 출격(3웨이브)으로 지키면 보상 ||| Swarm are hiding on the way home. Escort them (3 waves) to keep the reward
+귀환한 편대 ||| Returned squad
+그날 아크 7은 무너졌습니다. 남은 건 코어 하나뿐인 아크 제로. 섹터를 지나며 다시 지어야 합니다. ||| That day, Ark 7 fell. All that remains is Ark Zero, a single core. Rebuild it sector by sector.
+그냥 귀환 ||| Just return
+그리고 '{0}'을(를) 찾았어요! 다음 판에 들고 가요. ||| And they found '{0}'! You'll take it into your next run.
+기록 ||| Records
+기본 ||| Default
+기억 기록 {0}/{1} ||| Memory Records {0}/{1}
+기억 전송 중… ||| Transferring memory…
+기억 전송 ||| Memory transfer
+기억 패스 · 시즌 {0} ||| Memory Pass · Season {0}
+기억 패스 보유 중 ||| Memory Pass owned
+기억의 잔광 ||| Afterglow of Memory
+긴급 수리 ||| Emergency Repair
+남은 적 ||| Enemies left
+남은 적 0 ||| Enemies left 0
+남음 ||| left
+내일 0시에 다시 ||| Resets at midnight
+내일 또 ||| Tomorrow
+다시 뽑기 ||| Reroll
+다시 뽑기 ({0}회 남음) ||| Reroll ({0} left)
+다음 Lv{0} ({1}/{2}): {3} 더 · 코어 조각 {4}{5} ||| Next Lv{0} ({1}/{2}): {3} more · core shards {4}{5}
+다음 단계까지 {2} · 판을 할수록 올라요 ||| {2} to next tier · rises as you play
+다음 섹터 + 큰 보상 ||| Next sector + big reward
+다음 섹터로 ||| To the next sector
+단계 {0} / {1} ||| Tier {0} / {1}
+단계 클리어 ||| Stage clear
+닫기 ||| Close
+달성 · 코어 조각 +{2} ||| reached · core shards +{2}
+대기 중 ||| Idle
+대성공이에요! ||| Jackpot!
+도감 ||| Codex
+두 번째 스킬 칸에 끼워요{2} · 쿨타임 {3}초 ||| Goes in the second skill slot{2} · cooldown {3}s
+떠나기 ||| Leave
+레벨이 오르면 효과가 ×1.6 (Lv2) → ×2.3 (Lv3)이 됩니다. ||| Effects grow ×1.6 at Lv2 → ×2.3 at Lv3.
+레일건 준비 완료! ||| Railgun ready!
+링 ||| Ring
+막음! ||| Blocked!
+만 남고 전리품이 없어요. ||| is kept, and no spoils.
+매복 ||| Ambush
+매복 격퇴 · 원정 보상을 지켰어요 ||| Ambush repelled · expedition reward kept
+매복 손실 −40% ||| Ambush loss −40%
+멀리까지 ||| Long reach
+명중! ||| Hit!
+모선 주포 충전 중 ||| Mothership cannon charging
+무료 ||| Free
+무리에 강함 ||| Strong vs groups
+묶음마다 첫 구매 2배 ||| First purchase of each bundle ×2
+미확인 신호 ||| Unknown signal
+바깥 ||| Outer
+바깥 고리 6칸이 열렸습니다 ||| The outer ring's 6 slots are open
+바로 ||| Now:
+받기 ||| Claim
+받을 보상 없음 ||| Nothing to claim
+배치 ||| Place
+버리기 ||| Discard
+변이 엘리트 격파! ||| Mutant elite defeated!
+변이체 유물 2개 획득: {0} ||| 2 mutant relics gained: {0}
+보급 패스 · {0}일 남음 ||| Supply Pass · {0} days left
+보급 패스 · 오늘 받음 ||| Supply Pass · claimed today
+보급선에서 쓸 수 있어요 ||| Spend it at supply ships
+보상 ||| Reward
+보상 · {6} ||| Reward · {6}
+보상 모두 받기 ||| Claim all rewards
+보상 하나를 고르세요. ||| Choose one reward.
+보상은 하나만 고를 수 있어요. 타일을 고르면 정거장 어디에 붙일지 직접 정합니다. ||| You can take only one reward. Pick a tile and you decide where it goes on the station.
+보스 격파! ||| Boss defeated!
+보스 모선 접근 ||| Boss mothership incoming
+보스전 ||| Boss fight
+보유 중 ||| Owned
+복원된 기록 {0}/{1} · {2} ||| Recovered record {0}/{1} · {2}
+본부 ||| HQ
+본부로 ||| To HQ
+본부예요! 판이 끝날 때마다 코어 조각이 쌓여요. 업그레이드에서 정거장을 영구 강화하세요. ||| This is HQ! Core shards pile up after every run. Make permanent upgrades to the station in Upgrades.
+부관 볼트 ||| Adjutant Volt
+붙어 있는 타일들을 강하게 ||| Makes the tiles around it stronger
+비어 있음 ||| Empty
+빛나는 타일 중 하나를 누르세요. ||| Tap one of the glowing tiles.
+상점 ||| Shop
+상점 단골 ||| Shop regular
+새로 해금 · {0} ||| New unlock · {0}
+선물 ◆{0} 받음 ||| Gift ◆{0} received
+선체 ||| Hull
+선체 + ||| Hull +
+선체 +{0} ||| Hull +{0}
+선체 +{0} (최대치의 30%) ||| Hull +{0} (30% of max)
+선체 100/100 ||| Hull 100/100
+선체 {0}/{1} ||| Hull {0}/{1}
+선체 {4}/{5} ||| Hull {4}/{5}
+선체 가득 ||| Hull full
+선체 수리 ||| Hull Repair
+선체 회복 중 ||| Repairing hull
+선체를 늘리고 받는 피해를 줄임 ||| More hull, less damage taken
+선체를 수리했습니다 ||| Hull repaired
+섹터 1에서 파괴 ||| Destroyed in sector 1
+섹터 지도예요. 아래에서 위로 길을 골라 보스까지 돌파합니다. 빛나는 칸을 누르면 보상과 위험도가 보여요. ||| This is the sector map. Pick a path from the bottom up to the boss. Tap a glowing node to see its reward and danger.
+소리 끔 ||| Sound off
+소리 켬 ||| Sound on
+수리 30% 또는 강화 ||| Repair 30% or upgrade
+숙련 Lv{0}{1} ||| Mastery Lv{0}{1}
+스웜 러시! ||| Swarm rush!
+스웜 모선 격파 ||| Swarm mothership destroyed
+스웜 본대 접근 ||| Swarm main force incoming
+크레딧 ||| Credits
+크레딧 + ||| Credits +
+크레딧 +0 ||| Credits +0
+크레딧 +20 ||| Credits +20
+크레딧 +25% ||| Credits +25%
+크레딧 +300 ||| Credits +300
+크레딧 +60% ||| Credits +60%
+크레딧 +{0} ||| Credits +{0}
+크레딧 {2} ||| Credits {2}
+크레딧으로 구매 ||| Buy with credits
+크레딧으로 타일·유물·수리를 삽니다. 다시 들르지 않으니 필요한 것만 고르세요. ||| Spend credits on tiles, relics and repairs. You won't be back, so take only what you need.
+스킨 ||| Skins
+스킨 '{0}' ||| Skin '{0}'
+스킬 ||| Skill
+스킬 칩 ||| Skill chip
+스킬 칩 장착: {0} ||| Skill chip equipped: {0}
+스타터 팩 특가 {0}:{1} 남음 ||| Starter Pack deal {0}:{1} left
+스테이션 제로 프로토타입 v3 ||| Station Zero prototype v3
+시작 함선 ||| Starting ship
+신호 정체: 떠돌이 보급선 ||| Signal identified: wandering supply ship
+신호 정체: 스웜 매복! ||| Signal identified: swarm ambush!
+신호 정체: 잔해 컨테이너 ||| Signal identified: wreck container
+실제로 돈이 나가지 않아요. 구매 흐름만 확인해요. ||| No real money is charged. This only checks the purchase flow.
+심연 ||| Abyss
+심연의 끝 ||| Edge of the Abyss
+싸우는 동안 선체를 조금씩 회복 ||| Slowly repairs the hull during battle
+쏘기 ||| fire
+아직 없음 ||| None yet
+아크 파괴 ||| Ark destroyed
+안쪽 ||| Inner
+안쪽 고리 칸은 이웃이 셋이에요. 같은 종류끼리 붙이거나 증폭기 옆에 두면 강해집니다. ||| Inner ring slots have three neighbours. Tiles get stronger next to the same kind or next to an amplifier.
+알 수 없음 ||| Unknown
+없음 ||| None
+엘리트 격파 ||| Elite defeated
+엘리트 스웜 ||| Elite swarm
+엘리트 스웜 격파 ||| Elite swarm defeated
+여기에 배치 ||| Place here
+옆 타일 +{0}% ||| Adjacent tiles +{0}%
+오늘 ◆{0} ||| Today ◆{0}
+오늘 다 받음 ||| All claimed today
+오늘 받음 ||| Claimed today
+오늘의 무료 ||| Free today
+오래 버팀 ||| Endurance
+요격기 2기 ||| 2 interceptors
+요격기 편대를 원정 보내면 앱을 꺼 둬도 시간이 흘러요. 항로를 고르고, 돌아오면 코어 조각을 받고, 가끔 다음 판에 들고 갈 유물(전리품)을 찾아요. 편대 {0}/4 ||| Send interceptor squads on expeditions; time keeps running even with the app closed. Pick a route, collect core shards when they return, and sometimes find a relic (spoils) for your next run. Squads {0}/4
+요격기가 날아가 적을 쫓아 공격 ||| Interceptors fly out and chase enemies down
+원정 ||| Expeditions
+원정 전리품 '{0}'을(를) 들고 출격합니다 ||| Launching with expedition spoils '{0}'
+원정 전리품 +1 ||| Expedition spoils +1
+원정 전리품 · {0} ||| Expedition spoils · {0}
+원정 중인 편대 ||| Squad on expedition
+원정 출발 ||| Launch expedition
+웨이브 ||| Wave
+웨이브를 모두 막으면 승리예요. 처치하면 크레딧이 쌓입니다. ||| Hold off every wave to win. Kills earn credits.
+위험도 {0} ||| Danger {0}
+위협 {0} 첫 클리어 · 코어 조각 ||| Threat {0} first clear · core shards
+위협 {0} 첫 클리어 보상 받음 ||| Threat {0} first-clear reward claimed
+위협 {0} 첫 클리어 보상: 코어 조각 {1}{2} ||| Threat {0} first-clear reward: core shards {1}{2}
+위협 낮추기 ||| Lower threat
+위협 등급 ||| Threat level
+위협 사냥꾼 ||| Threat Hunter
+위협 올리기 ||| Raise threat
+유물 ||| Relic
+유물 2개 + 보상 1개 더 ||| 2 relics + 1 more reward
+유물 3개 중 1개 ||| 1 of 3 relics
+유물 또는 Lv2 타일 ||| Relic or Lv2 tile
+유물 없음 ||| No relics
+유물 획득: {0} ||| Relic gained: {0}
+유물: ||| Relics:
+유물: 없음 ||| Relics: none
+을 쏴서, 그 줄에 선 적을 모두 꿰뚫어요. |||, piercing every enemy in that line.
+이 버튼을 눌러 보세요. ||| Tap this button.
+이 버튼을 눌러 보세요. 가장 가까운 적 쪽으로 ||| Tap this button. It fires a
+이 빌드에서는 없어요 ||| Not in this build
+이 빌드에서는 판매하는 상품이 없어요. ||| No products are sold in this build.
+이 함선으로 판을 할수록 올라요 (오른 층 수 + 클리어 15 + 위협 단계×2) ||| Rises as you play this ship (floors reached + 15 for a clear + 2 × threat level)
+이걸로 고르기 ||| Pick this
+이길 때마다 타일을 얻어 정거장에 직접 붙여요. 선체는 다음 전투로 이어지니 정비와 보급선도 챙기세요. ||| Each win gives you a tile to attach to the station yourself. Hull damage carries over, so use repair docks and supply ships too.
+이번 판의 정거장 ||| This run's station
+이벤트 · 코어 조각 ||| Event · core shards
+이웃 타일 {0}개 강화 ||| Boosts {0} neighbouring tiles
+이웃 효과 없음 ||| No neighbour bonus
+일직선 광선 ||| straight beam toward the nearest enemy
+자동 사격 ||| Auto fire
+자동 회복 ||| Auto repair
+자원 ||| Resource
+잠김 · ||| Locked ·
+잠김 · {1} ||| Locked · {1}
+잠김 · {0} ||| Locked · {0}
+적을 잡으면 크레딧을 더 많이 ||| More credits from every kill
+적이 몰린 곳에 터지는 미사일 ||| Missiles that burst where enemies crowd
+전리품 ||| Spoils
+전부 해금 · 위협 10 ||| All unlocked · threat 10
+전송 완료 · 다음 코어 대기 ||| Transfer complete · next core standing by
+전송된 기억 (코어 조각) ||| Memory transferred (core shards)
+전투 승리 ||| Victory
+전투 화면 ||| Battle screen
+정거장 배치도 ||| Station layout
+정거장 타일 하나를 1레벨 올려요 (최대 3) ||| Raise one station tile by 1 level (max 3)
+정거장의 타일 하나를 1레벨 올립니다 ||| Raises one station tile by 1 level
+정거장의 타일 하나를 1레벨 올립니다 (최대 3) ||| Raises one station tile by 1 level (max 3)
+정비 도크 ||| Repair Dock
+업그레이드 ||| Upgrades
+준비 완료! ||| Ready!
+증폭기 효과 +{0}% ||| Amplifier bonus +{0}%
+지금: {3} ||| Now: {3}
+지금은 구매할 수 없어요. 잠시 뒤 다시 시도해 주세요 ||| Can't buy right now. Please try again shortly
+처치 ||| Kills
+처치 {0}   ·   크레딧 +{1}   ·   선체 {2}% ||| Kills {0}   ·   Credits +{1}   ·   Hull {2}%
+첫 구매 2배 ||| First buy ×2
+첫 클리어 뒤에 열립니다. 단계가 오를수록 규칙이 하나씩 더해지고 코어 조각이 10%씩 늘고, 단계마다 첫 클리어 보상이 있어요. ||| Opens after your first clear. Each level adds a rule and +10% core shards, and every level has a first-clear reward.
+초기화 ||| Reset
+초기화했습니다. 처음 화면부터 다시 시작합니다 ||| Reset done. Starting again from the first screen
+총 {0}판 · 클리어 {1}회 · 위협 {2}단계로 출격. 본부에서 코어 조각으로 정거장을 강화하세요. ||| {0} runs in total · {1} clears · launched at threat {2}. Upgrade the station with core shards at HQ.
+최대 ||| Max
+최대 {1}단계 · 코어 조각 ×{2} ||| Max level {1} · core shards ×{2}
+추가 규칙 없음 ||| No extra rules
+추천 ||| Recommended
+출격 ||| Launch
+출격 시작 ||| Start
+출발 ▶ ||| Go ▶
+출석 보급 · {0} ||| Daily supply · {0}
+출석 보급 · 코어 조각 +{0} ||| Daily supply · core shards +{0}
+취소 ||| Cancel
+층 ||| floor
+카드를 길게 누르면 크게 보여요. ||| Press and hold a card to see it bigger.
+칸을 누르면 이웃 효과를 미리 보여 드립니다. ||| Tap a slot to preview neighbour bonuses.
+코어 # ||| Core #
+코어 #002 ||| Core #002
+코어 조각 ||| Core shards
+코어 조각 +1,000 ||| Core shards +1,000
+코어 조각 +{0} ||| Core shards +{0}
+코어 조각 0 ||| Core shards 0
+코어 조각으로 사는 영구 강화입니다. 매 판 시작할 때 적용됩니다. ||| Permanent upgrades bought with core shards. They apply at the start of every run.
+코어 하나로 다시 시작합니다 ||| Starting over from a single core
+코어 하나로 정거장을 다시 짓는다 ||| Rebuild the station from a single core
+쿨타임 {0}초 ||| Cooldown {0}s
+타일 ||| Tile
+타일 3개 중 1개 ||| 1 of 3 tiles
+타일 6개 지급 ||| 6 tiles granted
+타일 {6}/{7} ||| Tiles {6}/{7}
+타일 · ||| Tile ·
+타일 강화 ||| Tile Upgrade
+타일 강화! ||| Tile upgraded!
+타일 강화가 선택지 맨 앞에 ||| Tile upgrade comes first in the choices
+탭해서 계속 ||| Tap to continue
+패스 ||| Pass
+편대 {0} ||| Squad {0}
+편대 {0} · {1} ||| Squad {0} · {1}
+편대 {0}이(가) 돌아왔어요!{1} 코어 조각 {2}개를 가져왔어요. ||| Squad {0} is back!{1} They brought {2} core shards.
+편대가 바로 돌아왔어요 ||| The squad came straight back
+편의 · 꾸미기 ||| Convenience · Cosmetics
+포기 ||| Give up
+피해 {0}% ||| Damage {0}%
+하나만 할 수 있습니다. ||| You can do only one.
+하루 {2}번 · 오늘 {3}번 남음 ||| {2} per day · {3} left today
+한 번 더 누르면 ||| Tap again to
+함선 ||| Ship
+항로 미리보기 ||| Route preview
+항로 특성 · {0} ||| Route trait · {0}
+항해 일지 ||| Voyage log
+해금 {0}/{1} · 누적 엘리트 {2} · 처치 {3} · 보급선 {4}회 ||| Unlocked {0}/{1} · elites {2} · kills {3} · supply ships {4}
+현재 정거장 ||| Current station
+호위 ||| Escort
+호위 성공 +25% ||| Escort won +25%
+호위 성공! 보상을 지켰어요 (+25%) ||| Escort won! Reward kept (+25%)
+호위 실패… 보상 일부를 잃었어요 ||| Escort failed… some of the reward was lost
+호위 출격 ||| Escort launch
+호위 출격 ▶ ||| Launch escort ▶
+화면을 누르세요 ||| Tap the screen
+화면을 탭하면 소리가 켜집니다 ||| Tap the screen to turn on sound
+화면을 터치하세요 ||| Touch the screen
+화면을 터치해 시작 ||| Touch the screen to start
+황금 함대 ||| Golden Fleet
+🔒 섹터 ||| 🔒 Sector
+🔒 첫 클리어 뒤에 복원돼요 ||| 🔒 Recovered after your first clear
+🔒 판을 마칠 때마다 하나씩 복원돼요 ||| 🔒 One is recovered after each run
+# ---------- words used inside joined texts (fallback) ----------
+섹터 ||| Sector
+판 ||| runs
+회 ||| times
+단계 ||| level
+# ---------- art.js (art-style notes) ----------
+1 · 생체 스웜 ||| 1 · Living Swarm
+2 · 기계 함대 ||| 2 · Machine Fleet
+3 · 네온 도형 (현재) ||| 3 · Neon Shapes (current)
+A · 헥사 코어 ||| A · Hex Core
+B · 링 스테이션 ||| B · Ring Station
+C · 크리스탈 오비탈 ||| C · Crystal Orbital
+The Tower와 너무 비슷함 · 세계관이 안 보임 ||| Too close to The Tower · no sense of the world
+가장 가볍고 읽기 쉬움 ||| Lightest and easiest to read
+결정 코어 주위를 위성 포드가 입체 궤도로 돕니다. 앞뒤로 도는 위성이 원근감을 가장 크게 줍니다. ||| Satellite pods circle a crystal core in 3D orbits. Pods passing in front and behind give the strongest depth.
+링을 겹치는 방식이라 단계별 차이가 작음 ||| Stacked rings make growth stages look alike
+말벌·딱정벌레·해파리·여왕 둥지. 기계 정거장과 대비되는 생물 실루엣이라 아군·적 구분이 즉시 되고, 세계관의 '스웜'과도 맞습니다. ||| Wasps, beetles, jellyfish and a queen's nest. Living shapes against a machine station make friend and foe obvious, and fit the 'swarm' world.
+삼각·사각·육각 네온 도형. The Tower처럼 추상적이고 가장 가볍습니다. ||| Neon triangles, squares and hexagons. Abstract like The Tower, and the lightest.
+성장 단계가 한눈에 보임 · 타일 단위로 아트 확장 ||| Growth is clear at a glance · art grows tile by tile
+아군과 확실히 구분 · 날개짓으로 살아 있는 느낌 ||| Clearly apart from allies · wings make them feel alive
+위성이 적과 섞여 보일 수 있음 · 정거장보다 무기처럼 보임 ||| Satellites can blend with enemies · looks more like a weapon than a station
+육각 코어에 타일을 붙여 커지는 모듈형입니다. 모듈·연구가 타일 하나로 보여 성장이 가장 잘 읽히고, AI로 타일 아트를 늘리기도 쉽습니다. ||| A modular hex core that grows as tiles attach. Each module shows as a tile, so growth reads best and new tile art is easy to add.
+입체감 최고 · 보석 같은 수집 욕구 ||| Best depth · gem-like urge to collect
+장르가 즉시 읽힘 · 회전 링이 살아 있는 느낌 ||| Genre reads instantly · spinning ring feels alive
+전투기·충각선·포함·모함. 정통 SF 함대전 분위기이고 진영 확장(해적·제국)이 쉽습니다. ||| Fighters, rams, gunships and carriers. Classic sci-fi fleet battles, easy to add factions (pirates, empire).
+정거장과 재질이 같아 아군과 덜 구분됨 ||| Same material as the station, harder to tell from allies
+정지한 느낌 → 코어 회전·패널 점멸로 보완 ||| Feels static → add core spin and blinking panels
+정통 SF · 함선 수집·스킨 확장이 쉬움 ||| Classic sci-fi · easy ship collection and skins
+징그러움 수위 조절 필요 → 네온 윤곽으로 순화 ||| Needs creepiness toned down → soften with neon outlines
+회전하는 거주 링과 스포크로 된 고전 우주정거장입니다. 처음 보는 사람도 바로 우주정거장으로 읽습니다. ||| A classic station with a spinning habitat ring and spokes. Anyone reads it as a space station at once.
+# ---------- joins (several texts glued together in code) ----------
+{0} → {1} ||| {0} → {1}
+{0} · {1} ||| {0} · {1}
+{0} (쿨타임 {1}초) ||| {0} (cooldown {1}s)
+{0} · ~{1} ||| {0} · until {1}
+선물 ◆{0} 받음 ||| Gift ◆{0} received
+고정 ||| Fixed
+언어 · Language ||| Language
+한국어 ||| 한국어
+Lv2는 효과 ×1.6, Lv3는 ×2.3에 각성까지! 포대는 포신 2개, 격납고는 요격기 +1기, 미사일은 2발. ||| Lv2 gives ×1.6, Lv3 gives ×2.3 and Awakens! Battery gets twin barrels, Hangar +1 interceptor, Missile fires 2.
+Lv3 각성 ||| Lv3 Awakening
+Lv3 각성 · {0} ||| Lv3 Awakening · {0}
+Lv3 각성 · {1} ||| Lv3 Awakening · {1}
+각성 ||| Awakened
+각성 · {0} ||| Awakened · {0}
+각성! {0} · {1} ||| Awakened! {0} · {1}
+새로 들여오기 · {0} ||| Restock · {0}
+크레딧으로 타일·유물·수리를 삽니다. 하나 살 때마다 남은 물건이 30% 비싸져요. ||| Buy tiles, relics and repairs with credits. Each purchase makes the rest 30% pricier.
+2연장 발사 ||| Twin Launch
+고속 수집 ||| Rapid Salvage
+공명 증폭 ||| Resonance
+긴급 수리반 ||| Emergency Crew
+미사일 2발을 서로 다른 무리에 ||| 2 missiles at 2 different swarms
+크레딧 +25% 더 ||| +25% more credits
+쌍열 포탑 ||| Twin Turret
+옆 타일 효과 +20%p 더 ||| Adjacent tiles +20%p more
+요격기 +1기 ||| +1 interceptor
+이중 방벽 ||| Double Bulwark
+전투 후 수리 2배 ||| Post-battle repair ×2
+정예 편대 ||| Elite Wing
+최대 선체 +25 · 피해 감소 +3%p 더 ||| Max hull +25 · damage taken -3%p more
+포신 2개 · 한 번에 두 적을 쏨 ||| 2 barrels · hits 2 enemies at once
+적 체력 +{0}% · 공격 +{1}% (10단계 대비) ||| Enemy HP +{0}% · ATK +{1}% (vs. level 10)
+◆ 코어 조각 ||| ◆ Core Shards
+우리가 모아 온 코어 조각… 그건 전부 지휘관님의 기억이었어요. ||| The core shards we gathered… every one of them was your memory, Commander.
+이상하죠. 조각을 많이 모아 오신 날엔 지휘관님이 꿈 얘기를 더 하세요. ||| Funny thing. On days you bring back lots of shards, you talk more about your dreams.
+전송된 기억의 파편. 우리가 모아 온 것은 처음부터 기억이었다. ||| Fragments of transferred memory. What we gathered was memory all along.
+전송된 코어 조각이 많을수록 새 코어가 더 많이 기억해요. …기억이요? 아, 기록 말이에요. 기록. ||| The more core shards we transfer, the more the new core remembers. …Remembers? I mean records. Records.
+정거장 코어에서 회수한 결정이에요. 판이 끝날 때마다 다음 코어로 전송돼요. ||| Crystals recovered from the station core. After every run they are transferred to the next core.
+{0}. 빈 칸에 놓거나, 같은 {1} 위에 겹치면 레벨이 올라요. ||| {0}. Place it on an empty slot, or stack it on another {1} to level it up.
+· 각성 {0} ||| · Awakens: {0}
+같은 타일을 겹쳐 강화 · {0} Lv{1} → Lv{2} ||| Stack to level up · {0} Lv{1} → Lv{2}
+같은 타일을 겹쳐 강화 · {0} Lv{1} → Lv{2} · 각성 {3} ||| Stack to level up · {0} Lv{1} → Lv{2} · Awakens: {3}
+겹쳐 강화 ||| Stack & Level Up
+겹쳐 강화! {0} Lv{1} ||| Stacked! {0} Lv{1}
+← 구매 취소 ||| ← Cancel purchase
+← 다시 고르기 ||| ← Choose again
+← 뒤로 ||| ← Back
+{0}층 미확인 신호 ||| Floor {0} unknown signal
+지도: 갈래길 ||| Map: Branches
+지도: 성도 ||| Map: Star chart
+겹치면 Lv{0} ||| Stack → Lv{0}
+스웜 추격 ||| Swarm in pursuit
+스웜 추격권 · 적 체력 +{0}% ||| Swarm range · enemy HP +{0}%
+스웜에 따라잡힘 · 적 체력 +{0}% ||| Caught by the swarm · enemy HP +{0}%
+스웜이 바짝 붙었어요 · 한 층 건너뛰기 추천 ||| Swarm right behind · try skipping a floor
+
+점프: 한 층 위(좌우 1칸) · 크레딧 {0}로 한 층 건너뛰기 ||| Jump: one floor up (1 lane either way) · skip a floor for {0} credits
+한 층 건너뛰기 · 연료 크레딧 -{0} · 스웜과 거리를 벌려요 ||| Skip a floor · fuel -{0} credits · pull away from the swarm
+잔해 ||| Wreck
+적이 많이 모였을 때 쓰면 효과가 커요. 언제 쓸지는 지휘관님 몫이에요. ||| It hits hardest when enemies bunch up. When to use it is your call, Commander.
+적이 한 줄로 몰려올 때 쏘면 훨씬 많이 맞혀요. 언제 쏠지는 지휘관님 몫이에요. ||| Fire when enemies come in a line and you'll hit far more. When to fire is your call, Commander.
+저건 분열낭이에요! 터뜨리면 새끼 셋이 튀어나와요. 미사일로 한꺼번에 쓸어 주세요. ||| That's a Splitter! Pop it and three hatchlings burst out. Sweep them up with missiles.
+노란 폭발 포자예요. 정거장에 닿으면 크게 터져요. 무리 속에서 먼저 터뜨리면 주변까지 휩쓸려요! ||| A yellow Volatile Spore. It blows up hard if it reaches the station. Pop it inside the swarm and it takes the others with it!
+갑각충이에요. 앞쪽 갑각이 우리 탄을 절반쯤 튕겨 내요. 옆에서 때리는 요격기가 잘 통해요. ||| A Carapace. Its front plate deflects about half our shots. Interceptors hitting from the side work well.
+분홍 해파리가 뒤에서 무리를 치료하고 있어요! 저것부터 잡아야 해요. ||| That pink jellyfish is healing the swarm from the back! Take it out first.
+산란 어미예요. 알을 낳으면서 다가와요. 알이 깨기 전에 미사일로 정리해 주세요. ||| A Brood Mother. She lays eggs as she comes. Clear them with missiles before they hatch.
+위상 포식자예요! 잠깐씩 사라지는데, 그동안은 공격이 통과해요. 방벽으로 버티세요. ||| A Phase Stalker! It fades out now and then, and shots pass through it while it's gone. Hold with your barrier.
+구매 {0}개를 되찾았어요 ||| Restored {0} purchase(s)
+구매 복원 ||| Restore purchases
+다시 설치했거나 기기를 바꿨으면 눌러요 ||| Tap after reinstalling or switching devices
+되찾을 구매가 없어요 ||| No purchases to restore
+지금은 구매를 되찾을 수 없어요 ||| Can't restore purchases right now
+3섹터 끝까지 가기 ||| Make it through all 3 sectors
+{0}일차 ◆{1} ||| Day {0} ◆{1}
+꾸미기 ||| Looks
+다음 목표 ||| Next goal
+다음 섹터 ||| Next sector
+도감이 열렸어요. 새 타일·유물·함선이 풀리는 조건을 볼 수 있어요. ||| The Codex is open. See what unlocks new tiles, relics and ships.
+메뉴 ||| Menu
+보급 패스 ||| Supply pass
+보상 · 위협 등급이 열려요 ||| Reward · Threat levels unlock
+보상 · 코어 조각 {0} ||| Reward · {0} core shards
+보상 · 함선 {0} (⚡ {1}) ||| Reward · Ship {0} (⚡ {1})
+붉은 안개 = 따라오는 스웜 ||| Red mist = the swarm on your tail
+빛나는 칸 = 지금 갈 수 있는 곳 ||| Glowing nodes = where you can go now
+상점이 열렸어요! 오늘의 무료 조각과 기억 패스도 여기 있어요. ||| The Shop is open! Today's free shards and the Memory Pass are here too.
+선체 {2}/{3} ||| Hull {2}/{3}
+선체 {3}/{4} ||| Hull {3}/{4}
+설정 ||| Settings
+섹터 {0} / 3 ||| Sector {0} / 3
+원정이 열렸어요. 판 사이에 요격기 편대를 보내 코어 조각을 모아 와요. ||| Expeditions are open. Send interceptor squads out between runs to bring back core shards.
+위협 {0}단계 클리어 ||| Clear threat level {0}
+유물 ×2 ||| Relic ×2
+점프: 한 층 위(좌우 1칸) · 크레딧 {0}로 한 층 건너뛰기 · 스웜이 아래에서 따라와요 ||| Jumps: one floor up (1 node sideways) · skip a floor for {0} credits · the swarm follows from below
+조각 ||| Shards
+지휘관님께 추천 ||| Picked for you, Commander
+출발 ||| Go
+칸 종류 ||| Node types
+칸 종류 보기 ||| Show node types
+크레딧 {1} ||| Credits {1}
+크레딧 {9} ||| Credits {9}
+타일 {5}/{6} ||| Tiles {5}/{6}
+특가 {0}:{1} 남음 ||| Deal ends in {0}:{1}
+한 층 건너뛰기 · 크레딧 {0} ||| Skip a floor · {0} credits
+함선 {0}척 더 · 진행하면 열려요 ||| {0} more ships · unlock as you progress
+🌐 언어 · Language ||| 🌐 Language · 언어
+긴급 방벽! ||| Emergency barrier!
+시작 유물 고르기 ||| Pick a starting relic
+공격 타일 훈련 ||| Attack Tile Drills
+긴급 방벽 ||| Emergency Barrier
+방벽·수리 위력 +{0}% ||| Shield and repair power +{0}%
+방어 타일 훈련 ||| Defence Tile Drills
+생존 ||| Survival
+수집기·증폭기 위력 +{0}% ||| Collector and amplifier power +{0}%
+수확 ||| Harvest
+시작 유물 없음 ||| No starting relic
+운영 ||| Operations
+유물 가방 ||| Relic Bag
+지원 타일 훈련 ||| Support Tile Drills
+판마다 한 번, 선체가 0이 되면 {0}%로 버팀 ||| Once per run, when the hull hits 0 it holds at {0}%
+판을 시작할 때 유물 3개 중 1개를 골라 들고 감 ||| Start each run by picking 1 of 3 relics
+포대·격납고·미사일 위력 +{0}% ||| Battery, hangar and missile power +{0}%
+{0}판 뒤 열림 ||| Opens after {0} runs
+새 업그레이드 열림: {0} ||| New upgrade unlocked: {0}

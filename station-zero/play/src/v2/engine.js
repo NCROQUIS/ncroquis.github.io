@@ -18,15 +18,15 @@
   // ---- shipyard (permanent): effects grow polynomially, like The Tower workshop ----
   const poly = L => Math.pow(1 + TUNE.polyK * L, TUNE.polyP);
   const STATS = [
-    { id: 'dmg',    tab: 'atk', name: '피해',      base: 1.0, desc: L => `${(4 * poly(L)).toFixed(1)}` },
-    { id: 'rate',   tab: 'atk', name: '연사 속도',  base: 1.2, desc: L => `${(1.2 * (1 + TUNE.rateStep * L)).toFixed(2)}/초` },
+    { id: 'dmg',    tab: 'atk', name: '공격력',    base: 1.0, desc: L => `${(4 * poly(L)).toFixed(1)}` },
+    { id: 'rate',   tab: 'atk', name: '공격 속도',  base: 1.2, desc: L => `${(1.2 * (1 + TUNE.rateStep * L)).toFixed(2)}/초` },
     { id: 'crit',   tab: 'atk', name: '치명타 확률', base: 1.5, desc: L => `${Math.round(Math.min(60, 5 + L))}%` },
     { id: 'range',  tab: 'atk', name: '사거리',     base: 1.2, desc: L => `${Math.round(40 + L)}` },
-    { id: 'hull',   tab: 'def', name: '선체 내구도', base: 1.0, desc: L => `${Math.round(TUNE.hullBase * poly(L))}` },
-    { id: 'regen',  tab: 'def', name: '선체 재생',  base: 1.2, desc: L => `${(TUNE.regenPct * 100 * (1 + TUNE.regenG * L)).toFixed(2)}%/초` },
-    { id: 'armor',  tab: 'def', name: '피해 감소',  base: 1.5, desc: L => `${Math.min(50, L)}%` },
-    { id: 'energy', tab: 'utl', name: '에너지 획득', base: 1.5, desc: L => `+${5 * L}%` },
-    { id: 'datab',  tab: 'utl', name: '웨이브당 데이터', base: 2.0, desc: L => `+${3 * L}%` }
+    { id: 'hull',   tab: 'def', name: '체력',      base: 1.0, desc: L => `${Math.round(TUNE.hullBase * poly(L))}` },
+    { id: 'regen',  tab: 'def', name: '체력 회복',  base: 1.2, desc: L => `${(TUNE.regenPct * 100 * (1 + TUNE.regenG * L)).toFixed(2)}%/초` },
+    { id: 'armor',  tab: 'def', name: '방어력',    base: 1.5, desc: L => `${Math.min(50, L)}%` },
+    { id: 'energy', tab: 'utl', name: '에너지 획득량', base: 1.5, desc: L => `+${5 * L}%` },
+    { id: 'datab',  tab: 'utl', name: '데이터 획득량', base: 2.0, desc: L => `+${3 * L}%` }
   ];
   const statCost = (id, L) => {
     const s = STATS.find(x => x.id === id);
@@ -35,9 +35,10 @@
 
   // ---- research (real time) ----
   const RESEARCH = [
-    { id: 'cap',   name: '강화 상한 해제', desc: n => `조선소 상한 +1 (현재 ${20 + n})` },
-    { id: 'econ',  name: '데이터 연구',   desc: n => `데이터 수입 +3% (현재 +${3 * n}%)` },
-    { id: 'start', name: '출격 준비',     desc: n => `시작 에너지 +15 (현재 ${15 * n})` }
+    { id: 'cap',   name: '최대 레벨 +1', desc: n => `업그레이드 최대 레벨 +1 (현재 ${20 + n})` },
+    { id: 'econ',  name: '데이터 수입 증가',   desc: n => `데이터 수입 +3% (현재 +${3 * n}%)` },
+    { id: 'start', name: '시작 에너지',     desc: n => `시작 에너지 +15 (현재 ${15 * n})` },
+    { id: 'patrol', name: '방치 시간 늘리기',    max: 8, desc: n => `방치 보상 최대 시간 +1시간 (현재 ${4 + n}시간)` }
   ];
   const researchCost = n => Math.ceil(8 * n * n); // data cost for research level n
   const CELL_MINUTES = 20; // one energy cell shortens a running research by 20 minutes
@@ -45,30 +46,38 @@
 
   // ---- enhancement (2nd layer, data sink): ×(1 + 1% per level), exponential cost ----
   const ENH = [
-    { id: 'dmg',  name: '피해 강화',   desc: L => `피해 ×${(1 + 0.01 * L).toFixed(2)}` },
-    { id: 'hull', name: '선체 강화',   desc: L => `선체 ×${(1 + 0.01 * L).toFixed(2)}` },
+    { id: 'dmg',  name: '공격력 강화', desc: L => `공격력 ×${(1 + 0.01 * L).toFixed(2)}` },
+    { id: 'hull', name: '체력 강화',   desc: L => `체력 ×${(1 + 0.01 * L).toFixed(2)}` },
     { id: 'data', name: '데이터 강화', desc: L => `데이터 ×${(1 + 0.01 * L).toFixed(2)}` }
   ];
   const ENH_UNLOCK_WAVE = 40, ENH_MAX = 100;
   const enhCost = L => Math.ceil(2000 * Math.pow(1.17, L));
 
   // ---- in-run ----
+  // in-run upgrades bought with energy, grouped in three tabs like the permanent upgrades (fold-up sheet in the battle screen).
+  // per = effect of one level, k = cost factor. core = what '자동 강화' buys (the original four, so auto-play balance stays put).
   const INRUN = [
-    { id: 'dmg',   name: '피해 +12%' },
-    { id: 'rate',  name: '연사 +6%' },
-    { id: 'hull',  name: '선체 +12%' },
-    { id: 'regen', name: '재생 +12%' }
+    { id: 'dmg',    tab: 'atk', name: '공격력',      per: 12, unit: '%',  k: 1,   core: true },
+    { id: 'rate',   tab: 'atk', name: '공격 속도',   per: 6,  unit: '%',  k: 1,   core: true },
+    { id: 'crit',   tab: 'atk', name: '치명타 확률', per: 1,  unit: '%p', k: 3 },
+    { id: 'range',  tab: 'atk', name: '사거리',      per: 1,  unit: '',   k: 3 },
+    { id: 'hull',   tab: 'def', name: '체력',        per: 12, unit: '%',  k: 1,   core: true },
+    { id: 'regen',  tab: 'def', name: '체력 회복',   per: 12, unit: '%',  k: 1,   core: true },
+    { id: 'armor',  tab: 'def', name: '방어력',      per: 1,  unit: '%p', k: 3 },
+    { id: 'energy', tab: 'utl', name: '에너지 획득량', per: 8, unit: '%', k: 2.5 },
+    { id: 'datab',  tab: 'utl', name: '데이터 획득량', per: 2, unit: '%', k: 5 }
   ];
-  const inrunCost = lv => Math.ceil(8 * Math.pow(TUNE.inrunG, lv));
+  const INRUN_K = Object.fromEntries(INRUN.map(u => [u.id, u.k]));
+  const inrunCost = (lv, id) => Math.ceil(8 * (INRUN_K[id] || 1) * Math.pow(TUNE.inrunG, lv));
 
   const CARDS = [
-    { id: 'overcharge', name: '과충전 탄두',  text: '피해 +25%' },
-    { id: 'rapid',      name: '속사 회로',    text: '연사 속도 +20%' },
+    { id: 'overcharge', name: '과충전 탄두',  text: '공격력 +25%' },
+    { id: 'rapid',      name: '속사 회로',    text: '공격 속도 +20%' },
     { id: 'scope',      name: '치명 조준경',  text: '치명타 확률 +10%p' },
-    { id: 'plating',    name: '보강 장갑',    text: '선체 최대치 +30%, 즉시 회복' },
+    { id: 'plating',    name: '보강 장갑',    text: '최대 체력 +30%, 즉시 회복' },
     { id: 'chain',      name: '연쇄 번개',    text: '치명타 시 주변 1기에 50% 피해' },
     { id: 'thorns',     name: '반격 실드',    text: '받은 접촉 피해의 30% 반사' },
-    { id: 'coolant',    name: '병기 냉각기',  text: '궤도 병기 쿨타임 -20%' },
+    { id: 'coolant',    name: '무기 냉각기',  text: 'EMP·레일건 재충전 -20%' },
     { id: 'harvest',    name: '데이터 수집기', text: '이번 판 데이터 +20%' },
     { id: 'optics',     name: '사거리 확장',  text: '사거리 +15%' },
     { id: 'pierce',     name: '관통탄',      text: '투사체가 적 1기를 관통' }
@@ -80,7 +89,7 @@
   const TILE_TYPES = [
     { id: 'hangar',    name: '격납고', col: '#ffd166', desc: L => `요격기 2기 출격 · 방어 구역 안 추격 · 사격 피해 주포의 ${Math.round(25 * tileMul(L))}%` },
     { id: 'battery',   name: '포대',   col: '#6fd3ff', desc: L => `보조 포대 · 가장 먼 적부터 · 피해 주포의 ${Math.round(40 * tileMul(L))}%` },
-    { id: 'shield',    name: '방벽',   col: '#8fa2ff', desc: L => `선체 +${Math.round(8 * tileMul(L))}% · 재생 +${Math.round(10 * tileMul(L))}% · 피해 감소 +2%p` },
+    { id: 'shield',    name: '방벽',   col: '#8fa2ff', desc: L => `체력 +${Math.round(8 * tileMul(L))}% · 체력 회복 +${Math.round(10 * tileMul(L))}% · 방어력 +2%p` },
     { id: 'collector', name: '수집기', col: '#c8fff0', desc: L => `에너지 +${Math.round(12 * tileMul(L))}% · 데이터 +${Math.round(6 * tileMul(L))}%` }
   ];
   const SLOT_WAVES = [8, 15, 22, 30, 40, 50];   // best wave that opens each hex slot
@@ -106,18 +115,34 @@
     return { tiles, open, orbitals: ORBITAL_WAVES.filter(w => best >= w).length, proto: false };
   }
 
+  // prologue finale timeline (seconds after wave 7 starts) and mothership placement in world units (station at 0,0)
+  const MOTHER = { y0: -440, y1: -190, enter: 6.5, charge: 2.5, burn: 1.1, maw: 66 }; // giant: starts far above the screen and sinks in slowly (6.5 s, slow at both ends)
+
+  // v2 has no sectors: each pair of new forms joins the waves after a boss (wave 10 / 20 / 30)
+  const FOE_WAVE = { splitter: 11, volatile: 11, carapace: 21, mender: 21, brood: 31, stalker: 31 };
+  const FOE_RULE = { share: 0.2, front: 0.5, frontCos: 0.4, blastR: 14, blastK: 3, healR: 26, healK: 0.12, healEvery: 1.6, layEvery: 3.2, hatch: 2.5, phase: 3.2, phaseVis: 2.2, menderPark: 22 };
+  const BIG_FOE = { boss: 1, carapace: 1, brood: 1 };
   const ENEMY = {
     drone:   { hp: 3,  atk: 4,  spd: 14, r: 2.0, energy: 1 },
     meteor:  { hp: 10, atk: 10, spd: 7,  r: 3.4, energy: 2 },
     charger: { hp: 6,  atk: 14, spd: 22, r: 2.4, energy: 2 },
     shooter: { hp: 8,  atk: 6,  spd: 10, r: 2.6, energy: 3 },
-    boss:    { hp: 90, atk: 25, spd: 5,  r: 7.0, energy: 20 }
+    boss:    { hp: 90, atk: 25, spd: 5,  r: 7.0, energy: 20 },
+    // swarm expansion (same forms as v3, 2026-11-06 sian 'swarm'): two new forms join after each 10-wave boss (FOE_WAVE)
+    splitter: { hp: 5,  atk: 6,  spd: 10, r: 2.8, energy: 2 },   // 분열낭: bursts into 3 hatchlings when killed
+    mini:     { hp: 0.8, atk: 2, spd: 18, r: 1.4, energy: 0.3 }, // hatchling (from splitter and eggs)
+    volatile: { hp: 4,  atk: 18, spd: 13, r: 2.2, energy: 1 },   // 폭발 포자: big contact hit; shot down, it blasts the swarm around it
+    carapace: { hp: 9,  atk: 12, spd: 6,  r: 3.2, energy: 4 },   // 갑각충: front plate takes 50% from shots coming from the station side
+    mender:   { hp: 7,  atk: 4,  spd: 7,  r: 2.6, energy: 3 },   // 치유 해파리: hangs back and heals the swarm near it
+    brood:    { hp: 14, atk: 16, spd: 4.5, r: 3.6, energy: 5 },  // 산란 어미: lays eggs that hatch into hatchlings
+    egg:      { hp: 2,  atk: 0,  spd: 0,  r: 1.5, energy: 0.2 },
+    stalker:  { hp: 5,  atk: 12, spd: 17, r: 2.4, energy: 3 }    // 위상 포식자: phases out now and then (untouchable while faded)
   };
 
   function derived(save, b) {
     const L = id => save.shipyard[id] || 0;
     const c = id => b ? (b.cardCount[id] || 0) : 0;
-    const inr = id => b ? b.inrun[id] : 0;
+    const inr = id => b ? (b.inrun[id] || 0) : 0;
     const moduleMul = b && b.module === 'proto' ? 1.5 : 1;
     const st = stationOf(save, b), tsum = type => st.tiles.reduce((a, t) => a + (t && t.type === type ? tileMul(t.lv) : 0), 0), tcount = type => st.tiles.filter(t => t && t.type === type).length;
     const shieldM = tsum('shield'), collM = tsum('collector');
@@ -126,13 +151,13 @@
     const out = {
       dmg: 4 * poly(L('dmg')) * enh('dmg') * (1 + 0.12 * inr('dmg')) * (1 + 0.25 * c('overcharge')) * moduleMul,
       rate: Math.min(12, 1.2 * (1 + TUNE.rateStep * L('rate')) * (1 + 0.06 * inr('rate')) * (1 + 0.2 * c('rapid'))),
-      crit: Math.min(0.75, 0.05 + 0.01 * L('crit') + 0.1 * c('scope')),
-      range: (40 + L('range')) * (1 + 0.15 * c('optics')),
+      crit: Math.min(0.75, 0.05 + 0.01 * L('crit') + 0.01 * inr('crit') + 0.1 * c('scope')),
+      range: (40 + L('range') + inr('range')) * (1 + 0.15 * c('optics')),
       hullMax,
       regen: (TUNE.regenAbs ? TUNE.regenAbs * (1 + 0.15 * L('regen')) : hullMax * TUNE.regenPct * (1 + TUNE.regenG * L('regen'))) * (1 + 0.12 * inr('regen')) * (1 + 0.1 * shieldM),
-      armor: Math.min(0.6, 0.01 * L('armor') + 0.02 * tcount('shield')),
-      energyMul: (1 + 0.05 * L('energy')) * (1 + 0.12 * collM),
-      dataMul: enh('data') * (1 + 0.03 * L('datab')) * (1 + 0.03 * (save.research.levels.econ || 0)) * (1 + 0.2 * c('harvest')) * (1 + 0.06 * collM),
+      armor: Math.min(0.6, 0.01 * L('armor') + 0.01 * inr('armor') + 0.02 * tcount('shield')),
+      energyMul: (1 + 0.05 * L('energy')) * (1 + 0.08 * inr('energy')) * (1 + 0.12 * collM),
+      dataMul: enh('data') * (1 + 0.03 * L('datab')) * (1 + 0.03 * (save.research.levels.econ || 0)) * (1 + 0.2 * c('harvest')) * (1 + 0.06 * collM) * (1 + 0.02 * inr('datab')),
       cdMul: Math.pow(0.8, c('coolant')),
       pierce: c('pierce'), chain: c('chain'), thorns: c('thorns')
     };
@@ -148,11 +173,11 @@
       this.rng = mulberry32(this.opts.seed >>> 0);
       this.t = 0; this.wave = 1; this.waveT = 0;
       this.enemies = []; this.projs = []; this.bullets = [];
-      this.inrun = { dmg: 0, rate: 0, hull: 0, regen: 0 };
+      this.inrun = Object.fromEntries(INRUN.map(u => [u.id, 0]));
       this.cardCount = {}; this.cardsTaken = [];
       this.module = null; // 'proto' during tutorial
       this.weapons = {
-        rail: { unlocked: !this.opts.tutorial || this.opts.prologue, cd: 0, max: this.opts.prologue ? 4 : 25 },
+        rail: { unlocked: !this.opts.tutorial || this.opts.prologue, cd: 0, max: this.opts.prologue ? 2.5 : 25 },
         emp:  { unlocked: this.opts.prologue || (!this.opts.tutorial && (save.best || 0) >= 20), cd: 0, max: this.opts.prologue ? 7 : 40 }
       };
       this.energy = 15 * (save.research.levels.start || 0);
@@ -192,8 +217,7 @@
       const w = this.wave, plan = [];
       if (this.opts.prologue) { // a swarm the endgame station shreds
         for (let i = 0; i < 72; i++) plan.push({ at: (i / 72) * 2.8, type: i % 6 === 0 ? 'meteor' : i % 9 === 0 ? 'charger' : 'drone' });
-        if (w === 7) plan.unshift({ at: 0, type: 'boss' });
-        this.spawnPlan = plan; return;
+        this.spawnPlan = plan; return; // the finale is the scripted giant mothership (see step), not a boss enemy
       }
       if (this.opts.tutorial && w <= 3) { // dense, one-shot drones so the first seconds feel alive
         const n0 = 14 + 4 * w;
@@ -205,7 +229,9 @@
       const nRush = w >= 6 ? Math.round(n * TUNE.rush * Math.min(1, 0.4 + (w - 6) * 0.05)) : 0, nPack = n - nRush; // rush grows from 16% to 40% of the wave
       const PACK = 7, packs = Math.max(1, Math.ceil(nPack / PACK)); // the rest arrive in packs from one direction
       const shooterShare = Math.min(0.35, (w >= 12 ? 2 / 12 : 0) + TUNE.rangedG * Math.max(0, w - 12)); // ranged enemies grow later, so range alone stops winning
+      const nf = (this.opts.tutorial || this.opts.prologue) ? [] : Object.keys(FOE_WAVE).filter(t => w >= FOE_WAVE[t]);
       const pick = () => {
+        if (nf.length && this.rng() < FOE_RULE.share) { let k = this.rng() * nf.reduce((a, t) => a + (t === 'brood' ? 0.5 : 1), 0); for (const t of nf) { k -= t === 'brood' ? 0.5 : 1; if (k <= 0) return t; } return nf[nf.length - 1]; }
         if (this.rng() < shooterShare) return 'shooter';
         const roll = this.rng() * (w >= 3 ? 10 : 8);
         return roll < 5 ? 'drone' : roll < 8 ? 'meteor' : 'charger';
@@ -223,9 +249,9 @@
       if (w % 10 === 0) plan.unshift({ at: 0, type: 'boss' });
       this.spawnPlan = plan;
     }
-    spawn(type, pack) {
+    spawn(type, pack, at) {
       const E = ENEMY[type], s = this.scale(this.wave);
-      const a = (pack !== undefined && this.packAng) ? this.packAng[pack] + (this.rng() - 0.5) * 0.5 : this.rng() * Math.PI * 2;
+      const a = at ? Math.atan2(at.y, at.x) : (pack !== undefined && this.packAng) ? this.packAng[pack] + (this.rng() - 0.5) * 0.5 : this.rng() * Math.PI * 2;
       let hpMul = 1, atkMul = 1;
       const dil = (!this.opts.prologue && !(this.opts.tutorial && this.wave <= 3) && type !== 'boss') ? 1 / TUNE.swarm : 1; // split the wave's threat across more bodies
       if (this.opts.prologue) { hpMul = type === 'boss' ? 400 : 6; atkMul = type === 'boss' ? 1 : 0.05; }
@@ -233,12 +259,15 @@
         if (this.wave >= 13) { hpMul = 3; atkMul = 1.6; } else if (this.wave <= 3) { hpMul = 0.35; atkMul = 0.4; } else { hpMul = 1.8; atkMul = 0.6; }
       }
       const e = {
-        type, x: Math.cos(a) * SPAWN_R, y: Math.sin(a) * SPAWN_R, ang: a,
+        type, x: at ? at.x : Math.cos(a) * SPAWN_R, y: at ? at.y : Math.sin(a) * SPAWN_R, ang: a,
         hp: E.hp * s * hpMul * TUNE.hpMul * dil, maxhp: E.hp * s * hpMul * TUNE.hpMul * dil, atk: E.atk * Math.pow(TUNE.atkG, this.wave - 1) * atkMul * dil,
         spd: E.spd * (this.opts.prologue || this.opts.tutorial ? 1 : Math.min(TUNE.spdMax, 1 + TUNE.spdG * (this.wave - 1))), r: E.r, stun: 0, shootCd: 2.5, biteCd: 0, dead: false
       };
+      if (type === 'stalker') e.phT = this.rng() * FOE_RULE.phase; else if (type === 'mender') e.healT = FOE_RULE.healEvery; else if (type === 'brood') e.layT = FOE_RULE.layEvery * 0.6; else if (type === 'egg') e.hatch = FOE_RULE.hatch;
+      if (FOE_WAVE[type] && !(this.met || (this.met = {}))[type]) { this.met[type] = 1; this.events.push({ type: 'newfoe', etype: type }); }
       this.enemies.push(e);
       if (type === 'boss') this.events.push({ type: 'boss', wave: this.wave });
+      return e;
     }
     damageStation(amount) {
       const dealt = amount * (1 - this.d.armor);
@@ -251,10 +280,20 @@
       e.dead = true; this.kills++;
       if (e.type === 'boss') { this.cells++; this.events.push({ type: 'cell', x: e.x, y: e.y }); }
       this.energy += ENEMY[e.type].energy * this.d.energyMul * Math.pow(TUNE.energyG, this.wave - 1);
-      this.events.push({ type: 'kill', x: e.x, y: e.y, etype: e.type });
+      this.events.push({ type: 'kill', x: e.x, y: e.y, etype: e.type, big: !!BIG_FOE[e.type] });
+      if (e.type === 'splitter') for (let i = 0; i < 3; i++) { const a = Math.atan2(e.y, e.x) + (i - 1) * 1.1; this.spawn('mini', undefined, { x: e.x + Math.cos(a) * 3, y: e.y + Math.sin(a) * 3 }); }
+      if (e.type === 'volatile') { // shot down: the spore pops and hurts the swarm around it, not the station
+        const R = FOE_RULE.blastR; this.events.push({ type: 'blast', x: e.x, y: e.y, r: R, foe: true });
+        for (const o of this.enemies) { if (o.dead || o === e) continue; const dx = o.x - e.x, dy = o.y - e.y, rr = R + o.r; if (dx * dx + dy * dy < rr * rr) this.hit(o, this.d.dmg * FOE_RULE.blastK, false); }
+      }
     }
-    hit(e, dmg, crit) {
-      e.hp -= dmg;
+    hit(e, dmg, crit, from) {
+      if (e.ghost) return; // phased-out stalker: shots pass through
+      if (from && e.type === 'carapace') { // the plate faces the station: hits arriving from that side mostly glance off
+        const fx = from.x - e.x, fy = from.y - e.y, sx = -e.x, sy = -e.y, c = (fx * sx + fy * sy) / ((Math.hypot(fx, fy) * Math.hypot(sx, sy)) || 1);
+        if (c > FOE_RULE.frontCos) { dmg *= FOE_RULE.front; if (!this.opts.headless) this.events.push({ type: 'deflect', x: e.x - e.x / (Math.hypot(e.x, e.y) || 1) * e.r, y: e.y - e.y / (Math.hypot(e.x, e.y) || 1) * e.r }); }
+      }
+      e.hp -= dmg; e.hitT = this.t; // hitT: drawing only (hit flash)
       if (!this.opts.headless) this.events.push({ type: 'hit', x: e.x, y: e.y, v: dmg, crit });
       if (crit) this.events.push({ type: 'crit', x: e.x, y: e.y, v: dmg });
       if (e.hp <= 0) this.killEnemy(e);
@@ -262,14 +301,14 @@
     nearest(x, y, maxR, exclude) {
       let best = null, bd = maxR * maxR;
       for (const e of this.enemies) {
-        if (e.dead || e === exclude) continue;
+        if (e.dead || e === exclude || e.ghost) continue;
         const dx = e.x - x, dy = e.y - y, d2 = dx * dx + dy * dy;
         if (d2 < bd) { bd = d2; best = e; }
       }
       return best;
     }
     buyInrun(id) {
-      const c = inrunCost(this.inrun[id]);
+      const c = inrunCost(this.inrun[id], id);
       if (this.energy < c || this.over) return false;
       this.energy -= c; this.inrun[id]++; this.refresh();
       this.events.push({ type: 'inrun', id });
@@ -330,11 +369,16 @@
       for (const e of this.enemies) {
         if (e.dead) continue;
         if (e.stun > 0) { e.stun -= dt; continue; }
+        if (e.type === 'egg') { e.hatch -= dt; if (e.hatch <= 0) { e.dead = true; this.events.push({ type: 'hatch', x: e.x, y: e.y }); this.spawn('mini', undefined, { x: e.x, y: e.y }); } continue; }
+        if (e.type === 'stalker') { e.phT += dt; const was = e.ghost; e.ghost = (e.phT % FOE_RULE.phase) > FOE_RULE.phaseVis; if (e.ghost !== was && !this.opts.headless) this.events.push({ type: 'phase', x: e.x, y: e.y, out: e.ghost }); }
+        if (e.type === 'mender') { e.healT -= dt; if (e.healT <= 0) { e.healT = FOE_RULE.healEvery; let n = 0; for (const o of this.enemies) { if (o.dead || o === e || o.type === 'egg') continue; const dx = o.x - e.x, dy = o.y - e.y; if (dx * dx + dy * dy < FOE_RULE.healR * FOE_RULE.healR && o.hp < o.maxhp) { o.hp = Math.min(o.maxhp, o.hp + o.maxhp * FOE_RULE.healK); n++; } } this.events.push({ type: 'heal', x: e.x, y: e.y, n }); } }
         const dist = Math.hypot(e.x, e.y);
-        const stopAt = e.type === 'shooter' ? 60 : e.type === 'boss' ? STATION_R + e.r : STATION_R + e.r;
+        if (e.type === 'brood') { e.layT -= dt; if (e.layT <= 0 && dist > STATION_R + 20 && this.enemies.length < 60) { e.layT = FOE_RULE.layEvery; this.spawn('egg', undefined, { x: e.x * 1.05, y: e.y * 1.05 }); } }
+        const stopAt = e.type === 'shooter' ? 60 : e.type === 'mender' ? STATION_R + FOE_RULE.menderPark : STATION_R + e.r;
         if (dist > stopAt) {
-          const mv = Math.min(e.spd * dt, dist - stopAt);
+          const mv = Math.min(e.spd * (e.ghost ? 1.5 : 1) * dt, dist - stopAt);
           e.x -= e.x / dist * mv; e.y -= e.y / dist * mv;
+        } else if (e.type === 'mender') { /* parked behind the swarm, healing */
         } else if (e.type === 'shooter') {
           e.shootCd -= dt;
           if (e.shootCd <= 0) { e.shootCd = 2.5; this.bullets.push({ x: e.x, y: e.y, atk: e.atk }); }
@@ -358,7 +402,7 @@
       if (this.fireT <= 0) {
         let tgt = null, bd = d.range * d.range;
         for (const e of this.enemies) {
-          if (e.dead || (e.pending || 0) >= e.hp) continue; // already doomed by shots in flight
+          if (e.dead || e.ghost || (e.pending || 0) >= e.hp) continue; // already doomed by shots in flight
           const d2 = e.x * e.x + e.y * e.y;
           if (d2 < bd) { bd = d2; tgt = e; }
         }
@@ -380,7 +424,7 @@
         if (dist <= mv + p.tgt.r) {
           const tgt = p.tgt;
           if (p.booked) { tgt.pending = Math.max(0, (tgt.pending || 0) - p.booked); p.booked = 0; }
-          this.hit(tgt, p.dmg, p.crit);
+          this.hit(tgt, p.dmg, p.crit, p);
           if (p.crit && d.chain) { const n = this.nearest(tgt.x, tgt.y, 25, tgt); if (n) { this.hit(n, p.dmg * 0.5 * d.chain, false); this.events.push({ type: 'chain', x1: tgt.x, y1: tgt.y, x2: n.x, y2: n.y }); } }
           if (p.pierce > 0) { p.pierce--; p.x = tgt.x; p.y = tgt.y; const n = this.nearest(p.x, p.y, 25, tgt); if (n) { p.tgt = n; p.booked = 0; continue; } }
           this.projs.splice(i, 1); continue;
@@ -392,7 +436,7 @@
         bt.fireT -= dt; if (bt.fireT > 0) continue;
         // long-range battery: prefers the farthest threat it can reach (shooters parked outside main range)
         let tgt = null, bd = -1; const R2 = d.range * d.range;
-        for (const e of this.enemies) { if (e.dead || (e.pending || 0) >= e.hp) continue; const d2 = e.x * e.x + e.y * e.y; if (d2 < R2 && d2 > bd) { bd = d2; tgt = e; } }
+        for (const e of this.enemies) { if (e.dead || e.ghost || (e.pending || 0) >= e.hp) continue; const d2 = e.x * e.x + e.y * e.y; if (d2 < R2 && d2 > bd) { bd = d2; tgt = e; } }
         if (!tgt) { bt.fireT = 0; continue; }
         const p = slotPos(bt.k); bt.fireT = 1 / (d.rate * 0.6); bt.aim = Math.atan2(tgt.y - p.y, tgt.x - p.x);
         const crit = this.rng() < d.crit, dmg = d.dmg * 0.4 * tileMul(bt.lv) * (crit ? 2 : 1);
@@ -405,11 +449,11 @@
         for (const e of this.enemies) e.claims = 0;
         for (const c of this.craft) if (c.tgt && !c.tgt.dead) c.tgt.claims++;
         for (const c of this.craft) {
-          if (c.tgt && (c.tgt.dead || c.tgt.x * c.tgt.x + c.tgt.y * c.tgt.y > L2 * 1.3)) c.tgt = null;
+          if (c.tgt && (c.tgt.dead || c.tgt.ghost || c.tgt.x * c.tgt.x + c.tgt.y * c.tgt.y > L2 * 1.3)) c.tgt = null;
           if (!c.tgt) {
             let best = null, bs = Infinity;
             for (const e of this.enemies) {
-              if (e.dead) continue; const r2 = e.x * e.x + e.y * e.y; if (r2 > L2) continue;
+              if (e.dead || e.ghost) continue; const r2 = e.x * e.x + e.y * e.y; if (r2 > L2) continue;
               const dx = e.x - c.x, dy = e.y - c.y, sc = dx * dx + dy * dy + (e.claims || 0) * 900 + r2 * 0.3;
               if (sc < bs) { bs = sc; best = e; }
             }
@@ -427,7 +471,7 @@
             if (ex * ex + ey * ey < 20 * 20) {
               c.cd = cdBase; const crit = this.rng() < d.crit, dmg = d.dmg * 0.25 * tileMul(c.lv) * (crit ? 2 : 1);
               if (!this.opts.headless) this.events.push({ type: 'zap', x1: c.x, y1: c.y, x2: c.tgt.x, y2: c.tgt.y });
-              this.hit(c.tgt, dmg, crit);
+              this.hit(c.tgt, dmg, crit, c);
             }
           }
         }
@@ -439,7 +483,7 @@
         for (const e of this.enemies) {
           if (e.dead || (e.orbT || 0) > this.t) continue;
           const dx = e.x - o.x, dy = e.y - o.y, rr = 3.5 + e.r;
-          if (dx * dx + dy * dy < rr * rr) { e.orbT = this.t + 0.5; this.hit(e, d.dmg * 1.5, false); }
+          if (dx * dx + dy * dy < rr * rr) { e.orbT = this.t + 0.5; this.hit(e, d.dmg * 1.5, false, o); }
         }
       }
       if (this.enemies.length > 64) this.enemies = this.enemies.filter(e => !e.dead);
@@ -447,14 +491,42 @@
       this.hull = Math.min(d.hullMax, this.hull + d.regen * dt);
       if (this.opts.autoUpgrade) {
         let best = null;
-        for (const u of INRUN) { const c = inrunCost(this.inrun[u.id]); if (!best || c < best.c) best = { id: u.id, c }; }
+        for (const u of INRUN) { if (!u.core) continue; const c = inrunCost(this.inrun[u.id], u.id); if (!best || c < best.c) best = { id: u.id, c }; }
         if (best && this.energy >= best.c) this.buyInrun(best.id);
       }
-      // prologue: once the mothership arrives, it charges and destroys the endgame station
+      // prologue: arc lasers chain through the swarm several times a second
+      if (this.opts.prologue) {
+        this.arcT = (this.arcT == null ? 0.2 : this.arcT) - dt;
+        if (this.arcT <= 0) {
+          this.arcT = 0.35;
+          const M = this.mother, pts = [[0, 0]];
+          if (M && M.charge > 0.05 && M.beam < 0) pts.push([0, M.y + MOTHER.maw]); // lasers splash uselessly on the charging maw
+          else {
+            // two chains per volley, starting from different enemies, each jumping through up to 4 targets
+            const used = [];
+            for (let v = 0; v < 2; v++) {
+              let cur = null, bd = 95 * 95;
+              for (const e of this.enemies) { if (e.dead || used.includes(e)) continue; const d2 = e.x * e.x + e.y * e.y; if (d2 < bd && (v === 0 || this.rng() < 0.6)) { bd = d2; cur = e; } }
+              const chain = [[0, 0]];
+              while (cur && chain.length < 5) { used.push(cur); chain.push([cur.x, cur.y]); let nx = null, nd = 40 * 40; for (const e of this.enemies) { if (e.dead || used.includes(e)) continue; const dx = e.x - cur.x, dy = e.y - cur.y, d2 = dx * dx + dy * dy; if (d2 < nd) { nd = d2; nx = e; } } cur = nx; }
+              for (const e of used) if (!e.dead) this.hit(e, this.d.dmg * 2, false);
+              if (chain.length > 1 && !this.opts.headless) this.events.push({ type: 'arc', pts: chain });
+            }
+          }
+          if (pts.length > 1 && !this.opts.headless) this.events.push({ type: 'arc', pts });
+        }
+      }
+      // prologue finale: a giant mothership descends, charges its main cannon and erases the endgame station
       if (this.opts.prologue && this.wave >= 7) {
-        this.motherT = (this.motherT || 0) + dt;
-        if (this.motherT > 3.2 && !this.beamFired) { this.beamFired = true; this.events.push({ type: 'beam' }); }
-        if (this.motherT > 4.0) { this.hull = 0; }
+        const T = this.motherT = (this.motherT || 0) + dt;
+        if (!this.mother) { this.mother = { y: MOTHER.y0, charge: 0, beam: -1 }; this.events.push({ type: 'mother' }); }
+        const ent = Math.min(1, T / MOTHER.enter), ease = ent * ent * ent * (ent * (ent * 6 - 15) + 10);
+        this.mother.y = MOTHER.y0 + (MOTHER.y1 - MOTHER.y0) * ease;
+        this.mother.charge = Math.max(0, Math.min(1, (T - MOTHER.enter) / MOTHER.charge));
+        if (T >= MOTHER.enter && !this.chargeStarted) { this.chargeStarted = true; this.events.push({ type: 'charge' }); }
+        const fireAt = MOTHER.enter + MOTHER.charge;
+        if (T >= fireAt) { this.mother.beam = T - fireAt; if (!this.beamFired) { this.beamFired = true; this.events.push({ type: 'beam' }); } }
+        if (T >= fireAt + MOTHER.burn) { this.hull = 0; }
       }
       // end conditions
       if (this.hull <= 0) { this.hull = 0; this.end(this.opts.prologue ? 'prologue' : 'destroyed'); }
@@ -472,19 +544,20 @@
     return {
       v: 2, data: 0, cells: 0, enh: { dmg: 0, hull: 0, data: 0 }, best: 0, runs: 0, module: false, planet1: false,
       shipyard: Object.fromEntries(STATS.map(s => [s.id, 0])),
-      research: { levels: { cap: 0, econ: 0, start: 0 }, slots: [null, null] },
+      research: { levels: { cap: 0, econ: 0, start: 0, patrol: 0 }, slots: [null, null] },
       station: { slots: [null, null, null, null, null, null] },
       tutorial: 0, settings: { speed: 2, researchScale: 1, autoUpgrade: false, autoWeapons: false },
-      log: [], funnel: {}, lastSeen: 0, offline: null
+      log: [], funnel: {}, lastSeen: 0, maxSeen: 0, offline: null
     };
   }
   const capOf = save => 20 + (save.research.levels.cap || 0);
 
   // ---- offline (idle) reward: an automated patrol keeps sending data while the app is closed ----
   // Active play earns ≈ 3 data × dataMul per wave, 6 waves per real minute at the default 2x (≈18/min).
-  // Offline pays eff (8%) of that, scaled up by the best wave, capped at capH hours:
-  //   8h at Lv0 ≈ 700 data (~40 min of active play); with the 2x ad ≈ 80 min.
-  const OFFLINE = { eff: 0.08, capH: 8, minMin: 5, unlockBest: 5, bestK: 50 };
+  // Offline pays eff (8%) of that, scaled up by the best wave, capped at capBase hours (+1h per '순찰 확장' research, up to capMax):
+  //   the first cap (4h at best wave 10) ≈ 410 data ≈ 23 min of active play; 2x ad ≈ 46 min.
+  const OFFLINE = { eff: 0.08, capBase: 4, capMax: 12, minMin: 5, unlockBest: 5, bestK: 50 };
+  const offlineCapH = save => Math.min(OFFLINE.capMax, OFFLINE.capBase + ((save.research && save.research.levels.patrol) || 0));
   const offlineUnlocked = save => (save.tutorial || 0) >= 2 && (save.best || 0) >= OFFLINE.unlockBest;
   function offlineRate(save) { // data per real minute
     if (!offlineUnlocked(save)) return 0;
@@ -496,8 +569,8 @@
     if (!offlineUnlocked(save) || !(elapsedMs > 0)) return null;
     const rawMin = elapsedMs / 60000;
     if (rawMin < OFFLINE.minMin) return null;
-    const min = Math.min(rawMin, OFFLINE.capH * 60);
-    return { min: Math.floor(min), rawMin: Math.floor(rawMin), capped: rawMin > OFFLINE.capH * 60, data: Math.floor(offlineRate(save) * min) };
+    const cap = offlineCapH(save) * 60, min = Math.min(rawMin, cap);
+    return { min: Math.floor(min), rawMin: Math.floor(rawMin), capped: rawMin > cap, data: Math.floor(offlineRate(save) * min) };
   }
 
   // Headless: run one full battle with auto-play, return the reached wave.
@@ -517,7 +590,7 @@
     return { wave: b.wave, data: b.data, reason: b.reason, t: b.t, kills: b.kills };
   }
 
-  root.SZE = { TUNE, poly, researchCost, CELL_MINUTES, ENH, ENH_UNLOCK_WAVE, ENH_MAX, enhCost, TICK, WAVE_SEC, STATION_R, SPAWN_R, STATS, statCost, RESEARCH, RESEARCH_HOURS, INRUN, inrunCost, CARDS, ENEMY,
-    derived, Battle, newSave, capOf, simulateRun, OFFLINE, offlineUnlocked, offlineRate, offlineReward,
+  root.SZE = { FOES: FOE_WAVE, FOE_WAVE, FOE_RULE, BIG_FOE, TUNE, poly, researchCost, CELL_MINUTES, ENH, ENH_UNLOCK_WAVE, ENH_MAX, enhCost, TICK, WAVE_SEC, STATION_R, SPAWN_R, STATS, statCost, RESEARCH, RESEARCH_HOURS, INRUN, inrunCost, CARDS, ENEMY,
+    derived, Battle, newSave, capOf, simulateRun, MOTHER, OFFLINE, offlineCapH, offlineUnlocked, offlineRate, offlineReward,
     TILE_TYPES, SLOT_WAVES, SLOT_ORDER, ORBITAL_WAVES, TILE_MAX, tileCost, tileMul, slotPos, orbitalPos, stationOf, ORBIT };
 })(typeof window !== 'undefined' ? window : globalThis);

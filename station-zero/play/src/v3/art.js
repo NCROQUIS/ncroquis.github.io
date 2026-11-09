@@ -3,7 +3,8 @@
 (function (root) {
   'use strict';
   const TAU = Math.PI * 2;
-  const COL = { drone: '#5fe39a', meteor: '#9aa3b8', charger: '#ff9f4d', shooter: '#c08bff', boss: '#ff6f9f' };
+  const COL = { drone: '#5fe39a', meteor: '#9aa3b8', charger: '#ff9f4d', shooter: '#c08bff', boss: '#ff6f9f',
+    splitter: '#b6f05a', mini: '#b6f05a', volatile: '#ffe04a', carapace: '#e3c992', mender: '#ff8fd6', brood: '#ff8a66', egg: '#ff8a66', stalker: '#9af2ff' }; // swarm expansion (2026-11-06)
 
   // ---------- shared glow sprite cache ----------
   const GLOW = {};
@@ -135,13 +136,16 @@
     if (style === 'ring') ringStation(ctx, t, R, tier, mod, grow);
     else if (style === 'orbital') orbitalStation(ctx, t, R, tier, mod, grow);
     else hexStation(ctx, t, R, o);
-    // turret on the core, pointing at the current target
+    // turret on the core, pointing at the current target (kicks back on each shot)
     ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+    const rk = (o.recoil || 0) * R * 0.18;
     ctx.save(); ctx.rotate(o.aim || 0);
     ctx.fillStyle = '#2a3c58'; ctx.fillRect(R * 0.1, -R * 0.13, R * 0.42, R * 0.26);
-    ctx.fillStyle = '#dfe8f5'; ctx.fillRect(R * 0.2, -R * 0.065, R * 0.78, R * 0.13);
-    ctx.fillStyle = '#9fe6ff'; ctx.fillRect(R * 0.9, -R * 0.05, R * 0.12, R * 0.1);
+    ctx.fillStyle = '#dfe8f5'; ctx.fillRect(R * 0.2 - rk, -R * 0.065, R * 0.78, R * 0.13);
+    ctx.fillStyle = '#9fe6ff'; ctx.fillRect(R * 0.9 - rk, -R * 0.05, R * 0.12, R * 0.1);
+    if (o.recoil > 0.4) { ctx.globalCompositeOperation = 'lighter'; glow(ctx, R * 1.1, 0, R * 0.45 * o.recoil, '#bfefff', o.recoil); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; }
     ctx.restore();
+    if (style === 'hex') stationLife(ctx, t, R, o);
     ctx.fillStyle = '#d6f3ff'; ctx.beginPath(); ctx.arc(0, 0, R * 0.2, 0, TAU); ctx.fill();
     ctx.globalCompositeOperation = 'lighter'; glow(ctx, 0, 0, R * 0.6, '#9fe6ff', 0.85);
     ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
@@ -162,20 +166,52 @@
     if (tier >= 2) { t[0] = { type: 'shield' }; t[2] = { type: 'battery' }; t[4] = { type: 'collector' }; }
     return t;
   }
+  // tile pictograms (2026-11-04): one source for the reward cards (SVG) and the station tiles (same picture as an image),
+  // so the card the player picked looks like the tile that lands on the station
+  const HEXB = '<path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="#0b1426" stroke="currentColor" stroke-width="2"/><path d="M24 7 38.5 15.5v17L24 41 9.5 32.5v-17z" fill="currentColor" opacity=".12"/>';
+  const TICON = {
+    battery: '<circle cx="24" cy="29" r="7" fill="#1b2a40" stroke="currentColor" stroke-width="2"/><path d="M24 29 34 17" stroke="#e6eef8" stroke-width="4" stroke-linecap="round"/><path d="M33 18l3.5-4" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><circle cx="38" cy="12" r="2.2" fill="#fff"/><path d="M36 9.5l1-2.5M40.5 13.5l2.5-1M40 9.8l2-2" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M15 36h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
+    hangar: '<path d="M12 36V25a12 12 0 0 1 24 0v11z" fill="#1b2a40" stroke="currentColor" stroke-width="2"/><path d="M17 36v-9a7 7 0 0 1 14 0v9" fill="#04070e"/><path d="M22 18 30 13l-2.6 6.6z" fill="#fff" stroke="currentColor" stroke-width="1"/><path d="M30 22 38 17l-2.6 6.6z" fill="currentColor"/><path d="M14 18.5c2-1 4-1.4 6-1" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.6 1.6" fill="none"/>',
+    missile: '<g transform="rotate(-35 24 24)"><path d="M18 34V18l3-5 3 5v16z" fill="#e6eef8" stroke="currentColor" stroke-width="1.4"/><path d="M18 30l-3 4h3zM24 30l3 4h-3z" fill="currentColor"/><path d="M19.5 34.5 21 41l1.5-6.5" fill="#ffb347"/></g><circle cx="36" cy="13" r="5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="2 2"/><circle cx="36" cy="13" r="2.4" fill="currentColor"/>',
+    shield: '<path d="M10 30a14 14 0 0 1 28 0" fill="currentColor" fill-opacity=".18" stroke="currentColor" stroke-width="2.6"/><path d="M14 30a10 10 0 0 1 20 0" fill="none" stroke="#fff" stroke-width="1" opacity=".6"/><path d="M24 26.5 27.5 28.5v4L24 34.5l-3.5-2v-4z" fill="#123152" stroke="#9fe6ff" stroke-width="1.3"/><path d="M7 18l4 3M41 18l-4 3M24 9v4" stroke="#ff6f7d" stroke-width="1.6" stroke-linecap="round"/>',
+    repair: '<path d="M30.5 13.5a6 6 0 0 0-7.6 7.6L13 31a2.6 2.6 0 0 0 3.7 3.7l9.9-9.9a6 6 0 0 0 7.6-7.6l-3.6 3.6-3.4-.6-.6-3.4z" fill="#e6eef8" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M33 29h8M37 25v8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>',
+    collector: '<path d="M14 14v10a10 10 0 0 0 20 0V14h-6v10a4 4 0 0 1-8 0V14z" fill="currentColor" stroke="#fff" stroke-width="1" stroke-opacity=".4"/><path d="M14 14h6v4h-6zM28 14h6v4h-6z" fill="#e6eef8"/><path d="M19 38l2-3 2 3zM27 40l1.8-3.4 2.2 3.2zM24 44l1.4-2.6 1.6 2.6z" fill="#ffd166"/><path d="M22 33.5v-2M26 35v-2" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1 1.2"/>',
+    amplifier: '<path d="M24 19.5 28 21.8v4.5L24 28.6l-4-2.3v-4.5z" fill="currentColor"/><g stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"><path d="M24 17V9M20 12l4-4 4 4"/><path d="M31 27.5l7 4M33.8 35.4l4.2-3.9-1.3-5.6"/><path d="M17 27.5l-7 4M14.2 35.4 10 31.5l1.3-5.6"/></g>'
+  };
+  const ticonImg = {};
+  function tileIcon(type, col) {
+    const key = type + col; if (key in ticonImg) return ticonImg[key];
+    if (typeof Image === 'undefined' || !TICON[type]) return (ticonImg[key] = null);
+    const im = new Image(); im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 50" width="96" height="100" color="${col}">${TICON[type]}</svg>`);
+    return (ticonImg[key] = im);
+  }
+  for (const k in TILE_COL) if (k !== 'battery') tileIcon(k, TILE_COL[k]); // decode early so the first station frame already has the pictures
   function tileArt(ctx, x, y, r, a, tl, t, k, aim, R) {
     const col = tl.proto ? '#ffd166' : (TILE_COL[tl.type] || '#6fd3ff');
     hexPath(ctx, x, y, r, 0); ctx.fillStyle = '#0e1b2f'; ctx.fill(); ctx.strokeStyle = col; ctx.lineWidth = R * 0.07; ctx.stroke();
     hexPath(ctx, x, y, r * 0.66, 0); ctx.fillStyle = '#14294a'; ctx.fill();
+    { const gr = ctx.createLinearGradient(x, y - r, x, y + r); gr.addColorStop(0, 'rgba(190,225,255,0.22)'); gr.addColorStop(0.45, 'rgba(190,225,255,0)'); gr.addColorStop(1, 'rgba(0,0,0,0.25)'); hexPath(ctx, x, y, r * 0.96, 0); ctx.fillStyle = gr; ctx.fill(); }
     ctx.save(); ctx.translate(x, y);
-    if (tl.type === 'hangar') {
+    const icon = tl.type !== 'battery' ? tileIcon(tl.type, col) : null;
+    if (icon && icon.complete && icon.naturalWidth) {
+      // same pictogram as the card, kept upright so it reads at a glance; a small pulse shows the tile is working
+      ctx.drawImage(icon, -r * 0.87, -r * 0.92, r * 1.74, r * 1.81);
+      ctx.globalCompositeOperation = 'lighter';
+      const p = Math.max(0, Math.sin(t * (tl.type === 'amplifier' ? 2 : 2.6) + k));
+      if (tl.type === 'hangar') glow(ctx, 0, r * 0.18, r * 0.42, col, 0.2 + 0.5 * (Math.sin(t * 5 + k) > 0 ? 1 : 0));
+      else if (tl.type === 'shield') glow(ctx, 0, r * 0.05, r * 0.7, col, 0.15 + 0.25 * p);
+      else if (tl.type === 'amplifier') { ctx.globalAlpha = 0.6 * (1 - ((t * 0.8 + k * 0.13) % 1)); ctx.strokeStyle = col; ctx.lineWidth = R * 0.04; ctx.beginPath(); ctx.arc(0, 0, r * (0.25 + 0.6 * ((t * 0.8 + k * 0.13) % 1)), 0, TAU); ctx.stroke(); }
+      else glow(ctx, 0, 0, r * 0.55, col, 0.12 + 0.3 * p);
+    } else if (tl.type === 'hangar') {
       ctx.rotate(a); ctx.fillStyle = '#04070e'; ctx.fillRect(-r * 0.5, -r * 0.24, r * 1.0, r * 0.48);
       ctx.strokeStyle = col; ctx.lineWidth = R * 0.04; ctx.strokeRect(-r * 0.5, -r * 0.24, r * 1.0, r * 0.48);
       ctx.globalCompositeOperation = 'lighter'; const on = Math.sin(t * 5 + k) > 0;
       glow(ctx, r * 0.42, -r * 0.16, r * 0.22, col, on ? 1 : 0.3); glow(ctx, r * 0.42, r * 0.16, r * 0.22, col, on ? 0.3 : 1);
     } else if (tl.type === 'battery') {
       ctx.beginPath(); ctx.arc(0, 0, r * 0.4, 0, TAU); ctx.fillStyle = '#1b2a40'; ctx.fill(); ctx.strokeStyle = col; ctx.lineWidth = R * 0.05; ctx.stroke();
-      ctx.rotate(aim == null ? a : aim); ctx.fillStyle = '#dfe8f5'; ctx.fillRect(0, -r * 0.1, r * 0.95, r * 0.2);
-      ctx.fillStyle = col; ctx.fillRect(r * 0.85, -r * 0.08, r * 0.14, r * 0.16);
+      ctx.rotate(aim == null ? a : aim);
+      if ((tl.lv || 1) >= 3) for (const sd of [-1, 1]) { ctx.fillStyle = '#ffe9a8'; ctx.fillRect(0, sd * r * 0.16 - r * 0.075, r * 1.0, r * 0.15); ctx.fillStyle = '#ffd166'; ctx.fillRect(r * 0.9, sd * r * 0.16 - r * 0.065, r * 0.14, r * 0.13); }
+      else { ctx.fillStyle = '#dfe8f5'; ctx.fillRect(0, -r * 0.1, r * 0.95, r * 0.2); ctx.fillStyle = col; ctx.fillRect(r * 0.85, -r * 0.08, r * 0.14, r * 0.16); }
     } else if (tl.type === 'shield') {
       ctx.rotate(a); ctx.strokeStyle = col; ctx.lineWidth = R * 0.08; ctx.beginPath(); ctx.arc(-r * 0.2, 0, r * 0.62, -1.1, 1.1); ctx.stroke();
       ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.25 + 0.2 * Math.sin(t * 2 + k); ctx.lineWidth = R * 0.18; ctx.stroke();
@@ -195,7 +231,20 @@
       ctx.globalCompositeOperation = 'lighter'; glow(ctx, r * 0.75, 0, r * 0.3, col, 0.5 + 0.5 * Math.max(0, Math.sin(t * 3 + k)));
     }
     ctx.restore(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
-    if ((tl.lv || 1) >= 2) for (let i = 0; i < tl.lv - 1; i++) { ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(x - r * 0.18 + i * r * 0.36, y + r * 0.72, R * 0.07, 0, TAU); ctx.fill(); }
+    if ((tl.lv || 1) >= 3 && !tl.ghost) { // awakened tile: gold double rim + a spark running round it
+      hexPath(ctx, x, y, r * 1.08, 0); ctx.strokeStyle = '#ffd166'; ctx.lineWidth = R * 0.05; ctx.stroke();
+      ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.35 + 0.25 * Math.sin(t * 3 + k); hexPath(ctx, x, y, r * 1.08, 0); ctx.lineWidth = R * 0.14; ctx.stroke();
+      const ph = (t * 0.5 + k * 0.17) % 1, ang = ph * TAU; ctx.globalAlpha = 1; glow(ctx, x + Math.cos(ang) * r * 1.05, y + Math.sin(ang) * r * 1.05, r * 0.32, '#fff3c4', 0.9);
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    }
+    // level badge (2026-11-05): a numbered chip on the tile's corner — grey 1, blue 2, gold 3 (awakened) — instead of dots
+    if (tl.lv && tl.lv <= 3 && !tl.noBadge) { // run tiles only (the prologue station uses Lv10 and shows no badge)
+      const lv = Math.min(3, tl.lv), bx = x + r * 0.62, by = y - r * 0.6, br = Math.max(r * 0.36, R * 0.16);
+      const fill = lv >= 3 ? '#ffd166' : lv === 2 ? '#6fd3ff' : '#3a4a63', ink = lv >= 2 ? '#0a1222' : '#e6eef8';
+      ctx.beginPath(); ctx.arc(bx, by, br, 0, TAU); ctx.fillStyle = fill; ctx.fill(); ctx.lineWidth = Math.max(1, br * 0.22); ctx.strokeStyle = '#0a1222'; ctx.stroke();
+      ctx.fillStyle = ink; ctx.font = `800 ${Math.round(br * 1.35)}px system-ui, -apple-system, 'Noto Sans KR', sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(String(lv), bx, by + br * 0.06);
+    }
   }
   function hexStation(ctx, t, R, o) {
     const tiles = o.tiles || tierTiles(o.tier || 0), grow = o.grow == null ? 1 : o.grow;
@@ -243,6 +292,31 @@
     hexPath(ctx, 0, 0, cr, 0); ctx.fillStyle = '#123152'; ctx.fill(); ctx.strokeStyle = '#9fe6ff'; ctx.lineWidth = R * 0.09; ctx.stroke();
     hexPath(ctx, 0, 0, cr * 0.66, t * 0.8); ctx.strokeStyle = '#6fd3ff'; ctx.lineWidth = R * 0.045; ctx.globalAlpha = 0.8; ctx.stroke(); ctx.globalAlpha = 1;
     o._front = () => sat(true);
+  }
+  // living details on the hex station: blinking nav lights on the wing tips, smoke and sparks when the hull is low,
+  // red emergency strobes below 25 %, and a white flash over the whole hull on a hit
+  function stationLife(ctx, t, R, o) {
+    const tiles = o.tiles || [], nT = Math.min(6, tiles.filter(Boolean).length), cr = R * 0.52, d = cr * Math.sqrt(3) * 1.06;
+    const wx = d + R * 0.25 + R * (0.85 + 0.17 * nT + (o.outer ? 0.6 : 0));
+    ctx.globalCompositeOperation = 'lighter';
+    const blink = (t * 1.25) % 1 < 0.14;
+    glow(ctx, -wx, 0, R * 0.35, '#ff4d5e', blink ? 1 : 0.18); glow(ctx, wx, 0, R * 0.35, '#5fe39a', blink ? 1 : 0.18);
+    glow(ctx, 0, -cr * 1.02, R * 0.22, '#ffffff', (t * 0.9) % 1 < 0.08 ? 1 : 0.1);
+    const dmg = o.dmg || 0;
+    if (dmg > 0.5) { // smoke rises from damaged tiles, sparks spit now and then
+      ctx.globalCompositeOperation = 'source-over';
+      const pts = [[0, 0]]; for (let k = 0; k < 6; k++) if (tiles[k]) { const a = TAU / 12 + k * TAU / 6; pts.push([Math.cos(a) * d, Math.sin(a) * d]); }
+      const n = Math.min(pts.length, 1 + Math.floor((dmg - 0.5) * 8));
+      for (let i = 0; i < n; i++) { const [px, py] = pts[(i * 3 + 1) % pts.length];
+        for (let j = 0; j < 4; j++) { const u = ((t * 0.55 + j / 4 + i * 0.37) % 1); ctx.globalAlpha = 0.32 * (1 - u); ctx.fillStyle = '#2b3140';
+          ctx.beginPath(); ctx.arc(px + Math.sin(u * 5 + i) * R * 0.25, py - u * R * 1.6, R * (0.18 + u * 0.4), 0, TAU); ctx.fill(); }
+        if (Math.sin(t * 7.3 + i * 2.1) > 0.92) { ctx.globalCompositeOperation = 'lighter'; glow(ctx, px, py, R * 0.4, '#ffb347', 0.9); ctx.globalCompositeOperation = 'source-over'; } }
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'lighter';
+    }
+    if (dmg > 0.75 && (t * 2) % 1 < 0.5) for (let k = 0; k < 6; k++) { const a = k * TAU / 6; glow(ctx, Math.cos(a) * cr * 0.9, Math.sin(a) * cr * 0.9, R * 0.3, '#ff3b4e', 0.9); }
+    const hit = o.hit || 0;
+    if (hit > 0) { glow(ctx, 0, 0, R * 1.6, '#ffffff', 0.55 * hit); for (let k = 0; k < 6; k++) if (tiles[k]) { const a = TAU / 12 + k * TAU / 6; glow(ctx, Math.cos(a) * d, Math.sin(a) * d, R * 0.75, '#ffd6d6', 0.6 * hit); } }
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
   }
   function ringStation(ctx, t, R, tier, mod, grow) {
     // antenna mast with a beacon
@@ -309,7 +383,7 @@
     { id: 'geo', name: '3 · 네온 도형 (현재)', desc: '삼각·사각·육각 네온 도형. The Tower처럼 추상적이고 가장 가볍습니다.', pro: '가장 가볍고 읽기 쉬움', con: 'The Tower와 너무 비슷함 · 세계관이 안 보임' }
   ];
   const ROT = 24, ESPR = {};
-  const SPR_S = { boss: 168, meteor: 88 };
+  const SPR_S = { boss: 168, meteor: 88, brood: 100, carapace: 92, mini: 52, egg: 44 };
   function ell(g, x, y, rx, ry, rot) { g.beginPath(); g.ellipse(x, y, rx, ry, rot || 0, 0, TAU); }
   function polyU(g, pts) { g.beginPath(); pts.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.closePath(); }
   function body(g, col, px, lw, dark) { g.fillStyle = dark || '#0b111d'; g.fill(); g.globalAlpha = 0.32; g.fillStyle = col; g.fill(); g.globalAlpha = 1; g.strokeStyle = col; g.lineWidth = (lw || 2.4) * px; g.stroke(); }
@@ -358,6 +432,56 @@
         dot(g, 0.66, 0, f ? 0.09 : 0.065, '#f3e6ff');
       },
       meteor: meteorShape,
+      // ---- swarm expansion (2026-11-06, sian 'swarm') ----
+      splitter(g, col, px, f) { // 분열낭: a sac with three embryos curled inside
+        g.strokeStyle = col; g.lineWidth = 1.6 * px;
+        for (let k = -1; k <= 1; k++) { g.beginPath(); g.moveTo(-0.6, k * 0.25); g.quadraticCurveTo(-0.95, k * 0.3 + (f ? 0.12 : -0.12) * (k || 1), -1.18, k * 0.42); g.stroke(); }
+        ell(g, -0.02, 0, 0.8, 0.7); body(g, col, px, 2.4);
+        for (let i = 0; i < 3; i++) { const a = i / 3 * TAU + (f ? 0.35 : 0), x = Math.cos(a) * 0.32, y = Math.sin(a) * 0.3; ell(g, x, y, 0.2, 0.13, a + (f ? 0.4 : -0.2)); g.fillStyle = col + '66'; g.fill(); dot(g, x + Math.cos(a) * 0.1, y + Math.sin(a) * 0.1, 0.04, '#f6ffe0'); }
+        dot(g, 0.62, -0.12, 0.07, '#f6ffe0'); dot(g, 0.62, 0.12, 0.07, '#f6ffe0');
+      },
+      mini(g, col, px, f) { // hatchling: a tiny wasp
+        for (const s of [-1, 1]) { ell(g, -0.1, s * 0.36, 0.42, 0.16, s * (f ? 0.32 : 0.8)); g.fillStyle = col + '38'; g.fill(); g.strokeStyle = col; g.lineWidth = 1.4 * px; g.stroke(); }
+        ell(g, -0.35, 0, 0.42, 0.26); body(g, col, px); ell(g, 0.3, 0, 0.24, 0.22); body(g, col, px);
+        dot(g, 0.4, -0.09, 0.07, '#f6ffe0'); dot(g, 0.4, 0.09, 0.07, '#f6ffe0');
+      },
+      volatile(g, col, px, f) { // 폭발 포자: spiked sac with a hot core
+        softGlow(g, 0, 0, 1.15, col, f ? 0.75 : 0.45);
+        g.beginPath(); for (let i = 0; i < 16; i++) { const a = i / 16 * TAU, r = i % 2 ? 0.55 : 0.9; g.lineTo(Math.cos(a) * r, Math.sin(a) * r); } g.closePath(); body(g, col, px, 2.2, '#1a1406');
+        dot(g, 0, 0, 0.3, col + 'aa'); dot(g, 0, 0, f ? 0.22 : 0.15, '#ffffff');
+      },
+      carapace(g, col, px, f) { // 갑각충: heavy front plate facing the station
+        g.strokeStyle = col; g.lineWidth = 2 * px;
+        for (let i = 0; i < 3; i++) { const x = 0.05 - i * 0.3, w = (i % 2 ? 1 : -1) * (f ? 0.06 : -0.06); g.beginPath(); g.moveTo(x, -0.4); g.lineTo(x - 0.1 + w, -0.72); g.moveTo(x, 0.4); g.lineTo(x - 0.1 - w, 0.72); g.stroke(); }
+        ell(g, -0.3, 0, 0.56, 0.46); body(g, col, px, 2.2);
+        g.beginPath(); g.arc(-0.05, 0, 0.95, -1.15, 1.15); g.arc(-0.05, 0, 0.6, 1.15, -1.15, true); g.closePath(); body(g, col, px, 2.8, '#1d180f');
+        g.strokeStyle = col; g.globalAlpha = 0.55; g.lineWidth = 1.4 * px; for (const a of [-0.6, 0, 0.6]) { g.beginPath(); g.moveTo(Math.cos(a) * 0.62 - 0.05, Math.sin(a) * 0.62); g.lineTo(Math.cos(a) * 0.93 - 0.05, Math.sin(a) * 0.93); g.stroke(); } g.globalAlpha = 1;
+        dot(g, 0.5, -0.16, 0.05, '#fff4d8'); dot(g, 0.5, 0.16, 0.05, '#fff4d8');
+      },
+      mender(g, col, px, f) { // 치유 해파리: bell with a glowing cross, trailing tendrils
+        g.strokeStyle = col; g.lineWidth = 1.6 * px;
+        for (let k = -2; k <= 2; k++) { const y0 = k * 0.15, w = (k % 2 ? 1 : -1) * (f ? 0.16 : -0.16); g.beginPath(); g.moveTo(-0.25, y0); g.bezierCurveTo(-0.6, y0 + w, -0.95, y0 - w, -1.3, y0 * 1.6); g.stroke(); }
+        g.beginPath(); g.moveTo(-0.3, -0.62); g.bezierCurveTo(0.5, -0.82, 0.95, -0.3, 0.8, 0); g.bezierCurveTo(0.95, 0.3, 0.5, 0.82, -0.3, 0.62); g.quadraticCurveTo(-0.15, 0, -0.3, -0.62); body(g, col, px, 2.4);
+        softGlow(g, 0.22, 0, f ? 0.5 : 0.38, col, 0.9);
+        g.fillStyle = '#ffffff'; g.fillRect(0.16, -0.2, 0.12, 0.4); g.fillRect(0.02, -0.06, 0.4, 0.12);
+      },
+      brood(g, col, px, f) { // 산란 어미: bloated abdomen studded with eggs
+        g.strokeStyle = col; g.lineWidth = 2 * px;
+        for (let i = 0; i < 3; i++) { const x = 0.35 - i * 0.22, w = (i % 2 ? 1 : -1) * (f ? 0.06 : -0.06); g.beginPath(); g.moveTo(x, -0.3); g.lineTo(x - 0.05 + w, -0.62); g.moveTo(x, 0.3); g.lineTo(x - 0.05 - w, 0.62); g.stroke(); }
+        ell(g, -0.42, 0, 0.72, 0.58); body(g, col, px, 2.6);
+        g.globalAlpha = 0.85; for (const [x, y] of [[-0.7, -0.25], [-0.45, 0.28], [-0.2, -0.22], [-0.8, 0.15], [-0.4, -0.02]]) { ell(g, x, y, 0.12, 0.1); g.fillStyle = '#ffe2d4'; g.fill(); } g.globalAlpha = 1;
+        ell(g, 0.32, 0, 0.26, 0.24); body(g, col, px); ell(g, 0.62, 0, 0.16, 0.15); body(g, col, px);
+        dot(g, 0.7, -0.07, 0.045, '#ffffff'); dot(g, 0.7, 0.07, 0.045, '#ffffff');
+      },
+      egg(g, col, px, f) { g.rotate(f ? 0.18 : -0.18); ell(g, 0, 0, 0.55, 0.45); body(g, col, px, 2, '#1a0f0b'); ell(g, 0.05, -0.08, 0.14, 0.14); g.fillStyle = '#ffe2d4aa'; g.fill(); },
+      stalker(g, col, px, f) { // 위상 포식자: thin mantis body, scythe arms forward
+        g.strokeStyle = col; g.lineWidth = 2.2 * px;
+        for (const s of [-1, 1]) { g.beginPath(); g.moveTo(0.2, s * 0.12); g.lineTo(0.55, s * 0.42); g.quadraticCurveTo(1.05, s * 0.5, 1.1, s * (f ? 0.05 : 0.15)); g.stroke(); }
+        ell(g, -0.45, 0, 0.62, 0.16); body(g, col, px, 2); ell(g, 0.1, 0, 0.22, 0.14); body(g, col, px);
+        g.beginPath(); g.moveTo(0.28, -0.14); g.lineTo(0.55, 0); g.lineTo(0.28, 0.14); g.closePath(); body(g, col, px, 1.8);
+        dot(g, 0.42, -0.06, 0.04, '#ffffff'); dot(g, 0.42, 0.06, 0.04, '#ffffff');
+        g.strokeStyle = col; g.lineWidth = 1.4 * px; for (const s of [-1, 1]) { g.beginPath(); g.moveTo(-0.6, s * 0.1); g.lineTo(-0.85, s * (0.5 + (f ? 0.05 : 0))); g.moveTo(-0.3, s * 0.1); g.lineTo(-0.45, s * 0.45); g.stroke(); }
+      },
       boss(g, col, px, f) {
         g.strokeStyle = col; g.lineWidth = 3 * px;
         for (const s of [-1, 1]) { g.beginPath(); g.moveTo(0.5, s * 0.28); g.quadraticCurveTo(1.08, s * 0.5, 0.96, s * 0.04); g.quadraticCurveTo(0.8, s * 0.3, 0.5, s * 0.28); body(g, col, px, 2.4); }
@@ -401,8 +525,15 @@
     },
     geo: {} // current look: n-gon outlines, built in enemySprite
   };
+  function flashSprite(src, key) { // white silhouette of a sprite, for the hit flash
+    if (ESPR[key]) return ESPR[key];
+    const c = document.createElement('canvas'); c.width = src.width; c.height = src.height; const g = c.getContext('2d');
+    g.drawImage(src, 0, 0); g.globalCompositeOperation = 'source-atop'; g.fillStyle = 'rgba(255,255,255,0.85)'; g.fillRect(0, 0, c.width, c.height);
+    ESPR[key] = c; return c;
+  }
   function enemySprite(style, type, bucket, frame) {
     const key = style + type + bucket + '_' + frame; if (ESPR[key]) return ESPR[key];
+    if (style === 'geo' && !GEO_T[type]) style = 'bio'; // the new forms have no geo outline: they use their bio drawing
     const S = style === 'geo' ? (type === 'boss' ? 96 : 48) : (SPR_S[type] || 76);
     const c = document.createElement('canvas'); c.width = c.height = S; const g = c.getContext('2d'), col = COL[type], m = S / 2;
     const gr = g.createRadialGradient(m, m, 0, m, m, m); gr.addColorStop(0, col + (style === 'geo' ? '55' : '30')); gr.addColorStop(0.5, col + (style === 'geo' ? '22' : '12')); gr.addColorStop(1, col + '00');
@@ -414,14 +545,15 @@
       shape(rr, rot); g.globalAlpha = 0.25; g.fillStyle = col; g.fill(); g.globalAlpha = 1; g.strokeStyle = col; g.lineWidth = 2 * S / 48; g.stroke();
       if (type === 'boss') { shape(rr * 0.55, -rot); g.stroke(); }
     } else {
-      const u = S * 0.4; g.scale(u, u); DRAW[style][type](g, col, 1 / u, frame);
+      const u = S * 0.4; g.scale(u, u); (DRAW[style][type] || DRAW.bio[type])(g, col, 1 / u, frame); // new forms share the bio drawing
     }
     ESPR[key] = c; return c;
   }
   // visual radius (world units) of each type, matching the current balance of sizes
-  const SIZE = { drone: 1.8, meteor: 1.5, charger: 1.875, shooter: 1.5, boss: 1.2 };
-  function drawEnemy(ctx, style, e, time) {
-    const type = e.type, ext = SIZE[type] * e.r;
+  const SIZE = { drone: 1.8, meteor: 1.5, charger: 1.875, shooter: 1.5, boss: 1.2, splitter: 1.55, mini: 1.9, volatile: 1.6, carapace: 1.45, mender: 1.6, brood: 1.45, egg: 1.6, stalker: 1.75 };
+  const GEO_T = { drone: 1, meteor: 1, charger: 1, shooter: 1, boss: 1 };
+  function drawEnemy(ctx, style, e, time, flash) {
+    const type = e.type, ext = SIZE[type] * e.r; if (style === 'geo' && !GEO_T[type]) style = 'bio';
     let a, frame = 0, half;
     if (style === 'geo') {
       half = ext / 0.52;
@@ -430,10 +562,14 @@
       half = ext * 1.18 / 0.8;
       a = type === 'meteor' ? e.ang + time * 0.5 : Math.atan2(-e.y, -e.x);
       if (e._ph == null) e._ph = Math.random() * 10;
-      frame = Math.floor(time * (type === 'drone' ? 14 : type === 'boss' ? 3 : 6) + e._ph) % 2;
+      frame = Math.floor(time * (type === 'drone' || type === 'mini' ? 14 : type === 'boss' ? 3 : type === 'egg' ? 10 : 6) + e._ph) % 2;
     }
     const bucket = ((Math.round(a / TAU * ROT) % ROT) + ROT) % ROT;
-    ctx.drawImage(enemySprite(style, type, bucket, frame), e.x - half, e.y - half, half * 2, half * 2);
+    if (style === 'bio' && type !== 'meteor') half *= 1 + 0.05 * Math.sin(time * (type === 'boss' ? 2.2 : 7) + (e._ph || 0)); // living bodies breathe
+    const spr = enemySprite(style, type, bucket, frame), ga = ctx.globalAlpha;
+    if (e.ghost) ctx.globalAlpha = ga * (0.16 + 0.08 * Math.sin(time * 30)); // phased-out stalker: a faint shimmer
+    ctx.drawImage(flash ? flashSprite(spr, style + type + bucket + '_' + frame + 'w') : spr, e.x - half, e.y - half, half * 2, half * 2);
+    ctx.globalAlpha = ga;
   }
 
   // interceptor: slim dart with forward-swept blades (original design), baked into rotation buckets
@@ -454,36 +590,177 @@
   }
 
   // giant swarm mothership for the prologue finale: drawn in world units, centre (x, y), maw at y + 66
+  function aglow(ctx, x, y, r, col, a) { if (a > 0 && r > 0) glow(ctx, x, y, r, col, Math.min(1, a)); ctx.globalAlpha = 1; }
+  function bug(ctx, x, y, s, a, col, t) { // tiny swarm drone (egg contents, hatchlings)
+    ctx.save(); ctx.translate(x, y); ctx.rotate(a); ctx.strokeStyle = col; ctx.fillStyle = '#0b111d'; ctx.lineWidth = 1;
+    const f = Math.sin(t * 40) > 0 ? 0.4 : 0.9; for (const sd of [-1, 1]) { ctx.beginPath(); ctx.ellipse(-s * 0.1, sd * s * 0.45, s * 0.5, s * 0.18, sd * f, 0, TAU); ctx.globalAlpha = 0.5; ctx.stroke(); ctx.globalAlpha = 1; }
+    ctx.beginPath(); ctx.ellipse(0, 0, s * 0.7, s * 0.28, 0, 0, TAU); ctx.fill(); ctx.stroke(); ctx.restore();
+  }
+  // ================= prologue mothership 'brood ark' (2026-11-04 pick: rose palette + egg sacs with drones inside + eye cluster) =================
+  // drawn in its own units (maw at y=46), scaled and shifted so the maw sits at engine MOTHER.maw (66) below the ship's origin
+  // P: palette { plates: [5 colours back→front], rim, vein, pore, maw, glowA }
+  const PAL = {
+    rose: { plates: ['#1a0816', '#260b20', '#33102a', '#401434', '#4d183d'], rim: '255,111,159', vein: '#ff6f9f', pore: '#ffb3d1', maw: '#ff6f9f', tooth: '#ffd0e0', sac: ['#ff9fc0', '#7a2350', '#2a0c20'], tent: '#3d1430' }
+  };
+  function ark(ctx, t, charge, o) {
+    const P = PAL[o.pal], breath = 1 + 0.015 * Math.sin(t * 1.4), W0 = o.wide || 1;
+    // optional membrane fins on the flanks (behind everything)
+    if (o.wings) for (const sd of [-1, 1]) { const fl = 0.25 + 0.12 * Math.sin(t * 1.8 + sd); ctx.save(); ctx.translate(sd * 120 * W0, -10); ctx.rotate(sd * fl);
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(sd * 80, -60, sd * 120, -20); ctx.quadraticCurveTo(sd * 95, 10, sd * 110, 40); ctx.quadraticCurveTo(sd * 60, 30, 0, 24); ctx.closePath();
+      const g = ctx.createLinearGradient(0, 0, sd * 120, 0); g.addColorStop(0, `rgba(${P.rim},0.28)`); g.addColorStop(1, `rgba(${P.rim},0.04)`); ctx.fillStyle = g; ctx.fill(); ctx.strokeStyle = `rgba(${P.rim},0.6)`; ctx.lineWidth = 1; ctx.stroke();
+      ctx.strokeStyle = `rgba(${P.rim},0.3)`; for (let v = 0; v < 5; v++) { ctx.beginPath(); ctx.moveTo(0, 10); ctx.quadraticCurveTo(sd * (30 + v * 14), -20 + v * 8, sd * (60 + v * 12), -40 + v * 18); ctx.stroke(); } ctx.restore(); }
+    // tentacle fringe
+    const nT = o.tentacles == null ? 18 : o.tentacles;
+    for (let i = 0; i < nT; i++) { const x0 = (-128 + i * (256 / Math.max(1, nT - 1))) * W0, sw = Math.sin(t * 1.6 + i * 0.7) * 9, len = (46 + (i * 37 % 5) * 9) * (o.tentLen || 1);
+      ctx.strokeStyle = P.tent; ctx.lineWidth = 4 - (i % 3); ctx.beginPath(); ctx.moveTo(x0, 40); ctx.bezierCurveTo(x0 + sw, 40 + len * 0.4, x0 - sw, 40 + len * 0.7, x0 + sw * 1.5, 40 + len); ctx.stroke();
+      ctx.globalCompositeOperation = 'lighter'; aglow(ctx, x0 + sw * 1.5, 40 + len, 4, P.vein, 0.25 + 0.35 * Math.max(0, Math.sin(t * 2 + i))); ctx.globalCompositeOperation = 'source-over'; }
+    // brood sacs: n sacs hung under the belly; 'eggs' style shows wriggling drones inside
+    const nS = o.sacs || 2;
+    for (let s = 0; s < nS; s++) { const f = nS === 1 ? 0 : s / (nS - 1) * 2 - 1, sx = f * 96 * W0, sy = 54 + Math.abs(f) * -4 + Math.sin(t * 1.1 + s) * 3 + (o.eggs ? 10 : 0), R = o.eggs ? 15 : 12;
+      ctx.strokeStyle = P.tent; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(f * 80 * W0, 30); ctx.quadraticCurveTo(f * 88 * W0, 42, sx, sy - R); ctx.stroke();
+      const sg = ctx.createRadialGradient(sx - 4, sy - 4, 1, sx, sy, R * 1.3); sg.addColorStop(0, P.sac[0]); sg.addColorStop(0.4, P.sac[1]); sg.addColorStop(1, P.sac[2]);
+      ctx.globalAlpha = o.eggs ? 0.8 : 1; ctx.fillStyle = sg; ctx.beginPath(); ctx.ellipse(sx, sy, R * 0.8, R * breath, 0, 0, TAU); ctx.fill(); ctx.globalAlpha = 1; ctx.strokeStyle = P.vein; ctx.lineWidth = 1; ctx.stroke();
+      if (o.eggs) { ctx.save(); ctx.beginPath(); ctx.ellipse(sx, sy, R * 0.75, R * 0.95, 0, 0, TAU); ctx.clip(); bug(ctx, sx + Math.sin(t * 3 + s) * 2, sy, 9, Math.PI / 2 + Math.sin(t * 4 + s) * 0.5, '#5fe39a', t + s); ctx.restore(); }
+      const dp = ((t * 0.45 + s / nS) % 1); if (dp < 0.7 && (s % 2 === 0 || nS <= 2)) bug(ctx, sx + f * dp * 40, sy + R + 6 + dp * 120, 7, Math.PI / 2 + f * 0.4, '#5fe39a', t); }
+    // chitin plates
+    const nP = o.plates || 5, plates = [[-18, 150, 70], [-6, 136, 62], [6, 118, 54], [18, 96, 44], [28, 70, 32]].slice(5 - nP);
+    plates.forEach(([y, rx, ry], i) => { const c = P.plates[5 - nP + i]; rx *= W0;
+      ctx.beginPath(); for (let k = 0; k <= 48; k++) { const a = Math.PI + k / 48 * Math.PI * 2, wob = 1 + 0.035 * Math.sin(a * 7 + i), sp = o.spikes && a < Math.PI * 2 && k % 4 === 0 ? 1.12 : 1; ctx.lineTo(Math.cos(a) * rx * wob * breath * sp, y + Math.sin(a) * ry * wob * sp * (a > Math.PI * 2 ? 0.75 : 1)); } ctx.closePath();
+      const g = ctx.createLinearGradient(0, y - ry, 0, y + ry); g.addColorStop(0, c); g.addColorStop(0.5, '#0a0408'); g.addColorStop(1, c); ctx.fillStyle = g; ctx.fill();
+      ctx.strokeStyle = `rgba(${P.rim},${0.25 + i * 0.1})`; ctx.lineWidth = 1.2; ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,230,240,0.16)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(0, y, rx * 0.97 * breath, ry * 0.95, 0, Math.PI * 1.15, Math.PI * 1.85); ctx.stroke();
+      if (o.cracks && i >= nP - 3) { ctx.globalCompositeOperation = 'lighter'; ctx.strokeStyle = P.vein; ctx.globalAlpha = 0.5 + 0.4 * Math.sin(t * 3 + i) + 0.3 * charge; ctx.lineWidth = 1.3;
+        for (let c2 = 0; c2 < 3; c2++) { const a = Math.PI * (1.25 + c2 * 0.25), x1 = Math.cos(a) * rx * 0.9, y1 = y + Math.sin(a) * ry * 0.9; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 * 0.85 + 6, y1 + 8); ctx.lineTo(x1 * 0.7 - 4, y1 + 12); ctx.lineTo(x1 * 0.6, y1 + 20); ctx.stroke(); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; } });
+    // spikes on the crest
+    if (o.spikes) for (let i = 0; i < 11; i++) { const a = Math.PI * 1.08 + i / 10 * Math.PI * 0.84, bx = Math.cos(a) * 146 * W0, by = -18 + Math.sin(a) * 68, len = 18 + (i % 2) * 14 + (i === 5 ? 16 : 0);
+      ctx.save(); ctx.translate(bx, by); ctx.rotate(a + Math.PI / 2); ctx.beginPath(); ctx.moveTo(-5, 4); ctx.lineTo(0, -len); ctx.lineTo(5, 4); ctx.closePath(); const g = ctx.createLinearGradient(0, 4, 0, -len); g.addColorStop(0, P.plates[4]); g.addColorStop(1, P.tooth); ctx.fillStyle = g; ctx.fill(); ctx.strokeStyle = `rgba(${P.rim},0.7)`; ctx.lineWidth = 0.8; ctx.stroke(); ctx.restore(); }
+    // coral / crystal spires growing on top (old, ancient look)
+    if (o.coral) { ctx.globalCompositeOperation = 'source-over'; for (let i = 0; i < 9; i++) { const x = (-90 + i * 22.5) * W0, base = -18 - Math.sqrt(Math.max(0, 1 - (x / (150 * W0)) ** 2)) * 66, h = 26 + ((i * 53) % 5) * 9;
+        ctx.strokeStyle = `rgba(${P.rim},0.85)`; ctx.lineWidth = 2.2; ctx.beginPath(); ctx.moveTo(x, base + 6); ctx.lineTo(x + (i % 2 ? 4 : -4), base - h); ctx.stroke();
+        ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(x + (i % 2 ? 2 : -2), base - h * 0.45); ctx.lineTo(x + (i % 2 ? 12 : -12), base - h * 0.75); ctx.stroke();
+        ctx.globalCompositeOperation = 'lighter'; aglow(ctx, x + (i % 2 ? 4 : -4), base - h, 6, P.pore, 0.5 + 0.5 * Math.max(0, Math.sin(t * 1.5 + i)) + 0.3 * charge); aglow(ctx, x + (i % 2 ? 12 : -12), base - h * 0.75, 3.5, P.vein, 0.6); ctx.globalCompositeOperation = 'source-over'; } }
+    // veins
+    ctx.globalCompositeOperation = 'lighter';
+    const veins = [[-120, -20, -70, 10, -30, 30], [120, -20, 70, 10, 30, 30], [-60, -50, -40, 0, -14, 34], [60, -50, 40, 0, 14, 34], [0, -60, -6, -10, 0, 30]];
+    for (const [x0, y0, x1, y1, x2, y2] of veins) { ctx.strokeStyle = `rgba(${P.rim},0.35)`; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(x0 * W0, y0); ctx.quadraticCurveTo(x1 * W0, y1, x2 * W0, y2); ctx.stroke();
+      for (let j = 0; j < 3; j++) { const p = (t * (0.5 + charge * 1.5) + j / 3) % 1, q = 1 - p; aglow(ctx, (q * q * x0 + 2 * q * p * x1 + p * p * x2) * W0, q * q * y0 + 2 * q * p * y1 + p * p * y2, 5 + charge * 4, P.vein, 0.6 + 0.4 * charge); } }
+    for (let i = 0; i < 26; i++) { const a = Math.PI * 1.08 + (i / 26) * Math.PI * 0.84, rr = 0.55 + (i % 4) * 0.1; aglow(ctx, Math.cos(a) * 130 * rr * W0, -6 + Math.sin(a) * 60 * rr, 2.5, P.pore, 0.3 + 0.5 * Math.max(0, Math.sin(t * 2.4 + i * 1.3))); }
+    // eye cluster above the maw (optional)
+    if (o.eyes) for (let i = 0; i < 5; i++) { const ex = (i - 2) * 13, ey = 20 - Math.abs(i - 2) * 3, open = (t * 0.9 + i * 0.37) % 5 < 0.12 ? 0.2 : 1; ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#0a0306'; ctx.beginPath(); ctx.ellipse(ex, ey, 4.5, 4.5 * open, 0, 0, TAU); ctx.fill(); ctx.globalCompositeOperation = 'lighter'; aglow(ctx, ex, ey, 5 + charge * 3, P.maw, 0.9 * open); }
+    ctx.globalCompositeOperation = 'source-over';
+    // maw: n petals open with the charge
+    const my = 46, open = 0.15 + 0.85 * charge, nM = o.petals || 4, big = o.bigMaw ? 1.35 : 1;
+    ctx.globalCompositeOperation = 'lighter'; aglow(ctx, 0, my, (16 + 40 * charge) * big, P.maw, 0.5 + 0.5 * charge); if (charge > 0) aglow(ctx, 0, my, (8 + 18 * charge) * big, '#ffffff', charge); ctx.globalCompositeOperation = 'source-over';
+    for (let k = 0; k < nM; k++) { const base = k * TAU / nM + Math.PI / nM; ctx.save(); ctx.translate(0, my); ctx.rotate(base); ctx.translate((6 + 10 * open) * big, 0); ctx.rotate(0.6 * open); ctx.scale(big, big);
+      ctx.beginPath(); ctx.moveTo(0, -7); ctx.quadraticCurveTo(22, -9, 26, 0); ctx.quadraticCurveTo(22, 9, 0, 7); ctx.closePath(); ctx.fillStyle = P.plates[1]; ctx.fill(); ctx.strokeStyle = P.vein; ctx.lineWidth = 1.3; ctx.stroke();
+      ctx.fillStyle = P.tooth; for (let s = 0; s < 3; s++) { ctx.beginPath(); ctx.moveTo(6 + s * 6, 5); ctx.lineTo(8 + s * 6, 9); ctx.lineTo(10 + s * 6, 5); ctx.fill(); } ctx.restore(); }
+    if (charge > 0) { ctx.globalCompositeOperation = 'lighter'; for (let i = 0; i < 20; i++) { const ph = (t * 1.3 + i / 20) % 1, a = i * 2.4, d = 90 * (1 - ph); aglow(ctx, Math.cos(a) * d, my + Math.sin(a) * d * 0.6, 2.4, i % 3 ? P.vein : P.tooth, ph * charge); } ctx.globalCompositeOperation = 'source-over'; }
+    return { mx: 0, my, beam: P.maw };
+  }
+  const ARK = { pal: 'rose', sacs: 6, eggs: true, eyes: true, petals: 4, tentacles: 20, tentLen: 1.1 }, ARK_K = 0.8;
   function drawMothership(ctx, x, y, t, charge) {
-    const RX = 150, RY = 80, pink = '#ff6f9f';
-    ctx.save(); ctx.translate(x, y); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-    // hanging spines behind the hull
-    ctx.strokeStyle = '#5a1f3e'; ctx.lineWidth = 3.2;
-    for (let i = 0; i < 11; i++) { const sx = -RX * 0.85 + i * RX * 0.17, sw = Math.sin(t * 1.3 + i) * 6; ctx.beginPath(); ctx.moveTo(sx, RY * 0.55); ctx.quadraticCurveTo(sx + sw, RY * 0.95, sx + sw * 1.6, RY * 1.25 + (i % 3) * 6); ctx.stroke(); }
-    // hull: layered carapace
-    const g = ctx.createRadialGradient(0, RY * 0.4, 10, 0, 0, RX); g.addColorStop(0, '#3b1230'); g.addColorStop(0.6, '#1d0a1a'); g.addColorStop(1, '#0b050c');
-    ctx.fillStyle = g; ctx.beginPath(); ctx.ellipse(0, 0, RX, RY, 0, 0, TAU); ctx.fill();
-    ctx.strokeStyle = pink; ctx.lineWidth = 1.6; ctx.stroke();
-    ctx.strokeStyle = 'rgba(255,111,159,0.45)'; ctx.lineWidth = 1.2;
-    for (const k of [0.82, 0.64, 0.46]) { ctx.beginPath(); ctx.ellipse(0, RY * (1 - k) * 0.6, RX * k, RY * k, 0, 0.12 * Math.PI, 0.88 * Math.PI); ctx.stroke(); }
-    for (let i = -4; i <= 4; i++) { ctx.beginPath(); ctx.moveTo(i * RX * 0.2, RY * 0.15); ctx.lineTo(i * RX * 0.24, RY * 0.92 - Math.abs(i) * 4); ctx.stroke(); }
-    // claws flanking the maw
-    for (const sd of [-1, 1]) { ctx.fillStyle = '#26101f'; ctx.beginPath(); ctx.moveTo(sd * 30, RY * 0.55); ctx.quadraticCurveTo(sd * 58, RY * 1.15, sd * 18, RY * 1.12); ctx.quadraticCurveTo(sd * 30, RY * 0.9, sd * 30, RY * 0.55); ctx.fill(); ctx.strokeStyle = pink; ctx.lineWidth = 1.2; ctx.stroke(); }
-    // rim pods
-    ctx.globalCompositeOperation = 'lighter';
-    for (let i = 0; i < 13; i++) { const a = 0.12 * Math.PI + i / 12 * 0.76 * Math.PI, px = Math.cos(a) * RX * 0.93, py = Math.sin(a) * RY * 0.93; glow(ctx, px, py, 7, pink, 0.35 + 0.45 * Math.max(0, Math.sin(t * 3 + i * 0.9)) + 0.3 * charge); }
-    // maw: charges a growing white-pink sphere
-    const my = RY * 0.82;
-    ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#07030a'; ctx.beginPath(); ctx.ellipse(0, my, 24, 12, 0, 0, TAU); ctx.fill(); ctx.strokeStyle = pink; ctx.lineWidth = 2; ctx.stroke();
-    ctx.globalCompositeOperation = 'lighter';
-    glow(ctx, 0, my, 14 + 46 * charge, pink, 0.5 + 0.5 * charge);
-    if (charge > 0) {
-      glow(ctx, 0, my, 6 + 20 * charge, '#ffffff', 0.4 + 0.6 * charge);
-      for (let i = 0; i < 22; i++) { const ph = (t * 1.4 + i / 22) % 1, a = i * 2.39996, d = 70 * (1 - ph); glow(ctx, Math.cos(a) * d, my + Math.sin(a) * d * 0.7, 2.6, i % 3 ? pink : '#ffd0e0', ph * charge); }
-      ctx.globalAlpha = 0.6 * charge; ctx.strokeStyle = '#ffd0e0'; ctx.lineWidth = 1.4; const rr = 30 + ((t * 40) % 30); ctx.beginPath(); ctx.ellipse(0, my, rr, rr * 0.55, 0, 0, TAU); ctx.stroke();
-    }
+    ctx.save(); ctx.translate(x, y + 66 - 46 * ARK_K); ctx.scale(ARK_K, ARK_K); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ark(ctx, t, charge, ARK);
     ctx.restore(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
   }
 
-  root.SZA = { COL, glowSprite, glow, makeBackground, drawBackground, STATION_STYLES, drawStation, ENEMY_STYLES, enemySprite, drawEnemy, ROT, drawCraft, craftSprite, TILE_COL, orbitPos, drawMothership };
+  // ======================================================================
+  // Memory transfer warp (run lost → the station's memory flies to the next core).
+  // 8.5 s cinematic, drawn in a 1080x1920 design space and cover-scaled to any screen:
+  // 0–1 s core cracks under red alarm → 1.0 s white flash → 1–5 s hexagonal light tunnel (amber/blue/violet light,
+  // passing wall lamps, speed streaks) → 4.5–7 s tunnel melts into light ribbons that converge → 7.05 s new core ignites.
+  // Pure function of t (deterministic), so it can be skipped/seeked. Timing matches assets/audio/warp.mp3.
+  // ======================================================================
+  const WARP_DUR = 8.5;
+  const WARP = (() => {
+    const r = rng(7), P = [], RIB = [], STARS = [];
+    for (let i = 0; i < 420; i++) P.push({ a: r() * TAU, r: 0.25 + r() * 1.1, z: r() * 40, w: 0.6 + r() * 2.4, c: r() });
+    for (let i = 0; i < 9; i++) RIB.push({ ph: r() * 6, fq: 0.8 + r() * 1.4, amp: 60 + r() * 160, y0: (r() - 0.5) * 520, w: 1.5 + r() * 5, c: i % 3 });
+    for (let i = 0; i < 220; i++) STARS.push({ x: r() * 1080, y: r() * 1920, s: r() * 1.8 + 0.3, tw: r() * 6 });
+    // camera travel: integrate the speed curve once (60 steps / s)
+    const ss = (a, b, x) => { x = Math.max(0, Math.min(1, (x - a) / (b - a))); return x * x * (3 - 2 * x); };
+    const speed = t => (0.2 + 8.8 * ss(0.7, 1.6, t)) * (1 - 0.75 * ss(4.6, 6.2, t));
+    const camZ = []; for (let i = 0, z = 0; i <= WARP_DUR * 60 + 2; i++) { camZ.push(z); z += speed(i / 60) / 60; }
+    return { P, RIB, STARS, ss, speed, camZ };
+  })();
+  function drawWarp(ctx, W, H, t) {
+    const { P, RIB, STARS, ss, speed, camZ } = WARP, DW = 1080, DH = 1920, CX = 540, CY = 880, F = 620;
+    const cl = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x)), mix = (a, b, k) => a + (b - a) * k;
+    const mixc = (a, b, k) => a.map((v, i) => mix(v, b[i], k)), rgba = (c, a) => `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`;
+    const AMBER = [255, 170, 60], BLUE = [70, 120, 255], VIOLET = [190, 140, 255], CYAN = [90, 220, 255], PINK = [255, 120, 200], WHITE = [255, 245, 235];
+    const KEYS = [[0, AMBER], [1.6, AMBER], [2.3, BLUE], [2.9, AMBER], [3.5, VIOLET], [4.6, BLUE], [5.4, VIOLET], [99, VIOLET]];
+    let gc = VIOLET; for (let i = 0; i < KEYS.length - 1; i++) if (t <= KEYS[i + 1][0]) { gc = mixc(KEYS[i][1], KEYS[i + 1][1], ss(KEYS[i][0], KEYS[i + 1][0], t)); break; }
+    const jr = rng(1234 + Math.floor(t * 30)); // per-frame jitter (shake, grain)
+    const g = ctx, sc = Math.max(W / DW, H / DH);
+    g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
+    g.fillStyle = '#000'; g.fillRect(0, 0, W, H);
+    g.translate(W / 2, H / 2); g.scale(sc, sc); g.translate(-DW / 2, -DH / 2);
+    const proj = (x, y, z) => { const s = F / Math.max(z, 0.02); return [CX + x * s, CY + y * s, s]; };
+    const hexPath = (cx, cy, rr, rot = 0) => { g.beginPath(); for (let i = 0; i < 6; i++) { const a = rot + Math.PI / 6 + i * Math.PI / 3, x = cx + rr * Math.cos(a), y = cy + rr * Math.sin(a); i ? g.lineTo(x, y) : g.moveTo(x, y); } g.closePath(); };
+    const glowLine = (path, col, a, w) => { if (a <= 0.004) return; path(); g.strokeStyle = rgba(col, a * 0.18); g.lineWidth = w * 5; g.stroke(); g.strokeStyle = rgba(col, a * 0.45); g.lineWidth = w * 2.2; g.stroke(); g.strokeStyle = rgba(mixc(col, WHITE, 0.6), a); g.lineWidth = w; g.stroke(); };
+    const tunnel = ss(0.75, 1.2, t) * (1 - ss(4.8, 5.8, t)), ribbon = ss(4.5, 5.4, t) * (1 - ss(6.6, 7.3, t));
+    const flick = tunnel * Math.pow(0.5 + 0.5 * Math.sin(t * 9.3), 6) * 0.6 + tunnel * Math.pow(0.5 + 0.5 * Math.sin(t * 4.1 + 1), 10) * 0.5;
+    // background light (the tunnel lamps tint the whole frame, like the reference)
+    const amb = mixc([6, 8, 22], gc, 0.18 * tunnel + 0.42 * flick + 0.35 * ribbon), bg = g.createRadialGradient(CX, CY, 0, CX, CY, 1300);
+    bg.addColorStop(0, rgba(mixc(amb, gc, 0.35 * tunnel + 0.3 * ribbon), 1)); bg.addColorStop(0.55, rgba(amb, 1)); bg.addColorStop(1, rgba(mixc(amb, [0, 0, 0], 0.6), 1));
+    g.fillStyle = bg; g.fillRect(-DW, -DH, DW * 3, DH * 3);
+    g.globalCompositeOperation = 'lighter';
+    const starA = Math.max(0, 1 - tunnel * 0.9 - ribbon * 0.6);
+    if (starA > 0.02) for (const s of STARS) { g.fillStyle = rgba(WHITE, starA * (0.35 + 0.35 * Math.sin(t * 2 + s.tw))); g.fillRect(s.x, s.y, s.s, s.s); }
+    g.save();
+    g.translate(CX, CY); g.rotate(0.10 * Math.sin(t * 0.9) * tunnel + (t < 1.2 ? 0 : 0.02 * Math.sin(t * 23) * tunnel)); g.translate(-CX, -CY);
+    const shk = (t < 0.95 ? ss(0.1, 0.85, t) * 14 : 0) + tunnel * speed(t) * 0.35; g.translate((jr() - 0.5) * shk, (jr() - 0.5) * shk);
+    const cz = camZ[Math.min(camZ.length - 1, Math.round(t * 60))], sp = speed(t);
+    if (tunnel > 0.01) {
+      const SP = 1.6, first = Math.floor(cz / SP) + 1;
+      for (let i = first + 18; i >= first; i--) { const d = i * SP - cz; if (d < 0.15) continue;
+        const [x, y, s] = proj(0, 0, d), near = cl(1 - d / 28), a = tunnel * near * near * (0.55 + 0.45 * Math.sin(i * 1.7));
+        glowLine(() => hexPath(x, y, 1.15 * s, Math.sin(i * 0.4) * 0.06), i % 5 === 0 ? mixc(gc, WHITE, 0.5) : gc, a * 0.7, Math.max(1, s * 0.006)); }
+      for (let lane = 0; lane < 6; lane++) { // wall lamps along the hex corners, streaking past
+        const a = Math.PI / 6 + lane * Math.PI / 3, lx = Math.cos(a) * 1.1, ly = Math.sin(a) * 1.1, lc = lane % 2 ? gc : mixc(gc, CYAN, 0.5);
+        for (let k = 0; k < 14; k++) { const segZ = Math.floor(cz / 2.2) * 2.2 + k * 2.2 + ((lane * 0.37) % 1) * 2.2, d0 = segZ - cz, d1 = d0 + 1.2 + sp * 0.12;
+          if (d0 < 0.7) continue; const [x0, y0] = proj(lx, ly, d0), [x1, y1] = proj(lx, ly, d1);
+          glowLine(() => { g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y1); }, lc, tunnel * cl(1 - d0 / 26) * (lane >= 4 ? 1 : 0.55) * cl((d0 - 0.7) / 1.5), Math.min(9, Math.max(1.2, F / d0 * 0.012))); }
+      }
+    }
+    const fadeStreak = (t < 0.75 ? 0.25 : 1) * (1 - 0.92 * ss(6.3, 7.1, t)) * (1 - ribbon * 0.8), len = Math.min(14, 0.05 + sp * 0.32);
+    for (const p of P) { const d = ((p.z - cz) % 40 + 40) % 40 + 0.2, a = cl(1 - d / 38) * (0.25 + 0.75 * cl(sp / 4)) * fadeStreak; if (a < 0.02) continue;
+      const x = Math.cos(p.a) * p.r, y = Math.sin(p.a) * p.r, [x0, y0, s0] = proj(x, y, d), [x1, y1] = proj(x, y, d + len);
+      g.strokeStyle = rgba(p.c < 0.55 ? mixc(gc, WHITE, 0.35) : p.c < 0.8 ? CYAN : WHITE, a); g.lineWidth = Math.max(0.6, p.w * s0 * 0.004); g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y1); g.stroke(); }
+    if (ribbon > 0.01) { const conv = ss(6.2, 7.2, t);
+      RIB.forEach((rb, i) => glowLine(() => { g.beginPath(); for (let x = -80; x <= DW + 80; x += 18) { const u = x / DW, env = Math.sin(Math.PI * cl(u));
+        let y = CY + 260 + rb.y0 * (1 - conv) + Math.sin(u * TAU * rb.fq + t * 2.4 + rb.ph) * rb.amp * env * (1 - conv) + (u - 0.5) * -140 * (1 - conv), xx = x;
+        if (conv > 0) { xx = mix(x, CX, conv * 0.92); y = mix(y, CY, conv); } x === -80 ? g.moveTo(xx, y) : g.lineTo(xx, y); } }, [CYAN, WHITE, PINK][rb.c], ribbon * (0.55 + 0.45 * Math.sin(t * 3 + i)), rb.w)); }
+    g.restore();
+    // the core: cracking at the start, a fresh one igniting at the end
+    const core = (x, y, s, k, dying) => {
+      g.save(); g.translate(x, y); g.globalCompositeOperation = 'lighter';
+      const pulse = 0.75 + 0.25 * Math.sin(t * (dying ? 38 : 6)), hc = dying ? [255, 90, 80] : CYAN, halo = g.createRadialGradient(0, 0, 0, 0, 0, s * 3.2);
+      halo.addColorStop(0, rgba(hc, 0.55 * pulse)); halo.addColorStop(1, rgba(hc, 0)); g.fillStyle = halo; g.fillRect(-s * 3.2, -s * 3.2, s * 6.4, s * 6.4);
+      const ring = dying ? 1 : ss(0.25, 1, (t - 6.6) / 1.1);
+      for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3 + Math.PI / 6; let tx = Math.cos(a) * s * 1.73, ty = Math.sin(a) * s * 1.73;
+        if (dying) { const f = ss(0.25, 0.95, k) * (1.2 + i * 0.25); tx *= 1 + f; ty *= 1 + f; }
+        glowLine(() => hexPath(tx, ty, s * 0.86, dying ? k * (i - 2.5) * 2 : 0), i % 2 ? [255, 200, 90] : CYAN, dying ? 1 - ss(0.6, 1, k) : ring * (0.35 + 0.15 * Math.sin(t * 5 + i)), 3); }
+      const ca = dying ? 1 - ss(0.75, 1.05, k) : 1;
+      glowLine(() => hexPath(0, 0, s), dying ? [255, 140, 120] : CYAN, ca, 4); glowLine(() => hexPath(0, 0, s * 0.55, Math.PI / 6), WHITE, ca * 0.8, 2);
+      const cg = g.createRadialGradient(0, 0, 0, 0, 0, s * 0.5); cg.addColorStop(0, rgba(WHITE, ca)); cg.addColorStop(1, rgba(hc, 0)); g.fillStyle = cg; g.beginPath(); g.arc(0, 0, s * 0.5, 0, TAU); g.fill();
+      if (dying) { g.strokeStyle = rgba(WHITE, 0.9 * ca); g.lineWidth = 2.5; for (let i = 0; i < 5; i++) { const a = i * 1.3 + 0.4, L = s * mix(0.2, 1.1, ss(0.05, 0.5, k));
+        g.beginPath(); g.moveTo(0, 0); g.lineTo(Math.cos(a) * L * 0.5 + 6, Math.sin(a) * L * 0.5 - 4); g.lineTo(Math.cos(a + 0.2) * L, Math.sin(a + 0.2) * L); g.stroke(); } }
+      g.restore();
+    };
+    if (t < 1.25) { core(CX, CY, 110 * (1 + ss(0.6, 1.1, t) * 0.4), Math.min(t, 1.2), true);
+      g.globalCompositeOperation = 'source-over'; const vg = g.createRadialGradient(CX, CY, 400, CX, CY, 1200);
+      vg.addColorStop(0, 'rgba(255,40,60,0)'); vg.addColorStop(1, `rgba(255,40,60,${0.28 * (0.6 + 0.4 * Math.sin(t * 20)) * (1 - ss(0.8, 1.1, t))})`); g.fillStyle = vg; g.fillRect(-DW, -DH, DW * 3, DH * 3); }
+    if (t > 6.55) { core(CX, CY, mix(10, 105, ss(6.55, 7.3, t)) * (1 + 0.03 * Math.sin(t * 6)), 0, false);
+      const sw = (t - 7.0) / 0.9; if (sw > 0 && sw < 1) { g.globalCompositeOperation = 'lighter'; g.strokeStyle = rgba(CYAN, (1 - sw) * 0.6); g.lineWidth = 6 * (1 - sw) + 1; hexPath(CX, CY, 120 + sw * 700); g.stroke(); } }
+    const flash = Math.exp(-Math.pow((t - 1.0) / 0.12, 2)) * 0.95 + Math.exp(-Math.pow((t - 7.05) / 0.1, 2)) * 0.7;
+    if (flash > 0.01) { g.globalCompositeOperation = 'lighter'; g.fillStyle = rgba(WHITE, flash); g.fillRect(-DW, -DH, DW * 3, DH * 3); }
+    g.globalCompositeOperation = 'source-over';
+    const v = g.createRadialGradient(CX, DH / 2, DH * 0.35, CX, DH / 2, DH * 0.75); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,0.55)'); g.fillStyle = v; g.fillRect(-DW, -DH, DW * 3, DH * 3);
+    const fade = 1 - ss(0, 0.25, t); if (fade > 0) { g.fillStyle = `rgba(0,0,0,${fade})`; g.fillRect(-DW, -DH, DW * 3, DH * 3); }
+    g.globalCompositeOperation = 'lighter'; g.fillStyle = 'rgba(255,255,255,0.025)'; for (let i = 0; i < 160; i++) g.fillRect(jr() * DW, jr() * DH, 2, 2); // film grain
+    g.restore(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  }
+
+  root.SZA = { HEXB, TICON, tileIcon, COL, glowSprite, glow, makeBackground, drawBackground, STATION_STYLES, drawStation, ENEMY_STYLES, enemySprite, drawEnemy, ROT, drawCraft, craftSprite, TILE_COL, orbitPos, drawMothership, drawWarp, WARP_DUR };
 })(typeof window !== 'undefined' ? window : globalThis);

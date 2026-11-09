@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=f03cf9712381";
-import { TEXTS } from "./texts.js?v=f03cf9712381";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=f03cf9712381";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=f03cf9712381";
+import { NcqBoard } from "./ncq/board.js?v=2b57c30f422e";
+import { TEXTS } from "./texts.js?v=2b57c30f422e";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=2b57c30f422e";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=2b57c30f422e";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -19,6 +19,16 @@ const NcqAds = window.NcqAds;
 let matchAds = { freeRounds: [], lastShownAt: 0, lastAttemptedRound: null };
 let resultAdRound = null;
 const starterCoins = 0;
+const goldenPlacementPrice = 120;
+const dayMs = 24 * 60 * 60_000;
+const koreaOffset = 9 * 60 * 60_000;
+const dailyMissions = [
+  { target: 1, coins: 70 },
+  { target: 3, coins: 60 },
+  { target: 6, coins: 90 },
+];
+const dailyMissionLimit = dailyMissions.at(-1).target;
+let resultMission = null;
 const skinPrices = {
   stones: {
     reference: 0, classic: 0, glossy: 120, gilded: 250, vintage: 0,
@@ -213,18 +223,27 @@ const skinCards = shopRadios.filter(input => input.name !== "grid").map(input =>
   label.append(status, price);
   return { input, label, boardSample, status, price };
 });
-el("show-shop").addEventListener("click", () => {
+function openShop(tab) {
   shopPreview = { ...shopState.appearance };
-  shopTab = "skins";
+  shopTab = tab;
   feedback("shop-feedback");
   shop.showModal();
   shop.querySelector(".shop-content").scrollTop = 0;
   render();
+}
+const shopTabs = ["missions", "currency", "skins"];
+const missionRows = dailyMissions.map(() => {
+  const row = el("daily-mission-row").content.firstElementChild.cloneNode(true);
+  el("daily-mission-list").append(row);
+  return row;
 });
+el("show-shop").addEventListener("click", () => openShop("skins"));
+el("show-missions").addEventListener("click", () => openShop("missions"));
 shop.addEventListener("close", render);
-for (const tab of ["currency", "skins"]) {
+for (const tab of shopTabs) {
   el("shop-tab-" + tab).addEventListener("click", () => {
     shopTab = tab;
+    feedback("shop-feedback");
     renderShop();
     shop.querySelector(".shop-content").scrollTop = 0;
   });
@@ -238,10 +257,12 @@ for (const input of shopRadios) {
   });
 }
 shopAction.addEventListener("click", () => saveShopSelection(shopAction.hasAttribute("data-purchase")));
+el("shop-buy-effect").addEventListener("click", buyGoldenPlacement);
 window.addEventListener("storage", event => {
   if (event.key !== appearanceKey && event.key !== null) return;
   shopState = loadShopState();
   applyAppearance();
+  renderDailyMissions();
   if (shop.open) renderShop();
 });
 
@@ -291,7 +312,19 @@ function loadShopState(fallback) {
     appearance,
     ownedSkins,
     coins: Number.isSafeInteger(saved?.coins) && saved.coins >= 0 ? saved.coins : starterCoins,
+    goldenPlacementUntil: Number.isSafeInteger(saved?.goldenPlacementUntil) ? saved.goldenPlacementUntil : 0,
+    missionDay: saved?.missionDay ?? "",
+    missionRounds: Array.isArray(saved?.missionRounds) ? saved.missionRounds : [],
   };
+}
+
+function persistShopState({ appearance, ...wallet }) {
+  localStorage.setItem(appearanceKey, JSON.stringify({ ...appearance, ...wallet }));
+}
+
+async function updateShop(action) {
+  if (navigator.locks) return navigator.locks.request(appearanceKey, action);
+  return action();
 }
 
 function setAppearanceTheme(element, appearance) {
@@ -316,15 +349,59 @@ function shopPurchase(selection, state) {
   };
 }
 
+function koreaDay(timestamp) {
+  return new Date(timestamp + koreaOffset).toISOString().slice(0, 10);
+}
+
+function missionProgress(count, target) {
+  return { count: NcqLang.num(Math.min(count, target)), target: NcqLang.num(target) };
+}
+
+function renderDailyMissions() {
+  const count = koreaDay(Date.now()) === shopState.missionDay ? shopState.missionRounds.length : 0;
+  const next = dailyMissions.find(({ target }) => count < target);
+  el("daily-mission-summary").textContent = next
+    ? t("missionNext", missionProgress(count, next.target))
+    : t("missionAllDone");
+  dailyMissions.forEach(({ target, coins }, index) => {
+    const row = missionRows[index];
+    const done = count >= target;
+    row.toggleAttribute("data-completed", done);
+    row.querySelector(".mission-goal").textContent = t(target === 1 ? "missionFirstGoal" : "missionGoal", { n: NcqLang.num(target) });
+    row.querySelector(".mission-status").textContent = done ? t("missionDone") : t("missionProgress", missionProgress(count, target));
+    row.querySelector(".mission-coins").textContent = t("shopPrice", { n: NcqLang.num(coins) });
+  });
+}
+
+function scheduleMissionReset() {
+  setTimeout(() => {
+    renderDailyMissions();
+    scheduleMissionReset();
+  }, dayMs - (Date.now() + koreaOffset) % dayMs);
+}
+
 function renderShop() {
   const skins = shopTab === "skins";
-  el("shop-tab-skins").setAttribute("aria-pressed", String(skins));
-  el("shop-tab-currency").setAttribute("aria-pressed", String(!skins));
-  el("shop-skins").hidden = shopAction.hidden = !skins;
-  el("shop-currency").hidden = skins;
+  for (const tab of shopTabs) {
+    const active = shopTab === tab;
+    el("shop-tab-" + tab).setAttribute("aria-pressed", String(active));
+    el("shop-" + tab).hidden = !active;
+  }
+  shopAction.hidden = !skins;
   el("shop-balance").textContent = NcqLang.num(shopState.coins);
-  el("shop-currency-amount").textContent = NcqLang.num(shopState.coins);
   el("shop-starter").textContent = t("shopStarter", { n: NcqLang.num(starterCoins) });
+  const effectActive = shopState.goldenPlacementUntil > Date.now();
+  const effectStatus = el("shop-effect-status");
+  effectStatus.hidden = !effectActive;
+  if (effectActive) {
+    effectStatus.textContent = t("shopEffectActiveUntil", {
+      time: NcqLang.date(shopState.goldenPlacementUntil, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }),
+    });
+  }
+  const effectAction = el("shop-buy-effect");
+  effectAction.hidden = shopTab !== "currency";
+  effectAction.disabled = shopSaving || shopState.coins < goldenPlacementPrice;
+  effectAction.textContent = t(effectActive ? "shopExtendEffect" : "shopBuyEffect", { n: NcqLang.num(goldenPlacementPrice) });
   setAppearanceTheme(el("appearance-preview"), shopPreview);
   for (const input of shopRadios) {
     input.checked = shopPreview[input.name] === input.value;
@@ -370,9 +447,7 @@ async function saveShopSelection(buy) {
       ? { ...state, coins: state.coins - price, ownedSkins: [...state.ownedSkins, ...skins] }
       : { ...state, appearance: selection };
     try {
-      localStorage.setItem(appearanceKey, JSON.stringify({
-        ...next.appearance, coins: next.coins, ownedSkins: next.ownedSkins,
-      }));
+      persistShopState(next);
       feedback("shop-feedback", buy ? "shopPurchased" : "shopApplied");
     } catch {
       if (buy) {
@@ -384,8 +459,7 @@ async function saveShopSelection(buy) {
     shopState = next;
   };
   try {
-    if (navigator.locks) await navigator.locks.request(appearanceKey, save);
-    else save();
+    await updateShop(save);
   } catch {
     feedback("shop-feedback", "shopSaveFailed", true);
   } finally {
@@ -393,6 +467,62 @@ async function saveShopSelection(buy) {
     applyAppearance();
     if (shop.open) renderShop();
   }
+}
+
+async function buyGoldenPlacement() {
+  if (shopSaving) return;
+  shopSaving = true;
+  renderShop();
+  try {
+    await updateShop(() => {
+      const state = loadShopState(shopState);
+      shopState = state;
+      if (state.coins < goldenPlacementPrice) return;
+      const next = {
+        ...state,
+        coins: state.coins - goldenPlacementPrice,
+        goldenPlacementUntil: Math.max(state.goldenPlacementUntil, Date.now()) + dayMs,
+      };
+      persistShopState(next);
+      shopState = next;
+      feedback("shop-feedback", "shopEffectPurchased");
+    });
+  } catch {
+    feedback("shop-feedback", "shopSaveFailed", true);
+  } finally {
+    shopSaving = false;
+    if (shop.open) renderShop();
+  }
+}
+
+async function recordMissionRound(game, roundKey) {
+  if (!game.moves.length || (["resign", "disconnect", "timeout"].includes(game.endReason) && game.moves.length < 6)) return;
+  const finishedAt = new Date(game.finishedAt ?? Date.now()).getTime();
+  if (!Number.isFinite(finishedAt)) return;
+  const day = koreaDay(finishedAt);
+  let progress;
+  try {
+    progress = await updateShop(() => {
+      const state = loadShopState(shopState);
+      if (day < state.missionDay) return;
+      const rounds = day === state.missionDay ? state.missionRounds : [];
+      if (rounds.length >= dailyMissionLimit || rounds.includes(roundKey)) return;
+      const count = rounds.length + 1;
+      const reward = dailyMissions.find(({ target }) => target === count)?.coins ?? 0;
+      const next = { ...state, coins: state.coins + reward, missionDay: day, missionRounds: [...rounds, roundKey] };
+      persistShopState(next);
+      shopState = next;
+      return { count, reward };
+    });
+  } catch {
+    return;
+  }
+  if (!progress) return;
+  renderDailyMissions();
+  if (shop.open) renderShop();
+  if (room?.code !== game.code || room.round !== game.round || room.phase !== "finished") return;
+  resultMission = progress;
+  renderResultMission();
 }
 
 function unlockPlacementAudio() {
@@ -449,10 +579,10 @@ function cancelPlacement() {
   const { cell, animation } = activePlacement;
   activePlacement = null;
   animation.cancel();
-  cell.classList.remove("placing");
+  cell.classList.remove("placing", "golden-placement");
 }
 
-function presentPlacement(index) {
+function presentPlacement(index, ownMove = false) {
   if (index == null || document.hidden) return;
   cancelPlacement();
   if (reducedMotion.matches) {
@@ -461,18 +591,19 @@ function presentPlacement(index) {
   }
   const cell = cells[index];
   cell.classList.add("placing");
+  cell.classList.toggle("golden-placement", ownMove && shopState.goldenPlacementUntil > Date.now());
   const animation = cell.firstElementChild.getAnimations().find(item => item.animationName === "stone-land");
   const duration = animation ? animation.effect.getTiming().duration : 0;
   playPlacementSound(duration * .6 / 1000);
   if (!animation) {
-    cell.classList.remove("placing");
+    cell.classList.remove("placing", "golden-placement");
     return;
   }
   activePlacement = { cell, animation };
   return animation.finished.catch(() => {}).finally(() => {
     if (activePlacement?.animation !== animation) return;
     activePlacement = null;
-    cell.classList.remove("placing");
+    cell.classList.remove("placing", "golden-placement");
   });
 }
 
@@ -1373,6 +1504,17 @@ async function refreshLobby() {
   }
 }
 
+function renderResultMission() {
+  const status = el("result-mission");
+  status.hidden = !resultMission;
+  if (!resultMission) return;
+  const { count, reward } = resultMission;
+  const next = dailyMissions.find(({ target }) => target > count);
+  status.textContent = reward
+    ? t("resultMissionReward", { n: NcqLang.num(reward) })
+    : t("resultMissionProgress", missionProgress(count, next.target));
+}
+
 function renderResult(game) {
   const outcome = describeOutcome(game);
   const medals = { won: ["victoryMedal", "nav-ranking"], lost: ["defeatMedal", "result-loss-icon"],
@@ -1385,6 +1527,7 @@ function renderResult(game) {
   el("result-summary").textContent = game.winner && !timeout ? recordResult(game) : t(timeout ? "resultTimeout" : "resultDraw", {
     color: sideName(game, 3 - game.winner), n: game.moves.length,
   });
+  renderResultMission();
   const change = game.ratingChange;
   el("result-rating").hidden = el("result-rating-change").hidden = !change;
   if (!change) return;
@@ -1436,6 +1579,7 @@ function render() {
   reviewPlay.hidden = !sharedReview;
   reviewPlay.toggleAttribute("data-ncq-main", reviewActionsVisible && sharedReview);
   el("show-shop").hidden = Boolean(game);
+  if (!game) renderDailyMissions();
   if (shop.open) renderShop();
   const nav = el("lobby-nav");
   nav.hidden = Boolean(game);
@@ -1718,10 +1862,16 @@ function applyState(next) {
   const showResult = next.phase === "finished" && (room?.phase !== "finished" || room.round !== next.round);
   const placed = room?.code === next.code && room.round === next.round && room.phase === "playing"
     && next.moves.length === room.moves.length + 1 ? next.moves.at(-1) : null;
+  const lastAction = next.actions?.at(-1);
+  const moveSeat = lastAction?.type === "move" ? lastAction.seat : null;
+  const ownMove = placed != null && (moveSeat ?? room.turn) === next.you;
   room = next;
   turnDeadline = clockDeadline(next);
   selected = null;
-  if (showResult) reviewPly = room.moves.length;
+  if (showResult) {
+    reviewPly = room.moves.length;
+    resultMission = null;
+  }
   if (room.phase !== "finished") el("result").close();
   if (room.phase !== "finished") recordShareDialog.close();
   if (room.phase !== "waiting") el("share").close();
@@ -1737,10 +1887,11 @@ function applyState(next) {
     sessionStorage.removeItem(metricKey);
     window.NcqMetrics?.levelEnd("online", room.winner ? room.winner === room.you : undefined);
     if (room.moves.length) recordCompletedRound(roundKey);
+    void recordMissionRound(room, roundKey);
   }
   if (room.phase === "finished" && !backend) saveRecord(room);
   render();
-  const placement = presentPlacement(placed);
+  const placement = presentPlacement(placed, ownMove);
   if (showResult) {
     const openResult = () => {
       if (room?.code !== next.code || room.round !== next.round || room.phase !== "finished" || el("result").open) return;
@@ -2355,7 +2506,10 @@ function leaveMatch() {
   if (room?.phase === "finished" && !connected) return exitRoom();
   const resigning = room?.phase === "playing" && (room.moves.length > 0 || room.passed || room.mode === "tournament");
   if (room?.phase === "finished" || window.confirm(t(resigning ? "confirmResign" : "confirmLeave"))) roomAction("leave", {}, next => {
-    if (!backend && next.phase === "finished") saveRecord(next);
+    if (next.phase === "finished") {
+      if (resigning) void recordMissionRound(next, next.code + ":" + next.round);
+      if (!backend) saveRecord(next);
+    }
     exitRoom();
   });
 }
@@ -2523,6 +2677,7 @@ window.addEventListener("hashchange", () => {
   if (sharedRecordToken() !== null || archive?.sharedView) location.reload();
 });
 render();
+scheduleMissionReset();
 if (lobbyView === "tournament" && !rankingResults[rankingTab]) loadRankings(rankingTab);
 refreshLobby();
 for (const image of [...playerPhotos, el("profile-photo")]) {
@@ -2530,5 +2685,8 @@ for (const image of [...playerPhotos, el("profile-photo")]) {
   image.addEventListener("error", () => { image.hidden = true; });
 }
 if (shareId === null) refreshPlayerCard();
-document.addEventListener("visibilitychange", refreshLobby);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) renderDailyMissions();
+  refreshLobby();
+});
 setInterval(refreshLobby, 2500);

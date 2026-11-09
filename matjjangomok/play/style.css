@@ -86,16 +86,18 @@ body:not(.in-match) > .shell {
 body:not(.in-match) .topbar { border-color: var(--lobby-border); }
 .shell > main { flex: 1; min-height: 0; }
 .lobby { height: 100%; display: flex; flex-direction: column; gap: 8px; padding-top: 9px; }
+.lobby-highlights { flex: none; display: flex; gap: 8px; }
 .tournament-card, .player-card {
   border: 1px solid var(--lobby-border);
   border-radius: 15px;
   background: radial-gradient(ellipse at bottom right, #e9edd9, transparent 63%), #fffdfa;
   box-shadow: 0 2px 6px #372a1510;
 }
-.tournament-card {
-  flex: none;
+.tournament-card, .mission-shortcut {
+  flex: 1;
+  min-width: 0;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 11px;
   padding: 9px 13px;
@@ -105,8 +107,25 @@ body:not(.in-match) .topbar { border-color: var(--lobby-border); }
 }
 .tournament-card:not(:disabled):hover { border-color: #b9c79e; }
 .tournament-icon { width: 31px; color: #6d882e; }
-.tournament-card strong, .tournament-card small { display: block; }
-.tournament-card small { color: var(--muted); font-size: .78rem; }
+.lobby-highlights strong, .lobby-highlights small { display: block; }
+.lobby-highlights small { color: var(--muted); font-size: .78rem; }
+.mission-shortcut {
+  border: 1px solid #e5dcc7;
+  border-radius: 15px;
+  background: #fbf6e8;
+}
+.mission-shortcut:hover { border-color: #c6aa70; }
+#daily-mission-summary {
+  color: #526b30;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 430px) {
+  .lobby-highlights > button { grid-template-columns: auto minmax(0, 1fr); gap: 7px; padding: 6px 9px; }
+  .lobby-highlights .chevron { display: none; }
+  .lobby-highlights strong { font-size: .86rem; }
+  .lobby-highlights small { font-size: .72rem; }
+  .lobby-highlights .tournament-icon { width: 20px; }
+}
 .chevron {
   width: 8px;
   height: 8px;
@@ -805,6 +824,23 @@ button.entry-body:hover { background: #ebeede; }
 .cell.placing .stone { animation: stone-land var(--stone-landing-duration) linear both; }
 .cell.placing::before { animation: stone-shadow-land var(--stone-landing-duration) ease-out both; }
 .cell.placing #last-move-marker { animation: stone-marker-land var(--stone-landing-duration) ease-out both; }
+.cell.placing.golden-placement { --stone-landing-duration: 280ms; }
+.cell.golden-placement::after {
+  content: "";
+  position: absolute;
+  inset: 5%;
+  border: 2px solid #ffe488;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #ffb12c, inset 0 0 4px #ffb12c;
+  pointer-events: none;
+  z-index: 3;
+  animation: golden-placement var(--stone-landing-duration) ease-out both;
+}
+@keyframes golden-placement {
+  0%, 50% { transform: scale(.8); opacity: 0; }
+  60% { opacity: 1; }
+  to { transform: scale(1.65); opacity: 0; }
+}
 @keyframes stone-land {
   from {
     transform: translate(-50%, -92%) scale(1.16);
@@ -1370,7 +1406,7 @@ dialog input { width: 100%; }
   background: #f1f3e8;
   font-size: .79rem;
 }
-.shop-wallet strong, #shop-currency-amount { font-variant-numeric: tabular-nums; font-size: 1.1rem; }
+.shop-wallet strong { font-variant-numeric: tabular-nums; font-size: 1.1rem; }
 .shop-coin {
   display: inline-block;
   width: 18px;
@@ -1381,7 +1417,7 @@ dialog input { width: 100%; }
   background: radial-gradient(circle at 35% 28%, #ffe694, #e8aa35 62%, #c18024);
   box-shadow: inset 0 0 0 2px #ffdf79, 0 1px 2px #4b381b44;
 }
-.shop-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 3px; border-radius: 11px; background: #eeeade; }
+.shop-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; padding: 3px; border-radius: 11px; background: #eeeade; }
 .shop-tabs button {
   min-height: 37px;
   border: 0;
@@ -1399,11 +1435,43 @@ dialog input { width: 100%; }
   padding: 1px 3px 2px 2px;
 }
 #shop-skins, .shop-settings { display: grid; gap: 9px; }
-#shop-currency { display: grid; gap: 9px; padding: 2px 0 12px; }
-#shop-currency p { font-size: .84rem; color: var(--muted); }
-.shop-currency-card { display: flex; align-items: center; gap: 12px; padding: 14px; background: #f4efe3; border: 1px solid #e6dbc7; border-radius: 12px; }
-.shop-currency-card .shop-coin { width: 33px; }
-.shop-currency-card h3 { margin: 0; font-size: .88rem; }
+#shop-currency, #shop-missions { display: grid; gap: 9px; padding: 2px 0 12px; }
+#shop-currency p, #shop-missions p { font-size: .84rem; color: var(--muted); }
+#daily-mission-list { display: grid; gap: 5px; list-style: none; margin: 0; padding: 0; }
+.mission-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid #e6dbc7;
+  border-radius: 10px;
+  background: #f8f4e9;
+  font-size: .83rem;
+}
+.mission-row[data-completed] { border-color: #d4dec3; background: #edf2e4; }
+.mission-status { color: var(--muted); font-size: .76rem; font-variant-numeric: tabular-nums; }
+.mission-row[data-completed] .mission-status { color: #466821; font-weight: 750; }
+.mission-coins { color: #664b1d; font-weight: 750; }
+.shop-effect-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: #f6f0df;
+  border: 1px solid #e6dbc7;
+  border-radius: 12px;
+}
+.shop-effect-card h3 { margin: 0; font-size: .88rem; }
+.shop-effect-icon {
+  flex: none;
+  width: 31px;
+  aspect-ratio: 1;
+  border: 2px solid #e9bc62;
+  border-radius: 50%;
+  background: radial-gradient(circle, #3c342a 0 42%, #f9d480 45% 48%, #fff1c9 52%);
+}
+#shop-effect-status { margin-top: 3px; color: #6e4f18; font-weight: 750; }
 .shop-footer { display: grid; gap: 6px; }
 .shop-footer button { min-height: 39px; font-size: .86rem; padding-block: 4px; }
 #shop-action[data-purchase] { color: #60451e; background: #fff0c8; border-color: #d4b66c; }
@@ -1591,6 +1659,7 @@ dialog input { width: 100%; }
 .result:not([data-outcome="won"]) .result-laurel { visibility: hidden; }
 .result-details { min-width: 0; text-align: center; }
 #result-summary { margin-top: 5px; color: var(--muted); font-size: .84rem; }
+#result-mission { margin-top: 5px; color: #416522; font-size: .86rem; font-weight: 800; }
 .result-rating-change { font-size: .86rem; font-weight: 700; }
 .rating-delta {
   display: inline-block;

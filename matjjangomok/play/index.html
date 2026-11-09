@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=f03cf9712381">
-  <script type="module" src="./app.js?v=f03cf9712381"></script>
+  <link rel="stylesheet" href="./style.css?v=2b57c30f422e">
+  <script type="module" src="./app.js?v=2b57c30f422e"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -77,11 +77,18 @@
 
     <main>
       <section id="lobby" class="lobby">
-        <button id="show-tournament" class="tournament-card" type="button" hidden>
-          <svg class="tournament-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-ranking"/></svg>
-          <span><strong data-i18n="weeklyTournament"></strong><small data-i18n="tournamentSummary"></small></span>
-          <span class="chevron" aria-hidden="true"></span>
-        </button>
+        <div class="lobby-highlights">
+          <button id="show-tournament" class="tournament-card" type="button" hidden>
+            <svg class="tournament-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-ranking"/></svg>
+            <span><strong data-i18n="weeklyTournament"></strong><small data-i18n="tournamentSummary"></small></span>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+          <button id="show-missions" class="mission-shortcut" type="button" aria-haspopup="dialog" aria-controls="shop">
+            <span class="shop-coin" aria-hidden="true"></span>
+            <span><strong data-i18n="dailyMissions"></strong><small id="daily-mission-summary"></small></span>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
+        </div>
         <div class="list-heading">
           <div class="list-heading-title">
             <h1 id="lobby-heading" tabindex="-1" data-i18n="liveGames"></h1>
@@ -542,16 +549,32 @@
           </div>
         </div>
         <div class="shop-tabs" role="group" data-i18n-attr="aria-label:shop">
+          <button id="shop-tab-missions" type="button" aria-controls="shop-missions" aria-pressed="false" data-i18n="dailyMissions"></button>
           <button id="shop-tab-currency" type="button" aria-controls="shop-currency" aria-pressed="false" data-i18n="shopCurrency"></button>
           <button id="shop-tab-skins" type="button" aria-controls="shop-skins" aria-pressed="true" data-i18n="shopSkins"></button>
         </div>
         <div class="shop-content">
+        <section id="shop-missions" aria-labelledby="shop-tab-missions" hidden>
+          <p data-i18n="missionGuide"></p>
+          <ul id="daily-mission-list"></ul>
+          <p data-i18n="missionEligibility"></p>
+          <template id="daily-mission-row">
+            <li class="mission-row">
+              <strong class="mission-goal"></strong>
+              <span class="mission-status"></span>
+              <span class="mission-coins"></span>
+            </li>
+          </template>
+        </section>
         <section id="shop-currency" aria-labelledby="shop-tab-currency" hidden>
-          <div class="shop-currency-card">
-            <span class="shop-coin" aria-hidden="true"></span>
-            <div><h3 data-i18n="shopCoins"></h3><strong id="shop-currency-amount"></strong></div>
+          <div class="shop-effect-card">
+            <span class="shop-effect-icon" aria-hidden="true"></span>
+            <div>
+              <h3 data-i18n="shopGoldenPlacement"></h3>
+              <p data-i18n="shopGoldenPlacementGuide"></p>
+              <p id="shop-effect-status" hidden></p>
+            </div>
           </div>
-          <p data-i18n="shopCurrencyGuide"></p>
           <p id="shop-starter"></p>
         </section>
         <section id="shop-skins" aria-labelledby="shop-tab-skins">
@@ -705,6 +728,7 @@
         </div>
         <div class="shop-footer">
           <p id="shop-feedback" role="status" hidden></p>
+          <button id="shop-buy-effect" class="primary" type="button" data-ncq-main="Buy golden placement" hidden disabled></button>
           <button id="shop-action" class="primary" type="button" data-ncq-main="Apply or buy skins" disabled></button>
           <button class="secondary" type="submit" data-ncq-main="Close shop" data-i18n="shopClose"></button>
         </div>
@@ -813,6 +837,7 @@
               <span id="rating-range"></span>
             </div>
             <p id="result-summary"></p>
+            <p id="result-mission" role="status" hidden></p>
           </div>
         </div>
         <section id="result-rating" class="result-rating" aria-labelledby="result-meter-heading" hidden>

@@ -100,7 +100,7 @@
     var admob = ncq.NCQ_ADMOB && typeof ncq.NCQ_ADMOB === "object" ? ncq.NCQ_ADMOB : null;
     var tossAds = ncq.NCQ_TOSS_ADS && typeof ncq.NCQ_TOSS_ADS === "object" ? ncq.NCQ_TOSS_ADS : null;
     var cfg = platform === "toss" ? tossAds : admob;
-    var e = {ncq: ncq, cfg: cfg, platform: platform, sim: platform === "web", native: !!admob && platform === "android",
+    var e = {ncq: ncq, cfg: cfg, platform: platform, sim: platform === "web", native: !!admob && (platform === "android" || platform === "ios"),
              toss: !!tossAds && platform === "toss"};
     if (w.NCQ) seen = e;
     return e;

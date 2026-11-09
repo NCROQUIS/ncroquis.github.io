@@ -41,11 +41,9 @@ header{top:25px}.physics-controls{position:absolute;top:112px;left:42px;right:42
 .dialog button:not(.dialog-close){position:relative;isolation:isolate;border:0;background:none;top:-15px}
 .dialog button:not(.dialog-close) .button-art{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 .dialog h2{transform:translateY(-12px)}
-.dialog.mission-complete p{flex:0 0 48px;height:48px;max-height:48px;margin-top:40px;margin-bottom:auto;align-items:center}
 #overlay:not([hidden]) .dialog{animation:popupIn .32s cubic-bezier(.2,1.25,.35,1) both}
 @keyframes popupIn{0%{opacity:0;transform:scale(.84)}65%{opacity:1;transform:scale(1.035)}100%{opacity:1;transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){#overlay:not([hidden]) .dialog{animation:none}}
-.dialog.mission-complete{min-height:575px}
 
 /* 720 × 1280: move the upper HUD down while retaining space above the table. */
 header{top:45px}
@@ -58,10 +56,15 @@ header{top:45px}
 #tiers span{position:relative;overflow:visible}
 #tiers span.locked img{filter:brightness(0);opacity:1}
 #tiers .lock-mark{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);z-index:1;color:#ffe3a2;font-size:23px;line-height:1;text-shadow:0 1px 2px #000a;pointer-events:none}
-#tiers .unlock-flash img{animation:collectionReveal .65s ease-out both}
+#tiers .unlock-flash img{transform-origin:center bottom;animation:collectionReveal .65s ease-out both}
 #tiers .unlock-flash::after{content:'';position:absolute;left:50%;top:50%;width:90px;height:90px;transform:translate(-50%,-50%) scale(.2);border-radius:50%;background:radial-gradient(circle,#fff 0%,#fff5b8 20%,#ffcf5588 38%,transparent 70%);mix-blend-mode:screen;pointer-events:none;animation:collectionFlash .65s ease-out both}
 #tiers .unlock-spark{position:absolute;left:50%;top:50%;z-index:2;width:7px;height:7px;margin:-3px;border-radius:50%;background:#fff9be;box-shadow:0 0 5px 2px #ffd45e;pointer-events:none;animation:collectionSpark .7s ease-out both}
-@keyframes collectionReveal{0%,18%{filter:brightness(0)}40%{filter:brightness(2.5)}100%{filter:brightness(1)}}
+@keyframes collectionReveal{
+ 0%{transform:scale(1);filter:brightness(1.65)}
+ 27%{transform:scale(.74,1.16);filter:brightness(1.9)}
+ 56%{transform:scale(1.26,.92);filter:brightness(1.35)}
+ 100%{transform:scale(1);filter:brightness(1)}
+}
 @keyframes collectionFlash{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}35%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.3)}}
 @keyframes collectionSpark{0%{opacity:0;transform:rotate(var(--angle)) translateY(0) scale(.2)}30%{opacity:1}100%{opacity:0;transform:rotate(var(--angle)) translateY(-43px) scale(.3)}}
 @media (prefers-reduced-motion:reduce){#tiers .unlock-flash img,#tiers .unlock-flash::after,#tiers .unlock-spark{animation:none}#tiers .unlock-flash::after,#tiers .unlock-spark{display:none}}
@@ -96,3 +99,76 @@ header{justify-content:flex-end}
 .mission-top,.mission-bottom{font-size:9px}
 #toast{top:425px}
 #app.options-hidden #toast{top:320px}
+
+#playfield{position:absolute;inset:0}
+#missionComplete{
+ position:absolute;inset:0;z-index:1;display:grid;place-items:center;
+ color:#ffe475;font-size:42px;letter-spacing:-1px;line-height:1;white-space:nowrap;
+ -webkit-text-stroke:7px #6c3412;paint-order:stroke fill;
+ text-shadow:0 4px 0 #8a4517,0 0 18px #ffc740;
+ opacity:0;pointer-events:none;
+}
+#missionComplete.visible{animation:missionCelebration 1.5s ease-out both}
+.mission:has(#missionComplete.visible) .mission-info,
+.mission:has(#missionComplete.visible) .mission-icon{opacity:0}
+@keyframes missionCelebration{
+ 0%{opacity:0;transform:scale(.65) rotate(-5deg)}
+ 18%{opacity:1;transform:scale(1.13) rotate(2deg)}
+ 33%,78%{opacity:1;transform:scale(1) rotate(0)}
+ 100%{opacity:0;transform:translateY(-10px) scale(.96)}
+}
+
+#app:has(#overlay.discovery-mode) #playfield{filter:blur(7px)}
+#overlay.discovery-mode{backdrop-filter:none}
+#overlay.discovery-mode .dialog{min-height:600px}
+#overlay.discovery-mode :is(#dialogText,#resume,#sound,#install,#restart){display:none}
+#discoveryReward{
+ flex:1;width:100%;margin:6px 0 21px;display:flex;flex-direction:column;
+ align-items:center;justify-content:center;gap:12px;
+}
+#discoveryReward[hidden]{display:none}
+.discovery-art{
+ width:305px;height:290px;display:grid;place-items:center;
+ background:radial-gradient(ellipse,#ffd966bf 0%,#ffedbacc 40%,transparent 70%);
+}
+#discoveryImage{max-width:100%;max-height:100%;object-fit:contain}
+#discoveryEmoji{font-size:120px}
+#discoveryName{font-size:25px;color:#54427f}
+.discovery-flyer,.discovery-trail{position:absolute;z-index:13;pointer-events:none}
+.discovery-flyer{
+ inset:0 auto auto 0;object-fit:contain;z-index:14;
+ display:grid;place-items:center;font-size:120px;line-height:1;
+ filter:drop-shadow(0 0 10px #ffdd72);
+}
+.discovery-trail{
+ width:17px;height:17px;margin:-8.5px 0 0 -8.5px;background:#fff5a4;
+ clip-path:polygon(50% 0,63% 35%,100% 50%,63% 64%,50% 100%,36% 64%,0 50%,36% 35%);
+}
+.discovery-trail:nth-child(2n){background:#fff;width:12px;height:12px;margin:-6px 0 0 -6px}
+@media (prefers-reduced-motion:reduce){
+ #missionComplete.visible{animation:none;opacity:1}
+}
+
+#comboBanner{
+ position:absolute;z-index:4;pointer-events:none;white-space:nowrap;
+ opacity:0;transform:translate(-50%,-50%);
+ color:#a4fffa;font-size:57px;line-height:1.05;
+ -webkit-text-stroke:10px #073d47;paint-order:stroke fill;
+ text-shadow:0 5px 0 #062e39,0 0 20px #5df4ff;
+}
+#comboBanner.big{
+ color:#fff492;
+ -webkit-text-stroke-color:#65410c;
+ text-shadow:0 5px 0 #412800,0 0 24px #fff2a0;
+}
+#comboBanner.visible{animation:comboBurst 1.14s ease-out both}
+@keyframes comboBurst{
+ 0%{opacity:0;transform:translate(-50%,-44%) scale(.65) rotate(-6deg)}
+ 17%{opacity:1;transform:translate(-50%,-56%) scale(1.19) rotate(2deg)}
+ 34%,74%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}
+ 100%{opacity:0;transform:translate(-50%,-74%) scale(.94)}
+}
+@media (prefers-reduced-motion:reduce){
+ #comboBanner.visible{animation-name:comboStill}
+ @keyframes comboStill{0%,88%{opacity:1}100%{opacity:0}}
+}

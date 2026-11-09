@@ -150,6 +150,25 @@ body {
 
 .quick-play:hover { background: #34433c; }
 
+/* 피드백 게시판 링크 (카드·소개 페이지) */
+.quick-board {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-left: 12px;
+  padding: 7px 14px 8px;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.quick-board:first-child { margin-left: 0; }
+.quick-board:hover { background: rgba(31, 38, 35, 0.08); }
+.quick-board:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.board-link { margin: 14px 0 0; }
+.board-link a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
 .ver {
   margin-left: 10px;
   color: var(--graphite);
@@ -258,6 +277,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
     <p class="lead">젤리처럼 출렁이는 조각을 놓아 줄을 지우는 말랑한 블록 퍼즐</p>
     <p class="pitch">8×8 판에 젤리 조각을 끌어다 놓고 가로세로 줄을 채워 지우는 블록 퍼즐이에요. 조각을 놓으면 눌렸다가 탱글하게 튕기고, 줄이 지워질 때는 젤리가 부풀었다 터지며 방울이 튀어요. 쉬운 규칙에 손맛 좋은 연출을 더해 짧게 자주 즐기기 좋아요.</p>
     <p><a class="play" href="play/">플레이해 보기</a> <span class="ver">v1.0.1</span></p>
+    <p class="board-link"><a href="feedback/">피드백 남기기 · 다른 사람 의견 보기</a></p>
     <p class="note">jellyblock, 2026.11.5 시작</p>
     <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
   </article>

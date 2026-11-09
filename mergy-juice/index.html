@@ -150,6 +150,25 @@ body {
 
 .quick-play:hover { background: #34433c; }
 
+/* 피드백 게시판 링크 (카드·소개 페이지) */
+.quick-board {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-left: 12px;
+  padding: 7px 14px 8px;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.quick-board:first-child { margin-left: 0; }
+.quick-board:hover { background: rgba(31, 38, 35, 0.08); }
+.quick-board:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.board-link { margin: 14px 0 0; }
+.board-link a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
 .ver {
   margin-left: 10px;
   color: var(--graphite);
@@ -258,6 +277,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
     <p class="lead">주스를 던지고 합쳐 11단계 컬렉션을 채우는 퍼즐</p>
     <p class="pitch">해변 주스바에서 잔을 좌우로 움직여 던지고, 같은 주스를 합쳐 더 큰 잔을 만들어 보세요. 점수 미션에 도전하며 11단계 주스 컬렉션을 채워 보세요.</p>
     <p><a class="play" href="play/">플레이해 보기</a> <span class="ver">v0.1.0</span></p>
+    <p class="board-link"><a href="feedback/">피드백 남기기 · 다른 사람 의견 보기</a></p>
     <p class="note">mergy-juice, 2026.11.9 시작</p>
     <p class="by">만든 사람 <a class="dev" href="https://github.com/Heo-SD" rel="noopener" aria-label="개발자 GitHub Heo-SD">@Heo-SD</a></p>
   </article>

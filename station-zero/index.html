@@ -150,6 +150,25 @@ body {
 
 .quick-play:hover { background: #34433c; }
 
+/* 피드백 게시판 링크 (카드·소개 페이지) */
+.quick-board {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-left: 12px;
+  padding: 7px 14px 8px;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.quick-board:first-child { margin-left: 0; }
+.quick-board:hover { background: rgba(31, 38, 35, 0.08); }
+.quick-board:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.board-link { margin: 14px 0 0; }
+.board-link a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
 .ver {
   margin-left: 10px;
   color: var(--graphite);
@@ -258,6 +277,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
     <p class="lead">매판 정거장을 새로 지어 스웜을 막는 로그라이크 행성 방어</p>
     <p class="pitch">코어 하나만 남은 우주정거장 &#x27;아크 제로&#x27;로 스웜에 맞서 행성을 지키세요. 섹터 지도에서 길을 고르고, 전투에서 얻은 육각 타일을 직접 붙여 격납고·포대·미사일·방벽으로 나만의 정거장을 완성합니다. 요격기 편대와 오비탈 위성이 함께 싸우는 화려한 디펜스를 짧은 한 판으로 즐길 수 있습니다.</p>
     <p><a class="play" href="play/">플레이해 보기</a> <span class="ver">v0.3.0</span></p>
+    <p class="board-link"><a href="feedback/">피드백 남기기 · 다른 사람 의견 보기</a></p>
     <p class="note">station-zero, 2026.10.31 시작</p>
     <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
   </article>

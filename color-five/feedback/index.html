@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>오색전대 컬러파이브 피드백 게시판 (엔크로키)</title>
+<meta name="description" content="오색전대 컬러파이브에 대한 플레이어 의견을 남기고, 다른 사람의 의견과 개발자 답글을 볼 수 있어요.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="오색전대 컬러파이브 피드백 게시판">
+<meta property="og:description" content="오색전대 컬러파이브에 의견을 남겨 주세요.">
+<meta property="og:url" content="https://ncroquis.github.io/color-five/feedback/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&family=Nanum+Pen+Script&display=swap">
+<style>
+:root {
+  --mat: #2f5d50;
+  --mat-line: rgba(236, 214, 120, 0.13);
+  --mat-line-major: rgba(236, 214, 120, 0.28);
+  --paper: #fdfdfb;
+  --ink: #1f2623;
+  --graphite: #57605b;
+  --on-mat: #f3f7f4;
+  --on-mat-soft: #c4dace;
+  --tape-dev: #f1c94f;
+  --tape-test: #93c4ec;
+  --tape-live: #e9664c;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mat: #213f36;
+    --paper: #eceee9;
+    --mat-line: rgba(236, 214, 120, 0.1);
+    --mat-line-major: rgba(236, 214, 120, 0.2);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--on-mat);
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  background-color: var(--mat);
+  background-image:
+    linear-gradient(var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(var(--mat-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: -1px -1px;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 64px 20px 72px; }
+
+.masthead h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(48px, 10vw, 96px);
+  line-height: 1;
+}
+
+.masthead p { margin: 16px 0 0; max-width: 34em; color: var(--on-mat-soft); font-size: 18px; }
+
+.board {
+  list-style: none;
+  margin: 64px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 44px 28px;
+}
+
+.sheet {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 34px 22px 18px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 12px 20px -12px rgba(0, 0, 0, 0.55);
+}
+
+.board li:nth-child(3n + 1) .sheet { transform: rotate(-0.7deg); }
+.board li:nth-child(3n + 2) .sheet { transform: rotate(0.5deg); }
+.board li:nth-child(3n) .sheet { transform: rotate(-0.25deg); }
+
+.board .sheet h2 a { color: inherit; text-decoration: none; }
+.board .sheet h2 a::after { content: ""; position: absolute; inset: 0; }
+.board .sheet h2 a:focus-visible { outline: none; }
+.board .sheet:focus-within { outline: 3px solid var(--tape-dev); outline-offset: 5px; }
+
+.tape {
+  position: absolute;
+  top: -12px;
+  left: 18px;
+  padding: 3px 12px 4px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  transform: rotate(-2.5deg);
+  opacity: 0.95;
+}
+
+.tape[data-status="테스트 중"] { background: var(--tape-test); }
+.tape[data-status="출시"] { background: var(--tape-live); color: #fff; }
+
+.sheet h2 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.summary { margin: 10px 0 0; }
+
+.quick { margin: 16px 0 0; }
+
+.quick-play {
+  position: relative;
+  z-index: 1; /* 카드 전체가 소개 페이지 링크(h2 a::after)라 그 위에서 따로 눌려요 */
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 18px 10px 15px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.quick-play::before {
+  content: "";
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent currentColor;
+}
+
+.quick-play:hover { background: #34433c; }
+
+/* 피드백 게시판 링크 (카드·소개 페이지) */
+.quick-board {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-left: 12px;
+  padding: 7px 14px 8px;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.quick-board:first-child { margin-left: 0; }
+.quick-board:hover { background: rgba(31, 38, 35, 0.08); }
+.quick-board:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.board-link { margin: 14px 0 0; }
+.board-link a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
+.ver {
+  margin-left: 10px;
+  color: var(--graphite);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.note {
+  margin: 18px 0 0;
+  color: var(--graphite);
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+/* 만든 사람: 개발자 GitHub 아이디 (카드 전체 링크 위에서 따로 눌려요) */
+.by { margin: 4px 0 0; color: var(--graphite); font-size: 14px; }
+.dev {
+  position: relative;
+  z-index: 1;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.dev:hover { color: #34433c; }
+.dev:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+
+.empty {
+  margin: 64px 0 0;
+  max-width: 30em;
+  padding: 24px;
+  border: 2px dashed var(--on-mat-soft);
+  color: var(--on-mat-soft);
+}
+
+.back {
+  color: var(--on-mat);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.page { max-width: 760px; margin: 0 auto; padding: 32px 20px 72px; }
+
+.page .sheet {
+  margin-top: 44px;
+  padding: 52px clamp(22px, 6vw, 60px) 40px;
+  transform: rotate(-0.35deg);
+}
+
+.page .sheet h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(40px, 8vw, 64px);
+  line-height: 1.05;
+}
+
+.lead { margin: 16px 0 0; font-size: 20px; line-height: 1.5; }
+
+.pitch { margin: 24px 0 0; max-width: 34em; }
+
+.play {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 22px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pending { margin: 24px 0 0; color: var(--graphite); }
+
+.back:focus-visible,
+.play:focus-visible,
+.quick-play:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+
+footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
+
+.masthead .start-link { margin: 28px 0 0; }
+
+.start-link a {
+  display: inline-block;
+  padding: 8px 16px 9px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-weight: 600;
+  text-decoration: none;
+  transform: rotate(-1.5deg);
+}
+
+.start-link a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+
+/* 피드백 게시판 (<코드네임>/feedback/): 공개 페이지의 녹색 판 위에 글쓰기 종이 한 장과 의견 카드들 */
+.fb [hidden] { display: none !important; }
+.fb-head { margin-top: 40px; }
+.fb-head h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(38px, 8vw, 64px);
+  line-height: 1.05;
+}
+.fb-head p { margin: 16px 0 0; max-width: 32em; color: var(--on-mat-soft); font-size: 18px; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.fb .fb-write { margin-top: 48px; padding: 44px clamp(20px, 5vw, 44px) 28px; transform: rotate(-0.3deg); }
+
+.fb-cats { margin: 0; padding: 0; border: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.fb-cats legend { padding: 0; margin-bottom: 10px; font-weight: 600; }
+.fb-cats label { position: relative; }
+.fb-cats input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.fb-cats span {
+  display: inline-block;
+  min-width: 64px;
+  padding: 7px 16px 8px;
+  border: 2px solid var(--ink);
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+.fb-cats input:checked + span { background: var(--ink); color: var(--paper); }
+.fb-cats input:focus-visible + span { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+
+.fb-label { display: block; margin: 20px 0 6px; font-weight: 600; }
+.fb-opt { color: var(--graphite); font-weight: 400; }
+.fb textarea, .fb input[type="email"] {
+  width: 100%;
+  font: inherit;
+  font-size: 17px;
+  padding: 10px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+}
+.fb textarea { resize: vertical; min-height: 128px; }
+.fb textarea:focus-visible, .fb input[type="email"]:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+.fb-count { margin: 4px 0 0; text-align: right; color: var(--graphite); font-size: 13px; font-variant-numeric: tabular-nums; }
+.fb-hint, .fb-note { margin: 6px 0 0; color: var(--graphite); font-size: 14px; }
+.fb-note { margin-top: 18px; }
+.fb-trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.fb-send {
+  margin-top: 16px;
+  padding: 12px 28px;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font: inherit;
+  font-weight: 600;
+  font-size: 17px;
+  cursor: pointer;
+}
+.fb-send[disabled] { opacity: 0.55; cursor: default; }
+.fb-send:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.fb-status { margin: 12px 0 0; min-height: 1.5em; font-weight: 600; }
+.fb-status.bad { color: #b3261e; }
+
+.fb-list { margin-top: 64px; }
+.fb-list > h2 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(28px, 5vw, 36px);
+}
+.fb-filter { margin: 18px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.fb-filter button {
+  padding: 6px 14px 7px;
+  border: 2px solid var(--on-mat-soft);
+  background: transparent;
+  color: var(--on-mat);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.fb-filter button[aria-pressed="true"] { background: var(--tape-dev); border-color: var(--tape-dev); color: #2b2a20; }
+.fb-filter button:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+.fb-filter span { font-variant-numeric: tabular-nums; opacity: 0.8; }
+
+.fb-items { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 26px; }
+.fb-item {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 28px 22px 18px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 10px 18px -12px rgba(0, 0, 0, 0.55);
+}
+.fb-item:nth-child(odd) { transform: rotate(-0.25deg); }
+.fb-item:nth-child(even) { transform: rotate(0.2deg); }
+.fb-item .tape { left: 16px; }
+.fb-item .tape[data-cat="bug"] { background: var(--tape-live); color: #fff; }
+.fb-item .tape[data-cat="idea"] { background: var(--tape-test); }
+.fb-item .tape[data-cat="praise"] { background: var(--tape-dev); }
+.fb-item .tape[data-cat="other"] { background: #d9dcd6; }
+.fb-meta { margin: 0; color: var(--graphite); font-size: 13px; font-variant-numeric: tabular-nums; }
+.fb-state { margin-left: 8px; padding: 1px 8px; border: 1.5px solid currentColor; font-size: 12px; font-weight: 600; }
+.fb-state[data-status="done"] { color: #2d6a46; }
+.fb-state[data-status="planned"] { color: #2a5d8a; }
+.fb-text { margin: 8px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.fb-reply {
+  margin: 14px 0 0;
+  padding: 10px 14px 12px;
+  border-left: 4px solid var(--ink);
+  background: rgba(31, 38, 35, 0.06);
+}
+.fb-reply b { display: block; font-size: 13px; }
+.fb-reply p { margin: 4px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+.fb-empty, .fb-error { margin: 28px 0 0; padding: 20px; border: 2px dashed var(--on-mat-soft); color: var(--on-mat-soft); }
+.fb-more {
+  display: block;
+  margin: 28px auto 0;
+  padding: 10px 24px;
+  border: 2px solid var(--on-mat);
+  background: transparent;
+  color: var(--on-mat);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.fb-more:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fb .fb-write, .fb-item { transform: none !important; }
+}
+</style>
+</head>
+<body>
+<main class="page fb" data-api="https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/color-five" data-codename="color-five">
+  <a class="back" href="../">오색전대 컬러파이브 소개로</a>
+
+  <header class="fb-head">
+    <h1>오색전대 컬러파이브<br>피드백 게시판</h1>
+    <p>불편한 점, 바라는 점, 좋았던 점을 남겨 주세요. 개발자가 읽고 답글을 달아요.</p>
+  </header>
+
+  <section class="sheet fb-write" aria-labelledby="write-title">
+    <span class="tape">피드백 남기기</span>
+    <h2 id="write-title" class="sr-only">피드백 남기기</h2>
+    <form id="fb-form" novalidate>
+      <fieldset class="fb-cats">
+        <legend>어떤 이야기인가요?</legend>
+        <label><input type="radio" name="category" value="bug" checked><span>버그</span></label>
+        <label><input type="radio" name="category" value="idea"><span>제안</span></label>
+        <label><input type="radio" name="category" value="praise"><span>칭찬</span></label>
+        <label><input type="radio" name="category" value="other"><span>기타</span></label>
+      </fieldset>
+      <label class="fb-label" for="fb-text">내용</label>
+      <textarea id="fb-text" name="text" maxlength="1000" rows="5" required
+                placeholder="언제, 어디서, 무엇이 있었는지 적어 주면 고치기 쉬워요."></textarea>
+      <p class="fb-count" id="fb-count" aria-live="off">0 / 1000</p>
+      <label class="fb-label" for="fb-mail">연락받을 이메일 <span class="fb-opt">(선택)</span></label>
+      <input id="fb-mail" name="contact" type="email" maxlength="254" autocomplete="email">
+      <p class="fb-hint">답을 받고 싶을 때만 적어요. 이메일은 공개되지 않아요.</p>
+      <div class="fb-trap" aria-hidden="true"><label>비워 두세요 <input name="hp" tabindex="-1" autocomplete="off"></label></div>
+      <p class="fb-note">글은 이 게시판에 공개돼요. 이름·전화번호 같은 개인정보는 적지 마세요.</p>
+      <button type="submit" class="fb-send">보내기</button>
+      <p class="fb-status" id="fb-status" role="status"></p>
+    </form>
+  </section>
+
+  <section class="fb-list" aria-labelledby="list-title">
+    <h2 id="list-title">남겨 준 의견</h2>
+    <div class="fb-filter" role="group" aria-label="분류로 보기">
+      <button type="button" data-cat="" aria-pressed="true">전체 <span data-count="all"></span></button>
+      <button type="button" data-cat="bug" aria-pressed="false">버그 <span data-count="bug"></span></button>
+      <button type="button" data-cat="idea" aria-pressed="false">제안 <span data-count="idea"></span></button>
+      <button type="button" data-cat="praise" aria-pressed="false">칭찬 <span data-count="praise"></span></button>
+      <button type="button" data-cat="other" aria-pressed="false">기타 <span data-count="other"></span></button>
+    </div>
+    <ol class="fb-items" id="fb-items" aria-live="polite"></ol>
+    <p class="fb-empty" id="fb-empty" hidden>아직 남겨진 의견이 없어요. 첫 의견을 남겨 주세요.</p>
+    <p class="fb-error" id="fb-error" hidden></p>
+    <button type="button" class="fb-more" id="fb-more" hidden>더 보기</button>
+  </section>
+
+  <footer>© 2026 엔크로키</footer>
+</main>
+<script>
+// 피드백 게시판: 킥오프 서버의 /ncq/v1/feedback/<코드네임>에서 목록을 읽고 글을 보내요 (로그인 없음).
+// 글자는 모두 textContent로만 넣어요 (플레이어가 쓴 글이라서).
+(function () {
+  "use strict";
+  var main = document.querySelector("main.fb");
+  var api = main && main.getAttribute("data-api");
+  var CATS = { bug: "버그", idea: "제안", praise: "칭찬", other: "기타" };
+  var STATES = { new: "", seen: "확인함", planned: "반영 예정", done: "반영함" };
+  var PLATFORMS = { web: "웹", android: "안드로이드", ios: "iOS", toss: "토스" };
+  var list = document.getElementById("fb-items");
+  var empty = document.getElementById("fb-empty");
+  var error = document.getElementById("fb-error");
+  var more = document.getElementById("fb-more");
+  var form = document.getElementById("fb-form");
+  var status = document.getElementById("fb-status");
+  var text = document.getElementById("fb-text");
+  var count = document.getElementById("fb-count");
+  var category = "";
+  var last = "";
+
+  function el(tag, cls, value) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (value != null) e.textContent = value;
+    return e;
+  }
+
+  function day(iso) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
+    return m ? Number(m[1]) + "." + Number(m[2]) + "." + Number(m[3]) : "";
+  }
+
+  function card(item) {
+    var li = el("li", "fb-item");
+    var tape = el("span", "tape", CATS[item.category] || "기타");
+    tape.setAttribute("data-cat", item.category in CATS ? item.category : "other");
+    li.appendChild(tape);
+    var meta = [day(item.date)];
+    if (item.version) meta.push("v" + item.version);
+    if (item.platform && PLATFORMS[item.platform]) meta.push(PLATFORMS[item.platform]);
+    var p = el("p", "fb-meta", meta.filter(Boolean).join(" · "));
+    if (STATES[item.status]) {
+      var s = el("span", "fb-state", STATES[item.status]);
+      s.setAttribute("data-status", item.status);
+      p.appendChild(s);
+    }
+    li.appendChild(p);
+    li.appendChild(el("p", "fb-text", item.text));
+    if (item.reply && item.reply.text) {
+      var r = el("div", "fb-reply");
+      r.appendChild(el("b", null, "개발자 답글" + (item.reply.date ? " · " + day(item.reply.date) : "")));
+      r.appendChild(el("p", null, item.reply.text));
+      li.appendChild(r);
+    }
+    return li;
+  }
+
+  function show(problem) {
+    error.hidden = !problem;
+    error.textContent = problem || "";
+  }
+
+  function load(reset) {
+    if (!api) { show("지금은 게시판을 열 수 없어요."); return; }
+    var q = [];
+    if (category) q.push("category=" + encodeURIComponent(category));
+    if (!reset && last) q.push("before=" + encodeURIComponent(last));
+    more.disabled = true;
+    fetch(api + (q.length ? "?" + q.join("&") : ""), { credentials: "omit" }).then(function (r) {
+      return r.json().then(function (data) { return { ok: r.ok, data: data }; });
+    }).then(function (res) {
+      var data = res.data || {};
+      if (!res.ok || !data.ok) throw new Error(data.error || "");
+      if (reset) list.textContent = "";
+      (data.items || []).forEach(function (item) { list.appendChild(card(item)); });
+      last = data.items && data.items.length ? data.items[data.items.length - 1].id : last;
+      var counts = data.counts || {};
+      document.querySelectorAll("[data-count]").forEach(function (n) {
+        var k = n.getAttribute("data-count");
+        var v = k === "all" ? data.total : counts[k];
+        n.textContent = v ? String(v) : "";
+      });
+      empty.hidden = list.children.length > 0;
+      more.hidden = !data.more;
+      show("");
+    }).catch(function (e) {
+      show((e && e.message) || "게시판을 불러오지 못했어요. 잠시 뒤 새로 고쳐 주세요.");
+    }).then(function () { more.disabled = false; });
+  }
+
+  document.querySelectorAll(".fb-filter button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      category = b.getAttribute("data-cat") || "";
+      document.querySelectorAll(".fb-filter button").forEach(function (o) {
+        o.setAttribute("aria-pressed", String(o === b));
+      });
+      last = "";
+      load(true);
+    });
+  });
+  more.addEventListener("click", function () { load(false); });
+  text.addEventListener("input", function () { count.textContent = text.value.length + " / 1000"; });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var body = {
+      category: (form.querySelector("input[name=category]:checked") || {}).value || "other",
+      text: text.value, contact: form.contact.value.trim(), hp: form.hp.value, source: "page", platform: "web",
+      lang: navigator.language || ""
+    };
+    status.className = "fb-status";
+    if (!body.text.trim()) { status.className = "fb-status bad"; status.textContent = "내용을 적어 주세요."; text.focus(); return; }
+    if (!api) { status.className = "fb-status bad"; status.textContent = "지금은 보낼 수 없어요."; return; }
+    var send = form.querySelector(".fb-send");
+    send.disabled = true;
+    status.textContent = "보내는 중…";
+    fetch(api, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+                 credentials: "omit" }).then(function (r) {
+      return r.json().then(function (data) { return { ok: r.ok, data: data }; });
+    }).then(function (res) {
+      if (!res.ok || !res.data.ok) throw new Error(res.data.error || "");
+      form.reset();
+      count.textContent = "0 / 1000";
+      status.textContent = "고마워요! 잘 받았어요.";
+      category = "";
+      last = "";
+      document.querySelectorAll(".fb-filter button").forEach(function (o, i) { o.setAttribute("aria-pressed", String(i === 0)); });
+      load(true);
+    }).catch(function (err) {
+      status.className = "fb-status bad";
+      status.textContent = (err && err.message) || "보내지 못했어요. 잠시 뒤 다시 해 주세요.";
+    }).then(function () { send.disabled = false; });
+  });
+
+  load(true);
+})();
+</script>
+</body>
+</html>

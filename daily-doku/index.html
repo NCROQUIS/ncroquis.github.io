@@ -150,6 +150,25 @@ body {
 
 .quick-play:hover { background: #34433c; }
 
+/* 피드백 게시판 링크 (카드·소개 페이지) */
+.quick-board {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-left: 12px;
+  padding: 7px 14px 8px;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.quick-board:first-child { margin-left: 0; }
+.quick-board:hover { background: rgba(31, 38, 35, 0.08); }
+.quick-board:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.board-link { margin: 14px 0 0; }
+.board-link a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
 .ver {
   margin-left: 10px;
   color: var(--graphite);
@@ -258,6 +277,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
     <p class="lead">매일 전국이 같은 문제를 푸는 스도쿠, 결과 카드로 친구와 겨뤄요</p>
     <p class="pitch">하루 한 판, 모두가 같은 스도쿠를 풀어요. 풀이 시간과 실수 수가 결과 카드로 남고, 친구에게 공유하면 순위로 겨룰 수 있어요. 무제한 클래식 모드로 원할 때 더 즐길 수도 있어요.</p>
     <p><a class="play" href="play/">플레이해 보기</a> <span class="ver">v0.4.0</span></p>
+    <p class="board-link"><a href="feedback/">피드백 남기기 · 다른 사람 의견 보기</a></p>
     <p class="note">daily-doku, 2026.11.4 시작</p>
     <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
   </article>

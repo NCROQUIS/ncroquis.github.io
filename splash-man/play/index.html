@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script>
+<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+<script src="ncq/safe.js"></script>
 <script>(function(){var n=window.NCQ||{},p=n.NCQ_PLATFORM,d=document.documentElement;if(!p)return;if(!window.NCQ_TEST_TOOLS){window.SF_RELEASE=true;d.classList.add('release')}if(p==='android'){window.__ANDROID__=1;d.classList.add('ncq-android')}})();</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="color-scheme" content="dark">
@@ -32,7 +33,12 @@
 }
 html,body{height:100%}
 body{background:var(--brick);color:var(--ink);font-family:var(--body);overflow:hidden;-webkit-user-select:none;user-select:none}
-.app{height:100%;box-sizing:border-box;display:flex;flex-direction:column;gap:6px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+/* 화면 안전 영역 (공통 지침, ncq/safe.js): 위는 상태 바·카메라 구멍·토스 메뉴(⋯·✕) 줄, 아래는 내비게이션 바·홈 인디케이터·배너 광고만큼
+   비워요 (--ncq-top·--ncq-bottom). 게임·로비·팝업은 모두 이 안쪽 .frame에 그려요. 배너가 떠 있으면 잘못 누르지 않게 배너 위로 10px 더 띄워요.
+   safe.js가 없는 곳(claude.ai 아티팩트)은 0px로 봐요. 화면 높이는 휴대폰 주소창을 뺀 100dvh (안 되는 브라우저는 100%).
+   구글플레이 앱은 문서(html 요소)에도 app 클래스가 붙어서 div.app으로만 골라요 (예전에는 앱에서 여백이 두 번 들어갔어요) */
+div.app{height:100%;height:100dvh;box-sizing:border-box;display:flex;flex-direction:column;gap:6px;
+  padding:max(10px,var(--ncq-top,0px)) max(16px,var(--ncq-right,0px)) max(10px,calc(var(--ncq-bottom,0px) + min(10px,var(--ncq-banner-bottom,0px)))) max(16px,var(--ncq-left,0px))}
 .stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
 .frame{position:relative;line-height:0}
 canvas{display:block;border-radius:14px;touch-action:none;max-width:100%}
@@ -161,7 +167,8 @@ button:active{transform:translateY(1px)}
 .overlay.sheet .coins,.overlay.sheet .sub{font-size:15px}
 .overlay.sheet .hthumb{width:54px;height:54px}
 .overlay.sheet .card{pointer-events:auto;width:100%;max-height:64%;background:rgba(29,33,71,.985);gap:8px;padding:12px 14px 14px;box-shadow:0 -8px 30px rgba(10,8,30,.45)}
-.overlay.sheet.docked{inset:0 0 86px 0}
+/* 로비 메뉴 화면은 위 막대와 아래 탭 바 사이에 와요. 두 막대의 실제 높이는 게임이 재서 --lb-top·--lb-tab으로 넣어요 (lobbyBars) */
+.overlay.sheet.docked{inset:0 0 var(--lb-tab,86px) 0}
 .chsel{display:flex;align-items:center;justify-content:center;gap:10px}
 .chsel button{width:38px;height:38px;padding:0;border-radius:50%;background:rgba(20,18,45,.72);color:var(--ink);font-size:20px}
 .chsel button:disabled{opacity:.3;cursor:default}
@@ -194,7 +201,7 @@ button.chip .plus{display:inline-grid;place-items:center;width:16px;height:16px;
 .interad{position:absolute;inset:0;border-radius:14px;background:#0e0f22;display:grid;place-items:center;text-align:center;line-height:1.5}
 .interad .ph{display:grid;gap:6px;justify-items:center;padding:20px;color:#a9a9cf;font-size:13px}
 .interad .ph b{font-family:var(--display);font-weight:400;font-size:22px;color:#ddd8f2}
-.interad .x{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;font-size:14px;padding:8px 14px;background:rgba(255,255,255,.12);color:#fff}
+.interad .x{position:absolute;top:12px;right:12px;font-size:14px;padding:8px 14px;background:rgba(255,255,255,.12);color:#fff}
 .interad .x:disabled{opacity:.6;cursor:default}
 .packs{display:grid;gap:8px;width:100%}
 .pack{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;text-align:left;padding:11px 12px;border-radius:12px;background:#262b5e}
@@ -453,7 +460,7 @@ body{color:#fff4e6}
 .lobby>.logo{display:none}
 .toast{color:#fff4e6!important;text-shadow:0 1px 0 #15122b}
 .toast b{color:#ffd166!important}
-.overlay.sheet.docked.full{inset:66px 0 86px 0}
+.overlay.sheet.docked.full{inset:var(--lb-top,66px) 0 var(--lb-tab,86px) 0}
 .overlay.sheet.docked.full .card{height:100%;max-height:100%!important;border-radius:20px 20px 0 0;overflow-y:auto}
 .sbtn{width:46px;height:46px}
 .sbtn svg{width:24px;height:24px}
@@ -476,6 +483,9 @@ body{color:#fff4e6}
 [hidden]{display:none!important}
 #bootCv{position:absolute;inset:0;width:100%;height:100%;max-width:none;border-radius:14px}
 .boot{z-index:30;flex-direction:column;gap:12px;background:#1d0e2e;cursor:pointer;pointer-events:auto;overflow:hidden;transition:opacity .35s}
+/* 시작 화면이 떠 있는 동안 뒤의 로비는 숨겨요 (시작 화면이 다 가려서 보이는 건 같아요. 화면 점검이 가려진 플레이 버튼을 세지 않게).
+   시작 화면을 누르면(.out) 사라지는 동안 로비가 다시 보여요. :has()가 없는 옛 웹뷰는 이 줄만 건너뛰어요 */
+.frame:has(>#bootOv:not([hidden]):not(.out)) #titleOv{visibility:hidden}
 .boot.out{opacity:0;pointer-events:none}
 .boot .logo{font-size:46px;position:relative;z-index:1}.boot .logo span{font-size:20px}
 .btag{margin:0;font-family:var(--display);font-size:16px;color:#e9fbff;letter-spacing:.06em;text-shadow:0 2px 0 var(--ink);position:relative;z-index:1}
@@ -656,10 +666,10 @@ b,strong{font-weight:700}
 .card .sub{font-size:13.5px}
 
 /* v0.71 full-screen menu pages */
-.overlay.sheet.page{inset:66px 0 0 0;align-items:flex-start;justify-content:stretch;padding:0;background:var(--pg,linear-gradient(180deg,#2b2f72,#1b1d4a));border-top:3px solid var(--ink);border-radius:0 0 14px 14px;z-index:4;overflow:hidden}
+.overlay.sheet.page{inset:var(--lb-top,66px) 0 0 0;align-items:flex-start;justify-content:stretch;padding:0;background:var(--pg,linear-gradient(180deg,#2b2f72,#1b1d4a));border-top:3px solid var(--ink);border-radius:0 0 14px 14px;z-index:4;overflow:hidden}
 .overlay.lobby.paged{z-index:5}
 .lobby.paged>:not(.topbar):not(.tabbar):not(.toast){visibility:hidden}
-.overlay.sheet.page .card{height:calc(100% - 86px);max-height:calc(100% - 86px)!important;width:100%;max-width:none;border-radius:0;border:0;padding:0 14px 16px!important;gap:10px!important;overflow-y:auto;overscroll-behavior:contain;background:transparent;box-shadow:none}
+.overlay.sheet.page .card{height:calc(100% - var(--lb-tab,86px));max-height:calc(100% - var(--lb-tab,86px))!important;width:100%;max-width:none;border-radius:0;border:0;padding:0 14px 16px!important;gap:10px!important;overflow-y:auto;overscroll-behavior:contain;background:transparent;box-shadow:none}
 .overlay.sheet.page .card>h1,.overlay.sheet.page .xBtn,.overlay.sheet.page .closeBtn{display:none!important}
 .pghead{display:none}
 .overlay.sheet.page .pghead{display:grid;align-self:stretch;width:auto;box-sizing:border-box;grid-template-columns:44px 1fr 44px;align-items:center;position:sticky;top:0;z-index:3;margin:0 -14px 2px;padding:10px 10px 8px;background:var(--pgh,rgba(22,20,52,.94));border-bottom:2px solid rgba(0,0,0,.25)}
@@ -684,6 +694,9 @@ b,strong{font-weight:700}
 #dunOv .dunbox{display:grid;gap:10px;justify-items:center;text-align:center}
 #dunOv.page .btnrow{align-self:stretch;justify-content:center;position:sticky;bottom:-16px;z-index:3;margin:0 -14px -16px;padding:10px 14px 12px;background:linear-gradient(180deg,rgba(22,29,54,0),#161d36 30%)}
 #dunOv.page #dunGo{min-width:70%;font-size:20px}
+/* PVP도 '대결 시작'을 카드 아래에 붙여요: 작은 휴대폰(360x640)에서 내용이 길어도 메인 버튼은 스크롤 없이 보여요 (내용만 스크롤) */
+#pvpOv.page .btnrow{align-self:stretch;justify-content:center;flex-wrap:nowrap;position:sticky;bottom:-16px;z-index:3;margin:0 -14px -16px;padding:10px 14px 12px;background:linear-gradient(180deg,rgba(46,22,48,0),#2e1630 30%)}
+#pvpOv.page #pvpGo{flex:1 1 auto;max-width:62%;font-size:20px}
 .tabbar button[aria-selected="true"]{background:rgba(143,240,214,.18);color:var(--mint);box-shadow:inset 0 -3px 0 var(--mint)}
 @media (prefers-reduced-motion:reduce){.overlay.sheet.page .card,.lobby.lbIn>*{animation:none!important}}
 
@@ -736,7 +749,7 @@ b,strong{font-weight:700}
 .eqask.all{background:rgba(255,209,102,.12);border-color:rgba(255,209,102,.5)}
 
 /* v0.77 page close ghost */
-.overlay.sheet.page.pgGhost{pointer-events:none;z-index:4;background:transparent;bottom:86px;border-top:0}
+.overlay.sheet.page.pgGhost{pointer-events:none;z-index:4;background:transparent;bottom:var(--lb-tab,86px);border-top:0}
 .overlay.sheet.page.pgGhost .card{height:100%;max-height:100%!important;background:var(--pg,linear-gradient(180deg,#2b2f72,#1b1d4a));border-top:3px solid var(--ink)}
 .overlay.sheet.page.pgGhost .card{animation:pgOut .22s cubic-bezier(.4,0,.8,.4) forwards!important}
 @keyframes pgOut{to{transform:translateX(30%);opacity:0}}
@@ -749,7 +762,7 @@ b,strong{font-weight:700}
 .pgstage{display:none}
 .overlay.sheet.page.staged{background:transparent;border-top:0}
 .overlay.sheet.page.staged .pgstage{display:block;position:absolute;left:0;right:0;top:0;height:clamp(170px,36%,300px);pointer-events:none}
-.overlay.sheet.page.staged .card{position:absolute;left:0;right:0;top:clamp(170px,36%,300px);height:auto;bottom:86px;max-height:none!important;background:var(--pg);border-top:3px solid var(--ink);border-radius:22px 22px 0 0;box-shadow:0 -8px 22px rgba(8,6,24,.45)}
+.overlay.sheet.page.staged .card{position:absolute;left:0;right:0;top:clamp(170px,36%,300px);height:auto;bottom:var(--lb-tab,86px);max-height:none!important;background:var(--pg);border-top:3px solid var(--ink);border-radius:22px 22px 0 0;box-shadow:0 -8px 22px rgba(8,6,24,.45)}
 .overlay.sheet.page.staged .pghead{border-radius:20px 20px 0 0}
 .overlay.sheet.page.staged.pgGhost .card{top:clamp(170px,36%,300px)}
 .stpow{position:absolute;left:10px;top:10px;display:grid;gap:1px;padding:7px 11px 8px;border-radius:14px;background:rgba(21,18,43,.78);border:2px solid rgba(255,255,255,.14);line-height:1.15}
@@ -840,7 +853,13 @@ b,strong{font-weight:700}
 .devbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.devbtns button{width:100%;min-width:0;white-space:nowrap;padding-left:6px;padding-right:6px}
 
 .in-toss .fsbtn,.in-toss .legal{display:none!important}
-.in-toss .app{padding-top:max(10px,var(--sat,0px));padding-bottom:max(10px,var(--sab,0px))}
+/* 화면 안전 영역: 토스 메뉴 줄·기기 안전 영역·배너는 .app이 --ncq-top·--ncq-bottom(ncq/safe.js)으로 한 번에 비워요 (맨 위 .app 규칙) */
+/* 로비 위 막대: 재화 칩이 길어져도(폭 360 휴대폰, 큰 숫자) 오른쪽 설정 버튼은 늘 프레임 안에 있어요.
+   칩이 먼저 줄고, 그래도 모자라면 숫자 끝이 잘려요(…). 폭 400px 이하에서는 칩 여백을 줄여요 */
+.topbar .wallet{flex:0 1 auto;min-width:0}.topbar>.btnrow{flex:none}
+.topbar .wallet .chip{flex:0 1 auto;min-width:0}.topbar .wallet .chip::before,.topbar .wallet .chip .plus{flex:none}
+.topbar .wallet .chip b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:400px){.topbar{gap:6px}.topbar .wallet{gap:4px}.topbar .wallet .chip{gap:4px;padding:5px 6px 5px 5px}.topbar .wallet .chip b{font-size:15px}.topbar .iconbtn.snd{width:42px;height:42px}}
 
 .ordbtn{display:block;width:100%;margin-top:10px}
 
@@ -864,7 +883,7 @@ b,strong{font-weight:700}
         <button type="button" class="heroinfo prof" id="profBtn" data-open="titles" aria-label="프로필"><i class="lvb">Lv<b id="lbLv">1</b></i><span class="pmid"><span id="lbTitle">칭호 없음</span><span class="xpb"><i id="lbXp"></i></span></span><b id="lbStats">전투력 0</b></button><div class="sidebtns left"><button type="button" class="sbtn" id="sbMail" aria-label="우편함"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span class="slbl">우편</span></button><button type="button" class="sbtn" id="sbAttend" aria-label="출석 체크"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/></svg><span class="slbl">출석</span></button><button type="button" class="sbtn" id="sbMission" aria-label="미션"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="m3 6 1.5 1.5L7 5M3 12l1.5 1.5L7 11M3 18l1.5 1.5L7 17"/></svg><span class="slbl">미션</span></button></div><div class="sidebtns right"><button type="button" class="sbtn" id="sbPatrol" aria-label="순찰 보상" hidden><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="M12 8v5l3 2"/></svg><em id="patrolT"></em><span class="slbl">순찰</span></button><button type="button" class="sbtn evt" id="sbEvent" aria-label="이벤트"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c3.3 0 6 2.6 6 6 0 3.8-3.4 6.6-6 7.5C9.4 15.6 6 12.8 6 9c0-3.4 2.7-6 6-6z"/><path d="M12 16.5 11 19h2l-1 2.5"/><path d="M9.5 7.5a3 3 0 0 1 2-1.5"/></svg><em id="evtT"></em><span class="slbl">이벤트</span></button><button type="button" class="sbtn offer" id="sbOffer" aria-label="기간 한정 상품" hidden><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c1 3 4 4 4 8a4 4 0 0 1-8 0c0-2 1-3 1-5 1 1 2 2 3 2 0-2-1-3 0-5z"/><path d="M7 15.5C5.5 16.5 5 18 5 20h14c0-2-.5-3.5-2-4.5"/></svg><em id="offerT"></em><span class="slbl">한정</span></button></div>
         <div class="spacer"></div>
         <div class="chsel"><button type="button" id="chPrev" aria-label="이전 챕터">‹</button><div class="chmid"><button type="button" class="chinfo" id="chInfo" aria-label="챕터 정보">i</button><b id="chName">챕터 1</b><span id="chTheme">노을 지붕</span><div class="chprog"><span class="cbar"><i id="chBar"></i></span><button type="button" class="chest" id="chest5" data-w="half" aria-label="중간 상자"></button><button type="button" class="chest" id="chest10" data-w="clear" aria-label="클리어 상자"></button></div></div><button type="button" id="chNext" aria-label="다음 챕터">›</button></div>
-        <div class="playrow"><button id="sweepBtn" type="button" class="ghost endless sweep" aria-label="소탕"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 6 6 6-6 6M13 6l6 6-6 6"/></svg>소탕<em id="sweepN"></em></button><button id="startBtn" type="button" class="play"><span class="plrow">PLAY<i class="plen" aria-label="에너지"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2 4 14h7l-2 8 11-13h-7z" fill="#ffe14d" stroke="#15122b" stroke-width="2.2" stroke-linejoin="round"/></svg><b id="lbStage">5</b></i></span></button></div>
+        <div class="playrow"><button id="sweepBtn" type="button" class="ghost endless sweep" aria-label="소탕"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 6 6 6-6 6M13 6l6 6-6 6"/></svg>소탕<em id="sweepN"></em></button><button id="startBtn" type="button" class="play" data-ncq-main="플레이"><span class="plrow">PLAY<i class="plen" aria-label="에너지"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2 4 14h7l-2 8 11-13h-7z" fill="#ffe14d" stroke="#15122b" stroke-width="2.2" stroke-linejoin="round"/></svg><b id="lbStage">5</b></i></span></button></div>
         <nav class="tabbar" aria-label="메뉴"><button type="button" data-open="store" data-tab="store"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16l-1.5 11h-13z"/><path d="M8 9V7a4 4 0 0 1 8 0v2"/></svg>상점<svg class="lk" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button><button type="button" data-open="shop" data-tab="shop"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16V8M8.5 11.5 12 8l3.5 3.5"/></svg>성장<svg class="lk" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button><button type="button" data-tab="home" id="homeTab"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></svg>모험</button><button type="button" data-tab="avatar" data-lock="me" id="meTab"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>내 정보</button><button type="button" data-open="chal" data-tab="chal" id="chalTab"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>도전<svg class="lk" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button></nav>
         <div class="toast" id="toast" hidden></div>
       </div>
@@ -877,7 +896,7 @@ b,strong{font-weight:700}
           <div class="tlist" id="overTitles"></div>
           <ul class="breakdown" id="overCoins"></ul>
           </div>
-          <div class="rfoot"><button id="againBtn" type="button" hidden>다시 도전</button><button type="button" class="wide homeBtn">로비로</button></div>
+          <div class="rfoot"><button id="againBtn" type="button" data-ncq-main="다시 도전" hidden>다시 도전</button><button type="button" class="wide homeBtn" data-ncq-main="로비로">로비로</button></div>
         </div>
       </div>
       <div class="overlay" id="clearOv" hidden>
@@ -888,7 +907,7 @@ b,strong{font-weight:700}
           <div class="tlist" id="clearTitles"></div>
           <ul class="breakdown" id="clearCoins"></ul>
           </div>
-          <div class="rfoot"><button id="nextBtn" type="button" class="wide" hidden>다음 챕터</button><button id="clearAgain" type="button" class="ghost" hidden>다시 도전</button><button type="button" class="wide homeBtn">로비로</button></div>
+          <div class="rfoot"><button id="nextBtn" type="button" class="wide" data-ncq-main="다음 챕터" hidden>다음 챕터</button><button id="clearAgain" type="button" class="ghost" hidden>다시 도전</button><button type="button" class="wide homeBtn" data-ncq-main="로비로">로비로</button></div>
         </div>
       </div>
       <div class="overlay" id="reviveOv" hidden>
@@ -896,19 +915,19 @@ b,strong{font-weight:700}
           <h1 style="font-size:30px">쓰러졌어요!</h1>
           <p class="sub" id="reviveInfo">한 번 더 기회가 있어요</p><div class="rvcount" id="rvCount">8</div>
           <div class="adbox" id="adBox" hidden><span class="sub">리워드 비디오 자리 (프로토타입) · <b id="adSec">3</b>초</span><div class="bar"><i id="adBar"></i></div></div>
-          <button id="adBtn" type="button">광고 보고 부활</button><button id="gemRevBtn" type="button" class="gemrev">보석 30 · 바로 부활</button>
+          <button id="adBtn" type="button" data-ncq-main="광고 보고 부활">광고 보고 부활</button><button id="gemRevBtn" type="button" class="gemrev" data-ncq-main="보석으로 부활">보석 30 · 바로 부활</button>
           <p class="sub" style="font-size:11px">리워드 비디오 · 끝까지 보면 체력 50%로 이어서 해요</p>
           <button id="giveUpBtn" type="button" class="ghost">결과 보기</button>
         </div>
       </div>
-      <div class="overlay" id="pickOv" hidden>
+      <div class="overlay" id="pickOv" data-ncq-no-main hidden>
         <div class="card">
           <h1 id="pickTitle" style="font-size:32px">레벨 업!</h1>
           <p class="sub">스킬 하나를 고르세요. 이번 챕터 동안 유지돼요.</p>
           <div class="skills" id="pickList"></div>
         </div>
       </div>
-      <div class="overlay sheet staged" id="shopOv" hidden><div class="pgstage" aria-hidden="true"><div class="stpow" id="stPow"></div></div>
+      <div class="overlay sheet staged" id="shopOv" data-ncq-no-main hidden><div class="pgstage" aria-hidden="true"><div class="stpow" id="stPow"></div></div>
         <div class="card">
           <button type="button" class="xBtn" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
           <h1 style="font-size:32px">성장</h1>
@@ -924,7 +943,7 @@ b,strong{font-weight:700}
           <button type="button" class="closeBtn">돌아가기</button>
         </div>
       </div>
-      <div class="overlay sheet staged" id="avatarOv" hidden><div class="pgstage" aria-hidden="false"><div class="avbonus" id="avBonus"></div><div class="avtag" id="avTag" hidden><b id="avTagName"></b><small id="avTagBd"></small><button type="button" id="avAct">장착</button></div><button type="button" class="avreset" id="avReset" aria-label="원래대로" hidden>↺ 원래대로</button></div>
+      <div class="overlay sheet staged" id="avatarOv" data-ncq-no-main hidden><div class="pgstage" aria-hidden="false"><div class="avbonus" id="avBonus"></div><div class="avtag" id="avTag" hidden><b id="avTagName"></b><small id="avTagBd"></small><button type="button" id="avAct">장착</button></div><button type="button" class="avreset" id="avReset" aria-label="원래대로" hidden>↺ 원래대로</button></div>
         <div class="card">
           <button type="button" class="xBtn" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
           <h1 style="font-size:28px">내 정보</h1><div class="subtabs metabs"><button type="button" class="tab small" data-me="avatar">코스튬</button><button type="button" class="tab small" data-me="titles">칭호 · 프로필</button></div>
@@ -935,7 +954,7 @@ b,strong{font-weight:700}
           <button type="button" class="closeBtn">돌아가기</button>
         </div>
       </div>
-      <div class="overlay sheet" id="titlesOv" hidden>
+      <div class="overlay sheet" id="titlesOv" data-ncq-no-main hidden>
         <div class="card">
           <button type="button" class="xBtn" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
           <h1 style="font-size:28px">내 정보</h1><div class="subtabs metabs"><button type="button" class="tab small" data-me="avatar">코스튬</button><button type="button" class="tab small" data-me="titles">칭호 · 프로필</button></div>
@@ -956,7 +975,7 @@ b,strong{font-weight:700}
           <div class="rvitems" id="rvItems" aria-live="polite"></div>
           <p class="rvextra" id="rvExtra"></p>
           <p class="rvhint" id="rvHint">눌러서 열기</p>
-          <button type="button" id="rvOk" hidden>확인</button>
+          <button type="button" id="rvOk" data-ncq-main="확인" hidden>확인</button>
         </div>
       </div>
       <div class="overlay pop" id="popOv" hidden>
@@ -973,11 +992,11 @@ b,strong{font-weight:700}
           <h1 style="font-size:32px">일시정지</h1>
           <p class="sub" id="pauseInfo"></p>
           <div class="pskills" id="pauseSk"></div>
-          <button type="button" id="resumeBtn">계속하기</button>
+          <button type="button" id="resumeBtn" data-ncq-main="계속하기">계속하기</button>
           <button type="button" class="ghost" id="quitBtn">포기하고 나가기</button>
         </div>
       </div>
-      <div class="overlay" id="interOv" hidden>
+      <div class="overlay" id="interOv" data-ncq-no-main hidden>
         <div class="card breather" id="breather">
           <h2>잠깐, 숨 좀 돌려요</h2>
           <div class="breath" aria-hidden="true"></div>
@@ -997,7 +1016,7 @@ b,strong{font-weight:700}
           <div class="tier" id="pvpTier">브론즈 · 1000점</div>
           <div class="vs"><div class="who" id="pvpMe"></div><div class="mid">VS</div><div class="who opp" id="pvpOpp"></div></div>
           <p class="sub" id="pvpInfo">오늘 남은 도전 5/5</p>
-          <div class="btnrow"><button type="button" class="ghost" id="pvpReroll">다른 상대</button><button type="button" id="pvpGo">대결 시작</button></div>
+          <div class="btnrow"><button type="button" class="ghost" id="pvpReroll">다른 상대</button><button type="button" id="pvpGo" data-ncq-main="대결 시작">대결 시작</button></div>
           <button type="button" class="closeBtn ghost">돌아가기</button>
         </div>
       </div>
@@ -1006,7 +1025,7 @@ b,strong{font-weight:700}
           <button type="button" class="xBtn" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
           <h1 style="font-size:28px">보스 던전</h1>
           <div id="dunBody"></div>
-          <div class="btnrow"><button type="button" id="dunGo">도전하기</button></div>
+          <div class="btnrow"><button type="button" id="dunGo" data-ncq-main="도전하기">도전하기</button></div>
           <button type="button" class="closeBtn">돌아가기</button>
         </div>
       </div>
@@ -1018,10 +1037,10 @@ b,strong{font-weight:700}
           <div class="tlist" id="pvpResTitles"></div>
           <ul class="breakdown" id="pvpResList"></ul>
           </div>
-          <div class="rfoot"><button type="button" id="pvpAgain">다시 대결</button><button type="button" class="ghost homeBtn">메인으로</button></div>
+          <div class="rfoot"><button type="button" id="pvpAgain" data-ncq-main="다시 대결">다시 대결</button><button type="button" class="ghost homeBtn">메인으로</button></div>
         </div>
       </div>
-      <div class="overlay sheet" id="setOv" hidden>
+      <div class="overlay sheet" id="setOv" data-ncq-no-main hidden>
         <div class="card">
           <button type="button" class="xBtn" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
           <h1 style="font-size:28px">설정</h1>
@@ -1037,25 +1056,27 @@ b,strong{font-weight:700}
             <div class="setrow col reset"><span>캐릭터 초기화</span><button type="button" class="danger" id="setReset">처음부터 시작</button><small id="setResetInfo">레벨·강화·코인·보석·아바타·칭호·챕터·PVP 기록이 모두 신규 유저 상태로 돌아가요. 소리·화질 설정은 유지돼요.</small></div>
             <div class="setrow col reset devonly"><span>전체 해금 <i class="tst">테스트용</i></span><div class="devbtns"><button type="button" id="setUnlock">모든 콘텐츠 열기</button><button type="button" class="ghost" id="setCash">테스트 재화 받기</button></div><small id="setUnlockInfo">모든 메뉴(상점·성장·코스튬·장비·도전·던전·무한·PVP·랭킹·소탕)와 코스튬·챕터 패키지를 열고, 챕터를 1~60 중 마음대로 고를 수 있어요. 진행 기록은 그대로이고, 끄면 튜토리얼 상태도 되돌려요. 테스트 재화는 누를 때마다 코인 10,000 · 보석 1,000 · 에너지 60을 받아요.</small></div>
             <div class="setrow col reset devonly"><span>완전 초기화 <i class="tst">테스트용</i></span><button type="button" class="danger" id="setWipe">모든 데이터 지우기</button><small>진행·구매 기록·광고 제거·소리·화질·게임 조정 값까지 이 기기에 저장된 데이터를 전부 지우고, 처음 설치한 상태로 다시 시작해요.</small></div>
-            <p class="ver">스플래쉬 맨 v1.04 · 2026-11-02</p>
-            <p class="legal"><a id="privacyLink" href="https://ncroquis.github.io/splash-fighter/privacy.html" target="_blank" rel="noopener">개인정보처리방침</a></p>
+            <div class="setrow" id="adPrivRow" hidden><span>광고 개인정보 설정</span><button type="button" class="ghost" id="adPrivBtn">열기</button></div>
+            <div class="setrow" id="iapRow" hidden><span>구매 복원</span><button type="button" class="ghost" id="iapRestoreBtn">복원</button></div>
             <div class="setrow col"><span>캐릭터 스타일</span><div class="seg two" id="setStyle" role="radiogroup" aria-label="캐릭터 스타일"><button type="button" data-st="plus">물풍선 F+</button><button type="button" data-st="classic">클래식</button></div><small>다음 판부터 적에게도 적용돼요</small></div>
+            <p class="ver" id="appVer">스플래쉬 맨 dev</p>
+            <p class="legal"><a id="privacyLink" href="https://ncroquis.github.io/privacy/splash-man/" target="_blank" rel="noopener">개인정보처리방침</a></p>
           </div>
           <button type="button" class="closeBtn">돌아가기</button>
         </div>
       </div>
-      <div class="overlay sheet" id="storeOv" hidden>
+      <div class="overlay sheet" id="storeOv" data-ncq-no-main hidden>
         <div class="card">
           <button type="button" class="xBtn" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
           <h1 style="font-size:28px">상점</h1>
           <div class="gems" id="storeGems">보석 0</div>
           <div class="packs" id="storeList"></div>
-          <p class="sub" id="storeNote">결제는 프로토타입이에요. 실제 돈은 나가지 않아요.</p>
+          <p class="sub" id="storeNote"></p>
           <div class="stabs" id="storeTabs"></div>
           <button type="button" class="closeBtn">돌아가기</button>
         </div>
       </div>
-      <div class="overlay sheet" id="chalOv" hidden>
+      <div class="overlay sheet" id="chalOv" data-ncq-no-main hidden>
         <div class="card">
           <button type="button" class="xBtn" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
           <h1 style="font-size:28px">도전</h1>
@@ -1063,7 +1084,7 @@ b,strong{font-weight:700}
           <button type="button" class="closeBtn">돌아가기</button>
         </div>
       </div>
-      <div class="overlay sheet" id="rankOv" hidden>
+      <div class="overlay sheet" id="rankOv" data-ncq-no-main hidden>
         <div class="card">
           <button type="button" class="xBtn" aria-label="닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
           <h1 style="font-size:28px">랭킹</h1>
@@ -1096,7 +1117,7 @@ b,strong{font-weight:700}
         </div>
       </div>
       <button type="button" class="pausebtn" id="pauseBtn" aria-label="일시정지" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M16 5v14" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/></svg></button>
-      <div class="overlay boot" id="bootOv">
+      <div class="overlay boot" id="bootOv" data-ncq-no-main>
         <canvas id="bootCv" aria-hidden="true"></canvas>
         <p class="sr" id="bootTap" aria-live="polite">스플래쉬 맨 불러오는 중</p>
       </div>
@@ -1134,7 +1155,8 @@ b,strong{font-weight:700}
 
   const CSS = `
 .rfx-root{position:fixed;inset:0;z-index:var(--rfx-z,2147483000);display:none;overflow:hidden;font-family:inherit;line-height:1.25;color:#fff;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;touch-action:manipulation;--s:1}
-.rfx-root.rfx-in{position:absolute}
+.rfx-root{--rfx-t:var(--ncq-top,0px);--rfx-r:var(--ncq-right,0px);--rfx-b:var(--ncq-bottom,0px)}
+.rfx-root.rfx-in{position:absolute;--rfx-t:0px;--rfx-r:0px;--rfx-b:0px}
 .rfx-root.rfx-on{display:block}
 .rfx-dim{position:absolute;inset:0;background:radial-gradient(circle at 50% 44%,rgba(36,30,86,.86),rgba(7,6,22,.95));opacity:0;transition:opacity .22s linear}
 .rfx-root.rfx-lite .rfx-dim{background:radial-gradient(circle at 50% 44%,rgba(10,10,30,.42),rgba(6,6,20,.68))}
@@ -1142,7 +1164,7 @@ b,strong{font-weight:700}
 .rfx-cv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .rfx-anchor{position:absolute;left:50%;top:44%;width:0;height:0}
 .rfx-abs{position:absolute;left:0;top:0;transform:translate(-50%,-50%)}
-.rfx-title{position:absolute;left:0;right:0;top:calc(13% + env(safe-area-inset-top));text-align:center;font-weight:900;font-size:calc(24px*var(--s));letter-spacing:.02em;text-shadow:0 3px 0 rgba(0,0,0,.45);opacity:0}
+.rfx-title{position:absolute;left:0;right:0;top:calc(13% + var(--rfx-t));text-align:center;font-weight:900;font-size:calc(24px*var(--s));letter-spacing:.02em;text-shadow:0 3px 0 rgba(0,0,0,.45);opacity:0}
 .rfx-chest{width:calc(156px*var(--s));height:calc(140px*var(--s))}
 .rfx-chest svg{width:100%;height:100%;display:block;overflow:visible}
 .rfx-chest .rfx-lid{transform-box:fill-box;transform-origin:15% 100%}
@@ -1157,11 +1179,11 @@ b,strong{font-weight:700}
 .rfx-note{font-size:calc(13px*var(--s));color:#ffd166}
 .rfx-extras{display:flex;gap:calc(8px*var(--s));justify-content:center;flex-wrap:wrap;margin-top:calc(4px*var(--s))}
 .rfx-extras .rfx-icon{width:calc(54px*var(--s));height:calc(54px*var(--s));border-radius:calc(14px*var(--s));font-size:calc(28px*var(--s));box-shadow:0 0 0 calc(3px*var(--s)) var(--tc)}
-.rfx-hint{position:absolute;left:0;right:0;bottom:calc(14% + env(safe-area-inset-bottom));text-align:center;font-size:calc(16px*var(--s));font-weight:800;color:#e9fbff;opacity:0;text-shadow:0 2px 0 rgba(0,0,0,.5)}
+.rfx-hint{position:absolute;left:0;right:0;bottom:calc(14% + var(--rfx-b));text-align:center;font-size:calc(16px*var(--s));font-weight:800;color:#e9fbff;opacity:0;text-shadow:0 2px 0 rgba(0,0,0,.5)}
 .rfx-hint.rfx-blink{animation:rfx-blink 1s ease-in-out infinite}
-.rfx-skip{position:absolute;right:calc(12px + env(safe-area-inset-right));top:calc(12px + env(safe-area-inset-top));font:inherit;font-size:13px;font-weight:700;color:#fff;background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.5);border-radius:99px;padding:8px 14px;cursor:pointer}
-.rfx-ok{position:absolute;left:50%;bottom:calc(7% + env(safe-area-inset-bottom));transform:translateX(-50%);font:inherit;font-weight:900;font-size:calc(17px*var(--s));min-width:calc(170px*var(--s));padding:calc(12px*var(--s)) calc(20px*var(--s));border-radius:99px;border:3px solid #15122b;background:linear-gradient(180deg,#7ff0c9,#3ccf9e);color:#10202a;box-shadow:0 4px 0 #15122b;cursor:pointer;opacity:0}
-.rfx-again{position:absolute;left:50%;bottom:calc(7% + env(safe-area-inset-bottom));transform:translateX(-50%);font:inherit;font-weight:900;font-size:calc(17px*var(--s));min-width:calc(170px*var(--s));padding:calc(12px*var(--s)) calc(20px*var(--s));border-radius:99px;border:3px solid #15122b;background:linear-gradient(180deg,#7ff0c9,#3ccf9e);color:#10202a;box-shadow:0 4px 0 #15122b;cursor:pointer;opacity:0}
+.rfx-skip{position:absolute;right:calc(12px + var(--rfx-r));top:calc(12px + var(--rfx-t));font:inherit;font-size:13px;font-weight:700;color:#fff;background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.5);border-radius:99px;padding:8px 14px;cursor:pointer}
+.rfx-ok{position:absolute;left:50%;bottom:calc(7% + var(--rfx-b));transform:translateX(-50%);font:inherit;font-weight:900;font-size:calc(17px*var(--s));min-width:calc(170px*var(--s));padding:calc(12px*var(--s)) calc(20px*var(--s));border-radius:99px;border:3px solid #15122b;background:linear-gradient(180deg,#7ff0c9,#3ccf9e);color:#10202a;box-shadow:0 4px 0 #15122b;cursor:pointer;opacity:0}
+.rfx-again{position:absolute;left:50%;bottom:calc(7% + var(--rfx-b));transform:translateX(-50%);font:inherit;font-weight:900;font-size:calc(17px*var(--s));min-width:calc(170px*var(--s));padding:calc(12px*var(--s)) calc(20px*var(--s));border-radius:99px;border:3px solid #15122b;background:linear-gradient(180deg,#7ff0c9,#3ccf9e);color:#10202a;box-shadow:0 4px 0 #15122b;cursor:pointer;opacity:0}
 .rfx-again{background:linear-gradient(180deg,#ffe07a,#ffb627);color:#15122b}
 .rfx-chest.rfx-drag{pointer-events:auto;cursor:grab;touch-action:none}
 .rfx-uparrow{position:absolute;left:50%;top:calc(50% - 150px*var(--s));transform:translateX(-50%);font-size:calc(34px*var(--s));color:#ffd166;text-shadow:0 2px 0 #15122b;animation:rfxUp 1s ease-in-out infinite;pointer-events:none}
@@ -1178,7 +1200,7 @@ b,strong{font-weight:700}
 .rfx-part.rfx-mul{border-color:var(--tc);background:rgba(255,255,255,.14);background:color-mix(in srgb,var(--tc) 20%,transparent)}
 .rfx-stamp{position:absolute;left:84%;top:calc(-4px*var(--s));transform:translate(-50%,-50%) rotate(-8deg);font-size:calc(30px*var(--s));font-weight:950;color:#ffd84d;-webkit-text-stroke:2px #3a1c00;text-shadow:0 3px 0 #3a1c00;opacity:0;white-space:nowrap}
 .rfx-mat{will-change:transform}
-.rfx-short .rfx-anchor{top:55%}.rfx-short .rfx-title{top:calc(3% + env(safe-area-inset-top));font-size:calc(20px*var(--s))}.rfx-short .rfx-ok{bottom:calc(3% + env(safe-area-inset-bottom))}.rfx-short .rfx-hint{bottom:calc(4% + env(safe-area-inset-bottom))}
+.rfx-short .rfx-anchor{top:55%}.rfx-short .rfx-title{top:calc(3% + var(--rfx-t));font-size:calc(20px*var(--s))}.rfx-short .rfx-ok{bottom:calc(3% + var(--rfx-b))}.rfx-short .rfx-hint{bottom:calc(4% + var(--rfx-b))}
 @keyframes rfx-blink{50%{opacity:.45}}
 @media (prefers-reduced-motion:reduce){.rfx-hint.rfx-blink{animation:none}}
 `;
@@ -1359,8 +1381,8 @@ b,strong{font-weight:700}
       this.T = Object.assign({ drag: '상자를 위로 끌어 올려 열어요', tap: '눌러서 열기', skip: '건너뛰기', ok: '확인', close: '눌러서 닫기', high: '대박!', merge: '합성 성공!', chest: '보물 상자' }, this.opts.texts);
       this.queue = Promise.resolve(); this.destroyed = false; this.cur = null; this.seen = {}; this.pending = 0;
       if (!document.getElementById('rfx-style')) { const st = document.createElement('style'); st.id = 'rfx-style'; st.textContent = CSS; document.head.appendChild(st); this.style = st; }
-      const root = this.root = document.createElement('div'); root.className = 'rfx-root'; root.setAttribute('role', 'dialog'); root.setAttribute('aria-live', 'polite');
-      root.innerHTML = '<div class="rfx-dim"></div><canvas class="rfx-cv"></canvas><div class="rfx-anchor"></div><p class="rfx-title"></p><p class="rfx-hint"></p><button type="button" class="rfx-skip"></button><button type="button" class="rfx-ok"></button><button type="button" class="rfx-again" hidden></button>';
+      const root = this.root = document.createElement('div'); root.className = 'rfx-root'; root.setAttribute('role', 'dialog'); root.setAttribute('data-ncq-no-main', '');   /* 화면 아무 곳이나 눌러 넘겨요. 끝에 나오는 '확인'만 메인 버튼 (화면 점검 표시) */ root.setAttribute('aria-live', 'polite');
+      root.innerHTML = '<div class="rfx-dim"></div><canvas class="rfx-cv"></canvas><div class="rfx-anchor"></div><p class="rfx-title"></p><p class="rfx-hint"></p><button type="button" class="rfx-skip"></button><button type="button" class="rfx-ok" data-ncq-main="보상 확인"></button><button type="button" class="rfx-again" hidden></button>';
       this.el = { dim: root.children[0], cv: root.children[1], anchor: root.children[2], title: root.children[3], hint: root.children[4], skip: root.children[5], ok: root.children[6], again: root.children[7] };
       this.el.skip.textContent = this.T.skip; this.el.ok.textContent = this.T.ok;
       this.eng = new Engine(this.el.cv); this.eng.q = this.opts.quality === 'low' ? 0.35 : 1;
@@ -1780,19 +1802,88 @@ const TUNE=[
 // 킥오프 출시 빌드(window.NCQ)에서는 이 테스트 기능을 끈 빌드면 tools/build_dist.py가 넣는 스크립트가 window.SF_RELEASE를 켜요.
 const SF_RELEASE=(()=>{try{const q=location.search||'';if(/[?&]dev=1/.test(q))return false;if(/[?&]release=1/.test(q))return true}catch(e){}try{return window.SF_RELEASE===true}catch(e){return false}})();
 try{document.documentElement.classList.toggle('release',SF_RELEASE)}catch(e){}
-/* Android app (구글플레이, splash-fighter/android/tools/build_web.py sets window.__ANDROID__): 홀컵·큐비 앱처럼 광고·유료 상품이 없어요.
-   NO_MONEY hides the banner, interstitials, rewarded-ad buttons, the 충전 (real-money gem) tab and the limited ₩ offer.
-   The web and artifact builds are unchanged. */
-const SF_APP=(()=>{try{return !!window.__ANDROID__}catch(e){return false}})(),NO_MONEY=SF_APP;
+/* Android app (구글플레이, 킥오프 빌드의 tools/build_dist.py sets window.__ANDROID__).
+   Ads follow NO_BANNER·NO_INTER·NO_REWARD below: on in the Android app only through NcqAds (v1.05), off otherwise.
+   Paid products (충전 탭·₩ 한정 상품·물풍선 패스) follow NcqIap below (v1.7.0): shown only when the store can sell them. */
+const SF_APP=(()=>{try{return !!window.__ANDROID__}catch(e){return false}})();
 try{document.documentElement.classList.toggle('app',SF_APP)}catch(e){}
 /* v0.96 platform layer: window.SF_PLAT is set by a store wrapper (toss/src/bridge.js for 앱인토스) before this script runs.
    It may provide: name, interstitial(done), reward(done(ok)), banner(show,el), score(n), openLeaderboard(), haptic(type), exit(), userKey.
    Without it the game behaves as the plain web build. */
 const PLAT=(()=>{try{return window.SF_PLAT||null}catch(e){return null}})(),IN_TOSS=!!(PLAT&&PLAT.name==='toss');
 try{document.documentElement.classList.toggle('in-toss',IN_TOSS)}catch(e){}
-/* 진짜 돈이 드는 상품(충전 탭, ₩ 한정 상품)은 구글플레이 앱과 앱인토스 빌드 모두 아직 없어요. 광고는 앱인토스에만 있어요. */
-const PAY=(IN_TOSS&&PLAT.iap)?PLAT.iap:null;/* v0.97 앱인토스 인앱 결제 */
-const NO_CASH=NO_MONEY||(IN_TOSS&&!PAY);
+/* ---------------- 구글플레이 광고 (v1.05, 킥오프 안드로이드 빌드) ----------------
+   킥오프 출시 빌드가 이 스크립트보다 먼저 넣는 공용 광고 도구 window.NcqAds(AdMob + 구글 동의 화면)로 게임의 광고 자리를 띄워요.
+   토스 연결층과 같은 모양(banner(show)·interstitial(done)·reward(done(ok)))이라 ADS·adPop은 그대로 써요. 광고 ID는 코드에 적지 않아요
+   (관리자 승인 뒤 빌드가 넣어요). 지면을 끈 빌드나 광고 단위가 없는 빌드는 NcqAds.can이 false라 예전처럼 광고가 없어요. 지면 3개: */
+// NCQ_ADS_BANNER: 하단 배너 (플레이·결과 화면, 로비에서는 숨겨요)
+// NCQ_ADS_INTERSTITIAL: 판 사이 전면 광고 (처음 10판은 없고 그다음 3판마다, 광고 전에 숨 돌리기 화면)
+// NCQ_ADS_REWARDED: 보상형 광고 (부활, 에너지 +15, 순찰 보상 2배, PVP 추가 도전)
+const NCQ_ADS=(()=>{try{
+  const N=window.NcqAds;if(!(SF_APP||IN_TOSS)||!window.NCQ||!N)return null;   /* v1.06: 토스 빌드도 NcqAds(토스 인앱 광고)로 */
+  const can=k=>{try{return !!N.can(k)}catch(e){return false}},on={banner:can('BANNER'),inter:can('INTERSTITIAL'),reward:can('REWARDED')};
+  if(!on.banner&&!on.inter&&!on.reward)return null;
+  const T0=Date.now();let last=0;const closed=()=>{last=Date.now()};
+  return {name:'ncq',quiet:true,   /* quiet: 광고가 없거나 중간에 닫으면 NcqAds·AdMob이 알려 줘서 게임 안내는 띄우지 않아요 */
+    /* 출시 서버가 코드에서 `NcqAds.<함수>("지면")` 모양을 찾아 광고 형식을 정해요 (토스 광고 단위도 이걸로 만들어요). 그래서 꼭 NcqAds 이름으로 불러요. */
+    banner:on.banner?show=>{try{const NcqAds=N;show?NcqAds.banner("BANNER"):NcqAds.hideBanner()}catch(e){}}:null,
+    interstitial:on.inter?done=>{const NcqAds=N;Promise.resolve().then(()=>NcqAds.interstitial("INTERSTITIAL")).then(()=>{closed();done()},()=>{closed();done()})}:null,
+    reward:on.reward?done=>{const NcqAds=N;Promise.resolve().then(()=>NcqAds.rewarded("REWARDED")).then(ok=>{closed();done(!!ok)},()=>{closed();done(false)})}:null,
+    /* 전면 광고는 숨 돌리기 화면을 먼저 보여 줘서, NcqAds가 지금 정말 띄울 수 있을 때만 시작해요:
+       불러 둔 광고가 있고, 다른 광고가 없고, 앱을 연 뒤 30초·앞 광고 뒤 60초가 지났을 때 (NcqAds 규칙과 같아요) */
+    interReady(){if(!on.inter)return false;try{const st=N.status(),u=st.slots&&st.slots.INTERSTITIAL,now=Date.now();
+      return !!(st.ready&&!st.busy&&u&&u.loaded)&&now-T0>=30000&&(!last||now-last>=60000)}catch(e){return false}}};
+}catch(e){return null}})();
+/* 광고를 띄우는 곳: NcqAds(구글플레이·킥오프 토스 빌드). 예전 토스 래퍼(toss/, 광고 함수가 있는 SF_PLAT)면 그것. 없으면 웹 빌드의 프로토타입 광고 화면.
+   앱(구글플레이·토스)에서 켜지지 않은 지면은 광고 없이 숨겨요. */
+const ADP=NCQ_ADS||(IN_TOSS&&PLAT.interstitial?PLAT:null),APPAD=SF_APP||IN_TOSS;
+const NO_BANNER=APPAD&&!(ADP&&ADP.banner),NO_INTER=APPAD&&!(ADP&&ADP.interstitial),NO_REWARD=APPAD&&!(ADP&&ADP.reward);
+try{document.documentElement.classList.toggle('ncq-ads',!!NCQ_ADS)}catch(e){}
+if(NCQ_ADS){
+  /* 배너가 가린 높이가 바뀌면(--ncq-banner-bottom) 화면을 다시 맞춰요 */
+  addEventListener('ncq-banner',()=>{try{requestAnimationFrame(resize)}catch(e){}});
+  /* 설정의 '광고 개인정보 설정'은 동의가 필요한 지역(유럽 등)일 때만 보여요 */
+  const N=window.NcqAds,row=document.getElementById('adPrivRow'),btn=document.getElementById('adPrivBtn');
+  Promise.resolve().then(()=>N.ready()).then(()=>{try{if(row)row.hidden=!N.privacyRequired()}catch(e){}},()=>{});
+  if(btn)btn.addEventListener('click',()=>{try{N.showPrivacyOptions()}catch(e){}});
+}
+/* ---------------- 인앱 결제 (공통 지침 '결제 (NcqIap)', v1.7.0) ----------------
+   진짜 돈이 드는 상품(충전 탭, ₩ 한정 상품, 물풍선 패스)은 출시 빌드가 넣어 주는 결제 도구 window.NcqIap로 팔아요. 구글플레이·토스가 같은 코드예요
+   (예전 토스 연결층 결제는 뺐어요). 상점에는 NcqIap.can(이름)이 true인 상품만 보여요: 스토어에 아직 없거나 인앱 상품을 끈 빌드는 숨겨요.
+   가격은 스토어 글(NcqIap.price) 그대로 보여 줘요. 실패 안내는 NcqIap이 띄워요 (취소는 조용히).
+   개발 중(window.NCQ·Capacitor가 없음: claude.ai 아티팩트, 직접 만든 dist)에는 NcqIap이 없어서 대신 써요: 결제 없이 바로 지급해요.
+   출시 빌드인데 NcqIap이 없으면 유료 상품을 모두 숨겨요. 지급은 cashGrant 한 곳(NcqIap.onGrant)에서만 해요. */
+const IAP_DEV=(()=>{try{return !window.NCQ&&!window.Capacitor}catch(e){return false}})();
+const IAP=(()=>{try{if(window.NcqIap)return window.NcqIap}catch(e){}const dev=IAP_DEV;let grant=null;
+  const fake=id=>Promise.resolve(dev&&grant&&grant(String(id).toUpperCase(),{})!==false?{ok:true,id}:{ok:false,id});
+  return {onGrant:fn=>{grant=fn},can:()=>dev,ready:async()=>dev,price:()=>'',owned:async()=>false,restore:async()=>({ok:dev,restored:[]}),buy:fake,buyOnce:fake}})();
+/* 게임 상품 id → NcqIap 상품 이름. 스토어 상품 ID는 이 이름의 소문자예요 (GEM_60 → gem_60). 토스 콘솔이 정해 준 상품 ID는 커넥터가 release/toss/iap.json에 맞춰요.
+   비소모성(한 번 사는 것)은 buyOnce, 소모성(여러 번 사는 것)은 buy로만 불러요 (iapCall). 출시 서버가 아래 주석과 그 모양을 찾아요. */
+// NCQ_IAP_ADFREE: 광고 제거 패키지
+// NCQ_IAP_GEM_60: 보석 한 줌
+// NCQ_IAP_GEM_330: 보석 주머니
+// NCQ_IAP_GEM_720: 보석 상자
+// NCQ_IAP_GEM_2100: 보석 금고
+// NCQ_IAP_GEM_4500: 보석 트럭
+// NCQ_IAP_HAIR_RAGE: 분노 폭발 헤어
+// NCQ_IAP_PASS_30: 물풍선 패스(30일)
+const IAP_NAME={adfree:'ADFREE',g1:'GEM_60',g2:'GEM_330',g3:'GEM_720',g4:'GEM_2100',g5:'GEM_4500',rage:'HAIR_RAGE',pass:'PASS_30'};
+function iapCall(name){const NcqIap=IAP;switch(name){
+  case 'ADFREE':return NcqIap.buyOnce("ADFREE");
+  case 'HAIR_RAGE':return NcqIap.buyOnce("HAIR_RAGE");
+  case 'GEM_60':return NcqIap.buy("GEM_60");
+  case 'GEM_330':return NcqIap.buy("GEM_330");
+  case 'GEM_720':return NcqIap.buy("GEM_720");
+  case 'GEM_2100':return NcqIap.buy("GEM_2100");
+  case 'GEM_4500':return NcqIap.buy("GEM_4500");
+  case 'PASS_30':return NcqIap.buy("PASS_30");}
+  return Promise.resolve({ok:false,id:name})}
+const iapCan=id=>{try{return !!IAP_NAME[id]&&!!IAP.can(IAP_NAME[id])}catch(e){return false}};
+const noCash=()=>!Object.keys(IAP_NAME).some(iapCan);   /* 팔 수 있는 유료 상품이 하나도 없으면 충전 탭·한정 상품을 숨겨요 */
+/* 가격: 스토어 글 그대로. 개발 중에는 게임에 적어 둔 금액(₩), 출시 빌드에서 아직 못 받았으면 '구매' */
+function iapPrice(id,won){let p='';try{p=IAP.price(IAP_NAME[id])||''}catch(e){}return p||(IAP_DEV&&won?'₩'+won.toLocaleString('ko-KR'):'구매')}
+const cashNote=()=>{let p='';try{p=(window.NCQ&&window.NCQ.NCQ_PLATFORM)||''}catch(e){}
+  return IAP_DEV?'개발 중이라 결제 없이 바로 받아요.':p==='toss'?'결제는 토스에서 진행돼요.':p==='android'?'결제는 구글플레이에서 진행돼요.':'공유 테스트라 실제 결제는 되지 않아요.'};
 /* v0.98 다른 플레이어 기록(비동기 PVP 상대·공유 랭킹)은 claude.ai 아티팩트 안에서만 주고받아요. 구글플레이 앱·앱인토스에서는 연습 상대와 내 기록만 있어요. */
 const OFFLINE=SF_APP||IN_TOSS;
 const T={};for(const t of TUNE)if(t.k)T[t.k]=t.d;
@@ -1847,6 +1938,18 @@ function resize(){
   scale=tallView?h/H:w/W;offX=tallView?(w-W*scale)/2:0;
 }
 addEventListener('resize',resize);
+/* 화면 안전 영역이 바뀌면(토스 안전 영역·배너 광고·화면 돌림, ncq/safe.js) 캔버스 크기를 다시 맞춰요 */
+try{if(window.NcqSafe&&window.NcqSafe.onChange)window.NcqSafe.onChange(()=>requestAnimationFrame(resize))}catch(e){}
+/* 로비 메뉴 화면(상점·성장·PVP…)은 위 막대와 아래 탭 바 사이에 와요. 두 막대의 실제 높이를 재서 CSS 변수로 넣어요
+   (--lb-top: 프레임 위 ~ 위 막대 아래 + 8px, --lb-tab: 탭 바 위 ~ 프레임 아래). 짐작한 숫자로 비우지 않아요 (공통 지침 '화면 안전 영역과 메인 버튼') */
+(function lobbyBars(){const fr=document.getElementById('frame'),ov=document.getElementById('titleOv');if(!fr||!ov)return;
+  const top=ov.querySelector('.topbar'),tab=ov.querySelector('.tabbar');if(!top||!tab)return;let last='';
+  const set=()=>{try{const f=fr.getBoundingClientRect(),a=top.getBoundingClientRect(),b=tab.getBoundingClientRect();
+    if(!f.height||!a.height||!b.height)return;   /* 로비를 숨긴 동안(게임 중)은 그대로 */
+    const t=Math.round(a.bottom-f.top+8),k=Math.max(0,Math.round(f.bottom-b.top)),key=t+','+k;if(key===last)return;last=key;
+    fr.style.setProperty('--lb-top',t+'px');fr.style.setProperty('--lb-tab',k+'px')}catch(e){}};
+  try{const ro=new ResizeObserver(set);ro.observe(fr);ro.observe(top);ro.observe(tab)}catch(e){}
+  addEventListener('resize',()=>requestAnimationFrame(set));set()})();
 const FS={el:document.documentElement,
   on(){return !!(document.fullscreenElement||document.webkitFullscreenElement)},
   standalone(){try{return matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}},
@@ -2398,7 +2501,10 @@ const patrolRate=()=>0.8+(prog.best-1)*0.4;
 function patrolReward(){const m=Math.floor(patrolSec()/60);return{coins:Math.floor(m*patrolRate()),xp:Math.floor(m/5),m}}
 const fmtHM=sec=>{const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60);return h?h+'시간 '+m+'분':m+'분'};
 const NOTICE_VER='1.03';
-const VER_NO='1.04';
+/* 앱 버전 (공통 지침 '앱 버전 표시'): 빌드할 때 고른 버전을 킥오프 빌드(웹 공개·구글플레이·토스)가 window.NCQ.NCQ_VERSION에 넣어 줘요.
+   코드에는 버전 숫자를 적지 않고, 읽어서 설정 화면 맨 아래에 작게 보여 줘요. 개발 중(직접 만든 dist·아티팩트)에는 없어서 dev예요. */
+const VER_NO=(()=>{try{const v=window.NCQ&&window.NCQ.NCQ_VERSION;return v?String(v):'dev'}catch(e){return 'dev'}})();
+try{const e=document.getElementById('appVer');if(e)e.textContent='스플래쉬 맨 '+(VER_NO==='dev'?'dev':'v'+VER_NO)}catch(e){}
 const NOTICE=['25챕터부터 5챕터마다 새로운 적이 나와요: 우산 방패(25), 물기 털기(30), 돌풍(35), 무쇠 투구(40). 챕터 정보에서 미리 볼 수 있어요.','월정액 「물풍선 패스」가 생겼어요(충전 탭). 30일 동안 매일 보석 30, 에너지 충전과 코인 꾸러미를 하루에 더 많이 살 수 있어요.','이벤트가 2주마다 바뀌어요. 계절 축제 다음에는 「거인 사냥 주간」, 「명사수 대회」, 「옥상 대청소」가 차례로 열려요.','5챕터부터 짝수 챕터는 「벽」, 홀수 챕터는 「숨 돌리기」예요. 벽을 넘으면 다음 챕터에서 성장한 게 느껴질 거예요.','초반 챕터가 쉬워졌어요. 바람은 5챕터부터 불고, 처음 불 때 알려 줘요.','메뉴를 정리했어요. 아래 탭이 상점 · 성장 · 모험 · 내 정보 · 도전으로 바뀌었어요. 던전 · 무한 모드 · PVP · 랭킹은 「도전」에 모였어요.','출석 체크가 생겼어요. 7일째엔 큰 선물! 빠진 날이 있어도 이어서 받아요.','일일·주간 미션과 업적이 생겼어요. 로비 캐릭터 찌르기도 미션이에요. 미안해요, 캐릭터.','이벤트 「가을 물풍선 축제」 (10/25~11/8): 적을 적실수록 단풍잎이 쌓여요. 1,600개면 전설 장비 확정.','던전이 열렸어요: 물탱크 거인. 등의 수도꼭지를 노리세요.','장비 상자가 이제 진짜로 열려요. 등급별 확률도 상점에서 볼 수 있어요.','장착한 물총·우비·장화가 캐릭터에 보여요.'];
 const COUPONS={SPLASH2026:{gems:100},WATERBALLOON:{en:30},ROOFTOP:{coins:1000}};
 const VIB={off:(()=>{try{return localStorage.getItem('snackVibOff')==='1'}catch(e){return false}})()};
@@ -3193,8 +3299,20 @@ function ecoLabel(){if(ecoCtx)return ecoCtx;const M={chapter:'챕터 전투',end
 function ecoTrack(){if(!prog||typeof prog.coins!=='number')return;if(!ecoSnap){ecoSnap={c:prog.coins,g:prog.gems};return}
   const dc=prog.coins-ecoSnap.c,dg=prog.gems-ecoSnap.g;if(!dc&&!dg){ecoCtx=null;return}
   const A=anData(),k=ecoLabel(),e=A.eco[k]||(A.eco[k]={ci:0,co:0,gi:0,go:0});if(dc>0)e.ci+=dc;else e.co-=dc;if(dg>0)e.gi+=dg;else e.go-=dg;ecoSnap={c:prog.coins,g:prog.gems};ecoCtx=null}
-function anStart(){run.t0=Date.now();run.anEnd=false;if(mode!=='chapter'&&mode!=='dungeon')return;const A=anData(),c=mode==='dungeon'?'D':prog.stage,r=A.ch[c]||(A.ch[c]={t:0,c:0,f:0,q:0,a:0,w:{},sec:0});r.t++;if(mode==='chapter'&&!A.fc?.[c])r.pre=(r.pre||0)+1}
-function anEnd(res){if(run.anEnd||!run.t0)return;run.anEnd=true;const A=anData(),sec=Math.round((Date.now()-run.t0)/1000),c=mode==='dungeon'?'D':mode==='chapter'?prog.stage:null;
+/* 판 지표 (공통 지침 '판 지표 (NcqMetrics)'): 웹 공개·출시 빌드가 넣어 주는 지표 모듈에 판 시작·끝을 알려요 (관리자 페이지 지표의 '판' 카드).
+   판 이름: 챕터는 stage-<챕터 번호>, 보스 던전 dungeon, 무한 모드 endless, PVP pvp. 끝은 판이 정말 끝났을 때 한 번만 알려요:
+   깼으면 true·졌으면 false (무한 모드는 이기고 지는 게 없어서 결과 없이). 점수는 챕터·무한 모드는 깬 웨이브 수, 보스 던전은 보스에게 준 피해 %.
+   포기하고 나가거나 앱을 닫은 판은 끝을 알리지 않아요 (지표가 '그만둔 판'으로 세요). 부활로 이어 가면 같은 판이에요.
+   판 시간은 NcqMetrics가 재요. 개발 중이나 지표를 끈 빌드에는 NcqMetrics가 없어서 아무것도 안 해요. */
+const mxName=()=>mode==='chapter'?'stage-'+prog.stage:mode==='dungeon'||mode==='endless'||mode==='pvp'?mode:String(mode||'play');
+function mxStart(){try{const NcqMetrics=window.NcqMetrics;run.mx=mxName();if(NcqMetrics&&typeof NcqMetrics.levelStart==='function')NcqMetrics.levelStart(run.mx)}catch(e){}}
+function mxEnd(res){try{const NcqMetrics=window.NcqMetrics,name=run.mx||mxName();if(!NcqMetrics||typeof NcqMetrics.levelEnd!=='function'||(res!=='clear'&&res!=='fail'))return;
+  if(mode==='endless'){NcqMetrics.levelEnd(name,undefined,{score:stageIdx});return}
+  if(mode==='pvp'){NcqMetrics.levelEnd(name,res==='clear');return}
+  const score=mode==='dungeon'?Math.round((1-Math.max(0,enemy.hp)/enemy.maxHp)*100):res==='clear'?stageN():stageIdx;
+  NcqMetrics.levelEnd(name,res==='clear',{score})}catch(e){}}
+function anStart(){run.t0=Date.now();run.anEnd=false;mxStart();if(mode!=='chapter'&&mode!=='dungeon')return;const A=anData(),c=mode==='dungeon'?'D':prog.stage,r=A.ch[c]||(A.ch[c]={t:0,c:0,f:0,q:0,a:0,w:{},sec:0});r.t++;if(mode==='chapter'&&!A.fc?.[c])r.pre=(r.pre||0)+1}
+function anEnd(res){if(run.anEnd||!run.t0)return;run.anEnd=true;mxEnd(res);const A=anData(),sec=Math.round((Date.now()-run.t0)/1000),c=mode==='dungeon'?'D':mode==='chapter'?prog.stage:null;
   if(c!=null){const r=A.ch[c]||(A.ch[c]={t:1,c:0,f:0,q:0,a:0,w:{},sec:0});const key={clear:'c',fail:'f',quit:'q',abandon:'a'}[res];r[key]++;if(res==='clear')r.sec+=sec;else{const w=mode==='dungeon'?Math.round((1-Math.max(0,enemy.hp)/enemy.maxHp)*10)*10+'%':String(stageIdx+1);r.w[w]=(r.w[w]||0)+1}}
   if(c!=null){const r=A.ch[c];r.all=(r.all||0)+sec;if(mode==='chapter'&&!(A.fc||(A.fc={}))[c]){r.preSec=(r.preSec||0)+sec;if(res==='clear'){A.fc[c]=[r.pre||1,Math.round((r.preSec||sec)/6)/10,instDay()];platLog('ch_first_clear',{ch:c,tries:A.fc[c][0],min:A.fc[c][1],day:A.fc[c][2],pow:power(baseStats())})}}}
   platLog('run_end',{mode,ch:c==null?(mode==='endless'?stageIdx+1:0):c,res,wave:stageIdx+1,sec,kills:run.kills||0,heads:run.heads||0,pow:power(baseStats()),day:instDay(),pass:passOn()?1:0,ev:evOn()?EVENT.id:'',evp:prog.ev&&evOn()?prog.ev.p:0});
@@ -3752,7 +3870,7 @@ function render(){
   if(state==='title'&&FX2&&FX2.busy)return;
   ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height);
   ctx.setTransform(dpr*scale,0,0,dpr*scale,dpr*offX,0);
-  {const fr=cv.parentNode,ig=state!=='title';if(fr&&fr.classList.contains('ingame')!==ig)fr.classList.toggle('ingame',ig)}
+  {const fr=cv.parentNode,ig=state!=='title';if(fr&&fr.classList.contains('ingame')!==ig){fr.classList.toggle('ingame',ig);try{cv.toggleAttribute('data-ncq-no-main',ig)}catch(e){}}}   /* 게임 중 화면은 캔버스를 끌어 던져요: 메인 버튼 없음 */
   if(state==='title'){setBgShake(0,0);if(!titleOv.classList.contains('paged')||stagedOpen())renderLobby();return}
   ctx.save();
   let shx=0,shy=0;if(shake>0&&!FX.shakeOff){shx=rand(-shake,shake);shy=rand(-shake,shake);ctx.translate(shx,shy)}
@@ -3853,7 +3971,9 @@ const $=id=>document.getElementById(id);
 const reviveOv=$('reviveOv'),titleOv=$('titleOv'),overOv=$('overOv'),clearOv=$('clearOv'),pickOv=$('pickOv'),shopOv=$('shopOv'),avatarOv=$('avatarOv'),titlesOv=$('titlesOv'),rankOv=$('rankOv');
 const dunOv=$('dunOv');
 const PANELS={settings:$('setOv'),shop:shopOv,avatar:avatarOv,titles:titlesOv,rank:rankOv,store:$('storeOv'),pvp:$('pvpOv'),dungeon:dunOv,chal:$('chalOv')};
-function updateTitle(){$('lbCoins').textContent=prog.coins;$('lbGems').textContent=prog.gems;$('lbStage').textContent=EN_COST;
+/* 로비 위 막대의 코인: 10만부터는 '12.3만'처럼 줄여 써요 (작은 휴대폰에서 설정 버튼이 밀려나지 않게). 정확한 값은 칩의 title */
+const walletNum=n=>{n=Math.max(0,Math.floor(+n||0));return n<100000?String(n):n<10000000?(Math.floor(n/1000)/10)+'만':Math.floor(n/10000)+'만'};
+function updateTitle(){$('lbCoins').textContent=walletNum(prog.coins);try{$('lbCoins').parentNode.title='코인 '+prog.coins.toLocaleString('ko-KR')}catch(e){}$('lbGems').textContent=prog.gems;$('lbStage').textContent=EN_COST;
   const N=stageN(),c=prog.stage,best=chBestOf(c);
   $('chName').textContent='챕터 '+c;$('chTheme').textContent=THEMES[(c-1)%THEMES.length].name+' · '+(c<prog.best?'클리어':'최고 '+best+'/'+N);
   $('chBar').setAttribute('style','width:'+Math.round(best/N*100)+'%');
@@ -3905,25 +4025,25 @@ const CUM={kill100:()=>(prog.stat.kills||0)>=100,kill500:()=>(prog.stat.kills||0
   flawless3:()=>(prog.stat.flawless||0)>=3,clutch3:()=>(prog.stat.clutch||0)>=3,h_dun5:()=>(prog.dun.wins||0)>=5};
 function chkTitles(){for(const id in CUM)if(!prog.titles[id]&&CUM[id]())award(id)}
 function titleCards(el){chkTitles();el.innerHTML=run.newTitles.map(id=>{const t=TITLE[id];return `<div class="newtitle"><span>새 칭호 획득 · 보석 +${Math.round(t.gem*T.gemTitle)}</span><b>「${t.name}」</b><span>${t.cond}</span></div>`}).join('')}
-function showRevive(){state='revive';aim=null;$('adBox').hidden=true;$('adBtn').hidden=NO_MONEY;$('giveUpBtn').hidden=false;{const gb=$('gemRevBtn');gb.hidden=false;gb.disabled=prog.gems<30;gb.textContent='보석 30으로 부활'}
+function showRevive(){state='revive';aim=null;$('adBox').hidden=true;$('adBtn').hidden=NO_REWARD;$('giveUpBtn').hidden=false;{const gb=$('gemRevBtn');gb.hidden=false;gb.disabled=prog.gems<30;gb.textContent='보석 30으로 부활'}
   {let t=8;const el=$('rvCount'),draw=()=>{el.textContent=Math.max(0,Math.ceil(t));el.setAttribute('style','background:radial-gradient(closest-side,#262b66 74%,transparent 77% 100%),conic-gradient(#ff7a6b '+Math.max(0,t/8*360).toFixed(1)+'deg,#3b3f72 0)')};draw();
-   clearInterval(rvIv);rvIv=setInterval(()=>{if(state!=='revive'){clearInterval(rvIv);return}if(!$('adBox').hidden)return;t-=0.1;draw();if(t<=0){clearInterval(rvIv);reviveOv.hidden=true;gameOver()}},100)}
+   clearInterval(rvIv);rvIv=setInterval(()=>{if(state!=='revive'){clearInterval(rvIv);return}if(!$('adBox').hidden||platAdOn)return;t-=0.1;draw();if(t<=0){clearInterval(rvIv);reviveOv.hidden=true;gameOver()}},100)}
   
   $('reviveInfo').textContent=(mode==='dungeon'?'보스 던전 Lv '+prog.dun.tier:mode==='endless'?'웨이브 '+(stageIdx+1):'챕터 '+prog.stage+' · 웨이브 '+(stageIdx+1)+'/'+stageN())+' · 한 판에 한 번 이어서 할 수 있어요';reviveOv.hidden=false;SFX.lose()}
 /* ---------- ads: replace these three with the real ad SDK calls ---------- */
 const ADS={
-  on:null,banner(show){if(NO_MONEY)show=false;const b=$('banner');if(!b||this.on===show)return;this.on=show;b.hidden=!show;if(IN_TOSS&&PLAT.banner)try{PLAT.banner(show,b)}catch(e){}if(typeof resize==='function')requestAnimationFrame(resize)},
+  on:null,banner(show){if(NO_BANNER)show=false;const b=$('banner');if(!b||this.on===show)return;this.on=show;if(NCQ_ADS){b.hidden=true;if(NCQ_ADS.banner)NCQ_ADS.banner(show);return}b.hidden=!show;if(IN_TOSS&&PLAT.banner)try{PLAT.banner(show,b)}catch(e){}if(typeof resize==='function')requestAnimationFrame(resize)},
   rewarded(onDone){$('adBtn').hidden=true;$('giveUpBtn').hidden=true;$('gemRevBtn').hidden=true;
-    if(IN_TOSS&&PLAT.reward){platAd(true);PLAT.reward(ok=>{platAd(false);if(ok){onDone();return}$('adBtn').hidden=false;$('giveUpBtn').hidden=false;$('gemRevBtn').hidden=false;toast('광고를 불러오지 못했어요<br>잠시 뒤 다시 눌러 주세요')});return}
+    if(ADP&&ADP.reward){platAd(true);ADP.reward(ok=>{platAd(false);if(ok){onDone();return}$('adBtn').hidden=false;$('giveUpBtn').hidden=false;$('gemRevBtn').hidden=false;if(!ADP.quiet)toast('광고를 불러오지 못했어요<br>잠시 뒤 다시 눌러 주세요')});return}
     $('adBox').hidden=false;const dur=T.rewardSec*1000,t0=performance.now();
     clearInterval(adTimer);adTimer=setInterval(()=>{const k=Math.min(1,(performance.now()-t0)/dur);$('adBar').style.width=(k*100)+'%';$('adSec').textContent=Math.ceil(T.rewardSec*(1-k));
       if(k>=1){clearInterval(adTimer);onDone()}},100)},
-  interstitial(onClose){if(IN_TOSS&&PLAT.interstitial){platAd(true);PLAT.interstitial(()=>{platAd(false);onClose()});return}
+  interstitial(onClose){if(ADP&&ADP.interstitial){platAd(true);ADP.interstitial(()=>{platAd(false);onClose()});return}
     const ad=$('interAd'),x=$('interClose');ad.hidden=false;x.disabled=true;let left=Math.round(T.interSec);x.textContent=left+'초';
     const iv=setInterval(()=>{left--;if(left>0)x.textContent=left+'초';else{clearInterval(iv);x.disabled=false;x.textContent='닫기 ✕'}},1000);
     x.onclick=()=>{if(x.disabled)return;ad.hidden=true;onClose()}},
 };
-const needInter=()=>!NO_MONEY&&!prog.adFree&&prog.plays>T.adNewbie&&(prog.plays-T.adNewbie)%Math.round(T.adEvery)===0&&prog.lastInter!==prog.plays;
+const needInter=()=>!NO_INTER&&!prog.adFree&&prog.plays>T.adNewbie&&(prog.plays-T.adNewbie)%Math.round(T.adEvery)===0&&prog.lastInter!==prog.plays&&(!NCQ_ADS||NCQ_ADS.interReady());
 function afterResult(go){
   if(!needInter()){go();return}
   prog.lastInter=prog.plays;saveProg();
@@ -4020,7 +4140,7 @@ function stagedOpen(){for(const k in PANELS){const o=PANELS[k];if(!o.hidden&&o.c
 function stagePop(txt,col,dy){const st=document.querySelector('#shopOv .pgstage');if(!st||shopOv.hidden)return;const e=document.createElement('b');e.className='stpop';e.textContent=txt;if(col)e.style.color=col;e.style.left=(44+Math.random()*12)+'%';if(dy)e.style.marginTop=dy+'px';st.appendChild(e);setTimeout(()=>e.remove(),1300)}
 function stageInfo(){const e=$('stPow');if(!e)return;const st=baseStats();e.innerHTML='<span>전투력</span><b>'+power(st).toLocaleString('ko-KR')+'</b><small>체력 '+st.hp+' · 공격 '+Math.round(st.dmg*100)+'%</small>'}
 function closePanel(ov,fromPop){if(!ov||ov.hidden)return;if(ov===avatarOv){avPrev=null;if(lobbyMan)lobbyMan.equip=undefined}
-  if(ov.classList.contains('page')&&!reduceMotion){const c=ov.querySelector('.card');if(c){const g=ov.cloneNode(true);g.removeAttribute('id');g.style.setProperty('--pg',getComputedStyle(ov).getPropertyValue('--pg'));g.classList.add('pgGhost');g.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));const gc=g.querySelector('.card');if(gc)gc.scrollTop=c.scrollTop;ov.parentNode.insertBefore(g,ov.nextSibling);setTimeout(()=>g.remove(),240)}}
+  if(ov.classList.contains('page')&&!reduceMotion){const c=ov.querySelector('.card');if(c){const g=ov.cloneNode(true);g.removeAttribute('id');g.style.setProperty('--pg',getComputedStyle(ov).getPropertyValue('--pg'));g.classList.add('pgGhost');g.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));g.removeAttribute('data-ncq-no-main');g.querySelectorAll('[data-ncq-main]').forEach(e=>e.removeAttribute('data-ncq-main'));const gc=g.querySelector('.card');if(gc)gc.scrollTop=c.scrollTop;ov.parentNode.insertBefore(g,ov.nextSibling);setTimeout(()=>g.remove(),240)}}
   ov.hidden=true;if(panelReturn)panelReturn.hidden=false;setLobbyTab(null);updateTitle();
   if(pgHist&&!fromPop&&!Object.values(PANELS).some(o=>!o.hidden&&o.classList.contains('page'))){pgHist=false;try{history.back()}catch(e){}}}
 let pgHist=false;
@@ -4090,10 +4210,10 @@ function renderAvatar(){
   for(const [id,nm] of SLOTS){const b=document.createElement('button');b.type='button';b.className='tab small';b.textContent=nm+(prog.equip[id]?' •':'');b.setAttribute('aria-selected',avSlot===id);b.addEventListener('click',()=>{avSlot=id;avPrev=null;avPreviewApply();renderAvatar()});tabs.appendChild(b)}
   {const n=ownedCount();$('avBonus').innerHTML='<span>보유 효과 · '+n+'개</span><b>공격 +'+(n*0.5).toFixed(1).replace('.0','')+'%</b><b>체력 +'+n+'</b>'}
   const list=$('avList');list.innerHTML='';
-  for(const g of GEAR.filter(g=>g.slot===avSlot&&(!g.iap||prog.owned[g.id]||!NO_CASH&&prog.offer&&prog.offer.id===g.id))){
+  for(const g of GEAR.filter(g=>g.slot===avSlot&&(!g.iap||prog.owned[g.id]||iapCan(g.id)&&prog.offer&&prog.offer.id===g.id))){
     const own=!!prog.owned[g.id],on=prog.equip[g.slot]===g.id,lk=avLocked(g);
     const card=document.createElement('button');card.type='button';card.className='ccard'+(own?' own':'')+(on?' on':'')+(lk?' lock':'')+(avPrev===g.id?' sel':'');card.dataset.g=g.id;
-    card.innerHTML=`${own?'<i class="chk">✓</i>':''}<canvas width="128" height="128" aria-hidden="true"></canvas><b>${g.name}</b><small>${g.bd}</small><span class="cp">${on?'장착 중':own?'보유':g.iap?'₩'+g.iap.toLocaleString('ko-KR'):g.price+' 보석'}</span>${lk?'<em class="lkb">챕터 '+g.lock+' 클리어</em>':''}`;
+    card.innerHTML=`${own?'<i class="chk">✓</i>':''}<canvas width="128" height="128" aria-hidden="true"></canvas><b>${g.name}</b><small>${g.bd}</small><span class="cp">${on?'장착 중':own?'보유':g.iap?iapPrice(g.id,g.iap):g.price+' 보석'}</span>${lk?'<em class="lkb">챕터 '+g.lock+' 클리어</em>':''}`;
     card.addEventListener('click',()=>{avPrev=avPrev===g.id&&on?null:g.id;avPreviewApply();if(SIG[g.id]&&avPrev){playAnim(SIG[g.id]);lobby.last=SIG[g.id]}renderAvatar();tutRefresh()});
     list.appendChild(card);gearThumb(card.querySelector('canvas'),g)}
   const sel=avPrev&&list.querySelector('.sel');if(sel)list.scrollLeft=Math.max(0,sel.offsetLeft-list.clientWidth/2+sel.clientWidth/2);
@@ -4103,7 +4223,7 @@ function renderAvatar(){
   const g=GEARID[avPrev],own=!!prog.owned[g.id],on=prog.equip[g.slot]===g.id,lk=avLocked(g);tag.hidden=false;
   $('avTagName').textContent=g.name;$('avTagBd').textContent=g.bd;act.className='';act.disabled=false;
   if(on){act.textContent='해제';act.className='ghost'}else if(own)act.textContent='장착';else if(lk){act.textContent='챕터 '+g.lock+' 클리어 필요';act.disabled=true}
-  else if(g.iap)act.textContent='₩'+g.iap.toLocaleString('ko-KR');else{act.textContent=g.price+' 보석 · 구매';act.disabled=prog.gems<g.price;act.className='buy'}
+  else if(g.iap)act.textContent=iapPrice(g.id,g.iap);else{act.textContent=g.price+' 보석 · 구매';act.disabled=prog.gems<g.price;act.className='buy'}
 }
 function avAction(){const id=avPrev;if(!id)return;const g=GEARID[id],own=!!prog.owned[g.id],on=prog.equip[g.slot]===g.id;
   if(on)delete prog.equip[g.slot];
@@ -4118,13 +4238,13 @@ const PACKS=[
   {id:'adfree',name:'광고 제거 패키지',price:15000,gems:600,adFree:true,once:true,desc:'배너·전면 광고 영구 제거 + 보석 600'},
   {id:'g1',name:'보석 한 줌',price:1200,gems:60,desc:'보석 60'},
   {id:'g2',name:'보석 주머니',price:5900,gems:330,desc:'보석 300 + 보너스 30'},
-  {id:'g3',name:'보석 상자',price:12000,gems:720,desc:'보석 600 + 보너스 120'},
+  {id:'g3',name:'보석 상자',price:11900,gems:720,desc:'보석 600 + 보너스 120'},   /* v1.08: 12,000원 → 11,900원 (토스 콘솔은 판매가가 공급가×1.1 버림이라 12,000원을 만들 수 없어요) */
   {id:'g4',name:'보석 금고',price:33000,gems:2100,desc:'보석 1,650 + 보너스 450',tag:'+27%'},
   {id:'g5',name:'보석 트럭',price:65000,gems:4500,desc:'보석 3,250 + 보너스 1,250',tag:'최고 효율'},
 ];
 /* v0.86 store: 일일 상점 (pinned cards, daily limits, reset timer, sold-out stamp) · 패키지 (chapter milestones) · 충전 */
 const GEMSHOP=[{id:'free',name:'오늘의 선물',cost:0,lim:1,ic:'ic-en',desc:'에너지 10 · 매일 무료'},{id:'en',name:'에너지 30',cost:50,lim:1,ic:'ic-en',desc:'바로 여섯 판 더'},{id:'coin',name:'코인 꾸러미',cost:60,lim:5,costs:[60,80,100,130,160,200,250,300],ic:'ic-coin',desc:''},
-  {id:'box',name:'장비 상자',cost:150,lim:3,ic:'ic-box',desc:'희귀 이상이 잘 나와요 · <u data-odds="1">확률</u>'},{id:'pvp',name:'PVP 티켓 3장',cost:30,lim:3,ic:'ic-tk',desc:NO_MONEY?'무료 도전을 다 썼을 때':'무료·광고 도전을 다 썼을 때'}];
+  {id:'box',name:'장비 상자',cost:150,lim:3,ic:'ic-box',desc:'희귀 이상이 잘 나와요 · <u data-odds="1">확률</u>'},{id:'pvp',name:'PVP 티켓 3장',cost:30,lim:3,ic:'ic-tk',desc:NO_REWARD?'무료 도전을 다 썼을 때':'무료·광고 도전을 다 썼을 때'}];
 /* v1.02 월정액 '물풍선 패스': 30일 동안 매일 보석 30, 에너지 가득 채우기 하루 +2번, 코인 꾸러미 하루 +3번. 사면 바로 보석 300.
    다시 사면 남은 기간에 30일이 더해져요. 하루 한도를 늘려 줘서 많이 쓰는 유저의 천장을 높이되, 한도 자체는 남겨요. */
 const PASS={id:'pass',name:'물풍선 패스',price:4900,days:30,gems:300,daily:30,en:2,coin:3};
@@ -4143,11 +4263,11 @@ function giveGem(id){if(id==='passday'){prog.gems+=PASS.daily;toast('<b>보석 +
   else if(id==='pvp'){pvpDay();prog.pvp.bought+=PVP_PACK.n;toast('<b>PVP 티켓 +'+PVP_PACK.n+'</b><br>PVP에서 바로 쓸 수 있어요')}
   else{const pw=power(baseStats()),it=dropItem(Math.max(3,prog.best),0.8);shopDay();const g=GEMSHOP.find(x=>x.id==='box'),more=(prog.shop.b.box||0)<g.lim&&prog.gems>=g.cost;
     if(it)revealReward([it],{title:'장비 상자',powerFrom:pw,again:more?{label:'한 번 더 · 보석 '+g.cost}:null,onAgain:()=>{shopDay();if((prog.shop.b.box||0)>=g.lim||prog.gems<g.cost)return;prog.gems-=g.cost;prog.shop.b.box=(prog.shop.b.box||0)+1;giveGem('box');saveProg();if(!storeOv.hidden)renderStore();updateTitle()}});else toast('가방이 꽉 차서 코인으로 바꿨어요')}}
-function renderStore(){shopDay();if(NO_CASH&&storeTab==='charge')storeTab='daily';
+function renderStore(){shopDay();if(noCash()&&storeTab==='charge')storeTab='daily';
   $('storeGems').textContent='보석 '+prog.gems+(prog.adFree?' · 광고 제거됨':'');const list=$('storeList');list.innerHTML='';list.className='packs st-'+storeTab;
-  {const tb=$('storeTabs');tb.innerHTML='';for(const [k,nm] of [['daily','일일 상점'],['pack','패키지'],...(NO_CASH?[]:[['charge','충전']])]){const b=document.createElement('button');b.type='button';b.textContent=nm;b.setAttribute('aria-selected',storeTab===k);
+  {const tb=$('storeTabs');tb.innerHTML='';for(const [k,nm] of [['daily','일일 상점'],['pack','패키지'],...(noCash()?[]:[['charge','충전']])]){const b=document.createElement('button');b.type='button';b.textContent=nm;b.setAttribute('aria-selected',storeTab===k);
     if(k==='daily'&&(!prog.shop.b.free||(passOn()&&!prog.shop.b.passday)))b.classList.add('dot');b.addEventListener('click',()=>{storeTab=k;buyArm=null;renderStore();const c=storeOv.querySelector('.card');if(c)c.scrollTop=0});tb.appendChild(b)}}
-  $('storeNote').hidden=storeTab!=='charge';$('storeNote').textContent=PAY?'결제는 토스에서 진행돼요. 산 상품은 기기를 바꿔도 다시 받을 수 있어요.':'결제는 프로토타입이에요. 실제 돈은 나가지 않아요.';
+  $('storeNote').hidden=storeTab!=='charge';$('storeNote').textContent=cashNote();
   const hd=(t,sub)=>{const p=document.createElement('div');p.className='sthd';p.innerHTML='<b></b>'+(sub?'<span></span>':'');p.querySelector('b').textContent=t;if(sub)p.querySelector('span').textContent=sub;list.appendChild(p);return p};
   if(storeTab==='daily'){const h=hd('일일 초특가','⏱ '+untilReset()+' 후 초기화');h.id='stReset';const grid=document.createElement('div');grid.className='pins';list.appendChild(grid);
     for(const g of [...(passOn()?[PASS_PIN]:[]),...GEMSHOP]){if(g.id==='pvp'&&!isOpen('pvp'))continue;const used=prog.shop.b[g.id]||0,lim=gsLim(g),sold=used>=lim,arm=buyArm==='gs-'+g.id,gc=gsCost(g);
@@ -4159,7 +4279,7 @@ function renderStore(){shopDay();if(NO_CASH&&storeTab==='charge')storeTab='daily
       grid.appendChild(c)}
     clearInterval(storeIv);storeIv=setInterval(()=>{if(storeOv.hidden||storeTab!=='daily'){clearInterval(storeIv);return}const e=$('stReset');if(e){const sp=e.querySelector('span');if(sp)sp.textContent='⏱ '+untilReset()+' 후 초기화'}if(prog.shop.day!==todayKey())renderStore()},1000)}
   else if(storeTab==='pack'){
-    if(!NO_CASH&&offerLive()){hd('기간 한정',offerLeft()+' 남음');const row=document.createElement('div');row.className='pack limited';row.innerHTML=`<b>분노 폭발 헤어<span class="tag hot">${offerLeft()} 남음</span></b><button type="button">${(PAY&&PAY.price('rage'))||'₩1,500'}</button><small>찌르다 화나면 변하는 그 머리 · 치명타 +5%</small>`;row.querySelector('button').addEventListener('click',()=>offerPop(true));list.appendChild(row)}
+    if(iapCan('rage')&&offerLive()){hd('기간 한정',offerLeft()+' 남음');const row=document.createElement('div');row.className='pack limited';row.innerHTML=`<b>분노 폭발 헤어<span class="tag hot">${offerLeft()} 남음</span></b><button type="button">${iapPrice('rage',1500)}</button><small>찌르다 화나면 변하는 그 머리 · 치명타 +5%</small>`;row.querySelector('button').addEventListener('click',()=>offerPop(true));list.appendChild(row)}
     hd('챕터 패키지','한 번만 살 수 있어요 · 보석으로 구매');const car=document.createElement('div');car.className='chpacks';list.appendChild(car);
     for(const k of CHPACK){const got=!!prog.chpack[k.ch],lk=!devAll()&&cleared()<k.ch,arm=buyArm==='cp-'+k.ch;const c=document.createElement('div');c.className='chpk'+(got?' got':'')+(lk?' lock':'');
       c.innerHTML=`<span class="eff">${k.eff} 효율</span><b>${k.ch}챕터 클리어 패키지</b><div class="pkit"><span><i class="ic-coin"></i>${k.coins.toLocaleString('ko-KR')}</span><span><i class="ic-box"></i>×${k.box}</span><span><i class="ic-en"></i>${k.en}</span></div><button type="button"${got||lk||prog.gems<k.cost?' disabled':''}>${got?'구매 완료':lk?'챕터 '+k.ch+' 클리어 시 열림':arm?'구매 확인':'보석 '+k.cost}</button>${got?'<span class="stamp">구매 완료</span>':''}`;
@@ -4167,45 +4287,44 @@ function renderStore(){shopDay();if(NO_CASH&&storeTab==='charge')storeTab='daily
         const items=[];for(let i=0;i<k.box;i++){const it=dropItem(Math.max(3,prog.best),0.8);if(it)items.push(it)}saveProg();SFX.clear();renderStore();updateTitle();
         if(items.length)revealReward(items,{title:k.ch+'챕터 클리어 패키지',extra:'코인 +'+k.coins.toLocaleString('ko-KR')+' · 에너지 +'+k.en});else toast('<b>패키지 구매!</b><br>코인 +'+k.coins.toLocaleString('ko-KR'))});
       car.appendChild(c)}}
-  else{{hd('월정액',passOn()?passDays()+'일 남음':'30일');const on=passOn(),row=document.createElement('div');row.className='pack pass'+(on?' on':'');row.id='passRow';
-    const label=PAY?(PAY.price('pass')||'₩'+PASS.price.toLocaleString('ko-KR')):buyArm==='pass'?'결제 확인':'₩'+PASS.price.toLocaleString('ko-KR');
-    row.innerHTML=`<b>${PASS.name}<span class="tag">${on?'사용 중':'추천'}</span></b><button type="button">${on?'30일 연장 · ':''}${label}</button><small>바로 보석 ${PASS.gems} · 30일 동안 매일 보석 ${PASS.daily}(일일 상점에서 받기)<br>에너지 가득 채우기 하루 +${PASS.en}번 · 코인 꾸러미 하루 +${PASS.coin}번${on?'<br><b style="font-size:12px;color:#8ff0d6">'+new Date(prog.pass.until).toLocaleDateString('ko-KR')+'까지</b>':''}</small>`;
-    row.querySelector('button').addEventListener('click',()=>{if(PAY){cashBuy('pass');return}if(buyArm!=='pass'){buyArm='pass';renderStore();return}buyArm=null;cashGrant('pass');SFX.clear();toast('<b>물풍선 패스 시작!</b><br>보석 +'+PASS.gems+' · '+passDays()+'일 남음',2400);renderStore()});
+  else{if(iapCan('pass')){hd('월정액',passOn()?passDays()+'일 남음':'30일');const on=passOn(),row=document.createElement('div');row.className='pack pass'+(on?' on':'');row.id='passRow';
+    row.innerHTML=`<b>${PASS.name}<span class="tag">${on?'사용 중':'추천'}</span></b><button type="button">${on?'30일 연장 · ':''}${iapPrice('pass',PASS.price)}</button><small>바로 보석 ${PASS.gems} · 30일 동안 매일 보석 ${PASS.daily}(일일 상점에서 받기)<br>에너지 가득 채우기 하루 +${PASS.en}번 · 코인 꾸러미 하루 +${PASS.coin}번${on?'<br><b style="font-size:12px;color:#8ff0d6">'+new Date(prog.pass.until).toLocaleDateString('ko-KR')+'까지</b>':''}</small>`;
+    row.querySelector('button').addEventListener('click',()=>cashBuy('pass'));
     list.appendChild(row)}
-  hd('보석 충전','첫 구매는 2배');list.lastChild.id='gemPacks';
-  for(const k of PACKS){const owned=k.once&&prog.purchases[k.id];const firstx=!k.adFree&&!prog.purchases[k.id];const row=document.createElement('div');row.className='pack'+(k.adFree?' best':'');
-    const label=owned?'구매 완료':PAY?(PAY.price(k.id)||'₩'+k.price.toLocaleString('ko-KR')):buyArm===k.id?'결제 확인':'₩'+k.price.toLocaleString('ko-KR');
-    row.innerHTML=`<b>${k.name}${k.adFree?'<span class="tag">추천</span>':''}${k.tag?'<span class="tag hot">'+k.tag+'</span>':''}</b><button type="button"${owned?' disabled':''}>${label}</button><small>${k.desc}${firstx?' · <b style="font-size:12px;color:#ffd166">첫 구매 2배!</b>':''}</small>`;
-    row.querySelector('button').addEventListener('click',()=>{if(owned)return;if(PAY){cashBuy(k.id);return}
-      if(buyArm!==k.id){buyArm=k.id;renderStore();return}
-      buyArm=null;prog.purchases[k.id]=(prog.purchases[k.id]||0)+1;prog.gems+=k.gems*(firstx?2:1);if(k.adFree){prog.adFree=true;ADS.banner(false)}
-      saveProg();SFX.clear();renderStore();updateTitle()});
+  const packs=PACKS.filter(k=>iapCan(k.id));if(packs.length){hd('보석 충전','첫 구매는 2배');list.lastChild.id='gemPacks'}
+  for(const k of packs){const owned=k.once&&prog.purchases[k.id];const firstx=!k.adFree&&!prog.purchases[k.id];const row=document.createElement('div');row.className='pack'+(k.adFree?' best':'');
+    row.innerHTML=`<b>${k.name}${k.adFree?'<span class="tag">추천</span>':''}${k.tag?'<span class="tag hot">'+k.tag+'</span>':''}</b><button type="button"${owned?' disabled':''}>${owned?'구매 완료':iapPrice(k.id,k.price)}</button><small>${k.desc}${firstx?' · <b style="font-size:12px;color:#ffd166">첫 구매 2배!</b>':''}</small>`;
+    row.querySelector('button').addEventListener('click',()=>{if(owned)return;cashBuy(k.id)});
     list.appendChild(row)}
-  if(PAY){const h=document.createElement('button');h.type='button';h.className='ghost ordbtn';h.textContent='구매 내역';h.addEventListener('click',orderHistory);list.appendChild(h)}}
+  if(Object.keys(prog.orders||{}).length){const h=document.createElement('button');h.type='button';h.className='ghost ordbtn';h.textContent='구매 내역';h.addEventListener('click',orderHistory);list.appendChild(h)}}
 }
-/* ---------- v0.97 인앱 결제 (앱인토스 IAP) ----------
-   상품: 충전 탭의 PACKS + 기간 한정 '분노 폭발 헤어'(rage). 지급은 cashGrant 한 곳에서, 주문번호로 두 번 지급을 막아요.
-   앱인토스: 결제창 → processProductGrant에서 지급 → 성공. 시작할 때 지급 못 한 주문(대기)과 완료·환불 내역을 맞춰요(기기를 바꿔도 다시 받기). */
+/* ---------- 인앱 결제: 지급과 구매 (NcqIap, v1.7.0) ----------
+   상품: 충전 탭의 PACKS + 기간 한정 '분노 폭발 헤어'(rage) + 물풍선 패스(PASS). 지급은 NcqIap.onGrant → cashGrant 한 곳에서만 해요.
+   새 구매뿐 아니라 앱이 꺼져서 끝나지 않은 구매, 다시 설치한 뒤 되찾은 비소모성 상품(info.restored)도 여기로 와요.
+   비소모성(광고 제거·분노 폭발 헤어)은 몇 번 와도 같게: 보석·장착은 처음 한 번만이에요. 지급하면 바로 저장하고 true를 돌려줘요. */
 const CASH_ITEMS=()=>[...PACKS,{id:'rage',name:'분노 폭발 헤어',price:1500,once:true},PASS];
 const cashItem=id=>CASH_ITEMS().find(k=>k.id===id);
-let cashRestored=false;
-function cashGrant(id,orderId,restore,date){if(!prog.orders)prog.orders={};if(orderId&&prog.orders[orderId])return true;const k=cashItem(id);if(!k)return false;let gems=0;
-  if(id==='rage'){prog.owned.rage=1;prog.equip.hat='rage'}
-  else if(id==='pass'){const od=restore&&date?Date.parse(date):NaN,base=isNaN(od)?Math.max(Date.now(),(prog.pass&&prog.pass.until)||0):Math.max(od,(prog.pass&&prog.pass.until)||0); /* 기기를 바꿔 다시 받을 때는 산 날부터 30일 */prog.pass={until:base+PASS.days*864e5};gems=PASS.gems;prog.gems+=gems}
-  else{const firstx=!k.adFree&&!prog.purchases[k.id];gems=k.gems*(firstx?2:1);prog.gems+=gems;if(k.adFree){prog.adFree=true;ADS.banner(false)}}
-  prog.purchases[id]=(prog.purchases[id]||0)+1;if(orderId)prog.orders[orderId]={id,t:Date.now(),gems,st:'ok',r:restore?1:0};
+const IAP_ID=Object.fromEntries(Object.entries(IAP_NAME).map(([k,v])=>[v,k]));
+function cashGrant(id,info){const k=cashItem(id);if(!k)return false;info=info||{};const first=!prog.purchases[id];let gems=0;
+  if(id==='rage'){if(!prog.owned.rage){prog.owned.rage=1;prog.equip.hat='rage'}}
+  else if(id==='pass'){prog.pass={until:Math.max(Date.now(),(prog.pass&&prog.pass.until)||0)+PASS.days*864e5};gems=PASS.gems;prog.gems+=gems}
+  else if(k.adFree){if(first){gems=k.gems;prog.gems+=gems}prog.adFree=true;try{ADS.banner(false)}catch(e){}}
+  else{gems=k.gems*(first?2:1);prog.gems+=gems}
+  if(!k.once||first)prog.purchases[id]=(prog.purchases[id]||0)+1;
+  if(!prog.orders)prog.orders={};prog.orders[String(info.orderId||('o'+Date.now()+'-'+Math.floor(Math.random()*1e6)))]={id,t:Date.now(),gems,st:'ok',r:info.restored?1:0};
   saveProg();try{updateTitle()}catch(e){}return true}
-function cashRefund(orderId){const o=prog.orders&&prog.orders[orderId];if(!o||o.st==='refund')return false;o.st='refund';
-  if(o.id==='rage'){delete prog.owned.rage;if(prog.equip.hat==='rage')delete prog.equip.hat}
-  if(o.id==='pass'&&prog.pass){prog.pass.until-=PASS.days*864e5;if(prog.pass.until<=Date.now())delete prog.pass}
-  const k=cashItem(o.id);if(k&&k.adFree)prog.adFree=false;prog.gems=Math.max(0,prog.gems-(o.gems||0));if(prog.purchases[o.id])prog.purchases[o.id]--;saveProg();try{updateTitle()}catch(e){}return true}
-function cashBuy(id,onOk){platLog('purchase_try',{id});const k=cashItem(id);if(!PAY||!k)return;platAd(true);
-  PAY.buy(id,orderId=>cashGrant(id,orderId),r=>{platAd(false);
+IAP.onGrant((name,info)=>{try{const id=IAP_ID[String(name).toUpperCase()];if(!id)return false;   /* 모르는 상품은 지급하지 않아요 (구매를 마무리하지 않아요) */
+  const ok=cashGrant(id,info);if(ok)setTimeout(()=>{try{if(!storeOv.hidden)renderStore();if(!avatarOv.hidden)renderAvatar();offerTick()}catch(e){}},0);return ok}catch(e){return false}});
+let iapReady=false;   /* 상품 정보(가격)를 받으면 상점·한정 상품·구매 복원 줄을 다시 그려요 */
+Promise.resolve().then(()=>IAP.ready()).then(()=>{iapReady=true;try{iapRestoreRow();offerTick();if(!storeOv.hidden)renderStore();if(!avatarOv.hidden)renderAvatar()}catch(e){}},()=>{});
+function cashBuy(id,onOk){const k=cashItem(id),n=IAP_NAME[id];if(!k||!n||!iapCan(id))return;platLog('purchase_try',{id});platAd(true);
+  Promise.resolve().then(()=>iapCall(n)).then(r=>{platAd(false);
     if(r&&r.ok){SFX.clear();platLog('purchase',{id,price:k.price,day:instDay(),best:prog.best});toast('<b>구매 완료!</b><br>'+k.name,2200);if(onOk)onOk()}
-    else if(!r||r.code!=='USER_CANCELED')toast((r&&r.msg)||'결제하지 못했어요',2600);
-    if(!storeOv.hidden)renderStore();if(!avatarOv.hidden)renderAvatar();updateTitle()})}
-function cashRestore(){if(!PAY||!PAY.restore)return;try{PAY.restore({grant:cashGrant,refund:cashRefund,known:()=>prog.orders||{},
-  done:n=>{if(n.granted||n.refunded){toast('<b>결제 내역을 맞췄어요</b><br>'+(n.granted?'받지 못한 상품 '+n.granted+'개를 지급했어요':'')+(n.refunded?(n.granted?' · ':'')+'환불된 상품 '+n.refunded+'개를 회수했어요':''),2800);if(!storeOv.hidden)renderStore()}}})}catch(e){}}
+    if(!storeOv.hidden)renderStore();if(!avatarOv.hidden)renderAvatar();updateTitle()},()=>{platAd(false)})}
+/* 설정의 '구매 복원': 광고 제거·분노 폭발 헤어처럼 한 번 사는 상품을 다시 받아요 (다시 설치했을 때). 팔 수 있을 때만 보여요 */
+function iapRestoreRow(){try{const r=document.getElementById('iapRow');if(r)r.hidden=IAP_DEV||!(iapCan('adfree')||iapCan('rage'))}catch(e){}}
+$('iapRestoreBtn').addEventListener('click',()=>{const b=$('iapRestoreBtn');b.disabled=true;
+  Promise.resolve().then(()=>IAP.restore()).then(r=>{b.disabled=false;const n=(r&&r.restored&&r.restored.length)||0;toast(n?'<b>구매를 되찾았어요</b><br>'+n+'개':'되찾을 구매가 없어요',2200)},()=>{b.disabled=false})});
 function orderHistory(){const L=Object.entries(prog.orders||{}).sort((a,b)=>b[1].t-a[1].t);
   popup('구매 내역',L.length?L.map(([oid,o])=>`<div class="mrow${o.st==='refund'?' got':''}"><b>${(cashItem(o.id)||{name:o.id}).name}</b><span>${o.st==='refund'?'환불됨':o.r?'다시 받음':'완료'}</span><small>${new Date(o.t).toLocaleString('ko-KR')} · 주문 ${String(oid).slice(-10)}${o.gems?' · 보석 '+o.gems:''}</small></div>`).join(''):'<p class="sub">아직 구매한 상품이 없어요.</p>',[['닫기',null,'ghost']])}
 /* ---------- async PVP ---------- */
@@ -4216,7 +4335,7 @@ const power=st=>Math.round(st.hp*st.dmg*(1+st.crit)/Math.max(0.15,st.cool)*0.6);
 const tierOf=r=>r<1100?'브론즈':r<1250?'실버':r<1400?'골드':r<1600?'플래티넘':'다이아';
 function myPvp(){return{...baseStats(),equip:{...prog.equip},title:prog.title||'',rating:prog.pvp.rating}}
 function pvpDay(){const k=todayKey(),p=prog.pvp;if(p.day!==k||p.left<0){p.day=k;p.left=Math.round(T.pvpTickets);p.ads=0;saveProg()}if(p.ads==null)p.ads=0;if(p.bought==null)p.bought=0}
-const PVP_ADS=NO_MONEY?0:2,PVP_PACK={n:3,cost:30};
+const PVP_ADS=NO_REWARD?0:2,PVP_PACK={n:3,cost:30};
 const pvpHave=()=>{pvpDay();return prog.pvp.left+prog.pvp.bought};
 function pvpUse(){const p=prog.pvp;if(p.left>0)p.left--;else if(p.bought>0)p.bought--;else return false;saveProg();return true}
 function pvpTicketTxt(){const p=prog.pvp;return '무료 '+p.left+'/'+Math.round(T.pvpTickets)+(PVP_ADS?' · 광고 '+(PVP_ADS-p.ads)+'/'+PVP_ADS:'')+(p.bought?' · 구매 티켓 '+p.bought:'')}
@@ -4533,20 +4652,19 @@ return{draw(c,w,h,t,lk,ltxt,tapT){const s=Math.min(w/W,h/H),ox=(w-W*s)/2,oy=(h-H
 const OFFER_MS=24*3600*1000;
 const offerLive=()=>!!(prog.offer&&prog.offer.id==='rage'&&!prog.owned.rage&&Date.now()<prog.offer.until);
 function offerLeft(){if(!prog.offer)return '';const ms=Math.max(0,prog.offer.until-Date.now()),h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000),sc=Math.floor(ms%60000/1000);return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(sc).padStart(2,'0')}
-function offerTick(){const b=$('sbOffer');if(!b)return;const live=!NO_CASH&&offerLive();b.hidden=!live;if(live){const L=offerLeft();$('offerT').textContent=L.slice(0,5);const ot=$('popOfferT');if(ot)ot.textContent=L+' 남음'}}
+function offerTick(){const b=$('sbOffer');if(!b)return;const live=iapCan('rage')&&offerLive();b.hidden=!live;if(live){const L=offerLeft();$('offerT').textContent=L.slice(0,5);const ot=$('popOfferT');if(ot)ot.textContent=L+' 남음'}}
 let offerArm=false;
-function offerPop(fromMenu){if(NO_CASH)return;if(prog.owned.rage){toast('이미 가지고 있어요');return}
+function offerPop(fromMenu){if(!iapCan('rage'))return;if(prog.owned.rage){toast('이미 가지고 있어요');return}
   if(!prog.offer){prog.offer={id:'rage',until:Date.now()+OFFER_MS};saveProg()}
   if(!offerLive()){toast('판매 기간이 끝났어요');return}
   offerArm=false;
-  popup('비밀을 발견했어요!',`<div class="offerbox"><canvas id="offerCv" width="240" height="240" aria-label="분노 폭발 헤어 미리보기"></canvas><span class="oname">분노 폭발 헤어</span><p>방금 그 황금 머리를 아바타로 쓸 수 있어요.<br>로비에서도 늘 빛나고, 치명타가 5% 올라가요.</p><span class="otime" id="popOfferT">${offerLeft()} 남음</span><p>발견한 사람만 24시간 동안 살 수 있어요</p><div class="oprice"><s>₩4,400</s><b>₩1,500</b></div></div>`,
-    [[PAY?(PAY.price('rage')||'₩1,500')+' 구매':'₩1,500 구매',b=>{if(PAY){closePop(true);cashBuy('rage',()=>toast('<b>분노 폭발 헤어</b> 장착 완료!'));return true}if(!offerArm){offerArm=true;b.textContent='결제 확인 (프로토타입)';return true}
-        prog.owned.rage=1;prog.purchases.rage=(prog.purchases.rage||0)+1;prog.equip.hat='rage';saveProg();SFX.clear();closePop(true);toast('<b>분노 폭발 헤어</b> 장착 완료!');updateTitle();if(!avatarOv.hidden)renderAvatar();if(!$('storeOv').hidden)renderStore();return true}],
+  popup('비밀을 발견했어요!',`<div class="offerbox"><canvas id="offerCv" width="240" height="240" aria-label="분노 폭발 헤어 미리보기"></canvas><span class="oname">분노 폭발 헤어</span><p>방금 그 황금 머리를 아바타로 쓸 수 있어요.<br>로비에서도 늘 빛나고, 치명타가 5% 올라가요.</p><span class="otime" id="popOfferT">${offerLeft()} 남음</span><p>발견한 사람만 24시간 동안 살 수 있어요</p><div class="oprice"><b>${iapPrice('rage',1500)}</b></div></div>`,
+    [[iapPrice('rage',1500)+' 구매',()=>{closePop(true);cashBuy('rage',()=>toast('<b>분노 폭발 헤어</b> 장착 완료!'));return true}],
      ['나중에 (24시간 안에)',null,'ghost']],()=>{offerTick()});
   const cv2=$('offerCv');if(cv2)drawHatThumb(cv2,'rage');offerTick()}
 $('sbOffer').addEventListener('click',()=>offerPop(true));
 $('dunGo').addEventListener('click',()=>{dunDay();if(prog.dun.left<=0)return;prog.dun.left--;saveProg();closePanel(dunOv);startGame(true,'dungeon')});
-$('gemChip').addEventListener('click',()=>{if(!isOpen('store'))return;storeTab=NO_CASH?'daily':'charge';buyArm=null;setTimeout(()=>{if(!storeOv.hidden)renderStore()},0)});
+$('gemChip').addEventListener('click',()=>{if(!isOpen('store'))return;storeTab=noCash()?'daily':'charge';buyArm=null;setTimeout(()=>{if(!storeOv.hidden)renderStore()},0)});
 $('pauseX').addEventListener('click',()=>resumeGame());
 /* ---------- v0.45: lobby ops · popups · equipment UI · pause · boot ---------- */
 const PAUSEBTN=$('pauseBtn');
@@ -4593,14 +4711,24 @@ function resFail(){if(overOv.hidden&&clearOv.hidden)goLobby()}
 /* generic popup */
 let popClose=null,popAdIv=null;
 function popup(title,html,btns,onClose){$('popTitle').textContent=title;$('popBody').innerHTML=html;const bx=$('popBtns');bx.innerHTML='';popClose=onClose||null;clearInterval(popAdIv);
+  let main=false;   /* 첫 번째 주 버튼(ghost가 아닌 것)이 이 팝업의 메인 버튼 (공통 지침 '화면 안전 영역과 메인 버튼') */
   for(const row of (btns||[])){const grp=Array.isArray(row[0])?row:[row];let wrap=bx;if(grp.length>1){wrap=document.createElement('div');wrap.className='pbrow';bx.appendChild(wrap)}
     for(const [t,fn,cls,dis] of grp){const b=document.createElement('button');b.type='button';b.textContent=t;if(cls)b.className=cls;if(dis)b.disabled=true;
+      if(!main&&!/\bghost\b/.test(cls||'')){main=true;b.setAttribute('data-ncq-main',String(t).slice(0,30))}
       b.addEventListener('click',()=>{if(fn&&fn(b))return;closePop()});wrap.appendChild(b)}}
+  try{$('popOv').toggleAttribute('data-ncq-no-main',!main)}catch(e){}
   $('popOv').hidden=false}
 function closePop(ok){clearInterval(popAdIv);const ov=$('popOv');if(ov.hidden)return;ov.hidden=true;const f=popClose;popClose=null;if(f&&!ok)f();if(state==='title')updateTitle()}
 $('popX').addEventListener('click',()=>closePop());
+/* 팝업·보상 상자 화면이 떠 있는 동안에는 그 아래 화면(로비·메뉴·결과)의 메인 버튼이 '지금 화면의 메인 버튼'이 아니에요 (팝업에 가려요).
+   화면 점검(NcqSafe.checkAll)이 가려진 아래 버튼을 세지 않게 표시를 잠깐 data-ncq-main-under로 바꿔 두고, 팝업이 닫히면 되돌려요 */
+(function mainUnder(){const tops=['popOv','revealOv'].map(id=>document.getElementById(id)).filter(Boolean);if(!tops.length||typeof MutationObserver==='undefined')return;
+  const sync=()=>{try{const top=tops.some(o=>!o.hidden);
+    if(top)document.querySelectorAll('[data-ncq-main]').forEach(el=>{if(tops.some(o=>o.contains(el)))return;el.setAttribute('data-ncq-main-under',el.getAttribute('data-ncq-main'));el.removeAttribute('data-ncq-main')});
+    else document.querySelectorAll('[data-ncq-main-under]').forEach(el=>{el.setAttribute('data-ncq-main',el.getAttribute('data-ncq-main-under'));el.removeAttribute('data-ncq-main-under')})}catch(e){}};
+  const mo=new MutationObserver(sync);tops.forEach(o=>mo.observe(o,{attributes:true,attributeFilter:['hidden']}));sync()})();
 $('popOv').addEventListener('click',e=>{if(e.target===$('popOv'))closePop()});
-function adPop(done,onClose){if(IN_TOSS&&PLAT.reward){platAd(true);PLAT.reward(ok=>{platAd(false);if(ok)done();else{toast('광고를 불러오지 못했어요<br>잠시 뒤 다시 눌러 주세요');if(onClose)onClose()}});return}popup('광고 시청 중','<div class="adbox"><span class="sub">리워드 비디오 자리 (프로토타입) · <b id="pAdS">'+Math.ceil(T.rewardSec)+'</b>초</span><div class="bar"><i id="pAdB"></i></div></div>',[],onClose);
+function adPop(done,onClose){if(ADP&&ADP.reward){platAd(true);ADP.reward(ok=>{platAd(false);if(ok)done();else{if(!ADP.quiet)toast('광고를 불러오지 못했어요<br>잠시 뒤 다시 눌러 주세요');if(onClose)onClose()}});return}popup('광고 시청 중','<div class="adbox"><span class="sub">리워드 비디오 자리 (프로토타입) · <b id="pAdS">'+Math.ceil(T.rewardSec)+'</b>초</span><div class="bar"><i id="pAdB"></i></div></div>',[],onClose);
   const dur=T.rewardSec*1000,t0=performance.now();popAdIv=setInterval(()=>{const k=Math.min(1,(performance.now()-t0)/dur);$('pAdB').style.width=(k*100)+'%';$('pAdS').textContent=Math.ceil(T.rewardSec*(1-k));if(k>=1){clearInterval(popAdIv);done()}},100)}
 const rwText=r=>{const a=[];if(r.gems)a.push('보석 '+r.gems);if(r.coins)a.push('코인 '+r.coins.toLocaleString('ko-KR'));if(r.en)a.push('에너지 '+r.en);return a.join(' · ')};
 /* energy */
@@ -4610,7 +4738,7 @@ const enLim=()=>5+(passOn()?PASS.en:0);
 function enFillDay(){const k=todayKey();if(!prog.enFill||prog.enFill.day!==k)prog.enFill={day:k,n:0};return prog.enFill}
 function enPopup(go,fail){const v=enNow(),nx=enLeft(),ef=enFillDay(),efOut=ef.n>=enLim(),efc=ENFILL[Math.min(ef.n,ENFILL.length-1)];
   popup(go?'에너지 부족':'에너지',`<div class="enbig">${v} / ${EN_MAX}</div><p class="sub">한 판에 에너지 ${EN_COST} · 5분마다 1씩 차요${nx?' · 다음 충전 '+nx:''}</p><p class="sub">계정 레벨이 오르면 5씩 차요</p>`,
-    [[...(NO_MONEY?[]:[['광고 보고 +15',()=>{adPop(()=>{enAdd(15);toast('<b>에너지 +15</b>');closePop(true);if(go)spendEn(go,fail)},fail);return true}]]),
+    [[...(NO_REWARD?[]:[['광고 보고 +15',()=>{adPop(()=>{enAdd(15);toast('<b>에너지 +15</b>');closePop(true);if(go)spendEn(go,fail)},fail);return true}]]),
       [efOut?'오늘 충전 끝':'보석 '+efc+' · 가득 ('+(enLim()-ef.n)+'/'+enLim()+')',()=>{const f=enFillDay();if(f.n>=enLim())return true;const c=ENFILL[f.n];if(prog.gems<c){toast('보석이 모자라요');return true}prog.gems-=c;f.n++;platLog('gem_spend',{what:'enfill',gems:c,n:f.n});enTick();prog.en.v=Math.max(prog.en.v,EN_MAX);prog.en.t=Date.now();saveProg();toast('<b>에너지 가득!</b>'+(f.n<enLim()?'<br>다음 충전은 보석 '+ENFILL[f.n]:'<br>오늘 충전은 여기까지예요'));closePop(true);if(go)spendEn(go,fail);return true},'gemrev',efOut||prog.gems<efc]],
      ['닫기',null,'ghost']],fail)}
 function spendEn(go,fail){enTick();if(prog.en.v<EN_COST){enPopup(go,fail);return}const full=prog.en.v>=EN_MAX;prog.en.v-=EN_COST;if(full&&prog.en.v<EN_MAX)prog.en.t=Date.now();saveProg();go()}
@@ -4629,7 +4757,7 @@ function claimPatrol(k){const r=patrolReward();if(r.coins<1)return;prog.coins+=r
   toast('<b>순찰 보상!</b><br>코인 +'+(r.coins*k).toLocaleString('ko-KR')+(up?' · 계정 레벨 업!':''));updateTitle()}
 function patrolPop(){const r=patrolReward(),sc=patrolSec(),p=Math.round(sc/PATROL_CAP*100);const lines=['비둘기를 쫓아내는 중…','옆 지붕 빨래를 지켜보는 중…','물풍선 재고 세는 중…','낮잠… 아니, 잠복 근무 중…'];
   popup('순찰 보상',`<p class="sub">${lines[Math.floor(Date.now()/60000)%lines.length]}</p><div class="ptime">${fmtHM(sc)}</div><div class="pbar"><i style="width:${p}%"></i></div><p class="sub">최대 8시간까지 쌓여요 · 분당 코인 ${patrolRate().toFixed(1)}</p><div class="rwds"><span class="rwd"><i class="ic-coin"></i><b>${r.coins.toLocaleString('ko-KR')}</b>코인</span><span class="rwd"><i class="ic-xp"></i><b>${r.xp}</b>EXP</span></div>`,
-    [[['받기',()=>{claimPatrol(1)},null,r.coins<1],...(NO_MONEY?[]:[['광고 보고 ×2',()=>{adPop(()=>{claimPatrol(2);closePop(true)});return true},'gemrev',r.coins<1]])],['닫기',null,'ghost']])}
+    [[['받기',()=>{claimPatrol(1)},null,r.coins<1],...(NO_REWARD?[]:[['광고 보고 ×2',()=>{adPop(()=>{claimPatrol(2);closePop(true)});return true},'gemrev',r.coins<1]])],['닫기',null,'ghost']])}
 $('sbMail').addEventListener('click',mailPop);$('sbAttend').addEventListener('click',attendPop);$('sbMission').addEventListener('click',()=>missionPop('d'));$('sbEvent').addEventListener('click',eventPop);$('sbPatrol').addEventListener('click',patrolPop);
 /* chapter chests · info */
 function chestRw(c,w){return w==='clear'?{gems:5,item:1}:{coins:60+40*c,gems:2}}
@@ -4696,7 +4824,7 @@ $('quitBtn').addEventListener('click',()=>{if(!quitArm){quitArm=true;$('quitBtn'
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&$('tuneOv').hidden)pauseGame()});
 /* boot splash */
 let bootSeen=0;
-function onEnter(){updateTitle();{const hr=new Date().getHours();if(hr<5)setTimeout(()=>award('h_owl'),900)}if(bootSeen>=6)setTimeout(()=>award('h_witness'),500);msData();saveProg();refreshDots();if(PAY&&!cashRestored){cashRestored=true;setTimeout(cashRestore,1200)}if(IN_TOSS)return;/* 앱인토스: 진입 때 팝업을 자동으로 띄우지 않고 빨간 점으로만 알려요 */
+function onEnter(){updateTitle();{const hr=new Date().getHours();if(hr<5)setTimeout(()=>award('h_owl'),900)}if(bootSeen>=6)setTimeout(()=>award('h_witness'),500);msData();saveProg();refreshDots();if(IN_TOSS)return;/* 앱인토스: 진입 때 팝업을 자동으로 띄우지 않고 빨간 점으로만 알려요 */
   if(prog.notice!==NOTICE_VER&&prog.plays>0)setTimeout(noticePop,300);else if(attCan()&&prog.plays>0)setTimeout(()=>{if($('popOv').hidden)attendPop()},450)}
 (function boot(){const ov=$('bootOv');if(!ov)return;const cvb=$('bootCv'),L=['물풍선 채우는 중…','옥상 청소하는 중…','바람 세기 재는 중…','적들에게 젖을 각오 시키는 중…','수도 계량기 몰래 돌리는 중…'];
   let gone=false,ready=false,fontsOk=false;try{Promise.race([Promise.all(['20px "Jua"','20px "Black Han Sans"','500 14px "Noto Sans KR"','700 14px "Noto Sans KR"'].map(f=>document.fonts.load(f))),new Promise(r=>setTimeout(r,2500))]).then(()=>{fontsOk=true},()=>{fontsOk=true})}catch(e){fontsOk=true}const t0=performance.now(),dur=2.2,rm=(()=>{try{return matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){return false}})();
@@ -4731,7 +4859,7 @@ $('clearAgain').addEventListener('click',()=>afterResult(()=>spendEn(()=>{prog.s
 $('nextBtn').addEventListener('click',()=>afterResult(()=>spendEn(()=>startGame(false,'chapter'),resFail)));
 updateTitle();try{setLobbyTab(null)}catch(e){}
 setMute(AU.muted);
-function renderSettings(){
+function renderSettings(){iapRestoreRow();
   $('setMute').textContent=AU.muted?'꺼짐':'켜짐';$('setVib').textContent=VIB.off?'꺼짐':'켜짐';$('setUid').textContent=prog.uid;$('setShake').textContent=FX.shakeOff?'꺼짐':'켜짐';
   $('setBgm').value=T.bgmVol;$('setSfx').value=T.sfxVol;
   document.querySelectorAll('#setQ button').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.q===FX.q)));
@@ -4913,13 +5041,13 @@ if(SF_APP){
     exitPop();return true}catch(e){return false}};
   /* 홈으로 나가면: 플레이 중이면 일시정지, 소리 멈춤(돌아와서 화면을 누르면 다시 나요) */
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)return;try{if(state==='play'||state==='intro')pauseGame()}catch(e){}try{if(AU.c&&AU.c.state==='running')AU.c.suspend()}catch(e){}});
-  /* 광고·유료 안내 문구: 부활 화면의 리워드 비디오 설명, 코스튬의 '보석은 나중에 유료로…' */
-  for(const n of [...document.querySelectorAll('#reviveOv p.sub')].filter(n=>/리워드/.test(n.textContent)).concat($('avList')?[$('avList').nextElementSibling]:[]))
+  /* 광고·유료 안내 문구: 부활 화면의 리워드 비디오 설명(보상형 광고가 없을 때만), 코스튬의 '보석은 나중에 유료로…' */
+  for(const n of [...document.querySelectorAll('#reviveOv p.sub')].filter(n=>NO_REWARD&&/리워드/.test(n.textContent)).concat($('avList')?[$('avList').nextElementSibling]:[]))
     if(n&&/리워드|유료/.test(n.textContent))n.style.display='none';
   /* PVP 설명: 앱은 인터넷 없이 연습 상대와만 겨뤄요(다른 플레이어 기록을 주고받지 않아요) */
   {const s=document.querySelector('#pvpOv .card > p.sub');if(s&&/다른 플레이어/.test(s.textContent))s.textContent='연습 대전 · 앱 안의 연습 상대와 1:1로 겨뤄요'}
-  /* 진 캐릭터의 대사 중 광고 이야기('광고 보면 살 수 있대…')는 빼요 — 앱에는 광고가 없어요 */
-  LAST.me=LAST.me.filter(t=>!/광고/.test(t));
+  /* 진 캐릭터의 대사 중 광고 이야기('광고 보면 살 수 있대…')는 보상형 광고가 없는 앱에서만 빼요 */
+  if(NO_REWARD)LAST.me=LAST.me.filter(t=>!/광고/.test(t));
   /* 보석 칩은 앱에서 일일 상점을 열어요(충전 탭 없음) */
   $('gemChip').setAttribute('aria-label','보석 상점');
 }

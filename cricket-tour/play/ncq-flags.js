@@ -1,15 +1,56 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_TEST_CHEAT": true, "NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.2.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.crickettour"});
+window.NCQ = Object.freeze({"NCQ_TEST_CHEAT": true, "NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.2.1", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.crickettour", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/cricket-tour", "board": "https://ncroquis.github.io/cricket-tour/feedback/"}});
 Object.assign(window, window.NCQ);
 
-/* 엔크로키 지표 모듈 (ncq_build.py가 ncq-flags.js 뒤에 붙여요. 직접 고치지 마세요)
-   ncq-metrics 1
+/* 화면 켜 두기 (ncq_build.py가 넣어요, 웹 공개). 게임을 보는 동안 휴대폰 화면이 저절로 꺼지지 않게 브라우저의
+ * Screen Wake Lock을 잡아요. 화면을 내리면 브라우저가 풀고, 다시 보면 다시 잡아요. 지원하지 않는 브라우저는 그대로이고,
+ * 브라우저가 거절하면(절전 모드, 첫 터치 전) 1초 뒤의 터치에 다시 해 봐요. 잡혀 있는지는 NcqAwake.held(). */
+(function (w, d) {
+  "use strict";
+  try {
+    var nav = w.navigator, wl = nav && nav.wakeLock;
+    if (!d || !wl || typeof wl.request !== "function" || w.NcqAwake) return;
+    var lock = null, asking = false, refused = 0;
+    var held = function () { return !!lock && lock.released !== true; };
+    var grab = function () {
+      if (held() || asking || d.visibilityState === "hidden" || new Date().getTime() - refused < 1000) return;
+      var p = wl.request("screen");
+      if (!p || typeof p.then !== "function") return;
+      asking = true;
+      p.then(function (s) {
+        asking = false;
+        if (!s || s.released === true) return;
+        lock = s;
+        try { s.addEventListener("release", function () { if (lock === s) lock = null; }); } catch (e) { /* 다음 확인 때 */ }
+      }, function () { asking = false; refused = new Date().getTime(); });
+    };
+    var poke = function () { try { grab(); } catch (e) { asking = false; refused = new Date().getTime(); } };
+    d.addEventListener("visibilitychange", poke);
+    w.addEventListener("pageshow", poke);
+    w.addEventListener("focus", poke);
+    var taps = ["pointerdown", "pointerup", "touchend", "keydown", "click"];
+    for (var i = 0; i < taps.length; i++) d.addEventListener(taps[i], poke, true);
+    w.NcqAwake = Object.freeze({version: 1, held: held});
+    poke();
+  } catch (e) { /* 화면 켜 두기가 안 돼도 게임은 그대로 */ }
+})(window, typeof document !== "undefined" ? document : null);
 
-   게임 코드가 따로 할 일은 없어요. 아래 이벤트를 저절로 모아 킥오프 서버로 보내요.
+/* 엔크로키 지표 모듈 (ncq_build.py가 ncq-flags.js 뒤에 붙여요. 직접 고치지 마세요)
+   ncq-metrics 3 (2: 판 시작·끝 NcqMetrics.levelStart·levelEnd, 3: 광고·결제 도구가 보내는 광고·결제 이벤트)
+
+   아래 이벤트는 게임 코드가 할 일 없이 저절로 모아 킥오프 서버로 보내요.
      first_open     이 기기에서 처음 실행 (설치 ID를 만들 때)
      session_start  세션 시작 (30분 넘게 쉬었다 다시 열면 새 세션)
      engagement     화면을 보고 있던 시간(ms). 화면을 벗어날 때와 5분마다
      app_update     버전이 바뀐 뒤 처음 실행
+   한 판씩 하는 게임은 판 시작·끝을 알려요 (Firebase 추천 이벤트와 같은 이름. 경험치로 오르는 유저 레벨이 아니에요):
+     NcqMetrics.levelStart("stage-3")                  → level_start {level_name, round}
+     NcqMetrics.levelEnd("stage-3", true, {score: 120}) → level_end {level_name, round, success, ms, score}
+   판 이름은 스테이지나 모드(예: "endless")예요. ms는 시작부터 끝까지 화면을 보고 있던 시간이고, 끝을 알리지 않은 판은
+   서버가 '그만둔 판'으로 세요.
+   광고·결제는 공용 도구(NcqAds·NcqIap)가 NcqMetrics._tool로 알려요 (게임 코드는 할 일이 없어요):
+     ad_load·ad_fail·ad_show·ad_reward·ad_call {slot, format, stage, why, result}
+     purchase_start·purchase·purchase_cancel·purchase_fail·purchase_restore {product, kind, amount, currency, qty, code}
    설치 ID는 코드네임별 무작위 값이라 기기·광고 ID·개인정보와 이어지지 않아요. 앱을 지우면 함께 지워져요.
    보내지 못한 이벤트는 기기에 모아 뒀다가(최대 300개) 다음에 보내요. 서버가 받았다고 답한 것만 지워요.
    같은 이벤트가 두 번 가도 서버 집계가 이벤트 ID로 한 번만 세요. 오류가 나도 게임은 그대로 돌아가요. */
@@ -17,7 +58,7 @@ Object.assign(window, window.NCQ);
   "use strict";
   if (!cfg || !cfg.url || !cfg.cn || typeof window === "undefined" || typeof document === "undefined") return;
 
-  var SDK = 1;
+  var SDK = 3;
   var SESSION_GAP = 30 * 60 * 1000;      // 이만큼 쉬면 새 세션
   var BEAT = 15 * 1000;                  // 살아 있음 기록 (꺼져도 그때까지 시간은 남는다)
   var ENGAGE_EVERY = 5 * 60 * 1000;      // 오래 켜 둬도 이만큼마다 플레이 시간을 보낸다
@@ -79,6 +120,7 @@ Object.assign(window, window.NCQ);
   var visibleSince = null, pendingMs = 0, lastEngage = now(), lastBeat = now();
   var sendingAt = 0, sendTicket = 0, failures = 0, retryAt = 0;  // 정기 전송은 한 번에 하나 (답이 1분 넘게 없으면 다음)
   var inflight = {};  // 보내는 중인 이벤트 ID → 보낸 시각 (답을 받기 전에 같은 이벤트를 또 보내지 않게)
+  var rounds = {};    // 진행 중인 판: 판 이름 → {r: 판 ID, t: 시작, away: 안 보고 있던 시간, hid: 숨은 시각}
 
   function persistQueue() {
     var used = {}, c = {}, k;
@@ -209,8 +251,16 @@ Object.assign(window, window.NCQ);
     pendingMs = 0;
     lastEngage = t;
   }
+  function roundsAway(t, hid) {  // 화면을 벗어나면 진행 중인 판의 시간을 멈추고, 돌아오면 다시 잰다
+    for (var name in rounds) {
+      var rd = rounds[name];
+      if (hid) { if (rd.hid === null) rd.hid = t; }
+      else if (rd.hid !== null) { rd.away += Math.max(0, t - rd.hid); rd.hid = null; }
+    }
+  }
   function hidden() {
     var t = now();
+    roundsAway(t, true);
     engage(t);
     visibleSince = null;
     lastBeat = t;
@@ -219,6 +269,7 @@ Object.assign(window, window.NCQ);
   }
   function shown() {
     var t = now();
+    roundsAway(t, false);
     if (!session || t - session.last > SESSION_GAP) startSession(t);
     else touch(t);
     if (visibleSince === null) visibleSince = t;
@@ -229,6 +280,7 @@ Object.assign(window, window.NCQ);
     if (isHidden()) return;
     var t = now();
     if (t - lastBeat > BEAT * 3) {  // 타이머가 멈췄었다 (화면 알림 없이 앱이 뒤로 갔거나 기기가 잠들었다)
+      for (var name in rounds) if (rounds[name].hid === null) rounds[name].away += t - lastBeat;
       if (visibleSince !== null) pendingMs += Math.max(0, Math.min(lastBeat - visibleSince, SESSION_GAP));
       visibleSince = t;
       if (session && t - session.last > SESSION_GAP) {
@@ -246,6 +298,69 @@ Object.assign(window, window.NCQ);
   function safe(fn) {  // 이벤트·타이머 안에서 난 오류도 게임으로 번지지 않게
     return function (e) { try { fn(e); } catch (err) { /* 무시 */ } };
   }
+
+  // ------------------------------------------------------------ 판 (게임이 부르는 함수)
+  var MAX_ROUNDS = 20;                 // 끝을 알리지 않은 판을 이만큼만 기억한다
+  var MAX_ROUND_MS = 4 * 3600 * 1000;  // 판 시간 상한 (서버의 플레이 시간 상한과 같다)
+  function roundName(v) {
+    if (typeof v === "number" && isFinite(v)) v = String(v);
+    if (typeof v !== "string") return "";
+    return v.replace(/[\u0000-\u001f\u007f]/g, "").replace(/^\s+|\s+$/g, "").slice(0, 60);
+  }
+  function levelStart(name) {
+    name = roundName(name);
+    if (!name) return;
+    var t = now(), keys = [], k;
+    for (k in rounds) keys.push(k);
+    if (keys.length >= MAX_ROUNDS && !rounds[name]) {  // 가장 오래된 판은 잊는다 (서버는 그만둔 판으로 세요)
+      keys.sort(function (a, b) { return rounds[a].t - rounds[b].t; });
+      delete rounds[keys[0]];
+    }
+    var rd = {r: rand(12), t: t, away: 0, hid: isHidden() ? t : null};
+    rounds[name] = rd;  // 끝내지 않고 같은 판을 다시 시작하면 앞 판은 그만둔 판이에요
+    track("level_start", {level_name: name, round: rd.r});
+  }
+  function levelEnd(name, success, extra) {
+    name = roundName(name);
+    if (!name) return;
+    var t = now(), rd = rounds[name], props = {level_name: name};
+    if (rd) {
+      var away = rd.away + (rd.hid !== null ? Math.max(0, t - rd.hid) : 0);
+      props.round = rd.r;
+      props.ms = Math.max(0, Math.min(MAX_ROUND_MS, Math.round(t - rd.t - away)));
+      delete rounds[name];
+    }
+    if (success === true || success === "true" || success === 1) props.success = true;
+    else if (success === false || success === "false" || success === 0) props.success = false;
+    var score = extra && typeof extra === "object" ? extra.score : undefined;
+    if (typeof score === "number" && isFinite(score)) props.score = score;
+    track("level_end", props);
+  }
+  // ------------------------------------------------------------ 광고·결제 (공용 도구 NcqAds·NcqIap가 부르는 함수)
+  // 이름은 정해 둔 것만 받고, 값은 짧은 글·숫자·참거짓만 남긴다 (게임 코드가 부르는 함수가 아니에요)
+  var TOOL_EVENTS = {ad_load: 1, ad_fail: 1, ad_show: 1, ad_reward: 1, ad_call: 1, purchase_start: 1, purchase: 1,
+                     purchase_cancel: 1, purchase_fail: 1, purchase_restore: 1};
+  function toolEvent(name, props) {
+    if (typeof name !== "string" || !Object.prototype.hasOwnProperty.call(TOOL_EVENTS, name)) return;
+    var out = {}, n = 0;
+    if (props && typeof props === "object") {
+      for (var k in props) {
+        if (!Object.prototype.hasOwnProperty.call(props, k) || n >= 12 || !/^[a-z_]{1,20}$/.test(k)) continue;
+        var v = props[k];
+        if (typeof v === "string") v = v.replace(/[\u0000-\u001f\u007f]/g, "").slice(0, 60);
+        else if (!(typeof v === "number" && isFinite(v)) && typeof v !== "boolean") continue;
+        out[k] = v;
+        n += 1;
+      }
+    }
+    track(name, out);
+  }
+  function guard(fn) {  // 게임이 부르는 함수: 어떤 값이 와도 오류를 게임으로 넘기지 않는다
+    return function (a, b, c) { try { fn(a, b, c); } catch (err) { /* 무시 */ } };
+  }
+  try {
+    window.NcqMetrics = {levelStart: guard(levelStart), levelEnd: guard(levelEnd), _tool: guard(toolEvent), sdk: SDK};
+  } catch (e) { /* 무시 */ }
 
   try {
     var t0 = now();
@@ -270,4 +385,4 @@ Object.assign(window, window.NCQ);
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"cricket-tour","pf":"web","mk":"web","tr":"share","vn":"0.2.0","vc":0,"cm":"dd87828","ft":["CHEAT"]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"cricket-tour","pf":"web","mk":"web","tr":"share","vn":"0.2.1","vc":0,"cm":"38842ca","ft":["CHEAT"]});

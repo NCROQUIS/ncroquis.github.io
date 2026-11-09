@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=415ecb9c0c8e";
-import { TEXTS } from "./texts.js?v=415ecb9c0c8e";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=415ecb9c0c8e";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=415ecb9c0c8e";
+import { NcqBoard } from "./ncq/board.js?v=bbd02ae15df7";
+import { TEXTS } from "./texts.js?v=bbd02ae15df7";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=bbd02ae15df7";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=bbd02ae15df7";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -20,8 +20,8 @@ let matchAds = { freeRounds: [], lastShownAt: 0, lastAttemptedRound: null };
 let resultAdRound = null;
 const starterCoins = 0;
 const skinPrices = {
-  stones: { reference: 0, classic: 0, glossy: 120, gilded: 250 },
-  board: { reference: 0, classic: 0, wood: 120, gilded: 250 },
+  stones: { reference: 0, classic: 0, glossy: 120, gilded: 250, vintage: 0 },
+  board: { reference: 0, classic: 0, wood: 120, gilded: 250, vintage: 0 },
 };
 const skinKinds = Object.keys(skinPrices);
 let shopState = loadShopState();
@@ -514,6 +514,11 @@ function matchMode(game) {
   return game.mode === "tournament" ? "weeklyTournament" : ruleNames[game.rule] ?? "onlineMatch";
 }
 
+function recordModeLabel(game) {
+  const mode = t(game.mode === "tournament" ? "weeklyTournament" : "casualMatch");
+  return game.rule ? mode + " · " + t(ruleNames[game.rule]) : mode;
+}
+
 function moveColor(game, ply) {
   return game.moveColors?.[ply] ?? ply % 2 + 1;
 }
@@ -638,8 +643,8 @@ function loadRecords(key = recordsScope) {
 function saveRecord(game) {
   const id = game.id + ":" + game.round;
   const existing = new Map([...records, ...loadRecords()].map(record => [record.id, record]));
-  const { number, round, moves, winner, line, you, finishedAt, endReason, players, bot, mode, rule, black, moveColors } = game;
-  existing.set(id, { id, number, round, moves, winner, line, you, finishedAt, endReason, players, bot, mode, rule, black, moveColors });
+  const { number, round, moves, winner, line, you, finishedAt, endReason, players, bot, mode, rule, black, moveColors, passes } = game;
+  existing.set(id, { id, number, round, moves, winner, line, you, finishedAt, endReason, players, bot, mode, rule, black, moveColors, passes });
   records = [...existing.values()].sort((a, b) => b.finishedAt - a.finishedAt).slice(0, 50);
   try {
     localStorage.setItem(recordsScope, JSON.stringify(records));
@@ -726,6 +731,9 @@ function markFavorite(button, active) {
 
 const recordTokenPattern = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/;
 const recordShareDialog = el("record-share-dialog");
+const publicPlayUrl = "https://ncroquis.github.io/matjjangomok/play/";
+const reviewPlay = el("review-play");
+reviewPlay.href = window.NcqShare?.playUrl?.() || publicPlayUrl;
 
 function recordVisibilityPath(game) {
   const code = game.code ?? game.id?.split(":")[0];
@@ -734,25 +742,29 @@ function recordVisibilityPath(game) {
 }
 
 function recordShareUrl(shareId) {
-  const url = new URL("https://ncroquis.github.io/matjjangomok/play/");
+  const url = new URL(publicPlayUrl);
   url.hash = "record=" + shareId;
   return url.href;
 }
 
 function renderRecordSharing() {
   if (!recordShareDialog.open || !recordShareTarget) return;
-  const { path, shareId, loading, updating, ready } = recordShareTarget;
+  const { path, shareId, loading, updating, ready, prepared, sharing } = recordShareTarget;
+  const pending = updating || sharing;
   el("record-share-note").textContent = t(shareId ? "recordShareNote" : "recordSharePrivateNote");
   el("record-link-panel").hidden = !shareId || loading;
   const link = el("record-link");
   const url = shareId ? recordShareUrl(shareId) : "";
   if (link.value !== url) link.value = url;
-  el("record-copy-link").disabled = updating;
+  const send = el("record-send-link");
+  send.hidden = !prepared;
+  send.disabled = pending;
+  el("record-copy-link").disabled = pending;
   const toggle = el("record-visibility-toggle");
   toggle.hidden = !path || !ready;
-  toggle.disabled = updating;
+  toggle.disabled = pending;
   toggle.textContent = t(shareId ? "recordMakePrivate" : "recordMakePublic");
-  el("record-share-close").disabled = updating;
+  el("record-share-close").disabled = pending;
   const status = el("record-share-feedback");
   if (!status.hidden) status.textContent = t(status.dataset.message);
 }
@@ -766,7 +778,7 @@ async function openRecordSharing(game) {
   feedback("record-share-feedback", path ? "recordShareLoading" : "");
   recordShareDialog.showModal();
   render();
-  if (!path) return;
+  if (!path) return prepareRecordShare(target);
   const result = await remoteRequest(client => client.gameRequest(path));
   if (recordShareTarget !== target || !recordShareDialog.open) return;
   target.loading = false;
@@ -785,11 +797,27 @@ function updateRecordShare(target, shareId) {
   const id = target.game.code ? target.game.code + ":" + target.game.round : target.game.id;
   const record = records.find(item => item.id === id);
   if (record) record.shareId = shareId;
+  prepareRecordShare(target);
+}
+
+async function prepareRecordShare(target) {
+  target.prepared = null;
+  const { shareId } = target;
+  if (!shareId || !window.NcqShare?.can()) return;
+  const url = recordShareUrl(shareId);
+  try {
+    const prepared = await window.NcqShare.prepareShare({ url, title: t("title"), message: t("recordShareMessage") });
+    if (recordShareTarget !== target || target.shareId !== shareId || prepared.url !== url) return;
+    target.prepared = prepared;
+    renderRecordSharing();
+  } catch {
+    // The public link can still be copied.
+  }
 }
 
 async function toggleRecordVisibility() {
   const target = recordShareTarget;
-  if (!target?.ready || target.updating) return;
+  if (!target?.ready || target.updating || target.sharing) return;
   target.updating = true;
   const makePublic = !target.shareId;
   feedback("record-share-feedback", "recordShareSaving");
@@ -809,6 +837,34 @@ async function toggleRecordVisibility() {
 
 el("record-visibility-toggle").addEventListener("click", toggleRecordVisibility);
 el("review-share").addEventListener("click", () => openRecordSharing(room ?? archive));
+reviewPlay.addEventListener("click", event => {
+  if (archive?.sharedView && ["android", "ios", "toss"].includes(window.NCQ?.NCQ_PLATFORM)) {
+    event.preventDefault();
+    leaveMatch();
+  }
+});
+
+function selectPublicRecordLink() {
+  const input = el("record-link");
+  input.focus();
+  input.select();
+  feedback("record-share-feedback", "recordCopyManually");
+}
+
+el("record-send-link").addEventListener("click", async () => {
+  const target = recordShareTarget;
+  if (!target?.prepared || target.updating || target.sharing) return;
+  target.sharing = true;
+  feedback("record-share-feedback");
+  renderRecordSharing();
+  let status = "failed";
+  try { ({ status } = await window.NcqShare.share(target.prepared)); } catch {}
+  target.sharing = false;
+  if (!recordShareDialog.open || recordShareTarget !== target) return;
+  renderRecordSharing();
+  if (status === "copied") feedback("record-share-feedback", "recordLinkCopied");
+  if (status === "failed") selectPublicRecordLink();
+});
 el("record-copy-link").addEventListener("click", async () => {
   const input = el("record-link");
   const target = recordShareTarget;
@@ -817,13 +873,11 @@ el("record-copy-link").addEventListener("click", async () => {
     if (recordShareDialog.open && recordShareTarget === target) feedback("record-share-feedback", "recordLinkCopied");
   } catch {
     if (!recordShareDialog.open || recordShareTarget !== target) return;
-    input.focus();
-    input.select();
-    feedback("record-share-feedback", "recordCopyManually");
+    selectPublicRecordLink();
   }
 });
 recordShareDialog.addEventListener("cancel", event => {
-  if (recordShareTarget?.updating) event.preventDefault();
+  if (recordShareTarget?.updating || recordShareTarget?.sharing) event.preventDefault();
 });
 recordShareDialog.addEventListener("close", () => {
   if (recordShareDialog.open) return;
@@ -866,7 +920,16 @@ function renderReview(game) {
   markFavorite(favorite, recordFavorites().has(id));
   el("review-share").hidden = !game.sharedView && !recordVisibilityPath(game);
   el("review-result").textContent = recordResult(game, { personal: true });
-  el("review-mode").textContent = t(game.mode !== "tournament" && game.bot && !game.rule ? "recordBotMatch" : matchMode(game));
+  el("review-mode").textContent = recordModeLabel(game);
+  const passes = game.actions ? [0, 0] : game.passes ?? [0, 0];
+  if (game.actions) {
+    for (const action of game.actions) {
+      if (action.type === "pass" && (action.seat === 1 || action.seat === 2)) passes[action.seat - 1]++;
+    }
+  }
+  const black = game.black ?? 1;
+  el("review-passes").hidden = !passes.some(Boolean);
+  el("review-passes").textContent = t("recordPasses", { black: passes[black - 1], white: passes[2 - black] });
 }
 
 function entryRow(label, note, onOpen) {
@@ -1239,7 +1302,8 @@ function recordCard(game, saved) {
   badge.textContent = t({ won: "winBadge", lost: "lossBadge", draw: "drawBadge" }[outcome]);
   row.querySelector(".record-summary").textContent = recordDate(game.finishedAt) + " · " + recordResult(game, { personal: true });
   const context = [recordRank(own), own.name].filter(Boolean).join(" ");
-  row.querySelector(".record-context").textContent = context + (game.device ? " · " + t("deviceRecord") : "");
+  const mode = t(game.device ? "deviceRecord" : game.mode === "tournament" ? "weeklyTournament" : "casualMatch");
+  row.querySelector(".record-context").textContent = mode + " · " + context;
   drawRecordPreview(row.querySelector(".record-preview svg"), game);
   row.querySelector(".record-open").addEventListener("click", () => openArchive(game));
   const button = row.querySelector(".record-favorite");
@@ -1263,6 +1327,8 @@ function recordCard(game, saved) {
 
 function renderRecords() {
   const saved = recordFavorites();
+  const tournamentOnly = recordsReturnView === "tournament";
+  el("records-heading").textContent = t(tournamentOnly ? "tournamentRecords" : "recordList");
   const visible = records.filter(game => recordFilter === "all" ||
     (recordFilter === "favorites" ? saved.has(game.id) : describeOutcome(game) === "won"));
   for (const button of el("record-filters").querySelectorAll("button")) {
@@ -1270,7 +1336,8 @@ function renderRecords() {
   }
   const empty = el("records-empty");
   empty.hidden = visible.length > 0;
-  empty.textContent = t({ all: "noRecords", favorites: "recordNoFavorites", wins: "recordNoWins" }[recordFilter]);
+  empty.textContent = t({ all: tournamentOnly ? "noTournamentRecords" : "noRecords",
+    favorites: "recordNoFavorites", wins: "recordNoWins" }[recordFilter]);
   el("record-list").replaceChildren(...visible.map(game => recordCard(game, saved.has(game.id))));
 }
 
@@ -1332,6 +1399,7 @@ function render() {
   const game = room ?? archive ?? spectator?.game;
   const playing = !spectator && game?.phase === "playing";
   const finished = !spectator && game?.phase === "finished";
+  const sharedReview = Boolean(finished && game.sharedView);
   const liveLayout = playing || Boolean(spectator);
   nicknameInput.placeholder = playerNickname || t("guestNickname");
   el("language").value = NcqLang.lang;
@@ -1340,6 +1408,7 @@ function render() {
   document.body.classList.toggle("match-art-backdrop", liveLayout);
   document.body.classList.toggle("spectating", Boolean(spectator));
   document.body.classList.toggle("in-review", finished);
+  document.body.classList.toggle("shared-review", sharedReview);
   document.body.classList.toggle("in-records", !game && lobbyView === "records");
   el("match").toggleAttribute("data-playing", liveLayout);
   for (const view of ["lobby", "records", "tournament"]) {
@@ -1350,7 +1419,10 @@ function render() {
   el("watch-back").toggleAttribute("data-ncq-main", Boolean(spectator));
   el("review-header").hidden = !finished;
   el("review-opponent-profile").hidden = !finished || el("result").open;
-  el("review-back").toggleAttribute("data-ncq-main", finished && !el("result").open && !profileDialog.open && !recordShareDialog.open);
+  const reviewActionsVisible = finished && !el("result").open && !profileDialog.open && !recordShareDialog.open;
+  el("review-back").toggleAttribute("data-ncq-main", reviewActionsVisible && !sharedReview);
+  reviewPlay.hidden = !sharedReview;
+  reviewPlay.toggleAttribute("data-ncq-main", reviewActionsVisible && sharedReview);
   el("show-shop").hidden = Boolean(game);
   if (shop.open) renderShop();
   const nav = el("lobby-nav");
@@ -2041,12 +2113,14 @@ function openArchive(record) {
 
 function showRecords() {
   const source = lobbyView;
+  const tournamentOnly = source === "tournament";
   run(async () => {
     if (backend) {
-      const result = await remoteRequest(client => client.gameRequest("/records"));
+      const result = await remoteRequest(client => client.gameRequest(tournamentOnly ? "/records?mode=tournament" : "/records"));
       if (Array.isArray(result)) {
-        const device = [...loadRecords(), ...loadRecords(recordsKey)].map(game => [game.id, { ...game, device: true }]);
-        const combined = new Map([...device, ...result.map(game => [game.id, game])]);
+        const device = tournamentOnly ? [] : [...loadRecords(), ...loadRecords(recordsKey)].map(game => [game.id, { ...game, device: true }]);
+        const remote = tournamentOnly ? result.filter(game => game.mode === "tournament") : result;
+        const combined = new Map([...device, ...remote.map(game => [game.id, game])]);
         records = [...combined.values()].sort((a, b) => new Date(b.finishedAt) - new Date(a.finishedAt));
       }
       return Array.isArray(result) ? {} : result;
@@ -2058,6 +2132,7 @@ function showRecords() {
       return { error: "authFailed" };
     }
   }, () => {
+    if (recordsReturnView !== source) recordFilter = "all";
     recordsReturnView = source;
     lobbyView = "records";
     render();
@@ -2277,9 +2352,9 @@ el("opening-actions").addEventListener("click", event => {
   roomAction("move", { action: { type: button.dataset.opening }, version: room.version });
 });
 el("pass-turn").addEventListener("click", () => {
-  if (canAct() && !room.opening && hasForbiddenMoves(room.rule)) {
-    roomAction("move", { action: { type: "pass" }, version: room.version });
-  }
+  if (!canAct() || room.opening || !hasForbiddenMoves(room.rule)) return;
+  if (!window.confirm(t("confirmPass")) || !canAct()) return;
+  roomAction("move", { action: { type: "pass" }, version: room.version });
 });
 el("rematch").addEventListener("click", () => roomAction("rematch", {}));
 el("review").addEventListener("click", event => {

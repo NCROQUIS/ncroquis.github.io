@@ -2,13 +2,13 @@
 <html>
 <head>
   <script src="./ncq/safe.js"></script>
-  <meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta charset="utf-8"><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=415ecb9c0c8e">
-  <script type="module" src="./app.js?v=415ecb9c0c8e"></script>
+  <link rel="stylesheet" href="./style.css?v=bbd02ae15df7">
+  <script type="module" src="./app.js?v=bbd02ae15df7"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -176,7 +176,8 @@
                 <span data-i18n="ruleRenju"></span>
               </button>
               <button id="join-tournament" class="primary" type="button"></button>
-              <button id="tournament-records" class="secondary record-shortcut" type="button" aria-controls="records">
+              <button id="tournament-records" class="secondary record-shortcut" type="button" aria-controls="records"
+                      data-i18n-attr="aria-label:tournamentRecords">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-records"/></svg>
                 <span data-i18n="records"></span>
               </button>
@@ -209,7 +210,7 @@
           <button id="records-back" type="button" class="review-button" data-i18n-attr="aria-label:reviewBack">
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"/></svg>
           </button>
-          <h1 id="records-heading" tabindex="-1" data-i18n="recordList"></h1>
+          <h1 id="records-heading" tabindex="-1"></h1>
         </header>
         <div id="record-filters" class="record-filters" role="group" data-i18n-attr="aria-label:recordFilters">
           <button type="button" data-filter="all" aria-pressed="true">
@@ -397,8 +398,10 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm2 5h8m-8 4h8m-8 4h4"/></svg>
             <strong id="review-result"></strong>
             <span id="review-mode"></span>
+            <span id="review-passes" hidden></span>
           </div>
           <button id="rematch" class="primary" type="button"></button>
+          <a id="review-play" class="primary" rel="noreferrer" data-i18n="recordPlay" hidden></a>
         </div>
         <div id="player-bar" class="player-bar">
           <button id="black-profile" class="player" type="button" aria-haspopup="dialog" aria-controls="player-profile">
@@ -592,6 +595,10 @@
                 <input type="radio" name="stones" value="classic"><span data-i18n="classicStyle"></span>
               </label>
               <label class="appearance-choice">
+                <span class="stone-sample" data-stone-style="vintage" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <input type="radio" name="stones" value="vintage"><span data-i18n="vintageStones"></span>
+              </label>
+              <label class="appearance-choice">
                 <span class="stone-sample" data-stone-style="glossy" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
                 <input type="radio" name="stones" value="glossy"><span data-i18n="glossyStones"></span>
               </label>
@@ -615,6 +622,12 @@
                   <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
                 </span>
                 <input type="radio" name="board" value="classic"><span data-i18n="classicStyle"></span>
+              </label>
+              <label class="appearance-choice">
+                <span class="board-sample" data-board-style="vintage" aria-hidden="true">
+                  <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
+                </span>
+                <input type="radio" name="board" value="vintage"><span data-i18n="vintageBoard"></span>
               </label>
               <label class="appearance-choice">
                 <span class="board-sample" data-board-style="wood" aria-hidden="true">
@@ -656,11 +669,12 @@
         <button type="submit" value="" class="secondary" data-ncq-main="Close rules" data-i18n="cancel"></button>
       </form>
     </dialog>
-    <dialog id="matchmaking" class="matchmaking" aria-labelledby="queue-title">
+    <dialog id="matchmaking" class="matchmaking" aria-labelledby="queue-title" aria-describedby="queue-rule queue-status">
       <div class="queue-mark" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></div>
       <h2 id="queue-title" data-i18n="matching"></h2>
       <p id="queue-rule"></p>
       <p id="queue-status"></p>
+      <div class="queue-loader" aria-hidden="true"><span></span><span></span><span></span></div>
       <button id="cancel-match" class="secondary" type="button" data-ncq-main="Cancel matchmaking" data-i18n="cancel" autofocus></button>
     </dialog>
 
@@ -715,6 +729,7 @@
         <div id="record-link-panel" hidden>
           <label for="record-link" data-i18n="recordPublicLink"></label>
           <input id="record-link" readonly>
+          <button id="record-send-link" class="primary" type="button" data-i18n="recordSendLink" hidden></button>
           <button id="record-copy-link" class="secondary" type="button" data-i18n="recordCopyLink"></button>
         </div>
         <p id="record-share-feedback" class="feedback" role="status" hidden></p>

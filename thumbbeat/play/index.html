@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#0f1020">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>엄지비트</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Ccircle cx=%227%22 cy=%2216%22 r=%225%22 fill=%22%23ff6b8b%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%225%22 fill=%22%23ffc145%22/%3E%3Ccircle cx=%2225%22 cy=%2216%22 r=%225%22 fill=%22%234cc9f0%22/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #0f1020;
+    --bg2: #181a33;
+    --card: #1e2140;
+    --line: #2c3060;
+    --text: #f4f4fb;
+    --muted: #9aa0c8;
+    --l0: #ff6b8b;
+    --l1: #ffc145;
+    --l2: #4cc9f0;
+    --accent: #ff7a59;
+    --safe-b: env(safe-area-inset-bottom, 0px);
+    --safe-t: env(safe-area-inset-top, 0px);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); overflow: hidden;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif;
+    -webkit-user-select: none; user-select: none; overscroll-behavior: none; }
+  #app { position: relative; height: 100%; max-width: 480px; margin: 0 auto; overflow: hidden;
+    background: radial-gradient(120% 70% at 50% 0%, #23265a 0%, var(--bg) 60%); }
+  canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; display: block; }
+  .screen { position: absolute; inset: 0; display: none; flex-direction: column; }
+  .screen.on { display: flex; }
+  button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; }
+
+  /* 노선도(메인) */
+  #menu { padding: calc(16px + var(--safe-t)) 16px calc(16px + var(--safe-b)); }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 24px; letter-spacing: -0.5px; }
+  .dots { display: flex; gap: 4px; }
+  .dots i { width: 9px; height: 9px; border-radius: 50%; display: block; }
+  .chips { display: flex; gap: 8px; }
+  .chip { display: flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 999px; background: var(--card);
+    font-size: 14px; font-weight: 700; min-height: 36px; }
+  .chip.toggle[aria-pressed="true"] { background: #3a2f6b; }
+  .tagline { color: var(--muted); font-size: 14px; margin: 10px 0 14px; }
+  .route { flex: 1; overflow-y: auto; position: relative; padding: 4px 0 8px; scrollbar-width: none; }
+  .route::-webkit-scrollbar { display: none; }
+  .route .line { position: relative; }
+  .route .line::before { content: ''; position: absolute; left: 21px; top: 26px; bottom: 26px; width: 6px; border-radius: 3px;
+    background: linear-gradient(var(--l0), var(--l1), var(--l2), #9b7bff); opacity: .55; }
+  .station { position: relative; display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
+    padding: 10px 12px 10px 4px; margin-bottom: 10px; border-radius: 18px; transition: background .15s; }
+  .station .stop { flex: none; width: 40px; height: 40px; border-radius: 50%; background: var(--bg); border: 6px solid var(--c);
+    display: grid; place-items: center; font-size: 12px; font-weight: 800; z-index: 1; }
+  .station .info { flex: 1; min-width: 0; }
+  .station .title { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+  .station .sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .station .stars { font-size: 16px; letter-spacing: 1px; color: #ffd166; white-space: nowrap; }
+  .station .stars .off { color: #3a3f6e; }
+  .station.sel { background: var(--card); box-shadow: inset 0 0 0 2px var(--c); }
+  .station.locked { opacity: .45; }
+  .station.locked .stop { border-color: #3a3f6e; }
+  .bottom { display: flex; flex-direction: column; gap: 10px; padding-top: 8px; }
+  .seg { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--card); border-radius: 14px; padding: 4px; }
+  .seg button { padding: 10px 0; border-radius: 10px; font-weight: 700; color: var(--muted); min-height: 44px; }
+  .seg button[aria-pressed="true"] { background: var(--line); color: var(--text); }
+  .go { min-height: 60px; border-radius: 18px; background: var(--accent); color: #1a0f0a; font-size: 20px; font-weight: 800;
+    box-shadow: 0 8px 24px -8px var(--accent); }
+  .go:disabled { opacity: .4; box-shadow: none; }
+  .hint { text-align: center; font-size: 12px; color: var(--muted); }
+
+  /* 플레이 HUD */
+  #hud { pointer-events: none; padding: calc(10px + var(--safe-t)) 14px 0; }
+  .hudrow { display: flex; align-items: center; justify-content: space-between; }
+  .score { font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .songname { font-size: 12px; color: var(--muted); }
+  #pauseBtn { pointer-events: auto; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.08);
+    display: grid; place-items: center; font-size: 16px; font-weight: 800; }
+  .hp { margin-top: 8px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.08); overflow: hidden; }
+  .hp i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #3ddc97, #4cc9f0); transition: width .15s; }
+  .hp.low i { background: #ff6b8b; }
+  .layers { display: flex; align-items: center; gap: 5px; margin-top: 8px; }
+  .lp { font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 999px; background: rgba(255,255,255,.06); color: #5d628f;
+    transition: background .2s, color .2s, transform .2s; }
+  .lp.on { background: rgba(255,255,255,.16); color: var(--text); }
+  .lp.fever.on { background: linear-gradient(90deg, #ff6b8b, #ffc145, #4cc9f0); color: #1a0f0a; }
+  .lp.pop { transform: scale(1.25); }
+  .mult { margin-left: auto; font-size: 18px; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--muted); transition: transform .15s; }
+  .mult.hot { color: #ffd166; }
+  .badge { align-self: center; padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 900; letter-spacing: .5px;
+    background: linear-gradient(90deg, #ffd166, #ff9f45); color: #2a1600; margin-top: 4px; }
+
+  /* 모달 (일시정지, 이어하기) */
+  .modal { position: absolute; inset: 0; display: none; align-items: flex-end; background: rgba(8,9,20,.72);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 5; }
+  .modal.on { display: flex; }
+  .sheet { width: 100%; background: var(--bg2); border-radius: 26px 26px 0 0; padding: 24px 18px calc(18px + var(--safe-b));
+    display: flex; flex-direction: column; gap: 10px; }
+  .sheet h2 { margin: 0 0 4px; font-size: 22px; letter-spacing: -0.4px; }
+  .sheet p { margin: 0 0 8px; color: var(--muted); font-size: 14px; line-height: 1.5; }
+  .btn { min-height: 54px; border-radius: 16px; background: var(--card); font-weight: 800; font-size: 17px; }
+  .btn:disabled { opacity: .55; }
+  .btn.primary { background: var(--accent); color: #1a0f0a; }
+  .btn.ad::before { content: '광고'; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 6px;
+    background: rgba(0,0,0,.25); margin-right: 8px; vertical-align: 2px; }
+
+  /* 결과 */
+  #result { padding: calc(28px + var(--safe-t)) 18px calc(18px + var(--safe-b)); align-items: stretch; }
+  .arrive { text-align: center; color: var(--muted); font-size: 14px; }
+  .rtitle { text-align: center; font-size: 26px; font-weight: 800; margin: 4px 0 6px; letter-spacing: -0.5px; }
+  .bigstars { display: flex; justify-content: center; gap: 10px; margin: 14px 0 6px; }
+  .bigstars span { font-size: 54px; color: #3a3f6e; transform: scale(.4); opacity: 0; transition: transform .35s cubic-bezier(.3,1.6,.5,1), opacity .2s; }
+  .bigstars span.show { transform: scale(1); opacity: 1; }
+  .bigstars span.lit { color: #ffd166; text-shadow: 0 0 22px rgba(255,209,102,.6); }
+  .rscore { text-align: center; font-size: 40px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .racc { text-align: center; color: var(--muted); font-size: 15px; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+  .cell { background: var(--card); border-radius: 14px; padding: 10px 4px; text-align: center; }
+  .cell b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
+  .cell small { color: var(--muted); font-size: 11px; font-weight: 700; }
+  .coins { display: flex; align-items: center; justify-content: space-between; background: var(--card); border-radius: 16px;
+    padding: 12px 14px; margin-bottom: 10px; font-weight: 800; }
+  .rbtns { margin-top: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .rbtns .wide { grid-column: span 2; }
+  #toast { position: absolute; left: 50%; bottom: calc(150px + var(--safe-b)); transform: translateX(-50%); background: var(--card);
+    padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 700; opacity: 0; transition: opacity .2s; z-index: 10; pointer-events: none; }
+  #toast.on { opacity: 1; }
+</style>
+</head>
+<body>
+<div id="app">
+  <canvas id="cv"></canvas>
+
+  <section id="menu" class="screen on">
+    <div class="top">
+      <div class="logo"><span class="dots"><i style="background:var(--l0)"></i><i style="background:var(--l1)"></i><i style="background:var(--l2)"></i></span>엄지비트</div>
+      <div class="chips">
+        <div class="chip" id="coinChip">● <span id="coinVal">0</span></div>
+        <button class="chip toggle" id="silentBtn" aria-pressed="false">소리</button>
+      </div>
+    </div>
+    <div class="tagline">한 곡 = 한 정거장. 엄지 하나로 출발해요.</div>
+    <div class="route" id="route"></div>
+    <div class="bottom">
+      <div class="seg" id="diffSeg"></div>
+      <button class="go" id="goBtn">출발</button>
+      <div class="hint" id="hint">탭 · 길게 누르기 · ▲는 위로 튕기기</div>
+    </div>
+  </section>
+
+  <section id="hud" class="screen">
+    <div class="hudrow">
+      <div><div class="score" id="scoreVal">0</div><div class="songname" id="songName"></div></div>
+      <button id="pauseBtn" aria-label="일시정지">II</button>
+    </div>
+    <div class="hp" id="hp"><i id="hpBar"></i></div>
+    <div class="layers" id="layers">
+      <span class="lp" data-l="0">드럼</span><span class="lp" data-l="1">베이스</span><span class="lp" data-l="2">코드</span><span class="lp fever" data-l="3">FEVER</span>
+      <b class="mult" id="multVal">x1</b>
+    </div>
+  </section>
+
+  <section id="result" class="screen">
+    <div class="arrive" id="rArrive">도착했어요</div>
+    <div class="rtitle" id="rTitle"></div>
+    <div class="bigstars" id="rStars"><span>★</span><span>★</span><span>★</span></div>
+    <div class="badge" id="rBadge" hidden>FULL COMBO</div>
+    <div class="rscore" id="rScore">0</div>
+    <div class="racc" id="rAcc"></div>
+    <div class="grid">
+      <div class="cell"><b id="cP">0</b><small>퍼펙트</small></div>
+      <div class="cell"><b id="cG">0</b><small>그레이트</small></div>
+      <div class="cell"><b id="cGo">0</b><small>굿</small></div>
+      <div class="cell"><b id="cM">0</b><small>미스</small></div>
+    </div>
+    <div class="coins"><span>획득 코인</span><span id="rCoins">● 0</span></div>
+    <button class="btn ad" id="doubleBtn" style="margin-top:auto">코인 2배 받기</button>
+    <div class="rbtns" style="margin-top:10px">
+      <button class="btn" id="retryBtn">다시</button>
+      <button class="btn primary" id="nextBtn">다음 역</button>
+      <button class="btn wide" id="mapBtn">노선도</button>
+    </div>
+  </section>
+
+  <div class="modal" id="pauseModal"><div class="sheet">
+    <h2>잠깐 정차 중</h2>
+    <p>앱을 벗어나거나 일시정지하면 곡이 멈춰요.</p>
+    <button class="btn primary" id="resumeBtn">계속하기</button>
+    <button class="btn" id="restartBtn">처음부터</button>
+    <button class="btn" id="quitBtn">노선도로</button>
+  </div></div>
+
+  <div class="modal" id="failModal"><div class="sheet">
+    <h2>열차가 멈췄어요</h2>
+    <p id="failText">체력이 다 떨어졌어요. 광고를 보면 체력 절반으로 이어서 달릴 수 있어요. (곡당 1번)</p>
+    <button class="btn primary ad" id="continueBtn">이어하기</button>
+    <button class="btn" id="giveupBtn">여기서 내리기</button>
+  </div></div>
+
+  <div id="toast"></div>
+</div>
+<script type="module" src="src/game.js"></script>
+</body>
+</html>

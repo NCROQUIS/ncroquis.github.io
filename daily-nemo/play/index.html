@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" /><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#F4F6F1" />
+  <title>데일리네모</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%2312A06E%27/%3E%3Cpath d=%27M8 8h6v6H8zM18 8h6v6h-6zM8 18h6v6H8z%27 fill=%27white%27/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- 시작 화면 -->
+    <section id="splash" class="screen active" aria-label="시작 화면">
+      <div class="splash-main">
+        <div class="splash-pixels" id="splash-pixels" aria-hidden="true"></div>
+        <h1 class="splash-title">데일리<span>네모</span></h1>
+        <p class="splash-tag">하루 한 판, 전국이 같은 숨은 그림을 풀어요</p>
+        <div class="splash-today" id="splash-today"></div>
+        <div class="splash-vs hidden" id="splash-vs"></div>
+      </div>
+      <div class="splash-bottom">
+        <button class="btn primary big" id="btn-start">시작하기</button>
+        <p class="splash-hint">화면 아무 곳이나 눌러도 시작해요</p>
+      </div>
+    </section>
+
+    <!-- 홈 -->
+    <section id="home" class="screen">
+      <header class="home-top">
+        <h1 class="logo">데일리<span>네모</span></h1>
+        <div class="top-actions">
+          <button class="icon-btn" id="btn-records" aria-label="보관함">🖼</button>
+          <button class="icon-btn" id="btn-settings" aria-label="설정">⚙</button>
+        </div>
+      </header>
+
+      <div class="risk-card hidden" id="risk-card">
+        <div class="risk-text"><b id="risk-title"></b><span>어제 그림을 오늘 안에 풀면 연속 기록이 이어져요</span></div>
+        <button class="btn warm" id="btn-risk">어제 그림</button>
+      </div>
+
+      <div class="first-card hidden" id="first-card">
+        <div class="first-badge">처음 오셨나요?</div>
+        <div class="first-title">5×5 연습 그림부터 해 봐요</div>
+        <p class="first-sub">1분이면 끝나요. 하는 방법을 하나씩 알려 드리고, 다 풀면 오늘의 그림이 열려요.</p>
+        <button class="btn primary big" id="btn-first">연습 시작하기</button>
+      </div>
+
+      <div class="today-card">
+        <div class="today-head">
+          <div class="nemo-thumb big" id="today-thumb" aria-hidden="true"></div>
+          <div class="today-text">
+            <div class="today-date" id="today-date"></div>
+            <div class="today-title">오늘의 그림</div>
+            <div class="today-sub" id="today-sub">전국이 같은 그림을 풀어요</div>
+          </div>
+        </div>
+        <div class="vs-banner hidden" id="vs-banner"></div>
+        <button class="btn primary big" id="btn-daily">시작하기</button>
+        <div class="streak-row">
+          <div><b id="streak-cur">0</b><small>연속</small></div>
+          <div><b id="streak-best">0</b><small>최고 연속</small></div>
+          <div><b id="daily-count">0</b><small>모은 그림</small></div>
+        </div>
+        <div class="week" id="week"></div>
+        <div class="ranking hidden" id="ranking">
+          <div class="ranking-title">오늘의 친구 순위</div>
+          <ol id="ranking-list"></ol>
+        </div>
+      </div>
+
+      <button class="month-strip" id="month-strip">
+        <span id="month-label"></span>
+        <span class="bar"><i id="month-bar"></i></span>
+        <span class="go">보관함 ›</span>
+      </button>
+
+      <div class="sister-card" id="sister-card">
+        <b>스도쿠도 좋아하세요?</b>
+        <span>같은 팀이 만든 하루 한 판 스도쿠 '데일리도쿠'도 있어요. 토스나 스토어에서 '데일리도쿠'를 찾아보세요.</span>
+      </div>
+    </section>
+
+    <!-- 보관함 -->
+    <section id="records" class="screen">
+      <header class="game-top">
+        <button class="icon-btn" id="btn-records-back" aria-label="뒤로">‹</button>
+        <div class="game-info"><div class="game-mode">보관함</div></div>
+        <span class="icon-btn"></span>
+      </header>
+      <div class="panel">
+        <div class="cal-head">
+          <button class="icon-btn" id="cal-prev" aria-label="이전 달">‹</button>
+          <b id="cal-title"></b>
+          <button class="icon-btn" id="cal-next" aria-label="다음 달">›</button>
+        </div>
+        <div class="cal-dow"><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span><span>일</span></div>
+        <div class="cal nemo-cal" id="cal"></div>
+        <div class="cal-foot" id="cal-foot"></div>
+        <div class="cal-legend"><span><i class="lg done"></i>푼 날</span><span><i class="lg late"></i>다음 날 메움</span><span><i class="lg open"></i>지난 그림</span></div>
+      </div>
+      <div class="panel">
+        <div class="section-title">모은 그림 <small id="collect-count"></small></div>
+        <div class="collection" id="collection"></div>
+      </div>
+    </section>
+
+    <!-- 게임 -->
+    <section id="nemo" class="screen">
+      <header class="game-top">
+        <button class="icon-btn" id="nemo-back" aria-label="뒤로">‹</button>
+        <div class="game-info">
+          <div class="game-mode" id="nemo-mode">오늘의 그림</div>
+          <div class="game-meta"><span id="nemo-mistakes">실수 0</span> · <span id="nemo-time">0:00</span></div>
+        </div>
+        <button class="icon-btn" id="nemo-help" aria-label="하는 방법">?</button>
+      </header>
+      <div class="vs-line hidden" id="vs-line"></div>
+      <div class="coach hidden" id="coach"><p id="coach-text"></p></div>
+      <div class="nemo-wrap"><div class="nemo-board" id="nemo-board"></div></div>
+      <div class="nemo-reveal hidden" id="nemo-reveal"></div>
+      <div class="hint-box hidden" id="nemo-hint-box"><p id="nemo-hint-text"></p></div>
+      <div class="nemo-tools" id="nemo-tools">
+        <div class="nemo-seg" id="nemo-seg">
+          <button data-m="fill" class="on" id="nemo-fill"><i class="sq"></i>칠하기</button>
+          <button data-m="x" id="nemo-x"><i>✕</i>엑스</button>
+        </div>
+        <button class="tool" id="nemo-hint"><i>💡</i><span>힌트</span><em id="nemo-hint-badge">3</em></button>
+      </div>
+      <button class="btn ghost small hidden" id="nemo-cheat">[테스트] 정답 채우기</button>
+    </section>
+
+    <!-- 결과 -->
+    <div class="modal hidden" id="result">
+      <div class="sheet">
+        <div class="result-stars" id="nr-stars"></div>
+        <div class="result-title" id="nr-title"></div>
+        <canvas class="nemo-art" id="nr-art" width="300" height="300"></canvas>
+        <div class="result-stats">
+          <div><b id="nr-time"></b><small>시간</small></div>
+          <div><b id="nr-mistakes"></b><small>실수</small></div>
+          <div><b id="nr-streak"></b><small>연속</small></div>
+        </div>
+        <div class="result-rank hidden" id="nr-rank"></div>
+        <pre class="nemo-share-preview" id="nr-preview"></pre>
+        <button class="btn primary" id="nr-share">결과 공유하기</button>
+        <button class="btn ghost" id="nr-close">홈으로</button>
+      </div>
+    </div>
+
+    <!-- 공용 다이얼로그 -->
+    <div class="modal hidden" id="dialog">
+      <div class="sheet">
+        <div class="dialog-title" id="dialog-title"></div>
+        <div class="dialog-body" id="dialog-body"></div>
+        <div class="dialog-actions" id="dialog-actions"></div>
+      </div>
+    </div>
+
+    <div class="toast hidden" id="toast"></div>
+  </div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

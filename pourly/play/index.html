@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" /><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#eef4fd" />
+  <title>Pourly</title>
+  <script type="module" crossorigin src="./assets/index-BRrwjKH-.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-4GdjxbA-.css">
+</head>
+<body>
+  <div id="app">
+    <header class="top">
+      <button class="icon-btn" id="btn-restart" data-i18n-attr="aria-label:restart; title:restart">↻</button>
+      <div class="level-box">
+        <div class="level" id="level-label"></div>
+        <div class="tough" id="tough-label" data-i18n="tough" hidden></div>
+      </div>
+      <div class="top-right">
+        <div class="coins" id="coins" data-i18n-attr="aria-label:coins"><span class="coin-dot"></span><span id="coin-count">0</span></div>
+        <button class="icon-btn" id="btn-settings" data-i18n-attr="aria-label:settings; title:settings">⚙</button>
+      </div>
+    </header>
+
+    <main id="board-wrap" data-ncq-no-main>
+      <div class="tip" id="tip" hidden></div>
+      <div id="board"></div>
+      <div class="guide" id="guide" aria-hidden="true" hidden>👆</div>
+      <div id="toast" role="status" aria-live="polite"></div>
+    </main>
+
+    <footer class="tools">
+      <button class="tool" id="btn-undo"><span class="tool-icon">↶</span><span data-i18n="undo"></span><span class="badge" id="undo-count"></span></button>
+      <button class="tool" id="btn-hint"><span class="tool-icon">💡</span><span data-i18n="hint"></span><span class="badge" id="hint-count"></span></button>
+      <button class="tool" id="btn-add"><span class="tool-icon">＋</span><span data-i18n="add_bottle"></span><span class="badge coin-badge" id="add-cost"></span></button>
+    </footer>
+    <div class="version" id="app-version"></div>
+  </div>
+
+  <div class="overlay" id="clear" hidden>
+    <div class="card">
+      <div class="card-title" data-i18n="clear_title"></div>
+      <div class="reward" id="clear-reward"></div>
+      <button class="primary" id="btn-next" data-ncq-main="다음 레벨 버튼" data-i18n="next"></button>
+    </div>
+  </div>
+
+  <div class="overlay" id="settings" hidden>
+    <div class="card">
+      <div class="card-title" id="settings-title" data-i18n="settings"></div>
+      <div class="row"><span id="lang-label"></span><div class="seg" id="lang-seg"></div></div>
+      <div class="row"><span data-i18n="sound"></span><button class="switch" id="sw-sound" role="switch"></button></div>
+      <div class="row" id="row-vib"><span data-i18n="vibration"></span><button class="switch" id="sw-vib" role="switch"></button></div>
+      <button class="secondary" id="btn-feedback" data-i18n="feedback" hidden></button>
+      <button class="primary" id="btn-close" data-ncq-main="설정 닫기 버튼" data-i18n="close"></button>
+      <div class="version" id="settings-version"></div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,15 +1,16 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script>
+<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f6f7f2">
 <title>날씨냥</title>
-  <script type="module" crossorigin src="./assets/index-LQ432aa0.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CYQn_YA8.css">
+  <script type="module" crossorigin src="./assets/index-D7gxgBJg.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-C5OgN8Rt.css">
 </head>
 <body>
-<div id="lock" role="button" tabindex="0" aria-label="날씨냥 열기">
+<!-- 화면마다 메인 버튼에 data-ncq-main, 메인 버튼이 없는 화면에는 data-ncq-no-main (ncq/safe.js, 출시 빌드의 화면 확인) -->
+<div id="lock" role="button" tabindex="0" aria-label="날씨냥 열기" data-ncq-no-main>
   <div class="l-date" id="lDate"></div>
   <div class="l-time" id="lTime"></div>
   <div class="widget">
@@ -24,7 +25,7 @@
   <div class="l-hint">잠금화면 위젯 미리보기 · 탭해서 열기</div>
 </div>
 
-<main id="app">
+<main id="app" data-ncq-no-main>
   <header class="head">
     <div class="eyebrow">A LITTLE WEATHER, A LITTLE PURR</div>
     <h1 id="headline">오늘 하루도, 포근하냥.</h1>
@@ -87,13 +88,15 @@
       <p id="resetQ">입양한 고양이, 지역, 음악 설정을 모두 지우고 처음 화면으로 돌아갈까요?</p>
       <div class="reset-actions">
         <button class="btn-sub" id="resetNo">취소</button>
-        <button class="btn-danger" id="resetYes">초기화</button>
+        <button class="btn-danger" id="resetYes" data-ncq-main="초기화">초기화</button>
       </div>
     </div>
   </div>
+  <p class="app-version" id="appVersion"></p>
 </main>
 
 <section class="adopt" id="adopt" data-wx="sun" hidden aria-labelledby="adoptTitle">
+  <div class="adopt-scroll" id="adoptScroll">
   <div class="adopt-inner">
     <div class="adopt-head">
       <div class="eyebrow" id="adoptEyebrow">날씨냥 입양하기</div>
@@ -112,13 +115,14 @@
     <div class="tiles" id="partTiles" role="tabpanel"></div>
     <button class="text-btn" id="adoptReset">기본 고양이로 되돌리기</button>
   </div>
+  </div>
   <div class="adopt-bar">
     <button class="btn-sub" id="adoptRandom">랜덤으로 뽑기</button>
-    <button class="btn-main" id="adoptDone">입양하기</button>
+    <button class="btn-main" id="adoptDone" data-ncq-main="입양하기">입양하기</button>
   </div>
 </section>
 
-<section class="book" id="book" hidden aria-labelledby="bookTitle">
+<section class="book" id="book" hidden aria-labelledby="bookTitle" data-ncq-no-main>
   <div class="book-inner">
     <div class="book-head">
       <div>
@@ -134,7 +138,7 @@
 
 <div class="sheet" id="sheet" hidden>
   <div class="sheet-bg" id="sheetBg"></div>
-  <div class="sheet-card" role="dialog" aria-label="지역 선택">
+  <div class="sheet-card" role="dialog" aria-label="지역 선택" data-ncq-no-main>
     <h2>지역 선택</h2>
     <button class="loc-btn" id="useGps"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg>현재 위치 사용</button>
     <div class="cities" id="cities"></div>

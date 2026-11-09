@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=1b32217c3cf4">
-  <script type="module" src="./app.js?v=1b32217c3cf4"></script>
+  <link rel="stylesheet" href="./style.css?v=e53e965e0789">
+  <script type="module" src="./app.js?v=e53e965e0789"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -105,7 +105,13 @@
           </span>
           <span class="chevron" aria-hidden="true"></span>
         </button>
-        <div class="lobby-actions">
+        <div class="lobby-actions match-request">
+          <button id="choose-rule" class="secondary choose-rule" type="button" aria-haspopup="dialog" aria-controls="rule-dialog">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h14M9 4v4m6 2v4m-6 2v4" fill="none"
+              stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <span id="selected-rule"></span>
+            <span class="chevron" aria-hidden="true"></span>
+          </button>
           <button id="start" class="primary" type="button" data-ncq-main="Start" data-i18n="start"></button>
         </div>
       </section>
@@ -265,13 +271,18 @@
               <use class="match-art-gauge-track" href="#place-gauge-outline"/>
               <use id="own-progress" class="match-art-gauge-progress" href="#place-gauge-outline"/>
             </svg>
-            <span data-i18n="placeStone"></span>
+            <span id="place-text" data-i18n="placeStone"></span>
             <span id="place-divider" class="gauge-divider" aria-hidden="true"></span>
             <span id="own-clock" class="player-clock" role="timer"></span>
           </button>
         </div>
         <div id="live-actions" class="live-actions" hidden>
           <p id="turn-announcement" class="sr-only" role="status"></p>
+          <div id="opening-actions" class="opening-actions" hidden>
+            <button type="button" class="match-art-action" data-opening="swap" data-i18n="swapColors"></button>
+            <button type="button" class="match-art-action" data-opening="offerFive" data-i18n="offerFifthMoves"></button>
+          </div>
+          <button id="pass-turn" class="match-art-action" type="button" data-i18n="passTurn" hidden></button>
           <button id="leave-match" class="match-art-action" type="button">
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="./assets/match-ui/icons.svg#resign"/></svg>
             <span data-i18n="leave"></span>
@@ -499,9 +510,25 @@
       </form>
     </dialog>
 
+    <dialog id="rule-dialog" class="rule-dialog" aria-labelledby="rule-heading">
+      <form method="dialog">
+        <h2 id="rule-heading" data-i18n="chooseRules"></h2>
+        <button type="submit" value="renju" class="rule-option" data-ncq-main="Select Renju">
+          <strong data-i18n="ruleRenju"></strong><small data-i18n="ruleRenjuHelp"></small>
+        </button>
+        <button type="submit" value="free" class="rule-option" data-ncq-main="Select freestyle">
+          <strong data-i18n="ruleFree"></strong><small data-i18n="ruleFreeHelp"></small>
+        </button>
+        <button type="submit" value="taraguchi" class="rule-option" data-ncq-main="Select Taraguchi-10">
+          <strong data-i18n="ruleTaraguchi"></strong><small data-i18n="ruleTaraguchiHelp"></small>
+        </button>
+        <button type="submit" value="" class="secondary" data-ncq-main="Close rules" data-i18n="cancel"></button>
+      </form>
+    </dialog>
     <dialog id="matchmaking" class="matchmaking" aria-labelledby="queue-title">
       <div class="queue-mark" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></div>
       <h2 id="queue-title" data-i18n="matching"></h2>
+      <p id="queue-rule"></p>
       <p id="queue-status"></p>
       <button id="cancel-match" class="secondary" type="button" data-ncq-main="Cancel matchmaking" data-i18n="cancel" autofocus></button>
     </dialog>

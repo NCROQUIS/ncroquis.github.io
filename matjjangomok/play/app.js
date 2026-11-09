@@ -1,6 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=1b32217c3cf4";
-import { TEXTS } from "./texts.js?v=1b32217c3cf4";
+import { NcqBoard } from "./ncq/board.js?v=e53e965e0789";
+import { TEXTS } from "./texts.js?v=e53e965e0789";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=e53e965e0789";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=e53e965e0789";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -46,6 +48,13 @@ let nicknameOverride = "";
 let profileLoading = false;
 let profileTarget = null;
 let matchmaking = null;
+const ruleNames = { renju: "ruleRenju", free: "ruleFree", taraguchi: "ruleTaraguchi" };
+const defaultRule = "renju";
+const ruleDialog = el("rule-dialog");
+let availableRules = Object.keys(ruleNames);
+let preferredRule = defaultRule;
+try { preferredRule = localStorage.getItem("matjjangomok.rule") ?? defaultRule; } catch {}
+const placementLimits = new WeakMap();
 let matchIntro = null;
 let authConfig;
 let authSession;
@@ -292,9 +301,53 @@ function coordinate(index) {
   return columns[index % size] + (Math.floor(index / size) + 1);
 }
 
-function canPlace() {
+function canAct() {
   return room?.phase === "playing" && room.turn === room.you && connected && !busy
     && !matchIntroDialog.open && (turnDeadline === null || performance.now() < turnDeadline);
+}
+
+function activeRule() {
+  if (availableRules.includes(preferredRule)) return preferredRule;
+  return availableRules.includes(defaultRule) ? defaultRule : "free";
+}
+
+function moveLimits(game) {
+  if (!placementLimits.has(game)) {
+    const check = game.opening ? index => openingError(game, index)
+      : hasForbiddenMoves(game.rule) && seatColor(game, game.you) === 1
+        ? index => forbiddenAt(game.board, index, game.rule) : () => undefined;
+    placementLimits.set(game, game.board.map((stone, index) => stone ? undefined : check(index)));
+  }
+  return placementLimits.get(game);
+}
+
+function openingStatus(game) {
+  if (game.opening === "offerFive") return t("offerProgress", { n: game.offers.length, total: offerCount });
+  if (game.opening === "pickFive") return t("pickFifth");
+  const radius = openingRadius(game);
+  const color = t(colorName(game.stone));
+  return radius === null ? t("openingStone", { color, n: game.moves.length + 1 })
+    : t("openingInArea", { color, n: game.moves.length + 1, size: radius * 2 + 1 });
+}
+
+function seatColor(game, seat) {
+  return seat === (game?.black ?? 1) ? 1 : 2;
+}
+
+function colorName(color) {
+  return color === 1 ? "black" : "white";
+}
+
+function sideName(game, seat) {
+  return t(colorName(seatColor(game, seat)));
+}
+
+function matchMode(game) {
+  return game.mode === "tournament" ? "weeklyTournament" : ruleNames[game.rule] ?? "onlineMatch";
+}
+
+function moveColor(game, ply) {
+  return game.moveColors?.[ply] ?? ply % 2 + 1;
 }
 
 function updateTurnClock(now) {
@@ -353,7 +406,7 @@ function renderPlayers(game, playing, watching = false) {
   opponentRank.hidden = game.botLevel == null;
   if (!opponentRank.hidden) opponentRank.textContent = rankName(game.botLevel);
   for (const [side, seat] of [["own", game.you], ["opponent", 3 - game.you]]) {
-    const color = seat === 1 ? "black" : "white";
+    const color = colorName(seatColor(game, seat));
     const stone = el(side + "-stone");
     stone.className = "stone " + color;
     stone.setAttribute("aria-label", t(color));
@@ -392,8 +445,8 @@ function loadRecords(key = recordsScope) {
 function saveRecord(game) {
   const id = game.id + ":" + game.round;
   const existing = new Map([...records, ...loadRecords()].map(record => [record.id, record]));
-  const { number, round, moves, winner, line, you, finishedAt, endReason, players, bot, mode } = game;
-  existing.set(id, { id, number, round, moves, winner, line, you, finishedAt, endReason, players, bot, mode });
+  const { number, round, moves, winner, line, you, finishedAt, endReason, players, bot, mode, rule, black, moveColors } = game;
+  existing.set(id, { id, number, round, moves, winner, line, you, finishedAt, endReason, players, bot, mode, rule, black, moveColors });
   records = [...existing.values()].sort((a, b) => b.finishedAt - a.finishedAt).slice(0, 50);
   try {
     localStorage.setItem(recordsScope, JSON.stringify(records));
@@ -413,7 +466,7 @@ function recordResult(game) {
     : reason === "timeout" ? "recordTimeWin"
     : reason === "resign" || game.actions?.some(action => action.type === "resign") ? "recordResignWin"
     : reason === "win" || game.line?.length >= 5 ? "recordWin" : "recordUnknownWin";
-  return t(outcome, { color: t(game.winner === 1 ? "black" : "white") });
+  return t(outcome, { color: sideName(game, game.winner) });
 }
 
 function recordPlayer(game, seat) {
@@ -582,9 +635,10 @@ recordShareDialog.addEventListener("close", () => {
 });
 
 function renderReview(game) {
-  const nextSeat = reviewPly < game.moves.length ? reviewPly % 2 + 1 : null;
+  const nextColor = reviewPly < game.moves.length ? moveColor(game, reviewPly) : null;
   for (const [side, seat] of [["opponent", 3 - game.you], ["own", game.you]]) {
-    const color = seat === 1 ? "black" : "white";
+    const stone = seatColor(game, seat);
+    const color = colorName(stone);
     const profile = recordPlayer(game, seat);
     const prefix = "review-" + side + "-";
     const label = el(prefix + "name");
@@ -594,7 +648,7 @@ function renderReview(game) {
     seatLabel.textContent = [t(side === "own" ? "you" : "opponent"), t(color), recordRank(profile)].filter(Boolean).join(" · ");
     el(prefix + "stone").className = "stone " + color;
     setRecordPhoto(el(prefix + "photo"), profile);
-    const active = nextSeat === seat;
+    const active = nextColor === stone;
     const card = el(prefix + "profile");
     card.disabled = Boolean(game.sharedView);
     card.toggleAttribute("data-turn", active);
@@ -610,7 +664,7 @@ function renderReview(game) {
   el("review-share").hidden = !game.sharedView && !recordVisibilityPath(game);
   const winner = game.winner && recordPlayer(game, game.winner).savedName;
   el("review-result").textContent = winner ? t("recordNamedResult", { name: winner, result: recordResult(game) }) : recordResult(game);
-  el("review-mode").textContent = t(game.mode === "tournament" ? "weeklyTournament" : game.bot ? "recordBotMatch" : "onlineMatch");
+  el("review-mode").textContent = t(game.mode !== "tournament" && game.bot && !game.rule ? "recordBotMatch" : matchMode(game));
 }
 
 function entryRow(label, note, onOpen) {
@@ -643,7 +697,7 @@ function renderLobby() {
   const entries = el("live-games");
   entries.replaceChildren(...(lobbyUnavailable ? [] : liveGames ?? []).map(game => {
     const moves = t("movesCount", { n: game.moves });
-    const mode = t(game.mode === "tournament" ? "weeklyTournament" : "onlineMatch");
+    const mode = t(game.rule === "taraguchi" ? "ruleTaraguchiShort" : matchMode(game));
     const label = mode + " #" + game.number;
     if (!game.code) return entryRow(label, moves);
     const row = entryRow(label, moves + " · " + t("spectate"), () => openSpectator(game.code));
@@ -824,7 +878,7 @@ function renderPlayerProfile() {
     if (source) photo.src = source;
     else photo.removeAttribute("src");
   }
-  el("profile-stone").className = "stone " + (seat === 1 ? "black" : "white");
+  el("profile-stone").className = "stone " + colorName(seatColor(game, seat));
   nicknameEdit.hidden = !own;
   el("profile-rating-section").hidden = el("profile-records").hidden = !stats;
   const showStanding = own && stats && Object.hasOwn(stats, "ratingRank");
@@ -914,7 +968,8 @@ function recordDate(value) {
   return NcqLang.date(value, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
 }
 
-function drawRecordPreview(svg, moves) {
+function drawRecordPreview(svg, game) {
+  const { moves } = game;
   const stones = document.createDocumentFragment();
   for (const [ply, cell] of moves.entries()) {
     if (!Number.isInteger(cell) || cell < 0 || cell >= size * size) continue;
@@ -922,7 +977,7 @@ function drawRecordPreview(svg, moves) {
     stone.setAttribute("cx", cell % size + .5);
     stone.setAttribute("cy", Math.floor(cell / size) + .5);
     stone.setAttribute("r", ".42");
-    stone.setAttribute("class", ply % 2 === 0 ? "preview-black" : "preview-white");
+    stone.setAttribute("class", "preview-" + colorName(moveColor(game, ply)));
     stones.append(stone);
   }
   svg.append(stones);
@@ -946,7 +1001,7 @@ function recordCard(game, saved) {
   row.querySelector(".record-summary").textContent = recordDate(game.finishedAt) + " · " + recordResult(game);
   const context = [recordRank(own), own.name].filter(Boolean).join(" ");
   row.querySelector(".record-context").textContent = context + (game.device ? " · " + t("deviceRecord") : "");
-  drawRecordPreview(row.querySelector(".record-preview svg"), game.moves);
+  drawRecordPreview(row.querySelector(".record-preview svg"), game);
   row.querySelector(".record-open").addEventListener("click", () => openArchive(game));
   const button = row.querySelector(".record-favorite");
   markFavorite(button, saved);
@@ -1010,7 +1065,7 @@ function renderResult(game) {
   el("result-symbol").setAttribute("href", `#${icon}`);
   const timeout = game.endReason === "timeout";
   el("result-summary").textContent = game.winner && !timeout ? recordResult(game) : t(timeout ? "resultTimeout" : "resultDraw", {
-    color: t(game.winner === 2 ? "black" : "white"), n: game.moves.length,
+    color: sideName(game, 3 - game.winner), n: game.moves.length,
   });
   const change = game.ratingChange;
   el("result-rating").hidden = el("result-rating-change").hidden = !change;
@@ -1062,8 +1117,17 @@ function render() {
     else button.removeAttribute("aria-current");
     button.disabled = busy;
   }
-  const mainAction = !game && !matchmaking && !options.open && !profileDialog.open && !recordShareDialog.open;
+  const mainAction = !game && !matchmaking && !options.open && !ruleDialog.open && !profileDialog.open && !recordShareDialog.open;
   el("start").disabled = busy || Boolean(matchmaking);
+  el("choose-rule").disabled = busy || Boolean(matchmaking) || availableRules.length < 2;
+  el("choose-rule").toggleAttribute("data-ncq-main", mainAction && lobbyView === "lobby" && availableRules.length > 1);
+  const rule = activeRule();
+  el("selected-rule").textContent = t(rule === "taraguchi" ? "ruleTaraguchiShort" : ruleNames[rule]);
+  el("choose-rule").setAttribute("aria-label", t("currentRule", { rule: t(ruleNames[rule]) }));
+  for (const option of ruleDialog.querySelectorAll(".rule-option")) {
+    option.hidden = !availableRules.includes(option.value);
+    option.setAttribute("aria-pressed", String(option.value === rule));
+  }
   el("player-card").disabled = busy;
   el("start").toggleAttribute("data-ncq-main", mainAction && lobbyView === "lobby");
   el("show-tournament").hidden = !backend;
@@ -1078,8 +1142,9 @@ function render() {
   if (!el("records").hidden) renderRecords();
   if (!el("tournament").hidden) renderTournament();
   if (matchmaking) {
-    const { canceled, mode } = matchmaking;
+    const { canceled, mode, rule } = matchmaking;
     el("queue-status").textContent = t(canceled ? "canceling" : mode === "tournament" ? "tournamentWaiting" : "findingOpponent");
+    el("queue-rule").textContent = t(ruleNames[rule]);
     el("cancel-match").disabled = canceled;
   }
   for (const node of [el("lobby-error"), el("match-error")]) {
@@ -1094,6 +1159,15 @@ function render() {
   for (const id of ["place", "invite"]) {
     el(id).toggleAttribute("data-ncq-main", !profileDialog.open && !matchIntroDialog.open);
   }
+  const openingActions = el("opening-actions");
+  openingActions.hidden = !canAct() || (!maySwap(game) && !mayOffer(game));
+  for (const button of openingActions.querySelectorAll("button")) {
+    button.hidden = button.dataset.opening === "swap" ? !maySwap(game) : !mayOffer(game);
+    button.toggleAttribute("data-ncq-main", !openingActions.hidden && !button.hidden);
+  }
+  const pass = el("pass-turn");
+  pass.hidden = !playing || Boolean(game.opening) || !hasForbiddenMoves(game.rule);
+  pass.disabled = !canAct();
   let status = "waiting";
   if (room && !connected) status = "reconnecting";
   else if (playing) status = game.turn === game.you ? "yourTurn" : "theirTurn";
@@ -1101,11 +1175,13 @@ function render() {
 
   el("room-label").textContent = t(archive ? "records" : "room");
   el("room-id").textContent = "#" + game.number;
-  const mode = game.mode === "tournament" ? "weeklyTournament" : "onlineMatch";
-  const heading = playing && connected ? t(mode) + " · " + t("movesCount", { n: game.moves.length }) : t(status);
+  const mode = matchMode(game);
+  const heading = playing && connected
+    ? (game.opening ? openingStatus(game) : t(mode) + " · " + t("movesCount", { n: game.moves.length })) : t(status);
   if (el("status").textContent !== heading) el("status").textContent = heading;
   el("status").setAttribute("aria-live", playing ? "off" : "polite");
-  if (playing && el("turn-announcement").textContent !== t(status)) el("turn-announcement").textContent = t(status);
+  const announcement = game.opening ? heading : t(status);
+  if (playing && el("turn-announcement").textContent !== announcement) el("turn-announcement").textContent = announcement;
   el("round").textContent = t("round", { n: game.round });
   el("mode").textContent = t(finished ? (el("result").open ? "result" : "review") : mode);
   el("room-bar").hidden = playing || finished;
@@ -1116,7 +1192,8 @@ function render() {
   el("review-back").disabled = busy;
 
   const place = el("place");
-  place.disabled = !canPlace() || selected === null;
+  place.disabled = !canAct() || selected === null;
+  el("place-text").textContent = t(game.opening === "offerFive" ? "offerShort" : game.opening === "pickFive" ? "pickShort" : "placeStone");
   const placeLabel = game.turn !== game.you ? t("theirTurn")
     : selected === null ? t("selectStone") : t("place", { cell: coordinate(selected) });
   place.setAttribute("aria-label", placeLabel);
@@ -1141,7 +1218,7 @@ function render() {
     }
     if (archive || reviewPly < game.moves.length) {
       displayedBoard = Array(cells.length).fill(0);
-      for (let i = 0; i < reviewPly; i += 1) displayedBoard[game.moves[i]] = i % 2 + 1;
+      for (let i = 0; i < reviewPly; i += 1) displayedBoard[game.moves[i]] = moveColor(game, i);
       last = game.moves[reviewPly - 1];
       if (reviewPly < game.moves.length) winning = [];
     }
@@ -1152,7 +1229,10 @@ function render() {
 }
 
 function drawBoard(game, displayedBoard, last, winning) {
-  const selectable = canPlace();
+  const selectable = canAct();
+  const ownTurn = game === room && game.phase === "playing" && game.turn === game.you;
+  const limits = ownTurn ? moveLimits(game) : [];
+  const offers = game.phase === "playing" ? game.offers ?? [] : [];
   board.classList.toggle("selectable", selectable);
   const lastCell = cells[last];
   lastMoveMarker.toggleAttribute("hidden", !lastCell);
@@ -1160,15 +1240,24 @@ function drawBoard(game, displayedBoard, last, winning) {
   for (const [index, cell] of cells.entries()) {
     const stone = displayedBoard[index];
     const isSelected = selected === index;
-    const displayed = isSelected ? game.you : stone;
+    const displayed = isSelected ? game.stone ?? seatColor(game, game.you) : stone;
+    const restriction = limits[index];
+    const offer = offers.indexOf(index) + 1;
     cell.dataset.stone = stone;
+    cell.toggleAttribute("data-foul", Boolean(restriction?.startsWith("renju")));
+    cell.toggleAttribute("data-outside-opening", restriction === "outsideOpening" || restriction === "chooseOffered");
+    if (offer) cell.dataset.offer = offer;
+    else cell.removeAttribute("data-offer");
     cell.classList.toggle("selected", isSelected);
     cell.classList.toggle("win", winning.includes(index));
     cell.firstElementChild.hidden = !displayed;
     cell.firstElementChild.className = "stone " + (displayed === 1 ? "black" : "white");
-    cell.setAttribute("aria-label", t(["square", "blackSquare", "whiteSquare"][stone], { cell: coordinate(index) }));
+    const cellLabel = t(["square", "blackSquare", "whiteSquare"][stone], { cell: coordinate(index) });
+    const detail = restriction ? t(restriction) : offer ? t("fifthCandidate", { n: offer }) : "";
+    cell.setAttribute("aria-label", detail ? cellLabel + ". " + detail : cellLabel);
+    cell.title = detail;
     cell.setAttribute("aria-selected", String(isSelected));
-    cell.setAttribute("aria-disabled", String(!selectable || Boolean(stone)));
+    cell.setAttribute("aria-disabled", String(!selectable || Boolean(stone) || Boolean(restriction)));
   }
 }
 
@@ -1177,15 +1266,17 @@ function renderSpectator({ game, closed, reconnecting }) {
   if (closed) heading = t("watchEnded");
   else if (reconnecting) heading = t("reconnecting");
   else if (game.phase === "finished") {
-    heading = game.winner ? t("watchWinner", { color: t(game.winner === 1 ? "black" : "white") }) : t("draw");
-  } else heading = t("watchTurn", { color: t(game.turn === 1 ? "black" : "white") });
+    heading = game.winner ? t("watchWinner", { color: sideName(game, game.winner) }) : t("draw");
+  } else if (game.opening) {
+    heading = openingStatus(game);
+  } else heading = t("watchTurn", { color: sideName(game, game.turn) });
   const status = el("status");
   status.setAttribute("aria-live", "polite");
   if (status.textContent !== heading) status.textContent = heading;
   el("round").textContent = t("round", { n: game.round }) + " · " + t("movesCount", { n: game.moves.length });
   el("room-label").textContent = t("room");
   el("room-id").textContent = "#" + game.number;
-  el("mode").textContent = t("spectate");
+  el("mode").textContent = game.rule ? t("spectate") + " · " + t(matchMode(game)) : t("spectate");
   el("room-bar").hidden = false;
   for (const id of ["review", "rematch", "invite"]) el(id).hidden = true;
   const leave = el("leave");
@@ -1524,7 +1615,7 @@ async function cancelMatching(job) {
 
 async function findMatch(job) {
   job.pending = true;
-  const input = { ticket: job.ticket, mode: job.mode };
+  const input = { ticket: job.ticket, mode: job.mode, rule: job.rule };
   const result = await post("/matchmaking", { ...input, nickname: ownNickname() }, client => client.match(input));
   job.pending = false;
   job.ticket = result.ticket ?? job.ticket;
@@ -1551,7 +1642,7 @@ function requestCancel() {
 
 function startMatching(mode) {
   if (matchmaking) return;
-  const job = { canceled: false, mode };
+  const job = { canceled: false, mode, rule: mode === "tournament" ? "free" : activeRule() };
   matchmaking = job;
   feedback("lobby-error");
   render();
@@ -1560,6 +1651,19 @@ function startMatching(mode) {
 }
 
 el("start").addEventListener("click", () => startMatching("casual"));
+el("choose-rule").addEventListener("click", () => {
+  ruleDialog.returnValue = "";
+  ruleDialog.showModal();
+  render();
+});
+ruleDialog.addEventListener("close", () => {
+  if (availableRules.includes(ruleDialog.returnValue)) {
+    preferredRule = ruleDialog.returnValue;
+    try { localStorage.setItem("matjjangomok.rule", preferredRule); } catch {}
+  }
+  render();
+  el("choose-rule").focus();
+});
 el("refresh-lobby").addEventListener("click", refreshLobby);
 el("cancel-match").addEventListener("click", requestCancel);
 el("matchmaking").addEventListener("cancel", event => {
@@ -1673,7 +1777,7 @@ function leaveMatch() {
     return;
   }
   if (room?.phase === "finished" && !connected) return exitRoom();
-  const resigning = room?.phase === "playing" && (room.moves.length > 0 || room.mode === "tournament");
+  const resigning = room?.phase === "playing" && (room.moves.length > 0 || room.passed || room.mode === "tournament");
   if (room?.phase === "finished" || window.confirm(t(resigning ? "confirmResign" : "confirmLeave"))) roomAction("leave", {}, next => {
     if (!backend && next.phase === "finished") saveRecord(next);
     exitRoom();
@@ -1691,7 +1795,17 @@ for (const side of ["opponent", "own"]) {
   image.addEventListener("error", () => { image.hidden = true; });
 }
 el("place").addEventListener("click", () => {
-  if (canPlace() && selected !== null) roomAction("move", { index: selected, version: room.version });
+  if (canAct() && selected !== null) roomAction("move", { index: selected, version: room.version });
+});
+el("opening-actions").addEventListener("click", event => {
+  const button = event.target.closest("[data-opening]");
+  if (!button || button.hidden || !canAct()) return;
+  roomAction("move", { action: { type: button.dataset.opening }, version: room.version });
+});
+el("pass-turn").addEventListener("click", () => {
+  if (canAct() && !room.opening && hasForbiddenMoves(room.rule)) {
+    roomAction("move", { action: { type: "pass" }, version: room.version });
+  }
 });
 el("rematch").addEventListener("click", () => roomAction("rematch", {}));
 el("review").addEventListener("click", event => {
@@ -1738,12 +1852,13 @@ function focusCell(index) {
 
 board.addEventListener("click", event => {
   const cell = event.target.closest(".cell");
-  if (!cell || !canPlace()) return;
+  if (!cell || !canAct()) return;
   const index = Number(cell.dataset.index);
   if (room.board[index]) return;
-  selected = index;
+  const restriction = moveLimits(room)[index];
+  selected = restriction ? null : index;
   focusCell(index);
-  feedback("match-error");
+  feedback("match-error", restriction, Boolean(restriction));
   render();
 });
 
@@ -1770,6 +1885,14 @@ try {
       },
     });
     boardApiUrl = config.apiUrl;
+    availableRules = ["free"];
+    const response = await fetch(boardApiUrl + "/api/rules", {
+      credentials: "omit", redirect: "error", cache: "no-store", signal: AbortSignal.timeout(1800),
+    });
+    if (response.ok) {
+      const rules = await response.json();
+      if (Array.isArray(rules)) availableRules = Object.keys(ruleNames).filter(rule => rule === "free" || rules.includes(rule));
+    }
   }
 } catch {
   // Local copies can run without a kickoff profile.
@@ -1794,7 +1917,7 @@ async function loadSharedRecord(shareId) {
     }
     if (!response.ok) throw new Error();
     const record = await response.json();
-    openArchive({ ...record, id: shareId, shareId, sharedView: true, you: 2 });
+    openArchive({ ...record, id: shareId, shareId, sharedView: true, you: record.black === 2 ? 1 : 2 });
   } catch {
     feedback("lobby-error", "network", true);
   }

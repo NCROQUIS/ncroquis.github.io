@@ -1,0 +1,437 @@
+# Core Station — English text table. One line per text: Korean ||| English.
+# {0}, {1} … are values filled in by the game; keep them in the English line.
+# Check for missing lines: python3 tools/i18n/extract.py && node tools/i18n/check.js
+# ---------- shared with Station Zero ----------
+ARC-7 · 최종 방어선 ||| ARC-7 · Last Line of Defense
+{0} 연속 처치! ||| {0} kill streak!
+{0}분 {1}초 ||| {0}m {1}s
+{0}시간 {1}분 ||| {0}h {1}m
+{0}초 ||| {0}s
+◇ 인트로 ||| ◇ Intro
+갑각충이에요. 앞쪽 갑각이 우리 탄을 절반쯤 튕겨 내요. 옆에서 때리는 요격기가 잘 통해요. ||| A Carapace. Its front plate deflects about half our shots. Interceptors hitting from the side work well.
+강화 ||| Upgrade
+거대 모선 출현 ||| Giant mothership
+건너뛰기 ||| Skip
+경고 · 거대 모선 출현 ||| Warning · giant mothership
+공격 ||| Attack
+광고 녹화 모드 ||| Ad recording mode
+기록 ||| Log
+노란 폭발 포자예요. 정거장에 닿으면 크게 터져요. 무리 속에서 먼저 터뜨리면 주변까지 휩쓸려요! ||| A yellow Volatile Spore. It blows up hard if it reaches the station. Pop it inside the swarm and it takes the others with it!
+레일건 ||| Railgun
+링 ||| Ring
+모선 주포 충전 중 ||| Mothership cannon charging
+받기 ||| Claim
+방어 ||| Defense
+보스 모선 접근 ||| Boss mothership incoming
+본부로 ||| To HQ
+분홍 해파리가 뒤에서 무리를 치료하고 있어요! 저것부터 잡아야 해요. ||| That pink jellyfish is healing the swarm from the back! Take it out first.
+비어 있음 ||| Empty
+소리 끔 ||| Sound off
+소리 켬 ||| Sound on
+스웜 러시! ||| Swarm rush!
+스웜 본대 접근 ||| Swarm main force incoming
+업그레이드 ||| Upgrades
+없음 ||| None
+웨이브 ||| Wave
+자원 ||| Resources
+전투 화면 ||| Battle screen
+처치 ||| Kills
+초기화 ||| Reset
+초기화했습니다. 처음 화면부터 다시 시작합니다 ||| Reset done. Starting again from the first screen
+최대 ||| Max
+출격 시작 ||| Start
+타일 ||| Tiles
+탭해서 계속 ||| Tap to continue
+화면을 탭하면 소리가 켜집니다 ||| Tap the screen to turn on sound
+화면을 터치하세요 ||| Touch the screen
+화면을 터치해 시작 ||| Touch the screen to start
+1 · 생체 스웜 ||| 1 · Living Swarm
+2 · 기계 함대 ||| 2 · Machine Fleet
+3 · 네온 도형 (현재) ||| 3 · Neon Shapes (current)
+A · 헥사 코어 ||| A · Hex Core
+B · 링 스테이션 ||| B · Ring Station
+C · 크리스탈 오비탈 ||| C · Crystal Orbital
+The Tower와 너무 비슷함 · 세계관이 안 보임 ||| Too close to The Tower · no sense of the world
+가장 가볍고 읽기 쉬움 ||| Lightest and easiest to read
+결정 코어 주위를 위성 포드가 입체 궤도로 돕니다. 앞뒤로 도는 위성이 원근감을 가장 크게 줍니다. ||| Satellite pods circle a crystal core in 3D orbits. Pods passing in front and behind give the strongest depth.
+링을 겹치는 방식이라 단계별 차이가 작음 ||| Stacked rings make growth stages look alike
+말벌·딱정벌레·해파리·여왕 둥지. 기계 정거장과 대비되는 생물 실루엣이라 아군·적 구분이 즉시 되고, 세계관의 '스웜'과도 맞습니다. ||| Wasps, beetles, jellyfish and a queen's nest. Living shapes against a machine station make friend and foe obvious, and fit the 'swarm' world.
+삼각·사각·육각 네온 도형. The Tower처럼 추상적이고 가장 가볍습니다. ||| Neon triangles, squares and hexagons. Abstract like The Tower, and the lightest.
+성장 단계가 한눈에 보임 · 타일 단위로 아트 확장 ||| Growth is clear at a glance · art grows tile by tile
+아군과 확실히 구분 · 날개짓으로 살아 있는 느낌 ||| Clearly apart from allies · wings make them feel alive
+위성이 적과 섞여 보일 수 있음 · 정거장보다 무기처럼 보임 ||| Satellites can blend with enemies · looks more like a weapon than a station
+육각 코어에 타일을 붙여 커지는 모듈형입니다. 모듈·연구가 타일 하나로 보여 성장이 가장 잘 읽히고, AI로 타일 아트를 늘리기도 쉽습니다. ||| A modular hex core that grows as tiles attach. Each module shows as a tile, so growth reads best and new tile art is easy to add.
+입체감 최고 · 보석 같은 수집 욕구 ||| Best depth · gem-like urge to collect
+장르가 즉시 읽힘 · 회전 링이 살아 있는 느낌 ||| Genre reads instantly · spinning ring feels alive
+전투기·충각선·포함·모함. 정통 SF 함대전 분위기이고 진영 확장(해적·제국)이 쉽습니다. ||| Fighters, rams, gunships and carriers. Classic sci-fi fleet battles, easy to add factions (pirates, empire).
+정거장과 재질이 같아 아군과 덜 구분됨 ||| Same material as the station, harder to tell from allies
+정지한 느낌 → 코어 회전·패널 점멸로 보완 ||| Feels static → add core spin and blinking panels
+정통 SF · 함선 수집·스킨 확장이 쉬움 ||| Classic sci-fi · easy ship collection and skins
+징그러움 수위 조절 필요 → 네온 윤곽으로 순화 ||| Needs creepiness toned down → soften with neon outlines
+회전하는 거주 링과 스포크로 된 고전 우주정거장입니다. 처음 보는 사람도 바로 우주정거장으로 읽습니다. ||| A classic station with a spinning habitat ring and spokes. Anyone reads it as a space station at once.
+{0}%/초 ||| {0}%/s
+{0}/초 ||| {0}/s
+격납고 ||| Hangar
+과충전 탄두 ||| Overcharged Warheads
+관통탄 ||| Piercing Rounds
+데이터 ×{0} ||| Data ×{0}
+데이터 강화 ||| Data Boost
+데이터 수입 +3% (현재 +{0}%) ||| Data income +3% (now +{0}%)
+데이터 수집기 ||| Data Collector
+반격 실드 ||| Counter Shield
+받은 접촉 피해의 30% 반사 ||| Reflects 30% of contact damage
+방벽 ||| Bulwark
+보강 장갑 ||| Reinforced Plating
+보조 포대 · 가장 먼 적부터 · 피해 주포의 {0}% ||| Auxiliary battery · farthest first · {0}% of main gun
+사거리 ||| Range
+사거리 +15% ||| Range +15%
+사거리 확장 ||| Range Extender
+속사 회로 ||| Rapid-Fire Circuit
+수집기 ||| Collector
+시작 에너지 +15 (현재 {0}) ||| Starting energy +15 (now {0})
+에너지 +{0}% · 데이터 +{1}% ||| Energy +{0}% · data +{1}%
+연쇄 번개 ||| Chain Lightning
+요격기 2기 출격 · 방어 구역 안 추격 · 사격 피해 주포의 {0}% ||| Launches 2 interceptors · chase inside the defense zone · {0}% of main gun
+이번 판 데이터 +20% ||| Data +20% this run
+치명 조준경 ||| Crit Scope
+치명타 시 주변 1기에 50% 피해 ||| Crits deal 50% to one nearby enemy
+치명타 확률 ||| Crit Chance
+치명타 확률 +10%p ||| Crit chance +10%p
+투사체가 적 1기를 관통 ||| Shots pierce one enemy
+포대 ||| Battery
+# ---------- core station ----------
+(2배) ||| (×2)
+(현재) ||| (now)
+15분 경과 · 퇴각 ||| 15 minutes up · Retreat
+2단계 강화 해금 ||| Bonus upgrades unlocked
+2단계 강화: 레벨당 ×1%가 곱해집니다. 최대 {0}레벨, 비용은 레벨마다 ×1.17. ||| Bonus upgrades: each level multiplies by ×1%. Max level {0}, cost ×1.17 per level.
+2단계 강화는 최고 웨이브 {0}에 열립니다 (현재 {1}). 기본 업그레이드가 최대 레벨에 가까워질 때 남는 데이터를 쓰는 곳입니다. 레벨당 1%씩 곱해지는 대신 비용이 레벨마다 17%씩 오릅니다. ||| Bonus upgrades open at best wave {0} (now {1}). They are where spare data goes once basic upgrades near their max level. Each level multiplies by 1%, and the cost rises 17% per level.
+30초 안에 이탈 ||| Left within 30s
+30초 유지 ||| Stayed 30s
+ARC-7 · 행성 방어선 ||| ARC-7 · Planetary Defense Line
+EMP가 열렸어요! 누르면 주변 적이 잠깐 멈춰요. 적이 몰려올 때 쓰세요. ||| EMP is online! Tap it to freeze nearby enemies for a moment. Use it when they swarm in.
+{0} 동안 자리를 비웠어요 ||| You were away for {0}
+{0}분 ||| {0}m
+{0}시간{1} ||| {0}h{1}
+{2} — 궤도의 적을 들이받고 적 탄을 막습니다 ||| {2} — they ram enemies in orbit and block enemy shots
+· 다음 {0} · 데이터 {1} ||| · Next {0} · Data {1}
+· 비어 있음 ||| · Empty
+· 최대 레벨 ||| · Max level
+⚡ 부족 ||| ⚡ Not enough
+가속 칩 ||| Speed-up Chips
+가속 칩 +1 (연구 시간 20분 단축) ||| Speed-up Chip +1 (research 20 min faster)
+가속 칩 0 ||| Speed-up Chips 0
+가속 칩 {0} ||| Speed-up Chips {0}
+가속 칩 1개 · -{0}분 ||| 1 Speed-up Chip · -{0} min
+가속 칩 1개 · 즉시 완료 ||| 1 Speed-up Chip · Finish now
+가속 칩이 있어요! 하나 쓰면 진행 중인 연구가 20분 빨리 끝나요. ||| You have a Speed-up Chip! Use one to finish the current research 20 minutes sooner.
+강화 시트 닫기 ||| Close upgrade sheet
+강화 합 ||| Upgrade total
+강화 합과 도달 웨이브 기록은 밸런스 시트의 "강화 레벨당 도달 웨이브" 보정에 씁니다. ||| Upgrade totals and waves reached are used to tune the balance sheet ("waves reached per upgrade level").
+공격 강화 ||| Attack upgrades
+방어 강화 ||| Defense upgrades
+자원 강화 ||| Resource upgrades
+과학 데크 확인 ||| Opened research
+광고 보고 2배 받기 ||| Watch an ad for ×2
+광고 불러오는 중… ||| Loading ad…
+광고 재생 중… (테스트) ||| Playing ad… (test)
+광고를 끝까지 보면 2배로 받을 수 있어요 ||| Watch the whole ad to get double
+구분 ||| Type
+그날 최종 방어선 ARC-7은 무너졌습니다. 남은 건 작은 정거장 하나. ||| That day, ARC-7, the last line of defense, fell. All that was left was one small station.
+기본 업그레이드가 최대 레벨에 가까워졌어요. 추가 강화로 더 세질 수 있어요. ||| Your basic upgrades are close to their max level. Bonus upgrades can make you even stronger.
+데이터 ||| Data
+데이터 +5,000 · 가속 칩 +5 ||| Data +5,000 · Speed-up Chips +5
+데이터 +{0} ||| Data +{0}
+데이터 +{0} 수령{1} ||| Data +{0} collected{1}
+데이터 0 ||| Data 0
+데이터 {0} ||| Data {0}
+데이터 부족 ||| Not enough data
+레일건 발사 ||| Railgun fired
+루나 기지 탈환! ||| Luna Base retaken!
+목표 안내(웨이브 8) ||| Goal hint (wave 8)
+목표: 웨이브 8 → 첫 타일 칸, 웨이브 50 → 링 완성·호위 위성 ||| Goals: wave 8 → first tile slot, wave 50 → full ring and escort satellites
+무기 자동 ||| Auto weapons
+방치 +2시간 ||| Idle +2h
+방치 +9시간 ||| Idle +9h
+방치 보상 ||| Idle Rewards
+방치 보상 2배(광고) ||| Idle rewards ×2 (ad)
+방치 보상 · 시간당 데이터 ||| Idle rewards · data per hour
+방치 보상 첫 수령 ||| First idle reward collected
+방치 보상이 가득 찼어요. 지금은 최대 {0}시간까지만 모여요 — 연구소 '방치 시간 늘리기'로 늘릴 수 있어요. ||| Idle rewards are full. They only build up for {0} hours for now — raise the limit with 'Longer Idle Time' in the Lab.
+방치 보상이 아직 잠겨 있습니다 ||| Idle rewards are still locked
+보스 모선 반응. 레일건 준비 완료 — 한 줄로 꿰뚫는 큰 한 방이에요. 버튼이 빛나면 눌러주세요. ||| Boss mothership detected. Railgun ready — one big shot that pierces everything in a line. Tap the button when it glows.
+보스와 레일건 ||| Bosses and the Railgun
+복사가 막혀 있습니다. 화면을 캡처해 주세요 ||| Copying is blocked. Please take a screenshot
+분 ||| min
+블랙박스가 전투 데이터를 본부로 보냈어요. 업그레이드에서 다음 정거장을 더 강하게 만드세요. ||| The black box sent the battle data to HQ. Make your next station stronger in Upgrades.
+사령관! 체험용 격납고 타일이 도착했어요. 요격기 편대까지 같이 왔어요! ||| Commander! Trial hangar tiles have arrived, and an interceptor squadron came with them!
+산란 어미예요. 알을 낳으면서 다가와요. 알이 깨기 전에 EMP로 묶고 정리해 주세요. ||| That's a Brood Mother. It lays eggs as it comes. Pin it down with EMP and clear them before they hatch.
+상한 ||| Cap
+상한 도달 ||| Cap reached
+상한 연구 ||| Cap research
+새 정거장으로 다시 시작해요 ||| Starting again with a new station
+새 타일 칸 {0}개 열림! 업그레이드 › 타일에서 기능을 고르세요 ||| {0} new tile slot(s) open! Pick what they do in Upgrades › Tiles
+쉬는 동안 정거장이 데이터를 모았어요. 최대 {0}시간까지 쌓여요. ||| Your station collected data while you rested. It builds up for up to {0} hours.
+쉬는 동안에도 정거장이 데이터를 모아요. 앱을 켜면 여기서 받아요. ||| Your station keeps collecting data while you rest. Collect it here when you come back.
+스웜 본대가 옵니다. 이 정거장으로는 오래 못 버팁니다. 최대한 데이터를 모으세요. ||| The main swarm is coming. This station won't hold for long. Gather as much data as you can.
+시간 ||| Time
+시제품 모듈 장착 ||| Trial tiles fitted
+아래에서 기능을 고르세요 ||| Pick a function below
+아직 기록이 없습니다 ||| No records yet
+아직 본 안내가 없어요. ||| You haven't seen any tips yet.
+안내 다시 보기 ||| Replay tips
+업그레이드에서 강화를 먼저 해보세요 ||| Try buying an upgrade first
+에너지 0 ||| Energy 0
+에너지 {0} ||| Energy {0}
+엔지니어 볼트 ||| Engineer Volt
+여기가 업그레이드예요. 데이터로 영구 강화를 사요. 우선 공격력과 체력을 올려볼까요? 빛나는 버튼 두 개를 눌러주세요. ||| These are Upgrades. Data buys permanent boosts. Let's raise Attack and Health first — tap the two glowing buttons.
+연구 {0}x ||| Research {0}x
+연구 시작 ||| Start research
+연구 완료: {0} ||| Research done: {0}
+연구 칸 {0} ||| Research slot {0}
+연구는 데이터와 시간을 함께 씁니다(n레벨 비용 8×n²). 첫 연구는 3분, 두 번째 24분, 8레벨부터는 3.2×n시간. 가속 칩 1개로 진행 중인 연구를 {0}분 단축합니다. 연구 칸 {1}개에서 동시에 진행돼요. 테스트용 연구 배속: {2}x (기록 탭에서 변경) ||| Research costs data and time (level n costs 8×n²). The first takes 3 min, the second 24 min, and from level 8 it takes 3.2×n hours. One Speed-up Chip cuts {0} min off the current research. {1} research slots run at the same time. Test research speed: {2}x (change it in the Log tab)
+연구소 ||| Lab
+연구소가 열렸어요! 연구는 데이터와 시간을 써서 정거장을 오래 강하게 만들어요. ||| The Lab is open! Research uses data and time to make your station stronger for good.
+요격기 편대 출격! ||| Interceptor squadron launched!
+웨이브 12 도달 ||| Reached wave 12
+웨이브 {0} 도달 ||| Reached wave {0}
+웨이브 · 15:00 ||| Wave · 15:00
+웨이브 · {0}:{1} ||| Wave · {0}:{1}
+위상 포식자예요! 잠깐씩 사라지는데, 그동안은 공격이 통과해요. 체력과 체력 회복을 올려 버티세요. ||| A Phase Stalker! It fades out now and then, and shots pass through it. Raise Health and Health Regen to hold on.
+일반 ||| Normal
+자동 강화 ||| Auto upgrade
+자리를 비운 동안 모은 데이터 ||| Data collected while you were away
+재출격 ||| Relaunch
+저건 분열낭이에요! 터뜨리면 새끼 셋이 튀어나와요. 레일건으로 한 줄로 꿰뚫어 주세요. ||| That's a Splitter! Pop it and three young burst out. Pierce them in a line with the railgun.
+저격수 키라 ||| Sniper Kira
+적 시안 ||| Enemy art
+전술 카드 ||| Tactical Cards
+전술 카드 선택 ||| Choose a tactical card
+전술 카드: ||| Tactical cards:
+전술 카드: 없음 ||| Tactical cards: none
+전술 카드예요! 셋 중 하나를 고르면 이번 판 내내 효과가 이어져요. ||| Tactical cards! Pick one of three and it lasts for the rest of this run.
+전투 강화 ||| Battle upgrades
+정거장 가동! 처치하면 노란 에너지가 쌓여요. 아래 빛나는 '공격력'을 눌러 화력을 올리세요. ||| Station online! Kills give yellow energy. Tap the glowing 'Attack' below to raise your firepower.
+정거장 구조 미리보기 ||| Station layout preview
+정거장 링 완성! 다음 출격부터 호위 위성이 합류해요 ||| Station ring complete! Escort satellites join from your next launch
+정거장 링이 완성돼서 호위 위성이 함께 나왔어요. 적 탄을 막고 가까운 적을 들이받아요. ||| The station ring is complete, so escort satellites came along. They block enemy shots and ram nearby enemies.
+정거장 파괴 ||| Station destroyed
+정거장에 새 타일 칸이 열렸어요! ||| A new tile slot opened on your station!
+정거장을 키워 스웜을 끝없이 막아라 ||| Grow your station and hold back the endless swarm
+정거장이 커질수록 기능이 붙습니다. 타일 칸은 최고 웨이브 {0}에서 하나씩 열리고, 타일 종류는 언제든 무료로 바꿀 수 있습니다. 데이터로 올린 칸 레벨은 종류를 바꿔도 유지됩니다. ||| Your station gains functions as it grows. Tile slots open one by one at best waves {0}, and you can switch tile types for free at any time. Slot levels bought with data stay when you switch.
+조선소 강화 2회 ||| Two upgrades bought
+좋습니다. 이제 더 강한 정거장으로 다시 출격하죠. 이번엔 체험 타일 없이, 진짜 실력으로. ||| Good. Now let's launch again with a stronger station — no trial tiles this time, just real skill.
+진행 상황 초기화 ||| Reset progress
+진행 중 ||| In progress
+처음부터 다시 ||| Start over
+첫 탭 ||| First tap
+첫 파괴 ||| First defeat
+첫 판 안 강화 ||| First battle upgrade
+체력 100/100 ||| Health 100/100
+체력 {0}/{1} ||| Health {0}/{1}
+체험 타일 3개 장착 · 격납고 2 · 포대 1 ||| 3 trial tiles fitted · 2 hangars · 1 battery
+체험 타일은 돌려보내야 해요… 하지만 블랙박스 데이터는 살아있어요. 이걸로 다음 정거장을 강화할 수 있어요. ||| We have to send the trial tiles back… but the black box data survived. We can use it to upgrade the next station.
+체험 타일은 돌려보냈어요. 최고 웨이브 8부터 정거장 타일 칸이 하나씩 열리고, 직접 고른 타일을 붙일 수 있습니다. 튜토리얼 기록은 최고 기록에 넣지 않습니다. ||| The trial tiles went back. From best wave 8, station tile slots open one by one and you can fit tiles of your choice. Tutorial runs don't count toward your best.
+최고 0 ||| Best 0
+최고 웨이브 ||| Best wave
+최고 웨이브 {0} ||| Best wave {0}
+최고 웨이브 {0} 달성 시 방치 보상 해금 ||| Idle rewards unlock at best wave {0}
+최고 웨이브 {0}에서 열림 ||| Opens at best wave {0}
+최고 웨이브 {1}에서 열림 (현재 {2}) ||| Opens at best wave {1} (now {2})
+최고 웨이브를 40으로 설정했습니다 ||| Best wave set to 40
+최근 출격 ||| Recent launches
+최대 {0}레벨. 연구소의 '최대 레벨 +1' 연구로 올려요. ||| Max level {0}. Raise it with the 'Max Level +1' research in the Lab.
+최대 {1}시간 ||| Up to {1}h
+최대 {0}시간 ||| Up to {0}h
+추가 강화 ||| Bonus
+출격 · 루나 기지 ||| Launch · Luna Base
+코어 스테이션 (v2 방치형) ||| Core Station
+큰 놈이 와요! 레일건을 아껴 뒀다가 보스에게 쏘세요. ||| Something big is coming! Save the railgun and fire it at the boss.
+타이틀에서 출격 시작 ||| Launched from title
+타일 칸 ||| Tile slots
+타일 칸 6개 · 호위 위성 3기 해금 ||| 6 tile slots · 3 escort satellites unlocked
+타일 칸 {0} ||| Tile slot {0}
+타일 칸 {0}{1} ||| Tile slot {0}{1}
+타일 칸 전부 해금 (최고 웨이브 80) ||| Unlock all tile slots (best wave 80)
+테스트 도구 (#ncq-test 전용) ||| Test tools (#ncq-test only)
+튜토리얼 ||| Tutorial
+튜토리얼 출격 ||| Tutorial launch
+튜토리얼 퍼널 (도달 시각) ||| Tutorial funnel (time reached)
+포대·격납고 같은 기능을 골라 붙이면 함께 싸워요. ||| Fit functions like batteries and hangars and they'll fight alongside you.
+프롤로그 건너뛰기 ||| Skipped prologue
+프롤로그 끝까지 시청 ||| Watched whole prologue
+프롤로그 시작 ||| Prologue started
+플레이 데이터 복사 ||| Copy play data
+플레이 데이터를 복사했습니다 ||| Play data copied
+하나 걸어 두고 출격하면 그동안 끝나요. ||| Start one before you launch and it finishes while you fight.
+한 번 더 누르면 초기화 ||| Tap again to reset
+한 번에 사기 ||| Buy amount
+함장 레아 ||| Captain Lea
+행성 방어선 · 마지막 정거장 ||| Planetary Defense · The Last Station
+호위 위성 ||| Escort Satellites
+호위 위성 {0}/{1} ||| Escort Satellites {0}/{1}
+호위 위성 합류! 적 탄을 막고 가까운 적을 들이받아요 ||| Escort satellites joined! They block enemy shots and ram nearby enemies
+획득 데이터 ||| Data earned
+EMP·레일건 재충전 -20% ||| EMP and railgun recharge -20%
+공격 속도 ||| Fire Rate
+공격 속도 +20% ||| Fire Rate +20%
+공격력 ||| Attack
+공격력 +25% ||| Attack +25%
+공격력 ×{0} ||| Attack ×{0}
+공격력 강화 ||| Attack Boost
+데이터 수입 증가 ||| More Data Income
+데이터 획득량 ||| Data Gain
+무기 냉각기 ||| Weapon Coolant
+방어력 ||| Armor
+방치 보상 최대 시간 +1시간 (현재 {0}시간) ||| Idle reward limit +1h (now {0}h)
+방치 시간 늘리기 ||| Longer Idle Time
+시작 에너지 ||| Starting Energy
+업그레이드 최대 레벨 +1 (현재 {0}) ||| Upgrade max level +1 (now {0})
+에너지 획득량 ||| Energy Gain
+체력 ||| Health
+체력 +{0}% · 체력 회복 +{1}% · 방어력 +2%p ||| Health +{0}% · Health Regen +{1}% · Armor +2%p
+체력 ×{0} ||| Health ×{0}
+체력 강화 ||| Health Boost
+체력 회복 ||| Health Regen
+최대 레벨 +1 ||| Max Level +1
+최대 체력 +30%, 즉시 회복 ||| Max health +30%, fully repaired
+닫기 ||| Close
+언어 · Language ||| Language
+초 ||| s
+강화 카드 ||| Upgrade Cards
+강화 카드 선택 ||| Choose a Card
+긴급 지원! ||| Emergency Aid!
+능력치 ||| Stat
+다음 카드 ||| Next card
+다음 카드 {0}% ||| Next card {0}%
+덱에 넣기 ||| Add to deck
+덱에는 무기 4개가 필요해요. 다른 무기를 넣으면 바뀌어요 ||| The deck needs 4 weapons. Add another weapon to swap it out
+덱에 있음 ||| In deck
+무기 ||| Weapons
+무기 Lv{0} ||| Weapon Lv{0}
+무기 덱 ||| Weapon Deck
+새 무기 ||| New weapon
+새 무기가 열렸어요! 출격 전에 무기 4개를 골라 덱에 넣어요. ||| A new weapon is unlocked! Before a sortie, pick 4 weapons for your deck.
+숙련 ||| Mastery
+스웜이 몰려와서 카드 한 장을 더 줘요 ||| The swarm is piling up, so here's an extra card
+에너지 바가 가득 차면 카드 셋 중 하나를 골라요. 무기를 얻거나 키우고, 능력치나 전술을 더해요. ||| When the energy bar fills, pick 1 of 3 cards. Get or power up weapons, or add stats and tactics.
+자동 선택 ||| Auto pick
+전술 ||| Tactic
+정거장 가동! 적을 처치하면 아래 에너지 바가 차요. 가득 차면 카드 셋 중 하나를 골라 정거장을 키워요. ||| Station online! Kills fill the energy bar below. When it's full, pick 1 of 3 cards to power up the station.
+진화 · Lv{0} ||| Evolve · Lv{0}
+진화! ||| Evolved!
+첫 카드 선택 ||| First card pick
+출격할 무기 4개예요. 위 칸을 누르고 아래 무기의 '덱에 넣기'로 바꿔요. ||| These are your 4 sortie weapons. Tap a slot above, then 'Add to deck' on a weapon below to swap.
+카드 0장 ||| 0 cards
+카드 {0}장 ||| {0} cards
+판 안에서는 덱의 무기만 카드로 나와요. ||| In battle, only deck weapons show up as cards.
+하나를 고르세요 ||| Pick one
+2연장: 2발씩 ||| Twin launcher: 2 at a time
+3연장: 3발씩, 폭발 범위 +40% ||| Triple launcher: 3 at a time, blast +40%
+{0} 위력 +35% ||| {0} power +35%
+가까운 적을 계속 태워요 ||| Keeps burning the nearest enemy
+고출력: 빔 피해 ×1.6 ||| Overdrive: beam damage ×1.6
+과부하: 맞은 적이 잠깐 멈춰요 ||| Overload: struck enemies freeze briefly
+교란장 ||| Jammer
+굴절: 옆 적 2기에도 닿아요 ||| Refraction: reaches 2 nearby enemies
+두 바퀴: 원반 2개 ||| Two wheels: 2 discs
+미사일 ||| Missile
+번개 ||| Bolt
+벌집 ||| Hive
+빔 ||| Beam
+세 바퀴: 원반 3개, 더 크게 ||| Three wheels: 3 bigger discs
+쌍둥이 말벌: 2기씩 ||| Twin wasps: 2 at a time
+여왕벌: 3기씩, 더 빠르게 ||| Queen: 3 at a time, faster
+연쇄 번개: 옆 적 2기로 튀어요 ||| Chain lightning: jumps to 2 nearby enemies
+위상 고정: 안에선 위상 포식자가 숨지 못해요 ||| Phase lock: phase stalkers can't hide inside
+적 무리에 폭발 미사일을 쏴요 ||| Fires explosive missiles into the swarm
+적에게 번개를 내리꽂아요 ||| Strikes enemies with lightning
+적을 쫓는 말벌 드론을 날려요 ||| Launches wasp drones that hunt enemies
+정거장 둘레 적을 느리게 하고 태워요 ||| Slows and burns enemies around the station
+정거장 둘레를 도는 화염 원반 ||| Flame discs orbiting the station
+화염 바퀴 ||| Flame Wheel
+확장: 범위 +30% ||| Expansion: range +30%
+{0} 붙이기 ||| Attach {0}
+← 다시 고르기 ||| ← Pick again
+각성 · Lv{0} ||| Awaken · Lv{0}
+각성! ||| Awakened!
+과부하 · Lv{0} ||| Overload · Lv{0}
+빛나는 칸을 누르세요 · 같은 코어 옆이면 더 세져요 ||| Tap a glowing slot · stronger next to the same core
+새 코어 ||| New core
+새 코어 · 겹치면 Lv{0} ||| New core · stack for Lv{0}
+시작 코어 ||| Start Cores
+시작 코어 {0} ||| Start core {0}
+시작 코어 {0}{1} ||| Start core {0}{1}
+시작 코어 칸 {0}개 열림! 업그레이드 › 코어에서 고르세요 ||| {0} start core slot(s) opened! Choose in Upgrades › Cores
+시작 코어 칸이 열렸어요! ||| A start core slot is open!
+아래에서 코어를 고르세요 ||| Choose a core below
+어디에 붙일까요? ||| Where should it go?
+여기서 고른 코어는 출격할 때 정거장에 미리 붙어 있어요. ||| The core you pick here is already attached when you launch.
+자동 배치 ||| Auto place
+주포 {0}연장 ||| Main gun ×{0}
+중심 코어 ||| Center core
+카드 {0}장 · 코어 {1}/6 ||| {0} cards · cores {1}/6
+칸 ||| Slot
+코어 ||| Cores
+코어 Lv{0} ||| Core Lv{0}
+코어 배치 ||| Core placement
+코어 연구 ||| Core Research
+코어를 붙일 칸을 골라요. 같은 코어 옆이나 증폭기 옆이면 더 세지고, 같은 코어 위에 놓으면 레벨이 올라요. ||| Pick a slot for the core. Next to the same core or an amplifier it gets stronger; on top of the same core it levels up.
+판 안에서 코어 카드로 정거장을 키워요. 시작 코어는 출격할 때 미리 붙어 있고, 코어 연구는 그 종류의 코어를 모든 판에서 강하게 해요. ||| Grow the station with core cards during a run. Start cores are attached at launch; Core Research makes that kind of core stronger in every run.
+효과 +{0}% ||| Effect +{0}%
+3초마다 최대 체력 {0}% 회복 ||| Restores {0}% max health every 3 s
+{0} 효과 ×1.5 ||| {0} effect ×1.5
+가장 높은 레벨의 덱 무기 위력 +{0}% ||| Highest-level deck weapon power +{0}%
+각성: 맞닿은 코어 +35% ||| Awaken: adjacent cores +35%
+각성: 맞으면 2초 방어막 (15초마다) ||| Awaken: 2 s barrier when hit (every 15 s)
+각성: 보스 웨이브를 넘기면 체력 30% 회복 ||| Awaken: heal 30% after each boss wave
+각성: 쌍열 포탑, 두 적을 동시에 ||| Awaken: twin barrels, two targets at once
+각성: 에너지 +25% 더 ||| Awaken: +25% more energy
+각성: 연결 무기 위력 ×1.5 더 ||| Awaken: linked weapon power ×1.5 more
+각성: 요격기 +1기 ||| Awaken: +1 interceptor
+기본 선체 ||| Standard Hull
+맞닿은 코어 효과 +{0}% ||| Adjacent cores' effect +{0}%
+무기 연결 ||| Weapon Link
+수리 ||| Repair
+주포 공격력 +15% · 체력 +10% ||| Main gun attack +15% · Health +10%
+중심 코어 Lv3: 주포 2연장 ||| Center core Lv3: twin main gun
+중심 코어 Lv5: 주포 3연장 ||| Center core Lv5: triple main gun
+증폭기 ||| Amplifier
+코어 과부하 ||| Core Overload
+사령관! 체험용 코어 3개가 도착했어요. 하나씩 골라서 정거장에 직접 붙여 보세요! ||| Commander! Three trial cores have arrived. Pick them one by one and attach them to the station yourself!
+좋아요! 두 개 더 붙여 볼까요? 같은 코어 옆에 놓으면 서로 더 세지고, 같은 코어 위에 놓으면 레벨이 올라요. ||| Nice! Let's attach two more. Next to the same core they boost each other; on top of the same core it levels up.
+체험 코어 장착 완료! ||| Trial cores attached!
+체험 코어 고르기 ||| Choose a Trial Core
+하나를 골라 정거장에 붙여요 ({0}/3) ||| Pick one to attach ({0}/3)
+체험 코어는 돌려보냈어요. 이제 판마다 코어 카드로 정거장을 직접 키워요. 최고 웨이브 8부터 출격할 때 미리 붙는 시작 코어 칸이 열립니다. 튜토리얼 기록은 최고 기록에 넣지 않습니다. ||| The trial cores went back. From now on you grow the station with core cards every run. From best wave 8, start core slots open that come pre-attached at launch. Tutorial records don't count toward your best.
+체험 코어는 돌려보내야 해요… 하지만 블랙박스 데이터는 살아있어요. 이걸로 다음 정거장을 강화할 수 있어요. ||| The trial cores have to go back… but the black box data survived. We can use it to upgrade the next station.
+좋습니다. 이제 더 강한 정거장으로 다시 출격하죠. 이번엔 코어 카드로 처음부터 직접 지어 봐요. ||| Good. Let's launch again with a stronger station. This time, build it from scratch with core cards.
+체험 코어 첫 장착 ||| First trial core attached
+목표: 웨이브 8 → 첫 시작 코어 칸, 웨이브 50 → 호위 위성 ||| Goal: wave 8 → first start core slot, wave 50 → escort satellites
+데이터로 새 코어를 연구할 수 있어요! ||| You can research a new core with data!
+덱이 가득 찼어요. 먼저 하나를 빼요 ||| The deck is full. Take one out first
+미연구 ||| Not researched
+빈 칸 ||| Empty
+새 코어 연구 완료: {0} ||| New core researched: {0}
+에너지 바가 가득 차면 카드 셋 중 하나를 골라요. 새 코어를 붙이거나 키우고, 능력치나 전술을 더해요. ||| When the energy bar fills, pick 1 of 3 cards. Attach or grow a core, or add stats and tactics.
+연구 {0} ||| Research {0}
+연구한 코어가 6종을 넘었어요! 출격할 코어 6종을 골라 덱에 넣어요. ||| You've researched more than 6 cores! Pick 6 for your sortie deck.
+연구한 코어가 모두 카드로 나와요. 6종을 넘으면 여기서 골라요. ||| All researched cores show up as cards. Once you have more than 6, pick them here.
+연구한 코어는 다음 판부터 카드로 나와요. ||| Researched cores show up as cards from your next run.
+완전 각성 · Lv{0} ||| Full awaken · Lv{0}
+완전 각성! ||| Fully awakened!
+출격 덱 {0}/{1} ||| Sortie Deck {0}/{1}
+코어 덱 ||| Core Deck
+판 안에서는 덱에 넣은 6종만 카드로 나와요. 눌러서 넣고 빼요. ||| In battle only the 6 cores in your deck show up as cards. Tap to add or remove.
+판 안에서는 덱의 코어만 카드로 나와요. ||| In battle, only deck cores show up as cards.
+{0} 효과 +40% ||| {0} effect +40%
+가장 높은 레벨의 무기 코어 위력 +{0}% ||| Highest-level weapon core power +{0}%
+각성: ||| Awaken:
+완전 각성: ||| Full awaken:
+완전 각성: 데이터 +25% 더 ||| Full awaken: +25% more data
+완전 각성: 맞닿은 코어 +50% ||| Full awaken: adjacent cores +50%
+완전 각성: 방어막 3초, 10초마다 ||| Full awaken: 3 s barrier, every 10 s
+완전 각성: 세 적을 동시에 ||| Full awaken: three targets at once
+완전 각성: 요격기 +2기 ||| Full awaken: +2 interceptors
+완전 각성: 위 2개 무기에 연결 ||| Full awaken: links the top 2 weapons
+완전 각성: 회복량 2배 ||| Full awaken: double healing

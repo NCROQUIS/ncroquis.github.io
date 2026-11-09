@@ -1,0 +1,1821 @@
+<title>코어 스테이션 (v2 방치형)</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one-screen mobile game — HUD strip, orbital battle canvas, control deck; base screen is a tabbed station console. Single dark theme by choice (space). */
+:root {
+  /* safe area (company guide '화면 안전 영역', ncq/safe.js NcqSafe): --ncq-top = device top inset or the Toss menu row (+ top banner),
+     --ncq-bottom = device bottom inset + banner. The whole .app stays inside them; env()/toss fallbacks only matter without the module.
+     --bar-min/--nav-min: Android WebViews that report 0 insets while drawing under the bars (set by the script below). */
+  --st: max(var(--ncq-top, max(env(safe-area-inset-top, 0px), var(--ncq-safe-top, 0px), var(--ncq-toss-top, 0px))), var(--bar-min, 0px));
+  --sb: max(var(--ncq-bottom, max(env(safe-area-inset-bottom, 0px), var(--ncq-safe-bottom, 0px))), var(--nav-min, 0px));
+  --void: #060912;
+  --panel: #0d1220;
+  --panel-2: #131a2c;
+  --line: #222c45;
+  --ink: #e7ecf6;
+  --ink-dim: #8b95ae;
+  --signal: #6fd3ff;
+  --signal-ink: #04121c;
+  --energy: #ffd166;
+  --data: #9b8cff;
+  --good: #5fe39a;
+  --bad: #ff6f7d;
+  --font-display: "Oxanium", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body { background: var(--void); color: var(--ink); font-family: var(--font-body); font-size: 14px; overflow: hidden; }
+button { font: inherit; color: inherit; }
+button:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.app { position: relative; top: var(--st); height: calc(100% - var(--st) - var(--sb)); max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; }
+.screen { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+.pad { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.num { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+
+/* battle */
+.hud { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 8px; padding-block: 10px 6px; }
+.hud .wave { font-family: var(--font-display); font-weight: 700; font-size: 22px; text-align: center; line-height: 1; }
+.hud .wave small { display: block; font-family: var(--font-body); font-size: 11px; color: var(--ink-dim); font-weight: 400; margin-top: 3px; }
+.hud .l, .hud .r { display: grid; gap: 3px; font-size: 12px; }
+.hud .r { text-align: right; }
+.res-energy { color: var(--energy); } .res-data { color: var(--data); }
+.hullbar { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; margin-block: 0 4px; }
+.hullbar i { display: block; height: 100%; background: var(--good); width: 100%; transition: width .15s linear; }
+.field { position: relative; flex: 1 1 auto; min-height: 200px; }
+canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: manipulation; }
+.weapons { position: absolute; right: max(12px, env(safe-area-inset-right, 0px)); bottom: 12px; display: grid; gap: 10px; }
+.wbtn { position: relative; width: 60px; height: 60px; border-radius: 50%; border: 1px solid var(--line); background: color-mix(in srgb, var(--panel) 85%, transparent);
+  display: grid; place-items: center; font-size: 11px; text-align: center; line-height: 1.15; cursor: pointer; }
+.wbtn svg { position: absolute; inset: -1px; width: 62px; height: 62px; transform: rotate(-90deg); pointer-events: none; }
+.wbtn.ready { border-color: var(--signal); box-shadow: 0 0 14px color-mix(in srgb, var(--signal) 45%, transparent); }
+.wbtn[disabled] { opacity: .35; cursor: default; }
+.topbtns { position: absolute; left: max(12px, env(safe-area-inset-left, 0px)); top: 8px; display: flex; gap: 6px; }
+.chip { border: 1px solid var(--line); background: color-mix(in srgb, var(--panel) 85%, transparent); border-radius: 999px; padding: 5px 10px; font-size: 12px; cursor: pointer; }
+.chip[aria-pressed="true"] { border-color: var(--signal); color: var(--signal); }
+.deck { background: var(--panel); border-top: 1px solid var(--line); padding-block: 10px 12px; display: grid; gap: 8px; }
+/* new-feature guides (2026-11-07): dim everything except the spot to press, finger points at it */
+#ov-dialog { z-index: 7; } /* dialogue (also a guide's lines) sits above the card pick and other overlays */
+#ov-lang.langov { position: fixed; inset: 0; align-items: center; z-index: 70; background: rgba(3,6,14,.6); } /* above the intro screen too */
+.langlist { display: grid; gap: 8px; margin: 12px 0; }
+.langlist button { min-height: 48px; border-radius: 10px; border: 1px solid var(--line); background: var(--panel-2); color: var(--ink); font-size: 16px; font-weight: 700; cursor: pointer; }
+.langlist button[aria-pressed="true"] { border-color: var(--signal); color: var(--signal); }
+.guide { position: fixed; inset: 0; z-index: 40; pointer-events: none; }
+.g-hole { position: fixed; border-radius: 12px; box-shadow: 0 0 0 9999px rgba(3,6,14,.62), 0 0 0 3px var(--energy), 0 0 22px 4px color-mix(in srgb, var(--energy) 55%, transparent); transition: all .25s ease; }
+.g-finger { position: fixed; width: 34px; height: 34px; animation: gTap 1s ease-in-out infinite; filter: drop-shadow(0 2px 6px #000); }
+@keyframes gTap { 50% { transform: translate(-4px, -6px); } }
+.g-skip { position: fixed; right: 14px; top: calc(var(--st, 0px) + 10px); pointer-events: auto; }
+.newdot { position: relative; }
+.newdot::after { content: ''; position: absolute; top: 3px; right: 3px; width: 8px; height: 8px; border-radius: 50%; background: var(--bad); box-shadow: 0 0 0 2px var(--panel); }
+@media (prefers-reduced-motion: reduce) { .g-finger { animation: none; } .g-hole { transition: none; } }
+/* in-run (Galaxy Defense style, 2026-11-08): kills fill the energy bar → pick 1 of 3 cards; the 4 deck weapons show below the field */
+.ebar { position: relative; height: 22px; border-radius: 11px; background: var(--panel-2); border: 1px solid var(--line); overflow: hidden; }
+.ebar i { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, #c99a1d, var(--energy)); transition: width .15s linear; }
+.ebar span { position: relative; display: block; text-align: center; font-size: 12px; font-weight: 700; line-height: 20px; color: #fff; text-shadow: 0 1px 2px #000; }
+.ebar.full i { animation: ebFull .5s ease-in-out infinite alternate; } @keyframes ebFull { to { filter: brightness(1.5); } }
+.wslots { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 5px; }
+#wslots .wslot { min-height: 40px; padding: 3px 2px; } #wslots .wslot svg { width: 22px; height: 22px; } #wslots .wslot .wt b { font-size: 10px; } #wslots .wslot:not(.off) .wt b { display: none; } /* 6 core slots: icon + level pips */
+.wslot { --wc: var(--ink-dim); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; min-height: 44px; padding: 4px; border-radius: 9px; border: 1px solid var(--line); background: var(--panel-2); min-width: 0; text-align: center; }
+.wslot svg { flex: none; width: 20px; height: 20px; color: var(--wc); }
+.wslot .wt { min-width: 0; display: grid; justify-items: center; gap: 2px; } .wslot .wt b { font-size: 11px; line-height: 1.15; word-break: keep-all; }
+.pips { display: flex; gap: 2px; } .pips i { width: 5px; height: 5px; border-radius: 50%; background: #2a3350; } .pips i.on { background: var(--wc); } .pips i.evo { border-radius: 1px; transform: rotate(45deg); }
+.wslot.off { opacity: .45; } .wslot.off svg { color: var(--ink-dim); }
+.wslot.up { animation: wsUp .6s ease-out; } @keyframes wsUp { 30% { box-shadow: 0 0 0 3px var(--wc), 0 0 16px var(--wc); } }
+.card { --wc: var(--energy); grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; align-items: center; border-left: 4px solid var(--wc); }
+.card .ic { grid-row: span 3; width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--wc) 16%, transparent); color: var(--wc); }
+.card .ic svg { width: 26px; height: 26px; }
+.card .tag { font-size: 11px; font-weight: 700; color: var(--wc); letter-spacing: .03em; }
+.card.evo { background: linear-gradient(120deg, color-mix(in srgb, var(--wc) 22%, var(--panel)), var(--panel)); box-shadow: 0 0 0 1px var(--wc), 0 0 18px color-mix(in srgb, var(--wc) 40%, transparent); }
+.place { align-items: stretch; justify-content: center; background: color-mix(in srgb, var(--void) 92%, transparent); z-index: 6; }
+.placebox { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 10px; height: 100%; box-sizing: border-box; padding: calc(var(--st, 0px) + 14px) 16px calc(var(--sb, 0px) + 14px); }
+.placebox h3 { margin: 0; text-align: center; font-family: var(--font-display); font-size: 16px; } .placebox .sub { text-align: center; font-size: 12px; color: var(--ink-dim); margin: 4px 0 0; }
+.pstage { position: relative; min-height: 200px; }
+.pstage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pslot { position: absolute; width: 56px; height: 56px; margin: -28px 0 0 -28px; border: 0; padding: 0; cursor: pointer; background: transparent; clip-path: polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); }
+.pslot::before { content: ''; position: absolute; inset: 0; background: color-mix(in srgb, var(--wc) 30%, transparent); animation: psGlow 1s ease-in-out infinite alternate; }
+@keyframes psGlow { to { background: color-mix(in srgb, var(--wc) 60%, transparent); } }
+.pslot span { position: relative; font-size: 11px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px #000; }
+.plbtns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (prefers-reduced-motion: reduce) { .pslot::before { animation: none; } }
+.cardbox .sub { text-align: center; font-size: 12px; color: var(--ink-dim); margin: -4px 0 0; }
+.wdeck { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-bottom: 10px; }
+.wdeck .wslot { flex-direction: column; justify-content: center; text-align: center; min-height: 58px; }
+.wrow { --wc: var(--ink); display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 10px; align-items: center; background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+.wrow.indeck { border-color: var(--wc); }
+.wrow svg { width: 30px; height: 30px; color: var(--wc); } .wrow .t { display: grid; gap: 2px; min-width: 0; } .wrow .t b { font-size: 14px; } .wrow .t span { font-size: 12px; color: #c9d3e6; }
+.wrow .acts { display: grid; gap: 4px; } .wrow .acts button { min-height: 34px; min-width: 84px; }
+.wrow.locked { opacity: .5; }
+.deckrow { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-dim); }
+
+/* overlays */
+.overlay { position: absolute; inset: 0; display: grid; align-items: end; z-index: 5; }
+.dialog { margin: 0 max(12px, env(safe-area-inset-left, 0px)) 12px; background: color-mix(in srgb, var(--panel) 95%, transparent); border: 1px solid var(--line);
+  border-radius: 12px; padding: 12px 14px; display: grid; gap: 6px; cursor: pointer; }
+.dialog .who { font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--signal); letter-spacing: .04em; }
+.dialog p { margin: 0; font-size: 14.5px; line-height: 1.55; }
+.dialog .tap { font-size: 11px; color: var(--ink-dim); text-align: right; }
+.dialog .tw-off { visibility: hidden; }
+.dialog.typing .tap { opacity: 0; }
+.cards { align-items: center; background: color-mix(in srgb, var(--void) 70%, transparent); }
+.cardbox { margin: 0 max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 10px; }
+.cardbox h3 { margin: 0; text-align: center; font-family: var(--font-display); font-size: 16px; letter-spacing: .04em; }
+.card { border: 1px solid var(--line); background: var(--panel); border-radius: 10px; padding: 12px 14px; text-align: left; cursor: pointer; display: grid; gap: 3px; }
+.card b { font-size: 15px; } .card span { color: var(--ink-dim); font-size: 13px; }
+.card:hover { border-color: var(--signal); }
+.toast { position: absolute; left: 50%; top: 64px; transform: translateX(-50%); z-index: 6; background: var(--panel-2); border: 1px solid var(--signal);
+  border-radius: 8px; padding: 7px 12px; font-size: 13px; white-space: nowrap; max-width: calc(100% - 32px); overflow: hidden; text-overflow: ellipsis; }
+.banner { position: absolute; left: 0; right: 0; top: 38%; text-align: center; z-index: 4; pointer-events: none; font-family: var(--font-display); font-weight: 700; font-size: 26px;
+  letter-spacing: .06em; text-shadow: 0 0 18px var(--signal); white-space: nowrap; font-size: clamp(18px, 6.5vw, 26px); }
+
+/* result + base */
+.scroll { flex: 1 1 auto; overflow-y: auto; padding-block: 16px 24px; display: grid; align-content: start; gap: 14px; }
+h1, h2 { margin: 0; font-family: var(--font-display); letter-spacing: .03em; text-wrap: balance; }
+h1 { font-size: 22px; } h2 { font-size: 15px; color: var(--ink-dim); font-weight: 500; }
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.res-cell { color: var(--good); }
+.lock { background: var(--panel-2); border: 1px dashed var(--line); border-radius: 10px; padding: 14px; font-size: 13px; color: var(--ink-dim); line-height: 1.5; }
+.slot .cellbtn { border: 1px solid var(--good); background: color-mix(in srgb, var(--good) 12%, transparent); border-radius: 6px; padding: 4px 8px; font-size: 12px; cursor: pointer; margin-left: 8px; }
+.slot .cellbtn:disabled { opacity: .4; cursor: default; }
+.stat { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px; display: grid; gap: 2px; }
+.stat b { font-family: var(--font-data); font-size: 20px; font-weight: 600; }
+.stat span { font-size: 11.5px; color: var(--ink-dim); }
+.primary { background: var(--signal); color: var(--signal-ink); border: 0; border-radius: 10px; padding: 13px 16px; font-weight: 600; font-size: 15px; cursor: pointer; width: 100%; }
+.primary:disabled { opacity: .5; }
+.ghost { background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 13px; }
+.basehead { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding-block: 12px 0; flex-wrap: wrap; }
+.wallet { display: flex; gap: 12px; font-size: 13px; }
+.titlerow { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; }
+.resetchip { color: var(--ink-dim); white-space: nowrap; }
+.titlerow h1 { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: clamp(16px, 5vw, 26px); }
+#hq-lang, #in-lang { padding-inline: 8px; }
+@media (max-width: 380px) { .titlerow h1 { font-size: 15.5px; } .titlerow .inchips .chip { padding-inline: 7px; } } /* narrow phones: the Korean chips are wider, keep CORE STATION whole */ /* the intro screen always shows the full version */
+.titlerow .inchips { flex: none; gap: 4px; } /* header chips never wrap; the title gives way first */
+.resetchip.armed, .ghost.armed { border-color: #ff6f7d; color: #ff6f7d; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); padding-block: 10px 0; }
+.tabs button { background: transparent; border: 0; padding: 8px 10px; color: var(--ink-dim); cursor: pointer; border-bottom: 2px solid transparent; font-size: 14px; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--signal); }
+.sub { display: flex; gap: 6px; }
+.list { display: grid; gap: 6px; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.row .t { display: grid; gap: 2px; min-width: 0; }
+.row .t b { font-size: 14px; font-weight: 600; }
+.row .t span { font-size: 12px; color: var(--ink-dim); }
+.list .row.slot { display: grid; grid-template-columns: minmax(0, 1fr) auto; row-gap: 8px; }
+.row.slot .tiles { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px; grid-row: 2; }
+.row.slot .buy { grid-row: 1; grid-column: 2; }
+.row.locked { opacity: .55; }
+.chip.tile[aria-pressed="true"] { border-color: var(--tc); color: var(--tc); }
+.framepv { position: relative; inset: auto; flex: none; display: block; width: 100%; height: 190px; border-radius: 10px; border: 1px solid var(--line); background: #05070f; }
+.buy { min-width: 84px; border: 1px solid var(--data); color: var(--ink); background: color-mix(in srgb, var(--data) 14%, transparent); border-radius: 8px; padding: 8px 10px; cursor: pointer; font-size: 13px; }
+.buy:disabled { opacity: .4; cursor: default; }
+.buy.hint { box-shadow: 0 0 0 2px color-mix(in srgb, var(--data) 60%, transparent); }
+.slot { background: var(--panel-2); border: 1px dashed var(--line); border-radius: 10px; padding: 10px 12px; display: flex; justify-content: space-between; gap: 8px; font-size: 13px; }
+.slot.busy { border-style: solid; border-color: var(--signal); }
+.note { font-size: 12px; color: var(--ink-dim); line-height: 1.5; margin: 0; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+th, td { text-align: left; padding: 6px 4px; border-bottom: 1px solid var(--line); }
+th { color: var(--ink-dim); font-weight: 400; }
+.tablewrap { overflow-x: auto; }
+.fadein { position: fixed; inset: 0; background: #000; z-index: 50; pointer-events: none; opacity: 0; transition: opacity 4.5s ease-in; }
+.fadein.on { opacity: 1; transition: none; }
+.tapgate { position: fixed; inset: 0; z-index: 60; display: grid; place-content: center; justify-items: center; gap: 12px; background: #000; text-align: center; cursor: pointer; }
+.tg-hint { margin: 0; font-size: 17px; color: var(--ink); animation: tgblink 1.6s ease-in-out infinite; }
+@keyframes tgblink { 50% { opacity: .35; } }
+.tapgate small { color: var(--ink-dim); font-size: 12px; }
+.intro { display: block; overflow: hidden; }
+.intro canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.in-top { position: absolute; left: 16px; right: 16px; top: calc(8% + var(--st)); display: grid; justify-items: center; gap: 10px; text-align: center; animation: inDrop 1.2s cubic-bezier(.2,.8,.2,1) both; }
+.in-title { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(54px, 18vw, 92px); line-height: .92; letter-spacing: .08em;
+  background: linear-gradient(105deg, #9fdcff 0%, #e6f7ff 38%, #ffffff 48%, #e6f7ff 58%, #9fdcff 100%); background-size: 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 18px rgba(111,211,255,.55)) drop-shadow(0 0 2px rgba(255,255,255,.6)); animation: inSweep 4.5s ease-in-out 1.2s infinite; }
+.in-sub { margin: 0; color: var(--ink-dim); font-size: 14px; letter-spacing: .04em; }
+.in-bottom { position: absolute; left: 16px; right: 16px; bottom: calc(6% + var(--sb)); display: grid; justify-items: center; gap: 14px; text-align: center; animation: inFade .8s ease-out 1.3s both; }
+.in-foot { font-family: var(--font-display); letter-spacing: .14em; font-size: 10.5px !important; opacity: .7; }
+.intro.leave { animation: inOut .55s ease-in forwards; pointer-events: none; }
+@keyframes inDrop { from { opacity: 0; transform: scale(1.35); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes inFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes inSweep { 0%, 55% { background-position: 100% 0; } 100% { background-position: 0% 0; } }
+@keyframes inOut { to { opacity: 0; transform: scale(1.08); } }
+.caption.cap-in { animation: capIn 1.4s ease-out both; }
+@keyframes capIn { from { opacity: 0; letter-spacing: .5em; filter: blur(6px); } to { opacity: 1; } }
+.introchip { padding: 3px 8px; font-size: 11.5px; color: #ffd166; white-space: nowrap; }
+.inchips { display: flex; gap: 8px; }
+@media (prefers-reduced-motion: reduce) { .in-top, .in-bottom, .in-title, .tg-hint, .intro.leave, .caption.cap-in { animation: none; } }
+.ver { font-family: var(--font-data); font-size: 10px; color: var(--ink-dim); opacity: .7; }
+/* offline (idle) reward */
+.idle { display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%; font-size: 12px; color: var(--ink-dim); margin-top: 6px; }
+.idle b { color: var(--data); font-family: var(--font-data); font-weight: 600; }
+.offline { align-items: center; background: color-mix(in srgb, var(--void) 78%, transparent); }
+.offbox { margin: 0 max(16px, env(safe-area-inset-left, 0px)); background: var(--panel); border: 1px solid var(--data); border-radius: 14px; padding: 18px 16px 16px; display: grid; gap: 12px; text-align: center;
+  box-shadow: 0 0 32px color-mix(in srgb, var(--data) 25%, transparent); }
+.offbox .kick { font-size: 12px; color: var(--data); letter-spacing: .08em; font-family: var(--font-display); font-weight: 700; }
+.offbox h3 { margin: 0; font-family: var(--font-display); font-size: 18px; }
+.offbox .amt { font-family: var(--font-data); font-size: 34px; font-weight: 700; color: var(--data); text-shadow: 0 0 18px color-mix(in srgb, var(--data) 55%, transparent); }
+.offbox .note { text-align: center; }
+.offbox .btns { display: grid; gap: 8px; }
+.adbtn { background: transparent; border: 1px solid var(--energy); color: var(--energy); border-radius: 10px; padding: 12px 16px; font-weight: 600; font-size: 15px; cursor: pointer; width: 100%; }
+.adbtn:disabled { opacity: .5; }
+.caption { position: absolute; left: 0; right: 0; top: 14px; text-align: center; z-index: 4; pointer-events: none; display: grid; gap: 4px; }
+.caption b { font-family: var(--font-display); font-size: 13px; letter-spacing: .18em; color: var(--signal); }
+.caption span { font-size: 15px; text-shadow: 0 0 10px var(--void); }
+.caption small { font-size: 11.5px; color: var(--ink-dim); }
+.rec #scr-battle .hud, .rec #scr-battle .deck, .rec #scr-battle .weapons, .rec #scr-battle .topbtns, .rec .caption, .rec .skip, .rec .toast { visibility: hidden !important; }
+.skip { position: absolute; right: max(12px, env(safe-area-inset-right, 0px)); bottom: 14px; z-index: 5; }
+.flash { position: absolute; inset: 0; background: #fff; z-index: 6; pointer-events: none; opacity: 0; transition: opacity .9s ease-out; }
+.flash.on { opacity: 1; transition: none; }
+.story { position: absolute; inset: 0; z-index: 7; display: grid; place-items: center; background: var(--void); padding: 24px; text-align: center; font-size: 16px; line-height: 1.7; }
+.story p { margin: 0; max-width: 28ch; }
+.titlecard { position: absolute; inset: 0; z-index: 8; display: grid; place-content: center; justify-items: center; gap: 14px; text-align: center; padding: 24px;
+  background: radial-gradient(circle at 50% 42%, #10233d 0%, var(--void) 62%); }
+.tc-eyebrow { font-family: var(--font-display); font-size: 12px; letter-spacing: .3em; color: var(--signal); }
+.tc-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(44px, 15vw, 72px); line-height: .95; letter-spacing: .06em; margin: 0; text-shadow: 0 0 24px color-mix(in srgb, var(--signal) 60%, transparent); }
+.tc-sub { margin: 0; color: var(--ink-dim); font-size: 14px; }
+.tc-start { width: min(260px, 70vw); margin-top: 18px; animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 16px color-mix(in srgb, var(--signal) 70%, transparent); } }
+@media (prefers-reduced-motion: reduce) { .tc-start { animation: none; } }
+#scr-battle.prologue .deck, #scr-battle.prologue .hud .wave, #scr-battle.prologue .hud .l, #scr-battle.prologue .hud .r, #scr-battle.prologue .weapons, #scr-battle.prologue .topbtns { visibility: hidden; }
+.footer { padding-block: 10px 12px; border-top: 1px solid var(--line); background: var(--panel); }
+@media (prefers-reduced-motion: reduce) { .hullbar i { transition: none; } }
+</style>
+
+<div class="overlay langov" id="ov-lang" hidden><div class="offbox" role="dialog" aria-labelledby="lang-title"><h3 id="lang-title" data-noi18n>언어 · Language</h3><div class="langlist" id="lang-list"></div><button type="button" class="chip" id="lang-close">닫기</button></div></div>
+<div class="fadein" id="fadein"></div><div class="tapgate intro" id="tapgate" data-ncq-no-main role="button" tabindex="0" aria-label="화면을 터치해 시작" hidden>
+  <canvas id="intro-cv" aria-hidden="true"></canvas>
+  <div class="in-top"><div class="tc-eyebrow">ARC-7 · 행성 방어선</div><h1 class="in-title">CORE<br>STATION</h1><p class="in-sub">정거장을 키워 스웜을 끝없이 막아라</p></div>
+  <div class="in-bottom"><p class="tg-hint">화면을 터치하세요</p><span class="inchips"><button type="button" class="chip" id="in-sound" aria-pressed="true">소리 켬</button><button type="button" class="chip" id="in-lang" aria-label="언어 · Language">🌐</button></span><small class="in-foot"><span id="in-ver">PROTOTYPE</span> · © NCROQUIS</small></div>
+</div>
+<div class="app" id="app">
+  <!-- BATTLE -->
+  <section class="screen" id="scr-battle" hidden data-ncq-no-main>
+    <div class="hud pad">
+      <div class="l">
+        <div class="hullbar" aria-label="체력"><i id="hull-bar"></i></div>
+        <div class="num" id="hull-txt">체력 100/100</div>
+      </div>
+      <div class="wave"><span id="wave-txt">1</span><small id="time-txt">웨이브 · 15:00</small></div>
+      <div class="r">
+        <div class="num res-energy" id="energy-txt">에너지 0</div>
+        <div class="num res-data" id="data-txt">데이터 0</div>
+      </div>
+    </div>
+    <div class="field">
+      <canvas id="cv" aria-label="전투 화면"></canvas>
+      <div class="topbtns">
+        <button type="button" class="chip" id="btn-speed" aria-pressed="false">2x</button>
+        <button type="button" class="chip" id="btn-autow" aria-pressed="false">무기 자동</button>
+        <button type="button" class="chip" id="btn-sound" aria-pressed="true">소리 켬</button>
+        <button type="button" class="chip introchip" id="btn-intro">◇ 인트로</button>
+      </div>
+      <div class="weapons">
+        <button type="button" class="wbtn" id="w-emp" disabled><svg viewBox="0 0 62 62"><circle cx="31" cy="31" r="29" fill="none" stroke="var(--line)" stroke-width="3"/><circle id="w-emp-ring" cx="31" cy="31" r="29" fill="none" stroke="var(--signal)" stroke-width="3" stroke-dasharray="182.2" stroke-dashoffset="0"/></svg>EMP<br>링</button>
+        <button type="button" class="wbtn" id="w-rail" disabled><svg viewBox="0 0 62 62"><circle cx="31" cy="31" r="29" fill="none" stroke="var(--line)" stroke-width="3"/><circle id="w-rail-ring" cx="31" cy="31" r="29" fill="none" stroke="var(--signal)" stroke-width="3" stroke-dasharray="182.2" stroke-dashoffset="0"/></svg>레일건</button>
+      </div>
+      <div class="banner" id="banner" hidden></div>
+      <div class="caption" id="caption" hidden><b>ARC-7 · 최종 방어선</b><span id="caption-txt">스웜 본대 접근</span><small id="sound-hint">화면을 탭하면 소리가 켜집니다</small></div>
+      <button type="button" class="chip skip" id="btn-skip" hidden>건너뛰기</button>
+      <div class="flash" id="flash"></div>
+      <div class="story" id="story" hidden><p id="story-txt"></p></div>
+      <div class="titlecard" id="titlecard" hidden><div class="tc-eyebrow">행성 방어선 · 마지막 정거장</div><h1 class="tc-title">CORE<br>STATION</h1><p class="tc-sub">새 정거장으로 다시 시작해요</p><button type="button" class="primary tc-start" id="btn-start" data-ncq-main="출격 시작">출격 시작</button></div>
+    </div>
+    <div class="deck pad">
+      <div class="ebar" id="ebar"><i id="ebar-fill"></i><span id="ebar-txt">다음 카드</span></div>
+      <div class="wslots" id="wslots"></div>
+      <div class="deckrow"><span id="cards-txt">카드 0장</span><button type="button" class="chip" id="btn-autou" aria-pressed="false">자동 선택</button></div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen" id="scr-result" hidden>
+    <div class="scroll pad">
+      <div class="titlerow"><h2 id="res-sub">정거장 파괴</h2><button type="button" class="chip introchip" id="res-intro">◇ 인트로</button></div>
+      <h1 id="res-title">웨이브 12 도달</h1>
+      <div class="stats">
+        <div class="stat"><b class="num res-data" id="res-data">0</b><span>획득 데이터</span></div>
+        <div class="stat"><b class="num res-cell" id="res-cells">0</b><span>가속 칩</span></div>
+        <div class="stat"><b class="num" id="res-kills">0</b><span>처치</span></div>
+        <div class="stat"><b class="num" id="res-best">0</b><span>최고 웨이브</span></div>
+      </div>
+      <p class="note" id="res-note"></p>
+    </div>
+    <div class="footer pad"><button type="button" class="primary" id="btn-tobase" data-ncq-main="본부로">본부로</button></div>
+  </section>
+
+  <!-- BASE -->
+  <section class="screen" id="scr-base" hidden>
+    <div class="basehead pad">
+      <div class="titlerow"><h1>CORE STATION <small class="ver" id="app-ver">dev</small></h1><span class="inchips"><button type="button" class="chip" id="hq-lang" aria-label="언어 · Language">🌐</button><button type="button" class="chip introchip" id="hq-intro">◇ 인트로</button><button type="button" class="chip resetchip" id="btn-reset-top" aria-label="진행 상황 초기화">초기화</button></span></div>
+      <div class="wallet"><span class="num res-data" id="base-data">데이터 0</span><span class="num res-cell" id="base-cells">가속 칩 0</span><span class="num" id="base-best">최고 0</span></div>
+      <div class="idle" id="base-idle" hidden></div>
+    </div>
+    <div class="tabs pad" role="tablist">
+      <button type="button" role="tab" id="tab-yard" aria-selected="true">업그레이드</button>
+      <button type="button" role="tab" id="tab-lab" aria-selected="false">연구소</button>
+      <button type="button" role="tab" id="tab-log" aria-selected="false">기록</button>
+    </div>
+    <div class="scroll pad" id="base-body"></div>
+    <div class="footer pad"><button type="button" class="primary" id="btn-launch" data-ncq-main="출격">출격 · 루나 기지</button></div>
+  </section>
+
+  <div class="overlay" id="ov-dialog" hidden data-ncq-no-main><div class="dialog" id="dialog" role="button" tabindex="0"><div class="who" id="dlg-who"></div><p id="dlg-text" data-noi18n></p><div class="tap">탭해서 계속</div></div></div>
+  <div class="overlay cards" id="ov-cards" hidden data-ncq-no-main><div class="cardbox"><h3 id="card-title">강화 카드 선택</h3><p class="sub" id="card-sub">하나를 고르세요</p><div class="list" id="card-list"></div></div></div>
+  <div class="overlay place" id="ov-place" hidden><div class="placebox"><div><h3 id="pl-title">어디에 붙일까요?</h3><p class="sub" id="pl-sub">빛나는 칸을 누르세요 · 같은 코어 옆이면 더 세져요</p></div>
+    <div class="pstage" id="pl-stage"><canvas id="pl-cv" aria-label="코어 배치"></canvas></div>
+    <div class="plbtns"><button type="button" class="chip" id="pl-back">← 다시 고르기</button><button type="button" class="primary" id="pl-auto" data-ncq-main="자동 배치">자동 배치</button></div></div></div>
+  <div class="overlay offline" id="ov-offline" hidden><div class="offbox" role="dialog" aria-labelledby="off-title">
+    <div class="kick">방치 보상</div><h3 id="off-title">자리를 비운 동안 모은 데이터</h3>
+    <div class="amt" id="off-amt">+0</div><div class="note" id="off-note"></div>
+    <div class="btns"><button type="button" class="adbtn" id="btn-off-ad" hidden>광고 보고 2배 받기</button><button type="button" class="primary" id="btn-off-claim" data-ncq-main="방치 보상 받기">받기</button></div>
+  </div></div>
+  <div class="guide" id="guide" hidden><div class="g-hole" id="g-hole"></div><svg class="g-finger" id="g-finger" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10m0-.5V8a1.5 1.5 0 0 1 3 0v2m0-.5a1.5 1.5 0 0 1 3 0V14a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.6 14a1.5 1.5 0 0 1 2.4-1.8L9 15" fill="#fff4d6" stroke="#1a1405" stroke-width="1.4" stroke-linejoin="round"/></svg><button type="button" class="chip g-skip" id="g-skip">건너뛰기</button></div>
+    <div class="toast" id="toast" hidden></div>
+</div>
+
+<script>
+// Android safe-area fallback: Android 15+ draws the app edge-to-edge, so the status bar and the navigation buttons sit on top
+// of the page. A current WebView reports them through env(safe-area-inset-*); an older one reports 0 — then, when the page
+// reaches under the bars (screen ≈ window), reserve a typical status bar (28px) and 3-button navigation bar (48px).
+(function () {
+  const C = window.Capacitor, android = (window.NCQ && window.NCQ.NCQ_PLATFORM === 'android') || !!(C && C.getPlatform && C.getPlatform() === 'android');
+  if (!android) return;
+  const fit = () => {
+    const d = document.createElement('div');
+    d.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)';
+    document.documentElement.appendChild(d);
+    const cs = getComputedStyle(d), t = parseFloat(cs.paddingTop) || 0, b = parseFloat(cs.paddingBottom) || 0; d.remove();
+    const under = screen.height - window.innerHeight < 24, st = document.documentElement.style;
+    st.setProperty('--bar-min', !t && under ? '28px' : '0px'); st.setProperty('--nav-min', !b && under ? '48px' : '0px');
+  };
+  fit(); addEventListener('resize', fit);
+})();
+
+/*ENGINE*/
+</script>
+<script>
+/*ART*/
+</script>
+<script>
+(function () {
+  const E = window.SZE, A = window.SZA;
+  const $ = id => document.getElementById(id);
+  const KEY = 'sz-proto-v2';
+  // NCQ_TEST_TOOLS: 테스트 도구 (스크랩·타일 지급, 섹터 이동, 광고 녹화 모드)
+  const NCQ_TEST_TOOLS = !!window.NCQ_TEST_TOOLS || location.hash === '#ncq-test'; // on in share-test builds when chosen; #ncq-test for local checks
+  const now = () => Date.now();
+
+  // ---------- save ----------
+  let save;
+  function load() {
+    try { const raw = localStorage.getItem(KEY); if (raw) { const s = JSON.parse(raw); if (s && s.v === 2) return s; } } catch (e) {}
+    return E.newSave();
+  }
+  function persist() { const t = now(); save.lastSeen = t; save.maxSeen = Math.max(save.maxSeen || 0, t); try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) {} }
+  save = load();
+  // art mockup choice (switchable in #ncq-test); survives save resets
+  if (!save.station) save.station = { slots: [null, null, null, null, null, null] };
+  if (!save.coreRes) { // 2026-11-08: tile slot levels became core research (per kind), so data already spent is kept
+    save.coreRes = {}; for (const sl of save.station.slots) if (sl && sl.type) save.coreRes[sl.type] = Math.max(save.coreRes[sl.type] || 0, Math.min(10, (sl.lv || 1) - 1));
+  }
+  if (!save.coreUnlocked) { // 2026-11-09: cores are unlocked by research; an existing save keeps everything it could already use
+    save.coreUnlocked = {}; const b0 = save.best || 0;
+    if ((save.runs || 0) > 0 || b0 > 0) {
+      for (const id of ['shield', 'collector', 'beam', 'hive']) save.coreUnlocked[id] = true;
+      for (const [id, w] of [['amplifier', 15], ['wheel', 15], ['repair', 22], ['missile', 25], ['link', 30]]) if (b0 >= w) save.coreUnlocked[id] = true;
+    }
+    save.coreRes = save.coreRes || {}; for (const id in (save.mastery || {})) save.coreRes[id] = Math.max(save.coreRes[id] || 0, save.mastery[id] || 0); // weapon mastery became core research
+    save.coreDeck = [];
+  }
+
+  function art() { const st = save.settings || (save.settings = {}); return st.art || (st.art = { st: 'hex', en: 'bio' }); }
+  function funnel(step) {
+    if (save.funnel[step]) return;
+    const base = save.funnel.p0_prologue || save.funnel.t0_start;
+    const t0 = base ? base.at : now();
+    save.funnel[step] = { at: now(), sec: Math.round((now() - t0) / 1000) };
+    persist();
+  }
+
+  // ---------- offline (idle) reward ----------
+  // Time away is turned into data on return (engine: SZE.offlineReward). Pending rewards stack up to the 8h cap.
+  function accrue(ms) {
+    const r = E.offlineReward(save, ms); if (!r) return false;
+    const p = save.offline, cap = E.offlineCapH(save) * 60;
+    if (!p) save.offline = r;
+    else {
+      const min = Math.min(cap, p.min + r.min);
+      save.offline = { min, rawMin: p.rawMin + r.rawMin, capped: p.capped || r.capped || p.min + r.min > cap, data: p.data + Math.floor(E.offlineRate(save) * (min - p.min)) };
+    }
+    return true;
+  }
+  // Clock guard: time is only counted past the latest moment this save has ever seen (maxSeen).
+  // Moving the device clock forward pays at most one capped reward; moving it back afterwards earns nothing
+  // until real time passes that future moment again, so the trick never comes out ahead.
+  function accrueOffline() {
+    const t = now(), from = Math.max(save.lastSeen || 0, save.maxSeen || 0);
+    if (from && t > from) accrue(t - from);
+    else if (from && t < from - 60e3 && !save.clockBack) { save.clockBack = { at: t, ahead: Math.round((from - t) / 60e3) }; } // noted for the play-data export
+    persist();
+  }
+  accrueOffline();
+  // ---------- ads (company ad tool NcqAds, injected by release builds) ----------
+  // Without NcqAds: in development (no window.NCQ / Capacitor) ads are simulated as watched; in a release build without it, ads are off.
+  const devAds = !window.NCQ && !window.Capacitor;
+  const NcqAds = window.NcqAds || { can: () => devAds, rewarded: async () => { if (!devAds) return false; await new Promise(r => setTimeout(r, 1200)); return true; }, interstitial: async () => false };
+  const fmtMin = m => m >= 60 ? `${Math.floor(m / 60)}시간${m % 60 ? ' ' + (m % 60) + '분' : ''}` : `${m}분`;
+  function maybeShowOffline() {
+    const o = save.offline;
+    if (!o || !o.data || $('scr-base').hidden || !$('ov-dialog').hidden || battle) return;
+    $('off-amt').textContent = '+' + fmt(o.data) + ' 데이터';
+    $('off-title').textContent = `${fmtMin(o.rawMin)} 동안 자리를 비웠어요`;
+    $('off-note').textContent = o.capped
+      ? `방치 보상이 가득 찼어요. 지금은 최대 ${E.offlineCapH(save)}시간까지만 모여요 — 연구소 '방치 시간 늘리기'로 늘릴 수 있어요.`
+      : `쉬는 동안 정거장이 데이터를 모았어요. 최대 ${E.offlineCapH(save)}시간까지 쌓여요.`;
+    // NCQ_ADS_OFFLINE_X2: 방치 보상 2배 광고
+    $('btn-off-ad').hidden = !NcqAds.can('OFFLINE_X2'); $('btn-off-ad').disabled = false; $('btn-off-ad').textContent = '광고 보고 2배 받기';
+    $('ov-offline').hidden = false;
+    setTimeout(() => guideCheck('offline'), 400);
+  }
+  function claimOffline(mult) {
+    const o = save.offline; if (!o) return;
+    const got = o.data * mult;
+    save.data += got; save.offline = null;
+    save.idleTotal = (save.idleTotal || 0) + got;
+    if (!save.funnel.offline_claim) funnel('offline_claim');
+    if (mult > 1 && !save.funnel.offline_ad) funnel('offline_ad');
+    persist();
+    $('ov-offline').hidden = true; toast(`데이터 +${fmt(got)} 수령${mult > 1 ? ' (2배)' : ''}`);
+    if (!$('scr-base').hidden) renderBase();
+  }
+  $('btn-off-claim').addEventListener('click', () => claimOffline(1));
+  $('btn-off-ad').addEventListener('click', async () => {
+    const b = $('btn-off-ad'); b.disabled = true; b.textContent = window.NcqAds ? '광고 불러오는 중…' : '광고 재생 중… (테스트)';
+    adPlaying = true; syncMusic(); // game sound stops while an ad is on screen
+    let ok = false; try { ok = await NcqAds.rewarded('OFFLINE_X2'); } catch (e) {} finally { adPlaying = false; syncMusic(); }
+    if (ok) claimOffline(2);
+    else { b.disabled = false; b.textContent = '광고 보고 2배 받기'; b.hidden = !NcqAds.can('OFFLINE_X2'); toast('광고를 끝까지 보면 2배로 받을 수 있어요'); }
+  });
+  setInterval(() => { if (!document.hidden) persist(); }, 20000); // heartbeat keeps lastSeen fresh
+  document.addEventListener('visibilitychange', () => { if (document.hidden) persist(); else { accrueOffline(); maybeShowOffline(); } });
+
+  // 앱 버전 표시: 빌드가 넣은 버전 (웹 공개·구글플레이·토스), 개발 중에는 dev
+  { const v = window.NCQ && window.NCQ.NCQ_VERSION; $('app-ver').textContent = v ? 'v' + v : 'dev'; }
+  // Toss back button (window.ncqBack): true = handled here, false = first screen (the build asks to quit; progress is saved)
+  window.ncqBack = () => {
+    if (!$('tapgate').hidden) { if (introBack) { $('tapgate').click(); return true; } return false; } // title over a screen: back returns to it; the launch title is the first screen
+    if (!$('ov-lang').hidden) { $('ov-lang').hidden = true; return true; } // language menu: back closes it
+    if (!$('ov-place').hidden) { $('pl-back').click(); return true; } // core placement: back returns to the 3 cards
+    if (!$('ov-offline').hidden || !$('ov-dialog').hidden || !$('ov-cards').hidden) return true; // reward / dialogue / card pick: finish it first
+    if (prologue && !$('btn-skip').hidden) { $('btn-skip').click(); return true; }
+    if (!$('scr-result').hidden) { $('btn-tobase').click(); return true; }
+    if (!$('scr-base').hidden && tab !== 'yard') { tab = 'yard'; renderBase(); return true; }
+    return false;
+  };
+
+  // ---------- screens ----------
+  // ---------- screen transitions: old screen fades out to black, then the black lifts off the new one ----------
+  // The new screen is switched in at once (layout, canvases and game logic never wait). A frozen copy of the old screen,
+  // kept in a closed shadow root so page queries never see it, does the fading on top.
+  const XF_OUT = 0.2, XF_IN = 0.32; let xfN = 0;
+  function fadeFrom(old) {
+    const rect = old.getBoundingClientRect(); if (rect.width < 2 || rect.height < 2) return;
+    const host = document.createElement('div'); host.className = 'xfade'; host.dataset.n = ++xfN;
+    host.style.cssText = 'position:fixed;inset:0;z-index:45;pointer-events:none;background:#000;opacity:1';
+    const root = host.attachShadow({ mode: 'closed' });
+    for (const st of document.querySelectorAll('style')) root.appendChild(st.cloneNode(true));
+    const cl = old.cloneNode(true); cl.hidden = false;
+    cl.style.cssText = `position:fixed;left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;height:${rect.height}px;margin:0;transition:opacity ${XF_OUT}s ease-in;opacity:1;background:var(--void,#05070d)`;
+    const oc = old.querySelectorAll('canvas'), cc = cl.querySelectorAll('canvas'); // canvases clone blank: copy their pixels
+    oc.forEach((c, i) => { const d = cc[i]; if (!d || !c.width || !c.height) return; d.width = c.width; d.height = c.height; try { d.getContext('2d').drawImage(c, 0, 0); } catch (e) {} });
+    root.appendChild(cl); document.body.appendChild(host);
+    const os = old.querySelectorAll('.scroll'), cs = cl.querySelectorAll('.scroll'); os.forEach((e, i) => { if (cs[i]) cs[i].scrollTop = e.scrollTop; });
+    requestAnimationFrame(() => requestAnimationFrame(() => { cl.style.opacity = '0'; }));
+    setTimeout(() => { host.style.transition = `opacity ${XF_IN}s ease-out`; host.style.opacity = '0'; }, XF_OUT * 1000 + 40);
+    setTimeout(() => host.remove(), (XF_OUT + XF_IN) * 1000 + 120);
+  }
+  const SCREENS = ['scr-battle', 'scr-result', 'scr-base'];
+  function show(id) {
+    const old = SCREENS.map(x => $(x)).find(el => !el.hidden);
+    if (old && old.id !== id && !prologue && document.visibilityState !== 'hidden') fadeFrom(old);
+    for (const s of SCREENS) $(s).hidden = s !== id;
+    if (id === 'scr-base') guideBaseShown = false; // a new visit to HQ may show one guide
+    if (id !== 'scr-battle' && guideOn && ['battle', 'boss', 'cards'].includes(guideOn.where)) { if ($('ov-dialog').hidden) guideEnd(); } // a battle guide never follows us out of the battle (still reading its lines: it ends itself when its button is gone)
+    if (!prologue && !recording) { if (id === 'scr-battle') preloadJingles(); playMusic(id === 'scr-battle' ? 'battle' : 'map', id === 'scr-battle' ? 2.5 : 1.2); } // base & result: map theme
+  }
+  let toastT = null;
+  function toast(t, ms = 2400) { $('toast').textContent = t; $('toast').hidden = false; clearTimeout(toastT); toastT = setTimeout(() => $('toast').hidden = true, ms); }
+  function banner(t, ms = 1600) { $('banner').textContent = t; $('banner').hidden = false; setTimeout(() => $('banner').hidden = true, ms); }
+  const fmt = n => n >= 1e9 ? (n / 1e9).toFixed(2) + 'B' : n >= 1e6 ? (n / 1e6).toFixed(2) + 'M' : n >= 1e4 ? (n / 1e3).toFixed(1) + 'K' : Math.floor(n).toLocaleString('ko-KR');
+
+  // ---------- dialog queue (pauses battle) ----------
+  const dq = []; let dlgDone = null;
+  function say(lines, done) {
+    for (const l of lines) dq.push(l);
+    dlgDone = done || null;
+    if ($('ov-dialog').hidden) nextLine();
+  }
+  // typewriter (same as v3): letters appear one by one with a little robot chirp every two letters; the whole line is laid out
+  // from the start (unshown letters invisible) so the box never jumps. A tap while typing shows the rest; the next tap moves on.
+  const typer = { full: '', i: 0, timer: 0, n: 0 };
+  const TYPE_MS = 34;
+  function typeLine(text) {
+    text = I18N.t(text); // dialogue is translated whole before typing (the box is excluded from the page translator)
+    clearTimeout(typer.timer); typer.full = text; typer.i = 0; typer.n = 0;
+    const el = $('dlg-text'); el.innerHTML = '<span class="tw-on"></span><span class="tw-off"></span>'; el.lastChild.textContent = text; $('dialog').classList.add('typing');
+    const chars = [...text];
+    const step = () => {
+      if (typer.i >= chars.length) { $('dialog').classList.remove('typing'); return; }
+      const ch = chars[typer.i++]; el.firstChild.textContent = chars.slice(0, typer.i).join(''); el.lastChild.textContent = chars.slice(typer.i).join('');
+      if (ch.trim() && !/[.,!?…·~]/.test(ch) && typer.n++ % 2 === 0) sfx('blip');
+      typer.timer = setTimeout(step, TYPE_MS + (/[.!?…]/.test(ch) ? 170 : ch === ',' ? 80 : 0));
+    };
+    step();
+  }
+  function typing() { return typer.i < [...typer.full].length; }
+  function finishTyping() { clearTimeout(typer.timer); typer.i = [...typer.full].length; const el = $('dlg-text'); el.firstChild.textContent = typer.full; el.lastChild.textContent = ''; $('dialog').classList.remove('typing'); }
+  function nextLine() {
+    if (!$('ov-dialog').hidden && typing()) { finishTyping(); return; }
+    const l = dq.shift();
+    if (!l) { $('ov-dialog').hidden = true; if (battle && !cardsOpen) battle.paused = false; const d = dlgDone; dlgDone = null; if (d) d(); return; }
+    if (battle) battle.paused = true;
+    $('dlg-who').textContent = l[0]; typeLine(l[1]); $('ov-dialog').hidden = false;
+  }
+  $('dialog').addEventListener('click', nextLine);
+  $('dialog').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); nextLine(); } });
+
+  // ---------- new-feature guides (2026-11-07): when something opens, Volt says up to two lines, then the spot to press lights up ----------
+  // where: base (shown once per return to HQ, one at a time) · offline · cards · boss · battle (start of a sortie). One guide at a time;
+  // seen once each (save.seen.g_<id>, cleared by reset); '건너뛰기' ends it; 기록 › 안내 다시 보기 replays it.
+  const VOLT = '엔지니어 볼트';
+  const openSlots = () => E.SLOT_WAVES.filter(w => (save.best || 0) >= w).length;
+  const nearCap = () => Object.values(save.shipyard).some(v => v >= E.capOf(save) - 2);
+  const firstRes = () => [...document.querySelectorAll('#base-body .buy[id^="res-"]')].find(b => !b.disabled) || document.querySelector('#base-body .buy[id^="res-"]');
+  const GUIDES = [
+    { id: 'offline', name: '방치 보상', where: 'offline', lines: ['쉬는 동안에도 정거장이 데이터를 모아요. 앱을 켜면 여기서 받아요.'], steps: [{ t: '#btn-off-claim' }] },
+    { id: 'lab', name: '연구소', where: 'base', when: () => (save.runs || 0) >= 1, lines: ['연구소가 열렸어요! 연구는 데이터와 시간을 써서 정거장을 오래 강하게 만들어요.', '하나 걸어 두고 출격하면 그동안 끝나요.'],
+      steps: [{ t: '#tab-lab' }, { t: firstRes }] },
+    { id: 'cell', name: '가속 칩', where: 'base', when: () => (save.cells || 0) > 0 && save.research.slots.some(Boolean), lines: ['가속 칩이 있어요! 하나 쓰면 진행 중인 연구가 20분 빨리 끝나요.'],
+      steps: [{ t: '#tab-lab', skip: () => tab === 'lab' }, { t: '.cellbtn' }] },
+    { id: 'slot', name: '타일 칸', where: 'base', when: () => openSlots() > 0, lines: ['시작 코어 칸이 열렸어요!', '여기서 고른 코어는 출격할 때 정거장에 미리 붙어 있어요.'],
+      steps: [{ t: '#tab-yard', skip: () => tab === 'yard' }, { t: '#ychip-frame' }, { t: '#slot-0 .chip.tile' }] },
+    { id: 'enh', name: '추가 강화', where: 'base', when: () => nearCap(), lines: ['기본 업그레이드가 최대 레벨에 가까워졌어요. 추가 강화로 더 세질 수 있어요.'],
+      steps: [{ t: '#tab-yard', skip: () => tab === 'yard' }, { t: '#ychip-enh' }] },
+    { id: 'cards', name: '강화 카드', where: 'cards', lines: ['에너지 바가 가득 차면 카드 셋 중 하나를 골라요. 새 코어를 붙이거나 키우고, 능력치나 전술을 더해요.'], steps: [{ t: '#card-list', auto: 2200 }] },
+    { id: 'deck', name: '코어 덱', where: 'base', when: () => E.CORE_ORDER.filter(id => E.coreOpen(save, id)).length > E.DECK_SIZE, lines: ['연구한 코어가 6종을 넘었어요! 출격할 코어 6종을 골라 덱에 넣어요.', '판 안에서는 덱의 코어만 카드로 나와요.'],
+      steps: [{ t: '#tab-yard', skip: () => tab === 'yard' }, { t: '#ychip-frame' }, { t: '#cdeck' }] },
+    { id: 'cres', name: '코어 연구', where: 'base', when: () => save.tutorial >= 2 && E.CORE_ORDER.some(id => !E.coreOpen(save, id) && save.data >= E.CORE_UNLOCK[id]), lines: ['데이터로 새 코어를 연구할 수 있어요!', '연구한 코어는 다음 판부터 카드로 나와요.'],
+      steps: [{ t: '#tab-yard', skip: () => tab === 'yard' }, { t: '#ychip-frame' }, { t: '.cunl:not([disabled])' }] },
+    { id: 'emp', name: 'EMP', seenKey: 'empTip', where: 'battle', when: () => battle && battle.weapons.emp.unlocked, lines: ['EMP가 열렸어요! 누르면 주변 적이 잠깐 멈춰요. 적이 몰려올 때 쓰세요.'], steps: [{ t: '#w-emp', auto: 2400 }] },
+    { id: 'orbital', name: '호위 위성', where: 'battle', when: () => E.ORBITAL_WAVES.some(w => (save.best || 0) >= w), lines: ['정거장 링이 완성돼서 호위 위성이 함께 나왔어요. 적 탄을 막고 가까운 적을 들이받아요.'], steps: [] },
+    { id: 'boss', name: '보스와 레일건', where: 'boss', when: () => battle && battle.weapons.rail.unlocked, lines: ['큰 놈이 와요! 레일건을 아껴 뒀다가 보스에게 쏘세요.'], steps: [{ t: '#w-rail', auto: 2400 }] }
+  ];
+  const gKey = g => g.seenKey || 'g_' + g.id;
+  let guideOn = null, guideRaf = 0, guideEl = null, guideBaseShown = false;
+  function guideSeen(g) { return !!(save.seen && save.seen[gKey(g)]); }
+  function guideCheck(where) {
+    if (guideOn || tutorial || prologue || (save.tutorial || 0) < 2 || !$('ov-dialog').hidden) return false;
+    if (where === 'base') { if (guideBaseShown || $('scr-base').hidden || !$('ov-offline').hidden) return false; }
+    const g = GUIDES.find(x => x.where === where && !guideSeen(x) && (!x.when || x.when()));
+    if (!g) return false;
+    if (where === 'base') guideBaseShown = true;
+    guideRun(g); return true;
+  }
+  function guideRun(g, replay) {
+    if (!replay) { (save.seen || (save.seen = {}))[gKey(g)] = 1; persist(); }
+    guideOn = g;
+    say(g.lines.map(t => [VOLT, t]), () => guideStep(g, 0));
+  }
+  function guideStep(g, i) {
+    const st = g.steps[i];
+    if (!st || guideOn !== g) { guideEnd(); return; }
+    if (st.skip && st.skip()) { guideStep(g, i + 1); return; }
+    const el = typeof st.t === 'function' ? st.t() : document.querySelector(st.t);
+    if (!el || !el.getClientRects().length) { guideEnd(); return; }
+    const sc = el.closest('.scroll'); // scroll only the list that holds the target (scrollIntoView would also move the whole app)
+    if (sc) { const r = el.getBoundingClientRect(), q = sc.getBoundingClientRect(); if (r.top < q.top || r.bottom > q.bottom) sc.scrollTop += r.top - q.top - q.height / 3; }
+    guideEl = el; $('guide').hidden = false; guidePlace();
+    const go = () => { if (guideOn !== g) return; guideEl = null; setTimeout(() => guideStep(g, i + 1), 260); };
+    if (st.auto) setTimeout(go, st.auto); else el.addEventListener('click', go, { once: true, capture: true });
+  }
+  function guidePlace() { // follow the target while the guide is up (layout can move under it)
+    cancelAnimationFrame(guideRaf);
+    if (!guideOn || !guideEl) return;
+    if (!guideEl.isConnected) { guideEnd(); return; } // the screen changed under the guide: drop it
+    const r = guideEl.getBoundingClientRect(), pad = 6, h = $('g-hole').style, f = $('g-finger').style;
+    h.left = (r.left - pad) + 'px'; h.top = (r.top - pad) + 'px'; h.width = (r.width + pad * 2) + 'px'; h.height = (r.height + pad * 2) + 'px';
+    const below = r.bottom + 44 < innerHeight;
+    f.left = (r.left + Math.min(r.width * 0.6, r.width - 10)) + 'px'; f.top = (below ? r.bottom + 2 : r.top - 38) + 'px'; f.transform = below ? '' : 'scaleY(-1)';
+    guideRaf = requestAnimationFrame(guidePlace);
+  }
+  function guideEnd() { const was = guideOn; guideOn = null; guideEl = null; cancelAnimationFrame(guideRaf); $('guide').hidden = true;
+    if (was && ['battle', 'boss', 'cards'].includes(was.where) && !$('scr-base').hidden) setTimeout(() => guideCheck('base'), 450); } // a battle guide that outlived the sortie: HQ still gets its guide
+  $('g-skip').addEventListener('click', () => { if (!$('ov-dialog').hidden) { dq.length = 0; dlgDone = null; nextLine(); } guideEnd(); });
+
+  // ---------- sound effects: procedural Web Audio (no files) ----------
+  // every effect is layered: a tonal body (oscillators with pitch sweeps) + a noise layer (filtered) + optional reverb send,
+  // all through one compressor so dense fights stay punchy instead of clipping. Small random pitch keeps repeats from sounding robotic.
+  let actx = null; const lastSfx = {}, sfxLog = {}; let sfxBus = null, verb = null, noiseBuf = null, live = [];
+  const SFX_VOL = 0.8;
+  function audioInit() {
+    if (sfxBus || !actx) return;
+    const comp = actx.createDynamicsCompressor(); comp.threshold.value = -16; comp.knee.value = 10; comp.ratio.value = 5; comp.attack.value = 0.002; comp.release.value = 0.18;
+    sfxBus = actx.createGain(); sfxBus.gain.value = SFX_VOL; sfxBus.connect(comp); comp.connect(actx.destination);
+    const sr = actx.sampleRate; noiseBuf = actx.createBuffer(1, sr, sr);
+    const nd = noiseBuf.getChannelData(0); for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+    const len = Math.floor(sr * 1.8), ir = actx.createBuffer(2, len, sr); // space reverb: decaying stereo noise
+    for (let c = 0; c < 2; c++) { const d = ir.getChannelData(c); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3.5); }
+    verb = actx.createConvolver(); verb.buffer = ir; const vg = actx.createGain(); vg.gain.value = 0.32; verb.connect(vg); vg.connect(sfxBus);
+  }
+  const rnd = (k = 0.07) => 1 + (Math.random() * 2 - 1) * k;
+  function bus(wet) { const g = actx.createGain(); g.connect(sfxBus); if (wet && verb) { const w = actx.createGain(); w.gain.value = wet; g.connect(w); w.connect(verb); } return g; }
+  function filt(type, f, q, dest) { const bf = actx.createBiquadFilter(); bf.type = type; bf.frequency.value = f; bf.Q.value = q; bf.connect(dest); return bf; }
+  function env(g, t, a, peak, d) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); }
+  function tone(t, type, f0, f1, dur, peak, dest, a = 0.003) {
+    const o = actx.createOscillator(), g = actx.createGain(); o.type = type;
+    o.frequency.setValueAtTime(f0, t); if (f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, t + a + dur);
+    env(g, t, a, peak, dur); o.connect(g); g.connect(dest); o.start(t); o.stop(t + a + dur + 0.05); return g;
+  }
+  function noise(t, type, f0, f1, q, dur, peak, dest, a = 0.002) {
+    const s = actx.createBufferSource(); s.buffer = noiseBuf; s.loop = true;
+    const bf = actx.createBiquadFilter(); bf.type = type; bf.Q.value = q; bf.frequency.setValueAtTime(f0, t); if (f1 !== f0) bf.frequency.exponentialRampToValueAtTime(f1, t + a + dur);
+    const g = actx.createGain(); env(g, t, a, peak, dur); s.connect(bf); bf.connect(g); g.connect(dest); s.start(t, Math.random() * 0.8); s.stop(t + a + dur + 0.05); return g;
+  }
+  const SFX = {
+    // Volt's voice: a tiny two-note robot chirp per letter pair, random notes from a bright scale -> "또로로"
+    blip(t) { const o = bus(0.04), sc = [784, 880, 988, 1175, 1319], f = sc[Math.floor(Math.random() * sc.length)];
+      tone(t, 'square', f, f * 1.06, 0.028, 0.022, filt('lowpass', 2600, 0.7, o)); tone(t + 0.034, 'triangle', f * 1.19, f * 1.12, 0.03, 0.03, o); },
+    // station main gun: bright plasma "pew" with a click on the front
+    shot(t) { const o = bus(0.08), p = rnd(), lp = filt('lowpass', 4200, 0.8, o); tone(t, 'sawtooth', 1600 * p, 360 * p, 0.085, 0.055, lp); tone(t, 'triangle', 980 * p, 260 * p, 0.08, 0.085, o); noise(t, 'highpass', 6500, 6500, 0.7, 0.018, 0.05, o); },
+    // side batteries: lower, thicker pulse
+    shot2(t) { const o = bus(0.08), p = rnd(), lp = filt('lowpass', 2600, 1, o); tone(t, 'square', 620 * p, 180 * p, 0.09, 0.03, lp); tone(t, 'sine', 300 * p, 110 * p, 0.08, 0.07, o); },
+    // interceptor cannon: tiny high tick so a swarm of fighters reads as a rattle, not noise
+    zap(t) { const o = bus(0.05), p = rnd(0.12); tone(t, 'triangle', 2600 * p, 1500 * p, 0.035, 0.034, o); },
+    launch(t) { const o = bus(0.15); noise(t, 'bandpass', 500, 2200, 2, 0.25, 0.05, o, 0.04); },
+    // missile: ignition thump + rising rocket hiss
+    missile(t) { const o = bus(0.15), p = rnd(); tone(t, 'sine', 120 * p, 45, 0.16, 0.12, o); noise(t, 'bandpass', 280, 2600, 1.4, 0.38, 0.09, o, 0.04); },
+    // missile impact: punchy explosion with a short sub drop
+    blast(t) { const o = bus(0.3), p = rnd(); noise(t, 'lowpass', 2600, 180, 0.9, 0.42, 0.26, o); tone(t, 'sine', 95 * p, 34, 0.32, 0.32, o); noise(t, 'highpass', 3000, 3000, 0.7, 0.03, 0.08, o); },
+    // swarm kill: wet organic "splat" (falling squelch + filtered burst)
+    kill(t) { const o = bus(0.12), p = rnd(0.15); noise(t, 'lowpass', 2800, 320, 2.2, 0.13, 0.13, o); tone(t, 'sine', 320 * p, 75, 0.1, 0.09, o); tone(t, 'triangle', 190 * p, 55, 0.07, 0.05, o); },
+    // big explosion (boss, rail impact, defeat): crack + rolling low end + long tail
+    boom(t) { const o = bus(0.5), p = rnd(0.05); noise(t, 'highpass', 2800, 2800, 0.7, 0.07, 0.18, o); noise(t, 'lowpass', 1300, 55, 0.8, 1.25, 0.5, o, 0.004); tone(t, 'sine', 72 * p, 26, 1.0, 0.55, o); },
+    // chain lightning: crackling high noise with random gain steps over an electric buzz
+    arc(t) {
+      const o = bus(0.25), dur = 0.24, s = actx.createBufferSource(); s.buffer = noiseBuf; s.loop = true;
+      const hp = actx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 2400; const g = actx.createGain(); g.gain.setValueAtTime(0, t);
+      for (let x = 0; x < dur; x += 0.012) g.gain.setValueAtTime(Math.random() < 0.55 ? 0.03 + Math.random() * 0.07 : 0.0, t + x);
+      g.gain.setValueAtTime(0, t + dur); s.connect(hp); hp.connect(g); g.connect(o); s.start(t, Math.random() * 0.8); s.stop(t + dur + 0.02);
+      const bp = filt('bandpass', 900, 3, o); tone(t, 'sawtooth', 92, 88, dur, 0.04, bp); tone(t, 'sawtooth', 95, 90, dur, 0.035, bp);
+    },
+    // railgun: supersonic crack, falling metallic whine, heavy thump, long reverb tail
+    rail(t) { const o = bus(0.55), lp = filt('lowpass', 5000, 1, o); noise(t, 'highpass', 3600, 3600, 0.7, 0.045, 0.3, o); tone(t, 'sawtooth', 4200, 70, 0.42, 0.11, lp); tone(t, 'sine', 85, 30, 0.5, 0.5, o); noise(t, 'bandpass', 2200, 380, 1.5, 0.65, 0.14, o, 0.01); },
+    // EMP: sub swell + descending sweep + detuned drone
+    emp(t) { const o = bus(0.6), lp = filt('lowpass', 1400, 2, o); tone(t, 'sine', 55, 34, 0.9, 0.45, o, 0.02); noise(t, 'bandpass', 4200, 160, 3, 0.8, 0.24, o, 0.01); tone(t, 'sawtooth', 220, 55, 0.7, 0.06, lp, 0.01); tone(t, 'sawtooth', 226, 57, 0.7, 0.06, lp, 0.01); },
+    // mothership main cannon charging: rising roar with a tremolo that speeds up
+    charge(t) {
+      const o = bus(0.4), dur = 2.4, trem = actx.createGain(); trem.gain.value = 0.6; trem.connect(o);
+      const lfo = actx.createOscillator(), lg = actx.createGain(); lfo.frequency.setValueAtTime(5, t); lfo.frequency.exponentialRampToValueAtTime(34, t + dur); lg.gain.value = 0.4; lfo.connect(lg); lg.connect(trem.gain); lfo.start(t); lfo.stop(t + dur + 0.1);
+      const lp = filt('lowpass', 900, 4, trem); lp.frequency.setValueAtTime(300, t); lp.frequency.exponentialRampToValueAtTime(4000, t + dur);
+      tone(t, 'sawtooth', 55, 660, 0.2, 0.13, lp, dur - 0.2); tone(t, 'sawtooth', 56.5, 670, 0.2, 0.12, lp, dur - 0.2); noise(t, 'highpass', 200, 5000, 0.7, 0.15, 0.1, o, dur - 0.15);
+    },
+    // mothership beam: wall of noise + growling detuned bass
+    beam(t) { const o = bus(0.6), lp = filt('lowpass', 700, 1.5, o); noise(t, 'lowpass', 3200, 160, 0.8, 2.0, 0.55, o, 0.01); tone(t, 'sawtooth', 48, 40, 1.8, 0.24, lp, 0.01); tone(t, 'sawtooth', 52, 43, 1.8, 0.22, lp, 0.01); tone(t, 'sine', 42, 28, 1.6, 0.5, o, 0.01); noise(t, 'highpass', 3000, 3000, 0.7, 0.08, 0.25, o); },
+    // start / launch buttons: heavy engage thump, rising power-up sweep and a bright confirm chord
+    start(t) { const o = bus(0.45), lp = filt('lowpass', 2400, 2, o); lp.frequency.setValueAtTime(400, t); lp.frequency.exponentialRampToValueAtTime(5200, t + 0.35);
+      tone(t, 'sine', 110, 42, 0.32, 0.5, o); noise(t, 'highpass', 2600, 2600, 0.7, 0.04, 0.16, o);
+      tone(t, 'sawtooth', 180, 720, 0.34, 0.07, lp, 0.02); tone(t, 'sawtooth', 182, 726, 0.34, 0.06, lp, 0.02);
+      [523.3, 784, 1046.5].forEach((f, i) => { tone(t + 0.24 + i * 0.02, 'triangle', f, f, 0.55, 0.05, o, 0.005); tone(t + 0.24, 'sine', f * 2, f * 2, 0.3, 0.012, o); }); },
+    // reward / upgrade: bright three-note chime with shimmer
+    up(t) { const o = bus(0.45); [1046.5, 1318.5, 1568].forEach((f, i) => { tone(t + i * 0.055, 'sine', f, f, 0.32, 0.07, o); tone(t + i * 0.055, 'triangle', f * 2, f * 2, 0.12, 0.015, o); }); },
+    // tile placed: metal clunk (inharmonic partials) + latch click + low thud
+    clank(t) { const o = bus(0.3), p = rnd(0.04); [[430, 0.34, 0.07], [1150, 0.24, 0.045], [1890, 0.17, 0.035], [2730, 0.1, 0.02]].forEach(([f, d, g]) => tone(t, 'sine', f * p, f * p * 0.98, d, g, o)); noise(t, 'bandpass', 2600, 2600, 2, 0.035, 0.16, o); tone(t, 'sine', 130, 55, 0.13, 0.22, o); },
+    // klaxon: two filtered square pulses
+    alarm(t) { const o = bus(0.3), lp = filt('lowpass', 2000, 1, o); for (let i = 0; i < 2; i++) { tone(t + i * 0.32, 'square', 740, 740, 0.13, 0.06, lp, 0.01); tone(t + i * 0.32 + 0.15, 'square', 560, 560, 0.13, 0.06, lp, 0.01); } },
+    // our hull takes a hit: dull low impact
+    hurt(t) { const o = bus(0.15); tone(t, 'sine', 150, 48, 0.2, 0.26, o); noise(t, 'lowpass', 900, 180, 1, 0.14, 0.13, o); },
+    // shot blocked by an orbital: glassy ping
+    block(t) { const o = bus(0.25), p = rnd(); tone(t, 'triangle', 1900 * p, 2700 * p, 0.06, 0.05, o); tone(t, 'sine', 3800 * p, 3800 * p, 0.12, 0.015, o); },
+  };
+  const GAP = { blip: 0.05, shot: 0.055, shot2: 0.07, zap: 0.045, launch: 0.15, missile: 0.11, blast: 0.07, kill: 0.035, arc: 0.08, hurt: 0.16, block: 0.06, up: 0.05 };
+  const SMALL = { shot: 1, shot2: 1, zap: 1, kill: 1, launch: 1, block: 1, arc: 1 };
+  function sfx(kind) {
+    if (!actx || save.settings.sound === false || document.hidden || prologue || adPlaying) return; // the prologue is carried by the intro music alone
+    audioInit(); const fn = SFX[kind]; if (!fn || !sfxBus) return;
+    if (actx.state === 'suspended') actx.resume();
+    const t = actx.currentTime + 0.005, gap = GAP[kind] || 0;
+    if (gap && lastSfx[kind] && t - lastSfx[kind] < gap) return;
+    live = live.filter(e => e > t); if (live.length >= 22 && SMALL[kind]) return; // dense fights: the small sounds yield to the big ones
+    lastSfx[kind] = t; live.push(t + (SMALL[kind] ? 0.15 : 0.8)); sfxLog[kind] = (sfxLog[kind] || 0) + 1;
+    try { fn(t); } catch (e) {}
+  }
+  const sessionStart = now();
+  document.addEventListener('pointerdown', () => {
+    if (!actx) { try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+    if (!save.funnel.first_tap) funnel('first_tap');
+    const sh = $('sound-hint'); if (sh) sh.hidden = true;
+    syncMusic(); // a returning player's map theme could not autoplay before this first tap
+  }, { capture: true });
+  setTimeout(() => { if (!save.funnel.alive_30s) funnel('alive_30s'); }, 30000);
+  function markExit() { if (now() - sessionStart < 30000 && !save.funnel.early_exit) { save.funnel.early_exit = { at: now(), sec: Math.round((now() - sessionStart) / 1000) }; persist(); } }
+  window.addEventListener('pagehide', markExit);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) markExit(); });
+  $('btn-sound').addEventListener('click', () => { save.settings.sound = save.settings.sound === false; persist(); syncSound(); });
+  function syncSound() { const on = save.settings.sound !== false; $('btn-sound').setAttribute('aria-pressed', String(on)); $('btn-sound').textContent = on ? '소리 켬' : '소리 끔'; $('in-sound').setAttribute('aria-pressed', String(on)); $('in-sound').textContent = on ? '소리 켬' : '소리 끔'; syncMusic(); }
+
+  // ---------- music: one looping track at a time, crossfaded (files live in assets/audio, see '사운드 기획' sheet) ----------
+  // v2 is served from /v2/ next to the repo's assets/; previews and the phone-test artifact carry assets/ beside the page
+  const AUD = /\/v2\/[^/]*$/.test(location.pathname) ? '../assets/audio/' : 'assets/audio/';
+  const TRACKS = { intro: AUD + 'intro.mp3', map: AUD + 'map.mp3', battle: AUD + 'battle.mp3', boss: AUD + 'boss.mp3' }; // null = not made yet
+  const FALLBACK = { boss: 'battle', battle: 'map' }; // a missing track borrows the next one, so the music never drops out
+  const resolveTrack = n => { while (n && !TRACKS[n]) n = FALLBACK[n]; return n || null; };
+  const MUSIC_VOL = 0.3, music = { name: null, el: null }, trackEl = {};
+  // short stingers over the BGM: the BGM dips out while one plays and swells back after it ends
+  const JINGLES = { win: AUD + 'win.mp3', lose: AUD + 'lose.mp3', clear: AUD + 'clear.mp3' }, JINGLE_VOL = 0.55, jingleLog = {};
+  let jingleEl = null, jingleName = null;
+  const musicLevel = () => jingleEl ? 0 : MUSIC_VOL;
+  function jingleOf(name) { const k = 'j_' + name; if (!trackEl[k]) { const el = trackEl[k] = new Audio(JINGLES[name]); el.preload = 'auto'; } return trackEl[k]; }
+  function preloadJingles() { for (const n in JINGLES) jingleOf(n); }
+  function jingle(name) {
+    jingleLog[name] = (jingleLog[name] || 0) + 1;
+    if (!musicOn() || !JINGLES[name]) return;
+    if (jingleEl) jingleEl.pause();
+    const el = jingleOf(name); try { el.currentTime = 0; } catch (e) {} el.volume = JINGLE_VOL; jingleEl = el; jingleName = name;
+    if (music.el) fadeTo(music.el, 0, 0.3);
+    const done = () => { if (jingleEl !== el) return; jingleEl = null; jingleName = null; if (music.el && musicOn()) { if (music.el.paused) music.el.play().catch(() => {}); fadeTo(music.el, MUSIC_VOL, 1.5); } };
+    el.onended = done; el.play().catch(done);
+  }
+  function stopJingle(name) { const el = jingleEl; if (el && jingleName === name) { el.pause(); if (el.onended) el.onended(); } }
+  let adPlaying = false; // game sound stops while an ad is on screen (common guide)
+  const musicOn = () => save.settings.sound !== false && !document.hidden && !adPlaying;
+  function trackOf(name) {
+    if (!TRACKS[name]) return null;
+    let el = trackEl[name];
+    if (!el) {
+      el = trackEl[name] = new Audio(TRACKS[name]); el.loop = true; el.preload = 'auto'; el.volume = 0;
+      // route through Web Audio when possible so fades also work where element volume is fixed (iOS)
+      if (actx) { try { const g = actx.createGain(); g.gain.value = 0; actx.createMediaElementSource(el).connect(g); g.connect(actx.destination); el.volume = 1; el._g = g; } catch (e) {} }
+    }
+    return el;
+  }
+  function fadeTo(el, v, sec) {
+    el._v = v;
+    if (el._g) { const g = el._g.gain, t = actx.currentTime; g.cancelScheduledValues(t); g.setValueAtTime(g.value, t); g.linearRampToValueAtTime(v, t + sec); return; }
+    clearInterval(el._iv); const from = el.volume, t0 = performance.now();
+    el._iv = setInterval(() => { const k = Math.min(1, (performance.now() - t0) / (sec * 1000)); el.volume = from + (v - from) * k; if (k >= 1) clearInterval(el._iv); }, 40);
+  }
+  function playMusic(name, sec = 0.8, restart = false) {
+    name = resolveTrack(name) || name;
+    if (music.name === name && !restart) return;
+    const old = music.el;
+    if (old) { fadeTo(old, 0, sec); setTimeout(() => { if (music.el !== old) old.pause(); }, sec * 1000 + 80); }
+    music.name = name; const el = music.el = trackOf(name);
+    if (!el) return;
+    if (el !== old || restart) { try { el.currentTime = 0; } catch (e) {} }
+    if (musicOn()) { if (actx && actx.state === 'suspended') actx.resume(); el.play().catch(() => {}); fadeTo(el, musicLevel(), sec); }
+  }
+  function syncMusic() {
+    const el = music.el; if (!el) return;
+    if (musicOn()) { if (el.paused) { el.play().catch(() => {}); fadeTo(el, musicLevel(), 0.5); } } else { el.pause(); if (jingleEl) { jingleEl.pause(); jingleEl = null; jingleName = null; } }
+  }
+  document.addEventListener('visibilitychange', syncMusic);
+  let shake = 0;
+  function addShake(v) { shake = Math.max(shake, v); }
+
+  // ---------- prologue: a taste of the endgame station ----------
+  let prologue = false;
+  let holdT = 0; const PRO_HOLD = 6.25; // seconds of intro music before the prologue swarm moves
+  function startPrologue() {
+    prologue = true; tutorial = false; speed = 1;
+    if (!recording) funnel('p0_prologue');
+    battle = new E.Battle(save, { seed: 7, prologue: true, autoWeapons: true });
+    acc = 0; last = performance.now(); runStart = performance.now(); fx.length = 0; cardsOpen = false;
+    buildInrun(); show('scr-battle'); $('scr-battle').classList.add('prologue'); $('titlecard').hidden = true;
+    playMusic('intro', 1.0, true); trackOf('map'); // the prologue is carried by the intro music alone (no sound effects)
+    const fi = $('fadein'); fi.classList.add('on'); requestAnimationFrame(() => requestAnimationFrame(() => fi.classList.remove('on')));
+    // same opening as v3: calm space while the intro track builds, caption on its first hit (2.25 s), the swarm moves on the second (6.25 s)
+    holdT = PRO_HOLD; const tok = battle;
+    $('caption').hidden = true; $('caption').classList.remove('cap-in'); $('caption-txt').textContent = ''; $('btn-skip').hidden = false;
+    setTimeout(() => { if (battle === tok && prologue) { $('caption').hidden = false; $('caption').classList.add('cap-in'); } }, 2250);
+    setTimeout(() => { if (battle === tok && prologue) $('caption-txt').textContent = '스웜 본대 접근'; }, 4250);
+    cancelAnimationFrame(raf); raf = requestAnimationFrame(frame);
+  }
+  function endPrologue(skipped) {
+    if (!prologue) return;
+    if (recording) { prologue = false; recording = false; battle = null; setTimeout(() => { document.body.classList.remove('rec'); $('scr-battle').classList.remove('prologue'); $('caption').hidden = true; $('btn-skip').hidden = true; openBase('log'); }, 1200); return; }
+    prologue = false; save.prologueDone = true; funnel(skipped ? 'p1_prologue_skip' : 'p1_prologue_end'); persist();
+    $('btn-skip').hidden = true; $('caption').hidden = true;
+    const f = $('flash'); f.classList.add('on'); requestAnimationFrame(() => requestAnimationFrame(() => f.classList.remove('on')));
+    battle = null;
+    $('story-txt').textContent = '그날 최종 방어선 ARC-7은 무너졌습니다. 남은 건 작은 정거장 하나.';
+    $('story').hidden = false;
+    setTimeout(() => { $('story').hidden = true; $('titlecard').hidden = false; }, skipped ? 900 : 2600);
+  }
+  $('btn-skip').addEventListener('click', () => endPrologue(true));
+  $('btn-start').addEventListener('click', () => { sfx('start'); $('titlecard').hidden = true; $('scr-battle').classList.remove('prologue'); funnel('p2_start'); startRun(); });
+  // ad capture (test tools only): replays the prologue with all UI hidden and a fixed seed, then returns to base
+  let recording = false;
+  function startRecording() {
+    recording = true; document.body.classList.add('rec');
+    const keep = save.prologueDone; startPrologue(); save.prologueDone = keep;
+  }
+
+  // ---------- battle ----------
+  let battle = null, acc = 0, last = 0, runStart = 0, cardsOpen = false, tutorial = false, speed = 2, raf = 0;
+  const fx = []; // visual effects
+  function startRun() {
+    if (prologue) { prologue = false; } $('titlecard').hidden = true; $('caption').hidden = true; $('btn-skip').hidden = true; $('story').hidden = true; $('scr-battle').classList.remove('prologue');
+    tutorial = save.tutorial === 0;
+    speed = tutorial ? 1 : save.settings.speed;
+    battle = new E.Battle(save, { seed: (now() & 0x7fffffff), tutorial, autoUpgrade: !tutorial && save.settings.autoUpgrade, autoWeapons: !tutorial && save.settings.autoWeapons });
+    acc = 0; last = performance.now(); runStart = performance.now(); fx.length = 0; cardsOpen = false;
+    buildInrun(); show('scr-battle'); updateSpeedBtn(); firstPick = false;
+    if (window.NcqMetrics) window.NcqMetrics.levelStart(tutorial ? 'tutorial' : 'idle'); // 판 지표: 한 판 = 한 번의 출격
+    { const b0 = battle; setTimeout(() => { if (battle === b0 && !battle.over) guideCheck('battle'); }, 1500); } // new-feature guide at the start of a sortie (EMP, 호위 위성)
+    $('btn-autou').setAttribute('aria-pressed', String(battle.opts.autoUpgrade));
+    $('btn-autow').setAttribute('aria-pressed', String(battle.opts.autoWeapons));
+    $('btn-speed').hidden = tutorial; $('btn-autow').hidden = tutorial; $('btn-autou').hidden = tutorial;
+    if (tutorial) {
+      funnel('t0_start');
+      say([['함장 레아', '정거장 가동! 적을 처치하면 아래 에너지 바가 차요. 가득 차면 카드 셋 중 하나를 골라 정거장을 키워요.']]);
+    } else {
+      save.runs++; persist();
+      if (save.runs === 1) funnel('t6_second_run');
+    }
+    cancelAnimationFrame(raf); raf = requestAnimationFrame(frame);
+  }
+  function updateSpeedBtn() { $('btn-speed').textContent = speed + 'x'; }
+  $('btn-speed').addEventListener('click', () => { speed = speed === 1 ? 2 : speed === 2 ? 4 : 1; save.settings.speed = speed; persist(); updateSpeedBtn(); });
+  $('btn-autou').addEventListener('click', () => { battle.opts.autoUpgrade = !battle.opts.autoUpgrade; save.settings.autoUpgrade = battle.opts.autoUpgrade; persist(); $('btn-autou').setAttribute('aria-pressed', String(battle.opts.autoUpgrade)); });
+  $('btn-autow').addEventListener('click', () => { battle.opts.autoWeapons = !battle.opts.autoWeapons; save.settings.autoWeapons = battle.opts.autoWeapons; persist(); $('btn-autow').setAttribute('aria-pressed', String(battle.opts.autoWeapons)); });
+
+  // ---- in-run: energy bar → 3 cards, 4 deck weapons (Galaxy Defense style, 2026-11-08) ----
+  const WCOL = { bolt: '#9fd8ff', beam: '#ff7ad9', hive: '#b6ff6a', field: '#9ea8ff', wheel: '#ff9f43', missile: '#ff6a4d' };
+  const WICON = { // small line icons (currentColor)
+    bolt: '<path d="M13 2 5 13h5l-1 9 8-12h-5l1-8z" fill="currentColor"/>',
+    beam: '<circle cx="5" cy="12" r="3" fill="currentColor"/><path d="M8 12h14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M8 9l12-4M8 15l12 4" stroke="currentColor" stroke-width="1.4" opacity=".6"/>',
+    hive: '<path d="M12 3l3 5-3 5-3-5z" fill="currentColor"/><path d="M5 12l3 5-3 5-3-5zM19 12l3 5-3 5-3-5z" fill="currentColor" opacity=".7"/>',
+    field: '<circle cx="12" cy="12" r="3" fill="currentColor"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 2.5"/>',
+    wheel: '<circle cx="12" cy="12" r="2.5" fill="currentColor"/><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1" opacity=".5"/><circle cx="20" cy="12" r="3" fill="currentColor"/><circle cx="6" cy="17" r="2.2" fill="currentColor" opacity=".7"/>',
+    missile: '<path d="M4 20l5-2 10-10a2.8 2.8 0 0 0-4-4L5 14z" fill="currentColor"/><path d="M4 20l2-5 3 3z" fill="#ffd166"/>',
+    stat: '<path d="M12 4l7 8h-4v8H9v-8H5z" fill="currentColor"/>',
+    tactic: '<rect x="5" y="3" width="14" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 12l2 2 4-5" stroke="currentColor" stroke-width="2" fill="none"/>'
+  };
+  const wsvg = id => `<svg viewBox="0 0 24 24" aria-hidden="true">${WICON[id] || WICON.stat}</svg>`;
+  const pips = (lv, max) => '<span class="pips">' + Array.from({ length: max }, (_, i) => `<i class="${i < lv ? 'on' : ''}${i === 2 || i === 4 ? ' evo' : ''}"></i>`).join('') + '</span>';
+  const wname = id => (E.WEAPONS.find(w => w.id === id) || {}).name || id;
+  let firstPick = false;
+  // bottom strip (2026-11-09: everything is a core): the 6 slots of the station with each core's icon and level
+  function buildInrun() { coreStrip(); }
+  function coreStrip(flash) {
+    const box = $('wslots'); box.innerHTML = '';
+    for (let k = 0; k < 6; k++) {
+      const c = battle && battle.cores && battle.cores[k], d = document.createElement('div');
+      d.className = 'wslot' + (c ? '' : ' off'); d.id = 'cs-' + k;
+      if (c) { d.style.setProperty('--wc', CCOL[c.type]); d.innerHTML = `${coreSvg(c.type)}<span class="wt"><b>${I18N.t(E.TILE_TYPES.find(t => t.id === c.type).name)}</b>${pips(c.lv, E.CORE_MAX)}</span>`; }
+      else d.innerHTML = `<span class="wt"><b>${I18N.t('빈 칸')}</b></span>`;
+      if (flash === k) d.classList.add('up');
+      box.appendChild(d);
+    }
+  }
+
+  $('w-rail').addEventListener('click', () => { if (battle && battle.fireWeapon('rail') && tutorial) funnel('t3_railgun_fired'); });
+  $('w-emp').addEventListener('click', () => { if (battle) battle.fireWeapon('emp'); });
+
+  const CCOL = Object.fromEntries(E.TILE_TYPES.map(t => [t.id, A.TILE_COL[t.id] || t.col]));
+  const coreSvg = type => type === 'center' ? '<svg viewBox="0 0 48 50" aria-hidden="true"><path d="M24 3 42 13.5v21L24 45 6 34.5v-21z" fill="#0b1426" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="24" r="8" fill="#d6f3ff"/><circle cx="24" cy="24" r="12" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/></svg>'
+    : `<svg viewBox="0 0 48 50" aria-hidden="true">${A.HEXB}${A.TICON[type] || ''}</svg>`;
+  function cardTag(c) {
+    const T = I18N.t;
+    if (c.kind === 'core') return c.core === 'center' ? T('과부하 · Lv{0}').replace('{0}', c.lv) : c.up ? T(c.evo ? (c.lv >= 5 ? '완전 각성 · Lv{0}' : '각성 · Lv{0}') : '코어 Lv{0}').replace('{0}', c.lv) : c.stack ? T('새 코어 · 겹치면 Lv{0}').replace('{0}', c.stack) : T('새 코어');
+    if (c.kind === 'weapon') return c.lv === 1 ? T('새 무기') : T(c.evo ? '진화 · Lv{0}' : '무기 Lv{0}').replace('{0}', c.lv);
+    return T(c.kind === 'stat' ? '능력치' : '전술');
+  }
+  function openCards(cards, tag) {
+    cardsOpen = true; battle.paused = true;
+    $('card-title').textContent = tag === 'adv' ? '긴급 지원!' : tag === 'tut' ? '체험 코어 고르기' : '강화 카드 선택';
+    $('card-sub').textContent = tag === 'adv' ? '스웜이 몰려와서 카드 한 장을 더 줘요' : tag === 'tut' ? I18N.t('하나를 골라 정거장에 붙여요 ({0}/3)').replace('{0}', 4 - tutLeft) : '하나를 고르세요';
+    const list = $('card-list'); list.innerHTML = '';
+    for (const c of cards) {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'card' + (c.evo ? ' evo' : ''); b.id = 'card-' + c.id;
+      const col = c.kind === 'core' ? (c.core === 'center' ? '#9fe6ff' : CCOL[c.core]) : c.kind === 'weapon' ? WCOL[c.wid] : c.kind === 'stat' ? '#7ee0a8' : '#ffd166';
+      b.style.setProperty('--wc', col);
+      const T = I18N.t, u = c.kind === 'stat' && E.INRUN.find(x => x.id === c.sid);
+      const txt = u ? `${T(u.name)} +${u.per * E.STAT_CARD[u.id]}${u.unit}` : c.kind === 'weapon' && c.lv > 1 && !c.evo ? T('{0} 위력 +35%').replace('{0}', T(c.name)) : c.kind === 'core' && c.up && !c.evo ? T('{0} 효과 +40%').replace('{0}', T(c.name))
+        : c.kind === 'core' && c.evo && E.WEAPONS.some(w => w.id === c.core) ? T(c.lv >= 5 ? '완전 각성:' : '각성:') + ' ' + T(E.WEAPONS.find(w => w.id === c.core)['evo' + (c.lv >= 5 ? 5 : 3)]) : T(c.text);
+      b.dataset.noi18n = ''; // pieces are translated here (stat names and numbers mix)
+      b.innerHTML = `<span class="ic">${c.kind === 'core' ? coreSvg(c.core) : wsvg(c.kind === 'weapon' ? c.wid : c.kind)}</span><span class="tag">${cardTag(c)}</span><b>${T(c.name)}</b><span>${txt}</span>`
+        + (c.kind === 'core' && c.core !== 'center' ? pips(c.up ? c.lv : 1, E.CORE_MAX) : '');
+      b.addEventListener('click', () => {
+        if (c.id.startsWith('c_new_')) { $('ov-cards').hidden = true; openPlace(c, cards, tag); return; } // a new core: pick its slot (or 자동 배치)
+        cardsOpen = false; $('ov-cards').hidden = true; sfx('up'); fx.push({ k: 'ring', t: 0 });
+        if (c.sid === 'range') fx.push({ k: 'rangeflash', t: 0 });
+        if (tutorial && !firstPick) funnel('t1_first_upgrade');
+        firstPick = true;
+        battle.takeCard(c.id); if (!$('ov-dialog').hidden) battle.paused = true;
+      });
+      list.appendChild(b);
+    }
+    $('ov-cards').hidden = false;
+  }
+
+  // ---- core placement (2026-11-08): the station zoomed in, the slots this core can take glow; tap one or let 자동 배치 choose ----
+  let place = null;
+  function openPlace(c, cards, tag) {
+    place = { c, cards, tag }; const T = I18N.t;
+    $('pl-title').textContent = T('{0} 붙이기').replace('{0}', T(c.name));
+    $('pl-sub').textContent = T('빛나는 칸을 누르세요 · 같은 코어 옆이면 더 세져요');
+    $('ov-place').hidden = false; drawPlace();
+    if (!(save.seen && save.seen.g_place) && !tutorial) { (save.seen || (save.seen = {})).g_place = 1; persist(); say([[VOLT, '코어를 붙일 칸을 골라요. 같은 코어 옆이나 증폭기 옆이면 더 세지고, 같은 코어 위에 놓으면 레벨이 올라요.']]); }
+  }
+  function drawPlace() {
+    if (!place) return;
+    const st = $('pl-stage'), cv = $('pl-cv'), dpr = Math.min(2, devicePixelRatio || 1), w = st.clientWidth, h = st.clientHeight; if (!w || !h) return;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    const g = cv.getContext('2d'), sc = Math.min(w, h) / 2 / 20; g.setTransform(sc * dpr, 0, 0, sc * dpr, w / 2 * dpr, h / 2 * dpr);
+    g.globalCompositeOperation = 'lighter'; A.glow(g, 0, 0, 20, '#3fb8ff', 0.35); g.globalCompositeOperation = 'source-over';
+    A.drawStation(g, 'hex', performance.now() / 1000, { R: E.STATION_R * 1.3, tiles: battle.station.tiles, openK: [0, 1, 2, 3, 4, 5], orbitals: 0, ot: 0, aim: -1.57 });
+    st.querySelectorAll('.pslot').forEach(x => x.remove());
+    const type = place.c.core;
+    for (let k = 0; k < 6; k++) {
+      if (!battle.canPlace(type, k)) continue;
+      const p = E.slotPos(k), cur = battle.cores[k], b = document.createElement('button'); b.type = 'button'; b.className = 'pslot'; b.id = 'ps-' + k;
+      b.style.left = (w / 2 + p.x * sc) + 'px'; b.style.top = (h / 2 + p.y * sc) + 'px'; b.style.setProperty('--wc', CCOL[type]);
+      const gain = Math.round((battle.placeScore(type, k) - 1) * 100);
+      b.innerHTML = `<span>${cur ? 'Lv' + (cur.lv + 1) : gain > 0 ? '+' + gain + '%' : ''}</span>`;
+      b.setAttribute('aria-label', I18N.t('칸') + ' ' + (k + 1));
+      b.addEventListener('click', () => doPlace(k));
+      st.appendChild(b);
+    }
+  }
+  function doPlace(k) {
+    if (!place) return; const c = place.c, wasTut = place.tag === 'tut'; place = null; $('ov-place').hidden = true; cardsOpen = false;
+    if (tutorial && !firstPick) funnel('t1_first_upgrade');
+    firstPick = true;
+    if (wasTut) { battle.placeCore(c.core, k); battle.refresh(); tutPlaced(); return; } // trial cores: free, not a card pick
+    battle.takeCard(c.id, k); if (!$('ov-dialog').hidden) battle.paused = true;
+  }
+  $('pl-auto').addEventListener('click', () => doPlace(-1));
+  $('pl-back').addEventListener('click', () => { if (!place) return; const p = place; place = null; $('ov-place').hidden = true; openCards(p.cards, p.tag); });
+  window.addEventListener('resize', () => { if (!$('ov-place').hidden) drawPlace(); });
+
+  function handleEvents() {
+    for (const ev of battle.events) {
+      if (ev.type === 'kill') {
+        const big = ev.etype === 'boss', mid = ev.etype === 'meteor' || ev.etype === 'charger' || ev.big;
+        fx.push({ k: 'boom', x: ev.x, y: ev.y, c: ev.etype, r: big ? 26 : mid ? 9 : 6, t: 0 });
+        if (ev.etype !== 'meteor' && !lite && fx.length < 700) fx.push({ k: 'goo', x: ev.x, y: ev.y, c: COL[ev.etype], r: big ? 9 : mid ? 3.4 : 2.4, d: Array.from({ length: big ? 14 : 7 }, () => { const a = Math.random() * 6.283, v = 0.6 + Math.random() * 1.5; return [Math.cos(a) * v, Math.sin(a) * v, 0.35 + Math.random() * 0.5]; }), t: 0 });
+        burst(ev.x, ev.y, ev.etype, big ? 40 : mid ? 8 : 4, big ? 70 : 38);
+        if (!lite) streaks(ev.x, ev.y, 0, 3.2, big ? 26 : mid ? 9 : 5, big ? 110 : 60, COL[ev.etype] || '#ffffff', big ? 0.6 : 0.3, big ? 1.1 : 0.7);
+        // death fx (same as v3): shell shards spin off; big forms add a shockwave and a tiny hit-stop
+        if (!lite && ev.etype !== 'egg') for (let j = 0; j < (ev.big ? 5 : 2) && fx.length < 680; j++) { const a = Math.random() * 6.283, v = 30 + Math.random() * 40; fx.push({ k: 'shell', x: ev.x, y: ev.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, rot: Math.random() * 6.283, vr: (Math.random() - 0.5) * 14, c: COL[ev.etype] || '#ffffff', r: ev.big ? 2.2 : 1.3, t: 0 }); }
+        if (ev.big) { fx.push({ k: 'shock', x: ev.x, y: ev.y, r: 22, c: COL[ev.etype] || '#ffffff', t: 0 }); if (!big) { hitstop = Math.max(hitstop, 0.06); addShake(1.6); } }
+        sfx(big ? 'boom' : 'kill');
+        if (big) { addShake(3); slowmo = 0.6; fx.push({ k: 'flash', a: 0.55, t: 0 }); if (!battle.opts.prologue) { jingle('win'); playMusic('battle', 1.5); } } // boss down: victory sting, back to the battle theme
+        combo.n++; combo.t = 1.3;
+        if ([10, 25, 50, 100, 200, 400].includes(combo.n)) { for (const f of fx) if (f.k === 'combo') f.dead = true; fx.push({ k: 'combo', n: combo.n, t: 0 }); sfx('up'); } // one combo label at a time
+      }
+      else if (ev.type === 'hit') {
+        if (dmgTexts < (battle.opts.prologue ? 6 : 18) && fx.length < 700 && (battle.opts.prologue ? Math.random() < 0.08 : (ev.crit || Math.random() < 0.2))) fx.push({ k: 'num', x: ev.x + (Math.random() - 0.5) * 4, y: ev.y, v: ev.v, crit: ev.crit, t: 0 });
+        if (impacts < (lite ? 12 : 40) && fx.length < 650) { impacts++; const a = Math.atan2(ev.y, ev.x); fx.push({ k: 'impact', x: ev.x, y: ev.y, crit: ev.crit, t: 0 }); if (!lite) streaks(ev.x, ev.y, a, 1.1, ev.crit ? 5 : 2, ev.crit ? 70 : 45, ev.crit ? '#ffffff' : '#bfefff', 0.18, 0.5); }
+      }
+      else if (ev.type === 'deflect') { if (!lite && fx.length < 700) streaks(ev.x, ev.y, Math.atan2(ev.y, ev.x), 0.9, 2, 55, '#fff3d0', 0.16, 0.5); }
+      else if (ev.type === 'heal') { fx.push({ k: 'healring', x: ev.x, y: ev.y, t: 0 }); }
+      else if (ev.type === 'hatch') { burst(ev.x, ev.y, 'egg', 5, 26); }
+      else if (ev.type === 'phase') { if (!lite) streaks(ev.x, ev.y, 0, 3.2, 6, 40, '#9af2ff', 0.22, 0.5); }
+      else if (ev.type === 'blast') { fx.push({ k: 'fire', x: ev.x, y: ev.y, r: ev.r * 0.8, t: 0 }); if (!lite) streaks(ev.x, ev.y, 0, 3.2, 10, 70, '#ffe04a', 0.35, 0.7); sfx('blast'); } // a spore shot down pops inside the swarm
+      else if (ev.type === 'newfoe') { // first meeting with a new swarm form: Volt names it and says what works against it
+        const seen = save.seen || (save.seen = {}), k = 'foe_' + ev.etype;
+        if (!seen[k] && !battle.over && battle.hull > 0 && !tutorial && !prologue) { seen[k] = 1; persist(); say([['엔지니어 볼트', FOE_LINES[ev.etype]]]); }
+      }
+      else if (ev.type === 'rush') { banner('스웜 러시!', 1300); sfx('alarm'); addShake(0.8); }
+      else if (ev.type === 'weapon') { slotUp(ev.id); if (ev.lv === 3 || ev.lv === 5) { banner(I18N.t(wname(ev.id)) + ' · ' + I18N.t('진화!'), 1600); fx.push({ k: 'flash', a: 0.25, t: 0 }); sfx('up'); } }
+      else if (ev.type === 'core') { // a core docked, stacked up or the centre core overloaded
+        const p = ev.k >= 0 ? E.slotPos(ev.k) : { x: 0, y: 0 }, col = ev.core === 'center' ? '#9fe6ff' : CCOL[ev.core];
+        fx.push({ k: 'dock', x: p.x, y: p.y, c: col, t: 0 }); if (!matchMedia('(prefers-reduced-motion: reduce)').matches) { const o = fx.find(f => f.k === 'dockzoom' && !f.dead); if (o) o.t = Math.min(o.t, 0.55); else fx.push({ k: 'dockzoom', t: 0 }); } sfx('clank'); addShake(ev.merged ? 0.6 : 1.2);
+        const T = I18N.t, nm = ev.core === 'center' ? T('중심 코어') : T(E.TILE_TYPES.find(t => t.id === ev.core).name);
+        if (ev.core !== 'center' && (ev.lv === 3 || ev.lv === 5)) { banner(nm + ' · ' + T(ev.lv >= 5 ? '완전 각성!' : '각성!'), 1600); fx.push({ k: 'flash', a: 0.25, t: 0 }); }
+        if (ev.k >= 0) coreStrip(ev.k);
+        else if (ev.core === 'center' && (ev.lv === 3 || ev.lv === 5)) { banner(nm + ' Lv' + ev.lv + ' · ' + T('주포 {0}연장').replace('{0}', ev.lv === 5 ? 3 : 2), 1600); fx.push({ k: 'flash', a: 0.25, t: 0 }); }
+      }
+      else if (ev.type === 'barrier') { fx.push({ k: 'block', x: 0, y: 0, t: 0 }); sfx('block'); }
+      else if (ev.type === 'adversity') { sfx('alarm'); addShake(0.8); }
+      else if (ev.type === 'arc' || ev.type === 'bolt') { if (fx.length < 900) { /* lightning is the headline effect: allowed past the particle cap */ const pts = ev.pts.map(p => p.slice()), jag = []; for (let i = 1; i < pts.length; i++) { const [x1, y1] = pts[i - 1], [x2, y2] = pts[i], seg = []; for (let j = 1; j < 6; j++) { const u = j / 6; seg.push([x1 + (x2 - x1) * u + (Math.random() - 0.5) * 11, y1 + (y2 - y1) * u + (Math.random() - 0.5) * 11]); } jag.push(seg); } fx.push({ k: 'arc', pts, jag, t: 0 }); } sfx('shot'); }
+      else if (ev.type === 'mother') { $('caption-txt').textContent = '경고 · 거대 모선 출현'; sfx('alarm'); addShake(2.5); }
+      else if (ev.type === 'charge') { $('caption-txt').textContent = '모선 주포 충전 중'; sfx('charge'); }
+      else if (ev.type === 'beam') { $('caption-txt').textContent = ''; sfx('beam'); addShake(9); fx.push({ k: 'flash', a: 0.8, t: 0 }); burst(0, 0, 'boss', 60, 90); }
+      else if (ev.type === 'rail') { fx.push({ k: 'rail', a: ev.a, t: 0 }); fx.push({ k: 'flash', a: 0.35, t: 0 }); addShake(2); sfx('rail'); }
+      else if (ev.type === 'emp') { fx.push({ k: 'emp', seed: Math.random() * 100, t: 0 }); addShake(1.4); sfx('emp'); }
+      else if (ev.type === 'chain') fx.push({ k: 'chain', ...ev, t: 0 });
+      else if (ev.type === 'zap') { if (fx.length < 700) fx.push({ k: 'zap', x1: ev.x1, y1: ev.y1, x2: ev.x2, y2: ev.y2, t: 0 }); sfx('zap'); }
+      else if (ev.type === 'block') { fx.push({ k: 'block', x: ev.x, y: ev.y, t: 0 }); sfx('block'); }
+      else if (ev.type === 'launch') { burst(ev.x, ev.y, 'spark', 6, 30); sfx('launch'); }
+      else if (ev.type === 'cards') { openCards(ev.cards, ev.tag); setTimeout(() => { if (!$('ov-cards').hidden) guideCheck('cards'); }, 300); }
+      else if (ev.type === 'planet') { banner('루나 기지 탈환!', 2400); jingle('clear'); onPlanetClear(); }
+      else if (ev.type === 'wave') { tutorialWave(ev.wave); if (!battle.opts.prologue) fx.push({ k: 'wave', n: ev.wave + 1, t: 0 }); }
+      else if (ev.type === 'boss') { if (battle.opts.prologue) { $('caption-txt').textContent = '거대 모선 출현'; } else { banner('보스 모선 접근', 1400); playMusic('boss', 1.2); setTimeout(() => guideCheck('boss'), 1500); } sfx('alarm'); }
+      else if (ev.type === 'cell') { fx.push({ k: 'pop', x: ev.x, y: ev.y, c: 'drone', t: 0 }); toast('가속 칩 +1 (연구 시간 20분 단축)', 1800); }
+      else if (ev.type === 'end') { if (ev.reason === 'prologue') { setTimeout(() => endPrologue(false), 500); } else setTimeout(endRun, 900); }
+    }
+    battle.events.length = 0;
+  }
+
+  // ---------- tutorial script ----------
+  function tutorialWave(w) {
+    if (!tutorial) {
+      if (save.runs === 1 && w === 8 && !save.funnel.t7_goal) { funnel('t7_goal'); toast('목표: 웨이브 8 → 첫 시작 코어 칸, 웨이브 50 → 호위 위성', 3600); }
+      return;
+    }
+    if (w === 3) { // ≈ 0:36 at 1x (12-second tutorial waves): the trial cores arrive — the player picks and attaches three by hand
+      battle.paused = true;
+      say([['엔지니어 볼트', '사령관! 체험용 코어 3개가 도착했어요. 하나씩 골라서 정거장에 직접 붙여 보세요!']], () => {
+        battle.tutorialCores(); tutLeft = 3; offerTutCores();
+      });
+    } else if (w === 9) {
+      say([['저격수 키라', '보스 모선 반응. 레일건 준비 완료 — 한 줄로 꿰뚫는 큰 한 방이에요. 버튼이 빛나면 눌러주세요.']], () => {
+        battle.weapons.rail.unlocked = true; battle.weapons.rail.cd = 0;
+      });
+    } else if (w === 12) {
+      say([['함장 레아', '스웜 본대가 옵니다. 이 정거장으로는 오래 못 버팁니다. 최대한 데이터를 모으세요.']]);
+    }
+  }
+
+  let tutLeft = 0;
+  function offerTutCores() { battle.paused = true; openCards(battle.tutCards(), 'tut'); }
+  function tutPlaced() { // after each trial core is docked
+    tutLeft--;
+    if (tutLeft === 2) { funnel('t2_module'); say([['엔지니어 볼트', '좋아요! 두 개 더 붙여 볼까요? 같은 코어 옆에 놓으면 서로 더 세지고, 같은 코어 위에 놓으면 레벨이 올라요.']], () => offerTutCores()); }
+    else if (tutLeft > 0) setTimeout(offerTutCores, 650);
+    else { banner('체험 코어 장착 완료!', 1800); cardsOpen = false; if ($('ov-dialog').hidden) battle.paused = false; }
+  }
+
+  function onPlanetClear() {
+    if (!save.planet1) { save.planet1 = true; persist(); toast('정거장 링 완성! 다음 출격부터 호위 위성이 합류해요', 4000); }
+  }
+
+  function endRun() {
+    cancelAnimationFrame(raf);
+    const b = battle, wasTut = tutorial;
+    if (window.NcqMetrics) window.NcqMetrics.levelEnd(wasTut ? 'tutorial' : 'idle', undefined, { score: b.wave }); // endless: no win/lose, score = wave
+    const realSec = Math.round((performance.now() - runStart) / 1000);
+    save.data += b.data; save.cells = (save.cells || 0) + b.cells;
+    const lvSum = Object.values(save.shipyard).reduce((a, c) => a + c, 0);
+    const openBefore = E.stationOf(save, null).open, orbBefore = E.stationOf(save, null).orbitals;
+    const newBest = !wasTut && b.wave > (save.best || 0);
+    if (!wasTut) save.best = Math.max(save.best, b.wave);
+    const openAfter = E.stationOf(save, null).open, orbAfter = E.stationOf(save, null).orbitals;
+    if (openAfter > openBefore) setTimeout(() => toast(`시작 코어 칸 ${openAfter - openBefore}개 열림! 업그레이드 › 코어에서 고르세요`, 4200), 1200);
+    else if (orbAfter > orbBefore) setTimeout(() => toast('호위 위성 합류! 적 탄을 막고 가까운 적을 들이받아요', 4200), 1200);
+    save.log.unshift({ at: now(), wave: b.wave, reason: b.reason, data: Math.round(b.data), lv: lvSum, lab: save.research.levels.cap, sec: realSec, tut: wasTut, cards: b.cardsTaken.length, cells: b.cells, enh: (save.enh.dmg || 0) + (save.enh.hull || 0) + (save.enh.data || 0) });
+    save.log = save.log.slice(0, 50);
+    if (wasTut) { save.tutorial = 1; funnel('t4_destroyed'); }
+    persist();
+    $('res-sub').textContent = b.reason === 'retreat' ? '15분 경과 · 퇴각' : '정거장 파괴';
+    $('res-title').textContent = `웨이브 ${b.wave} 도달`;
+    $('res-data').textContent = fmt(b.data);
+    $('res-kills').textContent = b.kills;
+    $('res-cells').textContent = b.cells;
+    $('res-best').textContent = save.best || '-';
+    $('res-note').textContent = wasTut
+      ? '체험 코어는 돌려보냈어요. 이제 판마다 코어 카드로 정거장을 직접 키워요. 최고 웨이브 8부터 출격할 때 미리 붙는 시작 코어 칸이 열립니다. 튜토리얼 기록은 최고 기록에 넣지 않습니다.'
+      : '블랙박스가 전투 데이터를 본부로 보냈어요. 업그레이드에서 다음 정거장을 더 강하게 만드세요.';
+    show('scr-result'); jingle(newBest ? 'win' : 'lose'); // a new record reads as a win, otherwise the station went down
+    battle = null;
+    if (wasTut) {
+      setTimeout(() => say([['엔지니어 볼트', '체험 코어는 돌려보내야 해요… 하지만 블랙박스 데이터는 살아있어요. 이걸로 다음 정거장을 강화할 수 있어요.']]), 300);
+    }
+  }
+  $('btn-tobase').addEventListener('click', () => { openBase('yard'); if (save.tutorial === 1) guideYard(); });
+
+  // ---------- base ----------
+  let tab = 'yard', yardTab = 'atk', yardBuys = 0;
+  function guideYard() {
+    say([['엔지니어 볼트', '여기가 업그레이드예요. 데이터로 영구 강화를 사요. 우선 공격력과 체력을 올려볼까요? 빛나는 버튼 두 개를 눌러주세요.']]);
+  }
+  function openBase(t) { tab = t || tab; show('scr-base'); renderBase(); maybeShowOffline(); }
+  for (const [id, t] of [['tab-yard', 'yard'], ['tab-lab', 'lab'], ['tab-log', 'log']]) $(id).addEventListener('click', () => { tab = t; renderBase(); });
+  $('btn-launch').addEventListener('click', () => {
+    sfx('start');
+    if (save.tutorial === 1 && yardBuys < 2 && Object.values(save.shipyard).every(v => v === 0)) { toast('업그레이드에서 강화를 먼저 해보세요'); return; }
+    if (save.tutorial === 1) save.tutorial = 2;
+    persist(); startRun();
+  });
+
+  // reset everything (progress, station, research, funnel); two taps within 3 s so a stray tap is harmless
+  function armReset(btn, label) {
+    let armed = false, timer = null;
+    btn.addEventListener('click', () => {
+      if (!armed) { armed = true; btn.classList.add('armed'); btn.textContent = '한 번 더 누르면 초기화'; timer = setTimeout(() => { armed = false; btn.classList.remove('armed'); btn.textContent = label; }, 3000); return; }
+      clearTimeout(timer); armed = false; btn.classList.remove('armed'); btn.textContent = label;
+      const keep = save.settings ? { sound: save.settings.sound, art: save.settings.art } : {};
+      save = E.newSave(); Object.assign(save.settings, keep); persist(); yardBuys = 0; tab = 'yard'; yardTab = 'atk';
+      // reset = a brand-new player (same as v3): the save is wiped (sound setting kept) and the page reloads to the intro screen
+      toast('초기화했습니다. 처음 화면부터 다시 시작합니다'); setTimeout(() => location.reload(), 600);
+    });
+  }
+  armReset($('btn-reset-top'), '초기화');
+
+  function renderBase() {
+    checkResearch();
+    for (const [id, t] of [['tab-yard', 'yard'], ['tab-lab', 'lab'], ['tab-log', 'log']]) $(id).setAttribute('aria-selected', String(tab === t));
+    $('base-data').textContent = '데이터 ' + fmt(save.data);
+    $('base-cells').textContent = '가속 칩 ' + (save.cells || 0);
+    $('base-best').textContent = '최고 웨이브 ' + (save.best || '-');
+    const idle = $('base-idle');
+    if (E.offlineUnlocked(save)) { idle.hidden = false; idle.innerHTML = `<span>방치 보상 · 시간당 데이터 <b>${fmt(E.offlineRate(save) * 60)}</b></span><span>최대 ${E.offlineCapH(save)}시간</span>`; }
+    else if ((save.tutorial || 0) >= 2) { idle.hidden = false; idle.innerHTML = `<span>최고 웨이브 ${E.OFFLINE.unlockBest} 달성 시 방치 보상 해금</span>`; }
+    else idle.hidden = true;
+    const body = $('base-body'); body.innerHTML = '';
+    if (tab === 'yard') renderYard(body); else if (tab === 'lab') renderLab(body); else renderLog(body);
+    // red dots on newly opened places until visited
+    if (tab === 'lab' && !(save.seen && save.seen.dot_lab) && (save.runs || 0) >= 1) { (save.seen || (save.seen = {})).dot_lab = 1; persist(); }
+    $('tab-lab').classList.toggle('newdot', (save.tutorial || 0) >= 2 && (save.runs || 0) >= 1 && !(save.seen && save.seen.dot_lab));
+    if (!guideOn) setTimeout(() => guideCheck('base'), 450);
+  }
+
+  function renderYard(body) {
+    const cap = E.capOf(save);
+    const sub = document.createElement('div'); sub.className = 'sub';
+    for (const [k, n] of [['atk', '공격'], ['def', '방어'], ['utl', '자원'], ['frame', '코어'], ['enh', '추가 강화']]) {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.id = 'ychip-' + k; b.setAttribute('aria-pressed', String(yardTab === k));
+      const locked = false, dotK = 'dot_' + k;
+      const fresh = (k === 'frame' && (openSlots() > 0 || E.CORE_ORDER.some(id => !E.coreOpen(save, id) && save.data >= E.CORE_UNLOCK[id]))) || (k === 'enh' && nearCap());
+      b.textContent = locked ? n + ' 🔒' : n; if (locked) b.title = `최고 웨이브 ${E.SLOT_WAVES[0]}에서 열림`;
+      if (fresh && !(save.seen && save.seen[dotK])) b.classList.add('newdot');
+      b.addEventListener('click', () => { yardTab = k; if (fresh) { (save.seen || (save.seen = {}))[dotK] = 1; persist(); } renderBase(); }); sub.appendChild(b);
+    }
+    body.appendChild(sub);
+    if (yardTab === 'enh') { renderEnh(body); return; }
+    if (yardTab === 'frame') { renderFrame(body); return; }
+    const note = document.createElement('p'); note.className = 'note';
+    note.textContent = `최대 ${cap}레벨. 연구소의 '최대 레벨 +1' 연구로 올려요.`;
+    body.appendChild(note);
+    const list = document.createElement('div'); list.className = 'list';
+    for (const s of E.STATS.filter(x => x.tab === yardTab)) {
+      const L = save.shipyard[s.id], cost = E.statCost(s.id, L), maxed = L >= cap;
+      const row = document.createElement('div'); row.className = 'row';
+      row.innerHTML = `<div class="t"><b>${s.name}</b><span class="num">Lv ${L}/${cap} · ${s.desc(L)} → ${maxed ? '상한' : s.desc(L + 1)}</span></div>`;
+      const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'buy num'; btn.id = 'buy-' + s.id;
+      btn.textContent = maxed ? '상한 도달' : fmt(cost);
+      btn.disabled = maxed || save.data < cost;
+      if (save.tutorial === 1 && yardBuys < 2 && (s.id === 'dmg' || s.id === 'hull') && L === 0) btn.classList.add('hint');
+      btn.addEventListener('click', () => {
+        const c = E.statCost(s.id, save.shipyard[s.id]);
+        if (save.data < c || save.shipyard[s.id] >= E.capOf(save)) return;
+        save.data -= c; save.shipyard[s.id]++;
+        if (save.tutorial === 1) { yardBuys++; if (yardBuys === 2) { funnel('t5_yard_two'); say([['함장 레아', '좋습니다. 이제 더 강한 정거장으로 다시 출격하죠. 이번엔 코어 카드로 처음부터 직접 지어 봐요.']]); } if (yardBuys === 1 && s.id === 'dmg') yardTab = 'def'; }
+        persist(); renderBase();
+      });
+      row.appendChild(btn); list.appendChild(row);
+    }
+    body.appendChild(list);
+  }
+
+  // station structure: pick a function tile per open slot, level the slot with data
+  // 코어 (2026-11-08): start cores (pre-attached each sortie, opened at best wave 8·15·22) + core research (data, per kind, every run)
+  function renderFrame(body) {
+    const st = E.stationOf(save, null), best = save.best || 0; save.coreRes = save.coreRes || {};
+    const pv = document.createElement('canvas'); pv.className = 'framepv'; pv.id = 'frame-pv'; pv.setAttribute('aria-label', '정거장 구조 미리보기'); body.appendChild(pv);
+    requestAnimationFrame(() => {
+      const dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(pv.clientWidth * dpr), h = Math.round(pv.clientHeight * dpr); if (!w || !h) return;
+      pv.width = w; pv.height = h; const g = pv.getContext('2d'); g.fillStyle = '#05070f'; g.fillRect(0, 0, w, h);
+      const sc = Math.min(w, h) / 2 / (st.orbitals ? 34 : 22); g.setTransform(sc, 0, 0, sc, w / 2, h / 2);
+      g.globalCompositeOperation = 'lighter'; A.glow(g, 0, 0, 22, '#3fb8ff', 0.4); g.globalCompositeOperation = 'source-over';
+      A.drawStation(g, 'hex', 1.2, { R: E.STATION_R * 1.3, tiles: st.tiles, openK: [0, 1, 2, 3, 4, 5], orbitals: st.orbitals, ot: 1.2, aim: -0.5 });
+    });
+    const note = document.createElement('p'); note.className = 'note';
+    note.textContent = '판 안에서 코어 카드로 정거장을 키워요. 시작 코어는 출격할 때 미리 붙어 있고, 코어 연구는 그 종류의 코어를 모든 판에서 강하게 해요.';
+    body.appendChild(note);
+    const h1 = document.createElement('h3'); h1.className = 'subh'; h1.textContent = '시작 코어'; body.appendChild(h1);
+    const list = document.createElement('div'); list.className = 'list';
+    E.SLOT_WAVES.forEach((w, i) => {
+      const row = document.createElement('div'); row.className = 'row slot'; row.id = 'slot-' + i;
+      const sl = save.station.slots[i];
+      if (best < w) { row.classList.add('locked'); row.innerHTML = `<div class="t"><b>시작 코어 ${i + 1}</b><span class="num">최고 웨이브 ${w}에서 열림 (현재 ${best})</span></div>`; list.appendChild(row); return; }
+      const ty = sl && E.coreOpen(save, sl.type) && E.TILE_TYPES.find(x => x.id === sl.type);
+      row.innerHTML = `<div class="t"><b>시작 코어 ${i + 1}${ty ? ' · ' + ty.name : ' · 비어 있음'}</b><span class="num">${ty ? ty.desc(1) : '아래에서 코어를 고르세요'}</span></div>`;
+      const types = document.createElement('div'); types.className = 'tiles';
+      for (const tt of E.TILE_TYPES) {
+        if (!E.coreOpen(save, tt.id)) continue;
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'chip tile'; b.id = `tile-${i}-${tt.id}`; b.textContent = tt.name; b.style.setProperty('--tc', CCOL[tt.id]);
+        b.setAttribute('aria-pressed', String(!!sl && sl.type === tt.id));
+        b.addEventListener('click', () => { save.station.slots[i] = { type: tt.id, lv: 1 }; persist(); renderBase(); });
+        types.appendChild(b);
+      }
+      row.appendChild(types); list.appendChild(row);
+    });
+    body.appendChild(list);
+    // 출격 덱: every unlocked core goes while there are 6 or fewer; past that the player picks 6
+    const openIds = E.CORE_ORDER.filter(id => E.coreOpen(save, id)), deck = E.coreDeck(save);
+    const hd = document.createElement('h3'); hd.className = 'subh'; hd.textContent = I18N.t('출격 덱 {0}/{1}').replace('{0}', deck.length).replace('{1}', E.DECK_SIZE); body.appendChild(hd);
+    const dn = document.createElement('p'); dn.className = 'note';
+    dn.textContent = openIds.length <= E.DECK_SIZE ? '연구한 코어가 모두 카드로 나와요. 6종을 넘으면 여기서 골라요.' : '판 안에서는 덱에 넣은 6종만 카드로 나와요. 눌러서 넣고 빼요.';
+    body.appendChild(dn);
+    const dk = document.createElement('div'); dk.className = 'tiles cdeck'; dk.id = 'cdeck';
+    for (const id of openIds) {
+      const tt = E.TILE_TYPES.find(x => x.id === id), inD = deck.includes(id), b = document.createElement('button'); b.type = 'button'; b.className = 'chip tile'; b.id = 'cd-' + id;
+      b.textContent = tt.name; b.style.setProperty('--tc', CCOL[id]); b.setAttribute('aria-pressed', String(inD)); b.disabled = openIds.length <= E.DECK_SIZE;
+      b.addEventListener('click', () => {
+        let d = deck.slice();
+        if (inD) d = d.filter(x => x !== id); else { if (d.length >= E.DECK_SIZE) { toast('덱이 가득 찼어요. 먼저 하나를 빼요', 2000); return; } d.push(id); }
+        save.coreDeck = d; persist(); sfx('up'); renderBase();
+      });
+      dk.appendChild(b);
+    }
+    body.appendChild(dk);
+    const h2 = document.createElement('h3'); h2.className = 'subh'; h2.textContent = '코어 연구'; body.appendChild(h2);
+    const rl = document.createElement('div'); rl.className = 'list';
+    for (const tt of E.TILE_TYPES) {
+      const open = E.coreOpen(save, tt.id), L = save.coreRes[tt.id] || 0, maxed = L >= E.TILE_MAX, cost = E.tileCost(L), ucost = E.CORE_UNLOCK[tt.id];
+      const row = document.createElement('div'); row.className = 'row' + (open ? '' : ' locked'); row.id = 'cres-' + tt.id;
+      row.innerHTML = `<div class="t"><b>${tt.name} <small class="num">${open ? 'Lv ' + L + '/' + E.TILE_MAX : I18N.t('미연구')}</small></b><span class="num">${open ? '<span>' + I18N.t('효과 +{0}%').replace('{0}', Math.round(L * E.CORE_K.res * 100)) + '</span> · ' : ''}<span>${tt.desc(1)}</span></span></div>`;
+      if (!open) {
+        const ub = document.createElement('button'); ub.type = 'button'; ub.className = 'buy num cunl'; ub.id = 'cunl-' + tt.id; ub.textContent = I18N.t('연구 {0}').replace('{0}', fmt(ucost)); ub.disabled = save.data < ucost;
+        ub.addEventListener('click', () => { if (save.data < ucost || E.coreOpen(save, tt.id)) return; save.data -= ucost; (save.coreUnlocked || (save.coreUnlocked = {}))[tt.id] = true; persist(); sfx('up'); toast(I18N.t('새 코어 연구 완료: {0}').replace('{0}', I18N.t(tt.name)), 2400); renderBase(); });
+        row.appendChild(ub);
+      }
+      if (open) {
+        const up = document.createElement('button'); up.type = 'button'; up.className = 'buy num'; up.id = 'cresup-' + tt.id;
+        up.textContent = maxed ? '최대' : fmt(cost); up.disabled = maxed || save.data < cost;
+        up.addEventListener('click', () => { const L2 = save.coreRes[tt.id] || 0, c = E.tileCost(L2); if (save.data < c || L2 >= E.TILE_MAX) return; save.data -= c; save.coreRes[tt.id] = L2 + 1; persist(); sfx('up'); renderBase(); });
+        row.appendChild(up);
+      }
+      rl.appendChild(row);
+    }
+    const orb = document.createElement('div'); orb.className = 'row' + (st.orbitals ? '' : ' locked'); orb.id = 'orbital-row';
+    orb.innerHTML = `<div class="t"><b>호위 위성 ${st.orbitals}/${E.ORBITAL_WAVES.length}</b><span class="num">${E.ORBITAL_WAVES.map((w, i) => (i < st.orbitals ? '✓ ' : '') + '웨이브 ' + w).join(' · ')} — 궤도의 적을 들이받고 적 탄을 막습니다</span></div>`;
+    rl.appendChild(orb);
+    body.appendChild(rl);
+  }
+
+  function renderEnh(body) {
+    if ((save.best || 0) < E.ENH_UNLOCK_WAVE) {
+      const d = document.createElement('div'); d.className = 'lock'; d.id = 'enh-lock';
+      d.textContent = `2단계 강화는 최고 웨이브 ${E.ENH_UNLOCK_WAVE}에 열립니다 (현재 ${save.best || 0}). 기본 업그레이드가 최대 레벨에 가까워질 때 남는 데이터를 쓰는 곳입니다. 레벨당 1%씩 곱해지는 대신 비용이 레벨마다 17%씩 오릅니다.`;
+      body.appendChild(d); return;
+    }
+    const note = document.createElement('p'); note.className = 'note';
+    note.textContent = `2단계 강화: 레벨당 ×1%가 곱해집니다. 최대 ${E.ENH_MAX}레벨, 비용은 레벨마다 ×1.17.`;
+    body.appendChild(note);
+    const list = document.createElement('div'); list.className = 'list';
+    for (const x of E.ENH) {
+      const L = save.enh[x.id] || 0, cost = E.enhCost(L), maxed = L >= E.ENH_MAX;
+      const row = document.createElement('div'); row.className = 'row';
+      row.innerHTML = `<div class="t"><b>${x.name}</b><span class="num">Lv ${L}/${E.ENH_MAX} · ${x.desc(L)} → ${maxed ? '최대' : x.desc(L + 1)}</span></div>`;
+      const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'buy num'; btn.id = 'enh-' + x.id;
+      btn.textContent = maxed ? '최대' : fmt(cost); btn.disabled = maxed || save.data < cost;
+      btn.addEventListener('click', () => {
+        const c = E.enhCost(save.enh[x.id] || 0);
+        if (save.data < c || (save.enh[x.id] || 0) >= E.ENH_MAX) return;
+        save.data -= c; save.enh[x.id] = (save.enh[x.id] || 0) + 1; persist(); renderBase();
+      });
+      row.appendChild(btn); list.appendChild(row);
+    }
+    body.appendChild(list);
+  }
+
+  // ---------- research ----------
+  function researchMs(n) { return E.RESEARCH_HOURS(n) * 3600 * 1000 / (save.settings.researchScale || 1); }
+  function checkResearch() {
+    let changed = false;
+    save.research.slots.forEach((s, i) => {
+      if (s && now() >= s.endAt) { save.research.levels[s.id] = (save.research.levels[s.id] || 0) + 1; save.research.slots[i] = null; changed = true; toast(`연구 완료: ${E.RESEARCH.find(r => r.id === s.id).name}`); }
+    });
+    if (changed) persist();
+    return changed;
+  }
+  const dur = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), ss = s % 60; const en = I18N.getLang() === 'en'; return h ? (en ? `${h}h ${m}m` : `${h}시간 ${m}분`) : m ? (en ? `${m}m ${ss}s` : `${m}분 ${ss}초`) : (en ? `${ss}s` : `${ss}초`); };
+  function renderLab(body) {
+    if (save.tutorial >= 2 && !save.funnel.t8_lab_seen) funnel('t8_lab_seen');
+    const p = document.createElement('p'); p.className = 'note';
+    p.textContent = `연구는 데이터와 시간을 함께 씁니다(n레벨 비용 8×n²). 첫 연구는 3분, 두 번째 24분, 8레벨부터는 3.2×n시간. 가속 칩 1개로 진행 중인 연구를 ${E.CELL_MINUTES}분 단축합니다. 연구 칸 ${save.research.slots.length}개에서 동시에 진행돼요. 테스트용 연구 배속: ${save.settings.researchScale}x (기록 탭에서 변경)`;
+    body.appendChild(p);
+    const slots = document.createElement('div'); slots.className = 'list';
+    save.research.slots.forEach((s, i) => {
+      const d = document.createElement('div'); d.className = 'slot' + (s ? ' busy' : ''); d.id = 'slot-' + i;
+      d.innerHTML = s ? `<span>${E.RESEARCH.find(r => r.id === s.id).name} Lv ${s.n}</span><span><span class="num" data-end="${s.endAt}">${dur(s.endAt - now())}</span></span>` : `<span>연구 칸 ${i + 1}</span><span>비어 있음</span>`;
+      if (s) {
+        const cb = document.createElement('button'); cb.type = 'button'; cb.className = 'cellbtn'; cb.id = 'cell-' + i;
+        const remainMs = s.endAt - now(), cellMs = E.CELL_MINUTES * 60 * 1000 / (save.settings.researchScale || 1);
+        cb.textContent = remainMs <= cellMs ? '가속 칩 1개 · 즉시 완료' : `가속 칩 1개 · -${E.CELL_MINUTES}분`; cb.disabled = !(save.cells > 0);
+        cb.addEventListener('click', () => {
+          const sl = save.research.slots[i]; if (!sl || !(save.cells > 0)) return;
+          save.cells--; sl.endAt -= E.CELL_MINUTES * 60 * 1000 / (save.settings.researchScale || 1);
+          persist(); renderBase();
+        });
+        d.lastElementChild.appendChild(cb);
+      }
+      slots.appendChild(d);
+    });
+    body.appendChild(slots);
+    const list = document.createElement('div'); list.className = 'list';
+    for (const r of E.RESEARCH) {
+      const n = save.research.levels[r.id] || 0, running = save.research.slots.some(s => s && s.id === r.id);
+      const freeIdx = save.research.slots.findIndex(s => !s);
+      const row = document.createElement('div'); row.className = 'row';
+      const rc = E.researchCost(n + 1), maxed = r.max != null && n >= r.max;
+      row.innerHTML = `<div class="t"><b>${I18N.t(r.name)} · Lv ${n}</b><span>${I18N.t(r.desc(n))}${I18N.t(maxed ? ' · 최대 레벨' : ` · 다음 ${dur(researchMs(n + 1))} · 데이터 ${fmt(rc)}`)}</span></div>`; // pieces translated one by one (the joined line has no single table entry)
+      const btn = document.createElement('button'); btn.type = 'button'; btn.className = 'buy'; btn.id = 'res-' + r.id;
+      btn.textContent = maxed ? '최대' : running ? '진행 중' : save.data < rc ? '데이터 부족' : '연구 시작';
+      btn.disabled = maxed || running || freeIdx < 0 || save.data < rc;
+      btn.addEventListener('click', () => {
+        const idx = save.research.slots.findIndex(s => !s); const c = E.researchCost(n + 1); if (idx < 0 || save.data < c || maxed) return;
+        save.data -= c;
+        save.research.slots[idx] = { id: r.id, n: n + 1, endAt: now() + researchMs(n + 1) };
+        persist(); renderBase();
+      });
+      row.appendChild(btn); list.appendChild(row);
+    }
+    body.appendChild(list);
+  }
+  setInterval(() => {
+    if ($('scr-base').hidden) { checkResearch(); return; }
+    if (checkResearch()) { renderBase(); return; }
+    document.querySelectorAll('[data-end]').forEach(el => el.textContent = dur(Number(el.dataset.end) - now()));
+  }, 1000);
+
+  // ---------- log ----------
+  function renderLog(body) {
+    const h = document.createElement('h2'); h.textContent = '최근 출격'; body.appendChild(h);
+    const wrap = document.createElement('div'); wrap.className = 'tablewrap';
+    const rows = save.log.slice(0, 12).map(r => `<tr><td>${r.tut ? '튜토리얼' : '일반'}</td><td class="num">${r.wave}</td><td class="num">${r.lv}</td><td class="num">${r.lab}</td><td class="num">${fmt(r.data)}</td><td class="num">${Math.floor(r.sec / 60)}:${String(r.sec % 60).padStart(2, '0')}</td></tr>`).join('');
+    wrap.innerHTML = `<table><thead><tr><th>구분</th><th>웨이브</th><th>강화 합</th><th>상한 연구</th><th>데이터</th><th>시간</th></tr></thead><tbody>${rows || '<tr><td colspan="6">아직 기록이 없습니다</td></tr>'}</tbody></table>`;
+    body.appendChild(wrap);
+    const h2 = document.createElement('h2'); h2.textContent = '튜토리얼 퍼널 (도달 시각)'; body.appendChild(h2);
+    const steps = [['p0_prologue', '프롤로그 시작'], ['first_tap', '첫 탭'], ['p1_prologue_end', '프롤로그 끝까지 시청'], ['p1_prologue_skip', '프롤로그 건너뛰기'], ['p2_start', '타이틀에서 출격 시작'], ['alive_30s', '30초 유지'], ['early_exit', '30초 안에 이탈'], ['t0_start', '튜토리얼 출격'], ['t1_first_upgrade', '첫 카드 선택'], ['t2_module', '체험 코어 첫 장착'], ['t3_railgun_fired', '레일건 발사'], ['t4_destroyed', '첫 파괴'], ['t5_yard_two', '조선소 강화 2회'], ['t6_second_run', '재출격'], ['t7_goal', '목표 안내(웨이브 8)'], ['t8_lab_seen', '과학 데크 확인'], ['offline_claim', '방치 보상 첫 수령'], ['offline_ad', '방치 보상 2배(광고)']];
+    const fw = document.createElement('div'); fw.className = 'tablewrap';
+    fw.innerHTML = `<table><tbody>${steps.map(([k, n]) => `<tr><td>${n}</td><td class="num">${save.funnel[k] ? Math.floor(save.funnel[k].sec / 60) + ':' + String(save.funnel[k].sec % 60).padStart(2, '0') : '-'}</td></tr>`).join('')}</tbody></table>`;
+    body.appendChild(fw);
+    const hg = document.createElement('h2'); hg.textContent = '안내 다시 보기'; body.appendChild(hg);
+    const gl = document.createElement('div'); gl.className = 'tiles';
+    for (const g of GUIDES) {
+      if (!guideSeen(g)) continue;
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.id = 'greplay-' + g.id; b.textContent = g.name;
+      b.addEventListener('click', () => { if (g.where === 'base') guideRun(g, true); else say(g.lines.map(t => [VOLT, t])); });
+      gl.appendChild(b);
+    }
+    if (!gl.children.length) gl.textContent = '아직 본 안내가 없어요.';
+    body.appendChild(gl);
+    if (NCQ_TEST_TOOLS) {
+      const h3 = document.createElement('h2'); h3.textContent = '테스트 도구 (#ncq-test 전용)'; body.appendChild(h3);
+      const set = document.createElement('div'); set.className = 'sub'; set.style.flexWrap = 'wrap';
+      for (const sc of [1, 60, 3600]) {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = `연구 ${sc}x`; b.setAttribute('aria-pressed', String(save.settings.researchScale === sc));
+        b.addEventListener('click', () => { save.settings.researchScale = sc; persist(); renderBase(); }); set.appendChild(b);
+      }
+      const tool = (id, label, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.id = id; b.textContent = label; b.addEventListener('click', () => { fn(); persist(); renderBase(); }); set.appendChild(b); };
+      tool('t-enh', '2단계 강화 해금', () => { save.best = Math.max(save.best || 0, E.ENH_UNLOCK_WAVE); toast('최고 웨이브를 40으로 설정했습니다'); });
+      tool('t-res', '데이터 +5,000 · 가속 칩 +5', () => { save.data += 5000; save.cells = (save.cells || 0) + 5; });
+      tool('t-rec', '광고 녹화 모드', () => { startRecording(); });
+      tool('t-idle2', '방치 +2시간', () => { if (!accrue(2 * 3600e3)) toast('방치 보상이 아직 잠겨 있습니다'); setTimeout(maybeShowOffline, 0); });
+      tool('t-idle9', '방치 +9시간', () => { if (!accrue(9 * 3600e3)) toast('방치 보상이 아직 잠겨 있습니다'); setTimeout(maybeShowOffline, 0); });
+      tool('t-frame', '타일 칸 전부 해금 (최고 웨이브 80)', () => { save.best = Math.max(save.best || 0, 80); toast('타일 칸 6개 · 호위 위성 3기 해금'); });
+      body.appendChild(set);
+      const artRow = (label, list, key) => {
+        const row = document.createElement('div'); row.className = 'sub'; row.style.flexWrap = 'wrap';
+        const l = document.createElement('span'); l.className = 'note'; l.textContent = label; row.appendChild(l);
+        for (const it of list) { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.id = 't-art-' + it.id; b.textContent = it.name.replace(' (현재)', ''); b.setAttribute('aria-pressed', String(art()[key] === it.id)); b.addEventListener('click', () => { art()[key] = it.id; persist(); renderBase(); }); row.appendChild(b); }
+        body.appendChild(row);
+      };
+      artRow('적 시안', A.ENEMY_STYLES, 'en');
+    }
+    const acts = document.createElement('div'); acts.className = 'sub';
+    const copy = document.createElement('button'); copy.type = 'button'; copy.className = 'ghost'; copy.id = 'btn-copy'; copy.textContent = '플레이 데이터 복사';
+    copy.addEventListener('click', async () => {
+      const txt = JSON.stringify({ build: 'v2', funnel: save.funnel, log: save.log, shipyard: save.shipyard, enh: save.enh, idleTotal: save.idleTotal || 0, clockBack: save.clockBack || null, cells: save.cells, research: save.research.levels, best: save.best, ua: navigator.userAgent }, null, 1);
+      try { await navigator.clipboard.writeText(txt); toast('플레이 데이터를 복사했습니다'); } catch (e) { toast('복사가 막혀 있습니다. 화면을 캡처해 주세요'); }
+    });
+    const reset = document.createElement('button'); reset.type = 'button'; reset.className = 'ghost'; reset.id = 'btn-reset'; reset.textContent = '처음부터 다시';
+    armReset(reset, '처음부터 다시');
+    acts.appendChild(copy); acts.appendChild(reset); body.appendChild(acts);
+    const n = document.createElement('p'); n.className = 'note';
+    n.textContent = '강화 합과 도달 웨이브 기록은 밸런스 시트의 "강화 레벨당 도달 웨이브" 보정에 씁니다.';
+    body.appendChild(n);
+  }
+
+  // ---------- render ----------
+  const cv = $('cv'), ctx = cv.getContext('2d');
+  const COL = A.COL; // swarm colours live with the art (new forms included)
+  function resize() {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    const w = Math.round(cv.clientWidth * dpr), h = Math.round(cv.clientHeight * dpr);
+    if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
+    return dpr;
+  }
+  function glowCircle(x, y, r, col, a) {
+    ctx.globalAlpha = a * 0.25; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(x, y, r * 2.2, 0, 6.283); ctx.fill();
+    ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill(); ctx.globalAlpha = 1;
+  }
+  function poly(x, y, r, n, rot, col, fill) {
+    ctx.beginPath();
+    for (let i = 0; i < n; i++) { const a = rot + i / n * 6.283; const px = x + Math.cos(a) * r, py = y + Math.sin(a) * r; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
+    ctx.closePath();
+    if (fill) { ctx.globalAlpha = 0.22; ctx.fillStyle = col; ctx.fill(); ctx.globalAlpha = 1; }
+    ctx.strokeStyle = col; ctx.lineWidth = 1.6; ctx.stroke();
+  }
+  // ---------- render: additive neon, cached glow sprites, layered background ----------
+  const glowSprite = A.glowSprite;
+  function glow(x, y, r, col, a) { A.glow(ctx, x, y, r, col, a); }
+  const BG = A.makeBackground(); let lastBgT = null;
+  function drawEnemy(e, time) { A.drawEnemy(ctx, art().en, e, time, !!battle && e.hitT != null && battle.t - e.hitT < 0.07); } // white flash on hit
+  function burst(x, y, kind, n, spd) {
+    for (let j = 0; j < n && particles < (lite ? 120 : 360) && fx.length < 700; j++) { const a = Math.random() * 6.283, v = spd * (0.3 + Math.random()); fx.push({ k: 'shard', x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, c: kind, life: 0.35 + Math.random() * 0.35, t: 0 }); particles++; }
+  }
+  // line sparks: fly out from (x,y) around angle a (spread = half-width in radians), drawn as short streaks along their motion
+  function streaks(x, y, a, spread, n, spd, col, life, w) {
+    for (let j = 0; j < n && fx.length < 760; j++) { const d = a + (Math.random() * 2 - 1) * spread, v = spd * (0.4 + Math.random() * 0.8); fx.push({ k: 'streak', x, y, vx: Math.cos(d) * v, vy: Math.sin(d) * v, c: col, life: life * (0.6 + Math.random() * 0.6), w, t: 0 }); }
+  }
+  let impacts = 0, hitstop = 0, lastShotT = -9;
+  // Volt names each new swarm form the first time it shows up (same forms as v3; v2 has rail/EMP instead of missiles)
+  const FOE_LINES = {
+    splitter: '저건 분열낭이에요! 터뜨리면 새끼 셋이 튀어나와요. 레일건으로 한 줄로 꿰뚫어 주세요.',
+    volatile: '노란 폭발 포자예요. 정거장에 닿으면 크게 터져요. 무리 속에서 먼저 터뜨리면 주변까지 휩쓸려요!',
+    carapace: '갑각충이에요. 앞쪽 갑각이 우리 탄을 절반쯤 튕겨 내요. 옆에서 때리는 요격기가 잘 통해요.',
+    mender: '분홍 해파리가 뒤에서 무리를 치료하고 있어요! 저것부터 잡아야 해요.',
+    brood: '산란 어미예요. 알을 낳으면서 다가와요. 알이 깨기 전에 EMP로 묶고 정리해 주세요.',
+    stalker: '위상 포식자예요! 잠깐씩 사라지는데, 그동안은 공격이 통과해요. 체력과 체력 회복을 올려 버티세요.'
+  };
+  let particles = 0, dmgTexts = 0, slowmo = 0, lastHull = null, shieldT = 0, lastAim = 0;
+  let lite = false, ftAvg = 16, liteSince = 0; // auto quality: drop to lite when frames run slow (planning doc 11-5)
+  const combo = { n: 0, t: 0 };
+  const COLX = Object.assign({ spark: '#ffe9a8' }, COL);
+
+  let camR = null;
+  function draw(time) {
+    const dpr = resize(), W = cv.width, H = cv.height;
+    if (W < 2 || H < 2 || $('scr-battle').hidden) return; // hidden battle screen: nothing to draw
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    const bdt = lastBgT == null ? 0 : time - lastBgT; lastBgT = time;
+    A.drawBackground(ctx, BG, W, H, time, bdt, lite);
+    const b = battle; if (!b) return;
+    const att = fx.find(f => f.k === 'attach');
+    const pk = prologue ? 1 - Math.max(0, holdT) / PRO_HOLD : 1, pz = prologue ? 0.7 + 0.3 * (1 - Math.pow(1 - pk, 2)) : 1; // prologue opening: slow push-in toward the station
+    // camera (2026-11-09): view radius follows the range ring (≈76 at the start, out to 104 as range grows) so the station reads bigger;
+    // a docking core pushes in for ~1 s. The prologue keeps its wide shot.
+    const want = b.opts.prologue ? 104 : Math.max(76, Math.min(104, b.d.range * 1.25 + 4));
+    camR = camR == null ? want : camR + (want - camR) * Math.min(1, bdt * 1.5);
+    const dz = fx.find(f => f.k === 'dockzoom' && !f.dead), dzk = dz ? 1 + 0.32 * Math.sin(Math.min(1, dz.t / 1.1) * Math.PI) : 1;
+    const zoom = (att ? 1 + 0.7 * Math.sin(Math.min(1, att.t / 1.3) * Math.PI) : 1) * pz * dzk;
+    const s = Math.min(W, H) / 2 / camR * zoom;
+    const sx = shake ? (Math.random() - 0.5) * shake * 2 * dpr : 0, sy = shake ? (Math.random() - 0.5) * shake * 2 * dpr : 0;
+    ctx.setTransform(s, 0, 0, s, W / 2 + sx, H / 2 + sy);
+    // range ring
+    ctx.strokeStyle = 'rgba(111,211,255,0.12)'; ctx.lineWidth = 0.5; ctx.setLineDash([1.5, 3]);
+    ctx.beginPath(); ctx.arc(0, 0, b.d.range, time * 0.2, time * 0.2 + 6.283); ctx.stroke(); ctx.setLineDash([]);
+    // 교란장: a slow violet ring around the station
+    if (b.wst && b.wst.field.r) { const r = b.wst.field.r, g = ctx.createRadialGradient(0, 0, r * 0.4, 0, 0, r); g.addColorStop(0, 'rgba(158,168,255,0)'); g.addColorStop(1, 'rgba(158,168,255,0.16)'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, r, 0, 6.283); ctx.fill();
+      ctx.strokeStyle = 'rgba(190,198,255,0.55)'; ctx.lineWidth = 0.6; ctx.setLineDash([2, 2.5]); ctx.beginPath(); ctx.arc(0, 0, r, -time * 0.6, -time * 0.6 + 6.283); ctx.stroke(); ctx.setLineDash([]); }
+
+    // ---- prologue finale: giant mothership far behind the fight ----
+    if (b.mother) A.drawMothership(ctx, 0, b.mother.y, time, b.mother.charge);
+    // ---- station: glow, endgame rings, hull design (art.js) ----
+    ctx.globalCompositeOperation = 'lighter';
+    const pulse = 1 + Math.sin(time * 2.2) * 0.05;
+    if (!lite) glow(0, 0, E.STATION_R * (b.opts.prologue ? 3.4 : 2.4) * pulse, '#3fb8ff', 0.45);
+    ctx.globalAlpha = 1;
+    if (b.opts.prologue) {
+      [2.9, 3.5].forEach((k, ri) => {
+        ctx.save(); ctx.rotate(time * (ri % 2 ? -0.6 : 0.8)); ctx.strokeStyle = ri === 1 ? '#ffd166' : '#6fd3ff'; ctx.lineWidth = 1.6;
+        for (let i = 0; i < 6; i++) { ctx.beginPath(); ctx.arc(0, 0, E.STATION_R * k, i * 1.047 + 0.15, i * 1.047 + 0.8); ctx.stroke(); }
+        ctx.restore();
+      });
+    }
+    const grow = att ? Math.min(1, att.t / 0.8) : 1;
+    let newest = null; for (let i = b.projs.length - 1; i >= 0; i--) if (!b.projs[i].src) { newest = b.projs[i]; break; }
+    if (newest && newest.tgt) lastAim = Math.atan2(newest.tgt.y, newest.tgt.x);
+    const st = b.station, aims = {}; for (const bt of b.batteries) aims[bt.k] = bt.aim;
+    const tiles = st.tiles.map(t => t && Object.assign({ isNew: !!t.proto }, t));
+    A.drawStation(ctx, 'hex', time, { R: E.STATION_R * 1.3, tiles, dmg: b.opts.prologue ? 0 : 1 - b.hull / b.d.hullMax, hit: Math.max(0, shieldT / 0.25), recoil: Math.max(0, 1 - (time - lastShotT) / 0.12), openK: E.SLOT_ORDER.slice(0, st.open), orbitals: st.orbitals, ot: b.t, aims, outer: !!b.opts.prologue, aim: lastAim, grow });
+    ctx.globalCompositeOperation = 'lighter';
+    // shield flash when hit
+    if (lastHull !== null && b.hull < lastHull - 0.01) { shieldT = 0.25; sfx('hurt'); }
+    lastHull = b.hull;
+    if (shieldT > 0) {
+      ctx.globalAlpha = shieldT * 3; ctx.strokeStyle = '#ff6f7d'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); for (let i = 0; i <= 6; i++) { const a = i / 6 * 6.283 + time; const px = Math.cos(a) * E.STATION_R * 2, py = Math.sin(a) * E.STATION_R * 2; i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); } ctx.stroke(); ctx.globalAlpha = 1;
+    }
+    // ---- swarm remains: splat stains and droplets fading on the spot ----
+    for (const f of fx) if (f.k === 'goo' && !f.dead) { const k = f.t / 1.3; if (k >= 1) { f.dead = true; continue; }
+      const sp = Math.min(1, f.t / 0.18), a = (1 - k) * 0.75; ctx.fillStyle = f.c;
+      ctx.globalAlpha = a * 0.18; ctx.beginPath(); ctx.arc(f.x, f.y, f.r * (0.7 + 0.4 * sp), 0, 6.283); ctx.fill();
+      ctx.globalAlpha = a; for (const [dx, dy, rr] of f.d) { ctx.beginPath(); ctx.arc(f.x + dx * f.r * 2.4 * sp, f.y + dy * f.r * 2.4 * sp, rr * f.r * 0.5 * (1 - k * 0.5), 0, 6.283); ctx.fill(); } }
+    ctx.globalAlpha = 1;
+    // ---- enemies (normal blend for crisp outlines, glow underneath) ----
+    if (!lite) for (const e of b.enemies) { if (!e.dead && e.type === 'boss') glow(e.x, e.y, e.r * 3.4, COL[e.type], 0.5); }
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    for (const e of b.enemies) {
+      if (e.dead) continue;
+      const col = COL[e.type];
+      drawEnemy(e, time);
+      if (e.stun > 0) { ctx.strokeStyle = '#6fd3ff'; ctx.lineWidth = 0.6; ctx.beginPath(); ctx.arc(e.x, e.y, e.r * 1.8, time * 6, time * 6 + 4); ctx.stroke(); }
+      if (e.type === 'boss' || e.type === 'meteor') {
+        const w = e.r * 2.4, fr = Math.max(0, e.hp / e.maxhp);
+        ctx.fillStyle = 'rgba(255,255,255,0.15)'; ctx.fillRect(e.x - w / 2, e.y - e.r - 3, w, 1);
+        ctx.fillStyle = col; ctx.fillRect(e.x - w / 2, e.y - e.r - 3, w * fr, 1);
+      }
+    }
+
+    // ---- interceptors: engine trails (additive) + hull sprites ----
+    if (b.craft.length) {
+      ctx.globalCompositeOperation = 'lighter';
+      for (const c of b.craft) {
+        const tr = c._tr || (c._tr = []); tr.push(c.x, c.y); if (tr.length > 16) tr.splice(0, 2);
+        if (!lite && tr.length > 4) { ctx.globalAlpha = 0.45; ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 0.9; ctx.beginPath(); ctx.moveTo(tr[0], tr[1]); for (let i = 2; i < tr.length; i += 2) ctx.lineTo(tr[i], tr[i + 1]); ctx.stroke(); }
+        glow(c.x - Math.cos(c.ang) * 1.8, c.y - Math.sin(c.ang) * 1.8, 2.2, '#9fe6ff', 0.6);
+      }
+      ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+      for (const c of b.craft) A.drawCraft(ctx, c, b.station.proto ? '#ffd166' : '#ffd166');
+    }
+    // ---- additive: bullets, projectiles with trails, fx ----
+    ctx.globalCompositeOperation = 'lighter';
+    for (const bl of b.bullets) { glow(bl.x, bl.y, 2.6 * (1 + 0.18 * Math.sin(time * 18 + bl.x)), '#c08bff', 0.9); glow(bl.x, bl.y, 0.9, '#f3e6ff', 0.9); }
+    const PCOL = ['#6fd3ff', '#8fe0ff', '#b8ecff', '#d6f6ff', '#eefcff', '#ffffff']; // station shots stay cyan-white; gold belongs to our interceptors
+    const lv = b.opts.prologue ? 5 : Math.min(5, b.inrun.dmg + (b.module ? 2 : 0));
+    const pr = b.opts.prologue ? 1.4 : Math.min(1.6, 0.8 + 0.08 * b.inrun.dmg + (b.module ? 0.2 : 0));
+    for (const p of b.projs) {
+      const mis = p.src === 'missile', col = mis ? '#ff6a4d' : p.src === 'wasp' ? WCOL.hive : p.crit ? '#ffffff' : PCOL[lv];
+      if (!p._trail) { p._trail = []; if (!p.src) lastShotT = time; if (!p.src && fx.length < 700) fx.push({ k: 'muzzle', a: Math.atan2(p.tgt.y, p.tgt.x), t: 0 }); sfx(mis ? 'missile' : p.src ? 'shot2' : 'shot'); }
+      const tr = p._trail; tr.push(p.x, p.y); if (tr.length > (mis ? 22 : 12)) tr.splice(0, 2);
+      const n = tr.length;
+      if (mis && !lite && fx.length < 700 && Math.random() < 0.55) fx.push({ k: 'smoke', x: p.x, y: p.y, r: 1.3 + Math.random() * 0.8, life: 0.6, t: 0 });
+      if (n >= 4) {
+        ctx.lineCap = 'round';
+        if (!lite) { ctx.strokeStyle = col; for (let i = 2; i < n; i += 2) { const u = i / n; ctx.globalAlpha = 0.5 * u * u; ctx.lineWidth = pr * (mis ? 2.6 : 2.1) * u; ctx.beginPath(); ctx.moveTo(tr[i - 2], tr[i - 1]); ctx.lineTo(tr[i], tr[i + 1]); ctx.stroke(); } }
+        // hot core over the newest part of the trail: reads as a bolt, not a dot
+        const c0 = Math.max(0, n - (mis ? 6 : 8)); ctx.globalAlpha = 0.95; ctx.strokeStyle = mis ? '#ffe0c4' : '#ffffff'; ctx.lineWidth = pr * (mis ? 0.9 : 0.75);
+        ctx.beginPath(); ctx.moveTo(tr[c0], tr[c0 + 1]); ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.lineCap = 'butt';
+      }
+      glow(p.x, p.y, (mis ? 4.4 * (0.85 + 0.3 * Math.random()) : p.crit ? 4.4 : 3.1) * pr, col, 1);
+      glow(p.x, p.y, (mis ? 1.7 : 1.2) * pr, '#ffffff', 0.9);
+    }
+    ctx.globalAlpha = 1;
+    // ---- deck weapons: beam, flame wheels ----
+    if (b.wst) {
+      const bt = b.wst.beam.tgts; if (bt && bt.length) { let px = 0, py = 0; const lv5 = b.wlv.beam >= 5, fl = 0.8 + 0.2 * Math.sin(time * 40);
+        for (const e of bt) { if (e.dead) break; ctx.lineCap = 'round'; ctx.globalAlpha = 0.5 * fl; ctx.strokeStyle = WCOL.beam; ctx.lineWidth = lv5 ? 3.2 : 2.2; ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(e.x, e.y); ctx.stroke();
+          ctx.globalAlpha = 0.95; ctx.strokeStyle = '#fff0fb'; ctx.lineWidth = lv5 ? 1.1 : 0.7; ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(e.x, e.y); ctx.stroke(); glow(e.x, e.y, 3.2, WCOL.beam, 0.8); px = e.x; py = e.y; }
+        ctx.lineCap = 'butt'; ctx.globalAlpha = 1; }
+      for (let j = 0; j < (b.wst.wheel.n || 0); j++) { const a = b.wst.wheel.a + j * 6.283 / b.wst.wheel.n, wx = Math.cos(a) * 20, wy = Math.sin(a) * 20, rr = 3.5 * (b.wst.wheel.big || 1);
+        glow(wx, wy, rr * 2.2, WCOL.wheel, 0.75); glow(wx, wy, rr, '#fff1c9', 0.95);
+        if (!lite) { ctx.globalAlpha = 0.35; ctx.strokeStyle = WCOL.wheel; ctx.lineWidth = rr * 0.9; ctx.beginPath(); ctx.arc(0, 0, 20, a - 0.5, a); ctx.stroke(); ctx.globalAlpha = 1; } }
+    }
+    // ---- mothership main cannon: a beam wider than the station, swallowing it ----
+    if (b.mother && b.mother.beam >= 0) {
+      const top = b.mother.y + E.MOTHER.maw, wgt = Math.min(1, b.mother.beam / 0.25), wdt = 4 + 30 * wgt, flick = 0.85 + 0.15 * Math.sin(time * 60);
+      for (let y = top; y < 420; y += lite ? 18 : 9) glow((Math.random() - 0.5) * 3, y, wdt * 1.4 * flick, '#ff6f9f', 0.55);
+      ctx.globalAlpha = 0.9; ctx.fillStyle = '#ffe3ef'; ctx.fillRect(-wdt * 0.45, top, wdt * 0.9, 420 - top);
+      ctx.globalAlpha = 1; ctx.fillStyle = '#ffffff'; ctx.fillRect(-wdt * 0.2, top, wdt * 0.4, 420 - top);
+      glow(0, 0, 30 + 40 * wgt, '#ffffff', 0.9);
+    }
+    particles = 0; dmgTexts = 0; impacts = 0;
+    for (let i = fx.length - 1; i >= 0; i--) {
+      const f = fx[i]; if (f.dead) continue;
+      if (f.k === 'shard') {
+        particles++; const k = f.t / f.life; const drag = 1 - 0.5 * k;
+        if (lite) { ctx.globalAlpha = Math.max(0, 1 - k); ctx.fillStyle = COLX[f.c] || '#ffffff'; ctx.fillRect(f.x + f.vx * f.t * drag - 0.6, f.y + f.vy * f.t * drag - 0.6, 1.2, 1.2); }
+        else glow(f.x + f.vx * f.t * drag, f.y + f.vy * f.t * drag, f.c === 'spark' ? 1.2 : 1.6, COLX[f.c] || '#ffffff', Math.max(0, 1 - k));
+        if (k >= 1) (f.dead = true);
+      } else if (f.k === 'boom') {
+        const k = f.t / 0.45;
+        glow(f.x, f.y, f.r * (1 + k), '#ffffff', Math.max(0, 0.9 - k * 1.5));
+        glow(f.x, f.y, f.r * 1.6 * (0.6 + k), COL[f.c], Math.max(0, 0.7 - k));
+        ctx.globalAlpha = Math.max(0, 1 - k); ctx.strokeStyle = COL[f.c]; ctx.lineWidth = 1.2 * (1 - k) + 0.2;
+        ctx.beginPath(); ctx.arc(f.x, f.y, f.r * (0.4 + 2 * k), 0, 6.283); ctx.stroke(); ctx.globalAlpha = 1;
+        if (k >= 1) (f.dead = true);
+      } else if (f.k === 'muzzle') {
+        const k = f.t / 0.09; if (k >= 1) { f.dead = true; continue; }
+        const ux = Math.cos(f.a), uy = Math.sin(f.a), mx = ux * E.STATION_R * 1.35, my = uy * E.STATION_R * 1.35, w = 1 - k;
+        glow(mx, my, 5 * w + 1, '#9fdcff', w); glow(mx, my, 2 * w + 0.5, '#ffffff', w);
+        ctx.globalAlpha = w; ctx.strokeStyle = '#e8f8ff'; ctx.lineWidth = 0.7; ctx.beginPath(); ctx.moveTo(mx, my); ctx.lineTo(mx + ux * 9 * w, my + uy * 9 * w);
+        ctx.moveTo(mx - uy * 3.5 * w, my + ux * 3.5 * w); ctx.lineTo(mx + uy * 3.5 * w, my - ux * 3.5 * w); ctx.stroke(); ctx.globalAlpha = 1;
+      } else if (f.k === 'streak') {
+        const k = f.t / f.life; if (k >= 1) { f.dead = true; continue; }
+        const d = 1 - 0.55 * k, x = f.x + f.vx * f.t * d, y = f.y + f.vy * f.t * d, tl = 0.045 * (1 - k * 0.5);
+        ctx.globalAlpha = 1 - k; ctx.strokeStyle = f.c; ctx.lineWidth = f.w * (1 - 0.5 * k); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - f.vx * tl, y - f.vy * tl); ctx.stroke(); ctx.globalAlpha = 1;
+      } else if (f.k === 'impact') {
+        impacts++; const k = f.t / (f.crit ? 0.22 : 0.15); if (k >= 1) { f.dead = true; continue; } const w = 1 - k;
+        glow(f.x, f.y, (f.crit ? 5 : 3.2) * w + 0.8, '#ffffff', w); glow(f.x, f.y, (f.crit ? 8 : 5) * (0.5 + k), '#6fd3ff', 0.5 * w);
+        ctx.globalAlpha = w; ctx.strokeStyle = f.crit ? '#ffffff' : '#bfefff'; ctx.lineWidth = 0.5 + 0.6 * w; ctx.beginPath(); ctx.arc(f.x, f.y, 1 + (f.crit ? 8 : 5) * k, 0, 6.283); ctx.stroke(); ctx.globalAlpha = 1;
+      } else if (f.k === 'fire') {
+        const k = f.t / 0.6; if (k >= 1) { f.dead = true; continue; } const w = 1 - k, fl = 0.85 + 0.3 * Math.random();
+        glow(f.x, f.y, f.r * (0.5 + 0.8 * k), '#ffffff', Math.max(0, 1 - k * 3.5));
+        glow(f.x, f.y, f.r * (0.8 + 1.1 * k) * fl, '#ffb347', 0.85 * w); glow(f.x, f.y, f.r * (1.2 + 1.5 * k), '#ff4d2e', 0.55 * w);
+        ctx.globalAlpha = w; ctx.strokeStyle = '#ffe0b0'; ctx.lineWidth = 1.5 * w + 0.2; ctx.beginPath(); ctx.arc(f.x, f.y, f.r * (0.3 + 2.4 * k), 0, 6.283); ctx.stroke(); ctx.globalAlpha = 1;
+      } else if (f.k === 'smoke') {
+        const k = f.t / f.life; if (k >= 1) { f.dead = true; continue; }
+        glow(f.x, f.y - k * 2, f.r * (1 + 2.2 * k), k < 0.25 ? '#ff8a4d' : '#7a5a66', 0.32 * (1 - k));
+      } else if (f.k === 'shell') { // a shell shard spinning off a dead swarm body
+        const k = f.t / 0.55; if (k >= 1) { f.dead = true; continue; } const dr = 1 - 0.5 * k, x = f.x + f.vx * f.t * dr, y = f.y + f.vy * f.t * dr, r = f.r * (1 - 0.3 * k);
+        ctx.save(); ctx.globalAlpha = 1 - k; ctx.translate(x, y); ctx.rotate(f.rot + f.vr * f.t); ctx.beginPath(); ctx.moveTo(r, 0); ctx.lineTo(-r * 0.6, r * 0.5); ctx.lineTo(-r * 0.4, -r * 0.5); ctx.closePath(); ctx.fillStyle = '#0b111d'; ctx.fill(); ctx.strokeStyle = f.c; ctx.lineWidth = 0.35; ctx.stroke(); ctx.restore();
+      } else if (f.k === 'shock') { // big foe: white flash ring + coloured ring
+        const k = f.t / 0.4; if (k >= 1) { f.dead = true; continue; } const rr = f.r * Math.sqrt(k);
+        if (k < 0.25) glow(f.x, f.y, f.r * 0.5, '#ffffff', 1 - k * 4);
+        ctx.globalAlpha = 1 - k; ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.4 * (1 - k); ctx.beginPath(); ctx.arc(f.x, f.y, rr, 0, 6.283); ctx.stroke();
+        ctx.strokeStyle = f.c; ctx.lineWidth = 0.9 * (1 - k); ctx.beginPath(); ctx.arc(f.x, f.y, rr * 0.72, 0, 6.283); ctx.stroke(); ctx.globalAlpha = 1;
+      } else if (f.k === 'healring') { // mender pulse
+        const k = f.t / 0.6; if (k >= 1) { f.dead = true; continue; } ctx.globalAlpha = (1 - k) * 0.8; ctx.strokeStyle = '#ff8fd6'; ctx.lineWidth = 0.8; ctx.beginPath(); ctx.arc(f.x, f.y, E.FOE_RULE.healR * (0.2 + 0.8 * Math.sqrt(k)), 0, 6.283); ctx.stroke(); ctx.globalAlpha = 1;
+      } else if (f.k === 'rail') {
+        const k = f.t / 0.5, len = 140, ux = Math.cos(f.a), uy = Math.sin(f.a);
+        for (let d = 0; d < len; d += lite ? 20 : 10) glow(ux * d, uy * d, 7 * (1 - k) + 2, '#9fe6ff', Math.max(0, 0.7 - k));
+        ctx.globalAlpha = Math.max(0, 1 - k); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3.5 * (1 - k) + 0.6;
+        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(ux * len, uy * len); ctx.stroke(); ctx.globalAlpha = 1;
+        if (k >= 1) (f.dead = true);
+      } else if (f.k === 'emp') {
+        const k = f.t / 0.6, R = 70 * Math.min(1, k * 1.3);
+        ctx.globalAlpha = Math.max(0, 1 - k); ctx.strokeStyle = '#6fd3ff'; ctx.lineWidth = 3 * (1 - k) + 0.5;
+        ctx.beginPath(); ctx.arc(0, 0, R, 0, 6.283); ctx.stroke();
+        ctx.strokeStyle = '#e7f8ff'; ctx.lineWidth = 0.7;
+        for (let j = 0; j < 10; j++) { let a = j / 10 * 6.283 + f.seed, r = E.STATION_R; ctx.beginPath(); ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r); while (r < R) { r += 6; a += (Math.sin(f.seed * 13 + j * 7 + r) * 0.25); ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r); } ctx.stroke(); }
+        ctx.globalAlpha = 1; if (k >= 1) (f.dead = true);
+      } else if (f.k === 'zap') {
+        const k = f.t / 0.14; ctx.globalAlpha = Math.max(0, 1 - k); ctx.strokeStyle = '#fff2c4'; ctx.lineWidth = 0.8;
+        ctx.beginPath(); ctx.moveTo(f.x1, f.y1); ctx.lineTo(f.x2, f.y2); ctx.stroke(); glow(f.x2, f.y2, 2.6, '#ffd166', Math.max(0, 1 - k)); ctx.globalAlpha = 1; if (k >= 1) (f.dead = true);
+      } else if (f.k === 'block') {
+        const k = f.t / 0.3; ctx.globalAlpha = Math.max(0, 1 - k); ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 0.8; ctx.beginPath(); ctx.arc(f.x, f.y, 3 + 5 * k, 0, 6.283); ctx.stroke(); ctx.globalAlpha = 1; if (k >= 1) (f.dead = true);
+      } else if (f.k === 'chain') {
+        const k = f.t / 0.25; ctx.globalAlpha = Math.max(0, 1 - k); ctx.strokeStyle = '#ffe9a8'; ctx.lineWidth = 0.9;
+        const mx = (f.x1 + f.x2) / 2 + (Math.random() - 0.5) * 6, my = (f.y1 + f.y2) / 2 + (Math.random() - 0.5) * 6;
+        ctx.beginPath(); ctx.moveTo(f.x1, f.y1); ctx.lineTo(mx, my); ctx.lineTo(f.x2, f.y2); ctx.stroke(); ctx.globalAlpha = 1; if (k >= 1) (f.dead = true);
+      } else if (f.k === 'rangeflash') { // 사거리 bought: the range ring lights up and settles out to its new size
+        const k = f.t / 0.9; ctx.globalAlpha = Math.max(0, 1 - k) * 0.9; ctx.strokeStyle = '#ff9f6b'; ctx.lineWidth = 1.4 + 1.2 * (1 - k);
+        ctx.beginPath(); ctx.arc(0, 0, b.d.range * (0.92 + 0.08 * Math.min(1, k * 3)), 0, 6.283); ctx.stroke(); ctx.globalAlpha = 1; if (k >= 1) (f.dead = true);
+      } else if (f.k === 'dockzoom') { if (f.t > 1.1) f.dead = true;
+      } else if (f.k === 'dock') { // core docks: a hex ring snaps in on its slot
+        const k = f.t / 0.6; if (k >= 1) { f.dead = true; continue; }
+        glow(f.x, f.y, 9 * (1 - k) + 2, f.c, 0.9 * (1 - k)); ctx.globalAlpha = 1 - k; ctx.strokeStyle = f.c; ctx.lineWidth = 0.9;
+        ctx.beginPath(); for (let i = 0; i < 6; i++) { const a = Math.PI / 6 + i * Math.PI / 3, r = 4 + 9 * (1 - k); ctx[i ? 'lineTo' : 'moveTo'](f.x + Math.cos(a) * r, f.y + Math.sin(a) * r); } ctx.closePath(); ctx.stroke(); ctx.globalAlpha = 1;
+      } else if (f.k === 'ring') {
+        const k = f.t / 0.45; ctx.globalAlpha = Math.max(0, 1 - k); ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.arc(0, 0, E.STATION_R * (1 + 3 * k), 0, 6.283); ctx.stroke(); ctx.globalAlpha = 1; if (k >= 1) (f.dead = true);
+      } else if (f.k === 'arc') {
+        const k = f.t / 0.3; if (k >= 1) { f.dead = true; continue; }
+        if (!lite) for (const sg of f.jag) for (const [jx, jy] of sg) glow(jx, jy, 6, '#8f7dff', 0.45 * (1 - k));
+        for (const [lw, col, a] of [[8, '#7d6bff', 0.55], [3.4, '#a8f0ff', 1], [1.3, '#ffffff', 1]]) {
+          ctx.globalAlpha = a * (1 - k); ctx.strokeStyle = col; ctx.lineWidth = lw; ctx.beginPath(); ctx.moveTo(f.pts[0][0], f.pts[0][1]);
+          for (let i = 1; i < f.pts.length; i++) { for (const [jx, jy] of f.jag[i - 1]) ctx.lineTo(jx, jy); ctx.lineTo(f.pts[i][0], f.pts[i][1]); }
+          ctx.stroke();
+        }
+        for (let i = 1; i < f.pts.length; i++) glow(f.pts[i][0], f.pts[i][1], 8, '#a8f0ff', 1 - k);
+        ctx.globalAlpha = 1;
+      } else if (f.k === 'attach') {
+        if (f.cine && f.t > 1.3 && battle && !cardsOpen && $('ov-dialog').hidden) { f.cine = false; battle.paused = false; }
+        if (f.t > 1.4) (f.dead = true);
+      }
+    }
+    // ---- text layer (normal blend) ----
+    ctx.globalCompositeOperation = 'source-over'; ctx.textAlign = 'center';
+    for (let i = fx.length - 1; i >= 0; i--) {
+      const f = fx[i]; if (f.dead) continue;
+      if (f.k === 'num') {
+        dmgTexts++; const k = f.t / 0.7;
+        ctx.globalAlpha = Math.max(0, 1 - k * k);
+        ctx.font = f.crit ? '700 6.5px "IBM Plex Mono", monospace' : '600 4px "IBM Plex Mono", monospace';
+        ctx.fillStyle = f.crit ? '#ffd166' : '#e7ecf6';
+        ctx.fillText(fmt(f.v) + (f.crit ? '!' : ''), f.x, f.y - 4 - k * 7);
+        if (k >= 1) (f.dead = true);
+      }
+    }
+    ctx.globalAlpha = 1;
+    // screen-space overlays: flash, combo, wave
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    if (b.mother && b.mother.beam < 0) { ctx.globalCompositeOperation = 'source-over'; const M = E.MOTHER, k = Math.max(0, Math.min(1, (b.mother.y - M.y0) / (M.y1 - M.y0))); if (k < 1) { shake = Math.max(shake, 0.35 + 0.5 * Math.sin(k * Math.PI)); } ctx.globalAlpha = 0.22 * k; ctx.fillStyle = '#12020c'; ctx.fillRect(0, 0, W, H); if (k < 1) { const g = ctx.createLinearGradient(0, 0, 0, H * 0.45); g.addColorStop(0, `rgba(255,111,159,${(0.32 * Math.sin(Math.min(1, k * 1.6) * Math.PI * 0.5) * (0.85 + 0.15 * Math.sin(time * 5))).toFixed(3)})`); g.addColorStop(1, 'rgba(255,111,159,0)'); ctx.globalAlpha = 1; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H * 0.45); } ctx.globalAlpha = 1; } // its shadow falls over the field while the ground rumbles
+    if (b.mother && b.mother.charge > 0 && b.mother.beam < 0) { ctx.globalAlpha = 0.35 * b.mother.charge; ctx.fillStyle = '#12020c'; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; }
+    for (let i = fx.length - 1; i >= 0; i--) {
+      const f = fx[i]; if (f.dead) continue;
+      if (f.k === 'flash') { const k = f.t / 0.25; ctx.globalAlpha = Math.max(0, f.a * (1 - k)); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; if (k >= 1) (f.dead = true); }
+      else if (f.k === 'combo') {
+        const k = f.t / 1.2, pop = 1 + 0.4 * Math.max(0, 1 - f.t * 6);
+        ctx.globalAlpha = Math.max(0, 1 - Math.max(0, k - 0.6) / 0.4); ctx.textAlign = 'center'; ctx.fillStyle = f.n >= 100 ? '#ff6f9f' : f.n >= 50 ? '#ffd166' : '#6fd3ff';
+        ctx.font = `700 ${Math.round(26 * dpr * pop)}px "Oxanium", sans-serif`; ctx.fillText(I18N.t(`${f.n} 연속 처치!`), W / 2, H * 0.24);
+        ctx.globalAlpha = 1; if (k >= 1) (f.dead = true);
+      } else if (f.k === 'wave') {
+        const k = f.t / 1.0; if (f.n > 1 && f.n % 5 === 0 || f.n % 10 === 0) { ctx.globalAlpha = Math.max(0, 0.5 * (1 - k)); ctx.fillStyle = '#e7ecf6'; ctx.textAlign = 'center'; ctx.font = `700 ${Math.round(44 * dpr)}px "Oxanium", sans-serif`; ctx.fillText(`WAVE ${f.n}`, W / 2, H * 0.62); ctx.globalAlpha = 1; }
+        if (k >= 1) (f.dead = true);
+      }
+    }
+      let j = 0; for (let i = 0; i < fx.length; i++) if (!fx[i].dead) fx[j++] = fx[i]; fx.length = j;
+  }
+
+  function hudUpdate() {
+    const b = battle;
+    $('wave-txt').textContent = b.wave;
+    const remain = Math.max(0, 900 - (b.t / 2));
+    $('time-txt').textContent = `웨이브 · ${Math.floor(remain / 60)}:${String(Math.floor(remain % 60)).padStart(2, '0')}`;
+    $('hull-bar').style.width = (b.hull / b.d.hullMax * 100).toFixed(1) + '%';
+    $('hull-bar').style.background = b.hull / b.d.hullMax < 0.3 ? 'var(--bad)' : 'var(--good)';
+    $('hull-txt').textContent = `체력 ${fmt(b.hull)}/${fmt(b.d.hullMax)}`;
+    $('energy-txt').textContent = `에너지 ${fmt(b.energy)}`;
+    $('data-txt').textContent = `데이터 +${fmt(b.data)}`;
+    if (b.cores && $('wslots').dataset.sig !== b.cores.map(c => c ? c.type + c.lv : '-').join()) { $('wslots').dataset.sig = b.cores.map(c => c ? c.type + c.lv : '-').join(); coreStrip(); }
+    const ef = Math.min(1, b.energy / b.need); $('ebar-fill').style.width = (ef * 100).toFixed(1) + '%'; $('ebar').classList.toggle('full', ef >= 1);
+    $('ebar-txt').textContent = `다음 카드 ${Math.floor(ef * 100)}%`;
+    for (const k of ['rail', 'emp']) {
+      const w = b.weapons[k], el = $('w-' + k), ring = $('w-' + k + '-ring');
+      el.disabled = !w.unlocked; el.classList.toggle('ready', w.unlocked && w.cd <= 0);
+      ring.setAttribute('stroke-dashoffset', String(w.unlocked ? 182.2 * (w.cd / (w.max * b.d.cdMul)) : 182.2));
+    }
+    $('cards-txt').textContent = b.cores ? `카드 ${b.cardsTaken.length}장 · 코어 ${b.cores.filter(Boolean).length}/6` : `카드 ${b.cardsTaken.length}장`;
+  }
+
+  function frame(t) {
+    raf = requestAnimationFrame(frame);
+    const rawDt = (t - last) / 1000, dt = Math.min(0.1, rawDt); last = t;
+    ftAvg = ftAvg * 0.92 + Math.min(200, rawDt * 1000) * 0.08;
+    if (!lite && ftAvg > 26) { if (!liteSince) liteSince = t; else if (t - liteSince > 800) { lite = true; save.settings.lite = true; persist(); } } else if (!lite) liteSince = 0;
+    if (battle) {
+      if (holdT > 0 && !battle.paused) holdT -= dt;
+      else if (!battle.paused) {
+        const tscale = hitstop > 0 ? 0 : slowmo > 0 ? 0.25 : 1; slowmo = Math.max(0, slowmo - dt); hitstop = Math.max(0, hitstop - dt);
+        acc += dt * speed * tscale;
+        let n = 0;
+        const h0 = battle.hull;
+        while (acc >= E.TICK && n < 24) { battle.step(); acc -= E.TICK; n++; if (battle.paused) { acc = 0; break; } }
+        if (h0 - battle.hull > battle.d.hullMax * 0.08) addShake(1);
+      }
+      for (const f of fx) f.t += dt;
+      if (fx.length > 300) { let w = 0; for (const f of fx) if (!f.dead) fx[w++] = f; fx.length = w; } // drop finished effects so the caps stay meaningful
+      shake = Math.max(0, shake - dt * 6); shieldT = Math.max(0, shieldT - dt);
+      if (combo.t > 0) { combo.t -= dt; if (combo.t <= 0) combo.n = 0; }
+      handleEvents();
+      if (battle) hudUpdate();
+    }
+    draw(t / 1000);
+  }
+
+  // test hooks (used by automated tests only)
+  window.SZP = {
+    get battle() { return battle; }, get save() { return save; },
+    setSpeed(v) { speed = v; }, fastForward(sec) { if (battle) { for (let i = 0; i < sec / E.TICK && battle && !battle.over && !battle.paused; i++) battle.step(); handleEvents(); } },
+    persist, say: (l) => say(l), guides: GUIDES.map(g => g.id), get guideOn() { return guideOn && guideOn.id; }, get fxCount() { const c = {}; for (const f of fx) if (!f.dead) c[f.k] = (c[f.k] || 0) + 1; return c; }, sound: () => ({ sfx: sfxLog, jingle: jingleLog, music: music.name, playing: !!(music.el && !music.el.paused) }), awayFor(ms) { const t = now(); save.lastSeen = t - ms; save.maxSeen = (save.maxSeen || 0) > t ? save.maxSeen : t - ms; accrueOffline(); maybeShowOffline(); }, skipPrologue() { endPrologue(true); }, start() { $('btn-start').click(); }, get prologue() { return prologue; }, get recording() { return recording; }, testTools: NCQ_TEST_TOOLS
+  };
+
+  // boot
+  syncSound(); if (save.settings.lite) lite = true;
+  // ---------- intro (title) screen: every launch; the tap also unlocks sound on phones ----------
+  const introCv = $('intro-cv'), ictx = introCv.getContext('2d'), IBG = A.makeBackground();
+  const introSt = (() => { const b = new E.Battle(E.newSave(), { seed: 7, prologue: true, headless: true }); return { tiles: b.station.tiles.map(t => t && Object.assign({}, t)), orbitals: b.station.orbitals || b.orbitals || 3, osc: (b.hitR + 13) / 20 }; })();
+  const icraft = Array.from({ length: 8 }, (_, i) => ({ i, x: 0, y: 0, ang: 0, tr: [] }));
+  let introT0 = 0, introLast = 0;
+  function introFrame(ts) {
+    if ($('tapgate').hidden) return;
+    requestAnimationFrame(introFrame);
+    const t = ts / 1000, dt = introLast ? Math.min(0.1, t - introLast) : 0; introLast = t; if (!introT0) introT0 = t;
+    const T = t - introT0, dpr = Math.min(2, window.devicePixelRatio || 1), W = Math.round(introCv.clientWidth * dpr), H = Math.round(introCv.clientHeight * dpr);
+    if (W < 2 || H < 2) return; if (introCv.width !== W || introCv.height !== H) { introCv.width = W; introCv.height = H; }
+    ictx.setTransform(1, 0, 0, 1, 0, 0); ictx.globalAlpha = 1; ictx.globalCompositeOperation = 'source-over';
+    A.drawBackground(ictx, IBG, W, H, t, dt, lite);
+    // the endgame station rises out of the dark and slowly fills the frame
+    const grow = 1 - Math.pow(1 - Math.min(1, T / 1.8), 3), s = Math.min(W, H) / 2 / 56 * (0.7 + 0.3 * grow);
+    ictx.setTransform(s, 0, 0, s, W / 2, H * 0.6);
+    ictx.globalCompositeOperation = 'lighter'; A.glow(ictx, 0, 0, E.STATION_R * 4.4 * (1 + Math.sin(t * 1.6) * 0.05), '#3fb8ff', 0.5 * grow);
+    [2.9, 3.5].forEach((k, ri) => { ictx.save(); ictx.rotate(t * (ri ? -0.5 : 0.7)); ictx.globalAlpha = grow; ictx.strokeStyle = ri ? '#ffd166' : '#6fd3ff'; ictx.lineWidth = 1.4; for (let i = 0; i < 6; i++) { ictx.beginPath(); ictx.arc(0, 0, E.STATION_R * k, i * 1.047 + 0.15, i * 1.047 + 0.8); ictx.stroke(); } ictx.restore(); });
+    ictx.globalAlpha = 1; ictx.globalCompositeOperation = 'source-over';
+    A.drawStation(ictx, 'hex', t, { R: E.STATION_R * 1.3, tiles: introSt.tiles, openK: [], orbitals: introSt.orbitals, ot: t, osc: introSt.osc, aims: {}, outer: true, aim: Math.sin(t * 0.5) * 1.2 - 1.57, grow });
+    // interceptor squadron on patrol: two crossing loops with engine trails
+    ictx.globalCompositeOperation = 'lighter';
+    for (const c of icraft) {
+      const ph = t * (c.i % 2 ? 0.55 : -0.42) + c.i * 0.785, x = Math.cos(ph) * (c.i % 2 ? 42 : 30), y = Math.sin(ph) * (c.i % 2 ? 15 : 25);
+      c.ang = Math.atan2(y - c.y, x - c.x); c.x = x; c.y = y; c.tr.push(x, y); if (c.tr.length > 26) c.tr.splice(0, 2);
+      if (c.tr.length > 4) { ictx.globalAlpha = 0.4 * grow; ictx.strokeStyle = '#ffd166'; ictx.lineWidth = 0.8; ictx.beginPath(); ictx.moveTo(c.tr[0], c.tr[1]); for (let i = 2; i < c.tr.length; i += 2) ictx.lineTo(c.tr[i], c.tr[i + 1]); ictx.stroke(); }
+      A.glow(ictx, x - Math.cos(c.ang) * 1.8, y - Math.sin(c.ang) * 1.8, 2.2, '#9fe6ff', 0.6 * grow);
+    }
+    ictx.globalAlpha = 1; ictx.globalCompositeOperation = 'source-over';
+    if (grow > 0.3) for (const c of icraft) A.drawCraft(ictx, c, '#ffd166');
+  }
+  function showIntro() { const g = $('tapgate'); g.classList.remove('leave'); g.hidden = false; introT0 = 0; introLast = 0; requestAnimationFrame(introFrame); }
+  function leaveIntro() {
+    const g = $('tapgate'); if (g.hidden || g.classList.contains('leave')) return; g.classList.add('leave'); sfx('start');
+    setTimeout(() => { g.hidden = true; g.classList.remove('leave'); if (introBack) { const f = introBack; introBack = null; f(); } else if (!save.prologueDone) startPrologue(); else if (save.tutorial === 0) startRun(); else openBase('yard'); }, 550);
+  }
+  // '◇ 인트로' buttons (battle HUD, every run screen header, HQ, run summary): show the title again over the current screen
+  let introBack = null;
+  function openIntro(e) {
+    if (e) e.stopPropagation();
+    if (!$('tapgate').hidden || prologue) return;
+    if (battle && !battle.over) { const was = battle.paused; battle.paused = true; introBack = () => { if (battle) battle.paused = was; last = performance.now(); }; }
+    else introBack = () => {};
+    showIntro();
+  }
+  for (const id of ['btn-intro', 'hq-intro', 'res-intro']) $(id).addEventListener('click', openIntro);
+  $('tapgate').addEventListener('click', leaveIntro);
+  $('tapgate').addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); leaveIntro(); } });
+  $('in-sound').addEventListener('click', e => { e.stopPropagation(); $('btn-sound').click(); });
+  // language menu (company guide: English first, Korean by choice): names in their own language, switches in place, remembered
+  function openLang(e) {
+    if (e) e.stopPropagation();
+    const box = $('lang-list'); box.innerHTML = '';
+    $('lang-title').textContent = I18N.getLang() === 'en' ? 'Language' : '언어 · Language';
+    for (const [code, name] of I18N.LANGS) {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = name; b.dataset.noi18n = ''; b.id = 'lang-' + code;
+      b.setAttribute('aria-pressed', String(I18N.getLang() === code));
+      b.addEventListener('click', ev => { ev.stopPropagation(); I18N.setLang(code); $('ov-lang').hidden = true; if (!$('scr-base').hidden) renderBase(); });
+      box.appendChild(b);
+    }
+    $('ov-lang').hidden = false;
+  }
+  $('in-lang').addEventListener('click', openLang); $('hq-lang').addEventListener('click', openLang);
+  $('lang-close').addEventListener('click', e => { e.stopPropagation(); $('ov-lang').hidden = true; });
+  $('ov-lang').addEventListener('click', e => e.stopPropagation());
+  { const v = window.NCQ && window.NCQ.NCQ_VERSION; $('in-ver').textContent = v ? 'v' + v : 'PROTOTYPE'; }
+  showIntro(); // every launch opens on the title; the tap unlocks sound, then prologue (first time), tutorial or base
+})();
+</script>

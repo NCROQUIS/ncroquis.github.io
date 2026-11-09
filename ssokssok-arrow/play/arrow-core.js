@@ -32,42 +32,42 @@
 
   /* ---------- pictures ---------- */
   // generated from pictures.txt by tools/pictures.py — 6 picture stages per chapter
-  var PICTURES = [{"key": "paper-plane", "name": "종이비행기", "rows": ["..............TT", "...........BBBTT", ".........BBBBBT.", "......BBBBBBBTT.", "....BBBBBBBBTT..", ".BBBBBBBBBBTTT..", "BBBBBBBBBBTTTT..", "..BBBBBBBTTTT...", "...BBBBBTTTTT...", ".....BBTTTTTT...", "KK....TTTTTT....", "......TTTTTT....", ".......TTTT.....", ".......STTT.....", ".KK....STTT.....", "........TT......"]},
-    {"key": "paper-heart", "name": "하트", "rows": ["..RRRRR..RRRRR..", ".RRRRKKRRRRRRRR.", "RRKKKKRRRRRRRRRR", "RRKKKRRRRRRRRRRR", "RRKKKRRRRRRRRRRR", "RRRKRRRRRRRRRRRR", "RRRRRRRRRRRRRRRR", ".RRRRRRRRRRRRRR.", "..RRRRRRRRRRRR..", "..RRRRRRRRRRRR..", "...RRRRRRRRRR...", "....RRRRRRRR....", ".....RRRRRR.....", ".....RRRRRR.....", "......RRRR......", ".......RR......."]},
-    {"key": "paper-house", "name": "우리 집", "rows": ["........RR..WW....", ".......RRRRRWW....", "......RRRRRRRW....", "....RRRRRRRRRR....", "...RRRRRRRRRRRR...", "..RRRRRRRRRRRRRR..", ".RRRRRRRRRRRRRRRR.", ".RRRRRRRRRRRRRRRR.", "..YYYYYYYYYYYYYY..", "..YBBBYYYYYYBBBY..", "..YBBBYYYYYYBBBY..", "..YBBBYYWWWYBBBY..", "..YBBBYYWWWYBBBY..", "..YYYYYYWWWYYYYY..", "..YYYYYYWWYYYYYY..", "..YYYYYYWWWYYYYY..", "..YYYYYYWWWYYYYY..", "GGGGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGG"]},
-    {"key": "paper-gift", "name": "선물 상자", "rows": ["...YYYY..YYYY...", "..YYYKYYYYKYYY..", "..YYKKKOOKKKYY..", "..YYKKKOOKKKYY..", "...YYYYOOYYYY...", "KKKKKKKYYKKKKKKK", "KKKKKKKYYKKKKKKK", "KKKKKKKYYKKKKKKK", ".PPPPPPYYPPPPPP.", ".PPPPPPYYPPPPPP.", ".PPPPPPYYPPPPPP.", ".PPPPPPYYPPPPPP.", ".PPPPPPYYPPPPPP.", ".PPPPPPYYPPPPPP.", ".PPPPPPYYPPPPPP.", ".PPPPPPYYPPPPPP.", ".PPPPPPYYPPPPPP.", ".PPPPPPYYPPPPPP.", ".PPPPPPYYPPPPPP."]},
-    {"key": "paper-pencil", "name": "연필", "rows": ["..........KKKK", ".........SSKK.", "........YSSSK.", "........YYSS..", ".......YYYY...", "......YYYYY...", "......YYOY....", ".....YYYOY....", ".....YYYY.....", "....YYYY......", "...YYYYY......", "...YYYY.......", "..YYYY........", "..WYYY........", ".WWWY.........", ".WWW..........", ".WW...........", "DD............", "D............."]},
-    {"key": "paper-balloon", "name": "풍선", "rows": ["..........BBBB..", "..RRRRR..TTBBBB.", ".RKRRRRRBTTTBBBB", ".RKKRRRRBBTBBBBB", "RRKKRRRRBBBBBBBB", "RRRRRRRRBBBBBBBB", "RRRRRRRYYBBBBBBB", "RRRRRYYYYYYBBBBB", ".RRRRYYYYYYBBBB.", ".RRRYYYYYYYYBB..", "..RRYYYYYYYY....", "....YYYYYYYY....", "....YYYYYYYY....", ".....YYYYYY.....", ".....YYYYYY.....", "......YYYY......", ".........Y......", "......S.........", "......S........."]},
-    {"key": "sea-fish", "name": "물고기", "rows": ["........Y........", ".......YY........", "......YYYY.......", ".....YYYYY.......", "...OOOYOOYY.....Y", ".OOOOOYOOOYO...YY", ".OOOOOYYOYYOO.YYY", "OODDOOYYOYYOOYYYY", "OODDOYYYOYYOOYYY.", "OOOOOYYYOYYOOYYY.", "OOOOOYYYOYYOOYYY.", "OOOOOOYYOYYOOYYYY", ".OOOOOYYOYYOO.YYY", ".OOOOOYOOOYO...YY", "...OOOYOOOY.....Y", ".....OOO........."]},
-    {"key": "sea-whale", "name": "고래", "rows": ["......TT..TT.......", ".....TTTTTTT.......", ".....TTTTTTT.......", "......TTTTTT.......", "........T..........", "........T..........", "........T..........", ".....BBBBBBBB.....B", "...BBBBBBBBBBBB..BB", "..BBBBBBBBBBBBBB.BB", ".BBBBBBBBBBBBBBBBBB", ".BBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBB", "BBBBBBTTTTTTBBBBBBB", ".BBTTTTTTTTTTTBBB.B", ".BTTTTTTTTTTTTTT...", "..TTTTTTTTTTTTT....", "...TTTTTTTTTTT.....", "......TTTTTT......."]},
-    {"key": "sea-boat", "name": "돛단배", "rows": [".........W.........", ".........W.........", ".........W.R.......", ".........W.R.......", ".........W.RR......", ".......Y.W.RRR.....", "......YY.W.RRR.....", "......YY.W.RRRR....", ".....YYY.W.RRRR....", ".....YYY.W.RRRRR...", "....YYYY.W.RRRRRR..", "...YYYYY.W.RRRRRR..", "...YYYYY.W.RRRRRRR.", ".........W.........", ".OOOOOOOOOOOOOOOOO.", ".OOOOOOOOOOOOOOOOO.", "..OOOOOOOOOOOOOOO..", "..OOOOOOOOOOOOOOO..", ".BB..BBB..BBB..BBB.", "BBBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBB"]},
-    {"key": "sea-octopus", "name": "문어", "rows": ["......PPPPPPP......", ".....PPPPPPPPP.....", "....PPPPPPPPPPP....", "....PPPPPPPPPPP....", "...PPPPPPPPPPPPP...", "...PPPDDPPPDDPPP...", "...PPPDDPPPDDPPP...", "...PPPPPPPPPPPPP...", "....PPPPPPPPPPP....", "....PPPPKKKPPPP....", "....PPPPPPPPPPP....", "...PPP.PPPPPPPPP...", "...PP..PP.PPP.PP...", "..PPP.PP...PP.PPP..", "..PP..PP...PP..PP..", ".PPP..PP...PP..PPP.", "PPP...PP...PP...PPP", "PP....PP...PPP...PP", "PP...PP.....PP...PP", "PP...PP.....PP...PP", ".P...PP.....PP...P.", ".....PP.....PP....."]},
-    {"key": "sea-crab", "name": "꽃게", "rows": [".R..R.........R..R.", "RR.RR.........RR.RR", "RRRRRR.......RRRRRR", "RRRRR.DD...DD.RRRRR", ".RRRR.DD...DD.RRRR.", "..RR...S...S...RR..", "...RR..S...S..RR...", "....ROOOOOOOOOR....", "....OOOOOOOOOOO....", "...OOOOOOOOOOOOO...", "...OOOOOOOOOOOOO...", "...OOKKOOOOOKKOO...", "..ROOOOOOOOOOOOOR..", ".RROOOOOOOOOOOOORR.", ".R..OOOOOOOOOOO..R.", ".R.RROOOOOOOOORR.R.", ".R.R...........R.R.", "..RR...........RR..", "..RR...........RR..", "...R...........R..."]},
-    {"key": "sea-lighthouse", "name": "등대", "rows": [".........R.........", "YYY.....RRR.....YYY", "YYYYYYRRRRRRRYYYYYY", "YYYYY..YYYYY..YYYYY", "YY.....YYYYY.....YY", "......SSSSSSS......", "......SSSSSSS......", "......RRRRRRR......", "......RRRRRRR......", "......RRRRRRR......", "......SSSSSSS......", "......SSSSSSS......", "......RRRRRRR......", ".....RRRRRRRRR.....", ".....RRRRRRRRR.....", ".....SSSSSSSSS.....", ".....SSSSSSSSS.....", ".....SSSSSSSSS.....", ".....RRRWWWRRR.....", "...SSSSSSSSSSSSS...", ".SSSSSSSSSSSSSSSSS.", "BBBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBB"]},
-    {"key": "forest-tree", "name": "사과나무", "rows": [".........GG.........", ".......GGGGGG.......", "......GGGGGGGG......", ".....GGGGGGGGGG.....", ".....GGGGGGRRRG.....", "..GGGGGGGGGRRGGGGG..", ".GGGGGGGGGGGGGGGGGG.", ".GGGGRRGGGGGGGGGGGG.", "GGGGGRRGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGGGG", ".GGGGGGGGGGGGGRRGGG.", ".GGRRGGGRRGGGGRRGGG.", "..GRRGGGRRGGGGGGGG..", "...GGGGGRGGGGGGGG...", "....GGGGGGGGGGGG....", ".....GGGGGGGGGG.....", "........WWWW........", "........WWWW........", "........WWWW........", "........WWWW........", ".......WWWWWW.......", ".....WWWWWWWWWW....."]},
-    {"key": "forest-mushroom", "name": "버섯", "rows": ["......RRRRRRRR......", "....RRRRRRRSSRRR....", "...RRSRRRRRSSRRRR...", "..RRSSSRRRRSSRRRRR..", "..RRSSSRRRRRRRRRRR..", ".RRRRSRRRRRRRRRRRRR.", ".RRRRRRRRSRRRRSSSRR.", ".RSRRRRRSSRRRRRSSRR.", ".RSRRRRRRRRRRRRRRRR.", ".RRRRRRRRRRRRRRRRRR.", "......YYYYYYYY......", "......YYYYYYYY......", "......YYYYYYYY......", "......YYYYYYYY......", "......YYYYYYYY......", "......YYYYYYYY......", "......YYYYYYYY......", "......YYYYYYYY......", ".......YYYYYY.......", "GGGGGGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGGGG"]},
-    {"key": "forest-cat", "name": "고양이", "rows": ["..O............O..", "..OOO........OOO..", ".OOKOO.OOOO.OOKOO.", ".OOKOOOOWWOOOOKOO.", ".OOOOOOOWWOOOOOOO.", ".OOOOOOOWWOOOOOOO.", ".OOOOOOOOOOOOOOOO.", ".OOOOOOOOOOOOOOOO.", "OOOODDOOOOOODDOOOO", "OOOODDDOOOODDDOOOO", "OOOOODOOOOOODOOOOO", "OOOOOOOYKKYOOOOOOO", "OOKKOOYYKKYYOOKKOO", ".OKKOYYYYYYYYOKKO.", ".OOOOYYYYYYYYOOOO.", "..OOOYYYYYYYYOOO..", "...OOYYYYYYYYOO...", "....OOYYYYYYOO....", ".......OOOO......."]},
-    {"key": "forest-sunflower", "name": "해바라기", "rows": [".......YY.......", "...YYYOYYOYYY...", "...YYOOOOOOYY...", ".YYOOOOOOOOOOYY.", ".YYOOOWWWWOOOYY.", ".YOOOWWWWWWOOOY.", ".OOOWWDWWDWWOOO.", "YYOOWWDWWDWWOOYY", "YYOOWWWWWWWWOOYY", ".OOOWWWDDWWWOOO.", ".YOOOWWWWWWOOOY.", ".YYOOOWWWWOOOYY.", ".YYOOOOOOOOOOYY.", "...YYOOOOOOYY...", "...YYYOYYOYYY...", ".......YY.......", ".......GG.......", ".......GG.......", ".......GGGGGGG..", "...GGGGGGGGGGG..", "..GGGGGGGGGGG...", "..GGGGGGG.......", ".......GG.......", ".......GG......."]},
-    {"key": "forest-ladybug", "name": "무당벌레", "rows": [".....DD......DD.....", ".....DD......DD.....", ".............D......", ".......DDDDDD.......", "......DDDDDDDD......", ".....DDYYDDYYDD.....", ".....DDDDDDDDDD.....", "......DRRRRRRD......", ".....RRRRRRRRRR.....", "....RRRRRRRRRRRR....", "...RRDDRRRRRRDDRR...", "..RRDDDDRRRRDDDDRR..", "..RRRDDRRRRRRDDRRR..", "..RRRRRRRRRRRRRRRR..", "..RRRRRRRRRRRRRRRR..", "DDRRRRRRRRRRRRRRRRDD", "..RRDDRRRRRRRRDDRR..", "..RRDDDRRRRRRDDDRR..", "...RRDRRRRRRRRDRR...", "..RRRRRRRRRRRRRRRR..", "....RRRDDRRDDRRR....", "......RRRRRRRR......", "........RRRR........"]},
-    {"key": "forest-snail", "name": "달팽이", "rows": [".........OOOOOO.....", ".......OOOOOOOOOO...", "......OOOOYYYYOOOO..", "......OOOYYYYYYOOO..", ".D...OOOYYYOOOYYOOO.", ".DD.OOOYYYOOOOOYYOO.", ".D...OOYYOOYYYOOYOO.", "..T..OOYYOOYYYOOYOO.", "..T..TOYYOOOYOOYYO..", "..T..TOOYYOOOOOYOO..", ".....TOOOYYYYYYOO...", "...TTTTTOOOYYOOOO...", ".TTTTTTTTOOOOOOTTTT.", "TTTTTTTTTTTTTTTTTTTT", ".TTTTTTTTTTTTTTTTTTT", ".TTTTTTTTTTTTTTTTTTT", ".TTTTTTTTTTTTTTTTTTT", "GGGGGGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGGGG"]},
-    {"key": "desert-cactus", "name": "선인장", "rows": ["......KYYK......", "......KKKK......", "......GGGG......", ".....GGGGGG..GGG", ".....GGGGGG..GGG", "GGG..GGGGGG..GGG", "GGG..GGGGGG..GGG", "GGG..GGGGGG..GGG", "GGG..GGGGGGGGGGG", "GGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGG", "GGGGGGGGGGG.....", ".GGGGGGGGGG.....", ".....GGGGGG.....", ".....GGGGGG.....", "......GGGGG.....", "..WWWWWWWWWWWW..", "..WWWWWWWWWWWW..", "...OOOOOOOOOO...", "...OOOOOOOOOO...", "...OOOOOOOOOO...", "....OOOOOOOO....", "....OOOOOOOO...."]},
-    {"key": "desert-camel", "name": "낙타", "rows": [".WWWW...............", "WWWWW...............", "WWWWW...............", ".WWW..WWWW.WWWW.....", "..WW.WWWWWWWWWWW....", "..WWWWWWWWWWWWWW....", "..WWWWWWWWWWWWWW....", "...WWWWWWWWWWWWWW...", "...WWWWWWWWWWWWWWW..", "....WWWWWWWWWWWWWW..", "....WWWWWWWWWWWWWWW.", "....WWWWWWWWWWWWWWW.", ".....WWWWWWWWWWWW...", ".....WWWWWWWWWWW....", ".....WW.W...W..W....", ".....W..W...W..W....", ".....W..W...W..W....", "...YYW..W...WYYYY...", "..YYYYY.WY.YWYYYYY..", "YYYYYYYYYYYYYYYYYYYY", "YYYYYYYYYYYYYYYYYYYY"]},
-    {"key": "desert-pyramid", "name": "피라미드", "rows": ["...............RRR..", "..............RRRRR.", "..............RRRRR.", "..............RRRR..", "................R...", "....................", ".........YO.........", "........YYOO........", "........YYOO........", ".......YYYOOO.......", "......YYYYOOOO......", "......YYYYOOOO......", "...YYYYYYYOOOOO.....", "..YYYYYYYYOOOOOO....", "..YYYYYYYYOOOOOOO...", "..YYYYYYYYOOOOOOO...", ".YYYYYOYYWWOOOOOOO..", ".YYYYYOYYWWOOOOOOOO.", "YYYYYYYYYWWOOOOOOOO.", "YYYYYYYYYYYYYYYYYYYY", "YYYYYYYYYYYYOOOOOOYY", "YYYYYYYYYYOOOOOOOOOO", "YYYYYYYYYYYOOOOOOOOO"]},
-    {"key": "desert-palm", "name": "야자수", "rows": ["...........GGGG.....", ".........GGGGGGGG...", "......GGGGGGGGGGGG..", ".....GGGGGGGGG.GGGGG", "...GGGGGG..GG..GGGGG", "...GGGGGGGGGGGGGGGGG", "......GGGGWGGGGGGGG.", "........GGWWWWGGG...", "...........WWW......", "...........W........", "..........WW........", "..........WW........", "..........WW........", "..........WW........", ".........WW.........", ".........WW.........", ".........WW.........", ".........WW.........", ".........WW.........", ".....YYYYYYYYYY.....", ".YYYYYYYYYYYYYYYYYY.", "YYBBBBBBBBYYYYYYYYYY", ".YBBBBBBBBYYYYYYYYY.", "....BBBBYYYYYYYY...."]},
-    {"key": "desert-sun", "name": "해님", "rows": [".......OO.......", "....O..OO..O....", "....OOYYYYOO....", "....YYYYYYYY....", ".OOYYYYYYYYYYOO.", ".OOYYYYYYYYYYOO.", "..YYYDDYYDDYYY..", "OOYYYDDYYDDYYYOO", "OOYYYYYYYYYYYYOO", "..YKKKYYYYKKKY..", "..YYYYYYYYYYYY..", ".OOYYYYRRYYYYOO.", "OOOOYYYYYYYYOOOO", "....OYYYYYYO....", "....OO.OO.OO....", ".......OO......."]},
-    {"key": "desert-hourglass", "name": "모래시계", "rows": ["WWWWWWWWWWWWWW", "WWWWWWWWWWWWWW", ".W.TTTTTTTT.W.", ".W.TTTTTTTT.W.", ".W..TTTTTT..W.", ".W..YYYYYY..W.", ".W..YYYYYY..W.", ".W...YYYY...W.", ".W...YYYY...W.", ".W....YY....W.", ".W....TT....W.", ".W....TT....W.", ".W....TT....W.", ".W...TTTT...W.", ".W...TYYT...W.", ".W..TTYYTT..W.", ".W..TYYYYT..W.", ".W..TYYYYT..W.", ".W.TYYYYYYT.W.", ".W.TYYYYYYT.W.", "WWWWWWWWWWWWWW", "WWWWWWWWWWWWWW"]},
-    {"key": "night-moon", "name": "달과 별", "rows": ["...............B..", "..............BBB.", "...............BB.", "....YYYY..........", "...YYYY...........", "..YYYY............", ".YYYYY............", "YYYYY.............", "YYYYY.............", "YYYYY.............", "YYYYYY............", "YYYYYY............", "YYYYYYY...........", "YYYYYYYY.......Y..", ".YYYYYYYY....YYYYY", "..YYYYYYYYYYYYYYY.", "...YYYYYYYYYY.YYY.", "....YYYYYYYY......", "..................", "..........BB......", "..........B......."]},
-    {"key": "night-rocket", "name": "로켓", "rows": [".......R.......", ".......R.......", "......RRR......", ".....RRRRR.....", "....RRRRRRR....", "...RRRRRRRRR...", "...RRRRRRRRR...", "...SSSSSSSSS...", "...SSSSSSSSS...", "...SSSBBBSSS...", "...SSBBBBBSS...", "...SSBBBBBSS...", "...SSSBBBSSS...", "...SSSSBSSSS...", "..RSSSSSSSSSR..", "..RSSSSSSSSSR..", ".RRSRRRRRRRSRR.", ".RRSSRRRRRSSRR.", "RRRSSSSSSSSSRRR", ".RRSSSSSSSSSRR.", "....SSSSSSS....", ".....OOOOO.....", "......YOY......", "......YYY......", ".......Y......."]},
-    {"key": "night-castle", "name": "성", "rows": ["...R.............R...", "...R.............R...", "..RRR.....R.....RRR..", "..RRR.....R.....RRR..", ".SSSSS...RRR...SSSSS.", ".SSSSS...RRR...SSSSS.", ".SSSSS..RRRRR..SSSSS.", ".SSBSS..SSSSS..SSBSS.", ".SBBBS..SSSSS..SBBBS.", ".SSBBS..SSSSS..SBBSS.", ".SSSSSSSSSSSSSSSSSSS.", ".SSSSSSSSSSSSSSSSSSS.", ".SSSSSSSSSWSSSSSSSSS.", ".SSSSSSSSWWWSSSSSSSS.", ".SSSSSSSWWWWWSSSSSSS.", ".SSSSSSSWWWWWSSSSSSS.", ".SSSSSSSWWWWWSSSSSSS.", ".SSSSSSSWWWWWSSSSSSS.", ".SSSSSSSWWWWWSSSSSSS.", ".SSSSSSSWWWWWSSSSSSS.", ".SSSSSSSWWWWWSSSSSSS.", "GGGGGGGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGGGGG"]},
-    {"key": "night-owl", "name": "부엉이", "rows": ["....WW.........WW....", "....WWW..WWW..WWW....", "....WWWWWWWWWWWWW....", "...WWWYYWWWWWYYWWW...", "....YYYYYYWYYYYYY....", "....YYYDYYWYYDYYY....", "...WYYDDDYYYDDDYYW...", "...WYYDDDYYYDDDYYW...", "...WWYYYYOOOYYYYWW...", "...WWWWWWOOOWWWWWW...", "..WWWWWOOOOOOOWWWWW..", "...WWWWOOOOOOOWWWW...", "...WWWOOOOOOOOOWWW...", "...WWWOOOOOOOOOWWW...", "...WWWOOOOOOOOOWWW...", "....WWOOOOOOOOOWW....", "....WWWOOOOOOOWWW....", ".....WWOOOOOOOWW.....", "......WWOOOOOWWWWWWWW", "WWWWWWWWWWWWWWWWWWWWW", "WWWWWWW.............."]},
-    {"key": "night-saturn", "name": "토성", "rows": [".BBB.................", "..BB.................", ".....................", ".....................", ".....................", "........OOOOO........", ".......OOOOOOOR......", "......RRRRRRRRRYYYYY.", ".....OOOOOOOOOOO.YYYY", "..YYYOOOOOOOOOOOOYYY.", ".YYY.OOOOOOOOOYYYY...", "YYYYOOOOYYYYYYYY.....", ".YYYYYYYYYYOOOO......", ".......OOOOOOO.......", "........OOOOO........", ".....................", ".....................", ".....................", ".................BB..", ".................BB.."]},
-    {"key": "night-ufo", "name": "비행접시", "rows": ["........TTTTT........", ".......TTTTTTT.......", "......TTTGGGTTT......", "......TTTGGGTTT......", ".....TTTTGGGTTTT.....", ".....TTTSSSSSTTT.....", "....SSSSSSSSSSSSS....", "..SSSSSSSSSSSSSSSSS..", ".SSSSSSSSSSSSSSSSSSS.", "SSSYYSSSSSSSSSSSYYSSS", ".SSSSSSYYSYSYYSSSSSS.", "..SSSSSYSSYSSYSSSSS..", "...SSSSSSSSSSSSSSS...", "......GSSSSSSSG......", ".....GGGGGGGGGGG.....", ".....GGGGGGGGGGG.....", "....GGGGGGGGGGGGG....", "....GGGGGGGGGGGGG....", "...GGGGGGGGGGGGGGG...", "...GGGGGGGGGGGGGGG...", "..GGGGGGGGGGGGGGGGG..", "..GGGGGGGGGGGGGGGGG.."]},
-    {"key": "neon-robot", "name": "로봇", "rows": [".........RR.........", ".........RR.........", "....................", ".....SSSSSSSSSS.....", "....SSSSSSSSSSSS....", "....SSSSSSSSSSSS....", "....SSBBBSSBBBSS....", "....SSBBBSSBBBSS....", "....SSBBSSSSBBSS....", "....SSSKKKKKKSSS....", "....SSSKKKKKKSSS....", ".....SSSSSSSSSS.....", "........SSSS........", ".S..TTTTTTTTTTTT..S.", "SSSTTTTTTTTTTTTTT.SS", "SSSTTTTOOOOOOTTTTSSS", "SSSTTTTOOOOOOTTTTSSS", "SSSTTTTOOOOOOTTTTSSS", "SSSTTTTOOOOOOTTTTSSS", "SSSTTTTTTTTTTTTTTSSS", "SS.TTTTTTTTTTTTTT.SS", "....TTTTTTTTTTTT....", ".....SSSS..SSSS.....", ".....SSSS..SSSS.....", ".....SSSS..SSSS....."]},
-    {"key": "neon-crown", "name": "왕관", "rows": ["..........YY..........", "..........YY..........", "..........YY..........", "..........YY..........", "YY........YY........YY", "YY.......YYYY.......YY", ".Y.......YYYY.......Y.", ".Y......YYYYYY......Y.", ".YY.....YYYYYY.....YY.", ".YYY...YYYYYYYY...YYY.", "..YYY..YYYYYYYY..YYY..", "..YYY.YYYYYYYYYY.YYY..", "..YYYYYYYYYYYYYYYYYY..", "..YYYYYYYBBBBYYYYYYY..", "..YYKKKYYBBBBYYKKKYY..", "..YYKKKYYYBBYYYKKKYY..", "..YYYKYYYYYYYYYYKYYY..", "..YYYYYYYYYYYYYYYYYY..", "..PPPPPPPPPPPPPPPPPP..", "..PPTPPPPPPPPPPPPTPP..", "..PPTTPPPPRRPPPPTTPP..", "..PPPPPPPPPPPPPPPPPP.."]},
-    {"key": "neon-bolt", "name": "번개", "rows": ["..........OO...", ".........OOO...", "........YYYO...", ".......OYYO....", ".......OYYO....", "......YYYO.....", ".....YYYYO.....", "....OYYYO......", "...OOYYYO......", "...OYYYO.......", "..YYYYYOOOOOOOO", ".OYYYYYYYYYYYO.", "OOYYYYYYYYYYY..", "OOOOOOOYYYYO...", "......OYYYYO...", "......OYYYY....", ".....OYYYY.....", ".....OYYY......", ".....OYY.......", ".....OYY.......", "....OYY........", "....OY.........", "....O..........", "....O.........."]},
-    {"key": "neon-gamepad", "name": "게임기", "rows": ["......PPPPPPPPPP......", "...PPPPPPPPPPPPPPPP...", "..PPPPPPPPPPPPPPRRPP..", ".PPPDDDPPPPPPPPRRRPPP.", ".PPPDDDPPPPPPPPPPPPPP.", ".PDDDDDDDSPPSBBPPPGGP.", ".PDDDDDDDSPPSBBPPPGGG.", ".PPPDDDPPPPPPPPPPPPPP.", ".PPPDDDPPPPPPPPPYYPPP.", ".PPPPPPPPPPPPPPYYYPPP.", "PPPPPPPPPPPPPPPPPPPPPP", "PPPPPPPPPPPPPPPPPPPPPP", ".PPPPPPPP....PPPPPPPP.", ".PPPPPPPP....PPPPPPPP.", ".PPPPPPPP....PPPPPPPP.", "..PPPPPP......PPPPPP..", "..PPPPP........PPPPP..", "...PPP..........PPP..."]},
-    {"key": "neon-music", "name": "음표", "rows": ["................KK..", "...........KKKKKKKK.", ".......KKKKKKKKKKKK.", ".......KKKKKKKKKKKK.", ".......KKKKKKK...KK.", ".......KK........KK.", ".......K.........KK.", ".......K.........KK.", "..B....K.........KK.", "..B....K.........KK.", "..B....K.........KK.", "..B....K.........KK.", "..B....K.......KKKK.", "..B....K.....KKKKKK.", "..B...KK....KKKKKKK.", "..BKKKKK....KKKKKK..", "..BKKKKK.....KKKK...", "..BKKKKK............", "..BKKKK.............", ".BB.K.............T.", "BBB..............TTT", "BBB...............T."]},
-    {"key": "neon-diamond", "name": "보석", "rows": ["..................Y.", "..................Y.", "....................", "....TTTTTTTTTTTT....", "...KKTTTTYYTTTTKK...", "..KKKTTTTYYTTTTKKK..", ".KKKKKTTYYYYTTKKKKK.", ".KKKKKTTYYYYTTKKKKK.", "KKKKKKKYYYYYYKKKKKKK", "BBBBBBPPPPPPPPBBBBBB", ".BBBBBPPPPPPPPBBBBB.", ".BBBBBPPPPPPPPBBBBB.", "..BBBBBPPPPPPBBBBB..", "...BBBBPPPPPPBBBB...", "....BBBPPPPPPBBBB...", "....BBBBPPPPBBBB....", ".....BBBPPPPBBB.....", "......BBPPPPBB......", ".Y....BBBPPPBB......", ".Y.....BBPPBB.......", "........BPPB........", ".........PP.........", ".........BB........."]}];
+  var PICTURES = [{"key": "paper-plane", "name": "종이비행기", "rows": ["..................T", "...............BBTT", ".............BBBTT.", "..........BBBBBTTT.", "........BBBBBBTTT..", "......BBBBBBBTTTT..", "...BBBBBBBBBTTTT...", "..BBBBBBBBBTTTTT...", ".....BBBBBTTTTTT...", "........BTTTTTT....", ".........PTTTTT....", "KKK......PTTTT.....", "........PPPTTT.....", ".......PPPPTTT.....", "....KKK..PPPT......", ".KKKK....PPPT...YY.", "KK........PP....YY."]},
+    {"key": "paper-heart", "name": "하트", "rows": ["...RRRRR......RRRRR...", ".RRRRRRRR....RRRRRRRR.", "RRRKKKKRRR..RRRRRRRRRR", "RRRKKKKRRRRRRRRRRRRRRR", "RRRRKKRRRRRRRRRRRRRRRR", "RRRRRRRRRRRRRRRRRRRRRR", "RRRRRRRRRRRRRRRRRRRRRR", "RRRRRRRRRRRRRRRRRRRRRR", ".RRRRRRRRRRRRRRRRRRRR.", "..RRRRRRRRRRRRRRRRRR..", "...RRRRRRRRRRRRRRRR...", "....RRRRRRRRRRRRRR....", ".....RRRRRRRRRRRR.....", ".......RRRRRRRR.......", "........RRRRRR........", ".........RRRR.........", "..........RR.........."]},
+    {"key": "paper-house", "name": "우리 집", "rows": ["..............SSS.", "..............SS..", ".......RRRR.RRR...", "......RRRRRRRR....", ".....RRRRRRRRR....", "....RRRRBBRRRR....", "...RRRRRBBRRRRR...", "..RRRRRRRRRRRRRR..", ".RRRRRRRRRRRRRRRR.", "..YYYYYYYYYYYYYY..", "..YYYYYYYYYYYYYY..", "..YBBBYYYYYYBBBY..", "..YBBBYYYYYYBBBY..", "..YBBBYWWWWYBBBY..", "..YYYYYWWWWYYYYY..", "..YYYYYWWWWYYYYY..", "..YYYYYWWWWYYYYY..", "..YYYYYWWWWYYYYY..", "..YYYYYWWWWYYYYY..", "GGGGGGGOOOOGGGGGGG", "GGGGGGGOOOOGGGGGGG", "GGGGGGGOOOOGGGGGGG"]},
+    {"key": "paper-gift", "name": "선물 상자", "rows": ["...YYYYY..YYYYY...", "..YYYOYYYYYYOYYY..", "..YYOOOOYYOOOOYY..", "..YYOOOORROOOOYY..", "..YYOOORRRROOOYY..", "...YYYYYRRYYYYY...", "KKKKKKKYYYYKKKKKKK", "KKKKKKKYYYYKKKKKKK", "KKKKKKYYYYYYKKKKKK", ".PPPPPPPYYPPPPPPP.", ".PPPPPPPYYPPPPPPP.", ".PPTTPPPYYPPPTTPP.", ".PPTTPPPYYPPPTTPP.", ".PPPPPPYYYYPPPPPP.", ".YYYYYYYYYYYYYYYY.", ".YYYYYYYYYYYYYYYY.", ".PPTPPPPYYPPPPTPP.", ".PPTTPPPYYPPPTTPP.", ".PPTTPPPYYPPPTTPP.", ".PPPPPPPYYPPPPPPP."]},
+    {"key": "paper-pencil", "name": "연필", "rows": [".........KKKKKK", "........KKKKKKK", "........KKKKKKK", "........SSSSSSS", "........SSSSSSS", "........YYYOOYY", "........YYYOOYY", "........YYYOOYY", "........YYYOOYY", "........YYYOOYY", "........YYYOOYY", "........YYYOOYY", "........YYYOOYY", "........YYYOOYY", "........YYYOOYY", "........YYYOOYY", "........YYYOOYY", "........YYWOWYY", ".........WWWWW.", "..........WWWW.", "BB..BB....WWW..", ".BBB.BB....W...", "...........W..."]},
+    {"key": "paper-balloon", "name": "풍선", "rows": ["..............BBB...", "....R........BBBBBB.", "..RRRRR.....BTTBBBB.", ".RKKRRRR...BBTTBBBBB", "RRKKRRRR...BBTTBBBBB", "RRKKRRRRRYYBBBBBBBBB", "RRKRRRRYYYYYYBBBBBBB", "RRRRRRYYOYYYYYBBBBBB", "RRRRRRYOOOYYYYBBBBB.", ".RRRRRYOOOYYYYBBBB..", ".RRRRRYYOYYYYYYBB...", "...RRRYYYYYYYYYB....", "....RSYYYYYYYYY.....", ".....SYYYYYYYYY.....", ".....SSYYYYYYY......", "......S.YYYY.Y......", "..........Y.........", "..........S.........", "........SSSS........", "........SSSS........", "........KKKK........", "........K..K........"]},
+    {"key": "sea-fish", "name": "물고기", "rows": ["..........Y.......B..", ".........YY......BB..", "........YYYY.....BB..", ".......OOOOY.........", "....OOOYOOOOO........", "...OOOOYYOOYOO.....Y.", "..OSSOOYYOOYOOO...YY.", ".OOSDDOYYOOYYOOOYYYY.", ".OOSDDOYYOOYYOOOYYY..", ".OOSSSOYYOOYYOOOYYY..", ".OOOOOOYYOOYYOOOYYY..", ".OOOOOOYYOOYYOOOYYY..", ".OOOOOOYYOOYYOOO.YYY.", ".GOOOOOYYOOYOOO...YY.", ".G.OOOOYOOOYOO.....Y.", ".GG.OOOYOOOOO........", ".GG....OOOOO.........", ".G.........O......GG.", "GG.................G.", "GG.................GG", ".G.................G.", ".G.................G."]},
+    {"key": "sea-whale", "name": "고래", "rows": [".....TTTT.TTT........", "...TTTTTTTTTTTTT.....", "...TTTTTTTTTTT.......", ".....TTTTTTTT........", ".........T...........", ".........T...........", ".........T...........", "........BBBB.........", "....BBBBBBBBBBB.....B", "...BBBBBBBBBBBBB...BB", "..BBBBBBBBBBBBBBBB.BB", ".BBBBBBBBBBBBBBBBBBBB", ".BBBDDBBBBBBBBBBBBBBB", "BBBBDDBBBBBBBBBBBBBBB", "BBBBBBKKBTTBBBBBBBBBB", ".BBBTTKKTTTTTTTBBBBBB", ".BTTTTTTTTTTTTTTTB..B", "..TTTTTTBTTBTTTTTT...", "...TTTTTBBBBTTTTT....", "....TTTTBBBBBTT......", ".......TBBBBB........", "...........B.........", "TTTTTTTTTTTTTTTTTTTTT", "TTTTTTTTTTTTTTTTTTTTT"]},
+    {"key": "sea-boat", "name": "돛단배", "rows": [".YYY......WWW........", ".YYY......WW.........", ".YYY......W..........", "..........W..........", "..........W.R........", "........Y.W.RR.......", "........Y.W.RR.......", ".......YY.W.YYY......", "......YYY.W.YYYY.....", "......YYY.W.RRRR.....", ".....RRRR.W.RRRRR....", "....YRRRR.W.RRRRRR...", "....YYYYY.W.RRRRRR...", "...YYYYYY.W.RRRRRRR..", "..........W..........", ".OOOOOOOOOOOOOOOOOOO.", ".OOOOOOOOOOOOOOOOOOO.", "..WWWWWWWWWWWWWWWWW..", "..OOOOOOOOOOOOOOOOO..", ".TTOOOTTOOOTTOOOTT...", "TTTBBTTTBBTTTBBTTTBBB", "BBBBBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBBBB"]},
+    {"key": "sea-octopus", "name": "문어", "rows": [".......PPPPPPP.......", "......KKPPPPPPP......", ".....PKKPPPPPPPP.....", "....PPPPPPPPPPPPP....", "....PPPPPPPPPPPPP....", "...PPPPSSPPPSSPPPP...", "...PPPSSSPPPSSSPPP...", "...PPPSSSPPPSSSPPP...", "....PPSSSPPPSSSPP....", "....PPPPPPPPPPPPP....", "....PPPPPPPPPPPPP....", "...PPPPPPPPPPPPPPP...", "...PP..PPPPPPP..PP...", "..PPP..PP...PP..PPP..", "..PP..PP.....PP..PP..", ".PPP..PP.....PP..PPP.", ".PP...PP.....PP...PP.", ".PP...PP.....PP...PP.", "PP....PP.....PP....PP", "PP..PPPP......PPP..PP", "PPPPPPP.......PPPPPPP", ".PPPPPP.......PPPPPP.", "..PP.PP.......PP.PP..", ".....PP.......PP....."]},
+    {"key": "sea-crab", "name": "꽃게", "rows": [".R.................R.", "RR..RR.........RR..RR", "RRRRRR.........RRRRRR", "RRRRRR.DD...DD.RRRRRR", "RRRRRR.DD...DD.RRRRRR", ".RRRR..DD...DD..RRRR.", "...RR...D...D...RR...", "...RR...D...D...RR...", "....RROOOOOOOOORR....", "....OOOOOOOOOOOOO....", "....OOOYYYYYYYOOO....", "...OOOYYYYYYYYYOOO...", "...OOOOYYYYYYYOOOO...", "...OOOOOOOOOOOOOOO...", "..ROOOOOOOOOOOOOOOR..", ".RR.OOOOOOOOOOOOO.RR.", ".R..ROOOOOOOOOOOR..R.", ".R.RR..OOOOOOO..RR.R.", ".R.R.............R.R.", "...R.............R...", "...R.............R...", "YYYYYYYYYYYYYYYYYYYYY", "YYYYYYYYYYYYYYYYYYYYY"]},
+    {"key": "sea-lighthouse", "name": "등대", "rows": [".........RR.........", "YYY.....RRRR.....YYY", "YYYYY..RRRRRR..YYYYY", "YYYYYY.YYYYYY.YYYYYY", "YYYY....YYYY....YYYY", "Y.......YYYY.......Y", "......DDDDDDDD......", ".......RRRRRR.......", ".......RRDDRR.......", "......RRRDDRRR......", "......SSSSSSSS......", "......SSSSSSSS......", "......RRRRRRRR......", "......RRRRRRRR......", "......RRRRRRRR......", ".....SSSSSSSSSS.....", ".....SSSSSSSSSS.....", ".....SSSSWWSSSS.....", ".....RRRRWWRRRR.....", "..WWWWWWWWWSSSSSS...", ".WWWWWWWWSSSSSSSSSS.", ".TTWWWWWSSSSSSSSSBS.", "BTTBBBBBBBBBBBBBBBBB", "BBBBBBBBBBBBBBBBBBBB"]},
+    {"key": "forest-tree", "name": "사과나무", "rows": [".........GG.........", ".......GGGGGG.......", "......GGGGGGGG......", ".....TTGGGGRRGG.....", "....TTTTGGGRRGG.....", "..GGGTTGGGGGGGGGGG..", ".GGGGGGGGGGGGTTGGRR.", ".GGGGRRGGGGGGTTGRRR.", "GGRRRRRGGGGGGGGGGRGG", "GGGRRGGGGGGGGGRRGGGG", ".GGGGGGGGGGGGGRRGGG.", ".GGTTGGGRRGGGGGRGGG.", "..GTTGGGRRGGGGGGGG..", "....GGGGGRGGGGGG....", "....GGGGGGGGGGGG....", ".....GGGGWWGGGG.....", "........WWWW........", "........WDDW........", "........WDDW........", "........WWWW........", "...RR...WWWW...RRR..", "..GRRG.GWWWWG..RRG..", "GGGGGGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGGGG"]},
+    {"key": "forest-mushroom", "name": "버섯", "rows": [".......RRRRRR.......", ".....RRRRRRSSRR.....", "....RRRRRRSSSSRR....", "...SSSRRRRSSSSRRR...", "..RSSSSRRRRSSRRRRR..", ".RRSSSSRRRRRRRRRRRR.", ".RRRSSRRRRRRRRRSSRR.", ".RRRRRRRSSRRRRRSSRR.", "OOORRRRRSSRRRRRSSRRR", "OOOOOOOOOOOOOOOOOOOO", ".OOOOOOOOOOOOOOOOOO.", "......YYYYYYYY......", "......YYYYYYYY......", "......YYYYYYYY......", "......YYYYYYYY......", "......YYYYYYYY.RRRR.", "......YYYYYYYY.RRRRR", "......YYYYYYYY..YY..", "......YYYYYYYY..YY..", ".GG...YYYYYYYY..YYY.", "GGGBBGGGYYYYGGGGYYGG", "GGGBBGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGGGG"]},
+    {"key": "forest-cat", "name": "고양이", "rows": ["..OOO............OOO..", "..OOOO..........OOOO..", "..OOKOO........OOKOO..", "..OOKKOOOOOOOOOOKKOO..", "..OOKOOOOOOWOOOOOKOO..", "..OOOOOOOOOWOOOOOOOO..", "..OOOOOOOOWWOOOOOOOO..", "..OOOOOOOOOOOOOOOOOO..", "..OOOOGGOOOOOOGGOOOO..", "..OOOOGGGOOOOGGGOOOO..", ".OOOOOGGGOOOOGGGOOOOO.", ".OOOOOGGOOOOOOGGOOOOO.", ".OOOOOOOOOOOOOOOOOOOO.", ".OOOOOOYYYYYYYYOOOOOO.", ".KKKOOYYYYYYYYYYOOKKK.", "..KKKYYYYYYYYYYYYKKK..", "...KOYYYYYYYYYYYYOK...", "DDDDOYYYYYYYYYYYYODDDD", "....OOYYYYYYYYYYOO....", "......YYYYYYYYYY......", "........YYYYYY........"]},
+    {"key": "forest-sunflower", "name": "해바라기", "rows": ["....YY.YYYY.YY....", "....YYOOYYOOYY....", "....YYOOOOOOYY....", ".YYOOOOOOOOOOOOYY.", ".YYOOOOWWWWOOOOYY.", ".YOOOOWWWWWWOOOOY.", ".OOOOWWDDDDWWOOOO.", "YYOOOWWDDDDWWOOOYY", "YYYOOWWDDDDWWOOYYY", ".OOOOWWDDDDWWOOOO.", ".OOOOWWWDDWWWOOOO.", ".YYYOOWWWWWWOOYYY.", ".YYOOOOOWWOOOOOYY.", "...OOYOOOOOOYOO...", "....YYOOOOOOYY....", "....YYOOYYOOYYG...", "........YY.GGGG...", "...GGG..GGGGGG....", "...GGGG.GGGGG.....", "....GGGGGG........", "...WWWWWGGWWWWW...", "...WWWWWWWWWWWW...", "....OOOOOOOOOO....", "....OOOOOOOOOO....", ".....OOOOOOOO.....", ".....OOOOOOOO....."]},
+    {"key": "forest-ladybug", "name": "무당벌레", "rows": ["......D........D......", "......DD......DD......", ".......D......D.......", "........DDDDDD........", ".......DDDDDDDD.......", "......DDDDDDDDDD......", "......DDDDDDDDDD......", "......DRRRRRRRRD......", "......RRRRRRRRRR......", ".....KKRRRRRRRRRR.....", "....RKKDRRRRRRDDDR....", "...RRDDDRRRRRRDDDRR...", "...RRDDDRRRRRRDDDRR...", "...RRRRRRRRRRRRRRRR...", "..RRRRRRRRRRRRRRRRRR..", "RRRRRRRRRRRRRRRRRRRRRR", "...RDDDRRRRRRRRDDDR...", "...RDDDRRRRRRRRDDDR...", "...RRDDRRRRRRRRDDRRR..", "..GGRRRRRRRRRRRRRRRRGG", ".GGGGRRRDDRRDDRRRGGGGG", ".GGGGGRRDDRRDDRRGGGGG.", "GTTTTGGGRRRRRRGGGGGG..", "GGGGGGGGGGGGGGGGGGG...", ".GGGGGGGGGGGGGGG......", "....GGGGGGGG.........."]},
+    {"key": "forest-snail", "name": "달팽이", "rows": ["..........OOOOOO......", ".........OOOWWWOOO....", ".......OOOOOOWWWWOO...", ".......OOOOOOOOOWOOO..", ".D...OOOOOOWWWWOWWOO..", ".DD..OOOOOOWWWWOOWOO..", ".DT..OOOOOWWOOWWOWOOO.", "..T..TOOOOWWOWWOWWOOO.", "..T..TOOOOWWOOOOWOOOO.", "..T..TOOOOOWWWWWWOOO..", "..T..TOOOOOOWWWOOOOO..", ".....T.OOOOOOOOOOOO...", "....TTTTOOOOOOOOOOO...", "..TTTTTTTOOOOOOOOTTT..", ".TTTTTTTTTTTOOOTTTTTT.", "TTTTTTTTTTTTTTTTTTTTTT", ".TTTTTTTTTTTTTTTTTTTTT", ".TTTTTTTTTTTTTTTTTTTTT", ".TTTTTTTTTTTTTTTTTTTTT", "GGGGGGGGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGGGGGG", "GGGGGGGGGGGGGGGGGGGGGG"]},
+    {"key": "desert-cactus", "name": "선인장", "rows": ["......KKKKKKK...OOO.", "......KKKKKKK...OOOO", ".......GGGGG....OOOO", "......GGGGGGG....O..", "......GGGTGGG...GGG.", "......GGGTGGG..GGGG.", "GGGG..GGGTGGG..GGGG.", "GGGG..GGGTGGG..GGGG.", "GGGG..GGGTGGG..GGGG.", "GGGG..GGGTGGGGGGGGG.", "GGGGGGGGGTGGGGGGGGG.", "GGGGGGGGGTGGGGGGGGG.", "GGGGGGGGGTGGG.......", ".GGGGGGGGTGGG.......", "......GGGTGGG.......", "......GGGTGGG.......", "......GGGTGGG.......", "......WGGTGGW.......", "..WWWWWWWWWWWWWWW...", "..WWWWWWWWWWWWWWW...", "...OOOOOOOOOOOOO....", "...OOYYYYOYYYYOO....", "....YYOOOOOOOYY.....", "....OOOOOOOOOOO.....", "....OOOOOOOOOOO....."]},
+    {"key": "desert-camel", "name": "낙타", "rows": ["..................Y..", ".................YYY.", "...W.............YYY.", ".WWWW.............Y..", "WWWWW................", "WWWWW................", ".WWWW..WWW..WWWW.....", "..WW..WWWWWWWWWWW....", "..WW.WWWWWWWWWWWW....", "..WWWWWWWWWWWWWWW....", "...WWWWWWWWWWWWWW....", "...WWWRRRRRRRRRRWW...", "....WWWRRRRRRRRRWWW..", "....WWWRRRRRRRRRWWW..", "....WWWYYYYYYYYYWWWW.", ".....WWWWWWWWWWWWW.W.", ".....WWWWWWWWWWWW....", ".....WW.WWWWWWWWW....", ".....WW.WW...W..W....", ".....WW.WW..WW..W....", ".....WW.WW..WW..W....", "...OOWW.WW..WWOOOO...", "YYOOOOYYYYYYYYOOOOYYY", "YYOOOOYYYYYYYOOOOOYYY", "YYOOOOYYYYYYYYOOOOYYY"]},
+    {"key": "desert-pyramid", "name": "피라미드", "rows": [".................RRRR..", "................RROOR..", "................ROOORR.", "................RROOR..", ".................RRRR..", ".......................", ".............YO........", ".............YOO.......", "............YYOO.......", "...........YYYOOO......", "........O..YYYOOO......", ".......YO.YYYYOOOO.....", "......YYOYYYYYOOOO.....", "......YYOYYYYYOOOOO....", ".....YYYYYYYYYOOOOOO...", "....YYYYWWWWWWOOOOOO...", "....YYYYYYYYYYOOOOOOO..", "...YYYYYYYYYYWWWOOOOO..", "..YYYYYYYYYYYWWWOOOOOO.", "..YYYYYYYYYYYWWWOOOOOO.", "....YYYYYYYYYWWWOOOOOOO", "YYYYYYYYYYYYYYYYYYYYYYY", "YYYYYYYYYYYOOOOOOOOOOYY", "YYYYYYYYYOOOOOOOOOOOOOO", "YYYYYYYYYYOOOOOOOOOOOOO"]},
+    {"key": "desert-palm", "name": "야자수", "rows": ["...........GGGGG.....", "..YY......GGGGGGGG...", ".YYYY..GGGGGGGGGGGGG.", ".YYYYGGGGGGGGG..GGGGG", "..YGGGGGGG.GGG...GGGG", "...GGGGGGGGGGGGGGGGGG", ".....GGGGGGGGGGGGGGG.", ".......GGGWWGWWGGG...", "..........WWWWW......", "...........WW........", "...........WW........", "...........WW........", "...........WW........", "..........WW.........", "..........WW.........", "..........WW.........", ".........WWW.........", ".........YY..........", ".........YY..........", ".........YY..........", "...YYYYYYYYYYYYYYY...", ".YYYYYYYYYYYYYYYYYYYY", "YYBBBBBBBBBYYYYYYYYYY", ".BBBBBBBBBBYYYYYYYYY.", "...BBBBBBBYYYYYYY...."]},
+    {"key": "desert-sun", "name": "해님", "rows": ["..........O..........", ".........OOO.........", ".........OOO.........", "...OOO.YYYYYYY.OOO...", "...OOOYYYYYYYYYOOO...", "....OYYYYYYYYYYYO....", "....YYYYYYYYYYYYY....", "...YYDDDDDDDDDDDYY...", "..OYYDDDDDYDDDDDYYO..", "OOOYYDDDDDYDDDDDYYOOO", "OOOYYYYYYYYYYYYYYYOOO", "..OYKKKYYYYYYYKKKYO..", "...YYKYYYYYYYYYKYY...", "....YYYRRRYRRRYYY....", "....OYYYYRRRYYYYO....", "...OOOYYYYYYYYYOOO...", "...OOO.YYYYYYY.OOO...", ".........OOO.........", ".........OOO.........", "..........O.........."]},
+    {"key": "desert-hourglass", "name": "모래시계", "rows": [".WWWWWWWWWWWWWWWWW.", "OOOOOOOOOOOOOOOOOOO", "WWWWWWWWWWWWWWWWWWW", "..WW.TTTTTTTTT.WW..", "..WW.TTTTTTTTT.WW..", "..WW.TTTTTTTTT.WW..", "..WW..YYYYYYY..WW..", "..WW..YYYYYYY..WW..", "..WW...YYYYY...WW..", "..WW...YYYYY...WW..", "..WW....YYY....WW..", "..WW....TYT....WW..", "..WW....TYT....WW..", "..WW....TYT....WW..", "..WW....TYT....WW..", "..WW....TYT....WW..", "..WW...TTYTT...WW..", "..WW...TYYYT...WW..", "..WW..TTYYYTT..WW..", "..WW..TYYYYYT..WW..", "..WW.YYYYYYYYY.WW..", "..WW.YYYYYYYYY.WW..", "..WW.YYYYYYYYY.WW..", "WWWWWWWWWWWWWWWWWWW", "OOOOOOOOOOOOOOOOOOO", ".WWWWWWWWWWWWWWWWW."]},
+    {"key": "night-moon", "name": "달과 별", "rows": [".................BB.", ".................BBB", "......YYY........BB.", "....YYYY............", "..YYYYY.............", "..YYYYY.............", ".YYYYYY.............", "YYYYYY..............", "YYYOOY..............", "YYYOOY..............", "YYYYYYY.............", "YYYYYYY.............", "YYYYYYYY............", ".YYYYYYYY........Y..", ".YYYYOOOYYY....YYYYY", "..YYYOOYYYYYYYYYYYY.", "...YYYYYYYYYYYY.Y.Y.", ".....SSSSYSSY.......", ".....SSSSSSSSS......", ".....SSSSSSSSS......", "....SSSSSSSSSS......", "....SSSSSSSSSS......", ".....SSSSSSSS.......", "........SS.........."]},
+    {"key": "night-rocket", "name": "로켓", "rows": ["..........RR........", ".........RRRR.......", ".Y......RRRRRR......", "YY.....RRRRRRRR.....", "......RRRRRRRRRR....", "......RRRRRRRRRR....", "......SSSSSSSSSS....", "......SSSSSSSSSS....", "......SSSDDDDSSS....", "......SSSBBBBSSS....", "......SSSBBBBSSS....", "......SSSBBBBSSS....", "......SSSBBBBSSS....", ".....RSSSSSSSSSSR...", ".....RSSSSSSSSSSR...", "....RRSSSSSSSSSSRR..", "...RRRBBBBBBBBBBRRR.", "...RRRBBBBBBBBBBRRR.", "..RRRRSSSSSSSSSSRRRR", ".....RSSSSDDSSSSR...", "........SSDDSS......", ".........DDDD.......", ".........DDDD.......", "..........RR........", "..........RR........"]},
+    {"key": "night-castle", "name": "성", "rows": [".................Y..", "...R............RYY.", "..RR............RRY.", "..RRR..........RRR..", ".RRRR....RR....RRRR.", ".SSSSS...RR...SSSSS.", ".SSSSS..RRRR..SSSSS.", ".SSSSS..RRRR..SSSSS.", ".SDDSS..SSSS..SSDDS.", ".SDDSS..SDDS..SSDDS.", ".SSDSSSSSDDSSSSSDSS.", ".SSSSSSSSSSSSSSSSSS.", ".SSSSSSSSSSSSSSSSSS.", ".SSSSYSSSWWSSSYSSSS.", ".SSSYYSSWWWWSSYYSSS.", ".SSSSYSSWWWWSSYSSSS.", ".SSSSSSSWWWWSSSSSSS.", ".SSSSSSSWWWWSSSSSSS.", ".SSSSSSSWWWWSSSSSSS.", ".SSSSSSSWWWWSSSSSSS.", ".SSSSSSSWWWWSSSSSSS.", "GGGGGG..OOOO..GGGGGG", "GGGGGG.OOOOOO.GGGGGG", "GGGGGGGOOOOOOGGGGGGG"]},
+    {"key": "night-owl", "name": "부엉이", "rows": [".................YYYY.", "....WW..........WWYYY.", "....WWW...WW...WWWYYY.", "....WWWWWWWWWWWWWWY...", "....WWWYWWWWWWYWWW....", ".....YYYYYWWYYYYY.....", "....YYYYYYYYYYYYYY....", "....YYYDDYYYYDDYYY....", "...WYYDDDYYYYDDDYYW...", "...WWYYDYYYYYYDYYWW...", "...WWWYYYOOOOYYYWWW...", "...WWWWWOOOOOOWWWWW...", "...WWWWWOOOOOOWWWWW...", "...WWWWOOOOOOOOWWWW...", "...WWWOOOOOOOOOOWWW...", "...WWWOOOOOOOOOOWWW...", "....WWOOOOOOOOOOWW....", "....WWOOOOOOOOOOWW....", ".....WWOOOOOOOOWW..GG.", "......WWOOOOOOWW.GGGG.", ".......WOOOOOOWWWWWWWW", "WWWWWWWWWWWWWWWWWWWWWW", "WGGWWW................", ".GGG.................."]},
+    {"key": "night-saturn", "name": "토성", "rows": ["...B...............YY...", "..BBB..............YY...", "..BBB...................", "........................", "........................", ".........OOOOOO.........", ".......RRRRRRRRRR.......", "......OOOOOOOOOOOOYYYYY.", "......WWWWWWWWWWWOYYYYYY", ".....OOOOOOOOOOOOOO.YYY.", "....YOOOOOOOOOOOOOOYYY..", "..YYYOOOOOOOOOOOYYYY....", ".YYY.OOOOOOOYYYYYYY.....", "YYYYYYYYYYYYYYYYYY......", ".YYYYYRRRRRRRRRRRR......", ".......ROOOOOOOOR.......", ".........OOOOOO.........", "........................", "........................", "...................SSS..", "...................SSS..", "....................S..."]},
+    {"key": "night-ufo", "name": "비행접시", "rows": [".......TTTTTTTT.......", ".......TTTTTTTT.......", "......TTTTTTTTTT......", ".....TTTTGGGGTTTT.....", ".....TTTTGGGGTTTT.....", ".....TTTTGGGGTTTT.....", ".....TTTTGGGGTTTT.....", "....SSSSSSSSSSSSSS....", "..SSSSSSSSSSSSSSSSSS..", "SSSSSSSSSSSSSSSSSSSSSS", "SSSSSSSSSSSSSSSSSSSSSS", "SSRRSSSSSSSSSSSSSSRRSS", "SSRRSSKKSSSSSSKKSSRRSS", "..SSSSKKSSRRSSKKSSSS..", "....SSSSSSRRSSSSSS....", "......YYYYYYYYYY......", "......YYYYYYYYYY......", ".....YYYYYYYYYYYY.....", "....YYYYYYYYYYYYYY....", "....YYYYYYYYYYYYYY....", "...YYYYYYYYYYYYYYYY...", "...YYYYYYYYYYYYYYYY...", "..YYYYYYYYYYYYYYYYYY..", "..YYYYYYYYYYYYYYYYYY.."]},
+    {"key": "neon-robot", "name": "로봇", "rows": ["..........RR..........", "..........RR..........", "...........S..........", ".....SSSSSSSSSSSS.....", "....SSSSSSSSSSSSSS....", "....SSDDDDSSDDDDSS....", "...SSSDBBDSSDBBDSSS...", "...SSSDBBDSSDBBDSSS...", "...SSSDDDSSSSDDDSSS...", "....SSSSSSSSSSSSSS....", "....SSSKKKKKKKKSSS....", ".....SSSSSSSSSSSS.....", ".........DDDD.........", ".S..TTTTTTTTTTTTTT..S.", "SSSTTTTTTTTTTTTTTTTSSS", "SSSTTTTOOOOOOOOTTTTSSS", "SSSTTTTOYYOORROTTTTSSS", "SSSTTTTOYYOORROTTTTSSS", "SSSTTTTOOOOOOOOTTTTSSS", "SSSTTTTTTTTTTTTTTTT.SS", "DDD.TTTTTTTTTTTTTTTDDD", "DDD.TTTTTTTTTTTTTT.DDD", ".....SSSSS..SSSSS.....", ".....SSSSS..SSSSS.....", "....DDDDDD..DDDDDD....", ".....DDDDD..DDDDD....."]},
+    {"key": "neon-crown", "name": "왕관", "rows": ["..........RRRR..........", "..........RRRR..........", "...........RR...........", "RR.........YY.........RR", "RR........YYYY........RR", "RR........YYYY........RR", ".Y.......YYYYYY.......Y.", ".YY.....YYYYYYYY.....YY.", ".YYY....YYYYYYYY....YYY.", "..YYY..YYYYYYYYYY..YYY..", "..YYY..YYYYBBYYYY..YYY..", "..YYYYYYYYBBBBYYYYYYYY..", "..YYYKKKYYBBBBYYKKKYYY..", "..YYYKKKYYYBBYYYKKKYYY..", "..YYYYKYYYYYYYYYYKYYYY..", "...OOOOOOOOOOOOOOOOOO...", "...OOOOOOOOOOOOOOOOOO...", "..PPPPPPPPPPPPPPPPPPPP..", ".PPPPPPPPPPRRPPPPPPPPPP.", ".PPPPPPPPPPRRPPPPPPPPPP.", ".PPPPPPPPPPPPPPPPPPPPPP.", "..PPPPPPPPPPPPPPPPPPPP.."]},
+    {"key": "neon-bolt", "name": "번개", "rows": ["...SSSSSSSSSSSS...", "..SSSSSSSSSSSSSS..", ".SSSSSSSSSSSSSSSS.", "SSSSSSSSSSSSSSSSSS", ".SSSSSSSSSSSSSSSS.", "....SSSSSOOOOOO...", "........OOYYYO....", "........OYYYYO....", ".......OYYYYY.....", "......OOYYYY......", ".....OOYYYYY......", "....OOYYYYO.......", "....OYYYYYOOOOOOOO", "...YYYYYYYYYYYYYO.", "..OYYYYYYYYYYYYYY.", ".OOYYYYYYYYYYYYY..", ".OOOOOOOOYYYYY....", ".......OYYYYY.....", ".......OYYYY......", "......OOYYY.......", "......OYYY.......B", "......OYY........B", ".....OOO.........B", ".....OO...........", ".....O............"]},
+    {"key": "neon-gamepad", "name": "게임기", "rows": ["......PPPPPPPPPPPP......", "...PPPPPPPPPPPPPPPRPP...", "..PPPPPPPPPPPPPPPRRRPP..", ".PPPPDDPPPPPPPPPPRRPPPP.", ".PPPPDDPPPPPPPPBPPPPPGP.", ".PDDDDDDDDPPPPBBBPPPGGGP", ".PDDDDDDDDPPPPBBPPPPGGPP", ".PPPPDDPPPPPPPPPPPYPPPP.", ".PPPPDDPDDPPPPDDPYYYPPP.", "PPPPPPPDDDDPPDDDDYYPPPPP", "PPPPPPPPDDPPPPDDPPPPPPPP", "PPPPPPPPPPPPPPPPPPPPPPPP", "PPPPPPPPPP....PPPPPPPPPP", "PPPPPPPPP......PPPPPPPPP", "PPPPPPPPP......PPPPPPPPP", ".PPPPPPPP......PPPPPPPP.", "..PPPPPP........PPPPPPP.", "...PPPP..........PPPP..."]},
+    {"key": "neon-music", "name": "음표", "rows": ["...................KK...", "...............KKKKKK...", "..........KKKKKKKKKKK...", "........KKKKKKKKKKKKK...", "........KKKKKKKKKKKKK...", "........KKKKKKK....KK...", "........KKK........KK...", "........KK.........KK...", "...BBB..KK.........KK...", "...BBBB.KK.........KK...", "...BBBB.KK.........KK...", "...BB...KK.........KK...", "...BB...KK.........KK...", "...BB...KK.....KKKKKK...", "...BB...KK....KKKKKKK...", "...BB.KKKK...KKKKKKK....", "...BBKKKKK...KKKKKKK....", "...BBKKKKK....KKKKK.....", "...BBKKKKK..............", ".BBBBKKKK...............", "BBBBBKKSSSSSSSSSSSSSTTTT", "BBBB................TTT.", "BBBSSSSSSSSSSSSSSSSSTTTT"]},
+    {"key": "neon-diamond", "name": "보석", "rows": ["....................Y.", "....................YY", "......................", "......................", "....KTTTTTTTTTTTTK....", "...KKTTTTTYYTTTTTKK...", "..KKKKTTTYYYYTTTKKKK..", ".KKKKKKTTYYYYTTKKKKKK.", "KKKKKKKTYYYYYYTKKKKKKK", "BBBBBBBPPPPPPPPBBBBBBB", "BBTBBBBPPPPPPPPBBBBBBB", ".BTTBBBPPPPPPPPBBBBBB.", "..TTTBBBPPPPPPBBBBBB..", "...TTBBBPPPPPPBBBBB...", "....TTBBPPPPPPBBBB....", ".....BBBBPPPPBBBB.....", ".....BBBBPPPPBBBB.....", "......BBBPPPPBBB......", ".......BBBPPPBB.......", "YY......BBPPBB........", "YY.......BPPB.........", "..........PPB.........", "..........PP.........."]}];
   /* ---------- end pictures ---------- */
 
   /* ---------- stages: 6 chapters x 20 ---------- */
@@ -87,8 +87,9 @@
     n = clampStage(n);
     var tier = stageTier(n);
     // stages 1-2 teach the rules: small board, plenty of free arrows, relaxed clock
-    if (n <= 2) return { w: 5, h: 7, fill: 0.74, maxLen: 3, inward: 0.25, edgeOut: 0.5, freeTarget: 0.45, secPerArrow: 2.6, tier: tier, easyFill: true };
-    // from stage 3 the real game starts: bigger dense boards, heads pointing inward, few free arrows
+    // stages 1-4 are a warm-up: small boards, short arrows mostly pointing out, plenty free at once, a relaxed clock
+    if (n <= 4) return { w: [5, 5, 5, 6, 6][n], h: [7, 7, 7, 8, 8][n], fill: 0.74, maxLen: 3, inward: 0.2, edgeOut: 0.55, freeTarget: 0.5, secPerArrow: 2.6, tier: tier, easyFill: true };
+    // from stage 5 the real game starts: bigger dense boards, heads pointing inward, few free arrows
     var t = (n - 3) / (TOTAL_STAGES - 3);
     var bump = tier === 'super' ? 3 : tier === 'hard' ? 1 : 0;
     // 8x10 at stage 3 → 20x26 at stage 120; super hard boards may reach Maze Out's 22 columns
@@ -111,11 +112,36 @@
 
   // Picture stages: six per chapter (chapter-relative 3, 7, 9, 13, 16 and 18), all on normal stages
   // and away from the gimmick debuts, each drawing one of the chapter's six pictures.
+  // Chapter 1 is different: stages 1-4 are hand-made lessons, so its first picture is the heart on
+  // stage 5, the first hard stage (a hard board that turns into a picture), and the paper plane moves to 7.
   var PICTURE_SLOTS = [3, 7, 9, 13, 16, 18];
+  var FIRST_CHAPTER_SLOTS = [7, 5, 9, 13, 16, 18];
   function pictureFor(n) {
     n = clampStage(n);
-    var ci = Math.floor((n - 1) / STAGES_PER_CHAPTER), rel = n - ci * STAGES_PER_CHAPTER, j = PICTURE_SLOTS.indexOf(rel);
+    var ci = Math.floor((n - 1) / STAGES_PER_CHAPTER), rel = n - ci * STAGES_PER_CHAPTER, j = (ci === 0 ? FIRST_CHAPTER_SLOTS : PICTURE_SLOTS).indexOf(rel);
     return j < 0 ? null : PICTURES[ci * PICTURE_SLOTS.length + j];
+  }
+
+  /* ---------- stages 1-4: hand-made lessons, one idea each (like the genre's best openings) ----------
+     1: three straight arrows, all free  2: bent arrows, all free  3: one arrow blocks three others
+     4: a short chain (an arrow waits for two that wait for the top one). Every arrow is 3+ cells long. [dir, [[x, y] head first, ...]] */
+  var LESSONS = {
+    1: { w: 3, h: 3, a: [['U', [[0, 0], [0, 1], [0, 2]]], ['U', [[1, 0], [1, 1], [1, 2]]], ['U', [[2, 0], [2, 1], [2, 2]]]] },
+    2: { w: 4, h: 4, a: [['L', [[0, 0], [1, 0], [1, 1], [0, 1]]], ['U', [[3, 0], [3, 1], [2, 1], [2, 0]]],
+                         ['R', [[3, 3], [2, 3], [2, 2], [3, 2]]], ['D', [[0, 3], [0, 2], [1, 2], [1, 3]]]] },
+    3: { w: 5, h: 4, a: [['R', [[4, 0], [3, 0], [2, 0], [1, 0]]], ['U', [[1, 1], [1, 2], [1, 3]]], ['U', [[2, 1], [2, 2], [2, 3]]],
+                         ['U', [[3, 1], [3, 2], [3, 3]]], ['U', [[0, 0], [0, 1], [0, 2], [0, 3]]], ['D', [[4, 3], [4, 2], [4, 1]]]] },
+    4: { w: 6, h: 5, a: [['R', [[5, 0], [4, 0], [3, 0]]], ['L', [[0, 0], [1, 0], [2, 0]]], ['L', [[0, 1], [1, 1], [2, 1], [3, 1]]],
+                         ['U', [[4, 1], [4, 2], [4, 3]]], ['U', [[5, 1], [5, 2], [5, 3]]], ['R', [[3, 2], [2, 2], [1, 2]]],
+                         ['D', [[0, 4], [0, 3], [0, 2]]], ['D', [[1, 4], [1, 3], [2, 3], [2, 4]]], ['R', [[5, 4], [4, 4], [3, 4], [3, 3]]]] }
+  };
+  function lessonLevel(n) {
+    var L = LESSONS[n];
+    var arrows = L.a.map(function (d, i) { return { id: i, dir: d[0], cells: d[1].map(function (c) { return [c[0], c[1]]; }), color: i % PALETTE, region: '#' }; });
+    var lvl = { w: L.w, h: L.h, seed: hashStr('lesson-' + n), arrows: arrows, area: L.w * L.h, solution: [] };
+    var removed = {}, left = arrows.length;
+    while (left > 0) { var free = freeArrows(lvl, removed); if (!free.length) break; free.forEach(function (id) { removed[id] = true; lvl.solution.push(id); }); left -= free.length; }
+    return lvl;
   }
   function picStages() {
     var out = [];
@@ -181,7 +207,7 @@
       }
       if (!dir) continue;
       var d = DIRS[dir];
-      var len = 2 + Math.floor(rnd() * (params.maxLen - 1));
+      var len = Math.min(params.maxLen, 3 + Math.floor(rnd() * Math.max(1, params.maxLen - 2)));   // at least 3 cells where the space allows
       var cells = [[x, y], [x - d[0], y - d[1]]], mine = {};
       mine[x + ',' + y] = 1; mine[(x - d[0]) + ',' + (y - d[1])] = 1;
       var back = [-d[0], -d[1]];
@@ -354,6 +380,110 @@
       if (!changed) break;
     }
     level.solution = best.order;
+  }
+
+  // Very short arrows (1-2 cells) are no fun to pull, so each one tries to join the tail of a
+  // neighbouring arrow (its cells become that arrow's new tail). A merge is kept only if the board stays
+  // solvable; hard boards keep the merge that leaves the fewest arrows free, easy boards the most.
+  var SHORT = 2;
+  function absorbShort(level, P) {
+    var w = level.w, h = level.h;
+    var reg = function (x, y) { return P.reg ? P.reg[y][x] : '#'; };
+    var adj = function (p, q) { return Math.abs(p[0] - q[0]) + Math.abs(p[1] - q[1]) === 1; };
+    var onRay = function (a, cells) {
+      var d = DIRS[a.dir], set = {};
+      cells.forEach(function (c) { set[c[0] + ',' + c[1]] = 1; });
+      for (var x = a.cells[0][0] + d[0], y = a.cells[0][1] + d[1]; x >= 0 && y >= 0 && x < w && y < h; x += d[0], y += d[1]) if (set[x + ',' + y]) return true;
+      return false;
+    };
+    var cap = (P.maxLen || 6) + 4;
+    for (var pass = 0; pass < 3; pass++) {
+      var merged = false;
+      for (var i = 0; i < level.arrows.length; i++) {
+        var sh = level.arrows[i];
+        if (sh.cells.length > SHORT) continue;
+        var R = reg(sh.cells[0][0], sh.cells[0][1]), pick = null;
+        level.arrows.forEach(function (a) {
+          if (a === sh || a.region !== sh.region || a.cells.length + sh.cells.length > cap) return;
+          var tail = a.cells[a.cells.length - 1], head = a.cells[0], d = DIRS[a.dir], add = null, front = false;
+          if (adj(tail, sh.cells[0])) add = sh.cells.slice();
+          else if (adj(tail, sh.cells[sh.cells.length - 1])) add = sh.cells.slice().reverse();
+          // a single cell right in front of a head can become that arrow's new head (it just starts one step further on)
+          if (!add && sh.cells.length === 1 && sh.cells[0][0] === head[0] + d[0] && sh.cells[0][1] === head[1] + d[1]) { add = sh.cells.slice(); front = true; }
+          if (!add || (!front && onRay(a, add)) || reg(add[0][0], add[0][1]) !== R) return;
+          // a 1-cell arrow can only grow straight back: the cell behind its head must stay behind it
+          if (!front && a.cells.length === 1 && !(add[0][0] === head[0] - d[0] && add[0][1] === head[1] - d[1])) return;
+          var keepCells = a.cells, keepArrows = level.arrows;
+          a.cells = front ? add.concat(a.cells) : a.cells.concat(add);
+          level.arrows = keepArrows.filter(function (b) { return b !== sh; });
+          var ids = level.arrows.map(function (b) { return b.id; });
+          level.arrows.forEach(function (b, k) { b.id = k; });
+          var res = fastSolve(level);
+          level.arrows.forEach(function (b, k) { b.id = ids[k]; });
+          level.arrows = keepArrows; a.cells = keepCells;
+          if (res && (!pick || (P.easyFill ? res.free > pick.res.free : res.free < pick.res.free))) pick = { a: a, add: add, front: front, res: res };
+        });
+        if (!pick) {
+          // no neighbour can take it: let it borrow tail cells from long neighbours instead
+          var grew = false;
+          if (sh.cells.length === 1) {
+            // a single cell may also turn to face away from a long neighbour's tail and take that cell as its body
+            var c0 = sh.cells[0], keepDir = sh.dir, turned = null;
+            DIR_KEYS.forEach(function (dk) {
+              if (turned) return;
+              var dd = DIRS[dk], b = [c0[0] - dd[0], c0[1] - dd[1]];
+              level.arrows.forEach(function (a) {
+                if (turned || a === sh || a.region !== sh.region || a.cells.length < SHORT + 3) return;
+                var t = a.cells[a.cells.length - 1];
+                if (t[0] !== b[0] || t[1] !== b[1]) return;
+                sh.dir = dk; a.cells.pop(); sh.cells.push(t);
+                if (!onRay(sh, [t]) && fastSolve(level)) turned = a; else { sh.cells.pop(); a.cells.push(t); sh.dir = keepDir; }
+              });
+            });
+            if (turned) grew = true;
+          }
+          if (!grew) {
+            // or take over the back half of a long neighbour that passes right next to it: the
+            // neighbour is cut where it touches, keeps its head and at least 3 cells, and hands the rest over
+            var end2 = sh.cells[sh.cells.length - 1], best2 = null;
+            level.arrows.forEach(function (a) {
+              if (a === sh || a.region !== sh.region) return;
+              for (var k = 3; k < a.cells.length; k++) {
+                var m = a.cells[k];
+                if (!adj(m, end2)) continue;
+                var keepA = a.cells, keepS = sh.cells, keepD = sh.dir;
+                if (sh.cells.length === 1) { var dx = end2[0] - m[0], dy = end2[1] - m[1]; for (var dk in DIRS) if (DIRS[dk][0] === dx && DIRS[dk][1] === dy) sh.dir = dk; }
+                sh.cells = sh.cells.concat(a.cells.slice(k)); a.cells = a.cells.slice(0, k);
+                var ok = sh.cells.length > SHORT && !onRay(sh, sh.cells.slice(1)) && !onRay(a, a.cells.slice(1)), res = ok && fastSolve(level);
+                if (res && (!best2 || (P.easyFill ? res.free > best2.res.free : res.free < best2.res.free))) best2 = { a: a, k: k, dir: sh.dir, res: res };
+                a.cells = keepA; sh.cells = keepS; sh.dir = keepD;
+              }
+            });
+            if (best2) { sh.dir = best2.dir; sh.cells = sh.cells.concat(best2.a.cells.slice(best2.k)); best2.a.cells = best2.a.cells.slice(0, best2.k); grew = true; }
+          }
+          for (var tries = 0; tries < 2 && sh.cells.length <= SHORT; tries++) {
+            var end = sh.cells[sh.cells.length - 1], got = null;
+            level.arrows.forEach(function (a) {
+              if (got || a === sh || a.region !== sh.region || a.cells.length < SHORT + 4) return;
+              var t = a.cells[a.cells.length - 1];
+              if (!adj(t, end) || onRay(sh, [t]) || (sh.cells.length === 1 && !(t[0] === end[0] - DIRS[sh.dir][0] && t[1] === end[1] - DIRS[sh.dir][1]))) return;
+              a.cells.pop(); sh.cells.push(t);
+              if (fastSolve(level)) got = a; else { sh.cells.pop(); a.cells.push(t); }
+            });
+            if (!got) break;
+            grew = true;
+          }
+          if (grew) { level.solution = fastSolve(level).order; merged = true; }
+          continue;
+        }
+        pick.a.cells = pick.front ? pick.add.concat(pick.a.cells) : pick.a.cells.concat(pick.add);
+        level.arrows = level.arrows.filter(function (b) { return b !== sh; });
+        level.arrows.forEach(function (b, k) { b.id = k; });
+        level.solution = fastSolve(level).order;
+        merged = true; i--;
+      }
+      if (!merged) break;
+    }
   }
 
   /* ---------- special arrows ---------- */
@@ -574,11 +704,11 @@
     }
     return generateLevel(kind, key);
   }
-  // opt (build tool only): {variant: n} re-rolls the seeds, {tweak: 'easier'|'harder'…'harder5'} nudges the shape.
+  // opt (build tool only): {variant: n} re-rolls the seeds, {tweak: 'easier3'…'easier'|'harder'…'harder5'} nudges the shape.
   // build-levels.js plays every candidate with a bot and keeps the one nearest the stage's target.
   function tweakParams(P, tweak, picture) {
     if (!tweak || P.freeTarget == null) return P;
-    var d = { harder: 1, harder2: 2, harder3: 3, harder4: 4, harder5: 5, easier: -1 }[tweak] || 0, Q = Object.assign({}, P);
+    var d = { harder: 1, harder2: 2, harder3: 3, harder4: 4, harder5: 5, easier: -1, easier2: -2, easier3: -3 }[tweak] || 0, Q = Object.assign({}, P);
     Q.freeTarget = Math.max(0.08, Math.min(0.4, P.freeTarget - d * 0.035));
     Q.inward = Math.max(0.5, Math.min(0.98, P.inward + d * 0.05));
     if (!picture) { Q.w = Math.max(6, Math.min(P.tier === 'super' ? 22 : 20, P.w + d)); Q.h = Math.max(8, Math.min(26, P.h + d)); Q.maxLen = Math.max(3, P.maxLen + d); }
@@ -590,17 +720,28 @@
     if (opt.variant) spec.seed = (spec.seed ^ hashStr('variant-' + opt.variant)) >>> 0;
     spec.params = tweakParams(spec.params, opt.tweak, spec.picture);
     var P = spec.params, lvl = null, bestScore = -Infinity;
+    if (spec.kind === 's' && LESSONS[+spec.key]) {
+      lvl = lessonLevel(+spec.key);
+      lvl.kind = 's'; lvl.key = spec.key; lvl.tier = P.tier; lvl.chapter = 'paper'; lvl.lesson = true;
+      lvl.timeLimit = Math.floor(20 + lvl.arrows.length * 2.6);
+      lvl.depth = layers(lvl); lvl.freeAtStart = freeArrows(lvl, {}).length;
+      return lvl;
+    }
     // Try a few seeds (seed, seed+7919, ...) and keep the hardest well-filled board.
     // Deterministic, so every player still gets the same board.
-    var tries = P.freeTarget == null ? 1 : spec.picture ? 8 : P.freeTarget <= 0.15 ? 6 : P.freeTarget < 0.25 ? 4 : 2;
+    var tries = P.freeTarget == null ? 1 : P.easyFill ? 12 : spec.picture ? 8 : P.freeTarget <= 0.15 ? 6 : P.freeTarget < 0.25 ? 4 : 2;
     for (var k = 0; k < tries; k++) {
       var cand = generate((spec.seed + k * 7919) >>> 0, P);
       var f = cand.arrows.reduce(function (n, a) { return n + a.cells.length; }, 0) / cand.area;
-      var res = P.freeTarget != null ? harden(cand, P.freeTarget, mulberry32(cand.seed ^ 0x9e3779b9)) : { free: 0, depth: 0 };
-      var score = (f >= 0.84 ? 10 : f * 10) - res.free / cand.arrows.length * 5 + res.depth * 0.05;
+      var res = P.freeTarget != null && !P.easyFill ? harden(cand, P.freeTarget, mulberry32(cand.seed ^ 0x9e3779b9)) : { free: 0, depth: 0 };
+      var score = P.easyFill
+        // warm-up boards: keep the easiest one (most arrows free at once, shortest blocking chains)
+        ? (f >= 0.7 ? 10 : f * 10) + freeArrows(cand, {}).length / cand.arrows.length * 5 - layers(cand) * 0.4
+        : (f >= 0.84 ? 10 : f * 10) - res.free / cand.arrows.length * 5 + res.depth * 0.05;
       if (score > bestScore) { bestScore = score; lvl = cand; }
     }
     fillGaps(lvl, P);
+    absorbShort(lvl, P);
     if (spec.picture) lvl.picture = { rows: spec.params.reg.map(function (r) { return r.join(''); }) };
     addSpecials(lvl, spec.kind === 'd' ? { locks: 2, ice: 2, chains: 1, blocks: 1 } : specialsFor(+spec.key));
     lvl.kind = spec.kind; lvl.key = spec.key; lvl.tier = spec.params.tier;
@@ -781,13 +922,13 @@
     var s = Math.max(0, Math.floor(ms / 1000));
     return Math.floor(s / 60) + ':' + ('0' + (s % 60)).slice(-2);
   }
-  function shareText(r) { // r: {kind,key,time,mistakes,taps,url}
-    var title = r.kind === 'd' ? '오늘의 퍼즐 #' + dailyNumber(r.key) : '스테이지 ' + r.key;
+  function shareText(r) { // r: {kind,key,time,mistakes,taps,url} + optional translated {title, mistakesText, invite, appName}
+    var title = r.title || (r.kind === 'd' ? '오늘의 퍼즐 #' + dailyNumber(r.key) : '스테이지 ' + r.key);
     var marks = r.taps.slice(0, 30).map(function (tp) { return tp.ok ? '🟩' : '🟥'; });
     var rows = [];
     for (var i = 0; i < marks.length; i += 10) rows.push(marks.slice(i, i + 10).join(''));
-    return ['🏹 쏙쏙 화살 · ' + title, '⏱ ' + fmtTime(r.time) + ' · 실수 ' + r.mistakes]
-      .concat(rows).concat(['같은 판으로 붙어볼래? ' + r.url]).join('\n');
+    return ['🏹 ' + (r.appName || '쏙쏙 화살') + ' · ' + title, '⏱ ' + fmtTime(r.time) + ' · ' + (r.mistakesText || '실수 ' + r.mistakes)]
+      .concat(rows).concat([(r.invite || '같은 판으로 붙어볼래?') + ' ' + r.url]).join('\n');
   }
 
   return {

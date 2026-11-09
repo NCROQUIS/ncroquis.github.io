@@ -1,11 +1,14 @@
 <!doctype html>
-<html lang="ko">
+<html>
 <head>
-<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script>
+<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+<!-- 화면 안전 영역 (공용 모듈 NcqSafe, 킥오프가 관리): 가려지는 가장자리를 --ncq-top·--ncq-bottom 등 CSS 변수로 알려 줘요 -->
+<script src="ncq/safe.js"></script>
+<script src="texts.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>쏙쏙 화살</title>
-<!-- logo font: Black Han Sans (SIL OFL, fonts/OFL-BlackHanSans.txt), subset to "쏙쏙 화살" (fonts/BlackHanSans-logo.woff2) -->
-<style>@font-face { font-family: "Black Han Sans"; font-display: block; src: url(data:font/woff2;base64,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) format("woff2"); }</style>
+<!-- logo font: Black Han Sans (SIL OFL, fonts/OFL-BlackHanSans.txt), subset to the title in both languages, "쏙쏙 화살" and "Ssokssok Arrow" (fonts/BlackHanSans-logo.woff2) -->
+<style>@font-face { font-family: "Black Han Sans"; font-display: block; src: url(data:font/woff2;base64,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) format("woff2"); }</style>
 <style>
   /* Layout: iOS-style single column — large-title home, grouped stage grid, full-bleed board on a chapter wallpaper. */
   :root {
@@ -45,16 +48,21 @@
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   [hidden] { display: none !important; }
-  html, body { margin: 0; height: 100%; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
   body { background: var(--bg); color: var(--label); font-family: var(--font); -webkit-font-smoothing: antialiased; display: flex; justify-content: center; overscroll-behavior: none; letter-spacing: -0.01em; }
   body.in-game { background: var(--wall); background-attachment: fixed; }
   body.in-game::before { content: ""; position: fixed; inset: 0; background: var(--dim); pointer-events: none; }
-  #app { width: 100%; max-width: 440px; min-height: 100%; position: relative;
-    padding-block: 10px calc(14px + env(safe-area-inset-bottom, 0px));
-    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  /* the app is one column exactly the screen's height. The covered edges (status bar, camera cut-out, navigation bar,
+     home indicator, Toss's ⋯/✕ menu row, banner ads) come from ncq/safe.js as --ncq-top/right/bottom/left.
+     Each screen stacks its top bar, content and bottom bar in that column, so nothing can slide under the bottom bar:
+     when room runs out the decoration shrinks first, then the content scrolls — never the main button. */
+  #app { --padl: max(16px, var(--ncq-left)); --padr: max(16px, var(--ncq-right));
+    width: 100%; max-width: 440px; height: 100vh; height: 100dvh; position: relative; display: flex; flex-direction: column;
+    padding: max(10px, var(--ncq-top)) 0 0; }
   button { font: inherit; color: inherit; border: 0; background: none; cursor: pointer; padding: 0; }
   button:focus-visible, input:focus-visible { outline: 3px solid color-mix(in srgb, var(--blue) 55%, transparent); outline-offset: 2px; }
-  .screen { display: none; flex-direction: column; gap: 16px; min-height: calc(100dvh - 24px); position: relative; }
+  .screen { display: none; flex: 1 1 0; min-height: 0; flex-direction: column; gap: 16px; position: relative;
+    padding: 0 var(--padr) calc(14px + var(--ncq-bottom)) var(--padl); }
   .screen.on { display: flex; }
   .num { font-family: var(--font-round); font-variant-numeric: tabular-nums; }
   svg.sym { width: 20px; height: 20px; display: block; flex: none; }
@@ -88,21 +96,30 @@
   /* ---------- lobby (A안, Maze Out style): theme background, events on both sides, one big play button ---------- */
   body.in-lobby { background: var(--wall); background-attachment: fixed; }
   body.in-lobby[data-chapter="night"] #home .lobby, body.in-lobby[data-chapter="neon"] #home .lobby { --lobby-ink: #FFFFFF; --lobby-ink2: rgba(255, 255, 255, .75); }
-  #home { --lobby-ink: var(--label); --lobby-ink2: var(--label2); padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); gap: 0; }
+  /* home: top bar · the open pane · tab bar, stacked in the screen's column (the tab bar is not floating, so nothing hides under it) */
+  #home { --lobby-ink: var(--label); --lobby-ink2: var(--label2); padding-bottom: 0; gap: 0; }
   #home .grow { flex: 1 1 auto; }
-  .lobby-top { display: flex; align-items: center; gap: 8px; padding-top: 6px; position: relative; z-index: 2; }
+  .lobby-top { flex: none; display: flex; align-items: center; gap: 8px; padding-top: 6px; position: relative; z-index: 2; }
   body.in-lobby .lobby-top .goldpill, body.in-lobby .lobby-top .lifepill, body.in-lobby .lobby-top .roundbtn { background: var(--card); box-shadow: 0 2px 10px rgba(0, 30, 80, .12); }
   .roundbtn { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--label2); background: var(--fill); }
   .roundbtn svg { width: 22px; height: 22px; }
-  .pane { display: flex; flex-direction: column; gap: 16px; padding-top: 16px; }
+  /* a pane fills the room between the top bar and the tab bar and scrolls inside it (edge to edge, so card shadows are not cut) */
+  .pane { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 16px;
+    margin: 0 calc(-1 * var(--padr)) 0 calc(-1 * var(--padl)); padding: 16px var(--padr) 20px var(--padl); }
+  .pane > :not(.lobby-body) { flex: none; }
   .panetitle { margin: 6px 0 0; font-size: 30px; font-weight: 800; letter-spacing: -0.03em; }
-  .lobby { min-height: calc(100dvh - 150px - env(safe-area-inset-bottom, 0px)); gap: 14px; padding-top: 8px; }
+  /* the lobby never scrolls the play button away: the part above it shrinks (the stage picture first) and only then scrolls */
+  .pane.lobby { overflow: visible; margin: 0; padding: 8px 0 0; gap: 14px; }
+  .lobby-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 14px;
+    margin: 0 calc(-1 * var(--padr)) 0 calc(-1 * var(--padl)); padding: 0 var(--padr) 2px var(--padl); }
+  .lobby-body > * { flex: none; }
   .lobby-head { display: flex; flex-direction: column; align-items: center; gap: 4px; }
   .lobby-head h1.logo { margin: 0; line-height: 0; }
   .lobby-head .logo svg { width: 220px; }
   .lobby-head .logo .word { fill: var(--lobby-ink); }
   .lobby-chap { font-size: 14px; font-weight: 800; color: var(--lobby-ink2); }
-  .lobby-mid { flex: 1 1 auto; display: grid; grid-template-columns: 60px minmax(0, 1fr) 60px; align-items: center; gap: 4px; }
+  .lobby-body > .lobby-mid { flex: 1 1 auto; }
+  .lobby-mid { display: grid; grid-template-columns: 60px minmax(0, 1fr) 60px; align-items: center; gap: 4px; }
   .lobby-mid .side { display: flex; flex-direction: column; gap: 14px; }
   .evt { display: flex; flex-direction: column; align-items: center; gap: 4px; transition: transform .18s cubic-bezier(.3, 1.4, .5, 1); }
   .evt:active { transform: scale(.92); }
@@ -118,12 +135,18 @@
   .playbtn:focus-visible { outline-offset: 5px; }
   .nextpic .frame { width: 100%; max-width: 260px; aspect-ratio: 1; border-radius: 32px; background: rgba(255, 255, 255, .5); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .8); padding: 16px; display: grid; }
   .nextpic .frame svg { width: 100%; height: 100%; }
-  .nextpic .cap { font-size: 13px; font-weight: 800; color: #1C1C1E; background: rgba(255, 255, 255, .9); padding: 6px 12px; border-radius: 14px; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+  body.in-lobby[data-chapter="night"] .nextpic .frame, body.in-lobby[data-chapter="neon"] .nextpic .frame { background: rgba(255, 255, 255, .1); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .22); }
+  button.frame { transition: transform .18s cubic-bezier(.3, 1.4, .5, 1); } button.frame:active { transform: scale(.96); }
+  /* the lobby shows the stage you are on: its arrows in miniature (picture stages in the picture's colours) */
+  .prev .sh { fill: none; stroke: var(--pa, var(--lobby-ink)); stroke-width: .16; stroke-linecap: round; stroke-linejoin: round; }
+  .prev .hd { fill: var(--pa, var(--lobby-ink)); stroke: var(--pa, var(--lobby-ink)); stroke-width: .06; stroke-linejoin: round; }
+  .prev .bk { fill: var(--lobby-ink2); opacity: .5; }
+  .nextpic .cap { font-size: 13px; font-weight: 800; color: #1C1C1E; background: rgba(255, 255, 255, .9); padding: 6px 12px; border-radius: 14px; max-width: 100%; text-align: center; word-break: keep-all; overflow-wrap: anywhere; line-height: 1.35; }
   .lobby-prog { display: flex; flex-direction: column; gap: 6px; padding: 0 8px; }
   .lobby-prog .pl { display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--lobby-ink2); }
   .lobby-prog .bar { height: 12px; border-radius: 6px; background: rgba(255, 255, 255, .65); overflow: hidden; }
   .lobby-prog .bar i { display: block; height: 100%; width: 0; border-radius: 6px; background: #34C759; transition: width .6s cubic-bezier(.2, 1, .3, 1); }
-  .lobby-play { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 0 12px 8px; }
+  .lobby-play { flex: none; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 0 12px 8px; }
   .tierchip { padding: 5px 12px; border-radius: 12px; color: #fff; font-size: 13px; font-weight: 800; }
   .tierchip.super { background: #AF52DE; box-shadow: 0 3px 0 #7D2FA8; } .tierchip.hard { background: #FF9500; box-shadow: 0 3px 0 #C46F00; } .tierchip.pic { background: #0A84FF; box-shadow: 0 3px 0 #0060C7; }
   .playbtn { width: 100%; height: 84px; border-radius: 28px; background: #34C759; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -133,20 +156,25 @@
   .playbtn .s { font-size: 13px; font-weight: 700; opacity: .9; }
   @keyframes breathe { 50% { transform: scale(1.025); } }
   @media (prefers-reduced-motion: reduce) { .playbtn { animation: none; } }
-  .tabbar { position: fixed; left: 50%; bottom: 0; transform: translateX(-50%); width: 100%; max-width: 440px; z-index: 6; display: grid; grid-template-columns: repeat(5, 1fr);
-    padding: 8px 6px calc(8px + env(safe-area-inset-bottom, 0px)); background: var(--material, rgba(255, 255, 255, .94)); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); box-shadow: 0 -1px 0 var(--sep); }
+  /* the tab bar is the last row of the home column, edge to edge, lifted by the bottom safe area (+ a bottom banner) */
+  .tabbar { flex: none; position: relative; z-index: 6; display: grid; grid-template-columns: repeat(5, 1fr);
+    margin: 0 calc(-1 * var(--padr)) 0 calc(-1 * var(--padl)); padding: 8px max(6px, var(--ncq-right)) calc(8px + var(--ncq-bottom)) max(6px, var(--ncq-left));
+    background: var(--material, rgba(255, 255, 255, .94)); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); box-shadow: 0 -1px 0 var(--sep); }
   .tabbar button { position: relative; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; font-weight: 700; color: var(--label2); padding: 2px 0; }
   .tabbar svg { width: 26px; height: 26px; }
   .tabbar button.on { color: var(--blue); font-weight: 800; }
   .tabbar .tabbadge { position: absolute; top: -2px; left: 56%; padding: 1px 5px; border-radius: 9px; background: #FF9500; color: #fff; font-size: 11px; font-weight: 800; }
   #home .challenge-card { margin: 0; }
-  /* inside Toss (game type) the top bar is transparent and Toss's ⋯ / X float over the top-right corner:
-     the toss build sets --ncq-toss-top (status bar + Toss menu row) and --ncq-toss-right (menu width); both are 0 elsewhere */
-  body.toss #app { padding-top: max(10px, var(--ncq-toss-top, var(--ncq-safe-top, env(safe-area-inset-top, 0px)))); padding-bottom: calc(14px + var(--ncq-safe-bottom, env(safe-area-inset-bottom, 0px))); }
-  body.toss .lobby-top, body.toss .gamebar, body.toss .navbar { padding-right: var(--ncq-toss-right, 96px); }
+  /* inside Toss (game type) the top bar is transparent and Toss's ⋯ / X float over the top-right corner: --ncq-top already
+     starts the app below that menu row, and the top bars keep their right end --ncq-toss-right (the menu width) away from it.
+     Both come from ncq/safe.js and are 0 outside Toss. */
+  .lobby-top, .gamebar { padding-right: var(--ncq-toss-right); }
+  /* no shop (the Toss build has no payments): the tab bar drops the shop tab */
+  body.no-shop .tabbar { grid-template-columns: repeat(4, 1fr); }
+  body.no-shop .tabbar [data-tab=shop] { display: none; }
   /* short phones (≤ 700px tall): everything a little smaller so the play button stays above the tab bar */
   @media (max-height: 700px) {
-    .lobby { gap: 8px; padding-top: 2px; min-height: calc(100dvh - 140px - env(safe-area-inset-bottom, 0px)); }
+    .pane.lobby, .lobby-body { gap: 8px; } .pane.lobby { padding-top: 2px; }
     .lobby-head .logo svg { width: 180px; }
     .lobby-mid .side { gap: 10px; }
     .evt .ico { width: 50px; height: 50px; border-radius: 15px; } .evt .ico svg { width: 26px; height: 26px; }
@@ -154,12 +182,20 @@
     .nextpic { gap: 8px; padding-top: 4px; } .nextpic .frame { max-width: 180px; padding: 12px; border-radius: 26px; }
     .lobby-play { gap: 8px; padding-bottom: 4px; } .playbtn { height: 70px; border-radius: 24px; } .playbtn .t { font-size: 27px; }
   }
+  /* the stage picture takes whatever height is left between the logo and the play button (and shrinks first when there is little) */
+  @supports (container-type: size) {
+    .lobby-mid { grid-template-rows: minmax(0, 1fr); }
+    .nextpic { container-type: size; align-self: stretch; justify-content: center; padding-top: 0; }
+    .nextpic .frame { --side: max(72px, min(100cqw, 100cqh - 64px, 260px)); flex: none; width: var(--side); height: var(--side); max-width: none; aspect-ratio: auto; }
+  }
   .largetitle { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding-top: 34px; }
   .largetitle .date { white-space: nowrap; font-size: 13px; font-weight: 600; color: var(--label2); text-transform: uppercase; letter-spacing: .02em; }
   /* the logo: one arrow pierces the title, cut away around the letters (title design B) */
   .largetitle h1.logo { line-height: 0; margin-top: 4px; }
   .logo svg { display: block; width: 236px; height: auto; overflow: visible; }
   .logo text { font-family: 'Black Han Sans', var(--font); letter-spacing: -1px; }
+  /* HTML text stays hidden until NcqLang has set <html lang>, so the other language never flashes */
+  html:not([lang]) [data-i18n], html:not([lang]) .logoText { visibility: hidden; }
   .logo .word { fill: var(--label); }
   .logo .shaft { stroke: var(--logo); stroke-width: 6; stroke-linecap: round; }
   .logo .fletch path { fill: none; stroke: var(--logo); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
@@ -236,8 +272,11 @@
   .footnote { font-size: 13px; color: var(--label2); padding: 0 16px; margin-top: -8px; }
 
   /* ---------- stage map ---------- */
-  .navbar { display: flex; align-items: center; justify-content: space-between; min-height: 44px; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
-    margin: -10px calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0; padding: 0 max(16px, env(safe-area-inset-left, 0px));
+  /* the map scrolls inside its screen; its navigation bar stays at the top (right end clear of Toss's ⋯ / X) */
+  #mapScreen { overflow-y: auto; overscroll-behavior: contain; }
+  #mapScreen > * { flex: none; }
+  .navbar { display: flex; align-items: center; justify-content: space-between; min-height: 44px; position: sticky; top: 0; z-index: 5;
+    margin: 0 calc(-1 * var(--padr)) 0 calc(-1 * var(--padl)); padding: 0 max(var(--padr), var(--ncq-toss-right)) 0 var(--padl);
     background: color-mix(in srgb, var(--bg) 80%, transparent); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); }
   .navback { display: inline-flex; align-items: center; gap: 2px; color: var(--blue); font-size: 17px; min-height: 44px; margin-left: -6px; }
   .navback svg { width: 22px; height: 22px; }
@@ -270,6 +309,9 @@
   .legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 
   /* ---------- game ---------- */
+  /* game: top bars · the board (takes the rest) · tool bar, inside the safe area */
+  #game > * { flex: none; }
+  #game > .boardwrap { flex: 1 1 0; }
   .gamebar { display: grid; grid-template-columns: 44px 1fr auto; gap: 10px; align-items: center; }
   .circlebtn { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--ink);
     background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); box-shadow: inset 0 0 0 .5px var(--glass-edge); }
@@ -282,6 +324,11 @@
     background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); box-shadow: inset 0 0 0 .5px var(--glass-edge); }
   .timer.low { color: #fff; background: var(--red); }
   .hearts { display: flex; justify-content: center; gap: 4px; margin-top: -8px; }
+  /* how much of the board is cleared, a thin bar under the hearts */
+  .progline { height: 5px; margin: -6px 18% 0; border-radius: 3px; background: color-mix(in srgb, var(--label) 10%, transparent); overflow: hidden; }
+  .progline i { display: block; height: 100%; width: 0; border-radius: 3px; background: var(--blue); transition: width .35s cubic-bezier(.2, 1, .3, 1); }
+  body[data-chapter="night"] .progline, body[data-chapter="neon"] .progline { background: rgba(255, 255, 255, .16); }
+  body.noclock #timer { visibility: hidden; }
   .hearts svg { width: 17px; height: 17px; }
   .race { display: none; flex-direction: column; gap: 6px; padding: 10px 14px; border-radius: 18px; color: var(--ink);
     background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); box-shadow: inset 0 0 0 .5px var(--glass-edge); }
@@ -297,7 +344,8 @@
     background: var(--glass); -webkit-backdrop-filter: saturate(180%) blur(24px); backdrop-filter: saturate(180%) blur(24px);
     box-shadow: inset 0 0 0 .5px var(--glass-edge), 0 20px 50px rgba(0, 0, 0, .1); }
   svg.board.big .arrow .shaft { stroke-width: .19; } svg.board.big .arrow .head { stroke-width: .1; }
-  svg.board { width: 100%; height: auto; max-height: 64dvh; display: block; touch-action: none; user-select: none; -webkit-user-select: none; }
+  /* the card's width is set by fitBoard() so a tall board fits the room and keeps its shape */
+  svg.board { width: 100%; height: auto; display: block; touch-action: none; user-select: none; -webkit-user-select: none; }
   .arrow .under { stroke: var(--ink); stroke-opacity: .07; stroke-width: .3; stroke-linecap: round; stroke-linejoin: round; transform: translateY(.06px); fill: none; }
   .arrow .headu { fill: var(--ink); fill-opacity: .07; stroke: none; transform: translateY(.06px); }
   body[data-chapter="night"] .arrow .under, body[data-chapter="neon"] .arrow .under { stroke-opacity: .16; stroke-width: .42; transform: none; }
@@ -328,6 +376,9 @@
   .node .pic { position: absolute; top: -3px; left: -3px; width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; background: var(--blue); box-shadow: 0 0 0 2px var(--card); }
   .node .pic svg { width: 12px; height: 12px; }
   .result-pic { align-self: center; width: min(62vw, 240px); aspect-ratio: 1; }
+  .result-pic svg { display: block; width: 100%; height: 100%; }
+  /* a sheet taller than the screen gives up picture height first (down to a thumbnail), then scrolls */
+  .sheet > .result-pic { flex: 0 1 auto; min-height: 64px; }
   .arrow.missed .shaft { stroke: var(--red); } .arrow.missed .head { fill: var(--red); stroke: var(--red); }
   /* tapped while blocked: waits, then leaves right after whatever blocks it is gone */
   .arrow.waiting .shaft { stroke: var(--pink); stroke-dasharray: .32 .16; animation: wait 1s ease-in-out infinite alternate; }
@@ -349,6 +400,9 @@
   @keyframes pulse { 50% { transform: scale(1.05); } }
   .status { flex: 1; min-width: 0; text-align: right; color: var(--ink); opacity: .6; font-size: 13px; font-weight: 600; white-space: nowrap; font-family: var(--font-round); font-variant-numeric: tabular-nums; }
   .bottombar { gap: 8px; } .bottombar .tool { padding: 0 13px; }
+  /* narrow phones (360px): the arrows-left count wraps onto two short lines instead of running off the edge */
+  .bottombar .tool { flex: none; }
+  @media (max-width: 380px) { .bottombar .tool { padding: 0 11px; } .status { white-space: normal; font-size: 12px; line-height: 1.15; min-width: 32px; } }
   .replay-tag { display: none; align-self: center; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #fff; background: var(--pink); border-radius: 999px; padding: 7px 14px; }
   .replay-tag.on { display: inline-flex; }
   /* special arrows */
@@ -381,6 +435,19 @@
   /* combo + fever */
   .boardwrap { position: relative; }
   .boardcard { position: relative; }
+  /* first big board: two fingertips spread apart over the board, "pinch to zoom" */
+  .pinchtip { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    background: rgba(0, 20, 50, .38); border-radius: inherit; color: #fff; text-align: center; padding: 16px; opacity: 0; transition: opacity .3s; pointer-events: none; }
+  .pinchtip.on { opacity: 1; }
+  .pinchtip .pz { position: relative; width: 150px; height: 130px; margin-bottom: 6px; }
+  .pinchtip .pz i { position: absolute; left: 50%; top: 50%; width: 38px; height: 38px; margin: -19px 0 0 -19px; border-radius: 50%;
+    background: rgba(255, 255, 255, .92); box-shadow: 0 0 0 7px rgba(255, 255, 255, .3), 0 4px 12px rgba(0, 0, 0, .25); }
+  .pinchtip .pz i:nth-child(1) { animation: pinchA 1.6s ease-in-out infinite; }
+  .pinchtip .pz i:nth-child(2) { animation: pinchB 1.6s ease-in-out infinite; }
+  @keyframes pinchA { 0%, 15% { transform: translate(-12px, 10px); } 60%, 80% { transform: translate(-52px, 40px); } 100% { transform: translate(-12px, 10px); opacity: .3; } }
+  @keyframes pinchB { 0%, 15% { transform: translate(12px, -10px); } 60%, 80% { transform: translate(52px, -40px); } 100% { transform: translate(12px, -10px); opacity: .3; } }
+  .pinchtip b { font-size: 20px; font-weight: 800; line-height: 1.3; text-shadow: 0 2px 8px rgba(0, 0, 0, .35); max-width: 280px; word-break: keep-all; overflow-wrap: anywhere; }
+  .pinchtip span { font-size: 14px; font-weight: 700; opacity: .92; text-shadow: 0 1px 6px rgba(0, 0, 0, .35); max-width: 280px; word-break: keep-all; overflow-wrap: anywhere; }
   .combo { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%) scale(.6); opacity: 0; pointer-events: none; z-index: 3;
     display: inline-flex; align-items: baseline; gap: 4px; padding: 7px 14px; border-radius: 999px; color: #fff; background: var(--blue);
     font-weight: 700; font-size: 15px; box-shadow: 0 8px 20px rgba(0, 0, 0, .18); transition: opacity .3s, background .2s; }
@@ -473,8 +540,10 @@
   .sheet-bg.on { display: flex; }
   .sheet { width: 100%; max-width: 440px; border-radius: 34px 34px 0 0; color: var(--label); position: relative;
     background: var(--material); -webkit-backdrop-filter: saturate(180%) blur(30px); backdrop-filter: saturate(180%) blur(30px);
-    padding: 10px max(20px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+    padding: 10px max(20px, var(--ncq-right)) calc(20px + var(--ncq-bottom)) max(20px, var(--ncq-left));
+    max-height: calc(100% - var(--ncq-top) - 8px); overflow-y: auto; overscroll-behavior: contain;
     display: flex; flex-direction: column; gap: 12px; animation: up .42s cubic-bezier(.2, 1, .3, 1); box-shadow: 0 -10px 40px rgba(0, 0, 0, .12); }
+  .sheet > * { flex: none; }
   @keyframes up { from { transform: translateY(100%); } }
   .sheet .grabber { width: 36px; height: 5px; border-radius: 3px; background: var(--fill2); align-self: center; margin-bottom: 6px; }
   .sheet .result-ico { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; align-self: center; background: var(--green); animation: popin .5s cubic-bezier(.2, 1.4, .4, 1); }
@@ -494,9 +563,18 @@
   .versus .vs { font-size: 13px; font-weight: 700; color: var(--label3); }
   .versus .win .t { color: var(--green); }
   .verdict { text-align: center; font-size: 17px; font-weight: 600; }
+  /* short phones: a tighter sheet so the result's first button stays above the bottom edge */
+  @media (max-height: 700px) {
+    .sheet { gap: 9px; padding-top: 8px; }
+    .sheet .grabber { margin-bottom: 2px; }
+    .sheet .result-ico { width: 48px; height: 48px; } .sheet .result-ico svg { width: 27px; height: 27px; }
+    .sheet h2 { font-size: 24px; }
+    .bigstars svg { width: 30px; height: 30px; } .bigstars svg:nth-child(2) { width: 36px; height: 36px; }
+    .sheet .btn { min-height: 46px; }
+  }
   canvas#confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 30; }
   /* notifications drop from the top like a Dynamic Island capsule */
-  .toast { position: fixed; left: 50%; top: calc(10px + env(safe-area-inset-top, 0px)); transform: translate(-50%, -140%) scale(.9); background: #000; color: #fff;
+  .toast { position: fixed; left: 50%; top: calc(10px + var(--ncq-top)); transform: translate(-50%, -140%) scale(.9); background: #000; color: #fff;
     padding: 12px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; transition: transform .45s cubic-bezier(.2, 1.3, .4, 1), opacity .3s; opacity: 0;
     pointer-events: none; z-index: 40; white-space: nowrap; max-width: calc(100vw - 32px); overflow: hidden; text-overflow: ellipsis; box-shadow: 0 10px 30px rgba(0, 0, 0, .25); }
   .toast.on { transform: translate(-50%, 0) scale(1); opacity: 1; }
@@ -527,56 +605,58 @@
   <!-- HOME -->
   <section class="screen" id="home">
     <div class="lobby-top">
-      <button class="goldpill" id="goldPill" data-test="gold" aria-label="골드 상점"></button><button class="lifepill" id="lifePill" data-test="lives" aria-label="목숨"></button><span class="grow"></span>
-      <button class="roundbtn" id="settingsBtn" data-test="settings" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+      <button class="goldpill" id="goldPill" data-test="gold" aria-label="골드 상점" data-i18n-attr="aria-label:gold_shop"></button><button class="lifepill" id="lifePill" data-test="lives" aria-label="목숨" data-i18n-attr="aria-label:lives"></button><span class="grow"></span>
+      <button class="roundbtn" id="settingsBtn" data-test="settings" aria-label="설정" data-i18n-attr="aria-label:settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
     </div>
 
     <!-- lobby (A안): one big button straight into the next stage, events on both sides -->
     <div class="pane lobby" data-pane="home">
-      <div class="lobby-head"><h1 class="logo" aria-label="쏙쏙 화살"><svg viewBox="0 0 340 66" aria-hidden="true">
+      <div class="lobby-body">
+      <div class="lobby-head"><h1 class="logo" aria-label="쏙쏙 화살" data-i18n-attr="aria-label:app_name"><svg viewBox="0 0 340 66" aria-hidden="true">
         <defs><mask id="logoCut" maskUnits="userSpaceOnUse" x="0" y="0" width="340" height="66"><rect width="340" height="66" fill="#fff"/>
-          <text x="170" y="54" text-anchor="middle" font-size="54" fill="#000" stroke="#000" stroke-width="9" stroke-linejoin="round">쏙쏙 화살</text></mask></defs>
+          <text x="170" y="54" text-anchor="middle" font-size="54" fill="#000" stroke="#000" stroke-width="9" stroke-linejoin="round" class="logoText">쏙쏙 화살</text></mask></defs>
         <g mask="url(#logoCut)"><g class="fletch"><path d="M6 21 L22 33 L6 45"/><path d="M18 21 L34 33 L18 45"/><path d="M30 21 L46 33 L30 45"/></g>
           <line class="shaft" x1="14" y1="33" x2="310" y2="33"/></g>
         <path class="tip" d="M302 19 L336 33 L302 47 L309 33 Z"/>
-        <text class="word" x="170" y="54" text-anchor="middle" font-size="54">쏙쏙 화살</text></svg></h1><div class="lobby-chap" id="lobbyChap"></div><div class="date" id="todayLabel" hidden></div></div>
+        <text class="word logoText" x="170" y="54" text-anchor="middle" font-size="54">쏙쏙 화살</text></svg></h1><div class="lobby-chap" id="lobbyChap"></div><div class="date" id="todayLabel" hidden></div></div>
     <div class="card challenge-card" id="challengeCard" hidden>
-      <div class="eyebrow" style="color:rgba(235,235,245,.62)">도전장</div>
-      <h2 id="chTitle">도전장이 왔어요</h2>
+      <div class="eyebrow" style="color:rgba(235,235,245,.62)" data-i18n="challenge">도전장</div>
+      <h2 id="chTitle" data-i18n="ch_came">도전장이 왔어요</h2>
       <p class="sub" id="chSub"></p>
       <div class="stat" id="chStat"></div>
-      <button class="btn pink" id="chAccept" data-test="accept">같은 판으로 붙기</button>
+      <button class="btn pink" id="chAccept" data-test="accept" data-i18n="ch_accept">같은 판으로 붙기</button>
     </div>
 
       <div class="lobby-mid">
         <div class="side">
-          <button class="evt" id="evRace" data-test="ev-race" aria-label="로켓 레이스"><span class="ico" style="background:#5856D6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1z"/><path d="M12 15l-3-3a22 22 0 0 1 2-4A12.9 12.9 0 0 1 22 2c0 2.7-.8 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/></svg><b class="tagb" id="evRaceTag" hidden></b></span><span class="cap" id="evRaceCap">레이스</span></button>
-          <button class="evt" id="evStreak" data-test="ev-streak" aria-label="연승 챌린지"><span class="ico" style="background:#FF9500"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M13.5 2s1 3.5-1.5 6c-1.6 1.6-3-.5-3-.5S5 10.5 5 15a7 7 0 0 0 14 0c0-5.5-5.5-9-5.5-13z"/></svg><b class="tagb" id="evStreakTag" hidden></b></span><span class="cap">연승</span></button>
+          <button class="evt" id="evRace" data-test="ev-race" aria-label="로켓 레이스" data-i18n-attr="aria-label:rocket_race"><span class="ico" style="background:#5856D6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.2 2.2 0 0 0-2.9-.1z"/><path d="M12 15l-3-3a22 22 0 0 1 2-4A12.9 12.9 0 0 1 22 2c0 2.7-.8 7.5-6 11a22.4 22.4 0 0 1-4 2z"/><path d="M9 12H4s.6-3 2-4c1.6-1.1 5 0 5 0M12 15v5s3-.6 4-2c1.1-1.6 0-5 0-5"/></svg><b class="tagb" id="evRaceTag" hidden></b></span><span class="cap" id="evRaceCap">레이스</span></button>
+          <button class="evt" id="evStreak" data-test="ev-streak" aria-label="연승 챌린지" data-i18n-attr="aria-label:streak_challenge"><span class="ico" style="background:#FF9500"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M13.5 2s1 3.5-1.5 6c-1.6 1.6-3-.5-3-.5S5 10.5 5 15a7 7 0 0 0 14 0c0-5.5-5.5-9-5.5-13z"/></svg><b class="tagb" id="evStreakTag" hidden></b></span><span class="cap" data-i18n="streak_short">연승</span></button>
         </div>
-        <div class="nextpic"><div class="frame" id="nextPic"></div><div class="cap" id="nextPicCap"></div></div>
+        <div class="nextpic"><button class="frame" id="stagePrev" data-test="stage-prev" aria-label="지금 스테이지 시작" data-i18n-attr="aria-label:start_current"></button><div class="cap" id="nextPicCap"></div></div>
         <div class="side">
-          <button class="evt" id="dailyBtn" data-test="daily" aria-label="오늘의 퍼즐"><span class="ico cal"><b id="calDow">월</b><span id="calNum">1</span><i class="dot" id="dailyDot"></i></span><span class="cap" id="dailyCap">오늘</span></button>
-          <button class="evt" id="evGift" data-test="gift" aria-label="오늘의 선물"><span class="ico" style="background:#FF2D55"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8S9.5 3 7.5 4.5 9 8 12 8zM12 8s2.5-5 4.5-3.5S15 8 12 8z"/></svg><i class="dot" id="giftDot"></i></span><span class="cap">선물</span></button>
+          <button class="evt" id="dailyBtn" data-test="daily" aria-label="오늘의 퍼즐" data-i18n-attr="aria-label:daily_puzzle"><span class="ico cal"><b id="calDow">월</b><span id="calNum">1</span><i class="dot" id="dailyDot"></i></span><span class="cap" id="dailyCap">오늘</span></button>
+          <button class="evt" id="evGift" data-test="gift" aria-label="오늘의 선물" data-i18n-attr="aria-label:daily_gift"><span class="ico" style="background:#FF2D55"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v8h14v-8M12 8v12M12 8S9.5 3 7.5 4.5 9 8 12 8zM12 8s2.5-5 4.5-3.5S15 8 12 8z"/></svg><i class="dot" id="giftDot"></i></span><span class="cap" data-i18n="gift">선물</span></button>
         </div>
       </div>
       <div class="lobby-prog"><div class="pl"><span id="progL"></span><span id="progR"></span></div><div class="bar"><i id="progBar"></i></div></div>
+      </div>
       <div class="lobby-play">
         <span class="tierchip" id="stageChip" hidden></span>
-        <button class="playbtn" id="stageBtn" data-test="stage"><span class="t" id="stageTitle">스테이지 1</span><span class="s" id="stageWhere">눌러서 바로 시작</span></button>
+        <button class="playbtn" id="stageBtn" data-test="stage" data-ncq-main="시작 버튼"><span class="t" id="stageTitle">스테이지 1</span><span class="s" id="stageWhere">눌러서 바로 시작</span></button>
       </div>
     </div>
 
     <div class="pane" data-pane="race" hidden>
-      <h1 class="panetitle">이벤트</h1>
+      <h1 class="panetitle" data-i18n="events">이벤트</h1>
     <div class="card" id="raceCard">
-      <div class="streak-head"><div><h2>로켓 레이스</h2><p class="sub" style="margin:4px 0 0" id="raceSub">다른 플레이어 4명의 기록과 다음 5스테이지를 누가 먼저 깨나 겨뤄요</p></div><div class="now" id="racePlace" data-test="race-place"></div></div>
+      <div class="streak-head"><div><h2 data-i18n="rocket_race">로켓 레이스</h2><p class="sub" style="margin:4px 0 0" id="raceSub">다른 플레이어 4명의 기록과 다음 5스테이지를 누가 먼저 깨나 겨뤄요</p></div><div class="now" id="racePlace" data-test="race-place"></div></div>
       <div class="lanes" id="raceLanes"></div>
-      <button class="btn" id="raceBtn" data-test="race">레이스 시작</button>
-      <p class="streak-foot" id="raceFoot">24시간 레이스 · 1위 300골드 + 무한 목숨 30분 + 지우개 2 · 2위 150골드 + 지우개 1 · 3위 50골드 + 목숨 1</p>
+      <button class="btn" id="raceBtn" data-test="race" data-ncq-main="레이스 시작" data-i18n="race_start">레이스 시작</button>
+      <p class="streak-foot" id="raceFoot" data-i18n="race_foot">24시간 레이스 · 1위 300골드 + 무한 목숨 30분 + 지우개 2 · 2위 150골드 + 지우개 1 · 3위 50골드 + 목숨 1</p>
     </div>
 
     <div class="card" id="streakCard">
-      <div class="streak-head"><div><h2>연승 챌린지</h2><p class="sub" style="margin:4px 0 0">실패 없이 이어서 깨면 지우개를 받아요</p></div><div class="now" data-test="streak"><span id="streakNow">0</span><small>연승</small></div></div>
+      <div class="streak-head"><div><h2 data-i18n="streak_challenge">연승 챌린지</h2><p class="sub" style="margin:4px 0 0" data-i18n="streak_sub">실패 없이 이어서 깨면 지우개를 받아요</p></div><div class="now" data-test="streak"><span id="streakNow">0</span><small data-i18n="streak_unit">연승</small></div></div>
       <div class="ladder" id="ladder"></div>
       <p class="streak-foot" id="streakFoot"></p>
     </div>
@@ -585,64 +665,67 @@
 
     <div class="pane" data-pane="gallery" hidden>
     <div class="card" id="galleryCard">
-      <div class="gallery-head"><h2>그림 도감</h2><span class="count" id="galleryCount"></span></div>
-      <p class="sub" style="margin-bottom:8px">그림 스테이지를 깨면 화살로 그린 그림이 모여요. 챕터마다 6장, 모두 36장이에요.</p>
+      <div class="gallery-head"><h2 data-i18n="gallery">그림 도감</h2><span class="count" id="galleryCount"></span></div>
+      <p class="sub" style="margin-bottom:8px" data-i18n="gallery_sub">그림 스테이지를 깨면 화살로 그린 그림이 모여요. 챕터마다 6장, 모두 36장이에요.</p>
       <div class="gallery" id="gallery"></div>
     </div>
 
     </div>
 
     <div class="pane" data-pane="settings" hidden>
-      <h1 class="panetitle">설정</h1>
-      <h2 class="grouphead">콤보 멜로디</h2>
+      <h1 class="panetitle" data-i18n="settings">설정</h1>
+      <h2 class="grouphead" data-i18n="combo_melody">콤보 멜로디</h2>
       <div class="group" id="melodyGroup"></div>
-      <p class="footnote">화살을 연속으로 뺄 때 한 개에 한 음씩 연주해요. 피버 중에는 캉캉이 나와요.</p>
-      <div class="group"><div class="item">소리<span class="grow"></span><button class="soundbtn" id="soundBtn" aria-label="소리" aria-pressed="true"></button></div></div>
-    <div class="group"><label class="item" for="nameInput">이름<input id="nameInput" maxlength="12" placeholder="도전장에 표시돼요" autocomplete="off"></label></div>
-    <p class="footnote">친구에게 보내는 도전장과 결과에 이 이름이 표시돼요.</p>
-    <div class="group"><button class="item resetbtn" id="resetBtn" data-test="reset">진행 초기화</button></div>
-    <p class="footnote">테스트용 · 스테이지, 별, 골드, 목숨, 연승, 레이스, 그림 도감을 처음 상태로 되돌려요.</p>
+      <p class="footnote" data-i18n="melody_note">화살을 연속으로 뺄 때 한 개에 한 음씩 연주해요. 피버 중에는 캉캉이 나와요.</p>
+      <div class="group"><div class="item"><span data-i18n="sound">소리</span><span class="grow"></span><button class="soundbtn" id="soundBtn" aria-label="소리" data-i18n-attr="aria-label:sound" aria-pressed="true"></button></div></div>
+      <h2 class="grouphead" id="langHead">언어</h2>
+      <div class="group" id="langGroup" role="radiogroup"></div>
+    <div class="group"><label class="item" for="nameInput"><span data-i18n="name">이름</span><input id="nameInput" maxlength="12" placeholder="도전장에 표시돼요" data-i18n-attr="placeholder:name_ph" autocomplete="off"></label></div>
+    <p class="footnote" data-i18n="name_note">친구에게 보내는 도전장과 결과에 이 이름이 표시돼요.</p>
+    <div class="group"><button class="item resetbtn" id="resetBtn" data-test="reset" data-i18n="reset">진행 초기화</button></div>
+    <p class="footnote" data-i18n="reset_note">테스트용 · 스테이지, 별, 골드, 목숨, 연승, 레이스, 그림 도감을 처음 상태로 되돌려요.</p>
       <p class="footnote" id="verLine" style="text-align:center;margin-top:8px"></p>
     </div>
 
     <nav class="tabbar" id="tabbar">
-      <button data-tab="shop" data-test="tab-shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>상점</button>
-      <button data-tab="race" data-test="tab-race"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>레이스<b class="tabbadge" id="tabRaceBadge" hidden></b></button>
-      <button data-tab="home" data-test="tab-home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>홈</button>
-      <button data-tab="gallery" data-test="tab-gallery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="9" cy="8" r="1.5"/></svg>도감</button>
-      <button id="mapBtn" data-test="map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3zM9 3v15M15 6v15"/></svg>지도</button>
+      <button data-tab="shop" data-test="tab-shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="tab_shop">상점</span></button>
+      <button data-tab="race" data-test="tab-race"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><span data-i18n="tab_race">레이스</span><b class="tabbadge" id="tabRaceBadge" hidden></b></button>
+      <button data-tab="home" data-test="tab-home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span data-i18n="home">홈</span></button>
+      <button data-tab="gallery" data-test="tab-gallery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="9" cy="8" r="1.5"/></svg><span data-i18n="tab_gallery">도감</span></button>
+      <button id="mapBtn" data-test="map"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3zM9 3v15M15 6v15"/></svg><span data-i18n="tab_map">지도</span></button>
     </nav>
   </section>
 
   <!-- STAGE MAP -->
   <section class="screen" id="mapScreen">
     <div class="navbar">
-      <button class="navback" id="mapBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>홈</button>
+      <button class="navback" id="mapBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span data-i18n="home">홈</span></button>
       <div class="navstars"><svg class="sym" style="width:17px;height:17px" aria-hidden="true"><use href="#star" fill="var(--yellow)" stroke="var(--yellow)"/></svg><span class="num" id="mapStars"></span></div>
     </div>
-    <h1 class="map-title">스테이지</h1>
-    <div class="legend"><span><i style="background:var(--orange)"></i>어려움</span><span><i style="background:var(--purple)"></i>매우 어려움</span></div>
+    <h1 class="map-title" data-i18n="stages">스테이지</h1>
+    <div class="legend"><span><i style="background:var(--orange)"></i><span data-i18n="hard">어려움</span></span><span><i style="background:var(--purple)"></i><span data-i18n="super_hard">매우 어려움</span></span></div>
     <div class="map" id="map"></div>
   </section>
 
   <!-- GAME -->
   <section class="screen" id="game">
     <div class="gamebar">
-      <button class="circlebtn" id="backBtn" aria-label="나가기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <button class="circlebtn" id="backBtn" aria-label="나가기" data-i18n-attr="aria-label:exit" data-ncq-main="나가기 버튼"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       <div class="titleblock"><div class="ttl" id="gTitle"></div><div class="sub2" id="gSub"></div></div>
       <div class="timer" id="timer"></div>
     </div>
-    <div class="hearts" id="hearts" aria-label="하트"></div>
+    <div class="hearts" id="hearts" aria-label="하트" data-i18n-attr="aria-label:hearts"></div>
+    <div class="progline" aria-hidden="true"><i id="progFill"></i></div>
     <div class="race" id="race">
-      <div class="lane me"><span class="who">나</span><span class="barx"><i id="meBar"></i></span><span class="n" id="meN"></span></div>
-      <div class="lane friend"><span class="who" id="friendWho">친구</span><span class="barx"><i id="friendBar"></i></span><span class="n" id="friendN"></span></div>
+      <div class="lane me"><span class="who" data-i18n="me">나</span><span class="barx"><i id="meBar"></i></span><span class="n" id="meN"></span></div>
+      <div class="lane friend"><span class="who" id="friendWho" data-i18n="friend">친구</span><span class="barx"><i id="friendBar"></i></span><span class="n" id="friendN"></span></div>
     </div>
     <div class="replay-tag" id="replayTag"></div>
-    <div class="boardwrap"><div class="boardcard" id="boardcard"><div class="combo" id="combo" aria-live="polite">콤보 <b id="comboN">0</b></div><svg class="board" id="board" xmlns="http://www.w3.org/2000/svg"></svg></div></div>
+    <div class="boardwrap"><div class="boardcard" id="boardcard"><div class="combo" id="combo" aria-live="polite"><span data-i18n="combo">콤보</span> <b id="comboN">0</b></div><svg class="board" id="board" xmlns="http://www.w3.org/2000/svg"></svg><div class="pinchtip" id="pinchTip" aria-live="polite" hidden><div class="pz"><i></i><i></i></div><b data-i18n="pinch_title">두 손가락으로 벌리면 크게 보여요</b><span data-i18n="pinch_sub">확대한 판은 한 손가락으로 끌어서 옮겨요</span></div></div></div>
     <div class="bottombar">
-      <button class="tool" id="hintBtn" data-test="hint"><svg class="sym" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>힌트</button>
-      <button class="tool" id="eraseBtn" data-test="erase"><svg class="sym" viewBox="0 0 24 24"><use href="#g-eraser"/></svg>지우개<span class="count" id="eraseN">1</span></button>
-      <button class="tool" id="zoomBtn" data-test="zoom"><svg class="sym" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg><span id="zoomLabel">확대</span></button>
+      <button class="tool" id="hintBtn" data-test="hint" data-ncq-main="힌트 버튼"><svg class="sym" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg><span data-i18n="hint">힌트</span></button>
+      <button class="tool" id="eraseBtn" data-test="erase"><svg class="sym" viewBox="0 0 24 24"><use href="#g-eraser"/></svg><span data-i18n="eraser">지우개</span><span class="count" id="eraseN">1</span></button>
+      <button class="tool" id="zoomBtn" data-test="zoom"><svg class="sym" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg><span id="zoomLabel" data-i18n="zoom">확대</span></button>
       <div class="status" id="status"></div>
     </div>
   </section>
@@ -652,7 +735,7 @@
     <b id="tierText">매우 어려움</b><small id="tierSub" class="num"></small></div></div>
   <div class="stage-card" id="stageCard" aria-live="polite"><div class="plate"><small id="scChapter"></small><b id="scTitle"></b><span id="scSub" class="num"></span></div></div>
   <div class="clear-burst" id="clearBurst" aria-hidden="true"><i class="ring"></i><i class="ring r2"></i><i class="ring r3"></i>
-    <div class="stamp"><div class="badge"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><b id="cbText">클리어!</b></div></div>
+    <div class="stamp"><div class="badge"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><b id="cbText" data-i18n="clear">클리어!</b></div></div>
   <div class="sheet-bg" id="sheetBg"><div class="sheet" id="sheet"></div></div>
   <div class="feverpill" id="feverPill">FEVER</div>
   <canvas id="confetti"></canvas>
@@ -663,9 +746,11 @@
 <script src="levels.js"></script>
 <script src="race-seed.js"></script>
 <script>
-(function () {
+/* the game starts once NcqLang (ncq/lang.js, an ES module) has picked the language: see the module script below */
+window.__arrowBoot = function () {
   'use strict';
   var C = window.ArrowCore;
+  var L = window.NcqLang, _t = L.t;   // _t(key, params): screen text in the chosen language (texts.js)
   var $ = function (id) { return document.getElementById(id); };
   var SVGNS = 'http://www.w3.org/2000/svg';
   var STALL_MS = 7000;
@@ -711,9 +796,9 @@
   // Notes are semitones above do (C=0 D=2 E=4 F=5 G=7 A=9 B=11, C'=12, low G=-5). All three tunes are public domain.
   var PENTA_TUNE = [0, 2, 4, 3, 5, 4, 2, 1, 2, 4, 6, 5, 7, 6, 4, 3, 1, 2, 0, 4];
   var MELODIES = {
-    basic: { name: '기본', notes: PENTA_TUNE.map(function (i) { return [0, 2, 4, 7, 9][i % 5] + 12 * Math.floor(i / 5); }) },
-    twinkle: { name: '반짝반짝 작은 별', notes: [0, 0, 7, 7, 9, 9, 7, 5, 5, 4, 4, 2, 2, 0, 7, 7, 5, 5, 4, 4, 2, 7, 7, 5, 5, 4, 4, 2, 0, 0, 7, 7, 9, 9, 7, 5, 5, 4, 4, 2, 2, 0] },
-    joy: { name: '환희의 송가', notes: [4, 4, 5, 7, 7, 5, 4, 2, 0, 0, 2, 4, 4, 2, 2, 4, 4, 5, 7, 7, 5, 4, 2, 0, 0, 2, 4, 2, 0, 0, 2, 2, 4, 0, 2, 4, 5, 4, 0, 2, 4, 5, 4, 2, 0, 2, -5, 4, 4, 5, 7, 7, 5, 4, 2, 0, 0, 2, 4, 2, 0, 0] }
+    basic: { name: 'mel_basic', notes: PENTA_TUNE.map(function (i) { return [0, 2, 4, 7, 9][i % 5] + 12 * Math.floor(i / 5); }) },
+    twinkle: { name: 'mel_twinkle', notes: [0, 0, 7, 7, 9, 9, 7, 5, 5, 4, 4, 2, 2, 0, 7, 7, 5, 5, 4, 4, 2, 7, 7, 5, 5, 4, 4, 2, 0, 0, 7, 7, 9, 9, 7, 5, 5, 4, 4, 2, 2, 0] },
+    joy: { name: 'mel_joy', notes: [4, 4, 5, 7, 7, 5, 4, 2, 0, 0, 2, 4, 4, 2, 2, 4, 4, 5, 7, 7, 5, 4, 2, 0, 0, 2, 4, 2, 0, 0, 2, 2, 4, 0, 2, 4, 5, 4, 0, 2, 4, 5, 4, 2, 0, 2, -5, 4, 4, 5, 7, 7, 5, 4, 2, 0, 0, 2, 4, 2, 0, 0] }
   };
   var CANCAN = [0, 2, 5, 4, 2, 7, 7, 7, 9, 4, 5, 2, 2, 2, 5, 4, 2, 0, 12, 11, 9, 7, 5, 4, 2, 0, 2, 5, 4, 2, 7, 7, 7, 9, 4, 5, 2, 2, 2, 5, 4, 2, 0, 7, 2, 4, 0];
   function semi(st) { return 392 * Math.pow(2, st / 12); }
@@ -736,10 +821,10 @@
   function buzz(p) { if (navigator.vibrate) try { navigator.vibrate(p); } catch (e) {} }
   var COMBO_MS = 2000, FEVER_EVERY = 10, FEVER_MS = 4000;
   var NEW_ARROWS = {
-    key: { name: '열쇠와 자물쇠', text: '흐린 자물쇠 화살은 금색 열쇠 화살이 먼저 나가야 열려요.', color: 'var(--gold)', glyph: 'g-key' },
-    ice: { name: '얼음 화살', text: '얼어 있는 화살은 맞닿은 화살이 하나라도 빠지면 녹아요.', color: '#47B8F0', glyph: 'g-ice' },
-    chain: { name: '연결 화살', text: '끈으로 묶인 두 화살은 함께 빠져요. 둘 다 길이 열려야 해요.', color: 'var(--purple)', glyph: 'g-link' },
-    block: { name: '숫자 블록', text: '길을 막는 블록이에요. 화살이 빠질 때마다 숫자가 줄고 0이 되면 깨져요.', color: '#8E8E93', glyph: 'g-block' }
+    key: { name: 'gim_key', text: 'gim_key_text', color: 'var(--gold)', glyph: 'g-key' },
+    ice: { name: 'gim_ice', text: 'gim_ice_text', color: '#47B8F0', glyph: 'g-ice' },
+    chain: { name: 'gim_chain', text: 'gim_chain_text', color: 'var(--purple)', glyph: 'g-link' },
+    block: { name: 'gim_block', text: 'gim_block_text', color: '#8E8E93', glyph: 'g-block' }
   };
 
   /* ---------- incoming challenge ---------- */
@@ -754,6 +839,10 @@
      During development (no window.NCQ, no Capacitor) every test feature is on and ads are stand-ins.
      A release build turns on only the flags picked for it. */
   var NCQ_DEV = !window.NCQ && !window.Capacitor;
+  // the opening (stages 1-10) plays without a clock and moves straight on after a clear, no result sheet.
+  // (the e2e suite sets __ARROW_CLASSIC__ to test the full flow on the early boards)
+  var WARMUP_LAST = window.__ARROW_CLASSIC__ ? 0 : 10;
+  function isWarmup(level) { return level.kind === 's' && +level.key <= WARMUP_LAST; }
   var NCQ_PLATFORM = (window.NCQ && window.NCQ.NCQ_PLATFORM) || '';
   // NCQ_TEST_RESET: 진행 초기화 버튼
   var TEST_RESET = NCQ_DEV || !!window.NCQ_TEST_RESET;
@@ -766,11 +855,23 @@
     interstitial: function () { return Promise.resolve(false); }, banner: function () { return Promise.resolve(false); }, hideBanner: function () { return Promise.resolve(); },
     ready: function () { return Promise.resolve(false); }, privacyRequired: function () { return false; }, showPrivacyOptions: function () { return Promise.resolve(false); },
     bannerSpace: function () { return { top: 0, bottom: 0 }; } };
+  // round metrics go through NcqMetrics, which the web release and the app builds provide (absent in development or with metrics off)
+  var NcqMetrics = window.NcqMetrics || { levelStart: function () {}, levelEnd: function () {} };
+  // a round is one stage (stage-12), the daily puzzle (daily) or a friend's challenge (challenge)
+  function roundName(s) { return s.challenge ? 'challenge' : s.level.kind === 'd' ? 'daily' : 'stage-' + s.level.key; }
+  function roundStart() { S.metricOn = true; try { NcqMetrics.levelStart(roundName(S)); } catch (e) {} }
+  // told once, when the round is really over: a clear right away, a loss only when the player walks away from it
+  // (continuing with an ad or gold keeps the same round going; leaving mid-round tells nothing, so it counts as quit)
+  function roundEnd(won) { if (!S || !S.metricOn || S.metricDone) return; S.metricDone = true; try { NcqMetrics.levelEnd(roundName(S), won); } catch (e) {} }
   // the game and its sound stop while an ad plays
   function adPause() { try { if (AC && AC.state === 'running') AC.suspend(); } catch (e) {} if (S && S.mode === 'play' && !S.over) { S.adPausedAt = performance.now(); stopLoop(); } }
   function adResume() { try { if (AC && store.sound) AC.resume(); } catch (e) {} if (S && S.adPausedAt) { S.bonus += performance.now() - S.adPausedAt; S.adPausedAt = 0; S.lastFrame = performance.now(); if (S.mode === 'play' && !S.over) loop(); } }
   // inside Toss the top-right corner holds Toss's own close/more buttons: keep our controls clear of it
   if (NCQ_PLATFORM === 'toss') document.body.classList.add('toss');
+  // 토스판에는 결제가 없어서 상점(골드 세트)을 숨겨요. 골드는 플레이 보상으로 모이고 시간 추가에 그대로 써요
+  // (토스 결제를 붙이면 끄면 돼요. 골드처럼 쓰면 없어지는 상품은 계정 기준으로 저장할 서버가 필요해요)
+  var NO_SHOP = NCQ_PLATFORM === 'toss';
+  if (NO_SHOP) { document.body.classList.add('no-shop'); $('goldPill').setAttribute('data-i18n-attr', 'aria-label:gold'); $('goldPill').setAttribute('aria-label', _t('gold')); }
   // leaving the screen (home button, call, Toss menu) stops the sound and the clock; coming back resumes
   document.addEventListener('visibilitychange', function () { if (document.hidden) adPause(); else adResume(); });
   // called with the ad itself, e.g. showRewarded(function () { return NcqAds.rewarded('LIFE'); }), so the release server sees each spot's format
@@ -782,10 +883,15 @@
     document.body.setAttribute('data-chapter', chapter || 'paper');
     document.body.classList.toggle('in-game', id === 'game');
     document.body.classList.toggle('in-lobby', id === 'home' && homeTab === 'home');
-    window.scrollTo(0, 0);
+    $(id).scrollTop = 0; window.scrollTo(0, 0);
   }
-  function stageLabel(kind, key) { return kind === 'd' ? '오늘의 퍼즐 #' + C.dailyNumber(key) : '스테이지 ' + key; }
-  function tierBadge(t) { return t === 'super' ? '<span class="badge super">매우 어려움</span>' : t === 'hard' ? '<span class="badge hard">어려움</span>' : ''; }
+  function stageLabel(kind, key) { return kind === 'd' ? _t('daily_n', { n: C.dailyNumber(key) }) : _t('stage_n', { n: key }); }
+  // chapter and picture names come from the text table (arrow-core.js keeps the Korean originals)
+  function packName(p) { return p.id === 'starter' ? _t('pack_starter') : _t('pack_gold', { n: num(p.gold) }); }
+  function chName(n) { return _t('ch_' + C.chapterOf(n).key); }
+  function picName(p) { return _t('pic_' + p.key); }
+  function num(n) { return L.num(n); }
+  function tierBadge(t) { return t === 'super' ? '<span class="badge super">' + _t('super_hard') + '</span>' : t === 'hard' ? '<span class="badge hard">' + _t('hard') + '</span>' : ''; }
   function starIcons(n, size) {
     var h = '';
     for (var i = 0; i < 3; i++) h += '<svg viewBox="0 0 24 24" style="width:' + size + 'px;height:' + size + 'px"><use href="#star" fill="' + (i < n ? 'var(--yellow)' : 'var(--fill2)') + '" stroke="' + (i < n ? 'var(--yellow)' : 'transparent') + '"/></svg>';
@@ -817,16 +923,32 @@
     }); });
     return '<svg viewBox="-.5 -.5 ' + (W + 1) + ' ' + (H + 1) + '" aria-hidden="true">' + h + '</svg>';
   }
+  // a stage in miniature: every arrow as a line with its head, count blocks as squares
+  function stageSVG(level) {
+    var h = '';
+    (level.blocks || []).forEach(function (b) { h += '<rect class="bk" x="' + (b.x + .12) + '" y="' + (b.y + .12) + '" width=".76" height=".76" rx=".2"/>'; });
+    level.arrows.forEach(function (a) {
+      var d = C.DIRS[a.dir], hx = a.cells[0][0] + .5, hy = a.cells[0][1] + .5, px = -d[1], py = d[0];
+      var col = level.picture && a.region && a.region !== '#' ? ' style="--pa:var(--c-' + a.region + ')"' : '';
+      var pts = a.cells.slice().reverse().map(function (c) { return (c[0] + .5) + ',' + (c[1] + .5); });
+      pts.push((hx + d[0] * .12) + ',' + (hy + d[1] * .12));
+      var tip = [hx + d[0] * .42, hy + d[1] * .42], l = [hx + px * .26, hy + py * .26], r = [hx - px * .26, hy - py * .26];
+      h += '<g' + col + '><polyline class="sh" points="' + pts.join(' ') + '"/><polygon class="hd" points="' + [tip, l, r].map(function (q) { return q.join(','); }).join(' ') + '"/></g>';
+    });
+    // small lesson boards are framed as if 7 cells wide, so their arrows do not fill the whole lobby
+    var vw = Math.max(level.w, 7) + .4, vh = Math.max(level.h, 7) + .4;
+    return '<svg class="prev" viewBox="' + ((level.w - vw) / 2) + ' ' + ((level.h - vh) / 2) + ' ' + vw + ' ' + vh + '" aria-hidden="true">' + h + '</svg>';
+  }
   function drawGallery() {
     var stages = C.picStages(), got = 0, html = '', per = stages.length / C.CHAPTERS.length;
     stages.forEach(function (n, i) {
       var pic = C.pictureFor(n), has = !!store.pics[pic.key]; if (has) got++;
       if (i % per === 0) {
         var ch = C.chapterOf(n), mine = stages.slice(i, i + per).filter(function (m) { return store.pics[C.pictureFor(m).key]; }).length;
-        html += '<div class="chap">' + ch.name + '<span>' + mine + ' / ' + per + '</span></div>';
+        html += '<div class="chap">' + _t('ch_' + ch.key) + '<span>' + mine + ' / ' + per + '</span></div>';
       }
-      html += '<button class="thumb' + (has ? ' got' : '') + '" data-pic="' + n + '" aria-label="' + (has ? pic.name : '스테이지 ' + n + ' 그림') + '"><span class="art">' + picSVG(pic.rows, has) + '</span>' +
-        '<span class="nm">' + (has ? pic.name : '스테이지 ' + n) + '</span></button>';
+      html += '<button class="thumb' + (has ? ' got' : '') + '" data-pic="' + n + '" aria-label="' + (has ? picName(pic) : _t('pic_stage_n', { n: n })) + '"><span class="art">' + picSVG(pic.rows, has) + '</span>' +
+        '<span class="nm">' + (has ? picName(pic) : _t('stage_n', { n: n })) + '</span></button>';
     });
     $('gallery').innerHTML = html;
     $('galleryCount').textContent = got + ' / ' + stages.length;
@@ -835,10 +957,10 @@
   $('gallery').addEventListener('click', function (e) {
     var t = e.target.closest('[data-pic]'); if (!t) return;
     var n = +t.getAttribute('data-pic'), pic = C.pictureFor(n);
-    if (!store.pics[pic.key]) { toast('스테이지 ' + n + '를 깨면 모여요'); return; }
+    if (!store.pics[pic.key]) { toast(_t('pic_locked', { n: n })); return; }
     $('sheet').innerHTML = '<div class="grabber"></div><div class="bigpic" data-test="bigpic">' + picSVG(pic.rows, true) + '</div>' +
-      '<h2>' + pic.name + '</h2><p class="meta">' + C.chapterOf(n).name + ' · 스테이지 ' + n + '</p>' +
-      '<button class="btn gray" data-act="closepic">닫기</button>';
+      '<h2>' + picName(pic) + '</h2><p class="meta">' + _t('chapter_stage', { chapter: chName(n), n: n }) + '</p>' +
+      '<button class="btn gray" data-act="closepic" data-ncq-main="닫기">' + _t('close') + '</button>';
     $('sheetBg').classList.add('on');
   });
 
@@ -852,13 +974,14 @@
     $('streakNow').textContent = store.streak;
     $('ladder').innerHTML = LADDER.map(function (st) {
       var got = pos >= st.at && store.streak > 0, next = !got && LADDER.filter(function (q) { return q.at > pos; })[0] === st;
-      return '<div class="step' + (got ? ' got' : '') + (next ? ' next' : '') + '"><b>' + st.at + '연승</b><svg viewBox="0 0 24 24"><use href="#g-eraser"/></svg>+' + st.n + '</div>';
+      return '<div class="step' + (got ? ' got' : '') + (next ? ' next' : '') + '"><b>' + _t('streak_step', { n: st.at }) + '</b><svg viewBox="0 0 24 24"><use href="#g-eraser"/></svg>+' + st.n + '</div>';
     }).join('');
-    $('streakFoot').textContent = '보유 지우개 ' + store.bank + '개 · 최고 ' + store.bestStreak + '연승' + (store.perfects ? ' · 퍼펙트 ' + store.perfects + '번' : '');
+    $('streakFoot').textContent = _t('streak_foot', { bank: store.bank, best: store.bestStreak }) + (store.perfects ? _t('perfects', { n: store.perfects }) : '');
   }
   // a lost stage ends the streak and costs a life once the player walks away from the fail screen
   // (watching the ad to play on keeps both)
   function settleLoss() {
+    if (S && S.over && S.result && !S.result.won) roundEnd(false);
     if (S && S.over && S.result && !S.result.won && S.level.kind === 's' && !S.challenge && !S.lossSettled) {
       S.lossSettled = true;
       store.streak = 0; loseLife(); save();
@@ -871,10 +994,10 @@
      Sold in gold sets (the prototype only simulates the purchase). */
   var TIME_COST = 90, TIME_ADD = 30000;
   var PACKS = [
-    { id: 'starter', art: '🎁', name: '스타터 팩', note: '골드 2,000 + 지우개 5 + 무한 목숨 1시간', gold: 2000, erasers: 5, inf: 3600000, price: '₩3,300', once: true, tag: '1회 한정' },
-    { id: 's', art: '🪙', name: '골드 1,000', note: '30초 추가 11번', gold: 1000, price: '₩1,500' },
-    { id: 'm', art: '💰', name: '골드 5,500', note: '10% 더 · 30초 추가 61번', gold: 5500, price: '₩7,500', tag: '+10%' },
-    { id: 'l', art: '🏦', name: '골드 12,000', note: '20% 더 · 30초 추가 133번', gold: 12000, price: '₩15,000', tag: '인기', best: true }
+    { id: 'starter', art: '🎁', name: 'pack_starter', note: 'pack_starter_note', gold: 2000, erasers: 5, inf: 3600000, price: '₩3,300', once: true, tag: 'tag_once' },
+    { id: 's', art: '🪙', name: 'pack_gold', note: 'pack_s_note', gold: 1000, price: '₩1,500' },
+    { id: 'm', art: '💰', name: 'pack_gold', note: 'pack_m_note', gold: 5500, price: '₩7,500', tag: '+10%' },
+    { id: 'l', art: '🏦', name: 'pack_gold', note: 'pack_l_note', gold: 12000, price: '₩15,000', tag: 'tag_popular', best: true }
   ];
   function stageGold(level, perfect, first) {
     if (level.kind !== 's') return 0;
@@ -883,13 +1006,13 @@
   }
   function drawGold() { $('goldPill').innerHTML = '<i>G</i>' + (store.gold || 0).toLocaleString('ko-KR'); }
   function openShop(from) {
-    var html = '<div class="grabber"></div><h2>골드 상점</h2><p class="meta">보유 골드 <b class="num">' + store.gold.toLocaleString('ko-KR') + '</b> · 시간이 다 되면 90골드로 30초를 더 받아요</p><div class="shop">';
+    var html = '<div class="grabber"></div><h2>' + _t('gold_shop') + '</h2><p class="meta">' + _t('shop_meta', { gold: num(store.gold) }) + '</p><div class="shop">';
     PACKS.forEach(function (p) {
       if (p.once && store.buys[p.id]) return;
       html += '<button class="pack' + (p.best ? ' best' : '') + '" data-act="buy" data-pack="' + p.id + '" data-test="pack-' + p.id + '"><span class="art">' + p.art + '</span>' +
-        '<span><b>' + p.name + (p.tag ? '<span class="tag">' + p.tag + '</span>' : '') + '</b><small>' + p.note + '</small></span><span class="price">' + p.price + '</span></button>';
+        '<span><b>' + packName(p) + (p.tag ? '<span class="tag">' + (p.tag.charAt(0) === '+' ? p.tag : _t(p.tag)) + '</span>' : '') + '</b><small>' + _t(p.note) + '</small></span><span class="price">' + p.price + '</span></button>';
     });
-    html += '</div><button class="btn gray" data-act="' + (from === 'fail' ? 'backfail' : 'closeshop') + '">' + (from === 'fail' ? '돌아가기' : '닫기') + '</button>';
+    html += '</div><button class="btn gray" data-act="' + (from === 'fail' ? 'backfail' : 'closeshop') + '">' + _t(from === 'fail' ? 'back' : 'close') + '</button>';
     S && (S.shopFrom = from);
     $('sheet').innerHTML = html; $('sheetBg').classList.add('on');
   }
@@ -897,14 +1020,17 @@
     var p = PACKS.filter(function (q) { return q.id === id; })[0]; if (!p) return;
     store.gold += p.gold; if (p.erasers) store.bank += p.erasers; if (p.inf) giveInfinite(p.inf);
     store.buys[id] = (store.buys[id] || 0) + 1; save(); drawGold();
-    toast(p.name + ' 구매 완료 · 테스트 빌드라 결제 없이 받았어요'); SFX.star && SFX.star(2);
+    toast(_t('bought_test', { name: packName(p) })); SFX.star && SFX.star(2);
   }
-  $('goldPill').onclick = function () { openShop('home'); };
+  $('goldPill').onclick = function () {
+    if (NO_SHOP) { toast(_t('gold_how', { cost: TIME_COST })); return; }
+    openShop('home');
+  };
   // reset: ask first inside the page (the viewer never shows confirm() dialogs)
   $('resetBtn').onclick = function () {
     $('sheet').innerHTML = '<div class="grabber"></div><div class="result-ico fail"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4"/></svg></div>' +
-      '<h2>처음부터 다시 할까요?</h2><p class="meta">스테이지 ' + store.stage + ', 별 ' + totalStars() + '개, 골드 ' + (store.gold || 0).toLocaleString('ko-KR') + ', 연승, 레이스, 그림 도감이 모두 지워져요. 되돌릴 수 없어요.</p>' +
-      '<button class="btn" style="background:var(--red)" data-act="reset-yes" data-test="reset-yes">초기화</button><button class="btn gray" data-act="reset-no">취소</button>';
+      '<h2>' + _t('reset_q') + '</h2><p class="meta">' + _t('reset_meta', { stage: store.stage, stars: totalStars(), gold: num(store.gold || 0) }) + '</p>' +
+      '<button class="btn" style="background:var(--red)" data-act="reset-yes" data-test="reset-yes" data-ncq-main="초기화">' + _t('reset_yes') + '</button><button class="btn gray" data-act="reset-no">' + _t('cancel') + '</button>';
     $('sheetBg').classList.add('on');
   };
 
@@ -933,13 +1059,13 @@
   function showNoLives() {
     lifeTick();
     $('sheet').innerHTML = '<div class="grabber"></div><div class="result-ico fail" style="background:var(--pink)"><svg viewBox="0 0 24 24"><use href="#heart" fill="#fff"/></svg></div>' +
-      '<h2>목숨이 없어요</h2><p class="meta">다음 목숨까지 ' + mmss(LIFE_MS - (Date.now() - store.lifeAt)) + ' · 20분마다 1개씩 차요</p>' +
+      '<h2>' + _t('no_lives') + '</h2><p class="meta">' + _t('next_life', { t: mmss(LIFE_MS - (Date.now() - store.lifeAt)) }) + '</p>' +
       // NCQ_ADS_LIFE: 목숨 충전 보상형 광고
-      (NcqAds.can('LIFE') ? '<button class="btn pink" data-act="lifead" data-test="life-ad">광고 보고 목숨 1개 받기</button>' : '') +
-      '<button class="btn gray" data-act="tohome">나가기</button>';
+      (NcqAds.can('LIFE') ? '<button class="btn pink" data-act="lifead" data-test="life-ad" data-ncq-main="목숨 받기">' + _t('life_ad') + '</button>' : '') +
+      '<button class="btn gray" data-act="tohome"' + (NcqAds.can('LIFE') ? '' : ' data-ncq-main="나가기"') + '>' + _t('exit') + '</button>';
     $('sheetBg').classList.add('on');
   }
-  $('lifePill').onclick = function () { lifeTick(); toast(infLeft() > 0 ? '무한 목숨 ' + mmss(infLeft()) + ' 남았어요' : store.lives >= LIFE_MAX ? '목숨이 가득 찼어요' : '다음 목숨까지 ' + mmss(LIFE_MS - (Date.now() - store.lifeAt))); };
+  $('lifePill').onclick = function () { lifeTick(); toast(infLeft() > 0 ? _t('inf_left', { t: mmss(infLeft()) }) : store.lives >= LIFE_MAX ? _t('lives_full') : _t('next_life_short', { t: mmss(LIFE_MS - (Date.now() - store.lifeAt)) })); };
 
   /* ---------- async PvP records + rocket race ----------
      Every first clear is saved as a race record: the time spent on that stage until it was
@@ -977,12 +1103,12 @@
         if (d.id === pvp.uid) return;
         var b = d.data() || {}, st = b.stages || {}, t = 0, cum = [];
         for (var i = 0; i < stages.length; i++) { var v = +st[stages[i]]; if (!(v > 0)) return; t += v; cum.push(t); }
-        out.push({ name: String(b.name || '').slice(0, 12) || '플레이어', ai: false, t: cum });
+        out.push({ name: String(b.name || '').slice(0, 12) || _t('player'), ai: false, t: cum });
       });
       return out;
     }).catch(function () { return []; });
   }
-  var AI_NAMES = ['별똥별', '혜성', '은하수', '오로라', '북극성', '유성우', '달토끼', '로켓맨'];
+  function aiNames() { return _t('ai_names').split(','); }
   function aiRival(stages, k, seed) {
     var rnd = mulberry(seed + k * 977), q = .12 + rnd() * .76, t = 0, cum = [];
     stages.forEach(function (n) {
@@ -991,7 +1117,7 @@
       var sec = qq < .5 ? p[0] + (p[1] - p[0]) * (qq - .2) / .3 : p[1] + (p[2] - p[1]) * (qq - .5) / .3;
       t += Math.max(15, sec) * 1000; cum.push(Math.round(t));
     });
-    return { name: AI_NAMES[(seed + k) % AI_NAMES.length], ai: true, t: cum };
+    var names = aiNames(); return { name: names[(seed + k) % names.length], ai: true, t: cum };
   }
   function mulberry(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
   function startRace() {
@@ -1003,7 +1129,7 @@
       for (var k = 0; rivals.length < 4; k++) rivals.push(aiRival(stages, k, seed));
       store.race = { stages: stages, rivals: rivals, my: [], total: 0, spent: 0, done: false, endsAt: Date.now() + RACE_MS };
       save(); $('raceBtn').disabled = false; drawRace();
-      toast(real.length ? '실제 플레이어 기록 ' + Math.min(4, real.length) + '명과 붙어요' : '아직 이 구간 기록이 적어 AI 기록과 붙어요');
+      toast(real.length ? _t('race_real_toast', { n: Math.min(4, real.length) }) : _t('race_ai_toast'));
     });
   }
   // where everyone is when my clock reads T: rivals move along their recorded times
@@ -1013,12 +1139,12 @@
       var k = 0; while (k < 5 && r.t[k] <= T) k++;
       return { name: r.name, ai: r.ai, prog: k, when: k ? r.t[k - 1] : 0, me: false };
     });
-    rows.push({ name: '나', prog: R.my.length, when: R.my.length ? R.my[R.my.length - 1] : 0, me: true });
+    rows.push({ name: _t('me'), prog: R.my.length, when: R.my.length ? R.my[R.my.length - 1] : 0, me: true });
     rows.sort(function (a, b) { return (b.prog - a.prog) || (a.when - b.when) || (a.me ? -1 : b.me ? 1 : 0); });
     return rows;
   }
   function racePlace(R) { var rows = raceStanding(R); for (var i = 0; i < rows.length; i++) if (rows[i].me) return i + 1; return 5; }
-  var RACE_PRIZE = { 1: '300골드 + 무한 목숨 30분 + 지우개 2', 2: '150골드 + 지우개 1', 3: '50골드 + 목숨 1' };
+  var RACE_PRIZE = { 1: 'prize_1', 2: 'prize_2', 3: 'prize_3' };
   var RACE_MS = 24 * 3600 * 1000;   // a race lasts 24 hours from its start
   function payRace(place) {
     if (place === 1) { store.gold += 300; giveInfinite(INF_MS); store.bank += 2; }
@@ -1032,13 +1158,13 @@
     R.done = true; R.expired = true; R.place = racePlace(R); payRace(R.place); save();
     return true;
   }
-  function hms(ms) { var s = Math.max(0, Math.floor(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return h + '시간 ' + m + '분'; }
+  function hms(ms) { var s = Math.max(0, Math.floor(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return _t('hm', { h: h, m: m }); }
   function drawRace() {
     raceExpire();
     var R = store.race, lanes = $('raceLanes');
     if (!R) {
       lanes.innerHTML = ''; $('racePlace').textContent = '';
-      $('raceBtn').textContent = '레이스 시작'; $('raceSub').textContent = (pvp.db ? '다른 플레이어 4명의 기록' : '라이벌 4명') + '과 다음 5스테이지를 누가 먼저 깨나 겨뤄요';
+      $('raceBtn').textContent = _t('race_start'); $('raceSub').textContent = _t(pvp.db ? 'race_sub_real' : 'race_sub_ai');
       return;
     }
     var rows = raceStanding(R);
@@ -1048,12 +1174,12 @@
         '<span class="trk"><i style="width:' + w + '%"></i><b style="left:' + Math.max(4, w) + '%">🚀</b></span><span class="ct">' + r.prog + '/5</span></div>';
     }).join('');
     var place = racePlace(R);
-    $('racePlace').innerHTML = place + '<small>위</small>';
+    $('racePlace').innerHTML = _t('place_html', { n: place });
     if (R.done && R.place) place = R.place;
-    $('racePlace').innerHTML = place + '<small>위</small>';
-    $('raceSub').textContent = R.done ? (R.expired ? '시간 종료! ' : '레이스 끝! ') + place + '위' + (RACE_PRIZE[place] ? ' · ' + RACE_PRIZE[place] + ' 받았어요' : '') :
-      '스테이지 ' + R.stages[0] + '~' + R.stages[4] + ' · 남은 시간 ' + hms(R.endsAt - Date.now());
-    $('raceBtn').textContent = R.done ? '새 레이스' : '스테이지 ' + R.stages[R.my.length] + ' 이어하기';
+    $('racePlace').innerHTML = _t('place_html', { n: place });
+    $('raceSub').textContent = R.done ? _t(R.expired ? 'race_over_time' : 'race_over') + _t('place', { n: place }) + (RACE_PRIZE[place] ? _t('race_got', { prize: _t(RACE_PRIZE[place]) }) : '') :
+      _t('race_progress', { a: R.stages[0], b: R.stages[4], time: hms(R.endsAt - Date.now()) });
+    $('raceBtn').textContent = R.done ? _t('new_race') : _t('race_continue', { n: R.stages[R.my.length] });
   }
   $('raceBtn').onclick = function () {
     var R = store.race;
@@ -1079,7 +1205,6 @@
     }
     return out;
   }
-  var DOW = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
   var homeTab = 'home';
   // the bottom tab bar: 홈 (lobby), 레이스 (events), 도감, 설정 from the gear; 상점 opens the shop, 지도 the stage map
   function setTab(t) {
@@ -1087,6 +1212,8 @@
     document.querySelectorAll('#home .pane').forEach(function (el) { el.hidden = el.getAttribute('data-pane') !== t; });
     document.querySelectorAll('#tabbar [data-tab]').forEach(function (el) { el.classList.toggle('on', el.getAttribute('data-tab') === t); });
     document.body.classList.toggle('in-lobby', t === 'home');
+    // the panes scroll inside the home screen (the page itself never scrolls): a tab opens at its top
+    document.querySelectorAll('#home .pane, #home .lobby-body').forEach(function (el) { el.scrollTop = 0; });
     window.scrollTo(0, 0);
   }
   $('tabbar').addEventListener('click', function (e) {
@@ -1099,26 +1226,57 @@
   function drawMelodies() {
     var cur = MELODIES[store.melody] ? store.melody : 'basic';
     $('melodyGroup').innerHTML = Object.keys(MELODIES).map(function (k) {
-      return '<button class="item melopt" role="radio" aria-checked="' + (k === cur) + '" data-mel="' + k + '" data-test="mel-' + k + '">' + MELODIES[k].name +
+      return '<button class="item melopt" role="radio" aria-checked="' + (k === cur) + '" data-mel="' + k + '" data-test="mel-' + k + '">' + _t(MELODIES[k].name) +
         '<svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button>';
     }).join('');
   }
-  $('melodyGroup').setAttribute('role', 'radiogroup'); $('melodyGroup').setAttribute('aria-label', '콤보 멜로디');
+  $('melodyGroup').setAttribute('role', 'radiogroup'); $('melodyGroup').setAttribute('data-i18n-attr', 'aria-label:combo_melody'); $('melodyGroup').setAttribute('aria-label', _t('combo_melody'));
   drawMelodies();
   $('melodyGroup').addEventListener('click', function (e) {
     var b = e.target.closest('[data-mel]'); if (!b) return;
     store.melody = b.getAttribute('data-mel'); save(); drawMelodies();
     if (store.sound) for (var i = 0; i < 7; i++) (function (i) { setTimeout(function () { SFX.pluck(i + 1, false); }, i * 230); })(i);
   });
+  /* ---------- language (NcqLang): menu in 설정, the logo, and redrawing when it changes ---------- */
+  function drawLang() {
+    // the heading keeps 'Language' in English too, so anyone can find their way back
+    $('langHead').textContent = L.lang === 'en' ? _t('language') : _t('language') + ' · Language';
+    $('langGroup').setAttribute('aria-label', $('langHead').textContent);
+    $('langGroup').innerHTML = L.list().map(function (o) {
+      return '<button class="item melopt" role="radio" aria-checked="' + o.current + '" data-lang="' + o.code + '" data-test="lang-' + o.code + '" lang="' + o.code + '">' + o.name +
+        '<svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button>';
+    }).join('');
+  }
+  $('langGroup').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-lang]'); if (b) L.set(b.getAttribute('data-lang'));
+  });
+  function drawLogo() {
+    var en = L.lang !== 'ko';
+    document.querySelectorAll('.logoText').forEach(function (el) {
+      el.textContent = _t('app_name');
+      // the English title is longer: squeeze it to the arrow's width
+      if (en) { el.setAttribute('font-size', '46'); el.setAttribute('textLength', '286'); el.setAttribute('lengthAdjust', 'spacingAndGlyphs'); }
+      else { el.setAttribute('font-size', '54'); el.removeAttribute('textLength'); el.removeAttribute('lengthAdjust'); }
+    });
+    document.title = _t('app_name');
+  }
+  function drawVersion() {
+    $('verLine').textContent = _t('app_name') + ' ' + ((window.NCQ && window.NCQ.NCQ_VERSION) ? 'v' + window.NCQ.NCQ_VERSION : _t('dev_build'));
+  }
+  function relang() {
+    drawLang(); drawMelodies(); drawLogo(); drawVersion();
+    if ($('home').classList.contains('on')) { var tab = homeTab; showHome(); setTab(tab); }
+  }
+  drawLang(); drawLogo();
   $('settingsBtn').onclick = function () { setTab(homeTab === 'settings' ? 'home' : 'settings'); };
   $('evRace').onclick = function () { setTab('race'); };
   $('evStreak').onclick = function () { setTab('race'); };
   // daily gift (Maze Out's 일일 선물): 50 gold once a day
   var GIFT_GOLD = 50;
   $('evGift').onclick = function () {
-    if (store.gift === today) { toast('오늘 선물은 받았어요 · 내일 또 와요'); return; }
+    if (store.gift === today) { toast(_t('gift_done')); return; }
     store.gift = today; store.gold = (store.gold || 0) + GIFT_GOLD; save(); drawGold(); drawLobby();
-    toast('오늘의 선물 · ' + GIFT_GOLD + '골드!'); SFX.star && SFX.star(2);
+    toast(_t('gift_got', { n: GIFT_GOLD })); SFX.star && SFX.star(2);
   };
   // the next picture to collect, shown as a white silhouette in the middle of the lobby
   function nextPicture() {
@@ -1131,40 +1289,34 @@
     var n = store.stage, ch = C.chapterOf(n), tier = C.stageTier(n), ci = C.CHAPTERS.indexOf(ch);
     var first = ci * C.STAGES_PER_CHAPTER + 1, cleared = 0, pics = 0, per = C.picStages().length / C.CHAPTERS.length;
     for (var k = first; k < first + C.STAGES_PER_CHAPTER; k++) { if (store.stars[k]) cleared++; var pc = C.pictureFor(k); if (pc && store.pics[pc.key]) pics++; }
-    $('lobbyChap').textContent = '챕터 ' + (ci + 1) + ' · ' + ch.name;
-    $('progL').textContent = '챕터 진행 ' + cleared + ' / ' + C.STAGES_PER_CHAPTER;
-    $('progR').textContent = '그림 ' + pics + ' / ' + per;
+    $('lobbyChap').textContent = _t('chapter_n', { n: ci + 1, name: _t('ch_' + ch.key) });
+    $('progL').textContent = _t('chapter_prog', { a: cleared, b: C.STAGES_PER_CHAPTER });
+    $('progR').textContent = _t('pics_prog', { a: pics, b: per });
     $('progBar').style.width = (cleared / C.STAGES_PER_CHAPTER * 100) + '%';
-    $('stageTitle').textContent = '스테이지 ' + n;
-    $('stageWhere').textContent = store.stars[n] ? '다시 도전하기' : '눌러서 바로 시작';
+    $('stageTitle').textContent = _t('stage_n', { n: n });
+    $('stageWhere').textContent = _t(store.stars[n] ? 'play_again' : 'tap_to_start');
     var chip = $('stageChip'), pic = C.pictureFor(n);
     chip.hidden = tier === 'normal' && !pic;
     chip.className = 'tierchip ' + (tier !== 'normal' ? tier : 'pic');
-    chip.textContent = tier === 'super' ? '매우 어려움 · 보상 100골드' : tier === 'hard' ? '어려움 · 보상 50골드' : pic ? '그림 스테이지' : '';
-    var np = nextPicture();
-    if (np) {
-      var P = C.pictureFor(np);
-      $('nextPic').innerHTML = picSVG(P.rows, false, 'rgba(255,255,255,.95)');
-      $('nextPicCap').textContent = np === n ? '이번 판이 그림이에요!' : '다음 그림 · 스테이지 ' + np;
-    } else {
-      var all = C.pictureFor(C.picStages()[C.picStages().length - 1]);
-      $('nextPic').innerHTML = picSVG(all.rows, true);
-      $('nextPicCap').textContent = '그림 36장을 모두 모았어요';
-    }
+    chip.textContent = tier === 'super' ? _t('chip_super') : tier === 'hard' ? _t('chip_hard') : pic ? _t('picture_stage') : '';
+    // the middle of the lobby is the stage you are on, drawn small; the caption says what it is
+    var lv = C.buildLevel('s', String(n)), np = nextPicture();
+    $('stagePrev').innerHTML = stageSVG(lv);
+    $('nextPicCap').textContent = _t('prev_cap', { n: lv.arrows.length, what: pic ? _t('picture_stage') : np ? _t('next_pic', { n: np }) : _t('all_pics') });
     // event badges
     var R = store.race;
     var rt = $('evRaceTag'), tb = $('tabRaceBadge');
     if (R && !R.done) {
       var place = racePlace(R);
-      rt.hidden = tb.hidden = false; rt.textContent = tb.textContent = place + '위';
+      rt.hidden = tb.hidden = false; rt.textContent = tb.textContent = _t('place', { n: place });
       var left = Math.max(0, R.endsAt - Date.now()), h = Math.floor(left / 3600000), m = Math.floor(left / 60000) % 60;
       $('evRaceCap').textContent = h + ':' + (m < 10 ? '0' : '') + m;
-    } else { rt.hidden = tb.hidden = true; $('evRaceCap').textContent = R && R.done ? '새 레이스' : '레이스'; }
+    } else { rt.hidden = tb.hidden = true; $('evRaceCap').textContent = R && R.done ? _t('new_race') : _t('race'); }
     var stg = $('evStreakTag'); stg.hidden = !store.streak; stg.textContent = store.streak || '';
     $('giftDot').hidden = store.gift === today;
     var rec = store.daily[today];
     $('dailyDot').hidden = !!rec;
-    $('dailyCap').textContent = rec ? C.fmtTime(rec.t) : '오늘';
+    $('dailyCap').textContent = rec ? C.fmtTime(rec.t) : _t('today');
   }
   function showHome(tab) {
     settleLoss(); stopLoop(); closeSheet();
@@ -1172,16 +1324,16 @@
     show('home', ch.key); if (S && S.picTag) S.picTag.remove();
     drawStreak(); drawLives(); drawRace(); drawGold();
     var d = new Date(Date.parse(today + 'T00:00:00+09:00') + 9 * 3600 * 1000);
-    $('todayLabel').textContent = (d.getUTCMonth() + 1) + '월 ' + d.getUTCDate() + '일 ' + DOW[d.getUTCDay()];
-    $('calDow').textContent = DOW[d.getUTCDay()].charAt(0);
+    $('todayLabel').textContent = L.date(d, { month: 'long', day: 'numeric', weekday: 'long', timeZone: 'UTC' });
+    $('calDow').textContent = _t('dow' + d.getUTCDay());
     $('calNum').textContent = d.getUTCDate();
     $('nameInput').value = store.name || '';
     drawGallery(); drawLobby();
     if (incoming) {
       $('challengeCard').hidden = false;
-      $('chTitle').textContent = incoming.name + '님의 도전장';
-      $('chSub').textContent = stageLabel(incoming.kind, incoming.key) + (incoming.kind === 'd' && incoming.key !== today ? ' (지난 퍼즐)' : '') + ' · 이 기록을 이겨보세요';
-      $('chStat').textContent = C.fmtTime(incoming.time) + ' · 실수 ' + incoming.mistakes;
+      $('chTitle').textContent = _t('ch_from', { name: incoming.name });
+      $('chSub').textContent = stageLabel(incoming.kind, incoming.key) + (incoming.kind === 'd' && incoming.key !== today ? _t('past_puzzle') : '') + _t('beat_record');
+      $('chStat').textContent = C.fmtTime(incoming.time) + ' · ' + _t('mistakes_n', { n: incoming.mistakes });
     } else $('challengeCard').hidden = true;
     $('home').querySelector('.lobby-mid').hidden = !!incoming;
     setTab(typeof tab === 'string' ? tab : 'home');
@@ -1195,7 +1347,7 @@
   drawSound();
   $('soundBtn').onclick = function () { store.sound = !store.sound; save(); drawSound(); if (store.sound) SFX.pluck(3); };
   $('dailyBtn').onclick = function () { start('d', today, null); };
-  $('stageBtn').onclick = function () { start('s', String(store.stage), null); };
+  $('stageBtn').onclick = $('stagePrev').onclick = function () { start('s', String(store.stage), null); };
   $('mapBtn').onclick = function () { showMap(); };
   $('mapBack').onclick = function () { showHome(); };
   $('chAccept').onclick = function () { start(incoming.kind, incoming.key, incoming); };
@@ -1211,7 +1363,7 @@
       for (var s = first; s <= last; s++) { got += store.stars[s] || 0; if (store.stars[s]) cleared++; }
       var locked = first > store.stage;
       html += '<section><div class="chapter-banner"><div class="thumb" style="background:' + CH[ch.key].grad + '"><svg viewBox="0 0 24 24" aria-hidden="true">' + CH[ch.key].glyph + '</svg></div>' +
-        '<div><div class="name">' + ch.name + '</div><div class="meta">챕터 ' + (ci + 1) + ' · ' + (locked ? '잠김' : cleared + ' / ' + C.STAGES_PER_CHAPTER + ' 완료') + '</div></div>' +
+        '<div><div class="name">' + _t('ch_' + ch.key) + '</div><div class="meta">' + _t('chapter_word', { n: ci + 1 }) + ' · ' + (locked ? _t('locked') : _t('done_of', { a: cleared, b: C.STAGES_PER_CHAPTER })) + '</div></div>' +
         '<svg class="ring" viewBox="0 0 36 36" aria-hidden="true" style="transform:rotate(-90deg)">' + ring(got / (C.STAGES_PER_CHAPTER * 3), 'var(--yellow)', 36, 5) + '</svg></div><div class="grid">';
       for (var i = 0; i < C.STAGES_PER_CHAPTER; i++) {
         var n = first + i, tier = C.stageTier(n), isLocked = n > store.stage;
@@ -1220,7 +1372,7 @@
         var tag = tier !== 'normal' ? '<span class="tag"><svg viewBox="0 0 24 24"><use href="#bolt"/></svg></span>' : '';
         var stars = store.stars[n] ? '<span class="stars">' + starIcons(store.stars[n], 11) + '</span>' : '';
         if (C.pictureFor(n)) tag += '<span class="pic"><svg viewBox="0 0 24 24"><use href="#g-pic"/></svg></span>';
-        html += '<button class="' + cls + '" data-stage="' + n + '" aria-label="스테이지 ' + n + (tier === 'super' ? ' 매우 어려움' : tier === 'hard' ? ' 어려움' : '') + (isLocked ? ' 잠김' : '') + '">' + inner + tag + stars + '</button>';
+        html += '<button class="' + cls + '" data-stage="' + n + '"' + (n === store.stage ? ' data-ncq-main="지금 스테이지"' : '') + ' aria-label="' + _t('stage_n', { n: n }) + (tier === 'super' ? ' ' + _t('super_hard') : tier === 'hard' ? ' ' + _t('hard') : '') + (isLocked ? ' 잠김' : '') + '">' + inner + tag + stars + '</button>';
       }
       html += '</div></section>';
     });
@@ -1231,7 +1383,7 @@
   $('map').addEventListener('click', function (e) {
     var b = e.target.closest('.node'); if (!b) return;
     var n = +b.getAttribute('data-stage');
-    if (n > store.stage) { toast('앞 스테이지를 깨면 열려요'); return; }
+    if (n > store.stage) { toast(_t('locked_toast')); return; }
     start('s', String(n), null);
   });
 
@@ -1283,7 +1435,7 @@
     var svg = $('board'); svg.innerHTML = '';
     var pad = .3;
     S.base = { x: -pad, y: -pad, w: level.w + pad * 2, h: level.h + pad * 2 };
-    setView(Object.assign({}, S.base));
+    setView(Object.assign({}, S.base)); fitBoard();
     var defs = el('defs', {}, svg);
     S.defs = defs;
     if (level.picture) {   // faint tint of the picture under the arrows, so the drawing reads while you play
@@ -1344,16 +1496,40 @@
       return { g: bg, t: tx };
     });
     $('zoomBtn').hidden = level.w < 10;
-    $('zoomBtn').classList.remove('on'); $('zoomLabel').textContent = '확대';
+    $('zoomBtn').classList.remove('on'); $('zoomLabel').textContent = _t('zoom');
     var big = level.w >= 16;
     svg.classList.toggle('big', big);
-    if (big) {   // start zoomed in on the top-left of the board, where most players begin scanning
-      var zw = S.base.w / 1.45;
-      setView({ x: S.base.x, y: S.base.y, w: zw });
-      if (!store.zoomTold) { store.zoomTold = true; save(); setTimeout(function () { toast('큰 판은 확대해서 시작해요 · 전체 버튼으로 다 보기'); }, 400); }
-    }
+    // every board starts whole on screen; the first big one shows how to pinch-zoom
+    hidePinchTip();
+    if (big && !store.pinchTold) showPinchTip();
+  }
+  /* ---------- pinch-zoom tutorial: on the first big board, until the player touches the board (or 6 s) ---------- */
+  var pinchTipT = 0;
+  function showPinchTip() {
+    var tip = $('pinchTip'); tip.hidden = false;
+    requestAnimationFrame(function () { tip.classList.add('on'); });
+    clearTimeout(pinchTipT); pinchTipT = setTimeout(function () { donePinchTip(); }, 6000);
+  }
+  function hidePinchTip() {
+    var tip = $('pinchTip'); clearTimeout(pinchTipT);
+    tip.classList.remove('on'); tip.hidden = true;
+  }
+  function donePinchTip() {
+    var tip = $('pinchTip'); if (tip.hidden) return;
+    clearTimeout(pinchTipT); store.pinchTold = true; save();
+    tip.classList.remove('on'); setTimeout(function () { tip.hidden = true; }, 300);
   }
   function arrowClass(id, cls, on) { var n = S.nodes[id]; n.g.classList.toggle(cls, on); n.gu.classList.toggle(cls, on); }
+
+  /* the board takes the room between the top bars and the tool bar: full width, or narrower for a tall board, so it keeps
+     its shape (taps map straight onto the arrows) and never runs under the tool bar or off a short screen */
+  function fitBoard() {
+    var wrap = $('boardcard').parentNode, h = wrap.clientHeight, w = wrap.clientWidth, pad = 16;   // the card's padding, 8px a side
+    if (!S || !S.base || !h || !w) return;
+    $('boardcard').style.width = Math.max(120, Math.floor(Math.min(w, (h - pad) * S.base.w / S.base.h + pad))) + 'px';
+  }
+  if (window.ResizeObserver) new ResizeObserver(function () { fitBoard(); }).observe($('boardcard').parentNode);
+  window.addEventListener('resize', function () { fitBoard(); });
 
   /* ---------- zoom, pan and tap (one handler for the whole board) ---------- */
   function setView(v) {
@@ -1363,7 +1539,7 @@
     S.view = v;
     $('board').setAttribute('viewBox', v.x + ' ' + v.y + ' ' + v.w + ' ' + v.h);
     var zoomed = v.w < b.w * .98;
-    $('zoomBtn').classList.toggle('on', zoomed); $('zoomLabel').textContent = zoomed ? '전체' : '확대';
+    $('zoomBtn').classList.toggle('on', zoomed); $('zoomLabel').textContent = _t(zoomed ? 'zoom_all' : 'zoom');
   }
   function toBoard(cx, cy) {
     var r = $('board').getBoundingClientRect(), v = S.view;
@@ -1375,6 +1551,7 @@
     if (!S) return;
     e.preventDefault();
     try { boardEl.setPointerCapture(e.pointerId); } catch (err) {}
+    donePinchTip();
     ptrs[e.pointerId] = { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY };
     var ids = Object.keys(ptrs);
     if (ids.length === 1) {
@@ -1463,7 +1640,7 @@
   $('zoomBtn').onclick = function () {
     if (!S) return;
     if (S.view.w < S.base.w * .98) setView(Object.assign({}, S.base));
-    else { var w = S.base.w / 1.8; setView({ x: S.base.x + (S.base.w - w) / 2, y: S.base.y + (S.base.h - w * S.base.h / S.base.w) / 2, w: w }); toast('드래그해서 옮기고, 두 손가락으로 확대해요'); }
+    else { var w = S.base.w / 1.8; setView({ x: S.base.x + (S.base.w - w) / 2, y: S.base.y + (S.base.h - w * S.base.h / S.base.w) / 2, w: w }); toast(_t('drag_tip')); }
   };
 
   /* ---------- animations ---------- */
@@ -1563,13 +1740,15 @@
       t0: performance.now(), lastOk: performance.now(), over: false, challenge: challenge,
       ghost: challenge ? C.timeline(level, C.decodeReplay(challenge.replay)) : null, mode: 'intro',
       combo: 0, maxCombo: 0, lastOkAt: 0, bonus: 0, feverUntil: 0, lastFrame: performance.now(), continued: false, erasers: 1 + (challenge ? 0 : store.bank), freeErasers: 1, erasing: false, waiting: {} };
+    S.noClock = isWarmup(level);   // stages 1-10: no clock, only hearts
+    document.body.classList.toggle('noclock', S.noClock);
     document.body.classList.remove('erasing');
     document.body.classList.remove('fever'); $('combo').classList.remove('on');
     show('game', level.chapter);
     $('gTitle').textContent = stageLabel(kind, level.key);
-    $('gSub').innerHTML = kind === 's' ? C.chapterOf(+level.key).name + (level.picture ? ' · 그림 스테이지' : level.tier !== 'normal' ? ' · ' + (level.tier === 'super' ? '매우 어려움' : '어려움') : '') : '전 세계 공통 퍼즐';
+    $('gSub').innerHTML = kind === 's' ? chName(+level.key) + (level.picture ? ' · ' + _t('picture_stage') : level.tier !== 'normal' ? ' · ' + _t(level.tier === 'super' ? 'super_hard' : 'hard') : '') : _t('world_puzzle');
     $('race').classList.toggle('on', !!challenge);
-    if (raceStageOf(level) && !challenge) $('gSub').innerHTML += ' · 🚀 레이스 ' + (store.race.my.length + 1) + '/5';
+    if (raceStageOf(level) && !challenge) $('gSub').innerHTML += ' · ' + _t('race_tag', { k: store.race.my.length + 1 });
     $('replayTag').classList.remove('on');
     $('hintBtn').style.visibility = '';
     if (challenge) $('friendWho').textContent = challenge.name;
@@ -1585,16 +1764,16 @@
     if (fresh.length) showIntro(fresh); else beginRound();
   }
   function showIntro(kinds) {
-    var html = '<div class="grabber"></div><h2>새 화살 등장</h2><div class="intro-list">';
+    var html = '<div class="grabber"></div><h2>' + (kinds.length > 2 ? _t('new_gimmicks', { n: kinds.length }) : _t('new_arrow')) + '</h2><div class="intro-list">';
     kinds.forEach(function (k) { var m = NEW_ARROWS[k];
-      html += '<div class="intro-item"><div class="ico" style="background:' + m.color + '"><svg viewBox="0 0 24 24"><use href="#' + m.glyph + '"/></svg></div><div><b>' + m.name + '</b><span>' + m.text + '</span></div></div>'; });
-    html += '</div><button class="btn" data-act="intro" data-test="intro-ok">알겠어요</button>';
-    if (kinds.length > 2) html = html.replace('새 화살 등장', '새 기믹 ' + kinds.length + '가지');
+      html += '<div class="intro-item"><div class="ico" style="background:' + m.color + '"><svg viewBox="0 0 24 24"><use href="#' + m.glyph + '"/></svg></div><div><b>' + _t(m.name) + '</b><span>' + _t(m.text) + '</span></div></div>'; });
+    html += '</div><button class="btn" data-act="intro" data-test="intro-ok" data-ncq-main="알겠어요">' + _t('got_it') + '</button>';
     $('sheet').innerHTML = html; $('sheetBg').classList.add('on');
   }
   var rounds = 0;
   function beginRound() {
     var level = S.level, challenge = S.challenge;
+    roundStart();
     var tb = $('tierBanner'), sc = $('stageCard'), tierIntro = level.tier !== 'normal' && !challenge;
     // every stage opens with a short entrance: the stage card (or the hard-tier banner) and the arrows rippling in
     // the first stage of a session gets the full entrance; after that it is quicker, to keep the tempo
@@ -1604,13 +1783,13 @@
     S.mode = 'intro'; S.t0 = performance.now() + intro; S.lastOk = S.t0; S.lastFrame = performance.now();
     if (tierIntro) {
       tb.classList.toggle('hard', level.tier === 'hard');
-      $('tierText').textContent = level.tier === 'super' ? '매우 어려움' : '어려움';
-      $('tierSub').textContent = level.arrows.length + '개 화살 · ' + C.fmtTime(level.timeLimit * 1000) + ' 안에';
+      $('tierText').textContent = _t(level.tier === 'super' ? 'super_hard' : 'hard');
+      $('tierSub').textContent = _t('arrows_n', { n: level.arrows.length }) + ' · ' + (S.noClock ? _t('hearts_to_end') : _t('within', { t: C.fmtTime(level.timeLimit * 1000) }));
       tb.classList.add('on');
     } else {
-      $('scChapter').textContent = level.kind === 's' ? C.chapterOf(+level.key).name : '오늘의 퍼즐';
-      $('scTitle').textContent = level.kind === 's' ? '스테이지 ' + level.key : level.key;
-      $('scSub').textContent = level.arrows.length + '개 화살 · ' + C.fmtTime(level.timeLimit * 1000);
+      $('scChapter').textContent = level.kind === 's' ? chName(+level.key) : _t('daily_puzzle');
+      $('scTitle').textContent = level.kind === 's' ? _t('stage_n', { n: level.key }) : level.key;
+      $('scSub').textContent = _t('arrows_n', { n: level.arrows.length }) + ' · ' + (S.noClock ? _t('no_limit') : C.fmtTime(level.timeLimit * 1000));
       sc.style.setProperty('--card-ms', intro + 'ms'); void sc.offsetWidth; sc.classList.add('on');
     }
     enterBoard();
@@ -1623,7 +1802,7 @@
     }, intro);
     if (!store.aimTold && level.kind === 's' && +level.key >= 3) {
       store.aimTold = true; save();
-      setTimeout(function () { if (S === token && !S.over) toast('화살을 꾹 누르면 나갈 방향이 보여요'); }, intro + 600);
+      setTimeout(function () { if (S === token && !S.over) toast(_t('hold_tip')); }, intro + 600);
     }
     updateHud(0);
     loop();
@@ -1664,7 +1843,7 @@
       SFX.locked(); buzz(10);
       var key = r.reason + (r.partner != null ? 'p' : '');
       S.told = S.told || {};
-      if (!S.told[key]) { S.told[key] = true; toast(r.partner != null ? '묶인 짝 화살이 아직 움직일 수 없어요' : r.reason === 'locked' ? '금색 열쇠 화살을 먼저 빼면 열려요' : '맞닿은 화살이 빠지면 얼음이 녹아요'); }
+      if (!S.told[key]) { S.told[key] = true; toast(_t(r.partner != null ? 'partner_stuck' : r.reason === 'locked' ? 'locked_tip' : 'ice_tip')); }
       return;
     }
     S.taps.push({ id: id, ok: r.ok, t: t });
@@ -1672,11 +1851,11 @@
     else {
       S.hearts--; S.combo = 0; showCombo();
       animateBump(r.bump != null ? r.bump : id, r.gap); SFX.miss(); buzz([20, 40, 20]);
-      if (S.hearts <= 0) { finish(false, '하트를 모두 잃었어요'); updateHud(t); return; }
+      if (S.hearts <= 0) { finish(false, 'hearts'); updateHud(t); return; }
       // it stays queued: once whatever blocks it is gone, it leaves on its own
       var w = r.bump != null ? r.bump : id;
       if (!S.waiting[w]) { S.waiting[w] = true; arrowClass(w, 'waiting', true); }
-      if (!store.waitTold) { store.waitTold = true; save(); toast('막는 화살을 빼면 점선 화살이 뒤이어 나가요'); }
+      if (!store.waitTold) { store.waitTold = true; save(); toast(_t('wait_tip')); }
       updateHud(t);
     }
   }
@@ -1689,7 +1868,7 @@
       S.combo = now - S.lastOkAt < COMBO_MS ? S.combo + 1 : 1; S.lastOkAt = now; S.maxCombo = Math.max(S.maxCombo, S.combo);
       showTap(id, r, true);
       SFX.pluck(S.combo, S.feverUntil > performance.now()); buzz(8);
-      if (S.combo >= 3) { S.bonus += 1000; floatPlus('+1초'); }
+      if (S.combo >= 3 && !S.noClock) { S.bonus += 1000; floatPlus(_t('plus_sec')); }
       if (S.combo % FEVER_EVERY === 0) startFever();
       showCombo();
       if (S.left <= 0) { updateHud(t); finish(true, ''); return; }
@@ -1746,16 +1925,17 @@
   function updateHud(t) {
     var total = S.level.arrows.length, done = total - S.left;
     var remain = remaining(t);
-    $('timer').textContent = C.fmtTime(remain + 999);
+    $('timer').textContent = S.noClock ? '' : C.fmtTime(remain + 999);
+    $('progFill').style.width = (done / total * 100) + '%';
     $('timer').classList.toggle('low', remain < 10000 && !S.over);
     if (S.hearts !== lastHearts) { $('hearts').innerHTML = heartsHTML(Math.max(0, S.hearts)); lastHearts = S.hearts; }
-    $('status').textContent = S.left + '개 남음';
+    $('status').textContent = _t('left_n', { n: S.left });
     if (S.ghost) {
       var gn = C.progressOn(S.ghost, t);
       $('meBar').style.width = (done / total * 100) + '%';
       $('friendBar').style.width = (gn / total * 100) + '%';
       $('meN').textContent = done + '/' + total;
-      $('friendN').textContent = gn >= total ? '완료' : gn + '/' + total;
+      $('friendN').textContent = gn >= total ? _t('done') : gn + '/' + total;
     }
     $('hintBtn').classList.toggle('pulse', S.mode === 'play' && !S.over && performance.now() - S.lastOk > STALL_MS);
   }
@@ -1768,7 +1948,7 @@
     if (S.feverUntil > now) S.bonus += now - S.lastFrame;            // the clock stands still during fever
     else if (S.feverUntil) { S.feverUntil = 0; document.body.classList.remove('fever'); }
     S.lastFrame = now;
-    if (remaining(t) <= 0) { updateHud(t); finish(false, '시간이 다 됐어요'); return; }
+    if (!S.noClock && remaining(t) <= 0) { updateHud(t); finish(false, 'time'); return; }
     updateHud(t);
     raf = requestAnimationFrame(loop);
   }
@@ -1782,13 +1962,13 @@
   $('eraseBtn').onclick = function () {
     if (!S || S.over || S.mode !== 'play' || S.erasers <= 0) return;
     S.erasing = !S.erasing; document.body.classList.toggle('erasing', S.erasing); drawEraser();
-    if (S.erasing) toast(S.erasedTold ? '지울 화살을 누르세요' : '지울 화살을 누르세요 · 연승 챌린지와 골드 세트로 모아요'), S.erasedTold = true;
+    if (S.erasing) toast(S.erasedTold ? _t('erase_tip') : _t('erase_tip') + _t('erase_more', { src: _t(NO_SHOP ? 'src_race' : 'src_gold') })), S.erasedTold = true;
   };
   $('hintBtn').onclick = function () {
     if (!S || S.over || S.mode !== 'play') return;
     if (!C.freeArrows(S.level, S.removed).length) return;
     // NCQ_ADS_HINT: 힌트 보상형 광고 (한 판에 첫 힌트는 무료)
-    if (S.hints >= 1 && NcqAds.can('HINT')) { showRewarded(function () { return NcqAds.rewarded('HINT'); }).then(function (ok) { if (ok) giveHint(); else toast('광고를 끝까지 보면 힌트를 받아요'); }); return; }
+    if (S.hints >= 1 && NcqAds.can('HINT')) { showRewarded(function () { return NcqAds.rewarded('HINT'); }).then(function (ok) { if (ok) giveHint(); else toast(_t('hint_ad_need')); }); return; }
     giveHint();
   };
   function giveHint() {
@@ -1798,15 +1978,16 @@
     var id = free[0]; S.hints++;
     var g = S.nodes[id].g; g.classList.remove('hint'); void g.getBoundingClientRect(); g.classList.add('hint');
     S.lastOk = performance.now();
-    toast(S.hints === 1 ? '빛나는 화살을 눌러보세요 · 다음 힌트부터는 광고를 봐요' : '빛나는 화살을 눌러보세요');
+    toast(S.hints === 1 ? _t('hint_tip') + _t('hint_tip_ad') : _t('hint_tip'));
   }
 
   /* ---------- finish + result ---------- */
   function finish(won, reason) {
     S.over = true; stopLoop();
     var t = elapsed();
-    S.result = { won: won, time: t, mistakes: S.taps.filter(function (x) { return !x.ok; }).length, maxCombo: S.maxCombo, timeout: !won && /시간/.test(reason) };
+    S.result = { won: won, time: t, mistakes: S.taps.filter(function (x) { return !x.ok; }).length, maxCombo: S.maxCombo, timeout: !won && reason === 'time' };
     S.result.perfect = won && S.result.mistakes === 0 && !S.usedEraser;
+    if (won) roundEnd(true);
     if (S.level.kind === 's' && !S.challenge) {
       var nn = +S.level.key;
       if (won) { S.result.gold = stageGold(S.level, S.result.perfect, !store.records[nn]); store.gold += S.result.gold; }
@@ -1838,16 +2019,36 @@
       setTimeout(confetti, 200);
     }
     hideAim(); $('feverPill').classList.remove('on');
-    if (won && S.level.picture) { revealPicture(); setTimeout(clearBurst, REDUCED ? 0 : 1100); setTimeout(function () { openResult(won, reason); }, REDUCED ? 600 : 2250); }
+    // the opening: a word of praise and confetti, then straight into the next stage (no result sheet)
+    var quick = won && S.noClock && !S.challenge && !(S.result.race && S.result.race.k);
+    if (quick) {
+      S.praise = S.level.picture ? _t('pic_done', { name: picName(S.level.picture) }) : S.result.perfect ? _t('perfect') : praiseWord(+S.level.key);
+      var bits = [];
+      if (S.result.gold) bits.push(_t('gold_plus', { n: S.result.gold }));
+      if (S.result.streak >= 2) bits.push(_t('streak_n', { n: S.result.streak }));
+      if (S.result.gift) bits.push(_t('eraser_plus', { n: S.result.gift }));
+      if (S.level.picture && S.result.newPic) bits.push(_t('added_gallery'));
+      var run = S, wait = S.level.picture ? (REDUCED ? 900 : 2700) : (REDUCED ? 700 : 1500);
+      if (S.level.picture) { revealPicture(); setTimeout(clearBurst, REDUCED ? 0 : 1100); } else clearBurst();
+      setTimeout(function () { if (bits.length && S === run) toast(bits.join(' · ')); }, S.level.picture ? 1300 : 300);
+      setTimeout(function () {
+        if (S !== run) return;
+        var n = +S.level.key;
+        if (n >= C.TOTAL_STAGES) { showMap(); return; }
+        afterClearAd().then(function () { if (S === run) start('s', String(n + 1), null); });
+      }, wait);
+    }
+    else if (won && S.level.picture) { revealPicture(); setTimeout(clearBurst, REDUCED ? 0 : 1100); setTimeout(function () { openResult(won, reason); }, REDUCED ? 600 : 2250); }
     else if (won) { clearBurst(); setTimeout(function () { openResult(won, reason); }, REDUCED ? 500 : 1150); }
     else setTimeout(function () { openResult(won, reason); }, 450);
   }
 
   // stage clear: the board glows, rings burst from the centre and a check stamps in
+  function praiseWord(n) { var w = _t('praise').split('|'); return w[n % w.length]; }
   function clearBurst() {
     var bc = $('boardcard'), cb = $('clearBurst');
     bc.classList.remove('cleared'); void bc.offsetWidth; bc.classList.add('cleared');
-    $('cbText').textContent = S.level.picture ? S.level.picture.name + ' 완성!' : S.result && S.result.perfect ? '퍼펙트!' : S.level.kind === 'd' ? '오늘의 퍼즐 클리어!' : '클리어!';
+    $('cbText').textContent = S.praise ? S.praise : S.level.picture ? _t('pic_done', { name: picName(S.level.picture) }) : S.result && S.result.perfect ? _t('perfect') : S.level.kind === 'd' ? _t('daily_clear') : _t('clear');
     var r = bc.getBoundingClientRect();
     var mid = r.top + r.height / 2;   // centre the burst on the board, not the screen
     cb.style.paddingTop = Math.max(0, mid * 2 - window.innerHeight) + 'px'; cb.style.paddingBottom = Math.max(0, window.innerHeight - mid * 2) + 'px';
@@ -1865,13 +2066,13 @@
       var px = el('rect', { 'class': 'pix', x: x + .06, y: y + .06, width: .88, height: .88, rx: .22, fill: 'var(--c-' + c + ')' }, g);
       px.style.animationDelay = (REDUCED ? 0 : d * 45) + 'ms';
     }); });
-    var tag = document.createElement('div'); tag.className = 'picname'; tag.textContent = '그림 완성 · ' + pic.name;
+    var tag = document.createElement('div'); tag.className = 'picname'; tag.textContent = _t('pic_complete_tag', { name: picName(pic) });
     $('boardcard').appendChild(tag); S.picTag = tag;
     setTimeout(function () { tone(note(10), .5, { type: 'triangle', vol: .12 }); tone(note(12), .7, { type: 'triangle', vol: .1, at: .12 }); }, 600);
   }
 
   function myChallengeLink() {
-    var code = C.encodeChallenge({ kind: S.level.kind, key: S.level.key, name: store.name || '친구',
+    var code = C.encodeChallenge({ kind: S.level.kind, key: S.level.key, name: store.name || _t('friend'),
       time: S.result.time, mistakes: S.result.mistakes, replay: C.encodeReplay(S.taps) });
     var base = /^https?:/.test(location.protocol) && !/localhost|capacitor/.test(location.host) ? location.href.split('#')[0] : 'https://ncroquis.github.io/ssokssok-arrow/play/';
     return base + '#' + code;
@@ -1881,47 +2082,47 @@
     var r = S.result, ch = S.challenge, html = '<div class="grabber"></div>';
     if (!won) {
       html += '<div class="result-ico fail"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round"><path d="M7 7l10 10M17 7 7 17"/></svg></div>';
-      html += '<h2>아쉬워요</h2><p class="meta">' + reason + ' · 남은 화살 ' + S.left + '</p>';
-      if (r.race) html += '<p class="streak-note" style="color:var(--blue)">🚀 레이스 시계는 계속 가요 · 지금 ' + r.race.place + '위</p>';
-      if (S.level.kind === 's' && !ch && !S.continued) html += '<p class="meta" style="margin:0" data-test="life-cost">이어하지 않으면 목숨 1개가 줄어요' + (infLeft() > 0 ? ' (지금은 무한 목숨)' : ' · 남은 목숨 ' + store.lives) + '</p>';
-      if (S.level.kind === 's' && !ch && store.streak >= 1) html += '<p class="streak-note risk" data-test="streak-risk">' + (S.continued ? store.streak + '연승이 끝나요' : '이어하지 않으면 ' + store.streak + '연승이 끊겨요') + '</p>';
-      if (r.timeout && !ch) html += '<button class="btn" style="background:linear-gradient(160deg,#FFC93C,#F59E0B);color:#3D2600" data-act="goldtime" data-test="gold-time"><span class="coin">G</span>' + TIME_COST + '골드로 30초 추가 · 보유 ' + store.gold.toLocaleString('ko-KR') + '</button>';
+      html += '<h2>' + _t('so_close') + '</h2><p class="meta">' + _t('arrows_left', { reason: _t('reason_' + reason), n: S.left }) + '</p>';
+      if (r.race) html += '<p class="streak-note" style="color:var(--blue)">' + _t('race_clock', { place: _t('place', { n: r.race.place }) }) + '</p>';
+      if (S.level.kind === 's' && !ch && !S.continued) html += '<p class="meta" style="margin:0" data-test="life-cost">' + _t('life_cost') + (infLeft() > 0 ? _t('inf_now') : _t('lives_left', { n: store.lives })) + '</p>';
+      if (S.level.kind === 's' && !ch && store.streak >= 1) html += '<p class="streak-note risk" data-test="streak-risk">' + _t(S.continued ? 'streak_ends' : 'streak_risk', { n: store.streak }) + '</p>';
+      if (r.timeout && !ch) html += '<button class="btn" style="background:linear-gradient(160deg,#FFC93C,#F59E0B);color:#3D2600" data-act="goldtime" data-test="gold-time"><span class="coin">G</span>' + _t('gold_time', { cost: TIME_COST, gold: num(store.gold) }) + '</button>';
       // NCQ_ADS_CONTINUE: 실패 후 이어하기 보상형 광고
-      if (!S.continued && !ch && NcqAds.can('CONTINUE')) html += '<button class="btn pink" data-act="continue" data-test="continue">광고 보고 이어하기 · 하트 +1 · 15초</button>';
-      html += '<button class="btn' + (!S.continued && !ch ? ' gray' : '') + '" data-act="retry" data-test="retry">다시 하기</button>';
-      html += '<button class="btn gray" data-act="home">나가기</button>';
+      if (!S.continued && !ch && NcqAds.can('CONTINUE')) html += '<button class="btn pink" data-act="continue" data-test="continue" data-ncq-main="이어하기">' + _t('continue_ad') + '</button>';
+      html += '<button class="btn' + (!S.continued && !ch ? ' gray' : '') + '" data-act="retry" data-test="retry" data-ncq-main="다시 하기">' + _t('retry') + '</button>';
+      html += '<button class="btn gray" data-act="home">' + _t('exit') + '</button>';
     } else {
       html += '<div class="result-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>';
       if (S.level.picture) html += '<div class="result-pic">' + picSVG(S.level.picture.rows, true) + '</div>';
-      html += '<h2>' + (S.level.picture ? S.level.picture.name + ' 완성' : r.perfect ? '<span class="perfect" data-test="perfect">퍼펙트!</span>' : '클리어') + '</h2><p class="meta">' + C.fmtTime(r.time) + ' · 실수 ' + r.mistakes + (r.maxCombo >= 3 ? ' · 최대 콤보 ' + r.maxCombo : '') + (S.hints ? ' · 힌트 ' + S.hints : '') + '</p>';
-      if (r.perfect && S.level.picture) html += '<p class="streak-note"><span class="perfect" data-test="perfect">퍼펙트!</span></p>';
-      if (r.gold) html += '<p class="goldline" data-test="gold-earned"><span class="coin">G</span>+' + r.gold + ' 골드' + (r.perfect ? ' (퍼펙트 보너스)' : '') + '</p>';
-      if (r.race) html += '<p class="streak-note" style="color:var(--blue)" data-test="race-line">🚀 ' + (r.race.done ? '레이스 끝! ' + r.race.place + '위' + (r.race.prize ? ' · ' + r.race.prize : '') : '로켓 레이스 ' + r.race.k + '/5 · 지금 ' + r.race.place + '위') + '</p>';
-      if (r.streak) html += '<p class="streak-note" data-test="streak-up">' + r.streak + '연승' + (r.gift ? ' · 지우개 +' + r.gift : '') + '</p>';
+      html += '<h2>' + (S.level.picture ? _t('pic_done_h', { name: picName(S.level.picture) }) : r.perfect ? '<span class="perfect" data-test="perfect">' + _t('perfect') + '</span>' : _t('clear_plain')) + '</h2><p class="meta">' + C.fmtTime(r.time) + ' · ' + _t('mistakes_n', { n: r.mistakes }) + (r.maxCombo >= 3 ? _t('max_combo', { n: r.maxCombo }) : '') + (S.hints ? _t('hints_used', { n: S.hints }) : '') + '</p>';
+      if (r.perfect && S.level.picture) html += '<p class="streak-note"><span class="perfect" data-test="perfect">' + _t('perfect') + '</span></p>';
+      if (r.gold) html += '<p class="goldline" data-test="gold-earned"><span class="coin">G</span>' + _t('gold_line', { n: r.gold }) + (r.perfect ? _t('perfect_bonus') : '') + '</p>';
+      if (r.race) html += '<p class="streak-note" style="color:var(--blue)" data-test="race-line">' + (r.race.done ? _t('race_line_done', { place: _t('place', { n: r.race.place }) }) + (r.race.prize ? ' · ' + _t(r.race.prize) : '') : _t('race_line', { k: r.race.k, place: _t('place', { n: r.race.place }) })) + '</p>';
+      if (r.streak) html += '<p class="streak-note" data-test="streak-up">' + _t('streak_n', { n: r.streak }) + (r.gift ? ' · ' + _t('eraser_plus', { n: r.gift }) : '') + '</p>';
       if (r.stars) { html += '<div class="bigstars" data-test="stars" data-stars="' + r.stars + '">' + starIcons(r.stars, 38) + '</div>'; for (var si = 0; si < r.stars; si++) setTimeout(SFX.star.bind(null, si), 350); }
       if (ch) {
         var meWin = r.time < ch.time - 100 || (Math.abs(r.time - ch.time) <= 100 && r.mistakes < ch.mistakes);
         var tie = Math.abs(r.time - ch.time) <= 100 && r.mistakes === ch.mistakes;
         html += '<div class="versus" data-test="versus">' +
-          '<div class="' + (meWin ? 'win' : '') + '"><div class="who">나</div><div class="t">' + C.fmtTime(r.time) + '</div><div class="m">실수 ' + r.mistakes + '</div></div>' +
+          '<div class="' + (meWin ? 'win' : '') + '"><div class="who">' + _t('me') + '</div><div class="t">' + C.fmtTime(r.time) + '</div><div class="m">' + _t('mistakes_n', { n: r.mistakes }) + '</div></div>' +
           '<div class="vs">VS</div>' +
-          '<div class="' + (!meWin && !tie ? 'win' : '') + '"><div class="who">' + esc(ch.name) + '</div><div class="t">' + C.fmtTime(ch.time) + '</div><div class="m">실수 ' + ch.mistakes + '</div></div></div>';
-        html += '<div class="verdict" data-test="verdict">' + (tie ? '무승부! 한 판 더?' : meWin ? '승리! ' + esc(ch.name) + '님에게 리벤지 기회를 주세요' : esc(ch.name) + '님 승. 다시 붙어볼까요?') + '</div>';
-        html += '<button class="btn pink" data-act="challenge" data-test="send">' + (meWin ? '내 기록으로 되받아치기' : '이 기록으로 도전장 보내기') + '</button>';
-        html += '<div class="row"><button class="btn gray" data-act="replay" data-test="replay">' + esc(ch.name) + '님 풀이</button>' +
-          '<button class="btn gray" data-act="retry">다시 붙기</button></div>';
+          '<div class="' + (!meWin && !tie ? 'win' : '') + '"><div class="who">' + esc(ch.name) + '</div><div class="t">' + C.fmtTime(ch.time) + '</div><div class="m">' + _t('mistakes_n', { n: ch.mistakes }) + '</div></div></div>';
+        html += '<div class="verdict" data-test="verdict">' + (tie ? _t('tie') : _t(meWin ? 'win_vs' : 'lose_vs', { name: esc(ch.name) })) + '</div>';
+        html += '<button class="btn pink" data-act="challenge" data-test="send" data-ncq-main="도전장 보내기">' + _t(meWin ? 'hit_back' : 'send_record') + '</button>';
+        html += '<div class="row"><button class="btn gray" data-act="replay" data-test="replay">' + _t('their_solve', { name: esc(ch.name) }) + '</button>' +
+          '<button class="btn gray" data-act="retry">' + _t('rematch') + '</button></div>';
       } else {
         if (S.level.kind === 's') {
           var n = +S.level.key;
-          html += n < C.TOTAL_STAGES ? '<button class="btn" data-act="next" data-test="next">스테이지 ' + (n + 1) + '</button>' : '<button class="btn" data-act="map">모든 스테이지 완료!</button>';
-          html += '<button class="btn tinted" data-act="challenge" data-test="send">이 판으로 친구에게 도전장</button>';
+          html += n < C.TOTAL_STAGES ? '<button class="btn" data-act="next" data-test="next" data-ncq-main="다음 스테이지">' + _t('stage_n', { n: n + 1 }) + '</button>' : '<button class="btn" data-act="map" data-ncq-main="스테이지 맵">' + _t('all_done') + '</button>';
+          html += '<button class="btn tinted" data-act="challenge" data-test="send">' + _t('challenge_board') + '</button>';
         } else {
-          html += '<button class="btn pink" data-act="challenge" data-test="send">친구에게 도전장 보내기</button>';
-          html += '<button class="btn tinted" data-act="share" data-test="share">오늘 결과 공유</button>';
+          html += '<button class="btn pink" data-act="challenge" data-test="send" data-ncq-main="도전장 보내기">' + _t('send_challenge') + '</button>';
+          html += '<button class="btn tinted" data-act="share" data-test="share">' + _t('share_today') + '</button>';
         }
       }
-      if (S.level.picture && r.newPic) html += '<p class="meta" style="margin:0">그림 도감에 추가했어요</p>';
-      html += '<button class="btn gray" data-act="home">' + (S.level.kind === 's' && !ch ? '스테이지 맵' : '홈으로') + '</button>';
+      if (S.level.picture && r.newPic) html += '<p class="meta" style="margin:0">' + _t('added_gallery_full') + '</p>';
+      html += '<button class="btn gray" data-act="home">' + _t(S.level.kind === 's' && !ch ? 'stage_map' : 'to_home') + '</button>';
     }
     $('sheet').innerHTML = html;
     $('sheetBg').classList.add('on');
@@ -1946,19 +2147,20 @@
     }
     if (act === 'map') showMap();
     if (act === 'goldtime') {
-      if (store.gold < TIME_COST) { toast('골드가 모자라요 · 골드 세트를 둘러보세요'); openShop('fail'); return; }
+      if (store.gold < TIME_COST && NO_SHOP) { toast(_t('gold_short_toss')); return; }
+      if (store.gold < TIME_COST) { toast(_t('gold_short')); openShop('fail'); return; }
       store.gold -= TIME_COST; save(); S.goldSpent = (S.goldSpent || 0) + TIME_COST;
       closeSheet(); S.over = false; S.mode = 'play'; lastHearts = -1;
       var tg = elapsed(); S.bonus = Math.max(S.bonus, tg - S.level.timeLimit * 1000) + TIME_ADD; S.lastFrame = performance.now();
-      toast('30초 추가! · ' + TIME_COST + '골드 사용'); SFX.unlock && SFX.unlock(); updateHud(tg); loop();
+      toast(_t('plus30', { cost: TIME_COST })); SFX.unlock && SFX.unlock(); updateHud(tg); loop();
     }
-    if (act === 'buy' && !TEST_FAKESHOP) { toast('골드 세트는 곧 열려요 · 지금은 스테이지 보상으로 모아요'); return; }
+    if (act === 'buy' && !TEST_FAKESHOP) { toast(_t('shop_soon')); return; }
     if (act === 'buy') buyPack(b.getAttribute('data-pack'));
-    if (act === 'buy' && S && S.shopFrom === 'fail') { openResult(false, '시간이 다 됐어요'); return; }
+    if (act === 'buy' && S && S.shopFrom === 'fail') { openResult(false, 'time'); return; }
     if (act === 'buy') openShop('home');
     if (act === 'closeshop') { closeSheet(); drawGold(); }
-    if (act === 'backfail') openResult(false, '시간이 다 됐어요');
-    if (act === 'lifead') showRewarded(function () { return NcqAds.rewarded('LIFE'); }).then(function (ok) { if (!ok) { toast('광고를 끝까지 보면 목숨을 받아요'); return; } lifeTick(); store.lives = Math.min(LIFE_MAX, store.lives + 1); save(); toast('목숨 +1'); showHome(); });
+    if (act === 'backfail') openResult(false, 'time');
+    if (act === 'lifead') showRewarded(function () { return NcqAds.rewarded('LIFE'); }).then(function (ok) { if (!ok) { toast(_t('life_ad_need')); return; } lifeTick(); store.lives = Math.min(LIFE_MAX, store.lives + 1); save(); toast(_t('life_plus')); showHome(); });
     if (act === 'tohome') showHome();
     if (act === 'closepic') closeSheet();
     if (act === 'reset-yes') {
@@ -1967,29 +2169,29 @@
       Object.keys(store).forEach(function (k) { delete store[k]; });
       Object.assign(store, freshStore(), { sound: sound, melody: melody });
       save(); S = null; rounds = 0;
-      showHome(); toast('처음 상태로 초기화했어요');
+      showHome(); toast(_t('reset_done'));
     }
     if (act === 'reset-no') closeSheet();
     if (act === 'intro') { (S.fresh || []).forEach(function (k) { store.seen[k] = true; }); save(); closeSheet(); beginRound(); }
     if (act === 'continue') {
-      showRewarded(function () { return NcqAds.rewarded('CONTINUE'); }).then(function (ok) { if (ok) continueRun(); else toast('광고를 끝까지 보면 이어할 수 있어요'); });
+      showRewarded(function () { return NcqAds.rewarded('CONTINUE'); }).then(function (ok) { if (ok) continueRun(); else toast(_t('continue_need')); });
     }
     function continueRun() {
       S.continued = true; closeSheet(); S.over = false; S.mode = 'play';
       S.hearts = Math.max(S.hearts, 1); lastHearts = -1;
       var t = elapsed(); S.bonus = Math.max(S.bonus, t - S.level.timeLimit * 1000) + 15000; S.lastFrame = performance.now();
-      toast('이어서 해요 · 하트 +1, 15초'); updateHud(t); loop();
+      toast(_t('continued')); updateHud(t); loop();
     }
     if (act === 'retry') start(S.level.kind, S.level.key, S.challenge);
     if (act === 'next') { var nx = String(+S.level.key + 1); afterClearAd().then(function () { start('s', nx, null); }); }
     if (act === 'challenge') {
       var url = myChallengeLink();
-      var who = store.name ? '' : ' (홈에서 이름을 넣으면 도전장에 표시돼요)';
-      shareOut('🏹 쏙쏙 화살 도전장! ' + stageLabel(S.level.kind, S.level.key) + ' 내 기록 ' + C.fmtTime(S.result.time) + ' · 실수 ' + S.result.mistakes + ', 같은 판으로 이겨봐', url, '도전장 링크를 복사했어요' + who);
+      var who = store.name ? '' : _t('name_hint');
+      shareOut(_t('challenge_share', { stage: stageLabel(S.level.kind, S.level.key), time: C.fmtTime(S.result.time), mistakes: _t('mistakes_n', { n: S.result.mistakes }) }), url, _t('link_copied') + who);
     }
     if (act === 'share') {
       var link = myChallengeLink();
-      shareOut(C.shareText({ kind: S.level.kind, key: S.level.key, time: S.result.time, mistakes: S.result.mistakes, taps: S.taps, url: link }), null, '결과를 복사했어요');
+      shareOut(C.shareText({ kind: S.level.kind, key: S.level.key, time: S.result.time, mistakes: S.result.mistakes, taps: S.taps, url: link, title: stageLabel(S.level.kind, S.level.key), mistakesText: _t('mistakes_n', { n: S.result.mistakes }), invite: _t('share_invite'), appName: _t('app_name') }), null, _t('result_copied'));
     }
     if (act === 'replay') playReplay();
   });
@@ -2017,7 +2219,7 @@
     var ch = S.challenge, taps = C.decodeReplay(ch.replay), keepResult = S.result, keepTaps = S.taps;
     S.removed = {}; S.left = S.level.arrows.length; S.mode = 'replay'; S.over = false;
     renderBoard(S.level);
-    $('replayTag').textContent = ch.name + '님의 풀이 · 2배속'; $('replayTag').classList.add('on');
+    $('replayTag').textContent = _t('replay_tag', { name: ch.name }); $('replayTag').classList.add('on');
     $('race').classList.remove('on'); $('hintBtn').style.visibility = 'hidden';
     $('hearts').innerHTML = ''; lastHearts = -1; $('status').textContent = '';
     var speed = 2; S.replayTimers = [];
@@ -2060,7 +2262,7 @@
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
   if (!TEST_RESET) { var rb = $('resetBtn'); rb.parentNode.nextElementSibling.hidden = true; rb.parentNode.hidden = true; }
-  $('verLine').textContent = '쏙쏙 화살 ' + ((window.NCQ && window.NCQ.NCQ_VERSION) ? 'v' + window.NCQ.NCQ_VERSION : '개발 버전');
+  drawVersion();
   // Toss back button (Android back / ‹): close a sheet, then step back one screen; false on the lobby lets Toss ask to quit
   window.ncqBack = function () {
     if ($('sheetBg').classList.contains('on')) {
@@ -2089,7 +2291,13 @@
   };
 
   showHome();
-})();
+  L.onChange(relang);
+};
+</script>
+<script type="module">
+  import { NcqLang } from './ncq/lang.js';
+  NcqLang.init({ id: 'ssokssok-arrow', texts: window.ARROW_TEXTS });
+  window.__arrowBoot();
 </script>
 </body>
 </html>

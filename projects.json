@@ -22,6 +22,17 @@
     "developer": "Heo-SD"
   },
   {
+    "codename": "billiards-pvp",
+    "name": "당구 : PVP 3구 4구 포켓볼",
+    "summary": "세로 화면으로 즐기는 실사 3D 당구. 3구, 4구, 포켓볼 온라인 대전",
+    "pitch": "3구, 4구, 포켓볼을 세로 화면 하나로 즐기는 실사 3D 당구 게임이에요. 온라인 대전으로 Rating을 올리고, 방 코드로 친구와 겨루고, 110개의 1큐 스테이지에 도전해 보세요.",
+    "status": "개발 중",
+    "created": "2026-11-09",
+    "updated": "2026-11-09",
+    "version": "",
+    "developer": "ncroquis-dev"
+  },
+  {
     "codename": "matjjangomok",
     "name": "맞짱 오목",
     "summary": "친구와 방 링크로 바로 만나는 실시간 1대1 오목",

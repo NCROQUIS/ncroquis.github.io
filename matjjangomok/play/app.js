@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=c0664e6eb397";
-import { TEXTS } from "./texts.js?v=c0664e6eb397";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=c0664e6eb397";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=c0664e6eb397";
+import { NcqBoard } from "./ncq/board.js?v=415ecb9c0c8e";
+import { TEXTS } from "./texts.js?v=415ecb9c0c8e";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=415ecb9c0c8e";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=415ecb9c0c8e";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -13,7 +13,12 @@ const recordsKey = "matjjangomok.records";
 const appearanceKey = "matjjangomok.appearance";
 const nicknameKey = "matjjangomok.nickname";
 const stoneSoundKey = "matjjangomok.stoneSound";
-const starterCoins = 300;
+const matchAdsKey = "matjjangomok.matchAds";
+const matchAdCooldown = 90_000;
+const NcqAds = window.NcqAds;
+let matchAds = { freeRounds: [], lastShownAt: 0, lastAttemptedRound: null };
+let resultAdRound = null;
+const starterCoins = 0;
 const skinPrices = {
   stones: { reference: 0, classic: 0, glossy: 120, gilded: 250 },
   board: { reference: 0, classic: 0, wood: 120, gilded: 250 },
@@ -168,6 +173,9 @@ window.ncqBack = () => {
   return true;
 };
 const stoneSoundToggle = el("stone-sound");
+const adPrivacy = el("ad-privacy");
+NcqAds?.ready().then(() => { adPrivacy.hidden = !NcqAds.privacyRequired(); }).catch(() => {});
+adPrivacy.addEventListener("click", () => NcqAds?.showPrivacyOptions());
 try { stoneSoundToggle.checked = localStorage.getItem(stoneSoundKey) !== "off"; } catch { }
 stoneSoundToggle.addEventListener("change", () => {
   if (stoneSoundToggle.checked) unlockPlacementAudio();
@@ -987,7 +995,7 @@ function winRate({ wins, draws, losses }) {
     : "—";
 }
 
-function renderPromotionMeter(meterId, prefix, rating, previousRating = rating) {
+function renderPromotionMeter(meterId, prefix, rating, { previousRating = rating, showSigns = true } = {}) {
   const level = rankLevel(rating);
   const canDemote = level > 0;
   const canPromote = level < 26;
@@ -996,11 +1004,12 @@ function renderPromotionMeter(meterId, prefix, rating, previousRating = rating) 
   const center = (lower + upper) / 2;
   const position = score => Math.max(0, Math.min(100, 100 * (score - lower) / (upper - lower)));
   const signed = new Intl.NumberFormat(NcqLang.lang, { signDisplay: "exceptZero" });
-  const value = signed.format(rating - center);
+  const displayNumber = showSigns ? signed : new Intl.NumberFormat(NcqLang.lang, { signDisplay: "never" });
+  const currentOffset = rating - center;
+  const lowerOffset = lower - center;
+  const upperOffset = upper - center;
   const lowLabel = canDemote ? t("demotion") : t("lowestRank");
   const highLabel = canPromote ? t("promotion") : t("highestRank");
-  const lowTick = canDemote ? signed.format(lower - center) : "—";
-  const highTick = canPromote ? signed.format(upper - center) : "—";
   const meter = el(meterId);
   const from = position(previousRating);
   const to = position(rating);
@@ -1008,12 +1017,18 @@ function renderPromotionMeter(meterId, prefix, rating, previousRating = rating) 
   meter.style.setProperty("--promotion-start", `${from}%`);
   meter.style.setProperty("--promotion-fill", (to - 50) / 50);
   meter.style.setProperty("--promotion-fill-start", (from - 50) / 50);
-  meter.setAttribute("aria-label", t("promotionMeter", { value, lowLabel, lowTick, highLabel, highTick }));
-  el(`${prefix}-value`).textContent = value;
+  meter.setAttribute("aria-label", t("promotionMeter", {
+    value: signed.format(currentOffset),
+    lowLabel,
+    lowTick: canDemote ? signed.format(lowerOffset) : "—",
+    highLabel,
+    highTick: canPromote ? signed.format(upperOffset) : "—",
+  }));
+  el(`${prefix}-value`).textContent = displayNumber.format(currentOffset);
   el(`${prefix}-lower-label`).textContent = lowLabel;
   el(`${prefix}-upper-label`).textContent = highLabel;
-  el(`${prefix}-lower`).textContent = lowTick;
-  el(`${prefix}-upper`).textContent = highTick;
+  el(`${prefix}-lower`).textContent = canDemote ? displayNumber.format(lowerOffset) : "—";
+  el(`${prefix}-upper`).textContent = canPromote ? displayNumber.format(upperOffset) : "—";
 }
 
 async function openPlayerProfile(seat) {
@@ -1307,7 +1322,7 @@ function renderResult(game) {
   deltaText.textContent = t("profileRatingValue", { rating: signed.format(delta) });
   const direction = delta > 0 ? "up" : delta < 0 ? "down" : "same";
   deltaText.dataset.direction = el("result-promotion-meter").dataset.direction = direction;
-  renderPromotionMeter("result-promotion-meter", "result-promotion", after, before);
+  renderPromotionMeter("result-promotion-meter", "result-promotion", after, { previousRating: before, showSigns: false });
 }
 
 function render() {
@@ -1544,6 +1559,57 @@ function renderSpectator({ game, closed, reconnecting, ply }) {
 const version = window.NCQ?.NCQ_VERSION;
 el("app-version").textContent = version ? "v" + version : "dev";
 
+function loadMatchAds() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(matchAdsKey));
+    if (Array.isArray(saved?.freeRounds) && Number.isFinite(saved.lastShownAt)) return saved;
+  } catch {}
+  return matchAds;
+}
+
+function saveMatchAds(next) {
+  matchAds = next;
+  try { localStorage.setItem(matchAdsKey, JSON.stringify(next)); } catch {}
+}
+
+function recordCompletedRound(roundKey) {
+  const progress = loadMatchAds();
+  if (progress.freeRounds.includes(roundKey)) return;
+  if (progress.freeRounds.length < 3) {
+    saveMatchAds({ ...progress, freeRounds: [...progress.freeRounds, roundKey] });
+    return;
+  }
+  resultAdRound = roundKey;
+}
+
+async function showMatchAd(roundKey) {
+  if (!NcqAds?.can("MATCH_END")) return;
+  const show = async () => {
+    if (document.hidden || room?.phase !== "finished" || `${room.code}:${room.round}` !== roundKey) return;
+    const progress = loadMatchAds();
+    if (progress.lastAttemptedRound === roundKey || Date.now() - progress.lastShownAt < matchAdCooldown) return;
+    saveMatchAds({ ...progress, lastAttemptedRound: roundKey });
+    const shell = document.querySelector(".shell");
+    shell.inert = true;
+    try {
+      stopPlacementSound();
+      // NCQ_ADS_MATCH_END: 대국 종료 전면 광고
+      if (await NcqAds.interstitial("MATCH_END")) saveMatchAds({ ...loadMatchAds(), lastShownAt: Date.now() });
+    } finally {
+      shell.inert = false;
+    }
+  };
+  try {
+    if (navigator.locks) {
+      await navigator.locks.request(matchAdsKey, { ifAvailable: true }, lock => lock && show());
+    } else {
+      await show();
+    }
+  } catch {
+    // Continue to the review if the ad cannot be displayed.
+  }
+}
+
 function applyState(next) {
   if (room?.code === next.code && next.version <= room.version) {
     if (next.version === room.version && next.players) room = { ...room, players: next.players };
@@ -1570,6 +1636,7 @@ function applyState(next) {
   if (room.phase === "finished" && tracked === roundKey) {
     sessionStorage.removeItem(metricKey);
     window.NcqMetrics?.levelEnd("online", room.winner ? room.winner === room.you : undefined);
+    if (room.moves.length) recordCompletedRound(roundKey);
   }
   if (room.phase === "finished" && !backend) saveRecord(room);
   render();
@@ -1592,6 +1659,7 @@ function exitRoom(message = "") {
   stream?.close();
   stream = null;
   connected = false;
+  resultAdRound = null;
   cancelPlacement();
   el("result").close();
   el("share").close();
@@ -2232,8 +2300,11 @@ el("review").addEventListener("click", event => {
     el("review").querySelector(ply ? '[data-step="previous"]' : '[data-step="next"]').focus();
   }
 });
-el("result").addEventListener("close", () => {
+el("result").addEventListener("close", async () => {
+  const roundKey = resultAdRound;
+  resultAdRound = null;
   render();
+  if (roundKey) await showMatchAd(roundKey);
   if (room?.phase === "finished") el("review-heading").focus();
 });
 el("share").addEventListener("close", render);

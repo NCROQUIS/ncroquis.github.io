@@ -29,12 +29,15 @@
  *   공유 테스트(웹): 진짜 결제 대신 '결제 자리' 화면 (돈은 나가지 않아요)
  *   인앱 상품을 끈 빌드: 아무것도 하지 않아요 (can은 false, buy는 바로 실패)
  * 게임 코드가 NcqIap을 부르기 전에는 결제 플러그인을 건드리지 않아요 (프로젝트가 직접 결제 코드를 써도 괜찮게).
+ * 지표 모듈(NcqMetrics)이 있으면 결제 기록을 보내요 (게임 코드는 할 일이 없어요): purchase_start(결제 시작)·purchase(지급한
+ * 새 구매: 스토어 가격 amount·통화 currency·개수 qty)·purchase_cancel(취소)·purchase_fail(실패 code)·purchase_restore(되찾음).
+ * 가격은 스토어가 보여 준 값이라 매출은 추정이에요. 오류가 나도 결제는 그대로예요.
  */
 (function (w, d) {
   "use strict";
   if (w.NcqIap && w.NcqIap.version) return; // 두 번 들어와도 하나만
 
-  var VERSION = 1;
+  var VERSION = 2;
   var LEDGER = "ncq-iap-v1"; // 지급한 구매 (같은 구매를 두 번 지급하지 않게)
   var SIM = "ncq-iap-sim-v1"; // 공유 테스트에서 '산 것으로 한' 비소모성 상품
   var KEEP = 120 * 86400000; // 지급 기록을 남겨 두는 기간
@@ -111,7 +114,7 @@
     var platform = String(ncq.NCQ_PLATFORM || "");
     var cfg = ncq.NCQ_STORE && typeof ncq.NCQ_STORE === "object" ? ncq.NCQ_STORE : null;
     var e = {ncq: ncq, cfg: cfg, platform: platform, sim: platform === "web", android: platform === "android" && !!cfg,
-             toss: platform === "toss" && !!cfg};
+             ios: platform === "ios" && !!cfg, toss: platform === "toss" && !!cfg};
     if (w.NCQ) seen = e;
     return e;
   }
@@ -309,6 +312,46 @@
     try { w.localStorage.setItem(SIM, JSON.stringify(list)); } catch (e) { /* 저장 못 해도 괜찮아요 */ }
   }
 
+  // ------------------------------------------------------------ 지표 (지표 모듈 NcqMetrics가 있으면 결제 기록을 보내요)
+  function note(name, k, extra) {
+    try {
+      var m = w.NcqMetrics;
+      if (!k || !m || typeof m._tool !== "function") return;
+      var p = {product: k, kind: typeOf(k) || st.learned[k] || ""};
+      if (extra) {
+        for (var x in extra) if (Object.prototype.hasOwnProperty.call(extra, x)) p[x] = extra[x];
+      }
+      m._tool(name, p);
+    } catch (e) { /* 지표 때문에 결제가 멈추면 안 돼요 */ }
+  }
+
+  /** 지급한 구매 기록: 새 구매(끝나지 않았던 구매 포함)는 purchase, 다시 설치해 되찾은 비소모성 상품은 purchase_restore */
+  function noteGrant(k, info) {
+    if (info && info.restored) return note("purchase_restore", k);
+    var shown = shelf[k] || {};
+    var extra = {qty: (info && info.quantity) || 1};
+    if (typeof shown.amount === "number" && isFinite(shown.amount)) {
+      extra.amount = shown.amount;
+      extra.currency = shown.currency || "";
+    }
+    if (info && info.test) extra.test = true;
+    if (info && info.recovered) extra.recovered = true;
+    note("purchase", k, extra);
+  }
+
+  /** 결제가 지급 없이 끝났을 때 (취소·실패). 성공은 지급할 때 적어요 */
+  function noteEnd(k, r) {
+    if (!r || r.ok) return;
+    if (r.code === "USER_CANCELED") note("purchase_cancel", k);
+    else note("purchase_fail", k, {code: String(r.code || "ERROR")});
+  }
+
+  /** 가격 글의 숫자 (토스 원화 '1,200원' → 1200). 숫자가 없으면 null */
+  function won(text) {
+    var n = parseInt(String(text == null ? "" : text).replace(/[^0-9]/g, ""), 10);
+    return isFinite(n) ? n : null;
+  }
+
   // ------------------------------------------------------------ 지급 (게임의 onGrant)
   /** 게임에 지급을 맡기고, 지급했으면 기록해요. 지급했으면 true (false를 돌려주거나 오류가 나면 false).
    * 같은 구매를 지급하는 중에 또 부르면 같은 결과를 기다려요 (두 번 지급하지 않게). */
@@ -326,6 +369,7 @@
       p = Promise.resolve(out).then(function (ok) {
         if (ok === false) return false;
         remember(id, k);
+        noteGrant(k, info);
         return true;
       }, function (e) {
         warn("onGrant에서 오류가 났어요 (" + k + ")", e);
@@ -389,10 +433,10 @@
   function connect(force) {
     if (st.conn) return st.conn;
     var e = env();
-    if (!e.sim && !e.android && !e.toss) return Promise.resolve(false);
+    if (!e.sim && !e.android && !e.ios && !e.toss) return Promise.resolve(false);
     if (!force && st.connAt && Date.now() - st.connAt < RETRY_GAP) return Promise.resolve(false);
     st.connAt = Date.now();
-    var step = e.sim ? Promise.resolve(true) : e.android ? serial(connectAndroid) : Promise.resolve(connectToss());
+    var step = e.sim ? Promise.resolve(true) : e.android || e.ios ? serial(connectNative) : Promise.resolve(connectToss());
     var p = step.then(function (ok) { return !!ok; }, function (err) {
       warn("결제를 준비하지 못했어요. 잠시 뒤 다시 해요", err);
       return false;
@@ -405,7 +449,7 @@
     return p;
   }
 
-  function connectAndroid() {
+  function connectNative() {
     var P = plugin();
     if (!P) {
       once("plugin", "결제 플러그인(@capgo/native-purchases)이 앱에 없어요. 출시 빌드가 넣어요 (프로젝트가 직접 Capacitor를 " +
@@ -418,10 +462,14 @@
         warn("결제 플러그인의 자동 마무리를 끄지 못했어요", err);
       }) : Promise.resolve();
     return setup.then(function () {
+      if (env().ios) {
+        if (typeof P.getUnfinishedTransactions !== "function" || typeof P.finishTransaction !== "function") return false;
+        if (typeof P.addListener === "function") P.addListener("transactionUpdated", checkAgain).then(noop, noop);
+      }
       if (typeof P.isBillingSupported !== "function") return true;
       return timed(P.isBillingSupported(), CALL_WAIT).then(function (r) {
         if (r && r.isBillingSupported === false) {
-          warn("지금은 이 기기에서 구글플레이 결제를 쓸 수 없어요. 잠시 뒤 다시 해요.");
+          warn("지금은 이 기기에서 " + (env().ios ? "App Store" : "구글플레이") + " 결제를 쓸 수 없어요. 잠시 뒤 다시 해요.");
           return false;
         }
         return true;
@@ -443,13 +491,13 @@
     if (st.loaded) return Promise.resolve(true);
     if (st.load) return st.load;
     var e = env();
-    if (!e.sim && !e.android && !e.toss) return Promise.resolve(false);
+    if (!e.sim && !e.android && !e.ios && !e.toss) return Promise.resolve(false);
     if (!force && st.loadAt && Date.now() - st.loadAt < RETRY_GAP) return Promise.resolve(false);
     st.loadAt = Date.now();
     st.load = connect(force).then(function (ok) {
       if (!ok) return false;
       if (e.sim) return true;
-      return serial(e.android ? loadAndroid : loadToss);
+      return serial(e.android || e.ios ? loadNative : loadToss);
     }).then(function (ok) {
       st.load = null;
       st.loaded = !!ok;
@@ -468,8 +516,9 @@
     return Object.keys(products()).filter(function (k) { return /^[A-Z0-9_]+$/.test(k); });
   }
 
-  function loadAndroid() {
+  function loadNative() {
     var P = plugin();
+    var store = env().ios ? "App Store" : "구글플레이";
     var keys = wanted();
     if (!keys.length) return true;
     var ids = keys.map(storeId);
@@ -479,19 +528,21 @@
         var k = id ? keyOfStore(id) : "";
         if (k && !shelf[k]) { // 구매 옵션마다 하나씩 와요: 첫 옵션의 가격을 보여 주고 그 옵션으로 결제해요
           shelf[k] = {sku: String(id), price: String(p.priceString || ""), title: String(p.title || ""),
-                      offer: p.offerToken ? String(p.offerToken) : ""};
+                      offer: p.offerToken ? String(p.offerToken) : "",
+                      amount: typeof p.price === "number" && isFinite(p.price) ? p.price : null,
+                      currency: String(p.currencyCode || "")};
         }
       });
       keys.forEach(function (k) {
-        if (!shelf[k]) once("missing-" + k, "구글플레이에 없거나 판매 중이 아닌 상품이라 숨겨요: " + storeId(k));
+        if (!shelf[k]) once("missing-" + k, store + "에 없거나 판매 중이 아닌 상품이라 숨겨요: " + storeId(k));
       });
       return true;
     }, function (err) {
       if (/not found/i.test(String((err && (err.message || err.code)) || err))) { // 스토어에 켠 상품이 하나도 없어요
-        keys.forEach(function (k) { once("missing-" + k, "구글플레이에 없거나 판매 중이 아닌 상품이라 숨겨요: " + storeId(k)); });
+        keys.forEach(function (k) { once("missing-" + k, store + "에 없거나 판매 중이 아닌 상품이라 숨겨요: " + storeId(k)); });
         return true;
       }
-      warn("구글플레이 상품 정보를 받지 못했어요. 잠시 뒤 다시 해요", err);
+      warn(store + " 상품 정보를 받지 못했어요. 잠시 뒤 다시 해요", err);
       return false;
     });
   }
@@ -515,7 +566,9 @@
         });
         if (hit) {
           shelf[k] = {sku: String(hit.sku), price: String(hit.displayAmount || ""), title: String(hit.displayName || ""),
-                      type: String(hit.type || "")};
+                      type: String(hit.type || ""),
+                      amount: typeof hit.amount === "number" && isFinite(hit.amount) ? hit.amount : won(hit.displayAmount),
+                      currency: "KRW"}; // 토스는 원화 결제만 (한국 계정)
         } else {
           once("missing-" + k, "앱인토스 콘솔에 없거나 노출하지 않은 상품이라 숨겨요: " + want + " (콘솔 상품 SKU를 출시 서버에 " +
             "알려 주면 release/toss/iap.json에 저장돼요)");
@@ -544,7 +597,7 @@
       return serial(function () {
         st.recovered = Date.now();
         var e = env();
-        var job = e.sim ? simRecover(all) : e.android ? androidRecover(all) : tossRecover(all);
+        var job = e.sim ? simRecover(all) : e.ios ? iosRecover(all) : e.android ? androidRecover(all) : tossRecover(all);
         return job.then(function (list) { return {ok: true, list: list}; }, function (err) {
           warn("끝나지 않은 구매를 찾지 못했어요. 다음에 다시 해요", err);
           st.recovered = 0; // 다음에 앱으로 돌아오면 바로 다시
@@ -574,6 +627,83 @@
       warn("구매를 마무리하지 못했어요. 다음에 앱을 열 때 다시 해요", e);
       st.recovered = 0;
       return false;
+    });
+  }
+
+  function iosEntitlements() {
+    return timed(plugin().getPurchases({productType: "inapp", onlyCurrentEntitlements: true}), CALL_WAIT).then(function (r) {
+      if (!r || !Array.isArray(r.purchases)) throw new Error("StoreKit 구매 목록을 읽지 못했어요.");
+      return r.purchases.filter(function (t) { return t && !t.revocationDate; });
+    });
+  }
+
+  function iosGrant(t, restored) {
+    var k = t && keyOfStore(t.productIdentifier);
+    var token = t && String(t.transactionId || "");
+    if (!k || !/^\d+$/.test(token) || t.revocationDate || (restored && typeOf(k) !== "non_consumable")) {
+      return Promise.resolve(false);
+    }
+    var ledger = "ios:" + token;
+    var grant = !restored && granted(ledger) ? Promise.resolve(true)
+      : deliver(k, ledger, {restored: restored, order: token, quantity: qty(t)});
+    return grant.then(function (ok) {
+      if (!ok) return false;
+      if (restored) return k;
+      return timed(plugin().finishTransaction({transactionId: token}), CALL_WAIT).then(function () { return k; }, function (e) {
+        warn("StoreKit 구매를 마무리하지 못했어요. 다음에 다시 해요", e);
+        checkAgain();
+        return k; // 지급 기록이 있어 다음 시도에는 마무리만 해요
+      });
+    });
+  }
+
+  function iosRecover(all) {
+    var done = [];
+    done.left = [];
+    done.waiting = [];
+    var P = plugin();
+    var ready = all ? timed(P.restorePurchases(), ORDER_WAIT) : Promise.resolve();
+    return ready.then(function () { return timed(P.getUnfinishedTransactions(), CALL_WAIT); }).then(function (r) {
+      if (!r || !Array.isArray(r.transactions)) throw new Error("StoreKit 미완료 거래를 읽지 못했어요.");
+      return each(r.transactions, function (t) {
+        return iosGrant(t, false).then(function (k) { if (k) done.push(k); else if (t) done.left.push(keyOfStore(t.productIdentifier)); });
+      });
+    }).then(function () {
+      if (!all) return;
+      return iosEntitlements().then(function (list) {
+        return each(list, function (t) {
+          return iosGrant(t, true).then(function (k) { if (k) done.push(k); });
+        });
+      });
+    }).then(function () { return done; });
+  }
+
+  function iosBuy(k, type) {
+    var P = plugin();
+    var id = storeId(k);
+    var before = type === "non_consumable" ? iosEntitlements() : Promise.resolve([]);
+    return before.then(function (list) {
+      var owned = list.find(function (t) { return t.productIdentifier === id; });
+      if (owned) return iosGrant(owned, true).then(function (got) {
+        return got ? result(true, k, null, {restored: true}) : failed(k, "NOT_GRANTED");
+      });
+      return timed(P.purchaseProduct({productIdentifier: id, productType: "inapp", quantity: 1,
+                                      isConsumable: type === "consumable", autoAcknowledgePurchases: false}), ORDER_WAIT)
+        .then(function (t) {
+          if (!t || t.productIdentifier !== id || !t.transactionId) {
+            checkAgain();
+            return failed(k, "CHECKING");
+          }
+          return iosGrant(t, false).then(function (got) { return got ? result(true, k) : failed(k, "NOT_GRANTED"); });
+        });
+    }).catch(function (err) {
+      var message = String(err && err.message || "");
+      if (/cancel/i.test(message)) return failed(k, "USER_CANCELED", err);
+      if (/pending|defer/i.test(message)) {
+        checkAgain();
+        return failed(k, "PENDING", err);
+      }
+      return failed(k, codeOf(err), err);
     });
   }
 
@@ -748,7 +878,7 @@
     if (!k) return false;
     var e = env();
     if (e.sim) return true;
-    if (!e.android && !e.toss) return false;
+    if (!e.android && !e.ios && !e.toss) return false;
     if (!st.loaded) load(false);
     return st.loaded && isOn(k) && !!shelf[k];
   }
@@ -778,19 +908,24 @@
       return Promise.resolve(failed(k, "NO_GRANT"));
     }
     st.busy = true;
+    note("purchase_start", k);
     return load(true).then(function () {
       if (!can(k)) return failed(k, "UNAVAILABLE");
       return serial(function () {
         if (env().sim) return simBuy(k, type);
+        if (env().ios) return iosBuy(k, type);
         if (env().android) return androidBuy(k, type);
         return tossBuy(k, type);
       });
     }).then(function (r) {
       st.busy = false;
+      noteEnd(k, r);
       return r;
     }, function (e) {
       st.busy = false;
-      return failed(k, codeOf(e), e);
+      var r = failed(k, codeOf(e), e);
+      noteEnd(k, r);
+      return r;
     });
   }
 
@@ -952,11 +1087,14 @@
     if (!k) return Promise.resolve(false);
     var e = env();
     if (e.sim) return Promise.resolve(readSim().indexOf(k) >= 0);
-    if (!e.android && !e.toss) return Promise.resolve(false);
+    if (!e.android && !e.ios && !e.toss) return Promise.resolve(false);
     if (st.busy) return Promise.resolve(ledgerHas(k)); // 결제 중에는 플러그인을 건드리지 않아요 (이 기기의 지급 기록으로)
     return connect(false).then(function (ok) {
       if (!ok) return ledgerHas(k);
       return serial(function () {
+        if (e.ios) return iosEntitlements().then(function (list) {
+          return list.some(function (t) { return t.productIdentifier === storeId(k); });
+        }, function () { return ledgerHas(k); });
         if (e.android) {
           return androidPurchases().then(function (list) { return !!findPurchase(list, storeId(k)); }, function (err) {
             warn("구글플레이 구매 목록을 받지 못해 이 기기의 지급 기록으로 답해요", err);
@@ -988,7 +1126,7 @@
                   price: (shelf[k] && shelf[k].price) || ""};
     });
     return {
-      version: VERSION, platform: e.platform, mode: e.sim ? "simulate" : e.android ? "googleplay" : e.toss ? "toss" : "off",
+      version: VERSION, platform: e.platform, mode: e.sim ? "simulate" : e.ios ? "appstore" : e.android ? "googleplay" : e.toss ? "toss" : "off",
       plugin: e.toss ? !!tossIap() : !!plugin(), ready: st.loaded, off: st.off, busy: st.busy, handler: !!st.handler,
       test: !!(e.cfg && e.cfg.test), products: items
     };

@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=c3aad2aa1e19";
-import { TEXTS } from "./texts.js?v=c3aad2aa1e19";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=c3aad2aa1e19";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=c3aad2aa1e19";
+import { NcqBoard } from "./ncq/board.js?v=e5482257de78";
+import { TEXTS } from "./texts.js?v=e5482257de78";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=e5482257de78";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=e5482257de78";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -13,7 +13,16 @@ const recordsKey = "matjjangomok.records";
 const appearanceKey = "matjjangomok.appearance";
 const nicknameKey = "matjjangomok.nickname";
 const stoneSoundKey = "matjjangomok.stoneSound";
-const appearance = loadAppearance();
+const starterCoins = 300;
+const skinPrices = {
+  stones: { reference: 0, classic: 0, glossy: 120, gilded: 250 },
+  board: { reference: 0, classic: 0, wood: 120, gilded: 250 },
+};
+const skinKinds = Object.keys(skinPrices);
+let shopState = loadShopState();
+let shopPreview = { ...shopState.appearance };
+let shopTab = "skins";
+let shopSaving = false;
 const board = el("board");
 const boardGrid = el("board-grid");
 const lastMoveMarker = el("last-move-marker");
@@ -32,6 +41,7 @@ let reviewPly = 0;
 let archive = null;
 let spectator = null;
 let lobbyView = "lobby";
+let recordsReturnView = "lobby";
 let recordsScope = recordsKey;
 let records = loadRecords();
 let recordFilter = "all";
@@ -88,7 +98,7 @@ const gaugeObserver = new ResizeObserver(entries => {
 for (const id of ["place-gauge", "opponent-gauge"]) gaugeObserver.observe(el(id));
 
 applyAppearance();
-const options = el("options");
+const shop = el("shop");
 const profileDialog = el("player-profile");
 const nicknameEdit = el("profile-nickname-edit");
 const nicknameEditor = el("profile-nickname-editor");
@@ -153,24 +163,48 @@ try {
 } catch {
   // A nickname can still be set for this visit.
 }
-el("show-options").addEventListener("click", () => {
-  options.showModal();
+const shopRadios = Array.from(shop.querySelectorAll('input[type="radio"]'));
+const skinCards = shopRadios.filter(input => input.name !== "grid").map(input => {
+  const label = input.closest("label");
+  const status = document.createElement("span");
+  const price = document.createElement("span");
+  status.className = "shop-skin-status";
+  price.className = "shop-skin-price";
+  label.append(status, price);
+  return { input, label, status, price };
+});
+el("show-shop").addEventListener("click", () => {
+  shopPreview = { ...shopState.appearance };
+  shopTab = "skins";
+  feedback("shop-feedback");
+  shop.showModal();
+  shop.querySelector(".shop-content").scrollTop = 0;
   render();
 });
-options.addEventListener("close", render);
-for (const input of options.querySelectorAll("input[type=radio]")) {
-  input.checked = appearance[input.name] === input.value;
-  input.addEventListener("change", () => {
-    if (!input.checked) return;
-    appearance[input.name] = input.value;
-    applyAppearance();
-    try {
-      localStorage.setItem(appearanceKey, JSON.stringify(appearance));
-    } catch {
-      // The selected style still applies for this visit.
-    }
+shop.addEventListener("close", render);
+for (const tab of ["currency", "skins"]) {
+  el("shop-tab-" + tab).addEventListener("click", () => {
+    shopTab = tab;
+    renderShop();
+    shop.querySelector(".shop-content").scrollTop = 0;
   });
 }
+for (const input of shopRadios) {
+  input.addEventListener("change", () => {
+    if (!input.checked) return;
+    shopPreview[input.name] = input.value;
+    feedback("shop-feedback");
+    renderShop();
+  });
+}
+el("shop-apply").addEventListener("click", () => saveShopSelection(false));
+el("shop-buy").addEventListener("click", () => saveShopSelection(true));
+window.addEventListener("storage", event => {
+  if (event.key !== appearanceKey && event.key !== null) return;
+  shopState = loadShopState();
+  applyAppearance();
+  if (shop.open) renderShop();
+});
 
 for (let row = 0; row < size; row += 1) {
   const rowEl = document.createElement("div");
@@ -201,20 +235,123 @@ for (const language of NcqLang.list()) {
 el("language").addEventListener("change", event => NcqLang.set(event.target.value));
 NcqLang.onChange(render);
 
-function loadAppearance() {
+function loadShopState(fallback) {
   let saved;
-  try { saved = JSON.parse(localStorage.getItem(appearanceKey)); } catch { }
-  return {
-    stones: ["classic", "glossy", "gilded"].includes(saved?.stones) ? saved.stones : "reference",
-    board: ["classic", "wood", "gilded"].includes(saved?.board) ? saved.board : "reference",
+  try { saved = JSON.parse(localStorage.getItem(appearanceKey)); } catch {}
+  if (!saved && fallback) return fallback;
+  const appearance = {
+    stones: Object.hasOwn(skinPrices.stones, saved?.stones) ? saved.stones : "reference",
+    board: Object.hasOwn(skinPrices.board, saved?.board) ? saved.board : "reference",
     grid: saved?.grid === "soft" ? "soft" : "engraved",
+  };
+  const ownedSkins = Array.isArray(saved?.ownedSkins) ? saved.ownedSkins
+    // The previous version only saved the equipped styles. Keep them available.
+    : skinKinds.filter(kind => skinPrices[kind][appearance[kind]] > 0)
+      .map(kind => kind + ":" + appearance[kind]);
+  return {
+    appearance,
+    ownedSkins,
+    coins: Number.isSafeInteger(saved?.coins) && saved.coins >= 0 ? saved.coins : starterCoins,
   };
 }
 
+function setAppearanceTheme(element, appearance) {
+  element.dataset.stoneStyle = appearance.stones;
+  element.dataset.boardStyle = appearance.board;
+  element.dataset.gridStyle = appearance.grid;
+}
+
 function applyAppearance() {
-  document.documentElement.dataset.stoneStyle = appearance.stones;
-  document.documentElement.dataset.boardStyle = appearance.board;
-  document.documentElement.dataset.gridStyle = appearance.grid;
+  setAppearanceTheme(document.documentElement, shopState.appearance);
+}
+
+function ownsSkin(state, kind, style) {
+  return skinPrices[kind][style] === 0 || state.ownedSkins.includes(kind + ":" + style);
+}
+
+function shopPurchase(selection, state) {
+  const locked = skinKinds.filter(kind => !ownsSkin(state, kind, selection[kind]));
+  return {
+    skins: locked.map(kind => kind + ":" + selection[kind]),
+    price: locked.reduce((sum, kind) => sum + skinPrices[kind][selection[kind]], 0),
+  };
+}
+
+function renderShop() {
+  const skins = shopTab === "skins";
+  el("shop-tab-skins").setAttribute("aria-pressed", String(skins));
+  el("shop-tab-currency").setAttribute("aria-pressed", String(!skins));
+  el("shop-skins").hidden = el("shop-actions").hidden = !skins;
+  el("shop-currency").hidden = skins;
+  el("shop-balance").textContent = NcqLang.num(shopState.coins);
+  el("shop-currency-amount").textContent = NcqLang.num(shopState.coins);
+  el("shop-starter").textContent = t("shopStarter", { n: NcqLang.num(starterCoins) });
+  setAppearanceTheme(el("appearance-preview"), shopPreview);
+  for (const input of shopRadios) {
+    input.checked = shopPreview[input.name] === input.value;
+    input.disabled = shopSaving;
+  }
+  for (const { input, label, status, price } of skinCards) {
+    const { name, value, checked } = input;
+    const applied = shopState.appearance[name] === value;
+    const owned = ownsSkin(shopState, name, value);
+    label.toggleAttribute("data-locked", !owned);
+    label.toggleAttribute("data-applied", applied);
+    status.textContent = t(!owned ? (checked ? "shopSelectedLocked" : "shopLocked")
+      : applied ? "shopApplied" : checked ? "shopSelected" : "shopOwned");
+    price.hidden = owned;
+    price.textContent = owned ? "" : t("shopPrice", { n: NcqLang.num(skinPrices[name][value]) });
+  }
+  const { price } = shopPurchase(shopPreview, shopState);
+  const changed = Object.keys(shopPreview).some(kind => shopPreview[kind] !== shopState.appearance[kind]);
+  const enough = price <= shopState.coins;
+  el("shop-apply").disabled = shopSaving || !changed || price > 0;
+  el("shop-buy").disabled = shopSaving || !price || !enough;
+  el("shop-buy").textContent = price ? t("shopBuyPrice", { n: NcqLang.num(price) }) : t("shopBuy");
+  el("shop-preview-guide").textContent = t(price ? (enough ? "shopLockedPreview" : "shopNotEnough") : "shopPreviewGuide");
+  const status = el("shop-feedback");
+  if (!status.hidden) status.textContent = t(status.dataset.message);
+}
+
+async function saveShopSelection(buy) {
+  if (shopSaving) return;
+  const selection = { ...shopPreview };
+  shopSaving = true;
+  renderShop();
+  const save = () => {
+    const state = loadShopState(shopState);
+    const { skins, price } = shopPurchase(selection, state);
+    if ((buy && (!price || price > state.coins)) || (!buy && price)) {
+      shopState = state;
+      return;
+    }
+    const next = buy
+      ? { ...state, coins: state.coins - price, ownedSkins: [...state.ownedSkins, ...skins] }
+      : { ...state, appearance: selection };
+    try {
+      localStorage.setItem(appearanceKey, JSON.stringify({
+        ...next.appearance, coins: next.coins, ownedSkins: next.ownedSkins,
+      }));
+      feedback("shop-feedback", buy ? "shopPurchased" : "shopApplied");
+    } catch {
+      if (buy) {
+        feedback("shop-feedback", "shopSaveFailed", true);
+        return;
+      }
+      feedback("shop-feedback", "shopAppliedTemporarily");
+    }
+    shopState = next;
+  };
+  try {
+    if (navigator.locks) await navigator.locks.request(appearanceKey, save);
+    else save();
+  } catch {
+    feedback("shop-feedback", "shopSaveFailed", true);
+  } finally {
+    shopSaving = false;
+    applyAppearance();
+    if (shop.open) renderShop();
+  }
 }
 
 function unlockPlacementAudio() {
@@ -387,7 +524,10 @@ function renderPlayers(game, playing, watching = false) {
   if (reviewing) return;
   if (!playing) {
     for (const [color, seat] of [["black", 1], ["white", 2]]) {
-      el(color + "-player-label").textContent = watching ? t(color) : game.you === seat ? ownNickname() : t("opponent");
+      const profile = recordPlayer(game, watching && game.black === 2 ? 3 - seat : seat);
+      const publicName = [recordRank(profile), profile.savedName].filter(Boolean).join(" ");
+      el(color + "-player-label").textContent = watching ? (profile.savedName ? publicName : t(color))
+        : game.you === seat ? ownNickname() : profile.name;
       el(color + "-profile").disabled = watching || (game.phase === "waiting" && game.you !== seat);
     }
     return;
@@ -403,9 +543,13 @@ function renderPlayers(game, playing, watching = false) {
   el("own-nickname").textContent = nickname;
   el("own-nickname").title = nickname;
   renderOwnRank();
+  const opponent = recordPlayer(game, 3 - game.you);
+  el("opponent-nickname").textContent = opponent.name;
+  el("opponent-nickname").title = opponent.name;
+  const rank = recordRank(opponent) || (game.botLevel == null ? "" : rankName(game.botLevel));
   const opponentRank = el("opponent-rank");
-  opponentRank.hidden = game.botLevel == null;
-  if (!opponentRank.hidden) opponentRank.textContent = rankName(game.botLevel);
+  opponentRank.hidden = !rank;
+  opponentRank.textContent = rank;
   for (const [side, seat] of [["own", game.you], ["opponent", 3 - game.you]]) {
     const color = colorName(seatColor(game, seat));
     const stone = el(side + "-stone");
@@ -460,21 +604,31 @@ function describeOutcome(game) {
   return !game.winner ? "draw" : game.winner === game.you ? "won" : "lost";
 }
 
-function recordResult(game) {
+const recordResultTexts = {
+  win: { neutral: "recordWin", won: "recordPersonalWin", lost: "recordPersonalLoss" },
+  timeout: { neutral: "recordTimeWin", won: "recordPersonalTimeWin", lost: "recordPersonalTimeLoss" },
+  resign: { neutral: "recordResignWin", won: "recordPersonalResignWin", lost: "recordPersonalResignLoss" },
+  disconnect: { neutral: "recordDisconnectWin", won: "recordPersonalDisconnectWin", lost: "recordPersonalDisconnectLoss" },
+  unknown: { neutral: "recordUnknownWin", won: "recordPersonalUnknownWin", lost: "recordPersonalUnknownLoss" },
+};
+
+function recordResult(game, { personal = false } = {}) {
   if (!game.winner) return t("draw");
   const reason = game.endReason;
-  const outcome = reason === "disconnect" ? "recordDisconnectWin"
-    : reason === "timeout" ? "recordTimeWin"
-    : reason === "resign" || game.actions?.some(action => action.type === "resign") ? "recordResignWin"
-    : reason === "win" || game.line?.length >= 5 ? "recordWin" : "recordUnknownWin";
-  return t(outcome, { color: sideName(game, game.winner) });
+  const ending = reason === "disconnect" || reason === "timeout" ? reason
+    : reason === "resign" || game.actions?.some(action => action.type === "resign") ? "resign"
+    : reason === "win" || game.line?.length >= 5 ? "win" : "unknown";
+  const labels = recordResultTexts[ending];
+  if (personal && !game.sharedView && (game.you === 1 || game.you === 2)) {
+    return t(labels[describeOutcome(game)]);
+  }
+  return t(labels.neutral, { color: sideName(game, game.winner) });
 }
 
 function recordPlayer(game, seat) {
   const profile = game.players?.find(player => player.seat === seat);
-  const bot = profile?.bot || (game.bot && seat !== game.you);
   const savedName = profile?.nickname || (profile?.guestCode ? t("recordGuest", { code: profile.guestCode }) : "");
-  return { ...profile, savedName, name: savedName || t(bot ? "recordBot" : seat === game.you ? "you" : "opponent") };
+  return { ...profile, savedName, name: savedName || t(seat === game.you ? "you" : "opponent") };
 }
 
 function recordPhoto(profile) {
@@ -663,8 +817,7 @@ function renderReview(game) {
   favorite.dataset.recordId = id;
   markFavorite(favorite, recordFavorites().has(id));
   el("review-share").hidden = !game.sharedView && !recordVisibilityPath(game);
-  const winner = game.winner && recordPlayer(game, game.winner).savedName;
-  el("review-result").textContent = winner ? t("recordNamedResult", { name: winner, result: recordResult(game) }) : recordResult(game);
+  el("review-result").textContent = recordResult(game, { personal: true });
   el("review-mode").textContent = t(game.mode !== "tournament" && game.bot && !game.rule ? "recordBotMatch" : matchMode(game));
 }
 
@@ -825,11 +978,13 @@ function getOpponentProfile(code, round) {
 }
 
 function renderMatchIntro() {
-  const { opponentRating, opponentLevel } = matchIntro;
+  const { game, opponentLevel } = matchIntro;
+  const opponent = recordPlayer(room?.code === game.code ? room : game, 3 - game.you);
+  const opponentRating = matchIntro.opponentRating ?? opponent.rating;
   const ownRating = playerStats?.rating;
   el("match-intro-own-name").textContent = ownNickname();
   const level = Number.isFinite(opponentRating) ? rankLevel(opponentRating) : opponentLevel;
-  const name = t("opponent");
+  const name = opponent.name;
   el("match-intro-opponent-name").textContent = level == null ? name : `${rankName(level)} ${name}`;
   for (const [id, rating] of [["match-intro-own-rating", ownRating], ["match-intro-opponent-rating", opponentRating]]) {
     const label = el(id);
@@ -848,7 +1003,7 @@ function renderMatchIntro() {
 
 async function openMatchIntro(game) {
   if (game.phase !== "playing") return;
-  const intro = { opponentRating: null, opponentLevel: game.botLevel };
+  const intro = { game, opponentRating: null, opponentLevel: game.botLevel };
   matchIntro = intro;
   renderMatchIntro();
   matchIntroDialog.showModal();
@@ -868,7 +1023,7 @@ function renderPlayerProfile() {
   const { own, seat, online, loading, stats: opponentStats } = profileTarget;
   const stats = own ? playerStats : opponentStats;
   const game = room ?? archive;
-  const saved = seat && game?.phase === "finished" ? recordPlayer(game, seat) : null;
+  const saved = seat && game && (!own || game.phase === "finished") ? recordPlayer(game, seat) : null;
   const name = saved?.savedName || (own ? ownNickname() : t("opponent"));
   const title = el("player-profile-title");
   const status = el("profile-status");
@@ -1003,7 +1158,7 @@ function recordCard(game, saved) {
   const badge = row.querySelector(".record-outcome");
   badge.dataset.outcome = outcome;
   badge.textContent = t({ won: "winBadge", lost: "lossBadge", draw: "drawBadge" }[outcome]);
-  row.querySelector(".record-summary").textContent = recordDate(game.finishedAt) + " · " + recordResult(game);
+  row.querySelector(".record-summary").textContent = recordDate(game.finishedAt) + " · " + recordResult(game, { personal: true });
   const context = [recordRank(own), own.name].filter(Boolean).join(" ");
   row.querySelector(".record-context").textContent = context + (game.device ? " · " + t("deviceRecord") : "");
   drawRecordPreview(row.querySelector(".record-preview svg"), game);
@@ -1114,16 +1269,18 @@ function render() {
   el("review-header").hidden = !finished;
   el("review-opponent-profile").hidden = !finished || el("result").open;
   el("review-back").toggleAttribute("data-ncq-main", finished && !el("result").open && !profileDialog.open && !recordShareDialog.open);
-  el("show-options").hidden = Boolean(game);
+  el("show-shop").hidden = Boolean(game);
+  if (shop.open) renderShop();
   const nav = el("lobby-nav");
   nav.hidden = Boolean(game);
-  for (const button of nav.querySelectorAll("button")) {
+  for (const button of nav.querySelectorAll("button[aria-controls]")) {
     if (button.getAttribute("aria-controls") === lobbyView) button.setAttribute("aria-current", "page");
     else button.removeAttribute("aria-current");
     button.disabled = busy;
   }
-  const mainAction = !game && !matchmaking && !options.open && !ruleDialog.open && !profileDialog.open && !recordShareDialog.open;
+  const mainAction = !game && !matchmaking && !shop.open && !ruleDialog.open && !profileDialog.open && !recordShareDialog.open;
   el("start").disabled = busy || Boolean(matchmaking);
+  el("show-records").disabled = busy || Boolean(matchmaking);
   el("choose-rule").disabled = busy || Boolean(matchmaking) || availableRules.length < 2;
   el("choose-rule").toggleAttribute("data-ncq-main", mainAction && lobbyView === "lobby" && availableRules.length > 1);
   const rule = activeRule();
@@ -1143,9 +1300,12 @@ function render() {
   const attempts = tournamentStatus?.remaining;
   const attemptsLabel = el("tournament-attempts");
   el("tournament-entry").hidden = !canJoinTournament;
-  attemptsLabel.hidden = !Number.isInteger(attempts);
-  attemptsLabel.textContent = attempts === 0 ? t("tournamentLimit") :
-    t("tournamentAttempts", { remaining: attempts, limit: tournamentStatus?.dailyLimit });
+  attemptsLabel.hidden = attempts !== 0;
+  attemptsLabel.textContent = t("tournamentLimit");
+  joinTournament.textContent = Number.isInteger(attempts)
+    ? t("joinTournamentAttempts", { remaining: attempts, limit: tournamentStatus.dailyLimit })
+    : t("joinTournament");
+  el("tournament-records").disabled = busy || Boolean(matchmaking);
   joinTournament.disabled = busy || Boolean(matchmaking) || !(attempts > 0);
   const joinVisible = canJoinTournament && !joinTournament.disabled;
   joinTournament.toggleAttribute("data-ncq-main", mainAction && lobbyView === "tournament" && joinVisible);
@@ -1305,7 +1465,10 @@ const version = window.NCQ?.NCQ_VERSION;
 el("app-version").textContent = version ? "v" + version : "dev";
 
 function applyState(next) {
-  if (room?.code === next.code && next.version <= room.version) return;
+  if (room?.code === next.code && next.version <= room.version) {
+    if (next.version === room.version && next.players) room = { ...room, players: next.players };
+    return;
+  }
   const showResult = next.phase === "finished" && (room?.phase !== "finished" || room.round !== next.round);
   const placed = room?.code === next.code && room.round === next.round && room.phase === "playing"
     && next.moves.length === room.moves.length + 1 ? next.moves.at(-1) : null;
@@ -1659,7 +1822,7 @@ function requestCancel() {
 
 function startMatching(mode) {
   if (matchmaking || (mode === "tournament" && !(rankingResults.weekly?.result?.remaining > 0))) return;
-  const job = { canceled: false, mode, rule: mode === "tournament" ? "free" : activeRule() };
+  const job = { canceled: false, mode, rule: mode === "tournament" ? "renju" : activeRule() };
   matchmaking = job;
   feedback("lobby-error");
   render();
@@ -1696,27 +1859,33 @@ function openArchive(record) {
   el("review-heading").focus();
 }
 
-el("show-records").addEventListener("click", () => run(async () => {
-  if (backend) {
-    const result = await remoteRequest(client => client.gameRequest("/records"));
-    if (Array.isArray(result)) {
-      const device = [...loadRecords(), ...loadRecords(recordsKey)].map(game => [game.id, { ...game, device: true }]);
-      const combined = new Map([...device, ...result.map(game => [game.id, game])]);
-      records = [...combined.values()].sort((a, b) => new Date(b.finishedAt) - new Date(a.finishedAt));
+function showRecords() {
+  const source = lobbyView;
+  run(async () => {
+    if (backend) {
+      const result = await remoteRequest(client => client.gameRequest("/records"));
+      if (Array.isArray(result)) {
+        const device = [...loadRecords(), ...loadRecords(recordsKey)].map(game => [game.id, { ...game, device: true }]);
+        const combined = new Map([...device, ...result.map(game => [game.id, game])]);
+        records = [...combined.values()].sort((a, b) => new Date(b.finishedAt) - new Date(a.finishedAt));
+      }
+      return Array.isArray(result) ? {} : result;
     }
-    return Array.isArray(result) ? {} : result;
-  }
-  try {
-    await ensureIdentity();
-    return {};
-  } catch {
-    return { error: "authFailed" };
-  }
-}, () => {
-  lobbyView = "records";
-  render();
-  el("records-heading").focus();
-}));
+    try {
+      await ensureIdentity();
+      return {};
+    } catch {
+      return { error: "authFailed" };
+    }
+  }, () => {
+    recordsReturnView = source;
+    lobbyView = "records";
+    render();
+    el("records-heading").focus();
+  });
+}
+el("show-records").addEventListener("click", showRecords);
+el("tournament-records").addEventListener("click", showRecords);
 function showRankings() {
   lobbyView = "tournament";
   rankingTab = "weekly";
@@ -1844,14 +2013,22 @@ function renderRankings() {
 }
 function showLobby() {
   if (lobbyView === "lobby") return;
+  const fromRecords = lobbyView === "records";
   lobbyView = "lobby";
   feedback("lobby-error");
   render();
   refreshLobby();
-  el("lobby-heading").focus();
+  el(fromRecords ? "show-records" : "lobby-heading").focus();
 }
 el("show-lobby").addEventListener("click", showLobby);
-el("records-back").addEventListener("click", showLobby);
+el("records-back").addEventListener("click", () => {
+  if (recordsReturnView === "tournament") {
+    showRankings();
+    el("tournament-records").focus();
+  } else {
+    showLobby();
+  }
+});
 el("record-filters").addEventListener("click", event => {
   const button = event.target.closest("[data-filter]");
   if (!button) return;

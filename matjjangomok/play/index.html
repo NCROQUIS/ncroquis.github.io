@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=c3aad2aa1e19">
-  <script type="module" src="./app.js?v=c3aad2aa1e19"></script>
+  <link rel="stylesheet" href="./style.css?v=e5482257de78">
+  <script type="module" src="./app.js?v=e5482257de78"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -23,6 +23,11 @@
       </symbol>
       <symbol id="nav-records" viewBox="0 0 24 24">
         <path d="M7 3h13v16H7zM4 6v16h13M10 7h7m-7 4h7m-7 4h4"
+              fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="nav-friends" viewBox="0 0 24 24">
+        <circle cx="9" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M3 19v-2a6 6 0 0 1 12 0v2H3Zm13-15a3 3 0 0 1 0 6m1 3a5 5 0 0 1 4 5v1h-3"
               fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
       </symbol>
       <symbol id="records-person" viewBox="0 0 24 24">
@@ -62,7 +67,10 @@
         <span><span data-i18n="title">Omok Duel</span> <small id="app-version" class="version"></small></span>
       </div>
       <div class="header-tools">
-        <button id="show-options" class="quiet" type="button" data-i18n="options"></button>
+        <button id="show-shop" class="shop-button" type="button" aria-haspopup="dialog" aria-controls="shop">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 12H4L5 8Zm4 2V6a3 3 0 0 1 6 0v4m-5 5h4m-2-2v4"/></svg>
+          <span data-i18n="shop"></span>
+        </button>
         <label for="language" class="sr-only" data-i18n="language"></label>
         <select id="language"></select>
       </div>
@@ -113,6 +121,10 @@
             <span class="chevron" aria-hidden="true"></span>
           </button>
           <button id="start" class="primary" type="button" data-ncq-main="Start" data-i18n="start"></button>
+          <button id="show-records" class="secondary record-shortcut" type="button" aria-controls="records">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-records"/></svg>
+            <span data-i18n="records"></span>
+          </button>
         </div>
       </section>
 
@@ -138,8 +150,18 @@
           </div>
           <div id="tournament-entry" class="tournament-entry" hidden>
             <p id="tournament-attempts" class="list-count" role="status" hidden></p>
-            <div class="lobby-actions">
-              <button id="join-tournament" class="primary" type="button" data-i18n="joinTournament"></button>
+            <div class="lobby-actions match-request">
+              <button id="tournament-rule" class="secondary choose-rule" type="button" disabled
+                      data-i18n-attr="aria-label:tournamentRuleFixed">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7a4 4 0 0 1 8 0v3m-10 0h12v10H6z"
+                  fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                <span data-i18n="ruleRenju"></span>
+              </button>
+              <button id="join-tournament" class="primary" type="button"></button>
+              <button id="tournament-records" class="secondary record-shortcut" type="button" aria-controls="records">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-records"/></svg>
+                <span data-i18n="records"></span>
+              </button>
             </div>
           </div>
         </div>
@@ -247,7 +269,7 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
           </div>
           <button id="opponent-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
-            <strong data-i18n="opponent"></strong>
+            <strong id="opponent-nickname" dir="auto"></strong>
             <span class="seat"><span id="opponent-stone" class="stone" role="img"></span><span id="opponent-rank" hidden></span></span>
           </button>
           <span class="match-art-divider" aria-hidden="true"></span>
@@ -381,9 +403,12 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-play"/></svg>
         <span data-i18n="playTab"></span>
       </button>
-      <button id="show-records" type="button" aria-controls="records">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-records"/></svg>
-        <span data-i18n="records"></span>
+      <button class="lobby-nav-upcoming" type="button" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-friends"/></svg>
+        <span class="lobby-nav-label">
+          <span data-i18n="friends"></span>
+          <small data-i18n="comingSoon"></small>
+        </span>
       </button>
     </nav>
 
@@ -460,9 +485,28 @@
       </form>
     </dialog>
 
-    <dialog id="options" aria-labelledby="options-title">
+    <dialog id="shop" aria-labelledby="shop-title">
       <form method="dialog">
-        <h2 id="options-title" tabindex="-1" data-i18n="options" autofocus></h2>
+        <div class="shop-heading">
+          <h2 id="shop-title" tabindex="-1" data-i18n="shop" autofocus></h2>
+          <div class="shop-wallet"><span class="shop-coin" aria-hidden="true"></span>
+            <span data-i18n="shopBalance"></span><strong id="shop-balance"></strong>
+          </div>
+        </div>
+        <div class="shop-tabs" role="group" data-i18n-attr="aria-label:shop">
+          <button id="shop-tab-currency" type="button" aria-controls="shop-currency" aria-pressed="false" data-i18n="shopCurrency"></button>
+          <button id="shop-tab-skins" type="button" aria-controls="shop-skins" aria-pressed="true" data-i18n="shopSkins"></button>
+        </div>
+        <div class="shop-content">
+        <section id="shop-currency" aria-labelledby="shop-tab-currency" hidden>
+          <div class="shop-currency-card">
+            <span class="shop-coin" aria-hidden="true"></span>
+            <div><h3 data-i18n="shopCoins"></h3><strong id="shop-currency-amount"></strong></div>
+          </div>
+          <p data-i18n="shopCurrencyGuide"></p>
+          <p id="shop-starter"></p>
+        </section>
+        <section id="shop-skins" aria-labelledby="shop-tab-skins">
         <div class="appearance-preview-panel">
           <div id="appearance-preview" class="board appearance-preview" aria-hidden="true">
             <div class="board-grid appearance-preview-grid">
@@ -485,6 +529,7 @@
           </div>
           <div class="appearance-preview-controls">
             <h3 data-i18n="appearancePreview"></h3>
+            <p id="shop-preview-guide" data-i18n="shopPreviewGuide"></p>
             <fieldset class="appearance-group grid-choices">
               <legend data-i18n="gridStyle"></legend>
               <label class="grid-choice">
@@ -496,7 +541,7 @@
             </fieldset>
           </div>
         </div>
-        <div class="options-settings">
+        <div class="shop-settings">
           <fieldset class="appearance-group">
             <legend data-i18n="stoneStyle"></legend>
             <div class="appearance-choices">
@@ -552,7 +597,16 @@
             <input id="stone-sound" type="checkbox" checked>
           </label>
         </div>
-        <button class="primary" data-ncq-main="Close options" data-i18n="done"></button>
+        </section>
+        </div>
+        <div class="shop-footer">
+          <p id="shop-feedback" role="status" hidden></p>
+          <div id="shop-actions">
+            <button id="shop-apply" class="primary" type="button" data-i18n="shopApply" disabled></button>
+            <button id="shop-buy" class="secondary" type="button" disabled></button>
+          </div>
+          <button class="secondary" type="submit" data-ncq-main="Close shop" data-i18n="shopClose"></button>
+        </div>
       </form>
     </dialog>
 

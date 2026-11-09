@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<script src="ncq/safe.js"></script>
+<script src="ncq/device.js"></script>
+<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#e9f3f1">
+<title>2048 : Jelly</title>
+<link rel="stylesheet" href="src/fonts.css">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+<div class="app">
+  <!-- LOBBY -->
+  <section class="screen" id="lobby">
+    <header class="lob-top">
+      <div class="logo"><span class="num" id="logoNum" role="img"></span></div>
+      <button class="icon-btn" id="lobSet" type="button" data-i18n-attr="aria-label:settings" data-ic="gear"></button>
+    </header>
+    <div class="modes" id="modes"><div class="pages" id="pages"></div></div>
+    <div class="tabs" id="tabs">
+      <button class="tab" type="button" data-p="0" data-i18n-attr="aria-label:page_square" data-ic="grid"></button>
+      <button class="tab" type="button" data-p="1" data-i18n-attr="aria-label:page_tall" data-ic="gridTall"></button>
+    </div>
+    <div class="lob-actions">
+      <button class="act gold" id="btnRank" type="button" data-i18n-attr="aria-label:records" data-ic="trophy"></button>
+      <button class="act play" id="btnPlay" type="button" data-ncq-main="시작 버튼" aria-label="Play" data-ic="play"></button>
+      <button class="act dark" id="btnAch" type="button" data-i18n-attr="aria-label:achievements" data-ic="medal"></button>
+    </div>
+  </section>
+
+  <!-- GAME -->
+  <section class="screen" id="game" data-ncq-no-main hidden>
+    <div class="hud">
+      <div class="row1">
+        <div class="best"><span class="crown" data-ic="crown"></span><span data-i18n="best"></span><b id="best">0</b></div>
+        <button class="icon-btn" id="gameSet" type="button" data-i18n-attr="aria-label:settings" data-ic="gear"></button>
+      </div>
+      <div class="row2">
+        <button class="icon-btn" id="undoBtn" type="button" data-i18n-attr="aria-label:undo" data-ic="undo"></button>
+        <div class="cur" id="scoreBox"><span data-i18n="score"></span><b id="score">0</b></div>
+        <button class="icon-btn" id="restartBtn" type="button" data-i18n-attr="aria-label:restart" data-ic="restart"></button>
+      </div>
+    </div>
+    <div class="board-area" id="boardArea">
+      <div class="stage" id="stage">
+        <div class="tray" id="tray">
+          <div class="inner" id="board"></div>
+          <canvas class="fx" id="fx"></canvas>
+          <div id="comboLayer"></div>
+          <div class="overlay" id="overlay" hidden></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal" id="modal" hidden><div class="sheet" id="sheet" role="dialog" aria-modal="true"></div></div>
+  <div id="toastLayer"></div>
+</div>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

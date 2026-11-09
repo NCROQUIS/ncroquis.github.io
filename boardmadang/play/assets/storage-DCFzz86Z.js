@@ -1,1 +1,0 @@
-var e=(e,t)=>`board.${e}.${t}`;function t(t,n,r,i=()=>!0){try{let r=localStorage.getItem(e(t,n));if(r){let e=JSON.parse(r);if(i(e))return e}}catch{}return r}function n(t,n,r){try{localStorage.setItem(e(t,n),JSON.stringify(r))}catch{}}export{n,t};

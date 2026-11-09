@@ -205,7 +205,7 @@ with sync_playwright() as p:
     # 햅틱: 안드로이드(navigator.vibrate)와 토스(window.ncqHaptic) 경로
     for label, init in [("vibrate", "window.__h=[];navigator.vibrate=(p)=>{window.__h.push(JSON.stringify(p));return true};"),
                         ("toss", "window.__h=[];window.ncqHaptic=(t)=>window.__h.push(t);")]:
-        ctx = browser.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True)
+        ctx = browser.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True, locale="ko-KR")
         ctx.add_init_script(init)
         preset(ctx, {"tutorialDone": True})
         page = new_page(ctx, "haptic")
@@ -229,7 +229,7 @@ with sync_playwright() as p:
         ("9×9", {"tutorialDone": True}, "#btn-daily", [[5], [1, 5], [5, 9], [1, 5, 9], [9], [3, 9], [7]]),
         ("4×4", {}, "#btn-first", None),
     ]:
-        ctx = browser.new_context(viewport={"width": 390, "height": 844}, device_scale_factor=2)
+        ctx = browser.new_context(viewport={"width": 390, "height": 844}, device_scale_factor=2, locale="ko-KR")
         preset(ctx, data_)
         page = new_page(ctx, "notes")
         page.click(open_btn); page.wait_for_timeout(200)

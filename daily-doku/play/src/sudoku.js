@@ -1,4 +1,5 @@
 // 스도쿠 생성·풀이 로직 (DOM 없음 — 브라우저와 Node 테스트에서 함께 써요)
+import { t, fmtKey } from "./i18n.js";
 
 // 시드 난수 (mulberry32): 같은 시드면 어디서나 같은 문제가 나와요
 export function rng(seed) {
@@ -95,13 +96,13 @@ function makeSolution(rand) {
 
 // 난이도별 남길 단서 수 (적을수록 어려움)
 export const DIFFICULTY = {
-  easy:   { label: "쉬움",   clues: 42, target: 6 * 60 },
-  medium: { label: "보통",   clues: 34, target: 10 * 60 },
-  hard:   { label: "어려움", clues: 29, target: 15 * 60 },
-  expert: { label: "전문가", clues: 25, target: 22 * 60 },
-  intro:  { label: "9×9",   clues: 61, target: 4 * 60, hidden: true }, // 신규 유저 3단계 (클래식 목록에는 안 보여요)
-  mini4:  { label: "4×4",   clues: 10, target: 60, hidden: true },     // 신규 유저 1단계
-  mini6:  { label: "6×6",   clues: 24, target: 2 * 60, hidden: true }, // 신규 유저 2단계
+  easy:   { get label() { return t("diff_easy"); }, clues: 42, target: 6 * 60 },
+  medium: { get label() { return t("diff_medium"); }, clues: 34, target: 10 * 60 },
+  hard:   { get label() { return t("diff_hard"); }, clues: 29, target: 15 * 60 },
+  expert: { get label() { return t("diff_expert"); }, clues: 25, target: 22 * 60 },
+  intro:  { get label() { return t("diff_intro"); }, clues: 61, target: 4 * 60, hidden: true }, // 신규 유저 3단계 (클래식 목록에는 안 보여요)
+  mini4:  { get label() { return t("diff_mini4"); }, clues: 10, target: 60, hidden: true },     // 신규 유저 1단계
+  mini6:  { get label() { return t("diff_mini6"); }, clues: 24, target: 2 * 60, hidden: true }, // 신규 유저 2단계
 };
 export const INTRO_SEED = 20261104; // 첫 판은 모두 같은 문제
 
@@ -188,7 +189,6 @@ export function candidates(values) {
   });
 }
 
-const UNIT_NAME = { row: "가로줄", col: "세로줄", box: "박스" };
 // 숫자 뒤 조사: 1·3·6·7·8은 받침이 있어서 '이', 2·4·5·9는 '가'
 export const iga = (n) => `${n}${[1, 3, 6, 7, 8].includes(n) ? "이" : "가"}`;
 
@@ -204,7 +204,7 @@ export function findSingle(values) {
         const spots = u.cells.filter((i) => cand[i] & (1 << v));
         if (spots.length === 1) {
           return { cell: spots[0], value: v, kind: "hidden", unit: u,
-            text: `이 ${UNIT_NAME[kind]}에서 ${iga(v)} 들어갈 수 있는 자리는 여기 하나뿐이에요.` };
+            get text() { return t("hint_hidden", { unit: t("unit_" + kind), n: v, nIga: iga(v) }); } };
         }
       }
     }
@@ -213,7 +213,7 @@ export function findSingle(values) {
     if (values[i] || popcount(cand[i]) !== 1) continue;
     const v = Math.log2(cand[i]);
     return { cell: i, value: v, kind: "naked", unit: null,
-      text: `같은 가로줄·세로줄·박스에 다른 숫자가 모두 있어서 이 칸에는 ${v}만 들어갈 수 있어요.` };
+      get text() { return t("hint_naked", { n: v }); } };
   }
   return null;
 }
@@ -226,9 +226,8 @@ export function findLastCell(values) {
     if (empty.length !== 1) continue;
     const used = new Set(u.cells.map((i) => values[i]));
     for (let v = 1; v <= geo.n; v++) if (!used.has(v)) {
-      const name = { row: "가로줄", col: "세로줄", box: "박스" }[u.kind];
       return { cell: empty[0], value: v, kind: "last", unit: u,
-        text: `이 ${name}에는 빈칸이 하나만 남았어요. 빠진 숫자 ${iga(v)} 들어가요.` };
+        get text() { return t("hint_last", { unit: t("unit_" + u.kind), n: v, nIga: iga(v) }); } };
     }
   }
   return null;
@@ -354,14 +353,13 @@ export function formatTime(sec) {
 
 // Wordle식 결과 카드 문구 (박스별 실수 여부를 3x3 이모지로)
 export function shareText({ dateKey, seconds, mistakes, streak, starCount, boxMistakes, hinted }) {
-  const m = Math.floor(dateKey / 100) % 100, d = dateKey % 100;
-  const days = ["일", "월", "화", "수", "목", "금", "토"];
-  const dow = days[new Date(Date.UTC(Math.floor(dateKey / 10000), m - 1, d)).getUTCDay()];
   const grid = [0, 1, 2].map((r) => [0, 1, 2].map((c) => {
     const b = r * 3 + c;
     return boxMistakes[b] > 0 ? "🟨" : hinted[b] ? "🟦" : "🟩";
   }).join("")).join("\n");
-  return `데일리도쿠 ${m}/${d}(${dow}) ${"⭐".repeat(starCount)}\n⏱ ${formatTime(seconds)} · 실수 ${mistakes}\n${grid}\n🔥 ${streak}일 연속`;
+  const date = `${Math.floor(dateKey / 100) % 100}/${dateKey % 100}(${fmtKey(dateKey, { weekday: "short" })})`;
+  return t("share_text", { date, stars: "⭐".repeat(starCount), time: formatTime(seconds),
+    mistakes: t("share_mistakes", { n: mistakes }), grid, streak: t("share_streak", { n: streak }) });
 }
 
 // 날짜 키 → 다음 날 키
@@ -422,14 +420,14 @@ export function badges(data, today) {
   const months = new Set(Object.keys(daily).map((k) => Math.floor(k / 100)));
   const fullMonths = [...months].filter((ym) => monthProgress(daily, Math.floor(ym / 100), ym % 100, today).complete).length;
   return [
-    { id: "first", icon: "🌱", label: "첫 한 판", got: recs.length >= 1 },
-    { id: "perfect", icon: "⭐", label: "첫 별 3개", got: recs.some((r) => r.stars === 3) },
-    { id: "s3", icon: "🔥", label: "3일 연속", got: best >= 3 },
-    { id: "s7", icon: "🔥", label: "7일 연속", got: best >= 7 },
-    { id: "s30", icon: "🏆", label: "30일 연속", got: best >= 30 },
-    { id: "d10", icon: "📅", label: "10일 풀기", got: recs.length >= 10 },
-    { id: "d50", icon: "📅", label: "50일 풀기", got: recs.length >= 50 },
-    { id: "month", icon: "🗓️", label: "한 달 완주", got: fullMonths >= 1 },
-    { id: "classic10", icon: "🧩", label: "클래식 10판", got: (data.stats?.classicWon || 0) >= 10 },
+    { id: "first", icon: "🌱", label: t("badge_first"), got: recs.length >= 1 },
+    { id: "perfect", icon: "⭐", label: t("badge_perfect"), got: recs.some((r) => r.stars === 3) },
+    { id: "s3", icon: "🔥", label: t("badge_s3"), got: best >= 3 },
+    { id: "s7", icon: "🔥", label: t("badge_s7"), got: best >= 7 },
+    { id: "s30", icon: "🏆", label: t("badge_s30"), got: best >= 30 },
+    { id: "d10", icon: "📅", label: t("badge_d10"), got: recs.length >= 10 },
+    { id: "d50", icon: "📅", label: t("badge_d50"), got: recs.length >= 50 },
+    { id: "month", icon: "🗓️", label: t("badge_month"), got: fullMonths >= 1 },
+    { id: "classic10", icon: "🧩", label: t("badge_classic10"), got: (data.stats?.classicWon || 0) >= 10 },
   ];
 }

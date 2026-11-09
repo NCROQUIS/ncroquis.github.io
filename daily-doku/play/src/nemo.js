@@ -1,10 +1,12 @@
 // 오늘의 네모로직 화면 — 하루 1판 노노그램 (데일리도쿠 안의 두 번째 모드)
 // 손맛은 Nonogram.com 기준: 틀린 칸은 바로 고쳐 주고 실수로 세요, 줄을 다 칠하면 남은 칸에 ✕가 자동으로 들어가요,
 // 손가락으로 쭉 그으면 한 줄로 여러 칸을 한 번에 칠해요. 다 풀면 숨은 그림이 색으로 드러나요.
+import { NcqMetrics } from "./metrics.js";
 import { dailyNemo, findHint, nemoStars, nemoShareText, PALETTE } from "./nonogram.js";
 import { formatTime, computeStreak, rng } from "./sudoku.js";
 import { NcqAds } from "./ads.js";
 import { haptic } from "./haptic.js";
+import { t, fmtKey } from "./i18n.js";
 
 const $ = (id) => document.getElementById(id);
 let D = null;      // main.js가 넘겨주는 도구 (data, 화면 전환, 알림, 다이얼로그 …)
@@ -53,15 +55,15 @@ export function renderNemoCard() {
     const p = dailyNemo(k).pic;
     thumb.innerHTML = p.rows.join("").split("").map((c) => `<i style="background:${c === "." ? "transparent" : PALETTE[c]}"></i>`).join("");
     thumb.classList.add("solved");
-    $("nemo-card-sub").textContent = `${p.emoji} ${p.name} 완성 · ${"⭐".repeat(rec.stars)} ${formatTime(rec.seconds)}${st > 1 ? ` · 🔥${st}일` : ""}`;
-    btn.textContent = "결과 보기"; btn.className = "btn done";
+    $("nemo-card-sub").textContent = t("nemo_card_done", { emoji: p.emoji, pic: p.name, stars: "⭐".repeat(rec.stars), time: formatTime(rec.seconds) }) + (st > 1 ? t("nemo_card_streak", { n: st }) : "");
+    btn.textContent = t("see_result"); btn.className = "btn done";
   } else {
     // 답이 아닌 장식 무늬 (날짜 시드) — 오늘 그림의 힌트가 되지 않아요
     const r = rng((k * 7349) >>> 0);
     thumb.innerHTML = Array.from({ length: 100 }, () => `<i class="${r() < 0.28 ? "on" : ""}"></i>`).join("") + "<b>?</b>";
     thumb.classList.remove("solved");
-    $("nemo-card-sub").textContent = prog ? `풀던 그림이 있어요 · ${formatTime(prog.seconds)}` : `숫자 단서로 숨은 그림을 찾아요${st > 0 ? ` · 🔥${st}일 연속` : ""}`;
-    btn.textContent = prog ? "이어서 풀기" : "시작하기"; btn.className = "btn primary";
+    $("nemo-card-sub").textContent = prog ? t("nemo_card_resume", { time: formatTime(prog.seconds) }) : st > 0 ? t("nemo_card_sub_streak", { n: st }) : t("nemo_sub");
+    btn.textContent = prog ? t("continue_solving") : t("start"); btn.className = "btn primary";
   }
 }
 
@@ -81,6 +83,7 @@ export function openNemo() {
   $("nemo-cheat").classList.toggle("hidden", !D.isCheat());
   clearInterval(timer);
   timer = setInterval(tick, 1000);
+  NcqMetrics.levelStart("nemo");
   if (!nemo().introDone) showRules(true);
 }
 
@@ -121,10 +124,8 @@ function showRules(first) {
   body.className = "nemo-rules";
   body.innerHTML = `
     <div class="rule-demo" aria-hidden="true"><span class="rd-clue">3 1</span><i class="f"></i><i class="f"></i><i class="f"></i><i class="x">✕</i><i class="f"></i></div>
-    <p><b>줄 옆 숫자</b>는 그 줄에 연속으로 칠할 칸 수예요. <b>3 1</b>이면 3칸을 칠하고, 한 칸 이상 띄운 뒤 1칸을 칠해요.</p>
-    <p>확실히 비는 칸은 <b>✕</b>로 표시해 두면 편해요. 틀리면 바로 고쳐 주고 실수로 세요.</p>
-    <p>손가락으로 <b>쭉 그으면</b> 여러 칸을 한 번에 칠해요. 다 풀면 오늘의 <b>숨은 그림</b>이 나타나요!</p>`;
-  D.dialog(first ? "오늘의 네모로직" : "하는 방법", body, [[first ? "시작하기" : "알겠어요", () => { paused = false; }, "primary"]], () => { paused = false; });
+    ${t("nemo_rules")}`;
+  D.dialog(first ? t("nemo_title") : t("how_to"), body, [[first ? t("start") : t("got_it"), () => { paused = false; }, "primary"]], () => { paused = false; });
   if (first) { nemo().introDone = true; D.save(); }
 }
 
@@ -154,9 +155,10 @@ function build() {
   b.dataset.size = n;
   const maxRow = Math.max(...rows.map((x) => x.length)), maxCol = Math.max(...cols.map((x) => x.length));
   b.dataset.maxRow = maxRow; b.dataset.maxCol = maxCol;
-  const dt = new Date(Date.UTC(Math.floor(N.dateKey / 10000), Math.floor(N.dateKey / 100) % 100 - 1, N.dateKey % 100));
-  $("nemo-mode").textContent = `오늘의 네모로직 · ${dt.getUTCMonth() + 1}월 ${dt.getUTCDate()}일`;
+  $("nemo-mode").textContent = modeLabel();
 }
+
+function modeLabel() { return t("nemo_mode", { date: fmtKey(N.dateKey, { month: "short", day: "numeric" }) }); }
 
 // 화면 크기에 맞춰 칸 크기와 단서 칸 너비를 정해요
 function layout() {
@@ -191,7 +193,7 @@ function render() {
   const n = P.size;
   for (let r = 0; r < n; r++) b.querySelector(`.rc[data-r="${r}"]`).classList.toggle("ok", lineDone("row", r));
   for (let c = 0; c < n; c++) b.querySelector(`.cc[data-c="${c}"]`).classList.toggle("ok", lineDone("col", c));
-  $("nemo-mistakes").textContent = `실수 ${N.mistakes}`;
+  $("nemo-mistakes").textContent = t("mistakes_n", { n: N.mistakes });
   $("nemo-mistakes").classList.toggle("bad", N.mistakes > 0);
   $("nemo-time").textContent = formatTime(N.seconds);
   const hb = $("nemo-hint-badge");
@@ -327,7 +329,7 @@ function highlight(i) {
 async function useHint() {
   if (!N || N.done) return;
   if (data().hints <= 0) {
-    if (!NcqAds.can("HINT")) return D.toast("힌트를 다 썼어요");
+    if (!NcqAds.can("HINT")) return D.toast(t("toast_no_hints"));
     paused = true;
     // NCQ_ADS_HINT: 힌트 충전 보상형 광고
     const ok = await NcqAds.rewarded("HINT");
@@ -344,8 +346,8 @@ async function useHint() {
   N.cells[h.cell] = h.value ? 1 : 2;
   N.rowHinted[r]++; N.hints++;
   haptic("hint");
-  const where = h.kind === "row" ? `위에서 ${h.index + 1}번째 가로줄` : `왼쪽에서 ${h.index + 1}번째 세로줄`;
-  $("nemo-hint-text").innerHTML = `${where}의 단서 <b>${h.clue.join(" ")}</b>를 보면, 반짝이는 칸은 꼭 <b>${h.value ? "칠해야" : "비워야(✕)"}</b> 해요.`;
+  lastHint = h;
+  showHintText();
   $("nemo-hint-box").classList.remove("hidden");
   const b = $("nemo-board");
   b.querySelectorAll(".hint-line,.hint-cell").forEach((el) => el.classList.remove("hint-line", "hint-cell"));
@@ -356,6 +358,12 @@ async function useHint() {
   hintTimer = setTimeout(closeHintBox, 6000);
   afterChange(h.cell, was);
   persist();
+}
+let lastHint = null;
+function showHintText() {
+  const h = lastHint; if (!h) return;
+  const where = t(h.kind === "row" ? "nemo_hint_row" : "nemo_hint_col", { n: h.index + 1 });
+  $("nemo-hint-text").innerHTML = t("nemo_hint", { where, clue: h.clue.join(" "), what: t(h.value ? "nemo_hint_fill" : "nemo_hint_empty") });
 }
 function closeHintBox() {
   clearTimeout(hintTimer);
@@ -370,6 +378,7 @@ function win() {
   const k = N.dateKey;
   const rec = { seconds: N.seconds, mistakes: N.mistakes, stars: nemoStars(N.mistakes), rowMistakes: N.rowMistakes.slice(),
     rowHinted: N.rowHinted.slice(), hints: N.hints, pic: P.pic.id, solvedOn: D.today() };
+  NcqMetrics.levelEnd("nemo", true, { score: rec.stars });
   nemo().daily[k] = rec;
   delete nemo().progress[k];
   D.save();
@@ -385,7 +394,7 @@ function win() {
   b.classList.add("reveal");
   $("nemo-tools").classList.add("hidden");
   const rv = $("nemo-reveal");
-  rv.innerHTML = `<span>${P.pic.emoji}</span> 오늘의 그림은 <b>${P.pic.name}</b>!`;
+  rv.innerHTML = `<span>${P.pic.emoji}</span> ${t("nemo_reveal", { pic: P.pic.name })}`;
   rv.classList.remove("hidden");
   D.sfx.win(); haptic("win");
   setTimeout(() => { if ($("nemo").classList.contains("active")) showResult(rec, k, false); }, 1700);
@@ -406,15 +415,15 @@ function showResult(rec, k, fromHome) {
   const pic = dailyNemo(k).pic;
   const streak = computeStreak(nemo().daily, D.today()).current;
   $("nr-stars").innerHTML = [1, 2, 3].map((x) => `<span class="${x <= rec.stars ? "" : "off"}">⭐</span>`).join("");
-  $("nr-title").textContent = `${pic.emoji} ${pic.name} 완성!`;
+  $("nr-title").textContent = t("nemo_done", { emoji: pic.emoji, pic: pic.name });
   drawArt($("nr-art"), pic);
   $("nr-time").textContent = formatTime(rec.seconds);
   $("nr-mistakes").textContent = rec.mistakes;
-  $("nr-streak").textContent = `${streak}일`;
+  $("nr-streak").textContent = t("days_n", { n: streak });
   const text = nemoShareText({ dateKey: k, seconds: rec.seconds, mistakes: rec.mistakes, stars: rec.stars, rowMistakes: rec.rowMistakes, rowHinted: rec.rowHinted, streak });
   $("nr-preview").textContent = text;
   $("nr-share").onclick = () => share(text);
-  $("nr-close").textContent = fromHome ? "닫기" : "홈으로";
+  $("nr-close").textContent = fromHome ? t("close") : t("home");
   $("nemo-result").classList.remove("hidden");
 }
 
@@ -425,6 +434,17 @@ function closeResult() {
 
 async function share(text) {
   try { if (navigator.share) { await navigator.share({ text }); return; } } catch (e) { if (e?.name === "AbortError") return; }
-  try { await navigator.clipboard.writeText(text); D.toast("결과를 복사했어요. 대화방에 붙여 넣어 보세요"); return; } catch { /* 아래로 */ }
-  D.toast("공유할 수 없는 환경이에요. 미리보기 글을 길게 눌러 복사해 주세요");
+  try { await navigator.clipboard.writeText(text); D.toast(t("toast_copied")); return; } catch { /* 아래로 */ }
+  D.toast(t("toast_cant_share"));
+}
+
+// 언어가 바뀌면: 홈 카드와 네모로직 화면의 글자를 다시 그려요 (main.js의 NcqLang.onChange에서 불러요)
+export function nemoRelang() {
+  if (!D) return;
+  if ($("home").classList.contains("active")) renderNemoCard();
+  if (N && $("nemo").classList.contains("active")) {
+    $("nemo-mode").textContent = modeLabel();
+    render();
+    if (!$("nemo-hint-box").classList.contains("hidden")) showHintText();
+  }
 }

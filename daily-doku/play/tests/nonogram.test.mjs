@@ -1,6 +1,7 @@
 // 네모로직 엔진 검증: node --test tests/*.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
+import { NcqLang } from "../ncq/lang.js";
 import { PICTURES, PALETTE, solutionOf, lineClue, cluesOf, solveLine, lineSolve, isLineSolvable, findHint, dailyNemo, nemoStars, nemoShareText } from "../src/nonogram.js";
 
 test("그림은 모두 10x10이고 색이 정해져 있어요", () => {
@@ -66,7 +67,11 @@ test("오늘의 그림: 날짜마다 같고, 한 바퀴 안에서는 겹치지 �
 test("별·공유 글 (그림 이름은 나오지 않아요)", () => {
   assert.equal(nemoStars(0), 3); assert.equal(nemoStars(2), 2); assert.equal(nemoStars(5), 1);
   const t = dailyNemo(20261104);
+  NcqLang.set("ko");
   const text = nemoShareText({ dateKey: 20261104, seconds: 151, mistakes: 1, stars: 2, rowMistakes: [0, 1, 0, 0, 0, 0, 0, 0, 0, 0], rowHinted: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0], streak: 3 });
   assert.match(text, /11월 4일/); assert.match(text, /2:31/); assert.match(text, /🟩🟨🟦/);
   assert.ok(!text.includes(t.pic.name));
+  NcqLang.set("en");
+  const en = nemoShareText({ dateKey: 20261104, seconds: 151, mistakes: 0, stars: 3, rowMistakes: new Array(10).fill(0), rowHinted: new Array(10).fill(0), streak: 1 });
+  assert.match(en, /November 4/); assert.match(en, /0 mistakes/); assert.ok(!en.includes(t.pic.name));
 });

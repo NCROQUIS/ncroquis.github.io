@@ -141,7 +141,7 @@ with sync_playwright() as p:
             ctx.close()
 
     # 치트(테스트 기능)
-    ctx = browser.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True)
+    ctx = browser.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True, locale="ko-KR")
     page = ctx.new_page(); page.on("pageerror", lambda e: errors.append(f"cheat: {e}"))
     page.goto(BASE + "?cheat=1"); page.wait_for_timeout(300); page.click("#btn-start")
     page.click("#btn-nemo"); page.wait_for_timeout(200); page.click("#dialog-actions .btn")

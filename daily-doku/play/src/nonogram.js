@@ -2,6 +2,7 @@
 // 오늘의 네모로직은 KST 날짜로 그림을 골라서 모두 같은 문제를 받아요.
 // 모든 그림은 '줄 단위 논리만으로(추측 없이)' 풀리는지 tests/nonogram.test.mjs에서 검증해요.
 import { rng } from "./sudoku.js";
+import { t, fmtKey } from "./i18n.js";
 
 // 그림 색 (풀 때는 모두 같은 색, 다 풀면 이 색으로 드러나요)
 export const PALETTE = {
@@ -11,52 +12,52 @@ export const PALETTE = {
 
 // 10x10 그림. '.'은 빈칸, 글자는 칠할 칸(글자는 색)
 export const PICTURES = [
-  { id: "cat", name: "고양이", emoji: "🐱", rows: [
+  { id: "cat", get name() { return t("pic_cat"); }, emoji: "🐱", rows: [
     ".K......K.", ".KK....KK.", ".KKKKKKKK.", "KK.KKKK.KK", "KKKKKKKKKK",
     "KKKKPPKKKK", ".KKKKKKKK.", "..KKKKKK..", "..K.KK.K..", ".KK.KK.KK."] },
-  { id: "heart", name: "하트", emoji: "❤️", rows: [
+  { id: "heart", get name() { return t("pic_heart"); }, emoji: "❤️", rows: [
     "..........", ".RRR..RRR.", "RRRRRRRRRR", "RRRRRRRRRR", "RRRRRRRRRR",
     ".RRRRRRRR.", "..RRRRRR..", "...RRRR...", "....RR....", ".........."] },
-  { id: "apple", name: "사과", emoji: "🍎", rows: [
+  { id: "apple", get name() { return t("pic_apple"); }, emoji: "🍎", rows: [
     "....N.....", "....NGGG..", "..RRNRGG..", ".RRRRRRRR.", "RRRRRRRRRR",
     "RRRRRRRRRR", "RRRRRRRRRR", ".RRRRRRRR.", "..RRRRRR..", "...RR.RR.."] },
-  { id: "mushroom", name: "버섯", emoji: "🍄", rows: [
+  { id: "mushroom", get name() { return t("pic_mushroom"); }, emoji: "🍄", rows: [
     "...RRRR...", ".RRWWRRRR.", "RRWWRRRWRR", "RRRRRRWWWR", "RWWRRRRWRR",
     "RRRRRRRRRR", "...WWWW...", "...WWWW...", "..WWWWWW..", "..WWWWWW.."] },
-  { id: "house", name: "집", emoji: "🏠", rows: [
+  { id: "house", get name() { return t("pic_house"); }, emoji: "🏠", rows: [
     "....RR....", "...RRRR...", "..RRRRRR..", ".RRRRRRRR.", "RRRRRRRRRR",
     ".WWWWWWWW.", ".WBBWWNNW.", ".WBBWWNNW.", ".WWWWWNNW.", "GGGGGGGGGG"] },
-  { id: "tree", name: "나무", emoji: "🌲", rows: [
+  { id: "tree", get name() { return t("pic_tree"); }, emoji: "🌲", rows: [
     "....GG....", "...GGGG...", "..GGGGGG..", ".GGGGGGGG.", "...GGGG...",
     "..GGGGGG..", ".GGGGGGGGG", "GGGGGGGGGG", "....NN....", "...NNNN..."] },
-  { id: "fish", name: "물고기", emoji: "🐟", rows: [
+  { id: "fish", get name() { return t("pic_fish"); }, emoji: "🐟", rows: [
     "..........", "....BB....", "...BBBB..B", ".BBBBBBBBB", "BB.BBBBBB.",
     "BBBBBBBBB.", ".BBBBBBBBB", "...BBBB..B", "....BB....", ".........."] },
-  { id: "umbrella", name: "우산", emoji: "☂️", rows: [
+  { id: "umbrella", get name() { return t("pic_umbrella"); }, emoji: "☂️", rows: [
     "....K.....", "..VVVVVV..", ".VVVVVVVV.", "VVVVVVVVVV", "V.V.VV.V.V",
     "....K.....", "....K.....", "....K.....", "..K.K.....", "...K......"] },
-  { id: "star", name: "별", emoji: "⭐", rows: [
+  { id: "star", get name() { return t("pic_star"); }, emoji: "⭐", rows: [
     "....YY....", "....YY....", "...YYYY...", "YYYYYYYYYY", ".YYYYYYYY.",
     "..YYYYYY..", "..YYYYYY..", ".YYYYYYYY.", ".YYY..YYY.", "YY......YY"] },
-  { id: "dog", name: "강아지", emoji: "🐶", rows: [
+  { id: "dog", get name() { return t("pic_dog"); }, emoji: "🐶", rows: [
     ".NN....NN.", "NNN....NNN", "NNNNNNNNNN", "NN.NNNN.NN", "NNNNNNNNNN",
     ".NNNKKNNN.", ".NNNNNNNN.", "..NNPPNN..", "...NNNN...", ".........."] },
-  { id: "coffee", name: "커피", emoji: "☕", rows: [
+  { id: "coffee", get name() { return t("pic_coffee"); }, emoji: "☕", rows: [
     "..A..A....", "...A..A...", "..A..A....", "..........", "KKKKKKKK..",
     "KKKKKKKKKK", "KKKKKKKK.K", "KKKKKKKKKK", ".KKKKKK...", "KKKKKKKKK."] },
-  { id: "rocket", name: "로켓", emoji: "🚀", rows: [
+  { id: "rocket", get name() { return t("pic_rocket"); }, emoji: "🚀", rows: [
     "....RR....", "...RRRR...", "...AAAA...", "...ABBA...", "...ABBA...",
     "...AAAA...", "..AAAAAA..", ".RAAAAAAR.", ".RR.OO.RR.", "....OO...."] },
-  { id: "duck", name: "오리", emoji: "🐥", rows: [
+  { id: "duck", get name() { return t("pic_duck"); }, emoji: "🐥", rows: [
     "...YYY....", "..YYYYY...", "..YY.YYOO.", "..YYYYYOO.", "...YYY....",
     "..YYYYYYY.", ".YYYYYYYYY", ".YYYYYYYYY", "..YYYYYYY.", ".........."] },
-  { id: "icecream", name: "아이스크림", emoji: "🍦", rows: [
+  { id: "icecream", get name() { return t("pic_icecream"); }, emoji: "🍦", rows: [
     "...PPPP...", "..PPPPPP..", ".PPPPPPPP.", ".PPPPPPPP.", "..YYYYYY..",
     "..YYYYYY..", "...YYYY...", "...YYYY...", "....YY....", "....YY...."] },
-  { id: "note", name: "음표", emoji: "🎵", rows: [
+  { id: "note", get name() { return t("pic_note"); }, emoji: "🎵", rows: [
     "....KKKKKK", "....KKKKKK", "....K....K", "....K....K", "....K....K",
     "....K....K", "..KKK..KKK", ".KKKK.KKKK", ".KKKK.KKKK", "..KK...KK."] },
-  { id: "smile", name: "웃는 얼굴", emoji: "😊", rows: [
+  { id: "smile", get name() { return t("pic_smile"); }, emoji: "😊", rows: [
     "..YYYYYY..", ".YYYYYYYY.", "YY.YYYY.YY", "YY.YYYY.YY", "YYYYYYYYYY",
     "Y.YYYYYY.Y", "YY.YYYY.YY", "YYY....YYY", ".YYYYYYYY.", "..YYYYYY.."] },
 ];
@@ -200,8 +201,10 @@ export function nemoStars(mistakes) { return mistakes === 0 ? 3 : mistakes <= 2 
 
 // 결과 공유 글 — 그림은 비밀로, 줄마다 실수(🟨)·힌트(🟦)·깔끔(🟩)만 보여요
 export function nemoShareText({ dateKey, seconds, mistakes, stars, rowMistakes, rowHinted, streak }) {
-  const m = Math.floor(dateKey / 100) % 100, d = dateKey % 100;
   const mm = Math.floor(seconds / 60), ss = String(seconds % 60).padStart(2, "0");
   const rows = rowMistakes.map((x, i) => (x > 0 ? "🟨" : rowHinted[i] > 0 ? "🟦" : "🟩")).join("");
-  return [`데일리도쿠 네모로직 ${m}월 ${d}일`, `${"⭐".repeat(stars)} ${mm}:${ss} · 실수 ${mistakes}${streak > 1 ? ` · 🔥${streak}일` : ""}`, rows, "오늘의 숨은 그림, 맞혀 볼래요?"].join("\n");
+  const date = fmtKey(dateKey, { month: "long", day: "numeric" });
+  const line = t("nemo_share_line", { stars: "⭐".repeat(stars), time: `${mm}:${ss}`, mistakes: t("share_mistakes", { n: mistakes }) })
+    + (streak > 1 ? t("nemo_share_streak", { n: streak }) : "");
+  return [t("nemo_share_title", { date }), line, rows, t("nemo_share_cta")].join("\n");
 }

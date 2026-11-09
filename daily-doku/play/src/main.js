@@ -2,9 +2,11 @@ import { rng, INTRO_SEED, generate, daily, kstDateKey, prevDateKey, nextDateKey,
   shareText, findSingle, candidates, computeStreak, streakAtRisk, monthProgress, daysInMonth, badges } from "./sudoku.js";
 import { load, save, reset } from "./store.js";
 import { NcqAds } from "./ads.js";
+import { NcqMetrics } from "./metrics.js";
 import { haptic, setHapticEnabled, hapticSupported } from "./haptic.js";
 import { drawResultCard, canvasToBlob } from "./card.js";
-import { initNemo, renderNemoCard, nemoBack } from "./nemo.js";
+import { initNemo, renderNemoCard, nemoBack, nemoRelang } from "./nemo.js";
+import { t as tr, fmtKey, NcqLang } from "./i18n.js";
 
 const $ = (id) => document.getElementById(id);
 let data = load();
@@ -14,9 +16,10 @@ let timer = null;
 let paused = false;
 const MAX_MISTAKES = 3;  // 클래식만 (설정에서 끌 수 있어요). 오늘의 한 판은 기록만
 const today = () => kstDateKey();
-const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
 const keyToDate = (k) => new Date(Date.UTC(Math.floor(k / 10000), Math.floor(k / 100) % 100 - 1, k % 100));
-const keyLabel = (k) => { const d = keyToDate(k); return `${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`; };
+const keyLabel = (k) => fmtKey(k, { month: "short", day: "numeric" });
+const dayLabel = (k) => fmtKey(k, { month: "long", day: "numeric", weekday: "long" });
+const monthName = (ym) => fmtKey(ym * 100 + 1, { month: "long" });
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 // ---------- 친구 기록 링크 (?d=YYYYMMDD&vs=초&n=이름) → 친구 순위에 저장 ----------
@@ -24,7 +27,7 @@ const params = new URLSearchParams(location.search);
 const vs = (() => {
   const d = Number(params.get("d")), t = Number(params.get("vs"));
   if (!(d > 20200101 && t > 0)) return null;
-  const name = (params.get("n") || "친구").slice(0, 12);
+  const name = (params.get("n") || tr("friend")).slice(0, 12);
   return { dateKey: d, seconds: Math.round(t), name };
 })();
 if (vs) {
@@ -95,7 +98,7 @@ function showNextToast() {
 function friendRanking(dateKey) {
   const list = (data.friends[dateKey] || []).map((f) => ({ ...f, me: false }));
   const rec = data.daily[dateKey];
-  list.push({ name: data.settings.name || "나", seconds: rec ? rec.seconds : null, me: true });
+  list.push({ name: data.settings.name || tr("me"), seconds: rec ? rec.seconds : null, me: true });
   list.sort((a, b) => (a.seconds ?? 1e9) - (b.seconds ?? 1e9));
   return list;
 }
@@ -103,35 +106,35 @@ function friendRanking(dateKey) {
 function renderHome() {
   const t = today();
   const dt = keyToDate(t);
-  $("today-date").textContent = `${dt.getUTCMonth() + 1}월 ${dt.getUTCDate()}일 ${DAYS[dt.getUTCDay()]}요일 · ${DIFFICULTY[dailyDifficulty(t)].label}`;
+  $("today-date").textContent = `${dayLabel(t)} · ${DIFFICULTY[dailyDifficulty(t)].label}`;
   const rec = data.daily[t];
   const btn = $("btn-daily");
   const isNew = !data.tutorialDone;
   $("first-card").classList.toggle("hidden", !isNew);
   if (isNew) {
     const st = data.tutorialProgress?.stage || data.tutorialStage || 1;
-    $("btn-first").textContent = st > 1 || data.tutorialProgress ? `이어서 하기 · ${st}/${LAST_STAGE}단계` : "첫 판 시작하기";
+    $("btn-first").textContent = st > 1 || data.tutorialProgress ? tr("first_continue", { n: st, total: LAST_STAGE }) : tr("first_start");
   }
   btn.disabled = isNew;
   if (isNew) {
-    btn.textContent = "첫 판을 풀면 열려요";
+    btn.textContent = tr("daily_locked");
     btn.className = "btn ghost big";
-    $("today-sub").textContent = "전국이 같은 문제를 풀어요";
+    $("today-sub").textContent = tr("today_sub");
   } else if (rec) {
-    btn.textContent = `완료 ${"⭐".repeat(rec.stars)} · ${formatTime(rec.seconds)} — 결과 보기`;
+    btn.textContent = tr("daily_done", { stars: "⭐".repeat(rec.stars), time: formatTime(rec.seconds) });
     btn.className = "btn done big";
-    $("today-sub").textContent = "내일 새 문제가 열려요";
+    $("today-sub").textContent = tr("today_tomorrow");
   } else {
-    btn.textContent = data.dailyProgress[t] ? "이어서 풀기" : "시작하기";
+    btn.textContent = data.dailyProgress[t] ? tr("continue_solving") : tr("start");
     btn.className = "btn primary big";
-    $("today-sub").textContent = "전국이 같은 문제를 풀어요";
+    $("today-sub").textContent = tr("today_sub");
   }
   // 친구 링크 안내
   const vb = $("vs-banner");
   if (vs && vs.dateKey === t) {
     vb.textContent = rec
-      ? (rec.seconds < vs.seconds ? `🎉 ${vs.name} 님 기록(${formatTime(vs.seconds)})을 이겼어요!` : `${vs.name} 님 기록 ${formatTime(vs.seconds)} — 아쉽게 졌어요`)
-      : `🏁 ${vs.name} 님이 ${formatTime(vs.seconds)}에 풀었어요. 이겨 볼까요?`;
+      ? tr(rec.seconds < vs.seconds ? "vs_won" : "vs_lost", { name: vs.name, time: formatTime(vs.seconds) })
+      : tr("vs_try", { name: vs.name, time: formatTime(vs.seconds) });
     vb.classList.remove("hidden");
   } else vb.classList.add("hidden");
 
@@ -145,7 +148,7 @@ function renderHome() {
   const y = prevDateKey(t);
   const risk = !isNew && streakAtRisk(data.daily, t);
   $("risk-card").classList.toggle("hidden", !risk);
-  if (risk) $("risk-title").textContent = `🔥 ${computeStreak(data.daily, prevDateKey(y)).current}일 연속이 끊기기 직전이에요`;
+  if (risk) $("risk-title").textContent = tr("risk_title", { n: computeStreak(data.daily, prevDateKey(y)).current });
 
   // 이번 주 (월~일)
   const dow = (dt.getUTCDay() + 6) % 7;
@@ -154,7 +157,7 @@ function renderHome() {
   for (let i = 0; i < 7; i++) {
     const r = data.daily[k];
     const cls = r ? (r.solvedOn && r.solvedOn > k ? "late" : "on") : "";
-    cells.push(`<div>${"월화수목금토일"[i]}<i class="${cls} ${k === t ? "today" : ""}">✓</i></div>`);
+    cells.push(`<div>${tr(["dow_mon", "dow_tue", "dow_wed", "dow_thu", "dow_fri", "dow_sat", "dow_sun"][i])}<i class="${cls} ${k === t ? "today" : ""}">✓</i></div>`);
     k = nextDateKey(k);
   }
   $("week").innerHTML = cells.join("");
@@ -166,25 +169,25 @@ function renderHome() {
     let pos = 0;
     $("ranking-list").innerHTML = friendRanking(t).map((f) => {
       if (f.seconds != null) pos++;
-      return `<li class="${f.me ? "me" : ""}"><span class="pos">${f.seconds != null ? pos : "-"}</span><span class="nm">${esc(f.name)}${f.me ? " (나)" : ""}</span><span class="tm">${f.seconds != null ? formatTime(f.seconds) : "아직 안 풀었어요"}</span></li>`;
+      return `<li class="${f.me ? "me" : ""}"><span class="pos">${f.seconds != null ? pos : "-"}</span><span class="nm">${esc(f.name)}${f.me ? tr("me_mark") : ""}</span><span class="tm">${f.seconds != null ? formatTime(f.seconds) : tr("not_solved")}</span></li>`;
     }).join("");
   }
 
   // 이번 달 달력
   const yy = dt.getUTCFullYear(), mm = dt.getUTCMonth() + 1;
   const mp = monthProgress(data.daily, yy, mm, t);
-  $("month-label").textContent = mp.complete ? `🗓️ ${mm}월 완주!` : `${mm}월 ${mp.done}/${mp.total}일`;
+  $("month-label").textContent = tr(mp.complete ? "month_done" : "month_progress", { month: monthName(yy * 100 + mm), done: mp.done, total: mp.total });
   $("month-bar").style.width = `${Math.round((mp.done / mp.total) * 100)}%`;
 
   // 클래식
   const unlocked = data.classicUnlocked;
-  $("classic-lock").textContent = unlocked ? "무제한으로 즐겨요" : "오늘의 한 판을 풀면 열려요";
+  $("classic-lock").textContent = unlocked ? tr("classic_unlocked") : tr("classic_locked");
   $("diff-grid").innerHTML = Object.entries(DIFFICULTY).filter(([, d]) => !d.hidden).map(([id, d]) =>
     `<button class="diff-btn" data-diff="${id}" ${unlocked ? "" : "disabled"}><b>${d.label}</b><small>${
-      data.stats.best[id] ? "최고 " + formatTime(data.stats.best[id]) : "기록 없음"}</small></button>`).join("");
+      data.stats.best[id] ? tr("best_time", { time: formatTime(data.stats.best[id]) }) : tr("no_record")}</small></button>`).join("");
   const resumable = data.inProgress?.mode === "classic";
   $("btn-resume").classList.toggle("hidden", !resumable);
-  if (resumable) $("btn-resume").textContent = `이어하기 · ${DIFFICULTY[data.inProgress.difficulty].label} ${formatTime(data.inProgress.seconds)}`;
+  if (resumable) $("btn-resume").textContent = tr("resume", { level: DIFFICULTY[data.inProgress.difficulty].label, time: formatTime(data.inProgress.seconds) });
 
   renderNemoCard();
 }
@@ -203,7 +206,7 @@ $("diff-grid").onclick = (e) => {
   const b = e.target.closest(".diff-btn"); if (!b || b.disabled) return;
   const start = () => startGame(newGame(generate((Math.random() * 2 ** 32) >>> 0, b.dataset.diff), "classic", 0), "home");
   if (data.inProgress?.mode === "classic") {
-    dialog("새 게임을 시작할까요?", "진행 중인 클래식 게임은 사라져요.", [["새 게임", start, "primary"], ["취소", null, "ghost"]]);
+    dialog(tr("new_game_q"), tr("new_game_body"), [[tr("new_game"), start, "primary"], [tr("cancel"), null, "ghost"]]);
   } else start();
 };
 $("btn-resume").onclick = () => startGame(data.inProgress, "home");
@@ -218,13 +221,13 @@ function openPast(k, origin) {
   if (data.daily[k]) { from = origin; return showResult(data.daily[k], k, true); }
   if (k >= today() || data.unlocked[k] || data.dailyProgress[k] || !NcqAds.can("ARCHIVE")) return startDaily(k, origin);
   const isYesterday = k === prevDateKey(today());
-  dialog(`${keyLabel(k)} 문제 열기`,
-    isYesterday ? "광고를 보면 어제 문제를 풀 수 있어요. 오늘 안에 풀면 연속 기록이 이어져요." : "광고를 보면 이 날 문제를 풀 수 있어요. 연속 기록에는 들어가지 않아요.", [
-    ["광고 보고 열기", async () => {
+  dialog(tr("past_title", { date: keyLabel(k) }),
+    isYesterday ? tr("past_body_yesterday") : tr("past_body"), [
+    [tr("watch_ad_open"), async () => {
       // NCQ_ADS_ARCHIVE: 지난 문제 열기 보상형 광고
       if (await NcqAds.rewarded("ARCHIVE")) { data.unlocked[k] = true; save(data); startDaily(k, origin); }
     }, "primary"],
-    ["취소", null, "ghost"],
+    [tr("cancel"), null, "ghost"],
   ]);
 }
 
@@ -239,7 +242,7 @@ function openRecords() {
 function renderRecords() {
   const t = today();
   const { y, m } = cal;
-  $("cal-title").textContent = `${y}년 ${m}월`;
+  $("cal-title").textContent = NcqLang.date(new Date(Date.UTC(y, m - 1, 1)), { year: "numeric", month: "long", timeZone: "UTC" });
   const nowYm = Math.floor(t / 100);
   $("cal-prev").disabled = y * 100 + m <= EARLIEST;
   $("cal-next").disabled = y * 100 + m >= nowYm;
@@ -253,14 +256,14 @@ function renderRecords() {
     if (k > t) { html.push(`<button disabled>${d}</button>`); continue; }
     let cls = "", sub = "";
     if (r) { cls = r.solvedOn && r.solvedOn > k ? "late" : "done"; sub = "★".repeat(r.stars); }
-    else if (k < t) { cls = "open"; sub = data.unlocked[k] || data.dailyProgress[k] ? "열림" : "🔒"; }
+    else if (k < t) { cls = "open"; sub = data.unlocked[k] || data.dailyProgress[k] ? tr("cal_open") : "🔒"; }
     html.push(`<button class="${cls} ${k === t ? "today" : ""}" data-k="${k}">${d}<small>${sub}</small></button>`);
   }
   $("cal").innerHTML = html.join("");
   const mp = monthProgress(data.daily, y, m, t);
   const past = y * 100 + m < nowYm;
-  $("cal-foot").innerHTML = mp.complete ? `🗓️ <b>${m}월 완주</b> 트로피를 받았어요!`
-    : past ? `<b>${mp.done}/${mp.total}일</b> 풀었어요` : `<b>${mp.done}/${mp.total}일</b> · 완주까지 ${mp.total - mp.done}일`;
+  const mo = { month: monthName(y * 100 + m), done: mp.done, total: mp.total, n: mp.total - mp.done };
+  $("cal-foot").innerHTML = tr(mp.complete ? "cal_trophy" : past ? "cal_past" : "cal_now", mo);
 
   $("badges").innerHTML = badges(data, t).map((b) => `<div class="badge ${b.got ? "" : "off"}"><i>${b.icon}</i>${b.label}</div>`).join("");
   $("bests").innerHTML = Object.entries(DIFFICULTY).filter(([, d]) => !d.hidden).map(([id, d]) =>
@@ -292,8 +295,12 @@ const geo = () => geometry(G?.n || 9);
 
 let from = "home";
 let hintShown = null;
+// 판 지표 이름: 오늘의 한 판 daily, 클래식 classic-<난이도>, 첫 판 stage-<단계>
+const levelName = (g) => g.mode === "daily" ? "daily" : g.mode === "tutorial" ? `stage-${g.stage || LAST_STAGE}` : `classic-${g.difficulty}`;
+
 function startGame(state, origin = "home") {
   G = state; G.noteMode = false; paused = false; from = origin; hintShown = null;
+  NcqMetrics.levelStart(levelName(G));
   buildBoard(); render(); show("game");
   clearInterval(timer);
   timer = setInterval(() => { if (!paused && !G.done) { G.seconds++; $("game-time").textContent = formatTime(G.seconds); if (G.seconds % 5 === 0) persist(); } }, 1000);
@@ -376,25 +383,25 @@ function render() {
     b.querySelector("small").textContent = left;
   }
   const label = G.mode === "daily"
-    ? (G.dateKey === today() ? "오늘의 한 판" : `${keyLabel(G.dateKey)} 문제`)
-    : G.mode === "tutorial" ? `연습 ${G.stage || LAST_STAGE}/${LAST_STAGE}` : "클래식";
+    ? (G.dateKey === today() ? tr("mode_today") : tr("mode_past", { date: keyLabel(G.dateKey) }))
+    : G.mode === "tutorial" ? tr("mode_practice", { n: G.stage || LAST_STAGE, total: LAST_STAGE }) : tr("classic");
   $("game-mode").textContent = `${label} · ${DIFFICULTY[G.difficulty].label}`;
   renderCoach();
   const limited = G.mode === "classic" && data.settings.mistakeLimit;
-  $("game-mistakes").innerHTML = limited ? `<span class="${G.mistakes ? "bad" : ""}">실수 ${G.mistakes}/${MAX_MISTAKES}</span>` : `실수 ${G.mistakes}`;
+  $("game-mistakes").innerHTML = limited ? `<span class="${G.mistakes ? "bad" : ""}">${tr("mistakes_limit", { n: G.mistakes, max: MAX_MISTAKES })}</span>` : tr("mistakes_n", { n: G.mistakes });
   $("game-time").textContent = formatTime(G.seconds);
   $("t-note").classList.toggle("on", G.noteMode);
   $("note-state").textContent = G.noteMode ? "ON" : "OFF";
   $("pad").classList.toggle("note-mode", G.noteMode);
   const hb = $("hint-badge");
-  if (G.mode === "tutorial") { hb.textContent = "무료"; hb.className = ""; }
+  if (G.mode === "tutorial") { hb.textContent = tr("free"); hb.className = ""; }
   else if (data.hints > 0) { hb.textContent = data.hints; hb.className = ""; }
   else { hb.textContent = "AD"; hb.className = NcqAds.can("HINT") ? "ad" : "hidden"; }
   const vl = $("vs-line");
   const fr = G.mode === "daily" ? (data.friends[G.dateKey] || []) : [];
   if (fr.length) {
     const best = fr.reduce((a, b) => (a.seconds <= b.seconds ? a : b));
-    vl.textContent = `${best.name} 님 기록 ${formatTime(best.seconds)}${fr.length > 1 ? ` 외 ${fr.length - 1}명` : ""}`;
+    vl.textContent = tr(fr.length > 1 ? "vs_line_more" : "vs_line", { name: best.name, time: formatTime(best.seconds), n: fr.length - 1 });
     vl.classList.remove("hidden");
   } else vl.classList.add("hidden");
 }
@@ -436,7 +443,7 @@ function input(n) {
   if (n !== G.solution[i]) {
     G.mistakes++; G.boxMistakes[geo().box(i)]++;
     sfx.wrong(); haptic("wrong");
-    if (G.mode === "tutorial" && !G.wrongTold) { G.wrongTold = true; toast("빨간 숫자는 틀린 거예요. ⌫ 지우기로 지워요"); }
+    if (G.mode === "tutorial" && !G.wrongTold) { G.wrongTold = true; toast(tr("toast_wrong")); }
     render(); persist();
     if (G.mode === "classic" && data.settings.mistakeLimit && G.mistakes >= MAX_MISTAKES) return gameOver();
     return;
@@ -481,7 +488,7 @@ function erase() {
 
 $("t-erase").onclick = erase;
 $("t-undo").onclick = () => {
-  const h = G.history.pop(); if (!h) return toast("되돌릴 수 없어요");
+  const h = G.history.pop(); if (!h) return toast(tr("toast_no_undo"));
   // 맞힌 칸은 되돌려도 남겨요 (실수 기록을 지우는 꼼수 방지)
   G.values = h.values.map((v, i) => (isSolved(i) ? G.values[i] : v)); G.notes = h.notes;
   haptic("note"); render(); persist();
@@ -493,7 +500,7 @@ $("t-auto").onclick = () => {
   const cand = candidates(correctGrid());
   for (let i = 0; i < geo().cells; i++) if (!G.values[i]) G.notes[i] = cand[i];
   haptic("note"); render(); persist();
-  toast("빈칸마다 들어갈 수 있는 숫자를 메모했어요");
+  toast(tr("toast_auto_notes"));
 };
 
 // 힌트: 다음에 둘 수 있는 수와 그 이유를 보여 주고, '채우기'를 누르면 넣어요
@@ -502,7 +509,7 @@ $("t-hint").onclick = async () => {
   if (hintShown) return;
   const free = G.mode === "tutorial";
   if (!free && data.hints <= 0) {
-    if (!NcqAds.can("HINT")) return toast("힌트를 다 썼어요");
+    if (!NcqAds.can("HINT")) return toast(tr("toast_no_hints"));
     paused = true;
     // NCQ_ADS_HINT: 힌트 충전 보상형 광고
     const ok = await NcqAds.rewarded("HINT");
@@ -522,7 +529,7 @@ $("t-hint").onclick = async () => {
     }
     if (best < 0) return;
     h = { cell: best, value: G.solution[best], unit: null,
-      text: `지금은 메모로 후보를 줄여야 하는 단계예요. 후보가 가장 적은 이 칸의 답은 ${G.solution[best]}이에요.` };
+      get text() { return tr("hint_fallback", { n: this.value }); } };
   }
   if (!free) { data.hints--; save(data); }
   if (G.coach === 3) G.coach = 4;
@@ -555,9 +562,9 @@ function pauseGame(silent) {
   if (!G || G.done || paused) return;
   paused = true; persist();
   if (silent && !$("dialog").classList.contains("hidden")) return;
-  dialog("일시정지", `${$("game-mode").textContent} · ${formatTime(G.seconds)}`, [
-    ["계속하기", () => { paused = false; }, "primary"],
-    ["나가기", () => { paused = false; leaveGame(); }, "ghost"],
+  dialog(tr("pause"), `${$("game-mode").textContent} · ${formatTime(G.seconds)}`, [
+    [tr("continue"), () => { paused = false; }, "primary"],
+    [tr("leave"), () => { paused = false; leaveGame(); }, "ghost"],
   ], () => { paused = false; });
 }
 
@@ -565,15 +572,15 @@ function gameOver() {
   paused = true;
   const actions = [];
   if (!G.continued && NcqAds.can("CONTINUE")) {
-    actions.push(["광고 보고 이어하기", async () => {
+    actions.push([tr("watch_ad_continue"), async () => {
       // NCQ_ADS_CONTINUE: 실수 3회 뒤 이어하기 보상형 광고
       if (await NcqAds.rewarded("CONTINUE")) { G.continued = true; G.mistakes = MAX_MISTAKES - 1; paused = false; render(); }
       else gameOver();
     }, "primary"]);
   }
-  actions.push(["새 게임", () => { data.stats.classicPlayed++; const d = G.difficulty; data.inProgress = null; save(data); startGame(newGame(generate((Math.random() * 2 ** 32) >>> 0, d), "classic", 0), from); }, actions.length ? "ghost" : "primary"]);
-  actions.push(["나가기", () => { data.stats.classicPlayed++; data.inProgress = null; save(data); clearInterval(timer); goBack(); }, "ghost"]);
-  dialog("실수 3번이에요", "이어서 풀거나 새 게임을 시작해요. 설정에서 실수 제한을 끌 수 있어요.", actions);
+  actions.push([tr("new_game"), () => { NcqMetrics.levelEnd(levelName(G), false); data.stats.classicPlayed++; const d = G.difficulty; data.inProgress = null; save(data); startGame(newGame(generate((Math.random() * 2 ** 32) >>> 0, d), "classic", 0), from); }, actions.length ? "ghost" : "primary"]);
+  actions.push([tr("leave"), () => { NcqMetrics.levelEnd(levelName(G), false); data.stats.classicPlayed++; data.inProgress = null; save(data); clearInterval(timer); goBack(); }, "ghost"]);
+  dialog(tr("over_title"), tr("over_body"), actions);
 }
 
 function win() {
@@ -581,6 +588,7 @@ function win() {
   sfx.win(); haptic("win");
   const before = new Set(badges(data, today()).filter((b) => b.got).map((b) => b.id));
   const starCount = stars(G);
+  NcqMetrics.levelEnd(levelName(G), true, { score: starCount });
   const rec = { seconds: G.seconds, mistakes: G.mistakes, stars: starCount, boxMistakes: G.boxMistakes, hinted: G.hinted, difficulty: G.difficulty };
   if (G.mode === "tutorial") {
     rec.stage = G.stage || LAST_STAGE;
@@ -590,7 +598,7 @@ function win() {
     rec.solvedOn = today();
     data.daily[G.dateKey] = rec;
     delete data.dailyProgress[G.dateKey];
-    if (!data.classicUnlocked) { data.classicUnlocked = true; setTimeout(() => toast("클래식 모드가 열렸어요!"), 1500); }
+    if (!data.classicUnlocked) { data.classicUnlocked = true; setTimeout(() => toast(tr("toast_classic_open")), 1500); }
   } else {
     data.inProgress = null;
     data.stats.classicPlayed++; data.stats.classicWon++;
@@ -603,7 +611,7 @@ function win() {
   const mode = G.mode, dateKey = G.dateKey;
   setTimeout(() => {
     showResult(rec, dateKey, false, mode);
-    if (newBadges.length) setTimeout(() => { sfx.badge(); toast(`새 배지: ${newBadges[0].icon} ${newBadges[0].label}`); }, 500);
+    if (newBadges.length) setTimeout(() => { sfx.badge(); toast(tr("toast_badge", { badge: `${newBadges[0].icon} ${newBadges[0].label}` })); }, 500);
   }, 700);
 }
 
@@ -612,7 +620,7 @@ function rankText(dateKey) {
   if (!fr.length) return "";
   const list = friendRanking(dateKey).filter((f) => f.seconds != null);
   const pos = list.findIndex((f) => f.me) + 1;
-  return `친구 ${list.length}명 중 ${pos}위`;
+  return tr("rank_text", { n: list.length, pos });
 }
 
 function shareLink(dateKey, seconds) {
@@ -626,21 +634,21 @@ function shareLink(dateKey, seconds) {
 function showResult(rec, dateKey, fromHome, mode = "daily") {
   if (mode === "tutorial") return showTutorialResult(rec);
   $("btn-result-next").className = "btn ghost";
-  $("btn-share").className = "btn primary"; $("btn-share").textContent = "결과 공유하기";
+  $("btn-share").className = "btn primary"; $("btn-share").textContent = tr("share_result");
   const sc = rec.stars;
   const isDaily = mode === "daily";
   $("result-stars").innerHTML = [1, 2, 3].map((n) => `<span class="${n <= sc ? "" : "off"}">⭐</span>`).join("");
   $("r-time").textContent = formatTime(rec.seconds);
   $("r-mistakes").textContent = rec.mistakes;
   const streak = computeStreak(data.daily, today()).current;
-  $("r-streak").textContent = isDaily ? `${streak}일` : DIFFICULTY[rec.difficulty].label;
-  $("r-third-label").textContent = isDaily ? "연속" : "난이도";
+  $("r-streak").textContent = isDaily ? tr("days_n", { n: streak }) : DIFFICULTY[rec.difficulty].label;
+  $("r-third-label").textContent = isDaily ? tr("streak") : tr("level");
   const rk = isDaily ? rankText(dateKey) : "";
   const fr = isDaily ? (data.friends[dateKey] || []) : [];
   const beatAll = fr.length && fr.every((f) => rec.seconds < f.seconds);
   $("result-title").textContent = isDaily
-    ? (beatAll ? "친구들을 모두 이겼어요! 🎉" : dateKey === today() ? "오늘도 해냈어요!" : `${keyLabel(dateKey)} 문제 완료!`)
-    : (data.stats.best[rec.difficulty] === rec.seconds ? "최고 기록이에요!" : "클리어!");
+    ? (beatAll ? tr("beat_all") : dateKey === today() ? tr("done_today") : tr("past_done", { date: keyLabel(dateKey) }))
+    : (data.stats.best[rec.difficulty] === rec.seconds ? tr("new_best") : tr("cleared"));
   $("result-rank").textContent = rk;
   $("result-rank").classList.toggle("hidden", !rk);
 
@@ -658,7 +666,7 @@ function showResult(rec, dateKey, fromHome, mode = "daily") {
   $("btn-share").classList.toggle("hidden", !isDaily);
   $("btn-share").onclick = () => share(text, canvas, dateKey, rec.seconds);
   const next = $("btn-result-next");
-  next.textContent = fromHome || isDaily ? (fromHome ? "닫기" : "홈으로") : "다음 판";
+  next.textContent = fromHome || isDaily ? (fromHome ? tr("close") : tr("home")) : tr("next_game");
   next.onclick = async () => {
     $("result").classList.add("hidden");
     if (isDaily || fromHome) { if (G?.done) clearInterval(timer); if (G?.done || !G) goBack(); return; }
@@ -677,13 +685,7 @@ const STAGES = { 1: "mini4", 2: "intro" };
 const LAST_STAGE = 2;
 // 코치: 1 칸 고르기 → 2 숫자 넣기 → 3 힌트 눌러 보기 → 4 힌트 채우기 → 5 혼자 풀기 (1단계)
 //       6 = 2단계 시작 안내, 7 = 3단계 시작 안내, 0 = 끝
-const COACH = {
-  1: "빈칸을 하나 눌러 보세요. 반짝이는 칸부터 해 볼까요?",
-  2: "아래 숫자를 눌러 칸을 채워요. 같은 가로줄·세로줄·박스에 같은 숫자가 있으면 안 돼요.",
-  3: "잘했어요! 막히면 💡 힌트가 이유와 함께 알려 줘요. 한번 눌러 보세요.",
-  5: "이제 혼자 끝까지 풀어 봐요. 줄이나 박스를 다 채우면 반짝여요!",
-  7: "이제 진짜 크기 9×9예요! 숫자 1~9와 3×3 박스 9개로 이뤄져요. 막히면 힌트를 써요.",
-};
+const COACH = [1, 2, 3, 5, 7]; // 안내 글이 있는 단계 (글자는 texts.js의 coach_<단계>)
 function startStage(stage) {
   const g = newGame(generate(INTRO_SEED, STAGES[stage]), "tutorial", 0);
   g.stage = stage;
@@ -698,7 +700,7 @@ function startTutorial() {
 function renderCoach() {
   const box = $("coach");
   const step = G?.coach || 0;
-  const text = COACH[step];
+  const text = COACH.includes(step) ? tr("coach_" + step) : "";
   box.classList.toggle("hidden", !text || !!hintShown);
   if (text) $("coach-text").textContent = text;
   $("coach-ok").classList.toggle("hidden", ![5, 7].includes(step));
@@ -719,24 +721,24 @@ function showTutorialResult(rec) {
   const next = $("btn-result-next"), alt = $("btn-share");
   next.disabled = false; next.className = "btn primary";
   if (stage < LAST_STAGE) {
-    $("result-title").textContent = `${stage}단계 완료! 👏`;
+    $("result-title").textContent = tr("stage_done", { n: stage });
     $("r-streak").textContent = `${stage}/${LAST_STAGE}`;
-    $("r-third-label").textContent = "단계";
-    $("result-rank").textContent = "규칙을 익혔어요! 다음은 진짜 크기 9×9예요.";
-    next.textContent = `${stage + 1}단계 하기`;
+    $("r-third-label").textContent = tr("stage");
+    $("result-rank").textContent = tr("stage_learned");
+    next.textContent = tr("stage_next", { n: stage + 1 });
     next.onclick = () => { $("result").classList.add("hidden"); clearInterval(timer); G = null; startStage(stage + 1); };
     // 1단계 뒤에는 스도쿠를 아는 사람이 바로 넘어갈 수 있게
     alt.className = "btn ghost";
     alt.classList.toggle("hidden", stage !== 1);
-    alt.textContent = "스도쿠를 알아요 · 바로 오늘의 한 판";
+    alt.textContent = tr("skip_to_daily");
     alt.onclick = () => { finishTutorial(); $("result").classList.add("hidden"); clearInterval(timer); G = null; startDaily(today(), "home"); };
   } else {
-    $("result-title").textContent = "첫 판 완료! 🎉";
-    $("r-streak").textContent = "열림";
-    $("r-third-label").textContent = "오늘의 한 판";
-    $("result-rank").textContent = "이제 매일 새 문제가 열려요. 전국이 함께 푸는 오늘의 한 판에 도전해 볼까요?";
+    $("result-title").textContent = tr("tutorial_done");
+    $("r-streak").textContent = tr("unlocked");
+    $("r-third-label").textContent = tr("mode_today");
+    $("result-rank").textContent = tr("tutorial_done_text");
     alt.classList.add("hidden");
-    next.textContent = "오늘의 한 판 시작하기";
+    next.textContent = tr("start_daily");
     next.onclick = () => { $("result").classList.add("hidden"); clearInterval(timer); G = null; startDaily(today(), "home"); };
   }
   $("result-rank").classList.remove("hidden");
@@ -745,7 +747,7 @@ function showTutorialResult(rec) {
 
 async function share(text, canvas, dateKey, seconds) {
   const link = shareLink(dateKey, seconds);
-  const full = link ? `${text}\n나랑 겨뤄 볼래요? ${link}` : text;
+  const full = link ? `${text}\n${tr("share_vs", { link })}` : text;
   // 1) 이미지 + 글 공유 (휴대폰 공유 창)
   try {
     if (canvas && navigator.canShare) {
@@ -756,11 +758,11 @@ async function share(text, canvas, dateKey, seconds) {
     if (navigator.share) { await navigator.share({ text: full }); return; }
   } catch (e) { if (e?.name === "AbortError") return; }
   // 2) 복사
-  try { await navigator.clipboard.writeText(full); toast("결과를 복사했어요. 대화방에 붙여 넣어 보세요"); return; } catch { /* 아래로 */ }
+  try { await navigator.clipboard.writeText(full); toast(tr("toast_copied")); return; } catch { /* 아래로 */ }
   // 3) 직접 복사할 수 있게 보여 주기
   const ta = document.createElement("textarea");
   ta.value = full; ta.readOnly = true; ta.rows = 7; ta.style.cssText = "width:100%;border-radius:12px;padding:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);user-select:text;-webkit-user-select:text";
-  dialog("결과 복사하기", ta, [["닫기", null, "ghost"]]);
+  dialog(tr("copy_result"), ta, [[tr("close"), null, "ghost"]]);
   setTimeout(() => { ta.focus(); ta.select(); }, 50);
 }
 
@@ -795,20 +797,34 @@ function switchRow(label, id, on, onToggle) {
   row.querySelector("button").onclick = (e) => { const v = onToggle(); e.currentTarget.classList.toggle("on", v); e.currentTarget.setAttribute("aria-pressed", v); save(data); };
   return row;
 }
-$("btn-settings").onclick = async () => {
+// 언어 메뉴: 언어 이름은 그 언어로 (English, 한국어). 영어가 아닐 때는 제목에 영어도 같이 적어요
+function langRow(onPick) {
+  const row = document.createElement("div"); row.className = "setting-row lang-row";
+  const title = NcqLang.lang === "en" ? tr("language") : `${tr("language")} · Language`;
+  row.innerHTML = `<span>${esc(title)}</span><div class="seg" id="seg-lang">${NcqLang.list()
+    .map((l) => `<button data-v="${l.code}" lang="${l.code}" class="${l.current ? "on" : ""}">${esc(l.name)}</button>`).join("")}</div>`;
+  row.querySelector(".seg").onclick = (e) => {
+    const b = e.target.closest("button"); if (!b || b.classList.contains("on")) return;
+    NcqLang.set(b.dataset.v);
+    onPick();
+  };
+  return row;
+}
+async function openSettings() {
   const s = data.settings;
   const wrap = document.createElement("div");
+  wrap.appendChild(langRow(() => { closeDialog(false); openSettings(); }));
   const nameRow = document.createElement("div"); nameRow.className = "setting-row";
-  nameRow.innerHTML = `<span>닉네임 <small style="color:var(--sub)">친구 순위에 보여요</small></span><input class="name-input" id="set-name" maxlength="12" placeholder="나" />`;
+  nameRow.innerHTML = `<span>${tr("nickname")} <small style="color:var(--sub)">${tr("nickname_note")}</small></span><input class="name-input" id="set-name" maxlength="12" placeholder="${esc(tr("me"))}" />`;
   const inp = nameRow.querySelector("input"); inp.value = s.name || "";
   inp.oninput = () => { s.name = inp.value.trim().slice(0, 12); save(data); };
   wrap.appendChild(nameRow);
-  wrap.appendChild(switchRow("소리", "sw-sound", s.sound, () => (s.sound = !s.sound)));
-  if (hapticSupported()) wrap.appendChild(switchRow("진동", "sw-haptic", s.haptic !== false, () => { s.haptic = s.haptic === false; haptic("place"); return s.haptic; }));
-  wrap.appendChild(switchRow("글씨 크게", "sw-big", !!s.big, () => { s.big = !s.big; applySettings(); return s.big; }));
-  wrap.appendChild(switchRow("클래식 실수 3번 제한", "sw-limit", s.mistakeLimit, () => (s.mistakeLimit = !s.mistakeLimit)));
+  wrap.appendChild(switchRow(tr("sound"), "sw-sound", s.sound, () => (s.sound = !s.sound)));
+  if (hapticSupported()) wrap.appendChild(switchRow(tr("vibration"), "sw-haptic", s.haptic !== false, () => { s.haptic = s.haptic === false; haptic("place"); return s.haptic; }));
+  wrap.appendChild(switchRow(tr("big_text"), "sw-big", !!s.big, () => { s.big = !s.big; applySettings(); return s.big; }));
+  wrap.appendChild(switchRow(tr("mistake_limit"), "sw-limit", s.mistakeLimit, () => (s.mistakeLimit = !s.mistakeLimit)));
   const themeRow = document.createElement("div"); themeRow.className = "setting-row";
-  themeRow.innerHTML = `<span>화면</span><div class="seg" id="seg-theme">${[["auto", "자동"], ["light", "밝게"], ["dark", "어둡게"]]
+  themeRow.innerHTML = `<span>${tr("theme")}</span><div class="seg" id="seg-theme">${[["auto", tr("theme_auto")], ["light", tr("theme_light")], ["dark", tr("theme_dark")]]
     .map(([v, l]) => `<button data-v="${v}" class="${(s.theme || "auto") === v ? "on" : ""}">${l}</button>`).join("")}</div>`;
   themeRow.querySelector(".seg").onclick = (e) => {
     const b = e.target.closest("button"); if (!b) return;
@@ -817,17 +833,32 @@ $("btn-settings").onclick = async () => {
   };
   wrap.appendChild(themeRow);
   const info = document.createElement("div"); info.className = "setting-row";
-  info.innerHTML = `<span>버전</span><span>${window.NCQ?.NCQ_VERSION || "개발 중"}</span>`;
+  info.innerHTML = `<span>${tr("version")}</span><span>${window.NCQ?.NCQ_VERSION || tr("version_dev")}</span>`;
   wrap.appendChild(info);
   const actions = [];
-  if (await NcqAds.ready() && NcqAds.privacyRequired()) actions.push(["개인정보 설정", () => NcqAds.showPrivacyOptions(), "ghost"]);
-  actions.push(["진행 초기화", () => dialog("정말 초기화할까요?", "연속 기록, 배지, 친구 기록, 네모로직 기록, 진행 중인 게임이 모두 지워져요.", [
-    ["초기화", () => { data = reset(); applySettings(); renderHome(); toast("초기화했어요"); }, "danger"],
-    ["취소", null, "ghost"],
+  if (await NcqAds.ready() && NcqAds.privacyRequired()) actions.push([tr("privacy"), () => NcqAds.showPrivacyOptions(), "ghost"]);
+  actions.push([tr("reset"), () => dialog(tr("reset_q"), tr("reset_body"), [
+    [tr("reset_do"), () => { data = reset(); applySettings(); renderHome(); toast(tr("toast_reset")); }, "danger"],
+    [tr("cancel"), null, "ghost"],
   ]), "danger"]);
-  actions.push(["닫기", () => renderHome(), "ghost"]);
-  dialog("설정", wrap, actions, () => renderHome());
-};
+  actions.push([tr("close"), () => renderHome(), "ghost"]);
+  dialog(tr("settings"), wrap, actions, () => renderHome());
+}
+$("btn-settings").onclick = () => openSettings();
+
+// 언어가 바뀌면 새로 고침 없이 지금 화면을 다시 그려요 (HTML의 data-i18n은 NcqLang이 채워요)
+NcqLang.onChange(() => {
+  document.title = tr("app_name");
+  document.title = tr("app_name");
+renderSplash();
+  if ($("home").classList.contains("active")) renderHome();
+  if ($("records").classList.contains("active")) renderRecords();
+  if (G && $("game").classList.contains("active")) {
+    if (hintShown) $("hint-text").textContent = hintShown.text;
+    render();
+  }
+  nemoRelang();
+});
 
 // ---------- 토스 뒤로가기 ----------
 window.ncqBack = () => {
@@ -854,12 +885,10 @@ function renderSplash() {
   $("splash-grid").innerHTML = box.map((v, i) => `<span class="${i === hl ? "hl" : ""}" style="animation-delay:${i * 45}ms">${v}</span>`).join("");
   const dt = keyToDate(t);
   const st = computeStreak(data.daily, t).current;
-  const dayText = `${dt.getUTCMonth() + 1}월 ${dt.getUTCDate()}일 ${DAYS[dt.getUTCDay()]}요일`;
-  $("splash-today").textContent = !data.tutorialDone ? `${dayText} · 쉬운 첫 판부터 시작해요`
-    : data.daily[t] ? `${dayText} · 오늘 문제 완료 ✓`
-    : st > 0 ? `${dayText} · 🔥 ${st}일 연속 중` : `${dayText} · 오늘의 문제가 열렸어요`;
+  const date = dayLabel(t);
+  $("splash-today").textContent = tr(!data.tutorialDone ? "splash_first" : data.daily[t] ? "splash_done" : st > 0 ? "splash_streak" : "splash_open", { date, n: st });
   const sv = $("splash-vs");
-  if (vs && vs.dateKey === t && !data.daily[t]) { sv.textContent = `🏁 ${vs.name} 님이 ${formatTime(vs.seconds)} 기록으로 도전장을 보냈어요`; sv.classList.remove("hidden"); }
+  if (vs && vs.dateKey === t && !data.daily[t]) { sv.textContent = tr("splash_vs", { name: vs.name, time: formatTime(vs.seconds) }); sv.classList.remove("hidden"); }
   else sv.classList.add("hidden");
 }
 function startFromSplash() {
@@ -876,4 +905,5 @@ initNemo({
   isCheat: () => !!window.NCQ_TEST_CHEAT || isDev(),
 });
 
+document.title = tr("app_name");
 renderSplash();

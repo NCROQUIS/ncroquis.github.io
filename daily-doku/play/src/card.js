@@ -1,7 +1,6 @@
 // 결과 이미지 카드 (캔버스로 그려서 PNG로 만들어요) — 카톡·토스 대화방에서 눈에 띄게
 import { formatTime } from "./sudoku.js";
-
-const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
+import { t, fmtKey } from "./i18n.js";
 
 function roundRect(ctx, x, y, w, h, r) {
   ctx.beginPath();
@@ -20,11 +19,9 @@ export function drawResultCard(rec, { dateKey, streak, name, rankText }) {
   ctx.fillStyle = "#F6F3EC"; ctx.fillRect(0, 0, W, H);
   ctx.fillStyle = "#3182F6"; roundRect(ctx, 0, 0, W, 210, 0); ctx.fill();
   ctx.fillStyle = "#FFFFFF"; ctx.textAlign = "center";
-  ctx.font = font(800, 64); ctx.fillText("데일리도쿠", W / 2, 105);
-  const y = Math.floor(dateKey / 10000), m = Math.floor(dateKey / 100) % 100, d = dateKey % 100;
-  const dow = DAYS[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
+  ctx.font = font(800, 64); ctx.fillText(t("app_name"), W / 2, 105);
   ctx.font = font(600, 36); ctx.fillStyle = "rgba(255,255,255,.88)";
-  ctx.fillText(`${m}월 ${d}일 (${dow}) 오늘의 한 판`, W / 2, 165);
+  ctx.fillText(t("card_subtitle", { date: fmtKey(dateKey, { month: "long", day: "numeric", weekday: "short" }) }), W / 2, 165);
 
   // 카드
   ctx.fillStyle = "#FFFFFF"; roundRect(ctx, 60, 250, W - 120, 800, 40); ctx.fill();
@@ -41,7 +38,7 @@ export function drawResultCard(rec, { dateKey, streak, name, rankText }) {
   ctx.fillStyle = "#1E2A44"; ctx.font = font(800, 150);
   ctx.fillText(formatTime(rec.seconds), W / 2, 555);
   ctx.fillStyle = "#6F778A"; ctx.font = font(600, 38);
-  ctx.fillText(`실수 ${rec.mistakes}  ·  🔥 ${streak}일 연속`, W / 2, 620);
+  ctx.fillText(t("card_line", { mistakes: t("share_mistakes", { n: rec.mistakes }), streak: t("share_streak", { n: streak }) }), W / 2, 620);
 
   // 박스 3x3
   const size = 92, gap = 14, gx = W / 2 - (size * 3 + gap * 2) / 2, gy = 670;
@@ -53,9 +50,9 @@ export function drawResultCard(rec, { dateKey, streak, name, rankText }) {
 
   // 아래 줄
   ctx.fillStyle = "#6F778A"; ctx.font = font(600, 34);
-  ctx.fillText(rankText || (name ? `${name} 님의 기록` : "전국이 같은 문제를 풀어요"), W / 2, 1010);
+  ctx.fillText(rankText || (name ? t("card_name", { name }) : t("today_sub")), W / 2, 1010);
   ctx.fillStyle = "#1E2A44"; ctx.font = font(700, 36);
-  ctx.fillText("나랑 오늘 문제 겨뤄 볼래요?", W / 2, 1100);
+  ctx.fillText(t("card_cta"), W / 2, 1100);
   return c;
 }
 

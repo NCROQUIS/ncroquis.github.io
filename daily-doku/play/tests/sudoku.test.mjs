@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { NcqLang } from "../ncq/lang.js";
 import { generate, daily, countSolutions, PEERS, DIFFICULTY, kstDateKey, dailyDifficulty, prevDateKey, stars, shareText } from "../src/sudoku.js";
 
 function validSolution(g) {
@@ -42,10 +43,18 @@ test("요일 난이도와 전날 계산", () => {
 test("3스타와 결과 카드", () => {
   assert.equal(stars({ mistakes: 0, seconds: 100, difficulty: "easy" }), 3);
   assert.equal(stars({ mistakes: 2, seconds: 9999, difficulty: "easy" }), 1);
-  const t = shareText({ dateKey: 20261104, seconds: 272, mistakes: 1, streak: 3, starCount: 2,
-    boxMistakes: [1,0,0,0,0,0,0,0,0], hinted: [0,1,0,0,0,0,0,0,0] });
+  const args = { dateKey: 20261104, seconds: 272, mistakes: 1, streak: 3, starCount: 2,
+    boxMistakes: [1,0,0,0,0,0,0,0,0], hinted: [0,1,0,0,0,0,0,0,0] };
+  NcqLang.set("ko");
+  const t = shareText(args);
   assert.match(t, /데일리도쿠 11\/4\(수\) ⭐⭐/);
   assert.match(t, /4:32 · 실수 1/);
   assert.match(t, /🟨🟦🟩/);
   assert.match(t, /3일 연속/);
+  NcqLang.set("en");
+  const e = shareText(args);
+  assert.match(e, /Daily Doku 11\/4\(Wed\) ⭐⭐/);
+  assert.match(e, /4:32 · 1 mistake\n/);
+  assert.match(e, /🟨🟦🟩/);
+  assert.match(e, /3-day streak/);
 });

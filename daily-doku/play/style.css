@@ -1,3 +1,5 @@
+/* 여는 첫 순간 다른 언어가 비치지 않게: NcqLang.init이 <html lang>을 정하기 전에는 숨겨요 */
+html:not([lang]) [data-i18n] { visibility: hidden; }
 /* 한 화면 세로 앱: 홈 / 기록 / 게임, 아래에서 올라오는 시트 */
 :root {
   --bg: #F6F3EC;
@@ -70,7 +72,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .splash-grid span.hl { background: var(--accent); color: var(--accent-ink); }
 @keyframes tile-in { to { opacity: 1; transform: scale(1); } }
 .splash-title { margin: 0; font-size: calc(2.6em); letter-spacing: -1px; opacity: 0; animation: rise .5s ease .55s forwards; }
-.splash-title span { color: var(--accent); }
+.splash-title .ac { color: var(--accent); }
 .splash-tag { margin: 0; color: var(--sub); font-size: 1em; opacity: 0; animation: rise .5s ease .7s forwards; }
 .splash-today { margin-top: 14px; padding: 8px 14px; border-radius: 999px; background: var(--card); box-shadow: var(--shadow);
   font-size: .94em; font-weight: 600; opacity: 0; animation: rise .5s ease .85s forwards; }
@@ -83,7 +85,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .home-top { display: flex; align-items: center; justify-content: space-between; padding-right: var(--ncq-toss-right, 0px); }
 .top-actions { display: flex; gap: 2px; }
 .logo { font-size: 1.65em; margin: 0; letter-spacing: -0.5px; }
-.logo span { color: var(--accent); }
+.logo .ac { color: var(--accent); }
 .today-card, .classic-card, .panel { background: var(--card); border-radius: 20px; padding: 20px; box-shadow: var(--shadow); }
 .today-date { color: var(--sub); font-size: .94em; }
 .today-title { font-size: 1.75em; font-weight: 800; margin: 2px 0 4px; }
@@ -169,6 +171,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 .cal button.open small { color: var(--sub); }
 .cal-foot { text-align: center; margin-top: 10px; color: var(--sub); font-size: .9em; }
 .cal-foot b { color: var(--ink); }
+.cal-legend b { font-weight: inherit; }
 .cal-legend { display: flex; justify-content: center; gap: 14px; margin-top: 8px; font-size: .75em; color: var(--sub); flex-wrap: wrap; }
 .lg { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 4px; vertical-align: -1px; }
 .lg.done { background: var(--accent); } .lg.late { background: var(--late); } .lg.open { background: var(--peer); outline: 1px solid var(--line); }
@@ -230,7 +233,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); ou
 
 .tools { display: flex; justify-content: space-between; }
 .tool { position: relative; display: flex; flex-direction: column; align-items: center; font-size: .78em; color: var(--sub); padding: 6px 2px; border-radius: 12px; flex: 1; min-width: 0; }
-.tool span { white-space: nowrap; }
+.tool > span { text-align: center; line-height: 1.15; max-width: 100%; overflow-wrap: anywhere; }
 .tool i { font-style: normal; font-size: 1.85em; color: var(--ink); line-height: 1.2; }
 .tool:active { background: var(--peer); }
 .tool.on i, .tool.on b { color: var(--accent); }

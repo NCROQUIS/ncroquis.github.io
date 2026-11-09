@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>엔크로키 킥오프 Codex로 시작하기</title>
+<meta name="description" content="Codex에 엔크로키 킥오프를 연결하는 방법이에요. 설정에서 MCP 서버를 하나 추가하고 회사 구글 계정으로 로그인하면 돼요.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Codex로 게임 만들기 시작해요">
+<meta property="og:description" content="Codex에 엔크로키 킥오프를 연결하는 방법이에요.">
+<meta property="og:url" content="https://ncroquis.github.io/start/codex/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&family=Nanum+Pen+Script&display=swap">
+<style>
+:root {
+  --mat: #2f5d50;
+  --mat-line: rgba(236, 214, 120, 0.13);
+  --mat-line-major: rgba(236, 214, 120, 0.28);
+  --paper: #fdfdfb;
+  --ink: #1f2623;
+  --graphite: #57605b;
+  --on-mat: #f3f7f4;
+  --on-mat-soft: #c4dace;
+  --tape-dev: #f1c94f;
+  --tape-test: #93c4ec;
+  --tape-live: #e9664c;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mat: #213f36;
+    --paper: #eceee9;
+    --mat-line: rgba(236, 214, 120, 0.1);
+    --mat-line-major: rgba(236, 214, 120, 0.2);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--on-mat);
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  background-color: var(--mat);
+  background-image:
+    linear-gradient(var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(var(--mat-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: -1px -1px;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 64px 20px 72px; }
+
+.masthead h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(48px, 10vw, 96px);
+  line-height: 1;
+}
+
+.masthead p { margin: 16px 0 0; max-width: 34em; color: var(--on-mat-soft); font-size: 18px; }
+
+.board {
+  list-style: none;
+  margin: 64px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 44px 28px;
+}
+
+.sheet {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 34px 22px 18px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 12px 20px -12px rgba(0, 0, 0, 0.55);
+}
+
+.board li:nth-child(3n + 1) .sheet { transform: rotate(-0.7deg); }
+.board li:nth-child(3n + 2) .sheet { transform: rotate(0.5deg); }
+.board li:nth-child(3n) .sheet { transform: rotate(-0.25deg); }
+
+.board .sheet h2 a { color: inherit; text-decoration: none; }
+.board .sheet h2 a::after { content: ""; position: absolute; inset: 0; }
+.board .sheet h2 a:focus-visible { outline: none; }
+.board .sheet:focus-within { outline: 3px solid var(--tape-dev); outline-offset: 5px; }
+
+.tape {
+  position: absolute;
+  top: -12px;
+  left: 18px;
+  padding: 3px 12px 4px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  transform: rotate(-2.5deg);
+  opacity: 0.95;
+}
+
+.tape[data-status="테스트 중"] { background: var(--tape-test); }
+.tape[data-status="출시"] { background: var(--tape-live); color: #fff; }
+
+.sheet h2 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.summary { margin: 10px 0 0; }
+
+.quick { margin: 16px 0 0; }
+
+.quick-play {
+  position: relative;
+  z-index: 1; /* 카드 전체가 소개 페이지 링크(h2 a::after)라 그 위에서 따로 눌려요 */
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 18px 10px 15px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.quick-play::before {
+  content: "";
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent currentColor;
+}
+
+.quick-play:hover { background: #34433c; }
+
+.ver {
+  margin-left: 10px;
+  color: var(--graphite);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.note {
+  margin: 18px 0 0;
+  color: var(--graphite);
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.empty {
+  margin: 64px 0 0;
+  max-width: 30em;
+  padding: 24px;
+  border: 2px dashed var(--on-mat-soft);
+  color: var(--on-mat-soft);
+}
+
+.back {
+  color: var(--on-mat);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.page { max-width: 760px; margin: 0 auto; padding: 32px 20px 72px; }
+
+.page .sheet {
+  margin-top: 44px;
+  padding: 52px clamp(22px, 6vw, 60px) 40px;
+  transform: rotate(-0.35deg);
+}
+
+.page .sheet h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(40px, 8vw, 64px);
+  line-height: 1.05;
+}
+
+.lead { margin: 16px 0 0; font-size: 20px; line-height: 1.5; }
+
+.pitch { margin: 24px 0 0; max-width: 34em; }
+
+.play {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 22px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pending { margin: 24px 0 0; color: var(--graphite); }
+
+.back:focus-visible,
+.play:focus-visible,
+.quick-play:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+
+footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
+
+.masthead .start-link { margin: 28px 0 0; }
+
+.start-link a {
+  display: inline-block;
+  padding: 8px 16px 9px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-weight: 600;
+  text-decoration: none;
+  transform: rotate(-1.5deg);
+}
+
+.start-link a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+
+.guide { max-width: 760px; margin: 0 auto; padding: 32px 20px 72px; }
+
+.guide-head { margin-top: 44px; }
+
+.guide-head h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(46px, 10vw, 84px);
+  line-height: 1.02;
+}
+
+.guide-lead { margin: 20px 0 0; max-width: 31em; color: var(--on-mat-soft); font-size: 18px; }
+
+.idea {
+  margin: 44px 0 0;
+  max-width: 540px;
+  padding: 30px 28px 20px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  transform: rotate(-1.4deg);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 16px 22px -14px rgba(0, 0, 0, 0.6);
+}
+
+.idea-text {
+  margin: 0;
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: clamp(32px, 6.4vw, 42px);
+  line-height: 1.12;
+}
+
+.idea figcaption {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  font-size: 15px;
+}
+
+.guide .sheet { margin-top: 60px; padding: 46px clamp(22px, 6vw, 52px) 34px; }
+
+.steps { list-style: none; margin: 0; padding: 0; }
+.steps > li:nth-child(odd) { transform: rotate(-0.35deg); }
+.steps > li:nth-child(even) { transform: rotate(0.3deg); }
+
+.guide .sheet h2 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(28px, 5.4vw, 38px);
+  line-height: 1.15;
+}
+
+.guide .tape { font-size: 15px; padding: 3px 14px 4px; }
+.tape.help-tape { background: var(--tape-test); }
+
+.when { margin: 6px 0 0; color: var(--graphite); }
+
+.guide .sheet p { margin: 16px 0 0; max-width: 36em; }
+
+.kit { margin: 18px 0 0; padding: 0; list-style: none; }
+.kit li { position: relative; padding-left: 34px; max-width: 36em; }
+.kit li + li { margin-top: 14px; }
+.kit li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--ink);
+}
+.kit b { display: block; }
+
+.do { margin: 18px 0 0; padding-left: 1.4em; max-width: 36em; }
+.do li { padding-left: 4px; }
+.do li + li { margin-top: 10px; }
+.do li::marker { font-weight: 600; }
+
+.button {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 12px 20px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.slip {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border: 2px dashed var(--graphite);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+.slip span { font-weight: 600; overflow-wrap: anywhere; }
+
+/* Codex로 시작하기: 적어 넣을 글(이름·설정 한 줄·명령)과 키보드 단축키 */
+.guide code, .guide kbd { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 0.9em; }
+.guide code { padding: 1px 5px; background: rgba(31, 38, 35, 0.08); overflow-wrap: anywhere; }
+.guide kbd {
+  padding: 0 6px;
+  border: 1.5px solid currentColor;
+  border-bottom-width: 3px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.slip code { padding: 0; background: none; font-weight: 600; }
+.do .copy { margin-left: 6px; vertical-align: 1px; }
+.do .slip { margin-top: 8px; }
+
+.copy {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+}
+
+.pencil {
+  color: var(--graphite);
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: 24px;
+  line-height: 1.25;
+}
+.guide .sheet p.pencil { margin-top: 22px; }
+
+.say {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 18px;
+}
+.say li {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 16px 14px;
+  background: #f8e8a6;
+  color: #2b2a20;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 12px -10px rgba(0, 0, 0, 0.45);
+}
+.say li:nth-child(odd) { transform: rotate(-1deg); }
+.say li:nth-child(even) { transform: rotate(0.8deg); }
+.say p { margin: 0; font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif; font-size: 27px; line-height: 1.15; }
+.guide .sheet .say p { margin: 0; }
+.say .copy { align-self: flex-start; }
+
+.caution { margin: 20px 0 0; padding: 12px 16px; border-left: 6px solid var(--tape-live); background: #fbeae6; max-width: 36em; }
+.guide .sheet p.caution { margin-top: 20px; }
+
+.made { margin: 18px 0 0; max-width: 36em; }
+.made dt { font-weight: 600; }
+.made dd { margin: 2px 0 0; }
+.made dd + dt { margin-top: 14px; }
+
+.faq { margin-top: 18px; }
+.faq details { border-top: 1px solid rgba(31, 38, 35, 0.18); padding: 12px 0; max-width: 36em; }
+.faq details:last-child { border-bottom: 1px solid rgba(31, 38, 35, 0.18); }
+.faq summary { cursor: pointer; font-weight: 600; }
+.faq details p { margin: 8px 0 0; }
+.guide .sheet .faq details p { margin-top: 8px; }
+
+.guide .sheet a:not(.button) { color: inherit; text-underline-offset: 3px; }
+
+.copy:focus-visible,
+.button:focus-visible,
+.guide .sheet a:focus-visible,
+.faq summary:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.idea .copy:focus-visible { outline-color: var(--ink); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* 시작하기 | 출시하기 탭 (페이지 사이) */
+.guide-tabs { margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.guide-tabs a {
+  padding: 7px 18px 8px;
+  border: 2px solid var(--on-mat-soft);
+  color: var(--on-mat);
+  font-weight: 600;
+  text-decoration: none;
+}
+.guide-tabs a[aria-current="page"] {
+  background: var(--tape-dev);
+  border-color: var(--tape-dev);
+  color: #2b2a20;
+  transform: rotate(-1.5deg);
+}
+.guide-tabs a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+
+/* 출시하기: 게임 이름 칸과 하고 싶은 일마다 한 마디 */
+.name-box { margin: 22px 0 0; padding: 14px 16px 12px; border: 2px dashed var(--graphite); max-width: 30em; }
+.name-box label { display: block; font-weight: 600; }
+.name-box input {
+  margin-top: 8px;
+  width: 100%;
+  font: inherit;
+  font-size: 18px;
+  padding: 8px 10px;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+}
+.name-box input:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+.guide .sheet .name-box p { margin: 6px 0 0; color: var(--graphite); font-size: 14px; }
+
+.game-name { padding: 0 3px; border-bottom: 2px dashed currentColor; }
+.game-name.filled { padding: 0; border-bottom: 0; }
+
+.wants { list-style: none; margin: 30px 0 0; padding: 0; }
+.wants > li + li { margin-top: 30px; padding-top: 28px; border-top: 1px solid rgba(31, 38, 35, 0.18); }
+.guide .sheet .wants h3 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 1.2;
+}
+.note-label { display: block; margin: 16px 0 0; color: var(--graphite); font-size: 15px; font-weight: 600; }
+.cmd-note {
+  margin: 12px 0 0;
+  max-width: 24em;
+  padding: 13px 14px 11px;
+  background: #f8e8a6;
+  color: #2b2a20;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 12px -10px rgba(0, 0, 0, 0.45);
+  transform: rotate(-0.8deg);
+}
+.note-label + .cmd-note { margin-top: 6px; }
+.wants > li:nth-child(even) .cmd-note { transform: rotate(0.7deg); }
+.guide .sheet .cmd-note p {
+  margin: 0;
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: 26px;
+  line-height: 1.12;
+}
+.cmd-note .copy { margin-top: 10px; }
+.guide .sheet .wants .does { margin: 14px 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* 기울임은 :nth-child 규칙이 더 구체적이라 !important로 끈다 */
+  .idea, .steps > li, .say li, .cmd-note, .guide-tabs a { transform: none !important; }
+}
+</style>
+</head>
+<body>
+<main class="guide">
+  <a class="back" href="../../">전체 프로젝트 보기</a>
+  <nav class="guide-tabs" aria-label="시작 가이드"><a href="../">시작하기</a><a href="./" aria-current="page">Codex로 시작하기</a><a href="../release/">출시하기</a></nav>
+
+  <header class="guide-head">
+    <h1>Codex로<br>시작해요</h1>
+    <p class="guide-lead">Codex를 쓰면 이 순서대로 해요. Codex에 엔크로키 킥오프를 한 번 연결해 두면 아이디어 말하기부터 테스트 링크, 출시까지 Claude와 같은 말로 할 수 있어요.</p>
+  </header>
+
+  <section class="sheet" aria-labelledby="kit-title">
+    <span class="tape">준비물</span>
+    <h2 id="kit-title">시작 전에 세 가지</h2>
+    <ul class="kit">
+      <li><b>Codex</b>Codex 앱에 ChatGPT 계정으로 로그인해 둬요. 터미널을 쓰면 Codex CLI도 돼요 (아래 '명령어로 연결하기').</li>
+      <li><b>회사 구글 계정</b>@ncroquis.com 계정은 등록 없이 바로 써요. 회사 밖 분은 엔크로키 담당자에게 구글 계정 이메일을 알려 주세요. 등록되면 1분 안에 쓸 수 있어요.</li>
+      <li><b>GitHub 계정</b>개발할 때 필요해요. 없으면 <a href="https://github.com/signup">GitHub에서 무료로 만들어요</a>.</li>
+    </ul>
+  </section>
+
+  <ol class="steps">
+    <li class="sheet" aria-labelledby="step1">
+      <span class="tape">1</span>
+      <h2 id="step1">Codex에 엔크로키 킥오프 연결하기</h2>
+      <p class="when">처음 한 번만 해요. 3분이면 돼요.</p>
+      <p>먼저 이 주소를 복사해 둬요.</p>
+      <div class="slip"><span id="connector-url">https://kickoff-476465444216.asia-northeast3.run.app/mcp</span><button class="copy" type="button" data-copy="connector-url">주소 복사</button></div>
+      <ol class="do">
+        <li>Codex 앱에서 <b>설정</b>을 열어요. 키보드로는 <kbd>Ctrl</kbd> + <kbd>,</kbd> (맥은 <kbd>Cmd</kbd> + <kbd>,</kbd>)예요.</li>
+        <li><b>통합</b> → <b>플러그인</b> → <b>MCP</b>로 가서 <b>추가</b>를 눌러요.</li>
+        <li>종류를 <b>Streamable HTTP</b>로 골라요. 처음에는 STDIO로 되어 있어요.</li>
+        <li><b>이름</b> 칸에 <code id="mcp-name">ncroquis-kickoff</code>라고 적어요. <button class="copy" type="button" data-copy="mcp-name">이름 복사</button></li>
+        <li><b>URL</b> 칸에 위에서 복사한 주소를 붙여 넣고 <b>저장</b>을 눌러요.</li>
+        <li>로그인할 브라우저가 열려요. 안 열리면 목록에 생긴 ncroquis-kickoff의 <b>인증</b>을 눌러요. Codex를 다시 시작하라고 나오면 먼저 다시 시작해요.</li>
+        <li>영어로 된 Allow Access 화면이 나오면 Allow Access를 눌러요.</li>
+        <li>구글 계정 고르기에서 회사 계정을 골라요. Authentication complete가 보이면 브라우저를 닫고 Codex로 돌아가요.</li>
+      </ol>
+      <p class="pencil">메뉴 이름은 Codex 버전마다 조금 달라요. '통합'이 안 보이면 설정 왼쪽 목록의 'MCP 서버'에서 '서버 추가'를 눌러요.</p>
+    </li>
+
+    <li class="sheet" aria-labelledby="step2">
+      <span class="tape">2</span>
+      <h2 id="step2">기다리는 시간 늘리기</h2>
+      <p class="when">한 번만 해요. 1분이면 돼요.</p>
+      <p>킥오프나 스토어 올리기처럼 1분 넘게 걸리는 일이 있어요. Codex는 기본으로 1분만 기다려서, 늘려 두지 않으면 일이 끝나기 전에 시간 초과(timed out)가 나와요.</p>
+      <ol class="do">
+        <li>Codex 설정 폴더를 열어요. 윈도우는 파일 탐색기 주소창에 <code>%USERPROFILE%\.codex</code>를 붙여 넣고 Enter를 눌러요. 맥은 Finder에서 <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd>를 누르고 <code>~/.codex</code>로 가요.</li>
+        <li><code>config.toml</code> 파일을 메모장(맥은 텍스트 편집기)으로 열어요.</li>
+        <li><code>[mcp_servers.ncroquis-kickoff]</code> 줄을 찾아 바로 아래 url 줄 다음에 이 한 줄을 넣어요.
+          <div class="slip"><code id="codex-timeout">tool_timeout_sec = 600</code><button class="copy" type="button" data-copy="codex-timeout">복사</button></div>
+        </li>
+        <li>저장하고 Codex를 다시 시작해요.</li>
+      </ol>
+      <p class="pencil">파일 고치기가 어려우면 Codex에게 "내 Codex 설정에서 ncroquis-kickoff의 tool_timeout_sec를 600으로 바꿔 줘"라고 부탁해도 돼요.</p>
+    </li>
+
+    <li class="sheet" aria-labelledby="step3">
+      <span class="tape">3</span>
+      <h2 id="step3">연결됐는지 확인하기</h2>
+      <p class="when">10초면 돼요.</p>
+      <p>Codex에서 새 대화를 열고 입력창에 <code>/mcp</code>를 쳐요. 연결된 서버 목록에 ncroquis-kickoff가 보이면 끝이에요.</p>
+      <p class="pencil">폴더(프로젝트)를 고르라고 하면 아무 폴더나 골라도 돼요. 킥오프는 내 PC 파일을 쓰지 않아요.</p>
+    </li>
+
+    <li class="sheet" aria-labelledby="step4">
+      <span class="tape">4</span>
+      <h2 id="step4">아이디어 말하고 코드네임 고르기</h2>
+      <p class="when">여기부터는 Claude와 같아요.</p>
+      <p>새 대화에서 만들고 싶은 게임을 말해요. 생각나는 대로 한두 문장이면 충분해요.</p>
+      <ul class="say">
+        <li><p id="codex-idea-puzzle">블록을 밀어서 펭귄이 지나갈 길을 만드는 퍼즐 게임 만들어 보자</p><button class="copy" type="button" data-copy="codex-idea-puzzle">복사</button></li>
+        <li><p id="codex-idea-cat">고양이를 모아 키우는 방치형 게임 만들어 줘</p><button class="copy" type="button" data-copy="codex-idea-cat">복사</button></li>
+      </ul>
+      <p>Codex가 코드네임 후보 세 개를 보여 주면 "1번으로 할게"처럼 번호만 답해요. 1~2분 뒤 코드 저장소, 기획 시트, 소개 페이지 링크가 와요. 자세한 내용은 <a href="../#step3">시작하기의 3·4단계</a>와 같아요.</p>
+      <p class="caution">패키지명은 스토어에 올린 뒤에는 바꿀 수 없어요. 고르기 전에 한 번 더 봐 주세요.</p>
+      <p class="pencil">Codex가 ncroquis-kickoff 도구를 써도 되는지 물으면 허용해요.</p>
+    </li>
+
+    <li class="sheet" aria-labelledby="step5">
+      <span class="tape">5</span>
+      <h2 id="step5">Codex로 개발하기</h2>
+      <p>킥오프가 끝나면 같은 대화에서 "Codex로 개발할게"라고 해요. 레포를 내 PC에 받는 방법(git clone 주소)을 알려 줘요. 받은 폴더를 Codex에서 열면 Codex가 레포의 AGENTS.md(회사 개발 규칙)를 읽고 그대로 개발해요.</p>
+      <p>테스트 링크와 구글플레이·토스 출시도 Codex에서 같은 말로 해요. 할 말은 <a href="../release/">출시하기</a> 탭에 있어요.</p>
+      <p class="pencil">결과 맨 아래 'Claude Code에서 개발 시작' 링크는 Claude Code용이에요. Codex만 쓰면 넘어가도 돼요.</p>
+    </li>
+  </ol>
+
+  <section class="sheet" aria-labelledby="cli-title">
+    <span class="tape">터미널</span>
+    <h2 id="cli-title">명령어로 연결하기</h2>
+    <p class="when">Codex CLI나 VS Code의 Codex를 쓰면 이게 더 빨라요.</p>
+    <div class="slip"><code id="codex-cli">codex mcp add ncroquis-kickoff --url https://kickoff-476465444216.asia-northeast3.run.app/mcp</code><button class="copy" type="button" data-copy="codex-cli">명령 복사</button></div>
+    <p>실행하면 브라우저가 열려 바로 로그인해요 (1단계의 7·8번과 같아요). 안 열리면 터미널에 나온 주소를 브라우저에 붙여 넣어요. 나중에 로그인이 풀리면 <code>codex mcp login ncroquis-kickoff</code>를 실행해요.</p>
+    <p>Codex 앱, CLI, VS Code 확장은 같은 설정을 써서 한 곳에서만 연결하면 돼요. 기다리는 시간(2단계)도 같은 파일이에요.</p>
+  </section>
+
+  <section class="sheet" aria-labelledby="help-title">
+    <span class="tape help-tape">막힐 때</span>
+    <h2 id="help-title">자주 막히는 곳</h2>
+    <div class="faq">
+      <details>
+        <summary>시간 초과(timed out)가 나왔어요</summary>
+        <p>서버는 하던 일을 끝까지 해요. 킥오프였다면 1~2분 뒤 "방금 킥오프 이어서 해 줘"라고 해요. 끝난 단계는 건너뛰고 결과를 보여 줘요. 빌드나 올리기였다면 "<span class="game-name">게임 이름</span> 지금 상태 알려 줘"로 확인해요. 다음부터 안 나오게 2단계를 해 둬요.</p>
+      </details>
+      <details>
+        <summary>'인증'을 눌러도 브라우저가 안 열려요</summary>
+        <p>Codex를 다시 시작한 뒤 MCP 목록에서 다시 눌러 봐요. 터미널이 있으면 <code>codex mcp login ncroquis-kickoff</code>로도 로그인돼요.</p>
+      </details>
+      <details>
+        <summary>'권한이 없어요'라고 나와요</summary>
+        <p>개인 Gmail로 로그인했을 수 있어요. MCP 목록에서 ncroquis-kickoff를 지우고 1단계를 다시 해서 회사 계정을 골라요. 터미널에서는 <code>codex mcp logout ncroquis-kickoff</code> 다음 <code>codex mcp login ncroquis-kickoff</code>예요.</p>
+      </details>
+      <details>
+        <summary>Codex가 킥오프 도구를 안 써요</summary>
+        <p>입력창에 <code>/mcp</code>를 쳐서 ncroquis-kickoff가 있는지 봐요. 있으면 "엔크로키 킥오프로 해 줘"라고 콕 집어 말해요. 없으면 Codex를 다시 시작하고, 그래도 없으면 1단계를 다시 해요.</p>
+      </details>
+      <details>
+        <summary>연결할 수 없다는 오류가 나와요</summary>
+        <p>10초쯤 기다렸다가 다시 해 봐요. 쉬고 있던 서버가 깨어나는 중이에요.</p>
+      </details>
+      <details>
+        <summary>회사 밖 사람인데 써도 되나요?</summary>
+        <p>네. 엔크로키 담당자에게 구글 계정 이메일과 GitHub 아이디를 알려 주세요. 등록되면 1분 안에 쓸 수 있어요.</p>
+      </details>
+      <details>
+        <summary>Claude와 같이 써도 되나요?</summary>
+        <p>네. 같은 서버라서 Claude에서 킥오프하고 Codex로 개발해도 되고, 반대로 해도 돼요.</p>
+      </details>
+    </div>
+  </section>
+
+  <p class="sr-only" aria-live="polite" id="copy-status"></p>
+  <footer>© 2026 엔크로키</footer>
+</main>
+<script>
+(function () {
+  var status = document.getElementById("copy-status");
+  function selectText(node) {
+    var range = document.createRange();
+    range.selectNodeContents(node);
+    var selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+  function announce(button, message) {
+    var label = button.getAttribute("data-label") || button.textContent;
+    button.setAttribute("data-label", label);
+    button.textContent = message;
+    status.textContent = message;
+    window.setTimeout(function () { button.textContent = label; }, 1600);
+  }
+  document.querySelectorAll("[data-copy]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var source = document.getElementById(button.getAttribute("data-copy"));
+      if (!source) { return; }
+      var text = source.textContent.replace(/\s+/g, " ").trim();
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function () {
+          announce(button, "복사했어요");
+        }, function () {
+          selectText(source);
+          announce(button, "선택했어요. 복사해서 쓰세요");
+        });
+      } else {
+        selectText(source);
+        announce(button, "선택했어요. 복사해서 쓰세요");
+      }
+    });
+  });
+})();
+
+// '게임 이름' 자리: 출시하기의 이름 칸에 적으면 페이지의 모든 말에 그 이름이 들어가요 (이 브라우저에만 기억)
+(function () {
+  var slots = Array.prototype.slice.call(document.querySelectorAll(".game-name"));
+  if (!slots.length) { return; }
+  var KEY = "ncq-guide-game-name";
+  var input = document.getElementById("game-name");
+  function fill(name) {
+    slots.forEach(function (slot) {
+      slot.textContent = name || "게임 이름";
+      if (name) { slot.classList.add("filled"); } else { slot.classList.remove("filled"); }
+    });
+  }
+  var saved = "";
+  try { saved = window.localStorage.getItem(KEY) || ""; } catch (e) { saved = ""; }
+  saved = saved.replace(/\s+/g, " ").trim().slice(0, 40);
+  if (input) { input.value = saved; }
+  fill(saved);
+  if (!input) { return; }
+  input.addEventListener("input", function () {
+    var name = input.value.replace(/\s+/g, " ").trim().slice(0, 40);
+    fill(name);
+    try {
+      if (name) { window.localStorage.setItem(KEY, name); } else { window.localStorage.removeItem(KEY); }
+    } catch (e) { /* 저장소를 못 쓰면 이번에만 */ }
+  });
+})();
+</script>
+</body>
+</html>

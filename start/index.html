@@ -335,6 +335,20 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
 }
 .slip span { font-weight: 600; overflow-wrap: anywhere; }
 
+/* Codex로 시작하기: 적어 넣을 글(이름·설정 한 줄·명령)과 키보드 단축키 */
+.guide code, .guide kbd { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 0.9em; }
+.guide code { padding: 1px 5px; background: rgba(31, 38, 35, 0.08); overflow-wrap: anywhere; }
+.guide kbd {
+  padding: 0 6px;
+  border: 1.5px solid currentColor;
+  border-bottom-width: 3px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.slip code { padding: 0; background: none; font-weight: 600; }
+.do .copy { margin-left: 6px; vertical-align: 1px; }
+.do .slip { margin-top: 8px; }
+
 .copy {
   font: inherit;
   font-size: 14px;
@@ -486,7 +500,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
 <body>
 <main class="guide">
   <a class="back" href="../">전체 프로젝트 보기</a>
-  <nav class="guide-tabs" aria-label="시작 가이드"><a href="./" aria-current="page">시작하기</a><a href="release/">출시하기</a></nav>
+  <nav class="guide-tabs" aria-label="시작 가이드"><a href="./" aria-current="page">시작하기</a><a href="codex/">Codex로 시작하기</a><a href="release/">출시하기</a></nav>
 
   <header class="guide-head">
     <h1>게임 만들기,<br>여기서 시작해요</h1>
@@ -524,6 +538,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
         <li>구글 계정 고르기에서 회사 계정을 골라요. 개인 Gmail을 고르면 권한이 없다고 나와요.</li>
       </ol>
       <p class="pencil">'서버를 확인할 수 없습니다'가 나오면 10초쯤 기다렸다가 다시 해 보세요. 쉬고 있던 서버가 깨어나는 중이에요.</p>
+      <p>Codex를 쓰면 <a href="codex/">Codex로 시작하기</a> 탭의 순서대로 연결해요. 연결한 다음은 여기와 같아요.</p>
     </li>
 
     <li class="sheet" aria-labelledby="step2">

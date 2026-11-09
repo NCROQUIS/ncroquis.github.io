@@ -1,0 +1,57 @@
+[
+  {
+    "stage": 1,
+    "name": "레몬 샷",
+    "src": "Resource/Juice01.png"
+  },
+  {
+    "stage": 2,
+    "name": "체리 에이드",
+    "src": "Resource/Juice02.png"
+  },
+  {
+    "stage": 3,
+    "name": "블루 라군",
+    "src": "Resource/Juice03.png"
+  },
+  {
+    "stage": 4,
+    "name": "키위 쿨러",
+    "src": "Resource/Juice04.png"
+  },
+  {
+    "stage": 5,
+    "name": "베리 선셋",
+    "src": "Resource/Juice05.png"
+  },
+  {
+    "stage": 6,
+    "name": "그레이프 피즈",
+    "src": "Resource/Juice06.png"
+  },
+  {
+    "stage": 7,
+    "name": "트로피컬 펀치",
+    "src": "Resource/Juice07.png"
+  },
+  {
+    "stage": 8,
+    "name": "파라다이스",
+    "src": "Resource/Juice08.png"
+  },
+  {
+    "stage": 9,
+    "name": "피치 블룸",
+    "src": "Resource/Juice09.png"
+  },
+  {
+    "stage": 10,
+    "name": "코코넛 드림",
+    "src": "Resource/Juice10.png"
+  },
+  {
+    "stage": 11,
+    "name": "망고 로열",
+    "src": "Resource/Juice11.png"
+  }
+]

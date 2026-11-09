@@ -1,0 +1,98 @@
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#123e40;font-family:ui-rounded,'Arial Rounded MT Bold',-apple-system,BlinkMacSystemFont,sans-serif;color:#174d49;touch-action:none}body{display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at top,#367b75,#102c31)}button{font:inherit;cursor:pointer;border:0;-webkit-tap-highlight-color:transparent}button:focus-visible{outline:4px solid #ffbc5a;outline-offset:4px}#app{width:720px;height:1280px;position:relative;flex:none;overflow:hidden;transform-origin:center;box-shadow:0 0 100px #0005;background:#f5d89b}#game{position:absolute;inset:0;width:100%;height:100%}header{position:absolute;top:38px;left:42px;right:42px;display:flex;justify-content:space-between;align-items:center}.eyebrow{font-size:12px;letter-spacing:3px;font-weight:800}h1{margin:3px 0;font-size:43px;letter-spacing:-2px;line-height:1.15}h1 span{font-weight:400;margin-left:6px}h1 i{font-size:30px;color:#f58a4e;vertical-align:top;margin-left:6px}.round{width:48px;height:48px;border-radius:50%;background:#fff8e3;color:#225b55;font-size:24px;box-shadow:0 3px 0 #b8d6bd}.mission{position:absolute;top:145px;left:42px;right:42px;padding:19px 23px;display:flex;gap:18px;border:1px solid #fff8;background:#fffbebeb;border-radius:22px;box-shadow:0 6px 18px #52695713}.mission-icon{width:56px;height:56px;align-self:center;border-radius:18px;display:grid;place-items:center;background:#f9cf73;color:#a66d2a;font-size:36px}.mission-info{flex:1}.mission-top,.mission-bottom{display:flex;justify-content:space-between;font-size:11px;letter-spacing:1px;font-weight:800}.mission-top{color:#548f81}.mission-top span:last-child{color:#a38d64}.mission strong{display:block;font-size:22px;margin:7px 0 12px}.progress{height:8px;background:#e9e3cc;border-radius:8px;overflow:hidden}#fill{height:100%;width:0;background:#37a88c;border-radius:8px;transition:width .4s}.mission-bottom{margin-top:8px;letter-spacing:0;font-size:11px;color:#95886c}.mission-bottom b{color:#296e5b}#toast{position:absolute;top:286px;left:0;right:0;text-align:center;font-size:15px;font-weight:600;color:#376e65;transition:opacity .4s}.table-label{position:absolute;top:350px;width:100%;text-align:center;color:#9e8763;font-size:10px;letter-spacing:3px;font-weight:700;pointer-events:none}.launch-label{position:absolute;top:1048px;width:100%;text-align:center;font-size:10px;font-weight:800;letter-spacing:2px;color:#9a8c70;pointer-events:none}.launch-label span{padding:0 8px;color:#d79253}footer{position:absolute;left:35px;right:35px;bottom:29px;height:133px;display:flex;gap:12px;align-items:center}.next{height:126px;width:94px;border-radius:22px;background:#fffae9;box-shadow:0 4px 0 #c8b180;display:flex;align-items:center;flex-direction:column}.next small{font-size:10px;font-weight:800;letter-spacing:2px;margin-top:12px}.next canvas{width:77px;height:86px}.evolution{flex:1;height:126px;padding:18px 17px;border-radius:22px;background:#fffae9;box-shadow:0 4px 0 #c8b180}.evolution>div:first-child{display:flex;align-items:center;justify-content:space-between}.evolution small{font-size:10px;letter-spacing:1px;font-weight:800}.evolution span{font-size:8px;color:#9c9275}#tiers{display:flex;align-items:center;justify-content:space-between;margin-top:16px}#tiers span{font-size:26px;filter:grayscale(1);opacity:.25}#tiers span.open{filter:none;opacity:1}#swap{width:56px;height:78px;background:#276d62;border-radius:18px;color:#fff7df;font-size:31px;box-shadow:0 4px 0 #174b43}#swap small{display:block;font-size:10px;margin-top:0}#overlay{position:absolute;inset:0;background:#123e406e;backdrop-filter:blur(7px);display:grid;place-items:center;z-index:10}#overlay[hidden]{display:none}.dialog{width:540px;background:#fff9e9;padding:44px;border-radius:32px;text-align:center;box-shadow:0 20px 80px #103b4055}.dialog h2{font-size:32px;margin:18px 0}.dialog p{font-size:18px;line-height:1.8;color:#6d8576;margin-bottom:28px}.dialog button{display:block;width:100%;padding:17px;border-radius:14px;margin-top:10px;background:#ece8d4;color:#486858;font-size:17px;font-weight:700}.dialog .primary{background:#287d68;color:#fff8e3}.dialog button[hidden]{display:none}
+
+#tiers span{font-size:21px;flex:1;text-align:center}#tiers{gap:1px}
+
+#tiers span{height:33px;display:flex;align-items:center;justify-content:center;min-width:0}#tiers img{max-width:100%;max-height:33px;width:auto;height:auto;object-fit:contain}
+
+/* All eleven originals are visible; thumbnails keep their native aspect ratio. */
+.evolution{min-width:0}#tiers{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:3px;margin-top:14px;height:54px}#tiers span{width:100%;height:54px;filter:none;opacity:1}#tiers img{display:block;max-width:100%;max-height:54px;width:auto;height:auto;object-fit:contain}
+
+header{top:25px}.physics-controls{position:absolute;top:112px;left:42px;right:42px;height:70px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;padding:12px 18px;background:#fffbebed;border:1px solid #fff9;border-radius:17px}.physics-controls label{font-size:12px;font-weight:800;min-width:0}.physics-controls output{float:right;color:#a26e38;font-variant-numeric:tabular-nums}.physics-controls input{display:block;width:100%;height:28px;margin:3px 0 0;accent-color:#29866e;cursor:ew-resize;touch-action:none}.physics-controls input:focus-visible{outline:2px solid #d8944c;outline-offset:2px;border-radius:8px}.mission{top:194px;padding:13px 23px}#toast{top:329px;font-size:13px}
+
+.physics-controls{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.physics-controls label{font-size:11px}
+
+.physics-controls{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding-left:13px;padding-right:13px}.physics-controls label{font-size:10px}
+
+@font-face{font-family:SB_Eogro;src:url('Resource/UI/SB%20%E1%84%8B%E1%85%A5%E1%84%80%E1%85%B3%E1%84%85%E1%85%A9OTF%20M.woff2') format('woff2');font-display:swap}html,body,button{font-family:SB_Eogro,ui-rounded,sans-serif}.size-controls{position:absolute;top:188px;left:42px;right:42px;height:64px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:9px 12px;background:#fffbebed;border-radius:15px}.size-controls label{font-size:10px;min-width:0}.size-controls output{float:right;color:#a26e38}.size-controls input{display:block;width:100%;margin:4px 0 0;accent-color:#29866e;touch-action:none}.mission{top:260px;padding:10px 23px}#toast{top:380px}.table-label{display:none}
+
+/* Keep every collection glass on the same baseline. */
+#tiers span{align-items:flex-end}
+#tiers img{align-self:flex-end}
+
+/* 720 × 1440 portrait layout. Gameplay remains in its established 1280-unit world. */
+#app{height:1280px}
+.launch-label{top:1088px}
+.round{background:transparent url('Resource/UI/Button_Setting.png') center/contain no-repeat;box-shadow:none;color:transparent;width:54px;height:54px}
+
+/* Preserve the painted frame and title cap while stretching the popup's middle. */
+.dialog{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;width:600px;min-height:635px;padding:32px 73px 49px;background:none;border-radius:0;box-shadow:none;color:#27245e}
+.dialog::before{content:'';position:absolute;inset:0;z-index:-1;border-style:solid;border-width:190px 58px 130px;border-image-source:url('Resource/UI/Popup01.png');border-image-slice:220 60 150 60 fill;border-image-width:190px 58px 130px 58px;border-image-repeat:stretch;filter:drop-shadow(0 18px 20px #15274075);pointer-events:none}
+.dialog h2{height:77px;margin:0 0 16px;display:grid;place-items:center;color:white;font-size:32px;line-height:1.1;white-space:nowrap;text-shadow:0 2px 2px #302892aa}
+.dialog p{flex:1;width:100%;margin:0 0 22px;color:#292454;font-size:20.7px;line-height:1.75;display:flex;align-items:center;justify-content:center;overflow-wrap:break-word}
+.dialog button:not(.dialog-close){flex:none;display:grid;place-items:center;width:100%;height:75px;margin:5px 0;padding:0 18px;color:#241c1b;font-size:21px;font-weight:800;background:transparent;border:solid transparent;border-width:23px 35px;border-image-source:url('Resource/UI/Button02.png');border-image-slice:42 65 42 65 fill;border-image-width:23px 35px;border-image-repeat:stretch;border-radius:0;box-shadow:none}
+.dialog button.primary{border-image-source:url('Resource/UI/Button01.png')}
+.dialog button:not(.dialog-close):active{transform:translateY(2px) scale(.99)}
+.dialog .dialog-close{position:absolute;top:39px;right:38px;width:54px;height:54px;padding:0;margin:0;background:transparent;border:0;box-shadow:none;z-index:2}
+.dialog .dialog-close[hidden],.dialog button[hidden]{display:none}
+
+/* Canvas nine-slice keeps neighboring pixels overlapping, removing CSS border seams. */
+.dialog::before{display:none}
+.dialog .popup-art{position:absolute;inset:0;width:100%;height:100%;z-index:-1;filter:drop-shadow(0 18px 20px #15274075);pointer-events:none}
+.dialog button:not(.dialog-close){position:relative;isolation:isolate;border:0;background:none;top:-15px}
+.dialog button:not(.dialog-close) .button-art{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.dialog h2{transform:translateY(-12px)}
+.dialog.mission-complete p{flex:0 0 48px;height:48px;max-height:48px;margin-top:40px;margin-bottom:auto;align-items:center}
+#overlay:not([hidden]) .dialog{animation:popupIn .32s cubic-bezier(.2,1.25,.35,1) both}
+@keyframes popupIn{0%{opacity:0;transform:scale(.84)}65%{opacity:1;transform:scale(1.035)}100%{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){#overlay:not([hidden]) .dialog{animation:none}}
+.dialog.mission-complete{min-height:575px}
+
+/* 720 × 1280: move the upper HUD down while retaining space above the table. */
+header{top:45px}
+.physics-controls{top:132px}
+.size-controls{top:208px}
+.mission{top:280px}
+#toast{top:400px}
+
+/* Keep the original glass outline for undiscovered tiers. */
+#tiers span{position:relative;overflow:visible}
+#tiers span.locked img{filter:brightness(0);opacity:1}
+#tiers .lock-mark{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);z-index:1;color:#ffe3a2;font-size:23px;line-height:1;text-shadow:0 1px 2px #000a;pointer-events:none}
+#tiers .unlock-flash img{animation:collectionReveal .65s ease-out both}
+#tiers .unlock-flash::after{content:'';position:absolute;left:50%;top:50%;width:90px;height:90px;transform:translate(-50%,-50%) scale(.2);border-radius:50%;background:radial-gradient(circle,#fff 0%,#fff5b8 20%,#ffcf5588 38%,transparent 70%);mix-blend-mode:screen;pointer-events:none;animation:collectionFlash .65s ease-out both}
+#tiers .unlock-spark{position:absolute;left:50%;top:50%;z-index:2;width:7px;height:7px;margin:-3px;border-radius:50%;background:#fff9be;box-shadow:0 0 5px 2px #ffd45e;pointer-events:none;animation:collectionSpark .7s ease-out both}
+@keyframes collectionReveal{0%,18%{filter:brightness(0)}40%{filter:brightness(2.5)}100%{filter:brightness(1)}}
+@keyframes collectionFlash{0%{opacity:0;transform:translate(-50%,-50%) scale(.2)}35%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.3)}}
+@keyframes collectionSpark{0%{opacity:0;transform:rotate(var(--angle)) translateY(0) scale(.2)}30%{opacity:1}100%{opacity:0;transform:rotate(var(--angle)) translateY(-43px) scale(.3)}}
+@media (prefers-reduced-motion:reduce){#tiers .unlock-flash img,#tiers .unlock-flash::after,#tiers .unlock-spark{animation:none}#tiers .unlock-flash::after,#tiers .unlock-spark{display:none}}
+#tiers .lock-mark{bottom:13px}
+.header-actions{display:flex;align-items:center;gap:10px}
+.header-actions .collection-reset{background:#fff8e3;color:#287264;font-size:35px;line-height:1;display:grid;place-items:center;padding:0;box-shadow:0 3px 0 #b8d6bd}
+.header-actions .collection-reset:active{transform:translateY(2px)}
+.physics-controls{grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}
+.physics-controls label{font-size:9px}
+
+.physics-controls{grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.physics-controls label{font-size:10px}
+.size-controls{grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+.size-controls label{font-size:10px}
+.header-actions .options-toggle{width:54px;height:54px;display:grid;place-items:center;padding:0;background:#fff8e3;color:#287264;box-shadow:0 3px 0 #b8d6bd;font-size:35px;line-height:1}
+.header-actions .options-toggle span{transform:translateY(-2px)}
+.header-actions .options-toggle[aria-expanded="true"]{background:#e8f6d7;box-shadow:0 3px 0 #a6c9a7}
+.header-actions .options-toggle:active{transform:translateY(2px)}
+#app.options-hidden .physics-controls,#app.options-hidden .size-controls{display:none}
+#app.options-hidden .mission{top:170px}
+#app.options-hidden #toast{top:290px}
+
+header{justify-content:flex-end}
+/* Mission frame: Popup02.png with 45px corners on all four sides. */
+.mission{isolation:isolate;padding-left:35px;padding-right:35px;background:none;border:0;border-radius:0;box-shadow:none}
+.mission-art{position:absolute;inset:0;z-index:-1;width:100%;height:100%;pointer-events:none}
+/* Compact centered mission board at the 720px design width. */
+.mission{left:50%;right:auto;width:350px;height:140px;transform:translateX(-50%);padding:18px 24px;gap:10px;align-items:center}
+.mission-icon{width:48px;height:48px;flex:none;font-size:30px}
+.mission-info{min-width:0}
+.mission strong{font-size:18px;white-space:nowrap;margin:7px 0 9px}
+.mission-top,.mission-bottom{font-size:9px}
+#toast{top:425px}
+#app.options-hidden #toast{top:320px}

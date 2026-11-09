@@ -493,7 +493,7 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
     tape.setAttribute("data-cat", item.category in CATS ? item.category : "other");
     li.appendChild(tape);
     var meta = [day(item.date)];
-    if (item.version) meta.push("v" + item.version);
+    if (item.version) meta.push("앱 v" + item.version);  // 게임 안에서 보낸 글: 보낸 앱의 버전
     if (item.platform && PLATFORMS[item.platform]) meta.push(PLATFORMS[item.platform]);
     var p = el("p", "fb-meta", meta.filter(Boolean).join(" · "));
     if (STATES[item.status]) {

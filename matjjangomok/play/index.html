@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=2b57c30f422e">
-  <script type="module" src="./app.js?v=2b57c30f422e"></script>
+  <link rel="stylesheet" href="./style.css?v=0ab1fdaad238">
+  <script type="module" src="./app.js?v=0ab1fdaad238"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -67,6 +67,11 @@
         <span><span data-i18n="title">Omok Duel</span> <small id="app-version" class="version"></small></span>
       </div>
       <div class="header-tools">
+        <div id="lobby-wallet" class="lobby-wallet" hidden>
+          <span class="shop-coin" aria-hidden="true"></span>
+          <span class="sr-only" data-i18n="lobbyCoins"></span>
+          <strong id="lobby-coin-count"></strong>
+        </div>
         <button id="show-shop" class="shop-button" type="button" aria-haspopup="dialog" aria-controls="shop">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 12H4L5 8Zm4 2V6a3 3 0 0 1 6 0v4m-5 5h4m-2-2v4"/></svg>
           <span data-i18n="shop"></span>
@@ -78,15 +83,28 @@
     <main>
       <section id="lobby" class="lobby">
         <div class="lobby-highlights">
+          <button id="show-missions" class="mission-shortcut" type="button" aria-haspopup="dialog" aria-controls="missions">
+            <svg class="mission-gift" viewBox="0 0 28 28" aria-hidden="true">
+              <path d="M4 12h20v12H4z" fill="#dae8ba" stroke="#789b43" stroke-width="1.4" stroke-linejoin="round"/>
+              <path d="M2.5 8h23v5h-23z" fill="#eef5d8" stroke="#789b43" stroke-width="1.4" stroke-linejoin="round"/>
+              <path d="M14 24V8m0 0C4 8 5 0 9.5 2.5 12.2 4 14 8 14 8Zm0 0C24 8 23 0 18.5 2.5 15.8 4 14 8 14 8Z"
+                    fill="none" stroke="#5d8a28" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="mission-overview">
+              <span class="mission-heading">
+                <strong data-i18n="dailyMissions"></strong>
+                <small id="daily-mission-completed"></small>
+              </span>
+              <span id="daily-mission-steps" class="mission-steps" aria-hidden="true"></span>
+              <small id="daily-mission-summary"></small>
+            </span>
+            <span class="mission-details" data-i18n="missionView"></span>
+          </button>
           <button id="show-tournament" class="tournament-card" type="button" hidden>
             <svg class="tournament-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-ranking"/></svg>
-            <span><strong data-i18n="weeklyTournament"></strong><small data-i18n="tournamentSummary"></small></span>
-            <span class="chevron" aria-hidden="true"></span>
-          </button>
-          <button id="show-missions" class="mission-shortcut" type="button" aria-haspopup="dialog" aria-controls="shop">
-            <span class="shop-coin" aria-hidden="true"></span>
-            <span><strong data-i18n="dailyMissions"></strong><small id="daily-mission-summary"></small></span>
-            <span class="chevron" aria-hidden="true"></span>
+            <strong id="lobby-championship"></strong>
+            <small data-i18n="tournamentSummary"></small>
+            <time id="championship-countdown" class="championship-countdown"></time>
           </button>
         </div>
         <div class="list-heading">
@@ -540,6 +558,59 @@
       </form>
     </dialog>
 
+    <dialog id="missions" class="mission-dialog" aria-labelledby="missions-title">
+      <form method="dialog">
+        <header class="mission-heading">
+          <h2 id="missions-title" tabindex="-1" autofocus>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v5m10-5v5m-9 6 3 3 5-5"/>
+            </svg>
+            <span data-i18n="dailyMissions"></span>
+          </h2>
+          <div class="shop-wallet"><span class="shop-coin" aria-hidden="true"></span>
+            <span data-i18n="shopBalance"></span><strong id="mission-balance"></strong>
+          </div>
+        </header>
+        <div id="mission-content">
+          <p class="mission-guide" data-i18n="missionGuide"></p>
+          <section class="mission-overview" aria-labelledby="mission-overview-title">
+            <div class="mission-overview-heading">
+              <h3 id="mission-overview-title">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="3" y="8" width="18" height="5" rx="1"/><path d="M5 13v8h14v-8M12 8v13m0-13H8a2.5 2.5 0 1 1 2-4l2 4Zm0 0h4a2.5 2.5 0 1 0-2-4l-2 4Z"/>
+                </svg>
+                <span data-i18n="missionOverview"></span>
+              </h3>
+              <strong id="mission-total"></strong>
+            </div>
+            <div id="mission-overview-progress" role="progressbar" aria-labelledby="mission-overview-title"
+                 aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
+              <div id="mission-markers" aria-hidden="true"><span></span><span></span><span></span></div>
+            </div>
+          </section>
+          <ul id="daily-mission-list"></ul>
+          <template id="daily-mission-row">
+            <li class="mission-row">
+              <span class="mission-stones" aria-hidden="true"><i></i><i></i></span>
+              <div class="mission-detail">
+                <div class="mission-label"><strong class="mission-goal"></strong></div>
+                <div class="mission-track" role="progressbar" aria-valuemin="0"><span aria-hidden="true"></span></div>
+              </div>
+              <div class="mission-reward">
+                <span class="mission-amount"><span class="shop-coin" aria-hidden="true"></span><strong class="mission-coins"></strong></span>
+                <button class="mission-claim" type="button" hidden></button>
+                <span class="mission-status"></span>
+              </div>
+            </li>
+          </template>
+          <p id="mission-repeat-note" class="mission-note"></p>
+          <p class="mission-note" data-i18n="missionEligibility"></p>
+        </div>
+        <p id="mission-feedback" role="status" hidden></p>
+        <button id="mission-close" class="secondary" type="submit" data-ncq-main="Close daily missions" data-i18n="shopClose"></button>
+      </form>
+    </dialog>
+
     <dialog id="shop" aria-labelledby="shop-title">
       <form method="dialog">
         <div class="shop-heading">
@@ -549,23 +620,10 @@
           </div>
         </div>
         <div class="shop-tabs" role="group" data-i18n-attr="aria-label:shop">
-          <button id="shop-tab-missions" type="button" aria-controls="shop-missions" aria-pressed="false" data-i18n="dailyMissions"></button>
           <button id="shop-tab-currency" type="button" aria-controls="shop-currency" aria-pressed="false" data-i18n="shopCurrency"></button>
           <button id="shop-tab-skins" type="button" aria-controls="shop-skins" aria-pressed="true" data-i18n="shopSkins"></button>
         </div>
         <div class="shop-content">
-        <section id="shop-missions" aria-labelledby="shop-tab-missions" hidden>
-          <p data-i18n="missionGuide"></p>
-          <ul id="daily-mission-list"></ul>
-          <p data-i18n="missionEligibility"></p>
-          <template id="daily-mission-row">
-            <li class="mission-row">
-              <strong class="mission-goal"></strong>
-              <span class="mission-status"></span>
-              <span class="mission-coins"></span>
-            </li>
-          </template>
-        </section>
         <section id="shop-currency" aria-labelledby="shop-tab-currency" hidden>
           <div class="shop-effect-card">
             <span class="shop-effect-icon" aria-hidden="true"></span>

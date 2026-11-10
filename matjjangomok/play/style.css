@@ -42,6 +42,21 @@ h1, h2, p { margin: 0; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 750; }
 .brand .version { font-weight: 500; margin-inline-start: 3px; }
 .header-tools { display: flex; flex: none; align-items: center; gap: 6px; }
+.lobby-wallet {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 30vw;
+  min-height: 36px;
+  border: 1px solid var(--lobby-border);
+  border-radius: 99px;
+  padding: 4px 10px;
+  background: #f2efea;
+  color: var(--ink);
+  font-size: .92rem;
+  font-variant-numeric: tabular-nums;
+}
+.lobby-wallet strong { min-width: 0; overflow-wrap: anywhere; }
 .shop-button {
   display: inline-flex;
   align-items: center;
@@ -60,6 +75,7 @@ h1, h2, p { margin: 0; }
 .mark {
   width: 25px;
   height: 25px;
+  flex: none;
   border-radius: 8px;
   background: radial-gradient(circle at 36% 38%, #f8f5eb 0 18%, transparent 20%),
     radial-gradient(circle at 66% 67%, #96bf9e 0 13%, transparent 15%), var(--green);
@@ -86,15 +102,14 @@ body:not(.in-match) > .shell {
 body:not(.in-match) .topbar { border-color: var(--lobby-border); }
 .shell > main { flex: 1; min-height: 0; }
 .lobby { height: 100%; display: flex; flex-direction: column; gap: 8px; padding-top: 9px; }
-.lobby-highlights { flex: none; display: flex; gap: 8px; }
-.tournament-card, .player-card {
+.lobby-highlights { flex: none; display: grid; gap: 8px; }
+.tournament-card, .mission-shortcut, .player-card {
   border: 1px solid var(--lobby-border);
   border-radius: 15px;
   background: radial-gradient(ellipse at bottom right, #e9edd9, transparent 63%), #fffdfa;
   box-shadow: 0 2px 6px #372a1510;
 }
 .tournament-card, .mission-shortcut {
-  flex: 1;
   min-width: 0;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -104,27 +119,103 @@ body:not(.in-match) .topbar { border-color: var(--lobby-border); }
   min-height: 58px;
   color: var(--ink);
   text-align: start;
+  line-height: 1.28;
 }
-.tournament-card:not(:disabled):hover { border-color: #b9c79e; }
+.lobby-highlights > button:not(:disabled):hover { border-color: #b9c79e; }
 .tournament-icon { width: 31px; color: #6d882e; }
 .lobby-highlights strong, .lobby-highlights small { display: block; }
-.lobby-highlights small { color: var(--muted); font-size: .78rem; }
-.mission-shortcut {
-  border: 1px solid #e5dcc7;
-  border-radius: 15px;
-  background: #fbf6e8;
+.lobby-highlights small { margin-top: 3px; color: var(--muted); font-size: .78rem; }
+.tournament-card {
+  grid-template-areas: "icon title countdown" "icon summary countdown";
+  align-content: center;
+  row-gap: 3px;
 }
 .mission-shortcut:hover { border-color: #c6aa70; }
-#daily-mission-summary {
-  color: #526b30;
+.mission-shortcut[data-ready] { border-color: #93b271; background: #eef5e3; }
+.tournament-card .tournament-icon { grid-area: icon; }
+.tournament-card > small { grid-area: summary; margin-top: 0; }
+#lobby-championship { grid-area: title; word-break: keep-all; text-wrap: balance; }
+.mission-gift { width: 31px; }
+.mission-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0 10px;
+  align-items: center;
+}
+.mission-heading { display: flex; flex-wrap: wrap; gap: 1px 9px; align-items: baseline; }
+#daily-mission-completed {
+  margin-top: 0;
+  color: var(--lobby-green);
   font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+#daily-mission-summary { grid-column: 1 / -1; color: #526b30; font-variant-numeric: tabular-nums; }
+.mission-steps { display: flex; align-items: center; gap: 10px; }
+.mission-step {
+  position: relative;
+  width: 14px;
+  aspect-ratio: 1;
+  border: 2px solid #d6d9ce;
+  border-radius: 50%;
+  background: #fffdfa;
+  color: #d6d9ce;
+}
+.mission-step + .mission-step::before {
+  content: "";
+  position: absolute;
+  inset-block-start: calc(50% - 1px);
+  inset-inline-end: calc(100% + 2px);
+  width: 10px;
+  height: 2px;
+  background: currentColor;
+}
+.mission-step[data-completed] {
+  border-color: #638f32;
+  background: linear-gradient(#80a84c, #587f2c);
+  color: #638f32;
+}
+.mission-step[data-completed]::after {
+  content: "";
+  position: absolute;
+  inset: 1px auto auto 1px;
+  width: 6px;
+  height: 4px;
+  border: solid white;
+  border-width: 0 0 1.5px 1.5px;
+  transform: rotate(-45deg);
+}
+.mission-details {
+  padding: 6px 12px;
+  border-radius: 99px;
+  background: linear-gradient(#6d963d, #486a24);
+  box-shadow: inset 0 1px 1px #e7efbd80;
+  color: white;
+  font-size: .82rem;
+  font-weight: 750;
+}
+.championship-countdown {
+  grid-area: countdown;
+  border-inline-start: 1px solid #dedfd4;
+  padding-inline-start: 10px;
+  color: var(--lobby-green);
+  font-size: .83rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  white-space: nowrap;
 }
 @media (max-width: 430px) {
-  .lobby-highlights > button { grid-template-columns: auto minmax(0, 1fr); gap: 7px; padding: 6px 9px; }
-  .lobby-highlights .chevron { display: none; }
+  .topbar, .brand { gap: 6px; }
+  .mark { width: 21px; height: 21px; }
+  .brand { font-size: .93rem; line-height: 1.2; }
+  .brand .version { display: block; margin-inline-start: 0; }
+  .header-tools { gap: 4px; }
+  .header-tools > :is(button, .lobby-wallet) { padding-inline: 7px; }
+  .lobby-highlights > button { gap: 8px; padding: 7px 10px; }
+  .lobby-highlights > .tournament-card { grid-template-areas: "icon title title" "icon summary countdown"; row-gap: 3px; }
   .lobby-highlights strong { font-size: .86rem; }
   .lobby-highlights small { font-size: .72rem; }
-  .lobby-highlights .tournament-icon { width: 20px; }
+  .mission-gift, .tournament-icon { width: 24px; }
+  .championship-countdown { padding-inline-start: 7px; font-size: .72rem; }
 }
 .chevron {
   width: 8px;
@@ -1377,16 +1468,16 @@ dialog input { width: 100%; }
   .profile-dialog:has(#profile-rating-standing-row:not([hidden])) .profile-records > div { padding-block: 4px; }
   .profile-dialog:has(#profile-rating-standing-row:not([hidden])) .promotion-meter { padding-block: 5px; }
 }
-#shop {
+#shop, .mission-dialog {
   --shop-height: calc(100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - 16px);
   inset-block: var(--ncq-top, 0px) var(--ncq-bottom, 0px);
-  width: min(510px, 94vw);
   max-height: var(--shop-height);
   padding: 0;
   overflow: hidden;
   background: #fffcf4;
   border-radius: 18px;
 }
+#shop { width: min(510px, 94vw); }
 #shop form {
   max-height: calc(var(--shop-height) - 2px);
   grid-template-rows: auto auto minmax(0, 1fr) auto;
@@ -1417,7 +1508,7 @@ dialog input { width: 100%; }
   background: radial-gradient(circle at 35% 28%, #ffe694, #e8aa35 62%, #c18024);
   box-shadow: inset 0 0 0 2px #ffdf79, 0 1px 2px #4b381b44;
 }
-.shop-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; padding: 3px; border-radius: 11px; background: #eeeade; }
+.shop-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; padding: 3px; border-radius: 11px; background: #eeeade; }
 .shop-tabs button {
   min-height: 37px;
   border: 0;
@@ -1435,24 +1526,227 @@ dialog input { width: 100%; }
   padding: 1px 3px 2px 2px;
 }
 #shop-skins, .shop-settings { display: grid; gap: 9px; }
-#shop-currency, #shop-missions { display: grid; gap: 9px; padding: 2px 0 12px; }
-#shop-currency p, #shop-missions p { font-size: .84rem; color: var(--muted); }
-#daily-mission-list { display: grid; gap: 5px; list-style: none; margin: 0; padding: 0; }
+#shop-currency { display: grid; gap: 9px; padding: 2px 0 12px; }
+#shop-currency p { font-size: .84rem; color: var(--muted); }
+.mission-dialog {
+  --mission-accent: #417b26;
+  --mission-track: #dedbd2;
+  width: min(680px, 94vw);
+  background: #fcfaf5;
+  border-radius: 20px;
+}
+.mission-dialog form {
+  max-height: calc(var(--shop-height) - 2px);
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  padding: clamp(11px, 3.4vw, 21px);
+  gap: 9px;
+}
+.mission-heading, .mission-overview-heading, .mission-label, .mission-amount {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.mission-heading, .mission-overview-heading { justify-content: space-between; }
+.mission-heading h2, .mission-overview h3 {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+}
+.mission-heading h2 { font-size: clamp(1.3rem, 5vw, 1.9rem); }
+.mission-overview h3 { font-size: .93rem; }
+.mission-heading svg, .mission-overview svg {
+  width: 1.15em;
+  flex: none;
+  fill: none;
+  stroke: var(--mission-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.mission-heading .shop-wallet { flex: none; }
+#mission-content {
+  display: grid;
+  gap: 8px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1px 2px 2px;
+  overscroll-behavior: contain;
+}
+.mission-guide, .mission-note { color: var(--muted); font-size: .78rem; line-height: 1.4; }
+.mission-overview {
+  min-width: 0;
+  padding: 9px 11px 13px;
+  border: 1px solid #e4ded3;
+  border-radius: 13px;
+  background: #f5f1e9;
+}
+#mission-total { font-size: .78rem; color: #3b6427; white-space: nowrap; }
+#mission-overview-progress, .mission-track {
+  position: relative;
+  isolation: isolate;
+  border-radius: 99px;
+  background: var(--mission-track);
+  font-variant-numeric: tabular-nums;
+}
+#mission-overview-progress { height: 8px; margin: 13px 9px 3px; }
+#mission-overview-progress::before, .mission-track::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--mission-fill, 0%);
+  border-radius: inherit;
+  background: linear-gradient(#599938, #3e7b27);
+  z-index: -1;
+}
+#mission-markers {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  place-items: center;
+}
+#mission-markers span {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-top: -6px;
+  border: 2px solid #aaa397;
+  outline: 2px solid #fcfaf5;
+  border-radius: 50%;
+  background: #fcfaf5;
+  color: #fff;
+  font-size: .72rem;
+  font-weight: 800;
+}
+#mission-markers [data-done] { border-color: var(--mission-accent); background: var(--mission-accent); }
+#daily-mission-list { display: grid; gap: 6px; list-style: none; margin: 0; padding: 0; }
 .mission-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 8px;
-  padding: 7px 10px;
-  border: 1px solid #e6dbc7;
-  border-radius: 10px;
-  background: #f8f4e9;
-  font-size: .83rem;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid #e4ded3;
+  border-radius: 13px;
+  background: #f7f3ec;
 }
-.mission-row[data-completed] { border-color: #d4dec3; background: #edf2e4; }
-.mission-status { color: var(--muted); font-size: .76rem; font-variant-numeric: tabular-nums; }
-.mission-row[data-completed] .mission-status { color: #466821; font-weight: 750; }
-.mission-coins { color: #664b1d; font-weight: 750; }
+.mission-row[data-state="ready"] { border-color: #97ba78; background: #eef5e3; }
+.mission-stones {
+  position: relative;
+  width: 42px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #eae4d9;
+}
+.mission-stones i {
+  position: absolute;
+  top: 24%;
+  left: 16%;
+  width: 48%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 27%, #70736f, #262929 60%, #111414);
+  box-shadow: 0 1px 2px #1e1b1877;
+}
+.mission-stones i + i {
+  top: 44%;
+  left: 43%;
+  background: radial-gradient(circle at 34% 27%, #fff, #e7e5de 64%, #bdbbb4);
+}
+.mission-row[data-state="ready"] .mission-stones { background: #deeacb; }
+.mission-detail { display: grid; gap: 4px; min-width: 0; }
+.mission-label { flex-wrap: wrap; gap: 2px 6px; }
+.mission-goal { font-size: .9rem; line-height: 1.22; }
+#mission-repeat-count {
+  padding: 0 5px;
+  border: 1px solid #8dac71;
+  border-radius: 99px;
+  color: #3c632d;
+  font-size: .66rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.mission-track {
+  display: grid;
+  place-items: center;
+  min-height: 17px;
+  color: #263229;
+  font-size: .69rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.mission-track[data-filled] span { color: #fff; text-shadow: 0 1px 2px #254b19; }
+.mission-reward {
+  display: grid;
+  grid-template-columns: minmax(65px, auto) minmax(92px, auto);
+  align-items: center;
+  justify-items: center;
+  gap: 8px;
+  padding-inline-start: 10px;
+  border-inline-start: 1px solid #ded8cd;
+}
+.mission-amount { gap: 5px; font-size: .82rem; white-space: nowrap; }
+.mission-amount .shop-coin { width: 15px; }
+.mission-status, .mission-claim {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  padding: 4px 7px;
+  border-radius: 99px;
+  font-size: .74rem;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.mission-status { color: #49504a; background: #e5e2db; }
+.mission-row[data-state="done"] .mission-status { color: #365827; background: #e2ead8; }
+.mission-claim {
+  position: relative;
+  min-height: 38px;
+  border: 1px solid #397324;
+  border-radius: 10px;
+  background: linear-gradient(#568d31, #397321);
+  color: white;
+}
+.mission-claim::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid #fcfaf5;
+  border-radius: 50%;
+  background: #cd4b26;
+}
+.mission-note { padding: 5px 8px; border-radius: 8px; background: #f1eee6; }
+#mission-feedback { color: #396129; font-size: .75rem; }
+#mission-feedback[data-error] { color: #a03529; }
+#mission-close { min-height: 40px; border-color: #456954; }
+@media (max-width: 515px) {
+  .mission-dialog form { gap: 6px; }
+  #mission-content { gap: 6px; }
+  .mission-heading h2, .mission-overview h3 { gap: 5px; }
+  .mission-overview { padding: 7px 8px 11px; }
+  .mission-row { gap: 7px; padding: 5px 7px; }
+  .mission-stones { width: 30px; }
+  .mission-goal { font-size: .81rem; }
+  .mission-track { min-height: 15px; }
+  .mission-reward { grid-template-columns: minmax(55px, auto) minmax(62px, auto); gap: 4px; padding-inline-start: 6px; }
+  .mission-amount { font-size: .74rem; }
+  .mission-amount .shop-coin { width: 13px; }
+  .mission-status, .mission-claim { font-size: .68rem; }
+  .mission-claim { min-height: 36px; }
+}
+@media (max-width: 515px) and (max-height: 700px) {
+  #mission-content { gap: 5px; }
+  .mission-guide { font-size: .73rem; }
+  .mission-overview { padding-block: 5px 8px; }
+  #mission-overview-progress { margin-top: 10px; }
+  .mission-row { padding-block: 4px; }
+}
 .shop-effect-card {
   display: flex;
   align-items: center;

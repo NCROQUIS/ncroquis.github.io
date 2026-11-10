@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=2b57c30f422e";
-import { TEXTS } from "./texts.js?v=2b57c30f422e";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=2b57c30f422e";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=2b57c30f422e";
+import { NcqBoard } from "./ncq/board.js?v=0ab1fdaad238";
+import { TEXTS } from "./texts.js?v=0ab1fdaad238";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=0ab1fdaad238";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=0ab1fdaad238";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -23,21 +23,26 @@ const goldenPlacementPrice = 120;
 const dayMs = 24 * 60 * 60_000;
 const koreaOffset = 9 * 60 * 60_000;
 const dailyMissions = [
-  { target: 1, coins: 70 },
-  { target: 3, coins: 60 },
-  { target: 6, coins: 90 },
+  { target: 1, coins: 30 },
+  { target: 3, coins: 50 },
+  { target: 6, coins: 80 },
 ];
-const dailyMissionLimit = dailyMissions.at(-1).target;
+const repeatMission = { after: dailyMissions.at(-1).target, limit: 10, coins: 5 };
+const dailyMissionLimit = repeatMission.after + repeatMission.limit;
+const missionRewards = new Map(dailyMissions.map(({ target, coins }) => [target, coins]));
+for (let target = repeatMission.after + 1; target <= dailyMissionLimit; target += 1) {
+  missionRewards.set(target, repeatMission.coins);
+}
+const missionTargets = [...missionRewards.keys()];
+let missionClaiming = false;
 let resultMission = null;
+const pairedSkinPrices = {
+  reference: 0, classic: 0, vintage: 300, porcelain: 800, jade: 1000,
+  lacquer: 400, ocean: 700, soda: 600, gilded: 500,
+};
 const skinPrices = {
-  stones: {
-    reference: 0, classic: 0, glossy: 120, gilded: 250, vintage: 0,
-    porcelain: 0, jade: 0, lacquer: 0, ocean: 0, soda: 0,
-  },
-  board: {
-    reference: 0, classic: 0, wood: 120, gilded: 250, vintage: 0,
-    porcelain: 0, jade: 0, lacquer: 0, ocean: 0, soda: 0,
-  },
+  stones: { ...pairedSkinPrices, glossy: 200 },
+  board: { ...pairedSkinPrices, wood: 200 },
 };
 const skinKinds = Object.keys(skinPrices);
 let shopState = loadShopState();
@@ -124,6 +129,7 @@ for (const id of ["place-gauge", "opponent-gauge"]) gaugeObserver.observe(el(id)
 applyAppearance();
 const shop = el("shop");
 const shopAction = el("shop-action");
+const missionDialog = el("missions");
 const optionsDialog = el("options");
 const feedbackButton = el("send-feedback");
 const profileDialog = el("player-profile");
@@ -223,22 +229,46 @@ const skinCards = shopRadios.filter(input => input.name !== "grid").map(input =>
   label.append(status, price);
   return { input, label, boardSample, status, price };
 });
-function openShop(tab) {
+function openShop() {
   shopPreview = { ...shopState.appearance };
-  shopTab = tab;
+  shopTab = "skins";
   feedback("shop-feedback");
   shop.showModal();
   shop.querySelector(".shop-content").scrollTop = 0;
   render();
 }
-const shopTabs = ["missions", "currency", "skins"];
-const missionRows = dailyMissions.map(() => {
+const shopTabs = ["currency", "skins"];
+const missionRows = [...dailyMissions, repeatMission].map((_, index) => {
   const row = el("daily-mission-row").content.firstElementChild.cloneNode(true);
+  row.querySelector(".mission-goal").id = "mission-goal-" + index;
+  row.querySelector(".mission-claim").setAttribute("aria-describedby", "mission-goal-" + index);
   el("daily-mission-list").append(row);
   return row;
 });
-el("show-shop").addEventListener("click", () => openShop("skins"));
-el("show-missions").addEventListener("click", () => openShop("missions"));
+const missionSteps = dailyMissions.map(() => {
+  const step = document.createElement("span");
+  step.className = "mission-step";
+  el("daily-mission-steps").append(step);
+  return step;
+});
+const repeatMissionRow = missionRows.at(-1);
+const repeatCount = document.createElement("span");
+repeatCount.id = "mission-repeat-count";
+repeatMissionRow.querySelector(".mission-label").append(repeatCount);
+repeatMissionRow.classList.add("mission-repeat");
+const missionMarkers = [...el("mission-markers").children];
+el("show-shop").addEventListener("click", openShop);
+el("show-missions").addEventListener("click", () => {
+  feedback("mission-feedback");
+  missionDialog.showModal();
+  el("mission-content").scrollTop = 0;
+  render();
+});
+missionDialog.addEventListener("close", render);
+missionDialog.addEventListener("click", event => {
+  const button = event.target.closest(".mission-claim");
+  if (button) void claimMission(button);
+});
 shop.addEventListener("close", render);
 for (const tab of shopTabs) {
   el("shop-tab-" + tab).addEventListener("click", () => {
@@ -262,6 +292,7 @@ window.addEventListener("storage", event => {
   if (event.key !== appearanceKey && event.key !== null) return;
   shopState = loadShopState();
   applyAppearance();
+  renderCoinBalance();
   renderDailyMissions();
   if (shop.open) renderShop();
 });
@@ -304,17 +335,23 @@ function loadShopState(fallback) {
     board: Object.hasOwn(skinPrices.board, saved?.board) ? saved.board : "reference",
     grid: saved?.grid === "soft" ? "soft" : "engraved",
   };
-  const ownedSkins = Array.isArray(saved?.ownedSkins) ? saved.ownedSkins
-    // The previous version only saved the equipped styles. Keep them available.
-    : skinKinds.filter(kind => skinPrices[kind][appearance[kind]] > 0)
-      .map(kind => kind + ":" + appearance[kind]);
+  const ownedSkins = new Set(Array.isArray(saved?.ownedSkins) ? saved.ownedSkins : []);
+  // An equipped skin may have been free in an earlier version.
+  for (const kind of skinKinds) {
+    if (skinPrices[kind][appearance[kind]] > 0) ownedSkins.add(kind + ":" + appearance[kind]);
+  }
+  const missionRounds = Array.isArray(saved?.missionRounds) ? saved.missionRounds : [];
+  // Older builds paid eligible missions as soon as each match ended.
+  const missionClaims = Array.isArray(saved?.missionClaims) ? saved.missionClaims
+    : missionTargets.filter(target => target <= missionRounds.length);
   return {
     appearance,
-    ownedSkins,
+    ownedSkins: [...ownedSkins],
     coins: Number.isSafeInteger(saved?.coins) && saved.coins >= 0 ? saved.coins : starterCoins,
     goldenPlacementUntil: Number.isSafeInteger(saved?.goldenPlacementUntil) ? saved.goldenPlacementUntil : 0,
     missionDay: saved?.missionDay ?? "",
-    missionRounds: Array.isArray(saved?.missionRounds) ? saved.missionRounds : [],
+    missionRounds,
+    missionClaims,
   };
 }
 
@@ -357,20 +394,112 @@ function missionProgress(count, target) {
   return { count: NcqLang.num(Math.min(count, target)), target: NcqLang.num(target) };
 }
 
+function nextMissionTarget(count) {
+  return missionTargets.find(target => count < target);
+}
+
+function renderCoinBalance() {
+  const coins = NcqLang.num(shopState.coins);
+  el("lobby-coin-count").textContent = coins;
+  el("shop-balance").textContent = coins;
+}
+
 function renderDailyMissions() {
-  const count = koreaDay(Date.now()) === shopState.missionDay ? shopState.missionRounds.length : 0;
-  const next = dailyMissions.find(({ target }) => count < target);
-  el("daily-mission-summary").textContent = next
-    ? t("missionNext", missionProgress(count, next.target))
-    : t("missionAllDone");
-  dailyMissions.forEach(({ target, coins }, index) => {
-    const row = missionRows[index];
-    const done = count >= target;
-    row.toggleAttribute("data-completed", done);
-    row.querySelector(".mission-goal").textContent = t(target === 1 ? "missionFirstGoal" : "missionGoal", { n: NcqLang.num(target) });
-    row.querySelector(".mission-status").textContent = done ? t("missionDone") : t("missionProgress", missionProgress(count, target));
-    row.querySelector(".mission-coins").textContent = t("shopPrice", { n: NcqLang.num(coins) });
+  const today = koreaDay(Date.now()) === shopState.missionDay;
+  const count = today ? shopState.missionRounds.length : 0;
+  const claimed = today ? shopState.missionClaims : [];
+  const ready = missionTargets.filter(target => target <= count && !claimed.includes(target));
+  const next = nextMissionTarget(count);
+  const completed = dailyMissions.filter(({ target }) => count >= target).length;
+  el("daily-mission-completed").textContent = t("missionMilestones", missionProgress(completed, dailyMissions.length));
+  missionSteps.forEach((step, index) => step.toggleAttribute("data-completed", index < completed));
+  el("show-missions").toggleAttribute("data-ready", ready.length > 0);
+  el("daily-mission-summary").textContent = ready.length
+    ? t("missionReady", { n: NcqLang.num(ready.length) })
+    : next ? t("missionNext", missionProgress(count, next)) : t("missionAllDone");
+  if (!missionDialog.open) return;
+
+  el("mission-balance").textContent = NcqLang.num(shopState.coins);
+  const overview = el("mission-overview-progress");
+  overview.setAttribute("aria-valuenow", completed);
+  overview.style.setProperty("--mission-fill", completed / dailyMissions.length * 100 + "%");
+  el("mission-total").textContent = t("missionOverviewCount", missionProgress(completed, dailyMissions.length));
+  missionMarkers.forEach((marker, index) => {
+    const done = index < completed;
+    marker.toggleAttribute("data-done", done);
+    marker.textContent = done ? "✓" : "";
   });
+  dailyMissions.forEach(({ target, coins }, index) => {
+    const goal = t(target === 1 ? "missionFirstGoal" : "missionGoal", { n: NcqLang.num(target) });
+    renderMissionRow(missionRows[index], {
+      goal, coins, progress: Math.min(count, target), max: target,
+      claim: ready.includes(target) ? target : null, done: claimed.includes(target),
+    });
+  });
+  const { after, limit, coins } = repeatMission;
+  const repeats = claimed.filter(target => target > after).length;
+  renderMissionRow(repeatMissionRow, {
+    goal: t("missionRepeatGoal"), coins,
+    progress: Math.min(Math.max(0, count - after), limit), max: limit,
+    claim: ready.find(target => target > after), done: repeats >= limit,
+  });
+  el("mission-repeat-count").textContent = t("missionRepeatProgress", missionProgress(repeats, limit));
+  el("mission-repeat-note").textContent = t("missionRepeatNote", { after: NcqLang.num(after), n: NcqLang.num(limit) });
+  const status = el("mission-feedback");
+  if (!status.hidden) status.textContent = t(status.dataset.message);
+}
+
+function renderMissionRow(row, { goal, coins, progress, max, claim, done }) {
+  row.dataset.state = claim ? "ready" : done ? "done" : "pending";
+  row.querySelector(".mission-goal").textContent = goal;
+  row.querySelector(".mission-coins").textContent = t("shopPrice", { n: NcqLang.num(coins) });
+  const track = row.querySelector(".mission-track");
+  track.setAttribute("aria-label", goal);
+  track.setAttribute("aria-valuemax", max);
+  track.setAttribute("aria-valuenow", progress);
+  track.style.setProperty("--mission-fill", progress / max * 100 + "%");
+  track.toggleAttribute("data-filled", progress * 2 >= max);
+  track.querySelector("span").textContent = t("missionTrackCount", missionProgress(progress, max));
+  const button = row.querySelector(".mission-claim");
+  button.textContent = t("missionClaim");
+  button.hidden = !claim;
+  button.toggleAttribute("data-ncq-main", Boolean(claim));
+  button.disabled = missionClaiming;
+  button.value = claim ?? "";
+  const status = row.querySelector(".mission-status");
+  status.hidden = Boolean(claim);
+  status.textContent = t(done ? "missionClaimed" : "missionInProgress");
+}
+
+async function claimMission(button) {
+  if (missionClaiming || !missionDialog.open) return;
+  const target = Number(button.value);
+  const reward = missionRewards.get(target);
+  if (!reward) return;
+  const day = koreaDay(Date.now());
+  const restoreFocus = document.activeElement === button;
+  missionClaiming = true;
+  renderDailyMissions();
+  try {
+    await updateShop(() => {
+      const state = loadShopState(shopState);
+      shopState = state;
+      if (day !== koreaDay(Date.now()) || day !== state.missionDay
+          || state.missionRounds.length < target || state.missionClaims.includes(target)) return;
+      const next = { ...state, coins: state.coins + reward, missionClaims: [...state.missionClaims, target] };
+      persistShopState(next);
+      shopState = next;
+      feedback("mission-feedback", "missionClaimSuccess");
+    });
+  } catch {
+    feedback("mission-feedback", "missionClaimFailed", true);
+  } finally {
+    missionClaiming = false;
+    renderCoinBalance();
+    renderDailyMissions();
+    if (shop.open) renderShop();
+    if (restoreFocus && missionDialog.open) (button.hidden ? el("mission-close") : button).focus({ preventScroll: true });
+  }
 }
 
 function scheduleMissionReset() {
@@ -388,7 +517,6 @@ function renderShop() {
     el("shop-" + tab).hidden = !active;
   }
   shopAction.hidden = !skins;
-  el("shop-balance").textContent = NcqLang.num(shopState.coins);
   el("shop-starter").textContent = t("shopStarter", { n: NcqLang.num(starterCoins) });
   const effectActive = shopState.goldenPlacementUntil > Date.now();
   const effectStatus = el("shop-effect-status");
@@ -465,6 +593,7 @@ async function saveShopSelection(buy) {
   } finally {
     shopSaving = false;
     applyAppearance();
+    renderCoinBalance();
     if (shop.open) renderShop();
   }
 }
@@ -491,6 +620,7 @@ async function buyGoldenPlacement() {
     feedback("shop-feedback", "shopSaveFailed", true);
   } finally {
     shopSaving = false;
+    renderCoinBalance();
     if (shop.open) renderShop();
   }
 }
@@ -505,11 +635,12 @@ async function recordMissionRound(game, roundKey) {
     progress = await updateShop(() => {
       const state = loadShopState(shopState);
       if (day < state.missionDay) return;
-      const rounds = day === state.missionDay ? state.missionRounds : [];
+      const sameDay = day === state.missionDay;
+      const rounds = sameDay ? state.missionRounds : [];
       if (rounds.length >= dailyMissionLimit || rounds.includes(roundKey)) return;
       const count = rounds.length + 1;
-      const reward = dailyMissions.find(({ target }) => target === count)?.coins ?? 0;
-      const next = { ...state, coins: state.coins + reward, missionDay: day, missionRounds: [...rounds, roundKey] };
+      const reward = missionRewards.get(count) ?? 0;
+      const next = { ...state, missionDay: day, missionRounds: [...rounds, roundKey], missionClaims: sameDay ? state.missionClaims : [] };
       persistShopState(next);
       shopState = next;
       return { count, reward };
@@ -517,7 +648,7 @@ async function recordMissionRound(game, roundKey) {
   } catch {
     return;
   }
-  if (!progress) return;
+  if (!progress || day !== koreaDay(Date.now())) return;
   renderDailyMissions();
   if (shop.open) renderShop();
   if (room?.code !== game.code || room.round !== game.round || room.phase !== "finished") return;
@@ -1115,7 +1246,29 @@ function liveGameRow(game, label) {
   return row;
 }
 
+function renderChampionship(now = Date.now()) {
+  const koreaNow = now + koreaOffset;
+  const daysSinceMonday = (new Date(koreaNow).getUTCDay() + 6) % 7;
+  const monday = new Date((Math.floor(koreaNow / dayMs) - daysSinceMonday) * dayMs);
+  const end = monday.getTime() + 7 * dayMs - koreaOffset;
+  const month = NcqLang.date(monday, { month: "long", timeZone: "UTC" });
+  const week = NcqLang.num(Math.ceil(monday.getUTCDate() / 7));
+  el("lobby-championship").textContent = t("championshipName", { month, week });
+
+  const minutesLeft = Math.ceil((end - now) / 60_000);
+  const hoursLeft = Math.floor(minutesLeft / 60);
+  const countdown = el("championship-countdown");
+  countdown.dateTime = new Date(end).toISOString();
+  countdown.textContent = t(hoursLeft >= 24 ? "championshipEndsDays"
+    : hoursLeft ? "championshipEndsHours" : "championshipEndsMinutes", {
+    days: NcqLang.num(Math.floor(hoursLeft / 24)),
+    hours: NcqLang.num(hoursLeft % 24),
+    minutes: NcqLang.num(minutesLeft % 60),
+  });
+}
+
 function renderLobby() {
+  if (backend) renderChampionship();
   renderPlayerCard();
   const count = el("live-count");
   count.hidden = lobbyUnavailable || !liveGames;
@@ -1509,10 +1662,9 @@ function renderResultMission() {
   status.hidden = !resultMission;
   if (!resultMission) return;
   const { count, reward } = resultMission;
-  const next = dailyMissions.find(({ target }) => target > count);
   status.textContent = reward
     ? t("resultMissionReward", { n: NcqLang.num(reward) })
-    : t("resultMissionProgress", missionProgress(count, next.target));
+    : t("resultMissionProgress", missionProgress(count, nextMissionTarget(count)));
 }
 
 function renderResult(game) {
@@ -1579,6 +1731,8 @@ function render() {
   reviewPlay.hidden = !sharedReview;
   reviewPlay.toggleAttribute("data-ncq-main", reviewActionsVisible && sharedReview);
   el("show-shop").hidden = Boolean(game);
+  el("lobby-wallet").hidden = Boolean(game);
+  renderCoinBalance();
   if (!game) renderDailyMissions();
   if (shop.open) renderShop();
   const nav = el("lobby-nav");
@@ -1588,7 +1742,7 @@ function render() {
     else button.removeAttribute("aria-current");
     button.disabled = busy;
   }
-  const mainAction = !game && !matchmaking && !shop.open && !optionsDialog.open
+  const mainAction = !game && !matchmaking && !shop.open && !missionDialog.open && !optionsDialog.open
     && !ruleDialog.open && !profileDialog.open && !recordShareDialog.open;
   el("start").disabled = busy || Boolean(matchmaking);
   el("show-records").disabled = busy || Boolean(matchmaking);

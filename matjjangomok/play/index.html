@@ -10,8 +10,8 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=172b572023d7">
-  <script type="module" src="./app.js?v=172b572023d7"></script>
+  <link rel="stylesheet" href="./style.css?v=23d543cb1ae4">
+  <script type="module" src="./app.js?v=23d543cb1ae4"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -674,6 +674,7 @@
         <p id="shop-legacy-balance" class="list-count" hidden></p>
         <div class="shop-tabs" role="group" data-i18n-attr="aria-label:shop">
           <button id="shop-tab-currency" type="button" aria-controls="shop-currency" aria-pressed="false" data-i18n="shopCurrency"></button>
+          <button id="shop-tab-effects" type="button" aria-controls="shop-effects" aria-pressed="false" data-i18n="shopEffectsTab"></button>
           <button id="shop-tab-skins" type="button" aria-controls="shop-skins" aria-pressed="true" data-i18n="shopSkins"></button>
         </div>
         <section id="shop-remove-ads" class="shop-ad-offer" aria-labelledby="shop-remove-ads-title" hidden>
@@ -698,30 +699,53 @@
           </div>
         </section>
         <div class="shop-content">
-        <section id="shop-currency" aria-labelledby="shop-tab-currency" hidden>
-          <section id="shop-coin-packs" aria-labelledby="shop-coin-packs-title" hidden>
-            <h3 id="shop-coin-packs-title" data-i18n="shopCoinPacks"></h3>
-            <div id="shop-coin-pack-buttons" class="shop-coin-pack-buttons"></div>
-          </section>
+        <section id="shop-currency" class="shop-products" aria-labelledby="shop-tab-currency" hidden>
+          <div class="shop-product-heading">
+            <h3 data-i18n="shopCoinPacks"></h3>
+            <p data-i18n="shopCoinPacksGuide"></p>
+          </div>
           <p id="shop-refund-debt" hidden></p>
-          <div class="shop-placement-picker">
-            <label for="shop-placement-style" data-i18n="shopPlacementStyle"></label>
-            <select id="shop-placement-style" aria-describedby="shop-placement-guide">
-              <option value="plain" data-i18n="shopPlainPlacement"></option>
-              <option value="golden" data-i18n="shopGoldenPlacement"></option>
-              <option value="sakura" data-i18n="shopSakuraPlacement"></option>
-            </select>
-            <p id="shop-placement-guide" data-i18n="shopPlacementGuide"></p>
+          <p id="shop-no-coin-packs" class="shop-products-empty" data-i18n="shopCoinPacksUnavailable" hidden></p>
+          <ul id="shop-coin-pack-buttons" class="shop-product-list" role="list"></ul>
+        </section>
+        <section id="shop-effects" class="shop-products" aria-labelledby="shop-tab-effects" hidden>
+          <div class="shop-product-heading">
+            <h3 data-i18n="shopPlacementStyle"></h3>
+            <p data-i18n="shopPlacementGuide"></p>
           </div>
-          <div class="shop-effect-card">
-            <span class="shop-effect-icon" aria-hidden="true"></span>
-            <div>
-              <h3 data-i18n="shopGoldenPlacement"></h3>
-              <p data-i18n="shopGoldenPlacementGuide"></p>
-              <p id="shop-effect-status" hidden></p>
-            </div>
-          </div>
-          <p id="shop-starter"></p>
+          <ul class="shop-product-list" role="list">
+            <li>
+              <button class="shop-product shop-effect-option" type="button" data-effect="golden" aria-pressed="false">
+                <span class="shop-effect-art" aria-hidden="true"><span class="stone black"></span></span>
+                <span class="shop-product-copy">
+                  <strong data-i18n="shopGoldenPlacement"></strong>
+                  <span class="shop-product-detail" data-i18n="shopGoldenPlacementGuide"></span>
+                  <span class="shop-effect-status"></span>
+                  <span id="shop-effect-time" class="shop-product-detail" hidden></span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button class="shop-product shop-effect-option" type="button" data-effect="sakura" aria-pressed="false">
+                <span class="shop-effect-art" aria-hidden="true"><span class="stone black"></span></span>
+                <span class="shop-product-copy">
+                  <strong data-i18n="shopSakuraPlacement"></strong>
+                  <span class="shop-product-detail" data-i18n="shopSakuraPlacementGuide"></span>
+                  <span class="shop-effect-status"></span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button class="shop-product shop-effect-option" type="button" data-effect="plain" aria-pressed="false">
+                <span class="shop-effect-art" aria-hidden="true"><span class="stone black"></span></span>
+                <span class="shop-product-copy">
+                  <strong data-i18n="shopPlainPlacement"></strong>
+                  <span class="shop-product-detail" data-i18n="shopPlainPlacementGuide"></span>
+                  <span class="shop-effect-status"></span>
+                </span>
+              </button>
+            </li>
+          </ul>
         </section>
         <section id="shop-skins" aria-labelledby="shop-tab-skins">
         <div class="appearance-preview-panel">
@@ -936,12 +960,20 @@
         </div>
         <div class="shop-footer">
           <p id="shop-feedback" role="status" hidden></p>
-          <button id="shop-buy-effect" class="primary" type="button" data-ncq-main="Buy golden placement" hidden disabled></button>
+          <button id="shop-effect-action" class="primary" type="button" data-ncq-main="Apply or activate placement effect" hidden disabled></button>
           <button id="shop-action" class="primary" type="button" data-ncq-main="Apply or buy skins" disabled></button>
           <button class="secondary" type="submit" data-ncq-main="Close shop" data-i18n="shopClose"></button>
         </div>
       </form>
     </dialog>
+
+    <template id="shop-coin-pack-card">
+      <li class="shop-product">
+        <span class="shop-coin-art" aria-hidden="true"><i></i><i></i><i></i></span>
+        <strong class="shop-coin-quantity"></strong>
+        <button class="shop-coin-buy" type="button"></button>
+      </li>
+    </template>
 
     <dialog id="rule-dialog" class="rule-dialog" aria-labelledby="rule-heading">
       <form method="dialog">

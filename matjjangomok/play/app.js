@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=6a7a05196a84";
-import { TEXTS } from "./texts.js?v=6a7a05196a84";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=6a7a05196a84";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=6a7a05196a84";
+import { NcqBoard } from "./ncq/board.js?v=f7c10ea13326";
+import { TEXTS } from "./texts.js?v=f7c10ea13326";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=f7c10ea13326";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=f7c10ea13326";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -42,7 +42,7 @@ let missionClaiming = false;
 const pairedSkinPrices = {
   reference: 0, classic: 0, vintage: 300, porcelain: 800, jade: 1000,
   lacquer: 400, ocean: 700, soda: 600, gilded: 500,
-  quartz: 600, marble: 600, sapphire: 600, sakura: 600, aurora: 600,
+  quartz: 350, marble: 250, sapphire: 400, sakura: 450, aurora: 500,
 };
 const skinPrices = {
   stones: { ...pairedSkinPrices, glossy: 200 },
@@ -144,6 +144,7 @@ const nicknameEditor = el("profile-nickname-editor");
 const nicknameInput = el("nickname");
 const matchIntroDialog = el("match-intro");
 const playerPhotos = ["player-photo", "match-player-photo", "match-intro-photo"].map(el);
+matchIntroDialog.addEventListener("click", () => matchIntroDialog.close());
 matchIntroDialog.addEventListener("close", () => {
   if (matchIntroDialog.open) return;
   clearTimeout(matchIntro?.timer);
@@ -158,12 +159,17 @@ el("white-profile").addEventListener("click", () => openPlayerProfile(2));
 el("review-opponent-profile").addEventListener("click", () => openPlayerProfile(3 - (room ?? archive).you));
 el("review-own-profile").addEventListener("click", () => openPlayerProfile((room ?? archive).you));
 profileDialog.addEventListener("close", () => {
-  if (!profileDialog.open) {
-    profileTarget = null;
-    nicknameEditor.hidden = true;
-    nicknameEdit.setAttribute("aria-expanded", "false");
-  }
+  if (profileDialog.open) return;
+  const ranking = profileTarget?.ranking;
+  profileTarget = null;
+  nicknameEditor.hidden = true;
+  nicknameEdit.setAttribute("aria-expanded", "false");
   render();
+  if (ranking && lobbyView === "tournament" && rankingTab === ranking.tab) {
+    const card = el("ranking-" + ranking.tab + "-list")
+      .querySelector(`[data-ranking-player="${CSS.escape(ranking.key)}"]`);
+    (card ?? el("ranking-" + ranking.tab + "-tab")).focus();
+  }
 });
 profileDialog.querySelector(".profile-close").addEventListener("click", () => profileDialog.close());
 nicknameEdit.addEventListener("click", () => {
@@ -225,6 +231,12 @@ try {
 } catch {
   // A nickname can still be set for this visit.
 }
+const shopRows = Array.from(shop.querySelectorAll(".appearance-choices"));
+for (const row of shopRows) {
+  const inputs = Array.from(row.querySelectorAll("input"));
+  inputs.sort((a, b) => skinPrices[a.name][a.value] - skinPrices[b.name][b.value]);
+  row.append(...inputs.map(input => input.closest("label")));
+}
 const shopRadios = Array.from(shop.querySelectorAll('input[type="radio"]'));
 const skinCards = shopRadios.filter(input => input.name !== "grid").map(input => {
   const label = input.closest("label");
@@ -241,8 +253,15 @@ function openShop() {
   shopTab = "skins";
   feedback("shop-feedback");
   shop.showModal();
-  shop.querySelector(".shop-content").scrollTop = 0;
   render();
+  shop.querySelector(".shop-content").scrollTop = 0;
+  for (const row of shopRows) {
+    const card = row.querySelector("input:checked")?.closest("label");
+    if (!card) continue;
+    const cardBounds = card.getBoundingClientRect();
+    const rowBounds = row.getBoundingClientRect();
+    row.scrollLeft += cardBounds.left - rowBounds.left + (cardBounds.width - rowBounds.width) / 2;
+  }
   void refreshWallet();
 }
 const shopTabs = ["currency", "skins", "ads"];
@@ -607,9 +626,13 @@ function renderShop() {
   shopAction.toggleAttribute("data-purchase", buying);
   shopAction.disabled = shopSaving || (buying ? !enough : !changed);
   shopAction.textContent = buying ? t("shopBuyPrice", { n: NcqLang.num(price) }) : t("shopApply");
-  el("shop-preview-guide").textContent = t(buying ? (enough ? "shopLockedPreview" : "shopNotEnough") : "shopPreviewGuide");
   const status = el("shop-feedback");
+  status.classList.toggle("sr-only", skins);
   if (!status.hidden) status.textContent = t(status.dataset.message);
+  const guide = el("shop-preview-guide");
+  guide.textContent = !status.hidden ? status.textContent
+    : t(buying ? (enough ? "shopLockedPreview" : "shopNotEnough") : "shopPreviewGuide");
+  guide.toggleAttribute("data-error", !status.hidden && status.hasAttribute("data-error"));
 }
 
 function renderAdPurchase() {
@@ -1513,8 +1536,10 @@ function renderOwnRank() {
 }
 
 function renderPlayerCard() {
-  const standing = lobbyView === "tournament" && rankingTab !== "rating"
-    ? rankingResults[rankingTab]?.result?.own : null;
+  const tab = lobbyView === "tournament" ? rankingTab : null;
+  const standing = tab === "weekly" || tab === "previous" ? rankingResults[tab]?.result?.own : null;
+  const tournamentScore = tab === "previous" || Boolean(standing);
+  const overall = tab === "rating";
   const rating = playerStats?.rating ?? standing?.rating;
   const level = Number.isFinite(rating) ? rankLevel(rating) : null;
   const name = ownNickname();
@@ -1525,22 +1550,32 @@ function renderPlayerCard() {
   if (!rank.hidden) rank.textContent = rankName(level);
 
   const record = el("player-record");
-  const stats = standing ?? playerStats?.rankRecord;
+  const stats = tournamentScore ? standing : overall ? playerStats : playerStats?.rankRecord;
   record.hidden = !stats || ![stats.wins, stats.draws, stats.losses].every(Number.isInteger);
   if (!record.hidden) {
     const career = t("careerRecord", stats);
-    record.textContent = record.title = standing ? career + " · " + t("profileWinRate", { rate: winRate(stats) })
+    record.textContent = record.title = tournamentScore || overall ? career + " · " + t("profileWinRate", { rate: winRate(stats) })
       : t("lobbyRankRecord", { record: career });
   }
 
   const score = el("player-career");
-  score.hidden = !standing && level === null;
+  score.hidden = !tournamentScore && !overall && level === null;
   if (!score.hidden) {
-    el("player-rating-label").hidden = Boolean(standing);
-    el("player-rating-value").textContent = standing ? t("pointsCount", { n: standing.points })
-      : t("profileRatingValue", { rating: ratingNumber(rating) });
+    el("player-rating-label").hidden = tournamentScore;
+    const value = el("player-rating-value");
+    if (tournamentScore) {
+      value.textContent = Number.isInteger(standing?.points) ? t("pointsCount", { n: standing.points }) : t("rankingScoreEmpty");
+    } else {
+      value.textContent = level === null ? "-" : t("profileRatingValue", { rating: ratingNumber(rating) });
+    }
     const detail = el("player-card-detail");
-    detail.textContent = standing ? t("rankingPosition", { rank: ratingNumber(standing.rank) }) : nextRankText(level, rating);
+    if (tournamentScore || overall) {
+      const position = overall ? playerStats?.ratingRank?.position : standing?.rank;
+      detail.textContent = Number.isInteger(position) && position > 0
+        ? t("rankingPosition", { rank: ratingNumber(position) }) : t("rankingPositionEmpty");
+    } else {
+      detail.textContent = nextRankText(level, rating);
+    }
     detail.hidden = !detail.textContent;
   }
 }
@@ -1605,19 +1640,19 @@ function renderPromotionMeter(meterId, prefix, rating, { previousRating } = {}) 
   el(`${prefix}-upper`).textContent = canPromote ? tickNumber.format(upperOffset) : "—";
 }
 
-async function openPlayerProfile(seat) {
+async function openPlayerProfile(seat, ranking = null) {
   const game = room ?? archive;
-  const own = seat === undefined || seat === game?.you;
+  const own = ranking ? Boolean(ranking.row.you) : seat === undefined || seat === game?.you;
   const code = game?.code ?? game?.id?.split(":")[0];
   const online = Boolean(backend && !game?.device && /^[\da-f-]{36}$/.test(code ?? ""));
-  const target = { own, seat, online, stats: null, loading: !own && online };
+  const target = { own, seat, online, ranking, stats: ranking?.row ?? null, loading: !ranking && !own && online };
   profileTarget = target;
   renderPlayerProfile();
   profileDialog.showModal();
   render();
   if (own) {
     await refreshPlayerCard();
-  } else if (online) {
+  } else if (target.loading) {
     const stats = await getOpponentProfile(code, game.round);
     if (profileTarget !== target || !profileDialog.open) return;
     target.loading = false;
@@ -1632,17 +1667,25 @@ function getOpponentProfile(code, round) {
 
 function renderMatchIntro() {
   const { game, opponentLevel } = matchIntro;
-  const opponent = recordPlayer(room?.code === game.code ? room : game, 3 - game.you);
+  const currentGame = room?.code === game.code ? room : game;
+  const opponent = recordPlayer(currentGame, 3 - game.you);
   const opponentRating = matchIntro.opponentRating ?? opponent.rating;
-  const ownRating = playerStats?.rating;
-  el("match-intro-own-name").textContent = ownNickname();
-  const level = Number.isFinite(opponentRating) ? rankLevel(opponentRating) : opponentLevel;
-  const name = opponent.name;
-  el("match-intro-opponent-name").textContent = level == null ? name : `${rankName(level)} ${name}`;
-  for (const [id, rating] of [["match-intro-own-rating", ownRating], ["match-intro-opponent-rating", opponentRating]]) {
-    const label = el(id);
-    label.hidden = !Number.isFinite(rating);
-    if (!label.hidden) label.textContent = t("matchIntroRating", { rating: ratingNumber(rating) });
+  const ownRating = playerStats?.rating ?? recordPlayer(currentGame, game.you).rating;
+  setRecordPhoto(el("match-intro-opponent-photo"), opponent);
+  for (const [side, name, rating, fallbackLevel] of [
+    ["own", ownNickname(), ownRating, null],
+    ["opponent", opponent.name, opponentRating, opponentLevel],
+  ]) {
+    const prefix = `match-intro-${side}-`;
+    const nameLabel = el(prefix + "name");
+    nameLabel.textContent = nameLabel.title = name;
+    const level = Number.isFinite(rating) ? rankLevel(rating) : fallbackLevel;
+    const rankLabel = el(prefix + "rank");
+    rankLabel.hidden = level == null;
+    if (!rankLabel.hidden) rankLabel.textContent = rankName(level);
+    const ratingLabel = el(prefix + "rating");
+    ratingLabel.hidden = !Number.isFinite(rating);
+    if (!ratingLabel.hidden) ratingLabel.textContent = t("matchIntroRating", { rating: ratingNumber(rating) });
   }
 
   const points = el("match-intro-points");
@@ -1673,11 +1716,14 @@ async function openMatchIntro(game) {
 }
 
 function renderPlayerProfile() {
-  const { own, seat, online, loading, stats: opponentStats } = profileTarget;
+  const { own, seat, online, loading, ranking, stats: opponentStats } = profileTarget;
+  const ranked = own ? null : ranking;
+  const tournament = ranked && ranked.tab !== "rating";
+  const previous = tournament && ranked.tab === "previous";
   const stats = own ? playerStats : opponentStats;
   const game = room ?? archive;
-  const saved = seat && game && (!own || game.phase === "finished") ? recordPlayer(game, seat) : null;
-  const name = saved?.savedName || (own ? ownNickname() : t("opponent"));
+  const saved = ranked?.row ?? (seat && game && (!own || game.phase === "finished") ? recordPlayer(game, seat) : null);
+  const name = ranked ? rankingPlayerName(ranked.row) : saved?.savedName || (own ? ownNickname() : t("opponent"));
   const title = el("player-profile-title");
   const status = el("profile-status");
   const photo = el("profile-photo");
@@ -1687,10 +1733,16 @@ function renderPlayerProfile() {
     if (source) photo.src = source;
     else photo.removeAttribute("src");
   }
-  el("profile-stone").className = "stone " + colorName(seatColor(game, seat));
+  const stone = el("profile-stone");
+  stone.hidden = Boolean(ranking);
+  stone.className = "stone " + colorName(seatColor(game, seat));
   nicknameEdit.hidden = !own;
-  el("profile-rating-section").hidden = el("profile-records").hidden = !stats;
-  const showStanding = own && stats && Object.hasOwn(stats, "ratingRank");
+  const hasRating = Number.isFinite(stats?.rating);
+  const hasRecord = stats && [stats.wins, stats.draws, stats.losses].every(Number.isInteger);
+  const showStanding = ranked ? Number.isInteger(ranked.row.rank) : own && stats && Object.hasOwn(stats, "ratingRank");
+  el("profile-rating-section").hidden = !hasRating && !showStanding;
+  el("profile-rating-line").hidden = !hasRating;
+  el("profile-records").hidden = !hasRecord;
   el("profile-rating-standing-row").hidden = !showStanding;
   el("profile-rankings").hidden = !own || !backend || Boolean(room ?? archive);
   el("profile-promotion").hidden = !own || !stats;
@@ -1704,26 +1756,38 @@ function renderPlayerProfile() {
   }
 
   const { rating, rankRecord } = stats;
-  const level = rankLevel(rating);
-  title.textContent = rankName(level) + " " + name;
-  el("profile-rating").textContent = t("profileRatingValue", { rating: ratingNumber(rating) });
+  const level = hasRating ? rankLevel(rating) : null;
+  title.textContent = hasRating ? rankName(level) + " " + name : name;
+  if (hasRating) el("profile-rating").textContent = t("profileRatingValue", { rating: ratingNumber(rating) });
   if (showStanding) {
-    const { ratingRank } = stats;
-    el("profile-rating-standing").textContent = ratingRank
-      ? t("profileRatingStandingValue", {
-        position: ratingNumber(ratingRank.position), players: ratingNumber(ratingRank.players),
-      })
-      : t("profileRatingStandingPending");
+    el("profile-rating-standing-label").textContent = t(tournament
+      ? (previous ? "previousTournament" : "currentTournament") : "profileRatingStanding");
+    const standing = el("profile-rating-standing");
+    if (ranked) {
+      standing.textContent = t("rankingPosition", { rank: ratingNumber(ranked.row.rank) });
+      if (tournament && Number.isInteger(ranked.row.points)) standing.textContent += " · " + t("pointsCount", { n: ranked.row.points });
+    } else {
+      const { ratingRank } = stats;
+      standing.textContent = ratingRank
+        ? t("profileRatingStandingValue", {
+          position: ratingNumber(ratingRank.position), players: ratingNumber(ratingRank.players),
+        })
+        : t("profileRatingStandingPending");
+    }
   }
-  const nextRank = nextRankText(level, rating);
+  const nextRank = hasRating && !ranked ? nextRankText(level, rating) : "";
   el("profile-next-rank").textContent = nextRank;
   el("profile-next-rank").hidden = !nextRank;
-  el("profile-record").textContent = t("careerRecord", stats);
-  const overallWinRate = winRate(stats);
-  el("profile-win-rate").hidden = !own;
-  el("profile-opponent-win-rate-row").hidden = own;
-  if (own) el("profile-win-rate").textContent = t("profileWinRate", { rate: overallWinRate });
-  else el("profile-opponent-win-rate").textContent = overallWinRate;
+  if (hasRecord) {
+    el("profile-record-label").textContent = t(tournament
+      ? (previous ? "previousTournamentRecord" : "currentTournamentRecord") : "overallRecord");
+    el("profile-record").textContent = t("careerRecord", stats);
+    const rate = winRate(stats);
+    el("profile-win-rate").hidden = !own;
+    el("profile-opponent-win-rate-row").hidden = own;
+    if (own) el("profile-win-rate").textContent = t("profileWinRate", { rate });
+    else el("profile-opponent-win-rate").textContent = rate;
+  }
   el("profile-rank-record-row").hidden = !rankRecord;
   if (rankRecord) {
     el("profile-rank-record").textContent = t("careerRecord", rankRecord);
@@ -2757,6 +2821,7 @@ for (const button of rankingTabs) {
     rankingTab = tab;
     render();
     if (!rankingResults[tab]) loadRankings(tab);
+    if (tab === "rating") void refreshPlayerCard();
   });
   el("ranking-" + tab + "-retry").addEventListener("click", () => {
     el("ranking-" + tab + "-panel").focus();
@@ -2813,9 +2878,16 @@ async function loadRankings(tab, page = 1) {
   }
 }
 
-function rankingCard(row, { rating = false } = {}) {
+function rankingPlayerName(row) {
+  return row.you ? ownNickname() : row.nickname || t("playerAlias", { alias: row.alias });
+}
+
+function rankingCard(row, tab, index) {
   const card = el("ranking-card-template").content.firstElementChild.cloneNode(true);
   const own = row.you;
+  const key = own ? "self" : row.alias ? "alias:" + row.alias : "entry:" + index;
+  card.dataset.rankingPlayer = key;
+  card.addEventListener("click", () => openPlayerProfile(undefined, { row, tab, key }));
   card.toggleAttribute("data-own-ranking", Boolean(own));
   const place = card.querySelector(".ranking-place");
   place.textContent = ratingNumber(row.rank);
@@ -2833,12 +2905,12 @@ function rankingCard(row, { rating = false } = {}) {
   rank.textContent = label;
   rank.hidden = !label;
   const name = card.querySelector(".player-card-name");
-  name.textContent = name.title = own ? ownNickname() : row.nickname || t("playerAlias", { alias: row.alias });
+  name.textContent = name.title = rankingPlayerName(row);
 
   const record = card.querySelector(".player-card-record");
   record.hidden = ![row.wins, row.draws, row.losses].every(Number.isInteger);
   if (!record.hidden) record.textContent = t("careerRecord", row) + " · " + t("profileWinRate", { rate: winRate(row) });
-  card.querySelector(".ranking-card-score strong").textContent = rating
+  card.querySelector(".ranking-card-score strong").textContent = tab === "rating"
     ? t("profileRatingValue", { rating: ratingNumber(row.rating) })
     : t("pointsCount", { n: row.points });
   return card;
@@ -2870,9 +2942,9 @@ function renderRankings() {
   message.hidden = rows.length > 0;
   el("ranking-" + rankingTab + "-retry").hidden = !result?.error;
   const standings = rating ? "rating-standings" : previous ? "previous-standings" : "standings";
-  el(standings).replaceChildren(...rows.map(row => {
+  el(standings).replaceChildren(...rows.map((row, index) => {
     const entry = document.createElement("li");
-    entry.append(rankingCard(row, { rating }));
+    entry.append(rankingCard(row, rankingTab, index));
     return entry;
   }));
   if (!rating) {
@@ -3135,7 +3207,7 @@ render();
 scheduleMissionReset();
 if (lobbyView === "tournament" && !rankingResults[rankingTab]) loadRankings(rankingTab);
 refreshLobby();
-for (const image of [...playerPhotos, el("profile-photo")]) {
+for (const image of [...playerPhotos, el("profile-photo"), el("match-intro-opponent-photo")]) {
   image.addEventListener("load", () => { image.hidden = !image.hasAttribute("src"); });
   image.addEventListener("error", () => { image.hidden = true; });
 }

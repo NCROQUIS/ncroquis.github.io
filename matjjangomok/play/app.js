@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=7a716c291e00";
-import { TEXTS } from "./texts.js?v=7a716c291e00";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=7a716c291e00";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=7a716c291e00";
+import { NcqBoard } from "./ncq/board.js?v=5e5fcd5558e5";
+import { TEXTS } from "./texts.js?v=5e5fcd5558e5";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=5e5fcd5558e5";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=5e5fcd5558e5";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -417,10 +417,8 @@ function renderDailyMissions() {
   const count = today ? shopState.missionRounds.length : 0;
   const claimed = today ? shopState.missionClaims : [];
   const ready = missionTargets.filter(target => target <= count && !claimed.includes(target));
-  const next = nextMissionTarget(count);
   const completed = dailyMissions.filter(({ target }) => count >= target).length;
   const progress = missionProgress(completed, dailyMissions.length);
-  const firstReward = ready[0];
   el("daily-mission-count").textContent = progress.count;
   el("daily-mission-total").textContent = t("missionMilestoneTotal", progress);
   const filledSegments = Math.max(0, completed - 1);
@@ -428,14 +426,6 @@ function renderDailyMissions() {
   missionSteps.forEach((step, index) => step.toggleAttribute("data-completed", index < completed));
   el("show-missions").toggleAttribute("data-ready", ready.length > 0);
   el("daily-mission-action").textContent = t(ready.length ? "missionClaim" : "missionView");
-  const summary = el("daily-mission-summary");
-  if (firstReward > repeatMission.after) {
-    summary.textContent = t("missionRepeatReady");
-  } else if (firstReward) {
-    summary.textContent = t("missionMatchReady", { n: NcqLang.num(firstReward) });
-  } else {
-    summary.textContent = next ? t("missionNext", missionProgress(count, next)) : t("missionAllDone");
-  }
   if (!missionDialog.open) return;
 
   el("mission-balance").textContent = NcqLang.num(shopState.coins);

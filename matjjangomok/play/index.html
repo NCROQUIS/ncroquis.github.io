@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=7a716c291e00">
-  <script type="module" src="./app.js?v=7a716c291e00"></script>
+  <link rel="stylesheet" href="./style.css?v=5e5fcd5558e5">
+  <script type="module" src="./app.js?v=5e5fcd5558e5"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -29,6 +29,10 @@
         <circle cx="9" cy="7" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/>
         <path d="M3 19v-2a6 6 0 0 1 12 0v2H3Zm13-15a3 3 0 0 1 0 6m1 3a5 5 0 0 1 4 5v1h-3"
               fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="settings-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">
+        <path d="M9.5 3h5l.5 2.5 1.3.8 2.5-.8 2.5 4.3-2 1.7v1l2 1.7-2.5 4.3-2.5-.8-1.3.8-.5 2.5h-5l-.5-2.5-1.3-.8-2.5.8-2.5-4.3 2-1.7v-1l-2-1.7 2.5-4.3 2.5.8 1.3-.8z"/>
+        <circle cx="12" cy="12" r="2.8"/>
       </symbol>
       <symbol id="records-person" viewBox="0 0 24 24">
         <circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/>
@@ -76,7 +80,10 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 12H4L5 8Zm4 2V6a3 3 0 0 1 6 0v4m-5 5h4m-2-2v4"/></svg>
           <span data-i18n="shop"></span>
         </button>
-        <button id="show-options" class="quiet" type="button" aria-haspopup="dialog" aria-controls="options" data-i18n="options"></button>
+        <button id="show-options" class="quiet" type="button" aria-haspopup="dialog" aria-controls="options"
+                data-i18n-attr="aria-label:options; title:options">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#settings-icon"/></svg>
+        </button>
       </div>
     </header>
 
@@ -98,10 +105,7 @@
                   <strong data-i18n="dailyMissions"></strong>
                   <small id="daily-mission-completed"><span id="daily-mission-count"></span> <span id="daily-mission-total"></span></small>
                 </span>
-                <span class="mission-shortcut-progress">
-                  <span id="daily-mission-steps" class="mission-steps" aria-hidden="true"></span>
-                  <small id="daily-mission-summary"></small>
-                </span>
+                <span id="daily-mission-steps" class="mission-steps" aria-hidden="true"></span>
               </span>
               <span id="daily-mission-action" class="mission-details"></span>
             </button>
@@ -148,29 +152,28 @@
           </div>
         </div>
         <button id="player-card" class="player-card" type="button" aria-haspopup="dialog" aria-controls="player-profile">
-          <span class="player-avatar" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
-            <img id="player-photo" alt="" referrerpolicy="no-referrer" hidden>
+          <span class="player-card-identity">
+            <span class="player-avatar" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
+              <img id="player-photo" alt="" referrerpolicy="no-referrer" hidden>
+            </span>
+            <span class="player-card-badge" data-i18n="playerInfo"></span>
           </span>
           <span class="player-summary">
             <span class="player-name-line">
-              <span class="player-info-label" data-i18n="playerInfo"></span>
               <strong id="lobby-player-rank" hidden></strong>
               <strong id="lobby-player-name"></strong>
             </span>
             <span id="player-record" hidden></span>
           </span>
           <span id="player-career" class="player-rating-summary" hidden>
-            <strong id="player-rating"><span class="player-rating-label" data-i18n="profileRating"></span> <span id="player-rating-value"></span></strong>
+            <strong id="player-rating"><span class="sr-only" data-i18n="profileRating"></span> <span id="player-rating-value"></span></strong>
             <span id="player-next-rank" hidden></span>
           </span>
         </button>
         <div class="lobby-actions match-request">
           <button id="choose-rule" class="secondary choose-rule" type="button" aria-haspopup="dialog" aria-controls="rule-dialog">
-            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">
-              <path d="M9.5 3h5l.5 2.5 1.3.8 2.5-.8 2.5 4.3-2 1.7v1l2 1.7-2.5 4.3-2.5-.8-1.3.8-.5 2.5h-5l-.5-2.5-1.3-.8-2.5.8-2.5-4.3 2-1.7v-1l-2-1.7 2.5-4.3 2.5.8 1.3-.8z"/>
-              <circle cx="12" cy="12" r="2.8"/>
-            </svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#settings-icon"/></svg>
             <span id="selected-rule"></span>
             <span class="chevron" aria-hidden="true"></span>
           </button>

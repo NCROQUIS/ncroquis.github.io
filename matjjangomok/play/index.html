@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=0ab1fdaad238">
-  <script type="module" src="./app.js?v=0ab1fdaad238"></script>
+  <link rel="stylesheet" href="./style.css?v=4dfcfc13884e">
+  <script type="module" src="./app.js?v=4dfcfc13884e"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -90,8 +90,8 @@
               <path d="M14 24V8m0 0C4 8 5 0 9.5 2.5 12.2 4 14 8 14 8Zm0 0C24 8 23 0 18.5 2.5 15.8 4 14 8 14 8Z"
                     fill="none" stroke="#5d8a28" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <span class="mission-overview">
-              <span class="mission-heading">
+            <span class="mission-shortcut-content">
+              <span class="mission-shortcut-heading">
                 <strong data-i18n="dailyMissions"></strong>
                 <small id="daily-mission-completed"></small>
               </span>
@@ -554,6 +554,8 @@
         </label>
         <button id="send-feedback" class="secondary" type="button" data-i18n="sendFeedback" hidden></button>
         <button id="ad-privacy" class="secondary" type="button" data-i18n="adPrivacy" hidden></button>
+        <button id="restore-purchases" class="secondary" type="button" data-i18n="purchaseRestore" hidden></button>
+        <p id="restore-feedback" role="status" hidden></p>
         <button class="primary" type="submit" data-ncq-main="Close options" data-i18n="done"></button>
       </form>
     </dialog>
@@ -622,8 +624,21 @@
         <div class="shop-tabs" role="group" data-i18n-attr="aria-label:shop">
           <button id="shop-tab-currency" type="button" aria-controls="shop-currency" aria-pressed="false" data-i18n="shopCurrency"></button>
           <button id="shop-tab-skins" type="button" aria-controls="shop-skins" aria-pressed="true" data-i18n="shopSkins"></button>
+          <button id="shop-tab-ads" type="button" aria-controls="shop-ads" aria-pressed="false" data-i18n="shopRemoveAdsTab" hidden></button>
         </div>
         <div class="shop-content">
+        <section id="shop-ads" aria-labelledby="shop-tab-ads" hidden>
+          <div class="shop-effect-card shop-remove-ads-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 6h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Zm3 9v-5l3 2-3 3M3 3l18 18"/>
+            </svg>
+            <div>
+              <h3 data-i18n="shopRemoveAdsTitle"></h3>
+              <p data-i18n="shopRemoveAdsDescription"></p>
+              <p id="shop-remove-ads-owned" data-i18n="shopRemoveAdsOwned" hidden></p>
+            </div>
+          </div>
+        </section>
         <section id="shop-currency" aria-labelledby="shop-tab-currency" hidden>
           <div class="shop-effect-card">
             <span class="shop-effect-icon" aria-hidden="true"></span>
@@ -786,6 +801,8 @@
         </div>
         <div class="shop-footer">
           <p id="shop-feedback" role="status" hidden></p>
+          <button id="shop-buy-remove-ads" class="primary" type="button" data-ncq-main="Buy permanent ad removal" hidden></button>
+          <button id="shop-restore-ads" class="secondary" type="button" data-i18n="purchaseRestore" hidden></button>
           <button id="shop-buy-effect" class="primary" type="button" data-ncq-main="Buy golden placement" hidden disabled></button>
           <button id="shop-action" class="primary" type="button" data-ncq-main="Apply or buy skins" disabled></button>
           <button class="secondary" type="submit" data-ncq-main="Close shop" data-i18n="shopClose"></button>

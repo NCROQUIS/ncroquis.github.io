@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=0ab1fdaad238";
-import { TEXTS } from "./texts.js?v=0ab1fdaad238";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=0ab1fdaad238";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=0ab1fdaad238";
+import { NcqBoard } from "./ncq/board.js?v=4dfcfc13884e";
+import { TEXTS } from "./texts.js?v=4dfcfc13884e";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=4dfcfc13884e";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=4dfcfc13884e";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -16,6 +16,9 @@ const stoneSoundKey = "matjjangomok.stoneSound";
 const matchAdsKey = "matjjangomok.matchAds";
 const matchAdCooldown = 90_000;
 const NcqAds = window.NcqAds;
+const NcqIap = window.NcqIap;
+let adsRemoved = false;
+let adPurchaseBusy = false;
 let matchAds = { freeRounds: [], lastShownAt: 0, lastAttemptedRound: null };
 let resultAdRound = null;
 const starterCoins = 0;
@@ -179,6 +182,7 @@ el("profile-rankings").addEventListener("click", () => {
   showRankings();
 });
 el("show-options").addEventListener("click", () => {
+  feedback("restore-feedback");
   feedbackButton.hidden = Boolean(room ?? archive ?? spectator) || !window.NcqFeedback?.can();
   optionsDialog.showModal();
   render();
@@ -237,7 +241,7 @@ function openShop() {
   shop.querySelector(".shop-content").scrollTop = 0;
   render();
 }
-const shopTabs = ["currency", "skins"];
+const shopTabs = ["currency", "skins", "ads"];
 const missionRows = [...dailyMissions, repeatMission].map((_, index) => {
   const row = el("daily-mission-row").content.firstElementChild.cloneNode(true);
   row.querySelector(".mission-goal").id = "mission-goal-" + index;
@@ -288,6 +292,10 @@ for (const input of shopRadios) {
 }
 shopAction.addEventListener("click", () => saveShopSelection(shopAction.hasAttribute("data-purchase")));
 el("shop-buy-effect").addEventListener("click", buyGoldenPlacement);
+el("shop-buy-remove-ads").addEventListener("click", buyRemoveAds);
+el("shop-restore-ads").addEventListener("click", () => restoreAdPurchase("shop-feedback"));
+el("restore-purchases").addEventListener("click", () => restoreAdPurchase("restore-feedback"));
+window.addEventListener("ncq-iap", refreshAdPurchase);
 window.addEventListener("storage", event => {
   if (event.key !== appearanceKey && event.key !== null) return;
   shopState = loadShopState();
@@ -510,6 +518,7 @@ function scheduleMissionReset() {
 }
 
 function renderShop() {
+  renderAdPurchase();
   const skins = shopTab === "skins";
   for (const tab of shopTabs) {
     const active = shopTab === tab;
@@ -557,6 +566,119 @@ function renderShop() {
   el("shop-preview-guide").textContent = t(buying ? (enough ? "shopLockedPreview" : "shopNotEnough") : "shopPreviewGuide");
   const status = el("shop-feedback");
   if (!status.hidden) status.textContent = t(status.dataset.message);
+}
+
+function renderAdPurchase() {
+  const store = NcqIap?.status();
+  const sellable = store?.ready && NcqIap.can("REMOVE_ADS");
+  const price = sellable ? NcqIap.price("REMOVE_ADS") : "";
+  const visible = Boolean(price || adsRemoved);
+  const canRestore = adsRemoved || (store && (store.mode === "simulate"
+    || (store.mode !== "off" && store.products.REMOVE_ADS?.on)));
+  el("shop-tab-ads").hidden = !visible;
+  if (!visible && shopTab === "ads") shopTab = "skins";
+  el("shop-remove-ads-owned").hidden = !adsRemoved;
+  const buy = el("shop-buy-remove-ads");
+  buy.hidden = shopTab !== "ads" || adsRemoved || !price;
+  buy.disabled = adPurchaseBusy;
+  buy.textContent = price ? t("shopRemoveAdsBuy", { price }) : "";
+  el("shop-restore-ads").hidden = shopTab !== "ads" || !canRestore;
+  el("restore-purchases").hidden = !canRestore;
+  el("shop-restore-ads").disabled = el("restore-purchases").disabled = adPurchaseBusy;
+  const status = el("restore-feedback");
+  if (!status.hidden) status.textContent = t(status.dataset.message);
+}
+
+function refreshAdPurchase() {
+  if (shop.open) renderShop();
+  else renderAdPurchase();
+}
+
+function showGameBanner() {
+  if (adsRemoved || !NcqAds?.can("BANNER")) return;
+  // NCQ_ADS_BANNER: 상단 배너 광고
+  void NcqAds.banner("BANNER", { position: "top" }).catch(() => {});
+}
+
+function enableAdRemoval() {
+  if (adsRemoved) return;
+  adsRemoved = true;
+  NcqAds?.hideBanner().catch(() => {});
+  refreshAdPurchase();
+}
+
+async function initializeAdPurchase() {
+  if (NcqIap) {
+    // NCQ_IAP_REMOVE_ADS: 영구 광고 제거
+    NcqIap.onGrant(id => {
+      if (id !== "REMOVE_ADS") return false;
+      enableAdRemoval();
+      return true;
+    });
+    void NcqIap.ready().then(refreshAdPurchase, refreshAdPurchase);
+    try {
+      if (await NcqIap.owned("REMOVE_ADS")) enableAdRemoval();
+    } catch {
+      // The store can retry purchase recovery when the app returns to the foreground.
+    }
+  }
+  showGameBanner();
+  refreshAdPurchase();
+}
+
+async function buyRemoveAds() {
+  if (adPurchaseBusy || adsRemoved || !NcqIap?.can("REMOVE_ADS")) return;
+  adPurchaseBusy = true;
+  feedback("shop-feedback");
+  const content = shop.querySelector(".shop-content");
+  const scrollTop = content.scrollTop;
+  const shell = document.querySelector(".shell");
+  // The shared build's checkout is attached to the page, below native dialogs.
+  shop.close();
+  shell.inert = true;
+  try {
+    await adOwnershipReady;
+    if (adsRemoved) return;
+    const result = await NcqIap.buyOnce("REMOVE_ADS");
+    if (result.ok) feedback("shop-feedback", "shopRemoveAdsActivated");
+    else if (["PENDING", "CHECKING"].includes(result.code)) feedback("shop-feedback", "shopRemoveAdsPending");
+    else if (result.code !== "USER_CANCELED") feedback("shop-feedback", "shopRemoveAdsFailed", true);
+  } catch {
+    feedback("shop-feedback", "shopRemoveAdsFailed", true);
+  } finally {
+    shell.inert = false;
+    adPurchaseBusy = false;
+    shop.showModal();
+    render();
+    content.scrollTop = scrollTop;
+  }
+}
+
+async function restoreAdPurchase(statusId) {
+  if (adPurchaseBusy || !NcqIap) return;
+  adPurchaseBusy = true;
+  feedback(statusId);
+  refreshAdPurchase();
+  try {
+    await adOwnershipReady;
+    const result = await NcqIap.restore();
+    if (!result.ok) {
+      feedback(statusId, "purchaseRestoreFailed", true);
+    } else if (result.restored.includes("REMOVE_ADS")) {
+      feedback(statusId, "purchaseRestored");
+    } else {
+      if (adsRemoved && !(await NcqIap.owned("REMOVE_ADS"))) {
+        adsRemoved = false;
+        showGameBanner();
+      }
+      feedback(statusId, adsRemoved ? "purchaseRestored" : "purchaseRestoreEmpty");
+    }
+  } catch {
+    feedback(statusId, "purchaseRestoreFailed", true);
+  } finally {
+    adPurchaseBusy = false;
+    refreshAdPurchase();
+  }
 }
 
 async function saveShopSelection(buy) {
@@ -1981,9 +2103,10 @@ function recordCompletedRound(roundKey) {
 }
 
 async function showMatchAd(roundKey) {
-  if (!NcqAds?.can("MATCH_END")) return;
+  if (adsRemoved || !NcqAds?.can("MATCH_END")) return;
+  await adOwnershipReady;
   const show = async () => {
-    if (document.hidden || room?.phase !== "finished" || `${room.code}:${room.round}` !== roundKey) return;
+    if (adsRemoved || document.hidden || room?.phase !== "finished" || `${room.code}:${room.round}` !== roundKey) return;
     const progress = loadMatchAds();
     if (progress.lastAttemptedRound === roundKey || Date.now() - progress.lastShownAt < matchAdCooldown) return;
     saveMatchAds({ ...progress, lastAttemptedRound: roundKey });
@@ -2818,6 +2941,7 @@ async function loadSharedRecord(shareId) {
   }
 }
 
+const adOwnershipReady = initializeAdPurchase();
 const shareId = sharedRecordToken();
 if (shareId !== null) {
   await loadSharedRecord(shareId);

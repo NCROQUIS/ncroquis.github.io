@@ -6,9 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
+  <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
+  <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
+  <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=f7c10ea13326">
-  <script type="module" src="./app.js?v=f7c10ea13326"></script>
+  <link rel="stylesheet" href="./style.css?v=dc618f6c2b4f">
+  <script type="module" src="./app.js?v=dc618f6c2b4f"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -687,6 +690,24 @@
           </div>
         </section>
         <section id="shop-currency" aria-labelledby="shop-tab-currency" hidden>
+          <section id="shop-coin-packs" aria-labelledby="shop-coin-packs-title" hidden>
+            <h3 id="shop-coin-packs-title" data-i18n="shopCoinPacks"></h3>
+            <div class="shop-coin-pack-buttons">
+              <button class="secondary" id="shop-buy-200" type="button" hidden></button>
+              <button class="secondary" id="shop-buy-700" type="button" hidden></button>
+              <button class="secondary" id="shop-buy-1600" type="button" hidden></button>
+            </div>
+          </section>
+          <p id="shop-refund-debt" hidden></p>
+          <div class="shop-placement-picker">
+            <label for="shop-placement-style" data-i18n="shopPlacementStyle"></label>
+            <select id="shop-placement-style" aria-describedby="shop-placement-guide">
+              <option value="plain" data-i18n="shopPlainPlacement"></option>
+              <option value="golden" data-i18n="shopGoldenPlacement"></option>
+              <option value="sakura" data-i18n="shopSakuraPlacement"></option>
+            </select>
+            <p id="shop-placement-guide" data-i18n="shopPlacementGuide"></p>
+          </div>
           <div class="shop-effect-card">
             <span class="shop-effect-icon" aria-hidden="true"></span>
             <div>

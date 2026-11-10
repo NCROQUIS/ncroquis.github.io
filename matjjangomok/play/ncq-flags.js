@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "1.1.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangomok", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/matjjangomok", "board": "https://ncroquis.github.io/matjjangomok/feedback/"}, "NCQ_SHARE": {"url": "https://ncroquis.github.io/matjjangomok/share/", "title": "맞짱 오목"}});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "1.2.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangomok", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/matjjangomok", "board": "https://ncroquis.github.io/matjjangomok/feedback/"}, "NCQ_SHARE": {"url": "https://ncroquis.github.io/matjjangomok/share/", "title": "맞짱 오목"}});
 Object.assign(window, window.NCQ);
 
 /* 화면 켜 두기 (ncq_build.py가 넣어요, 웹 공개). 게임을 보는 동안 휴대폰 화면이 저절로 꺼지지 않게 브라우저의
@@ -65,6 +65,7 @@ Object.assign(window, window.NCQ);
    광고·결제는 공용 도구(NcqAds·NcqIap)가 NcqMetrics._tool로 알려요 (게임 코드는 할 일이 없어요):
      ad_load·ad_fail·ad_show·ad_reward·ad_call {slot, format, stage, why, result}
      purchase_start·purchase·purchase_cancel·purchase_fail·purchase_restore {product, kind, amount, currency, qty, code}
+   공용 저장 모듈(NcqSave)은 기기 저장이 바깥에서 바뀐 걸 알아채면 save_tamper {where}를 알려요 (지표 모듈 4).
    설치 ID는 코드네임별 무작위 값이라 기기·광고 ID·개인정보와 이어지지 않아요. 앱을 지우면 함께 지워져요.
    보내지 못한 이벤트는 기기에 모아 뒀다가(최대 300개) 다음에 보내요. 서버가 받았다고 답한 것만 지워요.
    같은 이벤트가 두 번 가도 서버 집계가 이벤트 ID로 한 번만 세요. 오류가 나도 게임은 그대로 돌아가요. */
@@ -72,7 +73,7 @@ Object.assign(window, window.NCQ);
   "use strict";
   if (!cfg || !cfg.url || !cfg.cn || typeof window === "undefined" || typeof document === "undefined") return;
 
-  var SDK = 3;
+  var SDK = 4;
   var SESSION_GAP = 30 * 60 * 1000;      // 이만큼 쉬면 새 세션
   var BEAT = 15 * 1000;                  // 살아 있음 기록 (꺼져도 그때까지 시간은 남는다)
   var ENGAGE_EVERY = 5 * 60 * 1000;      // 오래 켜 둬도 이만큼마다 플레이 시간을 보낸다
@@ -353,7 +354,7 @@ Object.assign(window, window.NCQ);
   // ------------------------------------------------------------ 광고·결제 (공용 도구 NcqAds·NcqIap가 부르는 함수)
   // 이름은 정해 둔 것만 받고, 값은 짧은 글·숫자·참거짓만 남긴다 (게임 코드가 부르는 함수가 아니에요)
   var TOOL_EVENTS = {ad_load: 1, ad_fail: 1, ad_show: 1, ad_reward: 1, ad_call: 1, purchase_start: 1, purchase: 1,
-                     purchase_cancel: 1, purchase_fail: 1, purchase_restore: 1};
+                     purchase_cancel: 1, purchase_fail: 1, purchase_restore: 1, save_tamper: 1};
   function toolEvent(name, props) {
     if (typeof name !== "string" || !Object.prototype.hasOwnProperty.call(TOOL_EVENTS, name)) return;
     var out = {}, n = 0;
@@ -399,4 +400,4 @@ Object.assign(window, window.NCQ);
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangomok","pf":"web","mk":"web","tr":"share","vn":"1.1.0","vc":0,"cm":"023dc6d","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangomok","pf":"web","mk":"web","tr":"share","vn":"1.2.0","vc":0,"cm":"3442b6f","ft":[]});

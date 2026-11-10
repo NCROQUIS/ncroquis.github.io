@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=d9f620e27616";
-import { TEXTS } from "./texts.js?v=d9f620e27616";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=d9f620e27616";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=d9f620e27616";
+import { NcqBoard } from "./ncq/board.js?v=6a7a05196a84";
+import { TEXTS } from "./texts.js?v=6a7a05196a84";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=6a7a05196a84";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=6a7a05196a84";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -15,12 +15,13 @@ const nicknameKey = "matjjangomok.nickname";
 const stoneSoundKey = "matjjangomok.stoneSound";
 const matchAdsKey = "matjjangomok.matchAds";
 const matchAdCooldown = 90_000;
+const adFreeRounds = 3;
 const NcqAds = window.NcqAds;
 const NcqIap = window.NcqIap;
 let adsRemoved = false;
 let adPurchaseBusy = false;
 let matchAds = { freeRounds: [], lastShownAt: 0, lastAttemptedRound: null };
-let resultAdRound = null;
+let pendingMatchAdRound = null;
 const starterCoins = 0;
 const goldenPlacementPrice = 120;
 const dayMs = 24 * 60 * 60_000;
@@ -41,6 +42,7 @@ let missionClaiming = false;
 const pairedSkinPrices = {
   reference: 0, classic: 0, vintage: 300, porcelain: 800, jade: 1000,
   lacquer: 400, ocean: 700, soda: 600, gilded: 500,
+  quartz: 600, marble: 600, sapphire: 600, sakura: 600, aurora: 600,
 };
 const skinPrices = {
   stones: { ...pairedSkinPrices, glossy: 200 },
@@ -48,6 +50,8 @@ const skinPrices = {
 };
 const skinKinds = Object.keys(skinPrices);
 let shopState = loadShopState();
+let serverWallet;
+let effectPurchaseId;
 let shopPreview = { ...shopState.appearance };
 let shopTab = "skins";
 let shopSaving = false;
@@ -186,7 +190,7 @@ el("show-options").addEventListener("click", () => {
   optionsDialog.showModal();
   render();
 });
-optionsDialog.addEventListener("close", render);
+optionsDialog.addEventListener("close", closeLobbyMenu);
 feedbackButton.addEventListener("click", () => {
   optionsDialog.close();
   window.NcqFeedback.open();
@@ -239,6 +243,7 @@ function openShop() {
   shop.showModal();
   shop.querySelector(".shop-content").scrollTop = 0;
   render();
+  void refreshWallet();
 }
 const shopTabs = ["currency", "skins", "ads"];
 const missionRows = [...dailyMissions, repeatMission].map((_, index) => {
@@ -266,13 +271,14 @@ el("show-missions").addEventListener("click", () => {
   missionDialog.showModal();
   el("mission-content").scrollTop = 0;
   render();
+  void refreshWallet();
 });
-missionDialog.addEventListener("close", render);
+missionDialog.addEventListener("close", closeLobbyMenu);
 missionDialog.addEventListener("click", event => {
   const button = event.target.closest(".mission-claim");
   if (button) void claimMission(button);
 });
-shop.addEventListener("close", render);
+shop.addEventListener("close", closeLobbyMenu);
 for (const tab of shopTabs) {
   el("shop-tab-" + tab).addEventListener("click", () => {
     shopTab = tab;
@@ -382,7 +388,8 @@ function applyAppearance() {
 }
 
 function ownsSkin(state, kind, style) {
-  return skinPrices[kind][style] === 0 || state.ownedSkins.includes(kind + ":" + style);
+  const id = kind + ":" + style;
+  return skinPrices[kind][style] === 0 || state.ownedSkins.includes(id) || serverWallet?.ownedSkins.includes(id);
 }
 
 function shopPurchase(selection, state) {
@@ -401,16 +408,47 @@ function missionProgress(count, target) {
   return { count: NcqLang.num(Math.min(count, target)), target: NcqLang.num(target) };
 }
 
+function coinBalance() {
+  return backend ? serverWallet?.coins ?? 0 : shopState.coins;
+}
+
+function canAffordShop(price) {
+  return price <= shopState.coins || price <= coinBalance();
+}
+
+function goldenPlacementUntil() {
+  return Math.max(shopState.goldenPlacementUntil, serverWallet?.goldenPlacementUntil ?? 0);
+}
+
+function applyWallet(next) {
+  if (next.error || !Number.isInteger(next.coins)) return false;
+  if (!serverWallet || (next.version >= serverWallet.version && next.day >= serverWallet.day
+      && (next.day !== serverWallet.day || next.count >= serverWallet.count))) {
+    serverWallet = next;
+  }
+  return true;
+}
+
+async function refreshWallet() {
+  if (!backend) return;
+  if (applyWallet(await remoteRequest(client => client.gameRequest("/wallet")))) render();
+}
+
 function renderCoinBalance() {
-  const coins = NcqLang.num(shopState.coins);
+  const coins = NcqLang.num(coinBalance());
   el("lobby-coin-count").textContent = coins;
   el("shop-balance").textContent = coins;
+  const legacy = el("shop-legacy-balance");
+  legacy.hidden = !backend || !shopState.coins;
+  legacy.textContent = t("shopLegacyBalance", { n: NcqLang.num(shopState.coins) });
 }
 
 function renderDailyMissions() {
-  const today = koreaDay(Date.now()) === shopState.missionDay;
-  const count = today ? shopState.missionRounds.length : 0;
-  const claimed = today ? shopState.missionClaims : [];
+  const today = koreaDay(Date.now());
+  const missions = backend && today === serverWallet?.day ? serverWallet
+    : !backend && today === shopState.missionDay ? { count: shopState.missionRounds.length, claimed: shopState.missionClaims }
+      : { count: 0, claimed: [] };
+  const { count, claimed } = missions;
   const ready = missionTargets.filter(target => target <= count && !claimed.includes(target));
   const completed = dailyMissions.filter(({ target }) => count >= target).length;
   const progress = missionProgress(completed, dailyMissions.length);
@@ -423,7 +461,7 @@ function renderDailyMissions() {
   el("daily-mission-action").textContent = t(ready.length ? "missionClaim" : "missionView");
   if (!missionDialog.open) return;
 
-  el("mission-balance").textContent = NcqLang.num(shopState.coins);
+  el("mission-balance").textContent = NcqLang.num(coinBalance());
   const overview = el("mission-overview-progress");
   overview.setAttribute("aria-valuenow", completed);
   overview.style.setProperty("--mission-fill", completed / dailyMissions.length * 100 + "%");
@@ -485,7 +523,15 @@ async function claimMission(button) {
   missionClaiming = true;
   renderDailyMissions();
   try {
-    await updateShop(() => {
+    if (backend) {
+      const result = await remoteRequest(client => client.gameRequest("/wallet/claim-mission", { day, target }));
+      if (!applyWallet(result)) {
+        feedback("mission-feedback", result.error ?? "missionClaimFailed", true);
+        void refreshWallet();
+        return;
+      }
+      feedback("mission-feedback", "missionClaimSuccess");
+    } else await updateShop(() => {
       const state = loadShopState(shopState);
       shopState = state;
       if (day !== koreaDay(Date.now()) || day !== state.missionDay
@@ -509,6 +555,7 @@ async function claimMission(button) {
 function scheduleMissionReset() {
   setTimeout(() => {
     renderDailyMissions();
+    void refreshWallet();
     scheduleMissionReset();
   }, dayMs - (Date.now() + koreaOffset) % dayMs);
 }
@@ -523,17 +570,18 @@ function renderShop() {
   }
   shopAction.hidden = !skins;
   el("shop-starter").textContent = t("shopStarter", { n: NcqLang.num(starterCoins) });
-  const effectActive = shopState.goldenPlacementUntil > Date.now();
+  const goldenUntil = goldenPlacementUntil();
+  const effectActive = goldenUntil > Date.now();
   const effectStatus = el("shop-effect-status");
   effectStatus.hidden = !effectActive;
   if (effectActive) {
     effectStatus.textContent = t("shopEffectActiveUntil", {
-      time: NcqLang.date(shopState.goldenPlacementUntil, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }),
+      time: NcqLang.date(goldenUntil, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }),
     });
   }
   const effectAction = el("shop-buy-effect");
   effectAction.hidden = shopTab !== "currency";
-  effectAction.disabled = shopSaving || shopState.coins < goldenPlacementPrice;
+  effectAction.disabled = shopSaving || !canAffordShop(goldenPlacementPrice);
   effectAction.textContent = t(effectActive ? "shopExtendEffect" : "shopBuyEffect", { n: NcqLang.num(goldenPlacementPrice) });
   setAppearanceTheme(el("appearance-preview"), shopPreview);
   for (const input of shopRadios) {
@@ -555,7 +603,7 @@ function renderShop() {
   const { price } = shopPurchase(shopPreview, shopState);
   const changed = Object.keys(shopPreview).some(kind => shopPreview[kind] !== shopState.appearance[kind]);
   const buying = price > 0;
-  const enough = price <= shopState.coins;
+  const enough = canAffordShop(price);
   shopAction.toggleAttribute("data-purchase", buying);
   shopAction.disabled = shopSaving || (buying ? !enough : !changed);
   shopAction.textContent = buying ? t("shopBuyPrice", { n: NcqLang.num(price) }) : t("shopApply");
@@ -682,9 +730,15 @@ async function saveShopSelection(buy) {
   const selection = { ...shopPreview };
   shopSaving = true;
   renderShop();
-  const save = () => {
+  const save = async () => {
     const state = loadShopState(shopState);
     const { skins, price } = shopPurchase(selection, state);
+    if (buy && backend && price > state.coins) {
+      const result = await remoteRequest(client => client.gameRequest("/wallet/buy-skins", { skins }));
+      const success = applyWallet(result);
+      feedback("shop-feedback", success ? "shopPurchased" : result.error ?? "shopSaveFailed", !success);
+      return;
+    }
     if ((buy && (!price || price > state.coins)) || (!buy && price)) {
       shopState = state;
       return;
@@ -721,14 +775,31 @@ async function buyGoldenPlacement() {
   shopSaving = true;
   renderShop();
   try {
-    await updateShop(() => {
+    await updateShop(async () => {
       const state = loadShopState(shopState);
       shopState = state;
-      if (state.coins < goldenPlacementPrice) return;
+      if (state.coins < goldenPlacementPrice) {
+        if (!backend) return;
+        effectPurchaseId ??= crypto.randomUUID();
+        const result = await remoteRequest(client => client.gameRequest("/wallet/buy-effect", { requestId: effectPurchaseId }));
+        if (!applyWallet(result)) {
+          if (result.error !== "network") effectPurchaseId = undefined;
+          feedback("shop-feedback", result.error ?? "shopSaveFailed", true);
+          return;
+        }
+        effectPurchaseId = undefined;
+        if (state.goldenPlacementUntil > Date.now() && state.goldenPlacementUntil > result.goldenPlacementUntil - dayMs) {
+          const extended = { ...state, goldenPlacementUntil: state.goldenPlacementUntil + dayMs };
+          try { persistShopState(extended); } catch {}
+          shopState = extended;
+        }
+        feedback("shop-feedback", "shopEffectPurchased");
+        return;
+      }
       const next = {
         ...state,
         coins: state.coins - goldenPlacementPrice,
-        goldenPlacementUntil: Math.max(state.goldenPlacementUntil, Date.now()) + dayMs,
+        goldenPlacementUntil: Math.max(goldenPlacementUntil(), Date.now()) + dayMs,
       };
       persistShopState(next);
       shopState = next;
@@ -745,6 +816,7 @@ async function buyGoldenPlacement() {
 
 async function recordMissionRound(game, roundKey) {
   if (!game.moves.length || (["resign", "disconnect", "timeout"].includes(game.endReason) && game.moves.length < 6)) return;
+  if (backend) return refreshWallet();
   const finishedAt = new Date(game.finishedAt ?? Date.now()).getTime();
   if (!Number.isFinite(finishedAt)) return;
   const day = koreaDay(finishedAt);
@@ -835,7 +907,7 @@ function presentPlacement(index, ownMove = false) {
   }
   const cell = cells[index];
   cell.classList.add("placing");
-  cell.classList.toggle("golden-placement", ownMove && shopState.goldenPlacementUntil > Date.now());
+  cell.classList.toggle("golden-placement", ownMove && goldenPlacementUntil() > Date.now());
   const animation = cell.firstElementChild.getAnimations().find(item => item.animationName === "stone-land");
   const duration = animation ? animation.effect.getTiming().duration : 0;
   playPlacementSound(duration * .6 / 1000);
@@ -1385,7 +1457,6 @@ function renderChampionship(now = Date.now()) {
 
 function renderLobby() {
   if (backend) renderChampionship();
-  renderPlayerCard();
   const count = el("live-count");
   count.hidden = lobbyUnavailable || !liveGames;
   count.textContent = t("liveCount", { n: liveGames?.length ?? 0 });
@@ -1442,22 +1513,36 @@ function renderOwnRank() {
 }
 
 function renderPlayerCard() {
+  const standing = lobbyView === "tournament" && rankingTab !== "rating"
+    ? rankingResults[rankingTab]?.result?.own : null;
+  const rating = playerStats?.rating ?? standing?.rating;
+  const level = Number.isFinite(rating) ? rankLevel(rating) : null;
   const name = ownNickname();
   el("lobby-player-name").textContent = name;
   el("lobby-player-name").title = name;
-  el("lobby-player-rank").hidden = el("player-career").hidden = !playerStats;
+  const rank = el("lobby-player-rank");
+  rank.hidden = level === null;
+  if (!rank.hidden) rank.textContent = rankName(level);
+
   const record = el("player-record");
-  const rankRecord = playerStats?.rankRecord;
-  record.hidden = !rankRecord;
-  if (rankRecord) record.textContent = t("lobbyRankRecord", { record: t("careerRecord", rankRecord) });
-  if (!playerStats) return;
-  const { rating } = playerStats;
-  const level = rankLevel(rating);
-  el("lobby-player-rank").textContent = rankName(level);
-  el("player-rating-value").textContent = t("profileRatingValue", { rating: ratingNumber(rating) });
-  const nextRank = nextRankText(level, rating);
-  el("player-next-rank").hidden = !nextRank;
-  el("player-next-rank").textContent = nextRank;
+  const stats = standing ?? playerStats?.rankRecord;
+  record.hidden = !stats || ![stats.wins, stats.draws, stats.losses].every(Number.isInteger);
+  if (!record.hidden) {
+    const career = t("careerRecord", stats);
+    record.textContent = record.title = standing ? career + " · " + t("profileWinRate", { rate: winRate(stats) })
+      : t("lobbyRankRecord", { record: career });
+  }
+
+  const score = el("player-career");
+  score.hidden = !standing && level === null;
+  if (!score.hidden) {
+    el("player-rating-label").hidden = Boolean(standing);
+    el("player-rating-value").textContent = standing ? t("pointsCount", { n: standing.points })
+      : t("profileRatingValue", { rating: ratingNumber(rating) });
+    const detail = el("player-card-detail");
+    detail.textContent = standing ? t("rankingPosition", { rank: ratingNumber(standing.rank) }) : nextRankText(level, rating);
+    detail.hidden = !detail.textContent;
+  }
 }
 
 function nextRankText(level, rating) {
@@ -1474,7 +1559,7 @@ function winRate({ wins, draws, losses }) {
     : "—";
 }
 
-function renderPromotionMeter(meterId, prefix, rating, { previousRating, showSigns = true } = {}) {
+function renderPromotionMeter(meterId, prefix, rating, { previousRating } = {}) {
   const level = rankLevel(rating);
   const canDemote = level > 0;
   const canPromote = level < 26;
@@ -1486,7 +1571,7 @@ function renderPromotionMeter(meterId, prefix, rating, { previousRating, showSig
   const end = comparing ? Math.max(upper, previousRating, rating) : upper;
   const position = score => Math.max(0, Math.min(100, 100 * (score - start) / (end - start)));
   const signed = new Intl.NumberFormat(NcqLang.lang, { signDisplay: "exceptZero" });
-  const displayNumber = showSigns ? signed : new Intl.NumberFormat(NcqLang.lang, { signDisplay: "never" });
+  const tickNumber = comparing ? new Intl.NumberFormat(NcqLang.lang, { signDisplay: "never" }) : signed;
   const currentOffset = rating - center;
   const lowerOffset = lower - center;
   const upperOffset = upper - center;
@@ -1509,16 +1594,15 @@ function renderPromotionMeter(meterId, prefix, rating, { previousRating, showSig
     meter.style.setProperty("--promotion-change-right", `${Math.max(from, to)}%`);
     meter.style.setProperty("--promotion-band-start", `${position(lower)}%`);
     meter.style.setProperty("--promotion-band-end", `${position(upper)}%`);
-    const previousOffset = previousRating - center;
-    el(`${prefix}-previous`).textContent = displayNumber.format(previousOffset);
-    announcement.previous = signed.format(previousOffset);
+    announcement.previous = signed.format(previousRating - center);
+    el(`${prefix}-previous`).textContent = announcement.previous;
   }
   meter.setAttribute("aria-label", t(comparing ? "resultPromotionMeter" : "promotionMeter", announcement));
-  el(`${prefix}-value`).textContent = displayNumber.format(currentOffset);
+  el(`${prefix}-value`).textContent = announcement.value;
   el(`${prefix}-lower-label`).textContent = lowLabel;
   el(`${prefix}-upper-label`).textContent = highLabel;
-  el(`${prefix}-lower`).textContent = canDemote ? displayNumber.format(lowerOffset) : "—";
-  el(`${prefix}-upper`).textContent = canPromote ? displayNumber.format(upperOffset) : "—";
+  el(`${prefix}-lower`).textContent = canDemote ? tickNumber.format(lowerOffset) : "—";
+  el(`${prefix}-upper`).textContent = canPromote ? tickNumber.format(upperOffset) : "—";
 }
 
 async function openPlayerProfile(seat) {
@@ -1793,10 +1877,13 @@ function renderResult(game) {
   const medals = { won: ["victoryMedal", "nav-ranking"], lost: ["defeatMedal", "result-loss-icon"],
     draw: ["drawMedal", "result-draw-icon"] };
   const [label, icon] = medals[outcome];
-  el("result").dataset.outcome = outcome;
+  const result = el("result");
+  const victoryStone = outcome === "won" ? colorName(seatColor(game, game.you)) : "";
+  result.dataset.outcome = outcome;
+  result.dataset.victoryStone = victoryStone;
+  el("result-stone-color").textContent = victoryStone ? t(victoryStone) : "";
   el("result-title").textContent = t(label);
   el("result-symbol").setAttribute("href", `#${icon}`);
-  el("result-summary").textContent = game.winner ? recordResult(game) : t("resultDraw", { n: game.moves.length });
   const change = game.ratingChange;
   el("result-rating").hidden = el("result-rating-change").hidden = !change;
   if (!change) return;
@@ -1813,7 +1900,7 @@ function renderResult(game) {
   deltaText.textContent = t("profileRatingValue", { rating: signed.format(delta) });
   const direction = delta > 0 ? "up" : delta < 0 ? "down" : "same";
   deltaText.dataset.direction = el("result-promotion-meter").dataset.direction = direction;
-  renderPromotionMeter("result-promotion-meter", "result-promotion", after, { previousRating: before, showSigns: false });
+  renderPromotionMeter("result-promotion-meter", "result-promotion", after, { previousRating: before });
 }
 
 function render() {
@@ -1877,26 +1964,36 @@ function render() {
   el("start").toggleAttribute("data-ncq-main", mainAction && lobbyView === "lobby");
   el("show-tournament").hidden = !backend;
   el("show-tournament").disabled = busy;
+  const inLobby = !el("lobby").hidden;
+  const inRankings = !el("tournament").hidden;
+  el("play-footer").hidden = !inLobby && !inRankings;
+  el("lobby-entry").hidden = !inLobby;
   const joinTournament = el("join-tournament");
-  const canJoinTournament = Boolean(backend) && rankingTab === "weekly";
+  const showTournamentEntry = inRankings && Boolean(backend) && rankingTab === "weekly";
   const tournamentStatus = rankingResults.weekly?.result;
   const attempts = tournamentStatus?.remaining;
+  const catchUp = attempts === 0 && tournamentStatus.catchUpRemaining > 0;
+  const enoughCoins = catchUp && tournamentCoinBalance(tournamentStatus) >= tournamentStatus.catchUpCost;
   const attemptsLabel = el("tournament-attempts");
-  el("tournament-entry").hidden = !canJoinTournament;
+  el("tournament-entry").hidden = !showTournamentEntry;
   attemptsLabel.hidden = attempts !== 0;
-  attemptsLabel.textContent = t("tournamentLimit");
-  joinTournament.textContent = Number.isInteger(attempts)
+  attemptsLabel.textContent = catchUp
+    ? t(enoughCoins ? "tournamentCatchUp" : "tournamentCatchUpFunds", { n: NcqLang.num(tournamentStatus.catchUpRemaining) })
+    : t("tournamentLimit");
+  joinTournament.textContent = catchUp ? t("joinTournamentCatchUp", { n: NcqLang.num(tournamentStatus.catchUpCost) })
+    : Number.isInteger(attempts)
     ? t("joinTournamentAttempts", { remaining: attempts, limit: tournamentStatus.dailyLimit })
     : t("joinTournament");
   el("tournament-records").disabled = busy || Boolean(matchmaking);
-  joinTournament.disabled = busy || Boolean(matchmaking) || !(attempts > 0);
-  const joinVisible = canJoinTournament && !joinTournament.disabled;
-  joinTournament.toggleAttribute("data-ncq-main", mainAction && lobbyView === "tournament" && joinVisible);
-  el("show-lobby").toggleAttribute("data-ncq-main", mainAction && lobbyView === "tournament" && !joinVisible);
+  joinTournament.disabled = busy || Boolean(matchmaking) || !(attempts > 0 || enoughCoins);
+  const joinVisible = showTournamentEntry && !joinTournament.disabled;
+  joinTournament.toggleAttribute("data-ncq-main", mainAction && joinVisible);
+  el("show-lobby").toggleAttribute("data-ncq-main", mainAction && inRankings && !joinVisible);
   el("records-back").toggleAttribute("data-ncq-main", mainAction && lobbyView === "records");
-  if (!el("lobby").hidden) renderLobby();
+  if (inLobby) renderLobby();
   if (!el("records").hidden) renderRecords();
-  if (!el("tournament").hidden) renderRankings();
+  if (inRankings) renderRankings();
+  if (inLobby || inRankings) renderPlayerCard();
   if (matchmaking) {
     const { canceled, mode, rule } = matchmaking;
     el("queue-status").textContent = t(canceled ? "canceling" : mode === "tournament" ? "tournamentWaiting" : "findingOpponent");
@@ -2095,39 +2192,47 @@ function saveMatchAds(next) {
 function recordCompletedRound(roundKey) {
   const progress = loadMatchAds();
   if (progress.freeRounds.includes(roundKey)) return;
-  if (progress.freeRounds.length < 3) {
+  if (progress.freeRounds.length < adFreeRounds) {
     saveMatchAds({ ...progress, freeRounds: [...progress.freeRounds, roundKey] });
     return;
   }
-  resultAdRound = roundKey;
+  pendingMatchAdRound = roundKey;
 }
 
-async function showMatchAd(roundKey) {
-  if (adsRemoved || !NcqAds?.can("MATCH_END")) return;
-  await adOwnershipReady;
-  const show = async () => {
-    if (adsRemoved || document.hidden || room?.phase !== "finished" || `${room.code}:${room.round}` !== roundKey) return;
+async function showReturnAd(roundKey = null) {
+  const shell = document.querySelector(".shell");
+  const eligibleProgress = () => {
+    if (adsRemoved || adPurchaseBusy || document.hidden || room || archive || spectator || matchmaking
+      || shell.querySelector("dialog[open]") || window.NcqFeedback?.isOpen()) return null;
     const progress = loadMatchAds();
-    if (progress.lastAttemptedRound === roundKey || Date.now() - progress.lastShownAt < matchAdCooldown) return;
-    saveMatchAds({ ...progress, lastAttemptedRound: roundKey });
-    const shell = document.querySelector(".shell");
-    shell.inert = true;
-    try {
-      stopPlacementSound();
-      // NCQ_ADS_MATCH_END: 대국 종료 전면 광고
-      if (await NcqAds.interstitial("MATCH_END")) saveMatchAds({ ...loadMatchAds(), lastShownAt: Date.now() });
-    } finally {
-      shell.inert = false;
-    }
+    if (progress.freeRounds.length < adFreeRounds || (roundKey && progress.lastAttemptedRound === roundKey)
+      || Date.now() - progress.lastShownAt < matchAdCooldown) return null;
+    return progress;
   };
+  if (shell.inert || !NcqAds?.can("MATCH_END") || !eligibleProgress()) return;
+
+  const focused = document.activeElement;
+  const show = async () => {
+    const progress = eligibleProgress();
+    if (!progress) return;
+    if (roundKey) saveMatchAds({ ...progress, lastAttemptedRound: roundKey });
+    stopPlacementSound();
+    // NCQ_ADS_MATCH_END: 대국·메뉴 복귀 전면 광고
+    if (await NcqAds.interstitial("MATCH_END")) saveMatchAds({ ...loadMatchAds(), lastShownAt: Date.now() });
+  };
+  shell.inert = true;
   try {
+    await adOwnershipReady;
     if (navigator.locks) {
       await navigator.locks.request(matchAdsKey, { ifAvailable: true }, lock => lock && show());
     } else {
       await show();
     }
   } catch {
-    // Continue to the review if the ad cannot be displayed.
+    // Keep the lobby available if the ad cannot be displayed.
+  } finally {
+    shell.inert = false;
+    if (focused instanceof HTMLElement && document.activeElement === document.body) focused.focus({ preventScroll: true });
   }
 }
 
@@ -2179,12 +2284,13 @@ function applyState(next) {
   }
 }
 
-function exitRoom(message = "") {
+async function exitRoom(message = "", { showAd = false } = {}) {
   const tournamentMatch = room?.mode === "tournament";
+  const adRound = showAd && room?.phase === "finished" ? pendingMatchAdRound : null;
   stream?.close();
   stream = null;
   connected = false;
-  resultAdRound = null;
+  pendingMatchAdRound = null;
   cancelPlacement();
   el("result").close();
   el("share").close();
@@ -2203,7 +2309,9 @@ function exitRoom(message = "") {
   render();
   refreshLobby();
   refreshPlayerCard();
-  el("start").focus();
+  void refreshWallet();
+  if (adRound) await showReturnAd(adRound);
+  el(tournamentMatch ? "tournament-title" : "start").focus();
 }
 
 async function send(path, data = {}) {
@@ -2511,6 +2619,7 @@ function closeMatching(message = "") {
   render();
   (tournamentMatch ? el("ranking-weekly-tab") : el("start")).focus();
   if (tournamentMatch && lobbyView === "tournament") loadRankings("weekly");
+  if (tournamentMatch) void refreshWallet();
 }
 
 async function cancelMatching(job) {
@@ -2520,7 +2629,7 @@ async function cancelMatching(job) {
 
 async function findMatch(job) {
   job.pending = true;
-  const input = { ticket: job.ticket, mode: job.mode, rule: job.rule };
+  const input = { ticket: job.ticket, mode: job.mode, rule: job.rule, catchUpCost: job.catchUpCost };
   const result = await post("/matchmaking", { ...input, nickname: ownNickname() }, client => client.match(input));
   job.pending = false;
   job.ticket = result.ticket ?? job.ticket;
@@ -2545,9 +2654,22 @@ function requestCancel() {
   if (!job.pending) cancelMatching(job);
 }
 
+function tournamentCoinBalance(status) {
+  return serverWallet && serverWallet.version >= status.coinVersion ? serverWallet.coins : status.coins;
+}
+
 function startMatching(mode) {
-  if (matchmaking || (mode === "tournament" && !(rankingResults.weekly?.result?.remaining > 0))) return;
+  if (matchmaking) return;
   const job = { canceled: false, mode, rule: mode === "tournament" ? "renju" : activeRule() };
+  if (mode === "tournament") {
+    const status = rankingResults.weekly?.result;
+    if (!Number.isInteger(status?.remaining)) return;
+    if (status.remaining === 0) {
+      if (!(status.catchUpRemaining > 0) || tournamentCoinBalance(status) < status.catchUpCost) return;
+      if (!window.confirm(t("confirmTournamentCatchUp", { n: NcqLang.num(status.catchUpCost) }))) return;
+      job.catchUpCost = status.catchUpCost;
+    }
+  }
   matchmaking = job;
   feedback("lobby-error");
   render();
@@ -2691,16 +2813,14 @@ async function loadRankings(tab, page = 1) {
   }
 }
 
-function rankingCard(row, { rating = false, pinned = false } = {}) {
+function rankingCard(row, { rating = false } = {}) {
   const card = el("ranking-card-template").content.firstElementChild.cloneNode(true);
-  const own = pinned || row.you;
+  const own = row.you;
   card.toggleAttribute("data-own-ranking", Boolean(own));
   const place = card.querySelector(".ranking-place");
-  const position = t("rankingPosition", { rank: ratingNumber(row.rank) });
   place.textContent = ratingNumber(row.rank);
-  place.title = position;
-  place.hidden = pinned;
-  if (!pinned && row.rank <= 3) place.dataset.medal = row.rank;
+  place.title = t("rankingPosition", { rank: ratingNumber(row.rank) });
+  if (row.rank <= 3) place.dataset.medal = row.rank;
 
   const badge = card.querySelector(".player-card-badge");
   badge.hidden = !own;
@@ -2721,9 +2841,6 @@ function rankingCard(row, { rating = false, pinned = false } = {}) {
   card.querySelector(".ranking-card-score strong").textContent = rating
     ? t("profileRatingValue", { rating: ratingNumber(row.rating) })
     : t("pointsCount", { n: row.points });
-  const detail = card.querySelector(".ranking-card-score small");
-  detail.hidden = !pinned;
-  if (pinned) detail.textContent = position;
   return card;
 }
 
@@ -2766,9 +2883,6 @@ function renderRankings() {
       dates.textContent = date(Date.parse(result.startsAt)) + " – " + date(Date.parse(result.endsAt) - 1);
       if (previous) dates.textContent += " · " + t(result.finalized ? "tournamentFinalized" : "tournamentFinalizing");
     }
-    const own = el("ranking-" + rankingTab + "-own");
-    own.hidden = !result?.own;
-    own.replaceChildren(...(result?.own ? [rankingCard(result.own, { pinned: true })] : []));
   } else {
     const page = state?.page ?? 1;
     const pagination = el("ranking-pagination");
@@ -2778,13 +2892,19 @@ function renderRankings() {
     el("ranking-next").setAttribute("aria-disabled", String(!result?.hasMore || state?.loading === true));
   }
 }
-function showLobby() {
+function closeLobbyMenu(event) {
+  render();
+  if (lobbyView === "lobby" && !event.currentTarget.open) void showReturnAd();
+}
+
+async function showLobby() {
   if (lobbyView === "lobby") return;
   const fromRecords = lobbyView === "records";
   lobbyView = "lobby";
   feedback("lobby-error");
   render();
   refreshLobby();
+  await showReturnAd();
   el(fromRecords ? "show-records" : "lobby-heading").focus();
 }
 el("show-lobby").addEventListener("click", showLobby);
@@ -2836,14 +2956,15 @@ function leaveMatch() {
     (row?.querySelector(".record-open") ?? el("records-heading")).focus();
     return;
   }
-  if (room?.phase === "finished" && !connected) return exitRoom();
+  const finished = room?.phase === "finished";
+  if (finished && !connected) return exitRoom("", { showAd: true });
   const resigning = room?.phase === "playing" && (room.moves.length > 0 || room.passed || room.mode === "tournament");
-  if (room?.phase === "finished" || window.confirm(t(resigning ? "confirmResign" : "confirmLeave"))) roomAction("leave", {}, next => {
+  if (finished || window.confirm(t(resigning ? "confirmResign" : "confirmLeave"))) roomAction("leave", {}, next => {
     if (next.phase === "finished") {
       if (resigning) void recordMissionRound(next, next.code + ":" + next.round);
       if (!backend) saveRecord(next);
     }
-    exitRoom();
+    void exitRoom("", { showAd: finished });
   });
 }
 el("leave").addEventListener("click", leaveMatch);
@@ -2897,11 +3018,8 @@ el("review").addEventListener("click", event => {
     el("review").querySelector(ply ? '[data-step="previous"]' : '[data-step="next"]').focus();
   }
 });
-el("result").addEventListener("close", async () => {
-  const roundKey = resultAdRound;
-  resultAdRound = null;
+el("result").addEventListener("close", () => {
   render();
-  if (roundKey) await showMatchAd(roundKey);
   if (room?.phase === "finished") el("review-heading").focus();
 });
 el("share").addEventListener("close", render);
@@ -3021,9 +3139,15 @@ for (const image of [...playerPhotos, el("profile-photo")]) {
   image.addEventListener("load", () => { image.hidden = !image.hasAttribute("src"); });
   image.addEventListener("error", () => { image.hidden = true; });
 }
-if (shareId === null) refreshPlayerCard();
+if (shareId === null) {
+  refreshPlayerCard();
+  void refreshWallet();
+}
 document.addEventListener("visibilitychange", () => {
-  if (!document.hidden) renderDailyMissions();
+  if (!document.hidden) {
+    renderDailyMissions();
+    void refreshWallet();
+  }
   refreshLobby();
 });
 setInterval(refreshLobby, 2500);

@@ -134,6 +134,8 @@ button.sm{padding:5px 8px;font-size:12px}
 #result{justify-content:center;background:rgba(8,12,17,.78);z-index:8}
 .r-tag{font-family:var(--f-num);font-size:18px;font-weight:600;color:var(--ink-dim);letter-spacing:.04em}
 #rMain{font-family:var(--f-disp);font-size:clamp(60px,min(15vh,24vw),104px);line-height:1;margin:6px 0 4px;text-shadow:0 4px 0 rgba(0,0,0,.45)}
+#rMain.sm{font-size:clamp(40px,min(10vh,14vw),68px)}
+.tmo{display:inline-flex;vertical-align:-2px;margin-left:4px;color:var(--warn)}
 #rMain.win{color:var(--gold)}#rMain.lose{color:var(--warn)}
 #rWhy{font-size:15px;color:var(--ink);line-height:1.5}
 #rScore{font-family:var(--f-num);font-size:40px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:8px}
@@ -188,7 +190,7 @@ button.sm{padding:5px 8px;font-size:12px}
 #powerFill{position:absolute;left:0;right:0;top:0;height:0;background:linear-gradient(180deg,#4fb3ff,#ffcf4a 70%,#ff5a4e)}
 #power .grip{position:absolute;left:7px;right:7px;top:7px;height:9px;border-radius:4px;background:var(--ink);opacity:.85;pointer-events:none}
 #power::after{content:"";position:absolute;left:50%;top:34px;width:9px;height:9px;margin-left:-5px;border-right:2px solid rgba(238,243,248,.55);border-bottom:2px solid rgba(238,243,248,.55);transform:rotate(45deg);pointer-events:none}
-#powerMark{position:absolute;left:0;right:0;height:2px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.5);pointer-events:none}
+#powerMark{position:absolute;left:0;right:0;height:4px;margin-top:-2px;background:var(--gold);box-shadow:0 0 0 1px rgba(0,0,0,.5);pointer-events:none}
 .idle{opacity:.38;pointer-events:none}
 #placeBar{grid-column:2;grid-row:1;display:flex;align-items:center;justify-content:center;z-index:1}
 #placeBar button{padding:12px 18px;font-size:15px;white-space:nowrap}
@@ -198,9 +200,16 @@ button.sm{padding:5px 8px;font-size:12px}
 .cell{background:var(--panel);border:1px solid var(--line);border-radius:4px}
 .cell.spin{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 4px 3px}
 #pad{position:relative;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#fff 0,#f1ede2 45%,#c9c3b4 100%);box-shadow:inset 0 -5px 10px rgba(0,0,0,.25);cursor:crosshair;touch-action:none}
-#padZoom .miss,#pad .miss{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:radial-gradient(circle,transparent 54%,rgba(255,90,78,.3) 55%)}
-#padZoom .cross,#pad .cross{position:absolute;left:50%;top:50%;width:1px;height:100%;background:rgba(0,0,0,.15);transform:translate(-50%,-50%);pointer-events:none}
-#padZoom .cross.h,#pad .cross.h{width:100%;height:1px}
+#padZoom .grid,#pad .grid{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:
+  linear-gradient(rgba(0,0,0,.16),rgba(0,0,0,.16)) 50% 0/1px 100% no-repeat,
+  linear-gradient(90deg,rgba(0,0,0,.16),rgba(0,0,0,.16)) 0 50%/100% 1px no-repeat,
+  repeating-linear-gradient(rgba(0,0,0,.18) 0 1px,transparent 1px 12.5%) 50% 0/6px 100% no-repeat,
+  repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 1px,transparent 1px 12.5%) 0 50%/100% 6px no-repeat,
+  radial-gradient(circle,transparent calc(25% - 1px),rgba(0,0,0,.11) 25%,transparent calc(25% + 1px),transparent calc(50% - 1px),rgba(0,0,0,.11) 50%,transparent calc(50% + 1px),transparent calc(75% - 1px),rgba(0,0,0,.11) 75%,transparent calc(75% + 1px))}
+.padTgt{position:absolute;width:26%;height:26%;margin:-13% 0 0 -13%;border-radius:50%;border:3px solid var(--gold);box-shadow:0 0 0 2px rgba(0,0,0,.35);pointer-events:none;animation:tutGlow 1s ease-in-out infinite}
+#padZoom .padTgt{width:16%;height:16%;margin:-8% 0 0 -8%}
+#elevMark{position:absolute;width:4px;height:22px;margin:-11px 0 0 -2px;background:var(--gold);border-radius:2px;pointer-events:none;z-index:1}
+#elevCell{position:relative}
 #dot{position:absolute;width:15px;height:15px;margin:-7.5px 0 0 -7.5px;border-radius:50%;background:var(--chalk);border:2px solid #0b3c66;box-shadow:0 0 0 3px rgba(79,179,255,.3);pointer-events:none}
 #spinRead{background:none;border:0;padding:0 2px;font-family:var(--f-ui);font-size:11px;color:var(--ink-dim);white-space:nowrap;line-height:1.5}
 #pip{position:relative;overflow:hidden;grid-column:2;grid-row:1;border:1px solid var(--line);border-radius:4px;min-height:98px;background:transparent;touch-action:none;cursor:ew-resize}
@@ -222,6 +231,17 @@ button.sm{padding:5px 8px;font-size:12px}
 #menuQuit.arm{background:#6b1f19;border-color:var(--warn)}
 #padZoom{position:absolute;z-index:5;left:50%;width:min(62%,230px);aspect-ratio:1;margin-left:calc(min(62%,230px)/-2);border-radius:50%;background:radial-gradient(circle at 38% 32%,#fff 0,#f1ede2 45%,#c9c3b4 100%);box-shadow:inset 0 -14px 28px rgba(0,0,0,.25),0 10px 34px rgba(0,0,0,.6);pointer-events:none}
 #dotZoom{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:var(--chalk);border:3px solid #0b3c66;box-shadow:0 0 0 6px rgba(79,179,255,.3)}
+.rank-open{display:block;width:100%;margin-top:5px;padding:5px 8px;font-size:12px;font-weight:700}
+#ranks{position:absolute;inset:0;z-index:11;display:flex;align-items:flex-end;background:rgba(8,12,17,.72)}
+.rank-list{max-height:52vh;overflow-y:auto;border:1px solid var(--line);border-radius:6px;touch-action:pan-y}
+.rank-list table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
+.rank-list th{position:sticky;top:0;background:var(--panel-2);font-size:12px;font-weight:500;color:var(--ink-dim);padding:7px 8px;text-align:right}
+.rank-list td{padding:7px 8px;text-align:right;border-top:1px solid var(--line)}
+.rank-list th:nth-child(2),.rank-list td:nth-child(2){text-align:left;max-width:9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-list td:first-child{font-family:var(--f-num);font-weight:700;color:var(--chalk)}
+.rank-list tr.me td{background:rgba(255,211,74,.12);font-weight:700}
+.rank-list .empty{text-align:center;color:var(--ink-dim);padding:20px}
+#ranksClose{padding:13px;font-size:15px}
 .rules-btn{align-self:flex-start;margin-top:12px;padding:7px 16px;font-size:14px;font-weight:700}
 #rules{position:absolute;inset:0;z-index:11;display:flex;align-items:flex-end;background:rgba(8,12,17,.72)}
 .rules-card{width:100%;max-height:88%;overflow-y:auto;padding-block:18px 18px;background:var(--panel-2);border-top:4px solid var(--wood);display:flex;flex-direction:column;gap:12px;touch-action:pan-y}
@@ -236,9 +256,13 @@ button.sm{padding:5px 8px;font-size:12px}
 .rules-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .rules-acts button{padding:13px;font-size:15px}
 .menu-acts{grid-template-columns:repeat(3,1fr)}
-#app.tut #hud,#app.tut #menuBtn{visibility:hidden}
-#app.tut:not(.tut-elev) .cell.ctl,#app.tut #spinRead{pointer-events:none;opacity:.45}
-#tutBubble{position:absolute;z-index:6;top:10px;left:16px;right:16px;padding:12px 14px;text-align:center;font-size:17px;font-weight:700;line-height:1.4;word-break:keep-all;color:var(--ink);background:rgba(11,15,20,.9);border:1px solid var(--gold);border-radius:8px;pointer-events:none}
+#app.tut #hud,#app.tut #menuBtn,#app.tut #hintBtn,#app.tut #undoBtn,#app.tut #resetBtn{visibility:hidden}
+#tutDim{position:absolute;inset:0;z-index:5;background:rgba(5,8,12,.22);pointer-events:none}
+.tutSpot{position:relative;z-index:30;border-radius:8px;animation:tutSpot 1.2s ease-in-out infinite;box-shadow:0 0 0 2px var(--gold),0 0 10px 3px rgba(255,211,74,.45),0 0 0 9999px rgba(5,8,12,.36)!important}
+@keyframes tutSpot{50%{box-shadow:0 0 0 3px var(--gold),0 0 26px 9px rgba(255,211,74,.85),0 0 0 9999px rgba(5,8,12,.36)}}
+#powerMark,#elevMark{box-shadow:0 0 8px 2px rgba(255,211,74,.8)}
+#app.tut #spinRead{pointer-events:none}
+#tutBubble{position:absolute;z-index:40;top:24%;left:16px;right:16px;padding:16px 16px;white-space:pre-line;text-align:center;font-size:17px;font-weight:700;line-height:1.4;word-break:keep-all;color:var(--ink);background:rgba(11,15,20,.9);border:1px solid var(--gold);border-radius:8px;pointer-events:none}
 #tutMsg{display:block}
 #tutStep{display:block;width:100%;margin-top:10px;padding:10px;font-size:15px;pointer-events:auto}
 #tutStep:disabled{opacity:.35}
@@ -246,10 +270,15 @@ button.sm{padding:5px 8px;font-size:12px}
 @keyframes tutTap{0%{transform:translateX(-70px) scale(.7);opacity:0}15%{transform:translateX(-70px) scale(.7);opacity:1}80%{transform:translateX(70px) scale(.7);opacity:1}100%{transform:translateX(70px) scale(.7);opacity:0}}
 .tutGlow{outline:3px solid var(--gold);outline-offset:2px;animation:tutGlow 1s ease-in-out infinite}
 @keyframes tutGlow{50%{outline-color:transparent}}
-#tutCard{z-index:12;justify-content:flex-start;padding-top:10px;align-items:center;gap:14px;text-align:center;background:rgba(8,12,17,.45)}
+#tutCard{z-index:45;justify-content:flex-start;padding-top:22vh;align-items:center;gap:14px;text-align:center;background:rgba(5,8,12,.72)}
 #tutText{margin:0;width:calc(100% - 32px);padding:18px 20px;background:rgba(11,15,20,.94);border:1px solid var(--gold);border-radius:8px;font-size:21px;font-weight:700;line-height:1.5;word-break:keep-all;white-space:pre-line}
 #tutNext{min-width:160px;padding:14px;font-size:16px}
+.adTag{display:inline-block;margin-right:5px;padding:1px 4px;border-radius:3px;background:var(--gold);color:#1a1405;font-family:var(--f-num);font-size:10px;font-weight:700;line-height:1.3;letter-spacing:.04em;vertical-align:1px}
+#rStars span.pop{display:inline-block;animation:starPop .55s cubic-bezier(.2,1.5,.4,1) both}
+#rStars span.pop.off{animation-name:starIn}
+@keyframes starPop{0%{transform:scale(0) rotate(-200deg);opacity:0}60%{transform:scale(1.45) rotate(20deg);opacity:1}80%{transform:scale(.9) rotate(-6deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes starIn{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
 @keyframes nudge{20%{transform:translateX(-4px)}45%{transform:translateX(4px)}70%{transform:translateX(-2px)}}
 .nudge{animation:nudge .26s}
-@media (prefers-reduced-motion:reduce){.tutGlow,#tutTap,.nudge,#toast,#banner,#sheet,.beads i{transition:none;animation:none}.m-plate.wait .b{animation:none}}
+@media (prefers-reduced-motion:reduce){#rStars span.pop,.tutSpot,.tutGlow,#tutTap,.nudge,#toast,#banner,#sheet,.beads i{transition:none;animation:none}.m-plate.wait .b{animation:none}}
 </style>

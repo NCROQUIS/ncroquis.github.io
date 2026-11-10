@@ -1,17 +1,15 @@
 <!doctype html>
 <html lang="ko">
 <head>
-<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta charset="utf-8"><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <title>당구 : PVP 3구 4구 포켓볼</title>
 <script src="ncq/safe.js"></script>
 <style>
-@font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-61-400-normal.woff2) format('woff2');unicode-range:U+ae56-ae5b,U+ae5e-ae60,U+ae62-ae64,U+ae66-ae67,U+ae69-ae6b,U+ae6d-ae83,U+ae85-aebb,U+aebf,U+aec1-aec3,U+aec5-aecb,U+aece,U+aed0,U+aed2-aed7,U+aed9-aef3,U+aef5-af02}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-65-400-normal.woff2) format('woff2');unicode-range:U+99df,U+99ed,U+99f1,U+99ff,U+9a01,U+9a08,U+9a0e-9a0f,U+9a19,U+9a2b,U+9a30,U+9a36-9a37,U+9a40,U+9a43,U+9a45,U+9a4d,U+9a55,U+9a57,U+9a5a-9a5b,U+9a5f,U+9a62,U+9a65,U+9a69-9a6a,U+9aa8,U+9ab8,U+9ad3,U+9ae5,U+9aee,U+9b1a,U+9b27,U+9b2a,U+9b31,U+9b3c,U+9b41-9b45,U+9b4f,U+9b54,U+9b5a,U+9b6f,U+9b8e,U+9b91,U+9b9f,U+9bab,U+9bae,U+9bc9,U+9bd6,U+9be4,U+9be8,U+9c0d,U+9c10,U+9c12,U+9c15,U+9c25,U+9c32,U+9c3b,U+9c47,U+9c49,U+9c57,U+9ce5,U+9ce7,U+9ce9,U+9cf3-9cf4,U+9cf6,U+9d09,U+9d1b,U+9d26,U+9d28,U+9d3b,U+9d51,U+9d5d,U+9d60-9d61,U+9d6c,U+9d72,U+9da9,U+9daf,U+9db4,U+9dc4,U+9dd7,U+9df2,U+9df8-9dfa,U+9e1a,U+9e1e,U+9e75,U+9e79,U+9e7d,U+9e7f,U+9e92-9e93,U+9e97,U+9e9d,U+9e9f,U+9ea5,U+9eb4-9eb5,U+9ebb,U+9ebe,U+9ec3,U+9ecd-9ece,U+9ed4,U+9ed8,U+9edb-9edc,U+9ede,U+9ee8,U+9ef4,U+9f07-9f08,U+9f0e,U+9f13,U+9f20,U+9f3b,U+9f4a-9f4b,U+9f4e,U+9f52,U+9f5f,U+9f61,U+9f67,U+9f6a,U+9f6c,U+9f77,U+9f8d,U+9f90,U+9f95,U+9f9c,U+ac02-ac03,U+ac05-ac06,U+ac09-ac0f,U+ac17-ac18,U+ac1b,U+ac1e-ac1f,U+ac21-ac23}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-103-400-normal.woff2) format('woff2');unicode-range:U+b4,U+20a9,U+20ac,U+2190,U+24d8,U+2502,U+2514,U+2592,U+25c7-25c8,U+2663,U+3060,U+3064,U+3081,U+3088,U+30a3,U+30a6,U+30aa,U+30b5,U+30c7,U+30ca-30cb,U+30d0,U+30e3,U+30e5,U+339e,U+4e09,U+4eac,U+4f5c,U+5167-5168,U+516c,U+51fa,U+5408,U+540d,U+591a,U+5b57,U+6211,U+65b9,U+660e,U+6642,U+6700,U+6b63,U+6e2f,U+7063,U+7532,U+793e,U+81ea,U+8272,U+82b1,U+897f,U+8eca,U+91ce,U+ac38,U+ad76,U+ae84,U+aecc,U+b07d,U+b0b1,U+b215,U+b2a0,U+b310,U+b3d7,U+b52a,U+b618,U+b775,U+b797,U+bcd5,U+bd59,U+be80,U+bea8,U+bed1,U+bee4-bee5,U+c060,U+c2ef,U+c329,U+c3dc,U+c597,U+c5bd,U+c5e5,U+c69c,U+c9d6,U+ca29,U+ca5c,U+ca84,U+cc39,U+cc3b,U+ce89,U+cee5,U+cf65,U+cf85,U+d058,U+d145,U+d22d,U+d325,U+d37d,U+d3ad,U+d769,U+ff0c}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-104-400-normal.woff2) format('woff2');unicode-range:U+2161,U+2228,U+2299,U+2464,U+2517,U+2640,U+3042,U+304a,U+3053,U+3061,U+307f,U+3082,U+308c,U+3092,U+30a8,U+30ab,U+30ad,U+30b0,U+30b3,U+30b7,U+30c1,U+30c6,U+30c9,U+30d5,U+30d7,U+30de,U+30e0-30e1,U+30ec-30ed,U+4e0b,U+4e0d,U+4ee3,U+53f0,U+548c,U+5b89,U+5bb6,U+5c0f,U+611b,U+6771,U+6aa2,U+6bcd,U+6c34,U+6cd5,U+6d77,U+767d,U+795e,U+8ecd,U+9999,U+9ad8,U+ac07,U+ac1a,U+ac40,U+ad0c,U+ad88,U+ada4,U+ae01,U+ae65,U+aebd,U+aec4,U+afe8,U+b139,U+b205,U+b383,U+b38c,U+b42c,U+b461,U+b55c,U+b78f,U+b8fb,U+b9f7,U+bafc,U+bc99,U+bed8,U+bfcd,U+c0bf,U+c0f9,U+c167,U+c204,U+c20f,U+c22f,U+c258,U+c298,U+c2bc,U+c388,U+c501,U+c50c,U+c5b9,U+c5ce,U+c641,U+c648,U+c73d,U+ca50,U+ca61,U+cc4c,U+ceac,U+d0d4,U+d5f7,U+d6d7,U+ff1a}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-105-400-normal.woff2) format('woff2');unicode-range:U+2103,U+2463,U+25c6,U+25cb,U+266c,U+3001,U+300a,U+3046,U+304c-304d,U+304f,U+3055,U+3059,U+3063,U+3066-3068,U+306f,U+3089,U+30b8,U+30bf,U+314f,U+4e0a,U+570b,U+5730,U+5916,U+5929,U+5c71,U+5e74,U+5fc3,U+601d,U+6027,U+63d0,U+6709,U+6734,U+751f,U+7684,U+82f1,U+9053,U+91d1,U+97f3,U+ac2f,U+ac4d,U+adc4,U+ade4,U+ae41,U+ae4d-ae4e,U+aed1,U+afb9,U+b0e0,U+b299,U+b365,U+b46c,U+b480,U+b4c8,U+b7b4,U+b819,U+b918,U+baab,U+bab9,U+be8f,U+bed7,U+c0ec,U+c19f,U+c1a5,U+c3d9,U+c464,U+c53d,U+c553,U+c570,U+c5cc,U+c633,U+c6a4,U+c7a3,U+c7a6,U+c886,U+c9d9-c9da,U+c9ec,U+ca0c,U+cc21,U+cd1b,U+cd78,U+cdc4,U+cef8,U+cfe4,U+d0a5,U+d0b5,U+d0ec,U+d15d,U+d188,U+d23c,U+d2ac,U+d729,U+d79b,U+ff01,U+ff08-ff09,U+ff5c}
-@font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-106-400-normal.woff2) format('woff2');unicode-range:U+2039-203a,U+223c,U+25b3,U+25b7,U+25bd,U+25cf,U+266a,U+3002,U+300b,U+304b,U+3057,U+305f,U+306a-306b,U+307e,U+308a-308b,U+3093,U+30a2,U+30af,U+30b9,U+30c3,U+30c8,U+30e9-30eb,U+33a1,U+4e00,U+524d,U+5357,U+5b50,U+7121,U+884c,U+9751,U+ac94,U+aebe,U+aecd,U+af08,U+af41,U+af49,U+b010,U+b053,U+b109,U+b11b,U+b128,U+b154,U+b291,U+b2e6,U+b301,U+b385,U+b525,U+b5b4,U+b729,U+b72f,U+b738,U+b7ff,U+b837,U+b975,U+ba67,U+bb47,U+bc1f,U+bd90,U+bfd4,U+c27c,U+c324,U+c379,U+c3e0,U+c465,U+c53b,U+c58c,U+c610,U+c653,U+c6cd,U+c813,U+c82f,U+c999,U+c9e0,U+cac4,U+cad3,U+cbd4,U+cc10,U+cc22,U+ccb8,U+ccbc,U+cda5,U+ce84,U+cea3,U+cf67,U+cfe1,U+d241,U+d30d,U+d31c,U+d391,U+d401,U+d479,U+d5c9,U+d5db,U+d649,U+d6d4}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-107-400-normal.woff2) format('woff2');unicode-range:U+b0,U+e9,U+2193,U+2462,U+260e,U+261e,U+300e-300f,U+3044,U+30a4,U+30fb-30fc,U+314d,U+5973,U+6545,U+6708,U+7537,U+ac89,U+ac9c,U+acc1,U+ad04,U+ad75,U+ad7d,U+ae45,U+ae61,U+af42,U+b0ab,U+b0af,U+b0b3,U+b12c,U+b194,U+b1a8,U+b220,U+b258,U+b284,U+b2ff,U+b315,U+b371,U+b3d4-b3d5,U+b460,U+b527,U+b534,U+b810,U+b818,U+b98e,U+ba55,U+bbac,U+bc0b,U+bc40,U+bca1,U+bccd,U+bd93,U+be54,U+be5a,U+bf08,U+bf50,U+bf55,U+bfdc,U+c0c0,U+c0d0,U+c0f4,U+c100,U+c11e,U+c170,U+c20d,U+c274,U+c290,U+c308,U+c369,U+c539,U+c587,U+c5ff,U+c6ec,U+c70c,U+c7ad,U+c7c8,U+c83c,U+c881,U+cb48,U+cc60,U+ce69,U+ce6b,U+ce75,U+cf04,U+cf08,U+cf55,U+cf70,U+cffc,U+d0b7,U+d1a8,U+d2c8,U+d384,U+d47c,U+d48b,U+d5dd,U+d5e8,U+d720,U+d759,U+f981}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-108-400-normal.woff2) format('woff2');unicode-range:U+e0,U+e2,U+395,U+3b7,U+3ba,U+2460-2461,U+25a0,U+3010-3011,U+306e,U+30f3,U+314a,U+314c,U+5927,U+65b0,U+7e41,U+97d3,U+9ad4,U+ad49,U+ae0b,U+ae0d,U+ae43,U+ae5d,U+aecf,U+af3c,U+af64,U+afd4,U+b080,U+b084,U+b0c5,U+b10c,U+b1e8,U+b2ac,U+b36e,U+b451,U+b515,U+b540,U+b561,U+b6ab,U+b6b1,U+b72c,U+b730,U+b744,U+b800,U+b8ec,U+b8f0,U+b904,U+b968,U+b96d,U+b987,U+b9d9,U+bb36,U+bb49,U+bc2d,U+bc43,U+bcf6,U+bd89,U+be57,U+be61,U+bed4,U+c090,U+c130,U+c148,U+c19c,U+c2f9,U+c36c,U+c37c,U+c384,U+c3df,U+c575,U+c584,U+c660,U+c719,U+c816,U+ca4d,U+ca54,U+cabc,U+cb49,U+cc14,U+cff5,U+d004,U+d038,U+d0b4,U+d0d3,U+d0e0,U+d0ed,U+d131,U+d1b0,U+d31f,U+d33d,U+d3a0,U+d3ab,U+d514,U+d584,U+d6a1,U+d6cc,U+d749,U+d760,U+d799}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-109-400-normal.woff2) format('woff2');unicode-range:U+24,U+60,U+3b9,U+3bb,U+3bd,U+2191,U+2606,U+300c-300d,U+3131,U+3134,U+3139,U+3141-3142,U+3148,U+3161,U+3163,U+321c,U+4eba,U+5317,U+ac31,U+ac77,U+ac9f,U+acb9,U+acf0-acf1,U+acfd,U+ad73,U+af3d,U+b00c,U+b04a,U+b057,U+b0c4,U+b188,U+b1cc,U+b214,U+b2db,U+b2ee,U+b304,U+b4ed,U+b518,U+b5bc,U+b625,U+b69c-b69d,U+b7ac,U+b801,U+b86c,U+b959,U+b95c,U+b985,U+ba48,U+bb58,U+bc0c,U+bc38,U+bc85,U+bc9a,U+bf40,U+c068,U+c0bd,U+c0cc,U+c12f,U+c149,U+c1e0,U+c22b,U+c22d,U+c250,U+c2fc,U+c300,U+c313,U+c370,U+c3d8,U+c557,U+c580,U+c5e3,U+c62e,U+c634,U+c6f0,U+c74d,U+c783,U+c78e,U+c796,U+c7bc,U+c92c,U+ca4c,U+cc1c,U+cc54,U+cc59,U+ce04,U+cf30,U+cfc4,U+d140,U+d321,U+d38c,U+d399,U+d54f,U+d587,U+d5d0,U+d6e8,U+d770}
@@ -26,12 +24,10 @@
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-118-400-normal.woff2) format('woff2');unicode-range:U+39,U+49,U+4d-4e,U+a0,U+ac04,U+ac1c,U+ac70,U+ac8c,U+acbd,U+acf5,U+acfc,U+ad00,U+ad6c,U+adf8,U+b098,U+b0b4,U+b294,U+b2c8,U+b300,U+b3c4,U+b3d9,U+b4dc,U+b4e4,U+b77c,U+b7ec,U+b85d,U+b97c,U+b9c8,U+b9cc,U+ba54,U+ba74,U+ba85,U+baa8,U+bb34,U+bb38,U+bbf8,U+bc14,U+bc29,U+bc88,U+bcf4,U+bd80,U+be44,U+c0c1,U+c11c,U+c120,U+c131,U+c138,U+c18c,U+c218,U+c2b5,U+c2e0,U+c544,U+c548,U+c5b4,U+c5d0,U+c5ec,U+c5f0,U+c601,U+c624,U+c694,U+c6a9,U+c6b0,U+c6b4,U+c6d0,U+c704,U+c720,U+c73c,U+c740,U+c744,U+c74c,U+c758,U+c77c,U+c785,U+c788,U+c790-c791,U+c7a5,U+c804,U+c815,U+c81c,U+c870,U+c8fc,U+c911,U+c9c4,U+ccb4,U+ce58,U+ce74,U+d06c,U+d0c0,U+d130,U+d2b8,U+d3ec,U+d504,U+d55c,U+d569,U+d574,U+d638,U+d654,U+d68c}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-119-400-normal.woff2) format('woff2');unicode-range:U+20-22,U+27-2a,U+2c-38,U+3a-3b,U+3f,U+41-47,U+4a-4c,U+4f-5d,U+61-7b,U+7d,U+a1,U+ab,U+ae,U+b7,U+bb,U+bf,U+2013-2014,U+201c-201d,U+2122,U+ac00,U+ace0,U+ae30,U+b2e4,U+b85c,U+b9ac,U+c0ac,U+c2a4,U+c2dc,U+c774,U+c778,U+c9c0,U+d558}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/noto-sans-kr-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-61-500-normal.woff2) format('woff2');unicode-range:U+ae56-ae5b,U+ae5e-ae60,U+ae62-ae64,U+ae66-ae67,U+ae69-ae6b,U+ae6d-ae83,U+ae85-aebb,U+aebf,U+aec1-aec3,U+aec5-aecb,U+aece,U+aed0,U+aed2-aed7,U+aed9-aef3,U+aef5-af02}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-65-500-normal.woff2) format('woff2');unicode-range:U+99df,U+99ed,U+99f1,U+99ff,U+9a01,U+9a08,U+9a0e-9a0f,U+9a19,U+9a2b,U+9a30,U+9a36-9a37,U+9a40,U+9a43,U+9a45,U+9a4d,U+9a55,U+9a57,U+9a5a-9a5b,U+9a5f,U+9a62,U+9a65,U+9a69-9a6a,U+9aa8,U+9ab8,U+9ad3,U+9ae5,U+9aee,U+9b1a,U+9b27,U+9b2a,U+9b31,U+9b3c,U+9b41-9b45,U+9b4f,U+9b54,U+9b5a,U+9b6f,U+9b8e,U+9b91,U+9b9f,U+9bab,U+9bae,U+9bc9,U+9bd6,U+9be4,U+9be8,U+9c0d,U+9c10,U+9c12,U+9c15,U+9c25,U+9c32,U+9c3b,U+9c47,U+9c49,U+9c57,U+9ce5,U+9ce7,U+9ce9,U+9cf3-9cf4,U+9cf6,U+9d09,U+9d1b,U+9d26,U+9d28,U+9d3b,U+9d51,U+9d5d,U+9d60-9d61,U+9d6c,U+9d72,U+9da9,U+9daf,U+9db4,U+9dc4,U+9dd7,U+9df2,U+9df8-9dfa,U+9e1a,U+9e1e,U+9e75,U+9e79,U+9e7d,U+9e7f,U+9e92-9e93,U+9e97,U+9e9d,U+9e9f,U+9ea5,U+9eb4-9eb5,U+9ebb,U+9ebe,U+9ec3,U+9ecd-9ece,U+9ed4,U+9ed8,U+9edb-9edc,U+9ede,U+9ee8,U+9ef4,U+9f07-9f08,U+9f0e,U+9f13,U+9f20,U+9f3b,U+9f4a-9f4b,U+9f4e,U+9f52,U+9f5f,U+9f61,U+9f67,U+9f6a,U+9f6c,U+9f77,U+9f8d,U+9f90,U+9f95,U+9f9c,U+ac02-ac03,U+ac05-ac06,U+ac09-ac0f,U+ac17-ac18,U+ac1b,U+ac1e-ac1f,U+ac21-ac23}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-103-500-normal.woff2) format('woff2');unicode-range:U+b4,U+20a9,U+20ac,U+2190,U+24d8,U+2502,U+2514,U+2592,U+25c7-25c8,U+2663,U+3060,U+3064,U+3081,U+3088,U+30a3,U+30a6,U+30aa,U+30b5,U+30c7,U+30ca-30cb,U+30d0,U+30e3,U+30e5,U+339e,U+4e09,U+4eac,U+4f5c,U+5167-5168,U+516c,U+51fa,U+5408,U+540d,U+591a,U+5b57,U+6211,U+65b9,U+660e,U+6642,U+6700,U+6b63,U+6e2f,U+7063,U+7532,U+793e,U+81ea,U+8272,U+82b1,U+897f,U+8eca,U+91ce,U+ac38,U+ad76,U+ae84,U+aecc,U+b07d,U+b0b1,U+b215,U+b2a0,U+b310,U+b3d7,U+b52a,U+b618,U+b775,U+b797,U+bcd5,U+bd59,U+be80,U+bea8,U+bed1,U+bee4-bee5,U+c060,U+c2ef,U+c329,U+c3dc,U+c597,U+c5bd,U+c5e5,U+c69c,U+c9d6,U+ca29,U+ca5c,U+ca84,U+cc39,U+cc3b,U+ce89,U+cee5,U+cf65,U+cf85,U+d058,U+d145,U+d22d,U+d325,U+d37d,U+d3ad,U+d769,U+ff0c}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-104-500-normal.woff2) format('woff2');unicode-range:U+2161,U+2228,U+2299,U+2464,U+2517,U+2640,U+3042,U+304a,U+3053,U+3061,U+307f,U+3082,U+308c,U+3092,U+30a8,U+30ab,U+30ad,U+30b0,U+30b3,U+30b7,U+30c1,U+30c6,U+30c9,U+30d5,U+30d7,U+30de,U+30e0-30e1,U+30ec-30ed,U+4e0b,U+4e0d,U+4ee3,U+53f0,U+548c,U+5b89,U+5bb6,U+5c0f,U+611b,U+6771,U+6aa2,U+6bcd,U+6c34,U+6cd5,U+6d77,U+767d,U+795e,U+8ecd,U+9999,U+9ad8,U+ac07,U+ac1a,U+ac40,U+ad0c,U+ad88,U+ada4,U+ae01,U+ae65,U+aebd,U+aec4,U+afe8,U+b139,U+b205,U+b383,U+b38c,U+b42c,U+b461,U+b55c,U+b78f,U+b8fb,U+b9f7,U+bafc,U+bc99,U+bed8,U+bfcd,U+c0bf,U+c0f9,U+c167,U+c204,U+c20f,U+c22f,U+c258,U+c298,U+c2bc,U+c388,U+c501,U+c50c,U+c5b9,U+c5ce,U+c641,U+c648,U+c73d,U+ca50,U+ca61,U+cc4c,U+ceac,U+d0d4,U+d5f7,U+d6d7,U+ff1a}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-105-500-normal.woff2) format('woff2');unicode-range:U+2103,U+2463,U+25c6,U+25cb,U+266c,U+3001,U+300a,U+3046,U+304c-304d,U+304f,U+3055,U+3059,U+3063,U+3066-3068,U+306f,U+3089,U+30b8,U+30bf,U+314f,U+4e0a,U+570b,U+5730,U+5916,U+5929,U+5c71,U+5e74,U+5fc3,U+601d,U+6027,U+63d0,U+6709,U+6734,U+751f,U+7684,U+82f1,U+9053,U+91d1,U+97f3,U+ac2f,U+ac4d,U+adc4,U+ade4,U+ae41,U+ae4d-ae4e,U+aed1,U+afb9,U+b0e0,U+b299,U+b365,U+b46c,U+b480,U+b4c8,U+b7b4,U+b819,U+b918,U+baab,U+bab9,U+be8f,U+bed7,U+c0ec,U+c19f,U+c1a5,U+c3d9,U+c464,U+c53d,U+c553,U+c570,U+c5cc,U+c633,U+c6a4,U+c7a3,U+c7a6,U+c886,U+c9d9-c9da,U+c9ec,U+ca0c,U+cc21,U+cd1b,U+cd78,U+cdc4,U+cef8,U+cfe4,U+d0a5,U+d0b5,U+d0ec,U+d15d,U+d188,U+d23c,U+d2ac,U+d729,U+d79b,U+ff01,U+ff08-ff09,U+ff5c}
-@font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-106-500-normal.woff2) format('woff2');unicode-range:U+2039-203a,U+223c,U+25b3,U+25b7,U+25bd,U+25cf,U+266a,U+3002,U+300b,U+304b,U+3057,U+305f,U+306a-306b,U+307e,U+308a-308b,U+3093,U+30a2,U+30af,U+30b9,U+30c3,U+30c8,U+30e9-30eb,U+33a1,U+4e00,U+524d,U+5357,U+5b50,U+7121,U+884c,U+9751,U+ac94,U+aebe,U+aecd,U+af08,U+af41,U+af49,U+b010,U+b053,U+b109,U+b11b,U+b128,U+b154,U+b291,U+b2e6,U+b301,U+b385,U+b525,U+b5b4,U+b729,U+b72f,U+b738,U+b7ff,U+b837,U+b975,U+ba67,U+bb47,U+bc1f,U+bd90,U+bfd4,U+c27c,U+c324,U+c379,U+c3e0,U+c465,U+c53b,U+c58c,U+c610,U+c653,U+c6cd,U+c813,U+c82f,U+c999,U+c9e0,U+cac4,U+cad3,U+cbd4,U+cc10,U+cc22,U+ccb8,U+ccbc,U+cda5,U+ce84,U+cea3,U+cf67,U+cfe1,U+d241,U+d30d,U+d31c,U+d391,U+d401,U+d479,U+d5c9,U+d5db,U+d649,U+d6d4}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-107-500-normal.woff2) format('woff2');unicode-range:U+b0,U+e9,U+2193,U+2462,U+260e,U+261e,U+300e-300f,U+3044,U+30a4,U+30fb-30fc,U+314d,U+5973,U+6545,U+6708,U+7537,U+ac89,U+ac9c,U+acc1,U+ad04,U+ad75,U+ad7d,U+ae45,U+ae61,U+af42,U+b0ab,U+b0af,U+b0b3,U+b12c,U+b194,U+b1a8,U+b220,U+b258,U+b284,U+b2ff,U+b315,U+b371,U+b3d4-b3d5,U+b460,U+b527,U+b534,U+b810,U+b818,U+b98e,U+ba55,U+bbac,U+bc0b,U+bc40,U+bca1,U+bccd,U+bd93,U+be54,U+be5a,U+bf08,U+bf50,U+bf55,U+bfdc,U+c0c0,U+c0d0,U+c0f4,U+c100,U+c11e,U+c170,U+c20d,U+c274,U+c290,U+c308,U+c369,U+c539,U+c587,U+c5ff,U+c6ec,U+c70c,U+c7ad,U+c7c8,U+c83c,U+c881,U+cb48,U+cc60,U+ce69,U+ce6b,U+ce75,U+cf04,U+cf08,U+cf55,U+cf70,U+cffc,U+d0b7,U+d1a8,U+d2c8,U+d384,U+d47c,U+d48b,U+d5dd,U+d5e8,U+d720,U+d759,U+f981}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-108-500-normal.woff2) format('woff2');unicode-range:U+e0,U+e2,U+395,U+3b7,U+3ba,U+2460-2461,U+25a0,U+3010-3011,U+306e,U+30f3,U+314a,U+314c,U+5927,U+65b0,U+7e41,U+97d3,U+9ad4,U+ad49,U+ae0b,U+ae0d,U+ae43,U+ae5d,U+aecf,U+af3c,U+af64,U+afd4,U+b080,U+b084,U+b0c5,U+b10c,U+b1e8,U+b2ac,U+b36e,U+b451,U+b515,U+b540,U+b561,U+b6ab,U+b6b1,U+b72c,U+b730,U+b744,U+b800,U+b8ec,U+b8f0,U+b904,U+b968,U+b96d,U+b987,U+b9d9,U+bb36,U+bb49,U+bc2d,U+bc43,U+bcf6,U+bd89,U+be57,U+be61,U+bed4,U+c090,U+c130,U+c148,U+c19c,U+c2f9,U+c36c,U+c37c,U+c384,U+c3df,U+c575,U+c584,U+c660,U+c719,U+c816,U+ca4d,U+ca54,U+cabc,U+cb49,U+cc14,U+cff5,U+d004,U+d038,U+d0b4,U+d0d3,U+d0e0,U+d0ed,U+d131,U+d1b0,U+d31f,U+d33d,U+d3a0,U+d3ab,U+d514,U+d584,U+d6a1,U+d6cc,U+d749,U+d760,U+d799}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-109-500-normal.woff2) format('woff2');unicode-range:U+24,U+60,U+3b9,U+3bb,U+3bd,U+2191,U+2606,U+300c-300d,U+3131,U+3134,U+3139,U+3141-3142,U+3148,U+3161,U+3163,U+321c,U+4eba,U+5317,U+ac31,U+ac77,U+ac9f,U+acb9,U+acf0-acf1,U+acfd,U+ad73,U+af3d,U+b00c,U+b04a,U+b057,U+b0c4,U+b188,U+b1cc,U+b214,U+b2db,U+b2ee,U+b304,U+b4ed,U+b518,U+b5bc,U+b625,U+b69c-b69d,U+b7ac,U+b801,U+b86c,U+b959,U+b95c,U+b985,U+ba48,U+bb58,U+bc0c,U+bc38,U+bc85,U+bc9a,U+bf40,U+c068,U+c0bd,U+c0cc,U+c12f,U+c149,U+c1e0,U+c22b,U+c22d,U+c250,U+c2fc,U+c300,U+c313,U+c370,U+c3d8,U+c557,U+c580,U+c5e3,U+c62e,U+c634,U+c6f0,U+c74d,U+c783,U+c78e,U+c796,U+c7bc,U+c92c,U+ca4c,U+cc1c,U+cc54,U+cc59,U+ce04,U+cf30,U+cfc4,U+d140,U+d321,U+d38c,U+d399,U+d54f,U+d587,U+d5d0,U+d6e8,U+d770}
@@ -46,12 +42,10 @@
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-118-500-normal.woff2) format('woff2');unicode-range:U+39,U+49,U+4d-4e,U+a0,U+ac04,U+ac1c,U+ac70,U+ac8c,U+acbd,U+acf5,U+acfc,U+ad00,U+ad6c,U+adf8,U+b098,U+b0b4,U+b294,U+b2c8,U+b300,U+b3c4,U+b3d9,U+b4dc,U+b4e4,U+b77c,U+b7ec,U+b85d,U+b97c,U+b9c8,U+b9cc,U+ba54,U+ba74,U+ba85,U+baa8,U+bb34,U+bb38,U+bbf8,U+bc14,U+bc29,U+bc88,U+bcf4,U+bd80,U+be44,U+c0c1,U+c11c,U+c120,U+c131,U+c138,U+c18c,U+c218,U+c2b5,U+c2e0,U+c544,U+c548,U+c5b4,U+c5d0,U+c5ec,U+c5f0,U+c601,U+c624,U+c694,U+c6a9,U+c6b0,U+c6b4,U+c6d0,U+c704,U+c720,U+c73c,U+c740,U+c744,U+c74c,U+c758,U+c77c,U+c785,U+c788,U+c790-c791,U+c7a5,U+c804,U+c815,U+c81c,U+c870,U+c8fc,U+c911,U+c9c4,U+ccb4,U+ce58,U+ce74,U+d06c,U+d0c0,U+d130,U+d2b8,U+d3ec,U+d504,U+d55c,U+d569,U+d574,U+d638,U+d654,U+d68c}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-119-500-normal.woff2) format('woff2');unicode-range:U+20-22,U+27-2a,U+2c-38,U+3a-3b,U+3f,U+41-47,U+4a-4c,U+4f-5d,U+61-7b,U+7d,U+a1,U+ab,U+ae,U+b7,U+bb,U+bf,U+2013-2014,U+201c-201d,U+2122,U+ac00,U+ace0,U+ae30,U+b2e4,U+b85c,U+b9ac,U+c0ac,U+c2a4,U+c2dc,U+c774,U+c778,U+c9c0,U+d558}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:500;src:url(vendor/fonts/noto-sans-kr-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-61-700-normal.woff2) format('woff2');unicode-range:U+ae56-ae5b,U+ae5e-ae60,U+ae62-ae64,U+ae66-ae67,U+ae69-ae6b,U+ae6d-ae83,U+ae85-aebb,U+aebf,U+aec1-aec3,U+aec5-aecb,U+aece,U+aed0,U+aed2-aed7,U+aed9-aef3,U+aef5-af02}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-65-700-normal.woff2) format('woff2');unicode-range:U+99df,U+99ed,U+99f1,U+99ff,U+9a01,U+9a08,U+9a0e-9a0f,U+9a19,U+9a2b,U+9a30,U+9a36-9a37,U+9a40,U+9a43,U+9a45,U+9a4d,U+9a55,U+9a57,U+9a5a-9a5b,U+9a5f,U+9a62,U+9a65,U+9a69-9a6a,U+9aa8,U+9ab8,U+9ad3,U+9ae5,U+9aee,U+9b1a,U+9b27,U+9b2a,U+9b31,U+9b3c,U+9b41-9b45,U+9b4f,U+9b54,U+9b5a,U+9b6f,U+9b8e,U+9b91,U+9b9f,U+9bab,U+9bae,U+9bc9,U+9bd6,U+9be4,U+9be8,U+9c0d,U+9c10,U+9c12,U+9c15,U+9c25,U+9c32,U+9c3b,U+9c47,U+9c49,U+9c57,U+9ce5,U+9ce7,U+9ce9,U+9cf3-9cf4,U+9cf6,U+9d09,U+9d1b,U+9d26,U+9d28,U+9d3b,U+9d51,U+9d5d,U+9d60-9d61,U+9d6c,U+9d72,U+9da9,U+9daf,U+9db4,U+9dc4,U+9dd7,U+9df2,U+9df8-9dfa,U+9e1a,U+9e1e,U+9e75,U+9e79,U+9e7d,U+9e7f,U+9e92-9e93,U+9e97,U+9e9d,U+9e9f,U+9ea5,U+9eb4-9eb5,U+9ebb,U+9ebe,U+9ec3,U+9ecd-9ece,U+9ed4,U+9ed8,U+9edb-9edc,U+9ede,U+9ee8,U+9ef4,U+9f07-9f08,U+9f0e,U+9f13,U+9f20,U+9f3b,U+9f4a-9f4b,U+9f4e,U+9f52,U+9f5f,U+9f61,U+9f67,U+9f6a,U+9f6c,U+9f77,U+9f8d,U+9f90,U+9f95,U+9f9c,U+ac02-ac03,U+ac05-ac06,U+ac09-ac0f,U+ac17-ac18,U+ac1b,U+ac1e-ac1f,U+ac21-ac23}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-103-700-normal.woff2) format('woff2');unicode-range:U+b4,U+20a9,U+20ac,U+2190,U+24d8,U+2502,U+2514,U+2592,U+25c7-25c8,U+2663,U+3060,U+3064,U+3081,U+3088,U+30a3,U+30a6,U+30aa,U+30b5,U+30c7,U+30ca-30cb,U+30d0,U+30e3,U+30e5,U+339e,U+4e09,U+4eac,U+4f5c,U+5167-5168,U+516c,U+51fa,U+5408,U+540d,U+591a,U+5b57,U+6211,U+65b9,U+660e,U+6642,U+6700,U+6b63,U+6e2f,U+7063,U+7532,U+793e,U+81ea,U+8272,U+82b1,U+897f,U+8eca,U+91ce,U+ac38,U+ad76,U+ae84,U+aecc,U+b07d,U+b0b1,U+b215,U+b2a0,U+b310,U+b3d7,U+b52a,U+b618,U+b775,U+b797,U+bcd5,U+bd59,U+be80,U+bea8,U+bed1,U+bee4-bee5,U+c060,U+c2ef,U+c329,U+c3dc,U+c597,U+c5bd,U+c5e5,U+c69c,U+c9d6,U+ca29,U+ca5c,U+ca84,U+cc39,U+cc3b,U+ce89,U+cee5,U+cf65,U+cf85,U+d058,U+d145,U+d22d,U+d325,U+d37d,U+d3ad,U+d769,U+ff0c}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-104-700-normal.woff2) format('woff2');unicode-range:U+2161,U+2228,U+2299,U+2464,U+2517,U+2640,U+3042,U+304a,U+3053,U+3061,U+307f,U+3082,U+308c,U+3092,U+30a8,U+30ab,U+30ad,U+30b0,U+30b3,U+30b7,U+30c1,U+30c6,U+30c9,U+30d5,U+30d7,U+30de,U+30e0-30e1,U+30ec-30ed,U+4e0b,U+4e0d,U+4ee3,U+53f0,U+548c,U+5b89,U+5bb6,U+5c0f,U+611b,U+6771,U+6aa2,U+6bcd,U+6c34,U+6cd5,U+6d77,U+767d,U+795e,U+8ecd,U+9999,U+9ad8,U+ac07,U+ac1a,U+ac40,U+ad0c,U+ad88,U+ada4,U+ae01,U+ae65,U+aebd,U+aec4,U+afe8,U+b139,U+b205,U+b383,U+b38c,U+b42c,U+b461,U+b55c,U+b78f,U+b8fb,U+b9f7,U+bafc,U+bc99,U+bed8,U+bfcd,U+c0bf,U+c0f9,U+c167,U+c204,U+c20f,U+c22f,U+c258,U+c298,U+c2bc,U+c388,U+c501,U+c50c,U+c5b9,U+c5ce,U+c641,U+c648,U+c73d,U+ca50,U+ca61,U+cc4c,U+ceac,U+d0d4,U+d5f7,U+d6d7,U+ff1a}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-105-700-normal.woff2) format('woff2');unicode-range:U+2103,U+2463,U+25c6,U+25cb,U+266c,U+3001,U+300a,U+3046,U+304c-304d,U+304f,U+3055,U+3059,U+3063,U+3066-3068,U+306f,U+3089,U+30b8,U+30bf,U+314f,U+4e0a,U+570b,U+5730,U+5916,U+5929,U+5c71,U+5e74,U+5fc3,U+601d,U+6027,U+63d0,U+6709,U+6734,U+751f,U+7684,U+82f1,U+9053,U+91d1,U+97f3,U+ac2f,U+ac4d,U+adc4,U+ade4,U+ae41,U+ae4d-ae4e,U+aed1,U+afb9,U+b0e0,U+b299,U+b365,U+b46c,U+b480,U+b4c8,U+b7b4,U+b819,U+b918,U+baab,U+bab9,U+be8f,U+bed7,U+c0ec,U+c19f,U+c1a5,U+c3d9,U+c464,U+c53d,U+c553,U+c570,U+c5cc,U+c633,U+c6a4,U+c7a3,U+c7a6,U+c886,U+c9d9-c9da,U+c9ec,U+ca0c,U+cc21,U+cd1b,U+cd78,U+cdc4,U+cef8,U+cfe4,U+d0a5,U+d0b5,U+d0ec,U+d15d,U+d188,U+d23c,U+d2ac,U+d729,U+d79b,U+ff01,U+ff08-ff09,U+ff5c}
-@font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-106-700-normal.woff2) format('woff2');unicode-range:U+2039-203a,U+223c,U+25b3,U+25b7,U+25bd,U+25cf,U+266a,U+3002,U+300b,U+304b,U+3057,U+305f,U+306a-306b,U+307e,U+308a-308b,U+3093,U+30a2,U+30af,U+30b9,U+30c3,U+30c8,U+30e9-30eb,U+33a1,U+4e00,U+524d,U+5357,U+5b50,U+7121,U+884c,U+9751,U+ac94,U+aebe,U+aecd,U+af08,U+af41,U+af49,U+b010,U+b053,U+b109,U+b11b,U+b128,U+b154,U+b291,U+b2e6,U+b301,U+b385,U+b525,U+b5b4,U+b729,U+b72f,U+b738,U+b7ff,U+b837,U+b975,U+ba67,U+bb47,U+bc1f,U+bd90,U+bfd4,U+c27c,U+c324,U+c379,U+c3e0,U+c465,U+c53b,U+c58c,U+c610,U+c653,U+c6cd,U+c813,U+c82f,U+c999,U+c9e0,U+cac4,U+cad3,U+cbd4,U+cc10,U+cc22,U+ccb8,U+ccbc,U+cda5,U+ce84,U+cea3,U+cf67,U+cfe1,U+d241,U+d30d,U+d31c,U+d391,U+d401,U+d479,U+d5c9,U+d5db,U+d649,U+d6d4}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-107-700-normal.woff2) format('woff2');unicode-range:U+b0,U+e9,U+2193,U+2462,U+260e,U+261e,U+300e-300f,U+3044,U+30a4,U+30fb-30fc,U+314d,U+5973,U+6545,U+6708,U+7537,U+ac89,U+ac9c,U+acc1,U+ad04,U+ad75,U+ad7d,U+ae45,U+ae61,U+af42,U+b0ab,U+b0af,U+b0b3,U+b12c,U+b194,U+b1a8,U+b220,U+b258,U+b284,U+b2ff,U+b315,U+b371,U+b3d4-b3d5,U+b460,U+b527,U+b534,U+b810,U+b818,U+b98e,U+ba55,U+bbac,U+bc0b,U+bc40,U+bca1,U+bccd,U+bd93,U+be54,U+be5a,U+bf08,U+bf50,U+bf55,U+bfdc,U+c0c0,U+c0d0,U+c0f4,U+c100,U+c11e,U+c170,U+c20d,U+c274,U+c290,U+c308,U+c369,U+c539,U+c587,U+c5ff,U+c6ec,U+c70c,U+c7ad,U+c7c8,U+c83c,U+c881,U+cb48,U+cc60,U+ce69,U+ce6b,U+ce75,U+cf04,U+cf08,U+cf55,U+cf70,U+cffc,U+d0b7,U+d1a8,U+d2c8,U+d384,U+d47c,U+d48b,U+d5dd,U+d5e8,U+d720,U+d759,U+f981}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-108-700-normal.woff2) format('woff2');unicode-range:U+e0,U+e2,U+395,U+3b7,U+3ba,U+2460-2461,U+25a0,U+3010-3011,U+306e,U+30f3,U+314a,U+314c,U+5927,U+65b0,U+7e41,U+97d3,U+9ad4,U+ad49,U+ae0b,U+ae0d,U+ae43,U+ae5d,U+aecf,U+af3c,U+af64,U+afd4,U+b080,U+b084,U+b0c5,U+b10c,U+b1e8,U+b2ac,U+b36e,U+b451,U+b515,U+b540,U+b561,U+b6ab,U+b6b1,U+b72c,U+b730,U+b744,U+b800,U+b8ec,U+b8f0,U+b904,U+b968,U+b96d,U+b987,U+b9d9,U+bb36,U+bb49,U+bc2d,U+bc43,U+bcf6,U+bd89,U+be57,U+be61,U+bed4,U+c090,U+c130,U+c148,U+c19c,U+c2f9,U+c36c,U+c37c,U+c384,U+c3df,U+c575,U+c584,U+c660,U+c719,U+c816,U+ca4d,U+ca54,U+cabc,U+cb49,U+cc14,U+cff5,U+d004,U+d038,U+d0b4,U+d0d3,U+d0e0,U+d0ed,U+d131,U+d1b0,U+d31f,U+d33d,U+d3a0,U+d3ab,U+d514,U+d584,U+d6a1,U+d6cc,U+d749,U+d760,U+d799}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-109-700-normal.woff2) format('woff2');unicode-range:U+24,U+60,U+3b9,U+3bb,U+3bd,U+2191,U+2606,U+300c-300d,U+3131,U+3134,U+3139,U+3141-3142,U+3148,U+3161,U+3163,U+321c,U+4eba,U+5317,U+ac31,U+ac77,U+ac9f,U+acb9,U+acf0-acf1,U+acfd,U+ad73,U+af3d,U+b00c,U+b04a,U+b057,U+b0c4,U+b188,U+b1cc,U+b214,U+b2db,U+b2ee,U+b304,U+b4ed,U+b518,U+b5bc,U+b625,U+b69c-b69d,U+b7ac,U+b801,U+b86c,U+b959,U+b95c,U+b985,U+ba48,U+bb58,U+bc0c,U+bc38,U+bc85,U+bc9a,U+bf40,U+c068,U+c0bd,U+c0cc,U+c12f,U+c149,U+c1e0,U+c22b,U+c22d,U+c250,U+c2fc,U+c300,U+c313,U+c370,U+c3d8,U+c557,U+c580,U+c5e3,U+c62e,U+c634,U+c6f0,U+c74d,U+c783,U+c78e,U+c796,U+c7bc,U+c92c,U+ca4c,U+cc1c,U+cc54,U+cc59,U+ce04,U+cf30,U+cfc4,U+d140,U+d321,U+d38c,U+d399,U+d54f,U+d587,U+d5d0,U+d6e8,U+d770}
@@ -66,12 +60,10 @@
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-118-700-normal.woff2) format('woff2');unicode-range:U+39,U+49,U+4d-4e,U+a0,U+ac04,U+ac1c,U+ac70,U+ac8c,U+acbd,U+acf5,U+acfc,U+ad00,U+ad6c,U+adf8,U+b098,U+b0b4,U+b294,U+b2c8,U+b300,U+b3c4,U+b3d9,U+b4dc,U+b4e4,U+b77c,U+b7ec,U+b85d,U+b97c,U+b9c8,U+b9cc,U+ba54,U+ba74,U+ba85,U+baa8,U+bb34,U+bb38,U+bbf8,U+bc14,U+bc29,U+bc88,U+bcf4,U+bd80,U+be44,U+c0c1,U+c11c,U+c120,U+c131,U+c138,U+c18c,U+c218,U+c2b5,U+c2e0,U+c544,U+c548,U+c5b4,U+c5d0,U+c5ec,U+c5f0,U+c601,U+c624,U+c694,U+c6a9,U+c6b0,U+c6b4,U+c6d0,U+c704,U+c720,U+c73c,U+c740,U+c744,U+c74c,U+c758,U+c77c,U+c785,U+c788,U+c790-c791,U+c7a5,U+c804,U+c815,U+c81c,U+c870,U+c8fc,U+c911,U+c9c4,U+ccb4,U+ce58,U+ce74,U+d06c,U+d0c0,U+d130,U+d2b8,U+d3ec,U+d504,U+d55c,U+d569,U+d574,U+d638,U+d654,U+d68c}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-119-700-normal.woff2) format('woff2');unicode-range:U+20-22,U+27-2a,U+2c-38,U+3a-3b,U+3f,U+41-47,U+4a-4c,U+4f-5d,U+61-7b,U+7d,U+a1,U+ab,U+ae,U+b7,U+bb,U+bf,U+2013-2014,U+201c-201d,U+2122,U+ac00,U+ace0,U+ae30,U+b2e4,U+b85c,U+b9ac,U+c0ac,U+c2a4,U+c2dc,U+c774,U+c778,U+c9c0,U+d558}
 @font-face{font-family:'Noto Sans KR';font-style:normal;font-display:swap;font-weight:700;src:url(vendor/fonts/noto-sans-kr-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
-@font-face{font-family:'Black Han Sans';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/black-han-sans-61-400-normal.woff2) format('woff2');unicode-range:U+ae56-ae5b,U+ae5e-ae60,U+ae62-ae64,U+ae66-ae67,U+ae69-ae6b,U+ae6d-ae83,U+ae85-aebb,U+aebf,U+aec1-aec3,U+aec5-aecb,U+aece,U+aed0,U+aed2-aed7,U+aed9-aef3,U+aef5-af02}
 @font-face{font-family:'Black Han Sans';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/black-han-sans-65-400-normal.woff2) format('woff2');unicode-range:U+99df,U+99ed,U+99f1,U+99ff,U+9a01,U+9a08,U+9a0e-9a0f,U+9a19,U+9a2b,U+9a30,U+9a36-9a37,U+9a40,U+9a43,U+9a45,U+9a4d,U+9a55,U+9a57,U+9a5a-9a5b,U+9a5f,U+9a62,U+9a65,U+9a69-9a6a,U+9aa8,U+9ab8,U+9ad3,U+9ae5,U+9aee,U+9b1a,U+9b27,U+9b2a,U+9b31,U+9b3c,U+9b41-9b45,U+9b4f,U+9b54,U+9b5a,U+9b6f,U+9b8e,U+9b91,U+9b9f,U+9bab,U+9bae,U+9bc9,U+9bd6,U+9be4,U+9be8,U+9c0d,U+9c10,U+9c12,U+9c15,U+9c25,U+9c32,U+9c3b,U+9c47,U+9c49,U+9c57,U+9ce5,U+9ce7,U+9ce9,U+9cf3-9cf4,U+9cf6,U+9d09,U+9d1b,U+9d26,U+9d28,U+9d3b,U+9d51,U+9d5d,U+9d60-9d61,U+9d6c,U+9d72,U+9da9,U+9daf,U+9db4,U+9dc4,U+9dd7,U+9df2,U+9df8-9dfa,U+9e1a,U+9e1e,U+9e75,U+9e79,U+9e7d,U+9e7f,U+9e92-9e93,U+9e97,U+9e9d,U+9e9f,U+9ea5,U+9eb4-9eb5,U+9ebb,U+9ebe,U+9ec3,U+9ecd-9ece,U+9ed4,U+9ed8,U+9edb-9edc,U+9ede,U+9ee8,U+9ef4,U+9f07-9f08,U+9f0e,U+9f13,U+9f20,U+9f3b,U+9f4a-9f4b,U+9f4e,U+9f52,U+9f5f,U+9f61,U+9f67,U+9f6a,U+9f6c,U+9f77,U+9f8d,U+9f90,U+9f95,U+9f9c,U+ac02-ac03,U+ac05-ac06,U+ac09-ac0f,U+ac17-ac18,U+ac1b,U+ac1e-ac1f,U+ac21-ac23}
 @font-face{font-family:'Black Han Sans';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/black-han-sans-103-400-normal.woff2) format('woff2');unicode-range:U+b4,U+20a9,U+20ac,U+2190,U+24d8,U+2502,U+2514,U+2592,U+25c7-25c8,U+2663,U+3060,U+3064,U+3081,U+3088,U+30a3,U+30a6,U+30aa,U+30b5,U+30c7,U+30ca-30cb,U+30d0,U+30e3,U+30e5,U+339e,U+4e09,U+4eac,U+4f5c,U+5167-5168,U+516c,U+51fa,U+5408,U+540d,U+591a,U+5b57,U+6211,U+65b9,U+660e,U+6642,U+6700,U+6b63,U+6e2f,U+7063,U+7532,U+793e,U+81ea,U+8272,U+82b1,U+897f,U+8eca,U+91ce,U+ac38,U+ad76,U+ae84,U+aecc,U+b07d,U+b0b1,U+b215,U+b2a0,U+b310,U+b3d7,U+b52a,U+b618,U+b775,U+b797,U+bcd5,U+bd59,U+be80,U+bea8,U+bed1,U+bee4-bee5,U+c060,U+c2ef,U+c329,U+c3dc,U+c597,U+c5bd,U+c5e5,U+c69c,U+c9d6,U+ca29,U+ca5c,U+ca84,U+cc39,U+cc3b,U+ce89,U+cee5,U+cf65,U+cf85,U+d058,U+d145,U+d22d,U+d325,U+d37d,U+d3ad,U+d769,U+ff0c}
 @font-face{font-family:'Black Han Sans';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/black-han-sans-104-400-normal.woff2) format('woff2');unicode-range:U+2161,U+2228,U+2299,U+2464,U+2517,U+2640,U+3042,U+304a,U+3053,U+3061,U+307f,U+3082,U+308c,U+3092,U+30a8,U+30ab,U+30ad,U+30b0,U+30b3,U+30b7,U+30c1,U+30c6,U+30c9,U+30d5,U+30d7,U+30de,U+30e0-30e1,U+30ec-30ed,U+4e0b,U+4e0d,U+4ee3,U+53f0,U+548c,U+5b89,U+5bb6,U+5c0f,U+611b,U+6771,U+6aa2,U+6bcd,U+6c34,U+6cd5,U+6d77,U+767d,U+795e,U+8ecd,U+9999,U+9ad8,U+ac07,U+ac1a,U+ac40,U+ad0c,U+ad88,U+ada4,U+ae01,U+ae65,U+aebd,U+aec4,U+afe8,U+b139,U+b205,U+b383,U+b38c,U+b42c,U+b461,U+b55c,U+b78f,U+b8fb,U+b9f7,U+bafc,U+bc99,U+bed8,U+bfcd,U+c0bf,U+c0f9,U+c167,U+c204,U+c20f,U+c22f,U+c258,U+c298,U+c2bc,U+c388,U+c501,U+c50c,U+c5b9,U+c5ce,U+c641,U+c648,U+c73d,U+ca50,U+ca61,U+cc4c,U+ceac,U+d0d4,U+d5f7,U+d6d7,U+ff1a}
 @font-face{font-family:'Black Han Sans';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/black-han-sans-105-400-normal.woff2) format('woff2');unicode-range:U+2103,U+2463,U+25c6,U+25cb,U+266c,U+3001,U+300a,U+3046,U+304c-304d,U+304f,U+3055,U+3059,U+3063,U+3066-3068,U+306f,U+3089,U+30b8,U+30bf,U+314f,U+4e0a,U+570b,U+5730,U+5916,U+5929,U+5c71,U+5e74,U+5fc3,U+601d,U+6027,U+63d0,U+6709,U+6734,U+751f,U+7684,U+82f1,U+9053,U+91d1,U+97f3,U+ac2f,U+ac4d,U+adc4,U+ade4,U+ae41,U+ae4d-ae4e,U+aed1,U+afb9,U+b0e0,U+b299,U+b365,U+b46c,U+b480,U+b4c8,U+b7b4,U+b819,U+b918,U+baab,U+bab9,U+be8f,U+bed7,U+c0ec,U+c19f,U+c1a5,U+c3d9,U+c464,U+c53d,U+c553,U+c570,U+c5cc,U+c633,U+c6a4,U+c7a3,U+c7a6,U+c886,U+c9d9-c9da,U+c9ec,U+ca0c,U+cc21,U+cd1b,U+cd78,U+cdc4,U+cef8,U+cfe4,U+d0a5,U+d0b5,U+d0ec,U+d15d,U+d188,U+d23c,U+d2ac,U+d729,U+d79b,U+ff01,U+ff08-ff09,U+ff5c}
-@font-face{font-family:'Black Han Sans';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/black-han-sans-106-400-normal.woff2) format('woff2');unicode-range:U+2039-203a,U+223c,U+25b3,U+25b7,U+25bd,U+25cf,U+266a,U+3002,U+300b,U+304b,U+3057,U+305f,U+306a-306b,U+307e,U+308a-308b,U+3093,U+30a2,U+30af,U+30b9,U+30c3,U+30c8,U+30e9-30eb,U+33a1,U+4e00,U+524d,U+5357,U+5b50,U+7121,U+884c,U+9751,U+ac94,U+aebe,U+aecd,U+af08,U+af41,U+af49,U+b010,U+b053,U+b109,U+b11b,U+b128,U+b154,U+b291,U+b2e6,U+b301,U+b385,U+b525,U+b5b4,U+b729,U+b72f,U+b738,U+b7ff,U+b837,U+b975,U+ba67,U+bb47,U+bc1f,U+bd90,U+bfd4,U+c27c,U+c324,U+c379,U+c3e0,U+c465,U+c53b,U+c58c,U+c610,U+c653,U+c6cd,U+c813,U+c82f,U+c999,U+c9e0,U+cac4,U+cad3,U+cbd4,U+cc10,U+cc22,U+ccb8,U+ccbc,U+cda5,U+ce84,U+cea3,U+cf67,U+cfe1,U+d241,U+d30d,U+d31c,U+d391,U+d401,U+d479,U+d5c9,U+d5db,U+d649,U+d6d4}
 @font-face{font-family:'Black Han Sans';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/black-han-sans-107-400-normal.woff2) format('woff2');unicode-range:U+b0,U+e9,U+2193,U+2462,U+260e,U+261e,U+300e-300f,U+3044,U+30a4,U+30fb-30fc,U+314d,U+5973,U+6545,U+6708,U+7537,U+ac89,U+ac9c,U+acc1,U+ad04,U+ad75,U+ad7d,U+ae45,U+ae61,U+af42,U+b0ab,U+b0af,U+b0b3,U+b12c,U+b194,U+b1a8,U+b220,U+b258,U+b284,U+b2ff,U+b315,U+b371,U+b3d4-b3d5,U+b460,U+b527,U+b534,U+b810,U+b818,U+b98e,U+ba55,U+bbac,U+bc0b,U+bc40,U+bca1,U+bccd,U+bd93,U+be54,U+be5a,U+bf08,U+bf50,U+bf55,U+bfdc,U+c0c0,U+c0d0,U+c0f4,U+c100,U+c11e,U+c170,U+c20d,U+c274,U+c290,U+c308,U+c369,U+c539,U+c587,U+c5ff,U+c6ec,U+c70c,U+c7ad,U+c7c8,U+c83c,U+c881,U+cb48,U+cc60,U+ce69,U+ce6b,U+ce75,U+cf04,U+cf08,U+cf55,U+cf70,U+cffc,U+d0b7,U+d1a8,U+d2c8,U+d384,U+d47c,U+d48b,U+d5dd,U+d5e8,U+d720,U+d759,U+f981}
 @font-face{font-family:'Black Han Sans';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/black-han-sans-108-400-normal.woff2) format('woff2');unicode-range:U+e0,U+e2,U+395,U+3b7,U+3ba,U+2460-2461,U+25a0,U+3010-3011,U+306e,U+30f3,U+314a,U+314c,U+5927,U+65b0,U+7e41,U+97d3,U+9ad4,U+ad49,U+ae0b,U+ae0d,U+ae43,U+ae5d,U+aecf,U+af3c,U+af64,U+afd4,U+b080,U+b084,U+b0c5,U+b10c,U+b1e8,U+b2ac,U+b36e,U+b451,U+b515,U+b540,U+b561,U+b6ab,U+b6b1,U+b72c,U+b730,U+b744,U+b800,U+b8ec,U+b8f0,U+b904,U+b968,U+b96d,U+b987,U+b9d9,U+bb36,U+bb49,U+bc2d,U+bc43,U+bcf6,U+bd89,U+be57,U+be61,U+bed4,U+c090,U+c130,U+c148,U+c19c,U+c2f9,U+c36c,U+c37c,U+c384,U+c3df,U+c575,U+c584,U+c660,U+c719,U+c816,U+ca4d,U+ca54,U+cabc,U+cb49,U+cc14,U+cff5,U+d004,U+d038,U+d0b4,U+d0d3,U+d0e0,U+d0ed,U+d131,U+d1b0,U+d31f,U+d33d,U+d3a0,U+d3ab,U+d514,U+d584,U+d6a1,U+d6cc,U+d749,U+d760,U+d799}
 @font-face{font-family:'Black Han Sans';font-style:normal;font-display:swap;font-weight:400;src:url(vendor/fonts/black-han-sans-109-400-normal.woff2) format('woff2');unicode-range:U+24,U+60,U+3b9,U+3bb,U+3bd,U+2191,U+2606,U+300c-300d,U+3131,U+3134,U+3139,U+3141-3142,U+3148,U+3161,U+3163,U+321c,U+4eba,U+5317,U+ac31,U+ac77,U+ac9f,U+acb9,U+acf0-acf1,U+acfd,U+ad73,U+af3d,U+b00c,U+b04a,U+b057,U+b0c4,U+b188,U+b1cc,U+b214,U+b2db,U+b2ee,U+b304,U+b4ed,U+b518,U+b5bc,U+b625,U+b69c-b69d,U+b7ac,U+b801,U+b86c,U+b959,U+b95c,U+b985,U+ba48,U+bb58,U+bc0c,U+bc38,U+bc85,U+bc9a,U+bf40,U+c068,U+c0bd,U+c0cc,U+c12f,U+c149,U+c1e0,U+c22b,U+c22d,U+c250,U+c2fc,U+c300,U+c313,U+c370,U+c3d8,U+c557,U+c580,U+c5e3,U+c62e,U+c634,U+c6f0,U+c74d,U+c783,U+c78e,U+c796,U+c7bc,U+c92c,U+ca4c,U+cc1c,U+cc54,U+cc59,U+ce04,U+cf30,U+cfc4,U+d140,U+d321,U+d38c,U+d399,U+d54f,U+d587,U+d5d0,U+d6e8,U+d770}
@@ -226,6 +218,8 @@ button.sm{padding:5px 8px;font-size:12px}
 #result{justify-content:center;background:rgba(8,12,17,.78);z-index:8}
 .r-tag{font-family:var(--f-num);font-size:18px;font-weight:600;color:var(--ink-dim);letter-spacing:.04em}
 #rMain{font-family:var(--f-disp);font-size:clamp(60px,min(15vh,24vw),104px);line-height:1;margin:6px 0 4px;text-shadow:0 4px 0 rgba(0,0,0,.45)}
+#rMain.sm{font-size:clamp(40px,min(10vh,14vw),68px)}
+.tmo{display:inline-flex;vertical-align:-2px;margin-left:4px;color:var(--warn)}
 #rMain.win{color:var(--gold)}#rMain.lose{color:var(--warn)}
 #rWhy{font-size:15px;color:var(--ink);line-height:1.5}
 #rScore{font-family:var(--f-num);font-size:40px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:8px}
@@ -280,7 +274,7 @@ button.sm{padding:5px 8px;font-size:12px}
 #powerFill{position:absolute;left:0;right:0;top:0;height:0;background:linear-gradient(180deg,#4fb3ff,#ffcf4a 70%,#ff5a4e)}
 #power .grip{position:absolute;left:7px;right:7px;top:7px;height:9px;border-radius:4px;background:var(--ink);opacity:.85;pointer-events:none}
 #power::after{content:"";position:absolute;left:50%;top:34px;width:9px;height:9px;margin-left:-5px;border-right:2px solid rgba(238,243,248,.55);border-bottom:2px solid rgba(238,243,248,.55);transform:rotate(45deg);pointer-events:none}
-#powerMark{position:absolute;left:0;right:0;height:2px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.5);pointer-events:none}
+#powerMark{position:absolute;left:0;right:0;height:4px;margin-top:-2px;background:var(--gold);box-shadow:0 0 0 1px rgba(0,0,0,.5);pointer-events:none}
 .idle{opacity:.38;pointer-events:none}
 #placeBar{grid-column:2;grid-row:1;display:flex;align-items:center;justify-content:center;z-index:1}
 #placeBar button{padding:12px 18px;font-size:15px;white-space:nowrap}
@@ -290,9 +284,16 @@ button.sm{padding:5px 8px;font-size:12px}
 .cell{background:var(--panel);border:1px solid var(--line);border-radius:4px}
 .cell.spin{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:6px 4px 3px}
 #pad{position:relative;width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#fff 0,#f1ede2 45%,#c9c3b4 100%);box-shadow:inset 0 -5px 10px rgba(0,0,0,.25);cursor:crosshair;touch-action:none}
-#padZoom .miss,#pad .miss{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:radial-gradient(circle,transparent 54%,rgba(255,90,78,.3) 55%)}
-#padZoom .cross,#pad .cross{position:absolute;left:50%;top:50%;width:1px;height:100%;background:rgba(0,0,0,.15);transform:translate(-50%,-50%);pointer-events:none}
-#padZoom .cross.h,#pad .cross.h{width:100%;height:1px}
+#padZoom .grid,#pad .grid{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:
+  linear-gradient(rgba(0,0,0,.16),rgba(0,0,0,.16)) 50% 0/1px 100% no-repeat,
+  linear-gradient(90deg,rgba(0,0,0,.16),rgba(0,0,0,.16)) 0 50%/100% 1px no-repeat,
+  repeating-linear-gradient(rgba(0,0,0,.18) 0 1px,transparent 1px 12.5%) 50% 0/6px 100% no-repeat,
+  repeating-linear-gradient(90deg,rgba(0,0,0,.18) 0 1px,transparent 1px 12.5%) 0 50%/100% 6px no-repeat,
+  radial-gradient(circle,transparent calc(25% - 1px),rgba(0,0,0,.11) 25%,transparent calc(25% + 1px),transparent calc(50% - 1px),rgba(0,0,0,.11) 50%,transparent calc(50% + 1px),transparent calc(75% - 1px),rgba(0,0,0,.11) 75%,transparent calc(75% + 1px))}
+.padTgt{position:absolute;width:26%;height:26%;margin:-13% 0 0 -13%;border-radius:50%;border:3px solid var(--gold);box-shadow:0 0 0 2px rgba(0,0,0,.35);pointer-events:none;animation:tutGlow 1s ease-in-out infinite}
+#padZoom .padTgt{width:16%;height:16%;margin:-8% 0 0 -8%}
+#elevMark{position:absolute;width:4px;height:22px;margin:-11px 0 0 -2px;background:var(--gold);border-radius:2px;pointer-events:none;z-index:1}
+#elevCell{position:relative}
 #dot{position:absolute;width:15px;height:15px;margin:-7.5px 0 0 -7.5px;border-radius:50%;background:var(--chalk);border:2px solid #0b3c66;box-shadow:0 0 0 3px rgba(79,179,255,.3);pointer-events:none}
 #spinRead{background:none;border:0;padding:0 2px;font-family:var(--f-ui);font-size:11px;color:var(--ink-dim);white-space:nowrap;line-height:1.5}
 #pip{position:relative;overflow:hidden;grid-column:2;grid-row:1;border:1px solid var(--line);border-radius:4px;min-height:98px;background:transparent;touch-action:none;cursor:ew-resize}
@@ -314,6 +315,17 @@ button.sm{padding:5px 8px;font-size:12px}
 #menuQuit.arm{background:#6b1f19;border-color:var(--warn)}
 #padZoom{position:absolute;z-index:5;left:50%;width:min(62%,230px);aspect-ratio:1;margin-left:calc(min(62%,230px)/-2);border-radius:50%;background:radial-gradient(circle at 38% 32%,#fff 0,#f1ede2 45%,#c9c3b4 100%);box-shadow:inset 0 -14px 28px rgba(0,0,0,.25),0 10px 34px rgba(0,0,0,.6);pointer-events:none}
 #dotZoom{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;background:var(--chalk);border:3px solid #0b3c66;box-shadow:0 0 0 6px rgba(79,179,255,.3)}
+.rank-open{display:block;width:100%;margin-top:5px;padding:5px 8px;font-size:12px;font-weight:700}
+#ranks{position:absolute;inset:0;z-index:11;display:flex;align-items:flex-end;background:rgba(8,12,17,.72)}
+.rank-list{max-height:52vh;overflow-y:auto;border:1px solid var(--line);border-radius:6px;touch-action:pan-y}
+.rank-list table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:14px}
+.rank-list th{position:sticky;top:0;background:var(--panel-2);font-size:12px;font-weight:500;color:var(--ink-dim);padding:7px 8px;text-align:right}
+.rank-list td{padding:7px 8px;text-align:right;border-top:1px solid var(--line)}
+.rank-list th:nth-child(2),.rank-list td:nth-child(2){text-align:left;max-width:9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-list td:first-child{font-family:var(--f-num);font-weight:700;color:var(--chalk)}
+.rank-list tr.me td{background:rgba(255,211,74,.12);font-weight:700}
+.rank-list .empty{text-align:center;color:var(--ink-dim);padding:20px}
+#ranksClose{padding:13px;font-size:15px}
 .rules-btn{align-self:flex-start;margin-top:12px;padding:7px 16px;font-size:14px;font-weight:700}
 #rules{position:absolute;inset:0;z-index:11;display:flex;align-items:flex-end;background:rgba(8,12,17,.72)}
 .rules-card{width:100%;max-height:88%;overflow-y:auto;padding-block:18px 18px;background:var(--panel-2);border-top:4px solid var(--wood);display:flex;flex-direction:column;gap:12px;touch-action:pan-y}
@@ -328,9 +340,13 @@ button.sm{padding:5px 8px;font-size:12px}
 .rules-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .rules-acts button{padding:13px;font-size:15px}
 .menu-acts{grid-template-columns:repeat(3,1fr)}
-#app.tut #hud,#app.tut #menuBtn{visibility:hidden}
-#app.tut:not(.tut-elev) .cell.ctl,#app.tut #spinRead{pointer-events:none;opacity:.45}
-#tutBubble{position:absolute;z-index:6;top:10px;left:16px;right:16px;padding:12px 14px;text-align:center;font-size:17px;font-weight:700;line-height:1.4;word-break:keep-all;color:var(--ink);background:rgba(11,15,20,.9);border:1px solid var(--gold);border-radius:8px;pointer-events:none}
+#app.tut #hud,#app.tut #menuBtn,#app.tut #hintBtn,#app.tut #undoBtn,#app.tut #resetBtn{visibility:hidden}
+#tutDim{position:absolute;inset:0;z-index:5;background:rgba(5,8,12,.22);pointer-events:none}
+.tutSpot{position:relative;z-index:30;border-radius:8px;animation:tutSpot 1.2s ease-in-out infinite;box-shadow:0 0 0 2px var(--gold),0 0 10px 3px rgba(255,211,74,.45),0 0 0 9999px rgba(5,8,12,.36)!important}
+@keyframes tutSpot{50%{box-shadow:0 0 0 3px var(--gold),0 0 26px 9px rgba(255,211,74,.85),0 0 0 9999px rgba(5,8,12,.36)}}
+#powerMark,#elevMark{box-shadow:0 0 8px 2px rgba(255,211,74,.8)}
+#app.tut #spinRead{pointer-events:none}
+#tutBubble{position:absolute;z-index:40;top:24%;left:16px;right:16px;padding:16px 16px;white-space:pre-line;text-align:center;font-size:17px;font-weight:700;line-height:1.4;word-break:keep-all;color:var(--ink);background:rgba(11,15,20,.9);border:1px solid var(--gold);border-radius:8px;pointer-events:none}
 #tutMsg{display:block}
 #tutStep{display:block;width:100%;margin-top:10px;padding:10px;font-size:15px;pointer-events:auto}
 #tutStep:disabled{opacity:.35}
@@ -338,12 +354,17 @@ button.sm{padding:5px 8px;font-size:12px}
 @keyframes tutTap{0%{transform:translateX(-70px) scale(.7);opacity:0}15%{transform:translateX(-70px) scale(.7);opacity:1}80%{transform:translateX(70px) scale(.7);opacity:1}100%{transform:translateX(70px) scale(.7);opacity:0}}
 .tutGlow{outline:3px solid var(--gold);outline-offset:2px;animation:tutGlow 1s ease-in-out infinite}
 @keyframes tutGlow{50%{outline-color:transparent}}
-#tutCard{z-index:12;justify-content:flex-start;padding-top:10px;align-items:center;gap:14px;text-align:center;background:rgba(8,12,17,.45)}
+#tutCard{z-index:45;justify-content:flex-start;padding-top:22vh;align-items:center;gap:14px;text-align:center;background:rgba(5,8,12,.72)}
 #tutText{margin:0;width:calc(100% - 32px);padding:18px 20px;background:rgba(11,15,20,.94);border:1px solid var(--gold);border-radius:8px;font-size:21px;font-weight:700;line-height:1.5;word-break:keep-all;white-space:pre-line}
 #tutNext{min-width:160px;padding:14px;font-size:16px}
+.adTag{display:inline-block;margin-right:5px;padding:1px 4px;border-radius:3px;background:var(--gold);color:#1a1405;font-family:var(--f-num);font-size:10px;font-weight:700;line-height:1.3;letter-spacing:.04em;vertical-align:1px}
+#rStars span.pop{display:inline-block;animation:starPop .55s cubic-bezier(.2,1.5,.4,1) both}
+#rStars span.pop.off{animation-name:starIn}
+@keyframes starPop{0%{transform:scale(0) rotate(-200deg);opacity:0}60%{transform:scale(1.45) rotate(20deg);opacity:1}80%{transform:scale(.9) rotate(-6deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes starIn{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
 @keyframes nudge{20%{transform:translateX(-4px)}45%{transform:translateX(4px)}70%{transform:translateX(-2px)}}
 .nudge{animation:nudge .26s}
-@media (prefers-reduced-motion:reduce){.tutGlow,#tutTap,.nudge,#toast,#banner,#sheet,.beads i{transition:none;animation:none}.m-plate.wait .b{animation:none}}
+@media (prefers-reduced-motion:reduce){#rStars span.pop,.tutSpot,.tutGlow,#tutTap,.nudge,#toast,#banner,#sheet,.beads i{transition:none;animation:none}.m-plate.wait .b{animation:none}}
 </style>
 
 <div id="adBanner" aria-label="배너 광고 영역">배너 광고 영역</div>
@@ -376,7 +397,7 @@ button.sm{padding:5px 8px;font-size:12px}
       </div>
       <div class="solo-r">
         <div class="solo-tries" id="soloTries"></div>
-        <button id="hintBtn" class="sm">▶ 힌트</button>
+        <button id="hintBtn" class="sm" aria-label="광고 보고 힌트 보기"><span class="adTag">AD</span>힌트</button>
         <button id="undoBtn" class="sm" title="직전 샷 전으로 되돌리기">되돌리기</button>
         <button id="resetBtn" class="sm">초기화</button>
       </div>
@@ -395,14 +416,14 @@ button.sm{padding:5px 8px;font-size:12px}
 
   <div id="dock" class="gut" hidden>
     <div class="cell spin">
-      <div id="pad"><div class="miss" id="missZone"></div><div class="cross"></div><div class="cross h"></div><div id="dot"></div></div>
+      <div id="pad"><div class="grid"></div><i class="padTgt" hidden></i><div id="dot"></div></div>
       <button id="spinRead" title="눌러서 중앙으로">중앙</button>
     </div>
     <div id="pip" title="좌우로 밀어 미세 조준"><div id="fineTicks" aria-hidden="true"></div></div>
     <div id="placeBar" hidden><button class="primary" id="placeOk">여기에 놓기</button></div>
     <div class="cell ctl" id="elevCell">
       <div class="ctl-l"><span class="lbl">큐 각도</span><span id="elevVal">5°</span></div>
-      <input id="elev" type="range" min="0" max="75" step="1" value="5" aria-label="큐 각도">
+      <i id="elevMark" hidden></i><input id="elev" type="range" min="0" max="75" step="1" value="5" aria-label="큐 각도">
     </div>
   </div>
 
@@ -415,7 +436,17 @@ button.sm{padding:5px 8px;font-size:12px}
     </div>
   </div>
 
-  <div id="padZoom" hidden aria-hidden="true"><div class="miss"></div><div class="cross"></div><div class="cross h"></div><div id="dotZoom"></div></div>
+  <div id="padZoom" hidden aria-hidden="true"><div class="grid"></div><i class="padTgt" hidden></i><div id="dotZoom"></div></div>
+
+  <section id="ranks" hidden aria-label="랭킹">
+    <div class="rules-card gut">
+      <h2>랭킹</h2>
+      <div class="rules-tabs" role="tablist"><button data-k="3c" role="tab">3구</button><button data-k="4b" role="tab">4구</button><button data-k="pool" role="tab">포켓볼</button></div>
+      <div class="rank-list"><table><thead><tr><th>순위</th><th>닉네임</th><th>Rating</th><th>승패</th></tr></thead><tbody id="rankList"></tbody></table></div>
+      <p class="rules-note" id="rankNote"></p>
+      <button class="primary" id="ranksClose">닫기</button>
+    </div>
+  </section>
 
   <section id="rules" hidden aria-label="게임 룰">
     <div class="rules-card gut">
@@ -446,7 +477,8 @@ button.sm{padding:5px 8px;font-size:12px}
     </div>
   </section>
 
-  <div id="tutBubble" hidden role="status"><span id="tutMsg"></span><button class="primary" id="tutStep">다음</button></div>
+  <div id="tutDim" hidden></div>
+  <div id="tutBubble" hidden role="status"><span id="tutMsg"></span></div>
   <div id="tutTap" hidden aria-hidden="true"></div>
   <section id="tutCard" class="screen" hidden>
     <p id="tutText"></p>
@@ -459,6 +491,7 @@ button.sm{padding:5px 8px;font-size:12px}
         <thead><tr><th scope="col">Online</th><th scope="col">Rating</th><th scope="col">랭킹</th><th scope="col">승패</th></tr></thead>
         <tbody id="rankRows"></tbody>
       </table>
+      <button id="rankOpen" class="rank-open">랭킹 보기</button>
     </aside>
     <header class="brand gut">
       <div class="trio" aria-hidden="true"><i class="b w"></i><i class="b y"></i><i class="b r"></i></div>
@@ -495,6 +528,7 @@ button.sm{padding:5px 8px;font-size:12px}
       <div class="mode-box"><b>AI 대전</b><small id="aiRule">난이도를 고르면 바로 시작해요.</small>
         <div class="lv"><button data-lv="easy">초급</button><button data-lv="mid">중급</button><button data-lv="hard">고급</button></div></div>
       <button class="row-btn" id="openPractice" style="grid-template-columns:1fr auto"><span><b style="font-size:26px">연습</b><small>규칙 없이 혼자 쳐 봐요. 되돌리기 가능.</small></span></button>
+      <button class="row-btn" id="openLocal" style="grid-template-columns:1fr auto"><span><b style="font-size:26px">2인 대전</b><small>한 휴대폰으로 둘이 번갈아 쳐요.</small></span></button>
     </div>
     <div class="step gut" id="stepStages" hidden></div>
   </section>
@@ -557,7 +591,7 @@ function mulberry(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1
 
 // ---------- 규격 (m, kg) ----------
 const GV=9.81,MU_S=0.2,MU_R=0.011,SPIN_DEC=14,E_BALL=0.93,E_CUSH=0.76,E_TABLE=0.45,MU_BALL=0.06,MU_CUSH=0.22,CUSH_H=0.037;
-const DT=1/1200,MISCUE=0.56,GAP_C=0.09,GAP_S=0.068;
+const DT=1/1200,MISCUE=0.56,PMAX=0.8,SPIN_MAX=MISCUE,GAP_C=0.09,GAP_S=0.068;
 const KIT={carom:{L:2.84,W:1.42,R:0.03075,M:0.21,pockets:false},pool:{L:2.54,W:1.27,R:0.028575,M:0.17,pockets:true}};
 let tableKind='carom',L,W,HL,HW,R,M,I,D2,LIM_X,LIM_Z,hasPockets;
 function setSpec(k){const t=KIT[k];tableKind=k;L=t.L;W=t.W;HL=L/2;HW=W/2;R=t.R;M=t.M;I=0.4*M*R*R;D2=2*R;LIM_X=HL-R;LIM_Z=HW-R;hasPockets=t.pockets;}
@@ -584,7 +618,7 @@ const camera=new THREE.PerspectiveCamera(FOV,1,0.05,60);
   const p=new THREE.PMREMGenerator(renderer);scene.environment=p.fromScene(env,0.012).texture;p.dispose();
 })();
 scene.add(new THREE.HemisphereLight(0xcfd8ea,0x18110a,0.16));
-[-0.8,0.8].forEach(x=>{const s=new THREE.SpotLight(0xfff0dc,1.12,8,1.02,0.85,1.1);s.position.set(x,2.7,0.05);s.target.position.set(x*.8,0,0);s.castShadow=true;s.shadow.mapSize.set(1024,1024);s.shadow.radius=4;s.shadow.bias=-0.0006;s.shadow.camera.near=1;s.shadow.camera.far=5;scene.add(s,s.target);});
+[-0.8,0.8].forEach(x=>{const s=new THREE.SpotLight(0xfffaf3,1.12,8,1.02,0.85,1.1);s.position.set(x,2.7,0.05);s.target.position.set(x*.8,0,0);s.castShadow=true;s.shadow.mapSize.set(1024,1024);s.shadow.radius=4;s.shadow.bias=-0.0006;s.shadow.camera.near=1;s.shadow.camera.far=5;scene.add(s,s.target);});
 
 // ---------- 절차 질감 ----------
 const MAXA=Math.min(8,renderer.capabilities.getMaxAnisotropy());
@@ -705,7 +739,7 @@ function ballTex(base,dot){
 }
 const POOL_COL=['#f2c21b','#1d4fc4','#d3261d','#5d2a9e','#ee7a1a','#13804b','#8f1d23','#16161a'];
 function poolTex(n){
-  if(n===0) return ballTex('#f4f1e8','#d0362b');
+  if(n===0) return ballTex('#f7f7f3','#d0362b');
   const c=document.createElement('canvas');c.width=512;c.height=256;const g=c.getContext('2d'),col=POOL_COL[(n-1)%8];
   if(n<=8){g.fillStyle=col;g.fillRect(0,0,512,256);}else{g.fillStyle='#f4f1e8';g.fillRect(0,0,512,256);g.fillStyle=col;g.fillRect(0,62,512,132);}
   [128,384].forEach(u=>{g.fillStyle='#f7f3e9';g.beginPath();g.arc(u,128,40,0,TAU);g.fill();g.fillStyle='#14141a';g.font='700 52px "Barlow Condensed",Arial,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(String(n),u,131);});
@@ -714,12 +748,12 @@ function poolTex(n){
 const sgC=new THREE.SphereGeometry(KIT.carom.R,56,40),sgP=new THREE.SphereGeometry(KIT.pool.R,48,32);
 const aoGeo=new THREE.PlaneGeometry(1,1).rotateX(-Math.PI/2),aoMat=new THREE.MeshBasicMaterial({transparent:true,depthWrite:false,toneMapped:false,color:0x000000,opacity:.78,map:(function(){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d'),r=g.createRadialGradient(64,64,6,64,64,64);r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.36,'rgba(255,255,255,.72)');r.addColorStop(.62,'rgba(255,255,255,.14)');r.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=r;g.fillRect(0,0,128,128);return new THREE.CanvasTexture(c);})()});
 function mkBall(name,tex,geo,rad,num){
-  const m=new THREE.Mesh(geo,new THREE.MeshPhysicalMaterial({map:tex,roughness:.14,metalness:0,clearcoat:1,clearcoatRoughness:.025,envMapIntensity:1.25,reflectivity:.6}));
+  const m=new THREE.Mesh(geo,new THREE.MeshPhysicalMaterial({map:tex,color:0xd2d2d2,roughness:.14,metalness:0,clearcoat:1,clearcoatRoughness:.025,envMapIntensity:.85,reflectivity:.5}));
   m.castShadow=true;m.visible=false;m.renderOrder=2;scene.add(m);
-  const ao=new THREE.Mesh(aoGeo,aoMat);ao.visible=false;ao.renderOrder=1;ao.scale.set(rad*3,1,rad*3);ao.position.y=.0014;scene.add(ao);
-  return {ao,name,num,i:0,p:new V(0,rad,0),v:new V(),w:new V(),mesh:m,off:false,pot:false,spot:null,sink:null};
+  const ao=new THREE.Mesh(aoGeo,aoMat.clone());ao.visible=false;ao.renderOrder=1;ao.scale.set(rad*3,1,rad*3);ao.position.y=.0014;scene.add(ao);
+  return {ao,aoS:rad*3,name,num,i:0,p:new V(0,rad,0),v:new V(),w:new V(),mesh:m,off:false,pot:false,spot:null,sink:null};
 }
-const CAROM={w:mkBall('흰 공',ballTex('#f4f1e8','#d0362b'),sgC,KIT.carom.R,-1),y:mkBall('노란 공',ballTex('#f3c22c','#6f4f00'),sgC,KIT.carom.R,-1),r:mkBall('빨간 공',ballTex('#c81f29','#ffe6dc'),sgC,KIT.carom.R,-1),r2:mkBall('빨간 공',ballTex('#c81f29','#ffe6dc'),sgC,KIT.carom.R,-1)};
+const CAROM={w:mkBall('흰 공',ballTex('#f7f7f3','#d0362b'),sgC,KIT.carom.R,-1),y:mkBall('노란 공',ballTex('#f7d80f','#6f5a00'),sgC,KIT.carom.R,-1),r:mkBall('빨간 공',ballTex('#cf1428','#ffecec'),sgC,KIT.carom.R,-1),r2:mkBall('빨간 공',ballTex('#cf1428','#ffecec'),sgC,KIT.carom.R,-1)};
 const POOL_BALLS=[];for(let n=0;n<16;n++)POOL_BALLS.push(mkBall(n?n+'번 공':'수구',poolTex(n),sgP,KIT.pool.R,n));
 const ALL_BALLS=[CAROM.w,CAROM.y,CAROM.r,CAROM.r2,...POOL_BALLS];
 CAROM.w.glow=0xffffff;CAROM.y.glow=0xffd23a;CAROM.r.glow=CAROM.r2.glow=0xff3a45;
@@ -914,11 +948,11 @@ const SHOT_MS=30000;
 // ---------- 스테이지 (1큐) ----------
 // 좌표는 [x, z]: x는 화면 위쪽, z는 화면 오른쪽. 흰 공(또는 수구)을 친다.
 const STAGES={
-  '4b':[{name:"두 공 맞히기",desc:"빨간 공 둘을 모두 맞히기",pos:[[-0.6,0],[-0.9,0.5],[-0.2,0.1],[0.5,-0.2]],goal:{t:"4b"}},{name:"상대 공 피하기",desc:"노란 공을 건드리기 전에 빨간 공 둘",pos:[[-0.7,0.2],[-0.05,0.2],[0.15,0.45],[0.55,-0.1]],goal:{t:"4b"}},{name:"쿠션 한 번",desc:"쿠션을 맞고 두 번째 빨간 공까지",pos:[[-0.5,-0.4],[0.9,-0.4],[-0.1,-0.55],[0.6,0.5]],goal:{t:"4b",cush:1}},{name:"밀어치기",desc:"공의 위쪽을 쳐서 맞힌 뒤에도 앞으로",pos:[[-0.7,0],[0.3,0.5],[-0.25,0.05],[0.45,-0.04]],goal:{t:"4b"}},{name:"끌어치기",desc:"공의 아래쪽을 쳐서 뒤로 끌어오기",pos:[[-0.2,0],[0.6,0.4],[0.2,0],[-0.8,0.05]],goal:{t:"4b"}},{name:"쿠션 먼저",desc:"쿠션을 먼저 치고 빨간 공 둘 맞히기",pos:[[-0.36,0.31],[-0.83,0.12],[0.57,0.34],[0.41,0.27]],goal:{t:"4b",bank:true}},{pos:[[-0.3,0.04],[1.03,0.5],[-0.62,-0.07],[-1.2,-0.5]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 1",sol:{a:-0.41812,b:-0.03216,elev:5,pw:0.28241,phi:-2.66986}},{pos:[[-0.53,-0.31],[0.98,-0.21],[-1.26,-0.4],[-0.95,-0.51]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 2",sol:{a:-0.11296,b:-0.00503,elev:5,pw:0.2088,phi:-2.58247}},{pos:[[0.22,-0.34],[-0.06,0.29],[-0.06,-0.34],[-0.61,0.25]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 2",sol:{a:0.49298,b:0.22822,elev:5,pw:0.45235,phi:3.07649}},{pos:[[0.92,-0.1],[0.9,0.07],[-0.76,-0.55],[-0.95,0.28]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 3",sol:{a:0.47936,b:-0.12233,elev:5,pw:0.42169,phi:2.9506}},{pos:[[0.87,0.04],[-0.07,-0.36],[-1.06,0],[0.37,0.04]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 3",sol:{a:0.34427,b:0.22266,elev:5,pw:0.66465,phi:3.07262}},{pos:[[-0.55,-0.34],[0.46,-0.45],[-0.21,-0.37],[0.2,-0.13]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 4",sol:{a:-0.24353,b:0.22303,elev:5,pw:0.27815,phi:0.06008}},{pos:[[1.23,-0.41],[-0.82,0.51],[0.91,-0.38],[-0.69,0.04]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 5",sol:{a:-0.0931,b:0.2428,elev:5,pw:0.57216,phi:2.93328}},{pos:[[0.7,-0.45],[0.01,0.12],[-0.81,0.13],[-1.06,0.56]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 4",sol:{a:0.03936,b:0.01141,elev:5,pw:0.65169,phi:2.75277}},{pos:[[-1.21,0.02],[0.37,0.07],[-0.89,-0.13],[0.34,0.53]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 5",sol:{a:0.08454,b:-0.30027,elev:5,pw:0.58348,phi:-0.32411}},{pos:[[-0.69,-0.02],[0.22,0.02],[0.69,-0.32],[0.73,0.18]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 6",sol:{a:-0.26987,b:0.07609,elev:5,pw:0.54619,phi:0.12606}},{pos:[[-0.62,-0.07],[-0.7,0.3],[0.13,0.18],[1.09,-0.22]],goal:{t:"4b",cush:2},desc:"쿠션 2번 치고 두 번째 빨간 공까지",name:"쿠션 두 번 1",sol:{a:-0.38358,b:0.28944,elev:5,pw:0.66827,phi:0.37301}},{pos:[[0.65,-0.53],[0.55,-0.43],[-0.62,-0.52],[-0.63,0.33]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 6",sol:{a:-0.40437,b:0.18604,elev:5,pw:0.36419,phi:3.17161}},{pos:[[1.01,-0.22],[-0.3,0.46],[0.66,0.13],[-0.64,-0.22]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 7",sol:{a:0.21708,b:-0.078,elev:5,pw:0.57976,phi:2.43261}},{pos:[[-1.1,0.12],[1.25,-0.05],[0.19,-0.55],[0.5,0.46]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 8",sol:{a:0.40689,b:0.33325,elev:5,pw:0.6969,phi:-0.50028}},{pos:[[1.01,0.31],[-0.07,-0.28],[1.09,-0.4],[0.45,0.09]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 9",sol:{a:-0.03231,b:0.27572,elev:5,pw:0.52659,phi:-1.53172}},{pos:[[0.43,0.38],[1.1,0.29],[-0.46,0.29],[0.34,-0.09]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 10",sol:{a:-0.43642,b:-0.17696,elev:5,pw:0.69492,phi:-1.88758}},{pos:[[1.16,-0.36],[-0.57,-0.44],[-0.01,-0.4],[0.75,0.32]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 7",sol:{a:-0.36533,b:0.29449,elev:5,pw:0.62273,phi:-3.06436}},{pos:[[-0.99,0.54],[1.24,-0.37],[0.17,-0.16],[0.38,-0.43]],goal:{t:"4b",bank:true},desc:"쿠션을 먼저 치고 빨간 공 둘 맞히기",name:"쿠션 먼저 2",sol:{a:0.20801,b:0.17594,elev:5,pw:0.92394,phi:3.37644}},{pos:[[0.72,0.46],[-1.08,-0.07],[0.83,-0.07],[1.16,-0.35]],goal:{t:"4b",bank:true},desc:"쿠션을 먼저 치고 빨간 공 둘 맞히기",name:"쿠션 먼저 3",sol:{a:0.48786,b:0.21354,elev:5,pw:0.82281,phi:4.51993}},{pos:[[0.77,-0.48],[0.83,0.42],[-0.93,-0.51],[-0.07,-0.34]],goal:{t:"4b",bank:true},desc:"쿠션을 먼저 치고 빨간 공 둘 맞히기",name:"쿠션 먼저 4",sol:{a:-0.16772,b:-0.00766,elev:5,pw:0.67971,phi:0.17354}},{pos:[[0.94,-0.08],[0.2,0.24],[0.38,-0.24],[-0.94,-0.26]],goal:{t:"4b",bank:true},desc:"쿠션을 먼저 치고 빨간 공 둘 맞히기",name:"쿠션 먼저 5",sol:{a:0.2926,b:-0.11003,elev:5,pw:0.88637,phi:0.89322}},{pos:[[1,-0.33],[0.01,0.16],[-0.13,-0.22],[0.38,-0.53]],goal:{t:"4b",cush:2},desc:"쿠션 2번 치고 두 번째 빨간 공까지",name:"쿠션 두 번 2",sol:{a:0.27766,b:0.24216,elev:5,pw:0.55181,phi:3.01059}},{pos:[[-0.64,0.5],[-0.13,0.48],[0.13,-0.44],[-0.28,-0.07]],goal:{t:"4b",cush:2},desc:"쿠션 2번 치고 두 번째 빨간 공까지",name:"쿠션 두 번 3",sol:{a:-0.11838,b:-0.24934,elev:5,pw:0.88734,phi:1.50408}},{pos:[[0.17,0.08],[-0.75,-0.09],[-0.34,-0.19],[-0.65,-0.33]],goal:{t:"4b",cush:2},desc:"쿠션 2번 치고 두 번째 빨간 공까지",name:"쿠션 두 번 4",sol:{a:-0.46164,b:-0.26291,elev:5,pw:0.85656,phi:6.03952}}],
-  '3c':[{name:"첫 3쿠션",desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",pos:[[-1,0.1],[-1.15,-0.5],[-0.7,0.45]],goal:{t:"3c"}},{name:"구석 돌리기",desc:"구석의 공까지 쿠션 3번으로 돌리기",pos:[[-0.44,0.23],[-0.01,-0.52],[0.91,-0.5]],goal:{t:"3c"}},{name:"장축 왕복",desc:"긴 쿠션을 타고 반대편 공까지",pos:[[-1.1,0],[1.2,-0.1],[-0.7,-0.2]],goal:{t:"3c"}},{name:"대각선",desc:"테이블을 가로질러 구석으로",pos:[[0.2,-0.4],[-1.15,0.5],[0.55,-0.55]],goal:{t:"3c"}},{name:"빈쿠션",desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",pos:[[-0.48,-0.39],[-0.09,-0.39],[-0.59,-0.51]],goal:{t:"3c",bank:true}},{name:"점프샷",desc:"빨간 공을 뛰어넘어 노란 공 맞히기. 큐를 세우고 세게",pos:[[-0.62,0],[0.36,0],[-0.38,0.005]],goal:{t:"first",ball:1,avoid:[2]}},{name:"마세",desc:"빨간 공을 휘돌아 노란 공 맞히기. 큐를 세우고 옆을 쳐요",pos:[[-0.55,0.32],[0.55,0.32],[0,0.32]],goal:{t:"first",ball:1,avoid:[2]}},{name:"5쿠션",desc:"두 번째 공 전에 쿠션 5번 치기",pos:[[-1.1,0.16],[-0.4,0.48],[0.1,0.4]],goal:{t:"3c",min:5}},{pos:[[-0.94,0.04],[-0.66,-0.41],[-0.65,0.46]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 1",sol:{a:-0.36737,b:0.1418,elev:5,pw:0.69804,phi:-1.10201}},{pos:[[0.83,0.14],[0.91,-0.45],[-1,-0.33]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 2",sol:{a:0.43683,b:-0.1189,elev:5,pw:0.77283,phi:-1.48549}},{pos:[[-1.03,0.27],[0.71,0.16],[-1.22,0]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 3",sol:{a:0.11501,b:-0.28889,elev:5,pw:0.79206,phi:-2.25032}},{pos:[[0.2,-0.23],[1.15,0.28],[0.03,-0.42]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 4",sol:{a:-0.36895,b:-0.09892,elev:5,pw:0.7573,phi:-2.53568}},{pos:[[1.02,-0.25],[0.79,-0.55],[-0.9,-0.51]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 5",sol:{a:0.40678,b:0.18512,elev:5,pw:0.9479,phi:-2.3202}},{pos:[[-0.99,-0.45],[-0.83,-0.09],[-0.3,-0.41]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 6",sol:{a:0.07733,b:0.30438,elev:5,pw:0.89258,phi:1.26277}},{pos:[[1.04,0.42],[-0.36,0.51],[-0.44,-0.02]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 7",sol:{a:-0.10159,b:0.29755,elev:5,pw:0.79062,phi:-2.83723}},{pos:[[-0.3,0.31],[-0.97,-0.38],[0.94,-0.52]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 8",sol:{a:0.31411,b:-0.13775,elev:5,pw:0.79769,phi:-2.36725}},{pos:[[-0.31,-0.42],[-0.95,-0.13],[-0.29,-0.25]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 9",sol:{a:0.48613,b:0.25405,elev:5,pw:0.84794,phi:2.68944}},{pos:[[1.24,-0.33],[1.09,0.5],[-1.08,0.18]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 10",sol:{a:-0.00698,b:0.05769,elev:5,pw:0.88759,phi:1.70411}},{pos:[[-0.75,0.24],[-1.25,-0.01],[-0.86,-0.35]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 11",sol:{a:-0.27755,b:-0.1849,elev:5,pw:0.94142,phi:-2.77373}},{pos:[[-0.45,-0.35],[-0.56,0.35],[0.62,-0.51]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 12",sol:{a:0.45505,b:0.17152,elev:5,pw:0.5115,phi:1.80214}},{pos:[[-0.96,-0.56],[-0.63,0.55],[-0.48,0.12]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 13",sol:{a:-0.01476,b:-0.25939,elev:5,pw:0.79088,phi:1.31306}},{pos:[[-0.72,-0.16],[-1.17,0.1],[-0.03,-0.53]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 14",sol:{a:-0.34019,b:-0.29827,elev:5,pw:0.65017,phi:-0.53846}},{pos:[[-1.07,-0.39],[0.6,-0.52],[-1.26,-0.21]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 15",sol:{a:-0.42101,b:0.2732,elev:5,pw:0.64679,phi:2.57143}},{pos:[[0.59,-0.35],[0.4,-0.4],[-0.71,-0.1]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 16",sol:{a:0.38881,b:0.10085,elev:5,pw:0.80537,phi:2.94056}},{pos:[[-0.58,-0.21],[-0.07,0.45],[1.2,0.23]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 17",sol:{a:-0.14242,b:-0.3078,elev:5,pw:0.82458,phi:0.21871}},{pos:[[0.23,0.41],[-0.42,-0.36],[0.86,-0.4]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 18",sol:{a:0.40849,b:0.03815,elev:5,pw:0.89664,phi:-0.94717}},{pos:[[0.5,0.23],[0.29,0.56],[-0.57,-0.51]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 19",sol:{a:-0.40433,b:-0.13006,elev:5,pw:0.89801,phi:2.27269}},{pos:[[0.57,-0.04],[-0.55,0.5],[-1.19,0.5]],goal:{t:"3c",bank:true},desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",name:"빈쿠션 2",sol:{a:-0.05252,b:0.08985,elev:5,pw:0.75369,phi:2.49491}},{pos:[[-1.08,-0.21],[0.3,-0.44],[-0.15,0.52]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 20",sol:{a:0.33162,b:0.32809,elev:5,pw:0.50294,phi:-0.20769}},{pos:[[-0.3,0.11],[-0.62,-0.48],[1.09,0.28]],goal:{t:"3c",min:4},desc:"두 번째 공 전에 쿠션 4번 치기",name:"4쿠션 1",sol:{a:0.05961,b:0.03514,elev:5,pw:0.82269,phi:-2.14001}},{pos:[[0.52,0.08],[-1.2,0.33],[1.02,0.13]],goal:{t:"3c",min:4},desc:"두 번째 공 전에 쿠션 4번 치기",name:"4쿠션 2",sol:{a:0.17887,b:-0.33965,elev:5,pw:0.83898,phi:2.98114}},{pos:[[0.73,0.13],[1.16,-0.36],[-0.68,-0.08]],goal:{t:"3c",min:4},desc:"두 번째 공 전에 쿠션 4번 치기",name:"4쿠션 3",sol:{a:-0.31082,b:0.01598,elev:5,pw:0.84717,phi:-2.96921}},{pos:[[0.95,0.05],[-0.37,0.01],[-0.92,-0.31]],goal:{t:"3c",bank:true},desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",name:"빈쿠션 3",sol:{a:-0.18431,b:0.05966,elev:5,pw:0.94637,phi:5.71414}},{pos:[[-0.13,0.4],[-0.57,-0.08],[1.16,-0.18]],goal:{t:"3c",bank:true},desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",name:"빈쿠션 4",sol:{a:0.21297,b:0.34539,elev:5,pw:0.65589,phi:3.7999}},{pos:[[0.21,0.42],[-0.48,0.1],[-0.38,-0.17]],goal:{t:"3c",min:4},desc:"두 번째 공 전에 쿠션 4번 치기",name:"4쿠션 4",sol:{a:-0.11141,b:0.07681,elev:5,pw:0.94985,phi:5.27971}},{pos:[[0.71,-0.53],[-0.86,0.2],[-0.08,0.36]],goal:{t:"3c",min:5},desc:"두 번째 공 전에 쿠션 5번 치기",name:"5쿠션 2",sol:{a:0.3,b:-0.22668,elev:5,pw:0.79518,phi:2.68325}},{pos:[[0.77,-0.31],[-0.77,-0.25],[-0.43,0.05]],goal:{t:"3c",bank:true},desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",name:"빈쿠션 5",sol:{a:0.14266,b:-0.24695,elev:5,pw:0.78996,phi:0.65448}},{pos:[[1.05,-0.33],[-1.07,-0.12],[1.26,-0.39]],goal:{t:"3c",bank:true},desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",name:"빈쿠션 6",sol:{a:0.49824,b:-0.13504,elev:5,pw:0.71588,phi:4.92052}},{pos:[[-1.02,0.18],[0.11,0.25],[-0.83,0.46]],goal:{t:"3c",min:5},desc:"두 번째 공 전에 쿠션 5번 치기",name:"5쿠션 3",sol:{a:-0.39547,b:0.2637,elev:5,pw:0.75435,phi:0.09892}},{pos:[[-0.68,-0.2],[0.66,0.47],[-0.13,0.29]],goal:{t:"3c",min:5},desc:"두 번째 공 전에 쿠션 5번 치기",name:"5쿠션 4",sol:{a:-0.49541,b:-0.17089,elev:5,pw:0.72502,phi:0.4868}}],
+  '4b':[{name:"기본 샷",desc:"각도를 맞추고 빨간 공 둘 맞히기",pos:[[-0.8,0],[-1.1,0.5],[-0.15,0.08],[0.6,-0.25]],goal:{t:"4b"},tut:1},{name:"끌어치기",desc:"공의 아래쪽을 쳐서 뒤로 끌어오기",pos:[[-0.2,0],[0.6,0.4],[0.2,0],[-0.8,0.02]],goal:{t:"4b"},tut:2},{name:"점프샷",desc:"큐를 세워 노란 공을 뛰어넘기",pos:[[-0.62,0],[-0.38,0.005],[0.2,0],[0.5,0.12]],goal:{t:"4b"},tut:3},{name:"두 공 맞히기",desc:"빨간 공 둘을 모두 맞히기",pos:[[-0.6,0],[-0.9,0.5],[-0.2,0.1],[0.5,-0.2]],goal:{t:"4b"}},{name:"상대 공 피하기",desc:"노란 공을 건드리기 전에 빨간 공 둘",pos:[[-0.7,0.2],[-0.05,0.2],[0.15,0.45],[0.55,-0.1]],goal:{t:"4b"}},{name:"쿠션 한 번",desc:"쿠션을 맞고 두 번째 빨간 공까지",pos:[[-0.5,-0.4],[0.9,-0.4],[-0.1,-0.55],[0.6,0.5]],goal:{t:"4b",cush:1}},{name:"밀어치기",desc:"공의 위쪽을 쳐서 맞힌 뒤에도 앞으로",pos:[[-0.7,0],[0.3,0.5],[-0.25,0.05],[0.45,-0.04]],goal:{t:"4b"}},{name:"쿠션 먼저",desc:"쿠션을 먼저 치고 빨간 공 둘 맞히기",pos:[[-0.36,0.31],[-0.83,0.12],[0.57,0.34],[0.41,0.27]],goal:{t:"4b",bank:true}},{pos:[[-0.3,0.04],[1.03,0.5],[-0.62,-0.07],[-1.2,-0.5]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 1",sol:{a:-0.41812,b:-0.03216,elev:5,pw:0.28241,phi:-2.66986}},{pos:[[-0.53,-0.31],[0.98,-0.21],[-1.26,-0.4],[-0.95,-0.51]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 2",sol:{a:-0.11296,b:-0.00503,elev:5,pw:0.2088,phi:-2.58247}},{pos:[[0.22,-0.34],[-0.06,0.29],[-0.06,-0.34],[-0.61,0.25]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 2",sol:{a:0.49298,b:0.22822,elev:5,pw:0.45235,phi:3.07649}},{pos:[[0.92,-0.1],[0.9,0.07],[-0.76,-0.55],[-0.95,0.28]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 3",sol:{a:0.47936,b:-0.12233,elev:5,pw:0.42169,phi:2.9506}},{pos:[[0.87,0.04],[-0.07,-0.36],[-1.06,0],[0.37,0.04]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 3",sol:{a:0.34427,b:0.22266,elev:5,pw:0.66465,phi:3.07262}},{pos:[[-0.55,-0.34],[0.46,-0.45],[-0.21,-0.37],[0.2,-0.13]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 4",sol:{a:-0.24353,b:0.22303,elev:5,pw:0.27815,phi:0.06008}},{pos:[[1.23,-0.41],[-0.82,0.51],[0.91,-0.38],[-0.69,0.04]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 5",sol:{a:-0.0931,b:0.2428,elev:5,pw:0.57216,phi:2.93328}},{pos:[[0.7,-0.45],[0.01,0.12],[-0.81,0.13],[-1.06,0.56]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 4",sol:{a:0.03936,b:0.01141,elev:5,pw:0.65169,phi:2.75277}},{pos:[[-1.21,0.02],[0.37,0.07],[-0.89,-0.13],[0.34,0.53]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 5",sol:{a:0.08454,b:-0.30027,elev:5,pw:0.58348,phi:-0.32411}},{pos:[[-0.69,-0.02],[0.22,0.02],[0.69,-0.32],[0.73,0.18]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 6",sol:{a:-0.26987,b:0.07609,elev:5,pw:0.54619,phi:0.12606}},{pos:[[-0.62,-0.07],[-0.7,0.3],[0.13,0.18],[1.09,-0.22]],goal:{t:"4b",cush:2},desc:"쿠션 2번 치고 두 번째 빨간 공까지",name:"쿠션 두 번 1",sol:{a:-0.38358,b:0.28944,elev:5,pw:0.66827,phi:0.37301}},{pos:[[0.65,-0.53],[0.55,-0.43],[-0.62,-0.52],[-0.63,0.33]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 6",sol:{a:-0.40437,b:0.18604,elev:5,pw:0.36419,phi:3.17161}},{pos:[[1.01,-0.22],[-0.3,0.46],[0.66,0.13],[-0.64,-0.22]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 7",sol:{a:0.21708,b:-0.078,elev:5,pw:0.57976,phi:2.43261}},{pos:[[-1.1,0.12],[1.25,-0.05],[0.19,-0.55],[0.5,0.46]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 8",sol:{a:0.40689,b:0.33325,elev:5,pw:0.6969,phi:-0.50028}},{pos:[[1.01,0.31],[-0.07,-0.28],[1.09,-0.4],[0.45,0.09]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 9",sol:{a:-0.03231,b:0.27572,elev:5,pw:0.52659,phi:-1.53172}},{pos:[[0.43,0.38],[1.1,0.29],[-0.46,0.29],[0.34,-0.09]],goal:{t:"4b"},desc:"빨간 공 둘을 모두 맞히기",name:"두 공 10",sol:{a:-0.43642,b:-0.17696,elev:5,pw:0.69492,phi:-1.88758}},{pos:[[1.16,-0.36],[-0.57,-0.44],[-0.01,-0.4],[0.75,0.32]],goal:{t:"4b",cush:1},desc:"쿠션을 맞고 두 번째 빨간 공까지",name:"쿠션 한 번 7",sol:{a:-0.36533,b:0.29449,elev:5,pw:0.62273,phi:-3.06436}},{pos:[[-0.99,0.54],[1.24,-0.37],[0.17,-0.16],[0.38,-0.43]],goal:{t:"4b",bank:true},desc:"쿠션을 먼저 치고 빨간 공 둘 맞히기",name:"쿠션 먼저 2",sol:{a:0.20801,b:0.17594,elev:5,pw:0.92394,phi:3.37644}},{pos:[[0.72,0.46],[-1.08,-0.07],[0.83,-0.07],[1.16,-0.35]],goal:{t:"4b",bank:true},desc:"쿠션을 먼저 치고 빨간 공 둘 맞히기",name:"쿠션 먼저 3",sol:{a:0.48786,b:0.21354,elev:5,pw:0.82281,phi:4.51993}},{pos:[[0.77,-0.48],[0.83,0.42],[-0.93,-0.51],[-0.07,-0.34]],goal:{t:"4b",bank:true},desc:"쿠션을 먼저 치고 빨간 공 둘 맞히기",name:"쿠션 먼저 4",sol:{a:-0.16772,b:-0.00766,elev:5,pw:0.67971,phi:0.17354}},{pos:[[0.94,-0.08],[0.2,0.24],[0.38,-0.24],[-0.94,-0.26]],goal:{t:"4b",bank:true},desc:"쿠션을 먼저 치고 빨간 공 둘 맞히기",name:"쿠션 먼저 5",sol:{a:0.2926,b:-0.11003,elev:5,pw:0.88637,phi:0.89322}},{pos:[[1,-0.33],[0.01,0.16],[-0.13,-0.22],[0.38,-0.53]],goal:{t:"4b",cush:2},desc:"쿠션 2번 치고 두 번째 빨간 공까지",name:"쿠션 두 번 2",sol:{a:0.27766,b:0.24216,elev:5,pw:0.55181,phi:3.01059}},{pos:[[-0.64,0.5],[-0.13,0.48],[0.13,-0.44],[-0.28,-0.07]],goal:{t:"4b",cush:2},desc:"쿠션 2번 치고 두 번째 빨간 공까지",name:"쿠션 두 번 3",sol:{a:-0.11838,b:-0.24934,elev:5,pw:0.88734,phi:1.50408}},{pos:[[0.17,0.08],[-0.75,-0.09],[-0.34,-0.19],[-0.65,-0.33]],goal:{t:"4b",cush:2},desc:"쿠션 2번 치고 두 번째 빨간 공까지",name:"쿠션 두 번 4",sol:{a:-0.46164,b:-0.26291,elev:5,pw:0.85656,phi:6.03952}}],
+  '3c':[{name:"첫 3쿠션",desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",pos:[[-1,0.1],[-1.15,-0.5],[-0.7,0.45]],goal:{t:"3c"}},{name:"구석 돌리기",desc:"구석의 공까지 쿠션 3번으로 돌리기",pos:[[-0.44,0.23],[-0.01,-0.52],[0.91,-0.5]],goal:{t:"3c"}},{name:"장축 왕복",desc:"긴 쿠션을 타고 반대편 공까지",pos:[[-1.1,0],[1.2,-0.1],[-0.7,-0.2]],goal:{t:"3c"}},{name:"대각선",desc:"테이블을 가로질러 구석으로",pos:[[0.2,-0.4],[-1.15,0.5],[0.55,-0.55]],goal:{t:"3c"}},{name:"빈쿠션",desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",pos:[[-0.48,-0.39],[-0.09,-0.39],[-0.59,-0.51]],goal:{t:"3c",bank:true}},{name:"점프샷",desc:"빨간 공을 뛰어넘어 노란 공 맞히기. 큐를 세우고 세게",pos:[[-0.62,0],[0.36,0],[-0.38,0.005]],goal:{t:"first",ball:1,avoid:[2]}},{name:"마세",desc:"빨간 공을 휘돌아 노란 공 맞히기. 큐를 세우고 옆을 쳐요",pos:[[-0.55,0.32],[0.55,0.32],[0,0.32]],goal:{t:"first",ball:1,avoid:[2]}},{name:"4쿠션",desc:"두 번째 공 전에 쿠션 4번 치기",pos:[[-1.1,0.16],[-0.4,0.48],[0.1,0.4]],goal:{t:"3c",min:4}},{pos:[[-0.94,0.04],[-0.66,-0.41],[-0.65,0.46]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 1",sol:{a:-0.36737,b:0.1418,elev:5,pw:0.69804,phi:-1.10201}},{pos:[[0.83,0.14],[0.91,-0.45],[-1,-0.33]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 2",sol:{a:0.43683,b:-0.1189,elev:5,pw:0.77283,phi:-1.48549}},{pos:[[-1.03,0.27],[0.71,0.16],[-1.22,0]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 3",sol:{a:0.11501,b:-0.28889,elev:5,pw:0.79206,phi:-2.25032}},{pos:[[0.2,-0.23],[1.15,0.28],[0.03,-0.42]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 4",sol:{a:-0.36895,b:-0.09892,elev:5,pw:0.7573,phi:-2.53568}},{pos:[[1.02,-0.25],[0.79,-0.55],[-0.9,-0.51]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 5",sol:{a:0.40678,b:0.18512,elev:5,pw:0.9479,phi:-2.3202}},{pos:[[-0.99,-0.45],[-0.83,-0.09],[-0.3,-0.41]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 6",sol:{a:0.07733,b:0.30438,elev:5,pw:0.89258,phi:1.26277}},{pos:[[1.04,0.42],[-0.36,0.51],[-0.44,-0.02]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 7",sol:{a:-0.10159,b:0.29755,elev:5,pw:0.79062,phi:-2.83723}},{pos:[[-0.3,0.31],[-0.97,-0.38],[0.94,-0.52]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 8",sol:{a:0.31411,b:-0.13775,elev:5,pw:0.79769,phi:-2.36725}},{pos:[[-0.31,-0.42],[-0.95,-0.13],[-0.29,-0.25]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 9",sol:{a:0.48613,b:0.25405,elev:5,pw:0.84794,phi:2.68944}},{pos:[[1.24,-0.33],[1.09,0.5],[-1.08,0.18]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 10",sol:{a:-0.00698,b:0.05769,elev:5,pw:0.88759,phi:1.70411}},{pos:[[-0.75,0.24],[-1.25,-0.01],[-0.86,-0.35]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 11",sol:{a:-0.27755,b:-0.1849,elev:5,pw:0.94142,phi:-2.77373}},{pos:[[-0.45,-0.35],[-0.56,0.35],[0.62,-0.51]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 12",sol:{a:0.45505,b:0.17152,elev:5,pw:0.5115,phi:1.80214}},{pos:[[-0.96,-0.56],[-0.63,0.55],[-0.48,0.12]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 13",sol:{a:-0.01476,b:-0.25939,elev:5,pw:0.79088,phi:1.31306}},{pos:[[-0.72,-0.16],[-1.17,0.1],[-0.03,-0.53]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 14",sol:{a:-0.34019,b:-0.29827,elev:5,pw:0.65017,phi:-0.53846}},{pos:[[-1.07,-0.39],[0.6,-0.52],[-1.26,-0.21]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 15",sol:{a:-0.42101,b:0.2732,elev:5,pw:0.64679,phi:2.57143}},{pos:[[0.59,-0.35],[0.4,-0.4],[-0.71,-0.1]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 16",sol:{a:0.38881,b:0.10085,elev:5,pw:0.80537,phi:2.94056}},{pos:[[-0.58,-0.21],[-0.07,0.45],[1.2,0.23]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 17",sol:{a:-0.14242,b:-0.3078,elev:5,pw:0.82458,phi:0.21871}},{pos:[[0.23,0.41],[-0.42,-0.36],[0.86,-0.4]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 18",sol:{a:0.40849,b:0.03815,elev:5,pw:0.89664,phi:-0.94717}},{pos:[[0.5,0.23],[0.29,0.56],[-0.57,-0.51]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 19",sol:{a:-0.40433,b:-0.13006,elev:5,pw:0.89801,phi:2.27269}},{pos:[[0.57,-0.04],[-0.55,0.5],[-1.19,0.5]],goal:{t:"3c",bank:true},desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",name:"빈쿠션 2",sol:{a:-0.05252,b:0.08985,elev:5,pw:0.75369,phi:2.49491}},{pos:[[-1.08,-0.21],[0.3,-0.44],[-0.15,0.52]],goal:{t:"3c"},desc:"쿠션 3번 이상 치고 나머지 두 공 맞히기",name:"3쿠션 20",sol:{a:0.33162,b:0.32809,elev:5,pw:0.50294,phi:-0.20769}},{pos:[[-0.3,0.11],[-0.62,-0.48],[1.09,0.28]],goal:{t:"3c",min:4},desc:"두 번째 공 전에 쿠션 4번 치기",name:"4쿠션 2",sol:{a:0.05961,b:0.03514,elev:5,pw:0.82269,phi:-2.14001}},{pos:[[0.52,0.08],[-1.2,0.33],[1.02,0.13]],goal:{t:"3c",min:4},desc:"두 번째 공 전에 쿠션 4번 치기",name:"4쿠션 3",sol:{a:0.17887,b:-0.33965,elev:5,pw:0.83898,phi:2.98114}},{pos:[[0.73,0.13],[1.16,-0.36],[-0.68,-0.08]],goal:{t:"3c",min:4},desc:"두 번째 공 전에 쿠션 4번 치기",name:"4쿠션 4",sol:{a:-0.31082,b:0.01598,elev:5,pw:0.84717,phi:-2.96921}},{pos:[[0.95,0.05],[-0.37,0.01],[-0.92,-0.31]],goal:{t:"3c",bank:true},desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",name:"빈쿠션 3",sol:{a:-0.18431,b:0.05966,elev:5,pw:0.94637,phi:5.71414}},{pos:[[-0.13,0.4],[-0.57,-0.08],[1.16,-0.18]],goal:{t:"3c",bank:true},desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",name:"빈쿠션 4",sol:{a:0.21297,b:0.34539,elev:5,pw:0.65589,phi:3.7999}},{pos:[[0.21,0.42],[-0.48,0.1],[-0.38,-0.17]],goal:{t:"3c",min:4},desc:"두 번째 공 전에 쿠션 4번 치기",name:"4쿠션 5",sol:{a:-0.11141,b:0.07681,elev:5,pw:0.94985,phi:5.27971}},{pos:[[0.71,-0.53],[-0.86,0.2],[-0.08,0.36]],goal:{t:"3c",min:5},desc:"두 번째 공 전에 쿠션 5번 치기",name:"5쿠션 1",sol:{a:0.3,b:-0.22668,elev:5,pw:0.79518,phi:2.68325}},{pos:[[0.77,-0.31],[-0.77,-0.25],[-0.43,0.05]],goal:{t:"3c",bank:true},desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",name:"빈쿠션 5",sol:{a:0.14266,b:-0.24695,elev:5,pw:0.78996,phi:0.65448}},{pos:[[1.05,-0.33],[-1.07,-0.12],[1.26,-0.39]],goal:{t:"3c",bank:true},desc:"공보다 쿠션을 먼저 치고 3쿠션 완성",name:"빈쿠션 6",sol:{a:0.49824,b:-0.13504,elev:5,pw:0.71588,phi:4.92052}},{pos:[[-1.02,0.18],[0.11,0.25],[-0.83,0.46]],goal:{t:"3c",min:5},desc:"두 번째 공 전에 쿠션 5번 치기",name:"5쿠션 2",sol:{a:-0.39547,b:0.2637,elev:5,pw:0.75435,phi:0.09892}},{pos:[[-0.68,-0.2],[0.66,0.47],[-0.13,0.29]],goal:{t:"3c",min:5},desc:"두 번째 공 전에 쿠션 5번 치기",name:"5쿠션 3",sol:{a:-0.49541,b:-0.17089,elev:5,pw:0.72502,phi:0.4868}}],
   pool:[{name:"직선 넣기",desc:"1번 공을 구멍에 넣기. 수구는 살려요",cue:[0.13,0.05],balls:{1:[0.75,0.37]},goal:{t:"pot",balls:[1]}},{name:"사이드 포켓",desc:"가운데 구멍에 2번 공 넣기",cue:[0.42,-0.3],balls:{2:[0.1,0.3]},goal:{t:"pot",balls:[2]}},{name:"컷샷",desc:"비스듬히 맞혀 1번 공 넣기",cue:[0.1,0.42],balls:{1:[0.75,0.37]},goal:{t:"pot",balls:[1]}},{name:"뱅크샷",desc:"3번 공이 쿠션을 맞고 들어가야 해요",cue:[-0.5,-0.2],balls:{3:[0.1,-0.45]},goal:{t:"pot",balls:[3],bank:true}},{name:"콤비네이션",desc:"1번 공을 맞혀서 2번 공을 넣기",cue:[-0.2,-0.1],balls:{1:[0.35,0.12],2:[0.72,0.32]},goal:{t:"pot",balls:[2],first:1}},{name:"8볼 마무리",desc:"9번 공을 피해 8번 공을 넣고 수구는 살리기",cue:[-0.55,0.25],balls:{8:[0.62,-0.38],9:[0.05,-0.2]},goal:{t:"pot",balls:[8],first:8}},{name:"더블 포켓",desc:"붙어 있는 두 공을 양쪽 구멍에 동시에",cue:[-0.5,0],balls:{4:[0.17,0.0295],5:[0.17,-0.0295]},goal:{t:"pot",balls:[4,5]}},{name:"킥샷",desc:"수구가 쿠션을 먼저 맞고 6번 공 넣기",cue:[-0.3,0.3],balls:{6:[0.95,0.42],9:[0.3,0.3]},goal:{t:"pot",balls:[6],kick:true,first:6}},{cue:[-0.31,-0.24],balls:{1:[-0.24,0.18],5:[-0.14,0.38]},goal:{t:"pot",balls:[5],first:1},desc:"1번 공을 맞혀서 5번 공을 넣기",name:"콤비네이션 2",sol:{a:0.00258,b:0.12592,elev:5,pw:0.47428,phi:1.45605}},{cue:[-0.42,-0.32],balls:{10:[-0.12,0.29],14:[-0.28,-0.05]},goal:{t:"pot",balls:[10],first:14},desc:"14번 공을 맞혀서 10번 공을 넣기",name:"콤비네이션 3",sol:{a:0.02421,b:0.00857,elev:5,pw:0.84974,phi:1.08662}},{cue:[0.2,0.15],balls:{8:[-0.68,0.48],9:[-0.07,-0.23]},goal:{t:"pot",balls:[8],first:8},desc:"다른 공을 먼저 건드리지 말고 8번 공 넣기. 수구는 살려요",name:"8볼 마무리 2",sol:{a:-0.18505,b:-0.23567,elev:5,pw:0.20339,phi:2.7874}},{cue:[0.14,0.23],balls:{4:[-0.93,0.02],10:[0.03,-0.35],15:[-0.36,-0.08]},goal:{t:"pot",balls:[10],first:10},desc:"10번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 1",sol:{a:-0.03183,b:0.04105,elev:5,pw:0.49598,phi:-1.76634}},{cue:[-0.04,-0.16],balls:{4:[-0.64,0.34],14:[-0.79,0.38]},goal:{t:"pot",balls:[14],first:4},desc:"4번 공을 맞혀서 14번 공을 넣기",name:"콤비네이션 4",sol:{a:0.08667,b:-0.12729,elev:5,pw:0.26234,phi:2.40361}},{cue:[0,0.13],balls:{6:[0.4,-0.2],9:[0.73,0.38]},goal:{t:"pot",balls:[9],first:9},desc:"9번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 2",sol:{a:0.09656,b:0.29065,elev:5,pw:0.67746,phi:0.32519}},{cue:[-0.87,-0.11],balls:{4:[-0.07,0.32],7:[-0.26,-0.46],15:[0.77,0.25]},goal:{t:"pot",balls:[7],first:7},desc:"7번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 3",sol:{a:-0.15265,b:0.07341,elev:5,pw:0.54694,phi:-0.51579}},{cue:[0.67,0.47],balls:{14:[-0.01,0.43],15:[-0.1,-0.23]},goal:{t:"pot",balls:[14],first:14},desc:"14번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 4",sol:{a:-0.05256,b:0.02123,elev:5,pw:0.58174,phi:-3.0599}},{cue:[-1.04,-0.37],balls:{8:[-0.54,0.32],12:[-0.01,0.24],15:[-0.42,-0.17]},goal:{t:"pot",balls:[8],first:8},desc:"다른 공을 먼저 건드리지 말고 8번 공 넣기. 수구는 살려요",name:"8볼 마무리 3",sol:{a:0.13773,b:0.19373,elev:5,pw:0.25748,phi:0.99149}},{cue:[-0.88,0.16],balls:{3:[-1.09,0.38],6:[0.33,0.41]},goal:{t:"pot",balls:[3],first:3,bank:true},desc:"3번 공이 쿠션을 맞고 들어가야 해요",name:"뱅크샷 2",sol:{a:-0.06583,b:-0.29118,elev:5,pw:0.68905,phi:2.34307}},{cue:[-0.12,0.03],balls:{9:[0.48,-0.33],13:[0.87,-0.46]},goal:{t:"pot",balls:[13],first:9},desc:"9번 공을 맞혀서 13번 공을 넣기",name:"콤비네이션 5",sol:{a:-0.10717,b:-0.21418,elev:5,pw:0.26551,phi:-0.56246}},{cue:[-0.18,-0.47],balls:{2:[-0.8,0.31],14:[-0.55,0.08]},goal:{t:"pot",balls:[2],first:14},desc:"14번 공을 맞혀서 2번 공을 넣기",name:"콤비네이션 6",sol:{a:-0.05007,b:-0.01144,elev:5,pw:0.75692,phi:2.14179}},{cue:[0.03,0.11],balls:{11:[0.61,-0.47],15:[-0.23,-0.44]},goal:{t:"pot",balls:[15],first:15},desc:"15번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 5",sol:{a:0.19382,b:0.13622,elev:5,pw:0.25203,phi:-1.93579}},{cue:[-0.69,0.04],balls:{10:[1.11,0.06],13:[0.57,-0.22]},goal:{t:"pot",balls:[13],first:13},desc:"13번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 6",sol:{a:-0.10077,b:-0.20562,elev:5,pw:0.70105,phi:-0.19128}},{cue:[-0.94,-0.14],balls:{4:[-0.23,-0.38]},goal:{t:"pot",balls:[4],first:4,bank:true},desc:"4번 공이 쿠션을 맞고 들어가야 해요",name:"뱅크샷 3",sol:{a:-0.08336,b:-0.06854,elev:5,pw:0.5909,phi:-0.33973}},{cue:[-0.07,-0.39],balls:{15:[-0.41,0.42]},goal:{t:"pot",balls:[15],first:15},desc:"15번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 7",sol:{a:-0.08179,b:0.27127,elev:5,pw:0.77262,phi:1.95425}},{cue:[-0.01,0.27],balls:{15:[1.12,-0.08]},goal:{t:"pot",balls:[15],first:15},desc:"15번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 8",sol:{a:-0.1868,b:-0.05945,elev:5,pw:0.25925,phi:-0.25575}},{cue:[1.03,-0.35],balls:{3:[-1.06,0.1],6:[0.7,-0.17]},goal:{t:"pot",balls:[3],first:3},desc:"3번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 9",sol:{a:-0.03715,b:0.29312,elev:5,pw:0.2302,phi:2.95306}},{cue:[0.5,-0.17],balls:{6:[0.79,-0.28]},goal:{t:"pot",balls:[6],first:6,bank:true},desc:"6번 공이 쿠션을 맞고 들어가야 해요",name:"뱅크샷 4",sol:{a:-0.42485,b:-0.05382,elev:5,pw:0.79081,phi:-0.41007}},{cue:[0.5,-0.28],balls:{1:[-0.61,-0.43],15:[-0.38,-0.31]},goal:{t:"pot",balls:[1],first:15},desc:"15번 공을 맞혀서 1번 공을 넣기",name:"콤비네이션 7",sol:{a:0.14612,b:-0.12302,elev:5,pw:0.27741,phi:-3.14371}},{cue:[-0.29,0.41],balls:{3:[0.47,0.23],4:[0.35,-0.45],9:[-0.01,0.41]},goal:{t:"pot",balls:[4],first:4},desc:"4번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 10",sol:{a:0.12075,b:-0.1041,elev:5,pw:0.20792,phi:-0.97311}},{cue:[-0.9,-0.15],balls:{9:[-0.03,-0.08],13:[0.68,0.48]},goal:{t:"pot",balls:[9],first:9,bank:true},desc:"9번 공이 쿠션을 맞고 들어가야 해요",name:"뱅크샷 5",sol:{a:-0.46312,b:0.18834,elev:5,pw:0.67631,phi:0.08721}},{cue:[-1.02,-0.21],balls:{12:[0.27,0.15],13:[0,0.29]},goal:{t:"pot",balls:[13],first:13,bank:true},desc:"13번 공이 쿠션을 맞고 들어가야 해요",name:"뱅크샷 6",sol:{a:-0.09587,b:-0.27479,elev:5,pw:0.31849,phi:0.46391}},{cue:[0.55,0.48],balls:{14:[-0.13,-0.01]},goal:{t:"pot",balls:[14],first:14},desc:"14번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 11",sol:{a:0.09277,b:0.03788,elev:5,pw:0.15741,phi:-2.5089}},{cue:[-1.1,-0.25],balls:{2:[-0.69,0.1],6:[0.02,0.09]},goal:{t:"pot",balls:[6],first:6},desc:"6번 공을 구멍에 넣기. 수구는 살려요",name:"넣기 12",sol:{a:-0.01866,b:0.0432,elev:5,pw:0.31219,phi:0.28832}},{cue:[0.34,-0.03],balls:{1:[-0.04,0.45],5:[0.62,0.04],12:[-0.69,0]},goal:{t:"pot",balls:[12],first:12,bank:true},desc:"12번 공이 쿠션을 맞고 들어가야 해요",name:"뱅크샷 7",sol:{a:0.2738,b:-0.22594,elev:5,pw:0.50613,phi:3.12252}},{cue:[0.55,0.29],balls:{4:[-0.17,0.11],8:[0.16,0.28],11:[-0.07,0.35]},goal:{t:"pot",balls:[8],first:8},desc:"다른 공을 먼저 건드리지 말고 8번 공 넣기. 수구는 살려요",name:"8볼 마무리 4",sol:{a:0.09422,b:-0.26191,elev:5,pw:0.792,phi:-3.08691}},{cue:[-0.51,0.03],balls:{6:[0.17,-0.0372],10:[0.17,0.0212]},goal:{t:"pot",balls:[10,6]},desc:"한 샷에 10·6번 공 모두 넣기",name:"더블 포켓 2",sol:{a:0.08135,b:-0.04865,elev:5,pw:0.77714,phi:-0.06186}},{cue:[-0.64,0],balls:{2:[0.09,0.0192],10:[0.09,-0.0392]},goal:{t:"pot",balls:[2,10]},desc:"한 샷에 2·10번 공 모두 넣기",name:"더블 포켓 3",sol:{a:0.0687,b:0.28426,elev:5,pw:0.35008,phi:-0.01909}},{cue:[0.69,-0.03],balls:{5:[-0.12,-0.0482],9:[-0.12,0.0102]},goal:{t:"pot",balls:[9,5]},desc:"한 샷에 9·5번 공 모두 넣기",name:"더블 포켓 4",sol:{a:0.01161,b:-0.25178,elev:5,pw:0.37931,phi:3.12909}},{cue:[-0.07,-0.03],balls:{10:[-0.94,-0.43],14:[-0.44,-0.2]},goal:{t:"pot",balls:[10],first:10,kick:true},desc:"수구가 쿠션을 먼저 맞고 10번 공 넣기",name:"킥샷 2",sol:{a:-0.03939,b:-0.10818,elev:5,pw:0.76841,phi:6.18826}},{cue:[0.74,-0.32],balls:{7:[0.83,-0.06],14:[0.99,0.38]},goal:{t:"pot",balls:[14],first:14,kick:true},desc:"수구가 쿠션을 먼저 맞고 14번 공 넣기",name:"킥샷 3",sol:{a:-0.49727,b:0.06222,elev:5,pw:0.79105,phi:5.10409}}]
 };
-const SOL={"4b-0":{a:-0.14711,b:-0.06662,elev:5,pw:0.56796,phi:0.10748},"4b-1":{a:-0.20234,b:-0.14043,elev:5,pw:0.39752,phi:0.2575},"4b-2":{a:0.34981,b:0.15231,elev:5,pw:0.38943,phi:-0.24326},"4b-3":{a:0.00644,b:0.36032,elev:5,pw:0.48623,phi:0.10373},"4b-4":{a:0.11668,b:-0.485,elev:5,pw:0.32422,phi:0.00057},"4b-5":{a:0.22813,b:0.04919,elev:5,pw:0.80324,phi:4.88006},"3c-0":{a:0.45149,b:-0.16235,elev:5,pw:0.94063,phi:0.97992},"3c-1":{a:0.24202,b:-0.02384,elev:5,pw:0.91632,phi:0.68104},"3c-2":{a:-0.00318,b:0.26283,elev:5,pw:0.87009,phi:-0.56863},"3c-3":{a:-0.43234,b:-0.28032,elev:5,pw:0.6848,phi:-0.46594},"3c-4":{a:0.04177,b:-0.24873,elev:5,pw:0.83748,phi:5.26444},"3c-5":{a:-0.1461,b:-0.13988,elev:47.20472,pw:0.60048,phi:0.02067},"3c-6":{a:0.47075,b:0.0786,elev:55.42228,pw:0.56358,phi:0.03443},"3c-7":{a:-0.4528,b:-0.31542,elev:5,pw:0.83788,phi:0.22221},"pool-0":{a:-0.05186,b:-0.20052,elev:5,pw:0.40742,phi:0.47929},"pool-1":{a:-0.18164,b:-0.06493,elev:5,pw:0.36279,phi:2.082},"pool-2":{a:-0.07807,b:0.24932,elev:5,pw:0.15984,phi:-0.1173},"pool-3":{a:0.36054,b:-0.00043,elev:5,pw:0.39896,phi:-0.41223},"pool-4":{a:-0.11629,b:0.12425,elev:5,pw:0.16131,phi:0.37202},"pool-5":{a:0.1183,b:0.01058,elev:5,pw:0.57515,phi:-0.49872},"pool-6":{a:-0.06165,b:0.17886,elev:5,pw:0.35054,phi:-0.00069},"pool-7":{a:0.0623,b:0.32804,elev:5,pw:0.53717,phi:0.4534}};
+const SOL={"4b-3":{a:-0.14711,b:-0.06662,elev:5,pw:0.56796,phi:0.10748},"4b-4":{a:-0.20234,b:-0.14043,elev:5,pw:0.39752,phi:0.2575},"4b-5":{a:0.34981,b:0.15231,elev:5,pw:0.38943,phi:-0.24326},"4b-6":{a:0.00644,b:0.36032,elev:5,pw:0.48623,phi:0.10373},"4b-7":{a:-0.35088,b:-0.03109,elev:5,pw:0.48503,phi:0.84057},"3c-0":{a:0.24268,b:-0.27599,elev:5,pw:0.43694,phi:0.95767},"3c-1":{a:-0.39104,b:0.11491,elev:5,pw:0.69923,phi:-1.03173},"3c-2":{a:0.1718,b:0.04021,elev:5,pw:0.703,phi:5.71364},"3c-3":{a:-0.43234,b:-0.28032,elev:5,pw:0.6848,phi:-0.46594},"3c-4":{a:0.00663,b:0.18297,elev:5,pw:0.58877,phi:0.66201},"3c-5":{a:-0.1461,b:-0.13988,elev:47.20472,pw:0.60048,phi:0.02067},"3c-6":{a:0.47075,b:0.0786,elev:55.42228,pw:0.56358,phi:0.03443},"pool-0":{a:-0.05186,b:-0.20052,elev:5,pw:0.40742,phi:0.47929},"pool-1":{a:-0.18164,b:-0.06493,elev:5,pw:0.36279,phi:2.082},"pool-2":{a:-0.07807,b:0.24932,elev:5,pw:0.15984,phi:-0.1173},"pool-3":{a:0.36054,b:-0.00043,elev:5,pw:0.39896,phi:-0.41223},"pool-4":{a:-0.11629,b:0.12425,elev:5,pw:0.16131,phi:0.37202},"pool-5":{a:0.1183,b:0.01058,elev:5,pw:0.57515,phi:-0.49872},"pool-6":{a:-0.06165,b:0.17886,elev:5,pw:0.35054,phi:-0.00069},"pool-7":{a:0.0623,b:0.32804,elev:5,pw:0.53717,phi:0.4534},"4b-0":{phi:0.0426,a:0,b:0,elev:5,pw:0.26536},"4b-1":{phi:0.00293,a:0,b:-0.43249,elev:5,pw:0.61238},"4b-2":{phi:0.02,a:0,b:0,elev:53,pw:0.61189},"3c-7":{a:-0.37678,b:-0.26538,elev:5,pw:0.71995,phi:0.23007}};
 Object.keys(STAGES).forEach(g=>STAGES[g].forEach((s,i)=>{s.game=g;s.idx=i;s.sol=SOL[g+'-'+i]||s.sol||null;}));
 
 function checkGoal(goal,log,balls){
@@ -1062,7 +1096,7 @@ const AI_LV={
 const AI_OPTS={squirt:true,miscue:true,tremor:false};
 const AI_DT=1/500,AI_BUDGET=9,AI_MIN_MS=700,AI_MAX_MS=3200;
 const ai={gen:null,stop:false,t0:0,plan:null,anim:null};
-const perturb=(p,lv)=>Object.assign({},p,{phi:p.phi+gauss()*lv.noise,pw:clamp(p.pw*(1+gauss()*lv.pwN),.05,1)});
+const perturb=(p,lv)=>Object.assign({},p,{phi:p.phi+gauss()*lv.noise,pw:clamp(p.pw*(1+gauss()*lv.pwN),.05,PMAX)});
 
 function aiRateCarom(p,cI,is4,oppI,dt){
   const s=buildShot(p.phi,p.a,p.b,p.elev,p.pw,AI_OPTS),log=runSim(cI,s.v,s.w,dt,9).log;
@@ -1075,7 +1109,7 @@ function* aiCarom(lv){
   for(let k=0;k<lv.n&&!ai.stop;k++){
     const t=targets[Math.random()*targets.length|0],dx=t.p.x-c.p.x,dz=t.p.z-c.p.z,d=Math.hypot(dx,dz),mx=Math.asin(Math.min(1,D2/d))*.94;
     let phi=Math.atan2(dz,dx)+rnd(-mx,mx);if(!is4&&Math.random()<.08)phi=rnd(0,TAU);
-    const p={phi,a:rnd(-lv.spin,lv.spin),b:rnd(-lv.spin*.7,lv.spin*.7),elev:5,pw:is4?rnd(.12,.5):rnd(.3,.9)};
+    const p={phi,a:rnd(-lv.spin,lv.spin),b:rnd(-lv.spin*.7,lv.spin*.7),elev:5,pw:is4?rnd(.12,.5):rnd(.3,PMAX)};
     const hl=Math.hypot(p.a,p.b);if(hl>.52){p.a*=.52/hl;p.b*=.52/hl;}
     const q=aiRateCarom(p,cI,is4,oppI,AI_DT);
     if(q.ok){good.push(p);if(good.length>=lv.keep)break;}else if(q.s>fbS){fbS=q.s;fb=p;}
@@ -1124,13 +1158,13 @@ function aiRatePool(p,me,dt){
 }
 function* aiPool(lv,me){
   const c=LB[0];
-  if(G.isBreak){const apex=LB.reduce((a,b)=>b.num>0&&b.p.x<a.p.x?b:a,LB[1]);return {phi:Math.atan2(apex.p.z-c.p.z+rnd(-.006,.006),apex.p.x-c.p.x),a:0,b:.08,elev:3,pw:.96};}
+  if(G.isBreak){const apex=LB.reduce((a,b)=>b.num>0&&b.p.x<a.p.x?b:a,LB[1]);return {phi:Math.atan2(apex.p.z-c.p.z+rnd(-.006,.006),apex.p.x-c.p.x),a:0,b:.08,elev:3,pw:PMAX};}
   const lines=potLines(me).slice(0,lv.poolN);let best=null,bestS=-1e9,fb=null,fbS=-1e9,n=0;
   for(const l of lines){
     const base=clamp(.14+(l.d/(Math.max(.25,l.cos))+l.dc)*.17,.12,.8);
     for(const [a,b,k] of [[0,0,1],[0,-.25,1],[0,.25,1],[0,0,1.25],[lv.spin*.5,0,1]]){
       if(ai.stop&&best)break;
-      const p={phi:l.phi,a,b,elev:4,pw:clamp(base*k,.08,.92)},q=aiRatePool(p,me,AI_DT);
+      const p={phi:l.phi,a,b,elev:4,pw:clamp(base*k,.08,PMAX)},q=aiRatePool(p,me,AI_DT);
       if(q.ok&&q.s>bestS){bestS=q.s;best=p;}else if(!q.ok&&q.s>fbS){fbS=q.s;fb=p;}
       if(++n%2===0)yield;
     }
@@ -1160,6 +1194,8 @@ function aiPlaceCue(me){
 function startAI(){
   const pl=G.players[G.turn],lv=pl.lv;
   ai.stop=false;ai.t0=performance.now();ai.plan=null;
+  // 매칭 상대(봇)는 사람처럼 5~15초 동안 조준을 이리저리 만지다가 쳐요
+  ai.dur=pl.bot?rnd(5000,15000):0;ai.fid=null;ai.last=ai.t0;
   if(G.game==='pool'){if(G.bih)aiPlaceCue(G.turn);ai.gen=aiPool(lv,G.turn);}else ai.gen=aiCarom(lv);
 }
 function aiTick(){
@@ -1168,12 +1204,24 @@ function aiTick(){
     if(now-ai.t0>AI_MAX_MS)ai.stop=true;
     while(performance.now()-now<AI_BUDGET){const r=ai.gen.next();if(r.done){ai.plan=r.value;ai.gen=null;break;}}
   }
+  if(ai.dur){aiFidget(now);if(now-ai.t0<ai.dur-900)return;}
   if(!ai.gen&&ai.plan&&now-ai.t0>AI_MIN_MS){
     const lv=G.players[G.turn].lv,p=G.isBreak?ai.plan:perturb(ai.plan,lv);
     ai.plan=p;hit={a:p.a,b:p.b};elev=p.elev;syncSpinUI();
     let to=p.phi;while(to-aimPhi>Math.PI)to-=TAU;while(to-aimPhi<-Math.PI)to+=TAU;
     ai.anim={from:aimPhi,to,t:0};phase='ai-aim';updateUI();
   }
+}
+function aiFidget(now){
+  const dt=Math.min(.05,(now-ai.last)/1000);ai.last=now;let f=ai.fid;
+  if(!f||now>f.until){
+    const c=LB[G.cueI],os=LB.filter(b=>b!==c&&!b.off),t=os[Math.random()*os.length|0];
+    f=ai.fid={until:now+rnd(900,2600),phi:t?Math.atan2(t.p.z-c.p.z,t.p.x-c.p.x)+rnd(-.18,.18):aimPhi,
+      a:Math.random()<.4?rnd(-.3,.3):hit.a,b:Math.random()<.4?rnd(-.3,.3):hit.b,e:Math.random()<.2?Math.round(rnd(5,22)):elev,rest:Math.random()<.35};
+  }
+  if(f.rest)return;
+  let to=f.phi;while(to-aimPhi>Math.PI)to-=TAU;while(to-aimPhi<-Math.PI)to+=TAU;
+  const k=1-Math.exp(-dt*3.2);aimPhi+=(to-aimPhi)*k;hit={a:hit.a+(f.a-hit.a)*k,b:hit.b+(f.b-hit.b)*k};elev=Math.round(elev+(f.e-elev)*k);syncSpinUI();
 }
 function aiAimTick(dt){
   const a=ai.anim;a.t+=dt/.75;const k=Math.min(1,a.t),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
@@ -1187,6 +1235,7 @@ let save={nick:'',stars:{},rec:{}};
 function loadSave(){
   try{const s=JSON.parse(localStorage.getItem(SAVE_KEY)||'null');if(s&&typeof s==='object')save=Object.assign(save,s);}catch(e){}
   if(!save.nick)save.nick='플레이어 '+Math.random().toString(16).slice(2,5).toUpperCase();
+  if(!save.st2){const o=save.stars||{},n={};Object.keys(o).forEach(k=>{const m=/^4b-(\d+)$/.exec(k);if(!m){n[k]=o[k];return;}const i=+m[1];if(i!==4)n['4b-'+(i<4?i+3:i+2)]=o[k];});save.stars=n;save.st2=1;}
   if(!save.elo){Object.values(save.rec).forEach(r=>{r.rk=1000;});save.elo=1;}
   Object.keys(GAME_INFO).forEach(g=>{if(!save.rec[g])save.rec[g]={rk:GAME_INFO[g].rank.start,w:0,l:0};});
 }
@@ -1194,6 +1243,7 @@ function persist(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(save));}catc
 
 // ---------- 게임 진행 ----------
 function startGame(cfg){
+  if(!cfg.tut&&typeof hintEnd==='function')hintEnd();
   const info=GAME_INFO[cfg.game];
   setSpec(info.kind);showTable(info.kind);aimPlane.constant=-R;
   G={mode:cfg.mode,game:cfg.game,info,cfg,players:[],turn:0,inning:1,target:info.target,cueI:0,over:false,bih:false,isBreak:cfg.game==='pool'&&cfg.mode!=='stage'&&cfg.mode!=='practice',tries:1,usedHint:false,stage:cfg.stage||null,net:cfg.net||null,myIdx:0,next:null,pauseT:0,clockEnd:0,remoteShot:false,lastTurn:-1};
@@ -1203,7 +1253,8 @@ function startGame(cfg){
     const opp=cfg.net?{name:cfg.net.oppNick,kind:'remote',score:0,group:null}:{name:cfg.botName,kind:'ai',lv:AI_LV[cfg.botLv],score:0,group:null,bot:true};
     const first=cfg.net?cfg.net.amFirst:Math.random()<.5;
     G.players=first?[me,opp]:[opp,me];G.myIdx=first?0:1;
-  }else G.players=[me];
+  }else if(cfg.mode==='local'){G.players=[{name:'플레이어 1',kind:'human',score:0,group:null},{name:'플레이어 2',kind:'human',score:0,group:null}];}
+  else G.players=[me];
   useBalls(info.kind==='pool'?POOL_BALLS:cfg.game==='4b'?[CAROM.w,CAROM.y,CAROM.r,CAROM.r2]:[CAROM.w,CAROM.y,CAROM.r]);
   history=[];hit={a:0,b:0};elev=5;power=0;
   if(cfg.mode==='stage')layoutStage(cfg.stage);else layoutStart(cfg.net?mulberry(cfg.net.seed):null);
@@ -1232,14 +1283,14 @@ function beginTurn(){
   if(p.kind==='human')phase=G.bih?'place':'aim';
   else if(p.kind==='ai'){phase='ai-think';startAI();}
   else{phase='wait';G.net.turnAt=Date.now();}
-  if(!solo&&G.lastTurn!==G.turn){G.lastTurn=G.turn;banner(G.turn===G.myIdx?(G.bih?'내 차례 · 프리볼':'내 차례'):'상대 차례');}
+  if(!solo&&G.lastTurn!==G.turn){G.lastTurn=G.turn;banner(G.mode==='local'?`${p.name} 차례${G.bih?' · 프리볼':''}`:G.turn===G.myIdx?(G.bih?'내 차례 · 프리볼':'내 차례'):'상대 차례');}
   updateHUD();updateUI();
   if(phase==='wait')netFlush();
 }
 function endShot(){
   LB.forEach(b=>{b.v.set(0,0,0);b.w.set(0,0,0);if(!b.off)b.p.y=R;});
   if(G.remoteShot){G.remoteShot=false;remoteShotDone();return;}
-  if(G.mode==='practice'){respot();phase='aim';power=0;updateUI();if(tut&&tut.step==='done')tutShotEnd();return;}
+  if(G.mode==='practice'){respot();phase='aim';power=0;updateUI();return;}
   const r=judge(liveLog);
   if(G.mode==='stage'){concludeStage(r);return;}
   conclude(r);
@@ -1261,16 +1312,21 @@ function showOutcome(r){
   G.next=()=>{if(r.over>=0)finishGame(r.over,r.why||r.msg);else beginTurn();};
   updateUI();
 }
-function timeoutTurn(){G.clockEnd=0;conclude({delta:0,keep:false,bih:G.game==='pool',over:-1,bad:true,toast:'시간 초과',msg:'시간 초과 — 차례가 넘어가요'});}
+// 시간 초과: 이름 옆에 깨진 시계가 붙고, 2번이면 바로 패배
+function timeoutTurn(){
+  G.clockEnd=0;const me=G.turn,p=G.players[me];p.to=(p.to|0)+1;updateHUD();
+  if(p.to>=2){conclude({delta:0,keep:false,over:1-me,bad:true,toast:'시간 초과 패배',msg:'시간 초과 2회',why:'시간 초과 2회'});return;}
+  conclude({delta:0,keep:false,bih:G.game==='pool',over:-1,bad:true,toast:'시간 초과',msg:'시간 초과 — 한 번 더 넘기면 패배'});
+}
 function finishGame(w,why,opts){
   if(G.over)return;G.over=true;phase='over';G.clockEnd=0;G.next=null;
   const me=G.myIdx,voided=w<0,win=w===me,info=G.info;
   if(G.lvKey&&window.NcqMetrics)NcqMetrics.levelEnd(G.lvKey,win,{score:G.players[me].score});
   let rk=null;
   if(G.mode==='online'&&!voided&&!(G.net&&G.net.friendly)){const st=info.rank,rec=save.rec[G.game],before=rec.rk,opR=clamp(+(G.net?G.net.oppRk:G.cfg.botRk)||before,0,5000),exp=1/(1+Math.pow(10,(opR-before)/400));let d=Math.round(32*((win?1:0)-exp));if(!d)d=win?1:-1;if(win)rec.w++;else rec.l++;rec.rk=Math.max(0,before+d);persist();rankPush();rk={label:st.label,before,after:rec.rk,w:rec.w,l:rec.l};}
-  const P=G.players,tag=G.mode==='online'?`${info.name} · ${G.net&&G.net.friendly?'친선전':'Online'}`:`${info.name} · ${P[1].name}`;
+  const P=G.players,tag=G.mode==='online'?`${info.name} · ${G.net&&G.net.friendly?'친선전':'Online'}`:G.mode==='local'?`${info.name} · 2인 대전`:`${info.name} · ${P[1].name}`;
   const score=(G.game!=='pool'&&!voided)?`${P[me].score} : ${P[1-me].score}`:null;
-  showResult({ad:!voided,tag,main:voided?'무효':win?'승리':'패배',cls:voided?'':win?'win':'lose',why:why||'',score,rk,
+  showResult({ad:!voided,tag,main:voided?'무효':G.mode==='local'?`${P[w].name} 승리`:win?'승리':'패배',cls:voided?'':G.mode==='local'?'win sm':win?'win':'lose',why:why||'',score,rk,
     primary:G.net&&G.net.friendly?['방 메뉴로',()=>{toLobby();openRoom();}]:G.mode==='online'?['다시 매칭',()=>startMatching(G.game)]:['다시 하기',()=>startGame(G.cfg)]});
   sfx(win?'win':'lose',1);
   netClose();
@@ -1280,17 +1336,19 @@ function startStage(s){startGame({mode:'stage',game:s.game,stage:s});}
 function retryStage(){layoutStage(G.stage);G.tries++;power=0;phase='aim';$('powerMark').hidden=!G.usedHint;updateHUD();updateUI();}
 function concludeStage(r){
   if(r.ok){
-    const stars=G.usedHint?1:G.tries===1?3:G.tries<=3?2:1,k=G.stage.game+'-'+G.stage.idx;
+    const stars=G.tries===1?3:G.tries<=3?2:1,k=G.stage.game+'-'+G.stage.idx;
     if((save.stars[k]||0)<stars){save.stars[k]=stars;persist();}
     toast('CLEAR');sfx('score',1);phase='pause';G.pauseT=1;G.next=()=>stageClear(stars);
-  }else{toast('실패',true);phase='pause';G.pauseT=1.1;G.next=retryStage;}
+  }else{toast('실패',true);phase='pause';G.pauseT=1.1;G.next=tut?()=>{retryStage();tutGo(tut.steps[0]);}:retryStage;}
   updateUI();
 }
 function stageClear(stars){
   G.over=true;phase='over';stageClears++;
   if(G.lvKey&&window.NcqMetrics)NcqMetrics.levelEnd(G.lvKey,true,{score:stars});
   const s=G.stage,list=STAGES[s.game],next=list[s.idx+1];
-  showResult({ad:stageClears%AD.STAGE_EVERY===0,tag:`${G.info.name} · 스테이지 ${s.idx+1} · ${s.name}`,main:'CLEAR',cls:'win',why:G.usedHint?'힌트를 써서 깼어요':G.tries===1?'한 번에 깼어요':`${G.tries}번 만에 깼어요`,stars,
+  if(tut&&tut.hint){tutGo(null);tut=null;}
+  if(tut){showResult({ad:false,tag:`${G.info.name} · 스테이지 ${s.idx+1} · ${s.name}`,main:'CLEAR',cls:'win',why:'',stars,primary:['다음',tutStageDone]});return;}
+  showResult({ad:stageClears%AD.STAGE_EVERY===0,tag:`${G.info.name} · 스테이지 ${s.idx+1} · ${s.name}`,main:'CLEAR',cls:'win',why:'',stars,
     primary:next?['다음 스테이지',()=>startStage(next)]:['스테이지 목록',()=>{toLobby();openStages(s.game);}],
     second:['다시 하기',()=>startStage(s)]});
 }
@@ -1506,7 +1564,7 @@ function netFlush(){const n=G.net;if(n&&n.queued){const g=n.queued;n.queued=null
 function remoteShotDone(){const n=G.net;if(n.pendingE){const e=n.pendingE;n.pendingE=null;remoteEnd(e);}else{phase='wait-end';n.endWaitAt=Date.now();updateUI();}}
 function remoteEnd(g){
   const n=G.net;decode(g.b,g.p);n.applied=g.n;
-  G.players.forEach((p,i)=>{p.score=clamp(g.s[i]|0,0,99);p.group=[null,'solid','stripe'][(g.gr&&g.gr[i])|0]||null;});
+  G.players.forEach((p,i)=>{p.to=clamp((g.to&&g.to[i])|0,0,2);p.score=clamp(g.s[i]|0,0,99);p.group=[null,'solid','stripe'][(g.gr&&g.gr[i])|0]||null;});
   G.turn=g.t?1:0;G.inning=clamp(g.i|0,1,999);G.bih=!!g.h;G.isBreak=!!g.br;
   showOutcome({msg:cleanMsg(g.m),toast:cleanMsg(g.tt).slice(0,12),bad:!!g.tb,over:g.o===0||g.o===1?g.o:-1,keep:!!g.kp,why:cleanMsg(g.m)});
 }
@@ -1517,7 +1575,7 @@ function netSendShot(s){
 }
 function netSendEnd(r){
   const n=G.net;normalizeBoard();n.applied++;
-  n.room.presence({g:{k:'E',n:n.applied,b:enc(),p:potMask(),t:G.turn,s:G.players.map(p=>p.score),i:G.inning,gr:G.players.map(p=>p.group==='solid'?1:p.group==='stripe'?2:0),h:G.bih?1:0,o:r.over,m:cleanMsg(r.msg),tt:r.toast?String(r.toast):'',tb:r.bad?1:0,kp:r.keep?1:0,br:G.isBreak?1:0}}).catch(()=>{});
+  n.room.presence({g:{k:'E',n:n.applied,b:enc(),p:potMask(),t:G.turn,s:G.players.map(p=>p.score),i:G.inning,gr:G.players.map(p=>p.group==='solid'?1:p.group==='stripe'?2:0),h:G.bih?1:0,o:r.over,to:G.players.map(p=>p.to|0),m:cleanMsg(r.msg),tt:r.toast?String(r.toast):'',tb:r.bad?1:0,kp:r.keep?1:0,br:G.isBreak?1:0}}).catch(()=>{});
 }
 function netAimTick(){
   const n=G.net;if(!n||n.closed)return;
@@ -1561,7 +1619,7 @@ function rankCompute(){
 }
 function rankPush(){
   if(!Rank.db||!Rank.uid)return;
-  const body={};Object.keys(GAME_INFO).forEach(g=>{const r=save.rec[g];body[g]={r:r.rk,w:r.w,l:r.l};});
+  const body={nick:save.nick};Object.keys(GAME_INFO).forEach(g=>{const r=save.rec[g];body[g]={r:r.rk,w:r.w,l:r.l};});
   Rank.db.doc('rank/'+Rank.uid).set(body).then(()=>rankListen()).catch(()=>{});
 }
 
@@ -1727,7 +1785,7 @@ function cueBlocked(why){
   if(now-blockAt>900){blockAt=now;toast(why==='rail'?'쿠션에 큐가 걸려 더 내릴 수 없어요':'다른 공에 큐가 걸려 더 내릴 수 없어요',true);}
 }
 function updateCue(dt){
-  const c=LB[G.cueI],show=G.mode!=='attract'&&(phase==='aim'||phase==='strike'||phase==='ai-aim'||phase==='wait')&&c&&!c.off;
+  const c=LB[G.cueI],show=G.mode!=='attract'&&(phase==='aim'||phase==='strike'||phase==='ai-aim'||phase==='wait'||(phase==='ai-think'&&G.players[G.turn]&&G.players[G.turn].bot))&&c&&!c.off;
   cue.visible=!!show;if(!show){setCueRisk(false);return;}
   const target=phase==='strike'?-0.004:0.025+power*0.24;
   pull+=(target-pull)*Math.min(1,dt*(phase==='strike'?40:14));
@@ -1761,7 +1819,7 @@ function playHit(rate,gain,cut,at){
   s.buffer=hitBuf;s.playbackRate.value=rate;f.type='lowpass';f.frequency.value=cut;f.Q.value=.4;g.gain.value=gain;
   s.connect(f).connect(g);g.connect(dry);g.connect(dry.wetIn);s.start(t);
 }
-function tones(list,gain){const now=ac.currentTime;list.forEach(([f,at,len])=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,now+at);g.gain.exponentialRampToValueAtTime(gain,now+at+0.012);g.gain.exponentialRampToValueAtTime(0.0001,now+at+len);o.connect(g);g.connect(dry);g.connect(dry.wetIn);o.start(now+at);o.stop(now+at+len+.05);});}
+function tones(list,gain){if(!ac)return;const now=ac.currentTime;list.forEach(([f,at,len])=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,now+at);g.gain.exponentialRampToValueAtTime(gain,now+at+0.012);g.gain.exponentialRampToValueAtTime(0.0001,now+at+len);o.connect(g);g.connect(dry);g.connect(dry.wetIn);o.start(now+at);o.stop(now+at+len+.05);});}
 function sfx(type,vol){
   if(!ac||G.mode==='attract')return;const now=ac.currentTime;if(lastSfx[type]&&now-lastSfx[type]<0.02)return;lastSfx[type]=now;
   const v=clamp(vol,0,1);
@@ -1784,8 +1842,8 @@ let toastTimer=0,bannerTimer=0;
 function toast(t,bad){const el=$('toast');el.textContent=t;el.classList.toggle('bad',!!bad);el.classList.toggle('long',t.length>7);el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1050);}
 function banner(t){const el=$('banner');el.textContent=t;el.classList.add('show');clearTimeout(bannerTimer);bannerTimer=setTimeout(()=>el.classList.remove('show'),850);}
 function drawDot(){
-  $('dotZoom').style.left=(50+hit.a*50)+'%';$('dotZoom').style.top=(50-hit.b*50)+'%';
-  const r=pad.clientWidth/2||35;dot.style.left=(r+hit.a*r)+'px';dot.style.top=(r-hit.b*r)+'px';
+  const ka=hit.a/SPIN_MAX,kb=hit.b/SPIN_MAX;$('dotZoom').style.left=(50+ka*50)+'%';$('dotZoom').style.top=(50-kb*50)+'%';
+  const r=pad.clientWidth/2||35;dot.style.left=(r+ka*r)+'px';dot.style.top=(r-kb*r)+'px';
   const v=hit.b>0.12?'밀어치기':hit.b<-0.12?'끌어치기':'',s=hit.a>0.12?'오른쪽':hit.a<-0.12?'왼쪽':'',read=$('spinRead');
   read.textContent=(s||v)?[s,v].filter(Boolean).join(' '):'중앙';
   read.style.color=shotOpts().miscue&&Math.hypot(hit.a,hit.b)>MISCUE?'var(--warn)':'';
@@ -1816,7 +1874,7 @@ function updateHUD(){
   const me=G.myIdx,pool=G.game==='pool';
   [me,1-me].forEach((pi,k)=>{
     const p=G.players[pi],chip=$('chip'+k);
-    $('nm'+k).textContent=k===0?(G.mode==='online'&&G.net?save.nick:'나'):p.name;
+    {const nm=$('nm'+k);nm.textContent=k===0&&G.mode!=='local'?(G.mode==='online'&&G.net?save.nick:'나'):p.name;for(let t=0;t<(p.to|0);t++){const i=document.createElement('span');i.className='tmo';i.title='시간 초과';i.innerHTML=TMO_SVG;nm.appendChild(i);}}
     $('pl'+k).classList.toggle('on',G.turn===pi&&!G.over);
     $('sc'+k).textContent=p.score;$('sc'+k).hidden=pool;
     $('bd'+k).hidden=pool;$('dt'+k).hidden=!pool;
@@ -1833,21 +1891,39 @@ function updateUI(){
   document.querySelector('.cell.spin').classList.toggle('idle',!my);elevIn.disabled=!my;
   $('placeBar').hidden=phase!=='place';
   $('powerFill').style.height=(power*100)+'%';$('powerVal').textContent=Math.round(power*100);
-  $('missZone').hidden=!shotOpts().miscue;
+
 }
 function enterGameUI(){
   ['lobby','sheet','matching','result','menu'].forEach(id=>$(id).hidden=true);
-  ['hud','dock','powerwrap','menuBtn'].forEach(id=>$(id).hidden=false);$('hintBtn').textContent='▶ 힌트';
+  ['hud','dock','powerwrap','menuBtn'].forEach(id=>$(id).hidden=false);$('hintBtn').innerHTML='<span class="adTag">AD</span>힌트';
   $('powerMark').hidden=true;$('menuQuit').textContent='나가기';$('menuQuit').classList.remove('arm');
   updateHUD();relayout();
 }
 function exitGameUI(){['hud','dock','powerwrap','menuBtn','placeBar','menu'].forEach(id=>$(id).hidden=true);cue.visible=false;cueRing.visible=false;SEGS.forEach(m=>m.visible=false);ghost.visible=false;relayout();}
-function toLobby(){
+function toLobby(){hintEnd();
   if(G.net&&!G.net.closed)netClose();
   exitGameUI();
   ['result','matching','sheet'].forEach(id=>$(id).hidden=true);$('lobby').hidden=false;$('lobby').classList.remove('sheeted');
   refreshLobby();attract(G.info?G.info.kind:tableKind);
 }
+// 랭킹 팝업: Online Rating 1~100위
+function openRanks(g){
+  document.querySelectorAll('#ranks .rules-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===g));
+  const list=Rank.docs.filter(d=>validRec(d.v[g])&&d.v[g].w+d.v[g].l>0).map(d=>({me:d.id===Rank.uid,nick:d.id===Rank.uid?save.nick:cleanText(d.v.nick,'플레이어')||'플레이어',r:d.v[g].r,w:d.v[g].w,l:d.v[g].l}));
+  const mine=save.rec[g];if(mine.w+mine.l&&!list.some(x=>x.me))list.push({me:true,nick:save.nick,r:mine.rk,w:mine.w,l:mine.l});
+  list.sort((a,b)=>b.r-a.r||(b.w-b.l)-(a.w-a.l));
+  const tb=$('rankList');tb.textContent='';
+  const row=(x,i)=>{const tr=document.createElement('tr');if(x.me)tr.className='me';[i+1,x.nick+(x.me?' (나)':''),x.r,`${x.w}승 ${x.l}패`].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td);});return tr;};
+  list.slice(0,100).forEach((x,i)=>tb.appendChild(row(x,i)));
+  const mi=list.findIndex(x=>x.me);if(mi>=100)tb.appendChild(row(list[mi],mi));
+  if(!list.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=4;td.className='empty';td.textContent='아직 기록이 없어요. Online 대전을 해 보세요.';tr.appendChild(td);tb.appendChild(tr);}
+  $('rankNote').textContent=Rank.db?'Online 대전 Rating 순이에요.':'랭킹 서버 연결 전이라 지금은 내 기록만 보여요.';
+  $('ranks').hidden=false;
+}
+document.querySelectorAll('#ranks .rules-tabs button').forEach(b=>b.onclick=()=>openRanks(b.dataset.k));
+$('rankOpen').onclick=()=>openRanks('3c');
+$('ranksClose').onclick=()=>{$('ranks').hidden=true;};
+const TMO_SVG='<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 5v3.6l2 1.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M10.5 1.6 8.6 5.2l2.4.6-1.6 3.2" fill="none" stroke="#0b0f14" stroke-width="1.8"/><path d="M10.5 1.6 8.6 5.2l2.4.6-1.6 3.2" fill="none" stroke="currentColor" stroke-width=".8"/></svg>';
 function refreshLobby(){
   let w=0,l=0;Object.values(save.rec).forEach(r=>{w+=r.w;l+=r.l;});
   const got=Object.keys(STAGES).reduce((n,g)=>n+starsOf(g),0),all=Object.values(STAGES).reduce((n,l)=>n+l.length*3,0);
@@ -1883,46 +1959,96 @@ function showResult(o){
   const m=$('rMain');m.textContent=o.main;m.className=o.cls||'';
   $('rWhy').textContent=o.why||'';
   $('rScore').hidden=!o.score;if(o.score)$('rScore').textContent=o.score;
-  const st=$('rStars');st.hidden=o.stars==null;if(o.stars!=null)renderStars(st,o.stars);
+  const st=$('rStars');st.hidden=o.stars==null;if(o.stars!=null){renderStars(st,o.stars);[...st.children].forEach((e,i)=>{e.style.animationDelay=(.25+i*.32)+'s';e.classList.add('pop');});
+    // 별이 하나씩 팡! 팡! 팡!
+    if(ac)for(let i=0;i<o.stars;i++)tones([[880+i*220,.25+i*.32+.18,.18],[1320+i*220,.25+i*.32+.2,.22]],.12);}
   const rk=$('rRk');rk.hidden=!o.rk;
   if(o.rk){rk.textContent='';const d=o.rk.after-o.rk.before,b=document.createElement('b'),s=document.createElement('span');b.textContent=`${o.rk.label} ${o.rk.after} `;s.textContent=(d>=0?`+${d}`:`${d}`);s.className=d>=0?'up':'down';b.appendChild(s);rk.appendChild(b);rk.appendChild(document.createTextNode(`  ·  ${o.rk.w}승 ${o.rk.l}패`));}
   const p=$('rPrimary');p.textContent=o.primary[0];p.onclick=afterAd(o.primary[1]);
   const s2=$('rSecond');s2.hidden=!o.second;if(o.second){s2.textContent=o.second[0];s2.onclick=afterAd(o.second[1]);}
 }
-// ---------- 튜토리얼 ----------
-let tut=null;
-const TUT_STEPS={
-  aim:{text:'화면을 누르거나 스와이프해서 큰 각도를 맞춰 보세요',glow:null},
-  fine:{text:'아래 화면을 좌우로 밀어 미세하게 조정해 보세요',glow:'pip'},
-  spin:{text:'왼쪽 공을 누른 채 드래그해 칠 곳을 정해 보세요',glow:'pad'},
-  elev:{text:'큐 각도 바를 밀어 큐를 세워 보세요',glow:'elevCell'},
-  power:{text:'오른쪽 바를 아래로 당겼다 놓아 팍! 쳐 보세요',glow:'power'}
+// ---------- 튜토리얼: 4구 스테이지 1~3에서 조작을 하나씩 ----------
+let tut=null,tutLine=null,tutPulse=false;
+const TUT_TEXT={
+  aim:'화면을 누르거나 스와이프해서\n큐 방향을 노란 선에 맞춰 보세요',
+  line:'화면이나 아래 미세 조정으로\n노란 선에 딱 맞춰 보세요',
+  fine:'노란 선이 살짝 옮겨졌어요.\n아래 화면을 밀어 딱 겹치게 맞춰 보세요',
+  spin:'왼쪽 공을 누른 채 아래로 끌어\n노란 원(공의 아랫부분)에 맞춰 보세요',
+  elev:'큐 각도 바를 올려\n노란 표시까지 큐를 세워 보세요',
+  power:'오른쪽 바를 아래로 당겨\n노란 표시에서 놓아 보세요'
 };
+const TUT_HINT_TEXT={spin:'왼쪽 공을 누른 채 드래그해서\n노란 원에 맞춰 보세요',elev:'큐 각도 바를 움직여\n노란 표시에 맞춰 보세요'};
+const TUT_SPOT={line:'pip',fine:'pip',spin:'pad',elev:'elevCell',power:'power'};
+const TUT_STAGES=[
+  {card:'1단계 · 기본 샷\n각도를 맞추고 힘을 줘서\n빨간 공 두 개를 맞혀 볼게요.',steps:['aim','fine','power']},
+  {card:'2단계 · 회전 주기\n공의 윗부분을 치면 앞으로 밀려가고(밀어치기),\n아랫부분을 치면 뒤로 끌려와요(끌어치기).',steps:['spin','power']},
+  {card:'3단계 · 큐 세우기\n큐를 세워 세게 치면 공이 뛰어오르고(점프샷),\n옆을 치면 휘어 나가요(마세).\n노란 공을 뛰어넘어 볼게요.',steps:['elev','power']}
+];
+const TUT_OFF=.04,tutAimT=()=>tut.sol.phi+(tut.step==='aim'?TUT_OFF:0);
+const angGap=(x,y)=>Math.abs(Math.atan2(Math.sin(x-y),Math.cos(x-y)));
 function tutCard(text,fn){$('tutText').textContent=text;$('tutCard').hidden=false;$('tutNext').onclick=()=>{$('tutCard').hidden=true;fn();};}
+function tutGhost(on){
+  if(!tutLine){const g=new THREE.PlaneGeometry(1,.02);g.translate(.5,0,0);g.rotateX(-Math.PI/2);tutLine=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:0xffd34a,depthTest:false,transparent:true,opacity:.95,toneMapped:false}));tutLine.renderOrder=6;scene.add(tutLine);}
+  tutLine.visible=!!on;if(!on)return;
+  const c=LB[G.cueI].p;tutLine.position.set(c.x,c.y+.002,c.z);tutLine.rotation.y=-tutAimT();tutLine.scale.x=.9;
+}
+function tutMarks(step){
+  const s=tut&&tut.sol;
+  document.querySelectorAll('.padTgt').forEach(e=>{e.hidden=step!=='spin';if(s){e.style.left=(50+s.a/SPIN_MAX*50)+'%';e.style.top=(50-s.b/SPIN_MAX*50)+'%';}});
+  const em=$('elevMark');em.hidden=step!=='elev';
+  if(step==='elev'){const r=elevIn.getBoundingClientRect(),c=$('elevCell').getBoundingClientRect(),k=s.elev/75,th=16;em.style.left=(r.left-c.left+th/2+k*(r.width-th))+'px';em.style.top=(r.top-c.top+r.height/2)+'px';}
+  const m=$('powerMark');if(step==='power'){m.style.top=(s.pw/PMAX*100)+'%';m.hidden=false;}else if(step)m.hidden=true;
+  tutGhost(step==='aim'||step==='fine'||step==='line');
+}
 function tutGo(step){
-  tut.step=step;app.classList.toggle('tut-elev',step==='elev');document.querySelectorAll('.tutGlow').forEach(e=>e.classList.remove('tutGlow'));
-  const s=TUT_STEPS[step],b=$('tutBubble');$('tutTap').hidden=step!=='aim';tut.ready=false;$('tutStep').disabled=true;$('tutStep').hidden=step==='power';
-  if(!s){b.hidden=true;return;}
-  b.hidden=false;$('tutMsg').textContent=s.text;if(s.glow)$(s.glow).classList.add('tutGlow');
+  if(!tut)return;tut.step=step;
+  document.querySelectorAll('.tutSpot').forEach(e=>e.classList.remove('tutSpot'));
+  $('tutTap').hidden=true;$('tutDim').hidden=!(step==='aim');tutPulse=step==='aim'||step==='fine'||step==='line';
+  const b=$('tutBubble');b.hidden=!step;tutMarks(step);
+  if(!step)return;
+  $('tutMsg').textContent=(tut.hint&&TUT_HINT_TEXT[step])||TUT_TEXT[step];if(TUT_SPOT[step])$(TUT_SPOT[step]).classList.add('tutSpot');
 }
-const TUT_ORDER=['aim','fine','spin','elev','power'];
-// 조작을 해 보면 다음 버튼이 켜진다
-function tutReady(step){if(tut&&tut.step===step&&!tut.ready){tut.ready=true;$('tutStep').disabled=false;}}
-$('tutStep').onclick=()=>{if(tut&&tut.ready)tutGo(TUT_ORDER[TUT_ORDER.indexOf(tut.step)+1]);};
-function tutStart(){
-  tut={step:'intro'};$('rules').hidden=true;app.classList.add('tut');startGame({mode:'practice',game:'3c',tut:true});tutGo('intro');
-  tutCard('게임에 입장하기 앞서,\n간단하게 조작을 알려드리겠습니다.',()=>{ensureAudio();tutGo('aim');});
+function tutDone(step){
+  const s=tut&&tut.sol;if(!s||tut.step!==step)return false;
+  if(step==='aim')return angGap(aimPhi,s.phi+TUT_OFF)<.025;
+  if(step==='fine'||step==='line')return angGap(aimPhi,s.phi)<.006;
+  if(step==='spin')return Math.abs(hit.a-s.a)<.09&&Math.abs(hit.b-s.b)<.09;
+  if(step==='elev')return Math.abs(elev-s.elev)<=5;
+  return false;
 }
-function tutShot(){
-  tutGo('done');
+// 조작을 끝냈을 때 목표에 맞으면 다음 단계로
+function tutReady(step){
+  if(tut&&tut.step==='line'&&(step==='aim'||step==='fine'))step='line';
+  if(!tutDone(step))return;
+  const s=tut.sol;if(step==='aim')aimPhi=s.phi+TUT_OFF;else if(step==='fine'||step==='line')aimPhi=s.phi;else if(step==='spin'){hit={a:s.a,b:s.b};drawDot();}else if(step==='elev'){elev=s.elev;syncSpinUI();}
+  const st=tut.steps;tones([[880,0,.35]],.06);tutGo(st[st.indexOf(step)+1]);
 }
-function tutShotEnd(){
-  tut.step='end';
-  tutCard('잘하셨습니다!\n이제 게임을 진행해 보세요.',()=>{
-    tut=null;app.classList.remove('tut','tut-elev');save.tut=1;persist();G.over=true;toLobby();
+// 힘: 표시 근처에서 놓으면 정답 샷으로 맞춰 치고, 아니면 다시
+function tutPower(){
+  const s=tut.sol,t=s.pw/PMAX;
+  if(tut.step!=='power'||Math.abs(power-t)>.09){power=0;updateUI();const e=$('power');e.classList.remove('nudge');void e.offsetWidth;e.classList.add('nudge');toast('노란 표시에서 놓아 주세요',true);return false;}
+  aimPhi=s.phi;hit={a:s.a,b:s.b};elev=s.elev;power=t;syncSpinUI();return true;
+}
+function tutStage(i){
+  tut.i=i;const st=STAGES['4b'][i];tut.sol=st.sol;tut.steps=TUT_STAGES[i].steps;
+  startGame({mode:'stage',game:'4b',stage:st,tut:true});
+  if(i>0){aimPhi=tut.sol.phi;}
+  tutGo(null);tutCard(TUT_STAGES[i].card,()=>tutGo(TUT_STAGES[i].steps[0]));
+}
+function tutStageDone(){
+  if(tut.i<TUT_STAGES.length-1){tutStage(tut.i+1);return;}
+  tutGo(null);tut.step='end';
+  tutCard('튜토리얼 완료!\n이제 자유롭게 게임을 즐겨 보세요.',()=>{
+    tut=null;app.classList.remove('tut');save.tut=2;persist();G.over=true;toLobby();
   });
 }
-const tutOK=step=>!tut||tut.step===step;
+function tutQuit(){tutGo(null);tut=null;app.classList.remove('tut');save.tut=2;persist();}
+function tutStart(){
+  tut={step:'intro',i:0};$('rules').hidden=true;app.classList.add('tut');
+  tutStage(0);$('tutCard').hidden=true;
+  tutCard('게임에 입장하기 앞서,\n간단하게 조작을 알려드리겠습니다.',()=>{ensureAudio();tutCard(TUT_STAGES[0].card,()=>tutGo('aim'));});
+}
+const tutOK=step=>!tut||tut.step===step||(tut.step==='line'&&(step==='aim'||step==='fine'));
 function openRules(g){
   document.querySelectorAll('.rules-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.r===g));
   document.querySelectorAll('.rules-body').forEach(b=>b.hidden=b.dataset.rb!==g);
@@ -1964,7 +2090,7 @@ const sEnd=()=>{if(sDrag&&tut&&sDrag.m>=10)tutReady('fine');sDrag=null;};pipEl.a
 // 칠 곳: 누르면 크게 뜨고, 드래그한 만큼 큰 공 기준으로 움직인다
 let padDrag=null;const padZoom=$('padZoom');
 pad.addEventListener('pointerdown',e=>{ensureAudio();if(phase!=='aim'||!tutOK('spin'))return;padDrag={x:e.clientX,y:e.clientY,m:0};pad.setPointerCapture(e.pointerId);padZoom.style.bottom=($('dock').offsetHeight+12)+'px';padZoom.hidden=false;drawDot();});
-pad.addEventListener('pointermove',e=>{if(!padDrag)return;const dx=e.clientX-padDrag.x,dy=e.clientY-padDrag.y,rad=(padZoom.clientWidth/2)||100;padDrag.x=e.clientX;padDrag.y=e.clientY;padDrag.m+=Math.abs(dx)+Math.abs(dy);let a=hit.a+dx/rad,b=hit.b-dy/rad;const l=Math.hypot(a,b);if(l>.9){a*=.9/l;b*=.9/l;}hit={a,b};drawDot();});
+pad.addEventListener('pointermove',e=>{if(!padDrag)return;const dx=e.clientX-padDrag.x,dy=e.clientY-padDrag.y,rad=(padZoom.clientWidth/2)||100;padDrag.x=e.clientX;padDrag.y=e.clientY;padDrag.m+=Math.abs(dx)+Math.abs(dy);let a=hit.a+dx/rad*SPIN_MAX,b=hit.b-dy/rad*SPIN_MAX;const l=Math.hypot(a,b);if(l>SPIN_MAX){a*=SPIN_MAX/l;b*=SPIN_MAX/l;}hit={a,b};drawDot();});
 const padEnd=()=>{if(!padDrag)return;padZoom.hidden=true;if(tut&&padDrag.m>=6)tutReady('spin');padDrag=null;};
 pad.addEventListener('pointerup',padEnd);pad.addEventListener('pointercancel',padEnd);
 $('spinRead').onclick=()=>{if(phase!=='aim')return;hit={a:0,b:0};drawDot();};
@@ -1975,7 +2101,7 @@ elevIn.addEventListener('input',()=>{
   elev=v;elevVal.textContent=elev+'°';
 });
 let tutElev0=5;
-elevIn.addEventListener('change',()=>{if(tut&&elev!==tutElev0)tutReady('elev');});
+elevIn.addEventListener('change',()=>tutReady('elev'));
 const pw=$('power');let pDrag=null;
 pw.addEventListener('pointerdown',e=>{ensureAudio();if(phase!=='aim'||!tutOK('power'))return;pDrag={y:e.clientY};pw.setPointerCapture(e.pointerId);});
 pw.addEventListener('pointermove',e=>{if(!pDrag)return;power=clamp((e.clientY-pDrag.y)/(pw.clientHeight*.85),0,1);updateUI();});
@@ -1983,19 +2109,25 @@ function release(){
   if(!pDrag)return;pDrag=null;
   if(power<.02){power=0;updateUI();return;}
   if(G.mode==='practice'){history.push({pos:LB.map(b=>({p:b.p.clone(),q:b.mesh.quaternion.clone(),off:b.off,pot:b.pot})),aimPhi});if(history.length>20)history.shift();}
-  pendingShot=buildShot(aimPhi,hit.a,hit.b,elev,power,shotOpts());pendingShot.cueFoul=cueRisk;
+  if(tut&&!tutPower())return;
+  pendingShot=buildShot(aimPhi,hit.a,hit.b,elev,power*PMAX,shotOpts());pendingShot.cueFoul=cueRisk;
   phase='strike';strikeT=0;$('powerMark').hidden=true;updateUI();
-  if(tut&&tut.step==='power')tutShot();
+  if(tut)tutGo(null);
 }
 pw.addEventListener('pointerup',release);pw.addEventListener('pointercancel',release);
 $('placeOk').onclick=()=>{if(phase!=='place')return;G.bih=false;aimDefault();phase='aim';updateUI();};
 $('undoBtn').onclick=()=>{if(phase!=='aim')return;const h=history.pop();if(!h)return;LB.forEach((b,i)=>{const s=h.pos[i];b.p.copy(s.p);b.mesh.quaternion.copy(s.q);b.off=s.off;b.pot=s.pot;b.sink=null;b.mesh.visible=!b.off;b.v.set(0,0,0);b.w.set(0,0,0);});aimPhi=h.aimPhi;power=0;updateUI();};
 $('resetBtn').onclick=()=>{if(phase!=='aim')return;layoutStart();history=[];aimDefault();};
 function applyHint(){
-  const c=G.stage.sol;aimPhi=c.phi;hit={a:c.a,b:c.b};{const q=LB[G.cueI];elev=Math.min(75,Math.max(c.elev,cueFloor(q,true,false),cueFloor(q,false,true)));}power=0;G.usedHint=true;syncSpinUI();
-  const m=$('powerMark');m.style.top=(c.pw*100)+'%';m.hidden=false;
-  $('hintBtn').textContent=`파워 ${Math.round(c.pw*100)}`;updateUI();
+  const c=G.stage.sol;G.usedHint=true;G.tries=1;layoutStage(G.stage);hit={a:0,b:0};elev=5;power=0;aimDefault();syncSpinUI();updateHUD();
+  const q=LB[G.cueI],ef=Math.min(75,Math.max(c.elev,cueFloor(q,true,false),cueFloor(q,false,true))),steps=['line'];
+  if(Math.hypot(c.a,c.b)>.05)steps.push('spin');
+  if(ef>Math.max(5,cueFloor(q,true,false))+4)steps.push('elev');
+  steps.push('power');
+  tut={hint:true,i:-1,sol:Object.assign({},c,{elev:ef}),steps,step:null};
+  tutGo('aim');updateUI();
 }
+function hintEnd(){if(tut&&tut.hint){tutGo(null);tut=null;}}
 $('hintBtn').onclick=()=>{
   const s=G.stage;if(!s||!s.sol||phase!=='aim')return;
   if(G.hintGranted){applyHint();return;}
@@ -2052,6 +2184,7 @@ document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>{
 });
 document.querySelectorAll('[data-lv]').forEach(b=>b.onclick=()=>startGame({mode:'ai',game:nav.game,lv:b.dataset.lv}));
 $('openPractice').onclick=()=>startGame({mode:'practice',game:nav.game});
+$('openLocal').onclick=()=>startGame({mode:'local',game:nav.game});
 function openRoom(){nav.mode='room';showStep('stepRoom','방','만들기 / 입장하기');}
 function openJoin(){nav.mode='room';$('joinErr').textContent='';$('roomCode').value='';showStep('stepJoin','입장하기');}
 $('goRoom').onclick=()=>{ensureAudio();openRoom();};
@@ -2061,7 +2194,7 @@ $('roomCode').addEventListener('input',e=>{e.target.value=e.target.value.replace
 $('stepJoin').addEventListener('submit',e=>{e.preventDefault();const c=$('roomCode').value;if(!/^[0-9]{4}$/.test(c)){$('joinErr').textContent='4자리 숫자를 입력해 주세요.';return;}roomJoin(c);});
 $('sheetBack').onclick=()=>{if(nav.step==='stepJoin'||(nav.step==='stepGame'&&nav.mode==='room')){openRoom();return;}if(nav.step==='stepGame'||nav.step==='stepRoom'){$('sheet').hidden=true;$('lobby').classList.remove('sheeted');}else openGames();};
 $('mCancel').onclick=matchCancel;$('mBot').onclick=matchBot;
-$('rLobby').onclick=afterAd(()=>toLobby());
+$('rLobby').onclick=afterAd(()=>{if(tut)tutQuit();toLobby();});
 (function(){const g=$('rackGlyph');let k=0;const order=[1,9,2,10,8,3,11,4,12,5,13,6,14,7,15];for(let r=0;r<5;r++)for(let j=0;j<=r;j++){const n=order[k++],b=document.createElement('i');b.className='b';b.style.setProperty('--c',POOL_COL[(n-1)%8]);b.style.left=(r*11)+'px';b.style.top=(23+(j-r/2)*12.4)+'px';g.appendChild(b);}})();
 
 // ---------- 루프 ----------
@@ -2075,11 +2208,12 @@ function flyTick(b,dt){
   if(f.t>2.4||Math.abs(m.x)>HL+3.5||Math.abs(m.z)>HW+3.5){b.fly=null;b.mesh.visible=false;}
 }
 function syncMeshes(dt){
+  if(tutLine&&tutLine.visible)tutLine.material.opacity=tutPulse?.55+.45*Math.sin(performance.now()/180):1;
   LB.forEach(b=>{
     if(b.sink){const s=b.sink;s.t+=dt/.26;const k=Math.min(1,s.t);b.mesh.position.set(s.x+(s.tx-s.x)*k,R-.12*k*k,s.z+(s.tz-s.z)*k);if(k>=1){b.sink=null;b.mesh.visible=false;}}
     else if(b.fly&&b.off)flyTick(b,dt);
     else if(!b.off){b.fly=null;b.mesh.position.copy(b.p);if(Math.abs(b.p.x)>HL+CW*.5||Math.abs(b.p.z)>HW+CW*.5)b.mesh.position.y=Math.max(b.p.y,RAIL_TOP+R);}
-    const h=b.p.y-R;b.ao.visible=!b.off&&!b.sink&&b.mesh.visible&&h<.08;if(b.ao.visible){b.ao.position.x=b.p.x;b.ao.position.z=b.p.z;}
+    const h=Math.max(0,(b.off?b.mesh.position.y:b.p.y)-R);b.ao.visible=!b.off&&!b.sink&&b.mesh.visible&&h<.35;if(b.ao.visible){const k=Math.min(1,h/.18);b.ao.position.x=b.p.x;b.ao.position.z=b.p.z;b.ao.material.opacity=.78*(1-.72*k);const sc=b.aoS*(1+1.4*k);b.ao.scale.set(sc,1,sc);}
   });
 }
 let lastClock=Date.now();
@@ -2135,7 +2269,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(relayout);
  const fb=window.NcqFeedback,btn=$('feedBtn');btn.hidden=!(fb&&fb.can());btn.onclick=()=>fb.open();
  if(!(window.claude&&window.claude.use))$('goRoom').hidden=true;}
 loadSave();refreshLobby();rankInit();attract('carom');relayout();updateCamera(0,true,performance.now());drawDot();
-if(!save.tut)tutStart();
+if((save.tut|0)<2)tutStart();
 requestAnimationFrame(loop);
 })();
 </script>

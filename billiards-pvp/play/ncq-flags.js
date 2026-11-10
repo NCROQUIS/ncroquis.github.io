@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.1.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.billiardspvp", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/billiards-pvp", "board": "https://ncroquis.github.io/billiards-pvp/feedback/"}});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.2.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.billiardspvp", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/billiards-pvp", "board": "https://ncroquis.github.io/billiards-pvp/feedback/"}});
 Object.assign(window, window.NCQ);
 
 /* 화면 켜 두기 (ncq_build.py가 넣어요, 웹 공개). 게임을 보는 동안 휴대폰 화면이 저절로 꺼지지 않게 브라우저의
@@ -33,6 +33,20 @@ Object.assign(window, window.NCQ);
     w.NcqAwake = Object.freeze({version: 1, held: held});
     poke();
   } catch (e) { /* 화면 켜 두기가 안 돼도 게임은 그대로 */ }
+})(window, typeof document !== "undefined" ? document : null);
+
+/* 확대·축소 막기 (ncq_build.py가 넣어요, 기본). 아이폰 사파리는 viewport의 user-scalable=no를 지키지 않아서 손가락 두 개로
+ * 벌리는 확대(gesture 이벤트)를 여기서 막아요. 두 번 탭 확대는 <head>의 touch-action 스타일이 막아요.
+ * 게임이 받는 터치·포인터 이벤트는 그대로예요 (게임 안 확대는 게임이 직접). */
+(function (w, d) {
+  "use strict";
+  try {
+    if (!d || w.NcqNoZoom) return;
+    var stop = function (e) { if (e && e.cancelable !== false && e.preventDefault) e.preventDefault(); };
+    var names = ["gesturestart", "gesturechange", "gestureend"];
+    for (var i = 0; i < names.length; i++) d.addEventListener(names[i], stop, {passive: false});
+    w.NcqNoZoom = Object.freeze({version: 1});
+  } catch (e) { /* 막지 못해도 게임은 그대로 */ }
 })(window, typeof document !== "undefined" ? document : null);
 
 /* 엔크로키 지표 모듈 (ncq_build.py가 ncq-flags.js 뒤에 붙여요. 직접 고치지 마세요)
@@ -385,4 +399,4 @@ Object.assign(window, window.NCQ);
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"billiards-pvp","pf":"web","mk":"web","tr":"share","vn":"0.1.0","vc":0,"cm":"88b368b","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"billiards-pvp","pf":"web","mk":"web","tr":"share","vn":"0.2.0","vc":0,"cm":"8d3d1f5","ft":[]});

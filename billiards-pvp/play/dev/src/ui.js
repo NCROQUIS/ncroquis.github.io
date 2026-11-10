@@ -103,7 +103,7 @@ function cueBlocked(why){
   if(now-blockAt>900){blockAt=now;toast(why==='rail'?'쿠션에 큐가 걸려 더 내릴 수 없어요':'다른 공에 큐가 걸려 더 내릴 수 없어요',true);}
 }
 function updateCue(dt){
-  const c=LB[G.cueI],show=G.mode!=='attract'&&(phase==='aim'||phase==='strike'||phase==='ai-aim'||phase==='wait')&&c&&!c.off;
+  const c=LB[G.cueI],show=G.mode!=='attract'&&(phase==='aim'||phase==='strike'||phase==='ai-aim'||phase==='wait'||(phase==='ai-think'&&G.players[G.turn]&&G.players[G.turn].bot))&&c&&!c.off;
   cue.visible=!!show;if(!show){setCueRisk(false);return;}
   const target=phase==='strike'?-0.004:0.025+power*0.24;
   pull+=(target-pull)*Math.min(1,dt*(phase==='strike'?40:14));
@@ -137,7 +137,7 @@ function playHit(rate,gain,cut,at){
   s.buffer=hitBuf;s.playbackRate.value=rate;f.type='lowpass';f.frequency.value=cut;f.Q.value=.4;g.gain.value=gain;
   s.connect(f).connect(g);g.connect(dry);g.connect(dry.wetIn);s.start(t);
 }
-function tones(list,gain){const now=ac.currentTime;list.forEach(([f,at,len])=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,now+at);g.gain.exponentialRampToValueAtTime(gain,now+at+0.012);g.gain.exponentialRampToValueAtTime(0.0001,now+at+len);o.connect(g);g.connect(dry);g.connect(dry.wetIn);o.start(now+at);o.stop(now+at+len+.05);});}
+function tones(list,gain){if(!ac)return;const now=ac.currentTime;list.forEach(([f,at,len])=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,now+at);g.gain.exponentialRampToValueAtTime(gain,now+at+0.012);g.gain.exponentialRampToValueAtTime(0.0001,now+at+len);o.connect(g);g.connect(dry);g.connect(dry.wetIn);o.start(now+at);o.stop(now+at+len+.05);});}
 function sfx(type,vol){
   if(!ac||G.mode==='attract')return;const now=ac.currentTime;if(lastSfx[type]&&now-lastSfx[type]<0.02)return;lastSfx[type]=now;
   const v=clamp(vol,0,1);
@@ -160,8 +160,8 @@ let toastTimer=0,bannerTimer=0;
 function toast(t,bad){const el=$('toast');el.textContent=t;el.classList.toggle('bad',!!bad);el.classList.toggle('long',t.length>7);el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1050);}
 function banner(t){const el=$('banner');el.textContent=t;el.classList.add('show');clearTimeout(bannerTimer);bannerTimer=setTimeout(()=>el.classList.remove('show'),850);}
 function drawDot(){
-  $('dotZoom').style.left=(50+hit.a*50)+'%';$('dotZoom').style.top=(50-hit.b*50)+'%';
-  const r=pad.clientWidth/2||35;dot.style.left=(r+hit.a*r)+'px';dot.style.top=(r-hit.b*r)+'px';
+  const ka=hit.a/SPIN_MAX,kb=hit.b/SPIN_MAX;$('dotZoom').style.left=(50+ka*50)+'%';$('dotZoom').style.top=(50-kb*50)+'%';
+  const r=pad.clientWidth/2||35;dot.style.left=(r+ka*r)+'px';dot.style.top=(r-kb*r)+'px';
   const v=hit.b>0.12?'밀어치기':hit.b<-0.12?'끌어치기':'',s=hit.a>0.12?'오른쪽':hit.a<-0.12?'왼쪽':'',read=$('spinRead');
   read.textContent=(s||v)?[s,v].filter(Boolean).join(' '):'중앙';
   read.style.color=shotOpts().miscue&&Math.hypot(hit.a,hit.b)>MISCUE?'var(--warn)':'';
@@ -192,7 +192,7 @@ function updateHUD(){
   const me=G.myIdx,pool=G.game==='pool';
   [me,1-me].forEach((pi,k)=>{
     const p=G.players[pi],chip=$('chip'+k);
-    $('nm'+k).textContent=k===0?(G.mode==='online'&&G.net?save.nick:'나'):p.name;
+    {const nm=$('nm'+k);nm.textContent=k===0&&G.mode!=='local'?(G.mode==='online'&&G.net?save.nick:'나'):p.name;for(let t=0;t<(p.to|0);t++){const i=document.createElement('span');i.className='tmo';i.title='시간 초과';i.innerHTML=TMO_SVG;nm.appendChild(i);}}
     $('pl'+k).classList.toggle('on',G.turn===pi&&!G.over);
     $('sc'+k).textContent=p.score;$('sc'+k).hidden=pool;
     $('bd'+k).hidden=pool;$('dt'+k).hidden=!pool;
@@ -209,21 +209,39 @@ function updateUI(){
   document.querySelector('.cell.spin').classList.toggle('idle',!my);elevIn.disabled=!my;
   $('placeBar').hidden=phase!=='place';
   $('powerFill').style.height=(power*100)+'%';$('powerVal').textContent=Math.round(power*100);
-  $('missZone').hidden=!shotOpts().miscue;
+
 }
 function enterGameUI(){
   ['lobby','sheet','matching','result','menu'].forEach(id=>$(id).hidden=true);
-  ['hud','dock','powerwrap','menuBtn'].forEach(id=>$(id).hidden=false);$('hintBtn').textContent='▶ 힌트';
+  ['hud','dock','powerwrap','menuBtn'].forEach(id=>$(id).hidden=false);$('hintBtn').innerHTML='<span class="adTag">AD</span>힌트';
   $('powerMark').hidden=true;$('menuQuit').textContent='나가기';$('menuQuit').classList.remove('arm');
   updateHUD();relayout();
 }
 function exitGameUI(){['hud','dock','powerwrap','menuBtn','placeBar','menu'].forEach(id=>$(id).hidden=true);cue.visible=false;cueRing.visible=false;SEGS.forEach(m=>m.visible=false);ghost.visible=false;relayout();}
-function toLobby(){
+function toLobby(){hintEnd();
   if(G.net&&!G.net.closed)netClose();
   exitGameUI();
   ['result','matching','sheet'].forEach(id=>$(id).hidden=true);$('lobby').hidden=false;$('lobby').classList.remove('sheeted');
   refreshLobby();attract(G.info?G.info.kind:tableKind);
 }
+// 랭킹 팝업: Online Rating 1~100위
+function openRanks(g){
+  document.querySelectorAll('#ranks .rules-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===g));
+  const list=Rank.docs.filter(d=>validRec(d.v[g])&&d.v[g].w+d.v[g].l>0).map(d=>({me:d.id===Rank.uid,nick:d.id===Rank.uid?save.nick:cleanText(d.v.nick,'플레이어')||'플레이어',r:d.v[g].r,w:d.v[g].w,l:d.v[g].l}));
+  const mine=save.rec[g];if(mine.w+mine.l&&!list.some(x=>x.me))list.push({me:true,nick:save.nick,r:mine.rk,w:mine.w,l:mine.l});
+  list.sort((a,b)=>b.r-a.r||(b.w-b.l)-(a.w-a.l));
+  const tb=$('rankList');tb.textContent='';
+  const row=(x,i)=>{const tr=document.createElement('tr');if(x.me)tr.className='me';[i+1,x.nick+(x.me?' (나)':''),x.r,`${x.w}승 ${x.l}패`].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td);});return tr;};
+  list.slice(0,100).forEach((x,i)=>tb.appendChild(row(x,i)));
+  const mi=list.findIndex(x=>x.me);if(mi>=100)tb.appendChild(row(list[mi],mi));
+  if(!list.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=4;td.className='empty';td.textContent='아직 기록이 없어요. Online 대전을 해 보세요.';tr.appendChild(td);tb.appendChild(tr);}
+  $('rankNote').textContent=Rank.db?'Online 대전 Rating 순이에요.':'랭킹 서버 연결 전이라 지금은 내 기록만 보여요.';
+  $('ranks').hidden=false;
+}
+document.querySelectorAll('#ranks .rules-tabs button').forEach(b=>b.onclick=()=>openRanks(b.dataset.k));
+$('rankOpen').onclick=()=>openRanks('3c');
+$('ranksClose').onclick=()=>{$('ranks').hidden=true;};
+const TMO_SVG='<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 5v3.6l2 1.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M10.5 1.6 8.6 5.2l2.4.6-1.6 3.2" fill="none" stroke="#0b0f14" stroke-width="1.8"/><path d="M10.5 1.6 8.6 5.2l2.4.6-1.6 3.2" fill="none" stroke="currentColor" stroke-width=".8"/></svg>';
 function refreshLobby(){
   let w=0,l=0;Object.values(save.rec).forEach(r=>{w+=r.w;l+=r.l;});
   const got=Object.keys(STAGES).reduce((n,g)=>n+starsOf(g),0),all=Object.values(STAGES).reduce((n,l)=>n+l.length*3,0);
@@ -259,46 +277,96 @@ function showResult(o){
   const m=$('rMain');m.textContent=o.main;m.className=o.cls||'';
   $('rWhy').textContent=o.why||'';
   $('rScore').hidden=!o.score;if(o.score)$('rScore').textContent=o.score;
-  const st=$('rStars');st.hidden=o.stars==null;if(o.stars!=null)renderStars(st,o.stars);
+  const st=$('rStars');st.hidden=o.stars==null;if(o.stars!=null){renderStars(st,o.stars);[...st.children].forEach((e,i)=>{e.style.animationDelay=(.25+i*.32)+'s';e.classList.add('pop');});
+    // 별이 하나씩 팡! 팡! 팡!
+    if(ac)for(let i=0;i<o.stars;i++)tones([[880+i*220,.25+i*.32+.18,.18],[1320+i*220,.25+i*.32+.2,.22]],.12);}
   const rk=$('rRk');rk.hidden=!o.rk;
   if(o.rk){rk.textContent='';const d=o.rk.after-o.rk.before,b=document.createElement('b'),s=document.createElement('span');b.textContent=`${o.rk.label} ${o.rk.after} `;s.textContent=(d>=0?`+${d}`:`${d}`);s.className=d>=0?'up':'down';b.appendChild(s);rk.appendChild(b);rk.appendChild(document.createTextNode(`  ·  ${o.rk.w}승 ${o.rk.l}패`));}
   const p=$('rPrimary');p.textContent=o.primary[0];p.onclick=afterAd(o.primary[1]);
   const s2=$('rSecond');s2.hidden=!o.second;if(o.second){s2.textContent=o.second[0];s2.onclick=afterAd(o.second[1]);}
 }
-// ---------- 튜토리얼 ----------
-let tut=null;
-const TUT_STEPS={
-  aim:{text:'화면을 누르거나 스와이프해서 큰 각도를 맞춰 보세요',glow:null},
-  fine:{text:'아래 화면을 좌우로 밀어 미세하게 조정해 보세요',glow:'pip'},
-  spin:{text:'왼쪽 공을 누른 채 드래그해 칠 곳을 정해 보세요',glow:'pad'},
-  elev:{text:'큐 각도 바를 밀어 큐를 세워 보세요',glow:'elevCell'},
-  power:{text:'오른쪽 바를 아래로 당겼다 놓아 팍! 쳐 보세요',glow:'power'}
+// ---------- 튜토리얼: 4구 스테이지 1~3에서 조작을 하나씩 ----------
+let tut=null,tutLine=null,tutPulse=false;
+const TUT_TEXT={
+  aim:'화면을 누르거나 스와이프해서\n큐 방향을 노란 선에 맞춰 보세요',
+  line:'화면이나 아래 미세 조정으로\n노란 선에 딱 맞춰 보세요',
+  fine:'노란 선이 살짝 옮겨졌어요.\n아래 화면을 밀어 딱 겹치게 맞춰 보세요',
+  spin:'왼쪽 공을 누른 채 아래로 끌어\n노란 원(공의 아랫부분)에 맞춰 보세요',
+  elev:'큐 각도 바를 올려\n노란 표시까지 큐를 세워 보세요',
+  power:'오른쪽 바를 아래로 당겨\n노란 표시에서 놓아 보세요'
 };
+const TUT_HINT_TEXT={spin:'왼쪽 공을 누른 채 드래그해서\n노란 원에 맞춰 보세요',elev:'큐 각도 바를 움직여\n노란 표시에 맞춰 보세요'};
+const TUT_SPOT={line:'pip',fine:'pip',spin:'pad',elev:'elevCell',power:'power'};
+const TUT_STAGES=[
+  {card:'1단계 · 기본 샷\n각도를 맞추고 힘을 줘서\n빨간 공 두 개를 맞혀 볼게요.',steps:['aim','fine','power']},
+  {card:'2단계 · 회전 주기\n공의 윗부분을 치면 앞으로 밀려가고(밀어치기),\n아랫부분을 치면 뒤로 끌려와요(끌어치기).',steps:['spin','power']},
+  {card:'3단계 · 큐 세우기\n큐를 세워 세게 치면 공이 뛰어오르고(점프샷),\n옆을 치면 휘어 나가요(마세).\n노란 공을 뛰어넘어 볼게요.',steps:['elev','power']}
+];
+const TUT_OFF=.04,tutAimT=()=>tut.sol.phi+(tut.step==='aim'?TUT_OFF:0);
+const angGap=(x,y)=>Math.abs(Math.atan2(Math.sin(x-y),Math.cos(x-y)));
 function tutCard(text,fn){$('tutText').textContent=text;$('tutCard').hidden=false;$('tutNext').onclick=()=>{$('tutCard').hidden=true;fn();};}
+function tutGhost(on){
+  if(!tutLine){const g=new THREE.PlaneGeometry(1,.02);g.translate(.5,0,0);g.rotateX(-Math.PI/2);tutLine=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:0xffd34a,depthTest:false,transparent:true,opacity:.95,toneMapped:false}));tutLine.renderOrder=6;scene.add(tutLine);}
+  tutLine.visible=!!on;if(!on)return;
+  const c=LB[G.cueI].p;tutLine.position.set(c.x,c.y+.002,c.z);tutLine.rotation.y=-tutAimT();tutLine.scale.x=.9;
+}
+function tutMarks(step){
+  const s=tut&&tut.sol;
+  document.querySelectorAll('.padTgt').forEach(e=>{e.hidden=step!=='spin';if(s){e.style.left=(50+s.a/SPIN_MAX*50)+'%';e.style.top=(50-s.b/SPIN_MAX*50)+'%';}});
+  const em=$('elevMark');em.hidden=step!=='elev';
+  if(step==='elev'){const r=elevIn.getBoundingClientRect(),c=$('elevCell').getBoundingClientRect(),k=s.elev/75,th=16;em.style.left=(r.left-c.left+th/2+k*(r.width-th))+'px';em.style.top=(r.top-c.top+r.height/2)+'px';}
+  const m=$('powerMark');if(step==='power'){m.style.top=(s.pw/PMAX*100)+'%';m.hidden=false;}else if(step)m.hidden=true;
+  tutGhost(step==='aim'||step==='fine'||step==='line');
+}
 function tutGo(step){
-  tut.step=step;app.classList.toggle('tut-elev',step==='elev');document.querySelectorAll('.tutGlow').forEach(e=>e.classList.remove('tutGlow'));
-  const s=TUT_STEPS[step],b=$('tutBubble');$('tutTap').hidden=step!=='aim';tut.ready=false;$('tutStep').disabled=true;$('tutStep').hidden=step==='power';
-  if(!s){b.hidden=true;return;}
-  b.hidden=false;$('tutMsg').textContent=s.text;if(s.glow)$(s.glow).classList.add('tutGlow');
+  if(!tut)return;tut.step=step;
+  document.querySelectorAll('.tutSpot').forEach(e=>e.classList.remove('tutSpot'));
+  $('tutTap').hidden=true;$('tutDim').hidden=!(step==='aim');tutPulse=step==='aim'||step==='fine'||step==='line';
+  const b=$('tutBubble');b.hidden=!step;tutMarks(step);
+  if(!step)return;
+  $('tutMsg').textContent=(tut.hint&&TUT_HINT_TEXT[step])||TUT_TEXT[step];if(TUT_SPOT[step])$(TUT_SPOT[step]).classList.add('tutSpot');
 }
-const TUT_ORDER=['aim','fine','spin','elev','power'];
-// 조작을 해 보면 다음 버튼이 켜진다
-function tutReady(step){if(tut&&tut.step===step&&!tut.ready){tut.ready=true;$('tutStep').disabled=false;}}
-$('tutStep').onclick=()=>{if(tut&&tut.ready)tutGo(TUT_ORDER[TUT_ORDER.indexOf(tut.step)+1]);};
-function tutStart(){
-  tut={step:'intro'};$('rules').hidden=true;app.classList.add('tut');startGame({mode:'practice',game:'3c',tut:true});tutGo('intro');
-  tutCard('게임에 입장하기 앞서,\n간단하게 조작을 알려드리겠습니다.',()=>{ensureAudio();tutGo('aim');});
+function tutDone(step){
+  const s=tut&&tut.sol;if(!s||tut.step!==step)return false;
+  if(step==='aim')return angGap(aimPhi,s.phi+TUT_OFF)<.025;
+  if(step==='fine'||step==='line')return angGap(aimPhi,s.phi)<.006;
+  if(step==='spin')return Math.abs(hit.a-s.a)<.09&&Math.abs(hit.b-s.b)<.09;
+  if(step==='elev')return Math.abs(elev-s.elev)<=5;
+  return false;
 }
-function tutShot(){
-  tutGo('done');
+// 조작을 끝냈을 때 목표에 맞으면 다음 단계로
+function tutReady(step){
+  if(tut&&tut.step==='line'&&(step==='aim'||step==='fine'))step='line';
+  if(!tutDone(step))return;
+  const s=tut.sol;if(step==='aim')aimPhi=s.phi+TUT_OFF;else if(step==='fine'||step==='line')aimPhi=s.phi;else if(step==='spin'){hit={a:s.a,b:s.b};drawDot();}else if(step==='elev'){elev=s.elev;syncSpinUI();}
+  const st=tut.steps;tones([[880,0,.35]],.06);tutGo(st[st.indexOf(step)+1]);
 }
-function tutShotEnd(){
-  tut.step='end';
-  tutCard('잘하셨습니다!\n이제 게임을 진행해 보세요.',()=>{
-    tut=null;app.classList.remove('tut','tut-elev');save.tut=1;persist();G.over=true;toLobby();
+// 힘: 표시 근처에서 놓으면 정답 샷으로 맞춰 치고, 아니면 다시
+function tutPower(){
+  const s=tut.sol,t=s.pw/PMAX;
+  if(tut.step!=='power'||Math.abs(power-t)>.09){power=0;updateUI();const e=$('power');e.classList.remove('nudge');void e.offsetWidth;e.classList.add('nudge');toast('노란 표시에서 놓아 주세요',true);return false;}
+  aimPhi=s.phi;hit={a:s.a,b:s.b};elev=s.elev;power=t;syncSpinUI();return true;
+}
+function tutStage(i){
+  tut.i=i;const st=STAGES['4b'][i];tut.sol=st.sol;tut.steps=TUT_STAGES[i].steps;
+  startGame({mode:'stage',game:'4b',stage:st,tut:true});
+  if(i>0){aimPhi=tut.sol.phi;}
+  tutGo(null);tutCard(TUT_STAGES[i].card,()=>tutGo(TUT_STAGES[i].steps[0]));
+}
+function tutStageDone(){
+  if(tut.i<TUT_STAGES.length-1){tutStage(tut.i+1);return;}
+  tutGo(null);tut.step='end';
+  tutCard('튜토리얼 완료!\n이제 자유롭게 게임을 즐겨 보세요.',()=>{
+    tut=null;app.classList.remove('tut');save.tut=2;persist();G.over=true;toLobby();
   });
 }
-const tutOK=step=>!tut||tut.step===step;
+function tutQuit(){tutGo(null);tut=null;app.classList.remove('tut');save.tut=2;persist();}
+function tutStart(){
+  tut={step:'intro',i:0};$('rules').hidden=true;app.classList.add('tut');
+  tutStage(0);$('tutCard').hidden=true;
+  tutCard('게임에 입장하기 앞서,\n간단하게 조작을 알려드리겠습니다.',()=>{ensureAudio();tutCard(TUT_STAGES[0].card,()=>tutGo('aim'));});
+}
+const tutOK=step=>!tut||tut.step===step||(tut.step==='line'&&(step==='aim'||step==='fine'));
 function openRules(g){
   document.querySelectorAll('.rules-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.r===g));
   document.querySelectorAll('.rules-body').forEach(b=>b.hidden=b.dataset.rb!==g);
@@ -340,7 +408,7 @@ const sEnd=()=>{if(sDrag&&tut&&sDrag.m>=10)tutReady('fine');sDrag=null;};pipEl.a
 // 칠 곳: 누르면 크게 뜨고, 드래그한 만큼 큰 공 기준으로 움직인다
 let padDrag=null;const padZoom=$('padZoom');
 pad.addEventListener('pointerdown',e=>{ensureAudio();if(phase!=='aim'||!tutOK('spin'))return;padDrag={x:e.clientX,y:e.clientY,m:0};pad.setPointerCapture(e.pointerId);padZoom.style.bottom=($('dock').offsetHeight+12)+'px';padZoom.hidden=false;drawDot();});
-pad.addEventListener('pointermove',e=>{if(!padDrag)return;const dx=e.clientX-padDrag.x,dy=e.clientY-padDrag.y,rad=(padZoom.clientWidth/2)||100;padDrag.x=e.clientX;padDrag.y=e.clientY;padDrag.m+=Math.abs(dx)+Math.abs(dy);let a=hit.a+dx/rad,b=hit.b-dy/rad;const l=Math.hypot(a,b);if(l>.9){a*=.9/l;b*=.9/l;}hit={a,b};drawDot();});
+pad.addEventListener('pointermove',e=>{if(!padDrag)return;const dx=e.clientX-padDrag.x,dy=e.clientY-padDrag.y,rad=(padZoom.clientWidth/2)||100;padDrag.x=e.clientX;padDrag.y=e.clientY;padDrag.m+=Math.abs(dx)+Math.abs(dy);let a=hit.a+dx/rad*SPIN_MAX,b=hit.b-dy/rad*SPIN_MAX;const l=Math.hypot(a,b);if(l>SPIN_MAX){a*=SPIN_MAX/l;b*=SPIN_MAX/l;}hit={a,b};drawDot();});
 const padEnd=()=>{if(!padDrag)return;padZoom.hidden=true;if(tut&&padDrag.m>=6)tutReady('spin');padDrag=null;};
 pad.addEventListener('pointerup',padEnd);pad.addEventListener('pointercancel',padEnd);
 $('spinRead').onclick=()=>{if(phase!=='aim')return;hit={a:0,b:0};drawDot();};
@@ -351,7 +419,7 @@ elevIn.addEventListener('input',()=>{
   elev=v;elevVal.textContent=elev+'°';
 });
 let tutElev0=5;
-elevIn.addEventListener('change',()=>{if(tut&&elev!==tutElev0)tutReady('elev');});
+elevIn.addEventListener('change',()=>tutReady('elev'));
 const pw=$('power');let pDrag=null;
 pw.addEventListener('pointerdown',e=>{ensureAudio();if(phase!=='aim'||!tutOK('power'))return;pDrag={y:e.clientY};pw.setPointerCapture(e.pointerId);});
 pw.addEventListener('pointermove',e=>{if(!pDrag)return;power=clamp((e.clientY-pDrag.y)/(pw.clientHeight*.85),0,1);updateUI();});
@@ -359,19 +427,25 @@ function release(){
   if(!pDrag)return;pDrag=null;
   if(power<.02){power=0;updateUI();return;}
   if(G.mode==='practice'){history.push({pos:LB.map(b=>({p:b.p.clone(),q:b.mesh.quaternion.clone(),off:b.off,pot:b.pot})),aimPhi});if(history.length>20)history.shift();}
-  pendingShot=buildShot(aimPhi,hit.a,hit.b,elev,power,shotOpts());pendingShot.cueFoul=cueRisk;
+  if(tut&&!tutPower())return;
+  pendingShot=buildShot(aimPhi,hit.a,hit.b,elev,power*PMAX,shotOpts());pendingShot.cueFoul=cueRisk;
   phase='strike';strikeT=0;$('powerMark').hidden=true;updateUI();
-  if(tut&&tut.step==='power')tutShot();
+  if(tut)tutGo(null);
 }
 pw.addEventListener('pointerup',release);pw.addEventListener('pointercancel',release);
 $('placeOk').onclick=()=>{if(phase!=='place')return;G.bih=false;aimDefault();phase='aim';updateUI();};
 $('undoBtn').onclick=()=>{if(phase!=='aim')return;const h=history.pop();if(!h)return;LB.forEach((b,i)=>{const s=h.pos[i];b.p.copy(s.p);b.mesh.quaternion.copy(s.q);b.off=s.off;b.pot=s.pot;b.sink=null;b.mesh.visible=!b.off;b.v.set(0,0,0);b.w.set(0,0,0);});aimPhi=h.aimPhi;power=0;updateUI();};
 $('resetBtn').onclick=()=>{if(phase!=='aim')return;layoutStart();history=[];aimDefault();};
 function applyHint(){
-  const c=G.stage.sol;aimPhi=c.phi;hit={a:c.a,b:c.b};{const q=LB[G.cueI];elev=Math.min(75,Math.max(c.elev,cueFloor(q,true,false),cueFloor(q,false,true)));}power=0;G.usedHint=true;syncSpinUI();
-  const m=$('powerMark');m.style.top=(c.pw*100)+'%';m.hidden=false;
-  $('hintBtn').textContent=`파워 ${Math.round(c.pw*100)}`;updateUI();
+  const c=G.stage.sol;G.usedHint=true;G.tries=1;layoutStage(G.stage);hit={a:0,b:0};elev=5;power=0;aimDefault();syncSpinUI();updateHUD();
+  const q=LB[G.cueI],ef=Math.min(75,Math.max(c.elev,cueFloor(q,true,false),cueFloor(q,false,true))),steps=['line'];
+  if(Math.hypot(c.a,c.b)>.05)steps.push('spin');
+  if(ef>Math.max(5,cueFloor(q,true,false))+4)steps.push('elev');
+  steps.push('power');
+  tut={hint:true,i:-1,sol:Object.assign({},c,{elev:ef}),steps,step:null};
+  tutGo('aim');updateUI();
 }
+function hintEnd(){if(tut&&tut.hint){tutGo(null);tut=null;}}
 $('hintBtn').onclick=()=>{
   const s=G.stage;if(!s||!s.sol||phase!=='aim')return;
   if(G.hintGranted){applyHint();return;}
@@ -428,6 +502,7 @@ document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>{
 });
 document.querySelectorAll('[data-lv]').forEach(b=>b.onclick=()=>startGame({mode:'ai',game:nav.game,lv:b.dataset.lv}));
 $('openPractice').onclick=()=>startGame({mode:'practice',game:nav.game});
+$('openLocal').onclick=()=>startGame({mode:'local',game:nav.game});
 function openRoom(){nav.mode='room';showStep('stepRoom','방','만들기 / 입장하기');}
 function openJoin(){nav.mode='room';$('joinErr').textContent='';$('roomCode').value='';showStep('stepJoin','입장하기');}
 $('goRoom').onclick=()=>{ensureAudio();openRoom();};
@@ -437,7 +512,7 @@ $('roomCode').addEventListener('input',e=>{e.target.value=e.target.value.replace
 $('stepJoin').addEventListener('submit',e=>{e.preventDefault();const c=$('roomCode').value;if(!/^[0-9]{4}$/.test(c)){$('joinErr').textContent='4자리 숫자를 입력해 주세요.';return;}roomJoin(c);});
 $('sheetBack').onclick=()=>{if(nav.step==='stepJoin'||(nav.step==='stepGame'&&nav.mode==='room')){openRoom();return;}if(nav.step==='stepGame'||nav.step==='stepRoom'){$('sheet').hidden=true;$('lobby').classList.remove('sheeted');}else openGames();};
 $('mCancel').onclick=matchCancel;$('mBot').onclick=matchBot;
-$('rLobby').onclick=afterAd(()=>toLobby());
+$('rLobby').onclick=afterAd(()=>{if(tut)tutQuit();toLobby();});
 (function(){const g=$('rackGlyph');let k=0;const order=[1,9,2,10,8,3,11,4,12,5,13,6,14,7,15];for(let r=0;r<5;r++)for(let j=0;j<=r;j++){const n=order[k++],b=document.createElement('i');b.className='b';b.style.setProperty('--c',POOL_COL[(n-1)%8]);b.style.left=(r*11)+'px';b.style.top=(23+(j-r/2)*12.4)+'px';g.appendChild(b);}})();
 
 // ---------- 루프 ----------
@@ -451,11 +526,12 @@ function flyTick(b,dt){
   if(f.t>2.4||Math.abs(m.x)>HL+3.5||Math.abs(m.z)>HW+3.5){b.fly=null;b.mesh.visible=false;}
 }
 function syncMeshes(dt){
+  if(tutLine&&tutLine.visible)tutLine.material.opacity=tutPulse?.55+.45*Math.sin(performance.now()/180):1;
   LB.forEach(b=>{
     if(b.sink){const s=b.sink;s.t+=dt/.26;const k=Math.min(1,s.t);b.mesh.position.set(s.x+(s.tx-s.x)*k,R-.12*k*k,s.z+(s.tz-s.z)*k);if(k>=1){b.sink=null;b.mesh.visible=false;}}
     else if(b.fly&&b.off)flyTick(b,dt);
     else if(!b.off){b.fly=null;b.mesh.position.copy(b.p);if(Math.abs(b.p.x)>HL+CW*.5||Math.abs(b.p.z)>HW+CW*.5)b.mesh.position.y=Math.max(b.p.y,RAIL_TOP+R);}
-    const h=b.p.y-R;b.ao.visible=!b.off&&!b.sink&&b.mesh.visible&&h<.08;if(b.ao.visible){b.ao.position.x=b.p.x;b.ao.position.z=b.p.z;}
+    const h=Math.max(0,(b.off?b.mesh.position.y:b.p.y)-R);b.ao.visible=!b.off&&!b.sink&&b.mesh.visible&&h<.35;if(b.ao.visible){const k=Math.min(1,h/.18);b.ao.position.x=b.p.x;b.ao.position.z=b.p.z;b.ao.material.opacity=.78*(1-.72*k);const sc=b.aoS*(1+1.4*k);b.ao.scale.set(sc,1,sc);}
   });
 }
 let lastClock=Date.now();
@@ -511,7 +587,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(relayout);
  const fb=window.NcqFeedback,btn=$('feedBtn');btn.hidden=!(fb&&fb.can());btn.onclick=()=>fb.open();
  if(!(window.claude&&window.claude.use))$('goRoom').hidden=true;}
 loadSave();refreshLobby();rankInit();attract('carom');relayout();updateCamera(0,true,performance.now());drawDot();
-if(!save.tut)tutStart();
+if((save.tut|0)<2)tutStart();
 requestAnimationFrame(loop);
 /*__TEST_HOOK__*/
 })();

@@ -28,7 +28,7 @@
       </div>
       <div class="solo-r">
         <div class="solo-tries" id="soloTries"></div>
-        <button id="hintBtn" class="sm">▶ 힌트</button>
+        <button id="hintBtn" class="sm" aria-label="광고 보고 힌트 보기"><span class="adTag">AD</span>힌트</button>
         <button id="undoBtn" class="sm" title="직전 샷 전으로 되돌리기">되돌리기</button>
         <button id="resetBtn" class="sm">초기화</button>
       </div>
@@ -47,14 +47,14 @@
 
   <div id="dock" class="gut" hidden>
     <div class="cell spin">
-      <div id="pad"><div class="miss" id="missZone"></div><div class="cross"></div><div class="cross h"></div><div id="dot"></div></div>
+      <div id="pad"><div class="grid"></div><i class="padTgt" hidden></i><div id="dot"></div></div>
       <button id="spinRead" title="눌러서 중앙으로">중앙</button>
     </div>
     <div id="pip" title="좌우로 밀어 미세 조준"><div id="fineTicks" aria-hidden="true"></div></div>
     <div id="placeBar" hidden><button class="primary" id="placeOk">여기에 놓기</button></div>
     <div class="cell ctl" id="elevCell">
       <div class="ctl-l"><span class="lbl">큐 각도</span><span id="elevVal">5°</span></div>
-      <input id="elev" type="range" min="0" max="75" step="1" value="5" aria-label="큐 각도">
+      <i id="elevMark" hidden></i><input id="elev" type="range" min="0" max="75" step="1" value="5" aria-label="큐 각도">
     </div>
   </div>
 
@@ -67,7 +67,17 @@
     </div>
   </div>
 
-  <div id="padZoom" hidden aria-hidden="true"><div class="miss"></div><div class="cross"></div><div class="cross h"></div><div id="dotZoom"></div></div>
+  <div id="padZoom" hidden aria-hidden="true"><div class="grid"></div><i class="padTgt" hidden></i><div id="dotZoom"></div></div>
+
+  <section id="ranks" hidden aria-label="랭킹">
+    <div class="rules-card gut">
+      <h2>랭킹</h2>
+      <div class="rules-tabs" role="tablist"><button data-k="3c" role="tab">3구</button><button data-k="4b" role="tab">4구</button><button data-k="pool" role="tab">포켓볼</button></div>
+      <div class="rank-list"><table><thead><tr><th>순위</th><th>닉네임</th><th>Rating</th><th>승패</th></tr></thead><tbody id="rankList"></tbody></table></div>
+      <p class="rules-note" id="rankNote"></p>
+      <button class="primary" id="ranksClose">닫기</button>
+    </div>
+  </section>
 
   <section id="rules" hidden aria-label="게임 룰">
     <div class="rules-card gut">
@@ -98,7 +108,8 @@
     </div>
   </section>
 
-  <div id="tutBubble" hidden role="status"><span id="tutMsg"></span><button class="primary" id="tutStep">다음</button></div>
+  <div id="tutDim" hidden></div>
+  <div id="tutBubble" hidden role="status"><span id="tutMsg"></span></div>
   <div id="tutTap" hidden aria-hidden="true"></div>
   <section id="tutCard" class="screen" hidden>
     <p id="tutText"></p>
@@ -111,6 +122,7 @@
         <thead><tr><th scope="col">Online</th><th scope="col">Rating</th><th scope="col">랭킹</th><th scope="col">승패</th></tr></thead>
         <tbody id="rankRows"></tbody>
       </table>
+      <button id="rankOpen" class="rank-open">랭킹 보기</button>
     </aside>
     <header class="brand gut">
       <div class="trio" aria-hidden="true"><i class="b w"></i><i class="b y"></i><i class="b r"></i></div>
@@ -147,6 +159,7 @@
       <div class="mode-box"><b>AI 대전</b><small id="aiRule">난이도를 고르면 바로 시작해요.</small>
         <div class="lv"><button data-lv="easy">초급</button><button data-lv="mid">중급</button><button data-lv="hard">고급</button></div></div>
       <button class="row-btn" id="openPractice" style="grid-template-columns:1fr auto"><span><b style="font-size:26px">연습</b><small>규칙 없이 혼자 쳐 봐요. 되돌리기 가능.</small></span></button>
+      <button class="row-btn" id="openLocal" style="grid-template-columns:1fr auto"><span><b style="font-size:26px">2인 대전</b><small>한 휴대폰으로 둘이 번갈아 쳐요.</small></span></button>
     </div>
     <div class="step gut" id="stepStages" hidden></div>
   </section>

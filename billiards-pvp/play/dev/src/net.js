@@ -179,7 +179,7 @@ function netFlush(){const n=G.net;if(n&&n.queued){const g=n.queued;n.queued=null
 function remoteShotDone(){const n=G.net;if(n.pendingE){const e=n.pendingE;n.pendingE=null;remoteEnd(e);}else{phase='wait-end';n.endWaitAt=Date.now();updateUI();}}
 function remoteEnd(g){
   const n=G.net;decode(g.b,g.p);n.applied=g.n;
-  G.players.forEach((p,i)=>{p.score=clamp(g.s[i]|0,0,99);p.group=[null,'solid','stripe'][(g.gr&&g.gr[i])|0]||null;});
+  G.players.forEach((p,i)=>{p.to=clamp((g.to&&g.to[i])|0,0,2);p.score=clamp(g.s[i]|0,0,99);p.group=[null,'solid','stripe'][(g.gr&&g.gr[i])|0]||null;});
   G.turn=g.t?1:0;G.inning=clamp(g.i|0,1,999);G.bih=!!g.h;G.isBreak=!!g.br;
   showOutcome({msg:cleanMsg(g.m),toast:cleanMsg(g.tt).slice(0,12),bad:!!g.tb,over:g.o===0||g.o===1?g.o:-1,keep:!!g.kp,why:cleanMsg(g.m)});
 }
@@ -190,7 +190,7 @@ function netSendShot(s){
 }
 function netSendEnd(r){
   const n=G.net;normalizeBoard();n.applied++;
-  n.room.presence({g:{k:'E',n:n.applied,b:enc(),p:potMask(),t:G.turn,s:G.players.map(p=>p.score),i:G.inning,gr:G.players.map(p=>p.group==='solid'?1:p.group==='stripe'?2:0),h:G.bih?1:0,o:r.over,m:cleanMsg(r.msg),tt:r.toast?String(r.toast):'',tb:r.bad?1:0,kp:r.keep?1:0,br:G.isBreak?1:0}}).catch(()=>{});
+  n.room.presence({g:{k:'E',n:n.applied,b:enc(),p:potMask(),t:G.turn,s:G.players.map(p=>p.score),i:G.inning,gr:G.players.map(p=>p.group==='solid'?1:p.group==='stripe'?2:0),h:G.bih?1:0,o:r.over,to:G.players.map(p=>p.to|0),m:cleanMsg(r.msg),tt:r.toast?String(r.toast):'',tb:r.bad?1:0,kp:r.keep?1:0,br:G.isBreak?1:0}}).catch(()=>{});
 }
 function netAimTick(){
   const n=G.net;if(!n||n.closed)return;
@@ -234,7 +234,7 @@ function rankCompute(){
 }
 function rankPush(){
   if(!Rank.db||!Rank.uid)return;
-  const body={};Object.keys(GAME_INFO).forEach(g=>{const r=save.rec[g];body[g]={r:r.rk,w:r.w,l:r.l};});
+  const body={nick:save.nick};Object.keys(GAME_INFO).forEach(g=>{const r=save.rec[g];body[g]={r:r.rk,w:r.w,l:r.l};});
   Rank.db.doc('rank/'+Rank.uid).set(body).then(()=>rankListen()).catch(()=>{});
 }
 

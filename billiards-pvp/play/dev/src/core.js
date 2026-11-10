@@ -10,7 +10,7 @@ function mulberry(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1
 
 // ---------- 규격 (m, kg) ----------
 const GV=9.81,MU_S=0.2,MU_R=0.011,SPIN_DEC=14,E_BALL=0.93,E_CUSH=0.76,E_TABLE=0.45,MU_BALL=0.06,MU_CUSH=0.22,CUSH_H=0.037;
-const DT=1/1200,MISCUE=0.56,GAP_C=0.09,GAP_S=0.068;
+const DT=1/1200,MISCUE=0.56,PMAX=0.8,SPIN_MAX=MISCUE,GAP_C=0.09,GAP_S=0.068;
 const KIT={carom:{L:2.84,W:1.42,R:0.03075,M:0.21,pockets:false},pool:{L:2.54,W:1.27,R:0.028575,M:0.17,pockets:true}};
 let tableKind='carom',L,W,HL,HW,R,M,I,D2,LIM_X,LIM_Z,hasPockets;
 function setSpec(k){const t=KIT[k];tableKind=k;L=t.L;W=t.W;HL=L/2;HW=W/2;R=t.R;M=t.M;I=0.4*M*R*R;D2=2*R;LIM_X=HL-R;LIM_Z=HW-R;hasPockets=t.pockets;}
@@ -37,7 +37,7 @@ const camera=new THREE.PerspectiveCamera(FOV,1,0.05,60);
   const p=new THREE.PMREMGenerator(renderer);scene.environment=p.fromScene(env,0.012).texture;p.dispose();
 })();
 scene.add(new THREE.HemisphereLight(0xcfd8ea,0x18110a,0.16));
-[-0.8,0.8].forEach(x=>{const s=new THREE.SpotLight(0xfff0dc,1.12,8,1.02,0.85,1.1);s.position.set(x,2.7,0.05);s.target.position.set(x*.8,0,0);s.castShadow=true;s.shadow.mapSize.set(1024,1024);s.shadow.radius=4;s.shadow.bias=-0.0006;s.shadow.camera.near=1;s.shadow.camera.far=5;scene.add(s,s.target);});
+[-0.8,0.8].forEach(x=>{const s=new THREE.SpotLight(0xfffaf3,1.12,8,1.02,0.85,1.1);s.position.set(x,2.7,0.05);s.target.position.set(x*.8,0,0);s.castShadow=true;s.shadow.mapSize.set(1024,1024);s.shadow.radius=4;s.shadow.bias=-0.0006;s.shadow.camera.near=1;s.shadow.camera.far=5;scene.add(s,s.target);});
 
 // ---------- 절차 질감 ----------
 const MAXA=Math.min(8,renderer.capabilities.getMaxAnisotropy());
@@ -158,7 +158,7 @@ function ballTex(base,dot){
 }
 const POOL_COL=['#f2c21b','#1d4fc4','#d3261d','#5d2a9e','#ee7a1a','#13804b','#8f1d23','#16161a'];
 function poolTex(n){
-  if(n===0) return ballTex('#f4f1e8','#d0362b');
+  if(n===0) return ballTex('#f7f7f3','#d0362b');
   const c=document.createElement('canvas');c.width=512;c.height=256;const g=c.getContext('2d'),col=POOL_COL[(n-1)%8];
   if(n<=8){g.fillStyle=col;g.fillRect(0,0,512,256);}else{g.fillStyle='#f4f1e8';g.fillRect(0,0,512,256);g.fillStyle=col;g.fillRect(0,62,512,132);}
   [128,384].forEach(u=>{g.fillStyle='#f7f3e9';g.beginPath();g.arc(u,128,40,0,TAU);g.fill();g.fillStyle='#14141a';g.font='700 52px "Barlow Condensed",Arial,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(String(n),u,131);});
@@ -167,12 +167,12 @@ function poolTex(n){
 const sgC=new THREE.SphereGeometry(KIT.carom.R,56,40),sgP=new THREE.SphereGeometry(KIT.pool.R,48,32);
 const aoGeo=new THREE.PlaneGeometry(1,1).rotateX(-Math.PI/2),aoMat=new THREE.MeshBasicMaterial({transparent:true,depthWrite:false,toneMapped:false,color:0x000000,opacity:.78,map:(function(){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d'),r=g.createRadialGradient(64,64,6,64,64,64);r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.36,'rgba(255,255,255,.72)');r.addColorStop(.62,'rgba(255,255,255,.14)');r.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=r;g.fillRect(0,0,128,128);return new THREE.CanvasTexture(c);})()});
 function mkBall(name,tex,geo,rad,num){
-  const m=new THREE.Mesh(geo,new THREE.MeshPhysicalMaterial({map:tex,roughness:.14,metalness:0,clearcoat:1,clearcoatRoughness:.025,envMapIntensity:1.25,reflectivity:.6}));
+  const m=new THREE.Mesh(geo,new THREE.MeshPhysicalMaterial({map:tex,color:0xd2d2d2,roughness:.14,metalness:0,clearcoat:1,clearcoatRoughness:.025,envMapIntensity:.85,reflectivity:.5}));
   m.castShadow=true;m.visible=false;m.renderOrder=2;scene.add(m);
-  const ao=new THREE.Mesh(aoGeo,aoMat);ao.visible=false;ao.renderOrder=1;ao.scale.set(rad*3,1,rad*3);ao.position.y=.0014;scene.add(ao);
-  return {ao,name,num,i:0,p:new V(0,rad,0),v:new V(),w:new V(),mesh:m,off:false,pot:false,spot:null,sink:null};
+  const ao=new THREE.Mesh(aoGeo,aoMat.clone());ao.visible=false;ao.renderOrder=1;ao.scale.set(rad*3,1,rad*3);ao.position.y=.0014;scene.add(ao);
+  return {ao,aoS:rad*3,name,num,i:0,p:new V(0,rad,0),v:new V(),w:new V(),mesh:m,off:false,pot:false,spot:null,sink:null};
 }
-const CAROM={w:mkBall('흰 공',ballTex('#f4f1e8','#d0362b'),sgC,KIT.carom.R,-1),y:mkBall('노란 공',ballTex('#f3c22c','#6f4f00'),sgC,KIT.carom.R,-1),r:mkBall('빨간 공',ballTex('#c81f29','#ffe6dc'),sgC,KIT.carom.R,-1),r2:mkBall('빨간 공',ballTex('#c81f29','#ffe6dc'),sgC,KIT.carom.R,-1)};
+const CAROM={w:mkBall('흰 공',ballTex('#f7f7f3','#d0362b'),sgC,KIT.carom.R,-1),y:mkBall('노란 공',ballTex('#f7d80f','#6f5a00'),sgC,KIT.carom.R,-1),r:mkBall('빨간 공',ballTex('#cf1428','#ffecec'),sgC,KIT.carom.R,-1),r2:mkBall('빨간 공',ballTex('#cf1428','#ffecec'),sgC,KIT.carom.R,-1)};
 const POOL_BALLS=[];for(let n=0;n<16;n++)POOL_BALLS.push(mkBall(n?n+'번 공':'수구',poolTex(n),sgP,KIT.pool.R,n));
 const ALL_BALLS=[CAROM.w,CAROM.y,CAROM.r,CAROM.r2,...POOL_BALLS];
 CAROM.w.glow=0xffffff;CAROM.y.glow=0xffd23a;CAROM.r.glow=CAROM.r2.glow=0xff3a45;

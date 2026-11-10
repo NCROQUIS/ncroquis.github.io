@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=4dfcfc13884e";
-import { TEXTS } from "./texts.js?v=4dfcfc13884e";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=4dfcfc13884e";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=4dfcfc13884e";
+import { NcqBoard } from "./ncq/board.js?v=7a716c291e00";
+import { TEXTS } from "./texts.js?v=7a716c291e00";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=7a716c291e00";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=7a716c291e00";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -419,19 +419,30 @@ function renderDailyMissions() {
   const ready = missionTargets.filter(target => target <= count && !claimed.includes(target));
   const next = nextMissionTarget(count);
   const completed = dailyMissions.filter(({ target }) => count >= target).length;
-  el("daily-mission-completed").textContent = t("missionMilestones", missionProgress(completed, dailyMissions.length));
+  const progress = missionProgress(completed, dailyMissions.length);
+  const firstReward = ready[0];
+  el("daily-mission-count").textContent = progress.count;
+  el("daily-mission-total").textContent = t("missionMilestoneTotal", progress);
+  const filledSegments = Math.max(0, completed - 1);
+  el("daily-mission-steps").style.setProperty("--mission-rail-fill", filledSegments / (dailyMissions.length - 1) * 100 + "%");
   missionSteps.forEach((step, index) => step.toggleAttribute("data-completed", index < completed));
   el("show-missions").toggleAttribute("data-ready", ready.length > 0);
-  el("daily-mission-summary").textContent = ready.length
-    ? t("missionReady", { n: NcqLang.num(ready.length) })
-    : next ? t("missionNext", missionProgress(count, next)) : t("missionAllDone");
+  el("daily-mission-action").textContent = t(ready.length ? "missionClaim" : "missionView");
+  const summary = el("daily-mission-summary");
+  if (firstReward > repeatMission.after) {
+    summary.textContent = t("missionRepeatReady");
+  } else if (firstReward) {
+    summary.textContent = t("missionMatchReady", { n: NcqLang.num(firstReward) });
+  } else {
+    summary.textContent = next ? t("missionNext", missionProgress(count, next)) : t("missionAllDone");
+  }
   if (!missionDialog.open) return;
 
   el("mission-balance").textContent = NcqLang.num(shopState.coins);
   const overview = el("mission-overview-progress");
   overview.setAttribute("aria-valuenow", completed);
   overview.style.setProperty("--mission-fill", completed / dailyMissions.length * 100 + "%");
-  el("mission-total").textContent = t("missionOverviewCount", missionProgress(completed, dailyMissions.length));
+  el("mission-total").textContent = t("missionOverviewCount", progress);
   missionMarkers.forEach((marker, index) => {
     const done = index < completed;
     marker.toggleAttribute("data-done", done);
@@ -906,7 +917,9 @@ function sideName(game, seat) {
 }
 
 function matchMode(game) {
-  return game.mode === "tournament" ? "weeklyTournament" : ruleNames[game.rule] ?? "onlineMatch";
+  if (game.mode === "tournament") return "weeklyTournament";
+  if (game.rule === "taraguchi") return "ruleTaraguchiShort";
+  return ruleNames[game.rule] ?? "onlineMatch";
 }
 
 function recordModeLabel(game) {
@@ -1402,7 +1415,7 @@ function renderLobby() {
   const entries = el("live-games");
   entries.replaceChildren(...(lobbyUnavailable ? [] : liveGames ?? []).map(game => {
     const moves = t("movesCount", { n: game.moves });
-    const mode = t(game.rule === "taraguchi" ? "ruleTaraguchiShort" : matchMode(game));
+    const mode = t(matchMode(game));
     const label = mode + " #" + game.number;
     if (!game.code) return entryRow(label, moves);
     const row = game.players?.length === 2 ? liveGameRow(game, label)
@@ -1451,12 +1464,16 @@ function renderPlayerCard() {
   const name = ownNickname();
   el("lobby-player-name").textContent = name;
   el("lobby-player-name").title = name;
-  el("player-career").hidden = !playerStats;
+  el("lobby-player-rank").hidden = el("player-career").hidden = !playerStats;
+  const record = el("player-record");
+  const rankRecord = playerStats?.rankRecord;
+  record.hidden = !rankRecord;
+  if (rankRecord) record.textContent = t("lobbyRankRecord", { record: t("careerRecord", rankRecord) });
   if (!playerStats) return;
-  el("player-record").textContent = t("careerRecord", playerStats);
   const { rating } = playerStats;
   const level = rankLevel(rating);
-  el("player-rating").textContent = t("rankRating", { rank: rankName(level), rating: ratingNumber(rating) });
+  el("lobby-player-rank").textContent = rankName(level);
+  el("player-rating-value").textContent = t("profileRatingValue", { rating: ratingNumber(rating) });
   const nextRank = nextRankText(level, rating);
   el("player-next-rank").hidden = !nextRank;
   el("player-next-rank").textContent = nextRank;
@@ -1840,6 +1857,7 @@ function render() {
   document.body.classList.toggle("shared-review", sharedReview);
   document.body.classList.toggle("in-records", !game && lobbyView === "records");
   el("match").toggleAttribute("data-playing", liveLayout);
+  el("match").toggleAttribute("data-taraguchi", liveLayout && game.rule === "taraguchi");
   for (const view of ["lobby", "records", "tournament"]) {
     el(view).hidden = Boolean(game) || lobbyView !== view;
   }

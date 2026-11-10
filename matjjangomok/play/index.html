@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=4dfcfc13884e">
-  <script type="module" src="./app.js?v=4dfcfc13884e"></script>
+  <link rel="stylesheet" href="./style.css?v=7a716c291e00">
+  <script type="module" src="./app.js?v=7a716c291e00"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -82,64 +82,70 @@
 
     <main>
       <section id="lobby" class="lobby">
-        <div class="lobby-highlights">
-          <button id="show-missions" class="mission-shortcut" type="button" aria-haspopup="dialog" aria-controls="missions">
-            <svg class="mission-gift" viewBox="0 0 28 28" aria-hidden="true">
-              <path d="M4 12h20v12H4z" fill="#dae8ba" stroke="#789b43" stroke-width="1.4" stroke-linejoin="round"/>
-              <path d="M2.5 8h23v5h-23z" fill="#eef5d8" stroke="#789b43" stroke-width="1.4" stroke-linejoin="round"/>
-              <path d="M14 24V8m0 0C4 8 5 0 9.5 2.5 12.2 4 14 8 14 8Zm0 0C24 8 23 0 18.5 2.5 15.8 4 14 8 14 8Z"
-                    fill="none" stroke="#5d8a28" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span class="mission-shortcut-content">
-              <span class="mission-shortcut-heading">
-                <strong data-i18n="dailyMissions"></strong>
-                <small id="daily-mission-completed"></small>
+        <div class="lobby-feed">
+          <div class="lobby-highlights">
+            <button id="show-missions" class="mission-shortcut" type="button" aria-haspopup="dialog" aria-controls="missions">
+              <span class="mission-shortcut-icon" aria-hidden="true">
+                <svg class="mission-gift" viewBox="0 0 28 28">
+                  <path d="M4 12h20v12H4z" fill="#dae8ba" stroke="#789b43" stroke-width="1.4" stroke-linejoin="round"/>
+                  <path d="M2.5 8h23v5h-23z" fill="#eef5d8" stroke="#789b43" stroke-width="1.4" stroke-linejoin="round"/>
+                  <path d="M14 24V8m0 0C4 8 5 0 9.5 2.5 12.2 4 14 8 14 8Zm0 0C24 8 23 0 18.5 2.5 15.8 4 14 8 14 8Z"
+                        fill="none" stroke="#5d8a28" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </span>
-              <span id="daily-mission-steps" class="mission-steps" aria-hidden="true"></span>
-              <small id="daily-mission-summary"></small>
-            </span>
-            <span class="mission-details" data-i18n="missionView"></span>
-          </button>
-          <button id="show-tournament" class="tournament-card" type="button" hidden>
-            <svg class="tournament-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-ranking"/></svg>
-            <strong id="lobby-championship"></strong>
-            <small data-i18n="tournamentSummary"></small>
-            <time id="championship-countdown" class="championship-countdown"></time>
-          </button>
-        </div>
-        <div class="list-heading">
-          <div class="list-heading-title">
-            <h1 id="lobby-heading" tabindex="-1" data-i18n="liveGames"></h1>
-            <span id="live-count" class="list-count" hidden></span>
+              <span class="mission-shortcut-content">
+                <span class="mission-shortcut-heading">
+                  <strong data-i18n="dailyMissions"></strong>
+                  <small id="daily-mission-completed"><span id="daily-mission-count"></span> <span id="daily-mission-total"></span></small>
+                </span>
+                <span class="mission-shortcut-progress">
+                  <span id="daily-mission-steps" class="mission-steps" aria-hidden="true"></span>
+                  <small id="daily-mission-summary"></small>
+                </span>
+              </span>
+              <span id="daily-mission-action" class="mission-details"></span>
+            </button>
+            <button id="show-tournament" class="tournament-card" type="button" hidden>
+              <svg class="tournament-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-ranking"/></svg>
+              <strong id="lobby-championship"></strong>
+              <small data-i18n="tournamentSummary"></small>
+              <time id="championship-countdown" class="championship-countdown"></time>
+            </button>
           </div>
-          <button id="refresh-lobby" class="quiet refresh-button" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4v5h-5m5 0a8 8 0 0 0-14-2M4 20v-5h5m-5 0a8 8 0 0 0 14 2"
-                 fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span data-i18n="refreshLobby"></span>
-          </button>
-        </div>
-        <div class="list-body">
-          <p id="live-message" class="list-message"></p>
-          <ul id="live-games" class="entry-list"></ul>
-          <template id="live-game-row">
-            <li class="entry-row">
-              <button class="entry-body live-game-entry" type="button">
-                <span class="live-game-players">
-                  <span class="live-game-player">
-                    <span class="stone black" role="img"></span><span class="live-game-rank"></span><strong class="live-game-name"></strong>
+          <div class="list-heading">
+            <div class="list-heading-title">
+              <h1 id="lobby-heading" tabindex="-1" data-i18n="liveGames"></h1>
+              <span id="live-count" class="list-count" hidden></span>
+            </div>
+            <button id="refresh-lobby" class="quiet refresh-button" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4v5h-5m5 0a8 8 0 0 0-14-2M4 20v-5h5m-5 0a8 8 0 0 0 14 2"
+                   fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span data-i18n="refreshLobby"></span>
+            </button>
+          </div>
+          <div class="list-body">
+            <p id="live-message" class="list-message"></p>
+            <ul id="live-games" class="entry-list"></ul>
+            <template id="live-game-row">
+              <li class="entry-row">
+                <button class="entry-body live-game-entry" type="button">
+                  <span class="live-game-players">
+                    <span class="live-game-player">
+                      <span class="stone black" role="img"></span><span class="live-game-rank"></span><strong class="live-game-name"></strong>
+                    </span>
+                    <span class="live-game-player">
+                      <span class="stone white" role="img"></span><span class="live-game-rank"></span><strong class="live-game-name"></strong>
+                    </span>
                   </span>
-                  <span class="live-game-player">
-                    <span class="stone white" role="img"></span><span class="live-game-rank"></span><strong class="live-game-name"></strong>
+                  <span class="live-game-stats">
+                    <strong class="live-game-watchers"></strong>
+                    <span class="live-game-moves"></span>
                   </span>
-                </span>
-                <span class="live-game-stats">
-                  <strong class="live-game-watchers"></strong>
-                  <span class="live-game-moves"></span>
-                </span>
-                <span class="chevron" aria-hidden="true"></span>
-              </button>
-            </li>
-          </template>
+                  <span class="chevron" aria-hidden="true"></span>
+                </button>
+              </li>
+            </template>
+          </div>
         </div>
         <button id="player-card" class="player-card" type="button" aria-haspopup="dialog" aria-controls="player-profile">
           <span class="player-avatar" aria-hidden="true">
@@ -147,19 +153,24 @@
             <img id="player-photo" alt="" referrerpolicy="no-referrer" hidden>
           </span>
           <span class="player-summary">
-            <span class="player-name-line"><span class="player-info-label" data-i18n="playerInfo"></span><strong id="lobby-player-name"></strong></span>
-            <span id="player-career" class="player-career" hidden>
-              <strong id="player-rating"></strong>
-              <span id="player-record"></span>
-              <span id="player-next-rank" hidden></span>
+            <span class="player-name-line">
+              <span class="player-info-label" data-i18n="playerInfo"></span>
+              <strong id="lobby-player-rank" hidden></strong>
+              <strong id="lobby-player-name"></strong>
             </span>
+            <span id="player-record" hidden></span>
           </span>
-          <span class="chevron" aria-hidden="true"></span>
+          <span id="player-career" class="player-rating-summary" hidden>
+            <strong id="player-rating"><span class="player-rating-label" data-i18n="profileRating"></span> <span id="player-rating-value"></span></strong>
+            <span id="player-next-rank" hidden></span>
+          </span>
         </button>
         <div class="lobby-actions match-request">
           <button id="choose-rule" class="secondary choose-rule" type="button" aria-haspopup="dialog" aria-controls="rule-dialog">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h14M9 4v4m6 2v4m-6 2v4" fill="none"
-              stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">
+              <path d="M9.5 3h5l.5 2.5 1.3.8 2.5-.8 2.5 4.3-2 1.7v1l2 1.7-2.5 4.3-2.5-.8-1.3.8-.5 2.5h-5l-.5-2.5-1.3-.8-2.5.8-2.5-4.3 2-1.7v-1l-2-1.7 2.5-4.3 2.5.8 1.3-.8z"/>
+              <circle cx="12" cy="12" r="2.8"/>
+            </svg>
             <span id="selected-rule"></span>
             <span class="chevron" aria-hidden="true"></span>
           </button>
@@ -361,7 +372,7 @@
             </div>
             <svg id="last-move-marker" viewBox="0 0 24 24" aria-hidden="true" hidden>
               <use href="./assets/match-ui/icons.svg#last-move"/>
-              <path class="review-marker" d="M7 4.5a1 1 0 0 1 1.5-.9l12 7.5a1 1 0 0 1 0 1.8l-12 7.5a1 1 0 0 1-1.5-.9z"/>
+              <path class="review-marker" d="M3 5h18l-9 15Z"/>
             </svg>
           </div>
         </div>

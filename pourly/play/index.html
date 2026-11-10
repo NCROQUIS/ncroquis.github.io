@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#0a2238" />
   <title>Pourly</title>
-  <script type="module" crossorigin src="./assets/index-DLHOdpvT.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CUBpo8-w.css">
+  <script type="module" crossorigin src="./assets/index-BihQESMN.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-2psnEOfB.css">
 </head>
 <body>
   <!-- 바탕: 깊은 물빛 + 천천히 움직이는 빛 + 작은 기포 (이야기 없는 꾸밈) -->
@@ -40,6 +40,25 @@
       </div>
     </header>
 
+    <!-- '오늘' 줄: 오늘의 퍼즐 · 보물 상자까지 진행 막대 · 매일 선물 (4판부터) -->
+    <div class="meta" id="meta" hidden>
+      <button class="chip" id="btn-puzzle">
+        <svg class="ico-cal" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="3"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>
+        <svg class="ico-back" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M14.5 6 8.5 12l6 6"/></svg>
+        <span id="puzzle-label"></span>
+        <span class="streak" id="puzzle-streak" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c1.2 3.2 4.5 4.8 4.5 9a4.5 4.5 0 0 1-9 0c0-2.2 1.1-3.4 2.2-4.4 0 2 1 3.2 2.2 3.2 0-3.2-1.2-5.2.1-7.8z"/></svg><b id="streak-n"></b></span>
+        <svg class="done" id="puzzle-done" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+      </button>
+      <div class="chest-bar" id="chest-bar" role="img">
+        <i></i><i></i><i></i><i></i><i></i>
+        <svg class="chest-mini" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5h16v8.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 19z"/><path d="M4 10.5C4 6 20 6 20 10.5"/><path d="M10.5 12.5h3v3.5h-3z"/></svg>
+      </div>
+      <button class="chip" id="btn-gift">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="10" width="15" height="10" rx="2"/><path d="M3.5 7.5h17V10h-17zM12 7.5V20"/><path d="M12 7.5C10.5 4 6.5 4 7 6.2c.4 1.6 3.4 1.3 5 1.3 1.6 0 4.6.3 5-1.3.5-2.2-3.5-2.2-5 1.3z"/></svg>
+        <span data-i18n="gift"></span><em class="dot" id="gift-dot" hidden></em>
+      </button>
+    </div>
+
     <main id="board-wrap" data-ncq-no-main>
       <div class="tip" id="tip" hidden></div>
       <div class="guide" id="guide" aria-hidden="true" hidden>👆</div>
@@ -71,7 +90,41 @@
     <div class="card" role="dialog" aria-labelledby="offer-title">
       <div class="card-title" id="offer-title"></div>
       <p class="offer-msg" id="offer-msg"></p>
+      <div class="offer-body" id="offer-body"></div>
       <div class="offer-actions" id="offer-actions"></div>
+    </div>
+  </div>
+
+  <!-- 보물 상자: 5판마다 (10판마다는 큰 상자). 열면 코인이 코인 칸으로 날아가요 -->
+  <div class="overlay chest-overlay" id="chest" hidden>
+    <div class="chest-box">
+      <div class="chest-title" id="chest-title"></div>
+      <div class="chest-stage">
+        <div class="chest-rays" aria-hidden="true"></div>
+        <svg class="chest" id="chest-svg" viewBox="0 0 160 140" aria-hidden="true">
+          <defs>
+            <linearGradient id="chest-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a8dff"/><stop offset="1" stop-color="#1c3f9c"/></linearGradient>
+            <linearGradient id="chest-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff0b8"/><stop offset="0.45" stop-color="#ffc93d"/><stop offset="1" stop-color="#cf8410"/></linearGradient>
+            <radialGradient id="chest-glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff7cf"/><stop offset="1" stop-color="#ffd24d" stop-opacity="0"/></radialGradient>
+          </defs>
+          <ellipse cx="80" cy="129" rx="58" ry="8" fill="rgba(0,0,0,0.35)"/>
+          <ellipse class="chest-light" cx="80" cy="58" rx="62" ry="34" fill="url(#chest-glow)"/>
+          <rect x="22" y="60" width="116" height="62" rx="10" fill="url(#chest-body)" stroke="url(#chest-gold)" stroke-width="5"/>
+          <rect x="72" y="60" width="16" height="62" fill="url(#chest-gold)"/>
+          <path d="M30 70h100" stroke="rgba(255,255,255,0.18)" stroke-width="3" stroke-linecap="round"/>
+          <g class="chest-lid">
+            <path d="M22 62C22 28 138 28 138 62Z" fill="url(#chest-body)" stroke="url(#chest-gold)" stroke-width="5" stroke-linejoin="round"/>
+            <rect x="72" y="34" width="16" height="28" fill="url(#chest-gold)"/>
+            <path d="M38 50c10-10 30-14 42-14" stroke="rgba(255,255,255,0.28)" stroke-width="4" stroke-linecap="round" fill="none"/>
+          </g>
+          <g class="chest-lock">
+            <rect x="68" y="55" width="24" height="22" rx="5" fill="url(#chest-gold)" stroke="#a86c12" stroke-width="2"/>
+            <circle cx="80" cy="65" r="3.5" fill="#7a4d0a"/>
+          </g>
+        </svg>
+      </div>
+      <div class="chest-reward" id="chest-reward" hidden></div>
+      <button class="primary" id="btn-chest" data-ncq-main="보물 상자 열기·계속 버튼"></button>
     </div>
   </div>
 

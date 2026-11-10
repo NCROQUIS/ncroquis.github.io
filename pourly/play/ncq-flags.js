@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_TEST_LEVEL_SELECT": true, "NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.6.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.pourly", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/pourly", "board": "https://ncroquis.github.io/pourly/feedback/"}});
+window.NCQ = Object.freeze({"NCQ_TEST_LEVEL_SELECT": true, "NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.7.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.pourly", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/pourly", "board": "https://ncroquis.github.io/pourly/feedback/"}});
 Object.assign(window, window.NCQ);
 
 /* 화면 켜 두기 (ncq_build.py가 넣어요, 웹 공개). 게임을 보는 동안 휴대폰 화면이 저절로 꺼지지 않게 브라우저의
@@ -399,4 +399,4 @@ Object.assign(window, window.NCQ);
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"pourly","pf":"web","mk":"web","tr":"share","vn":"0.6.0","vc":0,"cm":"cde0d0f","ft":["LEVEL_SELECT"]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"pourly","pf":"web","mk":"web","tr":"share","vn":"0.7.0","vc":0,"cm":"1819bc0","ft":["LEVEL_SELECT"]});

@@ -39,7 +39,7 @@
   "use strict";
   if (w.NcqIap && w.NcqIap.version) return; // 두 번 들어와도 하나만
 
-  var VERSION = 3;
+  var VERSION = 4;
   var LEDGER = "ncq-iap-v1"; // 지급한 구매 (같은 구매를 두 번 지급하지 않게)
   var SIM = "ncq-iap-sim-v1"; // 공유 테스트에서 '산 것으로 한' 비소모성 상품
   var KEEP = 120 * 86400000; // 지급 기록을 남겨 두는 기간
@@ -758,7 +758,8 @@
         if (!token) return null;
         var type = typeOf(k);
         var acked = t.isAcknowledged === true;
-        var info = {restored: false, recovered: true, order: t.orderId || "", quantity: qty(t)};
+        var info = {restored: false, recovered: true, order: t.orderId || "", quantity: qty(t),
+                    purchaseToken: t.purchaseToken};
         function finish() {
           return finishAndroid(P, token, type, acked).then(function (ok) { if (!ok) done.left.push(k); });
         }
@@ -907,11 +908,11 @@
     return (shelf[k] && shelf[k].price) || "";
   }
 
-  function buy(id) { return purchase(id, "consumable"); }
+  function buy(id, options) { return purchase(id, "consumable", options); }
 
   function buyOnce(id) { return purchase(id, "non_consumable"); }
 
-  function purchase(id, type) {
+  function purchase(id, type, options) {
     var k = keyOf(id);
     if (!k) return Promise.resolve(failed(k, "UNAVAILABLE"));
     st.learned[k] = type;
@@ -927,7 +928,7 @@
       return serial(function () {
         if (env().sim) return simBuy(k, type);
         if (env().ios) return iosBuy(k, type);
-        if (env().android) return androidBuy(k, type);
+        if (env().android) return androidBuy(k, type, options);
         return tossBuy(k, type);
       });
     }).then(function (r) {
@@ -942,7 +943,7 @@
     });
   }
 
-  function androidBuy(k, type) {
+  function androidBuy(k, type, options) {
     var P = plugin();
     var id = storeId(k);
     var first = type === "non_consumable" ? androidPurchases().then(function (list) {
@@ -963,6 +964,12 @@
       if (done) return done;
       var opts = {productIdentifier: id, productType: "inapp", quantity: 1, isConsumable: type === "consumable",
                   autoAcknowledgePurchases: false};
+      if (options && options.appAccountToken !== undefined) {
+        if (typeof options.appAccountToken !== "string" || !/^[A-Za-z0-9_-]{1,64}$/.test(options.appAccountToken)) {
+          return failed(k, "UNAVAILABLE");
+        }
+        opts.appAccountToken = options.appAccountToken;
+      }
       if (shelf[k] && shelf[k].offer) opts.offerToken = shelf[k].offer; // 보여 준 가격의 구매 옵션으로
       return timed(P.purchaseProduct(opts), ORDER_WAIT).then(function (t) {
         var token = (t && (t.purchaseToken || t.transactionId)) || "";
@@ -978,7 +985,8 @@
           checkAgain();
           return failed(k, "CHECKING");
         }
-        return deliver(k, token, {restored: false, order: (t && t.orderId) || "", quantity: qty(t)}).then(function (ok) {
+        return deliver(k, token, {restored: false, order: (t && t.orderId) || "", quantity: qty(t),
+                                  purchaseToken: t && t.purchaseToken}).then(function (ok) {
           if (!ok) return failed(k, "NOT_GRANTED");
           return finishAndroid(P, token, type, !!(t && t.isAcknowledged)).then(function () { return result(true, k); });
         });

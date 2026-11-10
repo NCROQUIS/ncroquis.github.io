@@ -10,8 +10,8 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=dc618f6c2b4f">
-  <script type="module" src="./app.js?v=dc618f6c2b4f"></script>
+  <link rel="stylesheet" href="./style.css?v=172b572023d7">
+  <script type="module" src="./app.js?v=172b572023d7"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -283,24 +283,18 @@
 
       <section id="match" class="match" hidden>
         <header id="review-header" class="review-header" hidden>
-          <div class="review-leading">
-            <button id="review-back" type="button" class="review-button" data-i18n-attr="aria-label:reviewBack">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"/></svg>
-            </button>
-            <button id="review-move-numbers" type="button" class="review-button" aria-pressed="false"
-                    data-i18n-attr="aria-label:moveNumbers; title:moveNumbers">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m10 10 2-2v8"/></svg>
-              <span data-i18n="moveNumbersShort"></span>
-            </button>
-          </div>
+          <button id="review-back" type="button" class="review-button" data-i18n-attr="aria-label:reviewBack">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"/></svg>
+          </button>
           <h1 id="review-heading" tabindex="-1" data-i18n="recordView"></h1>
           <div class="review-actions">
             <button id="review-favorite" type="button" class="record-favorite review-button">
               <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-star"/></svg>
             </button>
-            <button id="review-share" type="button" class="review-button" aria-haspopup="dialog"
-                    aria-controls="record-share-dialog" data-i18n-attr="aria-label:recordShare" hidden>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-share-icon"/></svg>
+            <button id="review-move-numbers" type="button" class="review-button" aria-pressed="false"
+                    data-i18n-attr="aria-label:moveNumbers; title:moveNumbers">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m10 10 2-2v8"/></svg>
+              <span data-i18n="moveNumbersShort"></span>
             </button>
           </div>
         </header>
@@ -432,7 +426,14 @@
             <span id="review-mode"></span>
             <span id="review-passes" hidden></span>
           </div>
-          <button id="review-room-action" class="primary" type="button"></button>
+          <div class="review-footer">
+            <button id="review-share" type="button" class="secondary" aria-haspopup="dialog"
+                    aria-controls="record-share-dialog" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-share-icon"/></svg>
+              <span data-i18n="recordShareAction"></span>
+            </button>
+            <button id="review-room-action" class="primary" type="button"></button>
+          </div>
           <a id="review-play" class="primary" rel="noreferrer" data-i18n="recordPlay" hidden></a>
         </div>
         <div id="player-bar" class="player-bar">
@@ -674,29 +675,33 @@
         <div class="shop-tabs" role="group" data-i18n-attr="aria-label:shop">
           <button id="shop-tab-currency" type="button" aria-controls="shop-currency" aria-pressed="false" data-i18n="shopCurrency"></button>
           <button id="shop-tab-skins" type="button" aria-controls="shop-skins" aria-pressed="true" data-i18n="shopSkins"></button>
-          <button id="shop-tab-ads" type="button" aria-controls="shop-ads" aria-pressed="false" data-i18n="shopRemoveAdsTab" hidden></button>
         </div>
-        <div class="shop-content">
-        <section id="shop-ads" aria-labelledby="shop-tab-ads" hidden>
-          <div class="shop-effect-card shop-remove-ads-card">
+        <section id="shop-remove-ads" class="shop-ad-offer" aria-labelledby="shop-remove-ads-title" hidden>
+          <span class="shop-ad-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5 6h14a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Zm3 9v-5l3 2-3 3M3 3l18 18"/>
+              <rect x="2" y="6" width="20" height="12" rx="3"/>
+              <path d="m10 9 5 3-5 3Z"/>
+              <path d="M5 20 19 4"/>
             </svg>
-            <div>
-              <h3 data-i18n="shopRemoveAdsTitle"></h3>
-              <p data-i18n="shopRemoveAdsDescription"></p>
-              <p id="shop-remove-ads-owned" data-i18n="shopRemoveAdsOwned" hidden></p>
-            </div>
+          </span>
+          <div class="shop-ad-copy">
+            <h3 id="shop-remove-ads-title" data-i18n="shopRemoveAdsTitle"></h3>
+            <span class="shop-ad-badge" data-i18n="shopRemoveAdsOnce"></span>
+            <p data-i18n="shopRemoveAdsDescription"></p>
+          </div>
+          <div class="shop-ad-actions">
+            <button id="shop-buy-remove-ads" type="button" data-ncq-main="Buy permanent ad removal">
+              <span id="shop-remove-ads-price"></span>
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+            </button>
+            <button id="shop-restore-ads" type="button" data-i18n="purchaseRestore" hidden></button>
           </div>
         </section>
+        <div class="shop-content">
         <section id="shop-currency" aria-labelledby="shop-tab-currency" hidden>
           <section id="shop-coin-packs" aria-labelledby="shop-coin-packs-title" hidden>
             <h3 id="shop-coin-packs-title" data-i18n="shopCoinPacks"></h3>
-            <div class="shop-coin-pack-buttons">
-              <button class="secondary" id="shop-buy-200" type="button" hidden></button>
-              <button class="secondary" id="shop-buy-700" type="button" hidden></button>
-              <button class="secondary" id="shop-buy-1600" type="button" hidden></button>
-            </div>
+            <div id="shop-coin-pack-buttons" class="shop-coin-pack-buttons"></div>
           </section>
           <p id="shop-refund-debt" hidden></p>
           <div class="shop-placement-picker">
@@ -754,9 +759,15 @@
           </div>
         </div>
         <div class="shop-settings">
-          <fieldset class="appearance-group">
-            <legend data-i18n="stoneStyle"></legend>
-            <div class="appearance-choices">
+          <section class="appearance-group" aria-labelledby="shop-stone-title">
+            <div class="appearance-group-heading">
+              <h3 id="shop-stone-title" data-i18n="stoneStyle"></h3>
+              <div class="appearance-nav">
+                <button type="button" data-skin-scroll="-1" aria-controls="shop-stone-choices" data-i18n-attr="aria-label:shopPreviousSkins">‹</button>
+                <button type="button" data-skin-scroll="1" aria-controls="shop-stone-choices" data-i18n-attr="aria-label:shopNextSkins">›</button>
+              </div>
+            </div>
+            <div id="shop-stone-choices" class="appearance-choices">
               <label class="appearance-choice">
                 <span class="stone-sample" data-stone-style="reference" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
                 <input type="radio" name="stones" value="reference"><span data-i18n="referenceStones"></span>
@@ -818,10 +829,16 @@
                 <input type="radio" name="stones" value="aurora"><span data-i18n="auroraSkin"></span>
               </label>
             </div>
-          </fieldset>
-          <fieldset class="appearance-group">
-            <legend data-i18n="boardStyle"></legend>
-            <div class="appearance-choices">
+          </section>
+          <section class="appearance-group" aria-labelledby="shop-board-title">
+            <div class="appearance-group-heading">
+              <h3 id="shop-board-title" data-i18n="boardStyle"></h3>
+              <div class="appearance-nav">
+                <button type="button" data-skin-scroll="-1" aria-controls="shop-board-choices" data-i18n-attr="aria-label:shopPreviousSkins">‹</button>
+                <button type="button" data-skin-scroll="1" aria-controls="shop-board-choices" data-i18n-attr="aria-label:shopNextSkins">›</button>
+              </div>
+            </div>
+            <div id="shop-board-choices" class="appearance-choices">
               <label class="appearance-choice">
                 <span class="board-sample" data-board-style="reference" aria-hidden="true">
                   <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
@@ -913,14 +930,12 @@
                 <input type="radio" name="board" value="aurora"><span data-i18n="auroraSkin"></span>
               </label>
             </div>
-          </fieldset>
+          </section>
         </div>
         </section>
         </div>
         <div class="shop-footer">
           <p id="shop-feedback" role="status" hidden></p>
-          <button id="shop-buy-remove-ads" class="primary" type="button" data-ncq-main="Buy permanent ad removal" hidden></button>
-          <button id="shop-restore-ads" class="secondary" type="button" data-i18n="purchaseRestore" hidden></button>
           <button id="shop-buy-effect" class="primary" type="button" data-ncq-main="Buy golden placement" hidden disabled></button>
           <button id="shop-action" class="primary" type="button" data-ncq-main="Apply or buy skins" disabled></button>
           <button class="secondary" type="submit" data-ncq-main="Close shop" data-i18n="shopClose"></button>

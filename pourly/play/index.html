@@ -3,15 +3,30 @@
 <head>
   <meta charset="utf-8" /><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-  <meta name="theme-color" content="#eef4fd" />
+  <meta name="theme-color" content="#0a2238" />
   <title>Pourly</title>
-  <script type="module" crossorigin src="./assets/index-DPmuSF5C.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BL9LM5jA.css">
+  <script type="module" crossorigin src="./assets/index-DLHOdpvT.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CUBpo8-w.css">
 </head>
 <body>
+  <!-- 바탕: 깊은 물빛 + 천천히 움직이는 빛 + 작은 기포 (이야기 없는 꾸밈) -->
+  <div id="bg" aria-hidden="true">
+    <i class="glow g1"></i><i class="glow g2"></i><i class="glow g3"></i>
+    <i class="ray r1"></i><i class="ray r2"></i>
+    <i class="bub" style="left:8%;--d:17s;--s:4px;--o:0s"></i>
+    <i class="bub" style="left:21%;--d:23s;--s:3px;--o:-6s"></i>
+    <i class="bub" style="left:37%;--d:19s;--s:5px;--o:-11s"></i>
+    <i class="bub" style="left:52%;--d:26s;--s:3px;--o:-3s"></i>
+    <i class="bub" style="left:66%;--d:21s;--s:4px;--o:-14s"></i>
+    <i class="bub" style="left:79%;--d:18s;--s:6px;--o:-8s"></i>
+    <i class="bub" style="left:91%;--d:24s;--s:3px;--o:-17s"></i>
+  </div>
+
   <div id="app">
     <header class="top">
-      <button class="icon-btn" id="btn-restart" data-i18n-attr="aria-label:restart; title:restart">↻</button>
+      <button class="icon-btn" id="btn-restart" data-i18n-attr="aria-label:restart; title:restart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v4h4"/></svg>
+      </button>
       <div class="level-box">
         <div class="level" id="level-label"></div>
         <div class="tough" id="tough-label" data-i18n="tough" hidden></div>
@@ -19,7 +34,9 @@
       </div>
       <div class="top-right">
         <div class="coins" id="coins" data-i18n-attr="aria-label:coins"><span class="coin-dot"></span><span id="coin-count">0</span></div>
-        <button class="icon-btn" id="btn-settings" data-i18n-attr="aria-label:settings; title:settings">⚙</button>
+        <button class="icon-btn" id="btn-settings" data-i18n-attr="aria-label:settings; title:settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
+        </button>
       </div>
     </header>
 
@@ -27,13 +44,22 @@
       <div class="tip" id="tip" hidden></div>
       <div class="guide" id="guide" aria-hidden="true" hidden>👆</div>
       <div id="toast" role="status" aria-live="polite"></div>
-      <div class="banner" id="banner" aria-live="polite" hidden><b id="banner-title"></b><span id="banner-reward"></span></div>
+      <div class="banner" id="banner" aria-live="polite" hidden><b id="banner-title"></b><span id="banner-reward"></span><em id="banner-bonus"></em></div>
     </main>
 
     <footer class="tools">
-      <button class="tool" id="btn-undo"><span class="tool-icon">↶</span><span data-i18n="undo"></span><span class="badge" id="undo-count"></span></button>
-      <button class="tool" id="btn-hint"><span class="tool-icon">💡</span><span data-i18n="hint"></span><span class="badge" id="hint-count"></span></button>
-      <button class="tool" id="btn-add"><span class="tool-icon">＋</span><span data-i18n="add_bottle"></span><span class="badge coin-badge" id="add-cost"></span></button>
+      <button class="tool" id="btn-undo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4.5 9.5 9 5"/><path d="M4.5 9.5H14a5.5 5.5 0 0 1 0 11h-3"/></svg>
+        <span data-i18n="undo"></span><span class="badge" id="undo-count"></span>
+      </button>
+      <button class="tool" id="btn-hint">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 18h5M10.5 21h3"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2h5c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg>
+        <span data-i18n="hint"></span><span class="badge" id="hint-count"></span>
+      </button>
+      <button class="tool" id="btn-add">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h5M9 3v4.5L7 10v9.5A1.5 1.5 0 0 0 8.5 21h4A1.5 1.5 0 0 0 14 19.5V10l-2-2.5V3"/><path d="M19 8v6M16 11h6"/></svg>
+        <span data-i18n="add_bottle"></span><span class="badge coin-badge" id="add-cost"></span>
+      </button>
     </footer>
     <div class="version" id="app-version"></div>
   </div>
@@ -53,7 +79,8 @@
     <div class="card">
       <div class="card-title" id="settings-title" data-i18n="settings"></div>
       <div class="row"><span id="lang-label"></span><div class="seg" id="lang-seg"></div></div>
-      <div class="row"><span data-i18n="sound"></span><button class="switch" id="sw-sound" role="switch"></button></div>
+      <div class="row"><span data-i18n="music"></span><button class="switch" id="sw-music" role="switch"></button></div>
+      <div class="row"><span data-i18n="sfx"></span><button class="switch" id="sw-sfx" role="switch"></button></div>
       <div class="row" id="row-vib"><span data-i18n="vibration"></span><button class="switch" id="sw-vib" role="switch"></button></div>
       <div class="row test-row" id="test-row" hidden><span data-i18n="test_level"></span><span class="test-go"><input id="test-level" type="number" min="1" inputmode="numeric" /><button class="secondary" id="btn-test-go" data-i18n="test_go"></button></span></div>
       <button class="secondary" id="btn-feedback" data-i18n="feedback" hidden></button>

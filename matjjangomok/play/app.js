@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=5e5fcd5558e5";
-import { TEXTS } from "./texts.js?v=5e5fcd5558e5";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=5e5fcd5558e5";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=5e5fcd5558e5";
+import { NcqBoard } from "./ncq/board.js?v=d9f620e27616";
+import { TEXTS } from "./texts.js?v=d9f620e27616";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=d9f620e27616";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=d9f620e27616";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -38,7 +38,6 @@ for (let target = repeatMission.after + 1; target <= dailyMissionLimit; target +
 }
 const missionTargets = [...missionRewards.keys()];
 let missionClaiming = false;
-let resultMission = null;
 const pairedSkinPrices = {
   reference: 0, classic: 0, vintage: 300, porcelain: 800, jade: 1000,
   lacquer: 400, ocean: 700, soda: 600, gilded: 500,
@@ -402,10 +401,6 @@ function missionProgress(count, target) {
   return { count: NcqLang.num(Math.min(count, target)), target: NcqLang.num(target) };
 }
 
-function nextMissionTarget(count) {
-  return missionTargets.find(target => count < target);
-}
-
 function renderCoinBalance() {
   const coins = NcqLang.num(shopState.coins);
   el("lobby-coin-count").textContent = coins;
@@ -753,30 +748,25 @@ async function recordMissionRound(game, roundKey) {
   const finishedAt = new Date(game.finishedAt ?? Date.now()).getTime();
   if (!Number.isFinite(finishedAt)) return;
   const day = koreaDay(finishedAt);
-  let progress;
+  let recorded;
   try {
-    progress = await updateShop(() => {
+    recorded = await updateShop(() => {
       const state = loadShopState(shopState);
       if (day < state.missionDay) return;
       const sameDay = day === state.missionDay;
       const rounds = sameDay ? state.missionRounds : [];
       if (rounds.length >= dailyMissionLimit || rounds.includes(roundKey)) return;
-      const count = rounds.length + 1;
-      const reward = missionRewards.get(count) ?? 0;
       const next = { ...state, missionDay: day, missionRounds: [...rounds, roundKey], missionClaims: sameDay ? state.missionClaims : [] };
       persistShopState(next);
       shopState = next;
-      return { count, reward };
+      return true;
     });
   } catch {
     return;
   }
-  if (!progress || day !== koreaDay(Date.now())) return;
+  if (!recorded || day !== koreaDay(Date.now())) return;
   renderDailyMissions();
   if (shop.open) renderShop();
-  if (room?.code !== game.code || room.round !== game.round || room.phase !== "finished") return;
-  resultMission = progress;
-  renderResultMission();
 }
 
 function unlockPlacementAudio() {
@@ -1131,6 +1121,7 @@ const recordTokenPattern = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/;
 const recordShareDialog = el("record-share-dialog");
 const publicPlayUrl = "https://ncroquis.github.io/matjjangomok/play/";
 const reviewPlay = el("review-play");
+const reviewRoomAction = el("review-room-action");
 reviewPlay.href = window.NcqShare?.playUrl?.() || publicPlayUrl;
 
 function recordVisibilityPath(game) {
@@ -1483,14 +1474,17 @@ function winRate({ wins, draws, losses }) {
     : "—";
 }
 
-function renderPromotionMeter(meterId, prefix, rating, { previousRating = rating, showSigns = true } = {}) {
+function renderPromotionMeter(meterId, prefix, rating, { previousRating, showSigns = true } = {}) {
   const level = rankLevel(rating);
   const canDemote = level > 0;
   const canPromote = level < 26;
   const lower = canDemote ? rankMinimum(level) : 1500 - (rankMinimum(1) - 1500);
   const upper = canPromote ? rankMinimum(level + 1) : lower + (lower - rankMinimum(level - 1));
   const center = (lower + upper) / 2;
-  const position = score => Math.max(0, Math.min(100, 100 * (score - lower) / (upper - lower)));
+  const comparing = previousRating !== undefined;
+  const start = comparing ? Math.min(lower, previousRating, rating) : lower;
+  const end = comparing ? Math.max(upper, previousRating, rating) : upper;
+  const position = score => Math.max(0, Math.min(100, 100 * (score - start) / (end - start)));
   const signed = new Intl.NumberFormat(NcqLang.lang, { signDisplay: "exceptZero" });
   const displayNumber = showSigns ? signed : new Intl.NumberFormat(NcqLang.lang, { signDisplay: "never" });
   const currentOffset = rating - center;
@@ -1499,19 +1493,27 @@ function renderPromotionMeter(meterId, prefix, rating, { previousRating = rating
   const lowLabel = canDemote ? t("demotion") : t("lowestRank");
   const highLabel = canPromote ? t("promotion") : t("highestRank");
   const meter = el(meterId);
-  const from = position(previousRating);
   const to = position(rating);
   meter.style.setProperty("--promotion-position", `${to}%`);
-  meter.style.setProperty("--promotion-start", `${from}%`);
-  meter.style.setProperty("--promotion-fill", (to - 50) / 50);
-  meter.style.setProperty("--promotion-fill-start", (from - 50) / 50);
-  meter.setAttribute("aria-label", t("promotionMeter", {
+  const announcement = {
     value: signed.format(currentOffset),
     lowLabel,
     lowTick: canDemote ? signed.format(lowerOffset) : "—",
     highLabel,
     highTick: canPromote ? signed.format(upperOffset) : "—",
-  }));
+  };
+  if (comparing) {
+    const from = position(previousRating);
+    meter.style.setProperty("--promotion-start", `${from}%`);
+    meter.style.setProperty("--promotion-change-left", `${Math.min(from, to)}%`);
+    meter.style.setProperty("--promotion-change-right", `${Math.max(from, to)}%`);
+    meter.style.setProperty("--promotion-band-start", `${position(lower)}%`);
+    meter.style.setProperty("--promotion-band-end", `${position(upper)}%`);
+    const previousOffset = previousRating - center;
+    el(`${prefix}-previous`).textContent = displayNumber.format(previousOffset);
+    announcement.previous = signed.format(previousOffset);
+  }
+  meter.setAttribute("aria-label", t(comparing ? "resultPromotionMeter" : "promotionMeter", announcement));
   el(`${prefix}-value`).textContent = displayNumber.format(currentOffset);
   el(`${prefix}-lower-label`).textContent = lowLabel;
   el(`${prefix}-upper-label`).textContent = highLabel;
@@ -1786,16 +1788,6 @@ async function refreshLobby() {
   }
 }
 
-function renderResultMission() {
-  const status = el("result-mission");
-  status.hidden = !resultMission;
-  if (!resultMission) return;
-  const { count, reward } = resultMission;
-  status.textContent = reward
-    ? t("resultMissionReward", { n: NcqLang.num(reward) })
-    : t("resultMissionProgress", missionProgress(count, nextMissionTarget(count)));
-}
-
 function renderResult(game) {
   const outcome = describeOutcome(game);
   const medals = { won: ["victoryMedal", "nav-ranking"], lost: ["defeatMedal", "result-loss-icon"],
@@ -1804,11 +1796,7 @@ function renderResult(game) {
   el("result").dataset.outcome = outcome;
   el("result-title").textContent = t(label);
   el("result-symbol").setAttribute("href", `#${icon}`);
-  const timeout = game.endReason === "timeout";
-  el("result-summary").textContent = game.winner && !timeout ? recordResult(game) : t(timeout ? "resultTimeout" : "resultDraw", {
-    color: sideName(game, 3 - game.winner), n: game.moves.length,
-  });
-  renderResultMission();
+  el("result-summary").textContent = game.winner ? recordResult(game) : t("resultDraw", { n: game.moves.length });
   const change = game.ratingChange;
   el("result-rating").hidden = el("result-rating-change").hidden = !change;
   if (!change) return;
@@ -1968,9 +1956,13 @@ function render() {
   place.title = placeLabel;
   renderPlayers(game, playing);
   el("review").hidden = !finished || el("result").open;
-  el("rematch").hidden = Boolean(archive) || game.mode === "tournament" || game.canRematch === false;
-  el("rematch").disabled = !connected || busy || game.requested;
-  el("rematch").textContent = t(game.requested ? "rematchWaiting" : game.rematch ? "rematchReady" : "rematch");
+  const canRematch = !game.bot && game.mode !== "tournament" && game.canRematch !== false
+    && game.endReason !== "resign" && game.endReason !== "disconnect";
+  reviewRoomAction.hidden = !finished || !room;
+  reviewRoomAction.toggleAttribute("data-ncq-main", reviewActionsVisible && Boolean(room));
+  reviewRoomAction.dataset.action = canRematch ? "rematch" : "leave";
+  reviewRoomAction.disabled = busy || (canRematch && (!connected || game.requested));
+  reviewRoomAction.textContent = t(!canRematch ? "leave" : game.requested ? "rematchWaiting" : game.rematch ? "rematchReady" : "rematch");
 
   if (finished) {
     renderResult(game);
@@ -2069,7 +2061,7 @@ function renderSpectator({ game, closed, reconnecting, ply }) {
   status.setAttribute("aria-live", live ? "off" : "polite");
   if (status.textContent !== heading) status.textContent = heading;
   if (el("turn-announcement").textContent !== announcement) el("turn-announcement").textContent = announcement;
-  el("room-bar").hidden = el("rematch").hidden = el("invite").hidden = true;
+  el("room-bar").hidden = reviewRoomAction.hidden = el("invite").hidden = true;
   el("review").hidden = false;
   const place = el("place");
   place.disabled = true;
@@ -2153,10 +2145,7 @@ function applyState(next) {
   room = next;
   turnDeadline = clockDeadline(next);
   selected = null;
-  if (showResult) {
-    reviewPly = room.moves.length;
-    resultMission = null;
-  }
+  if (showResult) reviewPly = room.moves.length;
   if (room.phase !== "finished") el("result").close();
   if (room.phase !== "finished") recordShareDialog.close();
   if (room.phase !== "waiting") el("share").close();
@@ -2434,10 +2423,26 @@ function connectRoom(code) {
       const next = await remoteRequest(client => client.state(code));
       if (stream !== polling) return;
       if (["notFound", "forbidden", "authFailed", "tournamentClosed"].includes(next.error)) {
-        if (room?.phase === "finished" && next.error === "notFound") {
-          connected = false;
-          render();
-          return;
+        if (next.error === "notFound") {
+          if (room?.phase === "playing") {
+            // The other player can leave before this client polls the finished room.
+            const history = await remoteRequest(client => client.gameRequest("/records"));
+            if (stream !== polling) return;
+            if (room.phase === "playing") {
+              const result = Array.isArray(history) && history.find(record => record.id === code + ":" + room.round);
+              if (result) {
+                connected = false;
+                applyState({ ...result, code, phase: "finished", version: room.version + 1, canRematch: false });
+                return;
+              }
+            }
+          }
+          if (room?.phase === "finished") {
+            connected = false;
+            room.canRematch = false;
+            render();
+            return;
+          }
         }
         exitRoom(["authFailed", "tournamentClosed"].includes(next.error) ? next.error : "closed");
         return;
@@ -2485,7 +2490,11 @@ function roomAction(action, details, success = applyState) {
   if (!room) return;
   const { code, round } = room;
   const input = { round, ...details };
-  run(() => post("/rooms/" + code + "/" + action, input, client => client[action](code, input)), next => {
+  run(async () => {
+    const next = await post("/rooms/" + code + "/" + action, input, client => client[action](code, input));
+    if (action === "leave" && next.error === "notFound") return {};
+    return next;
+  }, next => {
     if (room?.code === code) success(next);
   });
 }
@@ -2678,8 +2687,44 @@ async function loadRankings(tab, page = 1) {
   }
   if (visible()) {
     render();
-    el("ranking-" + tab + (tab === "previous" ? "-panel" : "-list")).scrollTop = 0;
+    el("ranking-" + tab + "-list").scrollTop = 0;
   }
+}
+
+function rankingCard(row, { rating = false, pinned = false } = {}) {
+  const card = el("ranking-card-template").content.firstElementChild.cloneNode(true);
+  const own = pinned || row.you;
+  card.toggleAttribute("data-own-ranking", Boolean(own));
+  const place = card.querySelector(".ranking-place");
+  const position = t("rankingPosition", { rank: ratingNumber(row.rank) });
+  place.textContent = ratingNumber(row.rank);
+  place.title = position;
+  place.hidden = pinned;
+  if (!pinned && row.rank <= 3) place.dataset.medal = row.rank;
+
+  const badge = card.querySelector(".player-card-badge");
+  badge.hidden = !own;
+  if (own) badge.textContent = t("playerInfo");
+  const photo = card.querySelector("img");
+  photo.addEventListener("error", () => { photo.hidden = true; }, { once: true });
+  setRecordPhoto(photo, own ? { photoUrl: playerPhoto } : row);
+  const rank = card.querySelector(".player-card-rank");
+  const label = recordRank({ rating: own ? playerStats?.rating ?? row.rating : row.rating });
+  rank.textContent = label;
+  rank.hidden = !label;
+  const name = card.querySelector(".player-card-name");
+  name.textContent = name.title = own ? ownNickname() : row.nickname || t("playerAlias", { alias: row.alias });
+
+  const record = card.querySelector(".player-card-record");
+  record.hidden = ![row.wins, row.draws, row.losses].every(Number.isInteger);
+  if (!record.hidden) record.textContent = t("careerRecord", row) + " · " + t("profileWinRate", { rate: winRate(row) });
+  card.querySelector(".ranking-card-score strong").textContent = rating
+    ? t("profileRatingValue", { rating: ratingNumber(row.rating) })
+    : t("pointsCount", { n: row.points });
+  const detail = card.querySelector(".ranking-card-score small");
+  detail.hidden = !pinned;
+  if (pinned) detail.textContent = position;
+  return card;
 }
 
 function renderRankings() {
@@ -2694,6 +2739,12 @@ function renderRankings() {
   const state = rankingResults[rankingTab];
   const result = state?.result;
   const rows = result?.standings ?? [];
+  const summary = el("ranking-" + rankingTab + "-summary");
+  summary.hidden = !result || Boolean(result.error);
+  if (!summary.hidden) {
+    const total = result.total ?? rows.length;
+    summary.querySelector("span").textContent = t("rankingPlayerCount", { n: total, count: ratingNumber(total) });
+  }
   const message = el("ranking-" + rankingTab + "-message");
   const empty = rating ? "noRatingStandings" : previous
     ? result?.finalized === false ? "tournamentFinalizing" : "noPreviousStandings"
@@ -2703,11 +2754,8 @@ function renderRankings() {
   el("ranking-" + rankingTab + "-retry").hidden = !result?.error;
   const standings = rating ? "rating-standings" : previous ? "previous-standings" : "standings";
   el(standings).replaceChildren(...rows.map(row => {
-    const name = row.you ? t("you") : t("playerAlias", { alias: row.alias });
-    const value = rating ? t("rankRating", { rank: rankName(rankLevel(row.rating)), rating: ratingNumber(row.rating) })
-      : t("pointsCount", { n: row.points });
-    const entry = entryRow(ratingNumber(row.rank) + ". " + name, value);
-    entry.toggleAttribute("data-own-ranking", row.you);
+    const entry = document.createElement("li");
+    entry.append(rankingCard(row, { rating }));
     return entry;
   }));
   if (!rating) {
@@ -2720,7 +2768,7 @@ function renderRankings() {
     }
     const own = el("ranking-" + rankingTab + "-own");
     own.hidden = !result?.own;
-    if (!own.hidden) own.textContent = t("tournamentOwnRank", result.own);
+    own.replaceChildren(...(result?.own ? [rankingCard(result.own, { pinned: true })] : []));
   } else {
     const page = state?.page ?? 1;
     const pagination = el("ranking-pagination");
@@ -2827,7 +2875,10 @@ el("pass-turn").addEventListener("click", () => {
   if (!window.confirm(t("confirmPass")) || !canAct()) return;
   roomAction("move", { action: { type: "pass" }, version: room.version });
 });
-el("rematch").addEventListener("click", () => roomAction("rematch", {}));
+reviewRoomAction.addEventListener("click", () => {
+  if (reviewRoomAction.dataset.action === "leave") leaveMatch();
+  else roomAction("rematch", {});
+});
 el("review").addEventListener("click", event => {
   const button = event.target.closest("[data-step]");
   const game = room ?? archive ?? spectator?.game;

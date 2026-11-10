@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=5e5fcd5558e5">
-  <script type="module" src="./app.js?v=5e5fcd5558e5"></script>
+  <link rel="stylesheet" href="./style.css?v=d9f620e27616">
+  <script type="module" src="./app.js?v=d9f620e27616"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -161,17 +161,17 @@
           </span>
           <span class="player-summary">
             <span class="player-name-line">
-              <strong id="lobby-player-rank" hidden></strong>
-              <strong id="lobby-player-name"></strong>
+              <strong id="lobby-player-rank" class="player-card-rank" hidden></strong>
+              <strong id="lobby-player-name" class="player-card-name"></strong>
             </span>
-            <span id="player-record" hidden></span>
+            <span id="player-record" class="player-card-record" hidden></span>
           </span>
           <span id="player-career" class="player-rating-summary" hidden>
             <strong id="player-rating"><span class="sr-only" data-i18n="profileRating"></span> <span id="player-rating-value"></span></strong>
             <span id="player-next-rank" hidden></span>
           </span>
         </button>
-        <div class="lobby-actions match-request">
+        <div class="match-request">
           <button id="choose-rule" class="secondary choose-rule" type="button" aria-haspopup="dialog" aria-controls="rule-dialog">
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#settings-icon"/></svg>
             <span id="selected-rule"></span>
@@ -199,15 +199,18 @@
         </div>
         <div id="ranking-weekly-panel" class="ranking-panel" role="tabpanel" aria-labelledby="ranking-weekly-tab" tabindex="0">
           <div id="ranking-weekly-list" class="list-body">
-            <p id="ranking-weekly-dates" class="ranking-dates version" hidden></p>
-            <p id="ranking-weekly-own" class="ranking-own" hidden></p>
+            <p id="ranking-weekly-dates" class="ranking-dates" hidden></p>
+            <div id="ranking-weekly-summary" class="ranking-summary" hidden>
+              <h2 data-i18n="tournamentStandings"></h2><span></span>
+            </div>
             <p id="ranking-weekly-message" class="list-message" role="status"></p>
             <button id="ranking-weekly-retry" class="quiet ranking-retry" type="button" data-i18n="rankingRetry" hidden></button>
-            <ol id="standings" class="entry-list"></ol>
+            <ol id="standings" class="entry-list ranking-cards"></ol>
           </div>
+          <div id="ranking-weekly-own" class="ranking-own" hidden></div>
           <div id="tournament-entry" class="tournament-entry" hidden>
             <p id="tournament-attempts" class="list-count" role="status" hidden></p>
-            <div class="lobby-actions match-request">
+            <div class="match-request">
               <button id="tournament-rule" class="secondary choose-rule" type="button" disabled
                       data-i18n-attr="aria-label:tournamentRuleFixed">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7a4 4 0 0 1 8 0v3m-10 0h12v10H6z"
@@ -223,18 +226,26 @@
             </div>
           </div>
         </div>
-        <div id="ranking-previous-panel" class="list-body" role="tabpanel" aria-labelledby="ranking-previous-tab" tabindex="0" hidden>
-          <p id="ranking-previous-dates" class="ranking-dates version" hidden></p>
-          <p id="ranking-previous-own" class="ranking-own" hidden></p>
-          <p id="ranking-previous-message" class="list-message" role="status"></p>
-          <button id="ranking-previous-retry" class="quiet ranking-retry" type="button" data-i18n="rankingRetry" hidden></button>
-          <ol id="previous-standings" class="entry-list"></ol>
+        <div id="ranking-previous-panel" class="ranking-panel" role="tabpanel" aria-labelledby="ranking-previous-tab" tabindex="0" hidden>
+          <div id="ranking-previous-list" class="list-body">
+            <p id="ranking-previous-dates" class="ranking-dates" hidden></p>
+            <div id="ranking-previous-summary" class="ranking-summary" hidden>
+              <h2 data-i18n="tournamentStandings"></h2><span></span>
+            </div>
+            <p id="ranking-previous-message" class="list-message" role="status"></p>
+            <button id="ranking-previous-retry" class="quiet ranking-retry" type="button" data-i18n="rankingRetry" hidden></button>
+            <ol id="previous-standings" class="entry-list ranking-cards"></ol>
+          </div>
+          <div id="ranking-previous-own" class="ranking-own" hidden></div>
         </div>
         <div id="ranking-rating-panel" class="ranking-panel" role="tabpanel" aria-labelledby="ranking-rating-tab" tabindex="0" hidden>
           <div id="ranking-rating-list" class="list-body">
+            <div id="ranking-rating-summary" class="ranking-summary" hidden>
+              <h2 data-i18n="ratingRankings"></h2><span></span>
+            </div>
             <p id="ranking-rating-message" class="list-message" role="status"></p>
             <button id="ranking-rating-retry" class="quiet ranking-retry" type="button" data-i18n="rankingRetry" hidden></button>
-            <ol id="rating-standings" class="entry-list"></ol>
+            <ol id="rating-standings" class="entry-list ranking-cards"></ol>
           </div>
           <div id="ranking-pagination" class="ranking-pagination" hidden>
             <button id="ranking-prev" class="quiet" type="button" data-i18n="rankingPrevious"></button>
@@ -242,6 +253,29 @@
             <button id="ranking-next" class="quiet" type="button" data-i18n="rankingNext"></button>
           </div>
         </div>
+        <template id="ranking-card-template">
+          <div class="ranking-card">
+            <strong class="ranking-place"></strong>
+            <span class="player-card-identity">
+              <span class="player-avatar" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><use href="#records-person"/></svg>
+                <img alt="" referrerpolicy="no-referrer" loading="lazy" hidden>
+              </span>
+              <span class="player-card-badge" hidden></span>
+            </span>
+            <span class="player-summary">
+              <span class="player-name-line">
+                <strong class="player-card-rank" hidden></strong>
+                <strong class="player-card-name"></strong>
+              </span>
+              <span class="player-card-record" hidden></span>
+            </span>
+            <span class="ranking-card-score">
+              <strong></strong>
+              <small hidden></small>
+            </span>
+          </div>
+        </template>
       </section>
 
       <section id="records" class="lobby" hidden>
@@ -446,7 +480,7 @@
             <span id="review-mode"></span>
             <span id="review-passes" hidden></span>
           </div>
-          <button id="rematch" class="primary" type="button"></button>
+          <button id="review-room-action" class="primary" type="button"></button>
           <a id="review-play" class="primary" rel="noreferrer" data-i18n="recordPlay" hidden></a>
         </div>
         <div id="player-bar" class="player-bar">
@@ -926,7 +960,6 @@
               <span id="rating-range"></span>
             </div>
             <p id="result-summary"></p>
-            <p id="result-mission" role="status" hidden></p>
           </div>
         </div>
         <section id="result-rating" class="result-rating" aria-labelledby="result-meter-heading" hidden>
@@ -938,10 +971,18 @@
             <div class="promotion-meter-labels" aria-hidden="true">
               <span id="result-promotion-lower-label"></span><span id="result-promotion-upper-label"></span>
             </div>
+            <div class="result-meter-values" aria-hidden="true">
+              <span class="result-meter-value result-meter-value--previous">
+                <span data-i18n="resultMeterPrevious"></span><strong id="result-promotion-previous"></strong>
+              </span>
+              <span class="result-meter-value result-meter-value--current">
+                <span data-i18n="resultMeterCurrent"></span><strong id="result-promotion-value"></strong>
+              </span>
+            </div>
             <div class="promotion-meter-track" aria-hidden="true">
               <span class="result-meter-fill"></span>
-              <span class="result-meter-marker"></span>
-              <span id="result-promotion-value"></span>
+              <span class="result-meter-marker result-meter-marker--previous"></span>
+              <span class="result-meter-marker result-meter-marker--current"></span>
             </div>
             <div class="promotion-meter-ticks" aria-hidden="true">
               <span id="result-promotion-lower"></span><span>0</span><span id="result-promotion-upper"></span>

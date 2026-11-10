@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#eef4fd" />
   <title>Pourly</title>
-  <script type="module" crossorigin src="./assets/index-sS0a6ZBq.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-vDY7Uo_i.css">
+  <script type="module" crossorigin src="./assets/index-DPmuSF5C.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BL9LM5jA.css">
 </head>
 <body>
   <div id="app">
@@ -39,6 +39,15 @@
   </div>
 
   <canvas id="board-canvas" aria-hidden="true"></canvas>
+
+  <!-- 제안 창: 막혔을 때·코인이 모자랄 때·같은 판을 여러 번 다시 할 때·새 병 소개 (버튼은 src/main.js가 채워요) -->
+  <div class="overlay sheet" id="offer" hidden>
+    <div class="card" role="dialog" aria-labelledby="offer-title">
+      <div class="card-title" id="offer-title"></div>
+      <p class="offer-msg" id="offer-msg"></p>
+      <div class="offer-actions" id="offer-actions"></div>
+    </div>
+  </div>
 
   <div class="overlay" id="settings" hidden>
     <div class="card">

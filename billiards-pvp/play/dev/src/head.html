@@ -370,7 +370,23 @@ input.sw:focus-visible{outline:2px solid #ffd34a;outline-offset:2px}
 .lang-sel{background:#1a2533;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:7px 8px;font-family:var(--f-ui);font-size:14px}
 
 /* 로비: 왼쪽 종목(고른 것은 파란 테두리, ?는 그 종목 룰), 오른쪽 모드 */
-.lpick{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:10px;align-items:stretch}
+.lpick{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:10px 30px;align-items:stretch}
+/* 고른 종목 → Stage·Single·Online을 잇는 네온 선 */
+#lpWire{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}
+#lpWire path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+#lpGlowG path{stroke:#4fb3ff;stroke-width:11;opacity:.9}
+#lpCore path{stroke:#cdeeff;stroke-width:3.2}
+#lpFlow path{stroke:#fff;stroke-width:2.6;stroke-dasharray:5 46;animation:lpFlow 1.5s linear infinite;opacity:.95}
+#lpDots circle{fill:#eaf7ff;stroke:#4fb3ff;stroke-width:2.4}
+@keyframes lpFlow{to{stroke-dashoffset:-51}}
+#lpWire.draw #lpGlowG path,#lpWire.draw #lpCore path{animation:lpDraw .42s cubic-bezier(.3,.7,.3,1) both}
+@keyframes lpDraw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+.games,.lpick .slabs{position:relative;z-index:1}
+.lpick .slab{border-color:rgba(79,179,255,.55);box-shadow:0 0 12px rgba(79,179,255,.22),inset 0 0 14px rgba(79,179,255,.07)}
+.lpick.zap .slab{animation:lpZap .5s ease-out both}
+.lpick.zap .slab:nth-child(2){animation-delay:.07s}.lpick.zap .slab:nth-child(3){animation-delay:.14s}
+@keyframes lpZap{0%{box-shadow:0 0 12px rgba(79,179,255,.22)}35%{box-shadow:0 0 22px rgba(120,200,255,.75),inset 0 0 18px rgba(79,179,255,.3);border-color:#bfe6ff}100%{box-shadow:0 0 12px rgba(79,179,255,.22),inset 0 0 14px rgba(79,179,255,.07)}}
+@media (prefers-reduced-motion:reduce){#lpFlow path,.lpick.zap .slab,#lpWire.draw path{animation:none}}
 .games,.lpick .slabs{display:flex;flex-direction:column;gap:10px}
 .gpick{position:relative;flex:1;display:flex}
 .gbtn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:62px;padding:9px 8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;transition:background .15s,border-color .15s}
@@ -380,6 +396,8 @@ input.sw:focus-visible{outline:2px solid #ffd34a;outline-offset:2px}
 .gbtn .glyph.rack{width:62px;height:58px;transform:scale(.5);margin:-14.5px -15.5px}
 .gbtn[aria-checked=true]{border:2px solid var(--chalk);background:linear-gradient(145deg,rgba(79,179,255,.32),rgba(31,111,184,.18));box-shadow:0 0 16px rgba(79,179,255,.28)}
 .gbtn[aria-checked=true] b{color:#fff}
+.gbtn[aria-checked=false]{opacity:.62}
+.gbtn[aria-checked=true]{box-shadow:0 0 22px rgba(79,179,255,.5),inset 0 0 16px rgba(79,179,255,.18)}
 .ghelp{position:absolute;left:-7px;top:-7px;z-index:1;width:26px;height:26px;padding:0;border-radius:50%;font-family:var(--f-num);font-size:15px;font-weight:700;line-height:1;background:#0b0f14;border:1.5px solid rgba(160,190,220,.6);color:var(--ink)}
 .lpick .slab{flex:1;padding:7px 10px 7px 12px;column-gap:8px;border-radius:10px}
 .lpick .slab b{font-size:clamp(26px,4.4vh,36px)}

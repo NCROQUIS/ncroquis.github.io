@@ -315,11 +315,13 @@ let tut=null,tutLine=null,tutPulse=false;
 // 안내 문구는 글자 표(texts.js)의 키
 const TUT_TEXT={aim:'tut_aim',line:'tut_line',fine:'tut_fine',spin:'tut_spin',elev:'tut_elev',power:'tut_power'};
 const TUT_HINT_TEXT={spin:'tuth_spin',elev:'tuth_elev'};
+// 지금 단계 안내 문구 키 (힌트 문구 → 그 튜토리얼 판만의 문구 → 기본)
+const tutKey=step=>(tut.hint&&TUT_HINT_TEXT[step])||(!tut.hint&&TUT_STAGES[tut.i]&&TUT_STAGES[tut.i].text&&TUT_STAGES[tut.i].text[step])||TUT_TEXT[step];
 const TUT_SPOT={line:'pip',fine:'pip',spin:'pad',elev:'elevCell',power:'power'};
 const TUT_STAGES=[
   {card:'tut_card1',steps:['aim','fine','power']},
   {card:'tut_card2',steps:['spin','power']},
-  {card:'tut_card3',steps:['elev','power']}
+  {card:'tut_card3',steps:['spin','elev','power'],text:{spin:'tut_spin3'}}
 ];
 // 이만큼 가까이 오면 목표에 딱 붙여요 (조준·미세 조준은 라디안, 칠 곳은 패드 반지름 비율, 큐 각도는 도, 힘은 0~1)
 const TUT_SNAP={aim:.045,fine:.02,spin:.15,elev:6,power:.06};
@@ -346,7 +348,7 @@ function tutGo(step){
   tutPulse=step==='aim'||step==='fine'||step==='line';tutCycle0=performance.now();tutGeoKey='';
   const b=$('tutBubble');b.hidden=!step;tutMarks(step);tutCtl();
   if(!step)return;
-  $('tutMsg').textContent=T((tut.hint&&TUT_HINT_TEXT[step])||TUT_TEXT[step]);if(TUT_SPOT[step])$(TUT_SPOT[step]).classList.add('tutSpot');
+  $('tutMsg').textContent=T(tutKey(step));if(TUT_SPOT[step])$(TUT_SPOT[step]).classList.add('tutSpot');
 }
 function tutDone(step){
   const s=tut&&tut.sol;if(!s||tut.step!==step)return false;
@@ -386,7 +388,8 @@ function tutPower(){
 function tutStage(i){
   tut.i=i;const st=STAGES['4b'][i];tut.sol=st.sol;tut.steps=TUT_STAGES[i].steps;
   startGame({mode:'stage',game:'4b',stage:st,tut:true});
-  if(i>0){aimPhi=tut.sol.phi;}
+  // 1단계는 처음 조준을 목표에서 90도 돌려 둬요 (노란 선에 맞췄을 때 딱 붙는 게 잘 보이게), 2·3단계는 정답 방향
+  aimPhi=i>0?tut.sol.phi:tut.sol.phi+TUT_OFF+Math.PI/2;
   tutGo(null);tutCard(TUT_STAGES[i].card,()=>tutGo(TUT_STAGES[i].steps[0]));
 }
 function tutStageDone(){
@@ -650,11 +653,32 @@ function lobbySubs(){
   $('stageSub').textContent=got?T('stage_sub',{got,all}):T('stage_sub0');
   $('onlineSub').textContent=r.w+r.l?T('online_sub',{w:r.w,l:r.l}):T('online_sub0');
 }
+// 고른 종목 카드의 오른쪽에서 Stage·Single·Online 왼쪽으로 네온 선을 이어요 (어느 종목의 버튼인지 보이게)
+function lobbyWire(anim){
+  const box=document.querySelector('.lpick'),svg=$('lpWire');if(!box||!svg)return;
+  const card=document.querySelector('.gbtn[aria-checked=true]'),slabs=[...box.querySelectorAll('.slab')].filter(b=>!b.hidden);
+  const gG=$('lpGlowG'),gC=$('lpCore'),gF=$('lpFlow'),gD=$('lpDots');[gG,gC,gF,gD].forEach(e=>e.textContent='');
+  const o=box.getBoundingClientRect();if(!card||!o.width)return;
+  const c=card.getBoundingClientRect(),x0=c.right-o.left,y0=c.top+c.height/2-o.top;
+  const s0=slabs.length?slabs[0].getBoundingClientRect():null;if(!s0)return;
+  const x1=s0.left-o.left,bx=(x0+x1)/2,r=6,NS='http://www.w3.org/2000/svg';
+  const mk=(g,tag,at)=>{const e=document.createElementNS(NS,tag);for(const k in at)e.setAttribute(k,at[k]);g.appendChild(e);return e;};
+  slabs.forEach(b=>{
+    const q=b.getBoundingClientRect(),y=q.top+q.height/2-o.top,dy=y-y0,k=Math.min(r,Math.abs(dy)/2),sg=Math.sign(dy);
+    const d=Math.abs(dy)<1?`M${x0} ${y0}H${x1}`:`M${x0} ${y0}H${bx-k}Q${bx} ${y0} ${bx} ${y0+sg*k}V${y-sg*k}Q${bx} ${y} ${bx+k} ${y}H${x1}`;
+    [gG,gC,gF].forEach(g=>{const p=mk(g,'path',{d});if(anim&&g!==gF){const L=p.getTotalLength();p.style.setProperty('--len',L);p.style.strokeDasharray=L;}});
+    mk(gD,'circle',{cx:x1,cy:y,r:4});
+  });
+  mk(gD,'circle',{cx:x0,cy:y0,r:4.6});
+  svg.classList.remove('draw');box.classList.remove('zap');
+  if(anim){void svg.getBoundingClientRect();svg.classList.add('draw');box.classList.add('zap');clearTimeout(lobbyWire.t);lobbyWire.t=setTimeout(()=>{svg.classList.remove('draw');box.classList.remove('zap');lobbyWire(false);},800);}
+}
+if(window.ResizeObserver)new ResizeObserver(()=>lobbyWire(false)).observe(document.querySelector('.lpick'));
 function pickGame(g,quiet){
-  if(!GAME_INFO[g])g='4b';nav.game=g;
+  if(!GAME_INFO[g])g='4b';const was=nav.game;nav.game=g;
   document.querySelectorAll('[data-pick]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.pick===g)));
   if(save.lg!==g){save.lg=g;if(!quiet)persist();}
-  lobbySubs();
+  lobbySubs();lobbyWire(!quiet&&was!==g);
   if(G.mode==='attract'&&attr.game!==g)attract(g);
 }
 document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{ensureAudio();pickGame(b.dataset.pick);});
@@ -806,7 +830,7 @@ function relang(){
   refreshLobby();
   if(!$('sheet').hidden){if(nav.step==='stepStages')openStages(nav.game);else if(nav.step==='stepMode')openModes();}
   if(!$('hud').hidden){updateHUD();drawDot();$('menuQuit').textContent=T(G.mode==='online'?'forfeit':'quit');$('menuQuit').classList.remove('arm');}
-  if(tut&&tut.step&&TUT_TEXT[tut.step])$('tutMsg').textContent=T((tut.hint&&TUT_HINT_TEXT[tut.step])||TUT_TEXT[tut.step]);
+  if(tut&&tut.step&&TUT_TEXT[tut.step])$('tutMsg').textContent=T(tutKey(tut.step));
   if(!$('tutCard').hidden&&tutCardKey)$('tutText').textContent=T(tutCardKey);
   if(!$('profile').hidden)openProfile();
   if(!$('achs').hidden)openAchs();

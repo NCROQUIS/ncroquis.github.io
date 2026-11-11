@@ -195,6 +195,13 @@ function renderDots(el,g){
   if(el.children.length!==7){el.textContent='';for(let i=0;i<7;i++)el.appendChild(document.createElement('i'));}
   [...el.children].forEach((d,i)=>{const n=nums[i],b=LB[n];d.style.background=(g&&b&&!b.pot)?POOL_COL[(n-1)%8]:'';d.style.opacity=(g&&b&&b.pot)?'.28':'1';});
 }
+// 대전 화면의 프로필 아이콘: 나는 고른 아이콘, Online 상대는 서버 아이콘, AI·2인 대전 상대는 공 아이콘
+function playerIcon(pi){
+  const p=G.players[pi],mine=G.mode==='local'?pi===0:pi===G.myIdx;
+  if(mine)return save.icon||'ball-w';
+  if(G.mode==='online'&&G.net&&G.net.oppIcon)return G.net.oppIcon;
+  return G.mode==='local'?'ball-y':'ball-r';
+}
 function updateHUD(){
   const solo=G.mode==='stage'||G.mode==='practice';
   $('clockBar').hidden=solo;
@@ -211,6 +218,7 @@ function updateHUD(){
   const me=G.myIdx,pool=G.game==='pool';
   [me,1-me].forEach((pi,k)=>{
     const p=G.players[pi],chip=$('chip'+k);
+    {const id=playerIcon(pi),pc=$('pic'+k);if(pc.dataset.id!==id){pc.dataset.id=id;pc.innerHTML=iconSVG(id,30);}}
     {const nm=$('nm'+k);nm.textContent=k===0&&G.mode!=='local'?(G.mode==='online'&&G.net?save.nick:T('you')):p.name;for(let t=0;t<(p.to|0);t++){const i=document.createElement('span');i.className='tmo';i.title=T('timed_out');i.innerHTML=TMO_SVG;nm.appendChild(i);}}
     $('pl'+k).classList.toggle('on',G.turn===pi&&!G.over);
     $('sc'+k).textContent=p.score;$('sc'+k).hidden=pool;

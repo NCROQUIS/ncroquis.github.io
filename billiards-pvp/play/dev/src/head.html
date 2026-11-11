@@ -128,6 +128,9 @@ button.sm{padding:5px 8px;font-size:12px}
 .m-plate>div{min-width:0}
 .m-plate.wait{border-style:dashed}
 .m-plate.wait .b{--c:#2b3746;animation:pulse 1.2s ease-in-out infinite}
+.m-pic{display:grid;place-items:center;width:40px;height:40px}
+.m-pic.q{border-radius:50%;background:#16202b;border:2px dashed rgba(160,190,220,.55);font-family:var(--f-num);font-size:23px;font-weight:700;color:var(--ink-dim)}
+.m-plate.wait .m-pic.q{animation:pulse 1.2s ease-in-out infinite}
 .m-plate .badge{font-family:var(--f-num);font-size:15px;font-weight:700;padding:2px 8px;border-radius:3px;background:var(--chalk-deep);letter-spacing:.04em}
 .m-plate .badge.bot{background:#6a4a12;color:var(--gold)}
 @keyframes pulse{50%{opacity:.35}}
@@ -158,6 +161,10 @@ button.sm{padding:5px 8px;font-size:12px}
 #hudPlayers{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:stretch}
 .pl{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:7px;padding:6px 8px;background:var(--panel);border:1px solid var(--line);border-radius:4px}
 .pl.on{border-color:var(--chalk);box-shadow:inset 0 0 0 1px var(--chalk)}
+/* 프로필 아이콘 + 오른쪽 아래 작은 공(내 수구 색·포켓볼 그룹) */
+.pl .pav{position:relative;width:30px;height:30px;flex:none}
+.pl .pav .pic{display:block;width:30px;height:30px}
+.pl .pav .b{position:absolute;right:-4px;bottom:-3px;width:13px;height:13px;box-shadow:0 0 0 2px var(--panel)}
 .pl .nm{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
 .pl .sc{font-family:var(--f-num);font-size:32px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
 .beads{position:relative;height:10px;margin-top:3px}
@@ -341,7 +348,7 @@ button.sm{padding:5px 8px;font-size:12px}
 @keyframes starIn{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
 @keyframes nudge{20%{transform:translateX(-4px)}45%{transform:translateX(4px)}70%{transform:translateX(-2px)}}
 .nudge{animation:nudge .26s}
-@media (prefers-reduced-motion:reduce){#rNote,.mnode.next,.mpin,#rStars span.pop,.tutSpot,.tutGlow,#tutRings>*,#tutArrow,.nudge,#toast,#banner,#sheet,.beads i{transition:none;animation:none}.m-plate.wait .b{animation:none}}
+@media (prefers-reduced-motion:reduce){#rNote,.mnode.next,.mpin,#rStars span.pop,.tutSpot,.tutGlow,#tutRings>*,#tutArrow,.nudge,#toast,#banner,#sheet,.beads i{transition:none;animation:none}.m-plate.wait .b,.m-plate.wait .m-pic{animation:none}}
 /* 튜토리얼·힌트: 지금 단계가 아닌 조작 칸은 흐리게, 누를 수 없게 */
 .tutOff{opacity:.32;filter:saturate(.35);pointer-events:none;transition:opacity .2s}
 /* 언어: 글자 표로 채우기 전(여는 첫 순간)에는 HTML에 쓴 글자를 숨겨요 (NcqLang이 <html lang>을 정해요) */

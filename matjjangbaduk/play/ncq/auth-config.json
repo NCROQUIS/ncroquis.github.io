@@ -1,0 +1,12 @@
+{
+  "enabled": true,
+  "url": "https://ncq-game-api-476465444216.asia-northeast3.run.app",
+  "game": "matjjangbaduk",
+  "environment": "prod",
+  "platform": "web",
+  "firebase": {
+    "appId": "1:82264449125:web:1f719a207abad22b95e68c",
+    "apiKey": "AIzaSyDqEPsungpngw_qgoPvZhCGRZah1KpjQTk",
+    "projectId": "ncq-auth-prod"
+  }
+}

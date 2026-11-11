@@ -1,0 +1,6 @@
+{
+  "provider": "supabase",
+  "environment": "prod",
+  "ruleset": "kkochi-tug-v1",
+  "apiUrl": "https://qqbajkltkhvhlwrxpgfn.supabase.co/functions/v1/kkochi"
+}

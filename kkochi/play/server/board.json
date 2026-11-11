@@ -1,0 +1,6 @@
+{
+  "ruleset": "kkochi-tug-v1",
+  "mode": "rules",
+  "turn_seconds": 12,
+  "bots": { "count": 200, "min": 1100, "max": 2300, "ranking": true }
+}

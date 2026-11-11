@@ -343,6 +343,27 @@ body{
 .adv-bar{width:100%;height:10px;border-radius:6px;background:rgba(255,244,224,.15);overflow:hidden}
 .adv-bar i{display:block;width:0;height:100%;background:var(--ember)}
 .adv-left{font-family:var(--display);font-size:18px;color:var(--ember)}
+/* first-time flow: buttons that are not open yet keep their place but stay out of sight */
+.locked-ui{visibility:hidden!important}
+.prof.nopvp small{display:none}
+@keyframes nudge{0%,100%{box-shadow:0 5px 0 rgba(0,0,0,.4),0 0 0 0 rgba(255,201,60,.75)}50%{box-shadow:0 5px 0 rgba(0,0,0,.4),0 0 0 12px rgba(255,201,60,0)}}
+.nudge{animation:nudge 1.1s ease-in-out infinite!important}
+/* reward moments in the lobby */
+.reveal{position:absolute;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:0 16px;background:rgba(20,14,10,.58);opacity:0;transition:opacity .25s}
+.reveal.show{opacity:1}
+.reveal-card{width:min(100%,340px);box-sizing:border-box;padding:18px 16px 16px;border-radius:22px;background:var(--paper);border:3px solid var(--ink);box-shadow:0 7px 0 rgba(0,0,0,.35);text-align:center;color:var(--ink);transition:opacity .25s,transform .25s}
+.reveal.show .reveal-card{animation:pop .42s cubic-bezier(.2,1.4,.4,1) both}
+.reveal-card.go{opacity:0;transform:scale(.92)}
+.reveal-badge{display:inline-flex;align-items:center;justify-content:center;padding:3px 12px;border-radius:12px;background:var(--chili);color:#fff;font-family:var(--body);font-weight:700;font-size:12px;letter-spacing:.06em}
+.reveal-card h3{margin:8px 0 0;font-family:var(--display);font-weight:400;font-size:29px;line-height:1.15;word-break:keep-all}
+.reveal-card p{margin:6px 0 12px;font-family:var(--body);font-size:14px;line-height:1.5;word-break:keep-all}
+.reveal-icons{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 4px;margin:0 0 14px}
+.reveal-icons img{width:46px;height:46px;object-fit:contain}
+.reveal-icons.big img{width:84px;height:84px;padding:4px;border-radius:18px;background:rgba(59,35,22,.08)}
+.reveal-icons .more{align-self:center;font-family:var(--display);font-size:20px}
+.reveal-card .btn{width:100%}
+.fly{position:absolute;left:0;top:0;z-index:31;width:46px;height:46px;object-fit:contain;pointer-events:none;will-change:transform}
+@media (prefers-reduced-motion: reduce){.nudge{animation:none!important}.reveal.show .reveal-card{animation:none}}
 @media (prefers-reduced-motion: reduce){.stamp.hit,.btn-big,.lobby.enter .lobby-actions,.lobby.enter .lobby-bottom,.lobby.enter .side-btn{animation:none}.hang{transition:none}}
 </style>
 </head>
@@ -388,6 +409,15 @@ body{
       <i class="new-dot" id="skinDot" hidden></i>
     </button>
   </section>
+  <div class="reveal" id="reveal" hidden>
+    <div class="reveal-card" id="rvCard" role="dialog" aria-modal="true" aria-labelledby="rvTitle" aria-describedby="rvText">
+      <span class="reveal-badge" id="rvBadge"></span>
+      <h3 id="rvTitle"></h3>
+      <p id="rvText"></p>
+      <div class="reveal-icons" id="rvIcons"></div>
+      <button class="btn" id="rvGo" type="button" data-ncq-main="받기">받기</button>
+    </div>
+  </div>
   <div class="overlay hang" id="dex" hidden data-ncq-no-main>
     <div class="chain l" aria-hidden="true"></div><div class="chain r" aria-hidden="true"></div>
     <div class="board tall" role="dialog" aria-modal="true" aria-labelledby="dexTitle">

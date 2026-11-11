@@ -206,7 +206,7 @@ function updateHUD(){
 function updateUI(){
   const my=phase==='aim';
   $('powerwrap').classList.toggle('idle',!my);$('fineTicks').hidden=!my;
-  document.querySelector('.cell.spin').classList.toggle('idle',!my);elevIn.disabled=!my;
+  document.querySelector('.cell.spin').classList.toggle('idle',!my);elevIn.disabled=!my;tutCtl();
   $('placeBar').hidden=phase!=='place';
   $('powerFill').style.height=(power*100)+'%';$('powerVal').textContent=Math.round(power*100);
 
@@ -329,7 +329,7 @@ function tutGo(step){
   if(!tut)return;tut.step=step;tut.lock=false;
   document.querySelectorAll('.tutSpot').forEach(e=>e.classList.remove('tutSpot'));
   $('tutTap').hidden=true;$('tutDim').hidden=!(step==='aim');tutPulse=step==='aim'||step==='fine'||step==='line';
-  const b=$('tutBubble');b.hidden=!step;tutMarks(step);
+  const b=$('tutBubble');b.hidden=!step;tutMarks(step);tutCtl();
   if(!step)return;
   $('tutMsg').textContent=(tut.hint&&TUT_HINT_TEXT[step])||TUT_TEXT[step];if(TUT_SPOT[step])$(TUT_SPOT[step]).classList.add('tutSpot');
 }
@@ -376,16 +376,22 @@ function tutStageDone(){
   if(tut.i<TUT_STAGES.length-1){tutStage(tut.i+1);return;}
   tutGo(null);tut.step='end';
   tutCard('튜토리얼 완료!\n이제 자유롭게 게임을 즐겨 보세요.',()=>{
-    tut=null;app.classList.remove('tut');save.tut=2;persist();G.over=true;toLobby();
+    tut=null;tutCtl();app.classList.remove('tut');save.tut=2;persist();G.over=true;toLobby();
   });
 }
-function tutQuit(){tutGo(null);tut=null;app.classList.remove('tut');save.tut=2;persist();}
+function tutQuit(){tutGo(null);tut=null;tutCtl();app.classList.remove('tut');save.tut=2;persist();}
 function tutStart(){
   tut={step:'intro',i:0};$('rules').hidden=true;app.classList.add('tut');
   tutStage(0);$('tutCard').hidden=true;
   tutCard('게임에 입장하기 앞서,\n간단하게 조작을 알려드리겠습니다.',()=>{ensureAudio();tutCard(TUT_STAGES[0].card,()=>tutGo('aim'));});
 }
 const tutOK=step=>!tut||tut.step===step||(tut.step==='line'&&(step==='aim'||step==='fine'));
+// 튜토리얼·힌트 중에는 지금 단계의 조작만 움직일 수 있어요 (나머지 칸은 흐리게 막아요)
+function tutCtl(){
+  const on=!!tut&&tut.step!=='end';
+  [['.cell.spin','spin'],['#pip','fine'],['#elevCell','elev'],['#powerwrap','power']].forEach(([sel,k])=>{const el=document.querySelector(sel);if(el)el.classList.toggle('tutOff',on&&!tutOK(k));});
+  if(on&&!tutOK('elev'))elevIn.disabled=true;
+}
 function openRules(g){
   document.querySelectorAll('#rules .rules-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.r===g));
   document.querySelectorAll('#rules .rules-body').forEach(b=>b.hidden=b.dataset.rb!==g);
@@ -431,9 +437,10 @@ pad.addEventListener('pointerdown',e=>{ensureAudio();if(phase!=='aim'||!tutOK('s
 pad.addEventListener('pointermove',e=>{if(!padDrag)return;const dx=e.clientX-padDrag.x,dy=e.clientY-padDrag.y,rad=(padZoom.clientWidth/2)||100;padDrag.x=e.clientX;padDrag.y=e.clientY;padDrag.m+=Math.abs(dx)+Math.abs(dy);let a=hit.a+dx/rad*SPIN_MAX,b=hit.b-dy/rad*SPIN_MAX;const l=Math.hypot(a,b);if(l>SPIN_MAX){a*=SPIN_MAX/l;b*=SPIN_MAX/l;}hit={a,b};drawDot();});
 const padEnd=()=>{if(!padDrag)return;padZoom.hidden=true;if(tut&&padDrag.m>=6)tutReady('spin');padDrag=null;};
 pad.addEventListener('pointerup',padEnd);pad.addEventListener('pointercancel',padEnd);
-$('spinRead').onclick=()=>{if(phase!=='aim')return;hit={a:0,b:0};drawDot();};
-pad.addEventListener('dblclick',()=>{if(phase!=='aim')return;hit={a:0,b:0};drawDot();});
+$('spinRead').onclick=()=>{if(phase!=='aim'||!tutOK('spin'))return;hit={a:0,b:0};drawDot();};
+pad.addEventListener('dblclick',()=>{if(phase!=='aim'||!tutOK('spin'))return;hit={a:0,b:0};drawDot();});
 elevIn.addEventListener('input',()=>{
+  if(tut&&!tutOK('elev')){elevIn.value=elev;return;}
   let v=+elevIn.value;const c=LB[G.cueI];
   if(c&&v<elev){const rf=cueFloor(c,true,false),bf=cueFloor(c,false,true),lim=Math.min(elev,Math.min(75,Math.max(rf,bf)));if(v<lim){v=lim;elevIn.value=v;cueBlocked(rf>=bf?'rail':'ball');}}
   elev=v;elevVal.textContent=elev+'°';
@@ -473,7 +480,7 @@ function applyHint(){
   tut={hint:true,i:-1,sol:Object.assign({},c,{elev:ef}),steps,step:null};
   tutGo('line');updateUI();
 }
-function hintEnd(){if(tut&&tut.hint){tutGo(null);tut=null;}}
+function hintEnd(){if(tut&&tut.hint){tutGo(null);tut=null;tutCtl();}}
 $('hintBtn').onclick=()=>{
   const s=G.stage;if(!s||!s.sol||phase!=='aim')return;
   if(G.hintGranted){applyHint();return;}
@@ -487,6 +494,8 @@ $('menuClose').onclick=()=>{$('menu').hidden=true;};
 $('menu').addEventListener('pointerdown',e=>{if(e.target===$('menu'))$('menu').hidden=true;});
 $('menuQuit').onclick=()=>{
   const b=$('menuQuit');
+  // 튜토리얼·힌트 중에 나가면 그 안내를 끝내요 (남아 있으면 다음 판의 조작이 막혀요)
+  if(tut){if(tut.hint)hintEnd();else tutQuit();}
   if(G.mode==='online'&&!G.over){
     if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='한 번 더 누르면 기권';return;}
     $('menu').hidden=true;netForfeit();finishGame(1-G.myIdx,'기권했어요');return;

@@ -354,4 +354,6 @@ button.sm{padding:5px 8px;font-size:12px}
 @keyframes nudge{20%{transform:translateX(-4px)}45%{transform:translateX(4px)}70%{transform:translateX(-2px)}}
 .nudge{animation:nudge .26s}
 @media (prefers-reduced-motion:reduce){#rNote,.stc.next,#rStars span.pop,.tutSpot,.tutGlow,#tutTap,.nudge,#toast,#banner,#sheet,.beads i{transition:none;animation:none}.m-plate.wait .b{animation:none}}
+/* 튜토리얼·힌트: 지금 단계가 아닌 조작 칸은 흐리게, 누를 수 없게 */
+.tutOff{opacity:.32;filter:saturate(.35);pointer-events:none;transition:opacity .2s}
 </style>

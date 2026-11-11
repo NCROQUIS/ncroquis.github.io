@@ -1,0 +1,6 @@
+{
+  "provider": "supabase",
+  "environment": "prod",
+  "ruleset": "billiards-v1",
+  "apiUrl": "https://qqbajkltkhvhlwrxpgfn.supabase.co/functions/v1/billiards-pvp"
+}

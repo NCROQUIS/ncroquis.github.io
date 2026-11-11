@@ -6,7 +6,10 @@ s=re.sub(r'<link rel="preconnect"[^>]*>\n?','',s)
 s=re.sub(r'<link rel="stylesheet" href="https://fonts[^>]*>\n?','',s)
 s=s.replace('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js','vendor/three.min.js')
 s=s.replace('<meta name="claude:viewport-fit-sides" content="cover">\n','')
-s=re.sub(r'<title>.*?</title>\n?','',s,1)
+s=re.sub(r'<title>.*?</title>\n?','',s,count=1)
+# 미리보기 파일 안에 넣은 공용 저장 모듈은 빼고, 레포의 ncq/save.js를 불러요 (킥오프가 최신으로 맞춰요)
+s,n=re.subn(r'<script data-ncq-inline="save">.*?/\*NCQ_SAVE_END\*/\n</script>\n','',s,count=1,flags=re.S)
+assert n==1,'ncq/save.js 묶음을 찾지 못했어요'
 assert 'cdnjs' not in s and 'fonts.g' not in s
 used=set(ord(c) for c in s if ord(c)>32)
 def inter(r):
@@ -34,6 +37,8 @@ head='''<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <title>당구 : PVP 3구 4구 포켓볼</title>
 <script src="ncq/safe.js"></script>
+<script src="ncq/save.js"></script>
+<script type="module" src="ncq/board.js"></script>
 <style>
 '''+'\n'.join(faces)+'''
 html,body{margin:0;height:100dvh}

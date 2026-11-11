@@ -236,13 +236,13 @@ function stepBall(b,dt){
   else{
     if(b.v.y<0){if(-b.v.y>0.15){if(LIVE)sfx('bounce',Math.min(1,-b.v.y/3));b.v.y=-b.v.y*E_TABLE;}else b.v.y=0;}
     if(b.v.y<=1e-6){
-      const ux=b.v.x+R*b.w.z,uz=b.v.z-R*b.w.x,us=Math.hypot(ux,uz);
+      const ux=b.v.x+R*b.w.z,uz=b.v.z-R*b.w.x,us=Math.sqrt(ux*ux+uz*uz);
       if(us>2e-3){
         const f=MU_S*GV*dt;
         if(3.5*f>=us){b.v.x-=ux*2/7;b.v.z-=uz*2/7;b.w.z=-b.v.x/R;b.w.x=b.v.z/R;}
         else{const Fx=-ux/us,Fz=-uz/us,k=f*M/I;b.v.x+=Fx*f;b.v.z+=Fz*f;b.w.x+=-R*Fz*k;b.w.z+=R*Fx*k;}
       }else{
-        const sp=Math.hypot(b.v.x,b.v.z),dec=MU_R*GV*dt;
+        const sp=Math.sqrt(b.v.x*b.v.x+b.v.z*b.v.z),dec=MU_R*GV*dt;
         if(sp<=dec){b.v.x=0;b.v.z=0;}else{const s=(sp-dec)/sp;b.v.x*=s;b.v.z*=s;}
         b.w.z=-b.v.x/R;b.w.x=b.v.z/R;
       }

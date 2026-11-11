@@ -10,8 +10,8 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=c198824e9738">
-  <script type="module" src="./app.js?v=c198824e9738"></script>
+  <link rel="stylesheet" href="./style.css?v=1be5d99b662e">
+  <script type="module" src="./app.js?v=1be5d99b662e"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -307,7 +307,7 @@
             <button class="record-favorite review-button" type="button">
               <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-star"/></svg>
             </button>
-            <button class="record-visibility" type="button" aria-haspopup="dialog" aria-controls="record-share-dialog" hidden></button>
+            <button class="record-visibility" type="button" aria-haspopup="dialog" aria-controls="record-visibility-dialog" hidden></button>
           </div>
         </li>
       </template>
@@ -523,7 +523,12 @@
             fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
           <span data-i18n="ruleRenju"></span>
         </button>
-        <button id="join-tournament" class="primary" type="button"></button>
+        <button id="join-tournament" class="primary" type="button">
+          <span id="join-tournament-label"></span>
+          <span id="join-tournament-cost" class="tournament-coin-cost" hidden>
+            <span class="shop-coin" aria-hidden="true"></span><span id="join-tournament-coins"></span>
+          </span>
+        </button>
         <button id="tournament-records" class="secondary record-shortcut" type="button" aria-controls="records"
                 data-i18n-attr="aria-label:tournamentRecords">
           <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-records"/></svg>
@@ -764,7 +769,7 @@
                   <strong data-i18n="shopGoldenPlacement"></strong>
                   <span class="shop-product-detail" data-i18n="shopGoldenPlacementGuide"></span>
                   <span class="shop-effect-status"></span>
-                  <span id="shop-effect-time" class="shop-product-detail" hidden></span>
+                  <span id="shop-effect-time" class="shop-product-detail shop-effect-time" hidden></span>
                 </span>
               </button>
             </li>
@@ -775,6 +780,28 @@
                   <strong data-i18n="shopSakuraPlacement"></strong>
                   <span class="shop-product-detail" data-i18n="shopSakuraPlacementGuide"></span>
                   <span class="shop-effect-status"></span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button class="shop-product shop-effect-option" type="button" data-effect="ripple" aria-pressed="false">
+                <span class="shop-effect-art" aria-hidden="true"><span class="stone black"></span></span>
+                <span class="shop-product-copy">
+                  <strong data-i18n="shopRipplePlacement"></strong>
+                  <span class="shop-product-detail" data-i18n="shopRipplePlacementGuide"></span>
+                  <span class="shop-effect-status"></span>
+                  <span class="shop-product-detail shop-effect-time" hidden></span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button class="shop-product shop-effect-option" type="button" data-effect="mystic" aria-pressed="false">
+                <span class="shop-effect-art" aria-hidden="true"><span class="stone black"></span></span>
+                <span class="shop-product-copy">
+                  <strong data-i18n="shopMysticPlacement"></strong>
+                  <span class="shop-product-detail" data-i18n="shopMysticPlacementGuide"></span>
+                  <span class="shop-effect-status"></span>
+                  <span class="shop-product-detail shop-effect-time" hidden></span>
                 </span>
               </button>
             </li>
@@ -1019,6 +1046,19 @@
       </form>
     </dialog>
 
+    <dialog id="coin-shortage" aria-labelledby="coin-shortage-title" aria-describedby="coin-shortage-message">
+      <form method="dialog">
+        <h2 id="coin-shortage-title" data-i18n="coinShortageTitle"></h2>
+        <p id="coin-shortage-message" data-i18n="coinShortageMessage"></p>
+        <div class="coin-shortage-actions">
+          <button class="secondary" type="submit" value="no" data-i18n="coinShortageNo"
+                  data-ncq-main="Stay on the current screen"></button>
+          <button class="primary" type="submit" value="yes" data-i18n="coinShortageYes"
+                  data-ncq-main="Open the coin shop" autofocus></button>
+        </div>
+      </form>
+    </dialog>
+
     <template id="shop-coin-pack-card">
       <li class="shop-product">
         <span class="shop-coin-art" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -1040,6 +1080,28 @@
           <strong data-i18n="ruleTaraguchi"></strong><small data-i18n="ruleTaraguchiHelp"></small>
         </button>
         <button type="submit" value="" class="secondary" data-ncq-main="Close rules" data-i18n="cancel"></button>
+      </form>
+    </dialog>
+    <dialog id="tournament-catch-up" aria-labelledby="tournament-catch-up-title"
+            aria-describedby="tournament-catch-up-summary tournament-catch-up-message">
+      <form method="dialog">
+        <h2 id="tournament-catch-up-title" data-i18n="joinTournamentCatchUp"></h2>
+        <p id="tournament-catch-up-summary">
+          <span data-i18n="tournamentMissedAttempts"></span>
+          <strong id="tournament-catch-up-missed"></strong>
+        </p>
+        <p id="tournament-catch-up-message" data-i18n="confirmTournamentCatchUp"></p>
+        <div class="tournament-catch-up-actions">
+          <button class="secondary" type="submit" value="cancel" data-ncq-main="Cancel tournament catch-up"
+                  data-i18n="cancel" autofocus></button>
+          <button id="confirm-tournament-catch-up" class="primary" type="submit" value="confirm"
+                  data-ncq-main="Confirm tournament catch-up">
+            <span data-i18n="joinTournamentCatchUp"></span>
+            <span class="tournament-coin-cost">
+              <span class="shop-coin" aria-hidden="true"></span><span id="tournament-catch-up-coins"></span>
+            </span>
+          </button>
+        </div>
       </form>
     </dialog>
     <dialog id="matchmaking" class="matchmaking" aria-labelledby="queue-title" aria-describedby="queue-rule queue-status">
@@ -1095,19 +1157,25 @@
         <button class="secondary" data-ncq-main="Close invite" data-i18n="done"></button>
       </form>
     </dialog>
-    <dialog id="record-share-dialog" aria-labelledby="record-share-title">
+    <dialog id="record-share-dialog" class="record-dialog" aria-labelledby="record-share-title">
       <form method="dialog">
         <h2 id="record-share-title" data-i18n="recordShare"></h2>
-        <p id="record-share-note"></p>
         <div id="record-link-panel" hidden>
           <label for="record-link" data-i18n="recordPublicLink"></label>
           <input id="record-link" readonly>
-          <button id="record-send-link" class="primary" type="button" data-i18n="recordSendLink" hidden></button>
-          <button id="record-copy-link" class="secondary" type="button" data-i18n="recordCopyLink"></button>
+          <button id="record-send-link" class="primary" type="button" data-ncq-main="Share record link" data-i18n="recordSendLink" hidden></button>
+          <button id="record-copy-link" class="secondary" type="button" data-ncq-main="Copy record link" data-i18n="recordCopyLink"></button>
         </div>
         <p id="record-share-feedback" class="feedback" role="status" hidden></p>
-        <button id="record-visibility-toggle" class="primary" type="button" hidden></button>
         <button id="record-share-close" class="secondary" data-ncq-main="Close record sharing" data-i18n="done" autofocus></button>
+      </form>
+    </dialog>
+    <dialog id="record-visibility-dialog" class="record-dialog" aria-labelledby="record-visibility-title">
+      <form method="dialog">
+        <h2 id="record-visibility-title" data-i18n="recordVisibilitySettings"></h2>
+        <p id="record-visibility-feedback" class="feedback" role="status" hidden></p>
+        <button id="record-visibility-toggle" class="primary" type="button" data-ncq-main="Change record visibility" hidden></button>
+        <button id="record-visibility-close" class="secondary" data-ncq-main="Close record visibility settings" data-i18n="done" autofocus></button>
       </form>
     </dialog>
     <dialog id="result" class="result" aria-labelledby="result-heading result-stone-color result-title">

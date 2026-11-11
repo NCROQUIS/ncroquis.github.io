@@ -2,5 +2,31 @@
   "ruleset": "kkochi-tug-v1",
   "mode": "rules",
   "turn_seconds": 12,
-  "bots": { "count": 200, "min": 1100, "max": 2300, "ranking": true }
+  "bots": {
+    "count": 200,
+    "min": 1100,
+    "max": 2300,
+    "ranking": true
+  },
+  "queues": [
+    "room-01",
+    "room-02",
+    "room-03",
+    "room-04",
+    "room-05",
+    "room-06",
+    "room-07",
+    "room-08",
+    "room-09",
+    "room-10",
+    "room-11",
+    "room-12",
+    "room-13",
+    "room-14",
+    "room-15",
+    "room-16",
+    "room-17",
+    "room-18",
+    "room-19"
+  ]
 }

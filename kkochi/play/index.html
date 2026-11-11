@@ -295,6 +295,12 @@ body{
 .link-btn:focus-visible{outline:3px solid var(--cream);outline-offset:2px;border-radius:6px}
 .mview{display:flex;flex-direction:column;align-items:center;gap:calc(10px*var(--k,1));text-align:center}
 .mline{margin:0;font-size:calc(16px*var(--k,1));font-weight:700;color:var(--ink);line-height:1.45}
+.room-row{display:flex;gap:8px}
+.room-row .btn{flex:1;min-width:0;padding-left:6px;padding-right:6px;white-space:nowrap;font-size:max(16px,calc(18px*var(--k,1)))}
+.mcode{display:block;margin:2px 0 0;font-family:var(--display);font-size:calc(52px*var(--k,1));line-height:1.05;letter-spacing:.14em;color:var(--ink);font-variant-numeric:tabular-nums}
+.room-input{width:100%;box-sizing:border-box;padding:8px 10px;border:3px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink);font-family:var(--display);font-size:calc(44px*var(--k,1));letter-spacing:.3em;text-align:center;font-variant-numeric:tabular-nums}
+.room-input:focus{outline:3px solid var(--vs);outline-offset:2px}
+.room-err{margin:0;min-height:1.3em;font-size:calc(13.5px*var(--k,1));font-weight:700;color:var(--stamp);text-align:center}
 .mline b{font-family:var(--display);font-weight:400;font-size:1.25em;color:var(--vs)}
 .mtime{margin:0;font-family:var(--display);font-size:calc(30px*var(--k,1));color:var(--ink);font-variant-numeric:tabular-nums}
 .mnote{margin:0;font-size:calc(13px*var(--k,1));color:#8A5A2B;line-height:1.5}
@@ -534,7 +540,27 @@ body{
         <div class="stat-sub" id="pvpRecord">0승 0패</div>
       </div>
       <button class="btn btn-vs stack" id="onlineBtn" type="button" data-ncq-main="온라인 매칭"><span>온라인 매칭</span></button>
+      <div class="room-row" id="roomRow">
+        <button class="btn btn-wood" id="roomMake" type="button">방 만들기</button>
+        <button class="btn btn-wood" id="roomJoin" type="button">방 입장하기</button>
+      </div>
       <p class="board-note" id="pvpNote" hidden></p>
+    </div>
+  </div>
+  <div class="overlay hang" id="roomIn" hidden>
+    <div class="chain l" aria-hidden="true"></div><div class="chain r" aria-hidden="true"></div>
+    <div class="board" role="dialog" aria-modal="true" aria-labelledby="roomInTitle">
+      <span class="nail l" aria-hidden="true"></span><span class="nail r" aria-hidden="true"></span>
+      <h2 id="roomInTitle">방 입장하기</h2>
+      <div class="paper mview">
+        <p class="mline">친구에게 받은 방 번호 4자리</p>
+        <input class="room-input" id="roomCode" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" aria-label="방 번호 4자리">
+        <p class="room-err" id="roomErr" role="status"></p>
+      </div>
+      <div class="board-actions">
+        <button class="btn btn-wood" id="roomInCancel" type="button">취소</button>
+        <button class="btn" id="roomInGo" type="button" data-ncq-main="입장">입장</button>
+      </div>
     </div>
   </div>
   <div class="overlay hang" id="match" hidden>
@@ -544,7 +570,8 @@ body{
       <h2 id="matchTitle">상대 찾는 중</h2>
       <div class="paper mview" id="mvSearch">
         <div class="spin" id="mSpin" aria-hidden="true"></div>
-        <p class="mline"><b id="mRating">1500</b>점 근처 상대를 찾고 있어요</p>
+        <p class="mline" id="mLine"><b id="mRating">1500</b>점 근처 상대를 찾고 있어요</p>
+        <p class="mline" id="mRoom" hidden>방 번호<span class="mcode" id="mCode">0000</span></p>
         <p class="mtime" id="mTime" aria-live="off">0:00</p>
         <p class="mnote" id="mNote" role="status">잠시만 기다려 주세요</p>
       </div>

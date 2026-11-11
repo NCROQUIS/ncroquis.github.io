@@ -257,8 +257,7 @@ async function openRanks(g){
   note.textContent=T(mine?'rank_note_on':'rank_note_off');
 }
 document.querySelectorAll('#ranks .rules-tabs button').forEach(b=>b.onclick=()=>openRanks(b.dataset.k));
-$('rankOpen').onclick=()=>openRanks('3c');
-document.querySelectorAll('[data-rk]').forEach(b=>{b.addEventListener('pointerdown',e=>e.stopPropagation());b.onclick=e=>{e.preventDefault();e.stopPropagation();openRanks(b.dataset.rk);};});
+$('rankOpen').onclick=()=>openRanks(nav.game);
 $('ranksClose').onclick=()=>{$('ranks').hidden=true;rankTab=null;};
 const TMO_SVG='<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 5v3.6l2 1.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M10.5 1.6 8.6 5.2l2.4.6-1.6 3.2" fill="none" stroke="#0b0f14" stroke-width="1.8"/><path d="M10.5 1.6 8.6 5.2l2.4.6-1.6 3.2" fill="none" stroke="currentColor" stroke-width=".8"/></svg>';
 function refreshLobby(){
@@ -266,10 +265,7 @@ function refreshLobby(){
   // 부제: 종목 이름을 '·'로 이어요. 줄이 바뀔 때 이름 가운데(3-Cushion의 '-' 등)에서 끊기지 않게 이름마다 묶어요
   const bs=$('brandSub');bs.textContent='';['3c','4b','pool'].forEach((g,i)=>{if(i)bs.append('\u00a0· ');const n=document.createElement('span');n.style.whiteSpace='nowrap';n.textContent=GAME_INFO[g].name;bs.append(n);});
   requestAnimationFrame(fitBrand);
-  let w=0,l=0;Object.values(save.rec).forEach(r=>{w+=r.w;l+=r.l;});
-  const got=Object.keys(STAGES).reduce((n,g)=>n+starsOf(g),0),all=Object.values(STAGES).reduce((n,l)=>n+l.length*3,0);
-  $('stageSub').textContent=got?T('stage_sub',{got,all}):T('stage_sub0');
-  $('onlineSub').textContent=w+l?T('online_sub',{w,l}):T('online_sub0');
+  pickGame(nav.game,true);
   const rows=$('rankRows');rows.textContent='';
   ['3c','4b','pool'].forEach(g=>{const r=save.rec[g],tr=document.createElement('tr'),th=document.createElement('th');th.scope='row';th.textContent=GAME_INFO[g].name;tr.appendChild(th);[r.rk,rankPos(g)?T('rank_pos',{n:rankPos(g)}):'—',`${r.w}-${r.l}`].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td);});rows.appendChild(tr);});
 }
@@ -320,7 +316,9 @@ const TUT_STAGES=[
   {card:'tut_card2',steps:['spin','power']},
   {card:'tut_card3',steps:['elev','power']}
 ];
-const TUT_OFF=.04,TUT_FINE=.012,tutAimT=()=>tut.sol.phi+(tut.step==='aim'?TUT_OFF:0);
+// 이만큼 가까이 오면 목표에 딱 붙여요 (조준·미세 조준은 라디안, 칠 곳은 패드 반지름 비율, 큐 각도는 도, 힘은 0~1)
+const TUT_SNAP={aim:.045,fine:.02,spin:.15,elev:6,power:.06};
+const TUT_OFF=.04,TUT_FINE=TUT_SNAP.fine,tutAimT=()=>tut.sol.phi+(tut.step==='aim'?TUT_OFF:0);
 const angGap=(x,y)=>Math.abs(Math.atan2(Math.sin(x-y),Math.cos(x-y)));
 let tutCardKey=null;
 function tutCard(key,fn){tutCardKey=key;$('tutText').textContent=T(key);$('tutCard').hidden=false;$('tutNext').onclick=()=>{$('tutCard').hidden=true;fn();};}
@@ -340,17 +338,17 @@ function tutMarks(step){
 function tutGo(step){
   if(!tut)return;tut.step=step;tut.lock=false;
   document.querySelectorAll('.tutSpot').forEach(e=>e.classList.remove('tutSpot'));
-  $('tutTap').hidden=true;$('tutDim').hidden=!(step==='aim');tutPulse=step==='aim'||step==='fine'||step==='line';
+  tutPulse=step==='aim'||step==='fine'||step==='line';tutCycle0=performance.now();tutGeoKey='';
   const b=$('tutBubble');b.hidden=!step;tutMarks(step);tutCtl();
   if(!step)return;
   $('tutMsg').textContent=T((tut.hint&&TUT_HINT_TEXT[step])||TUT_TEXT[step]);if(TUT_SPOT[step])$(TUT_SPOT[step]).classList.add('tutSpot');
 }
 function tutDone(step){
   const s=tut&&tut.sol;if(!s||tut.step!==step)return false;
-  if(step==='aim')return angGap(aimPhi,s.phi+TUT_OFF)<.025;
+  if(step==='aim')return angGap(aimPhi,s.phi+TUT_OFF)<TUT_SNAP.aim;
   if(step==='fine'||step==='line')return angGap(aimPhi,s.phi)<TUT_FINE;
   if(step==='spin')return Math.abs(hit.a-s.a)<.09&&Math.abs(hit.b-s.b)<.09;
-  if(step==='elev')return Math.abs(elev-s.elev)<=5;
+  if(step==='elev')return Math.abs(elev-s.elev)<=TUT_SNAP.elev;
   return false;
 }
 // 노란 선에 한 번 맞추면 그 자리에 딱 붙이고 더는 움직이지 않아요 (손을 떼면 다음 단계로).
@@ -360,10 +358,12 @@ function tutSnap(prev){
   if(!tut||tut.lock)return;const st=tut.step;
   if(st!=='aim'&&st!=='fine'&&st!=='line')return;
   const tgt=st==='aim'?tut.sol.phi+TUT_OFF:tut.sol.phi,g1=sgn(aimPhi-tgt),g0=prev==null?g1:sgn(prev-tgt);
-  const hitNow=Math.abs(g1)<(st==='aim'?.025:TUT_FINE),crossed=g0*g1<0&&Math.abs(g0)+Math.abs(g1)<.5;
+  const hitNow=Math.abs(g1)<(st==='aim'?TUT_SNAP.aim:TUT_FINE),crossed=g0*g1<0&&Math.abs(g0)+Math.abs(g1)<.5;
   if(!hitNow&&!crossed)return;
-  aimPhi=tgt;tut.lock=true;tones([[660,0,.22]],.05);
+  aimPhi=tgt;tutLockNow();
 }
+// 목표에 딱 붙었을 때: 소리와 반짝임, 손을 떼면 다음 단계로
+function tutLockNow(){tut.lock=true;tones([[660,0,.12],[990,.07,.2]],.06);const r=$('tutRings');r.classList.remove('snap');void r.getBoundingClientRect();r.classList.add('snap');}
 const aimLocked=()=>!!(tut&&tut.lock);
 // 조작을 끝냈을 때 목표에 맞으면 다음 단계로
 function tutReady(step){
@@ -406,13 +406,101 @@ function tutCtl(){
   // 큐 각도 바는 칸을 흐리게 하는 것 말고 disabled로 막아서, 큐 각도 단계가 되면 여기서 다시 풀어요 (안 풀면 바가 안 움직여요)
   elevIn.disabled=phase!=='aim'||(on&&!tutOK('elev'));
 }
+// ---------- 튜토리얼 안내 그림 ----------
+// 화면을 진하게 어둡게 깔고 지금 만질 곳만 뚫어 밝게 보여 줘요. 손가락이 누를 곳에서 끌 방향으로 되풀이해서 움직이고,
+// 말풍선은 그 곳 가까이(아래 조작 칸이면 바로 위, 힘 바면 왼쪽)에 붙어요. 사용자가 만지는 동안과 딱 붙은 뒤에는 손가락을 숨겨요.
+const SVGNS='http://www.w3.org/2000/svg',tutV=new V();
+let tutCycle0=0,tutGeoKey='',tutPressT=-1e9,tutRelT=-1e9;
+app.addEventListener('pointerdown',()=>{tutPressT=performance.now();},true);
+['pointerup','pointercancel'].forEach(t=>window.addEventListener(t,()=>{tutRelT=performance.now();},true));
+// 당구대 위 점(x,z) → #app 안 화면 좌표
+function scrPt(x,z){const c=canvas.getBoundingClientRect(),a=app.getBoundingClientRect();tutV.set(x,R,z).project(camera);return {x:c.left-a.left+(tutV.x+1)/2*c.width,y:c.top-a.top+(1-tutV.y)/2*c.height};}
+function relRect(el,pad){const r=el.getBoundingClientRect(),a=app.getBoundingClientRect(),p=pad||0;return {x:r.left-a.left-p,y:r.top-a.top-p,w:r.width+2*p,h:r.height+2*p};}
+// 단계마다: 밝게 뚫을 곳(holes), 손가락이 지나갈 길(pts), 말풍선 자리(where)
+function tutGeom(step){
+  const s=tut.sol;
+  if(step==='aim'||step==='line'){
+    const c=LB[G.cueI].p,tgt=step==='aim'?s.phi+TUT_OFF:s.phi,len=a=>Math.max(.14,Math.min(.5,toRail(c.x,c.z,Math.cos(a),Math.sin(a),.5)*.9));
+    const d=sgn(tgt-aimPhi),n=14,pts=[],cc=scrPt(c.x,c.z);
+    for(let i=0;i<=n;i++){const k=i/n,a=aimPhi+d*k,l=len(tgt)*k+len(aimPhi)*(1-k);pts.push(scrPt(c.x+Math.cos(a)*l,c.z+Math.sin(a)*l));}
+    const B=pts[n],d2=a=>'M'+a.map(p=>p.x.toFixed(1)+' '+p.y.toFixed(1)).join('L');
+    const holes=[{cx:cc.x,cy:cc.y,r:30,ring:0},{d:d2(pts),w:74},{d:d2([cc,B]),w:34},{cx:B.x,cy:B.y,r:30,hole:0}];
+    if(step==='line')holes.push(relRect($('pip'),5));
+    return {holes,pts,where:'table'};
+  }
+  if(step==='fine'){
+    const r=relRect($('pip'),5),gap=sgn(s.phi-aimPhi),dir=gap>0?1:-1,dist=Math.min(r.w*.44,Math.max(46,Math.abs(gap)/FINE_K)),cx=r.x+r.w/2,cy=r.y+r.h*.42;
+    return {holes:[r],pts:[{x:cx-dir*dist/2,y:cy},{x:cx+dir*dist/2,y:cy}],where:'dock'};
+  }
+  if(step==='spin'){
+    // 칠 곳은 끈 거리만큼 크게 뜬 공에서 움직여요: 손가락이 끌 거리 = 바꿀 양 ÷ 최대 회전 × 큰 공 반지름
+    const r=relRect(pad),cx=r.x+r.w/2,cy=r.y+r.h/2,zr=Math.min(app.clientWidth*.62,230)/2,dx=(s.a-hit.a)/SPIN_MAX*zr,dy=-(s.b-hit.b)/SPIN_MAX*zr;
+    return {holes:[{cx,cy,r:r.w/2+12}],pts:[{x:cx-dx/2,y:cy-dy/2},{x:cx+dx/2,y:cy+dy/2}],where:'dock'};
+  }
+  if(step==='elev'){
+    const r=relRect(elevIn),th=16,x=v=>r.x+th/2+v/75*(r.w-th),y=r.y+r.h/2;
+    return {holes:[relRect($('elevCell'),5)],pts:[{x:x(elev),y},{x:x(s.elev),y}],where:'dock'};
+  }
+  const r=relRect($('power')),x=r.x+r.w/2,y0=r.y+14;
+  return {holes:[relRect($('powerwrap'),6)],pts:[{x,y:y0},{x,y:y0+s.pw/PMAX*r.h*.85}],where:'right'};
+}
+function svgEl(tag,at){const e=document.createElementNS(SVGNS,tag);for(const k in at)e.setAttribute(k,at[k]);return e;}
+function tutAt(pts,f){
+  let tot=0;const seg=[];for(let i=1;i<pts.length;i++){const l=Math.hypot(pts[i].x-pts[i-1].x,pts[i].y-pts[i-1].y);seg.push(l);tot+=l;}
+  let d=f*tot;for(let i=0;i<seg.length;i++){if(d<=seg[i]||i===seg.length-1){const k=seg[i]?Math.min(1,d/seg[i]):1;return {x:pts[i].x+(pts[i+1].x-pts[i].x)*k,y:pts[i].y+(pts[i+1].y-pts[i].y)*k};}d-=seg[i];}
+  return pts[0];
+}
+function tutDraw(now){
+  const sh=$('tutShade'),hand=$('tutHand'),bub=$('tutBubble'),st=tut&&tut.step;
+  const show=!!(st&&TUT_TEXT[st]&&$('tutCard').hidden&&!G.over&&phase==='aim'&&$('menu').hidden);
+  sh.toggleAttribute('hidden',!show);if(!show){hand.hidden=true;return;}   // SVG는 .hidden이 없어서 속성으로
+  const g=tutGeom(st),key=st+JSON.stringify(g.holes.map(h=>h.d?[h.d.length,h.d.slice(0,24),h.d.slice(-12)]:h.r!=null?[h.cx|0,h.cy|0,h.r|0]:[h.x|0,h.y|0,h.w|0,h.h|0]));
+  if(key!==tutGeoKey){
+    tutGeoKey=key;const holes=$('tutHoles'),rings=$('tutRings');holes.textContent='';rings.textContent='';
+    // 구멍(hole:0이면 빼요)과 금색 테두리(ring:0이면 빼요). 길(d)은 굵은 선으로 뚫어요
+    g.holes.forEach(h=>{
+      if(h.d){holes.appendChild(svgEl('path',{d:h.d,fill:'none',stroke:'#000','stroke-width':h.w,'stroke-linecap':'round','stroke-linejoin':'round'}));return;}
+      const at=h.r!=null?['circle',{cx:h.cx,cy:h.cy,r:h.r}]:['rect',{x:h.x,y:h.y,width:h.w,height:h.h,rx:10}];
+      if(h.hole!==0)holes.appendChild(svgEl(at[0],Object.assign({fill:'#000'},at[1])));
+      if(h.ring!==0)rings.appendChild(svgEl(at[0],at[1]));
+    });
+  }
+  // 손가락: 나타나서 → 누르고 → 길을 따라 끌고 → 떼고 → 사라져요 (만지는 동안·딱 붙은 뒤에는 숨겨요)
+  const busy=tutPressT>tutRelT||now-tutRelT<800||tut.lock,arrow=$('tutArrow');
+  const p0=g.pts[0],p1=g.pts[g.pts.length-1],far=Math.hypot(p1.x-p0.x,p1.y-p0.y)>14;
+  arrow.style.display=busy||!far?'none':'';
+  if(!busy&&far)arrow.setAttribute('d','M'+g.pts.map(p=>p.x.toFixed(1)+' '+p.y.toFixed(1)).join('L'));
+  hand.hidden=busy;
+  if(!busy){
+    const k=((now-tutCycle0)%2000)/2000,ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+    const f=k<.24?0:k<.78?ease((k-.24)/.54):1,pt=far?tutAt(g.pts,f):p0;
+    const op=k<.1?k/.1:k>.9?(1-k)/.1:1,press=k>.14&&k<.84;
+    hand.style.opacity=op;hand.style.transform=`translate(${pt.x.toFixed(1)}px,${pt.y.toFixed(1)}px) scale(${press?.88:1})`;
+    hand.classList.toggle('down',press);
+  }
+  // 말풍선 자리
+  const ah=app.clientHeight,aw=app.clientWidth,bh=bub.offsetHeight,dockTop=$('dock').offsetTop,cr=$('tutCaret');
+  bub.style.left='16px';bub.style.right='16px';bub.style.top='';bub.style.bottom='';cr.className='';
+  if(g.where==='right'){
+    const h=g.holes[0];bub.style.right=(aw-h.x+12)+'px';bub.style.top=Math.max(12,Math.min(ah-bh-12,h.y+h.h/2-bh/2))+'px';
+    cr.className='r';cr.style.top=Math.max(14,Math.min(bh-14,h.y+h.h/2-parseFloat(bub.style.top)))+'px';cr.style.left='';
+  }else if(g.where==='dock'){
+    bub.style.bottom=(ah-dockTop+16)+'px';
+    const h=g.holes[0],hx=h.r!=null?h.cx:h.x+h.w/2;cr.className='d';cr.style.left=Math.max(18,Math.min(aw-50,hx-16))+'px';cr.style.top='';
+  }else{
+    // 당구대: 위쪽에 두고, 밝힌 곳과 겹치면 아래 조작 칸 바로 위로
+    const hud=$('hud'),top=(!hud.hidden&&!app.classList.contains('tut'))?hud.offsetTop+hud.offsetHeight+8:14;
+    const ys=g.pts.map(p=>p.y).concat([g.holes[0].cy]),y0=Math.min(...ys)-40,y1=Math.max(...ys)+40;
+    if(y0<top+bh+6&&y1<dockTop-bh-22)bub.style.bottom=(ah-dockTop+16)+'px';else bub.style.top=top+'px';
+  }
+}
 function openRules(g){
   document.querySelectorAll('#rules .rules-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.r===g));
   document.querySelectorAll('#rules .rules-body').forEach(b=>b.hidden=b.dataset.rb!==g);
   $('rules').hidden=false;
 }
 document.querySelectorAll('#rules .rules-tabs button').forEach(b=>b.onclick=()=>openRules(b.dataset.r));
-$('goRules').onclick=()=>{$('rulesTut').hidden=false;openRules(GAME_INFO[nav.game]?nav.game:'3c');};
+$('goRules').onclick=()=>{$('rulesTut').hidden=false;openRules(nav.game);};
 $('menuRules').onclick=()=>{$('rulesTut').hidden=true;openRules(G.game);};
 $('rulesClose').onclick=()=>{$('rules').hidden=true;};
 $('rulesTut').onclick=tutStart;
@@ -448,13 +536,17 @@ const sEnd=()=>{if(sDrag&&tut&&sDrag.m>0)tutReady('fine');sDrag=null;};pipEl.add
 // 칠 곳: 누르면 크게 뜨고, 드래그한 만큼 큰 공 기준으로 움직인다
 let padDrag=null;const padZoom=$('padZoom');
 pad.addEventListener('pointerdown',e=>{ensureAudio();if(phase!=='aim'||!tutOK('spin'))return;padDrag={x:e.clientX,y:e.clientY,m:0};pad.setPointerCapture(e.pointerId);padZoom.style.bottom=($('dock').offsetHeight+12)+'px';padZoom.hidden=false;drawDot();});
-pad.addEventListener('pointermove',e=>{if(!padDrag)return;const dx=e.clientX-padDrag.x,dy=e.clientY-padDrag.y,rad=(padZoom.clientWidth/2)||100;padDrag.x=e.clientX;padDrag.y=e.clientY;padDrag.m+=Math.abs(dx)+Math.abs(dy);let a=hit.a+dx/rad*SPIN_MAX,b=hit.b-dy/rad*SPIN_MAX;const l=Math.hypot(a,b);if(l>SPIN_MAX){a*=SPIN_MAX/l;b*=SPIN_MAX/l;}hit={a,b};drawDot();});
+pad.addEventListener('pointermove',e=>{if(!padDrag)return;const dx=e.clientX-padDrag.x,dy=e.clientY-padDrag.y,rad=(padZoom.clientWidth/2)||100;padDrag.x=e.clientX;padDrag.y=e.clientY;padDrag.m+=Math.abs(dx)+Math.abs(dy);if(tut&&tut.lock&&tut.step==='spin')return;let a=hit.a+dx/rad*SPIN_MAX,b=hit.b-dy/rad*SPIN_MAX;const l=Math.hypot(a,b);if(l>SPIN_MAX){a*=SPIN_MAX/l;b*=SPIN_MAX/l;}hit={a,b};
+  if(tut&&tut.step==='spin'&&Math.hypot(a-tut.sol.a,b-tut.sol.b)<TUT_SNAP.spin*SPIN_MAX){hit={a:tut.sol.a,b:tut.sol.b};tutLockNow();}
+  drawDot();});
 const padEnd=()=>{if(!padDrag)return;padZoom.hidden=true;if(tut&&padDrag.m>=6)tutReady('spin');padDrag=null;};
 pad.addEventListener('pointerup',padEnd);pad.addEventListener('pointercancel',padEnd);
 $('spinRead').onclick=()=>{if(phase!=='aim'||!tutOK('spin'))return;hit={a:0,b:0};drawDot();};
 pad.addEventListener('dblclick',()=>{if(phase!=='aim'||!tutOK('spin'))return;hit={a:0,b:0};drawDot();});
 elevIn.addEventListener('input',()=>{
   if(tut&&!tutOK('elev')){elevIn.value=elev;return;}
+  // 튜토리얼·힌트: 표시 가까이 오면 딱 붙고, 붙은 뒤에는 바를 더 끌어도 그대로예요
+  if(tut&&tut.step==='elev'){if(tut.lock){elevIn.value=Math.round(elev);return;}if(Math.abs(+elevIn.value-tut.sol.elev)<=TUT_SNAP.elev){elev=tut.sol.elev;elevIn.value=Math.round(elev);elevVal.textContent=Math.round(elev)+'°';tutLockNow();return;}}
   let v=+elevIn.value;const c=LB[G.cueI];
   if(c&&v<elev){const rf=cueFloor(c,true,false),bf=cueFloor(c,false,true),lim=Math.min(elev,Math.min(75,Math.max(rf,bf)));if(v<lim){v=lim;elevIn.value=v;cueBlocked(rf>=bf?'rail':'ball');}}
   elev=v;elevVal.textContent=elev+'°';
@@ -463,7 +555,9 @@ let tutElev0=5;
 elevIn.addEventListener('change',()=>tutReady('elev'));
 const pw=$('power');let pDrag=null;
 pw.addEventListener('pointerdown',e=>{ensureAudio();if(phase!=='aim'||!tutOK('power'))return;pDrag={y:e.clientY};pw.setPointerCapture(e.pointerId);});
-pw.addEventListener('pointermove',e=>{if(!pDrag)return;power=clamp((e.clientY-pDrag.y)/(pw.clientHeight*.85),0,1);updateUI();});
+pw.addEventListener('pointermove',e=>{if(!pDrag)return;power=clamp((e.clientY-pDrag.y)/(pw.clientHeight*.85),0,1);
+  if(tut&&tut.step==='power'){const t=tut.sol.pw/PMAX;if(tut.lock)power=t;else if(Math.abs(power-t)<TUT_SNAP.power){power=t;tutLockNow();}}
+  updateUI();});
 function release(){
   if(!pDrag)return;pDrag=null;
   if(power<.02){power=0;updateUI();return;}
@@ -519,63 +613,100 @@ $('menuQuit').onclick=()=>{
 };
 $('optGuide').onchange=e=>set.guide=e.target.value;
 
-// 로비 동선
-const nav={mode:'single',game:'3c',step:'stepGame'};
+// 로비 동선: 왼쪽에서 종목(3구·4구·포켓볼)을 고르고(마지막으로 고른 종목은 저장해 기억) 오른쪽 Stage·Single·Online을 눌러요
+const nav={mode:'single',game:'4b',step:null};
 function showStep(id,title,sub){
-  $('sheet').hidden=false;$('lobby').classList.add('sheeted');['stepGame','stepMode','stepStages'].forEach(s=>$(s).hidden=s!==id);nav.step=id;
+  $('sheet').hidden=false;$('sheet').classList.toggle('full',id==='stepStages');$('lobby').classList.add('sheeted');['stepMode','stepStages'].forEach(s=>$(s).hidden=s!==id);nav.step=id;
   const h=$('sheetTitle');h.textContent=title;if(sub){const s=document.createElement('span');s.textContent=sub;h.appendChild(s);}
 }
+function closeSheet(){$('sheet').hidden=true;$('sheet').classList.remove('full');$('lobby').classList.remove('sheeted');nav.step=null;}
 const starsOf=g=>STAGES[g].reduce((n,s)=>n+(save.stars[g+'-'+s.idx]||0),0);
-function openGames(){
-  const isS=nav.mode==='stage',isO=nav.mode==='online';
-  document.querySelectorAll('[data-rk]').forEach(b=>b.hidden=!isO);$('stepGame').classList.toggle('ranked',isO);$('stepGame').classList.toggle('starts',isO);
-  document.querySelectorAll('[data-gs]').forEach(el=>{el.hidden=!isS;if(isS){const g=el.dataset.gs;el.textContent=`★ ${starsOf(g)} / ${STAGES[g].length*3}`;}});
-  showStep('stepGame',{stage:'Stage',single:'Single',online:'Online'}[nav.mode],T('pick_game'));
+// 고른 종목의 별·전적을 오른쪽 버튼에 보여 줘요
+function lobbySubs(){
+  const g=nav.game,got=starsOf(g),all=STAGES[g].length*3,r=save.rec[g]||{w:0,l:0};
+  $('stageSub').textContent=got?T('stage_sub',{got,all}):T('stage_sub0');
+  $('onlineSub').textContent=r.w+r.l?T('online_sub',{w:r.w,l:r.l}):T('online_sub0');
 }
-function openModes(){$('aiRule').textContent=GAME_INFO[nav.game].rule;showStep('stepMode',GAME_INFO[nav.game].name,'Single');}
+function pickGame(g,quiet){
+  if(!GAME_INFO[g])g='4b';nav.game=g;
+  document.querySelectorAll('[data-pick]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.pick===g)));
+  if(save.lg!==g){save.lg=g;if(!quiet)persist();}
+  lobbySubs();
+  const kind=GAME_INFO[g].kind;if(G.mode==='attract'&&attr.kind!==kind)attract(kind);
+}
+document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{ensureAudio();pickGame(b.dataset.pick);});
+document.querySelectorAll('[data-help]').forEach(b=>b.onclick=e=>{e.stopPropagation();$('rulesTut').hidden=false;openRules(b.dataset.help);});
+function openModes(){nav.mode='single';$('aiRule').textContent=GAME_INFO[nav.game].rule;showStep('stepMode',GAME_INFO[nav.game].name,'Single');}
 const LOCK_MINI='<svg viewBox="0 0 12 14" width="11" height="13" aria-hidden="true"><path d="M3.2 6.2V4.4a2.8 2.8 0 0 1 5.6 0v1.8" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="1.2" y="6" width="9.6" height="7.4" rx="1.6" fill="currentColor"/></svg>';
-const stHint=()=>T('st_hint',{n:UNLOCK_STARS});
-let stHintT=0;
-// 잠긴 판을 누르면: 칸이 흔들리고 위 안내 줄이 잠깐 까닭을 알려 줘요
-function stageLocked(g,i,tile){
-  tile.classList.remove('nudge');void tile.offsetWidth;tile.classList.add('nudge');
-  const h=$('stepStages').querySelector('.st-hint');if(!h)return;
-  h.classList.add('warn');h.innerHTML=LOCK_MINI+'<span></span>';
-  h.lastChild.textContent=stageOpen(g,i-1)?T('st_lock_one',{i,n:UNLOCK_STARS}):T('st_lock_seq',{n:UNLOCK_STARS});
-  clearTimeout(stHintT);stHintT=setTimeout(()=>{h.classList.remove('warn');h.innerHTML=stHint();},2200);
+
+// ---------- 스테이지 맵: 노드가 길처럼 이어져요 (1번이 아래). 드래그해서 끝까지 볼 수 있고, 다음에 할 판이 골라져 있어
+// 아래 '시작하기'만 누르면 돼요. 다른 열린 판을 누르면 고르고(한 번 더 누르면 시작), 잠긴 판은 까닭을 알려 줘요
+const MAP={g:null,sel:0,warnT:0,SP:86,PAD:64};
+function mapPick(){
+  const g=MAP.g,L=STAGES[g];let n=stageNext(g);
+  if(n<0)n=L.findIndex((s,i)=>stStars(g,i)<3);
+  return n<0?L.length-1:n;
 }
+function mapLayout(){
+  const g=MAP.g,L=STAGES[g],box=$('stageMap'),inner=$('mapInner'),W=box.clientWidth||320,H=MAP.PAD*2+(L.length-1)*MAP.SP,A=Math.min(W*.27,110);
+  inner.style.height=H+'px';
+  const pts=L.map((s,i)=>({x:W/2+A*Math.sin(i*.82),y:H-MAP.PAD-i*MAP.SP}));
+  // 지나온 길은 금색, 아직 못 간 길은 점선
+  const reach=L.reduce((m,s,i)=>stageOpen(g,i)?i:m,0),curve=a=>{let d=`M${a[0].x.toFixed(1)} ${a[0].y.toFixed(1)}`;for(let i=1;i<a.length;i++){const p0=a[i-2]||a[i-1],p1=a[i-1],p2=a[i],p3=a[i+1]||p2;d+=`C${(p1.x+(p2.x-p0.x)/6).toFixed(1)} ${(p1.y+(p2.y-p0.y)/6).toFixed(1)} ${(p2.x-(p3.x-p1.x)/6).toFixed(1)} ${(p2.y-(p3.y-p1.y)/6).toFixed(1)} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;}return d;};
+  const svg=$('mapPath');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.setAttribute('width',W);svg.setAttribute('height',H);
+  svg.innerHTML=`<path class="todo" d="${curve(pts.slice(reach))}"/>`+(reach>0?`<path class="done" d="${curve(pts.slice(0,reach+1))}"/>`:'');
+  inner.querySelectorAll('.mnode').forEach((b,i)=>{b.style.left=pts[i].x+'px';b.style.top=pts[i].y+'px';});
+  MAP.pts=pts;
+}
+function mapScrollTo(i,smooth){const box=$('stageMap'),p=MAP.pts&&MAP.pts[i];if(!p)return;const top=Math.max(0,p.y-box.clientHeight*.55);if(smooth&&box.scrollTo)box.scrollTo({top,behavior:'smooth'});else box.scrollTop=top;}
+function mapSelect(i){
+  const g=MAP.g,s=STAGES[g][i],got=stStars(g,i);MAP.sel=i;
+  $('mapInner').querySelectorAll('.mnode').forEach((b,j)=>{b.classList.toggle('sel',j===i);b.setAttribute('aria-pressed',String(j===i));});
+  $('miNo').textContent=T('stage_tag',{game:GAME_INFO[g].name,n:i+1});
+  const st=$('miStars');st.hidden=!got;if(got)renderStars(st,got);
+  $('miName').textContent=s.name;$('miDesc').textContent=s.desc;
+  clearTimeout(MAP.warnT);$('miWarn').hidden=true;$('mapStart').disabled=false;
+}
+function mapLocked(i,b){
+  b.classList.remove('nudge');void b.offsetWidth;b.classList.add('nudge');
+  const w=$('miWarn'),g=MAP.g;w.innerHTML=LOCK_MINI+'<span></span>';
+  w.lastChild.textContent=stageOpen(g,i-1)?T('st_lock_one',{i,n:UNLOCK_STARS}):T('st_lock_seq',{n:UNLOCK_STARS});
+  w.hidden=false;clearTimeout(MAP.warnT);MAP.warnT=setTimeout(()=>{w.hidden=true;},2400);
+}
+let mapMoved=false;
 function openStages(g){
-  nav.game=g;nav.mode='stage';const info=GAME_INFO[g],box=$('stepStages');box.textContent='';clearTimeout(stHintT);
-  // 다음에 할 스테이지를 파란 칸으로: 처음 하는 판은 ▶, 다시 깨야 하는 판(별 1개)은 별
-  const nextI=stageNext(g);
-  const hint=document.createElement('p');hint.className='st-hint';hint.innerHTML=stHint();box.appendChild(hint);
+  if(g!==nav.game)pickGame(g);
+  nav.mode='stage';MAP.g=g;const info=GAME_INFO[g],inner=$('mapInner'),next=stageNext(g);
+  inner.querySelectorAll('.mnode,.mpin').forEach(e=>e.remove());
   STAGES[g].forEach((s,i)=>{
     const got=stStars(g,i),open=stageOpen(g,i),b=document.createElement('button');
-    b.className='stc'+(!open?' lock':got?' done':'')+(i===nextI?' next':'');b.title=s.name;
+    b.className='mnode'+(!open?' lock':got?' done':'')+(i===next?' next':'');
     b.setAttribute('aria-label',open?T('st_go',{n:i+1,name:s.name}):T('st_locked',{n:i+1}));
-    const no=document.createElement('b');no.textContent=i+1;
-    let st;
-    if(!open){st=document.createElement('span');st.innerHTML=LOCK_MINI;st=st.firstChild;}
-    else if(i===nextI&&!got){st=document.createElement('i');st.className='ply';}
-    else{st=document.createElement('span');st.className='stars';renderStars(st,got);}
-    b.append(no,st);b.onclick=()=>{if(stageOpen(g,i))startStage(s);else stageLocked(g,i,b);};box.appendChild(b);
+    const no=document.createElement('b');no.textContent=i+1;b.appendChild(no);
+    if(!open){const l=document.createElement('span');l.className='lk2';l.innerHTML=LOCK_MINI;b.appendChild(l);}
+    else if(got){const st=document.createElement('span');st.className='stars';renderStars(st,got);b.appendChild(st);}
+    if(i===next){const pin=document.createElement('span');pin.className='mpin';pin.setAttribute('aria-hidden','true');b.appendChild(pin);}
+    b.onclick=()=>{if(mapMoved)return;if(!stageOpen(g,i)){mapLocked(i,b);return;}if(MAP.sel===i){startStage(s);return;}mapSelect(i);};
+    inner.appendChild(b);
   });
   showStep('stepStages',info.name,T('stages_sub',{got:starsOf(g),all:STAGES[g].length*3}));
-  if(nextI>4)requestAnimationFrame(()=>{const n=box.querySelector('.stc.next');if(n)box.scrollTop=Math.max(0,n.offsetTop-box.offsetTop-box.clientHeight/2+n.offsetHeight/2);});
+  mapLayout();const sel=mapPick();mapSelect(sel);mapScrollTo(sel);
   if(G.mode==='attract'&&attr.kind!==info.kind)attract(info.kind);
 }
-function pickMode(m){ensureAudio();nav.mode=m;openGames();}
-$('goStage').onclick=()=>pickMode('stage');
-$('goSingle').onclick=()=>pickMode('single');
-$('goOnline').onclick=()=>pickMode('online');
-document.querySelectorAll('[data-game]').forEach(b=>b.onclick=()=>{
-  nav.game=b.dataset.game;const kind=GAME_INFO[nav.game].kind;if(attr.kind!==kind)attract(kind);
-  if(nav.mode==='online')startMatching(nav.game);else if(nav.mode==='stage')openStages(nav.game);else openModes();
-});
+$('mapStart').onclick=()=>{const g=MAP.g,s=STAGES[g]&&STAGES[g][MAP.sel];if(s&&stageOpen(g,MAP.sel))startStage(s);};
+// 마우스로도 끌어서 맵을 올리고 내려요 (손가락은 그냥 스크롤)
+{const box=$('stageMap');let d=null;
+ box.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;d={y:e.clientY,top:box.scrollTop,m:0};});
+ window.addEventListener('pointermove',e=>{if(!d)return;const dy=e.clientY-d.y;d.m=Math.max(d.m,Math.abs(dy));if(d.m>4)box.scrollTop=d.top-dy;});
+ window.addEventListener('pointerup',()=>{if(!d)return;mapMoved=d.m>6;d=null;setTimeout(()=>{mapMoved=false;},0);});
+ window.addEventListener('resize',()=>{if(!$('stepStages').hidden&&MAP.g){mapLayout();mapScrollTo(MAP.sel);}});}
+$('goStage').onclick=()=>{ensureAudio();openStages(nav.game);};
+$('goSingle').onclick=()=>{ensureAudio();openModes();};
+$('goOnline').onclick=()=>{ensureAudio();startMatching(nav.game);};
 document.querySelectorAll('[data-lv]').forEach(b=>b.onclick=()=>startGame({mode:'ai',game:nav.game,lv:b.dataset.lv}));
 $('openPractice').onclick=()=>startGame({mode:'practice',game:nav.game});
 $('openLocal').onclick=()=>startGame({mode:'local',game:nav.game});
-$('sheetBack').onclick=()=>{if(nav.step==='stepGame'){$('sheet').hidden=true;$('lobby').classList.remove('sheeted');}else openGames();};
+$('sheetBack').onclick=closeSheet;
 $('mCancel').onclick=matchCancel;
 $('rLobby').onclick=afterAd(()=>{if(tut)tutQuit();toLobby();});
 (function(){const g=$('rackGlyph');let k=0;const order=[1,9,2,10,8,3,11,4,12,5,13,6,14,7,15];for(let r=0;r<5;r++)for(let j=0;j<=r;j++){const n=order[k++],b=document.createElement('i');b.className='b';b.style.setProperty('--c',POOL_COL[(n-1)%8]);b.style.left=(r*11)+'px';b.style.top=(23+(j-r/2)*12.4)+'px';g.appendChild(b);}})();
@@ -626,7 +757,7 @@ let last=performance.now();
 function loop(now){
   const fdt=Math.min(0.05,(now-last)/1000);last=now;
   tick(fdt,now);
-  syncMeshes(fdt);updateCue(fdt);updateGuide();updateCamera(fdt,false,now);
+  syncMeshes(fdt);updateCue(fdt);updateGuide();updateCamera(fdt,false,now);tutDraw(now);
   renderer.setScissorTest(false);renderer.setViewport(0,0,viewW,viewH);renderer.setClearColor(0x07090c,1);renderer.clear();
   if(!$('dock').hidden){const b=free.y+free.h;renderer.setScissorTest(true);renderer.setScissor(0,viewH-b,viewW,b);}
   renderer.shadowMap.needsUpdate=true;renderer.render(scene,camera);renderer.setScissorTest(false);
@@ -650,7 +781,7 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(relayout);
 // 언어를 바꾸면 지금 보이는 화면을 다시 그려요 (HTML에 바로 쓴 글자는 data-i18n으로 바뀌어요)
 function relang(){
   refreshLobby();
-  if(!$('sheet').hidden){if(nav.step==='stepStages')openStages(nav.game);else if(nav.step==='stepMode')openModes();else openGames();}
+  if(!$('sheet').hidden){if(nav.step==='stepStages')openStages(nav.game);else if(nav.step==='stepMode')openModes();}
   if(!$('hud').hidden){updateHUD();drawDot();$('menuQuit').textContent=T(G.mode==='online'?'forfeit':'quit');$('menuQuit').classList.remove('arm');}
   if(tut&&tut.step&&TUT_TEXT[tut.step])$('tutMsg').textContent=T((tut.hint&&TUT_HINT_TEXT[tut.step])||TUT_TEXT[tut.step]);
   if(!$('tutCard').hidden&&tutCardKey)$('tutText').textContent=T(tutCardKey);
@@ -664,7 +795,7 @@ function boot(){
   const fb=window.NcqFeedback,btn=$('feedBtn');btn.hidden=!(fb&&fb.can());btn.onclick=()=>fb.open();
   // Online·랭킹은 회사 게임 서버에 로그인할 수 있는 출시 빌드에서만 (개발 중·미리보기에는 가짜 상대를 두지 않아요)
   if(!onlineOn()){$('goOnline').hidden=true;$('rankOpen').hidden=true;$('goSingle').setAttribute('data-ncq-main','Single');}
-  loadSave();refreshLobby();netRefresh();attract('carom');relayout();updateCamera(0,true,performance.now());drawDot();
+  loadSave();nav.game=GAME_INFO[save.lg]?save.lg:'4b';refreshLobby();netRefresh();attract('carom');relayout();updateCamera(0,true,performance.now());drawDot();
   if((save.tut|0)<2)tutStart();
   requestAnimationFrame(loop);
 }

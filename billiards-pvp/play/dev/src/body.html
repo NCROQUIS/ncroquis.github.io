@@ -128,9 +128,10 @@
     </div>
   </section>
 
-  <div id="tutDim" hidden></div>
-  <div id="tutBubble" hidden role="status"><span id="tutMsg"></span></div>
-  <div id="tutTap" hidden aria-hidden="true"></div>
+  <!-- 튜토리얼·힌트 안내: 진한 딤에 지금 만질 곳만 밝게(구멍), 금색 테두리, 끌 방향 화살표, 손가락 -->
+  <svg id="tutShade" hidden aria-hidden="true"><defs><filter id="tutSoft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter><mask id="tutMask" maskUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%"><rect width="100%" height="100%" fill="#fff"/><g id="tutHoles" filter="url(#tutSoft)"></g></mask><marker id="tutHead" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.2" markerHeight="4.2" orient="auto"><path d="M0 0L10 5L0 10z" fill="#ffd34a"/></marker></defs><rect width="100%" height="100%" fill="rgba(3,6,10,.7)" mask="url(#tutMask)"/><g id="tutRings"></g><path id="tutArrow" marker-end="url(#tutHead)"/></svg>
+  <div id="tutBubble" hidden role="status"><span id="tutMsg"></span><i id="tutCaret"></i></div>
+  <div id="tutHand" hidden aria-hidden="true"><i class="ring"></i><svg viewBox="0 0 48 60" width="46" height="58"><path d="M17.5 5a5 5 0 0 1 10 0v19.5l1.6-.5a4.8 4.8 0 0 1 6 3.6l.2.9 1.3-.3a4.8 4.8 0 0 1 5.8 3.8l.1.7.8-.1a4.4 4.4 0 0 1 4.9 4.4V45c0 8.2-6.3 13.5-14.2 13.5h-6.5c-4.8 0-8-2-10.8-5.9L3.9 39.3a4.5 4.5 0 0 1 6.7-6l6.9 6.2z" fill="#fff" stroke="#11161d" stroke-width="2.6" stroke-linejoin="round"/><path d="M27.5 24.5V33M35.2 28.6V34M42.1 33.3V37" stroke="#11161d" stroke-width="2" stroke-linecap="round" fill="none" opacity=".45"/></svg></div>
   <section id="tutCard" class="screen" hidden>
     <p id="tutText"></p>
     <button class="primary" id="tutNext" data-ncq-main="다음" data-i18n="next"></button>
@@ -151,27 +152,36 @@
       <p id="brandSub"></p>
       <button id="goRules" class="rules-btn" data-i18n="rules_btn"></button>
     </header>
-    <div class="slabs gut">
-      <button class="slab" id="goStage"><span><b>Stage</b><small id="stageSub"></small></span><i class="chalk" aria-hidden="true"></i></button>
-      <button class="slab" id="goSingle"><span><b>Single</b><small data-i18n="single_sub"></small></span><i class="chalk" aria-hidden="true"></i></button>
-      <button class="slab online" id="goOnline" data-ncq-main="Online"><span><b>Online</b><small id="onlineSub"></small></span><i class="chalk" aria-hidden="true"></i></button>
+    <!-- 종목을 먼저 고르고(마지막으로 고른 종목 기억) 오른쪽 모드를 눌러요 -->
+    <div class="lpick gut">
+      <div class="games" role="radiogroup" data-i18n-attr="aria-label:pick_game">
+        <div class="gpick"><button class="gbtn" data-pick="3c" role="radio"><span class="glyph" aria-hidden="true"><i class="b w"></i><i class="b y"></i><i class="b r"></i></span><b data-i18n="g_3c"></b></button><button class="ghelp" data-help="3c" data-i18n-attr="aria-label:rules_view">?</button></div>
+        <div class="gpick"><button class="gbtn" data-pick="4b" role="radio"><span class="glyph" aria-hidden="true"><i class="b r"></i><i class="b r"></i><i class="b w"></i><i class="b y"></i></span><b data-i18n="g_4b"></b></button><button class="ghelp" data-help="4b" data-i18n-attr="aria-label:rules_view">?</button></div>
+        <div class="gpick"><button class="gbtn" data-pick="pool" role="radio"><span class="glyph rack" id="rackGlyph" aria-hidden="true"></span><b data-i18n="g_pool"></b></button><button class="ghelp" data-help="pool" data-i18n-attr="aria-label:rules_view">?</button></div>
+      </div>
+      <div class="slabs">
+        <button class="slab" id="goStage"><span><b>Stage</b><small id="stageSub"></small></span><i class="chalk" aria-hidden="true"></i></button>
+        <button class="slab" id="goSingle"><span><b>Single</b><small data-i18n="single_sub"></small></span><i class="chalk" aria-hidden="true"></i></button>
+        <button class="slab online" id="goOnline" data-ncq-main="Online"><span><b>Online</b><small id="onlineSub"></small></span><i class="chalk play" aria-hidden="true"></i></button>
+      </div>
     </div>
   </section>
 
   <section id="sheet" hidden>
     <div class="sheet-head gut"><button id="sheetBack" data-i18n-attr="aria-label:back">←</button><h2 id="sheetTitle">Single</h2></div>
-    <div class="step gut" id="stepGame">
-      <div class="game-row"><button class="row-btn" data-game="3c"><span class="glyph" aria-hidden="true"><i class="b w"></i><i class="b y"></i><i class="b r"></i></span><span><b data-i18n="g_3c"></b><small data-i18n="gd_3c"></small></span><span class="stars sq" data-gs="3c" hidden></span><i class="go" aria-hidden="true"></i></button><button class="rank-mini sq" data-rk="3c" hidden data-i18n-attr="aria-label:view_ranking"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 17L3 7l5 4 4-7 4 7 5-4-1 10z" fill="currentColor"/><rect x="4" y="18.5" width="16" height="2.5" rx="1" fill="currentColor"/></svg><span data-i18n="rank_mini"></span></button></div>
-      <div class="game-row"><button class="row-btn" data-game="4b"><span class="glyph" aria-hidden="true"><i class="b r"></i><i class="b r"></i><i class="b w"></i><i class="b y"></i></span><span><b data-i18n="g_4b"></b><small data-i18n="gd_4b"></small></span><span class="stars sq" data-gs="4b" hidden></span><i class="go" aria-hidden="true"></i></button><button class="rank-mini sq" data-rk="4b" hidden data-i18n-attr="aria-label:view_ranking"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 17L3 7l5 4 4-7 4 7 5-4-1 10z" fill="currentColor"/><rect x="4" y="18.5" width="16" height="2.5" rx="1" fill="currentColor"/></svg><span data-i18n="rank_mini"></span></button></div>
-      <div class="game-row"><button class="row-btn" data-game="pool"><span class="glyph rack" id="rackGlyph" aria-hidden="true"></span><span><b data-i18n="g_pool"></b><small data-i18n="gd_pool"></small></span><span class="stars sq" data-gs="pool" hidden></span><i class="go" aria-hidden="true"></i></button><button class="rank-mini sq" data-rk="pool" hidden data-i18n-attr="aria-label:view_ranking"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 17L3 7l5 4 4-7 4 7 5-4-1 10z" fill="currentColor"/><rect x="4" y="18.5" width="16" height="2.5" rx="1" fill="currentColor"/></svg><span data-i18n="rank_mini"></span></button></div>
-    </div>
     <div class="step gut" id="stepMode" hidden>
       <div class="mode-box"><b data-i18n="ai_match"></b><small id="aiRule"></small>
         <div class="lv"><button data-lv="easy" data-i18n-attr="aria-label:lv_easy_go"><i class="ply" aria-hidden="true"></i><span><b data-i18n="lv_easy"></b><span class="pips" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></button><button data-lv="mid" data-i18n-attr="aria-label:lv_mid_go"><i class="ply" aria-hidden="true"></i><span><b data-i18n="lv_mid"></b><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span></span></button><button data-lv="hard" data-i18n-attr="aria-label:lv_hard_go"><i class="ply" aria-hidden="true"></i><span><b data-i18n="lv_hard"></b><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span></span></button></div></div>
       <button class="row-btn" id="openPractice" style="grid-template-columns:1fr auto"><span><b style="font-size:26px" data-i18n="practice"></b><small data-i18n="practice_d"></small></span><i class="go play" aria-hidden="true"></i></button>
       <button class="row-btn" id="openLocal" style="grid-template-columns:1fr auto"><span><b style="font-size:26px" data-i18n="local2"></b><small data-i18n="local2_d"></small></span><i class="go play" aria-hidden="true"></i></button>
     </div>
-    <div class="step gut" id="stepStages" hidden></div>
+    <div class="step map-step" id="stepStages" hidden>
+      <div id="stageMap"><div id="mapInner"><svg id="mapPath" aria-hidden="true"></svg></div></div>
+      <div class="map-foot gut">
+        <div class="map-info"><div class="mi-top"><span id="miNo"></span><span class="stars" id="miStars"></span></div><b id="miName"></b><small id="miDesc"></small><p id="miWarn" hidden></p></div>
+        <button class="primary" id="mapStart" data-ncq-main="시작하기"><i class="ply" aria-hidden="true"></i><span data-i18n="map_start"></span></button>
+      </div>
+    </div>
   </section>
 
   <section id="matching" class="screen" hidden>

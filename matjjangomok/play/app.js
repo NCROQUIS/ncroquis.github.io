@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=e813e624a2f0";
-import { TEXTS } from "./texts.js?v=e813e624a2f0";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=e813e624a2f0";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=e813e624a2f0";
+import { NcqBoard } from "./ncq/board.js?v=552e3698303a";
+import { TEXTS } from "./texts.js?v=552e3698303a";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=552e3698303a";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=552e3698303a";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -109,6 +109,7 @@ let playerPhoto = null;
 let playerNickname = "";
 let nicknameOverride = "";
 let profileLoading = false;
+let profileRequest = 0;
 let profileTarget = null;
 let matchmaking = null;
 const tournamentCatchUpDialog = el("tournament-catch-up");
@@ -623,9 +624,9 @@ function applyWallet(next) {
   return true;
 }
 
-async function refreshWallet() {
+async function refreshWallet(cooldown = 3) {
   if (!backend) return;
-  const next = await remoteRequest(client => client.gameRequest("/wallet"));
+  const next = await remoteRequest(client => client.gameRequest("/wallet", undefined, cooldown));
   if (applyWallet(next)) {
     canClaimTestCoins = next.canClaimTestCoins === true;
     render();
@@ -669,10 +670,10 @@ function applyWeeklyRewards(result) {
   return true;
 }
 
-async function refreshWeeklyRewards() {
+async function refreshWeeklyRewards(cooldown = 3) {
   if (!backend || weeklyRewardClaiming) return;
   const request = ++weeklyRewardsRequest;
-  const result = await remoteRequest(client => client.gameRequest("/tournament/rewards"));
+  const result = await remoteRequest(client => client.gameRequest("/tournament/rewards", undefined, cooldown));
   if (request === weeklyRewardsRequest && applyWeeklyRewards(result)) render();
 }
 
@@ -1268,8 +1269,8 @@ async function buyPlacementEffect(effect) {
 
 async function recordMissionRound(game) {
   if (!game.moves.length || (["resign", "disconnect", "timeout"].includes(game.endReason) && game.moves.length < 6)) return;
-  if (game.mode === "tournament") void refreshWeeklyRewards();
-  return refreshWallet();
+  if (game.mode === "tournament") void refreshWeeklyRewards(-1);
+  return refreshWallet(-1);
 }
 
 function unlockPlacementAudio() {
@@ -2331,22 +2332,25 @@ function renderPlayerProfile() {
   if (own) renderPromotionMeter("profile-promotion-meter", "promotion", rating);
 }
 
-async function refreshPlayerCard() {
-  if (!backend || profileLoading) return;
+async function refreshPlayerCard(cooldown = 3) {
+  if (!backend || (profileLoading && cooldown !== -1)) return;
+  const request = ++profileRequest;
   profileLoading = true;
   if (profileDialog.open) renderPlayerProfile();
   try {
-    const stats = await remoteRequest(client => client.profile());
-    if (!stats.error) {
+    const stats = await remoteRequest(client => client.profile(cooldown));
+    if (request === profileRequest && !stats.error) {
       playerStats = stats;
       renderPlayerCard();
       renderOwnRank();
     }
     await refreshAuthProfile();
   } finally {
-    profileLoading = false;
-    if (profileDialog.open) renderPlayerProfile();
-    if (matchIntroDialog.open) renderMatchIntro();
+    if (request === profileRequest) {
+      profileLoading = false;
+      if (profileDialog.open) renderPlayerProfile();
+      if (matchIntroDialog.open) renderMatchIntro();
+    }
   }
 }
 
@@ -2981,7 +2985,7 @@ function applyState(next) {
       resultDialog.showModal();
       render();
       void playRankPromotion(next);
-      refreshPlayerCard();
+      refreshPlayerCard(-1);
     };
     if (newMoveCount > 0) {
       void Promise.resolve(placement).then(() => setTimeout(openResult, 1000));
@@ -3243,7 +3247,7 @@ function connectRoom(code) {
         if (next.error === "notFound") {
           if (room?.phase === "playing") {
             // The other player can leave before this client polls the finished room.
-            const history = await remoteRequest(client => client.gameRequest("/records"));
+            const history = await remoteRequest(client => client.gameRequest("/records", undefined, -1));
             if (stream !== polling) return;
             if (room.phase === "playing") {
               const result = Array.isArray(history) && history.find(record => record.id === code + ":" + room.round);

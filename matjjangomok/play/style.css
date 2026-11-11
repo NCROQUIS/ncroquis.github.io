@@ -116,6 +116,8 @@ body:not(.in-match) .topbar { border-color: var(--lobby-border); }
 .lobby { height: 100%; display: flex; flex-direction: column; gap: 8px; padding-top: 9px; }
 .shell:has(:is(#lobby, #tournament):not([hidden])) {
   --lobby-inset: clamp(10px, 3.15vw, 18px);
+  --lobby-section-gap: clamp(14px, 4vw, 24px);
+  --lobby-row-gap: clamp(7px, 2vw, 12px);
   padding-inline: max(var(--lobby-inset), var(--ncq-left, 0px)) max(var(--lobby-inset), var(--ncq-right, 0px));
 }
 .shell:has(:is(#lobby, #tournament):not([hidden])) .topbar { min-height: clamp(44px, 11.5vw, 54px); }
@@ -128,14 +130,14 @@ body:not(.in-match) .topbar { border-color: var(--lobby-border); }
 }
 #lobby {
   gap: 0;
-  padding-top: clamp(9px, 3vw, 15px);
+  padding-top: var(--lobby-section-gap);
 }
 .lobby-feed { display: contents; }
 .lobby-highlights {
   flex: none;
   display: grid;
-  gap: clamp(8px, 3.1cqw, 15px);
-  margin-bottom: clamp(9px, 3.5cqw, 18px);
+  gap: var(--lobby-section-gap);
+  margin-bottom: var(--lobby-section-gap);
 }
 .tournament-card, .mission-shortcut {
   border: 1px solid var(--lobby-border);
@@ -371,7 +373,7 @@ body:not(.in-match) .topbar { border-color: var(--lobby-border); }
 #lobby .list-heading {
   flex: none;
   min-height: clamp(24px, 6.7cqw, 36px);
-  margin-bottom: clamp(6px, 2.25cqw, 12px);
+  margin-bottom: var(--lobby-section-gap);
   padding-inline: clamp(2px, 1cqw, 6px) 0;
 }
 #lobby-heading { font-size: clamp(1rem, 4.9cqw, 1.45rem); line-height: 1.15; }
@@ -403,7 +405,7 @@ body:not(.in-match) .topbar { border-color: var(--lobby-border); }
 button.entry-body:hover { background: #ebeede; }
 #live-games {
   --live-stone-size: clamp(11px, 3.5cqw, 18px);
-  gap: clamp(3px, .9cqw, 6px);
+  gap: var(--lobby-row-gap);
 }
 #live-games > .entry-row {
   border-radius: var(--lobby-card-radius);
@@ -433,11 +435,11 @@ button.entry-body:hover { background: #ebeede; }
 .live-game-stats .live-game-moves { font-size: inherit; }
 .live-game-watchers { color: var(--lobby-green); }
 .live-game-entry .chevron { width: 7px; height: 7px; }
-#tournament { gap: 0; padding-top: clamp(6px, 2.05vw, 13px); }
+#tournament { gap: 0; padding-top: var(--lobby-section-gap); }
 #tournament .list-heading {
   flex: none;
   min-height: 0;
-  margin-bottom: clamp(6px, 2.5cqw, 13px);
+  margin-bottom: var(--lobby-section-gap);
   padding-inline: clamp(5px, 1.85cqw, 10px);
 }
 #tournament-title {
@@ -474,8 +476,8 @@ button.entry-body:hover { background: #ebeede; }
   flex: 1;
   flex-direction: column;
   min-height: 0;
-  gap: clamp(6px, 2.3cqw, 12px);
-  margin-top: clamp(5px, 1.55cqw, 9px);
+  gap: var(--lobby-section-gap);
+  margin-top: var(--lobby-section-gap);
 }
 .ranking-panel > .list-body { padding-inline: clamp(1px, .34cqw, 2px); }
 .weekly-reward {
@@ -484,7 +486,7 @@ button.entry-body:hover { background: #ebeede; }
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 9px;
-  margin-bottom: clamp(6px, 2.25cqw, 12px);
+  margin-bottom: var(--lobby-section-gap);
   padding: 12px clamp(9px, 3cqw, 14px);
   border: 1px solid #e8d6ac;
   border-radius: var(--lobby-card-radius);
@@ -566,7 +568,7 @@ button.entry-body:hover { background: #ebeede; }
 .tournament-card[data-weekly-reward-ready]::after { inset: 7px 8px auto auto; }
 .weekly-reward-claim[data-weekly-reward-ready]::after { inset: -3px -3px auto auto; }
 .ranking-dates {
-  margin-bottom: clamp(8px, 2.55cqw, 14px);
+  margin-bottom: var(--lobby-section-gap);
   padding-inline: clamp(4px, 1.85cqw, 10px);
   color: var(--muted);
   font-size: clamp(.66rem, 2.86cqw, .85rem);
@@ -577,7 +579,7 @@ button.entry-body:hover { background: #ebeede; }
   align-items: center;
   gap: clamp(6px, 2.15cqw, 11px);
   min-height: clamp(24px, 7.15cqw, 35px);
-  margin-bottom: clamp(6px, 2.25cqw, 12px);
+  margin-bottom: var(--lobby-section-gap);
   padding: 4px clamp(8px, 2.8cqw, 16px);
   border-radius: var(--lobby-card-radius);
   background: #eaf0dd;
@@ -590,7 +592,7 @@ button.entry-body:hover { background: #ebeede; }
   padding-inline-start: clamp(6px, 2.15cqw, 11px);
   border-inline-start: 1px solid #b3c29e;
 }
-.ranking-cards { gap: clamp(4px, 1.42cqw, 8px); padding-bottom: 3px; }
+.ranking-cards { gap: var(--lobby-row-gap); padding-bottom: 3px; }
 .ranking-card {
   display: grid;
   grid-template-columns: clamp(28px, 8.9cqw, 48px) auto minmax(0, 1fr) auto;
@@ -664,7 +666,7 @@ button.entry-body:hover { background: #ebeede; }
 .ranking-card.player-card {
   grid-template-columns: auto minmax(0, 1fr) fit-content(44%);
   min-height: clamp(62px, 19.5cqw, 99px);
-  margin: clamp(6px, 2.15cqw, 13px) clamp(1px, .44cqw, 3px) 0;
+  margin: var(--lobby-section-gap) clamp(1px, .44cqw, 3px) 0;
   padding-inline-start: clamp(12px, 4.5cqw, 24px);
   background: radial-gradient(ellipse at bottom right, #e9edd9, transparent 63%), #fffdfa;
   color: var(--ink);
@@ -706,15 +708,15 @@ button.entry-body:hover { background: #ebeede; }
   box-shadow: 0 2px 6px #37591d26;
   font-size: 1.02rem;
 }
-.match-request .primary:not(:disabled):hover, .profile-dialog .primary:not(:disabled):hover { background: #4b6e20; }
+.profile-dialog .primary:not(:disabled):hover { background: #4b6e20; }
 .match-request {
   display: grid;
   flex: none;
   align-items: center;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
   gap: clamp(6px, 2.1cqw, 12px);
-  margin-top: clamp(6px, 1.8cqw, 11px);
-  padding-bottom: clamp(12px, 4.2cqw, 20px);
+  margin-top: var(--lobby-section-gap);
+  padding-bottom: var(--lobby-section-gap);
 }
 .match-request .primary {
   position: relative;
@@ -722,16 +724,16 @@ button.entry-body:hover { background: #ebeede; }
   display: grid;
   place-items: center;
   min-width: 0;
-  min-height: clamp(39px, 10.55cqw, 56px);
+  min-height: clamp(46px, 12.8cqw, 64px);
   padding: 5px 6px 3px;
-  border: 1px solid #587633;
+  border: 1px solid #618d2d;
   border-radius: 999px;
   background:
-    radial-gradient(ellipse 90% 46% at 50% 0%, #d9ed9c55, transparent 88%),
-    linear-gradient(180deg, #89a656 0%, #56762d 37%, #4c6c25 100%);
-  box-shadow: inset 0 1px 2px #eaf5c0a0, inset 0 -2px 2px #38532055,
-    0 2px 0 #415e25, 0 5px 8px #35491e35;
-  font-size: clamp(1rem, 4.8cqw, 1.32rem);
+    radial-gradient(ellipse 90% 40% at 50% 0%, #efffc580, transparent 88%),
+    linear-gradient(180deg, #a9d461 0%, #6e9b32 28%, #608a28 70%, #4e7c21 100%);
+  box-shadow: inset 0 1px 2px #f4ffcecf, inset 0 -2px 2px #38532055,
+    0 2px 0 #477023, 0 5px 9px #527b353d;
+  font-size: clamp(1.17rem, 5.2cqw, 1.42rem);
   line-height: 1.25;
   text-shadow: 0 1px 2px #31441c90;
 }

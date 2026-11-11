@@ -321,7 +321,39 @@ function stepAll(dt){
   for(let i=0;i<n-1;i++){const A=B[i];if(A.off)continue;for(let j=i+1;j<n;j++){const C=B[j];if(C.off)continue;const dx=C.p.x-A.p.x;if(dx>D2||dx<-D2)continue;const dz=C.p.z-A.p.z;if(dz>D2||dz<-D2)continue;collide(A,C);}}
 }
 function anyMoving(list){for(let i=0;i<list.length;i++){const b=list[i];if(b.fly)return true;if(!b.off&&(b.v.lengthSq()>4e-6||b.p.y>R+1e-4))return true;}return false;}
-function stepLive(dt){B=LB;LOG=liveLog;LIVE=true;const n=Math.ceil(dt/DT);for(let i=0;i<n;i++)stepAll(DT);LIVE=false;}
+// ---------- 정해 둔 길을 따라 휘는 마세 (스테이지 guide) ----------
+// 정답 샷(근처)으로 치면 수구가 stage.guide의 길(쿠션 사이 다리마다 점 몇 개)을 부드럽게 따라가고,
+// 마지막 다리 끝에서 그 방향·속도(vEnd)로 물리에 넘겨요. 실제 물리로는 이만큼 크게 휘지 않아서 연출로 맞춰요.
+let GUIDE=null;
+function guidePath(st){
+  if(st._gp)return st._gp;
+  const pts=[],corners=[],cr=(p0,p1,p2,p3,t)=>{const t2=t*t,t3=t2*t;return [0,1].map(k=>.5*(2*p1[k]+(-p0[k]+p2[k])*t+(2*p0[k]-5*p1[k]+4*p2[k]-p3[k])*t2+(-p0[k]+3*p1[k]-3*p2[k]+p3[k])*t3));};
+  st.guide.legs.forEach((L,li)=>{if(li>0)corners.push(pts.length-1);
+    for(let i=0;i<L.length-1;i++){const p0=L[Math.max(0,i-1)],p1=L[i],p2=L[i+1],p3=L[Math.min(L.length-1,i+2)];const n=Math.max(2,Math.ceil(Math.hypot(p2[0]-p1[0],p2[1]-p1[1])/.01));for(let k=(i===0&&li===0?0:1);k<=n;k++)pts.push(cr(p0,p1,p2,p3,k/n));}});
+  const cum=[0];for(let i=1;i<pts.length;i++)cum.push(cum[i-1]+Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]));
+  return st._gp={pts,cum,corners,total:cum[cum.length-1]};
+}
+function guideMatch(st,p){const s=st&&st.guide&&st.sol;if(!s)return false;return Math.abs(p.phi-s.phi)<.015&&Math.abs(p.a-s.a)<.1&&Math.abs(p.b-s.b)<.1&&Math.abs(p.elev-s.elev)<6&&Math.abs(p.pw-s.pw)<.07;}
+const GUIDE_DEC=.32;
+function guideAt(gp,d){let i=1;while(i<gp.cum.length-1&&gp.cum[i]<d)i++;const a=gp.pts[i-1],b=gp.pts[i],l=gp.cum[i]-gp.cum[i-1]||1,t=Math.min(1,Math.max(0,(d-gp.cum[i-1])/l));return {x:a[0]+(b[0]-a[0])*t,z:a[1]+(b[1]-a[1])*t,tx:(b[0]-a[0])/l,tz:(b[1]-a[1])/l,i};}
+function guideEnd(st,b){const gp=guidePath(st),e=guideAt(gp,gp.total),v=st.guide.vEnd;b.p.set(e.x,R,e.z);b.v.set(e.tx*v,0,e.tz*v);b.w.set(e.tz*v/R,0,-e.tx*v/R);}
+function guideStep(dt){
+  const g=GUIDE,gp=guidePath(g.st),b=LB[g.ci],vEnd=g.st.guide.vEnd;
+  const sp=Math.sqrt(vEnd*vEnd+2*GUIDE_DEC*Math.max(0,gp.total-g.d));g.d+=sp*dt;
+  if(g.d>=gp.total){GUIDE=null;guideEnd(g.st,b);return;}
+  const e=guideAt(gp,g.d);
+  while(g.k<gp.corners.length&&e.i>gp.corners[g.k]){g.k++;liveLog.cush++;sfx('cushion',Math.min(1,sp/4));}
+  b.p.set(e.x,R,e.z);b.v.set(e.tx*sp,0,e.tz*sp);b.w.set(e.tz*sp/R,g.spin,-e.tx*sp/R);
+  if(b.mesh){const wl=b.w.length();if(wl>1e-6){tA.copy(b.w).multiplyScalar(1/wl);qq.setFromAxisAngle(tA,wl*dt);b.mesh.quaternion.premultiply(qq);}}
+}
+// 검증·결과 계산: 길 끝에서 물리로 넘긴 뒤를 굴려요 (지나온 쿠션 수를 더해서)
+function guideRun(st,cueI,dt,maxT){
+  const sB=B,sL=LOG,sv=LIVE;B=simClone();LOG=newLog(cueI,B.length);LIVE=false;
+  guideEnd(st,B[cueI]);LOG.cush=guidePath(st).corners.length;
+  let t=0,k=0;while(t<maxT){stepAll(dt);t+=dt;if((++k&15)===0&&!anyMoving(B))break;}
+  const res={log:LOG,balls:B};B=sB;LOG=sL;LIVE=sv;return res;
+}
+function stepLive(dt){B=LB;LOG=liveLog;LIVE=true;if(GUIDE){guideStep(dt);LIVE=false;return;}const n=Math.ceil(dt/DT);for(let i=0;i<n;i++)stepAll(DT);LIVE=false;}
 
 // 가상 시뮬레이션 (AI·검증용)
 const SIMB=[];
@@ -350,7 +382,7 @@ function buildShot(phi,a,b,e,pw,opts){
 }
 function fireLive(cueI,s){
   liveLog=newLog(cueI,LB.length);liveLog.mis=!!s.mis;liveLog.cueFoul=!!s.cueFoul;
-  LB[cueI].v.copy(s.v);LB[cueI].w.copy(s.w);
+  LB[cueI].v.copy(s.v);LB[cueI].w.copy(s.w);GUIDE=s.guide?{st:s.guide,ci:cueI,d:0,k:0,spin:s.w.y}:null;
   phase='shot';shotT=0;stillT=0;power=0;
   const sp=s.v.length();sfx(s.mis?'miscue':'cue',clamp(sp/7,.2,1));vib(sp>4.5?'medium':'light');
   if(s.mis)toast('MISCUE',true);

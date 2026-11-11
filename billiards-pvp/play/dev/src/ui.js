@@ -600,6 +600,7 @@ function release(){
   const cb=LB[G.cueI],rf=cueFloor(cb,true,false);if(elev<rf){elev=Math.min(rf,75);syncSpinUI();}
   const foul=elev<cueFloor(cb,false,true);setCueRisk(foul);
   pendingShot=buildShot(aimPhi,hit.a,hit.b,elev,power*PMAX,shotOpts());pendingShot.cueFoul=foul;
+  if(!foul&&G.stage&&guideMatch(G.stage,{phi:aimPhi,a:hit.a,b:hit.b,elev,pw:power*PMAX}))pendingShot.guide=G.stage;
   phase='strike';strikeT=0;$('powerMark').hidden=true;updateUI();
   if(tut)tutGo(null);
 }

@@ -10,8 +10,8 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=42388a12e910">
-  <script type="module" src="./app.js?v=42388a12e910"></script>
+  <link rel="stylesheet" href="./style.css?v=c198824e9738">
+  <script type="module" src="./app.js?v=c198824e9738"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -533,11 +533,15 @@
     </div>
     <nav id="lobby-nav" class="lobby-nav" data-i18n-attr="aria-label:lobbyNavigation">
       <button id="show-rankings" type="button" aria-controls="tournament">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-ranking"/></svg>
+        <span class="lobby-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><use href="#nav-ranking"/></svg>
+        </span>
         <span data-i18n="rankings"></span>
       </button>
       <button id="show-lobby" type="button" aria-controls="lobby" aria-current="page">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-play"/></svg>
+        <span class="lobby-nav-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><use href="#nav-play"/></svg>
+        </span>
         <span data-i18n="playTab"></span>
       </button>
       <button class="lobby-nav-upcoming" type="button" disabled>
@@ -635,7 +639,10 @@
         </label>
         <div id="options-player" class="option-row" hidden>
           <label for="options-player-id" data-i18n="optionsPlayerId"></label>
+          <button id="copy-player-id" class="secondary" type="button" data-i18n="optionsPlayerIdCopy"
+                  data-i18n-attr="aria-label:optionsPlayerIdCopyLabel"></button>
           <input id="options-player-id" type="text" readonly spellcheck="false">
+          <p id="player-id-feedback" role="status" hidden></p>
         </div>
         <button id="send-feedback" class="secondary" type="button" data-i18n="sendFeedback" hidden></button>
         <button id="ad-privacy" class="secondary" type="button" data-i18n="adPrivacy" hidden></button>
@@ -1157,14 +1164,18 @@
     <dialog id="rank-celebration" class="match-intro rank-celebration" aria-labelledby="rank-celebration-heading" aria-describedby="rank-celebration-change">
       <div class="match-intro-layout">
         <div class="rank-celebration-content">
-          <p id="rank-celebration-change" class="sr-only"></p>
-          <h2 id="rank-celebration-heading" class="sr-only"></h2>
-          <div id="rank-celebration-stage" class="rank-celebration-stage" aria-hidden="true">
-            <img id="rank-celebration-art" data-src="./assets/match-ui/rank-promotion.webp" alt="" decoding="async">
-            <span class="rank-frame-label rank-frame-intro" data-i18n="rankCelebrationIntro"></span>
-            <span id="rank-celebration-before" class="rank-frame-label rank-frame-change rank-frame-before"></span>
-            <span id="rank-celebration-after" class="rank-frame-label rank-frame-change rank-frame-after"></span>
-            <span id="rank-celebration-title" class="rank-frame-label rank-frame-title"></span>
+          <p class="rank-celebration-intro" data-i18n="rankCelebrationIntro" aria-hidden="true"></p>
+          <p id="rank-celebration-change" class="rank-celebration-change">
+            <span id="rank-celebration-before"></span> <span>→</span> <span id="rank-celebration-after"></span>
+          </p>
+          <div class="rank-celebration-effects" aria-hidden="true">
+            <span class="rank-celebration-halo"></span>
+            <span class="rank-celebration-laurel"></span><span class="rank-celebration-laurel right"></span>
+            <i></i><i></i><i></i><i></i>
+          </div>
+          <div class="rank-celebration-plaque">
+            <span class="rank-celebration-crown" aria-hidden="true"></span>
+            <h2 id="rank-celebration-heading"></h2>
           </div>
         </div>
         <button class="match-intro-close" type="button" data-ncq-main="Dismiss promotion" data-i18n="rankCelebrationDismiss" autofocus></button>

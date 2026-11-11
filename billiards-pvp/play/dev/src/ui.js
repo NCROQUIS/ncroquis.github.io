@@ -113,7 +113,7 @@ let cueShake=0,blockAt=0;
 function cueBlocked(why){
   const now=Date.now();cueShake=.28;
   const cell=elevIn.closest('.cell')||elevIn.parentElement;cell.classList.remove('nudge');void cell.offsetWidth;cell.classList.add('nudge');
-  try{navigator.vibrate&&navigator.vibrate(30);}catch(e){}
+  vib('light');
   if(now-blockAt>900){blockAt=now;toast(T(why==='rail'?'cue_rail':'cue_ball'),true);}
 }
 function updateCue(dt){
@@ -134,10 +134,11 @@ function updateCue(dt){
 const HIT_B64='/*HIT_WAV*/';
 let ac=null,hitBuf=null,dry=null,wet=null,lastSfx={};
 function ensureAudio(){
-  if(ac){if(ac.state==='suspended')ac.resume();return;}
+  if(ac){if(!window.NcqSound&&ac.state==='suspended')ac.resume();return;}
   try{
-    ac=new (window.AudioContext||window.webkitAudioContext)();
-    const comp=ac.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=3;comp.connect(ac.destination);
+    // 공용 소리 모듈 NcqSound의 AudioContext·효과음 채널에 이어서 설정의 효과음 켬·끔·음량, 화면이 가려지면 멈춤이 그대로 적용돼요
+    const S=window.NcqSound;ac=S?S.context():new (window.AudioContext||window.webkitAudioContext)();if(!ac)return;
+    const comp=ac.createDynamicsCompressor();comp.threshold.value=-14;comp.ratio.value=3;comp.connect((S&&S.output('sfx'))||ac.destination);
     dry=ac.createGain();dry.gain.value=.95;dry.connect(comp);
     const len=ac.sampleRate*.55|0,ir=ac.createBuffer(2,len,ac.sampleRate);
     for(let c=0;c<2;c++){const d=ir.getChannelData(c);let lp=0;for(let i=0;i<len;i++){const t=i/len;lp+=((Math.random()*2-1)-lp)*(.5-.42*t);d[i]=lp*Math.pow(1-t,3.2)*(i<300?i/300:1);}}
@@ -152,6 +153,10 @@ function playHit(rate,gain,cut,at){
   s.connect(f).connect(g);g.connect(dry);g.connect(dry.wetIn);s.start(t);
 }
 function tones(list,gain){if(!ac)return;const now=ac.currentTime;list.forEach(([f,at,len])=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,now+at);g.gain.exponentialRampToValueAtTime(gain,now+at+0.012);g.gain.exponentialRampToValueAtTime(0.0001,now+at+len);o.connect(g);g.connect(dry);g.connect(dry.wetIn);o.start(now+at);o.stop(now+at+len+.05);});}
+// 진동: 공용 기기 모듈 NcqDevice (설정에서 끌 수 있어요)
+function vib(k){if(G.mode==='attract')return;try{window.NcqDevice&&NcqDevice.vibrate(k);}catch(e){}}
+// 설정을 바꿀 때 들려주는 짧은 소리 (로비에서도)
+function uiTick(){if(ac&&hitBuf)playHit(1.05,.5,9000);}
 function sfx(type,vol){
   if(!ac||G.mode==='attract')return;const now=ac.currentTime;if(lastSfx[type]&&now-lastSfx[type]<0.02)return;lastSfx[type]=now;
   const v=clamp(vol,0,1);
@@ -236,7 +241,7 @@ function toLobby(){hintEnd();
   if(G.net&&!G.net.closed)netClose();
   exitGameUI();
   ['result','matching','sheet'].forEach(id=>$(id).hidden=true);$('lobby').hidden=false;$('lobby').classList.remove('sheeted');
-  refreshLobby();attract(G.info?G.info.kind:tableKind);
+  refreshLobby();attract(nav.game);
 }
 // 랭킹 팝업: 회사 게임 서버의 종목별 Rating 1~100위 (공용 봇이 처음부터 표를 채워요), 맨 아래는 늘 내 순위
 let rankTab=null;
@@ -471,6 +476,8 @@ function tutDraw(now){
   arrow.style.display=busy||!far?'none':'';
   if(!busy&&far)arrow.setAttribute('d','M'+g.pts.map(p=>p.x.toFixed(1)+' '+p.y.toFixed(1)).join('L'));
   hand.hidden=busy;
+  // 만지는 동안 말풍선은 숨겨요 (크게 뜬 칠 곳 공 등을 가리지 않게)
+  bub.style.opacity=tutPressT>tutRelT?'0':'';
   if(!busy){
     const k=((now-tutCycle0)%2000)/2000,ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
     const f=k<.24?0:k<.78?ease((k-.24)/.54):1,pt=far?tutAt(g.pts,f):p0;
@@ -500,10 +507,23 @@ function openRules(g){
   $('rules').hidden=false;
 }
 document.querySelectorAll('#rules .rules-tabs button').forEach(b=>b.onclick=()=>openRules(b.dataset.r));
-$('goRules').onclick=()=>{$('rulesTut').hidden=false;openRules(nav.game);};
-$('menuRules').onclick=()=>{$('rulesTut').hidden=true;openRules(G.game);};
+$('menuRules').onclick=()=>openRules(G.game);
 $('rulesClose').onclick=()=>{$('rules').hidden=true;};
-$('rulesTut').onclick=tutStart;
+// 설정: 효과음 켬·끔·음량(NcqSound), 진동 켬·끔(NcqDevice). 로비 설정 창과 게임 중 메뉴가 같은 값을 봐요
+function syncOpts(){
+  const S=window.NcqSound,D=window.NcqDevice,on=S?S.enabled('sfx'):true;
+  document.querySelectorAll('.opt-sfx').forEach(i=>{i.checked=on;i.disabled=!S;});
+  document.querySelectorAll('.opt-vol').forEach(i=>{i.value=Math.round((S?S.volume('sfx'):1)*100);i.disabled=!S||!on;});
+  const canV=!!(D&&D.canVibrate());
+  document.querySelectorAll('.vib-row').forEach(r=>r.hidden=!canV);
+  document.querySelectorAll('.opt-vib').forEach(i=>i.checked=!!(D&&D.vibration()));
+}
+document.querySelectorAll('.opt-sfx').forEach(i=>i.onchange=()=>{if(window.NcqSound)NcqSound.enabled('sfx',i.checked);syncOpts();ensureAudio();uiTick();});
+document.querySelectorAll('.opt-vol').forEach(i=>{i.oninput=()=>{if(window.NcqSound)NcqSound.volume('sfx',i.value/100);};i.onchange=()=>{ensureAudio();uiTick();};});
+document.querySelectorAll('.opt-vib').forEach(i=>i.onchange=()=>{if(window.NcqDevice)NcqDevice.vibration(i.checked);syncOpts();vib('tap');});
+$('goSettings').onclick=()=>{ensureAudio();syncOpts();$('settings').hidden=false;};
+$('setClose').onclick=()=>{$('settings').hidden=true;};
+$('setTut').onclick=()=>{$('settings').hidden=true;tutStart();};
 
 function renderStars(el,n){el.textContent='';for(let i=0;i<3;i++){const s=document.createElement('span');s.textContent='★';if(i>=n)s.className='off';el.appendChild(s);}}
 
@@ -553,6 +573,8 @@ elevIn.addEventListener('input',()=>{
 });
 let tutElev0=5;
 elevIn.addEventListener('change',()=>tutReady('elev'));
+// 휴대폰에서는 바를 놓아도 change가 안 올 때가 있어서(딱 붙일 때 값을 코드로 바꾸면) 손을 떼는 순간에도 확인해요
+['pointerup','touchend','pointercancel'].forEach(t=>window.addEventListener(t,()=>{if(tut&&tut.step==='elev')setTimeout(()=>tut&&tut.step==='elev'&&tutReady('elev'),0);},true));
 const pw=$('power');let pDrag=null;
 pw.addEventListener('pointerdown',e=>{ensureAudio();if(phase!=='aim'||!tutOK('power'))return;pDrag={y:e.clientY};pw.setPointerCapture(e.pointerId);});
 pw.addEventListener('pointermove',e=>{if(!pDrag)return;power=clamp((e.clientY-pDrag.y)/(pw.clientHeight*.85),0,1);
@@ -616,10 +638,11 @@ $('optGuide').onchange=e=>set.guide=e.target.value;
 // 로비 동선: 왼쪽에서 종목(3구·4구·포켓볼)을 고르고(마지막으로 고른 종목은 저장해 기억) 오른쪽 Stage·Single·Online을 눌러요
 const nav={mode:'single',game:'4b',step:null};
 function showStep(id,title,sub){
-  $('sheet').hidden=false;$('sheet').classList.toggle('full',id==='stepStages');$('lobby').classList.add('sheeted');['stepMode','stepStages'].forEach(s=>$(s).hidden=s!==id);nav.step=id;
+  $('sheet').hidden=false;$('sheet').classList.remove('out');$('sheet').classList.toggle('full',id==='stepStages');$('lobby').classList.add('sheeted');['stepMode','stepStages'].forEach(s=>$(s).hidden=s!==id);nav.step=id;
   const h=$('sheetTitle');h.textContent=title;if(sub){const s=document.createElement('span');s.textContent=sub;h.appendChild(s);}
 }
-function closeSheet(){$('sheet').hidden=true;$('sheet').classList.remove('full');$('lobby').classList.remove('sheeted');nav.step=null;}
+// 시트는 아래에서 올라오고(CSS), 닫을 때는 아래로 내려가며 사라져요
+function closeSheet(){const sh=$('sheet');nav.step=null;if(sh.hidden)return;sh.classList.add('out');$('lobby').classList.remove('sheeted');setTimeout(()=>{sh.classList.remove('out');if(nav.step)return;sh.hidden=true;sh.classList.remove('full');},230);}
 const starsOf=g=>STAGES[g].reduce((n,s)=>n+(save.stars[g+'-'+s.idx]||0),0);
 // 고른 종목의 별·전적을 오른쪽 버튼에 보여 줘요
 function lobbySubs(){
@@ -632,10 +655,10 @@ function pickGame(g,quiet){
   document.querySelectorAll('[data-pick]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.pick===g)));
   if(save.lg!==g){save.lg=g;if(!quiet)persist();}
   lobbySubs();
-  const kind=GAME_INFO[g].kind;if(G.mode==='attract'&&attr.kind!==kind)attract(kind);
+  if(G.mode==='attract'&&attr.game!==g)attract(g);
 }
 document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{ensureAudio();pickGame(b.dataset.pick);});
-document.querySelectorAll('[data-help]').forEach(b=>b.onclick=e=>{e.stopPropagation();$('rulesTut').hidden=false;openRules(b.dataset.help);});
+document.querySelectorAll('[data-help]').forEach(b=>b.onclick=e=>{e.stopPropagation();openRules(b.dataset.help);});
 function openModes(){nav.mode='single';$('aiRule').textContent=GAME_INFO[nav.game].rule;showStep('stepMode',GAME_INFO[nav.game].name,'Single');}
 const LOCK_MINI='<svg viewBox="0 0 12 14" width="11" height="13" aria-hidden="true"><path d="M3.2 6.2V4.4a2.8 2.8 0 0 1 5.6 0v1.8" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="1.2" y="6" width="9.6" height="7.4" rx="1.6" fill="currentColor"/></svg>';
 
@@ -691,7 +714,7 @@ function openStages(g){
   });
   showStep('stepStages',info.name,T('stages_sub',{got:starsOf(g),all:STAGES[g].length*3}));
   mapLayout();const sel=mapPick();mapSelect(sel);mapScrollTo(sel);
-  if(G.mode==='attract'&&attr.kind!==info.kind)attract(info.kind);
+  if(G.mode==='attract'&&attr.game!==g)attract(g);
 }
 $('mapStart').onclick=()=>{const g=MAP.g,s=STAGES[g]&&STAGES[g][MAP.sel];if(s&&stageOpen(g,MAP.sel))startStage(s);};
 // 마우스로도 끌어서 맵을 올리고 내려요 (손가락은 그냥 스크롤)
@@ -792,10 +815,10 @@ function relang(){
 function boot(){
   langInit(relang);
   const v=window.NCQ&&window.NCQ.NCQ_VERSION;$('appVer').textContent=v?'v'+v:'dev';
-  const fb=window.NcqFeedback,btn=$('feedBtn');btn.hidden=!(fb&&fb.can());btn.onclick=()=>fb.open();
+  const fb=window.NcqFeedback,btn=$('feedBtn');btn.hidden=!(fb&&fb.can());btn.parentElement.classList.toggle('one',btn.hidden);btn.onclick=()=>fb.open();syncOpts();
   // Online·랭킹은 회사 게임 서버에 로그인할 수 있는 출시 빌드에서만 (개발 중·미리보기에는 가짜 상대를 두지 않아요)
   if(!onlineOn()){$('goOnline').hidden=true;$('rankOpen').hidden=true;$('goSingle').setAttribute('data-ncq-main','Single');}
-  loadSave();nav.game=GAME_INFO[save.lg]?save.lg:'4b';refreshLobby();netRefresh();attract('carom');relayout();updateCamera(0,true,performance.now());drawDot();
+  loadSave();nav.game=GAME_INFO[save.lg]?save.lg:'4b';refreshLobby();netRefresh();attract(nav.game);relayout();updateCamera(0,true,performance.now());drawDot();
   if((save.tut|0)<2)tutStart();
   requestAnimationFrame(loop);
 }

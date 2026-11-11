@@ -54,7 +54,7 @@ button.sm{padding:5px 8px;font-size:12px}
 /* 로비 */
 .screen{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column}
 #lobby{justify-content:space-between;padding-block:clamp(20px,5vh,44px) clamp(16px,3vh,28px);background:linear-gradient(180deg,rgba(11,15,20,.9) 0,rgba(11,15,20,.28) 30%,rgba(11,15,20,.12) 50%,rgba(11,15,20,.92) 84%)}
-.rankbox{position:absolute;top:clamp(20px,5vh,44px);right:max(16px,env(safe-area-inset-right,0px));padding:5px 6px;background:var(--panel);border:1px solid var(--line);border-radius:4px}
+.rankbox{position:absolute;top:calc(clamp(20px,5vh,44px) + 48px);right:max(16px,env(safe-area-inset-right,0px));padding:5px 6px;background:var(--panel);border:1px solid var(--line);border-radius:4px}
 .rankbox table{border-collapse:collapse;font-variant-numeric:tabular-nums}
 .rankbox th,.rankbox td{padding:2px 4px;text-align:right;white-space:nowrap}
 .rankbox thead th{font-size:11px;font-weight:500;color:var(--ink-dim)}
@@ -75,8 +75,12 @@ button.sm{padding:5px 8px;font-size:12px}
 .slab.online{border-color:rgba(79,179,255,.5)}
 
 /* 시트 */
-#sheet{position:absolute;left:0;right:0;bottom:0;z-index:6;max-height:86%;display:flex;flex-direction:column;background:var(--panel-2);border-top:4px solid var(--wood);animation:rise .22s ease-out}
-@keyframes rise{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
+#sheet{position:absolute;left:0;right:0;bottom:0;z-index:6;max-height:86%;display:flex;flex-direction:column;background:var(--panel-2);border-top:4px solid var(--wood);box-shadow:0 -10px 30px rgba(0,0,0,.45);animation:rise .32s cubic-bezier(.2,.85,.25,1)}
+@keyframes rise{from{transform:translateY(100%)}to{transform:none}}
+#sheet.out{animation:sink .23s ease-in forwards}
+@keyframes sink{to{transform:translateY(100%)}}
+#goSettings{position:absolute;z-index:1;top:clamp(20px,5vh,44px);right:max(16px,env(safe-area-inset-right,0px));width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:10px}
+.rules-card{animation:rise .3s cubic-bezier(.2,.85,.25,1)}
 .sheet-head{display:flex;align-items:center;gap:10px;padding-block:12px 8px}
 .sheet-head h2{margin:0;font-family:var(--f-num);font-size:30px;font-weight:700;line-height:1}
 .sheet-head h2 span{font-family:var(--f-ui);font-size:14px;font-weight:500;color:var(--ink-dim);margin-left:8px}
@@ -286,7 +290,7 @@ button.sm{padding:5px 8px;font-size:12px}
 .rank-list .empty{text-align:center;color:var(--ink-dim);padding:20px}
 #ranksClose{padding:13px;font-size:15px}
 .rules-btn{align-self:flex-start;margin-top:12px;padding:7px 16px;font-size:14px;font-weight:700}
-#rules{position:absolute;inset:0;z-index:11;display:flex;align-items:flex-end;background:rgba(8,12,17,.72)}
+#rules,#settings{position:absolute;inset:0;z-index:11;display:flex;align-items:flex-end;background:rgba(8,12,17,.72)}
 .rules-card{width:100%;max-height:88%;overflow-y:auto;padding-block:18px 18px;background:var(--panel-2);border-top:4px solid var(--wood);display:flex;flex-direction:column;gap:12px;touch-action:pan-y}
 .rules-card h2{margin:0;font-family:var(--f-disp);font-weight:400;font-size:26px}
 .rules-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
@@ -303,7 +307,7 @@ button.sm{padding:5px 8px;font-size:12px}
 .tutSpot{position:relative;z-index:30;border-radius:8px}
 #powerMark,#elevMark{box-shadow:0 0 8px 2px rgba(255,211,74,.8)}
 #app.tut #spinRead{pointer-events:none}
-#tutBubble{position:absolute;z-index:40;top:auto;left:16px;right:16px;padding:14px 16px;white-space:pre-line;text-align:center;font-size:17px;font-weight:700;line-height:1.4;word-break:keep-all;color:var(--ink);background:rgba(14,19,26,.97);border:1.5px solid var(--gold);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.55);pointer-events:none}
+#tutBubble{position:absolute;z-index:40;top:auto;left:16px;right:16px;padding:14px 16px;white-space:pre-line;text-align:center;font-size:17px;font-weight:700;line-height:1.4;word-break:keep-all;color:var(--ink);background:rgba(14,19,26,.97);border:1.5px solid var(--gold);border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.55);pointer-events:none;transition:opacity .15s}
 #tutMsg{display:block}
 #tutStep{display:block;width:100%;margin-top:10px;padding:10px;font-size:15px;pointer-events:auto}
 #tutStep:disabled{opacity:.35}
@@ -348,6 +352,20 @@ html:not([lang]) [data-i18n]{visibility:hidden}
 html[lang=en] .lv button{gap:8px}
 html[lang=en] .lv b{font-size:19px}
 /* 언어 메뉴 (룰·설정 창) */
+.set-list{display:flex;flex-direction:column;gap:2px;margin:4px 0 2px}
+.set-row{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:46px;font-size:15px;border-bottom:1px solid rgba(255,255,255,.07)}
+.set-row:last-child{border-bottom:0}
+.set-row input[type=range]{flex:0 1 52%;min-width:0;accent-color:var(--gold,#e8b84a)}
+.set-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.set-acts button{padding:12px 8px;font-size:14px}
+.set-acts.one{grid-template-columns:1fr}
+#setClose{padding:13px;font-size:15px}
+#appVer{align-self:center;font-size:11px;color:var(--ink-dim);opacity:.7}
+input.sw{appearance:none;-webkit-appearance:none;flex:none;width:46px;height:27px;border-radius:14px;background:rgba(255,255,255,.18);position:relative;cursor:pointer;transition:background .18s;margin:0}
+input.sw::after{content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.4);transition:transform .18s}
+input.sw:checked{background:#3a8dff}
+input.sw:checked::after{transform:translateX(19px)}
+input.sw:focus-visible{outline:2px solid #ffd34a;outline-offset:2px}
 .rules-lang{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px}
 .lang-sel{background:#1a2533;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:7px 8px;font-family:var(--f-ui);font-size:14px}
 

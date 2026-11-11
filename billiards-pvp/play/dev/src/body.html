@@ -63,6 +63,8 @@
       <h2 data-i18n="menu"></h2>
       <div class="row"><span data-i18n="aim_guide"></span>
         <select id="optGuide"><option value="long" data-i18n="guide_long"></option><option value="short" data-i18n="guide_short"></option><option value="off" data-i18n="guide_off"></option></select></div>
+      <label class="row"><span data-i18n="set_sfx"></span><input type="checkbox" class="sw opt-sfx" role="switch"></label>
+      <label class="row vib-row"><span data-i18n="set_vib"></span><input type="checkbox" class="sw opt-vib" role="switch"></label>
       <div class="row"><span data-i18n="lang_label"></span><select id="langMenu" class="lang-sel" data-i18n-attr="aria-label:lang_label"></select></div>
       <div class="menu-acts"><button id="menuRules" data-i18n="rules_view"></button><button class="primary" id="menuClose" data-i18n="resume"></button><button id="menuQuit"></button></div>
     </div>
@@ -122,9 +124,23 @@
         <li data-i18n="rpool_5"></li>
       </ul></div>
       <p class="rules-note" data-i18n="rules_note"></p>
-      <div class="rules-lang"><span data-i18n="lang_label"></span><select id="langRules" class="lang-sel" data-i18n-attr="aria-label:lang_label"></select></div>
-      <div class="rules-foot"><button id="feedBtn" hidden data-i18n="send_feedback"></button><span id="appVer"></span></div>
-      <div class="rules-acts"><button id="rulesTut" data-i18n="replay_tut"></button><button class="primary" id="rulesClose" data-i18n="close"></button></div>
+      <button class="primary" id="rulesClose" data-i18n="close"></button>
+    </div>
+  </section>
+
+  <!-- 로비 설정: 효과음·음량·진동·언어, 조작 다시 보기, 피드백, 버전 -->
+  <section id="settings" hidden data-i18n-attr="aria-label:settings">
+    <div class="rules-card gut">
+      <h2 data-i18n="settings"></h2>
+      <div class="set-list">
+        <label class="set-row"><span data-i18n="set_sfx"></span><input type="checkbox" class="sw opt-sfx" role="switch"></label>
+        <label class="set-row vol-row"><span data-i18n="set_vol"></span><input type="range" class="opt-vol" min="0" max="100" step="5" data-i18n-attr="aria-label:set_vol"></label>
+        <label class="set-row vib-row"><span data-i18n="set_vib"></span><input type="checkbox" class="sw opt-vib" role="switch"></label>
+        <label class="set-row"><span data-i18n="lang_label"></span><select id="langRules" class="lang-sel" data-i18n-attr="aria-label:lang_label"></select></label>
+      </div>
+      <div class="set-acts"><button id="setTut" data-i18n="replay_tut"></button><button id="feedBtn" hidden data-i18n="send_feedback"></button></div>
+      <button class="primary" id="setClose" data-i18n="close" data-ncq-main="Close"></button>
+      <span id="appVer"></span>
     </div>
   </section>
 
@@ -138,6 +154,7 @@
   </section>
 
   <section id="lobby" class="screen">
+    <button id="goSettings" data-i18n-attr="aria-label:settings; title:settings"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.4 7.4 0 0 0-1.7-1L15 3.5h-4L10.6 6a7.4 7.4 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.4 7.4 0 0 0 1.7 1l.4 2.5h4l.4-2.5a7.4 7.4 0 0 0 1.7-1l2.4 1 2-3.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
     <aside class="rankbox" data-i18n-attr="aria-label:my_profile">
       <div id="profCard" role="button" tabindex="0" data-i18n-attr="aria-label:open_profile"><span id="profPic"></span><span class="pc-txt"><b id="profNick"></b><small id="profAch"></small></span><span class="pc-edit" aria-hidden="true">✎</span></div>
       <table>
@@ -150,7 +167,6 @@
       <div class="trio" aria-hidden="true"><i class="b w"></i><i class="b y"></i><i class="b r"></i></div>
       <h1 data-i18n="brand_title"></h1>
       <p id="brandSub"></p>
-      <button id="goRules" class="rules-btn" data-i18n="rules_btn"></button>
     </header>
     <!-- 종목을 먼저 고르고(마지막으로 고른 종목 기억) 오른쪽 모드를 눌러요 -->
     <div class="lpick gut">

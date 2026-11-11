@@ -277,7 +277,7 @@ function cushion(b,ax,lim,half){
 function potBall(b){
   if(b.off)return;
   b.pot=true;b.off=true;b.v.set(0,0,0);b.w.set(0,0,0);LOG.potted.push(b.i);
-  if(LIVE){let p=POCKETS[0],m=1e9;for(const q of POCKETS){const d=Math.hypot(q.x-b.p.x,q.z-b.p.z);if(d<m){m=d;p=q;}}b.sink={t:0,x:b.p.x,z:b.p.z,tx:p.x,tz:p.z};sfx('pocket',.9);}
+  if(LIVE){let p=POCKETS[0],m=1e9;for(const q of POCKETS){const d=Math.hypot(q.x-b.p.x,q.z-b.p.z);if(d<m){m=d;p=q;}}b.sink={t:0,x:b.p.x,z:b.p.z,tx:p.x,tz:p.z};sfx('pocket',.9);vib('medium');}
 }
 function railsPool(b){
   const ax=Math.abs(b.p.x),az=Math.abs(b.p.z);
@@ -352,7 +352,7 @@ function fireLive(cueI,s){
   liveLog=newLog(cueI,LB.length);liveLog.mis=!!s.mis;liveLog.cueFoul=!!s.cueFoul;
   LB[cueI].v.copy(s.v);LB[cueI].w.copy(s.w);
   phase='shot';shotT=0;stillT=0;power=0;
-  const sp=s.v.length();sfx(s.mis?'miscue':'cue',clamp(sp/7,.2,1));
+  const sp=s.v.length();sfx(s.mis?'miscue':'cue',clamp(sp/7,.2,1));vib(sp>4.5?'medium':'light');
   if(s.mis)toast('MISCUE',true);
   updateUI();
 }

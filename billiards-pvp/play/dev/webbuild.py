@@ -13,6 +13,10 @@ assert n==1,'ncq/save.js 묶음을 찾지 못했어요'
 # 공용 언어 모듈도 같은 식: 미리보기 파일 안의 묶음을 빼고 레포의 ncq/lang.js를 모듈로 불러요
 s,n=re.subn(r'<script type="module" data-ncq-inline="lang">.*?/\*NCQ_LANG_END\*/\n</script>\n','',s,count=1,flags=re.S)
 assert n==1,'ncq/lang.js 묶음을 찾지 못했어요'
+# 공용 소리·진동 모듈도 미리보기 파일 안의 묶음을 빼고 레포의 ncq/sound.js·device.js를 불러요
+for tag in ('sound','device'):
+    s,n=re.subn(r'<script data-ncq-inline="'+tag+r'">.*?/\*NCQ_'+tag.upper()+r'_END\*/\n</script>\n','',s,count=1,flags=re.S)
+    assert n==1,'ncq/'+tag+'.js 묶음을 찾지 못했어요'
 assert 'cdnjs' not in s and 'fonts.g' not in s
 used=set(ord(c) for c in s if ord(c)>32)
 def inter(r):
@@ -41,6 +45,8 @@ head='''<!doctype html>
 <title>당구 : PVP 3구 4구 포켓볼</title>
 <script src="ncq/safe.js"></script>
 <script src="ncq/save.js"></script>
+<script src="ncq/sound.js"></script>
+<script src="ncq/device.js"></script>
 <script type="module" src="ncq/board.js"></script>
 <script type="module" src="ncq/lang.js"></script>
 <style>

@@ -305,6 +305,8 @@ body{
 .merr.ok{color:#2E7D32}
 /* 랭킹 표 */
 .rank-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px}
+.rank-mine{flex:none;margin:calc(6px*var(--k,1)) 0 0;padding:0 calc(6px*var(--k,1))}
+.rank-mine .rank-row.me{background:#E3EAFB;box-shadow:inset 0 0 0 2px rgba(61,111,224,.7),0 3px 0 rgba(0,0,0,.25)}
 .rank-row{display:flex;align-items:center;gap:8px;padding:5px 10px 5px 4px;border-radius:12px;background:rgba(59,35,22,.06)}
 .rank-row.me{background:rgba(61,111,224,.15);box-shadow:inset 0 0 0 2px rgba(61,111,224,.6)}
 .rank-row .no{flex:none;min-width:2.3em;text-align:center;font-family:var(--display);font-size:calc(19px*var(--k,1));color:#8A5A2B;font-variant-numeric:tabular-nums}
@@ -531,9 +533,8 @@ body{
         <div class="stat-row"><span>내 대결 점수</span><b id="pvpRating">1500</b></div>
         <div class="stat-sub" id="pvpRecord">0승 0패</div>
       </div>
-      <button class="btn btn-vs stack" id="onlineBtn" type="button" data-ncq-main="온라인 매칭"><span>온라인 매칭</span><small>대결 점수 <b id="pvpRating2">1500</b> 근처 상대와</small></button>
-      <p class="board-note" id="pvpNote">줄을 끝까지 끌어오면 이겨요. 매운 걸 먹거나 멀쩡한 걸 날리면 바로 져요.</p>
-      <button class="link-btn" id="previewBtn" type="button">연습해 보기 (상대 없음)</button>
+      <button class="btn btn-vs stack" id="onlineBtn" type="button" data-ncq-main="온라인 매칭"><span>온라인 매칭</span></button>
+      <p class="board-note" id="pvpNote" hidden></p>
     </div>
   </div>
   <div class="overlay hang" id="match" hidden>
@@ -570,6 +571,7 @@ body{
           <p id="rkMsg" role="status">순위를 불러오는 중이에요</p>
         </div>
       </div>
+      <ol class="rank-list rank-mine" id="rkMine" aria-label="내 순위"></ol>
       <button class="btn" id="rankDone" type="button" data-ncq-main="확인">확인</button>
     </div>
   </div>

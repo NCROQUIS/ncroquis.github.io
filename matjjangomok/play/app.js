@@ -1,8 +1,9 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=d052c0d8fbdb";
-import { TEXTS } from "./texts.js?v=d052c0d8fbdb";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=d052c0d8fbdb";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=d052c0d8fbdb";
+import { NcqBoard } from "./ncq/board.js?v=8f71c664704c";
+import { TEXTS } from "./texts.js?v=8f71c664704c";
+import { createForestUI } from "./forest-ui.js?v=8f71c664704c";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=8f71c664704c";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=8f71c664704c";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -117,6 +118,7 @@ let tournamentCatchUpQuote;
 const ruleNames = { renju: "ruleRenju", free: "ruleFree", taraguchi: "ruleTaraguchi" };
 const foulMarkers = { renjuDoubleThree: "33", renjuDoubleFour: "44", renjuOverline: "6+" };
 const defaultRule = "renju";
+// Rule engines and the dormant picker remain available for a future mode.
 const ruleDialog = el("rule-dialog");
 let availableRules = Object.keys(ruleNames);
 let preferredRule = defaultRule;
@@ -188,6 +190,10 @@ const nicknameEditor = el("profile-nickname-editor");
 const nicknameInput = el("nickname");
 const matchIntroDialog = el("match-intro");
 const playerPhotos = ["player-photo", "match-player-photo", "match-intro-photo"].map(el);
+const forest = createForestUI({
+  closeView: showLobby, getView: () => lobbyView,
+  hasGame: () => Boolean(room ?? archive ?? spectator), translate: t,
+});
 matchIntroDialog.addEventListener("click", () => matchIntroDialog.close());
 matchIntroDialog.addEventListener("close", () => {
   if (matchIntroDialog.open) return;
@@ -294,6 +300,9 @@ window.ncqBack = () => {
     optionsDialog.close();
     return true;
   }
+  if (missionDialog.open) { missionDialog.close(); return true; }
+  if (shop.open) { shop.close(); return true; }
+  if (forest.back()) return true;
   if ((room || archive || spectator) && !document.querySelector("dialog[open]")) {
     leaveMatch();
     return true;
@@ -380,6 +389,9 @@ const skinCards = shopRadios.filter(input => input.name !== "grid").map(input =>
   return { input, label, boardSample, status, price };
 });
 function openShop() {
+  // A shop opened from a coin shortage also returns to the lobby when closed.
+  lobbyView = "lobby";
+  forest.render(room ?? archive ?? spectator?.game, lobbyView);
   shopPreview = { ...shopState.appearance };
   shopEffectPreview = null;
   shopTab = "skins";
@@ -452,6 +464,7 @@ shop.addEventListener("close", event => {
   closeLobbyMenu(event);
 });
 shopPurchaseDialog.addEventListener("close", () => {
+  render();
   if (shop.open && !shop.contains(document.activeElement)) {
     el("shop-tab-" + shopTab).focus({ preventScroll: true });
   }
@@ -788,6 +801,7 @@ function renderWeeklyRewards(mainAction) {
 function renderCoinBalance() {
   const coins = NcqLang.num(coinBalance());
   el("lobby-coin-count").textContent = coins;
+  el("lobby-coin-count").style.setProperty("--coin-characters", coins.length);
   el("shop-balance").textContent = coins;
 }
 
@@ -933,7 +947,8 @@ function scheduleMissionReset() {
 }
 
 function renderShop() {
-  for (const button of shopMainActions) button.toggleAttribute("data-ncq-main", !coinShortageDialog.open && !coinRewardDialog.open);
+  for (const button of shopMainActions) button.toggleAttribute("data-ncq-main", !coinShortageDialog.open
+    && !coinRewardDialog.open && !shopPurchaseDialog.open);
   renderAdPurchase();
   renderCoinPacks();
   const skins = shopTab === "skins";
@@ -1142,6 +1157,7 @@ async function initializeAdPurchase() {
 function showShopPurchase(message, values) {
   el("shop-purchase-message").textContent = t(message, values);
   shopPurchaseDialog.showModal();
+  render();
 }
 
 function showCoinShortage() {
@@ -1555,8 +1571,24 @@ function canAct() {
 }
 
 function activeRule() {
+  if (!el("choose-rule")) return defaultRule;
   if (availableRules.includes(preferredRule)) return preferredRule;
   return availableRules.includes(defaultRule) ? defaultRule : "free";
+}
+
+// The picker controller is retained, but its template is not mounted in this UI.
+function renderRulePicker(mainAction) {
+  const button = el("choose-rule");
+  if (!button || !ruleDialog) return;
+  button.disabled = busy || Boolean(matchmaking) || availableRules.length < 2;
+  button.toggleAttribute("data-ncq-main", mainAction && lobbyView === "lobby" && availableRules.length > 1);
+  const rule = activeRule();
+  el("selected-rule").textContent = t(rule === "taraguchi" ? "ruleTaraguchiShort" : ruleNames[rule]);
+  button.setAttribute("aria-label", t("currentRule", { rule: t(ruleNames[rule]) }));
+  for (const option of ruleDialog.querySelectorAll(".rule-option")) {
+    option.hidden = !availableRules.includes(option.value);
+    option.setAttribute("aria-pressed", String(option.value === rule));
+  }
 }
 
 function moveLimits(game) {
@@ -2090,6 +2122,20 @@ function renderChampionship(now = Date.now()) {
     hours: NcqLang.num(hoursLeft % 24),
     minutes: NcqLang.num(minutesLeft % 60),
   });
+  const fullCountdown = countdown.textContent;
+  countdown.textContent = t(hoursLeft >= 24 ? "forestDaysLeft" : hoursLeft ? "forestHoursLeft" : "forestMinutesLeft", {
+    n: NcqLang.num(hoursLeft >= 24 ? Math.floor(hoursLeft / 24) : hoursLeft || minutesLeft),
+  });
+  countdown.title = fullCountdown;
+  countdown.style.setProperty("--countdown-characters", countdown.textContent.length);
+  el("lobby-championship").title = el("lobby-championship").textContent;
+  el("lobby-championship").textContent = t("forestChampionship");
+  el("forest-championship-countdown").textContent = rankingTab === "previous"
+    ? t("forestWeekEnded") : fullCountdown;
+  if (rankingTab !== "previous" || !el("forest-championship-period").textContent) {
+    const date = value => NcqLang.date(value, { month: "short", day: "numeric", timeZone: "Asia/Seoul" });
+    el("forest-championship-period").textContent = date(end - 7 * dayMs) + " – " + date(end - 1);
+  }
 }
 
 function renderLobby() {
@@ -2154,7 +2200,7 @@ function renderPlayerCard() {
   const standing = tab === "weekly" || tab === "previous" ? rankingResults[tab]?.result?.own : null;
   const tournamentScore = tab === "previous" || Boolean(standing);
   const overall = tab === "rating";
-  const rating = playerStats?.rating ?? standing?.rating;
+  const rating = playerStats?.rating ?? standing?.rating ?? 1500;
   const level = Number.isFinite(rating) ? rankLevel(rating) : null;
   const name = ownNickname();
   el("lobby-player-name").textContent = name;
@@ -2192,6 +2238,9 @@ function renderPlayerCard() {
     }
     detail.hidden = !detail.textContent;
   }
+  const progressLevel = rankLevel(rating);
+  forest.profile(rating, rankMinimum(progressLevel), progressLevel < 26
+    ? rankMinimum(progressLevel + 1) : rankMinimum(progressLevel) + 100);
 }
 
 function nextRankText(level, rating) {
@@ -2675,19 +2724,11 @@ function render() {
     button.disabled = busy;
   }
   const mainAction = !game && !matchmaking && !shop.open && !missionDialog.open && !optionsDialog.open
-    && !ruleDialog.open && !profileDialog.open && !recordDialogTarget?.dialog.open
+    && !forest.watchDialog.open && !ruleDialog?.open && !profileDialog.open && !recordDialogTarget?.dialog.open
     && !tournamentCatchUpDialog.open && !coinShortageDialog.open && !coinRewardDialog.open;
   el("start").disabled = busy || Boolean(matchmaking);
   el("show-records").disabled = busy || Boolean(matchmaking);
-  el("choose-rule").disabled = busy || Boolean(matchmaking) || availableRules.length < 2;
-  el("choose-rule").toggleAttribute("data-ncq-main", mainAction && lobbyView === "lobby" && availableRules.length > 1);
-  const rule = activeRule();
-  el("selected-rule").textContent = t(rule === "taraguchi" ? "ruleTaraguchiShort" : ruleNames[rule]);
-  el("choose-rule").setAttribute("aria-label", t("currentRule", { rule: t(ruleNames[rule]) }));
-  for (const option of ruleDialog.querySelectorAll(".rule-option")) {
-    option.hidden = !availableRules.includes(option.value);
-    option.setAttribute("aria-pressed", String(option.value === rule));
-  }
+  renderRulePicker(mainAction);
   el("player-card").disabled = busy;
   el("start").toggleAttribute("data-ncq-main", mainAction && lobbyView === "lobby");
   el("show-tournament").hidden = !backend;
@@ -2741,6 +2782,7 @@ function render() {
   if (!el("records").hidden) renderRecords();
   if (inRankings) renderRankings();
   if (inLobby || inRankings) renderPlayerCard();
+  forest.render(game, lobbyView);
   if (matchmaking) {
     const { canceled, mode, rule } = matchmaking;
     el("queue-status").textContent = t(canceled ? "canceling" : mode === "tournament" ? "tournamentWaiting" : "findingOpponent");
@@ -3494,20 +3536,22 @@ tournamentCatchUpDialog.addEventListener("close", () => {
 });
 
 el("start").addEventListener("click", () => startMatching("casual"));
-el("choose-rule").addEventListener("click", () => {
+el("choose-rule")?.addEventListener("click", () => {
   ruleDialog.returnValue = "";
   ruleDialog.showModal();
   render();
 });
-ruleDialog.addEventListener("close", () => {
+ruleDialog?.addEventListener("close", () => {
   if (availableRules.includes(ruleDialog.returnValue)) {
     preferredRule = ruleDialog.returnValue;
     try { localStorage.setItem("matjjangomok.rule", preferredRule); } catch {}
   }
   render();
-  el("choose-rule").focus();
+  el("choose-rule")?.focus();
 });
 el("refresh-lobby").addEventListener("click", refreshLobby);
+el("show-watch").addEventListener("click", () => { forest.openWatch(); render(); refreshLobby(); });
+forest.watchDialog.addEventListener("close", render);
 el("cancel-match").addEventListener("click", requestCancel);
 el("matchmaking").addEventListener("cancel", event => {
   event.preventDefault();
@@ -3676,6 +3720,7 @@ function rankingCard(row, tab, index) {
 }
 
 function renderRankings() {
+  renderChampionship();
   for (const button of rankingTabs) {
     const selected = button.dataset.ranking === rankingTab;
     button.setAttribute("aria-selected", String(selected));
@@ -3712,6 +3757,7 @@ function renderRankings() {
     if (!dates.hidden) {
       const date = value => NcqLang.date(value, { month: "short", day: "numeric", timeZone: "Asia/Seoul" });
       dates.textContent = date(Date.parse(result.startsAt)) + " – " + date(Date.parse(result.endsAt) - 1);
+      el("forest-championship-period").textContent = dates.textContent;
       if (previous) dates.textContent += " · " + t(result.finalized ? "tournamentFinalized" : "tournamentFinalizing");
     }
   } else {
@@ -3737,17 +3783,10 @@ async function showLobby() {
   refreshLobby();
   void refreshWeeklyRewards();
   await showReturnAd();
-  el(fromRecords ? "show-records" : "lobby-heading").focus();
+  el(fromRecords ? "show-records" : "start").focus();
 }
 el("show-lobby").addEventListener("click", showLobby);
-el("records-back").addEventListener("click", () => {
-  if (recordsReturnView === "tournament") {
-    showRankings();
-    el("tournament-records").focus();
-  } else {
-    showLobby();
-  }
-});
+el("records-back").addEventListener("click", showLobby);
 el("record-filters").addEventListener("click", event => {
   const button = event.target.closest("[data-filter]");
   if (!button) return;
@@ -3762,6 +3801,8 @@ function leaveMatch() {
     cancelAnimationFrame(turnFrame);
     spectator = null;
     cancelPlacement();
+    render();
+    forest.openWatch();
     render();
     refreshLobby();
     if (session.viewer) releaseSpectator(session);
@@ -3780,7 +3821,7 @@ function leaveMatch() {
       render();
       refreshLobby();
       refreshPlayerCard();
-      el("lobby-heading").focus();
+      el("start").focus();
       return;
     }
     render();

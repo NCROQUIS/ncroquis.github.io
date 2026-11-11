@@ -1,4 +1,4 @@
-import { size } from "./position.js?v=d052c0d8fbdb";
+import { size } from "./position.js?v=8f71c664704c";
 
 export const offerCount = 10;
 const center = Math.floor(size / 2);

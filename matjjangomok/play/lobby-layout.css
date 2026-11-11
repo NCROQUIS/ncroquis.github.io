@@ -1,0 +1,114 @@
+@font-face {
+  font-family: "Omok Noto Sans KR";
+  src: url("./assets/forest-ui/fonts/noto-sans-kr.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* Reference: 1024×1536. y=56 is the start of the game, below the ad slot. */
+body.forest-ui:not(.in-match) {
+  background-image: linear-gradient(#0b4022a6, #0b4022a6), url("./assets/forest-ui/background/forest_green.webp");
+}
+.forest-ui .shell { position: relative; max-width: none; }
+#lobby-stage-host {
+  position: absolute;
+  inset: var(--ncq-top) var(--ncq-right) var(--ncq-bottom) var(--ncq-left);
+  width: min(1024px, calc(100% - var(--ncq-left) - var(--ncq-right)));
+  margin-inline: auto;
+}
+#lobby-stage {
+  position: absolute; top: 0; left: 50%; transform-origin: top left;
+  display: grid;
+  grid-template-columns: 1024px;
+  grid-template-rows: minmax(0, 40fr) 80px minmax(0, 29fr) 130px minmax(0, 82fr) 457px minmax(0, 82fr) 86px minmax(0, 48fr) 155px minmax(0, 104fr) 132px minmax(0, 55fr);
+  font-family: "Omok Noto Sans KR", sans-serif;
+  color: #15391e;
+}
+#lobby-stage:not([data-sized]) { visibility: hidden; }
+.lobby-resource { display: none; }
+#lobby-stage .lobby-resource { display: block; position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+#lobby-stage .lobby-resource > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+#lobby-stage button { -webkit-tap-highlight-color: transparent; }
+#lobby-stage button > :not(.lobby-resource) { z-index: 1; }
+#lobby-stage .topbar {
+  position: relative; grid-row: 2; grid-column: 1; margin-left: 36px; width: 952px; height: 80px;
+  min-height: 0; padding: 0; border: 0; display: block;
+}
+#lobby-stage .brand { position: static; display: block; width: 550px; height: 80px; font-size: 57px; font-weight: 900; letter-spacing: -1px; }
+#lobby-stage .brand > span:not(.mark) { position: absolute; left: 103px; top: -12px; line-height: 80px; color: #fffef8; white-space: nowrap; text-shadow: 0 3px 3px #001607a6; -webkit-text-stroke: 0; }
+#lobby-stage .mark { position: absolute; left: 15px; top: 7px; width: 77px; height: 65px; border-radius: 0; background: none; }
+#lobby-stage .lobby-logo-underline { position: absolute; left: 146px; top: 60px; width: 165px; height: 16px; filter: drop-shadow(0 2px 1px #001a0977); }
+#lobby-stage .header-tools { position: static; display: block; }
+#lobby-stage #lobby-wallet { position: absolute; left: 666px; top: 4px; width: 164px; height: 59px; min-height: 0; max-width: none; padding: 0; display: block; border: 0; border-radius: 0; background: none; box-shadow: none; }
+#lobby-stage #lobby-wallet .shop-coin { position: absolute; left: 24px; top: 11px; width: 40px; height: 40px; background: none; z-index: 1; }
+#lobby-stage #lobby-wallet strong { position: absolute; left: 80px; top: 0; width: 64px; height: 59px; line-height: 59px; font-size: min(36px, calc(118px / var(--coin-characters, 1))); font-weight: 700; text-align: center; white-space: nowrap; color: #fffdf4; z-index: 1; }
+#lobby-stage #show-options { position: absolute; left: 868px; top: 1px; width: 74px; height: 70px; min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+#lobby-stage #show-options > svg { display: none; }
+#lobby-stage #show-options .settings-art { inset: 17px auto auto 19px; width: 37px; height: 37px; }
+#lobby-stage #show-options::after { content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, calc(44px / var(--lobby-scale))); height: max(100%, calc(44px / var(--lobby-scale))); transform: translate(-50%, -50%); }
+
+#lobby-stage #lobby { display: contents; }
+#lobby-stage #lobby button { pointer-events: auto; }
+#lobby-stage #lobby-profile-slot { position: relative; grid-row: 4; grid-column: 1; margin-left: 36px; width: 952px; height: 130px; }
+#lobby-stage #player-card { position: relative; display: block; width: 952px; height: 130px; min-height: 0; padding: 0; margin: 0; border: 0; border-radius: 0; background: none; box-shadow: none; color: #14381f; isolation: isolate; }
+#lobby-stage #player-card .player-card-identity { position: absolute; left: 32px; top: 23px; width: 89px; height: 89px; }
+#lobby-stage #player-card .player-avatar { position: relative; display: block; width: 89px; height: 89px; border: 0; border-radius: 0; overflow: visible; background: none; box-shadow: none; }
+#lobby-stage #player-card .player-avatar > svg { display: none; }
+#lobby-stage #player-card .avatar-symbol { inset: 22px auto auto 27px; width: 36px; height: 45px; }
+#lobby-stage #player-card .player-avatar:has(img:not([hidden])) .avatar-symbol { display: none; }
+#lobby-stage #player-card .player-avatar img { inset: 3px; width: 83px; height: 83px; border-radius: 50%; z-index: 2; }
+#lobby-stage #player-card .player-summary { position: absolute; left: 139px; top: 36px; width: 300px; height: 61px; padding: 0 0 0 19px; border-inline-start: 1px solid #b29c72; display: block; }
+#lobby-stage #player-card .player-name-line { position: relative; top: -4px; display: flex; align-items: center; gap: 8px; height: 61px; font-size: 41.5px; line-height: 61px; font-weight: 700; letter-spacing: -1.45px; }
+#lobby-stage #player-card .player-card-rank, #lobby-stage #player-card .player-card-name { font-weight: 700; }
+#lobby-stage #player-card #player-career { position: absolute; left: 460px; top: 38px; width: 150px; height: 54px; display: block; padding: 0; text-align: center; }
+#lobby-stage #player-card #player-career strong { position: relative; display: block; width: 100%; height: 100%; padding: 0; border: 0; border-radius: 0; background: none; font-size: 30px; font-weight: 900; letter-spacing: -.4px; line-height: 48px; color: #205f14; z-index: 1; }
+#lobby-stage .lobby-rank-meter { position: absolute; left: 660px; top: 49px; width: 264px; height: 24px; padding: 0; border: 0; border-radius: 0; overflow: visible; background: none; box-shadow: none; }
+#lobby-stage .lobby-rank-meter::before { content: ""; position: absolute; left: -24px; top: -13px; width: 1px; height: 61px; background: #b29c72; }
+#lobby-stage .lobby-rank-meter > span:first-child { position: absolute; left: 0; top: 0; height: 24px; overflow: hidden; width: var(--rank-fill); border-radius: 12px; background: none; z-index: 1; }
+#lobby-stage .lobby-rank-meter .meter-fill { width: 264px; height: 24px; }
+
+#lobby-stage .lobby-showcase { position: relative; grid-row: 6; grid-column: 1; margin-left: 165px; width: 692px; height: 457px; display: block; container-type: normal; }
+#lobby-stage .lobby-board-art { position: absolute; inset: 0; width: 692px; height: 457px; max-width: none; max-height: none; aspect-ratio: auto; }
+#lobby-stage .board-stone { right: auto; bottom: auto; }
+#lobby-stage #lobby-mission-slot { position: relative; grid-row: 6; grid-column: 1; align-self: start; justify-self: start; top: -10px; margin: 0 0 0 839px; width: 114px; height: 132px; }
+#lobby-stage #show-missions { position: relative; display: block; width: 114px; height: 132px; min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+#lobby-stage #show-missions::after { display: none; }
+#lobby-stage #show-missions .mission-shortcut-icon { position: absolute; left: 30px; top: 14px; width: 52px; height: 58px; padding: 0; border: 0; background: none; }
+#lobby-stage #show-missions .mission-shortcut-content { position: absolute; left: 0; top: 73px; width: 114px; height: 40px; display: block; }
+#lobby-stage #show-missions .mission-shortcut-heading { display: block; font-size: 28.5px; line-height: 40px; font-weight: 700; text-align: center; color: #153c20; }
+#lobby-stage #show-missions .mission-shortcut-heading strong { display: block; font-size: inherit; line-height: inherit; font-weight: inherit; text-align: center; }
+#lobby-stage #show-missions .mission-notice { inset: -7px auto auto 88px; width: 31px; height: 31px; display: none; }
+#lobby-stage #show-missions[data-ready] .mission-notice { display: block; }
+
+#lobby-stage #lobby-championship-slot { position: relative; grid-row: 8; grid-column: 1; margin-left: 50px; width: 924px; height: 86px; }
+#lobby-stage #show-tournament { position: relative; display: block; width: 924px; height: 86px; min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+#lobby-stage #show-tournament::before { display: none; }
+#lobby-stage #show-tournament .championship-trophy { inset: 16px auto auto 49px; width: 113px; height: 61px; }
+#lobby-stage #lobby-championship { position: absolute; left: 219px; top: 7px; width: 430px; height: 65px; overflow: hidden; text-overflow: ellipsis; font-size: 33px; line-height: 65px; font-weight: 900; letter-spacing: -.4px; color: #fffef0; text-shadow: 0 2px 2px #00160c99; }
+#lobby-stage #championship-countdown { position: absolute; left: 718px; top: 9px; width: 120px; height: 65px; padding: 0; border: 0; line-height: 65px; font-size: 30px; font-weight: 800; color: #e2ec8d; text-align: center; }
+#lobby-stage #championship-countdown:lang(ko) { font-size: min(30px, calc(150px / var(--countdown-characters, 5))); }
+#lobby-stage #show-tournament .championship-chevron { inset: 27px auto auto 872px; width: 17px; height: 27px; }
+#lobby-stage .championship-divider { position: absolute; left: 188px; top: 23px; width: 1px; height: 35px; background: #c9cf84; }
+
+#lobby-stage #lobby-cta-slot { position: relative; grid-row: 10; grid-column: 1; margin-left: 45px; width: 934px; height: 155px; }
+#lobby-stage #lobby-entry { display: block; width: 934px; height: 155px; padding: 0; margin: 0; }
+#lobby-stage #start { position: relative; display: block; width: 934px; height: 155px; min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; isolation: isolate; }
+#lobby-stage #start .start-stones { inset: 40px auto auto 257px; width: 87px; height: 75px; }
+#lobby-stage #start > span[data-i18n] { position: absolute; left: 386px; top: 20px; width: 350px; height: 105px; text-align: start; font-size: 77px; line-height: 105px; font-weight: 800; letter-spacing: .1px; color: #382605; text-shadow: 0 1px 1px #fff3ad; }
+#lobby-stage #start:lang(en) > span[data-i18n] { font-size: 69px; }
+
+#lobby-stage #lobby-nav { position: relative; grid-row: 12; grid-column: 1; width: 952px; height: 132px; min-height: 0; display: grid; grid-template-columns: repeat(4, 238px); gap: 0; padding: 0; margin: 0 0 0 36px; border: 0; border-radius: 0; background: none; box-shadow: none; }
+#lobby-stage #lobby-nav > button { position: relative; display: block; width: 238px; height: 132px; min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; color: #253712; z-index: 1; }
+#lobby-stage #lobby-nav > button + button::before { content: ""; position: absolute; left: 2px; top: 22px; width: 1px; height: 88px; background: #b49d76; }
+#lobby-stage #lobby-nav > button > span[data-i18n] { position: absolute; left: 2px; top: 65px; width: 238px; height: 48px; font-size: 33px; line-height: 48px; letter-spacing: .2px; font-weight: 800; text-align: center; }
+#lobby-stage #lobby-nav .lobby-nav-icon { position: absolute; left: 92px; top: 22px; width: 56px; height: 44px; display: block; }
+#lobby-stage #show-watch .lobby-nav-icon { left: 93px; top: 24px; width: 53px; height: 39px; }
+#lobby-stage #show-rankings .lobby-nav-icon { left: 88px; top: 18px; width: 62px; height: 46px; }
+#lobby-stage #show-shop .lobby-nav-icon { left: 93px; top: 21px; width: 52px; height: 49px; }
+#lobby-stage #lobby-nav .lobby-nav-icon::after { width: 22px; height: 22px; inset: -4px -6px auto auto; outline-width: 4px; }
+#lobby-stage #lobby-nav button::after { display: none; }
+#lobby-stage #lobby-error { grid-row: 11; grid-column: 1; align-self: center; margin-inline: 45px; font-size: 24px; line-height: 1.4; color: #fff4da; text-align: center; }
+
+/* Keep the existing shared layouts for a game and for modal content. */
+.forest-ui.in-match > .shell { max-width: 640px; }

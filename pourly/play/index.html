@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#0a2238" />
   <title>Pourly</title>
-  <script type="module" crossorigin src="./assets/index-BihQESMN.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-2psnEOfB.css">
+  <script type="module" crossorigin src="./assets/index-BBuD09d-.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-B2FPFUxs.css">
 </head>
 <body>
   <!-- 바탕: 깊은 물빛 + 천천히 움직이는 빛 + 작은 기포 (이야기 없는 꾸밈) -->
@@ -33,7 +33,7 @@
         <div class="level-info" id="level-info" hidden></div>
       </div>
       <div class="top-right">
-        <div class="coins" id="coins" data-i18n-attr="aria-label:coins"><span class="coin-dot"></span><span id="coin-count">0</span></div>
+        <button class="coins" id="coins" data-i18n-attr="aria-label:shop; title:shop"><span class="coin-dot"></span><span id="coin-count">0</span><svg class="shop-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11a1.5 1.5 0 0 1-1.5 1.3H7.7a1.5 1.5 0 0 1-1.5-1.3z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><em class="dot" id="shop-dot" hidden></em></button>
         <button class="icon-btn" id="btn-settings" data-i18n-attr="aria-label:settings; title:settings">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
         </button>
@@ -125,6 +125,20 @@
       </div>
       <div class="chest-reward" id="chest-reward" hidden></div>
       <button class="primary" id="btn-chest" data-ncq-main="보물 상자 열기·계속 버튼"></button>
+    </div>
+  </div>
+
+  <!-- 상점: 코인으로 배경·병 모습을 사고 바꿔요. 고르면 바로 미리 보이고, 안 사고 닫으면 원래대로 -->
+  <div class="overlay sheet shop" id="shop" hidden>
+    <div class="card" role="dialog" aria-labelledby="shop-title">
+      <div class="shop-head">
+        <div class="card-title" id="shop-title" data-i18n="shop"></div>
+        <div class="coins"><span class="coin-dot"></span><span id="shop-coins">0</span></div>
+      </div>
+      <div class="seg shop-tabs" id="shop-tabs"><button data-tab="bg" data-i18n="tab_bg"></button><button data-tab="bottle" data-i18n="tab_bottle"></button></div>
+      <div class="shop-grid" id="shop-grid"></div>
+      <button class="primary" id="btn-shop-act" data-ncq-main="상점 사기·쓰기 버튼"></button>
+      <button class="secondary" id="btn-shop-close" data-i18n="close"></button>
     </div>
   </div>
 

@@ -64,10 +64,23 @@ body{
 .ad-tag{padding:2px 6px;border-radius:4px;background:var(--ember);color:var(--night);font-size:10px;font-weight:700;letter-spacing:.06em}
 /* lobby: the signboard, best record and hamster are painted on the canvas; the buttons sit on top at scene coordinates */
 .lobby{position:absolute;inset:0;pointer-events:none}
-.lobby-actions{position:absolute;left:0;right:0;top:0;display:flex;flex-direction:column;align-items:center;gap:calc(14px*var(--k,1))}
-.lobby-actions .btn,.lobby-bottom .btn{pointer-events:auto}
-.lobby-bottom{position:absolute;left:0;right:0;bottom:max(14px,calc(20px*var(--k,1)));display:flex;justify-content:center;pointer-events:none}
-.lobby.enter .lobby-actions,.lobby.enter .lobby-bottom{animation:rise .42s .32s cubic-bezier(.2,1.3,.4,1) both}
+.lobby-actions{display:none}
+.lobby-bottom .btn{pointer-events:auto}
+/* the sketch: a column of buttons at the bottom right, the character to its left */
+.lobby-bottom{position:absolute;right:max(10px,calc(12px*var(--k,1)));bottom:max(12px,calc(16px*var(--k,1)));width:max(150px,calc(176px*var(--k,1)));display:flex;flex-direction:column;align-items:stretch;gap:max(9px,calc(11px*var(--k,1)));pointer-events:none}
+.lobby-bottom .btn,.lobby-bottom .btn.btn-big,.lobby-bottom .btn.btn-vs.big,.lobby-bottom .btn.btn-ad{min-width:0;width:100%;box-sizing:border-box}
+.lobby-bottom .btn.btn-vs.big{min-height:max(54px,calc(64px*var(--k,1)));font-size:max(25px,calc(29px*var(--k,1)));border-radius:20px;padding:8px 10px}
+.lobby-bottom .btn.btn-big{min-height:max(62px,calc(76px*var(--k,1)));font-size:max(30px,calc(36px*var(--k,1)));border-radius:22px;padding:8px 10px}
+.btn.btn-ad.row{flex-direction:row;gap:5px;min-height:max(42px,calc(48px*var(--k,1)));padding:4px 10px;border-radius:14px;box-shadow:0 4px 0 #8A5A2B}
+.btn-ad.row b{font-size:max(20px,calc(22px*var(--k,1)))}
+.btn-ad.row small{font-size:max(12px,calc(13px*var(--k,1)))}
+.btn-ad.row .ad-chip{top:calc(-9px*var(--k,1));left:calc(-6px*var(--k,1))}
+.tip{position:absolute;right:0;bottom:100%;margin:0 0 12px;padding:8px 12px;border-radius:14px;background:var(--paper);color:var(--ink);border:2px solid var(--ink);font-family:var(--body);font-size:max(13px,calc(14px*var(--k,1)));font-weight:700;line-height:1.35;white-space:nowrap;box-shadow:0 4px 0 rgba(0,0,0,.35);pointer-events:none;animation:tipIn .45s cubic-bezier(.2,1.4,.4,1) both,tipBob 1.6s .5s ease-in-out infinite}
+.tip::after{content:'';position:absolute;right:36px;top:100%;border:9px solid transparent;border-top-color:var(--ink)}
+.tip b{margin-right:4px;padding:1px 6px;border-radius:6px;background:var(--chili);color:#fff;font-size:.85em}
+@keyframes tipIn{from{opacity:0;transform:translateY(10px) scale(.8)}to{opacity:1;transform:none}}
+@keyframes tipBob{50%{transform:translateY(-4px)}}
+.lobby.enter .lobby-bottom{animation:rise .42s .32s cubic-bezier(.2,1.3,.4,1) both}
 @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .start-row{display:flex;align-items:stretch;justify-content:center;gap:calc(10px*var(--k,1))}
 .btn{
@@ -81,11 +94,11 @@ body{
 @keyframes nudge{50%{scale:1.045}}
 /* "?" on the top-left corner of 시작하기: opens 게임 방법 */
 .start-wrap{position:relative;display:flex}
-.help-btn{position:absolute;left:0;top:0;translate:-58% -58%;z-index:1;width:max(40px,calc(46px*var(--k,1)));height:max(40px,calc(46px*var(--k,1)));padding:0;border-radius:50%;border:3px solid var(--ink);background:var(--paper);color:var(--ink);font-family:var(--display);font-size:max(24px,calc(28px*var(--k,1)));line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:auto;box-shadow:0 3px 0 rgba(0,0,0,.4)}
+.help-btn{position:absolute;left:0;top:0;translate:-50% -50%;z-index:1;width:max(40px,calc(46px*var(--k,1)));height:max(40px,calc(46px*var(--k,1)));padding:0;border-radius:50%;border:3px solid var(--ink);background:var(--paper);color:var(--ink);font-family:var(--display);font-size:max(24px,calc(28px*var(--k,1)));line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:auto;box-shadow:0 3px 0 rgba(0,0,0,.4)}
 .help-btn::before{content:'';position:absolute;inset:-4px;border-radius:50%}
 .help-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.4)}
 .help-btn:focus-visible,.prof:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
-.lobby.enter .help-btn{animation:pop .4s .7s cubic-bezier(.2,1.4,.4,1) both}
+.lobby.enter .help-btn{animation:pop .4s .9s cubic-bezier(.2,1.4,.4,1) both}
 /* 프로필: top-left of the lobby, mirroring the settings button on the right */
 .prof{position:absolute;left:6px;top:10px;height:48px;max-width:calc(100% - 72px);box-sizing:border-box;display:flex;align-items:center;gap:8px;padding:0 14px 0 3px;border-radius:24px;border:2px solid var(--cream);background:rgba(31,36,51,.8);color:var(--cream);font-family:var(--body);text-align:left;cursor:pointer;pointer-events:auto;box-shadow:0 3px 0 rgba(0,0,0,.35)}
 .prof:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.35)}
@@ -118,12 +131,13 @@ body{
 /* lobby side buttons: 도감 and 업적 on either side of the best record (placed in script) */
 .side-btn{
   position:absolute;left:0;top:0;translate:-50% -50%;pointer-events:auto;
-  width:max(68px,calc(90px*var(--k,1)));height:max(68px,calc(90px*var(--k,1)));padding:0;
-  display:flex;align-items:center;justify-content:center;
+  width:max(64px,calc(78px*var(--k,1)));height:max(64px,calc(78px*var(--k,1)));padding:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
   border-radius:24px;border:2px solid rgba(255,244,224,.6);background:rgba(31,36,51,.88);color:var(--cream);
   box-shadow:0 5px 0 rgba(0,0,0,.4);cursor:pointer;
 }
-.side-btn svg{width:60%;height:60%}
+.side-btn svg{width:50%;height:50%}
+.side-btn .lbl{font-family:var(--display);font-size:max(13px,calc(15px*var(--k,1)));line-height:1;color:var(--cream)}
 .side-btn:active{translate:-50% calc(-50% + 3px);box-shadow:0 1px 0 rgba(0,0,0,.4)}
 .new-dot{position:absolute;top:-5px;right:-5px;width:16px;height:16px;border-radius:50%;background:var(--chili);border:2px solid var(--cream)}
 .side-btn.rank{color:var(--gold)}
@@ -380,7 +394,7 @@ body{
 .side-btn.lift{z-index:60}
 .fly{position:absolute;left:0;top:0;z-index:70;width:46px;height:46px;object-fit:contain;pointer-events:none;will-change:transform}
 @media (prefers-reduced-motion: reduce){.nudge{animation:none!important}.reveal.show .reveal-card{animation:none}}
-@media (prefers-reduced-motion: reduce){.stamp.hit,.btn-big,.lobby.enter .lobby-actions,.lobby.enter .lobby-bottom,.lobby.enter .side-btn{animation:none}.hang{transition:none}}
+@media (prefers-reduced-motion: reduce){.stamp.hit,.btn-big,.tip,.lobby.enter .lobby-bottom,.lobby.enter .side-btn{animation:none}.hang{transition:none}}
 </style>
 </head>
 <body>
@@ -397,31 +411,27 @@ body{
       <span class="ava"><img id="profImg" alt="" draggable="false"></span>
       <span class="prof-tx"><b id="profName">닉네임</b><small><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/></svg><span><span id="profScore">1500</span>점</span><i>·</i><span id="profRank">랭킹 -</span></small></span>
     </button>
-    <div class="lobby-actions" id="lobbyActions">
-        <button class="btn btn-vs big" id="pvpBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="4" y2="20"/><line x1="3" y1="19" x2="5" y2="21"/></svg>대결하기</button>
-    </div>
-    <div class="lobby-bottom">
-      <div class="start-row">
-        <div class="start-wrap">
-          <button class="btn btn-big" id="startBtn" type="button" data-ncq-main="시작하기">시작하기</button>
-          <button class="help-btn" id="howBtn" type="button" aria-label="게임 방법">?</button>
-        </div>
-        <button class="btn btn-ad" id="adStartBtn" type="button" hidden><span class="ad-chip"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>AD</span><b id="adStartScore">0점</b><small>부터 시작</small></button>
-      </div>
+    <div class="lobby-actions" id="lobbyActions"></div>
+    <button class="help-btn" id="howBtn" type="button" aria-label="게임 방법">?</button>
+    <div class="lobby-bottom" id="lobbyCol">
+      <p class="tip" id="pvpTip" role="status" hidden><b>NEW</b> 대결이 열렸어요! 한판 붙어 보세요</p>
+      <button class="btn btn-vs big" id="pvpBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="4" y2="20"/><line x1="3" y1="19" x2="5" y2="21"/></svg>대결하기</button>
+      <button class="btn btn-big" id="startBtn" type="button" data-ncq-main="시작하기">시작하기</button>
+      <button class="btn btn-ad row" id="adStartBtn" type="button" hidden><span class="ad-chip"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>AD</span><b id="adStartScore">0점</b><small>부터 시작</small></button>
     </div>
     <button class="side-btn" id="dexBtn" type="button" aria-label="도감">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H7a2 2 0 0 0-2 2V4.5z"/><path d="M5 20a2 2 0 0 0 2 2h12v-4"/><path d="M9 7.5h6M9 11h4"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H7a2 2 0 0 0-2 2V4.5z"/><path d="M5 20a2 2 0 0 0 2 2h12v-4"/><path d="M9 7.5h6M9 11h4"/></svg><span class="lbl">도감</span>
       <i class="new-dot" id="dexDot" hidden></i>
     </button>
     <button class="side-btn" id="achBtn" type="button" aria-label="업적">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3.5h8v5.5a4 4 0 0 1-8 0V3.5z"/><path d="M8 5.5H5.5a2.5 2.5 0 0 0 2.6 4"/><path d="M16 5.5h2.5a2.5 2.5 0 0 1-2.6 4"/><path d="M12 13v3.5"/><path d="M8.5 20.5h7l-1-4h-5z"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3.5h8v5.5a4 4 0 0 1-8 0V3.5z"/><path d="M8 5.5H5.5a2.5 2.5 0 0 0 2.6 4"/><path d="M16 5.5h2.5a2.5 2.5 0 0 1-2.6 4"/><path d="M12 13v3.5"/><path d="M8.5 20.5h7l-1-4h-5z"/></svg><span class="lbl">업적</span>
       <i class="new-dot" id="achDot" hidden></i>
     </button>
     <button class="side-btn rank" id="rankBtn" type="button" aria-label="랭킹">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M4.5 21v-7h5v7"/><path d="M9.5 21V9h5v12"/><path d="M14.5 21v-5h5v5"/><path d="M12 2.8l.9 1.9 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2L9.1 5l2-.3z" fill="currentColor" stroke-width="1"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M4.5 21v-7h5v7"/><path d="M9.5 21V9h5v12"/><path d="M14.5 21v-5h5v5"/><path d="M12 2.8l.9 1.9 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2L9.1 5l2-.3z" fill="currentColor" stroke-width="1"/></svg><span class="lbl">랭킹</span>
     </button>
-    <button class="side-btn" id="skinBtn" type="button" aria-label="스킨">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 3.5 5 5.2 2.8 9.6l3.1 1.6L7 9.5v11h10v-11l1.1 1.7 3.1-1.6L19 5.2l-3.5-1.7a3.6 3.6 0 0 1-7 0z"/><path d="M10 14.5c.6.7 1.2 1 2 1s1.4-.3 2-1"/><circle cx="10" cy="12" r=".6" fill="currentColor"/><circle cx="14" cy="12" r=".6" fill="currentColor"/></svg>
+    <button class="side-btn" id="skinBtn" type="button" aria-label="코스튬">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 3.5 5 5.2 2.8 9.6l3.1 1.6L7 9.5v11h10v-11l1.1 1.7 3.1-1.6L19 5.2l-3.5-1.7a3.6 3.6 0 0 1-7 0z"/><path d="M10 14.5c.6.7 1.2 1 2 1s1.4-.3 2-1"/><circle cx="10" cy="12" r=".6" fill="currentColor"/><circle cx="14" cy="12" r=".6" fill="currentColor"/></svg><span class="lbl">코스튬</span>
       <i class="new-dot" id="skinDot" hidden></i>
     </button>
   </section>
@@ -465,8 +475,8 @@ body{
     <div class="chain l" aria-hidden="true"></div><div class="chain r" aria-hidden="true"></div>
     <div class="board tall" role="dialog" aria-modal="true" aria-labelledby="skinTitle">
       <span class="nail l" aria-hidden="true"></span><span class="nail r" aria-hidden="true"></span>
-      <button class="x" id="skinX" type="button" aria-label="스킨 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-      <h2 id="skinTitle">스킨</h2>
+      <button class="x" id="skinX" type="button" aria-label="코스튬 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <h2 id="skinTitle">코스튬</h2>
       <span class="count-chip" id="skinCount">1/31</span>
       <div class="paper skin-stage">
         <canvas id="skinPrev" aria-hidden="true"></canvas>

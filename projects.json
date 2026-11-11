@@ -22,6 +22,17 @@
     "developer": "ncroquis-dev"
   },
   {
+    "codename": "legend-demon",
+    "name": "레전드 데몬",
+    "summary": "네임드의 보상을 모아 저승을 돌파하는 2.5D 도트 로그라이크",
+    "pitch": "낯선 저승의 무작위 던전을 탐험하며 네임드에 도전하는 도트 로그라이크입니다. 입체적인 사선 시점과 한 수씩 펼치는 전투 속에서 장비를 모으고 더 깊은 곳의 구출 여정을 준비하세요.",
+    "status": "개발 중",
+    "created": "2026-11-11",
+    "updated": "2026-11-11",
+    "version": "",
+    "developer": "ncroquis-dev"
+  },
+  {
     "codename": "solitaire",
     "name": "클래식 솔리테어",
     "summary": "누구나 아는 그 카드 게임, 깔끔한 클래식 솔리테어",

@@ -67,7 +67,7 @@ body{
 .lobby-actions{display:none}
 .lobby-bottom .btn{pointer-events:auto}
 /* the sketch: a column of buttons at the bottom right, the character to its left */
-.lobby-bottom{position:absolute;right:max(10px,calc(12px*var(--k,1)));bottom:max(12px,calc(16px*var(--k,1)));width:max(150px,calc(176px*var(--k,1)));display:flex;flex-direction:column;align-items:stretch;gap:max(9px,calc(11px*var(--k,1)));pointer-events:none}
+.lobby-bottom{position:absolute;right:max(10px,calc(12px*var(--k,1)));bottom:max(27px,calc(31px*var(--k,1)));width:max(150px,calc(176px*var(--k,1)));display:flex;flex-direction:column;align-items:stretch;gap:max(9px,calc(11px*var(--k,1)));pointer-events:none}
 .lobby-bottom .btn,.lobby-bottom .btn.btn-big,.lobby-bottom .btn.btn-vs.big,.lobby-bottom .btn.btn-ad{min-width:0;width:100%;box-sizing:border-box}
 .lobby-bottom .btn.btn-vs.big{min-height:max(54px,calc(64px*var(--k,1)));font-size:max(25px,calc(29px*var(--k,1)));border-radius:20px;padding:8px 10px}
 .lobby-bottom .btn.btn-big{min-height:max(62px,calc(76px*var(--k,1)));font-size:max(30px,calc(36px*var(--k,1)));border-radius:22px;padding:8px 10px}
@@ -94,7 +94,7 @@ body{
 @keyframes nudge{50%{scale:1.045}}
 /* "?" on the top-left corner of 시작하기: opens 게임 방법 */
 .start-wrap{position:relative;display:flex}
-.help-btn{position:absolute;left:0;top:0;translate:-50% -50%;z-index:1;width:max(40px,calc(46px*var(--k,1)));height:max(40px,calc(46px*var(--k,1)));padding:0;border-radius:50%;border:3px solid var(--ink);background:var(--paper);color:var(--ink);font-family:var(--display);font-size:max(24px,calc(28px*var(--k,1)));line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:auto;box-shadow:0 3px 0 rgba(0,0,0,.4)}
+.help-btn{position:absolute;left:0;top:0;translate:-50% -50%;width:max(40px,calc(46px*var(--k,1)));height:max(40px,calc(46px*var(--k,1)));padding:0;border-radius:50%;border:3px solid var(--ink);background:var(--paper);color:var(--ink);font-family:var(--display);font-size:max(24px,calc(28px*var(--k,1)));line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:auto;box-shadow:0 3px 0 rgba(0,0,0,.4)}
 .help-btn::before{content:'';position:absolute;inset:-4px;border-radius:50%}
 .help-btn:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.4)}
 .help-btn:focus-visible,.prof:focus-visible{outline:3px solid var(--cream);outline-offset:3px}
@@ -309,8 +309,8 @@ body{
 .link-btn:focus-visible{outline:3px solid var(--cream);outline-offset:2px;border-radius:6px}
 .mview{display:flex;flex-direction:column;align-items:center;gap:calc(10px*var(--k,1));text-align:center}
 .mline{margin:0;font-size:calc(16px*var(--k,1));font-weight:700;color:var(--ink);line-height:1.45}
-.room-row{display:flex;gap:8px}
-.room-row .btn{flex:1;min-width:0;padding-left:6px;padding-right:6px;white-space:nowrap;font-size:max(16px,calc(18px*var(--k,1)))}
+.room-row{display:flex;gap:10px;align-self:stretch;width:100%;box-sizing:border-box}
+.room-row .btn{flex:1 1 0;min-width:0;min-height:max(50px,calc(56px*var(--k,1)));padding-left:8px;padding-right:8px;white-space:nowrap;font-size:max(17px,calc(20px*var(--k,1)))}
 .mcode{display:block;margin:2px 0 0;font-family:var(--display);font-size:calc(52px*var(--k,1));line-height:1.05;letter-spacing:.14em;color:var(--ink);font-variant-numeric:tabular-nums}
 .room-input{width:100%;box-sizing:border-box;padding:8px 10px;border:3px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink);font-family:var(--display);font-size:calc(44px*var(--k,1));letter-spacing:.3em;text-align:center;font-variant-numeric:tabular-nums}
 .room-input:focus{outline:3px solid var(--vs);outline-offset:2px}

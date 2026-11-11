@@ -10,8 +10,8 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=552e3698303a">
-  <script type="module" src="./app.js?v=552e3698303a"></script>
+  <link rel="stylesheet" href="./style.css?v=d052c0d8fbdb">
+  <script type="module" src="./app.js?v=d052c0d8fbdb"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -442,7 +442,7 @@
           <div id="placement-timing" class="placement-timing" hidden>
             <label for="placement-duration" data-i18n="placementTimingTest"></label>
             <output id="placement-duration-value" for="placement-duration"></output>
-            <input id="placement-duration" type="range" min="100" max="600" step="10" value="180"
+            <input id="placement-duration" type="range" min="50" max="600" step="10" value="80"
                    aria-describedby="placement-timing-help">
             <small id="placement-timing-help" data-i18n="placementTimingHelp"></small>
           </div>
@@ -1044,6 +1044,18 @@
       </form>
     </dialog>
 
+    <dialog id="coin-reward-dialog" aria-labelledby="coin-reward-title" aria-describedby="coin-reward-coins">
+      <form method="dialog">
+        <h2 id="coin-reward-title" tabindex="-1" data-i18n="coinRewardTitle"></h2>
+        <p class="coin-reward-amount">
+          <span class="shop-coin" aria-hidden="true"></span><strong id="coin-reward-coins"></strong>
+        </p>
+        <p class="coin-reward-balance"><span data-i18n="shopBalance"></span> <strong id="coin-reward-balance"></strong></p>
+        <button id="coin-reward-confirm" class="primary" type="submit" data-ncq-main="Confirm received coins"
+                data-i18n="confirmProfile"></button>
+      </form>
+    </dialog>
+
     <dialog id="shop-purchase-complete" aria-labelledby="shop-purchase-title" aria-describedby="shop-purchase-message">
       <form method="dialog">
         <span class="shop-purchase-check" aria-hidden="true">✓</span>
@@ -1062,6 +1074,19 @@
                   data-ncq-main="Stay on the current screen"></button>
           <button class="primary" type="submit" value="yes" data-i18n="coinShortageYes"
                   data-ncq-main="Open the coin shop" autofocus></button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="leave-dialog" aria-labelledby="leave-dialog-title" aria-describedby="leave-dialog-message">
+      <form method="dialog">
+        <h2 id="leave-dialog-title" tabindex="-1" data-i18n="confirmLeaveTitle"></h2>
+        <p id="leave-dialog-message"></p>
+        <div class="leave-dialog-actions">
+          <button id="leave-dialog-cancel" class="secondary" type="submit" value="cancel" data-i18n="cancel"
+                  data-ncq-main="Continue the game" autofocus></button>
+          <button id="leave-dialog-confirm" class="primary" type="submit" value="leave" data-i18n="leave"
+                  data-ncq-main="Confirm leaving the game"></button>
         </div>
       </form>
     </dialog>

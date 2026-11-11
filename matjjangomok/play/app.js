@@ -1,8 +1,8 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=552e3698303a";
-import { TEXTS } from "./texts.js?v=552e3698303a";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=552e3698303a";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=552e3698303a";
+import { NcqBoard } from "./ncq/board.js?v=d052c0d8fbdb";
+import { TEXTS } from "./texts.js?v=d052c0d8fbdb";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=d052c0d8fbdb";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=d052c0d8fbdb";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -33,7 +33,7 @@ const placementEffects = {
   mystic: { price: 150, expiry: "mysticPlacementUntil", purchased: "shopMysticPurchased" },
 };
 const placementStyles = Object.keys(placementEffects);
-const placementTiming = { landing: 180, effect: 320 };
+const placementTiming = { landing: 80, effectRatio: 320 / 180 };
 let replayPlacementDuration = placementTiming.landing;
 let placementStyle = loadPlacementStyle();
 const dayMs = 24 * 60 * 60_000;
@@ -165,6 +165,8 @@ const shop = el("shop");
 const shopMainActions = [...shop.querySelectorAll("[data-ncq-main]")];
 const shopPurchaseDialog = el("shop-purchase-complete");
 const coinShortageDialog = el("coin-shortage");
+const leaveDialog = el("leave-dialog");
+let leaveDialogRoom;
 const resultDialog = el("result");
 const rankCelebration = el("rank-celebration");
 const shopAction = el("shop-action");
@@ -174,6 +176,10 @@ const shopEffectOptions = [...shop.querySelectorAll(".shop-effect-option")].map(
   time: button.querySelector(".shop-effect-time"),
 }));
 const missionDialog = el("missions");
+const coinRewardDialog = el("coin-reward-dialog");
+const coinRewardQueue = [];
+const coinRewardReceipts = new Set();
+let activeCoinReward;
 const optionsDialog = el("options");
 const feedbackButton = el("send-feedback");
 const profileDialog = el("player-profile");
@@ -260,6 +266,14 @@ window.ncqBack = () => {
     window.NcqFeedback.close();
     return true;
   }
+  if (coinRewardDialog.open) {
+    coinRewardDialog.close();
+    return true;
+  }
+  if (leaveDialog.open) {
+    leaveDialog.close("cancel");
+    return true;
+  }
   if (coinShortageDialog.open) {
     coinShortageDialog.close();
     return true;
@@ -276,9 +290,15 @@ window.ncqBack = () => {
     shopPurchaseDialog.close();
     return true;
   }
-  if (!optionsDialog.open) return false;
-  optionsDialog.close();
-  return true;
+  if (optionsDialog.open) {
+    optionsDialog.close();
+    return true;
+  }
+  if ((room || archive || spectator) && !document.querySelector("dialog[open]")) {
+    leaveMatch();
+    return true;
+  }
+  return false;
 };
 const stoneSoundToggle = el("stone-sound");
 const adPrivacy = el("ad-privacy");
@@ -406,7 +426,23 @@ el("show-missions").addEventListener("click", () => {
   render();
   void refreshWallet();
 });
-missionDialog.addEventListener("close", closeLobbyMenu);
+missionDialog.addEventListener("close", event => {
+  if (!missionDialog.open && activeCoinReward?.source === "missions") coinRewardDialog.close();
+  closeLobbyMenu(event);
+});
+coinRewardDialog.addEventListener("close", () => {
+  if (coinRewardDialog.open) return;
+  activeCoinReward = null;
+  render();
+  presentCoinReward();
+  if (coinRewardDialog.open) return;
+  if (missionDialog.open) {
+    const next = missionDialog.querySelector(".mission-claim:not([hidden]):not(:disabled)");
+    (next ?? el("mission-close")).focus({ preventScroll: true });
+  } else if (shop.open) {
+    el("shop-tab-" + shopTab).focus({ preventScroll: true });
+  }
+});
 missionDialog.addEventListener("click", event => {
   const button = event.target.closest(".mission-claim");
   if (button) void claimMission(button);
@@ -419,6 +455,7 @@ shopPurchaseDialog.addEventListener("close", () => {
   if (shop.open && !shop.contains(document.activeElement)) {
     el("shop-tab-" + shopTab).focus({ preventScroll: true });
   }
+  presentCoinReward();
 });
 coinShortageDialog.addEventListener("close", () => {
   if (coinShortageDialog.returnValue === "yes") {
@@ -772,6 +809,7 @@ function renderDailyMissions() {
   el("daily-mission-action").textContent = t(hasReward ? "missionClaim" : "missionView");
   if (!missionDialog.open) return;
 
+  el("mission-close").toggleAttribute("data-ncq-main", !coinRewardDialog.open);
   el("mission-balance").textContent = NcqLang.num(coinBalance());
   const overview = el("mission-overview-progress");
   overview.setAttribute("aria-valuenow", completed);
@@ -816,7 +854,7 @@ function renderMissionRow(row, { goal, coins, progress, max, claim, done }) {
   const button = row.querySelector(".mission-claim");
   button.textContent = t("missionClaim");
   button.hidden = !claim;
-  button.toggleAttribute("data-ncq-main", Boolean(claim));
+  button.toggleAttribute("data-ncq-main", Boolean(claim) && !coinRewardDialog.open);
   button.disabled = missionClaiming;
   button.value = claim ?? "";
   const status = row.querySelector(".mission-status");
@@ -828,19 +866,22 @@ async function claimMission(button) {
   if (missionClaiming || !missionDialog.open || !backend) return;
   const target = Number(button.value);
   const reward = missionRewards.get(target);
-  if (!reward) return;
+  if (!reward || serverWallet?.claimed?.includes(target)) return;
   const day = koreaDay(Date.now());
   const restoreFocus = document.activeElement === button;
   missionClaiming = true;
   renderDailyMissions();
   try {
     const result = await remoteRequest(client => client.gameRequest("/wallet/claim-mission", { day, target }));
-    if (!applyWallet(result)) {
+    if (!applyWallet(result) || result.day !== day || !result.claimed?.includes(target)) {
       feedback("mission-feedback", result.error ?? "missionClaimFailed", true);
       void refreshWallet();
       return;
     }
     feedback("mission-feedback", "missionClaimSuccess");
+    if (missionDialog.open) {
+      showCoinReward(reward, `mission:${day}:${target}`, "missions");
+    }
   } catch {
     feedback("mission-feedback", "missionClaimFailed", true);
   } finally {
@@ -848,7 +889,38 @@ async function claimMission(button) {
     renderCoinBalance();
     renderDailyMissions();
     if (shop.open) renderShop();
-    if (restoreFocus && missionDialog.open) (button.hidden ? el("mission-close") : button).focus({ preventScroll: true });
+    if (restoreFocus && missionDialog.open && !coinRewardDialog.open) {
+      (button.hidden ? el("mission-close") : button).focus({ preventScroll: true });
+    }
+  }
+}
+
+function renderCoinReward() {
+  el("coin-reward-coins").textContent = t("coinRewardCoins", { n: NcqLang.num(activeCoinReward.coins) });
+  el("coin-reward-balance").textContent = NcqLang.num(coinBalance());
+}
+
+function showCoinReward(coins, receipt, source) {
+  const id = (authSession?.player ?? "") + ":" + receipt;
+  if (!Number.isSafeInteger(coins) || coins <= 0 || coinRewardReceipts.has(id)) return;
+  coinRewardReceipts.add(id);
+  coinRewardQueue.push({ coins, source, player: authSession?.player });
+  presentCoinReward();
+}
+
+function presentCoinReward() {
+  if (coinRewardDialog.open || !coinRewardQueue.length || adPurchaseBusy || document.hidden
+      || room || archive || spectator) return;
+  if ([...document.querySelectorAll("dialog[open]")].some(dialog => dialog !== shop && dialog !== missionDialog)) return;
+  while (coinRewardQueue.length) {
+    const reward = coinRewardQueue.shift();
+    if (reward.player !== authSession?.player || (reward.source === "missions" && !missionDialog.open)) continue;
+    activeCoinReward = reward;
+    renderCoinReward();
+    coinRewardDialog.showModal();
+    render();
+    el("coin-reward-title").focus();
+    return;
   }
 }
 
@@ -861,7 +933,7 @@ function scheduleMissionReset() {
 }
 
 function renderShop() {
-  for (const button of shopMainActions) button.toggleAttribute("data-ncq-main", !coinShortageDialog.open);
+  for (const button of shopMainActions) button.toggleAttribute("data-ncq-main", !coinShortageDialog.open && !coinRewardDialog.open);
   renderAdPurchase();
   renderCoinPacks();
   const skins = shopTab === "skins";
@@ -1050,6 +1122,10 @@ async function initializeAdPurchase() {
       }));
       if (!applyWallet(next)) return false;
       render();
+      const reward = next.purchaseReward;
+      if (/^[a-f0-9]{64}$/.test(reward?.id ?? "")) {
+        showCoinReward(reward.coins, "purchase:" + reward.id, "shop");
+      }
       return true;
     });
     void NcqIap.ready().then(refreshAdPurchase, refreshAdPurchase);
@@ -1096,7 +1172,9 @@ async function withShopCheckout(checkout) {
     render();
     content.scrollTop = scrollTop;
   }
-  if (purchaseMessage) showShopPurchase(purchaseMessage);
+  if (purchaseMessage === "shopCoinPurchaseDone" && (coinRewardDialog.open || coinRewardQueue.length)) presentCoinReward();
+  else if (purchaseMessage) showShopPurchase(purchaseMessage);
+  else presentCoinReward();
 }
 
 async function buyRemoveAds() {
@@ -1405,7 +1483,7 @@ function playPlacementEffect(cell, style, contactTime, landingTime = placementTi
   effect.dataset.effect = style;
   effect.setAttribute("aria-hidden", "true");
   effect.style.setProperty("--placement-contact-delay", `${contactTime}ms`);
-  effect.style.setProperty("--placement-effect-duration", `${placementTiming.effect * landingTime / placementTiming.landing}ms`);
+  effect.style.setProperty("--placement-effect-duration", `${landingTime * placementTiming.effectRatio}ms`);
   if (sakura) addSakuraParticles(effect, cell.clientWidth);
   if (energy) addEnergyParticles(effect, cell.clientWidth, style);
   cell.append(effect);
@@ -1473,7 +1551,7 @@ function coordinate(index) {
 
 function canAct() {
   return room?.phase === "playing" && room.turn === room.you && connected && !busy
-    && !matchIntroDialog.open && (turnDeadline === null || performance.now() < turnDeadline);
+    && !matchIntroDialog.open && !leaveDialog.open && (turnDeadline === null || performance.now() < turnDeadline);
 }
 
 function activeRule() {
@@ -2535,6 +2613,9 @@ async function playRankPromotion({ code, round }) {
 
 function render() {
   el("placement-timing").hidden = true;
+  if (coinRewardDialog.open) renderCoinReward();
+  queueMicrotask(presentCoinReward);
+  if (leaveDialog.open) renderLeaveConfirmation();
   if (profileDialog.open) renderPlayerProfile();
   renderRecordDialog();
   if (matchIntroDialog.open) renderMatchIntro();
@@ -2595,7 +2676,7 @@ function render() {
   }
   const mainAction = !game && !matchmaking && !shop.open && !missionDialog.open && !optionsDialog.open
     && !ruleDialog.open && !profileDialog.open && !recordDialogTarget?.dialog.open
-    && !tournamentCatchUpDialog.open && !coinShortageDialog.open;
+    && !tournamentCatchUpDialog.open && !coinShortageDialog.open && !coinRewardDialog.open;
   el("start").disabled = busy || Boolean(matchmaking);
   el("show-records").disabled = busy || Boolean(matchmaking);
   el("choose-rule").disabled = busy || Boolean(matchmaking) || availableRules.length < 2;
@@ -2676,7 +2757,7 @@ function render() {
   }
 
   for (const id of ["place", "invite"]) {
-    el(id).toggleAttribute("data-ncq-main", !awaitingReview && !profileDialog.open && !matchIntroDialog.open);
+    el(id).toggleAttribute("data-ncq-main", !awaitingReview && !profileDialog.open && !matchIntroDialog.open && !leaveDialog.open);
   }
   const openingActions = el("opening-actions");
   openingActions.hidden = !canAct() || (!maySwap(game) && !mayOffer(game));
@@ -2773,7 +2854,7 @@ new ResizeObserver(([entry]) => {
 el("placement-duration").addEventListener("input", event => {
   const duration = Number(event.target.value);
   if (!placementTimingAvailable() || !Number.isFinite(duration)) return;
-  replayPlacementDuration = Math.max(100, Math.min(600, duration));
+  replayPlacementDuration = Math.max(50, Math.min(600, duration));
   renderPlacementTiming();
 });
 el("placement-duration").addEventListener("change", () => {
@@ -2947,6 +3028,7 @@ function applyState(next) {
   const newMoveCount = sameRound && room.phase === "playing"
     ? next.moves.length - room.moves.length : 0;
   room = next;
+  if (leaveDialog.open && (!sameRound || room.phase === "finished")) leaveDialog.close("cancel");
   turnDeadline = clockDeadline(next);
   selected = null;
   if (showResult) {
@@ -3006,6 +3088,7 @@ async function exitRoom(message = "", { showAd = false } = {}) {
   cancelPlacement();
   rankCelebration.close();
   resultDialog.close();
+  leaveDialog.close("cancel");
   el("share").close();
   recordShareDialog.close();
   matchIntroDialog.close();
@@ -3705,10 +3788,29 @@ function leaveMatch() {
     (row?.querySelector(".record-open") ?? el("records-heading")).focus();
     return;
   }
+  if (!room || busy || leaveDialog.open) return;
+  if (room.phase === "finished") return leaveCurrentRoom();
+  leaveDialogRoom = { code: room.code, round: room.round };
+  leaveDialog.returnValue = "";
+  renderLeaveConfirmation();
+  leaveDialog.showModal();
+  render();
+  el("leave-dialog-title").focus();
+}
+
+function isResigning(game) {
+  return game?.phase === "playing" && (game.moves.length > 0 || game.passed || game.mode === "tournament");
+}
+
+function renderLeaveConfirmation() {
+  el("leave-dialog-message").textContent = t(isResigning(room) ? "confirmResign" : "confirmLeave");
+}
+
+function leaveCurrentRoom() {
   const finished = room?.phase === "finished";
   if (finished && !connected) return exitRoom("", { showAd: true });
-  const resigning = room?.phase === "playing" && (room.moves.length > 0 || room.passed || room.mode === "tournament");
-  if (finished || window.confirm(t(resigning ? "confirmResign" : "confirmLeave"))) roomAction("leave", {}, next => {
+  const resigning = isResigning(room);
+  roomAction("leave", {}, next => {
     if (next.phase === "finished") {
       if (resigning) void recordMissionRound(next);
       if (!backend) saveRecord(next);
@@ -3716,6 +3818,15 @@ function leaveMatch() {
     void exitRoom("", { showAd: finished });
   });
 }
+leaveDialog.addEventListener("close", () => {
+  if (leaveDialog.open) return;
+  const target = leaveDialogRoom;
+  leaveDialogRoom = null;
+  render();
+  if (leaveDialog.returnValue !== "leave" || busy || !target
+      || room?.code !== target.code || room.round !== target.round) return;
+  leaveCurrentRoom();
+});
 el("leave").addEventListener("click", leaveMatch);
 el("watch-back").addEventListener("click", leaveMatch);
 el("leave-match").addEventListener("click", leaveMatch);
@@ -3905,6 +4016,7 @@ if (shareId === null) {
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden) {
     renderDailyMissions();
+    presentCoinReward();
     void refreshWallet();
     void refreshWeeklyRewards();
   }

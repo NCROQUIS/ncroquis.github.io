@@ -10,8 +10,8 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=23d543cb1ae4">
-  <script type="module" src="./app.js?v=23d543cb1ae4"></script>
+  <link rel="stylesheet" href="./style.css?v=42388a12e910">
+  <script type="module" src="./app.js?v=42388a12e910"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -171,6 +171,23 @@
         <div id="ranking-weekly-panel" class="ranking-panel" role="tabpanel" aria-labelledby="ranking-weekly-tab" tabindex="0">
           <div id="ranking-weekly-list" class="list-body">
             <p id="ranking-weekly-dates" class="ranking-dates" hidden></p>
+            <section id="participation-reward" class="weekly-reward participation-reward" aria-labelledby="participation-reward-title" hidden>
+              <span class="weekly-reward-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><use href="#nav-records"/></svg>
+              </span>
+              <div class="weekly-reward-details">
+                <h2 id="participation-reward-title" data-i18n="participationReward"></h2>
+                <p id="participation-reward-progress"></p>
+              </div>
+              <div id="participation-reward-steps" class="weekly-reward-steps" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <button class="primary weekly-reward-claim" type="button" data-weekly-reward="participation">
+                <span class="weekly-reward-coins"><span class="shop-coin" aria-hidden="true"></span><strong></strong></span>
+                <span class="weekly-reward-action"></span>
+              </button>
+              <p id="participation-reward-feedback" class="weekly-reward-feedback feedback" role="status" hidden></p>
+            </section>
             <div id="ranking-weekly-summary" class="ranking-summary" hidden>
               <h2 data-i18n="tournamentStandings"></h2><span></span>
             </div>
@@ -183,6 +200,20 @@
         <div id="ranking-previous-panel" class="ranking-panel" role="tabpanel" aria-labelledby="ranking-previous-tab" tabindex="0" hidden>
           <div id="ranking-previous-list" class="list-body">
             <p id="ranking-previous-dates" class="ranking-dates" hidden></p>
+            <section id="ranking-reward" class="weekly-reward ranking-reward" aria-labelledby="ranking-reward-title" hidden>
+              <span class="weekly-reward-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><use href="#nav-ranking"/></svg>
+              </span>
+              <div class="weekly-reward-details">
+                <h2 id="ranking-reward-title" data-i18n="rankingReward"></h2>
+                <p id="ranking-reward-rank"></p>
+              </div>
+              <button class="primary weekly-reward-claim" type="button" data-weekly-reward="ranking">
+                <span class="weekly-reward-coins"><span class="shop-coin" aria-hidden="true"></span><strong></strong></span>
+                <span class="weekly-reward-action"></span>
+              </button>
+              <p id="ranking-reward-feedback" class="weekly-reward-feedback feedback" role="status" hidden></p>
+            </section>
             <div id="ranking-previous-summary" class="ranking-summary" hidden>
               <h2 data-i18n="tournamentStandings"></h2><span></span>
             </div>
@@ -602,6 +633,10 @@
           <span data-i18n="stoneSound"></span>
           <input id="stone-sound" type="checkbox" checked>
         </label>
+        <div id="options-player" class="option-row" hidden>
+          <label for="options-player-id" data-i18n="optionsPlayerId"></label>
+          <input id="options-player-id" type="text" readonly spellcheck="false">
+        </div>
         <button id="send-feedback" class="secondary" type="button" data-i18n="sendFeedback" hidden></button>
         <button id="ad-privacy" class="secondary" type="button" data-i18n="adPrivacy" hidden></button>
         <button id="restore-purchases" class="secondary" type="button" data-i18n="purchaseRestore" hidden></button>
@@ -671,7 +706,6 @@
             <span data-i18n="shopBalance"></span><strong id="shop-balance"></strong>
           </div>
         </div>
-        <p id="shop-legacy-balance" class="list-count" hidden></p>
         <div class="shop-tabs" role="group" data-i18n-attr="aria-label:shop">
           <button id="shop-tab-currency" type="button" aria-controls="shop-currency" aria-pressed="false" data-i18n="shopCurrency"></button>
           <button id="shop-tab-effects" type="button" aria-controls="shop-effects" aria-pressed="false" data-i18n="shopEffectsTab"></button>
@@ -705,6 +739,8 @@
             <p data-i18n="shopCoinPacksGuide"></p>
           </div>
           <p id="shop-refund-debt" hidden></p>
+          <button id="shop-claim-test-coins" class="primary" type="button" data-i18n="shopTestCoinClaim"
+                  data-ncq-main="Claim developer test coins" hidden></button>
           <p id="shop-no-coin-packs" class="shop-products-empty" data-i18n="shopCoinPacksUnavailable" hidden></p>
           <ul id="shop-coin-pack-buttons" class="shop-product-list" role="list"></ul>
         </section>
@@ -967,6 +1003,15 @@
       </form>
     </dialog>
 
+    <dialog id="shop-purchase-complete" aria-labelledby="shop-purchase-title" aria-describedby="shop-purchase-message">
+      <form method="dialog">
+        <span class="shop-purchase-check" aria-hidden="true">✓</span>
+        <h2 id="shop-purchase-title" data-i18n="shopPurchaseComplete"></h2>
+        <p id="shop-purchase-message"></p>
+        <button class="primary" type="submit" data-ncq-main="Confirm purchase completion" data-i18n="confirmProfile" autofocus></button>
+      </form>
+    </dialog>
+
     <template id="shop-coin-pack-card">
       <li class="shop-product">
         <span class="shop-coin-art" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -1096,6 +1141,7 @@
             </div>
             <div class="promotion-meter-track" aria-hidden="true">
               <span class="result-meter-fill"></span>
+              <span id="result-promotion-ripple"></span>
               <span class="result-meter-marker result-meter-marker--previous"></span>
               <span class="result-meter-marker result-meter-marker--current"></span>
             </div>
@@ -1104,8 +1150,25 @@
             </div>
           </div>
         </section>
-        <button class="primary" data-ncq-main="Review match" data-i18n="confirmProfile" autofocus></button>
+        <button id="result-confirm" class="primary" data-ncq-main="Review match" data-i18n="confirmProfile" autofocus></button>
       </form>
+    </dialog>
+
+    <dialog id="rank-celebration" class="match-intro rank-celebration" aria-labelledby="rank-celebration-heading" aria-describedby="rank-celebration-change">
+      <div class="match-intro-layout">
+        <div class="rank-celebration-content">
+          <p id="rank-celebration-change" class="sr-only"></p>
+          <h2 id="rank-celebration-heading" class="sr-only"></h2>
+          <div id="rank-celebration-stage" class="rank-celebration-stage" aria-hidden="true">
+            <img id="rank-celebration-art" data-src="./assets/match-ui/rank-promotion.webp" alt="" decoding="async">
+            <span class="rank-frame-label rank-frame-intro" data-i18n="rankCelebrationIntro"></span>
+            <span id="rank-celebration-before" class="rank-frame-label rank-frame-change rank-frame-before"></span>
+            <span id="rank-celebration-after" class="rank-frame-label rank-frame-change rank-frame-after"></span>
+            <span id="rank-celebration-title" class="rank-frame-label rank-frame-title"></span>
+          </div>
+        </div>
+        <button class="match-intro-close" type="button" data-ncq-main="Dismiss promotion" data-i18n="rankCelebrationDismiss" autofocus></button>
+      </div>
     </dialog>
   </div>
 </body>

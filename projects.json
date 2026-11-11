@@ -11,6 +11,17 @@
     "developer": "ncroquis-dev"
   },
   {
+    "codename": "matjjangbaduk",
+    "name": "맞짱 바둑",
+    "summary": "9줄에서 가볍게 맞붙는 빠른 바둑 대국",
+    "pitch": "9줄 바둑판에서 실력이 비슷한 상대와 한 판을 즐겨보세요. 돌을 따내고 집을 확인하며, 복기로 다시 살펴보고 재대결할 수 있습니다.",
+    "status": "개발 중",
+    "created": "2026-11-11",
+    "updated": "2026-11-11",
+    "version": "",
+    "developer": "ncroquis-dev"
+  },
+  {
     "codename": "solitaire",
     "name": "클래식 솔리테어",
     "summary": "누구나 아는 그 카드 게임, 깔끔한 클래식 솔리테어",

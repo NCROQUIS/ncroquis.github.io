@@ -663,6 +663,7 @@ function lobbySubs(){
 }
 // 고른 종목 카드의 오른쪽에서 Stage·Single·Online 왼쪽으로 네온 선을 이어요 (어느 종목의 버튼인지 보이게)
 function lobbyWire(anim){
+  if(!anim&&lobbyWire.t)return; // 그리는 연출 중이면 연출이 끝날 때 다시 그려요
   const box=document.querySelector('.lpick'),svg=$('lpWire');if(!box||!svg)return;
   const card=document.querySelector('.gbtn[aria-checked=true]'),slabs=[...box.querySelectorAll('.slab')].filter(b=>!b.hidden);
   const gG=$('lpGlowG'),gC=$('lpCore'),gF=$('lpFlow'),gD=$('lpDots');[gG,gC,gF,gD].forEach(e=>e.textContent='');
@@ -675,19 +676,20 @@ function lobbyWire(anim){
     const q=b.getBoundingClientRect(),y=q.top+q.height/2-o.top,dy=y-y0,k=Math.min(r,Math.abs(dy)/2),sg=Math.sign(dy);
     const d=Math.abs(dy)<1?`M${x0} ${y0}H${x1}`:`M${x0} ${y0}H${bx-k}Q${bx} ${y0} ${bx} ${y0+sg*k}V${y-sg*k}Q${bx} ${y} ${bx+k} ${y}H${x1}`;
     [gG,gC,gF].forEach(g=>{const p=mk(g,'path',{d});if(anim&&g!==gF){const L=p.getTotalLength();p.style.setProperty('--len',L);p.style.strokeDasharray=L;}});
-    mk(gD,'circle',{cx:x1,cy:y,r:4});
   });
-  mk(gD,'circle',{cx:x0,cy:y0,r:4.6});
   svg.classList.remove('draw');box.classList.remove('zap');
-  if(anim){void svg.getBoundingClientRect();svg.classList.add('draw');box.classList.add('zap');clearTimeout(lobbyWire.t);lobbyWire.t=setTimeout(()=>{svg.classList.remove('draw');box.classList.remove('zap');lobbyWire(false);},800);}
+  if(anim){void svg.getBoundingClientRect();svg.classList.add('draw');box.classList.add('zap');clearTimeout(lobbyWire.t);lobbyWire.t=setTimeout(()=>{lobbyWire.t=0;svg.classList.remove('draw');box.classList.remove('zap');lobbyWire(false);},800);}
 }
+// 크기가 바뀌면 다시 그려요 (그리는 연출 중에는 연출이 끝난 뒤에 다시 그려요: 부제 글자가 바뀌어 크기가 달라져도 연출이 끊기지 않게)
 if(window.ResizeObserver)new ResizeObserver(()=>lobbyWire(false)).observe(document.querySelector('.lpick'));
 function pickGame(g,quiet){
   if(!GAME_INFO[g])g='4b';const was=nav.game;nav.game=g;
   document.querySelectorAll('[data-pick]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.pick===g)));
   if(save.lg!==g){save.lg=g;if(!quiet)persist();}
-  lobbySubs();lobbyWire(!quiet&&was!==g);
+  lobbySubs();
   if(G.mode==='attract'&&attr.game!==g)attract(g);
+  // 뒤 당구대를 바꾸느라 첫 그림이 늦을 수 있어서, 화면이 한 번 그려진 뒤에 선 그리는 연출을 시작해요
+  if(quiet)lobbyWire(false);else{lobbyWire(false);requestAnimationFrame(()=>requestAnimationFrame(()=>lobbyWire(true)));}
 }
 document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{ensureAudio();pickGame(b.dataset.pick);});
 document.querySelectorAll('[data-help]').forEach(b=>b.onclick=e=>{e.stopPropagation();openRules(b.dataset.help);});

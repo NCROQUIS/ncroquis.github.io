@@ -11,9 +11,6 @@ export const lobbyReference = {
 
 const art = {
   pair: ["board/stones_pair", 383, 362, [9, 9, 366, 344]],
-  black: ["board/stone_black", 315, 318, [8, 9, 299, 301]],
-  white: ["board/stone_white", 326, 328, [9, 8, 309, 312]],
-  board: ["board/board_empty", 567, 366, [9, 9, 550, 349]],
   profile: ["panels/profile_panel", 476, 177, [11, 10, 456, 155]],
   avatar: ["panels/avatar_frame", 243, 234, [11, 8, 220, 226]],
   person: ["icons/profile", 210, 234, [8, 9, 194, 217]],
@@ -24,7 +21,6 @@ const art = {
   coin: ["icons/coin", 229, 233, [9, 9, 211, 216]],
   round: ["panels/round_button", 231, 228, [11, 10, 209, 216]],
   settings: ["icons/settings", 239, 243, [8, 8, 222, 226]],
-  mission: ["panels/mission_button", 427, 226, [12, 9, 402, 215]],
   gift: ["icons/gift", 244, 258, [9, 8, 227, 241]],
   notice: ["icons/notification", 188, 192, [8, 8, 172, 176]],
   championship: ["panels/championship_banner", 475, 178, [11, 9, 453, 157]],
@@ -46,16 +42,18 @@ const svgNode = (tag, attributes) => {
 
 // SVG viewports remove the resource's transparent padding without altering it.
 // Nine slices retain corners and rims when a panel has a different aspect ratio.
-function resource(parent, name, className, panel) {
+export function resource(parent, name, className, panel, clip = false) {
   const [path, width, height, [x, y, w, h]] = art[name];
   const span = document.createElement("span");
   span.className = "lobby-resource " + className;
   span.setAttribute("aria-hidden", "true");
   span.dataset.lobbyAsset = path;
-  const image = () => svgNode("image", { href: `./assets/forest-ui/${path}.webp`, width, height });
+  // These are logical source coordinates; texture resolution can be reduced
+  // independently without changing the crop or the rendered layout.
+  const image = () => svgNode("image", { href: `./assets/forest-ui/${path}.webp`, width, height, preserveAspectRatio: "none" });
   const root = svgNode("svg", { viewBox: panel ? `0 0 ${panel[0]} ${panel[1]}` : `${x} ${y} ${w} ${h}`, preserveAspectRatio: "none", focusable: "false" });
   // Shared menu styles size SVG icons; these SVGs are full resource viewports.
-  Object.assign(root.style, { width: "100%", height: "100%", display: "block" });
+  Object.assign(root.style, { width: "100%", height: "100%", display: "block", overflow: clip ? "hidden" : "visible" });
   if (panel) {
     const [dw, dh, sourceCap, targetCap] = panel;
     const sx = [x, x + sourceCap, x + w - sourceCap, x + w];
@@ -87,6 +85,15 @@ function resource(parent, name, className, panel) {
   return span;
 }
 
+export function titleUnderline(className) {
+  const image = document.createElement("img");
+  image.className = className;
+  image.src = "./assets/forest-ui/branding/title-underline.svg";
+  image.alt = "";
+  image.setAttribute("aria-hidden", "true");
+  return image;
+}
+
 export function installMeasuredLobby() {
   const el = id => document.getElementById(id);
   const shell = document.querySelector(".shell");
@@ -109,9 +116,7 @@ export function installMeasuredLobby() {
   }).observe(host);
 
   resource(document.querySelector(".mark"), "pair", "logo-stones");
-  const underline = svgNode("svg", { class: "lobby-logo-underline", viewBox: "0 0 165 16", "aria-hidden": "true" });
-  underline.append(svgNode("path", { d: "M0 5C58 17 101-4 165 10C104 0 67 23 0 5Z", fill: "#d7e82b" }));
-  document.querySelector(".brand").append(underline);
+  document.querySelector(".brand").append(titleUnderline("lobby-logo-underline"));
   resource(el("lobby-wallet"), "currency", "currency-surface", [164, 59, 52, 29]);
   resource(el("lobby-wallet").querySelector(".shop-coin"), "coin", "currency-coin");
   resource(el("show-options"), "round", "settings-surface");
@@ -120,26 +125,17 @@ export function installMeasuredLobby() {
   const avatar = el("player-card").querySelector(".player-avatar");
   resource(avatar, "avatar", "avatar-surface");
   resource(avatar, "person", "avatar-symbol");
-  resource(el("player-career"), "score", "score-surface", [150, 54, 42, 19]);
+  resource(el("player-career"), "score", "score-surface", [154, 54, 42, 19]);
   const meter = document.querySelector(".lobby-rank-meter");
-  resource(meter, "track", "meter-track", [264, 24, 29, 12]);
-  resource(meter.firstElementChild, "fill", "meter-fill", [264, 24, 29, 12]);
-  document.querySelector(".lobby-board-image").remove();
-  document.querySelectorAll(".lobby-art-stone").forEach(node => node.remove());
-  const board = document.querySelector(".lobby-board-art");
-  resource(board, "board", "board-art");
-  for (const [color, cx, cy, sw, sh] of [
-    ["white", 514, 530, 36, 31], ["black", 589, 554, 38, 32],
-    ["black", 476, 584, 37, 31], ["white", 552, 585, 37, 31],
-    ["white", 398, 615, 38, 32], ["black", 514, 614, 38, 32],
-    ["black", 476, 645, 38, 32], ["white", 552, 645, 38, 32],
-    ["white", 437, 674, 38, 32], ["black", 514, 675, 38, 32],
-    ["black", 391, 705, 39, 33], ["black", 597, 704, 40, 33],
-  ]) {
-    const stone = resource(board, color, "board-stone");
-    Object.assign(stone.style, { left: cx - 165 - sw / 2 + "px", top: cy - 417 - sh / 2 + "px", width: sw + "px", height: sh + "px" });
-  }
-  resource(el("show-missions"), "mission", "mission-surface", [114, 132, 45, 29]);
+  // The thin gauge cannot use the panel's nine-slice caps: both vertical
+  // caps meet, and the original transparent padding bleeds past the rim.
+  resource(meter, "track", "meter-track", undefined, true);
+  resource(meter.firstElementChild, "fill", "meter-fill", undefined, true);
+  const missionSurface = document.createElement("img");
+  missionSurface.src = "./assets/forest-ui/panels/mission-button.svg";
+  missionSurface.alt = "";
+  missionSurface.className = "lobby-resource mission-surface";
+  el("show-missions").append(missionSurface);
   resource(el("show-missions").querySelector(".mission-shortcut-icon"), "gift", "mission-gift-art");
   resource(el("show-missions"), "notice", "mission-notice");
   resource(el("show-tournament"), "championship", "championship-surface", [924, 86, 45, 28]);
@@ -149,13 +145,26 @@ export function installMeasuredLobby() {
   el("show-tournament").append(Object.assign(document.createElement("span"), { className: "championship-divider" }));
   resource(el("start"), "primary", "start-surface", [934, 155, 62, 77]);
   el("start").querySelector("img").remove();
-  resource(el("start"), "pair", "start-stones");
+  const startContent = document.createElement("span");
+  startContent.className = "start-content";
+  startContent.append(el("start").querySelector("[data-i18n]"));
+  resource(startContent, "pair", "start-stones");
+  el("start").append(startContent);
   resource(el("lobby-nav"), "navigation", "navigation-surface", [952, 132, 42, 33]);
-  for (const [id, artName] of [["show-records", "book"], ["show-watch", "watch"], ["show-rankings", "trophy"], ["show-shop", "shop"]]) {
+  for (const [id, artName] of [["show-records", "book"], ["show-watch", "watch"], ["show-rankings", null], ["show-shop", "shop"]]) {
     const button = el(id); button.querySelector("img").remove();
     let wrapper = button.querySelector(".lobby-nav-icon");
     if (!wrapper) { wrapper = document.createElement("span"); wrapper.className = "lobby-nav-icon"; button.prepend(wrapper); }
-    resource(wrapper, artName, "navigation-art");
+    if (artName) resource(wrapper, artName, "navigation-art");
+    else {
+      const art = document.createElement("span");
+      art.className = "lobby-resource navigation-art";
+      art.setAttribute("aria-hidden", "true");
+      const trophy = svgNode("svg", { viewBox: "2 2 20 20", preserveAspectRatio: "none", focusable: "false" });
+      Object.assign(trophy.style, { width: "100%", height: "100%", display: "block", overflow: "visible" });
+      trophy.append(svgNode("use", { href: "#nav-ranking", width: 24, height: 24 }));
+      art.append(trophy); wrapper.append(art);
+    }
   }
   return { render(game) { host.hidden = Boolean(game); } };
 }

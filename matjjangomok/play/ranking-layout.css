@@ -1,0 +1,199 @@
+/* The 678×1062 reference panel scales as one design, rather than independent clamps. */
+.ranking-resource { display: none; }
+#lobby-stage .ranking-resource { display: none; }
+.forest-ui #rankings-dialog {
+  --ranking-scale: 1;
+  width: min(678px, calc(100vw - var(--ncq-left) - var(--ncq-right) - 20px));
+  height: calc(100dvh - var(--ncq-top) - var(--ncq-bottom) - 20px);
+  max-height: none;
+  padding: 0;
+  border: 2px solid #e8bb38;
+  border-radius: calc(30px * var(--ranking-scale));
+  background-image: linear-gradient(#003c1a88, #003c1a88), url("./assets/forest-ui/background/forest_green.webp");
+  box-shadow: inset 0 1px 0 #fff9d8, inset 0 0 0 2px #95a76366, 0 8px 24px #00130799;
+  overflow: hidden;
+}
+#rankings-dialog .ranking-stage {
+  position: absolute;
+  inset: 0 auto auto 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 24px 49px;
+  transform-origin: top left;
+  font-family: "Omok Noto Sans KR", sans-serif;
+  color: #111c12;
+  --lobby-card-radius: 18px;
+}
+#rankings-dialog .ranking-stage:not([data-sized]) { visibility: hidden; }
+#rankings-dialog :is(#tournament, #play-footer) { container-type: normal; }
+#rankings-dialog .ranking-resource { position: absolute; inset: 0; display: block; pointer-events: none; }
+#rankings-dialog .ranking-resource > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+#rankings-dialog .list-heading {
+  position: relative; flex: none; display: flex; align-items: center;
+  height: 64px; min-height: 64px; margin: 0; padding: 0 0 0 140px; gap: 12px;
+}
+#rankings-dialog .list-heading::before { display: none; }
+#rankings-dialog .ranking-trophy { inset: 2px auto auto 22px; width: 100px; height: 62px; filter: drop-shadow(0 3px 2px #00190899); }
+#rankings-dialog #tournament-title {
+  position: relative; flex: 1; color: #fffef5; font-size: 42px; font-weight: 700;
+  line-height: 64px; letter-spacing: -1.2px; text-shadow: 0 3px 2px #001709;
+}
+#rankings-dialog .ranking-title-underline {
+  position: absolute; left: 166px; top: 46px; width: 165px; height: 16px;
+  filter: drop-shadow(0 2px 1px #001a0977); pointer-events: none;
+}
+#rankings-dialog #tournament-title:lang(en) { font-size: 35px; letter-spacing: -1px; }
+#rankings-dialog #tournament-title:lang(ko) { top: -9px; }
+#rankings-dialog #show-lobby {
+  position: relative; width: 50px; height: 50px; min-height: 50px; padding: 0;
+  border: 0; border-radius: 50%; background: none; box-shadow: none;
+}
+#rankings-dialog #show-lobby::after {
+  content: ""; position: absolute; inset: 14px; z-index: 1;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m4 4 16 16M20 4 4 20' fill='none' stroke='%23163724' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+#rankings-dialog #show-lobby::before { content: ""; position: absolute; width: max(50px, calc(44px / var(--ranking-scale))); height: max(50px, calc(44px / var(--ranking-scale))); left: 50%; top: 50%; transform: translate(-50%, -50%); }
+#rankings-dialog .forest-championship-meta {
+  position: relative; flex: none; align-self: center; display: grid; align-items: center;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  width: 430px; height: 42px; margin: 12px 0 0 16px; padding: 0 14px; gap: 12px;
+  border: 1px solid #74863d; border-radius: 24px; background: linear-gradient(#194b1b, #0c3814);
+  box-shadow: inset 0 1px 2px #d8ef8a3d, 0 2px 3px #00180980;
+  font-size: 23px; font-weight: 400; line-height: 1; color: #fffdf0;
+}
+#rankings-dialog .forest-championship-meta > * { position: relative; display: flex; align-items: center; justify-content: center; gap: 12px; height: 40px; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; white-space: nowrap; }
+#rankings-dialog #forest-championship-period { width: auto; }
+#rankings-dialog #forest-championship-countdown { min-width: 0; color: #ffea45; font-weight: 400; }
+#rankings-dialog .forest-championship-separator { color: #f0e6b6; font-size: 25px; font-weight: 300; }
+#rankings-dialog .forest-championship-meta > :not(.forest-championship-separator)::before { content: ""; flex: none; width: 26px; height: 28px; background-position: center; background-size: contain; background-repeat: no-repeat; }
+#rankings-dialog #forest-championship-period::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 28'%3E%3Cg fill='none' stroke='%23f5eb3e' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='21' height='21' rx='2'/%3E%3Cpath d='M3 11h21M8 2v6m10-6v6M8 16h1m7 0h1m-9 5h1m7 0h1'/%3E%3C/g%3E%3C/svg%3E"); }
+#rankings-dialog #forest-championship-countdown::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='12' fill='none' stroke='%23ffeb35' stroke-width='2.5'/%3E%3Cpath d='M14 6v9h6' fill='none' stroke='%23ffeb35' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E"); }
+#rankings-dialog .ranking-tabs {
+  position: relative; flex: none; display: grid; grid-template-columns: repeat(3, 1fr);
+  height: 54px; margin: 15px 0 0; padding: 0; gap: 0;
+  border: 1px solid #d3bd8e; border-radius: 25px; background: linear-gradient(110deg, #fff8ed, #efe0c5);
+  box-shadow: inset 0 1px 1px #fff, 0 3px 3px #00170c99;
+}
+#rankings-dialog .ranking-tabs button {
+  position: relative; height: 54px; min-height: 0; margin: -1px 0; padding: 0 12px;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid transparent; border-radius: 25px; color: #163620; background: transparent;
+  font-size: 26px; font-weight: 800; line-height: 1.2;
+}
+#rankings-dialog .ranking-tabs button + button::before { content: ""; position: absolute; left: -1px; top: 12px; width: 1px; height: 28px; background: #c4ae86; }
+#rankings-dialog .ranking-tabs button[aria-selected="true"] {
+  z-index: 1; width: calc(100% + 6px); height: 62px; margin: -5px -3px;
+  border: 2px solid #ffdf5d; border-radius: 31px;
+  background: linear-gradient(#31851b, #005413); color: #fffdf4;
+  box-shadow: inset 0 2px 1px #e4f9a7, inset 0 -2px 1px #003614, 0 2px 3px #001b0b99;
+}
+#rankings-dialog .ranking-tabs button[aria-selected="true"]::before,
+#rankings-dialog .ranking-tabs button[aria-selected="true"] + button::before { display: none; }
+#rankings-dialog [data-weekly-reward-ready]::after { width: 12px; height: 12px; margin-left: 6px; }
+#rankings-dialog .ranking-panel { position: relative; flex: 1; min-height: 0; margin-top: 14px; gap: 0; }
+#rankings-dialog .ranking-panel > .list-body { padding: 0 0 5px; overflow-x: hidden; overflow-y: auto; scrollbar-width: thin; }
+#rankings-dialog .ranking-panel > #tournament-attempts { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); margin: 0; }
+#rankings-dialog .list-message { padding: 24px 12px; color: #fff8de; font-size: 22px; }
+#rankings-dialog .ranking-retry { font-size: 22px; }
+#rankings-dialog .ranking-cards { gap: 6px; padding: 0; }
+#rankings-dialog .ranking-cards > li { flex: none; }
+#rankings-dialog .ranking-cards .ranking-card {
+  position: relative; isolation: isolate; display: grid;
+  grid-template-columns: 70px 58px minmax(0, 1fr) 74px; align-items: center; gap: 18px;
+  width: 100%; height: 76.4px; min-height: 76.4px; padding: 0 13px 0 23px;
+  border: 1px solid #f3e8d7; border-radius: 18px; background: linear-gradient(120deg, #fffaf4, #f6ebdc);
+  box-shadow: inset 0 1px 1px #fff, 0 2px 3px #001b0b70;
+  color: #111c12; font-size: 22px; line-height: 1.3;
+}
+#rankings-dialog .ranking-card > :not(.ranking-resource) { position: relative; z-index: 1; }
+#rankings-dialog .ranking-card:hover { filter: brightness(1.02); }
+#rankings-dialog .ranking-card .player-card-identity { margin: 0; }
+#rankings-dialog .ranking-card .player-avatar {
+  position: relative; display: block; width: 58px; height: 58px; border: 2px solid #fffcf4;
+  border-radius: 50%; background: linear-gradient(140deg, #d9eaca, #c5dfb5); box-shadow: 0 2px 3px #42532240; overflow: visible;
+}
+#rankings-dialog .player-avatar > svg { position: absolute; display: block; left: 11px; top: 7px; width: 32px; height: 40px; color: #005025; }
+#rankings-dialog .player-avatar img { inset: 3px; width: calc(100% - 6px); height: calc(100% - 6px); border-radius: 50%; z-index: 2; }
+#rankings-dialog .player-avatar:has(img:not([hidden])) > svg { display: none; }
+#rankings-dialog .ranking-card .player-summary { display: flex; flex-direction: column; align-items: stretch; align-self: center; justify-content: center; gap: 1px; padding: 0; border: 0; }
+#rankings-dialog .ranking-card .player-name-line { font-size: 22px; line-height: 30px; font-weight: 800; gap: 6px; letter-spacing: -.5px; }
+#rankings-dialog .ranking-card .player-name-line > strong { font-weight: 700; }
+#rankings-dialog .ranking-card .player-card-record { color: #14201a; font-size: 18px; line-height: 26px; letter-spacing: -.5px; }
+#rankings-dialog .ranking-place { width: 70px; font-size: 34px; line-height: 42px; font-weight: 800; }
+#rankings-dialog .ranking-place[data-medal="1"] { color: #a15b0c; }
+#rankings-dialog .ranking-place[data-medal="2"] { color: #71746a; }
+#rankings-dialog .ranking-place[data-medal="3"] { color: #a04a19; }
+#rankings-dialog .ranking-place[data-medal]::before, #rankings-dialog .ranking-place[data-medal]::after { width: 24px; height: 29px; }
+#rankings-dialog .ranking-card-score { position: relative; display: grid; place-items: center; width: 74px; height: 38px; padding: 0; gap: 0; border-radius: 14px; background: #d9e8b3; }
+#rankings-dialog .ranking-card-score > strong { position: relative; z-index: 1; display: block; min-width: 0; min-height: 0; width: 100%; padding: 0; border: 0; border-radius: 0; background: none; color: #16420f; text-align: center; font-size: 22px; font-weight: 800; line-height: 38px; }
+#rankings-dialog .ranking-cards:lang(en) .ranking-card-score > strong { font-size: 20px; }
+#rankings-dialog #ranking-rating-panel .ranking-card { grid-template-columns: 70px 58px minmax(0, 1fr) 112px; }
+#rankings-dialog #ranking-rating-panel .ranking-card-score { width: 112px; }
+#rankings-dialog .player-card-badge { z-index: 3; bottom: -5px; font-size: 14px; line-height: 20px; padding: 0 6px; color: #1c421c; background: #e6efc6; border: 1px solid #fdf9e9; box-shadow: 0 1px 2px #28401644; }
+#rankings-dialog .weekly-reward {
+  position: relative; isolation: isolate; display: block; height: 115px; min-height: 115px;
+  margin: 0 0 18px; padding: 0; border: 1px solid #ead6b4; border-radius: 20px;
+  background: linear-gradient(125deg, #fffaf3, #f2e3ca); box-shadow: inset 0 1px 1px #fff, 0 3px 3px #00170b90;
+}
+#rankings-dialog .weekly-reward > :not(.ranking-resource) { position: absolute; z-index: 1; }
+#rankings-dialog .weekly-reward-icon { left: 18px; top: 14px; width: 50px; height: 50px; border: 0; border-radius: 50%; background: none; color: #234b26; }
+#rankings-dialog .weekly-reward-icon > svg { position: relative; z-index: 1; width: 30px; height: 30px; }
+#rankings-dialog .weekly-reward-details { left: 82px; top: 10px; right: 192px; }
+#rankings-dialog .weekly-reward-details h2 { color: #0e2013; font-size: 26px; font-weight: 800; line-height: 36px; }
+#rankings-dialog .weekly-reward-details p { color: #1b2c20; font-size: 20px; line-height: 28px; }
+#rankings-dialog .weekly-reward-steps { left: 82px; top: 78px; display: grid; width: 216px; height: 20px; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+#rankings-dialog .weekly-reward-steps span { height: 20px; min-height: 0; border-radius: 6px; background: #e2d6c2; font-size: 18px; }
+#rankings-dialog .weekly-reward-steps span[data-completed] { background: linear-gradient(#83a847, #507c24); }
+#rankings-dialog .weekly-reward-claim.primary {
+  left: auto; right: 24px; top: 17px; display: flex; flex-direction: column; align-items: flex-end;
+  justify-content: center; gap: 7px; width: 166px; min-width: 0; height: 82px; min-height: 0;
+  margin: 0; padding: 0; border: 0; border-left: 1px solid #ceb58a; border-radius: 0;
+  background: none; box-shadow: none; opacity: 1;
+}
+#rankings-dialog .weekly-reward-claim.primary:not([aria-disabled="true"]):hover { background: none; filter: brightness(1.04); }
+#rankings-dialog .weekly-reward-coins {
+  display: flex; align-items: center; justify-content: center; gap: 10px; width: 110px; height: 37px;
+  margin-right: 10px; border-radius: 24px; background: linear-gradient(#bccb91, #96a66a);
+  box-shadow: inset 0 1px 2px #e7eed1; color: #fffdf5; font-size: 26px; line-height: 37px; text-shadow: 0 2px 2px #55633c;
+}
+#rankings-dialog .weekly-reward-coins .shop-coin { width: 26px; height: 26px; }
+#rankings-dialog .weekly-reward-action { display: grid; place-items: center; width: 130px; min-height: 37px; padding: 2px 6px; border-radius: 24px; background: linear-gradient(#e4d8c2, #cdbfa4); color: #867c68; font-size: 22px; font-weight: 800; line-height: 31px; }
+#rankings-dialog .weekly-reward-claim:not([aria-disabled="true"]) .weekly-reward-action { color: #332401; background: linear-gradient(#fff08c, #ffc51a 45%, #eda20c); box-shadow: inset 0 1px #fff7cc, 0 2px 2px #93681c55; }
+#rankings-dialog .weekly-reward-claim[data-claimed] .weekly-reward-action { font-size: 18px; }
+#rankings-dialog .weekly-reward-claim[data-weekly-reward-ready]::after { top: -3px; right: -4px; }
+#rankings-dialog .weekly-reward:has(.weekly-reward-feedback:not([hidden])) { height: 149px; }
+#rankings-dialog .weekly-reward-feedback { top: 118px; left: 18px; right: 18px; color: #8c3a1b; font-size: 18px; line-height: 24px; }
+#rankings-dialog #play-footer { flex: none; display: grid; gap: 22px; margin: 0; padding: 0; }
+#rankings-dialog #player-card {
+  position: relative; isolation: isolate; display: grid; grid-template-columns: 84px minmax(0, 1fr) 112px;
+  align-items: center; gap: 18px; width: calc(100% + 4px); height: 110px; min-height: 110px;
+  margin: 0 -2px; padding: 0 17px 0 25px; border: 1px solid #f3e8d7; border-radius: 23px;
+  background: linear-gradient(125deg, #fffbf6, #f2e3ca); box-shadow: inset 0 1px 1px #fff, 0 3px 4px #00170ba0;
+}
+#rankings-dialog #player-card :is(.profile-surface, .score-surface, .avatar-surface, .avatar-symbol) { display: none; }
+#rankings-dialog #player-card .player-avatar { width: 84px; height: 84px; }
+#rankings-dialog #player-card .player-avatar > svg { left: 23px; top: 20px; width: 34px; height: 38px; }
+#rankings-dialog #player-card .player-summary { align-self: center; display: flex; justify-content: center; padding-left: 14px; min-height: 74px; border-left: 1px solid #c6b18a; gap: 0; }
+#rankings-dialog #player-card .player-name-line { font-size: 26px; line-height: 36px; }
+#rankings-dialog #player-card .player-card-record { display: block; font-size: 20px; line-height: 30px; }
+#rankings-dialog #player-card .player-card-badge { font-size: 14px; line-height: 21px; }
+#rankings-dialog #player-career { width: 112px; height: 46px; }
+#rankings-dialog #player-career strong { font-size: 25px; line-height: 46px; }
+#rankings-dialog #player-career:lang(en) strong { font-size: 21px; }
+#rankings-dialog #player-career small { display: none; }
+#rankings-dialog .match-request { margin: 0 2px; }
+#rankings-dialog #join-tournament {
+  position: relative; isolation: isolate; display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 96px; min-height: 96px;
+  margin: 0; padding: 0 22px; gap: 12px; border: 0; border-radius: 48px; background: none; box-shadow: none;
+  color: #2b2104; font-size: 40px; font-weight: 700; line-height: 1.2; letter-spacing: -.8px;
+  text-shadow: 0 1px 1px #fff5b6;
+}
+#rankings-dialog #join-tournament > :not(.ranking-resource) { position: relative; z-index: 1; }
+#rankings-dialog #join-tournament-label { transform: translateY(-1px); }
+#rankings-dialog #join-tournament-coins { transform: translateY(-1px); }
+#rankings-dialog #join-tournament:lang(en) { font-size: 34px; }
+#rankings-dialog .tournament-coin-cost { color: #49320a; }
+#rankings-dialog .ranking-pagination { flex: none; padding-top: 8px; padding-bottom: 8px; font-size: 20px; }
+#rankings-dialog .ranking-pagination button { font-size: 20px; }
+#rankings-dialog :focus-visible { outline-offset: -3px; }

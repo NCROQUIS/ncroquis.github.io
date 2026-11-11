@@ -159,10 +159,62 @@ body.forest-ui {
 .forest-ui .match-art-action { color: #1c3d22; background: linear-gradient(#fff8e9, #e4d4b3); border-color: #c1a875; }
 .forest-ui .match[data-playing] :is(#opponent-turn, #place-text) { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; }
 .forest-ui .match[data-playing] .gauge-divider { display: none; }
-.forest-ui.in-review :is(.review-header h1, .review-seat) { color: #fff9e7; }
+.forest-ui.in-review .review-header h1 { color: #fff9e7; }
 .forest-ui.match-art-backdrop #review .review-controls { border-color: #c9b080; background: linear-gradient(#fff7e8, #eaddc0); box-shadow: 0 2px 5px #001a0c55; }
 .forest-ui.match-art-backdrop :is(#watch-back, #review .review-button) { color: #214426; border-color: #c5ad7e; background: linear-gradient(#fff8eb, #e6d9bb); }
 .forest-ui.match-art-backdrop #move-count { color: #234721; background: #f4ecd8; border-color: #8ca06d; }
+
+/* Review surfaces carry their own text colors instead of inheriting the forest background's ivory. */
+.forest-ui.in-review {
+  --review-radius: 12px;
+  --review-ink: #193e25;
+  --review-muted: #426044;
+  --review-surface: linear-gradient(#fff8eb, #eee3cc);
+}
+.forest-ui.in-review :is(.review-player, .review-controls, .review-result, .review-button, .placement-timing) {
+  border-radius: var(--review-radius);
+  border-color: #cdb990;
+  background: var(--review-surface);
+  color: var(--review-ink);
+  box-shadow: inset 0 1px #fffdf580, 0 2px 4px #001a0c40;
+}
+.forest-ui.in-review :is(.review-player, .review-button):not(:disabled):hover { background: #e9dec6; }
+.forest-ui.in-review .review-player[data-turn] { box-shadow: 0 0 0 2px #829a50, 0 2px 4px #001a0c40; }
+.forest-ui.in-review .review-button:disabled {
+  opacity: 1;
+  color: #67735f;
+  background: #eee6d5;
+  border-color: #cfc2a6;
+  box-shadow: inset 0 1px #fff9e7;
+}
+.forest-ui.in-review #review-move-numbers { background: var(--review-surface); border-color: #cdb990; }
+.forest-ui.in-review #review-move-numbers[aria-pressed="true"] { background: #dce8c4; color: #244b22; border-color: #91ab6b; }
+.forest-ui.in-review #move-count {
+  border-radius: var(--review-radius);
+  border-color: #aab990;
+  background: #e2ead4;
+  color: var(--review-ink);
+}
+.forest-ui.in-review :is(.review-seat, #review-total, #review-passes, .placement-timing small) { color: var(--review-muted); }
+.forest-ui.in-review #review-mode { border-radius: var(--review-radius); background: #e0e7d2; color: var(--review-muted); }
+.forest-ui.in-review .review-turn { border-radius: var(--review-radius); background: #2f642d; color: #fff9e7; }
+.forest-ui.in-review #review-share {
+  border-radius: var(--review-radius);
+  border-color: #cdb990;
+  background: var(--review-surface);
+  color: var(--review-ink);
+}
+.forest-ui.in-review #review-share:not(:disabled):hover { background: #e9dec6; }
+.forest-ui.in-review :is(#review-room-action, #review-play) {
+  border-radius: var(--review-radius);
+  border-color: #769653;
+  background: linear-gradient(#3b712e, #245428);
+  color: #fff9e7;
+  box-shadow: inset 0 1px #bdd08b80, 0 2px 4px #001a0c40;
+}
+.forest-ui.in-review :is(#review-room-action, #review-play):not(:disabled):hover { background: #2c612b; }
+.forest-ui.in-review #review-room-action:disabled { opacity: 1; background: #d7e1ca; color: #4b6045; border-color: #acb998; }
+.forest-ui.in-review :is(.review-button, .review-player, #review-share, #review-room-action, #review-play):focus-visible { outline-color: #e4bc53; }
 @media (prefers-reduced-motion: no-preference) {
   .lobby-art-stone:nth-last-child(2) { animation: lobby-stone-drop 5s ease-out infinite; }
   .lobby-art-stone:last-child { animation: lobby-stone-drop 5s .6s ease-out infinite; }

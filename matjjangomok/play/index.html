@@ -10,10 +10,11 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=8f71c664704c">
-  <link rel="stylesheet" href="./forest-ui.css?v=8f71c664704c">
-  <link rel="stylesheet" href="./lobby-layout.css?v=8f71c664704c">
-  <script type="module" src="./app.js?v=8f71c664704c"></script>
+  <link rel="stylesheet" href="./style.css?v=964bf8474dc9">
+  <link rel="stylesheet" href="./forest-ui.css?v=964bf8474dc9">
+  <link rel="stylesheet" href="./lobby-layout.css?v=964bf8474dc9">
+  <link rel="stylesheet" href="./ranking-layout.css?v=964bf8474dc9">
+  <script type="module" src="./app.js?v=964bf8474dc9"></script>
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -93,15 +94,7 @@
         <div id="lobby-profile-slot"></div>
         <div class="lobby-showcase" aria-hidden="true">
           <div class="lobby-board-art">
-            <img src="./assets/forest-ui/board/board_empty.webp" alt="" class="lobby-board-image">
-            <span class="lobby-art-stone black" style="--x:47%;--y:49%"></span>
-            <span class="lobby-art-stone white" style="--x:53%;--y:44%"></span>
-            <span class="lobby-art-stone black" style="--x:53%;--y:57%"></span>
-            <span class="lobby-art-stone white" style="--x:47%;--y:62%"></span>
-            <span class="lobby-art-stone black" style="--x:59%;--y:36%"></span>
-            <span class="lobby-art-stone white" style="--x:41%;--y:54%"></span>
-            <span class="lobby-art-stone black" style="--x:41%;--y:69%"></span>
-            <span class="lobby-art-stone white" style="--x:59%;--y:65%"></span>
+            <img src="./assets/forest-ui/board/reference-board.webp" alt="" class="lobby-board-image">
           </div>
         </div>
         <div id="lobby-mission-slot"></div>
@@ -174,7 +167,7 @@
       <section id="tournament" class="lobby" hidden>
         <div class="list-heading">
           <h1 id="tournament-title" tabindex="-1" data-i18n="forestChampionship"></h1>
-          <button id="show-lobby" class="forest-close" type="button" data-i18n-attr="aria-label:done">×</button>
+          <button id="show-lobby" class="forest-close" type="button" data-ncq-main="Close championship" data-i18n-attr="aria-label:done">×</button>
         </div>
         <div id="ranking-tabs" class="ranking-tabs" role="tablist" aria-labelledby="tournament-title">
           <button id="ranking-weekly-tab" type="button" role="tab" aria-selected="true"

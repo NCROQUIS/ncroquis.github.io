@@ -1,4 +1,5 @@
-import { installMeasuredLobby } from "./lobby-layout.js?v=8f71c664704c";
+import { installMeasuredLobby } from "./lobby-layout.js?v=964bf8474dc9";
+import { installMeasuredRankings } from "./ranking-layout.js?v=964bf8474dc9";
 
 // Reuse the existing records, rankings, wallet and shop views inside modal layers.
 export function createForestUI({ closeView, getView, hasGame, translate }) {
@@ -24,6 +25,11 @@ export function createForestUI({ closeView, getView, hasGame, translate }) {
     chip.id = id;
     meta.append(chip);
   }
+  const separator = document.createElement("span");
+  separator.className = "forest-championship-separator";
+  separator.textContent = "|";
+  separator.setAttribute("aria-hidden", "true");
+  meta.insertBefore(separator, meta.lastElementChild);
   el("tournament").querySelector(".list-heading").after(meta);
   const watchDialog = wrap("watch-dialog", "lobby-heading", document.querySelector(".lobby-feed"));
   watchDialog.querySelector(".list-heading").append(el("watch-close"));
@@ -49,6 +55,7 @@ export function createForestUI({ closeView, getView, hasGame, translate }) {
   meter.append(document.createElement("span"));
   el("player-card").append(meter);
   const measuredLobby = installMeasuredLobby();
+  const measuredRankings = installMeasuredRankings(rankingsDialog);
   const setLayer = (dialog, visible) => {
     if (visible && !dialog.open) dialog.showModal();
     else if (!visible && dialog.open) dialog.close();
@@ -77,6 +84,7 @@ export function createForestUI({ closeView, getView, hasGame, translate }) {
       if (game || view !== "lobby") watchDialog.close();
       setLayer(recordsDialog, !game && view === "records");
       setLayer(rankingsDialog, ranking);
+      if (ranking) measuredRankings();
     },
     profile(rating, lower, upper) {
       meter.setAttribute("aria-label", translate("forestPromotionProgress"));

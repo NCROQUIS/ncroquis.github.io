@@ -1,9 +1,9 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=8f71c664704c";
-import { TEXTS } from "./texts.js?v=8f71c664704c";
-import { createForestUI } from "./forest-ui.js?v=8f71c664704c";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=8f71c664704c";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=8f71c664704c";
+import { NcqBoard } from "./ncq/board.js?v=964bf8474dc9";
+import { TEXTS } from "./texts.js?v=964bf8474dc9";
+import { createForestUI } from "./forest-ui.js?v=964bf8474dc9";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=964bf8474dc9";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=964bf8474dc9";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -2103,6 +2103,14 @@ function liveGameRow(game, label) {
   return row;
 }
 
+function championshipPeriod(startsAt, endsAt) {
+  const date = value => {
+    const korea = new Date(value + koreaOffset);
+    return String(korea.getUTCMonth() + 1).padStart(2, "0") + "." + String(korea.getUTCDate()).padStart(2, "0");
+  };
+  return date(startsAt) + "~" + date(endsAt - 1);
+}
+
 function renderChampionship(now = Date.now()) {
   const koreaNow = now + koreaOffset;
   const daysSinceMonday = (new Date(koreaNow).getUTCDay() + 6) % 7;
@@ -2131,10 +2139,9 @@ function renderChampionship(now = Date.now()) {
   el("lobby-championship").title = el("lobby-championship").textContent;
   el("lobby-championship").textContent = t("forestChampionship");
   el("forest-championship-countdown").textContent = rankingTab === "previous"
-    ? t("forestWeekEnded") : fullCountdown;
+    ? t("forestWeekEnded") : countdown.textContent;
   if (rankingTab !== "previous" || !el("forest-championship-period").textContent) {
-    const date = value => NcqLang.date(value, { month: "short", day: "numeric", timeZone: "Asia/Seoul" });
-    el("forest-championship-period").textContent = date(end - 7 * dayMs) + " – " + date(end - 1);
+    el("forest-championship-period").textContent = championshipPeriod(end - 7 * dayMs, end);
   }
 }
 
@@ -3715,7 +3722,7 @@ function rankingCard(row, tab, index) {
   if (!record.hidden) record.textContent = t("careerRecord", row) + " · " + t("profileWinRate", { rate: winRate(row) });
   card.querySelector(".ranking-card-score strong").textContent = tab === "rating"
     ? t("profileRatingValue", { rating: ratingNumber(row.rating) })
-    : t("pointsCount", { n: row.points });
+    : t("forestRankingPoints", { n: row.points });
   return card;
 }
 
@@ -3757,7 +3764,7 @@ function renderRankings() {
     if (!dates.hidden) {
       const date = value => NcqLang.date(value, { month: "short", day: "numeric", timeZone: "Asia/Seoul" });
       dates.textContent = date(Date.parse(result.startsAt)) + " – " + date(Date.parse(result.endsAt) - 1);
-      el("forest-championship-period").textContent = dates.textContent;
+      el("forest-championship-period").textContent = championshipPeriod(Date.parse(result.startsAt), Date.parse(result.endsAt));
       if (previous) dates.textContent += " · " + t(result.finalized ? "tournamentFinalized" : "tournamentFinalizing");
     }
   } else {

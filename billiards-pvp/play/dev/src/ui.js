@@ -16,7 +16,21 @@ function solveFit(tilt){
   const pos=dir.clone().multiplyScalar(hi),b=bbox(pos);
   return {pos,dy:(b.y0+b.y1)/2-(free.y+free.h/2)};
 }
+// 로비 제목·부제가 오른쪽 위 전적 표 밑으로 들어가지 않게 글자 크기를 줄여 맞춰요 (언어마다 길이가 달라요)
+function fitBrand(){
+  const box=document.querySelector('#lobby .rankbox');if(!box||$('lobby').hidden)return;
+  const right=box.getBoundingClientRect().left-10;
+  // 제목은 줄여서 한 줄로, 부제는 14px까지 줄이고 그래도 길면 두 줄로 나눠요
+  document.querySelectorAll('.brand h1,.brand p').forEach(el=>{
+    const h1=el.tagName==='H1',min=h1?28:14;el.style.fontSize=el.style.whiteSpace=el.style.maxWidth='';
+    const w=el.getBoundingClientRect().width,room=right-el.getBoundingClientRect().left;if(w<=room||room<=0)return;
+    const want=Math.floor(parseFloat(getComputedStyle(el).fontSize)*room/w);
+    el.style.fontSize=Math.max(min,want)+'px';
+    if(want<min&&!h1){el.style.whiteSpace='normal';el.style.maxWidth=room+'px';}
+  });
+}
 function relayout(){
+  fitBrand();
   const r=app.getBoundingClientRect();viewW=Math.max(1,r.width);viewH=Math.max(1,r.height);
   renderer.setSize(viewW,viewH,false);camera.aspect=viewW/viewH;camera.updateProjectionMatrix();
   const hud=$('hud'),dock=$('dock');let top=0,bot=viewH;
@@ -100,7 +114,7 @@ function cueBlocked(why){
   const now=Date.now();cueShake=.28;
   const cell=elevIn.closest('.cell')||elevIn.parentElement;cell.classList.remove('nudge');void cell.offsetWidth;cell.classList.add('nudge');
   try{navigator.vibrate&&navigator.vibrate(30);}catch(e){}
-  if(now-blockAt>900){blockAt=now;toast(why==='rail'?'쿠션에 큐가 걸려 더 내릴 수 없어요':'다른 공에 큐가 걸려 더 내릴 수 없어요',true);}
+  if(now-blockAt>900){blockAt=now;toast(T(why==='rail'?'cue_rail':'cue_ball'),true);}
 }
 function updateCue(dt){
   const c=LB[G.cueI],show=G.mode!=='attract'&&(phase==='aim'||phase==='strike'||phase==='ai-aim'||phase==='wait'||(phase==='ai-think'&&G.players[G.turn]&&G.players[G.turn].bot))&&c&&!c.off;
@@ -158,12 +172,12 @@ function sfx(type,vol){
 const elevIn=$('elev'),elevVal=$('elevVal'),pad=$('pad'),dot=$('dot');
 let toastTimer=0,bannerTimer=0;
 function toast(t,bad){const el=$('toast');el.textContent=t;el.classList.toggle('bad',!!bad);el.classList.toggle('long',t.length>7);el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1050);}
-function banner(t){const el=$('banner');el.textContent=t;el.classList.add('show');clearTimeout(bannerTimer);bannerTimer=setTimeout(()=>el.classList.remove('show'),850);}
+function banner(t){const el=$('banner');el.textContent=t;el.classList.toggle('long',t.length>18);el.classList.add('show');clearTimeout(bannerTimer);bannerTimer=setTimeout(()=>el.classList.remove('show'),850);}
 function drawDot(){
   const ka=hit.a/SPIN_MAX,kb=hit.b/SPIN_MAX;$('dotZoom').style.left=(50+ka*50)+'%';$('dotZoom').style.top=(50-kb*50)+'%';
   const r=pad.clientWidth/2||35;dot.style.left=(r+ka*r)+'px';dot.style.top=(r-kb*r)+'px';
-  const v=hit.b>0.12?'밀어치기':hit.b<-0.12?'끌어치기':'',s=hit.a>0.12?'오른쪽':hit.a<-0.12?'왼쪽':'',read=$('spinRead');
-  read.textContent=(s||v)?[s,v].filter(Boolean).join(' '):'중앙';
+  const v=hit.b>0.12?T('spin_follow'):hit.b<-0.12?T('spin_draw'):'',s=hit.a>0.12?T('spin_right'):hit.a<-0.12?T('spin_left'):'',read=$('spinRead');
+  read.textContent=s&&v?T('spin_both',{s,v}):(s||v||T('spin_center'));
   read.style.color=shotOpts().miscue&&Math.hypot(hit.a,hit.b)>MISCUE?'var(--warn)':'';
 }
 function syncSpinUI(){drawDot();elevIn.value=elev;elevVal.textContent=Math.round(elev)+'°';}
@@ -182,17 +196,17 @@ function updateHUD(){
   $('hudPlayers').hidden=solo;$('hudSolo').hidden=!solo;
   if(solo){
     const st=G.stage,isS=G.mode==='stage';
-    $('soloTag').textContent=isS?`${G.info.name} · 스테이지 ${st.idx+1}`:`${G.info.name} · 연습`;
-    $('soloTitle').textContent=isS?st.name:'자유 연습';
-    $('soloGoal').textContent=isS?st.desc:'규칙 없이 쳐 보세요.';
-    $('soloTries').textContent=`시도 ${G.tries}`;$('soloTries').hidden=!isS;
+    $('soloTag').textContent=isS?T('stage_tag',{game:G.info.name,n:st.idx+1}):T('practice_tag',{game:G.info.name});
+    $('soloTitle').textContent=isS?st.name:T('free_practice');
+    $('soloGoal').textContent=isS?st.desc:T('free_practice_d');
+    $('soloTries').textContent=T('tries',{n:G.tries});$('soloTries').hidden=!isS;
     $('hintBtn').hidden=!isS||!st.sol||(!!window.NcqAds&&!window.NcqAds.can('HINT'));$('undoBtn').hidden=isS;$('resetBtn').hidden=isS;
     return;
   }
   const me=G.myIdx,pool=G.game==='pool';
   [me,1-me].forEach((pi,k)=>{
     const p=G.players[pi],chip=$('chip'+k);
-    {const nm=$('nm'+k);nm.textContent=k===0&&G.mode!=='local'?(G.mode==='online'&&G.net?save.nick:'나'):p.name;for(let t=0;t<(p.to|0);t++){const i=document.createElement('span');i.className='tmo';i.title='시간 초과';i.innerHTML=TMO_SVG;nm.appendChild(i);}}
+    {const nm=$('nm'+k);nm.textContent=k===0&&G.mode!=='local'?(G.mode==='online'&&G.net?save.nick:T('you')):p.name;for(let t=0;t<(p.to|0);t++){const i=document.createElement('span');i.className='tmo';i.title=T('timed_out');i.innerHTML=TMO_SVG;nm.appendChild(i);}}
     $('pl'+k).classList.toggle('on',G.turn===pi&&!G.over);
     $('sc'+k).textContent=p.score;$('sc'+k).hidden=pool;
     $('bd'+k).hidden=pool;$('dt'+k).hidden=!pool;
@@ -201,7 +215,7 @@ function updateHUD(){
     }else{renderBeads($('bd'+k),G.target,p.score);chip.className='b '+(pi===0?'w':'y');chip.style.removeProperty('--c');chip.style.backgroundImage='';}
   });
   $('ruleName').textContent=G.info.name;
-  $('inn').textContent=G.isBreak?'브레이크':`${G.inning}이닝`;
+  $('inn').textContent=G.isBreak?T('break_'):T('inning',{n:G.inning});
 }
 function updateUI(){
   const my=phase==='aim';
@@ -213,8 +227,8 @@ function updateUI(){
 }
 function enterGameUI(){
   ['lobby','sheet','matching','result','menu'].forEach(id=>$(id).hidden=true);
-  ['hud','dock','powerwrap','menuBtn'].forEach(id=>$(id).hidden=false);$('hintBtn').innerHTML='<span class="adTag">AD</span>힌트';
-  $('powerMark').hidden=true;$('menuQuit').textContent='나가기';$('menuQuit').classList.remove('arm');
+  ['hud','dock','powerwrap','menuBtn'].forEach(id=>$(id).hidden=false);
+  $('powerMark').hidden=true;$('menuQuit').textContent=T('quit');$('menuQuit').classList.remove('arm');
   updateHUD();relayout();
 }
 function exitGameUI(){['hud','dock','powerwrap','menuBtn','placeBar','menu'].forEach(id=>$(id).hidden=true);cue.visible=false;cueRing.visible=false;SEGS.forEach(m=>m.visible=false);ghost.visible=false;relayout();}
@@ -229,18 +243,18 @@ let rankTab=null;
 async function openRanks(g){
   rankTab=g;
   document.querySelectorAll('#ranks .rules-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.k===g));
-  const tb=$('rankList'),foot=$('rankMine'),note=$('rankNote');tb.textContent='';foot.textContent='';note.textContent='불러오는 중…';$('ranks').hidden=false;
+  const tb=$('rankList'),foot=$('rankMine'),note=$('rankNote');tb.textContent='';foot.textContent='';note.textContent=T('loading');$('ranks').hidden=false;
   const b=await getBoard();if(rankTab!==g)return;
-  if(!b){note.textContent='Online 랭킹은 출시 빌드에서 볼 수 있어요.';return;}
+  if(!b){note.textContent=T('rank_dev');return;}
   let lb=null;try{lb=await b.leaderboard(100,BOARD_Q[g]);}catch(e){}
   if(rankTab!==g||$('ranks').hidden)return;
-  if(!lb||!Array.isArray(lb.top)){note.textContent='랭킹을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요.';return;}
+  if(!lb||!Array.isArray(lb.top)){note.textContent=T('rank_fail');return;}
   const row=(x,rank)=>{const me=!!x.you,tr=document.createElement('tr');if(me)tr.className='me';
-    [rank,(me?save.nick:safeNick(x.nickname||'','플레이어'))+(me?' (나)':''),x.rating|0,`${x.wins|0}승 ${x.losses|0}패`].forEach((v,j)=>{const td=document.createElement('td');td.textContent=v;if(j===1)td.prepend(iconEl(me?(save.icon||'ball-w'):rankIcon(x),20));tr.appendChild(td);});return tr;};
+    [rank,me?T('me_name',{name:save.nick}):safeNick(x.nickname||'',T('player')),x.rating|0,T('wl',{w:x.wins|0,l:x.losses|0})].forEach((v,j)=>{const td=document.createElement('td');td.textContent=v;if(j===1)td.prepend(iconEl(me?(save.icon||'ball-w'):rankIcon(x),20));tr.appendChild(td);});return tr;};
   lb.top.slice(0,100).forEach(x=>tb.appendChild(row(x,x.rank)));
   const y=lb.you,mine=played(y);RANK.pos[g]=mine?y.rank:0;
   const rec=save.rec[g];foot.appendChild(row(y||{you:true,rating:rec.rk,wins:rec.w,losses:rec.l},mine?y.rank+'':'—'));
-  note.textContent=mine?'Online 대전 Rating 순이에요.':'Online 대전을 하면 내 순위가 매겨져요.';
+  note.textContent=T(mine?'rank_note_on':'rank_note_off');
 }
 document.querySelectorAll('#ranks .rules-tabs button').forEach(b=>b.onclick=()=>openRanks(b.dataset.k));
 $('rankOpen').onclick=()=>openRanks('3c');
@@ -249,21 +263,24 @@ $('ranksClose').onclick=()=>{$('ranks').hidden=true;rankTab=null;};
 const TMO_SVG='<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><circle cx="8" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8 5v3.6l2 1.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M10.5 1.6 8.6 5.2l2.4.6-1.6 3.2" fill="none" stroke="#0b0f14" stroke-width="1.8"/><path d="M10.5 1.6 8.6 5.2l2.4.6-1.6 3.2" fill="none" stroke="currentColor" stroke-width=".8"/></svg>';
 function refreshLobby(){
   achCheck(true);profRender();
+  // 부제: 종목 이름을 '·'로 이어요. 줄이 바뀔 때 이름 가운데(3-Cushion의 '-' 등)에서 끊기지 않게 이름마다 묶어요
+  const bs=$('brandSub');bs.textContent='';['3c','4b','pool'].forEach((g,i)=>{if(i)bs.append('\u00a0· ');const n=document.createElement('span');n.style.whiteSpace='nowrap';n.textContent=GAME_INFO[g].name;bs.append(n);});
+  requestAnimationFrame(fitBrand);
   let w=0,l=0;Object.values(save.rec).forEach(r=>{w+=r.w;l+=r.l;});
   const got=Object.keys(STAGES).reduce((n,g)=>n+starsOf(g),0),all=Object.values(STAGES).reduce((n,l)=>n+l.length*3,0);
-  $('stageSub').textContent=got?`1큐 스테이지 · ★ ${got} / ${all}`:'한 번의 샷으로 깨는 1큐 스테이지';
-  $('onlineSub').textContent=w+l?`실시간 매칭 · ${w}승 ${l}패`:'실시간 매칭 · 승패 기록';
+  $('stageSub').textContent=got?T('stage_sub',{got,all}):T('stage_sub0');
+  $('onlineSub').textContent=w+l?T('online_sub',{w,l}):T('online_sub0');
   const rows=$('rankRows');rows.textContent='';
-  ['3c','4b','pool'].forEach(g=>{const r=save.rec[g],tr=document.createElement('tr'),th=document.createElement('th');th.scope='row';th.textContent=GAME_INFO[g].name;tr.appendChild(th);[r.rk,rankPos(g)?rankPos(g)+'위':'—',`${r.w}-${r.l}`].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td);});rows.appendChild(tr);});
+  ['3c','4b','pool'].forEach(g=>{const r=save.rec[g],tr=document.createElement('tr'),th=document.createElement('th');th.scope='row';th.textContent=GAME_INFO[g].name;tr.appendChild(th);[r.rk,rankPos(g)?T('rank_pos',{n:rankPos(g)}):'—',`${r.w}-${r.l}`].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td);});rows.appendChild(tr);});
 }
 // ---------- 광고 자리: 실제 SDK를 붙일 때 Ads의 두 함수만 교체 ----------
 const AD={STAGE_EVERY:3,INTER_SEC:3,REWARD_SEC:5};
 function adOverlay(kind,sec,reward){
   return new Promise(res=>{
     const el=$('adFull'),count=$('adCount'),done=$('adDone'),stop=$('adStop');let left=sec;
-    $('adKind').textContent=kind;$('adNote').textContent=reward?'끝까지 보면 힌트를 받아요.':'실제 광고가 들어갈 자리예요.';count.textContent=left;
+    $('adKind').textContent=kind;$('adNote').textContent=T(reward?'ad_reward_note':'ad_note');count.textContent=left;
     el.hidden=false;done.hidden=true;stop.hidden=!reward;
-    const iv=setInterval(()=>{left--;count.textContent=Math.max(0,left);if(left<=0){clearInterval(iv);stop.hidden=true;done.hidden=false;done.textContent=reward?'힌트 받기':'닫기';}},1000);
+    const iv=setInterval(()=>{left--;count.textContent=Math.max(0,left);if(left<=0){clearInterval(iv);stop.hidden=true;done.hidden=false;done.textContent=T(reward?'get_hint':'close');}},1000);
     const finish=v=>{clearInterval(iv);el.hidden=true;res(v);};
     done.onclick=()=>finish(true);stop.onclick=()=>finish(false);
   });
@@ -272,7 +289,7 @@ function adOverlay(kind,sec,reward){
 const NA=window.NcqAds;
 // NCQ_ADS_RESULT: 대전 종료·스테이지 클리어 전면 광고
 // NCQ_ADS_HINT: 스테이지 힌트 보상형 광고
-const Ads=NA?{interstitial:()=>NA&&NcqAds.interstitial("RESULT"),rewarded:()=>NcqAds.rewarded("HINT")}:{interstitial:()=>adOverlay('전면 광고',AD.INTER_SEC,false),rewarded:()=>adOverlay('리워드 광고',AD.REWARD_SEC,true)};
+const Ads=NA?{interstitial:()=>NA&&NcqAds.interstitial("RESULT"),rewarded:()=>NcqAds.rewarded("HINT")}:{interstitial:()=>adOverlay(T('ad_inter'),AD.INTER_SEC,false),rewarded:()=>adOverlay(T('ad_reward'),AD.REWARD_SEC,true)};
 let interPending=false;
 const afterAd=fn=>()=>{if(interPending){interPending=false;Ads.interstitial().then(fn);}else fn();};
 function showResult(o){
@@ -288,30 +305,25 @@ function showResult(o){
     if(ac)for(let i=0;i<o.stars;i++)tones([[880+i*220,.25+i*.32+.18,.18],[1320+i*220,.25+i*.32+.2,.22]],.12);}
   const nt=$('rNote');nt.hidden=!o.note;if(o.note)nt.innerHTML=LOCK_MINI+'<span></span>',nt.lastChild.textContent=o.note;
   const rk=$('rRk');rk.hidden=!o.rk;
-  if(o.rk){rk.textContent='';const d=o.rk.after-o.rk.before,b=document.createElement('b'),s=document.createElement('span');b.textContent=`${o.rk.label} ${o.rk.after} `;s.textContent=(d>=0?`+${d}`:`${d}`);s.className=d>=0?'up':'down';b.appendChild(s);rk.appendChild(b);rk.appendChild(document.createTextNode(`  ·  ${o.rk.w}승 ${o.rk.l}패`));}
+  if(o.rk){rk.textContent='';const d=o.rk.after-o.rk.before,b=document.createElement('b'),s=document.createElement('span');b.textContent=`${o.rk.label} ${o.rk.after} `;s.textContent=(d>=0?`+${d}`:`${d}`);s.className=d>=0?'up':'down';b.appendChild(s);rk.appendChild(b);rk.appendChild(document.createTextNode('  ·  '+T('wl',{w:o.rk.w,l:o.rk.l})));}
   const p=$('rPrimary');p.textContent=o.primary[0];p.onclick=afterAd(o.primary[1]);
   const s2=$('rSecond');s2.hidden=!o.second;if(o.second){s2.textContent=o.second[0];s2.onclick=afterAd(o.second[1]);}
 }
 // ---------- 튜토리얼: 4구 스테이지 1~3에서 조작을 하나씩 ----------
 let tut=null,tutLine=null,tutPulse=false;
-const TUT_TEXT={
-  aim:'화면을 누르거나 드래그해서\n큐 방향을 노란 선에 맞춰 보세요',
-  line:'화면을 드래그하거나 아래 화면을 스와이프해서\n노란 선에 딱 맞춰 보세요',
-  fine:'노란 선이 살짝 옮겨졌어요.\n아래 화면을 좌우로 스와이프해서\n노란 선에 딱 겹치게 맞춰 보세요',
-  spin:'왼쪽 공을 누른 채 아래로 드래그해서\n노란 원(공의 아랫부분)에 맞춰 보세요',
-  elev:'큐 각도 바를 오른쪽으로 드래그해서\n노란 표시까지 큐를 세워 보세요',
-  power:'오른쪽 바를 아래로 당겨\n노란 표시에서 놓아 보세요'
-};
-const TUT_HINT_TEXT={spin:'왼쪽 공을 누른 채 드래그해서\n노란 원에 맞춰 보세요',elev:'큐 각도 바를 드래그해서\n노란 표시에 맞춰 보세요'};
+// 안내 문구는 글자 표(texts.js)의 키
+const TUT_TEXT={aim:'tut_aim',line:'tut_line',fine:'tut_fine',spin:'tut_spin',elev:'tut_elev',power:'tut_power'};
+const TUT_HINT_TEXT={spin:'tuth_spin',elev:'tuth_elev'};
 const TUT_SPOT={line:'pip',fine:'pip',spin:'pad',elev:'elevCell',power:'power'};
 const TUT_STAGES=[
-  {card:'1단계 · 기본 샷\n각도를 맞추고 힘을 줘서\n빨간 공 두 개를 맞혀 볼게요.',steps:['aim','fine','power']},
-  {card:'2단계 · 회전 주기\n공의 윗부분을 치면 앞으로 밀려가고(밀어치기),\n아랫부분을 치면 뒤로 끌려와요(끌어치기).',steps:['spin','power']},
-  {card:'3단계 · 큐 세우기\n큐를 세워 세게 치면 공이 뛰어오르고(점프샷),\n옆을 치면 휘어 나가요(마세).\n노란 공을 뛰어넘어 볼게요.',steps:['elev','power']}
+  {card:'tut_card1',steps:['aim','fine','power']},
+  {card:'tut_card2',steps:['spin','power']},
+  {card:'tut_card3',steps:['elev','power']}
 ];
 const TUT_OFF=.04,TUT_FINE=.012,tutAimT=()=>tut.sol.phi+(tut.step==='aim'?TUT_OFF:0);
 const angGap=(x,y)=>Math.abs(Math.atan2(Math.sin(x-y),Math.cos(x-y)));
-function tutCard(text,fn){$('tutText').textContent=text;$('tutCard').hidden=false;$('tutNext').onclick=()=>{$('tutCard').hidden=true;fn();};}
+let tutCardKey=null;
+function tutCard(key,fn){tutCardKey=key;$('tutText').textContent=T(key);$('tutCard').hidden=false;$('tutNext').onclick=()=>{$('tutCard').hidden=true;fn();};}
 function tutGhost(on){
   if(!tutLine){const g=new THREE.PlaneGeometry(1,.02);g.translate(.5,0,0);g.rotateX(-Math.PI/2);tutLine=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:0xffd34a,depthTest:false,transparent:true,opacity:.95,toneMapped:false}));tutLine.renderOrder=6;scene.add(tutLine);}
   tutLine.visible=!!on;if(!on)return;
@@ -331,7 +343,7 @@ function tutGo(step){
   $('tutTap').hidden=true;$('tutDim').hidden=!(step==='aim');tutPulse=step==='aim'||step==='fine'||step==='line';
   const b=$('tutBubble');b.hidden=!step;tutMarks(step);tutCtl();
   if(!step)return;
-  $('tutMsg').textContent=(tut.hint&&TUT_HINT_TEXT[step])||TUT_TEXT[step];if(TUT_SPOT[step])$(TUT_SPOT[step]).classList.add('tutSpot');
+  $('tutMsg').textContent=T((tut.hint&&TUT_HINT_TEXT[step])||TUT_TEXT[step]);if(TUT_SPOT[step])$(TUT_SPOT[step]).classList.add('tutSpot');
 }
 function tutDone(step){
   const s=tut&&tut.sol;if(!s||tut.step!==step)return false;
@@ -363,7 +375,7 @@ function tutReady(step){
 // 힘: 표시 근처에서 놓으면 정답 샷으로 맞춰 치고, 아니면 다시
 function tutPower(){
   const s=tut.sol,t=s.pw/PMAX;
-  if(tut.step!=='power'||Math.abs(power-t)>.09){power=0;updateUI();const e=$('power');e.classList.remove('nudge');void e.offsetWidth;e.classList.add('nudge');toast('노란 표시에서 놓아 주세요',true);return false;}
+  if(tut.step!=='power'||Math.abs(power-t)>.09){power=0;updateUI();const e=$('power');e.classList.remove('nudge');void e.offsetWidth;e.classList.add('nudge');toast(T('tut_release'),true);return false;}
   aimPhi=s.phi;hit={a:s.a,b:s.b};elev=s.elev;power=t;syncSpinUI();return true;
 }
 function tutStage(i){
@@ -375,22 +387,24 @@ function tutStage(i){
 function tutStageDone(){
   if(tut.i<TUT_STAGES.length-1){tutStage(tut.i+1);return;}
   tutGo(null);tut.step='end';
-  tutCard('튜토리얼 완료!\n이제 자유롭게 게임을 즐겨 보세요.',()=>{
+  tutCard('tut_done',()=>{
     tut=null;tutCtl();app.classList.remove('tut');save.tut=2;persist();G.over=true;toLobby();
   });
 }
-function tutQuit(){tutGo(null);tut=null;tutCtl();app.classList.remove('tut');save.tut=2;persist();}
+// 튜토리얼을 그만두면 떠 있는 안내 카드도 닫아요 (카드가 화면을 덮어 다음 판 조작이 막히지 않게)
+function tutQuit(){$('tutCard').hidden=true;tutGo(null);tut=null;tutCtl();app.classList.remove('tut');save.tut=2;persist();}
 function tutStart(){
   tut={step:'intro',i:0};$('rules').hidden=true;app.classList.add('tut');
   tutStage(0);$('tutCard').hidden=true;
-  tutCard('게임에 입장하기 앞서,\n간단하게 조작을 알려드리겠습니다.',()=>{ensureAudio();tutCard(TUT_STAGES[0].card,()=>tutGo('aim'));});
+  tutCard('tut_intro',()=>{ensureAudio();tutCard(TUT_STAGES[0].card,()=>tutGo('aim'));});
 }
 const tutOK=step=>!tut||tut.step===step||(tut.step==='line'&&(step==='aim'||step==='fine'));
 // 튜토리얼·힌트 중에는 지금 단계의 조작만 움직일 수 있어요 (나머지 칸은 흐리게 막아요)
 function tutCtl(){
   const on=!!tut&&tut.step!=='end';
   [['.cell.spin','spin'],['#pip','fine'],['#elevCell','elev'],['#powerwrap','power']].forEach(([sel,k])=>{const el=document.querySelector(sel);if(el)el.classList.toggle('tutOff',on&&!tutOK(k));});
-  if(on&&!tutOK('elev'))elevIn.disabled=true;
+  // 큐 각도 바는 칸을 흐리게 하는 것 말고 disabled로 막아서, 큐 각도 단계가 되면 여기서 다시 풀어요 (안 풀면 바가 안 움직여요)
+  elevIn.disabled=phase!=='aim'||(on&&!tutOK('elev'));
 }
 function openRules(g){
   document.querySelectorAll('#rules .rules-tabs button').forEach(b=>b.classList.toggle('on',b.dataset.r===g));
@@ -487,7 +501,7 @@ $('hintBtn').onclick=()=>{
   Ads.rewarded().then(ok=>{if(ok&&G.stage===s&&phase==='aim'){G.hintGranted=true;applyHint();}});
 };
 $('menuBtn').onclick=()=>{
-  $('menuQuit').textContent=G.mode==='online'?'기권하기':'나가기';$('menuQuit').classList.remove('arm');
+  $('menuQuit').textContent=T(G.mode==='online'?'forfeit':'quit');$('menuQuit').classList.remove('arm');
   $('menu').hidden=false;
 };
 $('menuClose').onclick=()=>{$('menu').hidden=true;};
@@ -497,8 +511,8 @@ $('menuQuit').onclick=()=>{
   // 튜토리얼·힌트 중에 나가면 그 안내를 끝내요 (남아 있으면 다음 판의 조작이 막혀요)
   if(tut){if(tut.hint)hintEnd();else tutQuit();}
   if(G.mode==='online'&&!G.over){
-    if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='한 번 더 누르면 기권';return;}
-    $('menu').hidden=true;netForfeit();finishGame(1-G.myIdx,'기권했어요');return;
+    if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent=T('forfeit_confirm');return;}
+    $('menu').hidden=true;netForfeit();finishGame(1-G.myIdx,T('forfeited'));return;
   }
   if(G.mode==='stage'){const g=G.game;$('menu').hidden=true;G.mode='attract';toLobby();openStages(g);return;}
   $('menu').hidden=true;G.over=true;toLobby();
@@ -516,29 +530,29 @@ function openGames(){
   const isS=nav.mode==='stage',isO=nav.mode==='online';
   document.querySelectorAll('[data-rk]').forEach(b=>b.hidden=!isO);$('stepGame').classList.toggle('ranked',isO);$('stepGame').classList.toggle('starts',isO);
   document.querySelectorAll('[data-gs]').forEach(el=>{el.hidden=!isS;if(isS){const g=el.dataset.gs;el.textContent=`★ ${starsOf(g)} / ${STAGES[g].length*3}`;}});
-  showStep('stepGame',{stage:'Stage',single:'Single',online:'Online'}[nav.mode],'종목 선택');
+  showStep('stepGame',{stage:'Stage',single:'Single',online:'Online'}[nav.mode],T('pick_game'));
 }
 function openModes(){$('aiRule').textContent=GAME_INFO[nav.game].rule;showStep('stepMode',GAME_INFO[nav.game].name,'Single');}
 const LOCK_MINI='<svg viewBox="0 0 12 14" width="11" height="13" aria-hidden="true"><path d="M3.2 6.2V4.4a2.8 2.8 0 0 1 5.6 0v1.8" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="1.2" y="6" width="9.6" height="7.4" rx="1.6" fill="currentColor"/></svg>';
-const ST_HINT=`번호를 누르면 <b>바로 시작</b>해요. 별 <b class="g">${UNLOCK_STARS}개</b> 이상 받으면 다음 판이 열려요.`;
+const stHint=()=>T('st_hint',{n:UNLOCK_STARS});
 let stHintT=0;
 // 잠긴 판을 누르면: 칸이 흔들리고 위 안내 줄이 잠깐 까닭을 알려 줘요
 function stageLocked(g,i,tile){
   tile.classList.remove('nudge');void tile.offsetWidth;tile.classList.add('nudge');
   const h=$('stepStages').querySelector('.st-hint');if(!h)return;
   h.classList.add('warn');h.innerHTML=LOCK_MINI+'<span></span>';
-  h.lastChild.textContent=stageOpen(g,i-1)?`${i}번을 별 ${UNLOCK_STARS}개 이상으로 깨면 열려요`:`앞 스테이지를 별 ${UNLOCK_STARS}개 이상으로 깨면 차례로 열려요`;
-  clearTimeout(stHintT);stHintT=setTimeout(()=>{h.classList.remove('warn');h.innerHTML=ST_HINT;},2200);
+  h.lastChild.textContent=stageOpen(g,i-1)?T('st_lock_one',{i,n:UNLOCK_STARS}):T('st_lock_seq',{n:UNLOCK_STARS});
+  clearTimeout(stHintT);stHintT=setTimeout(()=>{h.classList.remove('warn');h.innerHTML=stHint();},2200);
 }
 function openStages(g){
   nav.game=g;nav.mode='stage';const info=GAME_INFO[g],box=$('stepStages');box.textContent='';clearTimeout(stHintT);
   // 다음에 할 스테이지를 파란 칸으로: 처음 하는 판은 ▶, 다시 깨야 하는 판(별 1개)은 별
   const nextI=stageNext(g);
-  const hint=document.createElement('p');hint.className='st-hint';hint.innerHTML=ST_HINT;box.appendChild(hint);
+  const hint=document.createElement('p');hint.className='st-hint';hint.innerHTML=stHint();box.appendChild(hint);
   STAGES[g].forEach((s,i)=>{
     const got=stStars(g,i),open=stageOpen(g,i),b=document.createElement('button');
     b.className='stc'+(!open?' lock':got?' done':'')+(i===nextI?' next':'');b.title=s.name;
-    b.setAttribute('aria-label',open?`스테이지 ${i+1} ${s.name} 시작`:`스테이지 ${i+1} 잠김`);
+    b.setAttribute('aria-label',open?T('st_go',{n:i+1,name:s.name}):T('st_locked',{n:i+1}));
     const no=document.createElement('b');no.textContent=i+1;
     let st;
     if(!open){st=document.createElement('span');st.innerHTML=LOCK_MINI;st=st.firstChild;}
@@ -546,7 +560,7 @@ function openStages(g){
     else{st=document.createElement('span');st.className='stars';renderStars(st,got);}
     b.append(no,st);b.onclick=()=>{if(stageOpen(g,i))startStage(s);else stageLocked(g,i,b);};box.appendChild(b);
   });
-  showStep('stepStages',info.name,`스테이지 · ★ ${starsOf(g)} / ${STAGES[g].length*3}`);
+  showStep('stepStages',info.name,T('stages_sub',{got:starsOf(g),all:STAGES[g].length*3}));
   if(nextI>4)requestAnimationFrame(()=>{const n=box.querySelector('.stc.next');if(n)box.scrollTop=Math.max(0,n.offsetTop-box.offsetTop-box.clientHeight/2+n.offsetHeight/2);});
   if(G.mode==='attract'&&attr.kind!==info.kind)attract(info.kind);
 }
@@ -633,12 +647,28 @@ function loop(now){
 }
 window.addEventListener('resize',relayout);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(relayout);
-{const v=window.NCQ&&window.NCQ.NCQ_VERSION;$('appVer').textContent=v?'v'+v:'dev';
- const fb=window.NcqFeedback,btn=$('feedBtn');btn.hidden=!(fb&&fb.can());btn.onclick=()=>fb.open();
- // Online·랭킹은 회사 게임 서버에 로그인할 수 있는 출시 빌드에서만 (개발 중·미리보기에는 가짜 상대를 두지 않아요)
- if(!onlineOn()){$('goOnline').hidden=true;$('rankOpen').hidden=true;$('goSingle').setAttribute('data-ncq-main','Single');}}
-loadSave();refreshLobby();netRefresh();attract('carom');relayout();updateCamera(0,true,performance.now());drawDot();
-if((save.tut|0)<2)tutStart();
-requestAnimationFrame(loop);
+// 언어를 바꾸면 지금 보이는 화면을 다시 그려요 (HTML에 바로 쓴 글자는 data-i18n으로 바뀌어요)
+function relang(){
+  refreshLobby();
+  if(!$('sheet').hidden){if(nav.step==='stepStages')openStages(nav.game);else if(nav.step==='stepMode')openModes();else openGames();}
+  if(!$('hud').hidden){updateHUD();drawDot();$('menuQuit').textContent=T(G.mode==='online'?'forfeit':'quit');$('menuQuit').classList.remove('arm');}
+  if(tut&&tut.step&&TUT_TEXT[tut.step])$('tutMsg').textContent=T((tut.hint&&TUT_HINT_TEXT[tut.step])||TUT_TEXT[tut.step]);
+  if(!$('tutCard').hidden&&tutCardKey)$('tutText').textContent=T(tutCardKey);
+  if(!$('profile').hidden)openProfile();
+  if(!$('achs').hidden)openAchs();
+  if(!$('ranks').hidden&&rankTab)openRanks(rankTab);
+}
+function boot(){
+  langInit(relang);
+  const v=window.NCQ&&window.NCQ.NCQ_VERSION;$('appVer').textContent=v?'v'+v:'dev';
+  const fb=window.NcqFeedback,btn=$('feedBtn');btn.hidden=!(fb&&fb.can());btn.onclick=()=>fb.open();
+  // Online·랭킹은 회사 게임 서버에 로그인할 수 있는 출시 빌드에서만 (개발 중·미리보기에는 가짜 상대를 두지 않아요)
+  if(!onlineOn()){$('goOnline').hidden=true;$('rankOpen').hidden=true;$('goSingle').setAttribute('data-ncq-main','Single');}
+  loadSave();refreshLobby();netRefresh();attract('carom');relayout();updateCamera(0,true,performance.now());drawDot();
+  if((save.tut|0)<2)tutStart();
+  requestAnimationFrame(loop);
+}
+// 공용 언어 모듈(ncq/lang.js)은 모듈 스크립트라 이 스크립트 다음에 들어와요. 들어온 뒤(DOMContentLoaded)에 첫 화면을 그려요
+if(window.NcqLang||document.readyState!=='loading')boot();else document.addEventListener('DOMContentLoaded',boot,{once:true});
 /*__TEST_HOOK__*/
 })();

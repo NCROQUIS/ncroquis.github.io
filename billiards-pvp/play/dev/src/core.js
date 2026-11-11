@@ -170,10 +170,11 @@ function mkBall(name,tex,geo,rad,num){
   const m=new THREE.Mesh(geo,new THREE.MeshPhysicalMaterial({map:tex,color:0xd2d2d2,roughness:.14,metalness:0,clearcoat:1,clearcoatRoughness:.025,envMapIntensity:.85,reflectivity:.5}));
   m.castShadow=true;m.visible=false;m.renderOrder=2;scene.add(m);
   const ao=new THREE.Mesh(aoGeo,aoMat.clone());ao.visible=false;ao.renderOrder=1;ao.scale.set(rad*3,1,rad*3);ao.position.y=.0014;scene.add(ao);
-  return {ao,aoS:rad*3,name,num,i:0,p:new V(0,rad,0),v:new V(),w:new V(),mesh:m,off:false,pot:false,spot:null,sink:null};
+  // 이름은 그때 언어로 읽어요 (판정 문구에 들어가요)
+  return {ao,aoS:rad*3,get name(){return name();},num,i:0,p:new V(0,rad,0),v:new V(),w:new V(),mesh:m,off:false,pot:false,spot:null,sink:null};
 }
-const CAROM={w:mkBall('흰 공',ballTex('#f7f7f3','#d0362b'),sgC,KIT.carom.R,-1),y:mkBall('노란 공',ballTex('#f7d80f','#6f5a00'),sgC,KIT.carom.R,-1),r:mkBall('빨간 공',ballTex('#cf1428','#ffecec'),sgC,KIT.carom.R,-1),r2:mkBall('빨간 공',ballTex('#cf1428','#ffecec'),sgC,KIT.carom.R,-1)};
-const POOL_BALLS=[];for(let n=0;n<16;n++)POOL_BALLS.push(mkBall(n?n+'번 공':'수구',poolTex(n),sgP,KIT.pool.R,n));
+const CAROM={w:mkBall(()=>T('ball_white'),ballTex('#f7f7f3','#d0362b'),sgC,KIT.carom.R,-1),y:mkBall(()=>T('ball_yellow'),ballTex('#f7d80f','#6f5a00'),sgC,KIT.carom.R,-1),r:mkBall(()=>T('ball_red'),ballTex('#cf1428','#ffecec'),sgC,KIT.carom.R,-1),r2:mkBall(()=>T('ball_red'),ballTex('#cf1428','#ffecec'),sgC,KIT.carom.R,-1)};
+const POOL_BALLS=[];for(let n=0;n<16;n++)POOL_BALLS.push(mkBall(n?()=>T('ball_n',{n}):()=>T('ball_cue'),poolTex(n),sgP,KIT.pool.R,n));
 const ALL_BALLS=[CAROM.w,CAROM.y,CAROM.r,CAROM.r2,...POOL_BALLS];
 CAROM.w.glow=0xffffff;CAROM.y.glow=0xffd23a;CAROM.r.glow=CAROM.r2.glow=0xff3a45;
 const POOL_GLOW=[0xffd42a,0x4f86ff,0xff3a30,0xa866ff,0xff9a3c,0x3fe08f,0xe0454f,0xc3c9d3];

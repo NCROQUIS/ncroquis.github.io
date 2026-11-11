@@ -63,8 +63,8 @@ button.sm{padding:5px 8px;font-size:12px}
 .rankbox td{font-family:var(--f-num);font-size:16px;font-weight:600;line-height:1.15}
 .brand .trio{display:flex;gap:6px;margin-bottom:10px}
 .brand .trio .b{width:26px;height:26px}
-.brand h1{font-family:var(--f-disp);font-weight:400;font-size:clamp(70px,min(15vh,22vw),112px);line-height:.92;margin:0;letter-spacing:-.01em;text-shadow:0 4px 0 rgba(0,0,0,.45)}
-.brand p{margin:10px 0 0;font-family:var(--f-disp);font-size:18px;color:var(--ink-dim);letter-spacing:.04em}
+.brand h1{width:max-content;font-family:var(--f-disp);font-weight:400;font-size:clamp(70px,min(15vh,22vw),112px);line-height:.92;margin:0;letter-spacing:-.01em;text-shadow:0 4px 0 rgba(0,0,0,.45)}
+.brand p{width:max-content;margin:10px 0 0;font-family:var(--f-disp);font-size:18px;color:var(--ink-dim);letter-spacing:.04em;white-space:nowrap;text-wrap:balance;line-height:1.3}
 .slabs{display:flex;flex-direction:column;gap:10px}
 #lobby.sheeted .slabs{visibility:hidden}
 .slab{position:relative;display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px;text-align:left;padding:clamp(8px,1.4vh,13px) 16px;background:var(--panel);border:1px solid var(--line);border-radius:4px}
@@ -105,7 +105,7 @@ button.sm{padding:5px 8px;font-size:12px}
 .mode-box{padding:14px 2px;border-bottom:1px solid var(--line)}
 .mode-box b{display:block;font-family:var(--f-disp);font-weight:400;font-size:26px;line-height:1.1}
 .mode-box small{display:block;margin:3px 0 10px;color:var(--ink-dim);font-size:13px}
-.lv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.lv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .lv button{display:flex;align-items:center;justify-content:center;gap:10px;height:66px;padding:0 6px;color:#fff;border:0;border-radius:8px;background:linear-gradient(145deg,#4aa6f0,#1f66b0);box-shadow:inset 0 -3px 6px rgba(0,0,0,.25),0 2px 6px rgba(0,0,0,.3)}
 .lv button>span{display:flex;flex-direction:column;align-items:flex-start;gap:7px}
 .lv b{font-family:var(--f-disp);font-size:25px;font-weight:400;line-height:1;text-shadow:0 2px 0 rgba(0,0,0,.25)}
@@ -356,4 +356,14 @@ button.sm{padding:5px 8px;font-size:12px}
 @media (prefers-reduced-motion:reduce){#rNote,.stc.next,#rStars span.pop,.tutSpot,.tutGlow,#tutTap,.nudge,#toast,#banner,#sheet,.beads i{transition:none;animation:none}.m-plate.wait .b{animation:none}}
 /* 튜토리얼·힌트: 지금 단계가 아닌 조작 칸은 흐리게, 누를 수 없게 */
 .tutOff{opacity:.32;filter:saturate(.35);pointer-events:none;transition:opacity .2s}
+/* 언어: 글자 표로 채우기 전(여는 첫 순간)에는 HTML에 쓴 글자를 숨겨요 (NcqLang이 <html lang>을 정해요) */
+html:not([lang]) [data-i18n]{visibility:hidden}
+/* 긴 차례 안내(영어 'Player 2's turn · Ball in hand' 등)는 한 줄에 들어가게 작게 */
+#banner.long{font-size:19px;padding-inline:12px}
+/* 영어 난이도 이름은 길어서 조금 작게 */
+html[lang=en] .lv button{gap:8px}
+html[lang=en] .lv b{font-size:19px}
+/* 언어 메뉴 (룰·설정 창) */
+.rules-lang{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px}
+.lang-sel{background:#1a2533;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:7px 8px;font-family:var(--f-ui);font-size:14px}
 </style>

@@ -1,21 +1,21 @@
-<div id="adBanner" aria-label="배너 광고 영역">배너 광고 영역</div>
+<div id="adBanner" data-i18n="banner_ad" data-i18n-attr="aria-label:banner_ad"></div>
 <div id="app">
-  <canvas id="c" aria-label="3D 당구대"></canvas>
+  <canvas id="c" data-i18n-attr="aria-label:table_3d"></canvas>
 
   <div id="hud" class="gut" hidden>
     <div id="hudPlayers">
       <div class="pl" id="pl0">
         <i class="b w" id="chip0"></i>
-        <div><div class="nm" id="nm0">나</div><div class="beads" id="bd0"></div><div class="dots" id="dt0" hidden></div></div>
+        <div><div class="nm" id="nm0"></div><div class="beads" id="bd0"></div><div class="dots" id="dt0" hidden></div></div>
         <div class="sc" id="sc0">0</div>
       </div>
       <div class="mid">
-        <div class="rule" id="ruleName">3구</div>
-        <div class="inn" id="inn">1이닝</div>
+        <div class="rule" id="ruleName"></div>
+        <div class="inn" id="inn"></div>
       </div>
       <div class="pl" id="pl1">
         <i class="b y" id="chip1"></i>
-        <div><div class="nm" id="nm1">AI</div><div class="beads" id="bd1"></div><div class="dots" id="dt1" hidden></div></div>
+        <div><div class="nm" id="nm1"></div><div class="beads" id="bd1"></div><div class="dots" id="dt1" hidden></div></div>
         <div class="sc" id="sc1">0</div>
       </div>
     </div>
@@ -28,9 +28,9 @@
       </div>
       <div class="solo-r">
         <div class="solo-tries" id="soloTries"></div>
-        <button id="hintBtn" class="sm" aria-label="광고 보고 힌트 보기"><span class="adTag">AD</span>힌트</button>
-        <button id="undoBtn" class="sm" title="직전 샷 전으로 되돌리기">되돌리기</button>
-        <button id="resetBtn" class="sm">초기화</button>
+        <button id="hintBtn" class="sm" data-i18n-attr="aria-label:hint_aria"><span class="adTag">AD</span><span data-i18n="hint"></span></button>
+        <button id="undoBtn" class="sm" data-i18n="undo" data-i18n-attr="title:undo_title"></button>
+        <button id="resetBtn" class="sm" data-i18n="reset"></button>
       </div>
     </div>
   </div>
@@ -40,89 +40,91 @@
 
   <div id="powerwrap" hidden>
     <div id="powerVal">0</div>
-    <div id="power" aria-label="아래로 당겼다 놓으면 샷"><div id="powerFill"></div><div class="grip"></div><div id="powerMark" hidden></div></div>
+    <div id="power" data-i18n-attr="aria-label:power_aria"><div id="powerFill"></div><div class="grip"></div><div id="powerMark" hidden></div></div>
   </div>
 
-  <button id="menuBtn" aria-label="메뉴" title="메뉴" hidden><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  <button id="menuBtn" data-i18n-attr="aria-label:menu; title:menu" hidden><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5.5h14M3 10h14M3 14.5h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
 
   <div id="dock" class="gut" hidden>
     <div class="cell spin">
       <div id="pad"><div class="grid"></div><i class="padTgt" hidden></i><div id="dot"></div></div>
-      <button id="spinRead" title="눌러서 중앙으로">중앙</button>
+      <button id="spinRead" data-i18n-attr="title:spin_center_title"></button>
     </div>
-    <div id="pip" title="좌우로 스와이프해서 미세 조준"><div id="fineTicks" aria-hidden="true"></div></div>
-    <div id="placeBar" hidden><button class="primary" id="placeOk">여기에 놓기</button></div>
+    <div id="pip" data-i18n-attr="title:fine_title"><div id="fineTicks" aria-hidden="true"></div></div>
+    <div id="placeBar" hidden><button class="primary" id="placeOk" data-i18n="place_here"></button></div>
     <div class="cell ctl" id="elevCell">
-      <div class="ctl-l"><span class="lbl">큐 각도</span><span id="elevVal">5°</span></div>
-      <i id="elevMark" hidden></i><input id="elev" type="range" min="0" max="75" step="1" value="5" aria-label="큐 각도">
+      <div class="ctl-l"><span class="lbl" data-i18n="cue_angle"></span><span id="elevVal">5°</span></div>
+      <i id="elevMark" hidden></i><input id="elev" type="range" min="0" max="75" step="1" value="5" data-i18n-attr="aria-label:cue_angle">
     </div>
   </div>
 
   <div id="menu" hidden>
     <div class="menu-card gut">
-      <h2>메뉴</h2>
-      <div class="row"><span>조준 가이드</span>
-        <select id="optGuide"><option value="long">길게 (반사·분리각)</option><option value="short">짧게</option><option value="off">끄기</option></select></div>
-      <div class="menu-acts"><button id="menuRules">룰 보기</button><button class="primary" id="menuClose">이어하기</button><button id="menuQuit">나가기</button></div>
+      <h2 data-i18n="menu"></h2>
+      <div class="row"><span data-i18n="aim_guide"></span>
+        <select id="optGuide"><option value="long" data-i18n="guide_long"></option><option value="short" data-i18n="guide_short"></option><option value="off" data-i18n="guide_off"></option></select></div>
+      <div class="row"><span data-i18n="lang_label"></span><select id="langMenu" class="lang-sel" data-i18n-attr="aria-label:lang_label"></select></div>
+      <div class="menu-acts"><button id="menuRules" data-i18n="rules_view"></button><button class="primary" id="menuClose" data-i18n="resume"></button><button id="menuQuit"></button></div>
     </div>
   </div>
 
   <div id="padZoom" hidden aria-hidden="true"><div class="grid"></div><i class="padTgt" hidden></i><div id="dotZoom"></div></div>
 
   <div id="achPop" hidden role="status"></div>
-  <section id="profile" hidden aria-label="프로필">
+  <section id="profile" hidden data-i18n-attr="aria-label:profile">
     <div class="rules-card gut">
-      <div class="pf-head"><span id="pfPic"></span><div class="pf-name"><label for="pfNick">닉네임</label><div class="pf-row"><input id="pfNick" maxlength="14" autocomplete="off"><button id="pfSave">변경</button></div><p id="pfErr" role="alert"></p></div></div>
-      <h3 class="pf-sub">아이콘</h3>
+      <div class="pf-head"><span id="pfPic"></span><div class="pf-name"><label for="pfNick" data-i18n="nickname"></label><div class="pf-row"><input id="pfNick" maxlength="14" autocomplete="off"><button id="pfSave" data-i18n="change"></button></div><p id="pfErr" role="alert"></p></div></div>
+      <h3 class="pf-sub" data-i18n="icons"></h3>
       <div id="pfIcons" class="pf-grid"></div>
-      <button class="primary" id="profileClose">닫기</button>
+      <button class="primary" id="profileClose" data-i18n="close"></button>
     </div>
   </section>
-  <section id="achs" hidden aria-label="업적">
+  <section id="achs" hidden data-i18n-attr="aria-label:achievements">
     <div class="rules-card gut">
-      <h2>업적 <small id="achCount"></small></h2>
-      <div class="rules-tabs pf-games"><button data-g="3c">3구</button><button data-g="4b">4구</button><button data-g="pool">포켓볼</button></div>
+      <h2><span data-i18n="achievements"></span> <small id="achCount"></small></h2>
+      <div class="rules-tabs pf-games"><button data-g="3c" data-i18n="g_3c"></button><button data-g="4b" data-i18n="g_4b"></button><button data-g="pool" data-i18n="g_pool"></button></div>
       <div id="pfAchList"></div>
-      <button class="primary" id="achsClose">닫기</button>
+      <button class="primary" id="achsClose" data-i18n="close"></button>
     </div>
   </section>
 
-  <section id="ranks" hidden aria-label="랭킹">
+  <section id="ranks" hidden data-i18n-attr="aria-label:ranking">
     <div class="rules-card gut">
-      <h2>랭킹</h2>
-      <div class="rules-tabs" role="tablist"><button data-k="3c" role="tab">3구</button><button data-k="4b" role="tab">4구</button><button data-k="pool" role="tab">포켓볼</button></div>
-      <div class="rank-list"><table><thead><tr><th>순위</th><th>닉네임</th><th>Rating</th><th>승패</th></tr></thead><tbody id="rankList"></tbody><tfoot id="rankMine"></tfoot></table></div>
+      <h2 data-i18n="ranking"></h2>
+      <div class="rules-tabs" role="tablist"><button data-k="3c" role="tab" data-i18n="g_3c"></button><button data-k="4b" role="tab" data-i18n="g_4b"></button><button data-k="pool" role="tab" data-i18n="g_pool"></button></div>
+      <div class="rank-list"><table><thead><tr><th data-i18n="th_pos"></th><th data-i18n="th_nick"></th><th>Rating</th><th data-i18n="th_wl"></th></tr></thead><tbody id="rankList"></tbody><tfoot id="rankMine"></tfoot></table></div>
       <p class="rules-note" id="rankNote"></p>
-      <button class="primary" id="ranksClose">닫기</button>
+      <button class="primary" id="ranksClose" data-i18n="close"></button>
     </div>
   </section>
 
-  <section id="rules" hidden aria-label="게임 룰">
+  <section id="rules" hidden data-i18n-attr="aria-label:game_rules">
     <div class="rules-card gut">
-      <h2>룰</h2>
-      <div class="rules-tabs" role="tablist"><button data-r="3c" role="tab">3구</button><button data-r="4b" role="tab">4구</button><button data-r="pool" role="tab">포켓볼</button></div>
+      <h2 data-i18n="rules_title"></h2>
+      <div class="rules-tabs" role="tablist"><button data-r="3c" role="tab" data-i18n="g_3c"></button><button data-r="4b" role="tab" data-i18n="g_4b"></button><button data-r="pool" role="tab" data-i18n="g_pool"></button></div>
       <div class="rules-body" data-rb="3c"><ul>
-        <li>내 공으로 나머지 두 공을 모두 맞히면 득점이에요.</li>
-        <li>두 번째 공을 맞히기 전에 쿠션을 3번 이상 쳐야 해요.</li>
-        <li>득점하면 이어서 치고, 못 하면 차례가 넘어가요.</li>
-        <li>10점을 먼저 내면 승리예요.</li>
+        <li data-i18n="r3c_1"></li>
+        <li data-i18n="r3c_2"></li>
+        <li data-i18n="r3c_3"></li>
+        <li data-i18n="r3c_4"></li>
       </ul></div>
       <div class="rules-body" data-rb="4b" hidden><ul>
-        <li>내 공으로 빨간 공 둘을 모두 맞히면 +1점이에요.</li>
-        <li>빨간 공을 둘 맞히기 전에 상대 공을 맞히거나, 아무 공도 못 맞히면 파울로 −1점이에요.</li>
-        <li>득점하면 이어서 치고, 빨간 공을 하나만 맞히면 차례가 넘어가요.</li>
-        <li>15점을 먼저 내면 승리예요.</li>
+        <li data-i18n="r4b_1"></li>
+        <li data-i18n="r4b_2"></li>
+        <li data-i18n="r4b_3"></li>
+        <li data-i18n="r4b_4"></li>
       </ul></div>
       <div class="rules-body" data-rb="pool" hidden><ul>
-        <li>브레이크 뒤 처음 넣은 공의 종류(단색·줄무늬)가 내 그룹이 돼요.</li>
-        <li>내 그룹 공을 먼저 맞혀야 하고, 내 공을 넣으면 이어서 쳐요.</li>
-        <li>수구를 넣거나 내 공을 먼저 못 맞히면 파울이고, 상대가 수구를 원하는 곳에 놓아요.</li>
-        <li>내 그룹 7개를 다 넣고 8번 공을 넣으면 승리예요.</li>
-        <li>그 전에 8번 공을 넣거나, 8번 공을 넣으면서 파울하면 패배예요.</li>
+        <li data-i18n="rpool_1"></li>
+        <li data-i18n="rpool_2"></li>
+        <li data-i18n="rpool_3"></li>
+        <li data-i18n="rpool_4"></li>
+        <li data-i18n="rpool_5"></li>
       </ul></div>
-      <p class="rules-note">공통: 큐대가 다른 공에 닿은 채 치면 파울이에요. 대전은 한 샷에 30초예요.</p>
-      <div class="rules-foot"><button id="feedBtn" hidden>피드백 보내기</button><span id="appVer"></span></div>
-      <div class="rules-acts"><button id="rulesTut">조작 다시 보기</button><button class="primary" id="rulesClose">닫기</button></div>
+      <p class="rules-note" data-i18n="rules_note"></p>
+      <div class="rules-lang"><span data-i18n="lang_label"></span><select id="langRules" class="lang-sel" data-i18n-attr="aria-label:lang_label"></select></div>
+      <div class="rules-foot"><button id="feedBtn" hidden data-i18n="send_feedback"></button><span id="appVer"></span></div>
+      <div class="rules-acts"><button id="rulesTut" data-i18n="replay_tut"></button><button class="primary" id="rulesClose" data-i18n="close"></button></div>
     </div>
   </section>
 
@@ -131,43 +133,43 @@
   <div id="tutTap" hidden aria-hidden="true"></div>
   <section id="tutCard" class="screen" hidden>
     <p id="tutText"></p>
-    <button class="primary" id="tutNext" data-ncq-main="다음">다음</button>
+    <button class="primary" id="tutNext" data-ncq-main="다음" data-i18n="next"></button>
   </section>
 
   <section id="lobby" class="screen">
-    <aside class="rankbox" aria-label="내 프로필">
-      <div id="profCard" role="button" tabindex="0" aria-label="프로필 열기"><span id="profPic"></span><span class="pc-txt"><b id="profNick"></b><small id="profAch"></small></span><span class="pc-edit" aria-hidden="true">✎</span></div>
+    <aside class="rankbox" data-i18n-attr="aria-label:my_profile">
+      <div id="profCard" role="button" tabindex="0" data-i18n-attr="aria-label:open_profile"><span id="profPic"></span><span class="pc-txt"><b id="profNick"></b><small id="profAch"></small></span><span class="pc-edit" aria-hidden="true">✎</span></div>
       <table>
-        <thead><tr><th scope="col">Online</th><th scope="col">Rating</th><th scope="col">랭킹</th><th scope="col">승패</th></tr></thead>
+        <thead><tr><th scope="col">Online</th><th scope="col">Rating</th><th scope="col" data-i18n="th_rank"></th><th scope="col" data-i18n="th_wl"></th></tr></thead>
         <tbody id="rankRows"></tbody>
       </table>
-      <div class="pc-btns"><button id="rankOpen" class="rank-open">랭킹</button><button id="profAchBtn" class="rank-open">업적</button></div>
+      <div class="pc-btns"><button id="rankOpen" class="rank-open" data-i18n="btn_ranking"></button><button id="profAchBtn" class="rank-open" data-i18n="btn_ach"></button></div>
     </aside>
     <header class="brand gut">
       <div class="trio" aria-hidden="true"><i class="b w"></i><i class="b y"></i><i class="b r"></i></div>
-      <h1>당구</h1>
-      <p>3구 · 4구 · 포켓볼</p>
-      <button id="goRules" class="rules-btn">룰 보기</button>
+      <h1 data-i18n="brand_title"></h1>
+      <p id="brandSub"></p>
+      <button id="goRules" class="rules-btn" data-i18n="rules_btn"></button>
     </header>
     <div class="slabs gut">
-      <button class="slab" id="goStage"><span><b>Stage</b><small id="stageSub">한 번의 샷으로 깨는 1큐 스테이지</small></span><i class="chalk" aria-hidden="true"></i></button>
-      <button class="slab" id="goSingle"><span><b>Single</b><small>AI 대전 · 연습</small></span><i class="chalk" aria-hidden="true"></i></button>
-      <button class="slab online" id="goOnline" data-ncq-main="Online"><span><b>Online</b><small id="onlineSub">실시간 매칭 · 승패 기록</small></span><i class="chalk" aria-hidden="true"></i></button>
+      <button class="slab" id="goStage"><span><b>Stage</b><small id="stageSub"></small></span><i class="chalk" aria-hidden="true"></i></button>
+      <button class="slab" id="goSingle"><span><b>Single</b><small data-i18n="single_sub"></small></span><i class="chalk" aria-hidden="true"></i></button>
+      <button class="slab online" id="goOnline" data-ncq-main="Online"><span><b>Online</b><small id="onlineSub"></small></span><i class="chalk" aria-hidden="true"></i></button>
     </div>
   </section>
 
   <section id="sheet" hidden>
-    <div class="sheet-head gut"><button id="sheetBack" aria-label="뒤로">←</button><h2 id="sheetTitle">Single</h2></div>
+    <div class="sheet-head gut"><button id="sheetBack" data-i18n-attr="aria-label:back">←</button><h2 id="sheetTitle">Single</h2></div>
     <div class="step gut" id="stepGame">
-      <div class="game-row"><button class="row-btn" data-game="3c"><span class="glyph" aria-hidden="true"><i class="b w"></i><i class="b y"></i><i class="b r"></i></span><span><b>3구</b><small>쿠션 3번 이상 치고 나머지 두 공을 맞히면 득점.</small></span><span class="stars sq" data-gs="3c" hidden></span><i class="go" aria-hidden="true"></i></button><button class="rank-mini sq" data-rk="3c" hidden aria-label="랭킹 보기"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 17L3 7l5 4 4-7 4 7 5-4-1 10z" fill="currentColor"/><rect x="4" y="18.5" width="16" height="2.5" rx="1" fill="currentColor"/></svg>랭킹</button></div>
-      <div class="game-row"><button class="row-btn" data-game="4b"><span class="glyph" aria-hidden="true"><i class="b r"></i><i class="b r"></i><i class="b w"></i><i class="b y"></i></span><span><b>4구</b><small>빨간 공 둘을 맞히면 득점. 상대 공을 맞히면 파울.</small></span><span class="stars sq" data-gs="4b" hidden></span><i class="go" aria-hidden="true"></i></button><button class="rank-mini sq" data-rk="4b" hidden aria-label="랭킹 보기"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 17L3 7l5 4 4-7 4 7 5-4-1 10z" fill="currentColor"/><rect x="4" y="18.5" width="16" height="2.5" rx="1" fill="currentColor"/></svg>랭킹</button></div>
-      <div class="game-row"><button class="row-btn" data-game="pool"><span class="glyph rack" id="rackGlyph" aria-hidden="true"></span><span><b>포켓볼</b><small>내 그룹 공을 모두 넣고 8번 공으로 끝내기.</small></span><span class="stars sq" data-gs="pool" hidden></span><i class="go" aria-hidden="true"></i></button><button class="rank-mini sq" data-rk="pool" hidden aria-label="랭킹 보기"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 17L3 7l5 4 4-7 4 7 5-4-1 10z" fill="currentColor"/><rect x="4" y="18.5" width="16" height="2.5" rx="1" fill="currentColor"/></svg>랭킹</button></div>
+      <div class="game-row"><button class="row-btn" data-game="3c"><span class="glyph" aria-hidden="true"><i class="b w"></i><i class="b y"></i><i class="b r"></i></span><span><b data-i18n="g_3c"></b><small data-i18n="gd_3c"></small></span><span class="stars sq" data-gs="3c" hidden></span><i class="go" aria-hidden="true"></i></button><button class="rank-mini sq" data-rk="3c" hidden data-i18n-attr="aria-label:view_ranking"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 17L3 7l5 4 4-7 4 7 5-4-1 10z" fill="currentColor"/><rect x="4" y="18.5" width="16" height="2.5" rx="1" fill="currentColor"/></svg><span data-i18n="rank_mini"></span></button></div>
+      <div class="game-row"><button class="row-btn" data-game="4b"><span class="glyph" aria-hidden="true"><i class="b r"></i><i class="b r"></i><i class="b w"></i><i class="b y"></i></span><span><b data-i18n="g_4b"></b><small data-i18n="gd_4b"></small></span><span class="stars sq" data-gs="4b" hidden></span><i class="go" aria-hidden="true"></i></button><button class="rank-mini sq" data-rk="4b" hidden data-i18n-attr="aria-label:view_ranking"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 17L3 7l5 4 4-7 4 7 5-4-1 10z" fill="currentColor"/><rect x="4" y="18.5" width="16" height="2.5" rx="1" fill="currentColor"/></svg><span data-i18n="rank_mini"></span></button></div>
+      <div class="game-row"><button class="row-btn" data-game="pool"><span class="glyph rack" id="rackGlyph" aria-hidden="true"></span><span><b data-i18n="g_pool"></b><small data-i18n="gd_pool"></small></span><span class="stars sq" data-gs="pool" hidden></span><i class="go" aria-hidden="true"></i></button><button class="rank-mini sq" data-rk="pool" hidden data-i18n-attr="aria-label:view_ranking"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 17L3 7l5 4 4-7 4 7 5-4-1 10z" fill="currentColor"/><rect x="4" y="18.5" width="16" height="2.5" rx="1" fill="currentColor"/></svg><span data-i18n="rank_mini"></span></button></div>
     </div>
     <div class="step gut" id="stepMode" hidden>
-      <div class="mode-box"><b>AI 대전</b><small id="aiRule">난이도를 고르면 바로 시작해요.</small>
-        <div class="lv"><button data-lv="easy" aria-label="AI 초급 바로 시작"><i class="ply" aria-hidden="true"></i><span><b>초급</b><span class="pips" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></button><button data-lv="mid" aria-label="AI 중급 바로 시작"><i class="ply" aria-hidden="true"></i><span><b>중급</b><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span></span></button><button data-lv="hard" aria-label="AI 고급 바로 시작"><i class="ply" aria-hidden="true"></i><span><b>고급</b><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span></span></button></div></div>
-      <button class="row-btn" id="openPractice" style="grid-template-columns:1fr auto"><span><b style="font-size:26px">연습</b><small>규칙 없이 혼자 쳐 봐요. 되돌리기 가능.</small></span><i class="go play" aria-hidden="true"></i></button>
-      <button class="row-btn" id="openLocal" style="grid-template-columns:1fr auto"><span><b style="font-size:26px">2인 대전</b><small>한 휴대폰으로 둘이 번갈아 쳐요.</small></span><i class="go play" aria-hidden="true"></i></button>
+      <div class="mode-box"><b data-i18n="ai_match"></b><small id="aiRule"></small>
+        <div class="lv"><button data-lv="easy" data-i18n-attr="aria-label:lv_easy_go"><i class="ply" aria-hidden="true"></i><span><b data-i18n="lv_easy"></b><span class="pips" aria-hidden="true"><i class="on"></i><i></i><i></i></span></span></button><button data-lv="mid" data-i18n-attr="aria-label:lv_mid_go"><i class="ply" aria-hidden="true"></i><span><b data-i18n="lv_mid"></b><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span></span></button><button data-lv="hard" data-i18n-attr="aria-label:lv_hard_go"><i class="ply" aria-hidden="true"></i><span><b data-i18n="lv_hard"></b><span class="pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span></span></button></div></div>
+      <button class="row-btn" id="openPractice" style="grid-template-columns:1fr auto"><span><b style="font-size:26px" data-i18n="practice"></b><small data-i18n="practice_d"></small></span><i class="go play" aria-hidden="true"></i></button>
+      <button class="row-btn" id="openLocal" style="grid-template-columns:1fr auto"><span><b style="font-size:26px" data-i18n="local2"></b><small data-i18n="local2_d"></small></span><i class="go play" aria-hidden="true"></i></button>
     </div>
     <div class="step gut" id="stepStages" hidden></div>
   </section>
@@ -175,17 +177,17 @@
   <section id="matching" class="screen" hidden>
     <div class="gut">
       <div class="m-tag" id="mTag"></div>
-      <h2 id="mHead">상대를 찾고 있어요</h2>
+      <h2 id="mHead"></h2>
       <div id="mClock">00:00</div>
     </div>
     <div class="m-vs gut">
-      <div class="m-plate wait" id="mOpp"><i class="b y" id="mOppChip"></i><div><b id="mOppName">대기 중</b><small id="mOppSub">같은 종목을 고른 상대를 찾는 중</small></div><span class="badge" id="mOppBadge" hidden></span></div>
+      <div class="m-plate wait" id="mOpp"><i class="b y" id="mOppChip"></i><div><b id="mOppName"></b><small id="mOppSub"></small></div><span class="badge" id="mOppBadge" hidden></span></div>
       <div class="m-x">VS</div>
-      <div class="m-plate"><i class="b w" id="mMyChip"></i><div><b id="mMyName">나</b><small id="mMySub"></small></div></div>
+      <div class="m-plate"><i class="b w" id="mMyChip"></i><div><b id="mMyName"></b><small id="mMySub"></small></div></div>
     </div>
     <div class="m-foot gut">
       <p id="mNote"></p>
-      <button id="mCancel">취소</button>
+      <button id="mCancel" data-i18n="cancel"></button>
     </div>
   </section>
 
@@ -199,9 +201,9 @@
       <div id="rNote" hidden></div>
       <div id="rRk" hidden></div>
       <div class="r-acts">
-        <button class="primary" id="rPrimary">다시 하기</button>
-        <button id="rSecond" hidden>목록</button>
-        <button id="rLobby">로비로</button>
+        <button class="primary" id="rPrimary"></button>
+        <button id="rSecond" hidden></button>
+        <button id="rLobby" data-i18n="to_lobby"></button>
       </div>
     </div>
   </section>
@@ -212,8 +214,8 @@
   <div id="adKind"></div>
   <div id="adCount"></div>
   <p id="adNote"></p>
-  <button class="primary" id="adDone" hidden>닫기</button>
-  <button id="adStop" hidden>그만 보기</button>
+  <button class="primary" id="adDone" hidden></button>
+  <button id="adStop" hidden data-i18n="stop_watching"></button>
 </section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

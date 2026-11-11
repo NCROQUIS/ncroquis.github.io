@@ -10,8 +10,8 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=1be5d99b662e">
-  <script type="module" src="./app.js?v=1be5d99b662e"></script>
+  <link rel="stylesheet" href="./style.css?v=e813e624a2f0">
+  <script type="module" src="./app.js?v=e813e624a2f0"></script>
 </head>
 <body>
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -438,6 +438,13 @@
             <button class="review-button" type="button" data-step="last" data-i18n-attr="aria-label:lastMove">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5v14M4 5l7 7-7 7m7-14 7 7-7 7"/></svg>
             </button>
+          </div>
+          <div id="placement-timing" class="placement-timing" hidden>
+            <label for="placement-duration" data-i18n="placementTimingTest"></label>
+            <output id="placement-duration-value" for="placement-duration"></output>
+            <input id="placement-duration" type="range" min="100" max="600" step="10" value="180"
+                   aria-describedby="placement-timing-help">
+            <small id="placement-timing-help" data-i18n="placementTimingHelp"></small>
           </div>
           <button id="review-own-profile" class="review-player" type="button" aria-haspopup="dialog" aria-controls="player-profile">
             <span class="review-avatar match-avatar" aria-hidden="true">

@@ -1,9 +1,10 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=964bf8474dc9";
-import { TEXTS } from "./texts.js?v=964bf8474dc9";
-import { createForestUI } from "./forest-ui.js?v=964bf8474dc9";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=964bf8474dc9";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=964bf8474dc9";
+import { NcqBoard } from "./ncq/board.js?v=3000397f6d52";
+import { TEXTS } from "./texts.js?v=3000397f6d52";
+import { createForestUI } from "./forest-ui.js?v=3000397f6d52";
+import { RankingPages } from "./ranking-pages.js?v=3000397f6d52";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=3000397f6d52";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=3000397f6d52";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -193,6 +194,7 @@ const playerPhotos = ["player-photo", "match-player-photo", "match-intro-photo"]
 const forest = createForestUI({
   closeView: showLobby, getView: () => lobbyView,
   hasGame: () => Boolean(room ?? archive ?? spectator), translate: t,
+  onRankingCapacity: resizeRankingPage,
 });
 matchIntroDialog.addEventListener("click", () => matchIntroDialog.close());
 matchIntroDialog.addEventListener("close", () => {
@@ -828,7 +830,12 @@ function renderDailyMissions() {
   const overview = el("mission-overview-progress");
   overview.setAttribute("aria-valuenow", completed);
   overview.style.setProperty("--mission-fill", completed / dailyMissions.length * 100 + "%");
-  el("mission-total").textContent = t("missionOverviewCount", progress);
+  const total = el("mission-total");
+  const slash = document.createElement("span");
+  slash.className = "mission-count-slash";
+  slash.textContent = "/";
+  total.replaceChildren(document.createTextNode(progress.count), slash, document.createTextNode(progress.target));
+  total.setAttribute("aria-label", t("missionOverviewCount", progress));
   missionMarkers.forEach((marker, index) => {
     const done = index < completed;
     marker.toggleAttribute("data-done", done);
@@ -849,7 +856,7 @@ function renderDailyMissions() {
     claim: ready.find(target => target > after), done: repeats >= limit,
   });
   el("mission-repeat-count").textContent = t("missionRepeatProgress", missionProgress(repeats, limit));
-  el("mission-repeat-note").textContent = t("missionRepeatNote", { after: NcqLang.num(after), n: NcqLang.num(limit) });
+  el("mission-repeat-note").textContent = t("missionRepeatNote", { after: NcqLang.num(after), n: NcqLang.num(limit), coins: NcqLang.num(coins) });
   const status = el("mission-feedback");
   if (!status.hidden) status.textContent = t(status.dataset.message);
 }
@@ -857,7 +864,8 @@ function renderDailyMissions() {
 function renderMissionRow(row, { goal, coins, progress, max, claim, done }) {
   row.dataset.state = claim ? "ready" : done ? "done" : "pending";
   row.querySelector(".mission-goal").textContent = goal;
-  row.querySelector(".mission-coins").textContent = t("shopPrice", { n: NcqLang.num(coins) });
+  row.querySelector(".mission-coins").textContent = NcqLang.num(coins);
+  row.querySelector(".mission-amount").setAttribute("aria-label", t("shopPrice", { n: NcqLang.num(coins) }));
   const track = row.querySelector(".mission-track");
   track.setAttribute("aria-label", goal);
   track.setAttribute("aria-valuemax", max);
@@ -3656,22 +3664,32 @@ el("ranking-tabs").addEventListener("keydown", event => {
 for (const [direction, step] of [["prev", -1], ["next", 1]]) {
   el("ranking-" + direction).addEventListener("click", event => {
     if (event.currentTarget.getAttribute("aria-disabled") === "true") return;
-    loadRankings("rating", rankingResults.rating.page + step);
+    const state = rankingResults[rankingTab];
+    if (state) loadRankings(rankingTab, state.page + step, state.pageSize, true);
   });
 }
 
-async function loadRankings(tab, page = 1) {
-  if (!backend || rankingResults[tab]?.loading) return;
-  clearTimeout(rankingResults[tab]?.refresh);
-  const state = { page, loading: true };
+function resizeRankingPage(size) {
+  const state = rankingResults[rankingTab];
+  if (!state?.result || state.result.error || state.pageSize === size) return;
+  const first = (state.page - 1) * state.pageSize;
+  loadRankings(rankingTab, Math.floor(first / size) + 1, size, true);
+}
+
+async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageSize ?? 5, reusePages = false) {
+  const previous = rankingResults[tab];
+  if (!backend || (previous?.loading && previous.page === page && previous.pageSize === pageSize)) return;
+  clearTimeout(previous?.refresh);
+  const source = reusePages && previous?.source || new RankingPages(tab,
+    path => remoteRequest(client => client.gameRequest(path)));
+  const state = { page, pageSize, source, result: previous?.result, loading: true };
   rankingResults[tab] = state;
   const visible = () => lobbyView === "tournament" && rankingTab === tab && rankingResults[tab] === state;
   if (visible()) render();
-  const path = tab === "rating" ? "/rankings/rating?page=" + page
-    : tab === "previous" ? "/tournament?view=previous" : "/tournament";
-  state.result = await remoteRequest(client => client.gameRequest(path));
+  state.result = await source.page(page, pageSize);
   state.loading = false;
   if (rankingResults[tab] !== state) return;
+  state.page = state.result.page;
   const { resetsAt, serverNow, finalized, finalizesAt } = state.result;
   const refreshAt = tab === "previous" && finalized === false ? finalizesAt : resetsAt;
   const refreshAfter = Date.parse(refreshAt) - Date.parse(serverNow);
@@ -3679,12 +3697,11 @@ async function loadRankings(tab, page = 1) {
     state.refresh = setTimeout(() => {
       if (rankingResults[tab] !== state) return;
       delete rankingResults[tab];
-      if (lobbyView === "tournament" && rankingTab === tab) loadRankings(tab, page);
+      if (lobbyView === "tournament" && rankingTab === tab) loadRankings(tab, state.page, state.pageSize);
     }, Math.max(1000, refreshAfter + 100));
   }
   if (visible()) {
     render();
-    el("ranking-" + tab + "-list").scrollTop = 0;
   }
 }
 
@@ -3767,14 +3784,15 @@ function renderRankings() {
       el("forest-championship-period").textContent = championshipPeriod(Date.parse(result.startsAt), Date.parse(result.endsAt));
       if (previous) dates.textContent += " · " + t(result.finalized ? "tournamentFinalized" : "tournamentFinalizing");
     }
-  } else {
-    const page = state?.page ?? 1;
-    const pagination = el("ranking-pagination");
-    pagination.hidden = page === 1 && !result?.hasMore && (!state?.loading || pagination.hidden);
-    el("ranking-page").textContent = t("rankingPage", { page: ratingNumber(page) });
-    el("ranking-prev").setAttribute("aria-disabled", String(page === 1 || state?.loading === true));
-    el("ranking-next").setAttribute("aria-disabled", String(!result?.hasMore || state?.loading === true));
   }
+  const page = state?.page ?? 1;
+  const pages = result?.pages ?? 1;
+  const pagination = el("ranking-pagination");
+  pagination.hidden = !result || (page === 1 && pages === 1);
+  el("ranking-page").textContent = t("rankingPageOf", { page: ratingNumber(page), pages: ratingNumber(pages) });
+  el("ranking-page").setAttribute("aria-label", t("rankingPage", { page: ratingNumber(page) }));
+  el("ranking-prev").setAttribute("aria-disabled", String(page === 1 || state?.loading === true));
+  el("ranking-next").setAttribute("aria-disabled", String(Boolean(result?.error) || !result?.hasMore || state?.loading === true));
 }
 function closeLobbyMenu(event) {
   render();

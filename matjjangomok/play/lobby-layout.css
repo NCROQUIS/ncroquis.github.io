@@ -36,9 +36,9 @@ body.forest-ui:not(.in-match) {
   min-height: 0; padding: 0; border: 0; display: block;
 }
 #lobby-stage .brand { position: static; display: block; width: 550px; height: 80px; font-size: 52px; font-weight: 800; letter-spacing: -1px; }
-#lobby-stage .brand > span:not(.mark) { position: absolute; left: 103px; top: -12px; line-height: 80px; color: #fffef8; white-space: nowrap; text-shadow: 0 3px 3px #001607a6; -webkit-text-stroke: 0; }
+#lobby-stage .brand > span:not(.mark) { position: absolute; left: 103px; top: -12px; line-height: 80px; color: #fffef8; white-space: nowrap; text-shadow: 0 2px 1px #102716, 0 5px 4px #001105d9, 0 9px 9px #00110580; -webkit-text-stroke: 0; }
 #lobby-stage .mark { position: absolute; left: 15px; top: 7px; width: 77px; height: 65px; border-radius: 0; background: none; }
-#lobby-stage .lobby-logo-underline { position: absolute; left: 146px; top: 56px; width: 165px; height: 28px; filter: drop-shadow(0 2px 1px #001a0977); }
+#lobby-stage .lobby-logo-underline { position: absolute; left: 146px; top: 56px; width: 165px; height: 28px; filter: drop-shadow(0 4px 2px #001507c2); }
 #lobby-stage .header-tools { position: static; display: block; }
 #lobby-stage #lobby-wallet { position: absolute; left: 666px; top: 4px; width: 164px; height: 59px; min-height: 0; max-width: none; padding: 0; display: block; border: 0; border-radius: 0; background: none; box-shadow: none; }
 #lobby-stage #lobby-wallet .shop-coin { position: absolute; left: 27px; top: 10px; width: 34px; height: 34px; background: none; z-index: 1; }
@@ -98,6 +98,7 @@ body.forest-ui:not(.in-match) {
 #lobby-stage #lobby-cta-slot { position: relative; grid-row: 10; grid-column: 1; margin-left: 45px; width: 934px; height: 155px; }
 #lobby-stage #lobby-entry { display: block; width: 934px; height: 155px; padding: 0; margin: 0; }
 #lobby-stage #start { position: relative; display: block; width: 934px; height: 155px; min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; isolation: isolate; }
+#lobby-stage #start .start-surface { filter: drop-shadow(0 13px 9px #001006b3); }
 #lobby-stage #start .start-content { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 40px; transform: translate(-12px, -6px); pointer-events: none; }
 #lobby-stage #start .start-stones { position: relative; inset: auto; width: 87px; height: 75px; flex: none; order: 0; }
 #lobby-stage #start [data-i18n] { position: relative; order: 1; transform: translateY(-4px); font-size: 70px; line-height: 1.1; font-weight: 800; letter-spacing: .1px; color: #382605; text-shadow: 0 1px 1px #fff3ad; white-space: nowrap; }

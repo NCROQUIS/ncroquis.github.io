@@ -10,6 +10,8 @@
 
 일부 PNG 아이콘·패널의 모양은 시안과 차이가 있습니다. 측정 기준은 [로비 레이아웃 명세](../../docs/lobby-layout.md)에 있습니다.
 
-Noto Sans KR 가변 WOFF2를 로컬에 포함하며 라이선스는 `fonts/OFL.txt`입니다. 실제 대국·관전·기보는 기존 판·돌 스킨과 격자·착수 연출을 사용합니다.
+일일 미션 창은 `panels/mission-dialog.svg`(632×778), 수령 버튼은 `panels/mission-claim.svg`(106×48)를 사용합니다. 두 파일에는 배경과 테두리만 있고 글자는 없습니다. 제목 선물은 기존 `icons/gift.webp`, 행의 돌은 기존 흑백 돌을 사용합니다. [미션 레이아웃 명세](../../docs/mission-layout.md)에 좌표·글자 크기·굵기와 시안 비교를 기록합니다.
+
+Noto Sans KR 가변 WOFF2를 로컬에 포함하며 라이선스는 `fonts/OFL.txt`입니다. 미션에는 이 글꼴에서 178문자와 13개 굵기를 추출한 정적 WOFF2(`fonts/mission/`, 총 약 187KB)를 사용해 브라우저별 굵기 차이를 막습니다. 재생성 스크립트는 `scripts/build-mission-fonts.py`입니다. 실제 대국·관전·기보는 기존 판·돌 스킨과 격자·착수 연출을 사용합니다.
 
 `branding/title-underline.svg`는 로비 제목 아래의 기존 초록 물결을 경로와 색상 변경 없이 분리한 공용 파일입니다. 로비와 주간 챔피언십 제목이 같은 파일을 재사용하며, 각 화면에서 지정한 높이를 유지합니다.

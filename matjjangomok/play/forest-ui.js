@@ -1,8 +1,9 @@
-import { installMeasuredLobby } from "./lobby-layout.js?v=964bf8474dc9";
-import { installMeasuredRankings } from "./ranking-layout.js?v=964bf8474dc9";
+import { installMeasuredLobby } from "./lobby-layout.js?v=3000397f6d52";
+import { installMeasuredRankings } from "./ranking-layout.js?v=3000397f6d52";
+import { installMeasuredMissions } from "./mission-layout.js?v=3000397f6d52";
 
 // Reuse the existing records, rankings, wallet and shop views inside modal layers.
-export function createForestUI({ closeView, getView, hasGame, translate }) {
+export function createForestUI({ closeView, getView, hasGame, translate, onRankingCapacity }) {
   const el = id => document.getElementById(id);
   const wrap = (id, title, content) => {
     const dialog = document.createElement("dialog");
@@ -55,7 +56,8 @@ export function createForestUI({ closeView, getView, hasGame, translate }) {
   meter.append(document.createElement("span"));
   el("player-card").append(meter);
   const measuredLobby = installMeasuredLobby();
-  const measuredRankings = installMeasuredRankings(rankingsDialog);
+  const measuredRankings = installMeasuredRankings(rankingsDialog, onRankingCapacity);
+  installMeasuredMissions();
   const setLayer = (dialog, visible) => {
     if (visible && !dialog.open) dialog.showModal();
     else if (!visible && dialog.open) dialog.close();

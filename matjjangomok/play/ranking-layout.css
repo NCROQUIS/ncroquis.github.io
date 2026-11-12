@@ -59,12 +59,12 @@
   width: 430px; height: 42px; margin: 12px 0 0 16px; padding: 0 14px; gap: 12px;
   border: 1px solid #74863d; border-radius: 24px; background: linear-gradient(#194b1b, #0c3814);
   box-shadow: inset 0 1px 2px #d8ef8a3d, 0 2px 3px #00180980;
-  font-size: 23px; font-weight: 400; line-height: 1; color: #fffdf0;
+  font-size: 21px; font-weight: 400; line-height: 1; color: #fffdf0;
 }
 #rankings-dialog .forest-championship-meta > * { position: relative; display: flex; align-items: center; justify-content: center; gap: 12px; height: 40px; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; white-space: nowrap; }
 #rankings-dialog #forest-championship-period { width: auto; }
 #rankings-dialog #forest-championship-countdown { min-width: 0; color: #ffea45; font-weight: 400; }
-#rankings-dialog .forest-championship-separator { color: #f0e6b6; font-size: 25px; font-weight: 300; }
+#rankings-dialog .forest-championship-separator { color: #718363; font-size: 21px; font-weight: 300; transform: translateY(-3px); }
 #rankings-dialog .forest-championship-meta > :not(.forest-championship-separator)::before { content: ""; flex: none; width: 26px; height: 28px; background-position: center; background-size: contain; background-repeat: no-repeat; }
 #rankings-dialog #forest-championship-period::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 28'%3E%3Cg fill='none' stroke='%23f5eb3e' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='21' height='21' rx='2'/%3E%3Cpath d='M3 11h21M8 2v6m10-6v6M8 16h1m7 0h1m-9 5h1m7 0h1'/%3E%3C/g%3E%3C/svg%3E"); }
 #rankings-dialog #forest-championship-countdown::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='12' fill='none' stroke='%23ffeb35' stroke-width='2.5'/%3E%3Cpath d='M14 6v9h6' fill='none' stroke='%23ffeb35' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E"); }
@@ -91,9 +91,9 @@
 #rankings-dialog .ranking-tabs button[aria-selected="true"] + button::before { display: none; }
 #rankings-dialog [data-weekly-reward-ready]::after { width: 12px; height: 12px; margin-left: 6px; }
 #rankings-dialog .ranking-panel { position: relative; flex: 1; min-height: 0; margin-top: 14px; gap: 0; }
-#rankings-dialog .ranking-panel > .list-body { padding: 0 0 5px; overflow-x: hidden; overflow-y: auto; scrollbar-width: thin; }
+#rankings-dialog .ranking-panel > .list-body { padding: 0 0 5px; overflow: hidden; }
 #rankings-dialog .ranking-panel > #tournament-attempts { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); margin: 0; }
-#rankings-dialog .list-message { padding: 24px 12px; color: #fff8de; font-size: 22px; }
+#rankings-dialog .list-message { padding: 24px 12px; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #fff8de; text-shadow: 0 1px 2px #00230e; font-size: 22px; }
 #rankings-dialog .ranking-retry { font-size: 22px; }
 #rankings-dialog .ranking-cards { gap: 6px; padding: 0; }
 #rankings-dialog .ranking-cards > li { flex: none; }
@@ -190,10 +190,11 @@
   text-shadow: 0 1px 1px #fff5b6;
 }
 #rankings-dialog #join-tournament > :not(.ranking-resource) { position: relative; z-index: 1; }
-#rankings-dialog #join-tournament-label { transform: translateY(-1px); }
-#rankings-dialog #join-tournament-coins { transform: translateY(-1px); }
+#rankings-dialog #join-tournament-label { transform: translateY(-6px); }
+#rankings-dialog #join-tournament-coins { transform: translateY(-6px); }
 #rankings-dialog #join-tournament:lang(en) { font-size: 34px; }
 #rankings-dialog .tournament-coin-cost { color: #49320a; }
-#rankings-dialog .ranking-pagination { flex: none; padding-top: 8px; padding-bottom: 8px; font-size: 20px; }
-#rankings-dialog .ranking-pagination button { font-size: 20px; }
+#rankings-dialog .ranking-pagination { flex: none; display: flex; align-items: center; justify-content: center; gap: 20px; height: 76px; margin: 8px 0 12px; padding: 16px 0; font-size: 20px; }
+#rankings-dialog .ranking-pagination button { flex: none; width: 112px; min-height: 44px; padding: 6px 12px; font-size: 20px; }
+#rankings-dialog .ranking-pagination .list-count { min-width: 74px; color: #e1ecd5; font-size: 20px; text-align: center; }
 #rankings-dialog :focus-visible { outline-offset: -3px; }

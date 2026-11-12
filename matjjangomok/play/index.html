@@ -10,11 +10,12 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=964bf8474dc9">
-  <link rel="stylesheet" href="./forest-ui.css?v=964bf8474dc9">
-  <link rel="stylesheet" href="./lobby-layout.css?v=964bf8474dc9">
-  <link rel="stylesheet" href="./ranking-layout.css?v=964bf8474dc9">
-  <script type="module" src="./app.js?v=964bf8474dc9"></script>
+  <link rel="stylesheet" href="./style.css?v=3000397f6d52">
+  <link rel="stylesheet" href="./forest-ui.css?v=3000397f6d52">
+  <link rel="stylesheet" href="./lobby-layout.css?v=3000397f6d52">
+  <link rel="stylesheet" href="./ranking-layout.css?v=3000397f6d52">
+  <link rel="stylesheet" href="./mission-layout.css?v=3000397f6d52">
+  <script type="module" src="./app.js?v=3000397f6d52"></script>
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -240,11 +241,11 @@
             <button id="ranking-rating-retry" class="quiet ranking-retry" type="button" data-i18n="rankingRetry" hidden></button>
             <ol id="rating-standings" class="entry-list ranking-cards"></ol>
           </div>
-          <div id="ranking-pagination" class="ranking-pagination" hidden>
-            <button id="ranking-prev" class="quiet" type="button" data-i18n="rankingPrevious"></button>
-            <span id="ranking-page" class="list-count" aria-live="polite"></span>
-            <button id="ranking-next" class="quiet" type="button" data-i18n="rankingNext"></button>
-          </div>
+        </div>
+        <div id="ranking-pagination" class="ranking-pagination" hidden>
+          <button id="ranking-prev" class="quiet" type="button" data-i18n="rankingPrevious"></button>
+          <span id="ranking-page" class="list-count" aria-live="polite"></span>
+          <button id="ranking-next" class="quiet" type="button" data-i18n="rankingNext"></button>
         </div>
         <template id="ranking-card-template">
           <button class="ranking-card" type="button" aria-haspopup="dialog" aria-controls="player-profile">
@@ -674,8 +675,11 @@
           <section class="mission-overview" aria-labelledby="mission-overview-title">
             <div class="mission-overview-heading">
               <h3 id="mission-overview-title">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="3" y="8" width="18" height="5" rx="1"/><path d="M5 13v8h14v-8M12 8v13m0-13H8a2.5 2.5 0 1 1 2-4l2 4Zm0 0h4a2.5 2.5 0 1 0-2-4l-2 4Z"/>
+                <svg viewBox="0 0 52 52" aria-hidden="true">
+                  <circle cx="26" cy="26" r="24" fill="#fcf6e9" stroke="#e0cba5" stroke-width="1.2"/>
+                  <g fill="none" stroke="#2c641c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="12" y="13" width="28" height="30" rx="4"/><path d="M20 9v10m12-10v10m-13 11 6 6 10-13"/>
+                  </g>
                 </svg>
                 <span data-i18n="missionOverview"></span>
               </h3>

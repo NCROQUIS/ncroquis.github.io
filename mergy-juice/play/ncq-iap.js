@@ -6,7 +6,9 @@
  *                       상품 지급은 여기 한 곳에서 해요. 새 구매도, 앱이 꺼져서 끝나지 않은 구매도, 다시 설치한 뒤 되찾은
  *                       비소모성 상품(정보.restored)도 여기로 와요. 앱을 열 때 바로 등록해요. 지급하지 못했으면 false를 돌려줘요
  *                       (그러면 구매를 마무리하지 않고 다음에 다시 와요). 비소모성 상품은 몇 번 와도 같게(켜기만) 지급해요.
- *                       정보.quantity는 산 개수예요 (보통 1, 구글플레이에서 여러 개 사기를 켰을 때만 더 커요)
+ *                       정보.quantity는 산 개수예요 (보통 1, 구글플레이에서 여러 개 사기를 켰을 때만 더 커요).
+ *                       정보.grantId는 이 구매만의 지급 번호예요: 공용 저장 모듈로 NcqSave.grant(정보.grantId, {coins: 500})처럼
+ *                       넣으면 두 번 넣지 않고 바로 클라우드에 백업해요 (지급한 뒤 NcqSave.backup()도 불러요)
  *   NcqIap.can(상품)            이 빌드에서 이 상품을 팔 수 있으면 true (구매 버튼을 보일지). 상품 정보를 받기 전에는 false
  *   await NcqIap.ready()        상품 정보(가격)를 받을 때까지 기다려요. 결제를 쓸 수 있으면 true (window 이벤트 ncq-iap도 와요)
  *   NcqIap.price(상품)          스토어 가격 글 (예: "₩1,200"). 모르면 "". 가격은 코드에 적지 않아요 (스토어 정책)
@@ -37,7 +39,7 @@
   "use strict";
   if (w.NcqIap && w.NcqIap.version) return; // 두 번 들어와도 하나만
 
-  var VERSION = 2;
+  var VERSION = 4;
   var LEDGER = "ncq-iap-v1"; // 지급한 구매 (같은 구매를 두 번 지급하지 않게)
   var SIM = "ncq-iap-sim-v1"; // 공유 테스트에서 '산 것으로 한' 비소모성 상품
   var KEEP = 120 * 86400000; // 지급 기록을 남겨 두는 기간
@@ -352,6 +354,14 @@
     return isFinite(n) ? n : null;
   }
 
+  /** 공용 저장 모듈 NcqSave를 쓰는 게임이면 지급한 저장을 바로 클라우드에 올려요 (결제한 재화가 이 기기에만 있지 않게).
+   * 백업이 늦어지거나 실패해도 결제 마무리는 그대로 해요 (NcqSave가 다시 올려요). */
+  function backupSave() {
+    try {
+      if (w.NcqSave && w.NcqSave.backup) w.NcqSave.backup();
+    } catch (e) { /* 저장 백업은 결제를 막지 않아요 */ }
+  }
+
   // ------------------------------------------------------------ 지급 (게임의 onGrant)
   /** 게임에 지급을 맡기고, 지급했으면 기록해요. 지급했으면 true (false를 돌려주거나 오류가 나면 false).
    * 같은 구매를 지급하는 중에 또 부르면 같은 결과를 기다려요 (두 번 지급하지 않게). */
@@ -364,12 +374,15 @@
     }
     var p;
     st.granting += 1;
+    info = info || {};
+    info.grantId = id ? "iap:" + id : ""; // 이 구매만의 지급 번호 (NcqSave.grant(정보.grantId, …)로 두 번 넣지 않게)
     try {
-      var out = st.handler(k, info || {});
+      var out = st.handler(k, info);
       p = Promise.resolve(out).then(function (ok) {
         if (ok === false) return false;
         remember(id, k);
         noteGrant(k, info);
+        backupSave();
         return true;
       }, function (e) {
         warn("onGrant에서 오류가 났어요 (" + k + ")", e);
@@ -745,7 +758,8 @@
         if (!token) return null;
         var type = typeOf(k);
         var acked = t.isAcknowledged === true;
-        var info = {restored: false, recovered: true, order: t.orderId || "", quantity: qty(t)};
+        var info = {restored: false, recovered: true, order: t.orderId || "", quantity: qty(t),
+                    purchaseToken: t.purchaseToken};
         function finish() {
           return finishAndroid(P, token, type, acked).then(function (ok) { if (!ok) done.left.push(k); });
         }
@@ -894,11 +908,11 @@
     return (shelf[k] && shelf[k].price) || "";
   }
 
-  function buy(id) { return purchase(id, "consumable"); }
+  function buy(id, options) { return purchase(id, "consumable", options); }
 
   function buyOnce(id) { return purchase(id, "non_consumable"); }
 
-  function purchase(id, type) {
+  function purchase(id, type, options) {
     var k = keyOf(id);
     if (!k) return Promise.resolve(failed(k, "UNAVAILABLE"));
     st.learned[k] = type;
@@ -914,7 +928,7 @@
       return serial(function () {
         if (env().sim) return simBuy(k, type);
         if (env().ios) return iosBuy(k, type);
-        if (env().android) return androidBuy(k, type);
+        if (env().android) return androidBuy(k, type, options);
         return tossBuy(k, type);
       });
     }).then(function (r) {
@@ -929,7 +943,7 @@
     });
   }
 
-  function androidBuy(k, type) {
+  function androidBuy(k, type, options) {
     var P = plugin();
     var id = storeId(k);
     var first = type === "non_consumable" ? androidPurchases().then(function (list) {
@@ -950,6 +964,12 @@
       if (done) return done;
       var opts = {productIdentifier: id, productType: "inapp", quantity: 1, isConsumable: type === "consumable",
                   autoAcknowledgePurchases: false};
+      if (options && options.appAccountToken !== undefined) {
+        if (typeof options.appAccountToken !== "string" || !/^[A-Za-z0-9_-]{1,64}$/.test(options.appAccountToken)) {
+          return failed(k, "UNAVAILABLE");
+        }
+        opts.appAccountToken = options.appAccountToken;
+      }
       if (shelf[k] && shelf[k].offer) opts.offerToken = shelf[k].offer; // 보여 준 가격의 구매 옵션으로
       return timed(P.purchaseProduct(opts), ORDER_WAIT).then(function (t) {
         var token = (t && (t.purchaseToken || t.transactionId)) || "";
@@ -965,7 +985,8 @@
           checkAgain();
           return failed(k, "CHECKING");
         }
-        return deliver(k, token, {restored: false, order: (t && t.orderId) || "", quantity: qty(t)}).then(function (ok) {
+        return deliver(k, token, {restored: false, order: (t && t.orderId) || "", quantity: qty(t),
+                                  purchaseToken: t && t.purchaseToken}).then(function (ok) {
           if (!ok) return failed(k, "NOT_GRANTED");
           return finishAndroid(P, token, type, !!(t && t.isAcknowledged)).then(function () { return result(true, k); });
         });

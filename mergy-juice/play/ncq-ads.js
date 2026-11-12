@@ -5,7 +5,8 @@
  *   NcqAds.can(지면)                 이 빌드에서 이 지면 광고를 보여 줄 수 있으면 true (보상 버튼을 보일지 정할 때)
  *   await NcqAds.rewarded(지면)       보상형 광고. 끝까지 봤을 때만 true (그때만 보상). 불러오는 동안은 NcqAds가 안내해요
  *   await NcqAds.interstitial(지면)   전면 광고. 닫힐 때까지 기다려요. 못 보여 주면(준비 전, 앱을 연 지 30초 안,
- *                                    앞 광고 뒤 60초 안) 바로 false
+ *                                    앞 광고 뒤 60초 안) 바로 false. 두 간격은 게임마다 레포 release/android.json의
+ *                                    ad_start·ad_gap(초)으로 바꿔요 (빌드가 window.NCQ.NCQ_AD_TIMING으로 넣어요, 없으면 30·60)
  *   NcqAds.banner(지면, {position: "bottom" | "top"}) · NcqAds.hideBanner()
  *   await NcqAds.ready()   광고 준비(동의 확인)가 끝날 때까지. 광고를 쓸 수 있으면 true
  *   NcqAds.privacyRequired() · NcqAds.showPrivacyOptions()   설정 화면의 '개인정보 설정' 버튼이 필요한지 · 열기
@@ -22,6 +23,8 @@
  *   공유 테스트(웹): 진짜 광고 대신 '광고 자리' 화면 (어디서 어떻게 나오는지 미리 봐요)
  *   광고를 끈 빌드: 아무것도 하지 않아요 (can·rewarded·interstitial 모두 false)
  * 광고 동의(유럽 등)는 안드로이드 앱을 열 때 NcqAds가 구글 동의 화면(UMP)으로 물어요.
+ * 공용 소리 모듈(NcqSound, 게임 레포의 ncq/sound.js)이 있으면 전면·보상형 광고(공유 테스트의 광고 자리 포함)를 보여 주는
+ * 동안 모든 소리를 멈췄다가(NcqSound.pause("ad")) 닫히면 다시 켜요(resume("ad")). 게임이 소리를 NcqSound로 내면 할 일이 없어요.
  * 지표 모듈(NcqMetrics)이 있으면 광고 기록을 보내요 (게임 코드는 할 일이 없어요): ad_load(불러옴)·ad_fail(못 불러옴·못 보여 줌)·
  * ad_show(노출, 배너는 새로 불러올 때마다)·ad_reward(보상)·ad_call(게임이 전면·보상형 광고를 보여 달라고 한 결과 result:
  * shown·rewarded·closed·not_ready·no_ad·too_soon·busy·canceled·failed·off). 켠 지면만 적고, 오류가 나도 광고는 그대로예요.
@@ -30,7 +33,7 @@
   "use strict";
   if (w.NcqAds && w.NcqAds.version) return; // 두 번 들어와도 하나만
 
-  var VERSION = 6;
+  var VERSION = 8;
   var GAP = 60000; // 전면 광고 사이 최소 간격 (보상형 광고를 본 뒤에도)
   var START_GAP = 30000; // 앱을 열고 이 시간 안에는 전면 광고를 띄우지 않아요
   var WAIT = 10000; // 보상형 광고를 불러오며 기다리는 최대 시간
@@ -390,6 +393,17 @@
     return false;
   }
 
+  /** 공용 소리 모듈(NcqSound)이 있으면 광고 동안 모든 소리를 멈춰요 (게임 코드는 할 일이 없어요) */
+  function sound(on) {
+    try {
+      var s = w.NcqSound;
+      if (s && typeof s.pause === "function" && typeof s.resume === "function") {
+        if (on) s.resume("ad");
+        else s.pause("ad");
+      }
+    } catch (e) { /* 소리 모듈이 없거나 오류가 나도 광고는 그대로 */ }
+  }
+
   /** 불러 둔 전면·보상형 광고를 보여 주고 닫힐 때까지 기다린다. 보상형은 보상을 받았으면 true. */
   function showFull(k) {
     var id = unit(k);
@@ -398,6 +412,7 @@
     var a = full[id];
     st.busy = true;
     st.shown = false;
+    sound(false);
     return new Promise(function (resolve) {
       var stops = [];
       var done = false;
@@ -427,6 +442,7 @@
         }
         st.busy = false;
         st.last = Date.now();
+        sound(true);
         setTimeout(function () { load(k); }, 1000); // 다음 광고를 미리
         resolve(result);
       }
@@ -514,9 +530,20 @@
     return env().native && !st.off && flagOn(k) && !!unit(k) && !!plugin();
   }
 
+  // 전면 광고 간격: 빌드가 넣은 게임 설정(window.NCQ.NCQ_AD_TIMING의 start·gap, 초)이 있으면 그 값, 없으면 기본 (START_GAP·GAP)
+  function timing(field, fallback, low, high) {
+    try {
+      var t = w.NCQ && w.NCQ.NCQ_AD_TIMING;
+      var v = t && t[field];
+      if (typeof v === "number" && isFinite(v) && v >= low && v <= high) return v * 1000;
+    } catch (e) { /* 기본값으로 */ }
+    return fallback;
+  }
+
   function tooSoon() {
     var now = Date.now();
-    return now - st.started < START_GAP || (st.last && now - st.last < GAP);
+    return now - st.started < timing("start", START_GAP, 0, 600) ||
+      (st.last && now - st.last < timing("gap", GAP, 0, 300));
   }
 
   function interstitial(slot) {
@@ -846,7 +873,8 @@
       plugin: e.toss ? !!bridge() : !!plugin(),
       ready: st.ready, off: st.off, test: !!(e.cfg && e.cfg.test), busy: st.busy, privacyRequired: st.privacy,
       banner: st.banner ? {slot: st.banner.k, position: st.banner.pos, hidden: st.banner.hidden} : null,
-      space: bannerSpace(), slots: slots
+      space: bannerSpace(), slots: slots,
+      gaps: {start: timing("start", START_GAP, 0, 600) / 1000, gap: timing("gap", GAP, 0, 300) / 1000}  // 전면 광고 간격(초)
     };
   }
 
@@ -899,6 +927,7 @@
 
   function simulate(k, kind) {
     st.busy = true;
+    sound(false);
     return new Promise(function (resolve) {
       var o = layer();
       var c = card();
@@ -922,6 +951,7 @@
       if (kind === "rewarded" && result) note("ad_reward", k, kind);
       st.busy = false;
       st.last = Date.now();
+      sound(true);
       return result;
     });
   }

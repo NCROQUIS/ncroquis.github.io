@@ -206,7 +206,7 @@
   max-height: var(--academy-height);
   padding: 0;
   overflow: hidden;
-  background: #faf8f4;
+  background: linear-gradient(140deg, #fffaf2, #f1e5cf);
 }
 .academy-frame { display: flex; flex-direction: column; height: 100%; }
 .academy-header { display: flex; align-items: center; flex: none; gap: 7px; padding: 8px 12px; min-height: 62px; border-bottom: 1px solid #e8e4dc; }
@@ -220,7 +220,7 @@
 .academy-content p { margin: 10px 0; }
 .academy-footer { flex: none; display: flex; gap: 9px; padding: 12px 14px 16px; }
 .academy-footer > button { flex: 1; min-height: 46px; padding: 8px 12px; font-size: .84rem; }
-.academy-footer > .primary { flex: 2; border: 1px solid #5c7d33; border-radius: 99px; color: #fffdf0; background: linear-gradient(160deg, #718c40, #466723); box-shadow: inset 0 1px 1px #e7efbd80, 0 2px 3px #50602729; font-size: .97rem; font-weight: 750; text-shadow: 0 1px 1px #37511a; }
+.academy-footer > .primary { flex: 2; border: 1px solid #c6ae48; border-radius: 99px; color: #fff9df; background: linear-gradient(#497c25, #24531c); box-shadow: inset 0 1px #bdd08b80, 0 2px 5px #00210f44; font-size: .97rem; font-weight: 750; text-shadow: 0 1px 1px #37511a; }
 .academy-footer > .secondary { flex: 0 1 auto; border: 1px solid #d0d8c2; border-radius: 13px; background: linear-gradient(#fffefb, #f0f2e9); box-shadow: 0 2px 2px #435c2220; color: #4e6e2a; }
 .academy-footer > .primary:disabled { opacity: 1; background: #dfe4d6; border-color: #d4dbcb; color: #8b947e; text-shadow: none; box-shadow: inset 0 1px 0 #fff8; }
 .academy-hero { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 4px 14px; border: 1px solid #d7d5b4; border-radius: 14px; padding: 14px; background: linear-gradient(135deg, #fffdf6, #edf0db); }

@@ -10,9 +10,14 @@
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
   <link rel="stylesheet" href="./omok.css">
+  <link rel="stylesheet" href="./forest-ui.css">
+  <link rel="stylesheet" href="./lobby-layout.css">
+  <link rel="stylesheet" href="./list-dialog.css">
+  <link rel="stylesheet" href="./ranking-layout.css">
+  <link rel="stylesheet" href="./mission-layout.css">
   <script type="module" src="./app.js"></script>
 <link rel="stylesheet" href="./style.css"><script src="./ncq/save.js"></script><script src="./ncq/sound.js"></script><script src="./ncq/auth-sdk.js"></script><title>맞짱 바둑 · Baduk Duel</title></head>
-<body>
+<body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
     <defs>
       <symbol id="nav-ranking" viewBox="0 0 24 24">
@@ -66,7 +71,7 @@
     <header class="topbar">
       <div class="brand">
         <span class="mark" aria-hidden="true"></span>
-        <span><span data-i18n="title">Omok Duel</span> <small id="app-version" class="version"></small></span>
+        <span><span data-i18n="title">Omok Duel</span></span>
       </div>
       <div class="header-tools">
         <div id="lobby-wallet" class="lobby-wallet">
@@ -74,10 +79,6 @@
           <span class="sr-only" data-i18n="lobbyCoins"></span>
           <strong id="lobby-coin-count"></strong>
         </div>
-        <button id="show-shop" class="shop-button" type="button" aria-haspopup="dialog" aria-controls="shop">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l1 12H4L5 8Zm4 2V6a3 3 0 0 1 6 0v4m-5 5h4m-2-2v4"></path></svg>
-          <span data-i18n="shop"></span>
-        </button>
         <button id="show-options" class="quiet" type="button" aria-haspopup="dialog" aria-controls="options" data-i18n-attr="aria-label:options; title:options">
           <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#settings-icon"></use></svg>
         </button>
@@ -86,6 +87,15 @@
 
     <main>
       <section id="lobby" class="lobby">
+        <div id="lobby-profile-slot"></div>
+        <div class="lobby-showcase" aria-hidden="true">
+          <div class="lobby-board-art">
+            <img src="./assets/forest-ui/board/reference-board.webp" alt="" class="lobby-board-image">
+          </div>
+        </div>
+        <div id="lobby-mission-slot"></div>
+        <div id="lobby-championship-slot"></div>
+        <div id="lobby-cta-slot"></div>
         <div class="lobby-feed">
           <div class="lobby-highlights">
             <button id="show-missions" class="mission-shortcut" type="button" aria-haspopup="dialog" aria-controls="missions">
@@ -98,7 +108,7 @@
               </span>
               <span class="mission-shortcut-content">
                 <span class="mission-shortcut-heading">
-                  <strong data-i18n="dailyMissions"></strong>
+                  <strong data-i18n="forestMission"></strong>
                   <small id="daily-mission-completed"><span id="daily-mission-count"></span> <span id="daily-mission-total"></span></small>
                 </span>
                 <span id="daily-mission-steps" class="mission-steps" aria-hidden="true"></span>
@@ -108,13 +118,13 @@
             <button id="show-tournament" class="tournament-card" type="button" aria-controls="tutorial-dialog">
               <svg class="tournament-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-ranking"></use></svg>
               <strong id="lobby-championship" data-i18n="academyTitle"></strong>
-              <small data-i18n="academyLobby"></small>
-              <time id="championship-countdown" class="championship-countdown"></time>
+              <small data-i18n="learningSummary"></small>
+              <time id="championship-countdown" class="championship-countdown" data-i18n="learningSteps"></time>
             </button>
           </div>
           <div class="list-heading">
             <div class="list-heading-title">
-              <h1 id="lobby-heading" tabindex="-1" data-i18n="liveGames"></h1>
+              <h1 id="lobby-heading" tabindex="-1" data-i18n="forestWatch"></h1>
               <span id="live-count" class="list-count" hidden=""></span>
             </div>
             <button id="refresh-lobby" class="quiet refresh-button" type="button">
@@ -151,11 +161,12 @@
       <section id="tournament" class="lobby" hidden="">
         <div class="list-heading">
           <h1 id="tournament-title" tabindex="-1" data-i18n="rankings"></h1>
+          <button id="show-lobby" class="forest-close" type="button" data-ncq-main="Close championship" data-i18n-attr="aria-label:done" data-page="lobby">×</button>
         </div>
         <div id="ranking-tabs" class="ranking-tabs" role="tablist" aria-labelledby="tournament-title">
-          <button id="ranking-weekly-tab" type="button" role="tab" aria-selected="false" aria-controls="ranking-weekly-panel" data-ranking="weekly" data-i18n="currentTournament" disabled=""></button>
-          <button id="ranking-previous-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="ranking-previous-panel" data-ranking="previous" data-i18n="previousTournament" disabled=""></button>
-          <button id="ranking-rating-tab" type="button" role="tab" aria-selected="true" tabindex="0" aria-controls="ranking-rating-panel" data-ranking="rating" data-i18n="ratingRankings"></button>
+          <button id="ranking-weekly-tab" type="button" role="tab" aria-selected="false" aria-controls="ranking-weekly-panel" data-ranking="weekly" data-i18n="forestThisWeek" disabled="" tabindex="-1"></button>
+          <button id="ranking-previous-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="ranking-previous-panel" data-ranking="previous" data-i18n="forestLastWeek" disabled=""></button>
+          <button id="ranking-rating-tab" type="button" role="tab" aria-selected="true" tabindex="0" aria-controls="ranking-rating-panel" data-ranking="rating" data-i18n="forestOverall"></button>
         </div>
         <div id="ranking-weekly-panel" class="ranking-panel" role="tabpanel" aria-labelledby="ranking-weekly-tab" tabindex="0" hidden="">
           <div id="ranking-weekly-list" class="list-body">
@@ -220,6 +231,8 @@
             <button id="ranking-rating-retry" class="quiet ranking-retry" type="button" data-i18n="rankingRetry" hidden=""></button>
             <ol id="rating-standings" class="entry-list ranking-cards"></ol>
           </div>
+        </div>
+        <div class="ranking-pagination-slot">
           <div id="ranking-pagination" class="ranking-pagination" hidden="">
             <button id="ranking-prev" class="quiet" type="button" data-i18n="rankingPrevious"></button>
             <span id="ranking-page" class="list-count" aria-live="polite"></span>
@@ -252,8 +265,8 @@
 
       <section id="records" class="lobby" hidden="">
         <header class="review-header">
-          <button id="records-back" type="button" class="review-button" data-i18n-attr="aria-label:reviewBack">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"></use></svg>
+          <button id="records-back" type="button" class="review-button" data-i18n-attr="aria-label:done">
+            <span aria-hidden="true">×</span>
           </button>
           <h1 id="records-heading" tabindex="-1" data-i18n="myRecords"></h1>
         </header>
@@ -296,7 +309,7 @@
             <button class="record-favorite review-button" type="button">
               <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-star"></use></svg>
             </button>
-            <button class="record-visibility" type="button" aria-haspopup="dialog" aria-controls="record-share-dialog" hidden=""></button>
+            <button class="record-visibility" type="button" aria-haspopup="dialog" aria-controls="record-visibility-dialog" hidden=""></button>
           </div>
         </li>
       </template>
@@ -393,7 +406,10 @@
               <use class="match-art-gauge-track" href="#place-gauge-outline"></use>
               <use id="own-progress" class="match-art-gauge-progress" href="#place-gauge-outline"></use>
             </svg>
-            <span id="place-text" data-i18n="placeStone"></span>
+            <span class="placement-copy">
+              <span id="place-text" data-i18n="placeStone"></span>
+              <small id="place-state" hidden=""></small>
+            </span>
             <span id="place-divider" class="gauge-divider" aria-hidden="true"></span>
             <span id="own-clock" class="player-clock" role="timer"></span>
           </button>
@@ -424,6 +440,12 @@
             <button class="review-button" type="button" data-step="last" data-i18n-attr="aria-label:lastMove">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5v14M4 5l7 7-7 7m7-14 7 7-7 7"></path></svg>
             </button>
+          </div>
+          <div id="placement-timing" class="placement-timing" hidden="">
+            <label for="placement-duration" data-i18n="placementTimingTest"></label>
+            <output id="placement-duration-value" for="placement-duration"></output>
+            <input id="placement-duration" type="range" min="50" max="600" step="10" value="80" aria-describedby="placement-timing-help">
+            <small id="placement-timing-help" data-i18n="placementTimingHelp"></small>
           </div>
           <button id="review-own-profile" class="review-player" type="button" aria-haspopup="dialog" aria-controls="player-profile">
             <span class="review-avatar match-avatar" aria-hidden="true">
@@ -489,51 +511,39 @@
         </span>
       </button>
       <div id="lobby-entry" class="match-request">
-        <button id="choose-rule" class="secondary choose-rule" type="button" aria-haspopup="dialog" aria-controls="practice-dialog">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#settings-icon"></use></svg>
-          <span id="selected-rule" data-i18n="nineRuleShort"></span>
-          <span class="chevron" aria-hidden="true"></span>
-        </button>
-        <button id="start" class="primary" type="button" data-ncq-main="대국 신청" data-i18n="matchRequest"></button>
-        <button id="show-records" class="secondary record-shortcut" type="button" aria-controls="records" data-page="records">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-records"></use></svg>
-          <span data-i18n="records"></span>
+        <button id="start" class="primary" type="button" data-ncq-main="대국 신청">
+          <img src="./assets/forest-ui/board/stones_pair.webp" alt=""><span data-i18n="matchRequest"></span>
         </button>
       </div>
       <div id="tournament-entry" class="match-request" hidden="">
-        <button id="tournament-rule" class="secondary choose-rule" type="button" disabled="" data-i18n-attr="aria-label:tournamentRuleFixed">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 10V7a4 4 0 0 1 8 0v3m-10 0h12v10H6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path></svg>
-          <span data-i18n="ruleRenju"></span>
+        <button id="join-tournament" class="primary" type="button">
+          <span id="join-tournament-label"></span>
+          <span id="join-tournament-cost" class="tournament-coin-cost" hidden="">
+            <span class="shop-coin" aria-hidden="true"></span><span id="join-tournament-coins"></span>
+          </span>
         </button>
-        <button id="join-tournament" class="primary" type="button"></button>
-        <button id="tournament-records" class="secondary record-shortcut" type="button" aria-controls="records" data-i18n-attr="aria-label:tournamentRecords">
+        <button id="tournament-records" hidden="" class="secondary record-shortcut" type="button" aria-controls="records" data-i18n-attr="aria-label:tournamentRecords">
           <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-records"></use></svg>
           <span data-i18n="records"></span>
         </button>
       </div>
     </div>
     <nav id="lobby-nav" class="lobby-nav" data-i18n-attr="aria-label:lobbyNavigation">
-      <button id="show-rankings" type="button" aria-controls="tournament" data-page="rankings">
-        <span class="lobby-nav-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><use href="#nav-ranking"></use></svg>
-        </span>
-        <span data-i18n="rankings"></span>
+      <button id="show-records" type="button" aria-haspopup="dialog" aria-controls="records-dialog" data-page="records">
+        <img src="./assets/forest-ui/icons/book.webp" alt=""><span data-i18n="forestRecords"></span>
       </button>
-      <button id="show-lobby" type="button" aria-controls="lobby" aria-current="page" data-page="lobby">
-        <span class="lobby-nav-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><use href="#nav-play"></use></svg>
-        </span>
-        <span data-i18n="playTab"></span>
+      <button id="show-watch" type="button" aria-haspopup="dialog" aria-controls="watch-dialog">
+        <img src="./assets/forest-ui/icons/watch.webp" alt=""><span data-i18n="forestWatch"></span>
       </button>
-      <button class="lobby-nav-upcoming" type="button" disabled="">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-friends"></use></svg>
-        <span class="lobby-nav-label">
-          <span data-i18n="friends"></span>
-          <small data-i18n="comingSoon"></small>
-        </span>
+      <button id="show-rankings" type="button" aria-haspopup="dialog" aria-controls="rankings-dialog" data-page="rankings">
+        <span class="lobby-nav-icon"><img src="./assets/forest-ui/icons/trophy.webp" alt=""></span><span data-i18n="rankings"></span>
+      </button>
+      <button id="show-shop" type="button" aria-haspopup="dialog" aria-controls="shop">
+        <img src="./assets/forest-ui/icons/shop.webp" alt=""><span data-i18n="shop"></span>
       </button>
     </nav>
 
+    <button id="watch-close" data-ncq-main="Close watch list" class="forest-close" type="button" data-close-dialog="watch-dialog" data-i18n-attr="aria-label:done">×</button>
     <dialog id="player-profile" class="profile-dialog" aria-labelledby="player-profile-title">
       <form method="dialog">
         <div class="profile-heading">
@@ -607,6 +617,7 @@
     <dialog id="options" aria-labelledby="options-title">
       <form method="dialog">
         <h2 id="options-title" tabindex="-1" data-i18n="options" autofocus=""></h2>
+        <small id="app-version" class="version"></small>
         <div class="option-row">
           <label for="language" data-i18n="language"></label>
           <select id="language"></select>
@@ -614,7 +625,7 @@
         <label class="option-row sound-option">
           <span data-i18n="stoneSound"></span>
           <input id="stone-sound" type="checkbox" checked="">
-        </label><label class="option-row sound-option"><span data-i18n="helpers"></span><input id="helpers" type="checkbox"></label>
+        </label><label class="option-row sound-option"><span data-i18n="helpers"></span><input id="helpers" type="checkbox"></label><button id="choose-rule" type="button" class="secondary" data-i18n="practice" aria-controls="practice-dialog" aria-haspopup="dialog"></button>
         <div id="options-player" class="option-row" hidden="">
           <label for="options-player-id" data-i18n="optionsPlayerId"></label>
           <button id="copy-player-id" class="secondary" type="button" data-i18n="optionsPlayerIdCopy" data-i18n-attr="aria-label:optionsPlayerIdCopyLabel"></button>
@@ -642,13 +653,17 @@
             <span data-i18n="shopBalance"></span><strong id="mission-balance"></strong>
           </div>
         </header>
+        <button id="mission-close" class="forest-close mission-x" data-ncq-main="Close daily missions" type="button" data-close-dialog="missions" data-i18n-attr="aria-label:done">×</button>
         <div id="mission-content">
           <p class="mission-guide" data-i18n="missionGuide"></p>
           <section class="mission-overview" aria-labelledby="mission-overview-title">
             <div class="mission-overview-heading">
               <h3 id="mission-overview-title">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="3" y="8" width="18" height="5" rx="1"></rect><path d="M5 13v8h14v-8M12 8v13m0-13H8a2.5 2.5 0 1 1 2-4l2 4Zm0 0h4a2.5 2.5 0 1 0-2-4l-2 4Z"></path>
+                <svg viewBox="0 0 52 52" aria-hidden="true">
+                  <circle cx="26" cy="26" r="24" fill="#fcf6e9" stroke="#e0cba5" stroke-width="1.2"></circle>
+                  <g fill="none" stroke="#2c641c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="12" y="13" width="28" height="30" rx="4"></rect><path d="M20 9v10m12-10v10m-13 11 6 6 10-13"></path>
+                  </g>
                 </svg>
                 <span data-i18n="missionOverview"></span>
               </h3>
@@ -674,16 +689,18 @@
             </li>
           </template>
           <p id="mission-repeat-note" class="mission-note"></p>
-          <p class="mission-note" data-i18n="missionEligibility"></p>
+          <details class="mission-eligibility"><summary data-i18n="forestMissionRules"></summary>
+            <p class="mission-note" data-i18n="missionEligibility"></p></details>
         </div>
         <p id="mission-feedback" role="status" hidden=""></p>
-        <button id="mission-close" class="secondary" type="submit" data-ncq-main="Close daily missions" data-i18n="shopClose"></button>
+        <button id="mission-close-footer" class="secondary" type="submit" data-i18n="shopClose"></button>
       </form>
     </dialog>
 
     <dialog id="shop" aria-labelledby="shop-title">
       <form method="dialog">
         <div class="shop-heading">
+          <button class="forest-close" type="button" data-close-dialog="shop" data-ncq-main="Close shop" data-i18n-attr="aria-label:done">×</button>
           <h2 id="shop-title" tabindex="-1" data-i18n="shop" autofocus=""></h2>
           <div class="shop-wallet"><span class="shop-coin" aria-hidden="true"></span>
             <span data-i18n="shopBalance"></span><strong id="shop-balance"></strong>
@@ -739,7 +756,7 @@
                   <strong data-i18n="shopGoldenPlacement"></strong>
                   <span class="shop-product-detail" data-i18n="shopGoldenPlacementGuide"></span>
                   <span class="shop-effect-status"></span>
-                  <span id="shop-effect-time" class="shop-product-detail" hidden=""></span>
+                  <span id="shop-effect-time" class="shop-product-detail shop-effect-time" hidden=""></span>
                 </span>
               </button>
             </li>
@@ -750,6 +767,28 @@
                   <strong data-i18n="shopSakuraPlacement"></strong>
                   <span class="shop-product-detail" data-i18n="shopSakuraPlacementGuide"></span>
                   <span class="shop-effect-status"></span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button class="shop-product shop-effect-option" type="button" data-effect="ripple" aria-pressed="false">
+                <span class="shop-effect-art" aria-hidden="true"><span class="stone black"></span></span>
+                <span class="shop-product-copy">
+                  <strong data-i18n="shopRipplePlacement"></strong>
+                  <span class="shop-product-detail" data-i18n="shopRipplePlacementGuide"></span>
+                  <span class="shop-effect-status"></span>
+                  <span class="shop-product-detail shop-effect-time" hidden=""></span>
+                </span>
+              </button>
+            </li>
+            <li>
+              <button class="shop-product shop-effect-option" type="button" data-effect="mystic" aria-pressed="false">
+                <span class="shop-effect-art" aria-hidden="true"><span class="stone black"></span></span>
+                <span class="shop-product-copy">
+                  <strong data-i18n="shopMysticPlacement"></strong>
+                  <span class="shop-product-detail" data-i18n="shopMysticPlacementGuide"></span>
+                  <span class="shop-effect-status"></span>
+                  <span class="shop-product-detail shop-effect-time" hidden=""></span>
                 </span>
               </button>
             </li>
@@ -985,12 +1024,45 @@
       </form>
     </dialog>
 
+    <dialog id="coin-reward-dialog" aria-labelledby="coin-reward-title" aria-describedby="coin-reward-coins">
+      <form method="dialog">
+        <h2 id="coin-reward-title" tabindex="-1" data-i18n="coinRewardTitle"></h2>
+        <p class="coin-reward-amount">
+          <span class="shop-coin" aria-hidden="true"></span><strong id="coin-reward-coins"></strong>
+        </p>
+        <p class="coin-reward-balance"><span data-i18n="shopBalance"></span> <strong id="coin-reward-balance"></strong></p>
+        <button id="coin-reward-confirm" class="primary" type="submit" data-ncq-main="Confirm received coins" data-i18n="confirmProfile"></button>
+      </form>
+    </dialog>
+
     <dialog id="shop-purchase-complete" aria-labelledby="shop-purchase-title" aria-describedby="shop-purchase-message">
       <form method="dialog">
         <span class="shop-purchase-check" aria-hidden="true">✓</span>
         <h2 id="shop-purchase-title" data-i18n="shopPurchaseComplete"></h2>
         <p id="shop-purchase-message"></p>
         <button class="primary" type="submit" data-ncq-main="Confirm purchase completion" data-i18n="confirmProfile" autofocus=""></button>
+      </form>
+    </dialog>
+
+    <dialog id="coin-shortage" aria-labelledby="coin-shortage-title" aria-describedby="coin-shortage-message">
+      <form method="dialog">
+        <h2 id="coin-shortage-title" data-i18n="coinShortageTitle"></h2>
+        <p id="coin-shortage-message" data-i18n="coinShortageMessage"></p>
+        <div class="coin-shortage-actions">
+          <button class="secondary" type="submit" value="no" data-i18n="coinShortageNo" data-ncq-main="Stay on the current screen"></button>
+          <button class="primary" type="submit" value="yes" data-i18n="coinShortageYes" data-ncq-main="Open the coin shop" autofocus=""></button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="leave-dialog" aria-labelledby="leave-dialog-title" aria-describedby="leave-dialog-message">
+      <form method="dialog">
+        <h2 id="leave-dialog-title" tabindex="-1" data-i18n="confirmLeaveTitle"></h2>
+        <p id="leave-dialog-message"></p>
+        <div class="leave-dialog-actions">
+          <button id="leave-dialog-cancel" class="secondary" type="submit" value="cancel" data-i18n="cancel" data-ncq-main="Continue the game" autofocus=""></button>
+          <button id="leave-dialog-confirm" class="primary" type="submit" value="leave" data-i18n="leave" data-ncq-main="Confirm leaving the game"></button>
+        </div>
       </form>
     </dialog>
 
@@ -1002,19 +1074,23 @@
       </li>
     </template>
 
-    <dialog id="rule-dialog" class="rule-dialog" aria-labelledby="rule-heading">
+    <dialog id="tournament-catch-up" aria-labelledby="tournament-catch-up-title" aria-describedby="tournament-catch-up-summary tournament-catch-up-message">
       <form method="dialog">
-        <h2 id="rule-heading" data-i18n="chooseRules"></h2>
-        <button type="submit" value="renju" class="rule-option" data-ncq-main="Select Renju">
-          <strong data-i18n="ruleRenju"></strong><small data-i18n="ruleRenjuHelp"></small>
-        </button>
-        <button type="submit" value="free" class="rule-option" data-ncq-main="Select freestyle">
-          <strong data-i18n="ruleFree"></strong><small data-i18n="ruleFreeHelp"></small>
-        </button>
-        <button type="submit" value="taraguchi" class="rule-option" data-ncq-main="Select Taraguchi-10">
-          <strong data-i18n="ruleTaraguchi"></strong><small data-i18n="ruleTaraguchiHelp"></small>
-        </button>
-        <button type="submit" value="" class="secondary" data-ncq-main="Close rules" data-i18n="cancel"></button>
+        <h2 id="tournament-catch-up-title" data-i18n="joinTournamentCatchUp"></h2>
+        <p id="tournament-catch-up-summary">
+          <span data-i18n="tournamentMissedAttempts"></span>
+          <strong id="tournament-catch-up-missed"></strong>
+        </p>
+        <p id="tournament-catch-up-message" data-i18n="confirmTournamentCatchUp"></p>
+        <div class="tournament-catch-up-actions">
+          <button class="secondary" type="submit" value="cancel" data-ncq-main="Cancel tournament catch-up" data-i18n="cancel" autofocus=""></button>
+          <button id="confirm-tournament-catch-up" class="primary" type="submit" value="confirm" data-ncq-main="Confirm tournament catch-up">
+            <span data-i18n="joinTournamentCatchUp"></span>
+            <span class="tournament-coin-cost">
+              <span class="shop-coin" aria-hidden="true"></span><span id="tournament-catch-up-coins"></span>
+            </span>
+          </button>
+        </div>
       </form>
     </dialog>
     <dialog id="matchmaking" class="matchmaking" aria-labelledby="queue-title" aria-describedby="queue-rule queue-status">
@@ -1070,19 +1146,25 @@
         <button class="secondary" data-ncq-main="Close invite" data-i18n="done"></button>
       </form>
     </dialog>
-    <dialog id="record-share-dialog" aria-labelledby="record-share-title">
+    <dialog id="record-share-dialog" class="record-dialog" aria-labelledby="record-share-title">
       <form method="dialog">
         <h2 id="record-share-title" data-i18n="recordShare"></h2>
-        <p id="record-share-note"></p>
         <div id="record-link-panel" hidden="">
           <label for="record-link" data-i18n="recordPublicLink"></label>
           <input id="record-link" readonly="">
-          <button id="record-send-link" class="primary" type="button" data-i18n="recordSendLink" hidden=""></button>
-          <button id="record-copy-link" class="secondary" type="button" data-i18n="recordCopyLink"></button>
+          <button id="record-send-link" class="primary" type="button" data-ncq-main="Share record link" data-i18n="recordSendLink" hidden=""></button>
+          <button id="record-copy-link" class="secondary" type="button" data-ncq-main="Copy record link" data-i18n="recordCopyLink"></button>
         </div>
         <p id="record-share-feedback" class="feedback" role="status" hidden=""></p>
-        <button id="record-visibility-toggle" class="primary" type="button" hidden=""></button>
         <button id="record-share-close" class="secondary" data-ncq-main="Close record sharing" data-i18n="done" autofocus=""></button>
+      </form>
+    </dialog>
+    <dialog id="record-visibility-dialog" class="record-dialog" aria-labelledby="record-visibility-title">
+      <form method="dialog">
+        <h2 id="record-visibility-title" data-i18n="recordVisibilitySettings"></h2>
+        <p id="record-visibility-feedback" class="feedback" role="status" hidden=""></p>
+        <button id="record-visibility-toggle" class="primary" type="button" data-ncq-main="Change record visibility" hidden=""></button>
+        <button id="record-visibility-close" class="secondary" data-ncq-main="Close record visibility settings" data-i18n="done" autofocus=""></button>
       </form>
     </dialog>
     <dialog id="result" class="result" aria-labelledby="result-heading result-stone-color result-title">
@@ -1157,6 +1239,28 @@
       </div>
     </dialog>
   </div>
+<template id="future-rule-picker">
+        <button id="choose-rule" class="secondary choose-rule" type="button" aria-haspopup="dialog" aria-controls="rule-dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#settings-icon"></use></svg>
+          <span id="selected-rule"></span>
+          <span class="chevron" aria-hidden="true"></span>
+        </button>
+    <dialog id="rule-dialog" class="rule-dialog" aria-labelledby="rule-heading">
+      <form method="dialog">
+        <h2 id="rule-heading" data-i18n="chooseRules"></h2>
+        <button type="submit" value="renju" class="rule-option" data-ncq-main="Select Renju">
+          <strong data-i18n="ruleRenju"></strong><small data-i18n="ruleRenjuHelp"></small>
+        </button>
+        <button type="submit" value="free" class="rule-option" data-ncq-main="Select freestyle">
+          <strong data-i18n="ruleFree"></strong><small data-i18n="ruleFreeHelp"></small>
+        </button>
+        <button type="submit" value="taraguchi" class="rule-option" data-ncq-main="Select Taraguchi-10">
+          <strong data-i18n="ruleTaraguchi"></strong><small data-i18n="ruleTaraguchiHelp"></small>
+        </button>
+        <button type="submit" value="" class="secondary" data-ncq-main="Close rules" data-i18n="cancel"></button>
+      </form>
+    </dialog>
+</template>
 
 
 <dialog id="practice-dialog" class=""><form method="dialog"><div class="dialog-heading"><h2 data-i18n="practice"></h2><button class="quiet" data-i18n-attr="aria-label:close">✕</button></div></form><label class="option-row"><span data-i18n="opponent"></span><select id="practice-mode"><option value="ai" data-i18n="aiOpponent"></option><option value="local" data-i18n="localOpponent"></option></select></label><label class="option-row"><span data-i18n="difficulty"></span><select id="difficulty"><option value="0" data-i18n="level0"></option><option value="1" data-i18n="level1"></option><option value="2" data-i18n="level2"></option><option value="3" data-i18n="level3"></option></select></label><label class="option-row"><span data-i18n="myColor"></span><select id="my-color"><option value="1" data-i18n="black"></option><option value="2" data-i18n="white"></option></select></label><button id="start-practice" class="primary" data-ncq-main="연습 시작" data-i18n="start"></button></dialog><dialog id="confirm-dialog" class=""><h2 id="confirm-title"></h2><p id="confirm-text"></p><div class="dialog-actions"><button id="confirm-no" class="secondary" data-i18n="cancel"></button><button id="confirm-yes" class="primary" data-ncq-main="확인" data-i18n="confirm"></button></div></dialog><dialog id="tutorial-dialog" class="academy-dialog" aria-labelledby="academy-title"><div class="academy-frame"><header class="academy-header"><button id="academy-close" class="quiet" type="button" aria-label="Close">‹</button><h2 id="academy-title"></h2><button id="academy-grade" class="quiet academy-rank" type="button"></button></header><div id="academy-content" class="academy-content"></div><footer id="academy-footer" class="academy-footer"></footer></div></dialog><div id="toast" class="toast" role="status" hidden=""></div></body></html>

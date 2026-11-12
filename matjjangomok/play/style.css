@@ -2111,7 +2111,11 @@ dialog input { width: 100%; }
   inset-block: var(--ncq-top, 0px) var(--ncq-bottom, 0px);
   max-height: calc(100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - 16px);
   background: #fffcf4;
+  overflow: hidden;
 }
+#options form { display: flex; flex-direction: column; max-height: calc(100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - 54px); }
+#options form > :not(.options-content) { flex: none; }
+#options .options-content { display: grid; grid-auto-rows: max-content; gap: 10px; min-height: 0; overflow-y: auto; }
 .option-row {
   display: flex;
   align-items: center;
@@ -2481,7 +2485,7 @@ dialog input { width: 100%; }
   .profile-dialog:has(#profile-rating-standing-row:not([hidden])) .profile-records > div { padding-block: 4px; }
   .profile-dialog:has(#profile-rating-standing-row:not([hidden])) .promotion-meter { padding-block: 5px; }
 }
-#shop, .mission-dialog {
+#shop:not(.forest-list-dialog), .mission-dialog {
   --shop-height: calc(100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - var(--shop-frame-gap, 16px));
   inset-block: var(--ncq-top, 0px) var(--ncq-bottom, 0px);
   max-height: var(--shop-height);
@@ -2490,7 +2494,8 @@ dialog input { width: 100%; }
   background: #fffcf4;
   border-radius: 18px;
 }
-#shop { width: min(510px, 94vw); height: min(740px, var(--shop-height)); container: shop-dialog / size; }
+#shop { container: shop-dialog / size; }
+#shop:not(.forest-list-dialog) { width: min(510px, 94vw); height: min(740px, var(--shop-height)); }
 #shop form {
   display: flex;
   flex-direction: column;
@@ -2901,6 +2906,9 @@ dialog input { width: 100%; }
   text-align: start;
 }
 .shop-coin-quantity { font-size: .98rem; line-height: 1.24; }
+#shop-ad-coins[hidden] { display: none; }
+#shop-ad-coins .shop-coin-buy { white-space: normal; overflow-wrap: anywhere; }
+#shop-ad-coins .shop-effect-status { white-space: normal; }
 .shop-coin-buy {
   min-height: 36px;
   padding: 5px 10px;

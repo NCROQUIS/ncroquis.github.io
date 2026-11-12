@@ -2,6 +2,7 @@
 <html>
 <head>
   <script src="./ncq/safe.js"></script>
+  <script src="./ncq/device.js?v=cedc99350209"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -11,13 +12,14 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=da9d50328fc6">
-  <link rel="stylesheet" href="./forest-ui.css?v=da9d50328fc6">
-  <link rel="stylesheet" href="./lobby-layout.css?v=da9d50328fc6">
-  <link rel="stylesheet" href="./list-dialog.css?v=da9d50328fc6">
-  <link rel="stylesheet" href="./ranking-layout.css?v=da9d50328fc6">
-  <link rel="stylesheet" href="./mission-layout.css?v=da9d50328fc6">
-  <script type="module" src="./app.js?v=da9d50328fc6"></script>
+  <link rel="stylesheet" href="./style.css?v=cedc99350209">
+  <link rel="stylesheet" href="./forest-ui.css?v=cedc99350209">
+  <link rel="stylesheet" href="./lobby-layout.css?v=cedc99350209">
+  <link rel="stylesheet" href="./list-dialog.css?v=cedc99350209">
+  <link rel="stylesheet" href="./shop-layout.css?v=cedc99350209">
+  <link rel="stylesheet" href="./ranking-layout.css?v=cedc99350209">
+  <link rel="stylesheet" href="./mission-layout.css?v=cedc99350209">
+  <script type="module" src="./app.js?v=cedc99350209"></script>
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -641,25 +643,31 @@
       <form method="dialog">
         <h2 id="options-title" tabindex="-1" data-i18n="options" autofocus></h2>
         <small id="app-version" class="version"></small>
-        <div class="option-row">
-          <label for="language" data-i18n="language"></label>
-          <select id="language"></select>
+        <div class="options-content">
+          <div class="option-row">
+            <label for="language" data-i18n="language"></label>
+            <select id="language"></select>
+          </div>
+          <label class="option-row sound-option">
+            <span data-i18n="stoneSound"></span>
+            <input id="stone-sound" type="checkbox" checked>
+          </label>
+          <label id="vibration-option" class="option-row sound-option" hidden>
+            <span data-i18n="vibration"></span>
+            <input id="vibration" type="checkbox" checked>
+          </label>
+          <div id="options-player" class="option-row" hidden>
+            <label for="options-player-id" data-i18n="optionsPlayerId"></label>
+            <button id="copy-player-id" class="secondary" type="button" data-i18n="optionsPlayerIdCopy"
+                    data-i18n-attr="aria-label:optionsPlayerIdCopyLabel"></button>
+            <input id="options-player-id" type="text" readonly spellcheck="false">
+            <p id="player-id-feedback" role="status" hidden></p>
+          </div>
+          <button id="send-feedback" class="secondary" type="button" data-i18n="sendFeedback" hidden></button>
+          <button id="ad-privacy" class="secondary" type="button" data-i18n="adPrivacy" hidden></button>
+          <button id="restore-purchases" class="secondary" type="button" data-i18n="purchaseRestore" hidden></button>
+          <p id="restore-feedback" role="status" hidden></p>
         </div>
-        <label class="option-row sound-option">
-          <span data-i18n="stoneSound"></span>
-          <input id="stone-sound" type="checkbox" checked>
-        </label>
-        <div id="options-player" class="option-row" hidden>
-          <label for="options-player-id" data-i18n="optionsPlayerId"></label>
-          <button id="copy-player-id" class="secondary" type="button" data-i18n="optionsPlayerIdCopy"
-                  data-i18n-attr="aria-label:optionsPlayerIdCopyLabel"></button>
-          <input id="options-player-id" type="text" readonly spellcheck="false">
-          <p id="player-id-feedback" role="status" hidden></p>
-        </div>
-        <button id="send-feedback" class="secondary" type="button" data-i18n="sendFeedback" hidden></button>
-        <button id="ad-privacy" class="secondary" type="button" data-i18n="adPrivacy" hidden></button>
-        <button id="restore-purchases" class="secondary" type="button" data-i18n="purchaseRestore" hidden></button>
-        <p id="restore-feedback" role="status" hidden></p>
         <button class="primary" type="submit" data-ncq-main="Close options" data-i18n="done"></button>
       </form>
     </dialog>
@@ -724,12 +732,12 @@
 
     <dialog id="shop" aria-labelledby="shop-title">
       <form method="dialog">
-        <div class="shop-heading">
+        <div class="shop-heading list-heading">
           <button class="forest-close" type="button" data-close-dialog="shop" data-ncq-main="Close shop" data-i18n-attr="aria-label:done">×</button>
           <h2 id="shop-title" tabindex="-1" data-i18n="shop" autofocus></h2>
-          <div class="shop-wallet"><span class="shop-coin" aria-hidden="true"></span>
-            <span data-i18n="shopBalance"></span><strong id="shop-balance"></strong>
-          </div>
+        </div>
+        <div class="shop-wallet"><span class="shop-coin" aria-hidden="true"></span>
+          <span data-i18n="shopBalance"></span><strong id="shop-balance"></strong>
         </div>
         <div class="shop-tabs" role="group" data-i18n-attr="aria-label:shop">
           <button id="shop-tab-currency" type="button" aria-controls="shop-currency" aria-pressed="false" data-i18n="shopCurrency"></button>
@@ -764,6 +772,16 @@
             <p data-i18n="shopCoinPacksGuide"></p>
           </div>
           <p id="shop-refund-debt" hidden></p>
+          <article id="shop-ad-coins" class="shop-product" aria-labelledby="shop-ad-coins-title" hidden>
+            <span class="shop-coin-art" aria-hidden="true"><i></i><i></i></span>
+            <span class="shop-product-copy">
+              <strong id="shop-ad-coins-title" class="shop-coin-quantity" data-i18n="rewardAdTitle"></strong>
+              <span class="shop-product-detail" data-i18n="rewardAdGuide"></span>
+              <span id="shop-ad-coins-count" class="shop-effect-status" aria-live="polite"></span>
+            </span>
+            <button id="shop-watch-ad-coins" class="shop-coin-buy" type="button"
+                    data-ncq-main="Watch an ad for 20 coins" disabled></button>
+          </article>
           <button id="shop-claim-test-coins" class="primary" type="button" data-i18n="shopTestCoinClaim"
                   data-ncq-main="Claim developer test coins" hidden></button>
           <p id="shop-no-coin-packs" class="shop-products-empty" data-i18n="shopCoinPacksUnavailable" hidden></p>

@@ -110,10 +110,6 @@ body.forest-ui {
 #watch-dialog #live-games { gap: 8px; }
 #watch-dialog .live-game-entry { color: #193a23; background: linear-gradient(135deg, #fffaf0, #f0e4cd); border-radius: 12px; }
 #watch-dialog .list-count { color: #e9e3c3; }
-.forest-ui #shop.forest-shop { width: min(640px, calc(100vw - var(--ncq-left) - var(--ncq-right) - 16px)); padding: 0; background: linear-gradient(140deg, #fffaf2, #f0e4ce); color: #173d24; }
-.forest-ui #shop form { height: 100%; max-height: none; padding: 12px; }
-.forest-shop .shop-heading { position: relative; padding-inline-end: 39px; }
-.forest-shop .shop-heading > .forest-close { position: absolute; inset: 0 0 auto auto; }
 .forest-ui .shop-tab[aria-pressed="true"], .forest-ui .shop-tabs button[aria-pressed="true"] { background: linear-gradient(#3c762d, #1c5125); }
 .forest-ui .mission-dialog { width: min(510px, calc(100vw - 20px)); background: linear-gradient(135deg, #fffaf2, #f0e1c7); border: 2px solid #dcb864; border-radius: 24px; }
 .forest-ui .mission-dialog form { position: relative; padding: 15px; }

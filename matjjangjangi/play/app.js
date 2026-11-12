@@ -231,6 +231,9 @@ var JANGI_TEXTS = {
     jangiFormation: "\uB9C8\uC0C1 \uCC28\uB9BC",
     jangiFormationWait: "\uC0C1\uB300\uAC00 \uB9C8\uC0C1 \uCC28\uB9BC\uC744 \uACE0\uB974\uACE0 \uC788\uC5B4\uC694.",
     jangiFormationChoose: "\uB0B4 \uB9C8\uC0C1 \uCC28\uB9BC\uC744 \uACE0\uB974\uC138\uC694.",
+    jangiFormationActive: "\uCC28\uB9BC \uC120\uD0DD",
+    jangiFormationWaiting: "\uCC28\uB9BC \uB300\uAE30",
+    jangiFormationStatus: "\uB9C8\uC0C1 \uCC28\uB9BC \xB7 \uCCAB \uCC29\uC218\uB294 \uCD08",
     jangiFormation0: "\uB9C8\xB7\uC0C1 / \uC0C1\xB7\uB9C8",
     jangiFormation1: "\uC0C1\xB7\uB9C8 / \uC0C1\xB7\uB9C8",
     jangiFormation2: "\uB9C8\xB7\uC0C1 / \uB9C8\xB7\uC0C1",
@@ -266,6 +269,9 @@ var JANGI_TEXTS = {
     jangiFormation: "Horse & elephant setup",
     jangiFormationWait: "Your opponent is choosing a formation.",
     jangiFormationChoose: "Choose your formation.",
+    jangiFormationActive: "Choosing setup",
+    jangiFormationWaiting: "Awaiting setup",
+    jangiFormationStatus: "Setup \xB7 Cho moves first",
     jangiFormation0: "Horse\xB7Elephant / Elephant\xB7Horse",
     jangiFormation1: "Elephant\xB7Horse / Elephant\xB7Horse",
     jangiFormation2: "Horse\xB7Elephant / Horse\xB7Elephant",
@@ -2278,6 +2284,10 @@ var authSession;
 var authenticating;
 var backend;
 var boardApiUrl;
+var finishBoardStartup;
+var boardStartup = new Promise((resolve) => {
+  finishBoardStartup = resolve;
+});
 var rankingTab = "weekly";
 var rankingResults = {};
 var weeklyRewardButtons = [...document.querySelectorAll("[data-weekly-reward]")];
@@ -3833,7 +3843,7 @@ function renderPlayers(game, showPanels, watching = false) {
   const opponentTurn = live && !ownTurn;
   el("own-panel").dataset.active = el("place").dataset.active = String(ownTurn);
   el("opponent-panel").dataset.active = el("opponent-timer").dataset.active = String(opponentTurn);
-  el("opponent-turn").textContent = t2(opponentTurn ? "turnActive" : "turnWaiting");
+  el("opponent-turn").textContent = t2(game.setup && live ? opponentTurn ? "jangiFormationActive" : "jangiFormationWaiting" : opponentTurn ? "turnActive" : "turnWaiting");
   for (const [side, seat] of [["own", lowerSeat], ["opponent", 3 - lowerSeat]]) {
     const color = colorName(seatColor(game, seat));
     const profile = recordPlayer(game, seat);
@@ -4932,10 +4942,10 @@ function render() {
   el("room-label").textContent = t2(archive ? "records" : "room");
   el("room-id").textContent = "#" + game.number;
   const mode = matchMode(game);
-  const heading = playing && connected ? game.opening ? openingStatus(game) : t2(mode) + " \xB7 " + t2("movesCount", { n: game.moves.length }) : t2(status);
+  const heading = playing && connected ? game.setup ? t2("jangiFormationStatus") : game.opening ? openingStatus(game) : t2(mode) + " \xB7 " + t2("movesCount", { n: game.moves.length }) : t2(status);
   if (el("status").textContent !== heading) el("status").textContent = heading;
   el("status").setAttribute("aria-live", playing ? "off" : "polite");
-  const announcement = game.opening ? heading : t2(status);
+  const announcement = game.setup || game.opening ? heading : t2(status);
   if (playing && el("turn-announcement").textContent !== announcement) el("turn-announcement").textContent = announcement;
   el("round").textContent = t2("round", { n: game.round });
   el("mode").textContent = t2(reviewing ? "review" : awaitingReview ? "result" : mode);
@@ -4954,8 +4964,8 @@ function render() {
   const placeState = el("place-state");
   placeState.hidden = placementState === "inactive";
   if (!placeState.hidden) placeState.textContent = t2(placementState === "selecting" ? "placeSelectHint" : "placeReadyHint");
-  el("place-text").textContent = t2(game.opening === "offerFive" ? "offerShort" : game.opening === "pickFive" ? "pickShort" : "placeStone");
-  const placeLabel = game.turn !== game.you ? t2("theirTurn") : selected === null ? t2("selectStone") : t2("place", { cell: coordinate(selected) });
+  el("place-text").textContent = t2(game.setup ? game.setup === game.you ? "jangiFormationActive" : "jangiFormationWaiting" : game.opening === "offerFive" ? "offerShort" : game.opening === "pickFive" ? "pickShort" : "placeStone");
+  const placeLabel = game.setup ? t2(game.setup === game.you ? "jangiFormationChoose" : "jangiFormationWait") : game.turn !== game.you ? t2("theirTurn") : selected === null ? t2("selectStone") : t2("place", { cell: coordinate(selected) });
   place.setAttribute("aria-label", placeLabel);
   place.title = placeLabel;
   renderPlayers(game, liveLayout);
@@ -5038,12 +5048,14 @@ function renderSpectator({ game, closed, reconnecting, ply }) {
   else if (reconnecting) announcement = t2("reconnecting");
   else if (game.phase === "finished") {
     announcement = game.winner ? t2("watchWinner", { color: sideName(game, game.winner) }) : t2("draw");
+  } else if (game.setup) {
+    announcement = t2("jangiFormationStatus");
   } else if (game.opening) {
     announcement = openingStatus(game);
   } else announcement = t2("watchTurn", { color: sideName(game, game.turn) });
   const current2 = ply ?? game.moves.length;
   const live = !closed && !reconnecting && game.phase === "playing";
-  const heading = ply !== null ? t2("watchReplay", { n: current2 }) : live && !game.opening ? t2(matchMode(game)) + " \xB7 " + t2("movesCount", { n: current2 }) : announcement;
+  const heading = ply !== null ? t2("watchReplay", { n: current2 }) : live && !game.opening && !game.setup ? t2(matchMode(game)) + " \xB7 " + t2("movesCount", { n: current2 }) : announcement;
   const status = el("status");
   status.setAttribute("aria-live", live ? "off" : "polite");
   if (status.textContent !== heading) status.textContent = heading;
@@ -5055,7 +5067,7 @@ function renderSpectator({ game, closed, reconnecting, ply }) {
   place.dataset.placementState = "inactive";
   el("place-state").hidden = true;
   place.removeAttribute("data-ncq-main");
-  const lowerLabel = t2(live && game.turn === (game.black ?? 1) ? "turnActive" : "turnWaiting");
+  const lowerLabel = t2(game.setup && live ? game.setup === (game.black ?? 1) ? "jangiFormationActive" : "jangiFormationWaiting" : live && game.turn === (game.black ?? 1) ? "turnActive" : "turnWaiting");
   el("place-text").textContent = lowerLabel;
   place.setAttribute("aria-label", lowerLabel);
   place.title = lowerLabel;
@@ -5229,6 +5241,7 @@ async function send(path, data = {}) {
   return { error: "network" };
 }
 async function getAuthConfig() {
+  await boardStartup;
   if (authConfig) return authConfig;
   const response = await fetch(
     backend ? "./ncq/auth-config.json" : "./api/auth/config",
@@ -5283,6 +5296,7 @@ async function ensureIdentity(force = false) {
   return authenticating;
 }
 async function post(path, data = {}, online) {
+  await boardStartup;
   if (backend) return remoteRequest(online);
   try {
     await ensureIdentity();
@@ -6069,6 +6083,8 @@ try {
     }
   }
 } catch {
+} finally {
+  finishBoardStartup();
 }
 function sharedRecordToken() {
   return new URLSearchParams(location.hash.slice(1)).get("record");
@@ -6144,7 +6160,6 @@ function renderJangiFormation(game) {
     dialog.showModal();
     NcqLang.apply?.();
   } else if (!show && dialog.open) dialog.close();
-  if (game?.setup) el("status").textContent = t2(game.setup === game.you ? "jangiFormationChoose" : "jangiFormationWait");
 }
 el("jangi-formation").addEventListener("cancel", (event) => event.preventDefault());
 el("jangi-formation-form").addEventListener("submit", (event) => {

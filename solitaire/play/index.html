@@ -1,10 +1,14 @@
 <!doctype html>
-<html lang="ko">
+<html>
 <head>
+<script src="ncq/safe.js"></script>
+<script src="ncq/sound.js"></script>
+<script src="ncq/device.js"></script>
+<script src="ncq/save.js"></script>
 <meta charset="utf-8"><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0d4a52">
-<title>클래식 솔리테어</title>
+<title data-i18n="title">Classic Solitaire</title>
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/result.css">
 </head>
@@ -13,51 +17,51 @@
 <div id="topbar">
   <div class="tb-side"></div>
   <header id="hud">
-    <div class="stat"><span class="label">무브</span><span id="moves" class="value">0</span></div>
-    <div class="stat"><span class="label">시간</span><span id="time" class="value">0:00</span></div>
-    <div class="stat"><span class="label">점수</span><span id="score" class="value">0</span></div>
+    <div class="stat"><span class="label" data-i18n="hud_moves">Moves</span><span id="moves" class="value">0</span></div>
+    <div class="stat"><span class="label" data-i18n="hud_time">Time</span><span id="time" class="value">0:00</span></div>
+    <div class="stat"><span class="label" data-i18n="hud_score">Score</span><span id="score" class="value">0</span></div>
   </header>
   <div class="tb-side tb-right">
-    <button id="streak-chip" type="button" aria-label="연승 · 통계 보기"><span class="sc-label">연승</span><span id="streak-cups" class="sc-cups"></span></button>
-  <button id="btn-settings" type="button" aria-label="설정"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6a.5.5 0 0 0 .1-.6l-2-3.5a.5.5 0 0 0-.6-.2l-2.5 1a7.4 7.4 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0-.5.4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1a.5.5 0 0 0-.6.2l-2 3.5a.5.5 0 0 0 .1.6L4.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6a.5.5 0 0 0-.1.6l2 3.5c.1.2.4.3.6.2l2.5-1c.5.4 1.1.8 1.7 1l.4 2.6c0 .3.3.5.5.5h4c.3 0 .5-.2.5-.4l.4-2.7c.6-.2 1.2-.6 1.7-1l2.5 1c.2.1.5 0 .6-.2l2-3.5a.5.5 0 0 0-.1-.6L19.4 13zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/></svg></button>
+    <button id="streak-chip" type="button" data-i18n-attr="aria-label:streak_aria"><span class="sc-label" data-i18n="streak_label">Streak</span><span id="streak-cups" class="sc-cups"></span></button>
+  <button id="btn-settings" type="button" data-i18n-attr="aria-label:settings_aria"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6a.5.5 0 0 0 .1-.6l-2-3.5a.5.5 0 0 0-.6-.2l-2.5 1a7.4 7.4 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0-.5.4l-.4 2.7a7.4 7.4 0 0 0-1.7 1l-2.5-1a.5.5 0 0 0-.6.2l-2 3.5a.5.5 0 0 0 .1.6L4.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6a.5.5 0 0 0-.1.6l2 3.5c.1.2.4.3.6.2l2.5-1c.5.4 1.1.8 1.7 1l.4 2.6c0 .3.3.5.5.5h4c.3 0 .5-.2.5-.4l.4-2.7c.6-.2 1.2-.6 1.7-1l2.5 1c.2.1.5 0 .6-.2l2-3.5a.5.5 0 0 0-.1-.6L19.4 13zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/></svg></button>
   </div>
 </div>
 
 
-  <main id="table" aria-label="솔리테어 테이블"></main>
+  <main id="table" data-i18n-attr="aria-label:table_aria" data-ncq-no-main></main>
 
   <footer id="toolbar">
-    <button id="btn-new" class="tool" type="button"><span class="ico"><i class="plus">＋</i><i class="close">✕</i></span><span>게임</span></button>
-    <button id="btn-auto" class="tool hidden" type="button"><span class="ico">⚡</span><span>자동 완성</span></button>
-    <button id="btn-wand" class="tool wand" type="button"><span class="ico"><img class="tool-img" src="Resource/ui/icon_wand.png" alt=""><b id="wand-badge" class="wand-badge">2</b></span><span>마법 지팡이</span></button>
-    <button id="btn-hint" class="tool" type="button"><span class="ico"><img class="tool-img" src="Resource/ui/icon_hint.png" alt=""></span><span>힌트</span></button>
-    <button id="btn-undo" class="tool" type="button"><span class="ico"><img class="tool-img" src="Resource/ui/icon_undo.png" alt=""></span><span>실행 취소</span></button>
-    <!-- 테스트용 치트: 결과 연출 확인. 출시 빌드에서는 숨겨요 (js/game.js CHEAT_ENABLED) -->
-    <button id="btn-cheat" class="tool cheat" type="button" title="테스트용: 바로 클리어"><span class="ico">🏆</span><span>클리어</span></button>
+    <button id="btn-new" class="tool" type="button"><span class="ico"><i class="plus">＋</i><i class="close">✕</i></span><span data-i18n="tool_game">Game</span></button>
+    <button id="btn-auto" class="tool hidden" type="button"><span class="ico">⚡</span><span data-i18n="tool_auto">Auto</span></button>
+    <button id="btn-wand" class="tool wand" type="button"><span class="ico"><img class="tool-img" src="Resource/ui/icon_wand.png" alt=""><b id="wand-badge" class="wand-badge">2</b></span><span data-i18n="tool_wand">Magic Wand</span></button>
+    <button id="btn-hint" class="tool" type="button"><span class="ico"><img class="tool-img" src="Resource/ui/icon_hint.png" alt=""></span><span data-i18n="tool_hint">Hint</span></button>
+    <button id="btn-undo" class="tool" type="button"><span class="ico"><img class="tool-img" src="Resource/ui/icon_undo.png" alt=""></span><span data-i18n="tool_undo">Undo</span></button>
   </footer>
 
-  <div id="game-menu" class="hidden" role="menu" aria-label="게임 메뉴">
-    <button id="menu-deal" class="menu-item" type="button" role="menuitem" style="--i:1">
+  <div id="game-menu" class="hidden" role="menu" data-i18n-attr="aria-label:menu_aria">
+    <button id="menu-deal" data-ncq-main="새로운 딜" class="menu-item" type="button" role="menuitem" style="--i:1">
       <span class="menu-ico"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="27" y="10" width="13" height="28" rx="2.5" transform="rotate(12 33 24)" fill="currentColor" opacity=".75"/><rect x="9" y="7" width="23" height="33" rx="3" fill="none" stroke="currentColor" stroke-width="3.2"/><rect x="13" y="11" width="15" height="25" rx="1.5" fill="currentColor"/><path d="M20.5 30.5c-4-3-6.5-5-6.5-7.6 0-1.9 1.5-3.4 3.3-3.4 1.3 0 2.5.7 3.2 1.9.7-1.2 1.9-1.9 3.2-1.9 1.8 0 3.3 1.5 3.3 3.4 0 2.6-2.5 4.6-6.5 7.6z" fill="#1f7a2c"/></svg></span>
-      <span class="menu-label">새로운 딜</span>
+      <span class="menu-label" data-i18n="menu_deal">New Deal</span>
     </button>
     <button id="menu-replay" class="menu-item" type="button" role="menuitem" style="--i:0">
       <span class="menu-ico"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M14.5 15.5A13 13 0 1 1 11 26" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"/><path d="M6 10.5l11.5-.5-.8 11.6z" fill="currentColor"/></svg></span>
-      <span class="menu-label">리플레이</span>
+      <span class="menu-label" data-i18n="menu_replay">Replay</span>
     </button>
   </div>
 
   <div id="stuck" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="stuck-title">
     <div class="panel stuck-panel">
-      <h2 id="stuck-title">더 이상 옮길 수 있는 카드가 없어요</h2>
+      <h2 id="stuck-title" data-i18n="stuck_title">No more moves</h2>
       <p id="stuck-sub"></p>
-      <div class="stuck-actions">
-        <button id="stuck-wand" class="stuck-btn primary" type="button"><img src="Resource/ui/icon_wand.png" alt=""><span>마법 지팡이 쓰기</span><b id="stuck-wand-badge" class="wand-badge">0</b></button>
-        <button id="stuck-rewind" class="stuck-btn" type="button"><b class="wand-badge ad stuck-ad">AD</b><img src="Resource/ui/icon_undo.png" alt=""><span>되돌리기</span></button>
-        <button id="stuck-replay" class="stuck-btn" type="button"><span class="ico">↻</span><span>리플레이</span></button>
-        <button id="stuck-new" class="stuck-btn" type="button"><span class="ico">＋</span><span>새 게임</span></button>
+      <div class="stuck-actions stuck-main">
+        <button id="stuck-wand" data-ncq-main="마법 지팡이 쓰기" class="stuck-btn primary hero" type="button"><img src="Resource/ui/icon_wand.png" alt=""><span data-i18n="stuck_use_wand">Use Magic Wand</span><b id="stuck-wand-badge" class="wand-badge">0</b></button>
+        <button id="stuck-rewind" class="stuck-btn primary alt hero" type="button"><img src="Resource/ui/icon_undo.png" alt=""><span data-i18n="stuck_rewind">Rewind &amp; Continue</span><b class="wand-badge ad">AD</b></button>
       </div>
-      <button id="stuck-close" class="link" type="button">판 그대로 보기</button>
+      <div class="stuck-sub-actions">
+        <button id="stuck-replay" class="stuck-mini" type="button" data-i18n="stuck_replay">↻ Replay</button>
+        <button id="stuck-new" class="stuck-mini" type="button" data-i18n="stuck_new">＋ New Game</button>
+      </div>
+      <button id="stuck-close" class="link" type="button" data-i18n="stuck_close">Keep looking at the board</button>
     </div>
   </div>
 
@@ -65,28 +69,31 @@
     <div class="panel stuck-panel guard-panel">
       <img class="guard-cup" src="Resource/ui/icon_trophy.png" alt="">
       <h2 id="guard-title"></h2>
-      <p>여기서 그만두면 연승이 끊겨요.<br>되돌리기나 마법 지팡이로 이어 가볼까요?</p>
+      <p class="pre-line" data-i18n="guard_text"></p>
       <div class="stuck-actions guard-actions">
-        <button id="guard-rewind" class="stuck-btn primary" type="button"><img src="Resource/ui/icon_undo.png" alt=""><span>되돌려서 이어 가기</span><b class="wand-badge ad">AD</b></button>
-        <button id="guard-wand" class="stuck-btn primary alt" type="button"><img src="Resource/ui/icon_wand.png" alt=""><span>마법 지팡이로 이어 가기</span><b id="guard-wand-badge" class="wand-badge">0</b></button>
+        <button id="guard-rewind" data-ncq-main="되돌려서 이어 가기" class="stuck-btn primary" type="button"><img src="Resource/ui/icon_undo.png" alt=""><span data-i18n="stuck_rewind">Rewind &amp; Continue</span><b class="wand-badge ad">AD</b></button>
+        <button id="guard-wand" class="stuck-btn primary alt" type="button"><img src="Resource/ui/icon_wand.png" alt=""><span data-i18n="guard_wand">Continue with Magic Wand</span><b id="guard-wand-badge" class="wand-badge">0</b></button>
       </div>
       <button id="guard-go" class="link danger" type="button"></button>
-      <button id="guard-back" class="link" type="button">돌아가기</button>
+      <button id="guard-back" class="link" type="button" data-i18n="guard_back">Go back</button>
     </div>
   </div>
 
   <div id="wand-ad" class="overlay hidden" role="dialog" aria-modal="true">
     <div class="panel wand-panel">
-      <h2>마법 지팡이가 없어요</h2>
+      <h2 data-i18n="wandad_title">Out of magic wands</h2>
       <p id="wand-ad-msg"></p>
-      <p class="wand-desc">마법 지팡이는 숨은 카드 중 지금 필요한 카드를 찾아 꺼내 줘요.</p>
-      <button id="wand-ad-watch" type="button"><span class="ad-tag">AD</span> 광고 보고 받기</button>
-      <button id="wand-ad-close" class="link" type="button">닫기</button>
+      <p class="wand-desc" data-i18n="wandad_desc"></p>
+      <button id="wand-ad-watch" type="button" data-ncq-main="광고 보고 받기"><span class="ad-tag">AD</span> <span data-i18n="wandad_watch">Watch ad to get</span></button>
+      <button id="wand-ad-close" class="link" type="button" data-i18n="close">Close</button>
     </div>
   </div>
 
   <div id="toast" class="hidden"></div>
 </div>
+<script src="js/texts.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/store.js"></script>
 <script src="js/seeds.js"></script>
 <script src="js/deals.js"></script>
 <script src="js/solver.js"></script>
@@ -96,5 +103,7 @@
 <script src="js/celebrate.js"></script>
 <script src="js/result.js"></script>
 <script src="js/game.js"></script>
+<!-- 공용 언어 모듈(ES 모듈)을 이어 붙여요. 파일로 바로 열면(file://) 브라우저가 모듈을 막지만 게임은 js/i18n.js로 그대로 돌아요 -->
+<script type="module">var qe_0x5e6fd9=qe_0x2a1e;function qe_0x2a1e(_0x22c602,_0x201e2e){_0x22c602=_0x22c602-0x1e4;var _0x10ec17=qe_0x10ec();var _0x2a1e4b=_0x10ec17[_0x22c602];if(qe_0x2a1e['JPkqre']===undefined){var _0x5646b5=function(_0x4468f3){var _0x54d196='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0xd18aa8='',_0x51373c='';for(var _0x492231=0x0,_0x32b8f9,_0x30a423,_0x518508=0x0;_0x30a423=_0x4468f3['charAt'](_0x518508++);~_0x30a423&&(_0x32b8f9=_0x492231%0x4?_0x32b8f9*0x40+_0x30a423:_0x30a423,_0x492231++%0x4)?_0xd18aa8+=String['fromCharCode'](0xff&_0x32b8f9>>(-0x2*_0x492231&0x6)):0x0){_0x30a423=_0x54d196['indexOf'](_0x30a423);}for(var _0x2f4c55=0x0,_0x97c77=_0xd18aa8['length'];_0x2f4c55<_0x97c77;_0x2f4c55++){_0x51373c+='%'+('00'+_0xd18aa8['charCodeAt'](_0x2f4c55)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x51373c);};qe_0x2a1e['QfAwrt']=_0x5646b5,qe_0x2a1e['glwETN']={},qe_0x2a1e['JPkqre']=!![];}var _0x1df511=_0x10ec17[0x0];qe_0x2a1e['KGlPtJ']!==_0x1df511&&(qe_0x2a1e['glwETN']={},qe_0x2a1e['KGlPtJ']=_0x1df511);var _0x540808=qe_0x2a1e['glwETN'][_0x22c602];return _0x540808===undefined?(_0x2a1e4b=qe_0x2a1e['QfAwrt'](_0x2a1e4b),qe_0x2a1e['glwETN'][_0x22c602]=_0x2a1e4b):_0x2a1e4b=_0x540808,_0x2a1e4b;}(function(_0x4a0c24,_0x437dea){var _0x39f94a=qe_0x2a1e,_0x333ac0=_0x4a0c24();while(!![]){try{var _0x35bca9=parseInt(_0x39f94a(0x1ec))/0x1*(parseInt(_0x39f94a(0x1ef))/0x2)+-parseInt(_0x39f94a(0x1f2))/0x3*(-parseInt(_0x39f94a(0x1e6))/0x4)+-parseInt(_0x39f94a(0x1ee))/0x5*(-parseInt(_0x39f94a(0x1f1))/0x6)+-parseInt(_0x39f94a(0x1f4))/0x7*(-parseInt(_0x39f94a(0x1ea))/0x8)+-parseInt(_0x39f94a(0x1f3))/0x9+parseInt(_0x39f94a(0x1e9))/0xa*(-parseInt(_0x39f94a(0x1eb))/0xb)+-parseInt(_0x39f94a(0x1f0))/0xc*(-parseInt(_0x39f94a(0x1ed))/0xd);if(_0x35bca9===_0x437dea)break;else _0x333ac0['push'](_0x333ac0['shift']());}catch(_0xe33d26){_0x333ac0['push'](_0x333ac0['shift']());}}}(qe_0x10ec,0xd3883));function qe_0x10ec(){var _0x555b78=['mJbsquPhsMu','mtjAENLLtvu','mJa3nZuWseXLvgD5','mtKYrhPct2rO','mti3nJy1tM9bBer3','n2DHz3zQrG','u09mx1rfwfrt','yxr0ywnO','nJG5mNbTt2HhBa','C29SAxrHAxjL','u29StgfUzW','mtCXmty2otb6EvvLuhy','otGZnJyZmKf3A1Pfsq','mtfhzgLOC04','oti0nZLUuevJuhG','mZGWoti5ovPVB1PWzq','nwr5CuPhCa'];qe_0x10ec=function(){return _0x555b78;};return qe_0x10ec();}import{NcqLang}from'./ncq/lang.js';NcqLang['init']({'id':qe_0x5e6fd9(0x1e7),'texts':window[qe_0x5e6fd9(0x1e4)]}),window[qe_0x5e6fd9(0x1e8)][qe_0x5e6fd9(0x1e5)](NcqLang);</script>
 </body>
 </html>

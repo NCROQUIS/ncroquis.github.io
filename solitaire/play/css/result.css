@@ -73,13 +73,13 @@
 }
 
 /* ---------- 설정 버튼 (오른쪽 위) ---------- */
-#btn-settings, #btn-stats { position: absolute; top: calc(6px + env(safe-area-inset-top)); right: calc(10px + env(safe-area-inset-right)); z-index: 2100;
+#btn-settings, #btn-stats { position: absolute; top: calc(6px + var(--ncq-top)); right: calc(10px + var(--ncq-right)); z-index: 2100;
   width: 44px; height: 44px; border: 0; border-radius: 50%; padding: 0; cursor: pointer; color: #c9d3d6;
   background: radial-gradient(circle at 35% 30%, #2b3d43, #0f1d22 75%); box-shadow: 0 2px 6px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08); }
 #btn-settings svg, #btn-stats svg { width: 28px; height: 28px; display: block; margin: auto; transition: transform .4s ease; }
 #btn-settings:hover svg { transform: rotate(45deg); }
 #btn-settings:active, #btn-stats:active { transform: scale(.94); }
-@media (max-height: 500px) { #btn-settings, #btn-stats { width: 36px; height: 36px; top: 4px; } #btn-settings svg { width: 22px; height: 22px; } #btn-stats { right: calc(54px + env(safe-area-inset-right)); } #btn-stats svg { width: 19px; height: 19px; } }
+@media (max-height: 500px) { #btn-settings, #btn-stats { width: 36px; height: 36px; top: 4px; } #btn-settings svg { width: 22px; height: 22px; } #btn-stats { right: calc(54px + var(--ncq-right)); } #btn-stats svg { width: 19px; height: 19px; } }
 
 /* ---------- 설정 화면 ---------- */
 .settings { position: fixed; inset: 0; z-index: 5000; display: flex; flex-direction: column;
@@ -87,18 +87,18 @@
 .settings.out { animation: set-out .22s ease-in forwards; }
 @keyframes set-in { from { opacity: 0; transform: translateY(24px); } }
 @keyframes set-out { to { opacity: 0; transform: translateY(24px); } }
-.set-head { position: relative; flex: 0 0 auto; height: calc(64px + env(safe-area-inset-top)); padding-top: env(safe-area-inset-top);
+.set-head { position: relative; flex: 0 0 auto; height: calc(64px + var(--ncq-top)); padding-top: var(--ncq-top);
   display: flex; align-items: center; justify-content: center;
   background: repeating-linear-gradient(45deg, rgba(255,255,255,.015) 0 2px, transparent 2px 4px), linear-gradient(#222b31, #161d22);
   border-bottom: 2px dashed rgba(120, 140, 150, .35); box-shadow: 0 3px 8px rgba(0,0,0,.45); }
 .set-head h1 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: 1px;
   background: linear-gradient(#ffe7a1, #e9b84b); -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: drop-shadow(0 2px 1px rgba(0,0,0,.6)); }
-.set-back { position: absolute; left: calc(12px + env(safe-area-inset-left)); top: calc(50% + env(safe-area-inset-top) / 2); translate: 0 -50%;
+.set-back { position: absolute; left: calc(12px + var(--ncq-left)); top: calc(50% + var(--ncq-top) / 2); translate: 0 -50%;
   width: 46px; height: 46px; border: 0; border-radius: 50%; padding: 0; cursor: pointer; color: #7ed321;
   background: radial-gradient(circle at 35% 30%, #3a464c, #11191d 75%); box-shadow: 0 2px 6px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.1); }
 .set-back svg { width: 26px; height: 26px; display: block; margin: auto; }
-.set-body { flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: env(safe-area-inset-bottom); touch-action: pan-y; }
+.set-body { flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: var(--ncq-bottom); touch-action: pan-y; }
 .set-section { padding: 18px 28px 14px; font-size: 17px; color: rgba(190, 230, 225, .55); background: rgba(0, 20, 24, .32);
   border-top: 1px solid rgba(255,255,255,.06); border-bottom: 1px solid rgba(0,0,0,.25); }
 .set-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%;
@@ -209,3 +209,76 @@
   #topbar .stat .label { font-size: clamp(14px, 3.4vw, 17px); }
   #topbar .stat .value { font-size: clamp(22px, 5.8vw, 28px); }
 }
+.set-row[hidden] { display: none; }
+/* 앱 버전: 설정 목록 맨 아래 작고 흐리게 */
+.set-version { padding: 18px 28px 22px; text-align: right; font-size: 12px; color: rgba(220, 240, 236, .35); font-variant-numeric: tabular-nums; }
+
+/* 결과 화면이 작은 세로 화면(360×640)에서도 '새 게임' 버튼까지 한 화면에 들어오게: 배지는 화면 높이에 맞춰 줄이고 줄 간격을 좁혀요 */
+.r-sub { flex-wrap: wrap; gap: 4px 12px; }
+@media (max-aspect-ratio: 1/1) {
+  .victory { width: min(88vw, 460px, 44dvh); }
+}
+@media (max-aspect-ratio: 1/1) and (max-height: 760px) {
+  .result-inner { gap: 4px; }
+  .r-row { padding: 7px 4px; } .r-label { font-size: 18px; } .r-val { font-size: 24px; }
+  .r-sub { padding-top: 8px; font-size: 13px; }
+  .r-streak { margin-top: 10px; padding: 8px 14px; }
+  .rs-num { font-size: 34px; } .rs-cup { width: 32px; height: 32px; } .rs-unit { font-size: 17px; }
+  .r-btn { margin-top: 14px; padding: 11px 0; font-size: 20px; }
+}
+
+/* ---------- 연승: 다음 보상 게이지 + 최고 기록 도장 ---------- */
+.r-streak { flex-wrap: wrap; }
+.rs-goal { flex: 1 0 100%; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4px 10px; }
+.rs-pips { display: grid; grid-template-columns: repeat(var(--n, 3), 1fr); gap: 5px; }
+.rs-pips i { height: 12px; border-radius: 6px; background: rgba(0, 0, 0, .35); box-shadow: inset 0 1px 2px rgba(0,0,0,.5); }
+.rs-pips i.on { background: linear-gradient(#ffe68a, #f4a92a); box-shadow: 0 0 8px rgba(255, 200, 60, .8), inset 0 1px 0 rgba(255,255,255,.6); }
+.rs-pips i.pop { animation: rs-pip .45s cubic-bezier(.2, 1.8, .4, 1); }
+@keyframes rs-pip { from { transform: scaleY(.2) scaleX(.6); filter: brightness(2); } }
+.rs-gift { position: relative; display: flex; align-items: center; gap: 2px; padding: 2px 8px 2px 4px; border-radius: 12px;
+  background: rgba(0, 0, 0, .3); filter: grayscale(.6) brightness(.85); transition: filter .3s; }
+.rs-gift img { width: 26px; height: 26px; }
+.rs-gift b { font-size: 15px; color: #ffe27a; }
+.rs-goal-text { grid-column: 1 / -1; font-size: 13px; color: #f6e6bb; }
+.rs-goal-text b { color: #ffd257; }
+.rs-goal.full .rs-gift { filter: none; animation: rs-gift .7s cubic-bezier(.2, 1.8, .4, 1), rs-gift-glow 1.2s ease-in-out .7s infinite alternate; }
+@keyframes rs-gift { from { transform: scale(.5) rotate(-20deg); } 60% { transform: scale(1.35) rotate(8deg); } }
+@keyframes rs-gift-glow { to { box-shadow: 0 0 16px 4px rgba(255, 210, 80, .85); } }
+.rs-goal.full .rs-goal-text { animation: rs-new .9s ease-in-out infinite alternate; transform-origin: left center; }
+
+.rs-stamp { position: absolute; right: 12px; top: 6px; z-index: 2; pointer-events: none; opacity: 0; }
+.rs-stamp span { display: inline-block; padding: 4px 12px; border: 3px solid #ff5a3c; border-radius: 10px; transform: rotate(-12deg);
+  font: 900 20px/1.1 Georgia, "Apple SD Gothic Neo", sans-serif; letter-spacing: 1px; color: #ff6a4a; background: rgba(40, 0, 0, .35);
+  text-shadow: 0 0 8px rgba(255, 80, 40, .8); box-shadow: 0 0 14px rgba(255, 80, 40, .6), inset 0 0 8px rgba(255, 80, 40, .5); white-space: nowrap; }
+.r-streak.stamp .rs-stamp { animation: rs-stamp .45s cubic-bezier(.3, 1.6, .5, 1) both; }
+@keyframes rs-stamp { from { opacity: 0; transform: scale(3); } to { opacity: 1; transform: none; } }
+.r-streak.stamp { animation: rs-shake .35s ease-out .1s; }
+@keyframes rs-shake { 25% { transform: translate(-4px, 3px); } 50% { transform: translate(4px, -2px); } 75% { transform: translate(-2px, 1px); } }
+/* 도장이 찍히면 '최고 기록!' 작은 배지 대신 도장이 말해 줘요 */
+.r-streak.stamp .rs-new { display: none; }
+.rs-stamp-fx { position: absolute; right: 70px; top: 22px; pointer-events: none; z-index: 3; }
+.rs-stamp-fx i { position: absolute; width: 7px; height: 7px; border-radius: 2px; background: #ffd257; box-shadow: 0 0 6px #ffb020;
+  animation: rs-bit .8s ease-out forwards; }
+@keyframes rs-bit { to { transform: rotate(var(--a)) translateX(var(--d)) rotate(180deg); opacity: 0; } }
+.rs-stamp { right: 6px; top: 4px; }
+.rs-stamp span { font-size: 15px; padding: 3px 9px; border-width: 2px; }
+.rs-stamp-fx { right: 50px; top: 16px; }
+/* 가로로 낮은 화면: 연승 칸과 버튼까지 한 화면에 */
+@media (min-aspect-ratio: 1/1) and (max-height: 500px) {
+  .result-side { justify-content: center; }
+  .r-row { padding: 4px 4px; } .r-label { font-size: 17px; } .r-val { font-size: 22px; }
+  .r-sub { padding-top: 4px; font-size: 12px; }
+  .r-streak { margin-top: 6px; padding: 6px 12px; gap: 4px 10px; }
+  .rs-num { font-size: 30px; } .rs-cup { width: 28px; height: 28px; } .rs-unit { font-size: 15px; }
+  .rs-pips i { height: 9px; } .rs-gift img { width: 20px; height: 20px; } .rs-goal-text { font-size: 12px; }
+  .r-btn { margin-top: 10px; padding: 8px 0; font-size: 18px; }
+}
+.rs-stamp { top: auto; bottom: 4px; right: 8px; }
+.rs-stamp-fx { top: auto; bottom: 18px; right: 60px; }
+.result-inner { transform-origin: center center; }
+/* 도장은 오른쪽 위(작은 트로피 줄·최고 기록 자리)에 찍고, 그 자리 내용은 도장 밑으로 숨겨요 */
+.rs-stamp { top: 8px; bottom: auto; right: 8px; }
+.rs-stamp span { font-size: 14px; transform: rotate(-8deg); }
+.rs-stamp-fx { top: 18px; bottom: auto; right: 50px; }
+.r-streak.stamp .rs-side { visibility: hidden; transition: visibility 0s .1s; }
+@media (max-width: 400px) { .rs-stamp span { font-size: 12px; padding: 2px 7px; } }

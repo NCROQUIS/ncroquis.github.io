@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 96" width="120" height="96">
+  <!-- 점수판 위 왕관 아이콘 (임시 그림: 같은 이름의 PNG로 바꿔도 돼요) -->
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff1c2"/>
+      <stop offset=".55" stop-color="#f3cf7c"/>
+      <stop offset="1" stop-color="#e2ad55"/>
+    </linearGradient>
+    <linearGradient id="band" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe7a8"/>
+      <stop offset="1" stop-color="#e6b25d"/>
+    </linearGradient>
+  </defs>
+  <g stroke="#8a5a1f" stroke-width="2.5" stroke-linejoin="round">
+    <path d="M18 72 L10 30 L38 52 L60 14 L82 52 L110 30 L102 72 Z" fill="url(#gold)"/>
+    <circle cx="10" cy="26" r="7" fill="#fff0c4"/>
+    <circle cx="60" cy="10" r="8" fill="#fff0c4"/>
+    <circle cx="110" cy="26" r="7" fill="#fff0c4"/>
+  </g>
+  <path d="M26 58 L60 22 L60 40 Z" fill="#fff8df" opacity=".55"/>
+  <ellipse cx="60" cy="54" rx="6" ry="7.5" fill="#2e2a3a" stroke="#8a5a1f" stroke-width="2"/>
+  <ellipse cx="58" cy="51" rx="2" ry="2.5" fill="#6d6a86"/>
+  <rect x="16" y="72" width="88" height="14" rx="5" fill="url(#band)" stroke="#2e2a3a" stroke-width="3"/>
+  <rect x="20" y="75" width="80" height="3" rx="1.5" fill="#fff6d6" opacity=".8"/>
+</svg>

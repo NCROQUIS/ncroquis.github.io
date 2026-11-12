@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" /><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#16233f" />
+    <title>강태공: 한 줄의 승부</title>
+    <script type="module" crossorigin src="./assets/index-D1lA2Igc.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-k3E2-ZKF.css">
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="scene"></canvas>
+
+      <!-- 첫 화면: 던지기 전 -->
+      <section id="home" class="layer">
+        <header class="topbar">
+          <div class="chip"><i class="coin"></i><span id="gold">0</span></div>
+          <button id="btn-settings" class="icon-btn top-right" data-i18n-attr="aria-label:settings">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.3 7.3 0 0 0-1.7-1L15 3.5h-4L10.7 6a7.3 7.3 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.3 7.3 0 0 0 1.7 1l.3 2.5h4l.3-2.5a7.3 7.3 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6ZM13 15.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Z" transform="translate(-1 0)" />
+            </svg>
+          </button>
+        </header>
+        <div class="title art">
+          <h1 data-i18n="title"></h1>
+          <p data-i18n="subtitle"></p>
+        </div>
+        <div class="grow"></div>
+        <div id="status" class="status">
+          <div id="st-wx" class="pill"><i id="st-wx-icon" class="wx"></i><span id="st-wx-text"></span><button id="ad-wx" class="ad-btn" hidden></button></div>
+          <div id="st-cur" class="pill rainbow" hidden><span id="st-cur-text"></span><button id="ad-cur" class="ad-btn" hidden></button></div>
+          <div id="st-intu" class="pill" hidden><span id="st-intu-text"></span><button id="ad-intu" class="ad-btn" hidden></button></div>
+          <div id="st-bait" class="pill" hidden><span id="st-bait-text"></span></div>
+        </div>
+        <p class="spot"><span data-i18n="spot_name"></span><span class="sep">·</span><span id="dex-progress"></span></p>
+        <nav class="bottom">
+          <button id="btn-dex" class="side-btn"><span data-i18n="dex"></span></button>
+          <button id="btn-cast" class="main-btn" data-ncq-main="던지기 버튼" data-i18n="cast"></button>
+          <button id="btn-gear" class="side-btn"><span data-i18n="gear"></span><i id="gear-dot" class="dot" hidden></i></button>
+        </nav>
+        <span id="app-version" class="version"></span>
+      </section>
+
+      <!-- 낚시 중: 화면 어디든 누르면 감아요 (메인 버튼 없음) -->
+      <section id="play" class="layer" data-ncq-no-main hidden></section>
+
+      <!-- 한 판 결과 -->
+      <section id="result" class="modal" hidden>
+        <div class="card">
+          <button id="result-close" class="x" data-i18n-attr="aria-label:close">×</button>
+          <p id="result-kicker" class="kicker"></p>
+          <div id="result-catch">
+            <div class="fish-frame"><canvas id="result-fish"></canvas><div id="result-grade" class="stamp"></div></div>
+            <div class="name-row"><div id="result-stars" class="stars"></div><h2 id="result-name"></h2></div>
+            <div id="result-size" class="size"></div>
+            <div id="result-badges" class="badges"></div>
+            <p id="result-intu" class="intu-line" hidden></p>
+            <p id="result-cur" class="intu-line cur" hidden></p>
+            <div class="reward"><i class="coin"></i><span id="result-gold"></span></div>
+          </div>
+          <p id="result-tip" class="tip"></p>
+          <button id="result-continue" class="main-btn" data-ncq-main="계속 낚시 버튼"></button>
+          <button id="result-bait" class="sub-btn" hidden></button>
+        </div>
+      </section>
+
+      <!-- 도감 -->
+      <section id="sheet-dex" class="sheet" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="dex"></h2>
+          <span id="dex-count" class="sheet-sub"></span>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div id="dex-list" class="sheet-body grid"></div>
+      </section>
+
+      <!-- 장비 -->
+      <section id="sheet-gear" class="sheet" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="gear"></h2>
+          <div class="chip sheet-sub"><i class="coin"></i><span id="gear-gold">0</span></div>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div id="gear-list" class="sheet-body"></div>
+      </section>
+
+      <!-- 설정 -->
+      <section id="sheet-settings" class="sheet" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="settings"></h2>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div class="sheet-body">
+          <div class="row">
+            <label id="lang-label" for="lang-select"></label>
+            <select id="lang-select"></select>
+          </div>
+          <div class="row">
+            <label for="bgm-on" data-i18n="bgm"></label>
+            <input id="bgm-vol" type="range" min="0" max="100" />
+            <input id="bgm-on" type="checkbox" class="switch" />
+          </div>
+          <div class="row">
+            <label for="sfx-on" data-i18n="sfx"></label>
+            <input id="sfx-vol" type="range" min="0" max="100" />
+            <input id="sfx-on" type="checkbox" class="switch" />
+          </div>
+          <div class="row" id="vib-row">
+            <label for="vib-on" data-i18n="vibration"></label>
+            <input id="vib-on" type="checkbox" class="switch" />
+          </div>
+          <button id="btn-feedback" class="wide-btn" data-i18n="feedback" hidden></button>
+          <button id="btn-privacy" class="wide-btn" data-i18n="privacy" hidden></button>
+          <div id="test-menu" class="test" hidden>
+            <p data-i18n="test_menu"></p>
+            <div class="test-row">
+              <button id="test-gold" data-i18n="test_gold"></button>
+              <button id="test-fill" data-i18n="test_fill"></button>
+              <button id="test-bot" data-i18n="test_bot"></button>
+              <button id="test-intu" data-i18n="test_intu"></button>
+              <button id="test-cur" data-i18n="test_cur"></button>
+              <button id="test-reset" data-i18n="test_reset"></button>
+            </div>
+          </div>
+          <span id="settings-version" class="version inline"></span>
+        </div>
+      </section>
+
+      <!-- 알림 (도감 완성, 보스 포획) -->
+      <section id="notice" class="modal" hidden>
+        <div class="card">
+          <h2 id="notice-title"></h2>
+          <p id="notice-body" class="tip"></p>
+          <button id="notice-ok" class="main-btn" data-ncq-main="확인 버튼" data-i18n="close"></button>
+        </div>
+      </section>
+
+      <div id="toast" hidden></div>
+    </div>
+  </body>
+</html>

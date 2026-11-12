@@ -245,7 +245,26 @@ function enterGameUI(){
   updateHUD();relayout();
 }
 function exitGameUI(){['hud','dock','powerwrap','menuBtn','placeBar','menu'].forEach(id=>$(id).hidden=true);cue.visible=false;cueRing.visible=false;SEGS.forEach(m=>m.visible=false);ghost.visible=false;relayout();}
-function toLobby(){hintEnd();
+// 스테이지 소개: 가운데 카드(약 2.3초, 누르면 바로) → 위 스테이지 칸 자리로 줄어들며 올라가요
+function stageIntro(){
+  const ov=$('stIntro'),card=$('stIntroCard'),hs=$('hudSolo');
+  $('siTag').textContent=$('soloTag').textContent;$('siTitle').textContent=$('soloTitle').textContent;$('siDesc').textContent=$('soloGoal').textContent;
+  clearTimeout(stageIntro.t);ov.classList.remove('out');card.style.transition='';card.style.transform='';card.style.opacity='';
+  ov.hidden=false;hs.style.transition='';hs.style.opacity='0';
+  const end=()=>{ov.hidden=true;ov.classList.remove('out');card.style.transition='';card.style.transform='';card.style.opacity='';hs.style.transition='';hs.style.opacity='';};
+  const fly=()=>{
+    if(ov.hidden||ov.classList.contains('out'))return;clearTimeout(stageIntro.t);
+    const a=card.getBoundingClientRect(),b=hs.getBoundingClientRect();
+    if(!b.width){end();return;}
+    const k=Math.min(b.width/a.width,b.height/a.height,1),dx=(b.left+b.width/2)-(a.left+a.width/2),dy=(b.top+b.height/2)-(a.top+a.height/2);
+    card.style.animation='none';card.style.transition='transform .48s cubic-bezier(.55,0,.25,1),opacity .48s ease-in';
+    void card.offsetWidth;card.style.transform=`translate(${dx}px,${dy}px) scale(${k})`;card.style.opacity='0';
+    ov.classList.add('out');hs.style.transition='opacity .3s ease-out .22s';hs.style.opacity='1';
+    stageIntro.t=setTimeout(()=>{end();card.style.animation='';},520);
+  };
+  ov.onclick=fly;stageIntro.t=setTimeout(fly,2300);stageIntro.end=()=>{clearTimeout(stageIntro.t);end();card.style.animation='';};
+}
+function toLobby(){hintEnd();if(stageIntro.end)stageIntro.end();
   if(G.net&&!G.net.closed)netClose();
   exitGameUI();
   ['result','matching','sheet'].forEach(id=>$(id).hidden=true);$('lobby').hidden=false;$('lobby').classList.remove('sheeted');

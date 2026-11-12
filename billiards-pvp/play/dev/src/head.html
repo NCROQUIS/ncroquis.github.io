@@ -337,6 +337,16 @@ button.sm{padding:5px 8px;font-size:12px}
 #tutCaret.d{display:block;bottom:-8px;transform:rotate(45deg)}
 #tutCaret.r{display:block;right:-8px;margin-top:-7px;transform:rotate(-45deg)}
 #toast{z-index:36}
+#stIntro{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding-left:max(24px,var(--ncq-left,0px));padding-right:max(24px,var(--ncq-right,0px));background:rgba(4,7,11,.8);animation:siIn .25s ease-out both}
+#stIntro.out{animation:siOut .45s ease-in both}
+#stIntroCard{width:100%;max-width:340px;padding:22px 20px 20px;border-radius:10px;background:var(--panel);border:1px solid rgba(232,184,74,.55);box-shadow:0 0 0 1px rgba(0,0,0,.4),0 18px 50px rgba(0,0,0,.55),0 0 28px rgba(232,184,74,.18);text-align:center;transform-origin:center;animation:siCard .38s cubic-bezier(.2,.9,.3,1.2) both}
+#siTag{font-size:12px;letter-spacing:.08em;color:var(--gold)}
+#siTitle{margin-top:6px;font-family:var(--f-disp);font-size:30px;line-height:1.15;color:#fff;text-wrap:balance}
+#siDesc{margin-top:10px;font-size:15px;line-height:1.45;color:var(--ink);text-wrap:balance}
+@keyframes siIn{from{background:rgba(4,7,11,0)}to{background:rgba(4,7,11,.8)}}
+@keyframes siOut{from{background:rgba(4,7,11,.8)}to{background:rgba(4,7,11,0)}}
+@keyframes siCard{from{transform:scale(.86);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){#stIntro,#stIntroCard{animation:none}}
 #padZoom{z-index:35}
 .tutGlow{outline:3px solid var(--gold);outline-offset:2px;animation:tutGlow 1s ease-in-out infinite}
 @keyframes tutGlow{50%{outline-color:transparent}}

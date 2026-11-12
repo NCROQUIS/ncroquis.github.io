@@ -37,6 +37,8 @@
 
   <div id="toast"></div>
   <div id="banner"></div>
+  <!-- 스테이지 들어갈 때: 가운데에 제목·설명을 띄웠다가 위 스테이지 칸으로 쏙 올라가요 -->
+  <div id="stIntro" hidden><div id="stIntroCard"><div id="siTag"></div><div id="siTitle"></div><div id="siDesc"></div></div></div>
 
   <div id="powerwrap" hidden>
     <div id="powerVal">0</div>
@@ -172,14 +174,14 @@
     <div class="lpick gut">
       <svg id="lpWire" aria-hidden="true"><defs><filter id="lpGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter></defs><g id="lpGlowG" filter="url(#lpGlow)"></g><g id="lpCore"></g><g id="lpFlow"></g><g id="lpDots"></g></svg>
       <div class="games" role="radiogroup" data-i18n-attr="aria-label:pick_game">
-        <div class="gpick"><button class="gbtn" data-pick="3c" role="radio"><span class="glyph" aria-hidden="true"><i class="b w"></i><i class="b y"></i><i class="b r"></i></span><b data-i18n="g_3c"></b></button><button class="ghelp" data-help="3c" data-i18n-attr="aria-label:rules_view">?</button></div>
         <div class="gpick"><button class="gbtn" data-pick="4b" role="radio"><span class="glyph" aria-hidden="true"><i class="b r"></i><i class="b r"></i><i class="b w"></i><i class="b y"></i></span><b data-i18n="g_4b"></b></button><button class="ghelp" data-help="4b" data-i18n-attr="aria-label:rules_view">?</button></div>
+        <div class="gpick"><button class="gbtn" data-pick="3c" role="radio"><span class="glyph" aria-hidden="true"><i class="b w"></i><i class="b y"></i><i class="b r"></i></span><b data-i18n="g_3c"></b></button><button class="ghelp" data-help="3c" data-i18n-attr="aria-label:rules_view">?</button></div>
         <div class="gpick"><button class="gbtn" data-pick="pool" role="radio"><span class="glyph rack" id="rackGlyph" aria-hidden="true"></span><b data-i18n="g_pool"></b></button><button class="ghelp" data-help="pool" data-i18n-attr="aria-label:rules_view">?</button></div>
       </div>
       <div class="slabs">
-        <button class="slab" id="goStage"><span><b>Stage</b><small id="stageSub"></small></span><i class="chalk" aria-hidden="true"></i></button>
-        <button class="slab" id="goSingle"><span><b>Single</b><small data-i18n="single_sub"></small></span><i class="chalk" aria-hidden="true"></i></button>
         <button class="slab online" id="goOnline" data-ncq-main="Online"><span><b>Online</b><small id="onlineSub"></small></span><i class="chalk play" aria-hidden="true"></i></button>
+        <button class="slab" id="goSingle"><span><b>Single</b><small data-i18n="single_sub"></small></span><i class="chalk" aria-hidden="true"></i></button>
+        <button class="slab" id="goStage"><span><b>Stage</b><small id="stageSub"></small></span><i class="chalk" aria-hidden="true"></i></button>
       </div>
     </div>
   </section>

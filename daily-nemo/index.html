@@ -125,7 +125,36 @@ body {
 
 .summary { margin: 10px 0 0; }
 
-.quick { margin: 16px 0 0; }
+/* 앱 아이콘·카테고리 (출시 서버가 프로젝트 레포의 스토어 정보로 채워요). 아이콘이 없으면 이름 첫 글자 자리표시 */
+.head { display: flex; align-items: center; gap: 14px; }
+.head .title { min-width: 0; }
+.app-icon {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 22%;
+  object-fit: cover;
+  background: #e9ece7;
+  box-shadow: 0 0 0 1px rgba(31, 38, 35, 0.14);
+}
+.app-icon.none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  box-shadow: none;
+  border: 2px dashed rgba(31, 38, 35, 0.28);
+  color: var(--graphite);
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-size: 28px;
+  line-height: 1;
+}
+.page .app-icon { width: 88px; height: 88px; }
+.page .app-icon.none { font-size: 40px; }
+.cat { margin: 6px 0 0; color: var(--graphite); font-size: 14px; font-weight: 600; line-height: 1.3; }
+
+.quick { margin: 16px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+.quick .ver { margin-left: -4px; }
 
 .quick-play {
   position: relative;
@@ -151,11 +180,32 @@ body {
 .quick-play:hover { background: #34433c; }
 
 /* 피드백 게시판 링크 (카드·소개 페이지) */
+/* 구글플레이 스토어 버튼 (스토어 페이지가 열리는 앱만) */
+.quick-store,
+.store {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding: 9px 16px 10px;
+  background: var(--mat);
+  color: var(--on-mat);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.quick-store:hover,
+.store:hover { background: #3a6e60; }
+.quick-store:focus-visible,
+.store:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin: 24px 0 0; }
+.actions .play { margin-top: 0; }
+.actions .store { padding: 12px 22px; }
+.actions .ver { margin-left: -6px; }
+
 .quick-board {
   position: relative;
   z-index: 1;
   display: inline-block;
-  margin-left: 12px;
   padding: 7px 14px 8px;
   border: 2px solid var(--ink);
   color: var(--ink);
@@ -163,7 +213,6 @@ body {
   line-height: 1.3;
   text-decoration: none;
 }
-.quick-board:first-child { margin-left: 0; }
 .quick-board:hover { background: rgba(31, 38, 35, 0.08); }
 .quick-board:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
 .board-link { margin: 14px 0 0; }
@@ -273,10 +322,10 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
   <a class="back" href="../">전체 프로젝트 보기</a>
   <article class="sheet">
     <span class="tape" data-status="개발 중">개발 중</span>
-    <h1>데일리네모</h1>
+    <div class="head"><span class="app-icon none" aria-hidden="true">데</span><div class="title"><h1>데일리네모</h1></div></div>
     <p class="lead">매일 전국이 같은 숨은 그림을 푸는 하루 한 판 네모네모 로직</p>
     <p class="pitch">하루 한 판, 모두가 같은 네모네모 로직을 풀어요. 숫자 단서로 칸을 칠하다 보면 오늘의 숨은 그림이 색으로 나타나요. 그림은 비밀로 남기는 결과 카드로 친구와 시간과 실수를 겨뤄 보세요.</p>
-    <p><a class="play" href="play/">플레이해 보기</a> <span class="ver">v0.1.0</span></p>
+    <p class="actions"><a class="play" href="play/">플레이해 보기</a> <span class="ver">v0.1.0</span></p>
     <p class="board-link"><a href="feedback/">피드백 남기기 · 다른 사람 의견 보기</a></p>
     <p class="note">daily-nemo, 2026.11.4 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
     <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>

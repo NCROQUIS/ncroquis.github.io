@@ -8,7 +8,10 @@
     "created": "2026-11-11",
     "updated": "2026-11-11",
     "version": "0.5.0",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "matjjangbaduk",
@@ -19,7 +22,10 @@
     "created": "2026-11-11",
     "updated": "2026-11-12",
     "version": "0.3.0",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "legend-demon",
@@ -30,7 +36,10 @@
     "created": "2026-11-11",
     "updated": "2026-11-11",
     "version": "",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "solitaire",
@@ -41,7 +50,10 @@
     "created": "2026-11-10",
     "updated": "2026-11-10",
     "version": "",
-    "developer": "Heo-SD"
+    "developer": "Heo-SD",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "kkochi",
@@ -52,7 +64,10 @@
     "created": "2026-11-10",
     "updated": "2026-11-11",
     "version": "0.5.2",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "pourly",
@@ -63,7 +78,10 @@
     "created": "2026-11-09",
     "updated": "2026-11-11",
     "version": "0.11.0",
-    "developer": "junyoung-ncroquis"
+    "developer": "junyoung-ncroquis",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "mergy-juice",
@@ -74,7 +92,10 @@
     "created": "2026-11-09",
     "updated": "2026-11-09",
     "version": "0.1.1",
-    "developer": "Heo-SD"
+    "developer": "Heo-SD",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "billiards-pvp",
@@ -85,7 +106,10 @@
     "created": "2026-11-09",
     "updated": "2026-11-12",
     "version": "0.7.0",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "matjjangomok",
@@ -96,7 +120,10 @@
     "created": "2026-11-07",
     "updated": "2026-11-12",
     "version": "1.6.5",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "core-station",
@@ -107,7 +134,10 @@
     "created": "2026-11-07",
     "updated": "2026-11-09",
     "version": "1.1.0",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "cricket-tour",
@@ -118,7 +148,10 @@
     "created": "2026-11-06",
     "updated": "2026-11-09",
     "version": "0.2.1",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "pixelsurvivors",
@@ -129,7 +162,10 @@
     "created": "2026-11-05",
     "updated": "2026-11-11",
     "version": "0.3.1",
-    "developer": "wakeup5"
+    "developer": "wakeup5",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "jellyblock",
@@ -140,7 +176,10 @@
     "created": "2026-11-05",
     "updated": "2026-11-09",
     "version": "1.0.1",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "jelly2048",
@@ -151,7 +190,10 @@
     "created": "2026-11-05",
     "updated": "2026-11-09",
     "version": "1.0.1",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "color-five",
@@ -162,7 +204,10 @@
     "created": "2026-11-05",
     "updated": "2026-11-09",
     "version": "0.1.0",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "boardmadang",
@@ -173,7 +218,10 @@
     "created": "2026-11-05",
     "updated": "2026-11-09",
     "version": "0.4.0",
-    "developer": "wakeup5"
+    "developer": "wakeup5",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "duel2048",
@@ -184,7 +232,10 @@
     "created": "2026-11-04",
     "updated": "2026-11-09",
     "version": "0.3.4",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "daily-nemo",
@@ -195,7 +246,10 @@
     "created": "2026-11-04",
     "updated": "2026-11-09",
     "version": "0.1.0",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "daily-doku",
@@ -206,7 +260,10 @@
     "created": "2026-11-04",
     "updated": "2026-11-09",
     "version": "0.5.1",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "word-pop",
@@ -217,7 +274,10 @@
     "created": "2026-11-02",
     "updated": "2026-11-09",
     "version": "1.4.2",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "splash-man",
@@ -228,7 +288,10 @@
     "created": "2026-11-02",
     "updated": "2026-11-09",
     "version": "1.7.0",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "qbi-hit-list",
@@ -239,7 +302,10 @@
     "created": "2026-11-02",
     "updated": "2026-11-09",
     "version": "1.14.2",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "hole-cup",
@@ -250,7 +316,10 @@
     "created": "2026-11-02",
     "updated": "2026-11-09",
     "version": "1.4.2",
-    "developer": "ncroquis-dev"
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "neon-brick",
@@ -261,7 +330,10 @@
     "created": "2026-11-01",
     "updated": "2026-11-09",
     "version": "0.4.0",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "nalssinyang",
@@ -272,7 +344,10 @@
     "created": "2026-11-01",
     "updated": "2026-11-09",
     "version": "1.2.2",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "voca-cards",
@@ -283,7 +358,10 @@
     "created": "2026-10-31",
     "updated": "2026-11-09",
     "version": "1.1.1",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "thumbbeat",
@@ -294,7 +372,10 @@
     "created": "2026-10-31",
     "updated": "2026-11-09",
     "version": "1.1.1",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "station-zero",
@@ -305,7 +386,10 @@
     "created": "2026-10-31",
     "updated": "2026-11-09",
     "version": "1.4.3",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "ssokssok-arrow",
@@ -316,7 +400,10 @@
     "created": "2026-10-31",
     "updated": "2026-11-09",
     "version": "1.5.0",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "pocket-solitaire",
@@ -327,7 +414,10 @@
     "created": "2026-10-31",
     "updated": "2026-11-09",
     "version": "1.3.1",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   },
   {
     "codename": "daebak-cards",
@@ -338,6 +428,9 @@
     "created": "2026-10-31",
     "updated": "2026-10-31",
     "version": "",
-    "developer": "kazestory7-lab"
+    "developer": "kazestory7-lab",
+    "category": "",
+    "play": "",
+    "icon": ""
   }
 ]

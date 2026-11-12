@@ -139,7 +139,7 @@ body.forest-ui {
 .forest-ui #missions #mission-close { min-height: 34px; border-color: #d4bd8c; }
 .forest-ui .match-art-backdrop, .forest-ui.match-art-backdrop { background: #103e20 url("./assets/forest-ui/background/forest_green.webp") center / cover; }
 .forest-ui .match-art-panel { color: #1e3e25; background: linear-gradient(135deg, #fffaf0, #efe1c5); border-color: #c9b080; box-shadow: inset 0 1px #fff, 0 3px 6px #001b0d55; }
-.forest-ui .match-art-panel[data-active="true"] { background: linear-gradient(135deg, #fff9e7, #e7edc9); border: 2px solid #e8c053; box-shadow: 0 0 10px #c9c75640; }
+.forest-ui .match-art-panel[data-active="true"] { background: linear-gradient(135deg, #fff9e7, #e7edc9); border-color: #e8c053; box-shadow: 0 0 0 1px #e8c053, 0 0 10px #c9c75640; }
 .forest-ui .match-identity .seat { color: #52613f; }
 .forest-ui .match-art-avatar { color: #246337; background: #d7e6c8; border: 2px solid #fff5dd; }
 .forest-ui .match-art-panel[data-active="true"] .match-art-avatar { background: #d7e6c8; border-color: #ead279; }
@@ -157,6 +157,7 @@ body.forest-ui {
   box-shadow: inset 0 1px #fffbea, 0 2px 4px #00210f30;
 }
 .forest-ui #place[data-placement-state="selecting"] #place-text { opacity: 1; color: #526447; }
+.forest-ui #place[data-placement-state="selecting"] .player-clock[data-urgent] { color: #b3261e; text-shadow: none; }
 .forest-ui #place[data-placement-state="ready"]:not(:disabled) {
   border-color: #e8c053;
   box-shadow: inset 0 1px #d6e8a680, 0 0 7px #e6c45a66, 0 2px 4px #00210f44;

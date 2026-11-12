@@ -1,10 +1,11 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=f26358c196c8";
-import { TEXTS } from "./texts.js?v=f26358c196c8";
-import { createForestUI } from "./forest-ui.js?v=f26358c196c8";
-import { RankingPages, rankingPageTarget } from "./ranking-pages.js?v=f26358c196c8";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=f26358c196c8";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=f26358c196c8";
+import { NcqBoard } from "./ncq/board.js?v=da9d50328fc6";
+import { TEXTS } from "./texts.js?v=da9d50328fc6";
+import { createForestUI } from "./forest-ui.js?v=da9d50328fc6";
+import { RankingPages, rankingPageTarget } from "./ranking-pages.js?v=da9d50328fc6";
+import { animateStonePlacement } from "./placement-motion.js?v=da9d50328fc6";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=da9d50328fc6";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=da9d50328fc6";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -89,6 +90,7 @@ let room = null;
 let stream = null;
 let connected = false;
 let busy = false;
+let nextMatchPending = false;
 let reviewPly = 0;
 let awaitingResultDismissal = false;
 let promotionCloseTimer;
@@ -164,6 +166,43 @@ const gaugeObserver = new ResizeObserver(entries => {
   }
 });
 for (const id of ["place-gauge", "opponent-gauge"]) gaugeObserver.observe(el(id));
+
+let boardLayoutFrame;
+function fitBoardFrame(playWidth, availableHeight, inset, border = 0) {
+  const proportional = inset.trim().endsWith("%");
+  const value = parseFloat(inset) || 0;
+  const ratio = proportional ? value / 100 : 0;
+  const fixed = proportional ? border : 2 * value + border;
+  const frame = Math.max(0, Math.min((playWidth + fixed) / (1 - 2 * ratio), availableHeight));
+  return { frame, grid: Math.max(0, frame * (1 - 2 * ratio) - fixed) };
+}
+
+function scheduleBoardLayout() {
+  cancelAnimationFrame(boardLayoutFrame);
+  boardLayoutFrame = requestAnimationFrame(() => {
+    const match = el("match");
+    if (match.hidden || !document.body.classList.contains("in-match")) return;
+    const safe = window.NcqSafe?.space() ?? { top: 0, right: 0, bottom: 0, left: 0 };
+    const width = Math.max(0, Math.min(640, innerWidth) - safe.left - safe.right - 4);
+    const height = Math.max(0, innerHeight - safe.top - safe.bottom);
+    const slot = board.parentElement;
+    const style = getComputedStyle(board);
+    const inset = style.getPropertyValue("--board-inset");
+    const border = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+    const desired = fitBoardFrame(width, Infinity, inset, border).frame;
+    // Measure controls instead of estimating the space consumed by Toss's menu and ad.
+    match.removeAttribute("data-compact-board");
+    const controlsHeight = () => match.getBoundingClientRect().height - slot.getBoundingClientRect().height;
+    if (desired + controlsHeight() > height) match.setAttribute("data-compact-board", "");
+    // Reserve the compact replay controls for live play too, so short screens use the same grid.
+    const fitted = fitBoardFrame(width, height - Math.max(216, controlsHeight()), inset, border);
+    board.style.setProperty("--board-frame-size", `${fitted.frame.toFixed(2)}px`);
+    board.style.setProperty("--board-grid-size", `${fitted.grid.toFixed(2)}px`);
+  });
+}
+new ResizeObserver(scheduleBoardLayout).observe(el("match"));
+window.addEventListener("resize", scheduleBoardLayout);
+window.NcqSafe?.onChange(scheduleBoardLayout);
 
 applyAppearance();
 const shop = el("shop");
@@ -555,6 +594,10 @@ for (let row = 0; row < size; row += 1) {
     stone.className = "stone";
     stone.setAttribute("aria-hidden", "true");
     cell.append(stone);
+    const shadow = document.createElement("span");
+    shadow.className = "stone-shadow";
+    shadow.setAttribute("aria-hidden", "true");
+    cell.append(shadow);
     rowEl.append(cell);
     cells.push(cell);
   }
@@ -1499,6 +1542,26 @@ function addEnergyParticles(burst, unit, style) {
   }
 }
 
+function trackPlacementAnimation(element, name, duration) {
+  // Some WebViews do not expose a newly started CSS animation through getAnimations().
+  // Keep it visible until the CSS event, with a bounded fallback for interrupted frames.
+  let finish;
+  const finished = new Promise(resolve => { finish = resolve; });
+  const done = () => {
+    clearTimeout(timer);
+    element.removeEventListener("animationend", ended);
+    element.removeEventListener("animationcancel", ended);
+    finish();
+  };
+  const ended = event => {
+    if (event.target === element && event.animationName === name) done();
+  };
+  const timer = setTimeout(done, duration + 100);
+  element.addEventListener("animationend", ended);
+  element.addEventListener("animationcancel", ended);
+  return { finished, cancel: done };
+}
+
 function playPlacementEffect(cell, style, contactTime, landingTime = placementTiming.landing) {
   const effect = document.createElement("span");
   const sakura = style === "sakura";
@@ -1513,11 +1576,7 @@ function playPlacementEffect(cell, style, contactTime, landingTime = placementTi
   if (sakura) addSakuraParticles(effect, cell.clientWidth);
   if (energy) addEnergyParticles(effect, cell.clientWidth, style);
   cell.append(effect);
-  const animation = effect.getAnimations().find(item => item.animationName === animationName);
-  if (!animation) {
-    effect.remove();
-    return;
-  }
+  const animation = trackPlacementAnimation(effect, animationName, contactTime + landingTime * placementTiming.effectRatio);
   activePlacementEffect = effect;
   return animation.finished.catch(() => {}).finally(() => {
     effect.remove();
@@ -1546,19 +1605,16 @@ function presentPlacement(index, style) {
   }
   const landingTime = !el("placement-timing").hidden && placementTimingAvailable()
     ? replayPlacementDuration : placementTiming.landing;
-  cell.style.setProperty("--stone-landing-duration", `${landingTime}ms`);
-  // Replaying the same stone must restart even within the same rendered frame.
-  void cell.offsetWidth;
   cell.classList.add("placing");
-  const animation = cell.firstElementChild.getAnimations().find(item => item.animationName === "stone-land");
-  // Match the first contact at 40% in the stone-land keyframes.
-  const contactTime = animation ? animation.effect.getTiming().duration * .4 : 0;
-  playPlacementSound(contactTime / 1000);
-  if (!animation) {
-    cell.classList.remove("placing");
-    return;
-  }
-  if (placementEffects[style]?.price) void playPlacementEffect(cell, style, contactTime, landingTime);
+  const contactTime = landingTime * .4;
+  const animation = animateStonePlacement(cell, lastMoveMarker, {
+    duration: landingTime,
+    shouldContinue: () => !document.hidden && !cell.classList.contains("selected") && cell.dataset.stone !== "0",
+    onStart() {
+      playPlacementSound(contactTime / 1000);
+      if (placementEffects[style]?.price) void playPlacementEffect(cell, style, contactTime, landingTime);
+    },
+  });
   activePlacement = { cell, animation };
   return animation.finished.catch(() => {}).finally(() => {
     if (activePlacement?.animation !== animation) return;
@@ -1633,14 +1689,11 @@ function sideName(game, seat) {
 }
 
 function matchMode(game) {
-  if (game.mode === "tournament") return "weeklyTournament";
-  if (game.rule === "taraguchi") return "ruleTaraguchiShort";
-  return ruleNames[game.rule] ?? "onlineMatch";
+  return game.mode === "tournament" ? "weeklyTournament" : "casualMatch";
 }
 
 function recordModeLabel(game) {
-  const mode = t(game.mode === "tournament" ? "weeklyTournament" : "casualMatch");
-  return game.rule ? mode + " · " + t(ruleNames[game.rule]) : mode;
+  return t(matchMode(game));
 }
 
 function moveColor(game, ply) {
@@ -1657,17 +1710,22 @@ function updateTurnClock(now, deadline, secondsPerTurn, ownTurn, watching) {
   const remaining = Math.max(0, deadline - now);
   const activeClock = ownTurn ? ownClock : opponentClock;
   const progress = ownTurn ? ownProgress : opponentProgress;
-  const seconds = String(Math.ceil(remaining / 1000)).padStart(2, "0");
+  const secondsLeft = Math.ceil(remaining / 1000);
+  const seconds = String(secondsLeft).padStart(2, "0");
+  activeClock.toggleAttribute("data-urgent", secondsLeft <= 10);
   if (activeClock.textContent !== seconds) {
     activeClock.getAnimations().forEach(animation => animation.cancel());
     activeClock.textContent = seconds;
-    if (!reducedMotion.matches) activeClock.animate([
-      { offset: 0, transform: "translateY(2px) scale(.88)", easing: "cubic-bezier(.16, 1, .3, 1)" },
-      { offset: .22, transform: "translateY(-5px) scale(1.55)", easing: "cubic-bezier(.45, 0, .75, 1)" },
-      { offset: .48, transform: "translateY(1.5px) scale(.92)", easing: "cubic-bezier(.16, 1, .3, 1)" },
-      { offset: .7, transform: "translateY(-2px) scale(1.22)", easing: "ease-in-out" },
-      { offset: 1, transform: "translateY(0) scale(1)" },
-    ], { duration: 700 });
+    if (!reducedMotion.matches) {
+      const gentle = secondsLeft > 20;
+      activeClock.animate([
+        { offset: 0, transform: gentle ? "translateY(.5px) scale(.98)" : "translateY(2px) scale(.88)", easing: "cubic-bezier(.16, 1, .3, 1)" },
+        { offset: .22, transform: gentle ? "translateY(-1px) scale(1.08)" : "translateY(-5px) scale(1.55)", easing: "cubic-bezier(.45, 0, .75, 1)" },
+        { offset: .48, transform: gentle ? "translateY(.3px) scale(.99)" : "translateY(1.5px) scale(.92)", easing: "cubic-bezier(.16, 1, .3, 1)" },
+        { offset: .7, transform: gentle ? "translateY(-.4px) scale(1.03)" : "translateY(-2px) scale(1.22)", easing: "ease-in-out" },
+        { offset: 1, transform: "translateY(0) scale(1)" },
+      ], { duration: 700 });
+    }
   }
   const percent = Math.min(100, remaining / (secondsPerTurn * 1000) * 100);
   progress.style.setProperty("--match-art-progress", percent.toFixed(2));
@@ -1687,6 +1745,7 @@ function updateTurnClock(now, deadline, secondsPerTurn, ownTurn, watching) {
 function resetTurnGauge(clock, progress, text) {
   clock.getAnimations().forEach(animation => animation.cancel());
   clock.textContent = text;
+  clock.removeAttribute("data-urgent");
   progress.style.removeProperty("--match-art-progress");
   progress.removeAttribute("data-empty");
 }
@@ -2055,8 +2114,9 @@ function renderReview(game) {
     card.disabled = Boolean(game.sharedView);
     card.toggleAttribute("data-turn", active);
     const turn = el(prefix + "turn");
-    turn.hidden = !active;
-    if (active) turn.textContent = t("watchTurn", { color: t(color) });
+    turn.hidden = false;
+    turn.setAttribute("aria-hidden", String(!active));
+    turn.textContent = t("watchTurn", { color: t(color) });
   }
   const id = archive ? game.id : game.id + ":" + game.round;
   const favorite = el("review-favorite");
@@ -2766,7 +2826,7 @@ function render() {
   const mainAction = !game && !matchmaking && !shop.open && !missionDialog.open && !optionsDialog.open
     && !forest.watchDialog.open && !ruleDialog?.open && !profileDialog.open && !recordDialogTarget?.dialog.open
     && !tournamentCatchUpDialog.open && !coinShortageDialog.open && !coinRewardDialog.open;
-  el("start").disabled = busy || Boolean(matchmaking);
+  el("start").disabled = busy || nextMatchPending || Boolean(matchmaking);
   el("show-records").disabled = busy || Boolean(matchmaking);
   renderRulePicker(mainAction);
   el("player-card").disabled = busy;
@@ -2782,6 +2842,7 @@ function render() {
   const tournamentStatus = rankingResults.weekly?.result;
   const attempts = tournamentStatus?.remaining;
   const catchUp = attempts === 0 && tournamentStatus.catchUpRemaining > 0;
+  const attemptsExhausted = !tournamentStatus?.error && attempts === 0 && tournamentStatus.catchUpRemaining === 0;
   const enoughCoins = catchUp && tournamentCoinBalance(tournamentStatus) >= tournamentStatus.catchUpCost;
   const attemptsLabel = el("tournament-attempts");
   el("tournament-entry").hidden = !showTournamentEntry;
@@ -2789,7 +2850,8 @@ function render() {
   attemptsLabel.textContent = catchUp
     ? t(enoughCoins ? "tournamentCatchUp" : "tournamentCatchUpFunds", { n: NcqLang.num(tournamentStatus.catchUpRemaining) })
     : t("tournamentLimit");
-  el("join-tournament-label").textContent = catchUp ? t("joinTournamentCatchUp")
+  el("join-tournament-label").textContent = attemptsExhausted ? t("joinTournamentExhausted")
+    : catchUp ? t("joinTournamentCatchUp")
     : Number.isInteger(attempts)
     ? t("joinTournamentAttempts", { remaining: attempts, limit: tournamentStatus.dailyLimit })
     : t("joinTournament");
@@ -2824,9 +2886,8 @@ function render() {
   if (inLobby || inRankings) renderPlayerCard();
   forest.render(game, lobbyView);
   if (matchmaking) {
-    const { canceled, mode, rule } = matchmaking;
+    const { canceled, mode } = matchmaking;
     el("queue-status").textContent = t(canceled ? "canceling" : mode === "tournament" ? "tournamentWaiting" : "findingOpponent");
-    el("queue-rule").textContent = t(ruleNames[rule]);
     el("cancel-match").disabled = canceled;
   }
   for (const node of [el("lobby-error"), el("match-error")]) {
@@ -2891,11 +2952,12 @@ function render() {
   el("review").hidden = !reviewing;
   const canRematch = Boolean(room) && !game.bot && game.mode !== "tournament" && game.canRematch !== false
     && game.endReason !== "resign" && game.endReason !== "disconnect";
+  const canMatchNext = Boolean(room) && game.mode !== "tournament" && !canRematch;
   reviewRoomAction.hidden = !reviewing;
   reviewRoomAction.toggleAttribute("data-ncq-main", reviewActionsVisible);
-  reviewRoomAction.dataset.action = canRematch ? "rematch" : "leave";
-  reviewRoomAction.disabled = busy || (canRematch && (!connected || game.requested));
-  reviewRoomAction.textContent = t(!canRematch ? "leave" : game.requested ? "rematchWaiting" : game.rematch ? "rematchReady" : "rematch");
+  reviewRoomAction.dataset.action = canRematch ? "rematch" : canMatchNext ? "next" : "leave";
+  reviewRoomAction.disabled = busy || nextMatchPending || (canRematch && (!connected || game.requested));
+  reviewRoomAction.textContent = t(canMatchNext ? "nextMatch" : !canRematch ? "leave" : game.requested ? "rematchWaiting" : game.rematch ? "rematchReady" : "rematch");
 
   if (finished) renderResult(game);
   if (reviewing) {
@@ -3224,6 +3286,9 @@ async function getAuthConfig() {
     { signal: AbortSignal.timeout(4000) });
   if (!response.ok) throw new Error();
   authConfig = await response.json();
+  // The repository config is also used by web previews. Toss must use its
+  // credential bridge rather than inheriting that web scope.
+  if (window.NCQ?.NCQ_PLATFORM === "toss") authConfig = { ...authConfig, platform: "toss" };
   return authConfig;
 }
 
@@ -3487,7 +3552,7 @@ function roomAction(action, details, success = applyState) {
   if (!room) return;
   const { code, round } = room;
   const input = { round, ...details };
-  run(async () => {
+  return run(async () => {
     const next = await post("/rooms/" + code + "/" + action, input, client => client[action](code, input));
     if (action === "leave" && next.error === "notFound") return {};
     return next;
@@ -3919,6 +3984,29 @@ function leaveCurrentRoom() {
     void exitRoom("", { showAd: finished });
   });
 }
+
+async function startNextMatch() {
+  if (busy || nextMatchPending || !room || room.phase !== "finished" || room.mode === "tournament"
+    || document.querySelector(".shell").inert) return;
+  nextMatchPending = true;
+  render();
+  try {
+    if (connected) {
+      let left = false;
+      await roomAction("leave", {}, next => {
+        if (!backend && next.phase === "finished") saveRecord(next);
+        left = true;
+      });
+      if (!left) return;
+    }
+    // The old room is gone and any eligible return ad is closed before queueing.
+    await exitRoom("", { showAd: true });
+    startMatching("casual");
+  } finally {
+    nextMatchPending = false;
+    render();
+  }
+}
 leaveDialog.addEventListener("close", () => {
   if (leaveDialog.open) return;
   const target = leaveDialogRoom;
@@ -3959,6 +4047,7 @@ el("pass-turn").addEventListener("click", () => {
 });
 reviewRoomAction.addEventListener("click", () => {
   if (reviewRoomAction.dataset.action === "leave") leaveMatch();
+  else if (reviewRoomAction.dataset.action === "next") void startNextMatch();
   else roomAction("rematch", placementRequest());
 });
 el("review").addEventListener("click", event => {
@@ -4021,6 +4110,7 @@ board.addEventListener("click", event => {
   const index = Number(cell.dataset.index);
   if (room.board[index]) return;
   const restriction = moveLimits(room)[index];
+  cancelPlacement();
   selected = restriction ? null : index;
   focusCell(index);
   feedback("match-error", restriction, Boolean(restriction));

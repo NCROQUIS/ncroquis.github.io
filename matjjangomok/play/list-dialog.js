@@ -1,4 +1,4 @@
-import { resource, titleUnderline } from "./lobby-layout.js?v=f26358c196c8";
+import { resource, titleUnderline } from "./lobby-layout.js?v=da9d50328fc6";
 
 export const listDialogReference = { width: 678, height: 1430, border: 2 };
 

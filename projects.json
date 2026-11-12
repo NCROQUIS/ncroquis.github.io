@@ -65,9 +65,9 @@
     "updated": "2026-11-11",
     "version": "0.5.2",
     "developer": "ncroquis-dev",
-    "category": "",
+    "category": "캐주얼",
     "play": "",
-    "icon": ""
+    "icon": "c4baf73e54d2"
   },
   {
     "codename": "pourly",
@@ -121,9 +121,9 @@
     "updated": "2026-11-12",
     "version": "1.6.5",
     "developer": "ncroquis-dev",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "보드",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.matjjangomok",
+    "icon": "bbd8bbd50fcf"
   },
   {
     "codename": "core-station",
@@ -135,9 +135,9 @@
     "updated": "2026-11-09",
     "version": "1.1.0",
     "developer": "kazestory7-lab",
-    "category": "",
+    "category": "전략",
     "play": "",
-    "icon": ""
+    "icon": "4f085fa8b6d4"
   },
   {
     "codename": "cricket-tour",
@@ -163,9 +163,9 @@
     "updated": "2026-11-11",
     "version": "0.3.1",
     "developer": "wakeup5",
-    "category": "",
+    "category": "액션",
     "play": "",
-    "icon": ""
+    "icon": "0299a2780df4"
   },
   {
     "codename": "jellyblock",
@@ -177,9 +177,9 @@
     "updated": "2026-11-09",
     "version": "1.0.1",
     "developer": "ncroquis-dev",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "퍼즐",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.jellyblock",
+    "icon": "02eba34def7d"
   },
   {
     "codename": "jelly2048",
@@ -191,9 +191,9 @@
     "updated": "2026-11-09",
     "version": "1.0.1",
     "developer": "ncroquis-dev",
-    "category": "",
+    "category": "퍼즐",
     "play": "",
-    "icon": ""
+    "icon": "40ad5970e1c9"
   },
   {
     "codename": "color-five",
@@ -219,9 +219,9 @@
     "updated": "2026-11-09",
     "version": "0.4.0",
     "developer": "wakeup5",
-    "category": "",
+    "category": "보드",
     "play": "",
-    "icon": ""
+    "icon": "5d12018dc07b"
   },
   {
     "codename": "duel2048",
@@ -233,9 +233,9 @@
     "updated": "2026-11-09",
     "version": "0.3.4",
     "developer": "kazestory7-lab",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "퍼즐",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.duel2048",
+    "icon": "96dc3a5cd39f"
   },
   {
     "codename": "daily-nemo",
@@ -261,9 +261,9 @@
     "updated": "2026-11-09",
     "version": "0.5.1",
     "developer": "kazestory7-lab",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "퍼즐",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.dailydoku",
+    "icon": "dc96e6ace4ed"
   },
   {
     "codename": "word-pop",
@@ -275,9 +275,9 @@
     "updated": "2026-11-09",
     "version": "1.4.2",
     "developer": "ncroquis-dev",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "단어",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.wordpop",
+    "icon": "91d351e4638d"
   },
   {
     "codename": "splash-man",
@@ -289,9 +289,9 @@
     "updated": "2026-11-09",
     "version": "1.7.0",
     "developer": "ncroquis-dev",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "액션",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.splashfighter",
+    "icon": "bd2349a5d426"
   },
   {
     "codename": "qbi-hit-list",
@@ -303,9 +303,9 @@
     "updated": "2026-11-09",
     "version": "1.14.2",
     "developer": "ncroquis-dev",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "퍼즐",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.assassinqbi",
+    "icon": "c2cc2aa402d7"
   },
   {
     "codename": "hole-cup",
@@ -317,9 +317,9 @@
     "updated": "2026-11-09",
     "version": "1.4.2",
     "developer": "ncroquis-dev",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "스포츠",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.holecup",
+    "icon": "e1a42989d31b"
   },
   {
     "codename": "neon-brick",
@@ -331,9 +331,9 @@
     "updated": "2026-11-09",
     "version": "0.4.0",
     "developer": "kazestory7-lab",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "아케이드",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.neonbrick",
+    "icon": "5815b439d9ee"
   },
   {
     "codename": "nalssinyang",
@@ -345,9 +345,9 @@
     "updated": "2026-11-09",
     "version": "1.2.2",
     "developer": "kazestory7-lab",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "날씨",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.nalssinyang",
+    "icon": "8f76dc18e498"
   },
   {
     "codename": "voca-cards",
@@ -359,9 +359,9 @@
     "updated": "2026-11-09",
     "version": "1.1.1",
     "developer": "kazestory7-lab",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "교육",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.vocacards",
+    "icon": "901e6a346bbf"
   },
   {
     "codename": "thumbbeat",
@@ -373,9 +373,9 @@
     "updated": "2026-11-09",
     "version": "1.1.1",
     "developer": "kazestory7-lab",
-    "category": "",
+    "category": "음악",
     "play": "",
-    "icon": ""
+    "icon": "f33be4b514f2"
   },
   {
     "codename": "station-zero",
@@ -387,9 +387,9 @@
     "updated": "2026-11-09",
     "version": "1.4.3",
     "developer": "kazestory7-lab",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "전략",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.stationzero",
+    "icon": "98559079b6a3"
   },
   {
     "codename": "ssokssok-arrow",
@@ -401,9 +401,9 @@
     "updated": "2026-11-09",
     "version": "1.5.0",
     "developer": "kazestory7-lab",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "퍼즐",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.ssokssokarrow",
+    "icon": "5fee981b0ba4"
   },
   {
     "codename": "pocket-solitaire",
@@ -415,9 +415,9 @@
     "updated": "2026-11-09",
     "version": "1.3.1",
     "developer": "kazestory7-lab",
-    "category": "",
-    "play": "",
-    "icon": ""
+    "category": "카드",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.pocketsolitaire",
+    "icon": "8608819fe0cc"
   },
   {
     "codename": "daebak-cards",

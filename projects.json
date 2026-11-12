@@ -1,5 +1,19 @@
 [
   {
+    "codename": "matjjangjangi",
+    "name": "맞짱 장기",
+    "summary": "익숙한 맞짱의 감성으로 즐기는 한 수 승부, 맞짱 장기",
+    "pitch": "초와 한의 전략 대결을 손안에서 즐기는 장기 게임입니다. 보기 편한 장기판과 간편한 조작으로 한 수씩 실력을 쌓아 보세요.",
+    "status": "개발 중",
+    "created": "2026-11-12",
+    "updated": "2026-11-12",
+    "version": "",
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
+  },
+  {
     "codename": "brickrogue",
     "name": "벽돌깨기 - 로그라이크",
     "summary": "공을 조준해 쏘고, 카드를 골라 매 판 다른 빌드로 보스까지 버티는 네온 벽돌깨기",

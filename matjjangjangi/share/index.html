@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta property="og:title" content="맞짱 장기">
+<title>맞짱 장기</title>
+<style>
+  body { font: 1rem system-ui, sans-serif; max-width: 32rem; margin: 4rem auto; padding: 0 1.25rem; color-scheme: light dark; }
+  a { display: inline-block; padding: .65em 0; }
+</style>
+<main>
+    <h1>맞짱 장기</h1>
+    <p><a id="web" href="../">게임 페이지 열기</a></p>
+</main>
+<script>
+  (function () {
+    var ua = navigator.userAgent;
+    var platform = (navigator.userAgentData || {}).platform || "";
+    var ios = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    var android = /Android/i.test(platform + " " + ua);
+    var store = ios ? document.getElementById("ios") : android ? document.getElementById("android") : null;
+    if (store) location.replace(store.href);
+    else if (new URLSearchParams(location.search).get("play") === "1") location.replace("../play/");
+  })();
+</script>

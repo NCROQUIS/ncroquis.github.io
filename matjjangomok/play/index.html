@@ -2,8 +2,9 @@
 <html>
 <head>
   <script src="./ncq/safe.js"></script>
-  <script src="./ncq/device.js?v=cedc99350209"></script>
-  <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script>
+  <script src="./ncq/device.js?v=a8932da5b632"></script>
+  <script src="./ncq/save.js?v=a8932da5b632"></script>
+  <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
@@ -12,14 +13,14 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=cedc99350209">
-  <link rel="stylesheet" href="./forest-ui.css?v=cedc99350209">
-  <link rel="stylesheet" href="./lobby-layout.css?v=cedc99350209">
-  <link rel="stylesheet" href="./list-dialog.css?v=cedc99350209">
-  <link rel="stylesheet" href="./shop-layout.css?v=cedc99350209">
-  <link rel="stylesheet" href="./ranking-layout.css?v=cedc99350209">
-  <link rel="stylesheet" href="./mission-layout.css?v=cedc99350209">
-  <script type="module" src="./app.js?v=cedc99350209"></script>
+  <link rel="stylesheet" href="./style.css?v=a8932da5b632">
+  <link rel="stylesheet" href="./forest-ui.css?v=a8932da5b632">
+  <link rel="stylesheet" href="./lobby-layout.css?v=a8932da5b632">
+  <link rel="stylesheet" href="./list-dialog.css?v=a8932da5b632">
+  <link rel="stylesheet" href="./shop-layout.css?v=a8932da5b632">
+  <link rel="stylesheet" href="./ranking-layout.css?v=a8932da5b632">
+  <link rel="stylesheet" href="./mission-layout.css?v=a8932da5b632">
+  <script type="module" src="./app.js?v=a8932da5b632"></script>
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -476,21 +477,25 @@
               <span id="review-own-seat" class="review-seat"></span>
               <strong id="review-own-name" dir="auto"></strong>
             </span>
-            <span id="review-own-turn" class="review-turn" hidden></span>
+            <span id="review-own-status" class="review-own-status">
+              <span id="review-own-turn" class="review-turn" hidden></span>
+            </span>
           </button>
-          <div class="review-result">
+          <span class="review-result">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm2 5h8m-8 4h8m-8 4h4"/></svg>
             <strong id="review-result"></strong>
             <span id="review-mode"></span>
             <span id="review-passes" hidden></span>
-          </div>
+          </span>
           <div class="review-footer">
             <button id="review-share" type="button" class="secondary" aria-haspopup="dialog"
-                    aria-controls="record-share-dialog" hidden>
+                    aria-controls="record-share-dialog" data-i18n-attr="title:recordShareAction" hidden>
               <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-share-icon"/></svg>
               <span data-i18n="recordShareAction"></span>
             </button>
-            <button id="review-room-action" class="primary" type="button"></button>
+            <button id="review-room-action" class="primary" type="button">
+              <span class="review-action-content"><span id="review-room-action-label"></span></span>
+            </button>
           </div>
           <a id="review-play" class="primary" rel="noreferrer" data-i18n="recordPlay" hidden></a>
         </div>
@@ -811,6 +816,7 @@
                   <strong data-i18n="shopSakuraPlacement"></strong>
                   <span class="shop-product-detail" data-i18n="shopSakuraPlacementGuide"></span>
                   <span class="shop-effect-status"></span>
+                  <span class="shop-product-detail shop-effect-time" hidden></span>
                 </span>
               </button>
             </li>

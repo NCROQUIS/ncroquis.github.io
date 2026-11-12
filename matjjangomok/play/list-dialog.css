@@ -1,7 +1,7 @@
 /* Rankings, records, live games and the shop share the same frame and chrome. */
 .forest-ui .forest-list-dialog {
   --list-dialog-scale: 1;
-  width: min(678px, calc(100vw - var(--ncq-left) - var(--ncq-right) - 20px));
+  width: min(var(--popup-max-width, 560px), calc(100vw - var(--ncq-left) - var(--ncq-right) - 20px), var(--list-dialog-height-width, 560px));
   height: var(--list-dialog-height, 1430px);
   max-height: calc(100dvh - var(--ncq-top) - var(--ncq-bottom) - 20px);
   padding: 0;

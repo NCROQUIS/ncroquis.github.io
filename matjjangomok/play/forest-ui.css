@@ -87,15 +87,8 @@ body.forest-ui {
 .forest-ui .forest-close { flex: none; display: grid; place-items: center; width: 34px; height: 34px; min-height: 34px; padding: 0; border: 1px solid #d4bd8c; border-radius: 50%; background: linear-gradient(#fffaf1, #eddfc3); box-shadow: 0 2px 3px #001b0d44; color: #214428; font-size: 1.75rem; font-weight: 500; line-height: 1; }
 .forest-ui > #watch-close { display: none; }
 .forest-ui #tournament { height: auto; flex: 1; min-height: 0; padding: 0; color: #fff9e7; }
-#rankings-dialog .list-heading { margin-bottom: 10px; padding: 0; }
-#tournament-title { color: #fff9e7; font-size: clamp(1.2rem, 5.5vw, 1.7rem); }
-#rankings-dialog .list-heading::before { content: ""; flex: none; width: 37px; height: 30px; background: url("./assets/forest-ui/icons/trophy.webp") center / contain no-repeat; }
-#rankings-dialog .list-heading h1 { flex: 1; }
 .forest-championship-meta { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 10px; font-size: .73rem; color: #f7efc0; }
 .forest-championship-meta > * { padding: 3px 9px; border: 1px solid #b1a25966; border-radius: 99px; background: #0b361c; }
-.forest-ui .ranking-tabs { margin: 0; padding: 3px; border: 1px solid #cfb779; border-radius: 14px; background: #f6ecd7; }
-.forest-ui .ranking-tabs button { min-height: 34px; color: #264324; font-weight: 800; font-size: .84rem; }
-.forest-ui .ranking-tabs button[aria-selected="true"] { color: #fffdf1; border: 1px solid #e5c85e; background: linear-gradient(#3d7b20, #1b5816); border-radius: 12px; box-shadow: inset 0 1px #b4d482; }
 .forest-ui .ranking-panel { gap: 9px; margin-top: 12px; }
 .forest-ui :is(.ranking-summary, .ranking-dates) { display: none; }
 .forest-ui .ranking-cards { gap: 8px; }
@@ -112,14 +105,8 @@ body.forest-ui {
 #rankings-dialog .match-request .primary { min-height: 48px; font-size: clamp(1.08rem, 5.5vw, 1.65rem); }
 .forest-ui #tournament-attempts { color: #f5e9bd; }
 .forest-ui #records { min-height: 0; padding: 0; }
-#records-dialog .review-header { flex: none; grid-template-columns: 1fr auto; }
-#records-dialog #records-heading { grid-row: 1; grid-column: 1; text-align: start; color: #fff9e7; font-size: 1.4rem; }
-#records-dialog #records-back { grid-row: 1; grid-column: 2; width: 34px; height: 34px; color: #264326; background: #f5ead4; }
-#records-back > span { font-size: 1.7rem; }
 .forest-ui .record-card { color: #193a23; background: linear-gradient(135deg, #fffaf2, #f0e4cf); }
 #watch-dialog .lobby-feed { display: flex; flex: 1; flex-direction: column; min-height: 0; overflow: hidden; }
-#watch-dialog .list-heading { flex: none; gap: 7px; margin-bottom: 14px; color: #fff9e7; }
-#watch-dialog .list-heading-title { flex: 1; }
 #watch-dialog #live-games { gap: 8px; }
 #watch-dialog .live-game-entry { color: #193a23; background: linear-gradient(135deg, #fffaf0, #f0e4cd); border-radius: 12px; }
 #watch-dialog .list-count { color: #e9e3c3; }

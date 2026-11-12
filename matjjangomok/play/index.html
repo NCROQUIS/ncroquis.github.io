@@ -10,12 +10,13 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=e11c711efdfa">
-  <link rel="stylesheet" href="./forest-ui.css?v=e11c711efdfa">
-  <link rel="stylesheet" href="./lobby-layout.css?v=e11c711efdfa">
-  <link rel="stylesheet" href="./ranking-layout.css?v=e11c711efdfa">
-  <link rel="stylesheet" href="./mission-layout.css?v=e11c711efdfa">
-  <script type="module" src="./app.js?v=e11c711efdfa"></script>
+  <link rel="stylesheet" href="./style.css?v=7af38636c12c">
+  <link rel="stylesheet" href="./forest-ui.css?v=7af38636c12c">
+  <link rel="stylesheet" href="./lobby-layout.css?v=7af38636c12c">
+  <link rel="stylesheet" href="./list-dialog.css?v=7af38636c12c">
+  <link rel="stylesheet" href="./ranking-layout.css?v=7af38636c12c">
+  <link rel="stylesheet" href="./mission-layout.css?v=7af38636c12c">
+  <script type="module" src="./app.js?v=7af38636c12c"></script>
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -242,10 +243,12 @@
             <ol id="rating-standings" class="entry-list ranking-cards"></ol>
           </div>
         </div>
-        <div id="ranking-pagination" class="ranking-pagination" hidden>
-          <button id="ranking-prev" class="quiet" type="button" data-i18n="rankingPrevious"></button>
-          <span id="ranking-page" class="list-count" aria-live="polite"></span>
-          <button id="ranking-next" class="quiet" type="button" data-i18n="rankingNext"></button>
+        <div class="ranking-pagination-slot">
+          <div id="ranking-pagination" class="ranking-pagination" hidden>
+            <button id="ranking-prev" class="quiet" type="button" data-i18n="rankingPrevious"></button>
+            <span id="ranking-page" class="list-count" aria-live="polite"></span>
+            <button id="ranking-next" class="quiet" type="button" data-i18n="rankingNext"></button>
+          </div>
         </div>
         <template id="ranking-card-template">
           <button class="ranking-card" type="button" aria-haspopup="dialog" aria-controls="player-profile">

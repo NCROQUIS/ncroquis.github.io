@@ -1,10 +1,10 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=e11c711efdfa";
-import { TEXTS } from "./texts.js?v=e11c711efdfa";
-import { createForestUI } from "./forest-ui.js?v=e11c711efdfa";
-import { RankingPages, rankingPageLimit } from "./ranking-pages.js?v=e11c711efdfa";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=e11c711efdfa";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=e11c711efdfa";
+import { NcqBoard } from "./ncq/board.js?v=7af38636c12c";
+import { TEXTS } from "./texts.js?v=7af38636c12c";
+import { createForestUI } from "./forest-ui.js?v=7af38636c12c";
+import { RankingPages, rankingPageTarget } from "./ranking-pages.js?v=7af38636c12c";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=7af38636c12c";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=7af38636c12c";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -99,6 +99,8 @@ let lobbyView = "lobby";
 let recordsReturnView = "lobby";
 let recordsScope = recordsKey;
 let records = loadRecords();
+let recordPreviewObserver;
+let recordPreviewJobs = new WeakMap();
 let recordFilter = "all";
 let favoritesScope;
 let favorites = new Set();
@@ -2541,6 +2543,24 @@ function drawRecordPreview(svg, game) {
   svg.append(stones);
 }
 
+function queueRecordPreview(svg, game) {
+  if (typeof IntersectionObserver === "undefined") {
+    drawRecordPreview(svg, game);
+    return;
+  }
+  recordPreviewObserver ??= new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const pending = recordPreviewJobs.get(entry.target);
+      if (pending) drawRecordPreview(entry.target, pending);
+      recordPreviewJobs.delete(entry.target);
+      recordPreviewObserver.unobserve(entry.target);
+    }
+  }, { root: el("record-list").parentElement, rootMargin: "150px 0px" });
+  recordPreviewJobs.set(svg, game);
+  recordPreviewObserver.observe(svg);
+}
+
 function recordCard(game, saved) {
   const row = el("record-row").content.firstElementChild.cloneNode(true);
   row.dataset.recordId = game.id;
@@ -2560,7 +2580,7 @@ function recordCard(game, saved) {
   const context = [recordRank(own), own.name].filter(Boolean).join(" ");
   const mode = t(game.device ? "deviceRecord" : game.mode === "tournament" ? "weeklyTournament" : "casualMatch");
   row.querySelector(".record-context").textContent = mode + " · " + context;
-  drawRecordPreview(row.querySelector(".record-preview svg"), game);
+  queueRecordPreview(row.querySelector(".record-preview svg"), game);
   row.querySelector(".record-open").addEventListener("click", () => openArchive(game));
   const button = row.querySelector(".record-favorite");
   markFavorite(button, saved);
@@ -2582,6 +2602,8 @@ function recordCard(game, saved) {
 }
 
 function renderRecords() {
+  recordPreviewObserver?.disconnect();
+  recordPreviewJobs = new WeakMap();
   const saved = recordFavorites();
   const tournamentOnly = recordsReturnView === "tournament";
   el("records-heading").textContent = t(tournamentOnly ? "tournamentRecords" : "recordList");
@@ -3677,7 +3699,7 @@ function resizeRankingPage(size) {
   loadRankings(rankingTab, Math.floor(first / size) + 1, size, true);
 }
 
-async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageSize ?? rankingPageLimit, reusePages = false) {
+async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageSize ?? rankingPageTarget, reusePages = false) {
   const previous = rankingResults[tab];
   if (!backend || (previous?.loading && previous.page === page && previous.pageSize === pageSize)) return;
   clearTimeout(previous?.refresh);

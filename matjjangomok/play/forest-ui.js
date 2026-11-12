@@ -1,6 +1,7 @@
-import { installMeasuredLobby } from "./lobby-layout.js?v=e11c711efdfa";
-import { installMeasuredRankings } from "./ranking-layout.js?v=e11c711efdfa";
-import { installMeasuredMissions } from "./mission-layout.js?v=e11c711efdfa";
+import { installMeasuredLobby } from "./lobby-layout.js?v=7af38636c12c";
+import { installMeasuredRankings } from "./ranking-layout.js?v=7af38636c12c";
+import { installMeasuredMissions } from "./mission-layout.js?v=7af38636c12c";
+import { installListDialog } from "./list-dialog.js?v=7af38636c12c";
 
 // Reuse the existing records, rankings, wallet and shop views inside modal layers.
 export function createForestUI({ closeView, getView, hasGame, translate, onRankingCapacity }) {
@@ -33,7 +34,14 @@ export function createForestUI({ closeView, getView, hasGame, translate, onRanki
   meta.insertBefore(separator, meta.lastElementChild);
   el("tournament").querySelector(".list-heading").after(meta);
   const watchDialog = wrap("watch-dialog", "lobby-heading", document.querySelector(".lobby-feed"));
-  watchDialog.querySelector(".list-heading").append(el("watch-close"));
+  const watchHeading = watchDialog.querySelector(".list-heading");
+  const toolbar = document.createElement("div");
+  toolbar.className = "watch-list-toolbar";
+  toolbar.append(el("live-count"), el("refresh-lobby"));
+  watchHeading.after(toolbar);
+  watchHeading.prepend(el("lobby-heading"));
+  watchHeading.querySelector(".list-heading-title").remove();
+  watchHeading.append(el("watch-close"));
   el("show-tournament").querySelector(".tournament-icon").replaceWith(Object.assign(document.createElement("img"), {
     src: "./assets/forest-ui/icons/trophy.webp", alt: "", className: "tournament-icon",
   }));
@@ -57,6 +65,12 @@ export function createForestUI({ closeView, getView, hasGame, translate, onRanki
   el("player-card").append(meter);
   const measuredLobby = installMeasuredLobby();
   const measuredRankings = installMeasuredRankings(rankingsDialog, onRankingCapacity);
+  const measuredRecords = installListDialog(recordsDialog, {
+    title: el("records-heading"), close: el("records-back"), icon: "book", tabs: el("record-filters"),
+  });
+  const measuredWatch = installListDialog(watchDialog, {
+    title: el("lobby-heading"), close: el("watch-close"), icon: "watch",
+  });
   installMeasuredMissions();
   const setLayer = (dialog, visible) => {
     if (visible && !dialog.open) dialog.showModal();
@@ -67,6 +81,7 @@ export function createForestUI({ closeView, getView, hasGame, translate, onRanki
     openWatch() {
       if (hasGame()) return;
       watchDialog.showModal();
+      measuredWatch();
       el("lobby-heading").focus();
     },
     back() {
@@ -87,6 +102,7 @@ export function createForestUI({ closeView, getView, hasGame, translate, onRanki
       setLayer(recordsDialog, !game && view === "records");
       setLayer(rankingsDialog, ranking);
       if (ranking) measuredRankings();
+      if (!game && view === "records") measuredRecords();
     },
     profile(rating, lower, upper) {
       meter.setAttribute("aria-label", translate("forestPromotionProgress"));

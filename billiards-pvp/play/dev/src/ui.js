@@ -295,11 +295,11 @@ const TMO_SVG='<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true
 function refreshLobby(){
   achCheck(true);profRender();
   // 부제: 종목 이름을 '·'로 이어요. 줄이 바뀔 때 이름 가운데(3-Cushion의 '-' 등)에서 끊기지 않게 이름마다 묶어요
-  const bs=$('brandSub');bs.textContent='';['3c','4b','pool'].forEach((g,i)=>{if(i)bs.append('\u00a0· ');const n=document.createElement('span');n.style.whiteSpace='nowrap';n.textContent=GAME_INFO[g].name;bs.append(n);});
+  const bs=$('brandSub');bs.textContent='';['4b','3c','pool'].forEach((g,i)=>{if(i)bs.append('\u00a0· ');const n=document.createElement('span');n.style.whiteSpace='nowrap';n.textContent=GAME_INFO[g].name;bs.append(n);});
   requestAnimationFrame(fitBrand);
   pickGame(nav.game,true);
   const rows=$('rankRows');rows.textContent='';
-  ['3c','4b','pool'].forEach(g=>{const r=save.rec[g],tr=document.createElement('tr'),th=document.createElement('th');th.scope='row';th.textContent=GAME_INFO[g].name;tr.appendChild(th);[r.rk,rankPos(g)?T('rank_pos',{n:rankPos(g)}):'—',`${r.w}-${r.l}`].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td);});rows.appendChild(tr);});
+  ['4b','3c','pool'].forEach(g=>{const r=save.rec[g],tr=document.createElement('tr'),th=document.createElement('th');th.scope='row';th.textContent=GAME_INFO[g].name;tr.appendChild(th);[r.rk,rankPos(g)?T('rank_pos',{n:rankPos(g)}):'—',`${r.w}-${r.l}`].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td);});rows.appendChild(tr);});
 }
 // ---------- 광고 자리: 실제 SDK를 붙일 때 Ads의 두 함수만 교체 ----------
 const AD={STAGE_EVERY:3,INTER_SEC:3,REWARD_SEC:5};

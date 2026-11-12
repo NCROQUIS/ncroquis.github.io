@@ -1,4 +1,5 @@
 const serverPageSize = 30;
+export const rankingPageLimit = 10;
 
 // Keep the server's ranking/tie order while showing a smaller, scroll-free page.
 export class RankingPages {
@@ -26,8 +27,8 @@ export class RankingPages {
   }
 
   async page(number, size) {
-    if (!Number.isInteger(number) || number < 1 || !Number.isInteger(size) || size < 1 || size > 5) {
-      throw new TypeError("Rankings require a positive page and 1–5 entries per page");
+    if (!Number.isInteger(number) || number < 1 || !Number.isInteger(size) || size < 1 || size > rankingPageLimit) {
+      throw new TypeError("Rankings require a positive page and 1–10 entries per page");
     }
     const first = (number - 1) * size;
     const batchNumber = this.tab === "rating" ? Math.floor(first / serverPageSize) + 1 : 1;

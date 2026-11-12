@@ -69,6 +69,10 @@ body.forest-ui {
 .forest-ui .lobby-nav button:hover { background: #dce5c499; }
 .forest-ui dialog { color: #193821; background: linear-gradient(140deg, #fffaf2, #f1e5cf); border: 1px solid #d1b77e; box-shadow: 0 10px 35px #001b0b80; }
 .forest-ui dialog::backdrop { background: #001408ad; }
+/* Full-screen match and promotion effects sit above the dimmed game. */
+.forest-ui dialog.match-intro { color: #fff5dc; background: transparent; border: 0; box-shadow: none; }
+.forest-ui dialog.match-intro::backdrop { background: rgb(0 0 0 / 78%); }
+.forest-ui dialog.result::backdrop { background: rgb(0 0 0 / 66%); }
 .forest-ui .forest-page-dialog {
   position: fixed; inset-block: var(--ncq-top) var(--ncq-bottom); inset-inline: var(--ncq-left) var(--ncq-right);
   width: min(640px, calc(100vw - var(--ncq-left) - var(--ncq-right) - 16px));

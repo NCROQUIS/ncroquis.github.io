@@ -1,10 +1,10 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=3000397f6d52";
-import { TEXTS } from "./texts.js?v=3000397f6d52";
-import { createForestUI } from "./forest-ui.js?v=3000397f6d52";
-import { RankingPages } from "./ranking-pages.js?v=3000397f6d52";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=3000397f6d52";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=3000397f6d52";
+import { NcqBoard } from "./ncq/board.js?v=e11c711efdfa";
+import { TEXTS } from "./texts.js?v=e11c711efdfa";
+import { createForestUI } from "./forest-ui.js?v=e11c711efdfa";
+import { RankingPages, rankingPageLimit } from "./ranking-pages.js?v=e11c711efdfa";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=e11c711efdfa";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=e11c711efdfa";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -3670,13 +3670,14 @@ for (const [direction, step] of [["prev", -1], ["next", 1]]) {
 }
 
 function resizeRankingPage(size) {
+  if (lobbyView !== "tournament") return;
   const state = rankingResults[rankingTab];
   if (!state?.result || state.result.error || state.pageSize === size) return;
   const first = (state.page - 1) * state.pageSize;
   loadRankings(rankingTab, Math.floor(first / size) + 1, size, true);
 }
 
-async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageSize ?? 5, reusePages = false) {
+async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageSize ?? rankingPageLimit, reusePages = false) {
   const previous = rankingResults[tab];
   if (!backend || (previous?.loading && previous.page === page && previous.pageSize === pageSize)) return;
   clearTimeout(previous?.refresh);

@@ -1,7 +1,15 @@
-import { resource, titleUnderline } from "./lobby-layout.js?v=3000397f6d52";
+import { resource, titleUnderline } from "./lobby-layout.js?v=e11c711efdfa";
+import { rankingPageLimit } from "./ranking-pages.js?v=e11c711efdfa";
 
-// Right panel of the supplied 1448×1086 mockup: (742, 10), 678×1062.
-export const rankingReference = { width: 678, height: 1062, border: 2 };
+export const rankingReference = { width: 678, border: 2 };
+
+export function fitRankingPage(available, chrome, rowHeight, gap, rows) {
+  const capacity = Math.max(1, Math.min(rankingPageLimit,
+    Math.floor((Math.max(0, available - chrome) + gap) / (rowHeight + gap))));
+  const visible = Math.min(rows, capacity);
+  const listHeight = visible ? visible * rowHeight + (visible - 1) * gap : 0;
+  return { capacity, height: Math.min(available, chrome + listHeight) };
+}
 
 export function installMeasuredRankings(dialog, onCapacity = () => {}) {
   const el = id => document.getElementById(id);
@@ -21,28 +29,38 @@ export function installMeasuredRankings(dialog, onCapacity = () => {}) {
   }
 
   let capacityQueued = false;
-  let capacity = 5;
+  let capacity = rankingPageLimit;
   const resize = () => {
-    if (!dialog.open || !dialog.clientWidth || !dialog.clientHeight) return;
+    if (!dialog.open || !dialog.clientWidth) return;
     const designWidth = rankingReference.width - 2 * rankingReference.border;
     const scale = dialog.clientWidth / designWidth;
     dialog.style.setProperty("--ranking-scale", scale);
     stage.style.width = designWidth + "px";
-    stage.style.height = dialog.clientHeight / scale + "px";
+    stage.style.height = "auto";
     stage.style.transform = `scale(${scale})`;
     stage.dataset.sized = "true";
     const panel = el("tournament").querySelector(".ranking-panel:not([hidden])");
     if (!panel) return;
-    const body = panel.querySelector(".list-body").getBoundingClientRect();
-    const reward = panel.querySelector(".weekly-reward:not([hidden])");
-    const top = reward ? reward.getBoundingClientRect().bottom + 18 * scale : body.top;
-    const room = Math.max(0, (body.bottom - top) / scale - 5);
-    capacity = Math.max(1, Math.min(5, Math.floor((room + 6) / 82.4)));
+    const list = panel.querySelector(".ranking-cards");
+    const row = list.querySelector(".ranking-card");
+    const rowHeight = row ? parseFloat(getComputedStyle(row).height) || 64 : 64;
+    const gap = parseFloat(getComputedStyle(list).rowGap) || 0;
+    const style = getComputedStyle(dialog);
+    const maxHeight = parseFloat(style.maxHeight) ||
+      innerHeight - (parseFloat(style.top) || 0) - (parseFloat(style.bottom) || 0) - 20;
+    const border = 2 * rankingReference.border;
+    const chrome = stage.offsetHeight - list.offsetHeight;
+    const fitted = fitRankingPage((maxHeight - border) / scale, chrome,
+      rowHeight, gap, list.children.length);
+    capacity = fitted.capacity;
+    dialog.style.setProperty("--ranking-content-height", fitted.height * scale + border + "px");
     if (!capacityQueued) {
       capacityQueued = true;
       queueMicrotask(() => { capacityQueued = false; onCapacity(capacity); });
     }
   };
-  new ResizeObserver(resize).observe(dialog);
+  const observer = new ResizeObserver(resize);
+  observer.observe(dialog);
+  observer.observe(stage);
   return resize;
 }

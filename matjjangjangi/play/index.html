@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+<head>
+  <script src="./ncq/safe.js?v=c3bdc684b8f1"></script>
+  <meta charset="utf-8"><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#163e27">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css">
+  <link rel="stylesheet" href="./style.css?v=c3bdc684b8f1">
+  <script src="./ncq/save.js?v=c3bdc684b8f1"></script>
+  <script src="./ncq/sound.js?v=c3bdc684b8f1"></script>
+  <script type="module" src="./app.js?v=c3bdc684b8f1"></script>
+  <title>Janggi Duel</title>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" id="brand"><span class="brand-seal" aria-hidden="true">楚</span><strong data-i18n="title"></strong></a>
+      <span class="practice-tag" data-i18n="practice"></span>
+      <button id="show-options" class="icon-button" data-i18n-attr="aria-label:options"><img src="./assets/forest-ui/icons/settings.webp" alt=""></button>
+    </header>
+    <main>
+      <section id="lobby" class="lobby">
+        <div class="welcome paper"><img src="./assets/forest-ui/icons/profile.webp" alt=""><div><strong data-i18n="greeting"></strong><p data-i18n="intro"></p></div></div>
+        <div class="showcase"><p class="eyebrow" data-i18n="subtitle"></p><div id="preview-board" class="preview-board" aria-hidden="true"></div></div>
+        <div class="lobby-actions">
+          <button id="resume" class="secondary" data-ncq-main="Continue saved game" data-i18n="resume" hidden></button>
+          <button id="start" class="primary" data-ncq-main="Start a Janggi game"><span class="cta-seals" aria-hidden="true"><i>楚</i><i>漢</i></span><span data-i18n="start"></span><span aria-hidden="true">›</span></button>
+          <p class="mode-hint" data-i18n="modeHint"></p>
+        </div>
+      </section>
+      <section id="game" class="game" hidden data-ncq-no-main>
+        <div class="game-heading"><button id="game-back" class="text-button" data-i18n="leave"></button><span id="game-mode"></span><button id="game-options" class="text-button compact-options" data-i18n-attr="aria-label:options">⚙</button><button id="flip" class="text-button" data-i18n="flip"></button></div>
+        <div id="top-player" class="player match-art-panel"></div>
+        <div class="board-space"><div id="board" class="board" role="group" data-i18n-attr="aria-label:title"></div></div>
+        <div id="bottom-player" class="player match-art-panel"></div>
+        <div class="turn-status"><strong id="turn-label"></strong><span id="move-count"></span><p id="game-status" role="status"></p></div>
+        <div id="play-actions" class="play-actions"><button id="undo" class="match-art-action" data-i18n="undo"></button><button id="pass" class="match-art-action" data-i18n="pass"></button><button id="resign" class="match-art-action" data-i18n="resign"></button></div>
+        <div id="review-actions" class="review-actions" hidden>
+          <input id="review-range" type="range" min="0" max="0" value="0" data-i18n-attr="aria-label:reviewPosition">
+          <div><button id="review-first" data-i18n-attr="aria-label:first">|‹</button><button id="review-prev" data-i18n-attr="aria-label:previous">‹</button><strong id="review-counter"></strong><button id="review-next" data-i18n-attr="aria-label:next">›</button><button id="review-last" data-i18n-attr="aria-label:last">›|</button></div>
+        </div>
+        <button id="retry-ai" class="secondary" data-i18n="retry" hidden></button>
+      </section>
+    </main>
+    <nav id="lobby-nav" class="lobby-nav" data-i18n-attr="aria-label:title">
+      <button id="show-records"><img src="./assets/forest-ui/icons/book.webp" alt=""><span data-i18n="records"></span></button>
+      <button id="show-rules"><span class="nav-piece" aria-hidden="true">馬</span><span data-i18n="rules"></span></button>
+      <button id="nav-options"><img src="./assets/forest-ui/icons/settings.webp" alt=""><span data-i18n="options"></span></button>
+    </nav>
+  </div>
+  <dialog id="setup" aria-labelledby="setup-title"><form id="setup-form">
+    <div class="dialog-heading"><h2 id="setup-title" data-i18n="setup"></h2><button type="button" class="close" data-close="setup" data-i18n-attr="aria-label:close">×</button></div>
+    <div class="dialog-content">
+      <fieldset><legend data-i18n="mode"></legend><div class="segmented"><label><input type="radio" name="mode" value="ai" checked><span data-i18n="ai"></span></label><label><input type="radio" name="mode" value="local"><span data-i18n="local"></span></label></div></fieldset>
+      <div id="ai-settings"><fieldset><legend data-i18n="mySide"></legend><div class="segmented"><label><input type="radio" name="side" value="1" checked><span data-i18n="choFirst"></span></label><label><input type="radio" name="side" value="2"><span data-i18n="hanSecond"></span></label></div></fieldset>
+      <label class="form-row"><span data-i18n="difficulty"></span><select name="difficulty"><option value="1" data-i18n="easy"></option><option value="2" selected data-i18n="normal"></option></select></label></div>
+      <fieldset class="formations"><legend data-i18n="formation"></legend><label><span data-i18n="choFormation"></span><select name="choFormation"><option value="0" data-i18n="formation0"></option><option value="1" data-i18n="formation1"></option><option value="2" data-i18n="formation2"></option><option value="3" data-i18n="formation3"></option></select></label><label><span data-i18n="hanFormation"></span><select name="hanFormation"><option value="0" data-i18n="formation0"></option><option value="1" data-i18n="formation1"></option><option value="2" data-i18n="formation2"></option><option value="3" data-i18n="formation3"></option></select></label><p class="fine" data-i18n="setupHint"></p></fieldset>
+    </div>
+    <button type="submit" class="primary" data-ncq-main="Begin game" data-i18n="begin"></button>
+  </form></dialog>
+  <dialog id="options" aria-labelledby="options-title"><div class="dialog-heading"><h2 id="options-title" data-i18n="options"></h2><button class="close" data-close="options" data-i18n-attr="aria-label:close">×</button></div><div class="dialog-content">
+    <label class="form-row"><span data-i18n="language"></span><select id="language"></select></label>
+    <label class="form-row"><span data-i18n="sound"></span><input id="sound" type="checkbox" role="switch"></label>
+    <label class="form-row"><span data-i18n="theme"></span><select id="theme"><option value="wood" data-i18n="wood"></option><option value="dark" data-i18n="dark"></option></select></label>
+    <p class="fine" data-i18n="offlineNote"></p><button id="feedback" class="secondary" data-i18n="feedback" hidden></button>
+    <p class="version"><span data-i18n="version"></span> <span id="app-version"></span></p>
+  </div><button class="primary" data-close="options" data-ncq-main="Close settings" data-i18n="close"></button></dialog>
+  <dialog id="records" aria-labelledby="records-title"><div class="dialog-heading"><h2 id="records-title" data-i18n="records"></h2><button class="close" data-close="records" data-i18n-attr="aria-label:close">×</button></div><div class="dialog-content"><p class="fine" data-i18n="recordHint"></p><div id="record-list"></div></div><button class="primary" data-close="records" data-ncq-main="Close records" data-i18n="close"></button></dialog>
+  <dialog id="rules" aria-labelledby="rules-title"><div class="dialog-heading"><h2 id="rules-title" data-i18n="rules"></h2><button class="close" data-close="rules" data-i18n-attr="aria-label:close">×</button></div><div class="dialog-content"><p data-i18n="rulesIntro"></p><ul class="rules-list"><li data-i18n="ruleKing"></li><li data-i18n="ruleRook"></li><li data-i18n="ruleCannon"></li><li data-i18n="ruleHorse"></li><li data-i18n="ruleElephant"></li><li data-i18n="ruleSoldier"></li></ul><p class="fine" data-i18n="ruleEnding"></p></div><button class="primary" data-close="rules" data-ncq-main="Close rules" data-i18n="close"></button></dialog>
+  <dialog id="confirm" aria-labelledby="confirm-title"><h2 id="confirm-title"></h2><p id="confirm-message"></p><div class="confirm-actions"><button id="confirm-no" class="secondary" data-i18n="cancel"></button><button id="confirm-yes" class="primary" data-ncq-main="Confirm action" data-i18n="confirm"></button></div></dialog>
+  <dialog id="result" aria-labelledby="result-title"><p class="eyebrow" data-i18n="result"></p><div id="result-seal" class="result-seal"></div><h2 id="result-title"></h2><p id="result-reason"></p><button id="result-review" class="primary" data-ncq-main="Review completed game" data-i18n="review"></button><button id="result-again" class="secondary" data-i18n="again"></button></dialog>
+  <div id="announcement" class="sr-only" aria-live="polite"></div>
+</body>
+</html>

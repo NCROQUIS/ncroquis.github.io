@@ -1,0 +1,85 @@
+.match-art-backdrop {
+  background: #221a14 url("./backdrop.webp") center / cover no-repeat;
+  color: #faead0;
+}
+
+.match-art-panel {
+  border: 1px solid #614739;
+  border-radius: 1.25rem;
+  background: linear-gradient(162deg, #4c382a99, #2b1d13b3 57%, #3e2b21a6);
+  box-shadow: inset 0 1px #f6c3951c, inset 0 0 0.8rem #0e080540, 0 0.3rem 0.65rem #0e080550;
+}
+
+.match-art-panel[data-active="true"] {
+  border-color: #e2a150;
+  background: linear-gradient(162deg, #69482b91, #342111bf 56%, #402713a6);
+  box-shadow: inset 0 1px #fff0cbcc, inset 0 0 0.9rem #df90393d, 0 0 0.85rem #ff9c3d38;
+}
+
+.match-art-avatar {
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background: linear-gradient(#30241b, #1e1610) padding-box,
+    linear-gradient(145deg, #d2c7ba, #74665a 65%, #9f8d7a) border-box;
+  box-shadow: 0 0.22rem 0.42rem #130b07aa;
+}
+
+.match-art-panel[data-active="true"] .match-art-avatar {
+  background: linear-gradient(#30241b, #1e1610) padding-box,
+    linear-gradient(145deg, #fff1c2, #dc953d 58%, #ffe1a0) border-box;
+}
+
+.match-art-divider {
+  width: 1px;
+  background: linear-gradient(transparent, #c9a4838c 20% 80%, transparent);
+}
+
+.match-art-action {
+  border: 1px solid #654b3a;
+  border-radius: 0.88rem;
+  background: linear-gradient(#483327, #302219);
+  color: #fae5ca;
+  box-shadow: inset 0 1px #e0ac7b24, 0 0.2rem 0.36rem #10080550;
+}
+
+.match-art-action:disabled {
+  color: #b9a69a;
+}
+
+.match-art-gauge {
+  border: 1px solid #1b130d;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at 37% 16%, #544f4a, #302b28 76%);
+  box-shadow: inset 0 0 0.6rem #100906bf, 0 0.16rem 0.35rem #130b07aa;
+  color: #c5bcb2;
+}
+
+.match-art-gauge[data-active="true"] {
+  border-color: #e0a74e;
+  background: radial-gradient(ellipse at 38% 13%, #ba711c, #743b0b 80%);
+  box-shadow: inset 0 0 0.65rem #ffd06070, 0 0 0.75rem #ff8b25a0;
+  color: #fff0d1;
+}
+
+.match-art-gauge-track {
+  color: #746b63;
+  opacity: .66;
+}
+
+.match-art-gauge-progress {
+  color: #b8afa4;
+  stroke-dasharray: var(--match-art-progress, 100) 100;
+}
+
+.match-art-gauge[data-active="true"] .match-art-gauge-track {
+  color: #a97131;
+}
+
+.match-art-gauge[data-active="true"] .match-art-gauge-progress {
+  color: #ffd45b;
+  filter: drop-shadow(0 0 2px #fff1a6) drop-shadow(0 0 4px #ff981e);
+}
+
+.match-art-gauge-progress[data-empty] {
+  visibility: hidden;
+}

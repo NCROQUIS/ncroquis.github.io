@@ -1,0 +1,97 @@
+/* Small static subsets preserve the measured weights in all browser engines. */
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/450.woff2") format("woff2"); font-weight: 450; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/530.woff2") format("woff2"); font-weight: 530; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/750.woff2") format("woff2"); font-weight: 750; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/760.woff2") format("woff2"); font-weight: 760; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/790.woff2") format("woff2"); font-weight: 790; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/800.woff2") format("woff2"); font-weight: 800; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/820.woff2") format("woff2"); font-weight: 820; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/830.woff2") format("woff2"); font-weight: 830; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/850.woff2") format("woff2"); font-weight: 850; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/870.woff2") format("woff2"); font-weight: 870; font-display: swap; }
+@font-face { font-family: "Jangi Mission KR"; src: url("./assets/forest-ui/fonts/mission/900.woff2") format("woff2"); font-weight: 900; font-display: swap; }
+
+/* Logical design pixels. The whole panel scales within NcqSafe's rectangle. */
+.forest-ui #missions {
+  position: fixed; inset: auto; margin: 0; padding: 0; max-width: none; max-height: none;
+  border: 0; border-radius: calc(40px * var(--mission-scale, 1)); overflow: hidden;
+  background: transparent; color: #142d20; font-family: "Jangi Mission KR", "Jangi Noto Sans KR", sans-serif;
+  box-shadow: 0 5px 12px #00130666;
+}
+#missions::backdrop { background: #0009; }
+.forest-ui #missions form {
+  position: relative; display: block; width: 632px; height: 778px; max-height: none;
+  padding: 0; margin: 0; gap: 0; border: 0; border-radius: 40px;
+  transform: scale(var(--mission-scale, 1)); transform-origin: top left;
+  background: url("./assets/forest-ui/panels/mission-dialog.svg") 0 0 / 632px 778px no-repeat;
+}
+#missions .mission-heading { display: contents; }
+#missions #missions-title { position: absolute; left: 135px; top: 14px; width: 275px; height: 66px; display: block; font-size: 41px; font-weight: 870; line-height: 66px; letter-spacing: -.8px; color: #123b22; }
+#missions:lang(en) #missions-title { font-size: 34px; letter-spacing: -.5px; }
+#missions #missions-title > svg:not(.mission-title-wave) { display: none; }
+#missions #missions-title::before { position: absolute; left: -86px; top: 5px; width: 70px; height: 73px; background: url("./assets/forest-ui/icons/gift.webp") center / contain no-repeat; }
+#missions #missions-title .mission-title-wave { position: absolute; display: block; left: 6px; top: 61px; width: 150px; height: 16px; stroke: none; }
+#missions .mission-heading .shop-wallet { position: absolute; left: 429px; top: 32px; width: 98px; height: 44px; padding: 0; display: block; border: 1px solid #c6b08a; border-radius: 24px; background: linear-gradient(#fcf7eb, #eddfc4); box-shadow: inset 0 1px #fffcf4; }
+#missions .mission-heading .shop-wallet > [data-i18n] { display: none; }
+#missions .mission-heading .shop-coin { position: absolute; left: 12px; top: 9px; width: 26px; height: 26px; }
+#missions #mission-balance { position: absolute; left: 46px; top: 0; width: 44px; height: 42px; font-size: min(26px, calc(78px / var(--mission-coin-chars, 1))); font-weight: 700; line-height: 40px; text-align: center; }
+#missions #mission-close { position: absolute; inset: 26px auto auto 558px; width: 54px; height: 54px; min-height: 0; padding: 0; border: 1px solid #e2ceb0; border-radius: 50%; background: linear-gradient(#fffaf1, #eddfc5); box-shadow: inset 0 1px #fffaf3, 0 2px 3px #6b4d2333; }
+#missions #mission-close::before, #missions #mission-close::after { content: ""; position: absolute; left: 50%; top: 48%; width: 26px; height: 3px; border-radius: 2px; background: #183e29; transform: translate(-50%, -50%) rotate(45deg); }
+#missions #mission-close::after { transform: translate(-50%, -50%) rotate(-45deg); }
+#missions .mission-close-hit, #missions .mission-claim::before { content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, calc(44px / var(--mission-scale))); height: max(100%, calc(44px / var(--mission-scale))); transform: translate(-50%, -50%); }
+#missions #mission-content { position: absolute; left: 21px; top: 99px; width: 590px; height: 647px; display: block; padding: 0; margin: 0; overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; }
+#missions .mission-guide { position: absolute; left: 26px; top: 0; width: 525px; height: 32px; padding: 0; font-size: 17.5px; font-weight: 530; line-height: 32px; letter-spacing: .4px; transform: scaleY(.94); color: #243c31; }
+#missions .mission-overview { position: absolute; left: 2px; top: 51px; width: 586px; height: 125px; padding: 0; border: 1px solid #d9c3a3; border-radius: 21px; background: linear-gradient(135deg, #fffaf3, #f3e8d6); box-shadow: inset 0 1px #fffdf7, 0 2px 2px #76502b21; }
+#missions .mission-overview-heading { display: contents; }
+#missions #mission-overview-title { position: absolute; left: 77px; top: 11px; height: 38px; display: block; padding: 0; font-size: 24px; font-weight: 820; line-height: 38px; letter-spacing: .3px; }
+#missions #mission-overview-title svg { position: absolute; left: -61px; top: 0; width: 52px; height: 52px; fill: none; stroke: none; }
+#missions #mission-total { position: absolute; left: 478px; top: 14px; width: 88px; height: 37px; padding: 0; border-radius: 20px; background: #dcebb9; color: #214e16; font-size: 21px; font-weight: 900; line-height: 37px; text-align: center; display: flex; justify-content: center; align-items: center; gap: 5.5px; }
+#missions #mission-total .mission-count-slash { font-size: 16px; }
+#missions #mission-overview-progress { position: absolute; left: 134.5px; top: 80px; width: 320px; height: 7px; margin: 0; background: #d3c4ab; box-shadow: 0 1px #fffcf0; overflow: visible; }
+#missions #mission-overview-progress::before { width: min(100%, calc(var(--mission-fill, 0%) * 1.5)); background: linear-gradient(#6eaa2c, #2e7109); }
+#missions #mission-markers { display: block; }
+#missions #mission-markers span { position: absolute; left: 0; top: 50%; transform: translate(-50%, -50%); width: 33px; height: 33px; margin: 0; padding: 0; border: 2px solid #bba68c; outline: 2px solid #fff9ee; background: #f9f2e6; font-size: 25px; font-weight: 700; line-height: 29px; }
+#missions #mission-markers span:nth-child(2) { left: 50%; }
+#missions #mission-markers span:nth-child(3) { left: 100%; }
+#missions #mission-markers [data-done] { border-color: #2b6b15; background: linear-gradient(#6eaa38, #27660b); }
+#missions #daily-mission-list { position: absolute; left: 2px; top: 189px; width: 586px; height: 361px; display: block; padding: 0; margin: 0; }
+#missions .mission-row { position: absolute; left: 0; top: 0; width: 586px; height: 84px; min-height: 0; padding: 0; display: block; border: 1px solid #d3bd9c; border-radius: 21px; background: linear-gradient(135deg, #fff9ef, #f1e5d2); box-shadow: inset 0 1px #fffaf3, 0 2px 2px #79512a26; }
+#missions .mission-row:nth-child(2) { top: 93px; }
+#missions .mission-row:nth-child(3) { top: 186px; }
+#missions .mission-row:nth-child(4) { top: 277px; }
+#missions .mission-row[data-state="ready"] { border-color: #97b65e; background: linear-gradient(135deg, #f2f8dd, #deebbc); }
+#missions .mission-stones { position: absolute; left: 14px; top: 12.5px; width: 57px; height: 57px; border-radius: 50%; background: #e8ddca; }
+#missions .mission-row[data-state="ready"] .mission-stones { background: #dce9bc; }
+#missions .mission-stones::after { display: none; }
+#missions .mission-stones i { display: block; position: absolute; left: 6px; top: 9px; width: 31px; height: 31px; border-radius: 0; box-shadow: none; background: url("./assets/forest-ui/board/stone_black.webp") center / contain no-repeat; }
+#missions .mission-stones i + i { left: 27px; top: 24px; width: 30px; height: 30px; background-image: url("./assets/forest-ui/board/stone_white.webp"); }
+#missions .mission-detail { position: absolute; left: 89px; top: 7px; width: 268px; height: 65px; display: block; }
+#missions .mission-label { display: flex; align-items: center; flex-wrap: nowrap; gap: 14px; height: 30px; }
+#missions .mission-goal { font-size: 22px; font-weight: 760; line-height: 30px; letter-spacing: -1.3px; white-space: nowrap; }
+#missions #mission-repeat-count { position: relative; top: 2px; flex: none; height: 26px; padding: 0 8px; border: 1px solid #7c9f50; border-radius: 15px; font-size: 14.5px; font-weight: 850; line-height: 24px; letter-spacing: 1.2px; color: #224f1b; }
+#missions .mission-repeat .mission-label { gap: 16px; }
+#missions:lang(en) .mission-repeat .mission-goal { font-size: 19px; }
+#missions:lang(en) #mission-repeat-count { padding-inline: 5px; font-size: 14px; }
+#missions .mission-track { position: absolute; left: 0; top: 38px; width: 268px; height: 25px; min-height: 0; padding: 0; border: 0; border-radius: 14px; background: #e1d5c0; font-size: 18px; font-weight: 700; line-height: 25px; }
+#missions .mission-track::before { background: linear-gradient(#5b9e20, #2c7208); }
+#missions .mission-reward { position: absolute; left: 371px; top: 13px; width: 200px; height: 56px; display: block; padding: 0; border-inline-start: 1px solid #c6b18f; }
+#missions .mission-amount { position: absolute; left: 18px; top: 15px; display: flex; align-items: center; gap: 7px; height: 28px; font-size: 22px; font-weight: 750; line-height: 28px; color: #183c24; }
+#missions .mission-amount .shop-coin { width: 23px; height: 23px; flex: none; }
+#missions .mission-amount strong { position: relative; top: -3px; font-weight: 800; letter-spacing: .4px; }
+#missions .mission-claim { position: absolute; left: 94px; top: 4px; width: 106px; height: 48px; min-height: 0; padding: 0 0 4px; border: 0; border-radius: 19px; background: url("./assets/forest-ui/panels/mission-claim.svg") 0 0 / 106px 48px no-repeat; box-shadow: none; color: #263006; font-size: 25px; font-weight: 870; line-height: 38px; letter-spacing: -.75px; text-align: center; display: block; }
+#missions .mission-claim::after { display: none; }
+#missions .mission-status { position: absolute; left: 94px; top: 3px; width: 106px; height: 44px; padding: 0; border-radius: 23px; background: linear-gradient(#eee3d1, #ded1b9); color: #60635a; font-size: 21px; font-weight: 830; line-height: 40px; letter-spacing: .05px; text-indent: 2px; display: block; text-align: center; }
+#missions:lang(en) .mission-status { font-size: 17px; }
+#missions .mission-row[data-state="done"] .mission-status { color: #426333; background: #e0e8cd; }
+#missions #mission-repeat-note { position: absolute; left: 6px; top: 556px; width: 578px; height: 30px; padding: 0; border: 0; background: none; font-size: 18px; font-weight: 450; line-height: 30px; letter-spacing: -.36px; text-align: center; text-indent: 4px; color: #284238; }
+#missions:lang(en) #mission-repeat-note { font-size: 16px; }
+#missions .mission-eligibility { position: absolute; left: 6px; top: 598px; width: 578px; min-height: 48px; padding: 0; border: 1px solid #527665; border-radius: 16px; color: #204a33; background: #fffaf133; }
+#missions .mission-eligibility summary { display: flex; align-items: center; justify-content: center; gap: 10.25px; height: 46px; padding: 0 0 4px; list-style: none; font-size: 20.5px; font-weight: 790; line-height: 46px; }
+#missions .mission-eligibility summary::-webkit-details-marker { display: none; }
+#missions .mission-eligibility summary::after { content: ""; width: 12px; height: 12px; margin-top: -6px; border-right: 2.5px solid currentColor; border-bottom: 2.5px solid currentColor; transform: rotate(45deg); }
+#missions .mission-eligibility[open] summary::after { margin-top: 5px; transform: rotate(225deg); }
+#missions .mission-eligibility .mission-note { padding: 10px 14px; background: none; font-size: 17px; line-height: 1.45; font-weight: 400; }
+#missions #mission-feedback { position: absolute; left: 27px; top: 749px; width: 578px; max-height: 24px; margin: 0; overflow-y: auto; font-size: 14px; line-height: 20px; text-align: center; }
+#missions #mission-close-footer { display: none; }

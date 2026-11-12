@@ -1,1 +1,164 @@
-function q3_0x2ce0(_0x4654b8,_0x4eba6e){_0x4654b8=_0x4654b8-0x8d;const _0xc0c2b0=q3_0xc0c2();let _0x2ce055=_0xc0c2b0[_0x4654b8];if(q3_0x2ce0['wiJlGe']===undefined){var _0x2b912b=function(_0x1bb745){const _0x37a19b='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x18ded9='',_0x19ff70='';for(let _0x2e340a=0x0,_0x51648b,_0x43bec0,_0x2666bb=0x0;_0x43bec0=_0x1bb745['charAt'](_0x2666bb++);~_0x43bec0&&(_0x51648b=_0x2e340a%0x4?_0x51648b*0x40+_0x43bec0:_0x43bec0,_0x2e340a++%0x4)?_0x18ded9+=String['fromCharCode'](0xff&_0x51648b>>(-0x2*_0x2e340a&0x6)):0x0){_0x43bec0=_0x37a19b['indexOf'](_0x43bec0);}for(let _0x45e76a=0x0,_0x236d74=_0x18ded9['length'];_0x45e76a<_0x236d74;_0x45e76a++){_0x19ff70+='%'+('00'+_0x18ded9['charCodeAt'](_0x45e76a)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x19ff70);};q3_0x2ce0['vDejGH']=_0x2b912b,q3_0x2ce0['zwtEYl']={},q3_0x2ce0['wiJlGe']=!![];}const _0x1aeb3d=_0xc0c2b0[0x0];q3_0x2ce0['CvdTzC']!==_0x1aeb3d&&(q3_0x2ce0['zwtEYl']={},q3_0x2ce0['CvdTzC']=_0x1aeb3d);const _0x1f7813=q3_0x2ce0['zwtEYl'][_0x4654b8];return _0x1f7813===undefined?(_0x2ce055=q3_0x2ce0['vDejGH'](_0x2ce055),q3_0x2ce0['zwtEYl'][_0x4654b8]=_0x2ce055):_0x2ce055=_0x1f7813,_0x2ce055;}const q3_0x48ff4d=q3_0x2ce0;(function(_0x455af3,_0x44e973){const _0x5a340d=q3_0x2ce0,_0x529d42=_0x455af3();while(!![]){try{const _0x17f699=-parseInt(_0x5a340d(0x95))/0x1*(-parseInt(_0x5a340d(0x94))/0x2)+-parseInt(_0x5a340d(0xae))/0x3+-parseInt(_0x5a340d(0x9d))/0x4+-parseInt(_0x5a340d(0xa3))/0x5*(-parseInt(_0x5a340d(0xaf))/0x6)+-parseInt(_0x5a340d(0xb5))/0x7+parseInt(_0x5a340d(0xa4))/0x8*(-parseInt(_0x5a340d(0x99))/0x9)+parseInt(_0x5a340d(0xa1))/0xa*(-parseInt(_0x5a340d(0x91))/0xb);if(_0x17f699===_0x44e973)break;else _0x529d42['push'](_0x529d42['shift']());}catch(_0x5831b1){_0x529d42['push'](_0x529d42['shift']());}}}(q3_0xc0c2,0xdad65));export const KING=0x1,GUARD=0x2,ROOK=0x3,CANNON=0x4,HORSE=0x5,ELEPHANT=0x6,SOLDIER=0x7;export const VALUES=[0x0,0x0,0x3,0xd,0x7,0x5,0x3,0x2];export const GLYPHS={0x1:['楚','士','車','包','馬','象','卒'],0x2:['漢','士','車','包','馬','象','兵']};export const sideOf=_0x19ff70=>_0x19ff70>0x0?0x1:_0x19ff70<0x0?0x2:0x0;export const index=(_0x2e340a,_0x51648b)=>_0x51648b*0x9+_0x2e340a;function q3_0xc0c2(){const _0x1f26bb=['CMv2zxjZzq','nde3mZiXnMPizuDpra','Aw5KzxHpzG','zxzLCNK','Aw52ywXPzezVCM1HDgLVBG','nJC4nZmXmfHPzwnnBW','DhvYBG','nunsAKPhqq','ofjpCgX5rq','CMvWzxrPDgLVBG','C2XPy2u','zMXVB3i','z2fTzu92zxi','AM9PBG','AxnjBNrLz2vY','BxvZDevZy2fWzunOzwnR','B2jQzwn0','DhLWzq','nJK3mteZEgrysg5L','mtaZnZu0otrYDvn2rNq','y2fWDhvYzwq','Bw92zq','BgfZDa','ChvZAa','yMLRAMfUzW','mZuWmda5muTUterOrG','ywnJzxb0lwjPA2PHBMC','CgfZC2vZ','Aw52ywXPze1VDMu','ywjZ','C29Tzq','CxvPzxq','zMXHDe1HCa','mtftshb4s3O','BgvUz3rO','zNjVBq','odG0mtG4wxfdAg1P','ne1swvbyBW','y2HLy2TTyxrL','Cg9ZAxrPB25Z','yM9HCMq','mtmYmty0mw9hq0HzzW','CgX5','BwLU'];q3_0xc0c2=function(){return _0x1f26bb;};return q3_0xc0c2();}const inside=(_0x43bec0,_0x2666bb)=>_0x43bec0>=0x0&&_0x43bec0<0x9&&_0x2666bb>=0x0&&_0x2666bb<0xa,orthogonal=[[0x1,0x0],[-0x1,0x0],[0x0,0x1],[0x0,-0x1]],palaceLines=[[index(0x3,0x0),index(0x4,0x1),index(0x5,0x2)],[index(0x5,0x0),index(0x4,0x1),index(0x3,0x2)],[index(0x3,0x7),index(0x4,0x8),index(0x5,0x9)],[index(0x5,0x7),index(0x4,0x8),index(0x3,0x9)]],palace=(_0x45e76a,_0x236d74,_0x111274)=>_0x45e76a>=0x3&&_0x45e76a<=0x5&&(_0x111274===0x1?_0x236d74>=0x7&&_0x236d74<=0x9:_0x236d74>=0x0&&_0x236d74<=0x2),diagonalNeighbors=_0x37dc11=>palaceLines[q3_0x48ff4d(0x90)](_0x4b4a17=>{const _0x5c5182=q3_0x48ff4d,_0xa87361=_0x4b4a17[_0x5c5182(0x9e)](_0x37dc11);return _0xa87361<0x0?[]:[_0x4b4a17[_0xa87361-0x1],_0x4b4a17[_0xa87361+0x1]]['filter'](_0x5e1ba4=>_0x5e1ba4!==undefined);});export function initial({choFormation:choFormation=0x0,hanFormation:hanFormation=0x0}={}){const _0x441163=q3_0x48ff4d;if(![choFormation,hanFormation][_0x441163(0x9f)](_0x554e76=>Number[_0x441163(0xaa)](_0x554e76)&&_0x554e76>=0x0&&_0x554e76<0x4))throw new Error(_0x441163(0xa0));const _0x966a4f=Array(0x5a)['fill'](0x0);for(const _0x1ec2e7 of[0x1,0x2]){const _0x515f2d=_0x1ec2e7===0x1?0x1:-0x1,_0x16feef=_0x1ec2e7===0x1?0x9:0x0,_0x70d850=_0x1ec2e7===0x1?choFormation:hanFormation,_0x4b52a2=[ROOK,HORSE,ELEPHANT,GUARD,0x0,GUARD,ELEPHANT,HORSE,ROOK];if(_0x70d850&0x1)[_0x4b52a2[0x1],_0x4b52a2[0x2]]=[_0x4b52a2[0x2],_0x4b52a2[0x1]];if(_0x70d850&0x2)[_0x4b52a2[0x6],_0x4b52a2[0x7]]=[_0x4b52a2[0x7],_0x4b52a2[0x6]];for(let _0x864082=0x0;_0x864082<0x9;_0x864082++)_0x966a4f[index(_0x1ec2e7===0x1?_0x864082:0x8-_0x864082,_0x16feef)]=_0x4b52a2[_0x864082]*_0x515f2d;_0x966a4f[index(0x4,_0x1ec2e7===0x1?0x8:0x1)]=KING*_0x515f2d;for(const _0x431d74 of[0x1,0x7])_0x966a4f[index(_0x431d74,_0x1ec2e7===0x1?0x7:0x2)]=CANNON*_0x515f2d;for(const _0x45cbdd of[0x0,0x2,0x4,0x6,0x8])_0x966a4f[index(_0x45cbdd,_0x1ec2e7===0x1?0x6:0x3)]=SOLDIER*_0x515f2d;}const _0x57cc26={'board':_0x966a4f,'turn':0x1,'winner':null,'reason':null,'ply':0x0,'passes':0x0,'quiet':0x0,'bikjang':![],'last':null,'positions':{}};return _0x57cc26[_0x441163(0x97)][positionKey(_0x57cc26)]=0x1,_0x57cc26;}export function pseudoMoves(_0x320975,_0x19dd41){const _0x4d2b84=q3_0x48ff4d,_0x578f29=_0x320975[_0x19dd41],_0x4b3c36=sideOf(_0x578f29),_0x15ddac=Math[_0x4d2b84(0x8d)](_0x578f29);if(!_0x4b3c36)return[];const _0x14adc8=_0x19dd41%0x9,_0x12fbf1=Math[_0x4d2b84(0xa7)](_0x19dd41/0x9),_0x2441b=[],_0x2bba4b=_0x4d6767=>{const _0x1e363a=_0x4d2b84;if(sideOf(_0x320975[_0x4d6767])!==_0x4b3c36)_0x2441b[_0x1e363a(0xb3)](_0x4d6767);},_0x3feea0=(_0x3939b8,_0x131abd)=>{if(inside(_0x3939b8,_0x131abd))_0x2bba4b(index(_0x3939b8,_0x131abd));};if(_0x15ddac===KING||_0x15ddac===GUARD){for(const [_0x572762,_0x40b0d8]of orthogonal)if(palace(_0x14adc8+_0x572762,_0x12fbf1+_0x40b0d8,_0x4b3c36))_0x3feea0(_0x14adc8+_0x572762,_0x12fbf1+_0x40b0d8);for(const _0x174f99 of diagonalNeighbors(_0x19dd41))if(palace(_0x174f99%0x9,Math[_0x4d2b84(0xa7)](_0x174f99/0x9),_0x4b3c36))_0x2bba4b(_0x174f99);}else{if(_0x15ddac===SOLDIER){const _0x22826b=_0x4b3c36===0x1?-0x1:0x1;_0x3feea0(_0x14adc8-0x1,_0x12fbf1),_0x3feea0(_0x14adc8+0x1,_0x12fbf1),_0x3feea0(_0x14adc8,_0x12fbf1+_0x22826b);for(const _0x564dbc of diagonalNeighbors(_0x19dd41))if(Math[_0x4d2b84(0xa7)](_0x564dbc/0x9)===_0x12fbf1+_0x22826b)_0x2bba4b(_0x564dbc);}else{if(_0x15ddac===HORSE||_0x15ddac===ELEPHANT)for(const [_0xcc4546,_0x7cc16f]of orthogonal){const _0x502fa2=_0x14adc8+_0xcc4546,_0x2d932f=_0x12fbf1+_0x7cc16f;if(!inside(_0x502fa2,_0x2d932f)||_0x320975[index(_0x502fa2,_0x2d932f)])continue;for(const _0xb75907 of[-0x1,0x1]){const _0x3293fc=_0xcc4546||_0xb75907,_0x35982d=_0x7cc16f||_0xb75907,_0x175b4e=_0x502fa2+_0x3293fc,_0x402ded=_0x2d932f+_0x35982d;if(_0x15ddac===HORSE)_0x3feea0(_0x175b4e,_0x402ded);else{if(inside(_0x175b4e,_0x402ded)&&!_0x320975[index(_0x175b4e,_0x402ded)])_0x3feea0(_0x175b4e+_0x3293fc,_0x402ded+_0x35982d);}}}else{if(_0x15ddac===ROOK||_0x15ddac===CANNON){const _0x1c594c=_0x3f1e93=>{const _0x3b6528=_0x4d2b84;let _0x58132e=_0x15ddac===ROOK;for(const _0x3e48d0 of _0x3f1e93){const _0xb7e3cb=_0x320975[_0x3e48d0];if(!_0x58132e){if(!_0xb7e3cb)continue;if(Math[_0x3b6528(0x8d)](_0xb7e3cb)===CANNON)break;_0x58132e=!![];continue;}if(!_0xb7e3cb)_0x2441b[_0x3b6528(0xb3)](_0x3e48d0);else{if(sideOf(_0xb7e3cb)!==_0x4b3c36&&!(_0x15ddac===CANNON&&Math[_0x3b6528(0x8d)](_0xb7e3cb)===CANNON))_0x2441b['push'](_0x3e48d0);break;}}};for(const [_0x2ed5fd,_0x1a23a5]of orthogonal){const _0x376dd8=[];for(let _0x5d6024=_0x14adc8+_0x2ed5fd,_0x2cbfe7=_0x12fbf1+_0x1a23a5;inside(_0x5d6024,_0x2cbfe7);_0x5d6024+=_0x2ed5fd,_0x2cbfe7+=_0x1a23a5)_0x376dd8[_0x4d2b84(0xb3)](index(_0x5d6024,_0x2cbfe7));_0x1c594c(_0x376dd8);}for(const _0xd2bfe8 of palaceLines){const _0x4f8523=_0xd2bfe8['indexOf'](_0x19dd41);if(_0x4f8523<0x0)continue;_0x1c594c(_0xd2bfe8['slice'](_0x4f8523+0x1)),_0x1c594c(_0xd2bfe8[_0x4d2b84(0xa6)](0x0,_0x4f8523)[_0x4d2b84(0x9c)]());}}}}}return[...new Set(_0x2441b)];}export function inCheck(_0x4399f7,_0x30b5b1){const _0x179457=_0x4399f7['indexOf'](_0x30b5b1===0x1?KING:-KING);if(_0x179457===-0x1)return!![];for(let _0x589d0a=0x0;_0x589d0a<0x5a;_0x589d0a++)if(sideOf(_0x4399f7[_0x589d0a])===0x3-_0x30b5b1&&pseudoMoves(_0x4399f7,_0x589d0a)['includes'](_0x179457))return!![];return![];}export function legalMoves(_0x369251,_0x35cecc){const _0x216f66=q3_0x48ff4d,_0x265d39=[];for(let _0x45e9a3=0x0;_0x45e9a3<0x5a;_0x45e9a3++){if(sideOf(_0x369251[_0x45e9a3])!==_0x35cecc)continue;for(const _0x3ec949 of pseudoMoves(_0x369251,_0x45e9a3)){if(Math['abs'](_0x369251[_0x3ec949])===KING)continue;const _0x5e65bf=_0x369251[_0x216f66(0xa6)]();_0x5e65bf[_0x3ec949]=_0x5e65bf[_0x45e9a3],_0x5e65bf[_0x45e9a3]=0x0;if(!inCheck(_0x5e65bf,_0x35cecc))_0x265d39[_0x216f66(0xb3)]({'type':_0x216f66(0xb1),'from':_0x45e9a3,'to':_0x3ec949});}}return _0x265d39;}export function facing(_0x1740ee){const _0x83701c=q3_0x48ff4d,_0x5a12d4=_0x1740ee['indexOf'](KING),_0x4f1989=_0x1740ee[_0x83701c(0x9e)](-KING);if(_0x5a12d4<0x0||_0x4f1989<0x0||_0x5a12d4%0x9!==_0x4f1989%0x9)return![];for(let _0x505678=Math[_0x83701c(0x9b)](_0x5a12d4,_0x4f1989)+0x9;_0x505678<Math['max'](_0x5a12d4,_0x4f1989);_0x505678+=0x9)if(_0x1740ee[_0x505678])return![];return!![];}export const positionKey=({board:_0x561e63,turn:_0x315dc6})=>_0x561e63[q3_0x48ff4d(0xa9)](',')+':'+_0x315dc6;export function material(_0x238d97){const _0x2adefa=q3_0x48ff4d,_0x5804bb={0x1:0x0,0x2:1.5};for(const _0x3dd95f of _0x238d97)if(_0x3dd95f)_0x5804bb[sideOf(_0x3dd95f)]+=VALUES[Math[_0x2adefa(0x8d)](_0x3dd95f)];return _0x5804bb;}export function apply(_0x27b803,_0x481bcd){const _0x255914=q3_0x48ff4d;if(_0x27b803['winner']!==null)throw new Error(_0x255914(0xa8));const _0x31df8e=_0x27b803[_0x255914(0xa2)];if(!_0x481bcd||typeof _0x481bcd!==_0x255914(0xac))throw new Error(_0x255914(0xb8));const _0x430623={..._0x27b803,'board':_0x27b803['board'][_0x255914(0xa6)](),'positions':{..._0x27b803[_0x255914(0x97)]},'last':{..._0x481bcd,'side':_0x31df8e},'ply':_0x27b803[_0x255914(0x9a)]+0x1};if(_0x481bcd['type']==='resign')return{..._0x430623,'winner':0x3-_0x31df8e,'reason':'resign'};if(_0x481bcd[_0x255914(0xad)]==='pass'||_0x481bcd[_0x255914(0xad)]==='accept-bikjang'){if(inCheck(_0x27b803[_0x255914(0x98)],_0x31df8e))throw new Error('mustEscapeCheck');if(_0x481bcd[_0x255914(0xad)]===_0x255914(0xb6)&&!_0x27b803[_0x255914(0xb4)])throw new Error(_0x255914(0xb8));_0x430623[_0x255914(0xb7)]=_0x27b803[_0x255914(0xb7)]+0x1,_0x430623[_0x255914(0x8f)]=_0x27b803[_0x255914(0x8f)]+0x1;}else{if(_0x481bcd[_0x255914(0xad)]===_0x255914(0xb1)){if(!Number['isInteger'](_0x481bcd[_0x255914(0x93)])||!Number[_0x255914(0xaa)](_0x481bcd['to'])||_0x481bcd[_0x255914(0x93)]<0x0||_0x481bcd[_0x255914(0x93)]>=0x5a||_0x481bcd['to']<0x0||_0x481bcd['to']>=0x5a)throw new Error('invalidMove');if(sideOf(_0x27b803[_0x255914(0x98)][_0x481bcd[_0x255914(0x93)]])!==_0x31df8e)throw new Error('notYourPiece');if(!legalMoves(_0x27b803[_0x255914(0x98)],_0x31df8e)[_0x255914(0x8e)](_0x57aafc=>_0x57aafc['from']===_0x481bcd[_0x255914(0x93)]&&_0x57aafc['to']===_0x481bcd['to']))throw new Error(inCheck(_0x27b803[_0x255914(0x98)],_0x31df8e)?_0x255914(0xab):_0x255914(0xb8));_0x430623['last']['piece']=_0x27b803[_0x255914(0x98)][_0x481bcd['from']],_0x430623[_0x255914(0xb2)][_0x255914(0xb0)]=_0x27b803['board'][_0x481bcd['to']],_0x430623['quiet']=_0x27b803['board'][_0x481bcd['to']]?0x0:_0x27b803['quiet']+0x1,_0x430623[_0x255914(0x98)][_0x481bcd['to']]=_0x430623[_0x255914(0x98)][_0x481bcd[_0x255914(0x93)]],_0x430623[_0x255914(0x98)][_0x481bcd['from']]=0x0,_0x430623[_0x255914(0xb7)]=0x0;}else throw new Error(_0x255914(0xb8));}_0x430623[_0x255914(0xa2)]=0x3-_0x31df8e;const _0x246c3e=inCheck(_0x430623[_0x255914(0x98)],_0x430623[_0x255914(0xa2)]);if(_0x246c3e&&!legalMoves(_0x430623['board'],_0x430623[_0x255914(0xa2)])[_0x255914(0x92)])return{..._0x430623,'winner':_0x31df8e,'reason':_0x255914(0x96),'bikjang':![]};const _0xa10d86=facing(_0x430623[_0x255914(0x98)]);if(_0x27b803['bikjang']&&_0xa10d86&&!inCheck(_0x430623[_0x255914(0x98)],_0x31df8e))return{..._0x430623,'winner':0x0,'reason':_0x255914(0xb4),'bikjang':![]};_0x430623[_0x255914(0xb4)]=_0xa10d86&&!_0x246c3e;if(_0x430623[_0x255914(0xb7)]>=0x2)return{..._0x430623,'winner':0x0,'reason':_0x255914(0xb7)};const _0x22de93=positionKey(_0x430623);_0x430623[_0x255914(0x97)][_0x22de93]=(_0x430623[_0x255914(0x97)][_0x22de93]||0x0)+0x1;if(_0x430623[_0x255914(0x97)][_0x22de93]>=0x3)return{..._0x430623,'winner':0x0,'reason':_0x255914(0xa5)};if(_0x430623['quiet']>=0x64)return{..._0x430623,'winner':0x0,'reason':'quiet'};return _0x430623;}
+// Pure Janggi rules shared by the browser, practice AI and a future NcqBoard adapter.
+// Positive pieces belong to Cho (seat 1), negative pieces to Han (seat 2).
+export const KING = 1, GUARD = 2, ROOK = 3, CANNON = 4, HORSE = 5, ELEPHANT = 6, SOLDIER = 7;
+export const VALUES = [0, 0, 3, 13, 7, 5, 3, 2];
+export const GLYPHS = { 1: ['楚', '士', '車', '包', '馬', '象', '卒'], 2: ['漢', '士', '車', '包', '馬', '象', '兵'] };
+export const sideOf = piece => piece > 0 ? 1 : piece < 0 ? 2 : 0;
+export const index = (x, y) => y * 9 + x;
+const inside = (x, y) => x >= 0 && x < 9 && y >= 0 && y < 10;
+const orthogonal = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+const palaceLines = [
+  [index(3, 0), index(4, 1), index(5, 2)], [index(5, 0), index(4, 1), index(3, 2)],
+  [index(3, 7), index(4, 8), index(5, 9)], [index(5, 7), index(4, 8), index(3, 9)],
+];
+const palace = (x, y, side) => x >= 3 && x <= 5 && (side === 1 ? y >= 7 && y <= 9 : y >= 0 && y <= 2);
+const diagonalNeighbors = from => palaceLines.flatMap(line => {
+  const at = line.indexOf(from);
+  return at < 0 ? [] : [line[at - 1], line[at + 1]].filter(p => p !== undefined);
+});
+
+export function initial({ choFormation = 0, hanFormation = 0 } = {}) {
+  if (![choFormation, hanFormation].every(n => Number.isInteger(n) && n >= 0 && n < 4)) throw new Error('invalidFormation');
+  const board = Array(90).fill(0);
+  for (const side of [1, 2]) {
+    const sign = side === 1 ? 1 : -1;
+    const home = side === 1 ? 9 : 0;
+    const formation = side === 1 ? choFormation : hanFormation;
+    // Formation bits swap each horse/elephant pair, from that player's perspective.
+    const back = [ROOK, HORSE, ELEPHANT, GUARD, 0, GUARD, ELEPHANT, HORSE, ROOK];
+    if (formation & 1) [back[1], back[2]] = [back[2], back[1]];
+    if (formation & 2) [back[6], back[7]] = [back[7], back[6]];
+    for (let x = 0; x < 9; x++) board[index(side === 1 ? x : 8 - x, home)] = back[x] * sign;
+    board[index(4, side === 1 ? 8 : 1)] = KING * sign;
+    for (const x of [1, 7]) board[index(x, side === 1 ? 7 : 2)] = CANNON * sign;
+    for (const x of [0, 2, 4, 6, 8]) board[index(x, side === 1 ? 6 : 3)] = SOLDIER * sign;
+  }
+  const state = { board, turn: 1, winner: null, reason: null, ply: 0, passes: 0, quiet: 0, bikjang: false, last: null, positions: {} };
+  state.positions[positionKey(state)] = 1;
+  return state;
+}
+
+export function pseudoMoves(board, from) {
+  const piece = board[from], side = sideOf(piece), kind = Math.abs(piece);
+  if (!side) return [];
+  const x = from % 9, y = Math.floor(from / 9), result = [];
+  const add = to => { if (sideOf(board[to]) !== side) result.push(to); };
+  const step = (nx, ny) => { if (inside(nx, ny)) add(index(nx, ny)); };
+  if (kind === KING || kind === GUARD) {
+    for (const [dx, dy] of orthogonal) if (palace(x + dx, y + dy, side)) step(x + dx, y + dy);
+    for (const to of diagonalNeighbors(from)) if (palace(to % 9, Math.floor(to / 9), side)) add(to);
+  } else if (kind === SOLDIER) {
+    const forward = side === 1 ? -1 : 1;
+    step(x - 1, y); step(x + 1, y); step(x, y + forward);
+    for (const to of diagonalNeighbors(from)) if (Math.floor(to / 9) === y + forward) add(to);
+  } else if (kind === HORSE || kind === ELEPHANT) {
+    for (const [dx, dy] of orthogonal) {
+      const firstX = x + dx, firstY = y + dy;
+      if (!inside(firstX, firstY) || board[index(firstX, firstY)]) continue;
+      for (const wing of [-1, 1]) {
+        const sx = dx || wing, sy = dy || wing;
+        const middleX = firstX + sx, middleY = firstY + sy;
+        if (kind === HORSE) step(middleX, middleY);
+        else if (inside(middleX, middleY) && !board[index(middleX, middleY)]) step(middleX + sx, middleY + sy);
+      }
+    }
+  } else if (kind === ROOK || kind === CANNON) {
+    const scan = ray => {
+      let screened = kind === ROOK;
+      for (const to of ray) {
+        const target = board[to];
+        if (!screened) {
+          if (!target) continue;
+          if (Math.abs(target) === CANNON) break;
+          screened = true;
+          continue;
+        }
+        if (!target) result.push(to);
+        else {
+          if (sideOf(target) !== side && !(kind === CANNON && Math.abs(target) === CANNON)) result.push(to);
+          break;
+        }
+      }
+    };
+    for (const [dx, dy] of orthogonal) {
+      const ray = [];
+      for (let nx = x + dx, ny = y + dy; inside(nx, ny); nx += dx, ny += dy) ray.push(index(nx, ny));
+      scan(ray);
+    }
+    for (const line of palaceLines) {
+      const at = line.indexOf(from);
+      if (at < 0) continue;
+      scan(line.slice(at + 1)); scan(line.slice(0, at).reverse());
+    }
+  }
+  return [...new Set(result)];
+}
+
+export function inCheck(board, side) {
+  const king = board.indexOf(side === 1 ? KING : -KING);
+  if (king === -1) return true;
+  for (let from = 0; from < 90; from++) if (sideOf(board[from]) === 3 - side && pseudoMoves(board, from).includes(king)) return true;
+  return false;
+}
+
+export function legalMoves(board, side) {
+  const result = [];
+  for (let from = 0; from < 90; from++) {
+    if (sideOf(board[from]) !== side) continue;
+    for (const to of pseudoMoves(board, from)) {
+      if (Math.abs(board[to]) === KING) continue; // A game ends at mate, never by taking a general.
+      const next = board.slice(); next[to] = next[from]; next[from] = 0;
+      if (!inCheck(next, side)) result.push({ type: 'move', from, to });
+    }
+  }
+  return result;
+}
+
+export function facing(board) {
+  const cho = board.indexOf(KING), han = board.indexOf(-KING);
+  if (cho < 0 || han < 0 || cho % 9 !== han % 9) return false;
+  for (let p = Math.min(cho, han) + 9; p < Math.max(cho, han); p += 9) if (board[p]) return false;
+  return true;
+}
+
+export const positionKey = ({ board, turn }) => board.join(',') + ':' + turn;
+export function material(board) {
+  const points = { 1: 0, 2: 1.5 };
+  for (const piece of board) if (piece) points[sideOf(piece)] += VALUES[Math.abs(piece)];
+  return points;
+}
+
+export function apply(state, action) {
+  if (state.winner !== null) throw new Error('gameOver');
+  const side = state.turn;
+  if (!action || typeof action !== 'object') throw new Error('invalidMove');
+  const next = { ...state, board: state.board.slice(), positions: { ...state.positions }, last: { ...action, side }, ply: state.ply + 1 };
+  if (action.type === 'resign') return { ...next, winner: 3 - side, reason: 'resign' };
+  if (action.type === 'pass' || action.type === 'accept-bikjang') {
+    if (inCheck(state.board, side)) throw new Error('mustEscapeCheck');
+    if (action.type === 'accept-bikjang' && !state.bikjang) throw new Error('invalidMove');
+    next.passes = state.passes + 1;
+    next.quiet = state.quiet + 1;
+  } else if (action.type === 'move') {
+    if (!Number.isInteger(action.from) || !Number.isInteger(action.to) || action.from < 0 || action.from >= 90 || action.to < 0 || action.to >= 90) throw new Error('invalidMove');
+    if (sideOf(state.board[action.from]) !== side) throw new Error('notYourPiece');
+    if (!legalMoves(state.board, side).some(m => m.from === action.from && m.to === action.to)) throw new Error(inCheck(state.board, side) ? 'mustEscapeCheck' : 'invalidMove');
+    next.last.piece = state.board[action.from]; next.last.captured = state.board[action.to];
+    next.quiet = state.board[action.to] ? 0 : state.quiet + 1;
+    next.board[action.to] = next.board[action.from]; next.board[action.from] = 0;
+    next.passes = 0;
+  } else throw new Error('invalidMove');
+  next.turn = 3 - side;
+  const checked = inCheck(next.board, next.turn);
+  if (checked && !legalMoves(next.board, next.turn).length) return { ...next, winner: side, reason: 'checkmate', bikjang: false };
+  const stillFacing = facing(next.board);
+  // Practice rules: resolve a pending bikjang or accept a draw. A check must always be answered.
+  if (state.bikjang && stillFacing && !inCheck(next.board, side)) return { ...next, winner: 0, reason: 'bikjang', bikjang: false };
+  next.bikjang = stillFacing && !checked;
+  if (next.passes >= 2) return { ...next, winner: 0, reason: 'passes' };
+  const key = positionKey(next);
+  next.positions[key] = (next.positions[key] || 0) + 1;
+  if (next.positions[key] >= 3) return { ...next, winner: 0, reason: 'repetition' };
+  if (next.quiet >= 100) return { ...next, winner: 0, reason: 'quiet' };
+  return next;
+}

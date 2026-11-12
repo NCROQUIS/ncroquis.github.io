@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+  <defs>
+    <radialGradient id="color" cx=".5" cy="1" r="1">
+      <stop stop-color="#e77ca5"/>
+      <stop offset=".55" stop-color="#ffd0df"/>
+      <stop offset="1" stop-color="#fff9f6"/>
+    </radialGradient>
+    <path id="petal" d="M25 26C16 22 13 14 17 7c2-3 4-4 6-5l2 5 3-5c8 3 10 12 5 18-2 3-5 5-8 6Z" fill="url(#color)" stroke="#fff4f3" stroke-width="1.1" stroke-linejoin="round"/>
+  </defs>
+  <use href="#petal"/>
+  <use href="#petal" transform="rotate(72 25 25)"/>
+  <use href="#petal" transform="rotate(144 25 25)"/>
+  <use href="#petal" transform="rotate(216 25 25)"/>
+  <use href="#petal" transform="rotate(288 25 25)"/>
+  <g fill="none" stroke="#a83e6b" stroke-width="1" stroke-linecap="round" opacity=".66">
+    <path d="M25 25v-9m0 9 8-4m-8 4 5 7m-5-7-6 6m6-6-8-3"/>
+  </g>
+  <circle cx="25" cy="25" r="3.1" fill="#ffe9ae"/>
+  <path d="M25 23v4m-2-2h4" stroke="#fff9e2" stroke-width="1.1" stroke-linecap="round"/>
+</svg>

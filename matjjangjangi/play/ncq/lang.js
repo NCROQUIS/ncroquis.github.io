@@ -2,7 +2,7 @@
 // 킥오프 서버가 모든 웹 프로젝트 레포에 넣고 최신으로 맞춰요. 이 파일은 고치지 않아요 (고쳐도 다음 맞추기 때 덮여요).
 // 쓰는 법은 AGENTS.md의 '언어'에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
 //
-//   import { NcqLang } from "./ncq/lang.js?v=c3bdc684b8f1";
+//   import { NcqLang } from "./ncq/lang.js";
 //   NcqLang.init({ id: "<코드네임>", texts: { en: { play: "Play" }, ko: { play: "시작" } } });
 //   NcqLang.t("play");                       // 지금 언어의 글자 (빠진 글자는 영어로)
 //   NcqLang.t("hints_left", { n: 3 });      // {n} 끼워 넣기, { one: "...", other: "..." }면 복수형

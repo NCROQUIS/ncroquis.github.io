@@ -1,0 +1,95 @@
+/* Rankings, records and live games share these components and design coordinates. */
+.forest-ui .forest-list-dialog {
+  --list-dialog-scale: 1;
+  width: min(678px, calc(100vw - var(--ncq-left) - var(--ncq-right) - 20px));
+  height: var(--list-dialog-height, 1430px);
+  max-height: calc(100dvh - var(--ncq-top) - var(--ncq-bottom) - 20px);
+  padding: 0;
+  border: 2px solid #e8bb38;
+  border-radius: calc(30px * var(--list-dialog-scale));
+  background-image: linear-gradient(#003c1a88, #003c1a88), url("./assets/forest-ui/background/forest_green.webp");
+  box-shadow: inset 0 1px 0 #fff9d8, inset 0 0 0 2px #95a76366, 0 8px 24px #00130799;
+  overflow: hidden;
+}
+.forest-list-dialog .list-dialog-stage {
+  position: absolute; inset: 0 auto auto 0; display: flex; flex-direction: column;
+  padding: 20px 24px 49px; transform-origin: top left;
+  font-family: "Jangi Noto Sans KR", sans-serif; color: #111c12;
+  --lobby-card-radius: 18px;
+}
+.forest-list-dialog .list-dialog-stage:not([data-sized]) { visibility: hidden; }
+.forest-list-dialog .list-dialog-resource { position: absolute; inset: 0; display: block; pointer-events: none; }
+.forest-list-dialog .list-dialog-resource > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.forest-list-dialog :is(#tournament, #records, .lobby-feed) .list-dialog-heading {
+  position: relative; flex: none; display: flex; align-items: center;
+  height: 64px; min-height: 64px; margin: 0; padding: 0 0 0 140px; gap: 12px;
+}
+.forest-list-dialog .list-dialog-heading::before { display: none; }
+.forest-list-dialog .list-dialog-icon { inset: 2px auto auto 22px; width: 100px; height: 62px; filter: drop-shadow(0 3px 2px #00190899); }
+.forest-list-dialog :is(#tournament-title, #records-heading, #lobby-heading) {
+  position: relative; flex: 1; margin: 0; color: #fffef5; font-size: 42px; font-weight: 700;
+  line-height: 64px; letter-spacing: -1.2px; text-align: start; text-shadow: 0 3px 2px #001709;
+}
+.forest-list-dialog .list-dialog-underline {
+  position: absolute; left: 166px; top: 46px; width: 165px; height: 16px;
+  filter: drop-shadow(0 2px 1px #001a0977); pointer-events: none;
+}
+.forest-list-dialog :is(#tournament-title, #records-heading, #lobby-heading):lang(en) { font-size: 35px; letter-spacing: -1px; }
+.forest-list-dialog .list-dialog-title:lang(ko) { top: -9px; }
+.forest-list-dialog .list-dialog-close {
+  position: relative; flex: none; width: 50px; height: 50px; min-height: 50px; padding: 0;
+  border: 0; border-radius: 50%; background: none; box-shadow: none;
+}
+.forest-list-dialog .list-dialog-close::after {
+  content: ""; position: absolute; inset: 14px; z-index: 1;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m4 4 16 16M20 4 4 20' fill='none' stroke='%23163724' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.forest-list-dialog .list-dialog-close::before { content: ""; position: absolute; width: max(50px, calc(44px / var(--list-dialog-scale))); height: max(50px, calc(44px / var(--list-dialog-scale))); left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.forest-list-dialog .list-dialog-tabs {
+  position: relative; flex: none; display: grid; grid-template-columns: repeat(3, 1fr);
+  height: 54px; margin: 15px 0 0; padding: 0; gap: 0;
+  border: 1px solid #d3bd8e; border-radius: 25px; background: linear-gradient(110deg, #fff8ed, #efe0c5);
+  box-shadow: inset 0 1px 1px #fff, 0 3px 3px #00170c99;
+}
+.forest-list-dialog .list-dialog-tabs button {
+  position: relative; height: 54px; min-height: 0; margin: -1px 0; padding: 0 12px;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  border: 2px solid transparent; border-radius: 25px; color: #163620; background: transparent;
+  font-size: 26px; font-weight: 800; line-height: 1.2;
+}
+.forest-list-dialog .list-dialog-tabs svg { flex: none; width: 24px; height: 24px; }
+.forest-list-dialog .list-dialog-tabs button + button::before { content: ""; position: absolute; left: -1px; top: 12px; width: 1px; height: 28px; background: #c4ae86; }
+.forest-list-dialog .list-dialog-tabs button:is([aria-selected="true"], [aria-pressed="true"]) {
+  z-index: 1; width: calc(100% + 6px); height: 62px; margin: -5px -3px;
+  border: 2px solid #ffdf5d; border-radius: 31px;
+  background: linear-gradient(#31851b, #005413); color: #fffdf4;
+  box-shadow: inset 0 2px 1px #e4f9a7, inset 0 -2px 1px #003614, 0 2px 3px #001b0b99;
+}
+.forest-list-dialog .list-dialog-tabs button:is([aria-selected="true"], [aria-pressed="true"])::before,
+.forest-list-dialog .list-dialog-tabs button:is([aria-selected="true"], [aria-pressed="true"]) + button::before { display: none; }
+.forest-list-dialog .list-message { padding: 24px 12px; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #fff8de; text-shadow: 0 1px 2px #00230e; font-size: 22px; }
+.forest-list-dialog :focus-visible { outline-offset: -3px; }
+
+/* The two scrolling lists keep their headers outside the scroll container. */
+.forest-ui #records { flex: 1; max-width: none; width: 100%; min-height: 0; margin: 0; padding: 0; gap: 0; }
+#records-dialog #records > .list-body { margin-top: 18px; padding: 0 3px 5px; }
+#records-dialog #record-list { gap: 10px; }
+#records-dialog .record-card { min-height: 112px; padding: 6px; }
+#records-dialog .record-open { gap: 12px; }
+#records-dialog .record-title { font-size: 22px; line-height: 30px; }
+#records-dialog .record-summary { font-size: 18px; line-height: 26px; }
+#records-dialog :is(.record-context, .record-outcome) { font-size: 16px; }
+#records-dialog .record-preview { width: 86px; }
+#records-dialog .review-avatar { width: 58px; height: 58px; }
+#records-dialog .record-actions button { min-height: max(44px, calc(44px / var(--list-dialog-scale))); min-width: max(44px, calc(44px / var(--list-dialog-scale))); }
+#records-dialog .record-visibility { font-size: 16px; }
+#watch-dialog .lobby-feed { gap: 0; }
+#watch-dialog .watch-list-toolbar { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; margin: 18px 0; }
+#watch-dialog #live-count { font-size: 22px; }
+#watch-dialog #refresh-lobby { min-height: max(44px, calc(44px / var(--list-dialog-scale))); font-size: 22px; padding: 4px 16px; }
+#watch-dialog #refresh-lobby svg { width: 24px; }
+#watch-dialog .lobby-feed > .list-body { flex: 1; min-height: 0; overflow: auto; padding-bottom: 5px; }
+#watch-dialog .live-game-entry { padding: 12px 18px; min-height: 108px; }
+#watch-dialog .live-game-entry :is(.live-game-rank, .live-game-name) { font-size: 22px; }
+#watch-dialog .live-game-entry .live-game-stats { font-size: 20px; }
+#watch-dialog .live-game-entry .stone { width: 26px; }

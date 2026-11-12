@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
+  <defs>
+    <radialGradient id="light">
+      <stop stop-color="#fff4ba" stop-opacity=".08"/>
+      <stop offset=".42" stop-color="#ffd272" stop-opacity=".2"/>
+      <stop offset=".6" stop-color="#ffc050" stop-opacity=".58"/>
+      <stop offset=".78" stop-color="#ffad28" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#ec7714" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="crest" x2="1" y2="1">
+      <stop stop-color="#ffcb65" stop-opacity=".25"/>
+      <stop offset=".25" stop-color="#fff9d5"/>
+      <stop offset=".48" stop-color="#ffdb76" stop-opacity=".68"/>
+      <stop offset=".74" stop-color="#fffad8"/>
+      <stop offset="1" stop-color="#ffb744" stop-opacity=".18"/>
+    </linearGradient>
+    <radialGradient id="rays">
+      <stop offset=".36" stop-color="#ffda72" stop-opacity="0"/>
+      <stop offset=".58" stop-color="#fff5b3" stop-opacity=".86"/>
+      <stop offset=".72" stop-color="#ffc95a" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#fca225" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="bloom" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3.2"/>
+    </filter>
+    <path id="front" d="M41 68c4-13 19-26 33-27 7-1 14-4 21-1 13 4 23 12 27 24 2 7 2 16 5 23 1 12-9 24-21 29-10 4-13 9-26 9-10 0-14-4-22-6-13-2-21-13-23-24-2-11 0-17 6-27Z"/>
+  </defs>
+  <ellipse cx="81" cy="82" rx="70" ry="63" fill="url(#light)"/>
+  <g fill="url(#rays)">
+    <path d="M77 77Q48 55 18 22q33 20 66 51 10-34 29-61-8 32-22 66 28 4 61 15-31-2-62-6-6 24-15 60 0-31 6-61-18 10-48 23 19-16 45-31Z"/>
+    <path d="M82 78q9-13 41-25-18 14-33 27 22 15 37 39-26-20-43-31-13 17-37 40 18-27 29-45-24-1-59-10 36 1 65 5Z" opacity=".8"/>
+  </g>
+  <g fill="none" stroke-linecap="round">
+    <use href="#front" stroke="#ff9c23" stroke-width="12" opacity=".7" filter="url(#bloom)"/>
+    <use href="#front" stroke="#ffe89b" stroke-width="6" opacity=".72" filter="url(#bloom)"/>
+    <use href="#front" stroke="url(#crest)" stroke-width="2.8"/>
+    <path d="M39 76c2-10 7-17 17-24 7-4 13-7 21-7M66 122c15 4 24 2 37-5 9-5 16-12 20-20" stroke="#fffbe3" stroke-width="2.1" opacity=".89"/>
+    <path d="M22 83c-1-19 17-42 33-48 12-5 23-6 32-4m34 13c15 11 22 25 20 42-1 6-4 15-8 21m-27 24c-18 8-29 7-46 5" stroke="#ffcb66" stroke-width="2.8" opacity=".53" filter="url(#bloom)"/>
+    <path d="M22 83c-1-19 17-42 33-48m66 9c15 11 22 25 20 42m-35 45c-12 6-24 8-36 6" stroke="#ffe4a0" stroke-width="1.1" opacity=".54"/>
+    <path d="M43 102c7 8 17 13 25 13m33-72c9 4 16 11 18 16m-19 48c8-2 13-8 16-15" stroke="#ffb535" stroke-width="1.6" opacity=".64"/>
+  </g>
+</svg>

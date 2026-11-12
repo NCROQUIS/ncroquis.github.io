@@ -93,9 +93,9 @@
     "updated": "2026-11-12",
     "version": "0.2.0",
     "developer": "Heo-SD",
-    "category": "",
+    "category": "카드",
     "play": "",
-    "icon": ""
+    "icon": "7b2a8f44f000"
   },
   {
     "codename": "kkochi",
@@ -135,9 +135,9 @@
     "updated": "2026-11-12",
     "version": "0.3.0",
     "developer": "Heo-SD",
-    "category": "",
+    "category": "퍼즐",
     "play": "",
-    "icon": ""
+    "icon": "6a4b9a8e12c9"
   },
   {
     "codename": "billiards-pvp",

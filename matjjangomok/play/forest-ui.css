@@ -110,7 +110,7 @@ body.forest-ui {
 #watch-dialog #live-games { gap: 8px; }
 #watch-dialog .live-game-entry { color: #193a23; background: linear-gradient(135deg, #fffaf0, #f0e4cd); border-radius: 12px; }
 #watch-dialog .list-count { color: #e9e3c3; }
-.forest-ui #shop.forest-shop { width: min(640px, calc(100vw - var(--ncq-left) - var(--ncq-right) - 16px)); height: calc(100dvh - var(--ncq-top) - var(--ncq-bottom) - 16px); padding: 0; background: linear-gradient(140deg, #fffaf2, #f0e4ce); color: #173d24; }
+.forest-ui #shop.forest-shop { width: min(640px, calc(100vw - var(--ncq-left) - var(--ncq-right) - 16px)); padding: 0; background: linear-gradient(140deg, #fffaf2, #f0e4ce); color: #173d24; }
 .forest-ui #shop form { height: 100%; max-height: none; padding: 12px; }
 .forest-shop .shop-heading { position: relative; padding-inline-end: 39px; }
 .forest-shop .shop-heading > .forest-close { position: absolute; inset: 0 0 auto auto; }
@@ -148,8 +148,19 @@ body.forest-ui {
 .forest-ui .match-art-gauge-progress { color: #7a8e57; }
 .forest-ui .match-art-gauge[data-active="true"] .match-art-gauge-progress { color: #f5d566; filter: drop-shadow(0 0 2px #f7e69a77); }
 .forest-ui .match-art-action { color: #1c3d22; background: linear-gradient(#fff8e9, #e4d4b3); border-color: #c1a875; }
-.forest-ui .match[data-playing] :is(#opponent-turn, #place-text) { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; }
-.forest-ui .match[data-playing] .gauge-divider { display: none; }
+.forest-ui .match[data-playing] :is(#opponent-turn, #place-text) { font-size: clamp(.84rem, 3.7vw, 1.2rem); line-height: 1.1; white-space: nowrap; }
+.forest-ui #opponent-turn { min-width: clamp(54px, 15vw, 72px); text-align: center; }
+.forest-ui #place[data-placement-state="selecting"] {
+  background: linear-gradient(#f8f5df, #dce7c7);
+  color: #28552f;
+  border-color: #a9ac65;
+  box-shadow: inset 0 1px #fffbea, 0 2px 4px #00210f30;
+}
+.forest-ui #place[data-placement-state="selecting"] #place-text { opacity: 1; color: #526447; }
+.forest-ui #place[data-placement-state="ready"]:not(:disabled) {
+  border-color: #e8c053;
+  box-shadow: inset 0 1px #d6e8a680, 0 0 7px #e6c45a66, 0 2px 4px #00210f44;
+}
 .forest-ui.in-review .review-header h1 { color: #fff9e7; }
 .forest-ui.match-art-backdrop #review .review-controls { border-color: #c9b080; background: linear-gradient(#fff7e8, #eaddc0); box-shadow: 0 2px 5px #001a0c55; }
 .forest-ui.match-art-backdrop :is(#watch-back, #review .review-button) { color: #214426; border-color: #c5ad7e; background: linear-gradient(#fff8eb, #e6d9bb); }

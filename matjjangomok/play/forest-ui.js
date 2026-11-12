@@ -1,7 +1,7 @@
-import { installMeasuredLobby } from "./lobby-layout.js?v=7af38636c12c";
-import { installMeasuredRankings } from "./ranking-layout.js?v=7af38636c12c";
-import { installMeasuredMissions } from "./mission-layout.js?v=7af38636c12c";
-import { installListDialog } from "./list-dialog.js?v=7af38636c12c";
+import { installMeasuredLobby } from "./lobby-layout.js?v=f26358c196c8";
+import { installMeasuredRankings } from "./ranking-layout.js?v=f26358c196c8";
+import { installMeasuredMissions } from "./mission-layout.js?v=f26358c196c8";
+import { installListDialog } from "./list-dialog.js?v=f26358c196c8";
 
 // Reuse the existing records, rankings, wallet and shop views inside modal layers.
 export function createForestUI({ closeView, getView, hasGame, translate, onRankingCapacity }) {

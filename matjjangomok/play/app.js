@@ -1,10 +1,10 @@
 import { NcqLang } from "./ncq/lang.js";
-import { NcqBoard } from "./ncq/board.js?v=7af38636c12c";
-import { TEXTS } from "./texts.js?v=7af38636c12c";
-import { createForestUI } from "./forest-ui.js?v=7af38636c12c";
-import { RankingPages, rankingPageTarget } from "./ranking-pages.js?v=7af38636c12c";
-import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=7af38636c12c";
-import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=7af38636c12c";
+import { NcqBoard } from "./ncq/board.js?v=f26358c196c8";
+import { TEXTS } from "./texts.js?v=f26358c196c8";
+import { createForestUI } from "./forest-ui.js?v=f26358c196c8";
+import { RankingPages, rankingPageTarget } from "./ranking-pages.js?v=f26358c196c8";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=f26358c196c8";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=f26358c196c8";
 
 NcqLang.init({ id: "matjjangomok", texts: TEXTS });
 const t = NcqLang.t;
@@ -1675,7 +1675,10 @@ function updateTurnClock(now, deadline, secondsPerTurn, ownTurn, watching) {
   if (remaining > 0) {
     turnFrame = requestAnimationFrame(time => updateTurnClock(time, deadline, secondsPerTurn, ownTurn, watching));
   } else if (!watching) {
-    el("place").disabled = true;
+    const place = el("place");
+    place.disabled = true;
+    place.dataset.placementState = "inactive";
+    el("place-state").hidden = true;
     board.classList.remove("selectable");
     for (const cell of cells) cell.setAttribute("aria-disabled", "true");
   }
@@ -2872,7 +2875,13 @@ function render() {
   el("review-back").disabled = busy;
 
   const place = el("place");
-  place.disabled = !canAct() || selected === null;
+  const actionable = canAct();
+  place.disabled = !actionable || selected === null;
+  const placementState = !actionable ? "inactive" : selected === null ? "selecting" : "ready";
+  place.dataset.placementState = placementState;
+  const placeState = el("place-state");
+  placeState.hidden = placementState === "inactive";
+  if (!placeState.hidden) placeState.textContent = t(placementState === "selecting" ? "placeSelectHint" : "placeReadyHint");
   el("place-text").textContent = t(game.opening === "offerFive" ? "offerShort" : game.opening === "pickFive" ? "pickShort" : "placeStone");
   const placeLabel = game.turn !== game.you ? t("theirTurn")
     : selected === null ? t("selectStone") : t("place", { cell: coordinate(selected) });
@@ -3023,6 +3032,8 @@ function renderSpectator({ game, closed, reconnecting, ply }) {
   el("review").hidden = false;
   const place = el("place");
   place.disabled = true;
+  place.dataset.placementState = "inactive";
+  el("place-state").hidden = true;
   place.removeAttribute("data-ncq-main");
   const lowerLabel = t(live && game.turn === (game.black ?? 1) ? "turnActive" : "turnWaiting");
   el("place-text").textContent = lowerLabel;
@@ -3063,8 +3074,8 @@ function recordCompletedRound(roundKey) {
 async function showReturnAd(roundKey = null) {
   const shell = document.querySelector(".shell");
   const eligibleProgress = () => {
-    if (adsRemoved || adPurchaseBusy || document.hidden || room || archive || spectator || matchmaking
-      || shell.querySelector("dialog[open]") || window.NcqFeedback?.isOpen()) return null;
+    if (lobbyView !== "lobby" || adsRemoved || adPurchaseBusy || document.hidden || room || archive || spectator || matchmaking
+      || document.querySelector("dialog[open]") || window.NcqFeedback?.isOpen()) return null;
     const progress = loadMatchAds();
     if (progress.freeRounds.length < adFreeRounds || (roundKey && progress.lastAttemptedRound === roundKey)
       || Date.now() - progress.lastShownAt < matchAdCooldown) return null;
@@ -3179,13 +3190,14 @@ async function exitRoom(message = "", { showAd = false } = {}) {
   const url = new URL(location.href);
   url.searchParams.delete("room");
   history.replaceState(null, "", url);
-  if (tournamentMatch) showRankings();
+  if (tournamentMatch) lobbyView = "lobby";
   feedback("lobby-error", message, Boolean(message));
   render();
   refreshLobby();
   refreshPlayerCard();
   void refreshWallet();
   if (adRound) await showReturnAd(adRound);
+  if (tournamentMatch) showRankings();
   el(tournamentMatch ? "tournament-title" : "start").focus();
 }
 
@@ -3538,7 +3550,7 @@ function tournamentCoinBalance(status) {
 }
 
 function startMatching(mode, catchUpCost) {
-  if (matchmaking || busy || tournamentCatchUpDialog.open) return;
+  if (matchmaking || busy || tournamentCatchUpDialog.open || document.querySelector(".shell").inert) return;
   if (mode === "tournament" && catchUpCost === undefined) {
     const status = rankingResults.weekly?.result;
     if (!Number.isInteger(status?.remaining)) return;

@@ -1,6 +1,6 @@
-import { resource } from "./lobby-layout.js?v=7af38636c12c";
-import { installListDialog } from "./list-dialog.js?v=7af38636c12c";
-import { rankingPageLimit, rankingPageTarget } from "./ranking-pages.js?v=7af38636c12c";
+import { resource } from "./lobby-layout.js?v=f26358c196c8";
+import { installListDialog } from "./list-dialog.js?v=f26358c196c8";
+import { rankingPageLimit, rankingPageTarget } from "./ranking-pages.js?v=f26358c196c8";
 
 export function installMeasuredRankings(dialog, onCapacity = () => {}) {
   const el = id => document.getElementById(id);

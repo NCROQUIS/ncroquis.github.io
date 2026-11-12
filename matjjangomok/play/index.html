@@ -10,13 +10,13 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=7af38636c12c">
-  <link rel="stylesheet" href="./forest-ui.css?v=7af38636c12c">
-  <link rel="stylesheet" href="./lobby-layout.css?v=7af38636c12c">
-  <link rel="stylesheet" href="./list-dialog.css?v=7af38636c12c">
-  <link rel="stylesheet" href="./ranking-layout.css?v=7af38636c12c">
-  <link rel="stylesheet" href="./mission-layout.css?v=7af38636c12c">
-  <script type="module" src="./app.js?v=7af38636c12c"></script>
+  <link rel="stylesheet" href="./style.css?v=f26358c196c8">
+  <link rel="stylesheet" href="./forest-ui.css?v=f26358c196c8">
+  <link rel="stylesheet" href="./lobby-layout.css?v=f26358c196c8">
+  <link rel="stylesheet" href="./list-dialog.css?v=f26358c196c8">
+  <link rel="stylesheet" href="./ranking-layout.css?v=f26358c196c8">
+  <link rel="stylesheet" href="./mission-layout.css?v=f26358c196c8">
+  <script type="module" src="./app.js?v=f26358c196c8"></script>
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -420,7 +420,10 @@
               <use class="match-art-gauge-track" href="#place-gauge-outline"/>
               <use id="own-progress" class="match-art-gauge-progress" href="#place-gauge-outline"/>
             </svg>
-            <span id="place-text" data-i18n="placeStone"></span>
+            <span class="placement-copy">
+              <span id="place-text" data-i18n="placeStone"></span>
+              <small id="place-state" hidden></small>
+            </span>
             <span id="place-divider" class="gauge-divider" aria-hidden="true"></span>
             <span id="own-clock" class="player-clock" role="timer"></span>
           </button>

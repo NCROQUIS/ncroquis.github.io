@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_TEST_PLACEMENT_TIMING": true, "NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "1.6.4", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangomok", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/matjjangomok", "board": "https://ncroquis.github.io/matjjangomok/feedback/"}, "NCQ_SHARE": {"url": "https://ncroquis.github.io/matjjangomok/share/", "title": "맞짱 오목"}});
+window.NCQ = Object.freeze({"NCQ_TEST_PLACEMENT_TIMING": true, "NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "1.6.5", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangomok", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/matjjangomok", "board": "https://ncroquis.github.io/matjjangomok/feedback/"}, "NCQ_SHARE": {"url": "https://ncroquis.github.io/matjjangomok/share/", "title": "맞짱 오목"}});
 Object.assign(window, window.NCQ);
 
 /* 화면 켜 두기 (ncq_build.py가 넣어요, 웹 공개). 게임을 보는 동안 휴대폰 화면이 저절로 꺼지지 않게 브라우저의
@@ -400,4 +400,4 @@ Object.assign(window, window.NCQ);
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangomok","pf":"web","mk":"web","tr":"share","vn":"1.6.4","vc":0,"cm":"7d3cf25","ft":["PLACEMENT_TIMING"]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangomok","pf":"web","mk":"web","tr":"share","vn":"1.6.5","vc":0,"cm":"44ee0fe","ft":["PLACEMENT_TIMING"]});

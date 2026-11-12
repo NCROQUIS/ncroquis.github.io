@@ -284,12 +284,12 @@ function refreshLobby(){
 }
 // ---------- 광고 자리: 실제 SDK를 붙일 때 Ads의 두 함수만 교체 ----------
 const AD={STAGE_EVERY:3,INTER_SEC:3,REWARD_SEC:5};
-function adOverlay(kind,sec,reward){
+function adOverlay(kind,sec,reward,doneKey){
   return new Promise(res=>{
     const el=$('adFull'),count=$('adCount'),done=$('adDone'),stop=$('adStop');let left=sec;
     $('adKind').textContent=kind;$('adNote').textContent=T(reward?'ad_reward_note':'ad_note');count.textContent=left;
     el.hidden=false;done.hidden=true;stop.hidden=!reward;
-    const iv=setInterval(()=>{left--;count.textContent=Math.max(0,left);if(left<=0){clearInterval(iv);stop.hidden=true;done.hidden=false;done.textContent=T(reward?'get_hint':'close');}},1000);
+    const iv=setInterval(()=>{left--;count.textContent=Math.max(0,left);if(left<=0){clearInterval(iv);stop.hidden=true;done.hidden=false;done.textContent=T(reward?(doneKey||'get_hint'):'close');}},1000);
     const finish=v=>{clearInterval(iv);el.hidden=true;res(v);};
     done.onclick=()=>finish(true);stop.onclick=()=>finish(false);
   });

@@ -267,9 +267,9 @@
     const v = XV[i % XV.length];
     return '<svg class="mk x ' + (cls || '') + '" viewBox="0 0 100 100"><path pathLength="1" d="' + v[0] + '"/><path pathLength="1" d="' + v[1] + '"/></svg>';
   }
-  // 판 위의 오리: 몸·볼터치·부리·눈을 겹쳐 그려요. 몸은 가만히 두고 얼굴만 움직여서(눈 깜빡, 고개 도리도리) 칸 밖으로 나가지 않아요.
+  // 판 위의 오리: 머리 묶음(.hd: 머리·깃털·볼터치·부리·눈) 위에 몸을 얹어 그려요. 몸은 가만히 있고, 머리 묶음만 기울여 갸우뚱, 얼굴 조각으로 눈 깜빡·고개 도리도리를 만들어요.
   function duckHTML(i, cls) {
-    return '<span class="mk duck dk' + (cls ? ' ' + cls : '') + '" role="img" aria-label="오리" style="--d:-' + ((i * 370) % 2600) + 'ms;--bd:' + (4.3 + (i * 7 % 5) * .5).toFixed(1) + 's;--fd:' + (11 + (i * 5 % 7) * 1.4).toFixed(1) + 's;--fo:-' + ((i * 3.7) % 11).toFixed(1) + 's"><i class="b0"></i><i class="b1"></i><i class="fb"></i><i class="fk"></i><i class="fe"></i></span>';
+    return '<span class="mk duck dk' + (cls ? ' ' + cls : '') + '" role="img" aria-label="오리" style="--d:-' + ((i * 370) % 2600) + 'ms;--bd:' + (4.3 + (i * 7 % 5) * .5).toFixed(1) + 's;--fd:' + (11 + (i * 5 % 7) * 1.4).toFixed(1) + 's;--fo:-' + ((i * 3.7) % 11).toFixed(1) + 's"><span class="hd"><i class="hf"></i><i class="hr"></i><i class="fb"></i><i class="fk"></i><i class="fe"></i></span><i class="b0"></i><i class="b1"></i></span>';
   }
   const CHECK_SVG = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M20 54Q33 66 42 77Q58 44 82 24"/></svg>';
   const View = {
@@ -662,8 +662,9 @@
     save();
     Snd.play('win'); buzz([20, 60, 20, 60, 40]);
     View.clearOverlays(); View.confetti();
-    setTimeout(() => $$('.dk', $('#cells')).forEach(el => { el.classList.remove('in', 'settle'); el.classList.add('hop'); View.wave(el, 950); }), 420);   // 다 같이 "여어!"
-    setTimeout(() => showResult(rewards, notes, bonus), 1800);
+    // 마지막 오리가 먼저 "여어!" 하고 손을 내린 다음(약 1.1초), 한 박자 쉬고 다 같이 "여어!"
+    setTimeout(() => $$('.dk', $('#cells')).forEach(el => { el.classList.remove('in', 'settle'); el.classList.add('hop'); View.wave(el, 850); }), 1350);
+    setTimeout(() => showResult(rewards, notes, bonus), 2700);
   }
   function lose() {
     G.status = 'lost'; G.combo = 0; save();
@@ -1040,7 +1041,7 @@
   /* ---------- 시작 ---------- */
   function boot() {
     const dk = document.createElement('style');                                 // 오리 조각 그림은 한 번만 등록해요 (칸마다 주소를 되풀이하지 않게)
-    dk.textContent = [['b0', 'duck_body'], ['b1', 'duck_wave'], ['fb', 'duck_blush'], ['fk', 'duck_beak'], ['fe', 'duck_eyes']].map(p => '.dk .' + p[0] + '{background-image:url("' + ART[p[1]] + '")}').join('');
+    dk.textContent = [['b0', 'duck_body'], ['b1', 'duck_wave'], ['hf', 'duck_head'], ['hr', 'duck_hair'], ['fb', 'duck_blush'], ['fk', 'duck_beak'], ['fe', 'duck_eyes']].map(p => '.dk .' + p[0] + '{background-image:url("' + ART[p[1]] + '")}').join('');
     document.head.appendChild(dk);
     loadSave();
     $$('[data-ic]').forEach(el => { el.style.backgroundImage = 'url(' + (ART[el.dataset.ic] || '') + ')'; });
@@ -1076,7 +1077,6 @@
       const c = e.target.classList; if (!c || !c.contains('duck')) return;
       if (e.animationName === 'duckin') c.remove('in'); else if (e.animationName === 'cheer') c.remove('hop'); else if (e.animationName === 'settle') c.remove('settle');
     });
-    $('#hint-close').onclick = () => { Snd.play('ui'); hintClose(false); };
     $('#hint-apply').onclick = () => hintClose(true);
     $('#hint-more').onclick = () => {
       Snd.play('ui'); const h = UI.hint; drawHint(h, true); $('#hint-more').hidden = true;

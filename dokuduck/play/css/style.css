@@ -276,19 +276,27 @@ img { max-width: 100%; -webkit-user-drag: none; }
 @keyframes glow { 50% { background: rgba(255, 255, 255, .15); } }
 /* 오리 "여어!": 앉은 모양 그대로 한쪽 날개만 들었다가(그림 바꿈) 팍 내리며 살짝 눌려요 */
 @keyframes settle { 0% { transform: scale(1.06, .92); } 55% { transform: scale(.98, 1.03); } 100% { transform: none; } }
-/* 오리 아이들 동작: 몸은 그대로, 얼굴 조각만 움직여서 칸 밖으로 나가지 않아요 */
+/* 오리 아이들 동작: 몸은 가만히, 머리 쪽 조각만 움직여서 칸 밖으로 나가지 않아요 */
+.dk .hd { position: absolute; inset: 0; transform-origin: 48.1% 57.6%; animation: tilt var(--fd, 13s) ease-in-out var(--fo, 0s) infinite; }   /* 머리 묶음: 목을 축으로 기울어요 */
 .dk i { position: absolute; inset: 0; background: center / contain no-repeat; transform-origin: 50% 35.5%; }
 .dk .b1 { visibility: hidden; }
 .dk.wave .b0 { visibility: hidden; }
 .dk.wave .b1 { visibility: visible; }
+.dk.wave .hd { rotate: 0deg !important; }                     /* 날개를 든 동안은 고개를 바로 (든 날개가 뺨 옆에 붙어 있어서) */
+.dk .hr { transform-origin: 57.6% 16.1%; animation: hair var(--fd, 13s) ease-in-out var(--fo, 0s) infinite; }   /* 머리 깃털: 뿌리를 축으로 흔들려요 */
 .dk .fb { --amp: 1.5%; animation: dori var(--fd, 13s) ease-in-out var(--fo, 0s) infinite; }
 .dk .fk { --amp: 4%; animation: dori var(--fd, 13s) ease-in-out var(--fo, 0s) infinite; }
 .dk .fe { --amp: 3.3%; animation: dori var(--fd, 13s) ease-in-out var(--fo, 0s) infinite, blinkeye var(--bd, 4.6s) linear var(--d, 0s) infinite; }
-/* 고개 도리도리(가운데 조각일수록 많이 움직여 고개를 돌리는 것처럼 보여요) → 한참 뒤 갸웃 */
-@keyframes dori {
-  0%, 18%, 37%, 56%, 80%, 100% { translate: 0 0; rotate: 0deg; }
-  22% { translate: calc(var(--amp) * -1) 0; } 26% { translate: var(--amp) 0; } 30% { translate: calc(var(--amp) * -.8) 0; } 34% { translate: calc(var(--amp) * .5) 0; }
-  61%, 75% { translate: calc(var(--amp) * -.4) 0; rotate: -7deg; }
+/* 고개 도리도리 한 번 (가운데 조각일수록 많이 움직여 고개를 돌리는 것처럼 보여요) */
+@keyframes dori { 0%, 18%, 32%, 100% { translate: 0 0; } 22% { translate: calc(var(--amp) * -1) 0; } 27% { translate: var(--amp) 0; } }
+/* 갸우뚱: 몸은 그대로 두고 머리만 크게 기울어요 */
+@keyframes tilt { 0%, 57%, 83%, 100% { rotate: 0deg; } 61% { rotate: -17deg; } 64%, 76% { rotate: -15deg; } 80% { rotate: 2deg; } }
+/* 머리 깃털: 고개를 돌리거나 기울일 때 한 박자 늦게 따라오며 찰랑 */
+@keyframes hair {
+  0%, 18%, 36%, 57%, 71%, 88%, 100% { rotate: 0deg; }
+  21% { rotate: 14deg; } 25.5% { rotate: -15deg; } 30.5% { rotate: 10deg; } 33.5% { rotate: -4deg; }
+  60% { rotate: 22deg; } 63.5% { rotate: -14deg; } 66.5% { rotate: 7deg; } 69% { rotate: -3deg; }
+  78.5% { rotate: -20deg; } 81.5% { rotate: 12deg; } 84.5% { rotate: -5deg; }
 }
 /* 눈 깜빡 … 꿈빡꿈빡 */
 @keyframes blinkeye { 0%, 45.5%, 48.5%, 88.7%, 91.7%, 93.3%, 96.3%, 100% { scale: 1 1; } 47%, 90.2%, 94.8% { scale: 1 .1; } }

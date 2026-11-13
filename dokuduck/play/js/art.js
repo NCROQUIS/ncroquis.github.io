@@ -4,6 +4,8 @@ window.DOKU_ART = {
   duck_blush: 'assets/img/duck_blush.webp',
   duck_body: 'assets/img/duck_body.webp',
   duck_eyes: 'assets/img/duck_eyes.webp',
+  duck_hair: 'assets/img/duck_hair.webp',
+  duck_head: 'assets/img/duck_head.webp',
   duck_hello: 'assets/img/duck_hello.webp',
   duck_idle: 'assets/img/duck_idle.webp',
   duck_joy: 'assets/img/duck_joy.webp',

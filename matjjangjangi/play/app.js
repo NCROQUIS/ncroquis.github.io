@@ -11367,7 +11367,7 @@ function render() {
   el("review-back").disabled = busy;
   const place = el("place");
   const actionable = canAct() && !game.setup;
-  const placementState = !actionable ? "inactive" : "selecting";
+  const placementState = actionable ? "ready" : "inactive";
   place.dataset.placementState = placementState;
   const placeState = el("place-state");
   const moveHint = pendingPlacement ? "jangiMoveSaving" : selectedFrom === null ? "jangiSelectPiece" : "jangiSelectTarget";

@@ -73,12 +73,12 @@
 .jangi-formation-heading { display:flex;justify-content:space-between;align-items:center;gap:10px; }
 #jangi-formation-clock { flex:none;font-size:23px;font-weight:800;color:#a32825;font-variant-numeric:tabular-nums; }
 .jangi-refills { display:flex;gap:2px;position:absolute;right:9px;bottom:2px;color:#927019;line-height:1; }
+.match-art-gauge[data-active="true"] .jangi-refills { color:#f5d566; }
 .jangi-refills svg { width:10px;height:12px; }
 .jangi-refills [data-used] { opacity:.2; }
 .jangi-refills[hidden] { display:none; }
 .match-art-gauge:has(.jangi-refills:not([hidden])) .player-clock { padding-bottom:10px; }
 .forest-ui .match-art-gauge .player-clock[data-byoyomi] { color:#e83d37;text-shadow:0 1px 1px #3e1711; }
-.forest-ui #place[data-placement-state="selecting"] .player-clock[data-byoyomi] { color:#b3261e;text-shadow:none; }
 .jangi-formation-content { min-height:0;overflow-y:auto;overscroll-behavior:contain; }
 #jangi-formation .jangi-formation-hint { margin:0 0 12px;font-size:11px;line-height:1.55; }
 .jangi-opponent-formation { padding:10px 12px;margin-bottom:12px;border-radius:9px;background:#e9e5d6;border:1px solid #d5c9aa; }

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#0a2238" />
   <title>Pourly</title>
-  <script type="module" crossorigin src="./assets/index-wfaSaE8C.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CoB5aHOH.css">
+  <script type="module" crossorigin src="./assets/index-Bzlh1GzK.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-D9odoiul.css">
 </head>
 <body>
   <!-- 바탕: 깊은 물빛 + 천천히 움직이는 빛 + 작은 기포 (이야기 없는 꾸밈) -->
@@ -140,7 +140,7 @@
         <div class="card-title" id="shop-title" data-i18n="shop"></div>
         <div class="coins"><span class="coin-dot"></span><span id="shop-coins">0</span></div>
       </div>
-      <div class="seg shop-tabs" id="shop-tabs"><button data-tab="bg" data-i18n="tab_bg"></button><button data-tab="bottle" data-i18n="tab_bottle"></button><button data-tab="item" data-i18n="tab_item"></button></div>
+      <div class="seg shop-tabs" id="shop-tabs"><button data-tab="bg" data-i18n="tab_bg"></button><button data-tab="bottle" data-i18n="tab_bottle"></button><button data-tab="item" data-i18n="tab_item"></button><button data-tab="coin" data-i18n="tab_coin" hidden></button></div>
       <p class="shop-have" id="shop-have" hidden></p>
       <div class="shop-grid" id="shop-grid"></div>
       <button class="primary" id="btn-shop-act" data-ncq-main="상점 사기·쓰기 버튼"></button>
@@ -159,6 +159,8 @@
       <button class="secondary" id="btn-feedback" data-i18n="feedback" hidden></button>
       <!-- 광고 동의(유럽 등)를 다시 고르는 곳: NcqAds가 필요하다고 할 때만 보여요 (docs/ncq/ads.md) -->
       <button class="secondary" id="btn-privacy" data-i18n="privacy" hidden></button>
+      <!-- 구매 복원: 광고 제거(한 번 사는 상품)를 팔 때만 (docs/ncq/iap.md) -->
+      <button class="secondary" id="btn-restore" data-i18n="restore" hidden></button>
       <button class="primary" id="btn-close" data-ncq-main="설정 닫기 버튼" data-i18n="close"></button>
       <div class="version" id="settings-version"></div>
     </div>

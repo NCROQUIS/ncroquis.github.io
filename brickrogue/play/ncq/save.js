@@ -39,7 +39,7 @@
   "use strict";
   var w = typeof window !== "undefined" ? window : null;
   if (!w) return;
-  var VERSION = 2;
+  var VERSION = 3;
   if (w.NcqSave && w.NcqSave.version >= VERSION) return; // 두 번 불러도 한 번만
   var PREFIX = "ncq:save:";
   var MAX_BYTES = 200000; // 클라우드에 올리는 저장 크기 (서버 ncqsave.MAX_SAVE와 같게)
@@ -482,6 +482,9 @@
     return Math.abs(Date.now() - rec.up) >= BACKUP_EVERY;
   }
   function backup() {
+    // NcqIap also calls backup after a server-wallet purchase. A records-only game
+    // has no snapshot to force, and its records must keep their daily schedule.
+    if (!cfg && recordStores && Object.keys(recordStores).length) return Promise.resolve({ok: true});
     ensure();
     if (rec.dirty && !rec.hot) { rec.hot = true; store(); } // 게임이 직접 부르면 시간과 상관없이 올려요
     if (timer) { w.clearTimeout(timer); timer = null; }
@@ -592,7 +595,185 @@
     return Object.freeze(h);
   }
 
-  var api = {version: VERSION, init: init, get: get, update: update, grant: grant, has: has, reset: reset,
+  // ------------------------------------------------------------ 계정별 기록: 로컬 즉시, 하루마다 미백업 건만 추가
+  var recordStores = {};
+  function records(options) {
+    options = options || {};
+    var game = options.id || (cfg && cfg.id), name = options.collection, player = options.player;
+    if (!ID_RE.test(game || "") || !/^[A-Za-z][A-Za-z0-9_-]{0,39}$/.test(name || "")
+        || typeof player !== "string" || !/^[A-Za-z0-9_-]{1,100}$/.test(player)) throw new Error("invalid_record_scope");
+    var prefix = PREFIX + game + ":records:" + name + ":" + player + ":";
+    if (recordStores[prefix]) return recordStores[prefix];
+    var path = "/save/v1/records/" + name, callbacks = [], busy = null, checked = false, closed = false;
+    var wake = null, attempts = 0, failure = null;
+    function read(k) {
+      var raw = own(memory, k) ? memory[k] : readRaw(k);
+      if (!raw) return null;
+      try {
+        var decoded = decodeStore(raw, prefix);
+        if (!decoded.signed) noticeTamper("records");
+        return JSON.parse(decoded.json);
+      } catch (e) { failure = "bad_local_record"; return null; }
+    }
+    function write(k, value) {
+      var ok = writeRaw(k, encodeStore(JSON.stringify(value), prefix));
+      if (!ok) failure = "storage_full";
+      return ok;
+    }
+    function meta() { return read(prefix + "meta") || {cursor: 0, backedUpAt: 0, uploading: false}; }
+    function setMeta(values) {
+      var next = meta();
+      Object.keys(values).forEach(function (key) { next[key] = values[key]; });
+      return write(prefix + "meta", next);
+    }
+    function itemKey(id) { return prefix + "item:" + encodeURIComponent(id); }
+    function entries() {
+      var keys = Object.keys(memory), seen = {};
+      try { for (var i = 0; i < w.localStorage.length; i++) keys.push(w.localStorage.key(i)); } catch (e) { /* memory */ }
+      return keys.filter(function (key) {
+        if (!key || key.indexOf(prefix + "item:") !== 0 || own(seen, key)) return false;
+        seen[key] = true; return true;
+      })
+        .map(read).filter(function (item) { return item && typeof item.id === "string" && isObj(item.data); });
+    }
+    function pending() { return entries().filter(function (item) { return !item.backed; }); }
+    function enabled() {
+      var auth = w.NCQ && w.NCQ.NCQ_AUTH;
+      return !closed && options.cloud !== false && !!(w.NCQ && w.NCQ.NCQ_SAVE && w.NcqAuth && w.NcqAuth.request)
+        && (!auth || auth.game === game);
+    }
+    function due() {
+      var state = meta();
+      return state.uploading || !state.backedUpAt || Math.abs(Date.now() - state.backedUpAt) >= BACKUP_EVERY;
+    }
+    function emit(source) {
+      callbacks.slice().forEach(function (fn) { try { fn({source: source}); } catch (e) { warn("records-listener", "기록 변경 알림에서 오류가 났어요.", e); } });
+    }
+    function later(ms) {
+      if (wake) w.clearTimeout(wake);
+      if (enabled()) wake = w.setTimeout(function () { wake = null; syncRecords(); }, ms);
+    }
+    function bytes(value) { return unescape(encodeURIComponent(JSON.stringify(value))).length; }
+    function add(id, data) {
+      if (closed) return false;
+      try {
+        if (typeof id !== "string" || !id.length || id.length > 200 || !isObj(data)) throw new Error("invalid_record");
+        data = clone(data);
+        if (!isObj(data)) throw new Error("invalid_record");
+        if (bytes(data) > 32000) throw new Error("record_too_large");
+        if (read(itemKey(id))) return true; // 최초 기록을 보존한다. 수정 기록은 새 ID를 사용한다.
+        var ok = write(itemKey(id), {id: id, data: clone(data), backed: false});
+        emit("local");
+        later(PUSH_WAIT);
+        return ok;
+      } catch (e) { failure = e.message || "invalid_record"; return false; }
+    }
+    async function request(method, body, cursor) {
+      var me = await w.NcqAuth.ready();
+      if (closed || me.player !== player) throw Object.assign(new Error("account_changed"), {code: "account_changed"});
+      // The auth module binds both its first request and token refresh to this account.
+      var out = await w.NcqAuth.request(path + (cursor === undefined ? "" : "?after=" + cursor), method, body, player);
+      if (closed) throw Object.assign(new Error("closed"), {code: "closed"});
+      if (!out || out.ok !== true) throw Object.assign(new Error("bad_response"), {code: out && out.code || "bad_response"});
+      return out;
+    }
+    async function pull() {
+      var more = true;
+      while (more) {
+        var before = meta().cursor, out = await request("GET", undefined, before);
+        if (!Array.isArray(out.items) || out.items.length > 50 || !Number.isSafeInteger(out.cursor)
+            || out.cursor < before || (out.hasMore && out.cursor === before)) throw new Error("bad_response");
+        var sequence = before;
+        out.items.forEach(function (item) {
+          if (typeof item.id !== "string" || !item.id.length || item.id.length > 200 || !isObj(item.data)
+              || !Number.isSafeInteger(item.sequence) || item.sequence <= sequence) throw new Error("bad_response");
+          sequence = item.sequence;
+          if (!write(itemKey(item.id), {id: item.id, data: item.data, backed: true})) throw new Error("storage_full");
+        });
+        if (out.cursor !== sequence) throw new Error("bad_response");
+        if (!setMeta({cursor: Math.max(meta().cursor, out.cursor),
+          backedUpAt: Math.max(meta().backedUpAt, Number(out.backedUpAt) || 0)})) throw new Error("storage_full");
+        if (out.items.length) emit("cloud");
+        more = out.hasMore === true;
+      }
+      checked = true;
+    }
+    async function pushRecords() {
+      if (!setMeta({uploading: true})) throw new Error("storage_full");
+      var left = pending();
+      while (left.length) {
+        var batch = [];
+        for (var i = 0; i < left.length && batch.length < 20; i++) {
+          var item = {id: left[i].id, data: left[i].data};
+          if (batch.length && bytes({items: batch.concat([item])}) > 240000) break;
+          batch.push(item);
+        }
+        var out = await request("POST", {items: batch});
+        if (!Array.isArray(out.acknowledged) || batch.some(function (item) { return out.acknowledged.indexOf(item.id) < 0; })) throw new Error("bad_response");
+        batch.forEach(function (item) {
+          var current = read(itemKey(item.id));
+          if (current && !write(itemKey(item.id), {id: current.id, data: current.data, backed: true})) throw new Error("storage_full");
+        });
+        left = pending();
+      }
+      if (!setMeta({uploading: false, backedUpAt: Date.now()})) throw new Error("storage_full");
+      emit("backup");
+    }
+    function syncRecords() {
+      if (busy) return busy;
+      if (!enabled()) return Promise.resolve({ok: false, code: "disabled"});
+      if (wake) { w.clearTimeout(wake); wake = null; }
+      busy = Promise.resolve().then(async function () {
+        if (!checked) await pull();
+        if (pending().length && due()) await pushRecords();
+        failure = null;
+        attempts = 0;
+        return {ok: true};
+      }).catch(function (e) {
+        failure = e.code || e.message || "network";
+        attempts += 1;
+        if (failure !== "account_changed" && failure !== "closed") later(RETRY[Math.min(attempts - 1, RETRY.length - 1)]);
+        return {ok: false, code: failure};
+      }).then(function (result) {
+        busy = null;
+        if (result.ok && pending().length) later(Math.max(PUSH_WAIT, meta().backedUpAt + BACKUP_EVERY - Date.now()));
+        return result;
+      });
+      return busy;
+    }
+    function onStorage(event) {
+      if (event.key === null || (event.key && event.key.indexOf(prefix) === 0)) { emit("other-tab"); later(PUSH_WAIT); }
+    }
+    function onOnline() { later(0); }
+    function onVisibility() { if (!w.document || w.document.visibilityState === "visible") later(0); }
+    var handle = Object.freeze({add: add,
+      get: function (id) { var item = read(itemKey(id)); return item ? clone(item.data) : undefined; },
+      list: function () { return entries().map(function (item) { return {id: item.id, data: clone(item.data)}; }); },
+      ready: syncRecords, sync: syncRecords,
+      onChange: function (fn) {
+        callbacks.push(fn);
+        return function () { callbacks = callbacks.filter(function (item) { return item !== fn; }); };
+      },
+      status: function () { var state = meta(); return {player: player, collection: name, count: entries().length,
+        pending: pending().length, backedUpAt: state.backedUpAt, cursor: state.cursor,
+        cloud: enabled(), busy: !!busy, error: failure}; },
+      dispose: function () {
+        closed = true;
+        if (wake) w.clearTimeout(wake);
+        w.removeEventListener("storage", onStorage);
+        w.removeEventListener("online", onOnline);
+        if (w.document) w.document.removeEventListener("visibilitychange", onVisibility);
+        delete recordStores[prefix];
+      }});
+    recordStores[prefix] = handle;
+    w.addEventListener("storage", onStorage);
+    w.addEventListener("online", onOnline);
+    if (w.document) w.document.addEventListener("visibilitychange", onVisibility);
+    later(0);
+    return handle;
+  }
+
+  var api = {version: VERSION, records: records, init: init, get: get, update: update, grant: grant, has: has, reset: reset,
     onChange: onChange, ready: ready, backup: backup, saveId: function () { ensure(); return rec.sid; }, status: status,
     int: function (path, start) { return value("int", path, start); },
     num: function (path, start) { return value("num", path, start); },

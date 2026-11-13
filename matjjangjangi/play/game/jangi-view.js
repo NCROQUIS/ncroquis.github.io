@@ -1,4 +1,5 @@
 import { initial, legalMoves, sideOf, GLYPHS, KING, inCheck } from './rules.js';
+import { pieceStyleForSeat } from './piece-skins.js';
 
 export { sideOf, GLYPHS, KING, inCheck };
 export const destination = move => typeof move === 'object' ? move.to : move;
@@ -13,7 +14,7 @@ export function replayBoard(game, ply) {
 export const targetsFrom = (game, from) => game?.board && from !== null && !game.setup
   ? legalMoves(game.board, game.turn).filter(move => move.from === from).map(move => move.to) : [];
 
-export function drawJangiBoard({ game, displayedBoard, cells, selectedFrom, selected, lastMoveMarker, board, selectable, coordinate, t, latest, moveNumbers, pendingMove }) {
+export function drawJangiBoard({ game, displayedBoard, cells, selectedFrom, selected, lastMoveMarker, board, selectable, coordinate, t, latest, moveNumbers, pendingMove, localPieceStyle }) {
   const targets = selectable ? targetsFrom(game, selectedFrom) : [];
   const checked = inCheck(displayedBoard, game.turn);
   const flipped = game.you === 2;
@@ -34,6 +35,7 @@ export function drawJangiBoard({ game, displayedBoard, cells, selectedFrom, sele
     cell.classList.toggle('jangi-check', kind === KING && side === game.turn && checked);
     const token = cell.firstElementChild;
     const preview = target && !piece ? displayedBoard[selectedFrom] : piece;
+    cell.dataset.stoneStyle = pieceStyleForSeat(game, sideOf(preview), localPieceStyle);
     token.hidden = !preview;
     token.dataset.kind = Math.abs(preview);
     token.className = 'stone ' + (sideOf(preview) === 2 ? 'white' : 'black');
@@ -65,7 +67,7 @@ export function installJangiArtwork() {
     for (const cell of preview.querySelectorAll('.cell')) cell.remove();
     for (const [index,piece] of initial().board.entries()) {
       if (!piece) continue;
-      const cell=document.createElement('span'); cell.className='cell'; cell.dataset.stone=sideOf(piece); cell.style.gridArea=`${Math.floor(index/9)+1} / ${index%9+1}`;
+      const cell=document.createElement('span'); cell.className='cell'; cell.dataset.stone=sideOf(piece); cell.dataset.index=index; cell.style.gridArea=`${Math.floor(index/9)+1} / ${index%9+1}`;
       const token=document.createElement('span'); token.className='stone '+(piece>0?'black':'white'); token.dataset.kind=Math.abs(piece); token.textContent=GLYPHS[sideOf(piece)][Math.abs(piece)-1];
       const shadow=document.createElement('span'); shadow.className='stone-shadow';
       cell.append(token,shadow); preview.append(cell);

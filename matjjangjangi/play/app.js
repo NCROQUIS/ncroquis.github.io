@@ -125,6 +125,28 @@ function legalMoves(board2, side) {
 }
 var positionKey = ({ board: board2, turn }) => board2.join(",") + ":" + turn;
 
+// game/piece-skins.js
+var PIECE_STYLES = Object.freeze(["reference", "classic", "glossy", "vintage", "gilded", "porcelain", "jade", "lacquer", "ocean", "soda", "quartz", "marble", "sapphire", "sakura", "aurora"]);
+var DEFAULT_PIECE_STYLE = "reference";
+var normalizePieceStyle = (style) => PIECE_STYLES.includes(style) ? style : DEFAULT_PIECE_STYLE;
+function pieceStyleForSeat(game, seat, localStyle = DEFAULT_PIECE_STYLE) {
+  if (seat !== 1 && seat !== 2) return DEFAULT_PIECE_STYLE;
+  if (Array.isArray(game?.pieceStyles)) return normalizePieceStyle(game.pieceStyles[seat - 1]);
+  return game?.you === seat && !game.sharedView ? normalizePieceStyle(localStyle) : DEFAULT_PIECE_STYLE;
+}
+function applyPreviewPieceStyles(preview, choice, game) {
+  const own2 = game?.you === 2 ? 2 : 1;
+  for (const cell of preview.querySelectorAll(".cell")) {
+    const seat = Number(cell.dataset.stone);
+    cell.dataset.stoneStyle = seat === own2 ? normalizePieceStyle(choice) : pieceStyleForSeat(game, seat);
+    const index2 = Number(cell.dataset.index);
+    if (Number.isInteger(index2)) {
+      const point = own2 === 2 ? 89 - index2 : index2;
+      cell.style.gridArea = `${Math.floor(point / 9) + 1} / ${point % 9 + 1}`;
+    }
+  }
+}
+
 // game/jangi-view.js
 var destination = (move) => typeof move === "object" ? move.to : move;
 function replayBoard(game, ply) {
@@ -137,7 +159,7 @@ function replayBoard(game, ply) {
   return board2;
 }
 var targetsFrom = (game, from) => game?.board && from !== null && !game.setup ? legalMoves(game.board, game.turn).filter((move) => move.from === from).map((move) => move.to) : [];
-function drawJangiBoard({ game, displayedBoard, cells: cells2, selectedFrom: selectedFrom2, selected: selected2, lastMoveMarker: lastMoveMarker2, board: board2, selectable, coordinate: coordinate2, t: t3, latest, moveNumbers, pendingMove }) {
+function drawJangiBoard({ game, displayedBoard, cells: cells2, selectedFrom: selectedFrom2, selected: selected2, lastMoveMarker: lastMoveMarker2, board: board2, selectable, coordinate: coordinate2, t: t3, latest, moveNumbers, pendingMove, localPieceStyle }) {
   const targets = selectable ? targetsFrom(game, selectedFrom2) : [];
   const checked = inCheck(displayedBoard, game.turn);
   const flipped = game.you === 2;
@@ -160,6 +182,7 @@ function drawJangiBoard({ game, displayedBoard, cells: cells2, selectedFrom: sel
     cell.classList.toggle("jangi-check", kind === KING && side === game.turn && checked);
     const token = cell.firstElementChild;
     const preview = target && !piece ? displayedBoard[selectedFrom2] : piece;
+    cell.dataset.stoneStyle = pieceStyleForSeat(game, sideOf(preview), localPieceStyle);
     token.hidden = !preview;
     token.dataset.kind = Math.abs(preview);
     token.className = "stone " + (sideOf(preview) === 2 ? "white" : "black");
@@ -192,6 +215,7 @@ function installJangiArtwork() {
       const cell = document.createElement("span");
       cell.className = "cell";
       cell.dataset.stone = sideOf(piece);
+      cell.dataset.index = index2;
       cell.style.gridArea = `${Math.floor(index2 / 9) + 1} / ${index2 % 9 + 1}`;
       const token = document.createElement("span");
       token.className = "stone " + (piece > 0 ? "black" : "white");
@@ -221,13 +245,16 @@ var JANGI_TEXTS = {
     ruleTaraguchiShort: "\uC7A5\uAE30",
     ruleRenjuHelp: "\uAD81\uC744 \uC9C0\uD0A4\uBA70 \uC0C1\uB300 \uAD81\uC744 \uC678\uD1B5\uC218\uB85C \uBAB0\uBA74 \uC774\uAE41\uB2C8\uB2E4.",
     ruleFreeHelp: "\uAD81\uC744 \uC9C0\uD0A4\uBA70 \uC0C1\uB300 \uAD81\uC744 \uC678\uD1B5\uC218\uB85C \uBAB0\uBA74 \uC774\uAE41\uB2C8\uB2E4.",
-    selectStone: "\uC774\uB3D9\uD560 \uAE30\uBB3C\uACFC \uBAA9\uC801\uC9C0\uB97C \uC120\uD0DD\uD574 \uC8FC\uC138\uC694.",
-    placeSelectHint: "\uAE30\uBB3C\xB7\uBAA9\uC801\uC9C0 \uC120\uD0DD",
-    placeReadyHint: "\uC120\uD0DD \uC644\uB8CC",
+    selectStone: "\uB9D0\uC744 \uACE0\uB978 \uB4A4 \uC774\uB3D9\uD560 \uC704\uCE58\uB97C \uB204\uB974\uBA74 \uBC14\uB85C \uC774\uB3D9\uD569\uB2C8\uB2E4.",
+    placeSelectHint: "\uC774\uB3D9\uD560 \uB9D0 \uC120\uD0DD",
+    placeReadyHint: "\uC774\uB3D9\uD560 \uACF3 \uC120\uD0DD",
+    jangiSelectPiece: "\uC774\uB3D9\uD560 \uB9D0 \uC120\uD0DD",
+    jangiSelectTarget: "\uC774\uB3D9\uD560 \uACF3 \uC120\uD0DD",
+    jangiMoveSaving: "\uCC29\uC218 \uD655\uC778 \uC911",
     shopStones: "\uC7A5\uAE30\uB9D0",
     shopBoard: "\uC7A5\uAE30\uD310",
     recordPlayGame: "\uC7A5\uAE30 \uB450\uB7EC \uAC00\uAE30",
-    classicJanggiSkin: "\uD074\uB798\uC2DD \uC7A5\uAE30",
+    shopPreviewGuide: "\uB0B4 \uB9D0\uC5D0\uB9CC \uC801\uC6A9\uB3FC\uC694. \uC0C1\uB300 \uB9D0\uC740 \uC0C1\uB300\uAC00 \uACE0\uB978 \uC2A4\uD0A8\uC73C\uB85C \uBCF4\uC5EC\uC694.",
     jangiEmpty: "\uBE48 \uC790\uB9AC",
     jangiCheck: "\uC7A5\uAD70! \uAD81\uC744 \uC9C0\uD0A4\uB294 \uC218\uB97C \uB450\uC138\uC694.",
     jangiBikjang: "\uBE45\uC7A5\uC785\uB2C8\uB2E4. \uB9C8\uC8FC \uBCF4\uB294 \uAD81\uC744 \uD480\uAC70\uB098 \uD55C \uC218 \uC27C\uC73C\uB85C \uC218\uB77D\uD558\uC138\uC694.",
@@ -242,7 +269,7 @@ var JANGI_TEXTS = {
     jangiFormation2: "\uB9C8\xB7\uC0C1 / \uB9C8\xB7\uC0C1",
     jangiFormation3: "\uC0C1\xB7\uB9C8 / \uB9C8\xB7\uC0C1",
     jangiFormationConfirm: "\uD3EC\uC9C4 \uD655\uC815",
-    jangiFormationHint: "\uB0B4\uAC00 \uD310\uC744 \uBCF4\uB294 \uBC29\uD5A5\uC758 \uBC30\uCE58\uC608\uC694. \uD55C\uACFC \uCD08\uAC00 \uBAA8\uB450 \uD3EC\uC9C4\uC744 \uACE0\uB974\uBA74 \uCD08\uBD80\uD130 \uB450\uAE30 \uC2DC\uC791\uD569\uB2C8\uB2E4.",
+    jangiFormationHint: "20\uCD08 \uD6C4 \uAE30\uBCF8 \uD3EC\uC9C4\uC73C\uB85C \uC790\uB3D9 \uD655\uC815\uB3FC\uC694. \uBC30\uCE58\uB294 \uB0B4 \uC2DC\uC810\uC774\uBA70, \uC591\uCABD\uC774 \uACE0\uB974\uBA74 \uCD08\uBD80\uD130 \uC2DC\uC791\uD574\uC694.",
     jangiOpponentFormation: "\uC0C1\uB300({side}) \uD3EC\uC9C4",
     jangiFormationNotChosen: "\uC120\uD0DD \uC804",
     jangiFormationChosen: "\uD655\uC815",
@@ -251,6 +278,9 @@ var JANGI_TEXTS = {
     jangiHorse: "\uB9C8",
     jangiElephant: "\uC0C1",
     jangiFormationSaving: "\uD3EC\uC9C4 \uD655\uC815 \uC911\u2026",
+    jangiClockRefills: "30\uCD08 \uCDA9\uC804 {count}\uD68C \uB0A8\uC74C",
+    jangiFormationCountdown: "{seconds}\uCD08",
+    jangiFormationHintLegacy: "\uB0B4\uAC00 \uD310\uC744 \uBCF4\uB294 \uBC29\uD5A5\uC758 \uBC30\uCE58\uC608\uC694. \uC591\uCABD\uC774 \uD3EC\uC9C4\uC744 \uACE0\uB974\uBA74 \uCD08\uBD80\uD130 \uC2DC\uC791\uD574\uC694.",
     mustEscapeCheck: "\uC7A5\uAD70\uC744 \uBA3C\uC800 \uD53C\uD574\uC57C \uD574\uC694.",
     invalidMove: "\uADF8\uACF3\uC73C\uB85C\uB294 \uC774\uB3D9\uD560 \uC218 \uC5C6\uC5B4\uC694.",
     notYourPiece: "\uB0B4 \uAE30\uBB3C\uC744 \uACE8\uB77C \uC8FC\uC138\uC694."
@@ -268,13 +298,16 @@ var JANGI_TEXTS = {
     ruleTaraguchiShort: "Janggi",
     ruleRenjuHelp: "Protect your general and checkmate your opponent.",
     ruleFreeHelp: "Protect your general and checkmate your opponent.",
-    selectStone: "Select your piece and its destination.",
-    placeSelectHint: "Select piece & target",
-    placeReadyHint: "Ready to move",
+    selectStone: "Select your piece, then tap a destination to move immediately.",
+    placeSelectHint: "Select a piece",
+    placeReadyHint: "Tap a destination",
+    jangiSelectPiece: "Select a piece",
+    jangiSelectTarget: "Tap destination",
+    jangiMoveSaving: "Confirming move",
     shopStones: "Pieces",
     shopBoard: "Janggi board",
     recordPlayGame: "Play Janggi",
-    classicJanggiSkin: "Classic Janggi",
+    shopPreviewGuide: "Applies to your pieces. Your opponent uses their own skin.",
     jangiEmpty: "Empty point",
     jangiCheck: "Check! Protect your general.",
     jangiBikjang: "Bikjang. Break the facing generals or pass to accept a draw.",
@@ -289,7 +322,7 @@ var JANGI_TEXTS = {
     jangiFormation2: "Horse\xB7Elephant / Horse\xB7Elephant",
     jangiFormation3: "Elephant\xB7Horse / Horse\xB7Elephant",
     jangiFormationConfirm: "Confirm formation",
-    jangiFormationHint: "Arrangements are shown from your view of the board. Cho moves first after both players finish setup.",
+    jangiFormationHint: "Choose within 20s or use the default. Shown from your view; Cho starts after both players choose.",
     jangiOpponentFormation: "Opponent ({side}) setup",
     jangiFormationNotChosen: "Not chosen",
     jangiFormationChosen: "Confirmed",
@@ -298,6 +331,9 @@ var JANGI_TEXTS = {
     jangiHorse: "Horse",
     jangiElephant: "Elephant",
     jangiFormationSaving: "Confirming\u2026",
+    jangiClockRefills: "{count} automatic 30-second refills left",
+    jangiFormationCountdown: "{seconds}s",
+    jangiFormationHintLegacy: "Shown from your view. Cho starts after both players choose.",
     mustEscapeCheck: "You must escape check.",
     invalidMove: "That move is not legal.",
     notYourPiece: "Select your own piece."
@@ -314,7 +350,8 @@ function confirmedFormation(game, seat) {
   const action = game?.actions?.findLast((action2) => action2.type === "formation" && action2.seat === seat);
   return Number.isInteger(action?.formation) && action.formation >= 0 && action.formation < 4 ? action.formation : null;
 }
-function drawPieces(element, kinds, seat) {
+function drawPieces(element, kinds, seat, style) {
+  element.dataset.stoneStyle = style;
   const key = `${seat}:${kinds?.join(",") ?? "pending"}`;
   if (element.dataset.pieces === key) return;
   element.dataset.pieces = key;
@@ -336,7 +373,8 @@ function drawPieces(element, kinds, seat) {
     return piece;
   }));
 }
-function renderFormationPicker(dialog, game, { t: t3, busy: busy2 = false }) {
+function renderFormationPicker(dialog, game, { t: t3, busy: busy2 = false, localPieceStyle }) {
+  dialog.querySelector(".jangi-formation-hint").textContent = t3(game.clock?.kind === "cumulative-v1" ? "jangiFormationHint" : "jangiFormationHintLegacy");
   const seat = game.you, opponent = 3 - seat, formation = confirmedFormation(game, opponent);
   const round = `${game.code}:${game.round}`;
   if (dialog.dataset.round !== round) {
@@ -346,17 +384,48 @@ function renderFormationPicker(dialog, game, { t: t3, busy: busy2 = false }) {
   for (const option of dialog.querySelectorAll(".jangi-formation-choice")) {
     const input = option.querySelector("input");
     input.disabled = busy2;
-    drawPieces(option.querySelector(".jangi-formation-pieces"), formationPieces(Number(input.value)), seat);
+    drawPieces(option.querySelector(".jangi-formation-pieces"), formationPieces(Number(input.value)), seat, pieceStyleForSeat(game, seat, localPieceStyle));
   }
   const preview = dialog.querySelector("#jangi-opponent-formation");
   preview.dataset.confirmed = String(formation !== null);
   preview.querySelector("strong").textContent = t3("jangiOpponentFormation", { side: t3(opponent === 1 ? "black" : "white") });
   preview.querySelector(".jangi-formation-state").textContent = t3(formation === null ? "jangiFormationNotChosen" : "jangiFormationChosen");
-  drawPieces(preview.querySelector(".jangi-formation-pieces"), formation === null ? null : formationPieces(formation, true), opponent);
+  drawPieces(preview.querySelector(".jangi-formation-pieces"), formation === null ? null : formationPieces(formation, true), opponent, pieceStyleForSeat(game, opponent, localPieceStyle));
   preview.setAttribute("aria-label", formation === null ? t3("jangiOpponentFormationPending") : t3("jangiOpponentFormationSummary", { side: t3(opponent === 1 ? "black" : "white"), pieces: formationPieces(formation, true).map((kind) => t3(kind === HORSE ? "jangiHorse" : "jangiElephant")).join(" \xB7 ") }));
   const confirm = dialog.querySelector('button[type="submit"]');
   confirm.disabled = busy2;
   confirm.textContent = t3(busy2 ? "jangiFormationSaving" : "jangiFormationConfirm");
+}
+
+// game/clock.js
+var REFILL_MS = 3e4;
+var isCumulativeClock = (game) => game?.clock?.kind === "cumulative-v1";
+function clockStatus(game, serverNow) {
+  if (!isCumulativeClock(game)) return null;
+  const clock = game.clock, index2 = game.turn - 1;
+  const remainingMs = [...clock.remainingMs], refills = [...clock.refills];
+  if (game.setup) return {
+    formation: true,
+    remainingMs,
+    refills,
+    formationMs: Math.max(0, clock.deadline - serverNow),
+    expired: serverNow >= clock.deadline
+  };
+  const used = serverNow >= clock.deadline ? Math.min(refills[index2], Math.floor((serverNow - clock.deadline) / REFILL_MS) + 1) : 0;
+  const expired = serverNow >= clock.deadline + refills[index2] * REFILL_MS;
+  refills[index2] -= used;
+  remainingMs[index2] = Math.max(0, clock.deadline + used * REFILL_MS - serverNow);
+  return {
+    formation: false,
+    remainingMs,
+    refills,
+    expired,
+    periodMs: used ? REFILL_MS : clock.remainingMs[index2]
+  };
+}
+function clockText(milliseconds) {
+  const seconds = Math.max(0, Math.ceil(milliseconds / 1e3));
+  return seconds > 30 ? `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}` : String(seconds).padStart(2, "0");
 }
 
 // ncq/lang.js
@@ -6604,8 +6673,8 @@ var TEXTS = {
     vibration: "Vibration",
     engravedGrid: "Dark engraved",
     softGrid: "Light engraved",
-    referenceStones: "Signature",
-    referenceBoard: "Amber wood",
+    referenceStones: "Matjjang",
+    referenceBoard: "Golden Wood",
     gildedStones: "Antique",
     gildedBoard: "Gilded walnut",
     vintageStones: "Vintage stones",
@@ -7043,7 +7112,7 @@ var TEXTS = {
     vibration: "\uC9C4\uB3D9",
     engravedGrid: "\uC9C4\uD55C \uC74C\uAC01",
     softGrid: "\uC605\uC740 \uC74C\uAC01",
-    referenceStones: "\uB9DE\uC9F1 \uB3CC",
+    referenceStones: "\uB9DE\uC9F1",
     referenceBoard: "\uD669\uAE08\uBE5B \uB098\uBB34",
     gildedStones: "\uC564\uD2F1 \uB3CC",
     gildedBoard: "\uAE08\uD14C \uC6D4\uB11B",
@@ -7900,6 +7969,80 @@ function animateStonePlacement(cell, marker, {
   return { finished, cancel };
 }
 
+// game/piece-motion.js
+var JANGI_TRAVEL_DURATION = 240;
+function jangiMoveTiming(landing = 80) {
+  return { duration: JANGI_TRAVEL_DURATION + landing, contact: JANGI_TRAVEL_DURATION + landing * 0.4 };
+}
+function animateJangiMove(from, cell, marker, {
+  landing = 80,
+  onStart,
+  shouldContinue = () => true,
+  requestFrame = requestAnimationFrame,
+  cancelFrame = cancelAnimationFrame
+} = {}) {
+  const source = from.getBoundingClientRect(), target = cell.getBoundingClientRect();
+  const x = source.left + source.width / 2 - target.left - target.width / 2;
+  const y = source.top + source.height / 2 - target.top - target.height / 2;
+  const lift = Math.min(11, target.width * 0.23);
+  const { duration, contact } = jangiMoveTiming(landing);
+  const raised = JANGI_TRAVEL_DURATION * 0.25 / duration, arrived = JANGI_TRAVEL_DURATION / duration;
+  const impact = contact / duration, settle = (JANGI_TRAVEL_DURATION + landing * 0.78) / duration;
+  const pose = (dx, dy, scale = "1") => `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(${scale})`;
+  const smooth = "cubic-bezier(.3, 0, .2, 1)";
+  const stone = [
+    { offset: 0, transform: pose(x, y), easing: "ease-out" },
+    { offset: raised, transform: pose(x, y - lift, "1.12"), easing: smooth },
+    { offset: arrived, transform: pose(0, -lift, "1.12"), easing: "ease-in" },
+    { offset: impact, transform: pose(0, 0, "1.04, .98"), easing: "ease-out" },
+    { offset: settle, transform: pose(0, 0, ".995, 1.005") },
+    { offset: 1, transform: pose(0, 0) }
+  ];
+  const shadow = [
+    { offset: 0, transform: pose(x, y), opacity: 1, filter: "blur(0px)", easing: "ease-out" },
+    { offset: raised, transform: pose(x + 2, y + 2, "1.1"), opacity: 0.48, filter: "blur(1.3px)", easing: smooth },
+    { offset: arrived, transform: pose(2, 2, "1.1"), opacity: 0.48, filter: "blur(1.3px)", easing: "ease-in" },
+    { offset: impact, transform: pose(0, 0, "1.05, .98"), opacity: 1, filter: "blur(0px)" },
+    { offset: 1, transform: pose(0, 0), opacity: 1, filter: "blur(0px)" }
+  ];
+  const animations = [
+    [cell.querySelector(".stone"), stone],
+    [cell.querySelector(".stone-shadow"), shadow],
+    [marker, [{ offset: 0, opacity: 0 }, { offset: impact, opacity: 0 }, { offset: settle, opacity: 1 }, { offset: 1, opacity: 1 }]]
+  ].filter(([element]) => element).map(([element, keyframes]) => {
+    const animation = element.animate(keyframes, { duration, fill: "both", easing: "linear" });
+    animation.pause();
+    animation.currentTime = 0;
+    return animation;
+  });
+  let frame, started2, stopped = false, resolve;
+  const finished = new Promise((done) => {
+    resolve = done;
+  });
+  function cancel() {
+    if (stopped) return;
+    stopped = true;
+    cancelFrame(frame);
+    animations.forEach((animation) => animation.cancel());
+    resolve();
+  }
+  function tick(time) {
+    if (!shouldContinue()) return cancel();
+    if (started2 === void 0) {
+      started2 = time;
+      onStart?.(contact);
+    }
+    const elapsed = Math.min(duration, Math.max(0, time - started2));
+    animations.forEach((animation) => {
+      animation.currentTime = elapsed;
+    });
+    if (elapsed >= duration) cancel();
+    else frame = requestFrame(tick);
+  }
+  frame = requestFrame(tick);
+  return { finished, cancel };
+}
+
 // placement-preview.js
 function previewPlacement(game, from, index2) {
   if (!game || game.phase !== "playing" || game.turn !== game.you || game.setup || !Number.isInteger(from) || !Number.isInteger(index2) || from < 0 || from >= 90 || index2 < 0 || index2 >= 90 || sideOf(game.board[from]) !== game.you || !legalMoves(game.board, game.you).some((move) => move.from === from && move.to === index2)) return null;
@@ -8105,6 +8248,7 @@ function recordSnapshot(game, online) {
     "passes",
     "moveSeats",
     "placementStyles",
+    "pieceStyles",
     "ratingChange",
     "recordDetail",
     "formations"
@@ -8190,6 +8334,7 @@ function mergeFinishedRoom(previous, next, records2) {
     line: local?.line ?? current2.line ?? [],
     placementStyles: local?.placementStyles ?? current2.placementStyles,
     formations: local?.formations ?? current2.formations ?? next.formations,
+    pieceStyles: local?.pieceStyles ?? current2.pieceStyles ?? next.pieceStyles,
     board: local ? replayBoard2(local) : current2.board ?? next.board,
     recordDetail: local?.recordDetail ?? current2.recordDetail,
     summaryOnly: !local,
@@ -8261,7 +8406,6 @@ var missionClaiming = false;
 var pairedSkinPrices = {
   reference: 0,
   classic: 0,
-  janggi: 0,
   vintage: 300,
   porcelain: 800,
   jade: 1e3,
@@ -8637,7 +8781,7 @@ document.addEventListener("click", unlockPlacementAudio, { capture: true });
 document.addEventListener("keydown", unlockPlacementAudio, { capture: true });
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
-    stopPlacementSound();
+    cancelPlacement();
     haptics.stop();
   } else if (placementAudio) unlockPlacementAudio();
 });
@@ -8904,7 +9048,7 @@ function loadShopState(fallback2) {
   }
   if (!saved && fallback2) return fallback2;
   const appearance = {
-    stones: Object.hasOwn(skinPrices.stones, saved?.stones) ? saved.stones : "reference",
+    stones: normalizePieceStyle(saved?.stones),
     board: Object.hasOwn(skinPrices.board, saved?.board) ? saved.board : "reference",
     grid: saved?.grid === "soft" ? "soft" : "engraved"
   };
@@ -8912,10 +9056,14 @@ function loadShopState(fallback2) {
   for (const kind of skinKinds) {
     if (skinPrices[kind][appearance[kind]] > 0) ownedSkins.add(kind + ":" + appearance[kind]);
   }
-  return {
-    appearance,
-    ownedSkins: [...ownedSkins]
-  };
+  const state = { appearance, ownedSkins: [...ownedSkins] };
+  if (saved?.stones === "janggi" || saved?.board === "janggi") {
+    try {
+      persistShopState(state);
+    } catch {
+    }
+  }
+  return state;
 }
 function persistShopState({ appearance, ownedSkins }) {
   localStorage.setItem(appearanceKey, JSON.stringify({
@@ -8986,8 +9134,9 @@ function ownsPlacement(effect) {
   return placementUntil(effect) > Date.now();
 }
 function placementRequest() {
-  if (!backend && !ownsPlacement(placementStyle)) return { placementStyle: "plain" };
-  return { placementStyle, ...!backend ? { placementUntil: placementUntil(placementStyle) } : {} };
+  const pieceStyle = normalizePieceStyle(shopState.appearance.stones);
+  if (!backend && !ownsPlacement(placementStyle)) return { placementStyle: "plain", pieceStyle };
+  return { placementStyle, pieceStyle, ...!backend ? { placementUntil: placementUntil(placementStyle) } : {} };
 }
 function applyWallet(next) {
   if (next.error || !Number.isInteger(next.coins)) return false;
@@ -9279,6 +9428,7 @@ function renderShop() {
   shopAction.hidden = !skins;
   renderPlacementCards();
   setAppearanceTheme(el("appearance-preview"), shopPreview);
+  applyPreviewPieceStyles(el("appearance-preview"), shopPreview.stones, room);
   for (const input of shopRadios) {
     input.checked = shopPreview[input.name] === input.value;
     input.disabled = shopSaving;
@@ -9835,7 +9985,7 @@ function previewPlacementEffect(button, style) {
   button.querySelector(".shop-effect-art").append(preview);
   void Promise.resolve(playPlacementEffect(preview, style, 0)).finally(() => preview.remove());
 }
-function presentPlacement(index2, style, landingHaptic) {
+function presentPlacement(index2, style, landingHaptic, from) {
   if (index2 == null || document.hidden) return;
   const cell = cells[index2];
   if (!cell || !["1", "2"].includes(cell.dataset.stone) || cell.classList.contains("selected")) return;
@@ -9847,16 +9997,19 @@ function presentPlacement(index2, style, landingHaptic) {
   }
   const landingTime = !el("placement-timing").hidden && placementTimingAvailable() ? replayPlacementDuration : placementTiming.landing;
   cell.classList.add("placing");
-  const contactTime = landingTime * 0.4;
-  const animation = animateStonePlacement(cell, lastMoveMarker, {
+  const moving = Number.isInteger(from) && cells[from] && from !== index2;
+  const contactTime = moving ? jangiMoveTiming(landingTime).contact : landingTime * 0.4;
+  const options = {
     duration: landingTime,
+    landing: landingTime,
     shouldContinue: () => !document.hidden && !cell.classList.contains("selected") && cell.dataset.stone !== "0",
     onStart() {
       playPlacementSound(contactTime / 1e3);
       cancelLandingHaptic = landingHaptic?.(contactTime);
       if (placementEffects[style]?.price) void playPlacementEffect(cell, style, contactTime, landingTime);
     }
-  });
+  };
+  const animation = moving ? animateJangiMove(cells[from], cell, lastMoveMarker, options) : animateStonePlacement(cell, lastMoveMarker, options);
   activePlacement = { cell, animation };
   return animation.finished.catch(() => {
   }).finally(() => {
@@ -9871,7 +10024,7 @@ function presentRoundPlacement(game, ply, movingSeat) {
     movingSeat === game.you ? "medium" : "light",
     { delay, valid: () => room?.code === game.code && room.round === game.round && !archive && !spectator }
   );
-  return presentPlacement(destination(game.moves[ply]), game.placementStyles?.[game.moveSeats?.[ply] - 1], landingHaptic);
+  return presentPlacement(destination(game.moves[ply]), game.placementStyles?.[game.moveSeats?.[ply] - 1], landingHaptic, game.moves[ply]?.from);
 }
 function coordinate(index2) {
   return columns[index2 % size] + (Math.floor(index2 / size) + 1);
@@ -9923,6 +10076,10 @@ function moveColor(game, ply) {
   return game.moveColors?.[ply] ?? ply % 2 + 1;
 }
 function clockDeadline(game) {
+  if (game.clock?.kind === "cumulative-v1") {
+    const end = game.setup ? game.formationEndsAt : game.turnEndsAt;
+    return game.phase === "playing" && Number.isFinite(end) && Number.isFinite(game.serverNow) ? performance.now() + Math.max(0, end - game.serverNow) : null;
+  }
   return game.phase === "playing" && game.turnSeconds > 0 && Number.isFinite(game.turnEndsAt) && Number.isFinite(game.serverNow) ? performance.now() + Math.max(0, game.turnEndsAt - game.serverNow) : null;
 }
 function updateTurnClock(now, deadline, secondsPerTurn, ownTurn, watching) {
@@ -9960,7 +10117,6 @@ function updateTurnClock(now, deadline, secondsPerTurn, ownTurn, watching) {
     turnFrame = requestAnimationFrame((time) => updateTurnClock(time, deadline, secondsPerTurn, ownTurn, watching));
   } else if (!watching) {
     const place = el("place");
-    place.disabled = true;
     place.dataset.placementState = "inactive";
     el("place-state").hidden = true;
     board.classList.remove("selectable");
@@ -9971,14 +10127,61 @@ function resetTurnGauge(clock, progress, text) {
   clock.getAnimations().forEach((animation) => animation.cancel());
   clock.textContent = text;
   clock.removeAttribute("data-urgent");
+  clock.removeAttribute("data-byoyomi");
   progress.style.removeProperty("--match-art-progress");
   progress.removeAttribute("data-empty");
+}
+function renderClockRefills(node, count) {
+  node.hidden = false;
+  const label = t2("jangiClockRefills", { count });
+  node.setAttribute("aria-label", label);
+  node.title = label;
+  if (!node.children.length) node.innerHTML = Array.from({ length: 3 }, () => '<svg viewBox="0 0 16 20" aria-hidden="true"><path d="M3 1h10M3 19h10M4 2v3c0 2 2 3 4 5-2 2-4 3-4 5v3m8-16v3c0 2-2 3-4 5 2 2 4 3 4 5v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="m5 5 3 3 3-3zm0 12h6l-3-3z" fill="currentColor"/></svg>').join("");
+  for (const [index2, icon] of [...node.children].entries()) icon.toggleAttribute("data-used", index2 >= count);
+}
+function updateCumulativeClock(game, deadline, lowerSeat, watching) {
+  const finalEnd = game.setup ? game.formationEndsAt : game.turnEndsAt;
+  const status = clockStatus(game, finalEnd - (deadline - performance.now()));
+  for (const [side, seat, clock, progress] of [
+    ["own", lowerSeat, ownClock, ownProgress],
+    ["opponent", 3 - lowerSeat, opponentClock, opponentProgress]
+  ]) {
+    const active = game.turn === seat;
+    const remaining = status.formation ? active ? status.formationMs : null : status.remainingMs[seat - 1];
+    clock.textContent = remaining === null ? "\u2014" : clockText(remaining);
+    clock.toggleAttribute("data-byoyomi", !status.formation && remaining <= 3e4);
+    clock.removeAttribute("data-urgent");
+    el(side + "-refills").hidden = status.formation;
+    if (!status.formation) renderClockRefills(el(side + "-refills"), status.refills[seat - 1]);
+    const period = status.formation ? 2e4 : active ? status.periodMs : game.clock.remainingMs[seat - 1];
+    progress.style.setProperty("--match-art-progress", String(active ? Math.min(100, remaining / period * 100) : 100));
+    progress.toggleAttribute("data-empty", active && status.expired);
+    if (!status.formation && active && !watching && seat === game.you) {
+      haptics.clock(
+        `${roundHapticKey(game)}:${game.moves.length}:${seat}:${status.refills[seat - 1]}`,
+        remaining,
+        connected && !matchIntroDialog.open && !leaveDialog.open && !profileDialog.open
+      );
+    }
+  }
+  const formationClock = el("jangi-formation-clock");
+  formationClock.hidden = !status.formation;
+  if (status.formation) formationClock.textContent = t2("jangiFormationCountdown", { seconds: Math.ceil(status.formationMs / 1e3) });
+  if (!status.expired) turnFrame = requestAnimationFrame(() => updateCumulativeClock(game, deadline, lowerSeat, watching));
+  else if (!watching && !status.formation) {
+    el("place").dataset.placementState = "inactive";
+    el("place-state").hidden = true;
+    board.classList.remove("selectable");
+    for (const cell of cells) cell.setAttribute("aria-disabled", "true");
+  }
 }
 function ownNickname() {
   return displayNickname(nicknameOverride || playerNickname || t2("guestNickname"));
 }
 function renderPlayers(game, showPanels, watching = false) {
   cancelAnimationFrame(turnFrame);
+  for (const side of ["own", "opponent"]) el(side + "-refills").hidden = true;
+  el("jangi-formation-clock").hidden = true;
   for (const id of ["opponent-panel", "own-panel"]) el(id).hidden = !showPanels;
   el("live-actions").hidden = !showPanels || watching;
   for (const id of ["opponent-profile", "own-profile"]) el(id).disabled = watching || game.phase === "finished";
@@ -9990,6 +10193,8 @@ function renderPlayers(game, showPanels, watching = false) {
       const profile = recordPlayer(game, seat);
       el(color + "-player-label").textContent = game.you === seat ? ownNickname() : profile.name;
       el(color + "-profile").disabled = game.phase === "waiting" && game.you !== seat;
+      const stone = el(color + "-profile").querySelector(".stone");
+      if (stone) stone.dataset.stoneStyle = pieceStyleForSeat(game, seat, shopState.appearance.stones);
     }
     return;
   }
@@ -10015,10 +10220,15 @@ function renderPlayers(game, showPanels, watching = false) {
     }
     const stone = el(side + "-stone");
     stone.className = "stone " + color;
+    stone.dataset.stoneStyle = pieceStyleForSeat(game, seat, shopState.appearance.stones);
     stone.setAttribute("aria-label", t2(color));
   }
   for (const id of ["place-gauge", "opponent-gauge", "place-divider", "opponent-divider", "own-clock", "opponent-clock"]) {
     el(id).toggleAttribute("hidden", !watching && deadline === null);
+  }
+  if (live && deadline !== null && isCumulativeClock(game)) {
+    updateCumulativeClock(game, deadline, lowerSeat, watching);
+    return;
   }
   if (!live || deadline === null) {
     if (watching) {
@@ -10348,6 +10558,7 @@ function renderReview(game) {
     seatLabel.hidden = Boolean(game.sharedView);
     seatLabel.textContent = [t2(side === "own" ? "you" : "opponent"), t2(color), recordRank(profile)].filter(Boolean).join(" \xB7 ");
     el(prefix + "stone").className = "stone " + color;
+    el(prefix + "stone").dataset.stoneStyle = pieceStyleForSeat(game, seat, shopState.appearance.stones);
     setRecordPhoto(el(prefix + "photo"), profile);
     const active = nextColor === stone;
     const card = el(prefix + "profile");
@@ -10691,6 +10902,7 @@ function renderPlayerProfile() {
   const stone = el("profile-stone");
   stone.hidden = Boolean(ranking);
   stone.className = "stone " + colorName(seatColor(game, seat));
+  stone.dataset.stoneStyle = own2 && !game ? shopState.appearance.stones : pieceStyleForSeat(game, seat, shopState.appearance.stones);
   nicknameEdit.hidden = !own2;
   const hasRating = Number.isFinite(stats?.rating);
   const hasRecord = stats && [stats.wins, stats.draws, stats.losses].every(Number.isInteger);
@@ -11120,7 +11332,7 @@ function render() {
     renderSpectator(spectator);
     return;
   }
-  for (const id of ["place", "invite"]) {
+  for (const id of ["invite"]) {
     el(id).toggleAttribute("data-ncq-main", !awaitingReview && !profileDialog.open && !matchIntroDialog.open && !leaveDialog.open);
   }
   const openingActions = el("opening-actions");
@@ -11155,14 +11367,14 @@ function render() {
   el("review-back").disabled = busy;
   const place = el("place");
   const actionable = canAct() && !game.setup;
-  place.disabled = !actionable || selected === null;
-  const placementState = !actionable ? "inactive" : selected === null ? "selecting" : "ready";
+  const placementState = !actionable ? "inactive" : "selecting";
   place.dataset.placementState = placementState;
   const placeState = el("place-state");
-  placeState.hidden = placementState === "inactive";
-  if (!placeState.hidden) placeState.textContent = t2(placementState === "selecting" ? "placeSelectHint" : "placeReadyHint");
-  el("place-text").textContent = t2(game.setup ? game.setup === game.you ? "jangiFormationActive" : "jangiFormationWaiting" : game.opening === "offerFive" ? "offerShort" : game.opening === "pickFive" ? "pickShort" : "placeStone");
-  const placeLabel = game.setup ? t2(game.setup === game.you ? "jangiFormationChoose" : "jangiFormationWait") : game.turn !== game.you ? t2("theirTurn") : selected === null ? t2("selectStone") : t2("place", { cell: coordinate(selected) });
+  const moveHint = pendingPlacement ? "jangiMoveSaving" : selectedFrom === null ? "jangiSelectPiece" : "jangiSelectTarget";
+  placeState.hidden = !actionable && !pendingPlacement;
+  if (!placeState.hidden) placeState.textContent = t2(moveHint);
+  el("place-text").textContent = t2(game.setup ? game.setup === game.you ? "jangiFormationActive" : "jangiFormationWaiting" : game.turn === game.you ? "turnActive" : "turnWaiting");
+  const placeLabel = game.setup ? t2(game.setup === game.you ? "jangiFormationChoose" : "jangiFormationWait") : game.turn !== game.you ? t2("theirTurn") : t2(moveHint);
   place.setAttribute("aria-label", placeLabel);
   place.title = placeLabel;
   renderPlayers(game, liveLayout);
@@ -11201,8 +11413,8 @@ function renderPlacementTiming() {
   const slider = el("placement-duration");
   slider.value = replayPlacementDuration;
   el("placement-duration-value").textContent = t2("placementTimingValue", {
-    duration: replayPlacementDuration,
-    contact: Math.round(replayPlacementDuration * 0.4)
+    duration: jangiMoveTiming(replayPlacementDuration).duration,
+    contact: Math.round(jangiMoveTiming(replayPlacementDuration).contact)
   });
 }
 new ResizeObserver(([entry]) => {
@@ -11240,7 +11452,7 @@ function drawGamePosition(game, ply, reviewing = false) {
     }
   }
   game.displayPly = ply;
-  drawJangiBoard({ game, displayedBoard, cells, selectedFrom, selected, lastMoveMarker, board, selectable: canAct() && !game.setup, coordinate, t: t2, latest, moveNumbers, pendingMove: optimistic });
+  drawJangiBoard({ game, displayedBoard, cells, selectedFrom, selected, lastMoveMarker, board, selectable: canAct() && !game.setup, coordinate, t: t2, latest, moveNumbers, pendingMove: optimistic, localPieceStyle: shopState.appearance.stones });
   if (!reviewing && game.phase === "playing" && !game.setup && game.board) {
     const hint = inCheck(game.board, game.turn) ? "jangiCheck" : game.bikjang ? "jangiBikjang" : null;
     if (hint) el("status").textContent = t2(hint);
@@ -11267,7 +11479,6 @@ function renderSpectator({ game, closed, reconnecting, ply }) {
   el("room-bar").hidden = reviewRoomAction.hidden = el("invite").hidden = true;
   el("review").hidden = false;
   const place = el("place");
-  place.disabled = true;
   place.dataset.placementState = "inactive";
   el("place-state").hidden = true;
   place.removeAttribute("data-ncq-main");
@@ -11345,6 +11556,8 @@ function applyState(next) {
       room = {
         ...room,
         ...next.players ? { players: next.players } : {},
+        clock: next.clock,
+        formationEndsAt: next.formationEndsAt,
         serverNow: next.serverNow,
         turnEndsAt: next.turnEndsAt,
         turnSeconds: next.turnSeconds
@@ -11829,7 +12042,7 @@ function roomAction(action, details, success = applyState) {
         pendingPlacement = null;
         cancelPlacement();
         if (room?.code === preview.code && room.round === preview.round && room.version === preview.version) {
-          selected = preview.index;
+          selected = null;
           selectedFrom = preview.from;
         }
       }
@@ -12316,10 +12529,10 @@ for (const side of ["opponent", "own"]) {
     image.hidden = true;
   });
 }
-el("place").addEventListener("click", () => {
-  if (!canAct() || selected === null || selectedFrom === null) return;
-  const preview = previewPlacement(room, selectedFrom, selected);
-  if (!preview) return roomAction("move", { from: selectedFrom, index: selected, version: room.version });
+function movePiece(index2) {
+  if (!canAct() || selectedFrom === null) return;
+  const preview = previewPlacement(room, selectedFrom, index2);
+  if (!preview) return;
   pendingPlacement = preview;
   selected = null;
   selectedFrom = null;
@@ -12331,9 +12544,9 @@ el("place").addEventListener("click", () => {
       delay,
       valid: () => room?.code === preview.code && room.round === preview.round && !archive && !spectator
     }
-  ));
+  ), preview.from);
   roomAction("move", { from: preview.from, index: preview.index, version: preview.version });
-});
+}
 el("opening-actions").addEventListener("click", (event) => {
   const button = event.target.closest("[data-opening]");
   if (!button || button.hidden || !canAct()) return;
@@ -12411,8 +12624,12 @@ board.addEventListener("click", (event) => {
   if (sideOf(room.board[index2]) === room.you) {
     selectedFrom = selectedFrom === index2 ? null : index2;
     selected = null;
-  } else if (targetsFrom(room, selectedFrom).includes(index2)) selected = index2;
-  else {
+  } else if (targetsFrom(room, selectedFrom).includes(index2)) {
+    focusCell(index2);
+    feedback("match-error");
+    movePiece(index2);
+    return;
+  } else {
     haptics.once(`invalid:${roundHapticKey(room)}:${room.moves.length}:${index2}`, "error");
     feedback("match-error", "invalidMove", true);
     return;
@@ -12531,7 +12748,7 @@ setInterval(refreshLobby, 2500);
 function renderJangiFormation(game) {
   const dialog = el("jangi-formation");
   const show = room && game === room && game.phase === "playing" && game.setup === game.you && !matchIntroDialog.open;
-  if (show) renderFormationPicker(dialog, game, { t: t2, busy });
+  if (show) renderFormationPicker(dialog, game, { t: t2, busy, localPieceStyle: shopState.appearance.stones });
   if (show && !dialog.open) {
     dialog.showModal();
     NcqLang.apply?.();

@@ -1,18 +1,17 @@
-@import url('./assets/jangi-skins/skins.css?v=922d11332c4e');
+@import url('./assets/jangi-skins/skins.css?v=42a1e54805f2');
 /* Only the board, pieces and rule-specific controls override the shared Omok UI. */
 @font-face {
   font-family:JanggiBrush;
-  src:url('./assets/classic-jangi/piece-glyphs.ttf') format('truetype');
+  src:url('./assets/jangi-skins/fonts/piece-glyphs.ttf') format('truetype');
   font-style:normal; font-weight:400; font-display:swap;
   unicode-range:U+5175,U+5305,U+5352,U+58EB,U+695A,U+6F22,U+8C61,U+8ECA,U+99AC;
 }
 /* Reset at every theme boundary so shop cards never inherit the equipped skin. */
 :root,[data-stone-style] {
-  --jangi-body:linear-gradient(135deg,#fff6db,#ebd3a2 65%,#b99153);
-  --jangi-cho-body:var(--jangi-body); --jangi-han-body:var(--jangi-body);
+  --jangi-body:url('./assets/jangi-skins/reference/body.webp') center / 100% no-repeat;
   --jangi-bevel:inset 0 0 0 1.3px #b39a68,inset 0 0 0 3px #f8e9c1;
   --jangi-clip:polygon(27% 0,73% 0,100% 27%,100% 73%,73% 100%,27% 100%,0 73%,0 27%);
-  --jangi-font:Batang,SimSun,serif; --jangi-weight:900;
+  --jangi-font:JanggiBrush,serif; --jangi-weight:400;
   --jangi-cho:#087042; --jangi-han:#ad302b;
   --jangi-text-shadow:0 1px #fff8e1;
   --jangi-piece-size:85%; --jangi-small-size:85%; --jangi-king-size:96%;
@@ -20,25 +19,6 @@
   --jangi-check-body:linear-gradient(#ffe3ba,#ef9f74);
   --jangi-check-outline:none;
   --jangi-shadow-size:103%; --jangi-king-shadow-size:103%; --jangi-small-shadow-size:103%;
-}
-[data-stone-style='janggi'] {
-  --jangi-body:url('./assets/classic-jangi/piece-body.webp') center / 116% no-repeat;
-  --jangi-bevel:none; --jangi-clip:none;
-  --jangi-font:JanggiBrush,serif; --jangi-weight:400;
-  --jangi-cho:#123d8c; --jangi-han:#b22419;
-  --jangi-text-shadow:0 .5px #fff;
-  --jangi-piece-size:88%; --jangi-small-size:73%; --jangi-king-size:100%;
-  --jangi-type-size:6.5cqi; --jangi-small-type:5.6cqi; --jangi-king-type:7.6cqi;
-  --jangi-check-body:var(--jangi-body);
-  --jangi-check-outline:2px solid #e04a31;
-  --jangi-shadow-size:90.64%; --jangi-king-shadow-size:103%; --jangi-small-shadow-size:75.19%;
-}
-[data-board-style='janggi'] {
-  --board-surface:#e1c16c url('./assets/classic-jangi/board.webp') center / cover no-repeat;
-  --board-line:#493a22; --board-line-highlight:#fff1b657; --board-line-width:1.15px;
-  --board-soft-line:#493a229e; --board-soft-highlight:#fff1b675;
-  --board-border:0; --board-corner:3px; --board-inset:1.5%;
-  --board-rim:inset 0 0 0 1px #ae8c4670,inset 0 2px 0 #fff0b780,0 3px 0 #9f7e42,0 6px 12px #10131070;
 }
 .board, #board { aspect-ratio:9/10; }
 .in-match #board { height:calc(var(--board-frame-size) * 10 / 9); }
@@ -48,15 +28,14 @@
 .board-lines { aspect-ratio:9/10; }
 .stone.black,.stone.white {
   --piece-ink:var(--jangi-cho);
-  --jangi-current-body:var(--jangi-cho-body);
   position:relative; display:inline-grid; place-items:center;
-  border-radius:18%; background:var(--jangi-current-body);
+  border-radius:18%; background:var(--jangi-body);
   box-shadow:var(--jangi-bevel);
   color:var(--piece-ink); font-family:var(--jangi-font); font-weight:var(--jangi-weight); line-height:1;
   font-size:15px; text-shadow:var(--jangi-text-shadow);
   clip-path:var(--jangi-clip);
 }
-.stone.white { --piece-ink:var(--jangi-han); --jangi-current-body:var(--jangi-han-body); }
+.stone.white { --piece-ink:var(--jangi-han); }
 .stone:not([data-kind]).black::after { content:'楚'; }
 .stone:not([data-kind]).white::after { content:'漢'; }
 .cell .stone,.cell .stone.black,.cell .stone.white,#board[data-move-numbers] .cell .stone {
@@ -67,22 +46,22 @@
 .cell .stone:is([data-kind='2'],[data-kind='7']) { width:var(--jangi-small-size); font-size:var(--jangi-small-type); }
 .cell .stone[hidden] { display:none!important; }
 .cell.selected-piece::before { content:'';position:absolute;inset:2%;border:2px solid #fff297;border-radius:9px;box-shadow:0 0 7px #ffe288; }
+.cell.placing { z-index:8; }
+#place { border:1px solid; border-radius:999px; cursor:default; box-sizing:border-box; }
+#place:not(:disabled):hover { filter:none; }
+#place .placement-copy { flex:0 1 auto; min-width:0; }
+#place-state { white-space:normal; text-align:center; }
 .cell.jangi-legal::after { content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:19%;aspect-ratio:1;border-radius:50%;background:#2f7949;box-shadow:0 0 0 2px #ffe8aa;z-index:4;pointer-events:none; }
 .cell.jangi-legal:not([data-stone='0'])::after { width:88%;border:3px solid #ffd26c;border-radius:8px;background:transparent;box-shadow:none; }
-.cell.jangi-check>.stone { background:var(--jangi-check-body,var(--jangi-current-body)); }
+.cell.jangi-check>.stone { background:var(--jangi-check-body,var(--jangi-body)); }
 .cell.jangi-check { outline:var(--jangi-check-outline); outline-offset:-2px; border-radius:9px; }
 .cell[data-number]>.stone::after { content:attr(data-number); }
 .cell[data-number]::before { content:attr(data-number);position:absolute;right:1px;bottom:0;font-size:9px;font-weight:900;color:#fff;background:#285790;border-radius:50%;width:15px;height:15px;display:grid;place-items:center;z-index:5; }
 .cell .stone-shadow { clip-path:none; width:var(--jangi-shadow-size); }
 .cell:has(.stone[data-kind='1']) .stone-shadow { width:var(--jangi-king-shadow-size); }
 .cell:has(.stone:is([data-kind='2'],[data-kind='7'])) .stone-shadow { width:var(--jangi-small-shadow-size); }
-[data-stone-style='porcelain'] { --jangi-body:linear-gradient(145deg,#fff,#e1dfd6); }
-[data-stone-style='jade'] { --jangi-body:linear-gradient(135deg,#f3ffe3,#aad69d); }
-[data-stone-style='lacquer'] { --jangi-body:linear-gradient(135deg,#fff1c6,#a37841); }
-[data-stone-style='ocean'],[data-stone-style='sapphire'] { --jangi-body:linear-gradient(135deg,#e0fbff,#91bfc5); }
-[data-stone-style='soda'],[data-stone-style='quartz'] { --jangi-body:linear-gradient(135deg,#fff,#b8eee5); }
-[data-stone-style='sakura'] { --jangi-body:linear-gradient(135deg,#fff7f0,#f0c8ce); }
-[data-stone-style='aurora'] { --jangi-body:linear-gradient(135deg,#efffdf,#bfc8f0); }
+.stone-sample { grid-template-columns:1fr; }
+#shop .stone-sample .stone:only-child { max-width:100%; }
 .stone-sample .stone,.shop-effect-art .stone { font-size:24px; }
 .queue-mark .stone { font-size:37px; }
 .result-badge.stone::after { display:none; }
@@ -91,6 +70,15 @@
 #jangi-formation { width:min(390px,calc(100vw - var(--ncq-left,0px) - var(--ncq-right,0px) - 24px)); max-height:calc(100dvh - var(--ncq-top,0px) - var(--ncq-bottom,0px) - 24px); inset-block:var(--ncq-top,0px) var(--ncq-bottom,0px); padding:16px; overflow:hidden; }
 #jangi-formation-form { display:flex;flex-direction:column;gap:12px;max-height:calc(100dvh - var(--ncq-top,0px) - var(--ncq-bottom,0px) - 58px); }
 #jangi-formation h2 { flex:none;margin:0;font-size:21px;line-height:1.3; }
+.jangi-formation-heading { display:flex;justify-content:space-between;align-items:center;gap:10px; }
+#jangi-formation-clock { flex:none;font-size:23px;font-weight:800;color:#a32825;font-variant-numeric:tabular-nums; }
+.jangi-refills { display:flex;gap:2px;position:absolute;right:9px;bottom:2px;color:#927019;line-height:1; }
+.jangi-refills svg { width:10px;height:12px; }
+.jangi-refills [data-used] { opacity:.2; }
+.jangi-refills[hidden] { display:none; }
+.match-art-gauge:has(.jangi-refills:not([hidden])) .player-clock { padding-bottom:10px; }
+.forest-ui .match-art-gauge .player-clock[data-byoyomi] { color:#e83d37;text-shadow:0 1px 1px #3e1711; }
+.forest-ui #place[data-placement-state="selecting"] .player-clock[data-byoyomi] { color:#b3261e;text-shadow:none; }
 .jangi-formation-content { min-height:0;overflow-y:auto;overscroll-behavior:contain; }
 #jangi-formation .jangi-formation-hint { margin:0 0 12px;font-size:11px;line-height:1.55; }
 .jangi-opponent-formation { padding:10px 12px;margin-bottom:12px;border-radius:9px;background:#e9e5d6;border:1px solid #d5c9aa; }

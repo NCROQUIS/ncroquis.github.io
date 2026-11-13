@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema": 2,
   "sourceRepository": "NCROQUIS/matjjangomok",
   "sourceCommit": "0bddbecb14cec144e0c1988f6daf4939f7ba7c2d",
   "generator": "built-in ImageGen",
@@ -7,23 +7,17 @@
   "skins": [
     {
       "id": "reference",
-      "label": "Signature",
+      "label": "Matjjang",
       "sourceFolder": "assets/reference-skin",
       "boardStyle": "reference",
       "boardAsset": "assets/reference-skin/amber-wood.webp",
-      "choInk": "#a7edba",
-      "hanInk": "#af3026",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT charcoal-black polished slate with subtle blue-gray satin sheen; RIGHT pearl-white shell with neutral gray body shading. Restrained realistic diffuse upper-left highlights.",
-      "pieces": {
-        "cho": "reference/cho.webp",
-        "han": "reference/han.webp"
-      },
       "generatedAtlas": "exec-9dda2723-91a3-432e-903c-ba0cd72c79d3.png",
       "atlasSha256": "601943c621e0c789f176f135480a5a9a3e7fc496a8fa5a3c67969357de9a743a",
-      "bodySha256": {
-        "cho": "b282c0885d48f1a54cbe049dd64554fa11befec841d21752e64a5e6caa0f877c",
-        "han": "144dd01eb22f13ed1039b8a0c11872eecef35b0322dff52151fa315b5e9bcaa7"
-      }
+      "bodySha256": "144dd01eb22f13ed1039b8a0c11872eecef35b0322dff52151fa315b5e9bcaa7",
+      "body": "reference/body.webp"
     },
     {
       "id": "classic",
@@ -31,19 +25,13 @@
       "sourceFolder": "assets/reference-skin",
       "boardStyle": "classic",
       "boardAsset": null,
-      "choInk": "#a7edba",
-      "hanInk": "#af3026",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT simple satin charcoal-black stone; RIGHT plain warm ivory stone. Understated matte finish, subtle low-contrast highlights, no pattern.",
-      "pieces": {
-        "cho": "classic/cho.webp",
-        "han": "classic/han.webp"
-      },
       "generatedAtlas": "exec-e07ed4f4-a30c-4ca0-83f5-0343797cdaf1.png",
       "atlasSha256": "d4c77840c65781947592d066cc22488bbae22f365a3b00d36b987cce3e20802f",
-      "bodySha256": {
-        "cho": "a37bf9877e301f320979f0457a7d696bdf732ff87cb0583f66977fb029426382",
-        "han": "cfa980f95edb96925ac0405d0365de4860519c26138d2494c7410590a185bf28"
-      }
+      "bodySha256": "cfa980f95edb96925ac0405d0365de4860519c26138d2494c7410590a185bf28",
+      "body": "classic/body.webp"
     },
     {
       "id": "glossy",
@@ -51,19 +39,13 @@
       "sourceFolder": "assets",
       "boardStyle": "wood",
       "boardAsset": "assets/omok-board-surface.webp",
-      "choInk": "#a7edba",
-      "hanInk": "#af3026",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT deep piano black glossy polished stone with crisp broad white reflection; RIGHT glossy white ceramic with silvery edges and clear luminous specular sheen. Sleek smooth shiny finish.",
-      "pieces": {
-        "cho": "glossy/cho.webp",
-        "han": "glossy/han.webp"
-      },
       "generatedAtlas": "exec-585534d6-0d9d-4a01-8a33-36e07497092c.png",
       "atlasSha256": "15bec18d92030462c5efa5d7ced1bc5627314f4a4b341e709cb695ecd9f5bb40",
-      "bodySha256": {
-        "cho": "b66bc2ab6607df601b6d0d73d9db60f591a5ac9a6de9413315d0d4b13c8a817e",
-        "han": "b4369bac6f7d903fe286d1283db674f3540bad83228b9b612097b48a4a87bb7f"
-      }
+      "bodySha256": "b4369bac6f7d903fe286d1283db674f3540bad83228b9b612097b48a4a87bb7f",
+      "body": "glossy/body.webp"
     },
     {
       "id": "vintage",
@@ -71,19 +53,13 @@
       "sourceFolder": "assets/vintage-skin",
       "boardStyle": "vintage",
       "boardAsset": "assets/vintage-skin/katsura-board.webp",
-      "choInk": "#b3e7a4",
-      "hanInk": "#a92e24",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT deeply polished near-black traditional stone; RIGHT gently aged ecru shell with subtle warm mottling. Traditional well-used polished tactile pieces, quiet creamy highlights.",
-      "pieces": {
-        "cho": "vintage/cho.webp",
-        "han": "vintage/han.webp"
-      },
       "generatedAtlas": "exec-2d58c174-9ec8-4188-997f-938946dd1b01.png",
       "atlasSha256": "9c9054ffd1814927071971157ee37a72506385b6d709305118cd975b931c354e",
-      "bodySha256": {
-        "cho": "a7eddbed82b872d3c1d185e71ed1c82cb061760ab196b1a5486596650baa6949",
-        "han": "c19f1a2b7931b09c7aa91343c89fe128b568ec0070cdbbb22c5e6bf48b639b73"
-      }
+      "bodySha256": "c19f1a2b7931b09c7aa91343c89fe128b568ec0070cdbbb22c5e6bf48b639b73",
+      "body": "vintage/body.webp"
     },
     {
       "id": "gilded",
@@ -91,19 +67,13 @@
       "sourceFolder": "assets/gilded-skin",
       "boardStyle": "gilded",
       "boardAsset": "assets/gilded-skin/walnut-board.webp",
-      "choInk": "#f1d184",
-      "hanInk": "#a32f24",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT warm charcoal-black mottled polished stone, RIGHT creamy golden ivory shell with subtle natural mottling. BOTH have a very thin elegant antique gold brass octagonal bevel only along edge. Match the rich walnut and gold board.",
-      "pieces": {
-        "cho": "gilded/cho.webp",
-        "han": "gilded/han.webp"
-      },
       "generatedAtlas": "exec-94505ff9-44d2-438f-914d-0fb799f13217.png",
       "atlasSha256": "a804616b4053db9949d86e553a6ff380791d7ae60ebe1fdddc582db3397c314b",
-      "bodySha256": {
-        "cho": "e43f3e95de3e7e08132b02e567ca1d0d4dcaab445533e106a421ee08b8074b15",
-        "han": "cda1142139b44c4b3f8b79ceb8e3daca01b87a7e91aa0e5287f7c53449db6638"
-      }
+      "bodySha256": "cda1142139b44c4b3f8b79ceb8e3daca01b87a7e91aa0e5287f7c53449db6638",
+      "body": "gilded/body.webp"
     },
     {
       "id": "porcelain",
@@ -111,19 +81,13 @@
       "sourceFolder": "assets/theme-skins/porcelain",
       "boardStyle": "porcelain",
       "boardAsset": "assets/theme-skins/porcelain/board.webp",
-      "choInk": "#b3e5be",
-      "hanInk": "#a32d26",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT ink-black satin glazed porcelain, RIGHT warm white glazed porcelain. Fine subtle ceramic crazing and quiet specular highlights, softly ivory-gray lower-right shading. Elegant ceramic octagonal tokens, clean empty large face.",
-      "pieces": {
-        "cho": "porcelain/cho.webp",
-        "han": "porcelain/han.webp"
-      },
       "generatedAtlas": "exec-c977b3f4-b909-4c81-874a-6a6c0c901a74.png",
       "atlasSha256": "54e9f226180057d673e5f3bd8b64df45ff1ad477b658f61bb5a5a83411105a4c",
-      "bodySha256": {
-        "cho": "e8463140c1c5ab6ae8721ef166ec621f8f3742de1aa883c56cbc1ac032eaeac4",
-        "han": "1f692115a2f929ce4022141f2636ebd692ff84ac93b6f1ea250fc776b23186d0"
-      }
+      "bodySha256": "1f692115a2f929ce4022141f2636ebd692ff84ac93b6f1ea250fc776b23186d0",
+      "body": "porcelain/body.webp"
     },
     {
       "id": "jade",
@@ -131,19 +95,13 @@
       "sourceFolder": "assets/theme-skins/jade",
       "boardStyle": "jade",
       "boardAsset": "assets/theme-skins/jade/board.webp",
-      "choInk": "#e5f2aa",
-      "hanInk": "#a42d27",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT deep forest green jade with subtle natural cloudy mineral mottling and pale fine veins; RIGHT pale celadon-white jade with cloudy translucent-looking mineral body but fully opaque sprite. Polished smooth jade finish.",
-      "pieces": {
-        "cho": "jade/cho.webp",
-        "han": "jade/han.webp"
-      },
       "generatedAtlas": "exec-b5da10a5-4661-4ac8-b17f-6595bd5d45c1.png",
       "atlasSha256": "579985efabc5189e07de7d81f91f403aa21eb5bb7061813227a94c9ec2556fad",
-      "bodySha256": {
-        "cho": "6c4c41fe52bffab35cb5634afe29748b542ebe1d0de2913526112de8be8dfb10",
-        "han": "bd9801fc95c1c983e46bd071b90c6ce6538ad617c30b43d5cd06b0a9aecfa28e"
-      }
+      "bodySha256": "bd9801fc95c1c983e46bd071b90c6ce6538ad617c30b43d5cd06b0a9aecfa28e",
+      "body": "jade/body.webp"
     },
     {
       "id": "lacquer",
@@ -151,19 +109,13 @@
       "sourceFolder": "assets/theme-skins/lacquer",
       "boardStyle": "lacquer",
       "boardAsset": "assets/theme-skins/lacquer/board.webp",
-      "choInk": "#e8d6a0",
-      "hanInk": "#8f292e",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT deep warm black glossy lacquer with a tiny bronze highlight; RIGHT pale ivory mother-of-pearl with subtle rainbow edge iridescence and softly cloudy nacre. Both thin understated warm bronze edge, matching the deep red lacquer board.",
-      "pieces": {
-        "cho": "lacquer/cho.webp",
-        "han": "lacquer/han.webp"
-      },
       "generatedAtlas": "exec-9718ee97-1661-4088-85e4-2b1fff32468c.png",
       "atlasSha256": "999fceecdee7846cfa3774d50eb7c60ef4062effe8b59791c5bc6b0ec477ed32",
-      "bodySha256": {
-        "cho": "dd0f05802e6fac06ef39e2a697c0d7e9c2b0bac35b237343ebcfe7e921396b10",
-        "han": "943246475c703f1e33e62a0118e0b18f6440cdc71a11a7b556f521697fbeb548"
-      }
+      "bodySha256": "943246475c703f1e33e62a0118e0b18f6440cdc71a11a7b556f521697fbeb548",
+      "body": "lacquer/body.webp"
     },
     {
       "id": "ocean",
@@ -171,19 +123,13 @@
       "sourceFolder": "assets/theme-skins/ocean",
       "boardStyle": "ocean",
       "boardAsset": "assets/theme-skins/ocean/board.webp",
-      "choInk": "#c8efcf",
-      "hanInk": "#a5253b",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT deep navy blue polished stone with luminous steel blue edge; RIGHT icy pale blue glossy moonstone with subtle diagonal silky pearlescence. Both thin smooth brushed silver octagonal bevel, nautical midnight palette.",
-      "pieces": {
-        "cho": "ocean/cho.webp",
-        "han": "ocean/han.webp"
-      },
       "generatedAtlas": "exec-fb8285ff-dcee-436f-ac54-3de41535639d.png",
       "atlasSha256": "9d2cfc9797171840a7c8287e29011d6b9c3d58b2a174f73e8fd6717e415a252f",
-      "bodySha256": {
-        "cho": "c5dd9ac9cddb5076b649a4b5112175ef6495934c49d7f78ddfd3072e4d4e17c3",
-        "han": "2e1adfbedbbf9162fed521428ad6686cd20ea13c7772db035cd8b8a32052411d"
-      }
+      "bodySha256": "2e1adfbedbbf9162fed521428ad6686cd20ea13c7772db035cd8b8a32052411d",
+      "body": "ocean/body.webp"
     },
     {
       "id": "soda",
@@ -191,19 +137,13 @@
       "sourceFolder": "assets/theme-skins/soda",
       "boardStyle": "soda",
       "boardAsset": "assets/theme-skins/soda/board.webp",
-      "choInk": "#c8edb3",
-      "hanInk": "#a02748",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT rich dark purple soda glass with violet edge reflections; RIGHT frosty pale lavender-white glass with subtle periwinkle edge reflections. Clear glossy glasslike material with internal light but FULLY OPAQUE sprites for readable game text; no see-through faces.",
-      "pieces": {
-        "cho": "soda/cho.webp",
-        "han": "soda/han.webp"
-      },
       "generatedAtlas": "exec-c21810dc-3bc6-44bd-a256-ef02e2aba2a9.png",
       "atlasSha256": "df195f9bd1c182dc05ebd831267d940aec970b6391b8b6f430567e7fb6cc4bc0",
-      "bodySha256": {
-        "cho": "e764afd4bccba5723a2e243211e4a0011ebb49af789f84009c07b310d9db0dcb",
-        "han": "608261d40a59919a944acd3bc7cc77009b6cd7d7882744b7436d897c5cf796f3"
-      }
+      "bodySha256": "608261d40a59919a944acd3bc7cc77009b6cd7d7882744b7436d897c5cf796f3",
+      "body": "soda/body.webp"
     },
     {
       "id": "quartz",
@@ -211,19 +151,13 @@
       "sourceFolder": "assets/theme-skins/quartz",
       "boardStyle": "quartz",
       "boardAsset": "assets/theme-skins/quartz/board.webp",
-      "choInk": "#cae7b5",
-      "hanInk": "#a42c2b",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT smoky brown-black quartz with soft translucent-looking crystalline patches and faint warm veins; RIGHT cloudy milky quartz with subtle fine crystal facets within the flat surface. Fully opaque material, polished low gemstone slabs.",
-      "pieces": {
-        "cho": "quartz/cho.webp",
-        "han": "quartz/han.webp"
-      },
       "generatedAtlas": "exec-a457f7c3-755e-4f22-bfc6-94d90199b84c.png",
       "atlasSha256": "a58ca66433395a807a418117e77dca1b775fc8ba4144e3440ff2542ee6d0f698",
-      "bodySha256": {
-        "cho": "04d643518b69de9aefb22deb53d1766e27d688160cd6f751c2eb807cfb4ad7a5",
-        "han": "c465600aa3448a240b424192661c40246cdfa64fccc29ca62847248fb9eede64"
-      }
+      "bodySha256": "c465600aa3448a240b424192661c40246cdfa64fccc29ca62847248fb9eede64",
+      "body": "quartz/body.webp"
     },
     {
       "id": "marble",
@@ -231,19 +165,13 @@
       "sourceFolder": "assets/theme-skins/marble",
       "boardStyle": "marble",
       "boardAsset": "assets/theme-skins/marble/board.webp",
-      "choInk": "#d0ebbd",
-      "hanInk": "#a42c2b",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT charcoal-gray marble with a few fine white diagonal mineral veins; RIGHT white Carrara marble with subtle gray diagonal veins. Satin polished stone octagons, restrained pattern so separate game text stays legible.",
-      "pieces": {
-        "cho": "marble/cho.webp",
-        "han": "marble/han.webp"
-      },
       "generatedAtlas": "exec-eb579bee-6cc5-44ae-8c6f-3b68bdd9081d.png",
       "atlasSha256": "0516d46f4143d51dc7f35f8647594bbf23b2b60bbef0731e80bb045a30089e6c",
-      "bodySha256": {
-        "cho": "b67353aa8fa5ddf1e756cf72136061a389bd4f674cafcc92c6895c48afe05c2e",
-        "han": "b9dece8b2e24eec67a254ba05b383b01f7c5fcf2a07e3c0b1398cacedeacaad9"
-      }
+      "bodySha256": "b9dece8b2e24eec67a254ba05b383b01f7c5fcf2a07e3c0b1398cacedeacaad9",
+      "body": "marble/body.webp"
     },
     {
       "id": "sapphire",
@@ -251,19 +179,13 @@
       "sourceFolder": "assets/theme-skins/sapphire",
       "boardStyle": "sapphire",
       "boardAsset": "assets/theme-skins/sapphire/board.webp",
-      "choInk": "#d9f0aa",
-      "hanInk": "#9c2040",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT saturated royal sapphire blue gemstone with quiet internal crystalline clouds; RIGHT icy opaline pale blue-white moonstone with delicate blue rainbow sheen. A fine warm gold edge on both, gemstone polish with smooth large readable empty faces.",
-      "pieces": {
-        "cho": "sapphire/cho.webp",
-        "han": "sapphire/han.webp"
-      },
       "generatedAtlas": "exec-dd06351c-521f-4379-b00e-3f0c763c7e09.png",
       "atlasSha256": "1f2e9142f0927c9b11533ae19228ffec787ce1e504f9a0839641cccf8f75bde8",
-      "bodySha256": {
-        "cho": "da0524d214aa91f7c424a9e175b87a785baf09795ba822d5e4539b53ccc9689f",
-        "han": "40bb3b471f990396607d4e44f9e94f3796a9b2caa6973b1097de53fab41a0121"
-      }
+      "bodySha256": "40bb3b471f990396607d4e44f9e94f3796a9b2caa6973b1097de53fab41a0121",
+      "body": "sapphire/body.webp"
     },
     {
       "id": "sakura",
@@ -271,19 +193,13 @@
       "sourceFolder": "assets/theme-skins/sakura",
       "boardStyle": "sakura",
       "boardAsset": "assets/theme-skins/sakura/board.webp",
-      "choInk": "#f1ffd4",
-      "hanInk": "#a12749",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT dusty rose pink polished stone with thin pale pink natural veins; RIGHT very pale blush-white rose quartz with delicate cloudy pink nacre. Warm soft pearl highlights. No flowers or symbols on the face.",
-      "pieces": {
-        "cho": "sakura/cho.webp",
-        "han": "sakura/han.webp"
-      },
       "generatedAtlas": "exec-f2decb28-eecd-4b37-be6b-f3e61d40ee22.png",
       "atlasSha256": "8e8b6fd6dfee9b681ea709fde07e7f2ffd5953000368421c3054c3f17fbef853",
-      "bodySha256": {
-        "cho": "f7a230af2eea13a4505cd6fbed6f59d87a4020241fb0d70c1962ea9f290f893c",
-        "han": "3b0b1481e4f083afe6e11d0e92856a882b594f3df663a4d50dcb64bea5a78aef"
-      }
+      "bodySha256": "3b0b1481e4f083afe6e11d0e92856a882b594f3df663a4d50dcb64bea5a78aef",
+      "body": "sakura/body.webp"
     },
     {
       "id": "aurora",
@@ -291,19 +207,18 @@
       "sourceFolder": "assets/theme-skins/aurora",
       "boardStyle": "aurora",
       "boardAsset": "assets/theme-skins/aurora/board.webp",
-      "choInk": "#c8ffbb",
-      "hanInk": "#9b2454",
+      "choInk": "#087042",
+      "hanInk": "#ad302b",
       "materialPrompt": "LEFT deep indigo-violet gemstone with thin flowing teal and purple aurora iridescence; RIGHT pearl-white opal with subtle pastel teal lavender pink aurora shimmer. Smooth glassy polish, restrained internal color ribbons so future text stays readable.",
-      "pieces": {
-        "cho": "aurora/cho.webp",
-        "han": "aurora/han.webp"
-      },
       "generatedAtlas": "exec-c84113ae-53bd-446f-bacf-fe6309887ac1.png",
       "atlasSha256": "1256713e648cdf4b0bcaaf7e3f96bcdeda0c20bf5d7ddd7c4e7a509d22bd144f",
-      "bodySha256": {
-        "cho": "9a515677a997d6759b0d2225246af7d87a3b091256bb7b443a8e8abeb97c0462",
-        "han": "a66c7d32c1196f52e981bda860081b2c06af93a6a7c40d6b5874f88b16f172e4"
-      }
+      "bodySha256": "a66c7d32c1196f52e981bda860081b2c06af93a6a7c40d6b5874f88b16f172e4",
+      "body": "aurora/body.webp"
     }
-  ]
+  ],
+  "bodyVariant": "light",
+  "defaults": {
+    "stones": "reference",
+    "board": "reference"
+  }
 }

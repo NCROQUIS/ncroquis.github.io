@@ -1,4 +1,5 @@
 import { initial, GLYPHS, HORSE } from './rules.js';
+import { pieceStyleForSeat } from './piece-skins.js';
 
 // Read the same back-rank positions as the rules engine. Opponents face the viewer.
 export function formationPieces(formation, opponent = false) {
@@ -12,7 +13,8 @@ export function confirmedFormation(game, seat) {
   return Number.isInteger(action?.formation) && action.formation >= 0 && action.formation < 4 ? action.formation : null;
 }
 
-function drawPieces(element, kinds, seat) {
+function drawPieces(element, kinds, seat, style) {
+  element.dataset.stoneStyle = style;
   const key = `${seat}:${kinds?.join(',') ?? 'pending'}`;
   if (element.dataset.pieces === key) return;
   element.dataset.pieces = key;
@@ -31,7 +33,8 @@ function drawPieces(element, kinds, seat) {
   }));
 }
 
-export function renderFormationPicker(dialog, game, { t, busy = false }) {
+export function renderFormationPicker(dialog, game, { t, busy = false, localPieceStyle }) {
+  dialog.querySelector('.jangi-formation-hint').textContent = t(game.clock?.kind === 'cumulative-v1' ? 'jangiFormationHint' : 'jangiFormationHintLegacy');
   const seat = game.you, opponent = 3 - seat, formation = confirmedFormation(game, opponent);
   const round = `${game.code}:${game.round}`;
   if (dialog.dataset.round !== round) {
@@ -40,13 +43,13 @@ export function renderFormationPicker(dialog, game, { t, busy = false }) {
   }
   for (const option of dialog.querySelectorAll('.jangi-formation-choice')) {
     const input = option.querySelector('input'); input.disabled = busy;
-    drawPieces(option.querySelector('.jangi-formation-pieces'), formationPieces(Number(input.value)), seat);
+    drawPieces(option.querySelector('.jangi-formation-pieces'), formationPieces(Number(input.value)), seat, pieceStyleForSeat(game, seat, localPieceStyle));
   }
   const preview = dialog.querySelector('#jangi-opponent-formation');
   preview.dataset.confirmed = String(formation !== null);
   preview.querySelector('strong').textContent = t('jangiOpponentFormation', { side: t(opponent === 1 ? 'black' : 'white') });
   preview.querySelector('.jangi-formation-state').textContent = t(formation === null ? 'jangiFormationNotChosen' : 'jangiFormationChosen');
-  drawPieces(preview.querySelector('.jangi-formation-pieces'), formation === null ? null : formationPieces(formation, true), opponent);
+  drawPieces(preview.querySelector('.jangi-formation-pieces'), formation === null ? null : formationPieces(formation, true), opponent, pieceStyleForSeat(game, opponent, localPieceStyle));
   preview.setAttribute('aria-label', formation === null ? t('jangiOpponentFormationPending')
     : t('jangiOpponentFormationSummary', { side: t(opponent === 1 ? 'black' : 'white'), pieces: formationPieces(formation, true).map(kind => t(kind === HORSE ? 'jangiHorse' : 'jangiElephant')).join(' · ') }));
   const confirm = dialog.querySelector('button[type="submit"]');

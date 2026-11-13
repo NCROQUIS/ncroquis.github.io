@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-  <script src="./ncq/safe.js?v=8f97509b7923"></script>
-  <script src="./ncq/device.js?v=8f97509b7923"></script>
-  <script src="./ncq/save.js?v=8f97509b7923"></script>
+  <script src="./ncq/safe.js?v=f9f5c0693201"></script>
+  <script src="./ncq/device.js?v=f9f5c0693201"></script>
+  <script src="./ncq/save.js?v=f9f5c0693201"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -12,18 +12,18 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=8f97509b7923">
-  <link rel="stylesheet" href="./style.css?v=8f97509b7923">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=8f97509b7923">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=8f97509b7923">
-  <link rel="stylesheet" href="./forest-ui.css?v=8f97509b7923">
-  <link rel="stylesheet" href="./lobby-layout.css?v=8f97509b7923">
-  <link rel="stylesheet" href="./list-dialog.css?v=8f97509b7923">
-  <link rel="stylesheet" href="./shop-layout.css?v=8f97509b7923">
-  <link rel="stylesheet" href="./ranking-layout.css?v=8f97509b7923">
-  <link rel="stylesheet" href="./mission-layout.css?v=8f97509b7923">
-  <script type="module" src="./app.js?v=8f97509b7923"></script>
-<link rel="stylesheet" href="./jangi.css?v=8f97509b7923">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=f9f5c0693201">
+  <link rel="stylesheet" href="./style.css?v=f9f5c0693201">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=f9f5c0693201">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=f9f5c0693201">
+  <link rel="stylesheet" href="./forest-ui.css?v=f9f5c0693201">
+  <link rel="stylesheet" href="./lobby-layout.css?v=f9f5c0693201">
+  <link rel="stylesheet" href="./list-dialog.css?v=f9f5c0693201">
+  <link rel="stylesheet" href="./shop-layout.css?v=f9f5c0693201">
+  <link rel="stylesheet" href="./ranking-layout.css?v=f9f5c0693201">
+  <link rel="stylesheet" href="./mission-layout.css?v=f9f5c0693201">
+  <script type="module" src="./app.js?v=f9f5c0693201"></script>
+<link rel="stylesheet" href="./jangi.css?v=f9f5c0693201">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -383,6 +383,7 @@
             <span id="opponent-turn"></span>
             <span id="opponent-divider" class="gauge-divider" aria-hidden="true"></span>
             <span id="opponent-clock" class="player-clock" role="timer"></span>
+            <span id="opponent-refills" class="jangi-refills" role="img" hidden></span>
           </div>
         </div>
         <button id="review-opponent-profile" class="review-player" type="button" aria-haspopup="dialog" aria-controls="player-profile" hidden>
@@ -398,7 +399,7 @@
           <span id="review-opponent-turn" class="review-turn" hidden></span>
         </button>
         <div class="board-slot">
-          <div id="board" class="board" role="grid" data-i18n-attr="aria-label:board">
+          <div id="board" class="board" role="grid" data-ncq-no-main data-i18n-attr="aria-label:board">
             <div id="board-grid" class="board-grid" role="rowgroup">
               <svg class="board-lines" viewBox="0 0 15 15" preserveAspectRatio="none" aria-hidden="true" focusable="false">
                 <use href="#board-engraving"/>
@@ -421,7 +422,7 @@
             <span class="seat"><span id="own-stone" class="stone" role="img"></span><span id="own-rank" hidden></span></span>
           </button>
           <span class="match-art-divider" aria-hidden="true"></span>
-          <button id="place" class="match-art-gauge" type="button" data-ncq-main="Place stone">
+          <div id="place" class="match-art-gauge" role="status" aria-live="off">
             <svg id="place-gauge" aria-hidden="true">
               <defs><path id="place-gauge-outline" pathLength="100" fill="none"
                           stroke="currentColor" stroke-width="3" stroke-linecap="round"/></defs>
@@ -429,12 +430,13 @@
               <use id="own-progress" class="match-art-gauge-progress" href="#place-gauge-outline"/>
             </svg>
             <span class="placement-copy">
-              <span id="place-text" data-i18n="placeStone"></span>
+              <span id="place-text"></span>
               <small id="place-state" hidden></small>
             </span>
             <span id="place-divider" class="gauge-divider" aria-hidden="true"></span>
             <span id="own-clock" class="player-clock" role="timer"></span>
-          </button>
+            <span id="own-refills" class="jangi-refills" role="img" hidden></span>
+          </div>
         </div>
         <div id="live-actions" class="live-actions" hidden>
           <div id="opening-actions" class="opening-actions" hidden>
@@ -907,67 +909,63 @@
             </div>
             <div id="shop-stone-choices" class="appearance-choices">
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="janggi" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
-                <input type="radio" name="stones" value="janggi"><span data-i18n="classicJanggiSkin"></span>
-              </label>
-              <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="reference" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="reference" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="reference"><span data-i18n="referenceStones"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="classic" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="classic" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="classic"><span data-i18n="classicStyle"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="vintage" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="vintage" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="vintage"><span data-i18n="vintageStones"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="porcelain" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="porcelain" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="porcelain"><span data-i18n="porcelainSkin"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="jade" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="jade" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="jade"><span data-i18n="jadeSkin"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="lacquer" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="lacquer" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="lacquer"><span data-i18n="lacquerSkin"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="ocean" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="ocean" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="ocean"><span data-i18n="oceanSkin"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="soda" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="soda" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="soda"><span data-i18n="sodaSkin"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="glossy" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="glossy" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="glossy"><span data-i18n="glossyStones"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="gilded" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="gilded" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="gilded"><span data-i18n="gildedStones"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="quartz" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="quartz" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="quartz"><span data-i18n="quartzSkin"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="marble" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="marble" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="marble"><span data-i18n="marbleSkin"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="sapphire" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="sapphire" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="sapphire"><span data-i18n="sapphireSkin"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="sakura" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="sakura" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="sakura"><span data-i18n="sakuraSkin"></span>
               </label>
               <label class="appearance-choice">
-                <span class="stone-sample" data-stone-style="aurora" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <span class="stone-sample" data-stone-style="aurora" aria-hidden="true"><span class="stone black"></span></span>
                 <input type="radio" name="stones" value="aurora"><span data-i18n="auroraSkin"></span>
               </label>
             </div>
@@ -981,12 +979,6 @@
               </div>
             </div>
             <div id="shop-board-choices" class="appearance-choices">
-              <label class="appearance-choice">
-                <span class="board-sample theme-sample" data-board-style="janggi" aria-hidden="true">
-                  <svg class="board-lines" viewBox="0 0 9 10" focusable="false"><use href="#board-engraving"/></svg>
-                </span>
-                <input type="radio" name="board" value="janggi"><span data-i18n="classicJanggiSkin"></span>
-              </label>
               <label class="appearance-choice">
                 <span class="board-sample" data-board-style="reference" aria-hidden="true">
                   <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
@@ -1336,7 +1328,7 @@
     </dialog>
 </template>
 <dialog id="jangi-formation" aria-labelledby="jangi-formation-title"><form id="jangi-formation-form">
-<h2 id="jangi-formation-title" data-i18n="jangiFormation"></h2>
+<header class="jangi-formation-heading"><h2 id="jangi-formation-title" data-i18n="jangiFormation"></h2><span id="jangi-formation-clock" role="timer" hidden></span></header>
 <div class="jangi-formation-content">
 <p class="jangi-formation-hint" data-i18n="jangiFormationHint"></p>
 <section id="jangi-opponent-formation" class="jangi-opponent-formation" aria-live="polite">

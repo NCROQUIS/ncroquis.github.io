@@ -66,7 +66,9 @@ export function installJangiArtwork() {
     for (const [index,piece] of initial().board.entries()) {
       if (!piece) continue;
       const cell=document.createElement('span'); cell.className='cell'; cell.dataset.stone=sideOf(piece); cell.style.gridArea=`${Math.floor(index/9)+1} / ${index%9+1}`;
-      const token=document.createElement('span'); token.className='stone '+(piece>0?'black':'white'); token.dataset.kind=Math.abs(piece); token.textContent=GLYPHS[sideOf(piece)][Math.abs(piece)-1]; cell.append(token); preview.append(cell);
+      const token=document.createElement('span'); token.className='stone '+(piece>0?'black':'white'); token.dataset.kind=Math.abs(piece); token.textContent=GLYPHS[sideOf(piece)][Math.abs(piece)-1];
+      const shadow=document.createElement('span'); shadow.className='stone-shadow';
+      cell.append(token,shadow); preview.append(cell);
     }
   }
   for (const span of document.querySelectorAll('.shop-preview-stone')) span.classList.add('jangi-piece-sample');

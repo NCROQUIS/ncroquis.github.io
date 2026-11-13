@@ -197,7 +197,9 @@ function installJangiArtwork() {
       token.className = "stone " + (piece > 0 ? "black" : "white");
       token.dataset.kind = Math.abs(piece);
       token.textContent = GLYPHS[sideOf(piece)][Math.abs(piece) - 1];
-      cell.append(token);
+      const shadow = document.createElement("span");
+      shadow.className = "stone-shadow";
+      cell.append(token, shadow);
       preview.append(cell);
     }
   }
@@ -225,10 +227,11 @@ var JANGI_TEXTS = {
     shopStones: "\uC7A5\uAE30\uB9D0",
     shopBoard: "\uC7A5\uAE30\uD310",
     recordPlayGame: "\uC7A5\uAE30 \uB450\uB7EC \uAC00\uAE30",
+    classicJanggiSkin: "\uD074\uB798\uC2DD \uC7A5\uAE30",
     jangiEmpty: "\uBE48 \uC790\uB9AC",
     jangiCheck: "\uC7A5\uAD70! \uAD81\uC744 \uC9C0\uD0A4\uB294 \uC218\uB97C \uB450\uC138\uC694.",
     jangiBikjang: "\uBE45\uC7A5\uC785\uB2C8\uB2E4. \uB9C8\uC8FC \uBCF4\uB294 \uAD81\uC744 \uD480\uAC70\uB098 \uD55C \uC218 \uC27C\uC73C\uB85C \uC218\uB77D\uD558\uC138\uC694.",
-    jangiFormation: "\uB9C8\uC0C1 \uCC28\uB9BC",
+    jangiFormation: "\uB9C8\uC0C1 \uD3EC\uC9C4 \uC120\uD0DD",
     jangiFormationWait: "\uC0C1\uB300\uAC00 \uB9C8\uC0C1 \uCC28\uB9BC\uC744 \uACE0\uB974\uACE0 \uC788\uC5B4\uC694.",
     jangiFormationChoose: "\uB0B4 \uB9C8\uC0C1 \uCC28\uB9BC\uC744 \uACE0\uB974\uC138\uC694.",
     jangiFormationActive: "\uCC28\uB9BC \uC120\uD0DD",
@@ -238,8 +241,16 @@ var JANGI_TEXTS = {
     jangiFormation1: "\uC0C1\xB7\uB9C8 / \uC0C1\xB7\uB9C8",
     jangiFormation2: "\uB9C8\xB7\uC0C1 / \uB9C8\xB7\uC0C1",
     jangiFormation3: "\uC0C1\xB7\uB9C8 / \uB9C8\xB7\uC0C1",
-    jangiFormationConfirm: "\uCC28\uB9BC \uD655\uC815",
-    jangiFormationHint: "\uB0B4 \uC9C4\uC601\uC5D0\uC11C \uBCF8 \uC67C\uCABD / \uC624\uB978\uCABD \uC21C\uC11C\uC608\uC694. \uD55C\uC774 \uACE0\uB978 \uB4A4 \uCD08\uAC00 \uACE0\uB974\uACE0, \uCD08\uBD80\uD130 \uB461\uB2C8\uB2E4.",
+    jangiFormationConfirm: "\uD3EC\uC9C4 \uD655\uC815",
+    jangiFormationHint: "\uB0B4\uAC00 \uD310\uC744 \uBCF4\uB294 \uBC29\uD5A5\uC758 \uBC30\uCE58\uC608\uC694. \uD55C\uACFC \uCD08\uAC00 \uBAA8\uB450 \uD3EC\uC9C4\uC744 \uACE0\uB974\uBA74 \uCD08\uBD80\uD130 \uB450\uAE30 \uC2DC\uC791\uD569\uB2C8\uB2E4.",
+    jangiOpponentFormation: "\uC0C1\uB300({side}) \uD3EC\uC9C4",
+    jangiFormationNotChosen: "\uC120\uD0DD \uC804",
+    jangiFormationChosen: "\uD655\uC815",
+    jangiOpponentFormationPending: "\uC0C1\uB300\uAC00 \uC544\uC9C1 \uD3EC\uC9C4\uC744 \uC120\uD0DD\uD558\uC9C0 \uC54A\uC558\uC5B4\uC694.",
+    jangiOpponentFormationSummary: "\uC0C1\uB300({side}) \uD655\uC815 \uD3EC\uC9C4: {pieces}",
+    jangiHorse: "\uB9C8",
+    jangiElephant: "\uC0C1",
+    jangiFormationSaving: "\uD3EC\uC9C4 \uD655\uC815 \uC911\u2026",
     mustEscapeCheck: "\uC7A5\uAD70\uC744 \uBA3C\uC800 \uD53C\uD574\uC57C \uD574\uC694.",
     invalidMove: "\uADF8\uACF3\uC73C\uB85C\uB294 \uC774\uB3D9\uD560 \uC218 \uC5C6\uC5B4\uC694.",
     notYourPiece: "\uB0B4 \uAE30\uBB3C\uC744 \uACE8\uB77C \uC8FC\uC138\uC694."
@@ -263,6 +274,7 @@ var JANGI_TEXTS = {
     shopStones: "Pieces",
     shopBoard: "Janggi board",
     recordPlayGame: "Play Janggi",
+    classicJanggiSkin: "Classic Janggi",
     jangiEmpty: "Empty point",
     jangiCheck: "Check! Protect your general.",
     jangiBikjang: "Bikjang. Break the facing generals or pass to accept a draw.",
@@ -277,12 +289,75 @@ var JANGI_TEXTS = {
     jangiFormation2: "Horse\xB7Elephant / Horse\xB7Elephant",
     jangiFormation3: "Elephant\xB7Horse / Horse\xB7Elephant",
     jangiFormationConfirm: "Confirm formation",
-    jangiFormationHint: "Left / right from your own seat. Han chooses before Cho; Cho moves first.",
+    jangiFormationHint: "Arrangements are shown from your view of the board. Cho moves first after both players finish setup.",
+    jangiOpponentFormation: "Opponent ({side}) setup",
+    jangiFormationNotChosen: "Not chosen",
+    jangiFormationChosen: "Confirmed",
+    jangiOpponentFormationPending: "Your opponent has not chosen a formation yet.",
+    jangiOpponentFormationSummary: "Opponent ({side}) confirmed setup: {pieces}",
+    jangiHorse: "Horse",
+    jangiElephant: "Elephant",
+    jangiFormationSaving: "Confirming\u2026",
     mustEscapeCheck: "You must escape check.",
     invalidMove: "That move is not legal.",
     notYourPiece: "Select your own piece."
   }
 };
+
+// game/formation-picker.js
+function formationPieces(formation, opponent = false) {
+  const board2 = initial({ choFormation: formation }).board;
+  const pieces = [82, 83, 87, 88].map((index2) => board2[index2]);
+  return opponent ? pieces.reverse() : pieces;
+}
+function confirmedFormation(game, seat) {
+  const action = game?.actions?.findLast((action2) => action2.type === "formation" && action2.seat === seat);
+  return Number.isInteger(action?.formation) && action.formation >= 0 && action.formation < 4 ? action.formation : null;
+}
+function drawPieces(element, kinds, seat) {
+  const key = `${seat}:${kinds?.join(",") ?? "pending"}`;
+  if (element.dataset.pieces === key) return;
+  element.dataset.pieces = key;
+  element.replaceChildren(...(kinds ?? [null, null, null, null]).map((kind) => {
+    const piece = document.createElement("span");
+    piece.className = "jangi-formation-piece";
+    if (kind === null) {
+      piece.classList.add("pending");
+      piece.textContent = "?";
+    } else {
+      const shadow = document.createElement("span");
+      shadow.className = "jangi-formation-shadow";
+      const face = document.createElement("span");
+      face.className = `stone ${seat === 1 ? "black" : "white"}`;
+      face.dataset.kind = kind;
+      face.textContent = GLYPHS[seat][kind - 1];
+      piece.append(shadow, face);
+    }
+    return piece;
+  }));
+}
+function renderFormationPicker(dialog, game, { t: t3, busy: busy2 = false }) {
+  const seat = game.you, opponent = 3 - seat, formation = confirmedFormation(game, opponent);
+  const round = `${game.code}:${game.round}`;
+  if (dialog.dataset.round !== round) {
+    dialog.dataset.round = round;
+    dialog.querySelector('[name="formation"][value="0"]').checked = true;
+  }
+  for (const option of dialog.querySelectorAll(".jangi-formation-choice")) {
+    const input = option.querySelector("input");
+    input.disabled = busy2;
+    drawPieces(option.querySelector(".jangi-formation-pieces"), formationPieces(Number(input.value)), seat);
+  }
+  const preview = dialog.querySelector("#jangi-opponent-formation");
+  preview.dataset.confirmed = String(formation !== null);
+  preview.querySelector("strong").textContent = t3("jangiOpponentFormation", { side: t3(opponent === 1 ? "black" : "white") });
+  preview.querySelector(".jangi-formation-state").textContent = t3(formation === null ? "jangiFormationNotChosen" : "jangiFormationChosen");
+  drawPieces(preview.querySelector(".jangi-formation-pieces"), formation === null ? null : formationPieces(formation, true), opponent);
+  preview.setAttribute("aria-label", formation === null ? t3("jangiOpponentFormationPending") : t3("jangiOpponentFormationSummary", { side: t3(opponent === 1 ? "black" : "white"), pieces: formationPieces(formation, true).map((kind) => t3(kind === HORSE ? "jangiHorse" : "jangiElephant")).join(" \xB7 ") }));
+  const confirm = dialog.querySelector('button[type="submit"]');
+  confirm.disabled = busy2;
+  confirm.textContent = t3(busy2 ? "jangiFormationSaving" : "jangiFormationConfirm");
+}
 
 // ncq/lang.js
 var VERSION = 1;
@@ -2195,6 +2270,7 @@ var missionClaiming = false;
 var pairedSkinPrices = {
   reference: 0,
   classic: 0,
+  janggi: 0,
   vintage: 300,
   porcelain: 800,
   jade: 1e3,
@@ -6156,6 +6232,7 @@ setInterval(refreshLobby, 2500);
 function renderJangiFormation(game) {
   const dialog = el("jangi-formation");
   const show = room && game === room && game.phase === "playing" && game.setup === game.you && !matchIntroDialog.open;
+  if (show) renderFormationPicker(dialog, game, { t: t2, busy });
   if (show && !dialog.open) {
     dialog.showModal();
     NcqLang.apply?.();
@@ -6164,8 +6241,8 @@ function renderJangiFormation(game) {
 el("jangi-formation").addEventListener("cancel", (event) => event.preventDefault());
 el("jangi-formation-form").addEventListener("submit", (event) => {
   event.preventDefault();
+  if (busy || !room || room.setup !== room.you) return;
   const formation = Number(new FormData(event.currentTarget).get("formation"));
-  el("jangi-formation").close();
   roomAction("move", { action: { type: "formation", formation }, version: room.version });
 });
 matchIntroDialog.addEventListener("close", () => render());

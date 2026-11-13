@@ -1,4 +1,43 @@
 /* Only the board, pieces and rule-specific controls override the shared Omok UI. */
+@font-face {
+  font-family:JanggiBrush;
+  src:url('./assets/classic-jangi/piece-glyphs.ttf') format('truetype');
+  font-style:normal; font-weight:400; font-display:swap;
+  unicode-range:U+5175,U+5305,U+5352,U+58EB,U+695A,U+6F22,U+8C61,U+8ECA,U+99AC;
+}
+/* Reset at every theme boundary so shop cards never inherit the equipped skin. */
+:root,[data-stone-style] {
+  --jangi-body:linear-gradient(135deg,#fff6db,#ebd3a2 65%,#b99153);
+  --jangi-bevel:inset 0 0 0 1.3px #b39a68,inset 0 0 0 3px #f8e9c1;
+  --jangi-clip:polygon(27% 0,73% 0,100% 27%,100% 73%,73% 100%,27% 100%,0 73%,0 27%);
+  --jangi-font:Batang,SimSun,serif; --jangi-weight:900;
+  --jangi-cho:#087042; --jangi-han:#ad302b;
+  --jangi-text-shadow:0 1px #fff8e1;
+  --jangi-piece-size:85%; --jangi-small-size:85%; --jangi-king-size:96%;
+  --jangi-type-size:6.9cqi; --jangi-small-type:6.9cqi; --jangi-king-type:7.7cqi;
+  --jangi-check-body:linear-gradient(#ffe3ba,#ef9f74);
+  --jangi-check-outline:none;
+  --jangi-shadow-size:103%; --jangi-king-shadow-size:103%; --jangi-small-shadow-size:103%;
+}
+[data-stone-style='janggi'] {
+  --jangi-body:url('./assets/classic-jangi/piece-body.webp') center / 116% no-repeat;
+  --jangi-bevel:none; --jangi-clip:none;
+  --jangi-font:JanggiBrush,serif; --jangi-weight:400;
+  --jangi-cho:#123d8c; --jangi-han:#b22419;
+  --jangi-text-shadow:0 .5px #fff;
+  --jangi-piece-size:88%; --jangi-small-size:73%; --jangi-king-size:100%;
+  --jangi-type-size:6.5cqi; --jangi-small-type:5.6cqi; --jangi-king-type:7.6cqi;
+  --jangi-check-body:var(--jangi-body);
+  --jangi-check-outline:2px solid #e04a31;
+  --jangi-shadow-size:90.64%; --jangi-king-shadow-size:103%; --jangi-small-shadow-size:75.19%;
+}
+[data-board-style='janggi'] {
+  --board-surface:#e1c16c url('./assets/classic-jangi/board.webp') center / cover no-repeat;
+  --board-line:#493a22; --board-line-highlight:#fff1b657; --board-line-width:1.15px;
+  --board-soft-line:#493a229e; --board-soft-highlight:#fff1b675;
+  --board-border:0; --board-corner:3px; --board-inset:1.5%;
+  --board-rim:inset 0 0 0 1px #ae8c4670,inset 0 2px 0 #fff0b780,0 3px 0 #9f7e42,0 6px 12px #10131070;
+}
 .board, #board { aspect-ratio:9/10; }
 .in-match #board { height:calc(var(--board-frame-size) * 10 / 9); }
 .in-match #board-grid { height:calc(var(--board-grid-size) * 10 / 9); }
@@ -6,45 +45,67 @@
 .board-row { display:contents; }
 .board-lines { aspect-ratio:9/10; }
 .stone.black,.stone.white {
-  --piece-ink:#087042;
+  --piece-ink:var(--jangi-cho);
   position:relative; display:inline-grid; place-items:center;
-  border-radius:18%; background:linear-gradient(135deg,#fff6db,#ebd3a2 65%,#b99153);
-  box-shadow:inset 0 0 0 1.3px #b39a68,inset 0 0 0 3px #f8e9c1;
-  color:var(--piece-ink); font-family:Batang,SimSun,serif; font-weight:900; line-height:1;
-  font-size:15px; text-shadow:0 1px #fff8e1;
-  clip-path:polygon(27% 0,73% 0,100% 27%,100% 73%,73% 100%,27% 100%,0 73%,0 27%);
+  border-radius:18%; background:var(--jangi-body);
+  box-shadow:var(--jangi-bevel);
+  color:var(--piece-ink); font-family:var(--jangi-font); font-weight:var(--jangi-weight); line-height:1;
+  font-size:15px; text-shadow:var(--jangi-text-shadow);
+  clip-path:var(--jangi-clip);
 }
-.stone.white { --piece-ink:#ad302b; }
+.stone.white { --piece-ink:var(--jangi-han); }
 .stone:not([data-kind]).black::after { content:'楚'; }
 .stone:not([data-kind]).white::after { content:'漢'; }
 .cell .stone,.cell .stone.black,.cell .stone.white,#board[data-move-numbers] .cell .stone {
-  position:absolute; display:grid; width:85%; height:auto; aspect-ratio:1;
-  font-size:6.9cqi; color:var(--piece-ink);
+  position:absolute; display:grid; width:var(--jangi-piece-size); height:auto; aspect-ratio:1;
+  font-size:var(--jangi-type-size); color:var(--piece-ink);
 }
-.cell .stone[data-kind='1'] { width:96%; font-size:7.7cqi; }
+.cell .stone[data-kind='1'] { width:var(--jangi-king-size); font-size:var(--jangi-king-type); }
+.cell .stone:is([data-kind='2'],[data-kind='7']) { width:var(--jangi-small-size); font-size:var(--jangi-small-type); }
 .cell .stone[hidden] { display:none!important; }
 .cell.selected-piece::before { content:'';position:absolute;inset:2%;border:2px solid #fff297;border-radius:9px;box-shadow:0 0 7px #ffe288; }
 .cell.jangi-legal::after { content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:19%;aspect-ratio:1;border-radius:50%;background:#2f7949;box-shadow:0 0 0 2px #ffe8aa;z-index:4;pointer-events:none; }
 .cell.jangi-legal:not([data-stone='0'])::after { width:88%;border:3px solid #ffd26c;border-radius:8px;background:transparent;box-shadow:none; }
-.cell.jangi-check>.stone { background:linear-gradient(#ffe3ba,#ef9f74); }
+.cell.jangi-check>.stone { background:var(--jangi-check-body); }
+.cell.jangi-check { outline:var(--jangi-check-outline); outline-offset:-2px; border-radius:9px; }
 .cell[data-number]>.stone::after { content:attr(data-number); }
 .cell[data-number]::before { content:attr(data-number);position:absolute;right:1px;bottom:0;font-size:9px;font-weight:900;color:#fff;background:#285790;border-radius:50%;width:15px;height:15px;display:grid;place-items:center;z-index:5; }
-.cell .stone-shadow { clip-path:none; }
-[data-stone-style='porcelain'] .stone { background:linear-gradient(145deg,#fff,#e1dfd6); }
-[data-stone-style='jade'] .stone { background:linear-gradient(135deg,#f3ffe3,#aad69d); }
-[data-stone-style='lacquer'] .stone { background:linear-gradient(135deg,#fff1c6,#a37841); }
-[data-stone-style='ocean'] .stone,[data-stone-style='sapphire'] .stone { background:linear-gradient(135deg,#e0fbff,#91bfc5); }
-[data-stone-style='soda'] .stone,[data-stone-style='quartz'] .stone { background:linear-gradient(135deg,#fff,#b8eee5); }
-[data-stone-style='sakura'] .stone { background:linear-gradient(135deg,#fff7f0,#f0c8ce); }
-[data-stone-style='aurora'] .stone { background:linear-gradient(135deg,#efffdf,#bfc8f0); }
+.cell .stone-shadow { clip-path:none; width:var(--jangi-shadow-size); }
+.cell:has(.stone[data-kind='1']) .stone-shadow { width:var(--jangi-king-shadow-size); }
+.cell:has(.stone:is([data-kind='2'],[data-kind='7'])) .stone-shadow { width:var(--jangi-small-shadow-size); }
+[data-stone-style='porcelain'] { --jangi-body:linear-gradient(145deg,#fff,#e1dfd6); }
+[data-stone-style='jade'] { --jangi-body:linear-gradient(135deg,#f3ffe3,#aad69d); }
+[data-stone-style='lacquer'] { --jangi-body:linear-gradient(135deg,#fff1c6,#a37841); }
+[data-stone-style='ocean'],[data-stone-style='sapphire'] { --jangi-body:linear-gradient(135deg,#e0fbff,#91bfc5); }
+[data-stone-style='soda'],[data-stone-style='quartz'] { --jangi-body:linear-gradient(135deg,#fff,#b8eee5); }
+[data-stone-style='sakura'] { --jangi-body:linear-gradient(135deg,#fff7f0,#f0c8ce); }
+[data-stone-style='aurora'] { --jangi-body:linear-gradient(135deg,#efffdf,#bfc8f0); }
 .stone-sample .stone,.shop-effect-art .stone { font-size:24px; }
 .queue-mark .stone { font-size:37px; }
 .result-badge.stone::after { display:none; }
 .board-sample { aspect-ratio:9/10; }
 .appearance-preview-grid { container-type:inline-size; grid-template:repeat(10,minmax(0,1fr))/repeat(9,minmax(0,1fr)); }
-#jangi-formation { max-width:390px; }
-#jangi-formation p { font-size:12px;line-height:1.6; }
-.jangi-formation-choice { display:flex;gap:8px;align-items:center;padding:10px 12px;margin:8px 0;border:1px solid #d3c190;border-radius:9px;background:#fff8e5;font-size:12px; }
-.jangi-formation-choice:has(:checked) { border-color:#4e783c;background:#e7edcd; }
+#jangi-formation { width:min(390px,calc(100vw - var(--ncq-left,0px) - var(--ncq-right,0px) - 24px)); max-height:calc(100dvh - var(--ncq-top,0px) - var(--ncq-bottom,0px) - 24px); inset-block:var(--ncq-top,0px) var(--ncq-bottom,0px); padding:16px; overflow:hidden; }
+#jangi-formation-form { display:flex;flex-direction:column;gap:12px;max-height:calc(100dvh - var(--ncq-top,0px) - var(--ncq-bottom,0px) - 58px); }
+#jangi-formation h2 { flex:none;margin:0;font-size:21px;line-height:1.3; }
+.jangi-formation-content { min-height:0;overflow-y:auto;overscroll-behavior:contain; }
+#jangi-formation .jangi-formation-hint { margin:0 0 12px;font-size:11px;line-height:1.55; }
+.jangi-opponent-formation { padding:10px 12px;margin-bottom:12px;border-radius:9px;background:#e9e5d6;border:1px solid #d5c9aa; }
+.jangi-formation-opponent-heading { display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;font-size:12px; }
+.jangi-formation-state { font-size:10px;color:#7a7666; }
+[data-confirmed='true'] .jangi-formation-state { color:#2c674b;font-weight:800; }
+.jangi-formation-options { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px; }
+.jangi-formation-choice { position:relative;display:flex;flex-direction:column;gap:6px;align-items:center;min-width:0;padding:10px 7px 7px;margin:0;border:2px solid #d3c190;border-radius:9px;background:#fff8e5;cursor:pointer; }
+.jangi-formation-choice:has(:checked) { border-color:#386d4c;background:#e7edcd;box-shadow:inset 0 0 0 1px #fff8d8; }
+.jangi-formation-choice:has(:focus-visible) { outline:3px solid #c59c3d;outline-offset:2px; }
+.jangi-formation-choice:has(:disabled) { cursor:wait;opacity:.7; }
+#jangi-formation .jangi-formation-choice input { position:absolute;width:1px;height:1px;min-height:0;padding:0;margin:0;clip-path:inset(50%);overflow:hidden; }
+.jangi-formation-pieces { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;width:100%;max-width:200px;margin-inline:auto; }
+.jangi-formation-piece { position:relative;display:grid;place-items:center;aspect-ratio:1;min-width:0; }
+.jangi-formation-piece .stone { position:relative;z-index:1;width:100%;height:auto;aspect-ratio:1;font-size:clamp(19px,6vw,27px); }
+.jangi-formation-shadow { position:absolute;inset:0;background:radial-gradient(closest-side,#1c100a95 55%,#1c100a50 76%,transparent);transform:translate(2px,3px); }
+.jangi-formation-piece.pending { width:78%;margin:auto;border:1px dashed #bfb9a6;border-radius:20%;color:#aca590;font-size:18px; }
+.jangi-formation-caption { font-size:10px;line-height:1.4;text-align:center;overflow-wrap:anywhere; }
+#jangi-formation button[type='submit'] { flex:none;min-height:44px; }
 .lobby-logo-pair::after { content:'楚 漢';font:bold 32px Batang,serif;color:#eff6d3;text-shadow:0 2px #123915; }
 .lobby-logo-pair>svg { display:none!important; }

@@ -1,23 +1,23 @@
 <!doctype html>
 <html>
 <head>
-  <script src="./ncq/safe.js?v=4637d2b5ccf7"></script>
-  <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script>
+  <script src="./ncq/safe.js?v=696572ac837e"></script>
+  <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=4637d2b5ccf7">
-  <link rel="stylesheet" href="./style.css?v=4637d2b5ccf7">
-  <link rel="stylesheet" href="./forest-ui.css?v=4637d2b5ccf7">
-  <link rel="stylesheet" href="./lobby-layout.css?v=4637d2b5ccf7">
-  <link rel="stylesheet" href="./list-dialog.css?v=4637d2b5ccf7">
-  <link rel="stylesheet" href="./ranking-layout.css?v=4637d2b5ccf7">
-  <link rel="stylesheet" href="./mission-layout.css?v=4637d2b5ccf7">
-  <script type="module" src="./app.js?v=4637d2b5ccf7"></script>
-<link rel="stylesheet" href="./jangi.css?v=4637d2b5ccf7">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=696572ac837e">
+  <link rel="stylesheet" href="./style.css?v=696572ac837e">
+  <link rel="stylesheet" href="./forest-ui.css?v=696572ac837e">
+  <link rel="stylesheet" href="./lobby-layout.css?v=696572ac837e">
+  <link rel="stylesheet" href="./list-dialog.css?v=696572ac837e">
+  <link rel="stylesheet" href="./ranking-layout.css?v=696572ac837e">
+  <link rel="stylesheet" href="./mission-layout.css?v=696572ac837e">
+  <script type="module" src="./app.js?v=696572ac837e"></script>
+<link rel="stylesheet" href="./jangi.css?v=696572ac837e">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -876,6 +876,10 @@
             </div>
             <div id="shop-stone-choices" class="appearance-choices">
               <label class="appearance-choice">
+                <span class="stone-sample" data-stone-style="janggi" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
+                <input type="radio" name="stones" value="janggi"><span data-i18n="classicJanggiSkin"></span>
+              </label>
+              <label class="appearance-choice">
                 <span class="stone-sample" data-stone-style="reference" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></span>
                 <input type="radio" name="stones" value="reference"><span data-i18n="referenceStones"></span>
               </label>
@@ -946,6 +950,12 @@
               </div>
             </div>
             <div id="shop-board-choices" class="appearance-choices">
+              <label class="appearance-choice">
+                <span class="board-sample theme-sample" data-board-style="janggi" aria-hidden="true">
+                  <svg class="board-lines" viewBox="0 0 9 10" focusable="false"><use href="#board-engraving"/></svg>
+                </span>
+                <input type="radio" name="board" value="janggi"><span data-i18n="classicJanggiSkin"></span>
+              </label>
               <label class="appearance-choice">
                 <span class="board-sample" data-board-style="reference" aria-hidden="true">
                   <svg class="board-lines" viewBox="0 0 15 15" focusable="false"><use href="#board-engraving"/></svg>
@@ -1296,11 +1306,19 @@
     </dialog>
 </template>
 <dialog id="jangi-formation" aria-labelledby="jangi-formation-title"><form id="jangi-formation-form">
-<h2 id="jangi-formation-title" data-i18n="jangiFormation"></h2><p data-i18n="jangiFormationHint"></p>
-<label class="jangi-formation-choice"><input type="radio" name="formation" value="0" checked><span data-i18n="jangiFormation0"></span></label>
-<label class="jangi-formation-choice"><input type="radio" name="formation" value="1" ><span data-i18n="jangiFormation1"></span></label>
-<label class="jangi-formation-choice"><input type="radio" name="formation" value="2" ><span data-i18n="jangiFormation2"></span></label>
-<label class="jangi-formation-choice"><input type="radio" name="formation" value="3" ><span data-i18n="jangiFormation3"></span></label>
-<button class="primary" data-ncq-main="Confirm Janggi formation" data-i18n="jangiFormationConfirm"></button></form></dialog>
+<h2 id="jangi-formation-title" data-i18n="jangiFormation"></h2>
+<div class="jangi-formation-content">
+<p class="jangi-formation-hint" data-i18n="jangiFormationHint"></p>
+<section id="jangi-opponent-formation" class="jangi-opponent-formation" aria-live="polite">
+  <div class="jangi-formation-opponent-heading"><strong></strong><span class="jangi-formation-state"></span></div>
+  <div class="jangi-formation-pieces" aria-hidden="true"></div>
+</section>
+<div class="jangi-formation-options" role="group" data-i18n-attr="aria-label:jangiFormationChoose">
+<label class="jangi-formation-choice"><input type="radio" name="formation" value="2"><span class="jangi-formation-pieces" aria-hidden="true"></span><span class="jangi-formation-caption" data-i18n="jangiFormation2"></span></label>
+<label class="jangi-formation-choice"><input type="radio" name="formation" value="1"><span class="jangi-formation-pieces" aria-hidden="true"></span><span class="jangi-formation-caption" data-i18n="jangiFormation1"></span></label>
+<label class="jangi-formation-choice"><input type="radio" name="formation" value="0" checked><span class="jangi-formation-pieces" aria-hidden="true"></span><span class="jangi-formation-caption" data-i18n="jangiFormation0"></span></label>
+<label class="jangi-formation-choice"><input type="radio" name="formation" value="3"><span class="jangi-formation-pieces" aria-hidden="true"></span><span class="jangi-formation-caption" data-i18n="jangiFormation3"></span></label>
+</div></div>
+<button class="primary" type="submit" data-ncq-main="Confirm Janggi formation" data-i18n="jangiFormationConfirm"></button></form></dialog>
 </body>
 </html>

@@ -137,14 +137,14 @@ function replayBoard(game, ply) {
   return board2;
 }
 var targetsFrom = (game, from) => game?.board && from !== null && !game.setup ? legalMoves(game.board, game.turn).filter((move) => move.from === from).map((move) => move.to) : [];
-function drawJangiBoard({ game, displayedBoard, cells: cells2, selectedFrom: selectedFrom2, selected: selected2, lastMoveMarker: lastMoveMarker2, board: board2, selectable, coordinate: coordinate2, t: t3, latest, moveNumbers }) {
+function drawJangiBoard({ game, displayedBoard, cells: cells2, selectedFrom: selectedFrom2, selected: selected2, lastMoveMarker: lastMoveMarker2, board: board2, selectable, coordinate: coordinate2, t: t3, latest, moveNumbers, pendingMove }) {
   const targets = selectable ? targetsFrom(game, selectedFrom2) : [];
   const checked = inCheck(displayedBoard, game.turn);
   const flipped = game.you === 2;
   board2.dataset.jangi = "";
   board2.classList.toggle("selectable", selectable);
   const move = game.moves[(latest ? game.moves.length : game.displayPly) - 1];
-  const last = destination(move), lastCell = cells2[last];
+  const last = pendingMove?.index ?? destination(move), lastCell = cells2[last];
   lastMoveMarker2.toggleAttribute("hidden", !lastCell);
   if (lastCell && lastMoveMarker2.parentElement !== lastCell) lastCell.append(lastMoveMarker2);
   for (const [index2, cell] of cells2.entries()) {
@@ -667,15 +667,4334 @@ try {
 }
 
 // ncq/board.js
+var WebSocketFactory = class {
+  /**
+   * Static-only utility – prevent instantiation.
+   */
+  constructor() {
+  }
+  static detectEnvironment() {
+    var _a;
+    if (typeof WebSocket !== "undefined") {
+      return { type: "native", wsConstructor: WebSocket };
+    }
+    const gt = globalThis;
+    if (typeof globalThis !== "undefined" && typeof gt.WebSocket !== "undefined") {
+      return { type: "native", wsConstructor: gt.WebSocket };
+    }
+    const gl = typeof global !== "undefined" ? global : void 0;
+    if (gl && typeof gl.WebSocket !== "undefined") {
+      return { type: "native", wsConstructor: gl.WebSocket };
+    }
+    if (typeof globalThis !== "undefined" && typeof gt.WebSocketPair !== "undefined" && typeof globalThis.WebSocket === "undefined") {
+      return {
+        type: "cloudflare",
+        error: "Cloudflare Workers detected. WebSocket clients are not supported in Cloudflare Workers.",
+        workaround: "Use Cloudflare Workers WebSocket API for server-side WebSocket handling, or deploy to a different runtime."
+      };
+    }
+    if (typeof globalThis !== "undefined" && gt.EdgeRuntime || typeof navigator !== "undefined" && ((_a = navigator.userAgent) === null || _a === void 0 ? void 0 : _a.includes("Vercel-Edge"))) {
+      return {
+        type: "unsupported",
+        error: "Edge runtime detected (Vercel Edge/Netlify Edge). WebSockets are not supported in edge functions.",
+        workaround: "Use serverless functions or a different deployment target for WebSocket functionality."
+      };
+    }
+    const _process = globalThis["process"];
+    if (_process) {
+      const processVersions = _process["versions"];
+      if (processVersions && processVersions["node"]) {
+        return {
+          type: "unsupported",
+          error: "Node.js detected but native WebSocket not found.",
+          workaround: "Ensure you are running Node.js 22+ or provide a WebSocket implementation via the transport option."
+        };
+      }
+    }
+    return {
+      type: "unsupported",
+      error: "Unknown JavaScript runtime without WebSocket support.",
+      workaround: "Ensure you're running in a supported environment (browser, Node.js, Deno) or provide a custom WebSocket implementation."
+    };
+  }
+  /**
+   * Returns the best available WebSocket constructor for the current runtime.
+   *
+   * @category Realtime
+   *
+   * @example Example with error handling
+   * ```ts
+   * try {
+   *   const WS = WebSocketFactory.getWebSocketConstructor()
+   *   const socket = new WS('wss://example.com/socket')
+   * } catch (error) {
+   *   console.error('WebSocket not available in this environment.', error)
+   * }
+   * ```
+   */
+  static getWebSocketConstructor() {
+    const env = this.detectEnvironment();
+    if (env.wsConstructor) {
+      return env.wsConstructor;
+    }
+    let errorMessage = env.error || "WebSocket not supported in this environment.";
+    if (env.workaround) {
+      errorMessage += `
+
+Suggested solution: ${env.workaround}`;
+    }
+    throw new Error(errorMessage);
+  }
+  /**
+   * Detects whether the runtime can establish WebSocket connections.
+   *
+   * @category Realtime
+   *
+   * @example Example in a Node.js script
+   * ```ts
+   * if (!WebSocketFactory.isWebSocketSupported()) {
+   *   console.error('WebSockets are required for this script.')
+   *   process.exitCode = 1
+   * }
+   * ```
+   */
+  static isWebSocketSupported() {
+    try {
+      const env = this.detectEnvironment();
+      return env.type === "native";
+    } catch (_a) {
+      return false;
+    }
+  }
+};
+var websocket_factory_default = WebSocketFactory;
+var version = "2.119.0";
+var DEFAULT_VERSION = `realtime-js/${version}`;
+var VSN_1_0_0 = "1.0.0";
+var VSN_2_0_0 = "2.0.0";
+var DEFAULT_VSN = VSN_2_0_0;
+var DEFAULT_TIMEOUT = 1e4;
+var DEFAULT_POSTGRES_CHANGES_WAIT_TIMEOUT = 15e3;
+var POSTGRES_CHANGES_WAIT_ERROR_GRACE = 1e4;
+var MAX_PUSH_BUFFER_SIZE = 100;
+var CHANNEL_STATES = {
+  closed: "closed",
+  errored: "errored",
+  joined: "joined",
+  joining: "joining",
+  leaving: "leaving"
+};
+var CHANNEL_EVENTS = {
+  close: "phx_close",
+  error: "phx_error",
+  join: "phx_join",
+  reply: "phx_reply",
+  leave: "phx_leave",
+  access_token: "access_token"
+};
+var CONNECTION_STATE = {
+  connecting: "connecting",
+  open: "open",
+  closing: "closing",
+  closed: "closed"
+};
+var Serializer = class _Serializer {
+  constructor(allowedMetadataKeys) {
+    this.HEADER_LENGTH = 1;
+    this.USER_BROADCAST_PUSH_META_LENGTH = 6;
+    this.KINDS = { userBroadcastPush: 3, userBroadcast: 4 };
+    this.BINARY_ENCODING = 0;
+    this.JSON_ENCODING = 1;
+    this.BROADCAST_EVENT = "broadcast";
+    this.allowedMetadataKeys = _Serializer.DEFAULT_METADATA_KEYS;
+    this.allowedMetadataKeys = allowedMetadataKeys !== null && allowedMetadataKeys !== void 0 ? allowedMetadataKeys : _Serializer.DEFAULT_METADATA_KEYS;
+  }
+  encode(msg, callback) {
+    if (msg.event === this.BROADCAST_EVENT && !(msg.payload instanceof ArrayBuffer) && typeof msg.payload.event === "string") {
+      return callback(this._binaryEncodeUserBroadcastPush(msg));
+    }
+    let payload = [msg.join_ref, msg.ref, msg.topic, msg.event, msg.payload];
+    return callback(JSON.stringify(payload));
+  }
+  _binaryEncodeUserBroadcastPush(message) {
+    var _a;
+    if (this._isArrayBuffer((_a = message.payload) === null || _a === void 0 ? void 0 : _a.payload)) {
+      return this._encodeBinaryUserBroadcastPush(message);
+    } else {
+      return this._encodeJsonUserBroadcastPush(message);
+    }
+  }
+  _encodeBinaryUserBroadcastPush(message) {
+    var _a, _b;
+    const userPayload = (_b = (_a = message.payload) === null || _a === void 0 ? void 0 : _a.payload) !== null && _b !== void 0 ? _b : new ArrayBuffer(0);
+    return this._encodeUserBroadcastPush(message, this.BINARY_ENCODING, userPayload);
+  }
+  _encodeJsonUserBroadcastPush(message) {
+    var _a, _b;
+    const userPayload = (_b = (_a = message.payload) === null || _a === void 0 ? void 0 : _a.payload) !== null && _b !== void 0 ? _b : {};
+    const encoder = new TextEncoder();
+    const encodedUserPayload = encoder.encode(JSON.stringify(userPayload)).buffer;
+    return this._encodeUserBroadcastPush(message, this.JSON_ENCODING, encodedUserPayload);
+  }
+  _encodeUserBroadcastPush(message, encodingType, encodedPayload) {
+    var _a, _b;
+    const encoder = new TextEncoder();
+    const topic = encoder.encode(message.topic);
+    const ref = encoder.encode((_a = message.ref) !== null && _a !== void 0 ? _a : "");
+    const joinRef = encoder.encode((_b = message.join_ref) !== null && _b !== void 0 ? _b : "");
+    const userEvent = encoder.encode(message.payload.event);
+    const rest = this.allowedMetadataKeys ? this._pick(message.payload, this.allowedMetadataKeys) : {};
+    const metadata = encoder.encode(Object.keys(rest).length === 0 ? "" : JSON.stringify(rest));
+    if (joinRef.length > 255) {
+      throw new Error(`joinRef length ${joinRef.length} exceeds maximum of 255`);
+    }
+    if (ref.length > 255) {
+      throw new Error(`ref length ${ref.length} exceeds maximum of 255`);
+    }
+    if (topic.length > 255) {
+      throw new Error(`topic length ${topic.length} exceeds maximum of 255`);
+    }
+    if (userEvent.length > 255) {
+      throw new Error(`userEvent length ${userEvent.length} exceeds maximum of 255`);
+    }
+    if (metadata.length > 255) {
+      throw new Error(`metadata length ${metadata.length} exceeds maximum of 255`);
+    }
+    const metaLength = this.USER_BROADCAST_PUSH_META_LENGTH + joinRef.length + ref.length + topic.length + userEvent.length + metadata.length;
+    const header = new ArrayBuffer(this.HEADER_LENGTH + metaLength);
+    const view = new DataView(header);
+    const bytes = new Uint8Array(header);
+    let offset = 0;
+    view.setUint8(offset++, this.KINDS.userBroadcastPush);
+    view.setUint8(offset++, joinRef.length);
+    view.setUint8(offset++, ref.length);
+    view.setUint8(offset++, topic.length);
+    view.setUint8(offset++, userEvent.length);
+    view.setUint8(offset++, metadata.length);
+    view.setUint8(offset++, encodingType);
+    bytes.set(joinRef, offset);
+    offset += joinRef.length;
+    bytes.set(ref, offset);
+    offset += ref.length;
+    bytes.set(topic, offset);
+    offset += topic.length;
+    bytes.set(userEvent, offset);
+    offset += userEvent.length;
+    bytes.set(metadata, offset);
+    offset += metadata.length;
+    var combined = new Uint8Array(header.byteLength + encodedPayload.byteLength);
+    combined.set(new Uint8Array(header), 0);
+    combined.set(new Uint8Array(encodedPayload), header.byteLength);
+    return combined.buffer;
+  }
+  decode(rawPayload, callback) {
+    if (this._isArrayBuffer(rawPayload)) {
+      let result = this._binaryDecode(rawPayload);
+      return callback(result);
+    }
+    if (typeof rawPayload === "string") {
+      const jsonPayload = JSON.parse(rawPayload);
+      const [join_ref, ref, topic, event, payload] = jsonPayload;
+      return callback({ join_ref, ref, topic, event, payload });
+    }
+    return callback({});
+  }
+  _binaryDecode(buffer) {
+    const view = new DataView(buffer);
+    const kind = view.getUint8(0);
+    const decoder = new TextDecoder();
+    switch (kind) {
+      case this.KINDS.userBroadcast:
+        return this._decodeUserBroadcast(buffer, view, decoder);
+    }
+  }
+  _decodeUserBroadcast(buffer, view, decoder) {
+    const topicSize = view.getUint8(1);
+    const userEventSize = view.getUint8(2);
+    const metadataSize = view.getUint8(3);
+    const payloadEncoding = view.getUint8(4);
+    let offset = this.HEADER_LENGTH + 4;
+    const topic = decoder.decode(buffer.slice(offset, offset + topicSize));
+    offset = offset + topicSize;
+    const userEvent = decoder.decode(buffer.slice(offset, offset + userEventSize));
+    offset = offset + userEventSize;
+    const metadata = decoder.decode(buffer.slice(offset, offset + metadataSize));
+    offset = offset + metadataSize;
+    const payload = buffer.slice(offset, buffer.byteLength);
+    const parsedPayload = payloadEncoding === this.JSON_ENCODING ? JSON.parse(decoder.decode(payload)) : payload;
+    const data = {
+      type: this.BROADCAST_EVENT,
+      event: userEvent,
+      payload: parsedPayload
+    };
+    if (metadataSize > 0) {
+      data["meta"] = JSON.parse(metadata);
+    }
+    return { join_ref: null, ref: null, topic, event: this.BROADCAST_EVENT, payload: data };
+  }
+  _isArrayBuffer(buffer) {
+    var _a;
+    return buffer instanceof ArrayBuffer || ((_a = buffer === null || buffer === void 0 ? void 0 : buffer.constructor) === null || _a === void 0 ? void 0 : _a.name) === "ArrayBuffer";
+  }
+  _pick(obj, keys) {
+    if (!obj || typeof obj !== "object") {
+      return {};
+    }
+    return Object.fromEntries(Object.entries(obj).filter(([key]) => keys.includes(key)));
+  }
+};
+Serializer.DEFAULT_METADATA_KEYS = ["persist"];
+var serializer_default = Serializer;
+var PostgresTypes;
+(function(PostgresTypes2) {
+  PostgresTypes2["abstime"] = "abstime";
+  PostgresTypes2["bool"] = "bool";
+  PostgresTypes2["date"] = "date";
+  PostgresTypes2["daterange"] = "daterange";
+  PostgresTypes2["float4"] = "float4";
+  PostgresTypes2["float8"] = "float8";
+  PostgresTypes2["int2"] = "int2";
+  PostgresTypes2["int4"] = "int4";
+  PostgresTypes2["int4range"] = "int4range";
+  PostgresTypes2["int8"] = "int8";
+  PostgresTypes2["int8range"] = "int8range";
+  PostgresTypes2["json"] = "json";
+  PostgresTypes2["jsonb"] = "jsonb";
+  PostgresTypes2["money"] = "money";
+  PostgresTypes2["numeric"] = "numeric";
+  PostgresTypes2["oid"] = "oid";
+  PostgresTypes2["reltime"] = "reltime";
+  PostgresTypes2["text"] = "text";
+  PostgresTypes2["time"] = "time";
+  PostgresTypes2["timestamp"] = "timestamp";
+  PostgresTypes2["timestamptz"] = "timestamptz";
+  PostgresTypes2["timetz"] = "timetz";
+  PostgresTypes2["tsrange"] = "tsrange";
+  PostgresTypes2["tstzrange"] = "tstzrange";
+})(PostgresTypes || (PostgresTypes = {}));
+var convertChangeData = (columns2, record, options = {}) => {
+  var _a;
+  const skipTypes = (_a = options.skipTypes) !== null && _a !== void 0 ? _a : [];
+  if (!record) {
+    return {};
+  }
+  return Object.keys(record).reduce((acc, rec_key) => {
+    acc[rec_key] = convertColumn(rec_key, columns2, record, skipTypes);
+    return acc;
+  }, {});
+};
+var convertColumn = (columnName, columns2, record, skipTypes) => {
+  const column = columns2.find((x) => x.name === columnName);
+  const colType = column === null || column === void 0 ? void 0 : column.type;
+  const value = record[columnName];
+  if (colType && !skipTypes.includes(colType)) {
+    return convertCell(colType, value);
+  }
+  return noop(value);
+};
+var convertCell = (type, value) => {
+  if (type.charAt(0) === "_") {
+    const dataType = type.slice(1, type.length);
+    return toArray(value, dataType);
+  }
+  switch (type) {
+    case PostgresTypes.bool:
+      return toBoolean(value);
+    case PostgresTypes.float4:
+    case PostgresTypes.float8:
+    case PostgresTypes.int2:
+    case PostgresTypes.int4:
+    case PostgresTypes.int8:
+    case PostgresTypes.numeric:
+    case PostgresTypes.oid:
+      return toNumber(value);
+    case PostgresTypes.json:
+    case PostgresTypes.jsonb:
+      return toJson(value);
+    case PostgresTypes.timestamp:
+      return toTimestampString(value);
+    // Format to be consistent with PostgREST
+    case PostgresTypes.abstime:
+    // To allow users to cast it based on Timezone
+    case PostgresTypes.date:
+    // To allow users to cast it based on Timezone
+    case PostgresTypes.daterange:
+    case PostgresTypes.int4range:
+    case PostgresTypes.int8range:
+    case PostgresTypes.money:
+    case PostgresTypes.reltime:
+    // To allow users to cast it based on Timezone
+    case PostgresTypes.text:
+    case PostgresTypes.time:
+    // To allow users to cast it based on Timezone
+    case PostgresTypes.timestamptz:
+    // To allow users to cast it based on Timezone
+    case PostgresTypes.timetz:
+    // To allow users to cast it based on Timezone
+    case PostgresTypes.tsrange:
+    case PostgresTypes.tstzrange:
+      return noop(value);
+    default:
+      return noop(value);
+  }
+};
+var noop = (value) => {
+  return value;
+};
+var toBoolean = (value) => {
+  switch (value) {
+    case "t":
+      return true;
+    case "f":
+      return false;
+    default:
+      return value;
+  }
+};
+var toNumber = (value) => {
+  if (typeof value === "string") {
+    const parsedValue = parseFloat(value);
+    if (!Number.isNaN(parsedValue)) {
+      return parsedValue;
+    }
+  }
+  return value;
+};
+var toJson = (value) => {
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value);
+    } catch (_a) {
+      return value;
+    }
+  }
+  return value;
+};
+var toArray = (value, type) => {
+  if (typeof value !== "string") {
+    return value;
+  }
+  const lastIdx = value.length - 1;
+  const closeBrace = value[lastIdx];
+  const openBrace = value[0];
+  if (openBrace === "{" && closeBrace === "}") {
+    let arr;
+    const valTrim = value.slice(1, lastIdx);
+    try {
+      arr = JSON.parse("[" + valTrim + "]");
+    } catch (_) {
+      arr = valTrim ? valTrim.split(",") : [];
+    }
+    return arr.map((val) => convertCell(type, val));
+  }
+  return value;
+};
+var toTimestampString = (value) => {
+  if (typeof value === "string") {
+    return value.replace(" ", "T");
+  }
+  return value;
+};
+var httpEndpointURL = (socketUrl) => {
+  const wsUrl = new URL(socketUrl);
+  wsUrl.protocol = wsUrl.protocol.replace(/^ws/i, "http");
+  wsUrl.pathname = wsUrl.pathname.replace(/\/+$/, "").replace(/\/socket\/websocket$/i, "").replace(/\/socket$/i, "").replace(/\/websocket$/i, "");
+  if (wsUrl.pathname === "" || wsUrl.pathname === "/") {
+    wsUrl.pathname = "/api/broadcast";
+  } else {
+    wsUrl.pathname = wsUrl.pathname + "/api/broadcast";
+  }
+  return wsUrl.href;
+};
+var closure = (value) => {
+  if (typeof value === "function") {
+    return (
+      /** @type {() => T} */
+      value
+    );
+  } else {
+    let closure2 = function() {
+      return value;
+    };
+    return closure2;
+  }
+};
+var globalSelf = typeof self !== "undefined" ? self : null;
+var phxWindow = typeof window !== "undefined" ? window : null;
+var global2 = globalSelf || phxWindow || globalThis;
+var DEFAULT_VSN2 = "2.0.0";
+var DEFAULT_TIMEOUT2 = 1e4;
+var WS_CLOSE_NORMAL = 1e3;
+var MAX_LONGPOLL_BATCH_SIZE = 100;
+var SOCKET_STATES = (
+  /** @type {const} */
+  { connecting: 0, open: 1, closing: 2, closed: 3 }
+);
+var CHANNEL_STATES2 = (
+  /** @type {const} */
+  {
+    closed: "closed",
+    errored: "errored",
+    joined: "joined",
+    joining: "joining",
+    leaving: "leaving"
+  }
+);
+var CHANNEL_EVENTS2 = (
+  /** @type {const} */
+  {
+    close: "phx_close",
+    error: "phx_error",
+    join: "phx_join",
+    reply: "phx_reply",
+    leave: "phx_leave"
+  }
+);
+var TRANSPORTS = (
+  /** @type {const} */
+  {
+    longpoll: "longpoll",
+    websocket: "websocket"
+  }
+);
+var XHR_STATES = (
+  /** @type {const} */
+  {
+    complete: 4
+  }
+);
+var AUTH_TOKEN_PREFIX = "base64url.bearer.phx.";
+var Push = class {
+  /**
+   * Initializes the Push
+   * @param {Channel} channel - The Channel
+   * @param {ChannelEvent} event - The event, for example `"phx_join"`
+   * @param {() => Record<string, unknown>} payload - The payload, for example `{user_id: 123}`
+   * @param {number} timeout - The push timeout in milliseconds
+   */
+  constructor(channel, event, payload, timeout) {
+    this.channel = channel;
+    this.event = event;
+    this.payload = payload || function() {
+      return {};
+    };
+    this.receivedResp = null;
+    this.timeout = timeout;
+    this.timeoutTimer = null;
+    this.recHooks = [];
+    this.sent = false;
+    this.ref = void 0;
+  }
+  /**
+   *
+   * @param {number} timeout
+   */
+  resend(timeout) {
+    this.timeout = timeout;
+    this.reset();
+    this.send();
+  }
+  /**
+   *
+   */
+  send() {
+    if (this.hasReceived("timeout")) {
+      return;
+    }
+    this.startTimeout();
+    this.sent = true;
+    this.channel.socket.push({
+      topic: this.channel.topic,
+      event: this.event,
+      payload: this.payload(),
+      ref: this.ref,
+      join_ref: this.channel.joinRef()
+    });
+  }
+  /**
+   *
+   * @param {string} status
+   * @param {(response: any) => void} callback
+   */
+  receive(status, callback) {
+    if (this.hasReceived(status)) {
+      callback(this.receivedResp.response);
+    }
+    this.recHooks.push({ status, callback });
+    return this;
+  }
+  reset() {
+    this.cancelRefEvent();
+    this.ref = null;
+    this.refEvent = null;
+    this.receivedResp = null;
+    this.sent = false;
+  }
+  destroy() {
+    this.cancelRefEvent();
+    this.cancelTimeout();
+  }
+  /**
+   * @private
+   */
+  matchReceive({ status, response, _ref }) {
+    this.recHooks.filter((h) => h.status === status).forEach((h) => h.callback(response));
+  }
+  /**
+   * @private
+   */
+  cancelRefEvent() {
+    if (!this.refEvent) {
+      return;
+    }
+    this.channel.off(this.refEvent);
+  }
+  cancelTimeout() {
+    clearTimeout(this.timeoutTimer);
+    this.timeoutTimer = null;
+  }
+  startTimeout() {
+    if (this.timeoutTimer) {
+      this.cancelTimeout();
+    }
+    this.ref = this.channel.socket.makeRef();
+    this.refEvent = this.channel.replyEventName(this.ref);
+    this.channel.on(this.refEvent, (payload) => {
+      this.cancelRefEvent();
+      this.cancelTimeout();
+      this.receivedResp = payload;
+      this.matchReceive(payload);
+    });
+    this.timeoutTimer = setTimeout(() => {
+      this.trigger("timeout", {});
+    }, this.timeout);
+  }
+  /**
+   * @private
+   */
+  hasReceived(status) {
+    return this.receivedResp && this.receivedResp.status === status;
+  }
+  trigger(status, response) {
+    this.channel.trigger(this.refEvent, { status, response });
+  }
+};
+var Timer = class {
+  /**
+  * @param {() => void} callback
+  * @param {(tries: number) => number} timerCalc
+  */
+  constructor(callback, timerCalc) {
+    this.callback = callback;
+    this.timerCalc = timerCalc;
+    this.timer = void 0;
+    this.tries = 0;
+  }
+  reset() {
+    this.tries = 0;
+    clearTimeout(this.timer);
+  }
+  /**
+   * Cancels any previous scheduleTimeout and schedules callback
+   */
+  scheduleTimeout() {
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      this.tries = this.tries + 1;
+      this.callback();
+    }, this.timerCalc(this.tries + 1));
+  }
+};
+var Channel = class {
+  /**
+   * @param {string} topic
+   * @param {Params | (() => Params)} params
+   * @param {Socket} socket
+   */
+  constructor(topic, params, socket) {
+    this.state = CHANNEL_STATES2.closed;
+    this.topic = topic;
+    this.params = closure(params || {});
+    this.socket = socket;
+    this.bindings = [];
+    this.bindingRef = 0;
+    this.timeout = this.socket.timeout;
+    this.joinedOnce = false;
+    this.joinPush = new Push(this, CHANNEL_EVENTS2.join, this.params, this.timeout);
+    this.pushBuffer = [];
+    this.stateChangeRefs = [];
+    this.rejoinTimer = new Timer(() => {
+      if (this.socket.isConnected()) {
+        this.rejoin();
+      }
+    }, this.socket.rejoinAfterMs);
+    this.stateChangeRefs.push(this.socket.onError(() => this.rejoinTimer.reset()));
+    this.stateChangeRefs.push(
+      this.socket.onOpen(() => {
+        this.rejoinTimer.reset();
+        if (this.isErrored()) {
+          this.rejoin();
+        }
+      })
+    );
+    this.joinPush.receive("ok", () => {
+      this.state = CHANNEL_STATES2.joined;
+      this.rejoinTimer.reset();
+      this.pushBuffer.forEach((pushEvent) => pushEvent.send());
+      this.pushBuffer = [];
+    });
+    this.joinPush.receive("error", (reason) => {
+      this.state = CHANNEL_STATES2.errored;
+      if (this.socket.hasLogger()) this.socket.log("channel", `error ${this.topic}`, reason);
+      if (this.socket.isConnected()) {
+        this.rejoinTimer.scheduleTimeout();
+      }
+    });
+    this.onClose(() => {
+      this.rejoinTimer.reset();
+      if (this.socket.hasLogger()) this.socket.log("channel", `close ${this.topic}`);
+      this.state = CHANNEL_STATES2.closed;
+      this.socket.remove(this);
+    });
+    this.onError((reason) => {
+      if (this.socket.hasLogger()) this.socket.log("channel", `error ${this.topic}`, reason);
+      if (this.isJoining()) {
+        this.joinPush.reset();
+      }
+      this.state = CHANNEL_STATES2.errored;
+      if (this.socket.isConnected()) {
+        this.rejoinTimer.scheduleTimeout();
+      }
+    });
+    this.joinPush.receive("timeout", () => {
+      if (this.socket.hasLogger()) this.socket.log("channel", `timeout ${this.topic}`, this.joinPush.timeout);
+      let leavePush = new Push(this, CHANNEL_EVENTS2.leave, closure({}), this.timeout);
+      leavePush.send();
+      this.state = CHANNEL_STATES2.errored;
+      this.joinPush.reset();
+      if (this.socket.isConnected()) {
+        this.rejoinTimer.scheduleTimeout();
+      }
+    });
+    this.on(CHANNEL_EVENTS2.reply, (payload, ref) => {
+      this.trigger(this.replyEventName(ref), payload);
+    });
+  }
+  /**
+   * Join the channel
+   * @param {number} timeout
+   * @returns {Push}
+   */
+  join(timeout = this.timeout) {
+    if (this.joinedOnce) {
+      throw new Error("tried to join multiple times. 'join' can only be called a single time per channel instance");
+    } else {
+      this.timeout = timeout;
+      this.joinedOnce = true;
+      this.rejoin();
+      return this.joinPush;
+    }
+  }
+  /**
+   * Teardown the channel.
+   *
+   * Destroys and stops related timers.
+   */
+  teardown() {
+    this.pushBuffer.forEach((push) => push.destroy());
+    this.pushBuffer = [];
+    this.rejoinTimer.reset();
+    this.joinPush.destroy();
+    this.state = CHANNEL_STATES2.closed;
+    this.bindings = [];
+  }
+  /**
+   * Hook into channel close
+   * @param {ChannelBindingCallback} callback
+   */
+  onClose(callback) {
+    this.on(CHANNEL_EVENTS2.close, callback);
+  }
+  /**
+   * Hook into channel errors
+   * @param {ChannelOnErrorCallback} callback
+   * @return {number}
+   */
+  onError(callback) {
+    return this.on(CHANNEL_EVENTS2.error, (reason) => callback(reason));
+  }
+  /**
+   * Subscribes on channel events
+   *
+   * Subscription returns a ref counter, which can be used later to
+   * unsubscribe the exact event listener
+   *
+   * @example
+   * const ref1 = channel.on("event", do_stuff)
+   * const ref2 = channel.on("event", do_other_stuff)
+   * channel.off("event", ref1)
+   * // Since unsubscription, do_stuff won't fire,
+   * // while do_other_stuff will keep firing on the "event"
+   *
+   * @param {string} event
+   * @param {ChannelBindingCallback} callback
+   * @returns {number} ref
+   */
+  on(event, callback) {
+    let ref = this.bindingRef++;
+    this.bindings.push({ event, ref, callback });
+    return ref;
+  }
+  /**
+   * Unsubscribes off of channel events
+   *
+   * Use the ref returned from a channel.on() to unsubscribe one
+   * handler, or pass nothing for the ref to unsubscribe all
+   * handlers for the given event.
+   *
+   * @example
+   * // Unsubscribe the do_stuff handler
+   * const ref1 = channel.on("event", do_stuff)
+   * channel.off("event", ref1)
+   *
+   * // Unsubscribe all handlers from event
+   * channel.off("event")
+   *
+   * @param {string} event
+   * @param {number} [ref]
+   */
+  off(event, ref) {
+    this.bindings = this.bindings.filter((bind) => {
+      return !(bind.event === event && (typeof ref === "undefined" || ref === bind.ref));
+    });
+  }
+  /**
+   * @private
+   */
+  canPush() {
+    return this.socket.isConnected() && this.isJoined();
+  }
+  /**
+   * Sends a message `event` to phoenix with the payload `payload`.
+   * Phoenix receives this in the `handle_in(event, payload, socket)`
+   * function. if phoenix replies or it times out (default 10000ms),
+   * then optionally the reply can be received.
+   *
+   * @example
+   * channel.push("event")
+   *   .receive("ok", payload => console.log("phoenix replied:", payload))
+   *   .receive("error", err => console.log("phoenix errored", err))
+   *   .receive("timeout", () => console.log("timed out pushing"))
+   * @param {string} event
+   * @param {Object} payload
+   * @param {number} [timeout]
+   * @returns {Push}
+   */
+  push(event, payload, timeout = this.timeout) {
+    payload = payload || {};
+    if (!this.joinedOnce) {
+      throw new Error(`tried to push '${event}' to '${this.topic}' before joining. Use channel.join() before pushing events`);
+    }
+    let pushEvent = new Push(this, event, function() {
+      return payload;
+    }, timeout);
+    if (this.canPush()) {
+      pushEvent.send();
+    } else {
+      pushEvent.startTimeout();
+      this.pushBuffer.push(pushEvent);
+    }
+    return pushEvent;
+  }
+  /** Leaves the channel
+   *
+   * Unsubscribes from server events, and
+   * instructs channel to terminate on server
+   *
+   * Triggers onClose() hooks
+   *
+   * To receive leave acknowledgements, use the `receive`
+   * hook to bind to the server ack, ie:
+   *
+   * @example
+   * channel.leave().receive("ok", () => alert("left!") )
+   *
+   * @param {number} timeout
+   * @returns {Push}
+   */
+  leave(timeout = this.timeout) {
+    this.rejoinTimer.reset();
+    this.joinPush.cancelTimeout();
+    this.state = CHANNEL_STATES2.leaving;
+    let onClose = () => {
+      if (this.socket.hasLogger()) this.socket.log("channel", `leave ${this.topic}`);
+      this.trigger(CHANNEL_EVENTS2.close, "leave");
+    };
+    let leavePush = new Push(this, CHANNEL_EVENTS2.leave, closure({}), timeout);
+    leavePush.receive("ok", () => onClose()).receive("timeout", () => onClose());
+    leavePush.send();
+    if (!this.canPush()) {
+      leavePush.trigger("ok", {});
+    }
+    return leavePush;
+  }
+  /**
+   * Overridable message hook
+   *
+   * Receives all events for specialized message handling
+   * before dispatching to the channel callbacks.
+   *
+   * Must return the payload, modified or unmodified
+   * @type{ChannelOnMessage}
+   */
+  onMessage(_event, payload, _ref) {
+    return payload;
+  }
+  /**
+   * Overridable filter hook
+   *
+   * If this function returns `true`, `binding`'s callback will be called.
+   *
+   * @type{ChannelFilterBindings}
+   */
+  filterBindings(_binding, _payload, _ref) {
+    return true;
+  }
+  isMember(topic, event, payload, joinRef) {
+    if (this.topic !== topic) {
+      return false;
+    }
+    if (joinRef && joinRef !== this.joinRef()) {
+      if (this.socket.hasLogger()) this.socket.log("channel", "dropping outdated message", { topic, event, payload, joinRef });
+      return false;
+    } else {
+      return true;
+    }
+  }
+  joinRef() {
+    return this.joinPush.ref;
+  }
+  /**
+   * @private
+   */
+  rejoin(timeout = this.timeout) {
+    if (this.isLeaving()) {
+      return;
+    }
+    this.socket.leaveOpenTopic(this.topic);
+    this.state = CHANNEL_STATES2.joining;
+    this.joinPush.resend(timeout);
+  }
+  /**
+   * @param {string} event
+   * @param {unknown} [payload]
+   * @param {?string} [ref]
+   * @param {?string} [joinRef]
+   */
+  trigger(event, payload, ref, joinRef) {
+    let handledPayload = this.onMessage(event, payload, ref, joinRef);
+    if (payload && !handledPayload) {
+      throw new Error("channel onMessage callbacks must return the payload, modified or unmodified");
+    }
+    let eventBindings = this.bindings.filter((bind) => bind.event === event && this.filterBindings(bind, payload, ref));
+    for (let i = 0; i < eventBindings.length; i++) {
+      let bind = eventBindings[i];
+      bind.callback(handledPayload, ref, joinRef || this.joinRef());
+    }
+  }
+  /**
+  * @param {string} ref
+  */
+  replyEventName(ref) {
+    return `chan_reply_${ref}`;
+  }
+  isClosed() {
+    return this.state === CHANNEL_STATES2.closed;
+  }
+  isErrored() {
+    return this.state === CHANNEL_STATES2.errored;
+  }
+  isJoined() {
+    return this.state === CHANNEL_STATES2.joined;
+  }
+  isJoining() {
+    return this.state === CHANNEL_STATES2.joining;
+  }
+  isLeaving() {
+    return this.state === CHANNEL_STATES2.leaving;
+  }
+};
+var Ajax = class {
+  static request(method, endPoint, headers, body, timeout, ontimeout, callback) {
+    if (global2.XDomainRequest) {
+      let req = new global2.XDomainRequest();
+      return this.xdomainRequest(req, method, endPoint, body, timeout, ontimeout, callback);
+    } else if (global2.XMLHttpRequest) {
+      let req = new global2.XMLHttpRequest();
+      return this.xhrRequest(req, method, endPoint, headers, body, timeout, ontimeout, callback);
+    } else if (global2.fetch && global2.AbortController) {
+      return this.fetchRequest(method, endPoint, headers, body, timeout, ontimeout, callback);
+    } else {
+      throw new Error("No suitable XMLHttpRequest implementation found");
+    }
+  }
+  static fetchRequest(method, endPoint, headers, body, timeout, ontimeout, callback) {
+    let options = {
+      method,
+      headers,
+      body
+    };
+    let controller = null;
+    if (timeout) {
+      controller = new AbortController();
+      const _timeoutId = setTimeout(() => controller.abort(), timeout);
+      options.signal = controller.signal;
+    }
+    global2.fetch(endPoint, options).then((response) => response.text()).then((data) => this.parseJSON(data)).then((data) => callback && callback(data)).catch((err) => {
+      if (err.name === "AbortError" && ontimeout) {
+        ontimeout();
+      } else {
+        callback && callback(null);
+      }
+    });
+    return controller;
+  }
+  static xdomainRequest(req, method, endPoint, body, timeout, ontimeout, callback) {
+    req.timeout = timeout;
+    req.open(method, endPoint);
+    req.onload = () => {
+      let response = this.parseJSON(req.responseText);
+      callback && callback(response);
+    };
+    if (ontimeout) {
+      req.ontimeout = ontimeout;
+    }
+    req.onprogress = () => {
+    };
+    req.send(body);
+    return req;
+  }
+  static xhrRequest(req, method, endPoint, headers, body, timeout, ontimeout, callback) {
+    req.open(method, endPoint, true);
+    req.timeout = timeout;
+    for (let [key, value] of Object.entries(headers)) {
+      req.setRequestHeader(key, value);
+    }
+    req.onerror = () => callback && callback(null);
+    req.onreadystatechange = () => {
+      if (req.readyState === XHR_STATES.complete && callback) {
+        let response = this.parseJSON(req.responseText);
+        callback(response);
+      }
+    };
+    if (ontimeout) {
+      req.ontimeout = ontimeout;
+    }
+    req.send(body);
+    return req;
+  }
+  static parseJSON(resp) {
+    if (!resp || resp === "") {
+      return null;
+    }
+    try {
+      return JSON.parse(resp);
+    } catch {
+      console && console.log("failed to parse JSON response", resp);
+      return null;
+    }
+  }
+  static serialize(obj, parentKey) {
+    let queryStr = [];
+    for (var key in obj) {
+      if (!Object.prototype.hasOwnProperty.call(obj, key)) {
+        continue;
+      }
+      let paramKey = parentKey ? `${parentKey}[${key}]` : key;
+      let paramVal = obj[key];
+      if (typeof paramVal === "object") {
+        queryStr.push(this.serialize(paramVal, paramKey));
+      } else {
+        queryStr.push(encodeURIComponent(paramKey) + "=" + encodeURIComponent(paramVal));
+      }
+    }
+    return queryStr.join("&");
+  }
+  static appendParams(url, params) {
+    if (Object.keys(params).length === 0) {
+      return url;
+    }
+    let prefix = url.match(/\?/) ? "&" : "?";
+    return `${url}${prefix}${this.serialize(params)}`;
+  }
+};
+var arrayBufferToBase64 = (buffer) => {
+  let binary = "";
+  let bytes = new Uint8Array(buffer);
+  let len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+};
+var LongPoll = class {
+  constructor(endPoint, protocols) {
+    if (protocols && protocols.length === 2 && protocols[1].startsWith(AUTH_TOKEN_PREFIX)) {
+      this.authToken = atob(protocols[1].slice(AUTH_TOKEN_PREFIX.length));
+    }
+    this.endPoint = null;
+    this.token = null;
+    this.skipHeartbeat = true;
+    this.reqs = /* @__PURE__ */ new Set();
+    this.awaitingBatchAck = false;
+    this.currentBatch = null;
+    this.currentBatchTimer = null;
+    this.batchBuffer = [];
+    this.onopen = function() {
+    };
+    this.onerror = function() {
+    };
+    this.onmessage = function() {
+    };
+    this.onclose = function() {
+    };
+    this.pollEndpoint = this.normalizeEndpoint(endPoint);
+    this.readyState = SOCKET_STATES.connecting;
+    setTimeout(() => this.poll(), 0);
+  }
+  normalizeEndpoint(endPoint) {
+    return endPoint.replace("ws://", "http://").replace("wss://", "https://").replace(new RegExp("(.*)/" + TRANSPORTS.websocket), "$1/" + TRANSPORTS.longpoll);
+  }
+  endpointURL() {
+    return Ajax.appendParams(this.pollEndpoint, { token: this.token });
+  }
+  closeAndRetry(code, reason, wasClean) {
+    this.close(code, reason, wasClean);
+    this.readyState = SOCKET_STATES.connecting;
+  }
+  ontimeout() {
+    this.onerror("timeout");
+    this.closeAndRetry(1005, "timeout", false);
+  }
+  isActive() {
+    return this.readyState === SOCKET_STATES.open || this.readyState === SOCKET_STATES.connecting;
+  }
+  poll() {
+    const headers = { "Accept": "application/json" };
+    if (this.authToken) {
+      headers["X-Phoenix-AuthToken"] = this.authToken;
+    }
+    this.ajax("GET", headers, null, () => this.ontimeout(), (resp) => {
+      if (resp) {
+        var { status, token, messages } = resp;
+        if (status === 410 && this.token !== null) {
+          this.onerror(410);
+          this.closeAndRetry(3410, "session_gone", false);
+          return;
+        }
+        this.token = token;
+      } else {
+        status = 0;
+      }
+      switch (status) {
+        case 200:
+          messages.forEach((msg) => {
+            setTimeout(() => this.onmessage({ data: msg }), 0);
+          });
+          this.poll();
+          break;
+        case 204:
+          this.poll();
+          break;
+        case 410:
+          this.readyState = SOCKET_STATES.open;
+          this.onopen({});
+          this.poll();
+          break;
+        case 403:
+          this.onerror(403);
+          this.close(1008, "forbidden", false);
+          break;
+        case 0:
+        case 500:
+          this.onerror(500);
+          this.closeAndRetry(1011, "internal server error", 500);
+          break;
+        default:
+          throw new Error(`unhandled poll status ${status}`);
+      }
+    });
+  }
+  // we collect all pushes within the current event loop by
+  // setTimeout 0, which optimizes back-to-back procedural
+  // pushes against an empty buffer
+  send(body) {
+    if (typeof body !== "string") {
+      body = arrayBufferToBase64(body);
+    }
+    if (this.currentBatch) {
+      this.currentBatch.push(body);
+    } else if (this.awaitingBatchAck) {
+      this.batchBuffer.push(body);
+    } else {
+      this.currentBatch = [body];
+      this.currentBatchTimer = setTimeout(() => {
+        this.batchSend(this.currentBatch);
+        this.currentBatch = null;
+      }, 0);
+    }
+  }
+  batchSend(messages, offset = 0) {
+    this.awaitingBatchAck = true;
+    const next = offset + MAX_LONGPOLL_BATCH_SIZE;
+    const batch = messages.slice(offset, next);
+    this.ajax("POST", { "Content-Type": "application/x-ndjson" }, batch.join("\n"), () => this.onerror("timeout"), (resp) => {
+      if (!resp || resp.status !== 200) {
+        this.awaitingBatchAck = false;
+        this.onerror(resp && resp.status);
+        this.closeAndRetry(1011, "internal server error", false);
+      } else if (next < messages.length) {
+        this.batchSend(messages, next);
+      } else if (this.batchBuffer.length > 0) {
+        this.batchSend(this.batchBuffer);
+        this.batchBuffer = [];
+      } else {
+        this.awaitingBatchAck = false;
+      }
+    });
+  }
+  close(code, reason, wasClean) {
+    for (let req of this.reqs) {
+      req.abort();
+    }
+    this.readyState = SOCKET_STATES.closed;
+    let opts = Object.assign({ code: 1e3, reason: void 0, wasClean: true }, { code, reason, wasClean });
+    this.batchBuffer = [];
+    clearTimeout(this.currentBatchTimer);
+    this.currentBatchTimer = null;
+    if (typeof CloseEvent !== "undefined") {
+      this.onclose(new CloseEvent("close", opts));
+    } else {
+      this.onclose(opts);
+    }
+  }
+  ajax(method, headers, body, onCallerTimeout, callback) {
+    let req;
+    let ontimeout = () => {
+      this.reqs.delete(req);
+      onCallerTimeout();
+    };
+    req = Ajax.request(method, this.endpointURL(), headers, body, this.timeout, ontimeout, (resp) => {
+      this.reqs.delete(req);
+      if (this.isActive()) {
+        callback(resp);
+      }
+    });
+    this.reqs.add(req);
+  }
+};
+var Presence = class _Presence {
+  /**
+   * Initializes the Presence
+   * @param {Channel} channel - The Channel
+   * @param {PresenceOptions} [opts] - The options, for example `{events: {state: "state", diff: "diff"}}`
+   */
+  constructor(channel, opts = {}) {
+    let events = opts.events || /** @type {PresenceEvents} */
+    { state: "presence_state", diff: "presence_diff" };
+    this.state = /* @__PURE__ */ Object.create(null);
+    this.pendingDiffs = [];
+    this.channel = channel;
+    this.joinRef = null;
+    this.caller = {
+      onJoin: function() {
+      },
+      onLeave: function() {
+      },
+      onSync: function() {
+      }
+    };
+    this.channel.on(events.state, (newState) => {
+      let { onJoin, onLeave, onSync } = this.caller;
+      this.joinRef = this.channel.joinRef();
+      this.state = _Presence.syncState(this.state, newState, onJoin, onLeave);
+      this.pendingDiffs.forEach((diff) => {
+        this.state = _Presence.syncDiff(this.state, diff, onJoin, onLeave);
+      });
+      this.pendingDiffs = [];
+      onSync();
+    });
+    this.channel.on(events.diff, (diff) => {
+      let { onJoin, onLeave, onSync } = this.caller;
+      if (this.inPendingSyncState()) {
+        this.pendingDiffs.push(diff);
+      } else {
+        this.state = _Presence.syncDiff(this.state, diff, onJoin, onLeave);
+        onSync();
+      }
+    });
+  }
+  /**
+   * @param {PresenceOnJoin} callback
+   */
+  onJoin(callback) {
+    this.caller.onJoin = callback;
+  }
+  /**
+   * @param {PresenceOnLeave} callback
+   */
+  onLeave(callback) {
+    this.caller.onLeave = callback;
+  }
+  /**
+   * @param {PresenceOnSync} callback
+   */
+  onSync(callback) {
+    this.caller.onSync = callback;
+  }
+  /**
+   * Returns the array of presences, with selected metadata.
+   *
+   * @template [T=PresenceState]
+   * @param {((key: string, obj: PresenceState) => T)} [by]
+   *
+   * @returns {T[]}
+   */
+  list(by) {
+    return _Presence.list(this.state, by);
+  }
+  inPendingSyncState() {
+    return !this.joinRef || this.joinRef !== this.channel.joinRef();
+  }
+  // lower-level public static API
+  /**
+   * Used to sync the list of presences on the server
+   * with the client's state. An optional `onJoin` and `onLeave` callback can
+   * be provided to react to changes in the client's local presences across
+   * disconnects and reconnects with the server.
+   *
+   * @param {Record<string, PresenceState>} currentState
+   * @param {Record<string, PresenceState>} newState
+   * @param {PresenceOnJoin} onJoin
+   * @param {PresenceOnLeave} onLeave
+   *
+   * @returns {Record<string, PresenceState>}
+   */
+  static syncState(currentState, newState, onJoin, onLeave) {
+    let state = this.toNullProtoObj(this.clone(currentState));
+    newState = this.toNullProtoObj(newState);
+    let joins = /* @__PURE__ */ Object.create(null);
+    let leaves = /* @__PURE__ */ Object.create(null);
+    this.map(state, (key, presence) => {
+      if (!newState[key]) {
+        leaves[key] = presence;
+      }
+    });
+    this.map(newState, (key, newPresence) => {
+      let currentPresence = state[key];
+      if (currentPresence) {
+        let newRefs = newPresence.metas.map((m) => m.phx_ref);
+        let curRefs = currentPresence.metas.map((m) => m.phx_ref);
+        let joinedMetas = newPresence.metas.filter((m) => curRefs.indexOf(m.phx_ref) < 0);
+        let leftMetas = currentPresence.metas.filter((m) => newRefs.indexOf(m.phx_ref) < 0);
+        if (joinedMetas.length > 0) {
+          joins[key] = newPresence;
+          joins[key].metas = joinedMetas;
+        }
+        if (leftMetas.length > 0) {
+          leaves[key] = this.clone(currentPresence);
+          leaves[key].metas = leftMetas;
+        }
+      } else {
+        joins[key] = newPresence;
+      }
+    });
+    return this.syncDiff(state, { joins, leaves }, onJoin, onLeave);
+  }
+  /**
+   *
+   * Used to sync a diff of presence join and leave
+   * events from the server, as they happen. Like `syncState`, `syncDiff`
+   * accepts optional `onJoin` and `onLeave` callbacks to react to a user
+   * joining or leaving from a device.
+   *
+   * @param {Record<string, PresenceState>} state
+   * @param {PresenceDiff} diff
+   * @param {PresenceOnJoin} onJoin
+   * @param {PresenceOnLeave} onLeave
+   *
+   * @returns {Record<string, PresenceState>}
+   */
+  static syncDiff(state, diff, onJoin, onLeave) {
+    state = this.toNullProtoObj(state);
+    let { joins, leaves } = this.clone(diff);
+    if (!onJoin) {
+      onJoin = function() {
+      };
+    }
+    if (!onLeave) {
+      onLeave = function() {
+      };
+    }
+    this.map(joins, (key, newPresence) => {
+      let currentPresence = state[key];
+      state[key] = this.clone(newPresence);
+      if (currentPresence) {
+        let joinedRefs = state[key].metas.map((m) => m.phx_ref);
+        let curMetas = currentPresence.metas.filter((m) => joinedRefs.indexOf(m.phx_ref) < 0);
+        state[key].metas.unshift(...curMetas);
+      }
+      onJoin(key, currentPresence, newPresence);
+    });
+    this.map(leaves, (key, leftPresence) => {
+      let currentPresence = state[key];
+      if (!currentPresence) {
+        return;
+      }
+      let refsToRemove = leftPresence.metas.map((m) => m.phx_ref);
+      currentPresence.metas = currentPresence.metas.filter((p) => {
+        return refsToRemove.indexOf(p.phx_ref) < 0;
+      });
+      onLeave(key, currentPresence, leftPresence);
+      if (currentPresence.metas.length === 0) {
+        delete state[key];
+      }
+    });
+    return state;
+  }
+  /**
+   * Returns the array of presences, with selected metadata.
+   *
+   * @template [T=PresenceState]
+   * @param {Record<string, PresenceState>} presences
+   * @param {((key: string, obj: PresenceState) => T)} [chooser]
+   *
+   * @returns {T[]}
+   */
+  static list(presences, chooser) {
+    if (!chooser) {
+      chooser = function(key, pres) {
+        return pres;
+      };
+    }
+    return this.map(presences, (key, presence) => {
+      return chooser(key, presence);
+    });
+  }
+  // private
+  /**
+  * @template T
+  * @param {Record<string, PresenceState>} obj
+  * @param {(key: string, obj: PresenceState) => T} func
+  */
+  static map(obj, func) {
+    return Object.getOwnPropertyNames(obj).map((key) => func(key, obj[key]));
+  }
+  // Presence keys are chosen on the server and may collide with
+  // Object.prototype properties ("__proto__", "constructor", ...), so any
+  // object indexed by presence key must not have a prototype chain
+  //
+  // TODO: replace the null-prototype objects with Maps in Phoenix 2.0
+  // (breaking change for the lower-level static API)
+  static toNullProtoObj(obj) {
+    if (Object.getPrototypeOf(obj) === null) {
+      return obj;
+    }
+    let cleaned = /* @__PURE__ */ Object.create(null);
+    Object.getOwnPropertyNames(obj).forEach((key) => {
+      cleaned[key] = obj[key];
+    });
+    return cleaned;
+  }
+  /**
+  * @template T
+  * @param {T} obj
+  * @returns {T}
+  */
+  static clone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+  }
+};
+var serializer_default2 = {
+  HEADER_LENGTH: 1,
+  META_LENGTH: 4,
+  KINDS: { push: 0, reply: 1, broadcast: 2 },
+  /**
+  * @template T
+  * @param {Message<Record<string, any>>} msg
+  * @param {(msg: ArrayBuffer | string) => T} callback
+  * @returns {T}
+  */
+  encode(msg, callback) {
+    if (msg.payload.constructor === ArrayBuffer) {
+      return callback(this.binaryEncode(msg));
+    } else {
+      let payload = [msg.join_ref, msg.ref, msg.topic, msg.event, msg.payload];
+      return callback(JSON.stringify(payload));
+    }
+  },
+  /**
+  * @template T
+  * @param {ArrayBuffer | string} rawPayload
+  * @param {(msg: Message<unknown>) => T} callback
+  * @returns {T}
+  */
+  decode(rawPayload, callback) {
+    if (rawPayload.constructor === ArrayBuffer) {
+      return callback(this.binaryDecode(rawPayload));
+    } else {
+      let [join_ref, ref, topic, event, payload] = JSON.parse(rawPayload);
+      return callback({ join_ref, ref, topic, event, payload });
+    }
+  },
+  /** @private */
+  binaryEncode(message) {
+    let { join_ref, ref, event, topic, payload } = message;
+    let encoder = new TextEncoder();
+    let joinRefBytes = encoder.encode(join_ref);
+    let refBytes = encoder.encode(ref);
+    let topicBytes = encoder.encode(topic);
+    let eventBytes = encoder.encode(event);
+    this.assertFieldSize(joinRefBytes.byteLength, "join_ref");
+    this.assertFieldSize(refBytes.byteLength, "ref");
+    this.assertFieldSize(topicBytes.byteLength, "topic");
+    this.assertFieldSize(eventBytes.byteLength, "event");
+    let metaLength = this.META_LENGTH + joinRefBytes.byteLength + refBytes.byteLength + topicBytes.byteLength + eventBytes.byteLength;
+    let header = new ArrayBuffer(this.HEADER_LENGTH + metaLength);
+    let headerBytes = new Uint8Array(header);
+    let view = new DataView(header);
+    let offset = 0;
+    view.setUint8(offset++, this.KINDS.push);
+    view.setUint8(offset++, joinRefBytes.byteLength);
+    view.setUint8(offset++, refBytes.byteLength);
+    view.setUint8(offset++, topicBytes.byteLength);
+    view.setUint8(offset++, eventBytes.byteLength);
+    headerBytes.set(joinRefBytes, offset);
+    offset += joinRefBytes.byteLength;
+    headerBytes.set(refBytes, offset);
+    offset += refBytes.byteLength;
+    headerBytes.set(topicBytes, offset);
+    offset += topicBytes.byteLength;
+    headerBytes.set(eventBytes, offset);
+    offset += eventBytes.byteLength;
+    var combined = new Uint8Array(header.byteLength + payload.byteLength);
+    combined.set(headerBytes, 0);
+    combined.set(new Uint8Array(payload), header.byteLength);
+    return combined.buffer;
+  },
+  assertFieldSize(size2, name) {
+    if (size2 > 255) {
+      throw new Error(`unable to convert ${name} to binary: must be less than or equal to 255 bytes, but is ${size2} bytes`);
+    }
+  },
+  /**
+  * @private
+  */
+  binaryDecode(buffer) {
+    let view = new DataView(buffer);
+    let kind = view.getUint8(0);
+    let decoder = new TextDecoder();
+    switch (kind) {
+      case this.KINDS.push:
+        return this.decodePush(buffer, view, decoder);
+      case this.KINDS.reply:
+        return this.decodeReply(buffer, view, decoder);
+      case this.KINDS.broadcast:
+        return this.decodeBroadcast(buffer, view, decoder);
+    }
+  },
+  /** @private */
+  decodePush(buffer, view, decoder) {
+    let joinRefSize = view.getUint8(1);
+    let topicSize = view.getUint8(2);
+    let eventSize = view.getUint8(3);
+    let offset = this.HEADER_LENGTH + this.META_LENGTH - 1;
+    let joinRef = decoder.decode(buffer.slice(offset, offset + joinRefSize));
+    offset = offset + joinRefSize;
+    let topic = decoder.decode(buffer.slice(offset, offset + topicSize));
+    offset = offset + topicSize;
+    let event = decoder.decode(buffer.slice(offset, offset + eventSize));
+    offset = offset + eventSize;
+    let data = buffer.slice(offset, buffer.byteLength);
+    return { join_ref: joinRef, ref: null, topic, event, payload: data };
+  },
+  /** @private */
+  decodeReply(buffer, view, decoder) {
+    let joinRefSize = view.getUint8(1);
+    let refSize = view.getUint8(2);
+    let topicSize = view.getUint8(3);
+    let eventSize = view.getUint8(4);
+    let offset = this.HEADER_LENGTH + this.META_LENGTH;
+    let joinRef = decoder.decode(buffer.slice(offset, offset + joinRefSize));
+    offset = offset + joinRefSize;
+    let ref = decoder.decode(buffer.slice(offset, offset + refSize));
+    offset = offset + refSize;
+    let topic = decoder.decode(buffer.slice(offset, offset + topicSize));
+    offset = offset + topicSize;
+    let event = decoder.decode(buffer.slice(offset, offset + eventSize));
+    offset = offset + eventSize;
+    let data = buffer.slice(offset, buffer.byteLength);
+    let payload = { status: event, response: data };
+    return { join_ref: joinRef, ref, topic, event: CHANNEL_EVENTS2.reply, payload };
+  },
+  /** @private */
+  decodeBroadcast(buffer, view, decoder) {
+    let topicSize = view.getUint8(1);
+    let eventSize = view.getUint8(2);
+    let offset = this.HEADER_LENGTH + 2;
+    let topic = decoder.decode(buffer.slice(offset, offset + topicSize));
+    offset = offset + topicSize;
+    let event = decoder.decode(buffer.slice(offset, offset + eventSize));
+    offset = offset + eventSize;
+    let data = buffer.slice(offset, buffer.byteLength);
+    return { join_ref: null, ref: null, topic, event, payload: data };
+  }
+};
+var Socket = class {
+  /** Initializes the Socket *
+   *
+   * For IE8 support use an ES5-shim (https://github.com/es-shims/es5-shim)
+   *
+   * @constructor
+   * @param {string} endPoint - The string WebSocket endpoint, ie, `"ws://example.com/socket"`,
+   *                                               `"wss://example.com"`
+   *                                               `"/socket"` (inherited host & protocol)
+   * @param {SocketOptions} [opts] - Optional configuration
+   */
+  constructor(endPoint, opts = {}) {
+    this.stateChangeCallbacks = { open: [], close: [], error: [], message: [] };
+    this.channels = [];
+    this.sendBuffer = [];
+    this.ref = 0;
+    this.fallbackRef = null;
+    this.timeout = opts.timeout || DEFAULT_TIMEOUT2;
+    this.transport = opts.transport || global2.WebSocket || LongPoll;
+    this.conn = void 0;
+    this.primaryPassedHealthCheck = false;
+    this.longPollFallbackMs = opts.longPollFallbackMs;
+    this.fallbackTimer = null;
+    let envSessionStorage = null;
+    try {
+      envSessionStorage = global2 && global2.sessionStorage;
+    } catch {
+    }
+    this.sessionStore = opts.sessionStorage || envSessionStorage;
+    this.establishedConnections = 0;
+    this.defaultEncoder = serializer_default2.encode.bind(serializer_default2);
+    this.defaultDecoder = serializer_default2.decode.bind(serializer_default2);
+    this.closeWasClean = true;
+    this.disconnecting = false;
+    this.binaryType = opts.binaryType || "arraybuffer";
+    this.connectClock = 1;
+    this.pageHidden = false;
+    this.encode = void 0;
+    this.decode = void 0;
+    if (this.transport !== LongPoll) {
+      this.encode = opts.encode || this.defaultEncoder;
+      this.decode = opts.decode || this.defaultDecoder;
+    } else {
+      this.encode = this.defaultEncoder;
+      this.decode = this.defaultDecoder;
+    }
+    let awaitingConnectionOnPageShow = null;
+    if (phxWindow && phxWindow.addEventListener) {
+      phxWindow.addEventListener("pagehide", (_e) => {
+        if (this.conn) {
+          this.disconnect();
+          awaitingConnectionOnPageShow = this.connectClock;
+        }
+      });
+      phxWindow.addEventListener("pageshow", (_e) => {
+        if (awaitingConnectionOnPageShow === this.connectClock) {
+          awaitingConnectionOnPageShow = null;
+          this.connect();
+        }
+      });
+      phxWindow.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+          this.pageHidden = true;
+        } else {
+          this.pageHidden = false;
+          if (!this.isConnected() && !this.closeWasClean) {
+            this.teardown(() => this.connect());
+          }
+        }
+      });
+    }
+    this.heartbeatIntervalMs = opts.heartbeatIntervalMs || 3e4;
+    this.autoSendHeartbeat = opts.autoSendHeartbeat ?? true;
+    this.heartbeatCallback = opts.heartbeatCallback ?? (() => {
+    });
+    this.rejoinAfterMs = (tries) => {
+      if (opts.rejoinAfterMs) {
+        return opts.rejoinAfterMs(tries);
+      } else {
+        return [1e3, 2e3, 5e3][tries - 1] || 1e4;
+      }
+    };
+    this.reconnectAfterMs = (tries) => {
+      if (opts.reconnectAfterMs) {
+        return opts.reconnectAfterMs(tries);
+      } else {
+        return [10, 50, 100, 150, 200, 250, 500, 1e3, 2e3][tries - 1] || 5e3;
+      }
+    };
+    this.logger = opts.logger || null;
+    if (!this.logger && opts.debug) {
+      this.logger = (kind, msg, data) => {
+        console.log(`${kind}: ${msg}`, data);
+      };
+    }
+    this.longpollerTimeout = opts.longpollerTimeout || 2e4;
+    this.params = closure(opts.params || {});
+    this.endPoint = `${endPoint}/${TRANSPORTS.websocket}`;
+    this.vsn = opts.vsn || DEFAULT_VSN2;
+    this.heartbeatTimeoutTimer = null;
+    this.heartbeatTimer = null;
+    this.heartbeatSentAt = null;
+    this.pendingHeartbeatRef = null;
+    this.reconnectTimer = new Timer(() => {
+      if (this.pageHidden) {
+        this.log("Not reconnecting as page is hidden!");
+        this.teardown();
+        return;
+      }
+      this.teardown(async () => {
+        if (opts.beforeReconnect) await opts.beforeReconnect();
+        this.connect();
+      });
+    }, this.reconnectAfterMs);
+    this.authToken = opts.authToken && closure(opts.authToken);
+  }
+  /**
+   * Returns the LongPoll transport reference
+   */
+  getLongPollTransport() {
+    return LongPoll;
+  }
+  /**
+   * Disconnects and replaces the active transport
+   *
+   * @param {SocketTransport} newTransport - The new transport class to instantiate
+   *
+   */
+  replaceTransport(newTransport) {
+    this.connectClock++;
+    this.closeWasClean = true;
+    clearTimeout(this.fallbackTimer);
+    this.reconnectTimer.reset();
+    if (this.conn) {
+      this.conn.close();
+      this.conn = null;
+    }
+    this.transport = newTransport;
+  }
+  /**
+   * Returns the socket protocol
+   *
+   * @returns {"wss" | "ws"}
+   */
+  protocol() {
+    return location.protocol.match(/^https/) ? "wss" : "ws";
+  }
+  /**
+   * The fully qualified socket url
+   *
+   * @returns {string}
+   */
+  endPointURL() {
+    let uri = Ajax.appendParams(
+      Ajax.appendParams(this.endPoint, this.params()),
+      { vsn: this.vsn }
+    );
+    if (uri.charAt(0) !== "/") {
+      return uri;
+    }
+    if (uri.charAt(1) === "/") {
+      return `${this.protocol()}:${uri}`;
+    }
+    return `${this.protocol()}://${location.host}${uri}`;
+  }
+  /**
+   * Disconnects the socket
+   *
+   * See https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent#Status_codes for valid status codes.
+   *
+   * @param {() => void} [callback] - Optional callback which is called after socket is disconnected.
+   * @param {number} [code] - A status code for disconnection (Optional).
+   * @param {string} [reason] - A textual description of the reason to disconnect. (Optional)
+   */
+  disconnect(callback, code, reason) {
+    this.connectClock++;
+    this.disconnecting = true;
+    this.closeWasClean = true;
+    clearTimeout(this.fallbackTimer);
+    this.reconnectTimer.reset();
+    this.teardown(() => {
+      this.disconnecting = false;
+      callback && callback();
+    }, code, reason);
+  }
+  /**
+   * @param {Params} [params] - [DEPRECATED] The params to send when connecting, for example `{user_id: userToken}`
+   *
+   * Passing params to connect is deprecated; pass them in the Socket constructor instead:
+   * `new Socket("/socket", {params: {user_id: userToken}})`.
+   */
+  connect(params) {
+    if (params) {
+      console && console.log("passing params to connect is deprecated. Instead pass :params to the Socket constructor");
+      this.params = closure(params);
+    }
+    if (this.conn && !this.disconnecting) {
+      return;
+    }
+    if (this.longPollFallbackMs && this.transport !== LongPoll) {
+      this.connectWithFallback(LongPoll, this.longPollFallbackMs);
+    } else {
+      this.transportConnect();
+    }
+  }
+  /**
+   * Logs the message. Override `this.logger` for specialized logging. noops by default
+   * @param {string} kind
+   * @param {string} msg
+   * @param {Object} data
+   */
+  log(kind, msg, data) {
+    this.logger && this.logger(kind, msg, data);
+  }
+  /**
+   * Returns true if a logger has been set on this socket.
+   */
+  hasLogger() {
+    return this.logger !== null;
+  }
+  /**
+   * Registers callbacks for connection open events
+   *
+   * @example socket.onOpen(function(){ console.info("the socket was opened") })
+   *
+   * @param {SocketOnOpen} callback
+   */
+  onOpen(callback) {
+    let ref = this.makeRef();
+    this.stateChangeCallbacks.open.push([ref, callback]);
+    return ref;
+  }
+  /**
+   * Registers callbacks for connection close events
+   * @param {SocketOnClose} callback
+   * @returns {string}
+   */
+  onClose(callback) {
+    let ref = this.makeRef();
+    this.stateChangeCallbacks.close.push([ref, callback]);
+    return ref;
+  }
+  /**
+   * Registers callbacks for connection error events
+   *
+   * @example socket.onError(function(error){ alert("An error occurred") })
+   *
+   * @param {SocketOnError} callback
+   * @returns {string}
+   */
+  onError(callback) {
+    let ref = this.makeRef();
+    this.stateChangeCallbacks.error.push([ref, callback]);
+    return ref;
+  }
+  /**
+   * Registers callbacks for connection message events
+   * @param {SocketOnMessage} callback
+   * @returns {string}
+   */
+  onMessage(callback) {
+    let ref = this.makeRef();
+    this.stateChangeCallbacks.message.push([ref, callback]);
+    return ref;
+  }
+  /**
+   * Sets a callback that receives lifecycle events for internal heartbeat messages.
+   * Useful for instrumenting connection health (e.g. sent/ok/timeout/disconnected).
+   * @param {HeartbeatCallback} callback
+   */
+  onHeartbeat(callback) {
+    this.heartbeatCallback = callback;
+  }
+  /**
+   * Pings the server and invokes the callback with the RTT in milliseconds
+   * @param {(timeDelta: number) => void} callback
+   *
+   * Returns true if the ping was pushed or false if unable to be pushed.
+   */
+  ping(callback) {
+    if (!this.isConnected()) {
+      return false;
+    }
+    let ref = this.makeRef();
+    let startTime = Date.now();
+    this.push({ topic: "phoenix", event: "heartbeat", payload: {}, ref });
+    let onMsgRef = this.onMessage((msg) => {
+      if (msg.ref === ref) {
+        this.off([onMsgRef]);
+        callback(Date.now() - startTime);
+      }
+    });
+    return true;
+  }
+  /**
+   * @private
+   *
+   * @param {Function}
+   */
+  transportName(transport) {
+    switch (transport) {
+      case LongPoll:
+        return "LongPoll";
+      default:
+        return transport.name;
+    }
+  }
+  /**
+   * @private
+   */
+  transportConnect() {
+    this.connectClock++;
+    this.closeWasClean = false;
+    let protocols = void 0;
+    if (this.authToken) {
+      protocols = ["phoenix", `${AUTH_TOKEN_PREFIX}${btoa(this.authToken()).replace(/=/g, "")}`];
+    }
+    this.conn = new this.transport(this.endPointURL(), protocols);
+    this.conn.binaryType = this.binaryType;
+    this.conn.timeout = this.longpollerTimeout;
+    this.conn.onopen = () => this.onConnOpen();
+    this.conn.onerror = (error) => this.onConnError(error);
+    this.conn.onmessage = (event) => this.onConnMessage(event);
+    this.conn.onclose = (event) => this.onConnClose(event);
+  }
+  getSession(key) {
+    return this.sessionStore && this.sessionStore.getItem(key);
+  }
+  storeSession(key, val) {
+    this.sessionStore && this.sessionStore.setItem(key, val);
+  }
+  connectWithFallback(fallbackTransport, fallbackThreshold = 2500) {
+    clearTimeout(this.fallbackTimer);
+    let established = false;
+    let primaryTransport = true;
+    let openRef, errorRef;
+    let fallbackTransportName = this.transportName(fallbackTransport);
+    let fallback2 = (reason) => {
+      this.log("transport", `falling back to ${fallbackTransportName}...`, reason);
+      this.off([openRef, errorRef]);
+      primaryTransport = false;
+      this.replaceTransport(fallbackTransport);
+      this.transportConnect();
+    };
+    if (this.getSession(`phx:fallback:${fallbackTransportName}`)) {
+      return fallback2("memorized");
+    }
+    this.fallbackTimer = setTimeout(fallback2, fallbackThreshold);
+    errorRef = this.onError((reason) => {
+      this.log("transport", "error", reason);
+      if (primaryTransport && !established) {
+        clearTimeout(this.fallbackTimer);
+        fallback2(reason);
+      }
+    });
+    if (this.fallbackRef) {
+      this.off([this.fallbackRef]);
+    }
+    this.fallbackRef = this.onOpen(() => {
+      established = true;
+      if (!primaryTransport) {
+        let fallbackTransportName2 = this.transportName(fallbackTransport);
+        if (!this.primaryPassedHealthCheck) {
+          this.storeSession(`phx:fallback:${fallbackTransportName2}`, "true");
+        }
+        return this.log("transport", `established ${fallbackTransportName2} fallback`);
+      }
+      clearTimeout(this.fallbackTimer);
+      this.fallbackTimer = setTimeout(fallback2, fallbackThreshold);
+      this.ping((rtt) => {
+        this.log("transport", "connected to primary after", rtt);
+        this.primaryPassedHealthCheck = true;
+        clearTimeout(this.fallbackTimer);
+      });
+    });
+    this.transportConnect();
+  }
+  clearHeartbeats() {
+    clearTimeout(this.heartbeatTimer);
+    clearTimeout(this.heartbeatTimeoutTimer);
+  }
+  onConnOpen() {
+    if (this.hasLogger()) this.log("transport", `connected to ${this.endPointURL()}`);
+    this.closeWasClean = false;
+    this.disconnecting = false;
+    this.establishedConnections++;
+    this.flushSendBuffer();
+    this.reconnectTimer.reset();
+    if (this.autoSendHeartbeat) {
+      this.resetHeartbeat();
+    }
+    this.triggerStateCallbacks("open");
+  }
+  /**
+   * @private
+   */
+  heartbeatTimeout() {
+    if (this.pendingHeartbeatRef) {
+      this.pendingHeartbeatRef = null;
+      this.heartbeatSentAt = null;
+      if (this.hasLogger()) {
+        this.log("transport", "heartbeat timeout. Attempting to re-establish connection");
+      }
+      try {
+        this.heartbeatCallback("timeout");
+      } catch (e) {
+        this.log("error", "error in heartbeat callback", e);
+      }
+      this.triggerChanError(new Error("heartbeat timeout"));
+      this.closeWasClean = false;
+      this.teardown(() => this.reconnectTimer.scheduleTimeout(), WS_CLOSE_NORMAL, "heartbeat timeout");
+    }
+  }
+  resetHeartbeat() {
+    if (this.conn && this.conn.skipHeartbeat) {
+      return;
+    }
+    this.pendingHeartbeatRef = null;
+    this.clearHeartbeats();
+    this.heartbeatTimer = setTimeout(() => this.sendHeartbeat(), this.heartbeatIntervalMs);
+  }
+  teardown(callback, code, reason) {
+    if (!this.conn) {
+      return callback && callback();
+    }
+    const connToClose = this.conn;
+    this.waitForBufferDone(connToClose, () => {
+      if (code) {
+        connToClose.close(code, reason || "");
+      } else {
+        connToClose.close();
+      }
+      this.waitForSocketClosed(connToClose, () => {
+        if (this.conn === connToClose) {
+          this.conn.onopen = function() {
+          };
+          this.conn.onerror = function() {
+          };
+          this.conn.onmessage = function() {
+          };
+          this.conn.onclose = function() {
+          };
+          this.conn = null;
+        }
+        callback && callback();
+      });
+    });
+  }
+  waitForBufferDone(conn, callback, tries = 1) {
+    if (tries === 5 || !conn.bufferedAmount) {
+      callback();
+      return;
+    }
+    setTimeout(() => {
+      this.waitForBufferDone(conn, callback, tries + 1);
+    }, 150 * tries);
+  }
+  waitForSocketClosed(conn, callback, tries = 1) {
+    if (tries === 5 || conn.readyState === SOCKET_STATES.closed) {
+      callback();
+      return;
+    }
+    setTimeout(() => {
+      this.waitForSocketClosed(conn, callback, tries + 1);
+    }, 150 * tries);
+  }
+  /**
+  * @param {CloseEvent} event
+  */
+  onConnClose(event) {
+    if (this.conn) this.conn.onclose = () => {
+    };
+    if (this.hasLogger()) this.log("transport", "close", event);
+    this.triggerChanError(event);
+    this.clearHeartbeats();
+    if (!this.closeWasClean) {
+      this.reconnectTimer.scheduleTimeout();
+    }
+    this.triggerStateCallbacks("close", event);
+  }
+  /**
+   * @private
+   * @param {Event} error
+   */
+  onConnError(error) {
+    if (this.hasLogger()) this.log("transport", "error", error);
+    let transportBefore = this.transport;
+    let establishedBefore = this.establishedConnections;
+    this.triggerStateCallbacks("error", error, transportBefore, establishedBefore);
+    if (transportBefore === this.transport || establishedBefore > 0) {
+      this.triggerChanError(error);
+    }
+  }
+  /**
+   * @private
+   * @param {unknown} [reason] underlying close/error event forwarded to channel error listeners
+   */
+  triggerChanError(reason) {
+    this.channels.forEach((channel) => {
+      if (!(channel.isErrored() || channel.isLeaving() || channel.isClosed())) {
+        channel.trigger(CHANNEL_EVENTS2.error, reason);
+      }
+    });
+  }
+  /**
+   * @returns {string}
+   */
+  connectionState() {
+    switch (this.conn && this.conn.readyState) {
+      case SOCKET_STATES.connecting:
+        return "connecting";
+      case SOCKET_STATES.open:
+        return "open";
+      case SOCKET_STATES.closing:
+        return "closing";
+      default:
+        return "closed";
+    }
+  }
+  /**
+   * @returns {boolean}
+   */
+  isConnected() {
+    return this.connectionState() === "open";
+  }
+  /**
+   *
+   * @param {Channel} channel
+   */
+  remove(channel) {
+    this.off(channel.stateChangeRefs);
+    this.channels = this.channels.filter((c) => c !== channel);
+  }
+  /**
+   * Removes `onOpen`, `onClose`, `onError,` and `onMessage` registrations.
+   *
+   * @param {string[]} refs - list of refs returned by calls to
+   *                 `onOpen`, `onClose`, `onError,` and `onMessage`
+   */
+  off(refs) {
+    for (let key in this.stateChangeCallbacks) {
+      this.stateChangeCallbacks[key] = this.stateChangeCallbacks[key].filter(([ref]) => {
+        return refs.indexOf(ref) === -1;
+      });
+    }
+  }
+  /**
+   * Initiates a new channel for the given topic
+   *
+   * @param {string} topic
+   * @param {Params | (() => Params)} [chanParams]- Parameters for the channel
+   * @returns {Channel}
+   */
+  channel(topic, chanParams = {}) {
+    let chan = new Channel(topic, chanParams, this);
+    this.channels.push(chan);
+    return chan;
+  }
+  /**
+   * @param {Message<Record<string, any>>} data
+   */
+  push(data) {
+    if (this.hasLogger()) {
+      let { topic, event, payload, ref, join_ref } = data;
+      this.log("push", `${topic} ${event} (${join_ref}, ${ref})`, payload);
+    }
+    if (this.isConnected()) {
+      this.encode(data, (result) => this.conn.send(result));
+    } else {
+      this.sendBuffer.push(() => this.encode(data, (result) => this.conn.send(result)));
+    }
+  }
+  /**
+   * Return the next message ref, accounting for overflows
+   * @returns {string}
+   */
+  makeRef() {
+    let newRef = this.ref + 1;
+    if (newRef === this.ref) {
+      this.ref = 0;
+    } else {
+      this.ref = newRef;
+    }
+    return this.ref.toString();
+  }
+  sendHeartbeat() {
+    if (!this.isConnected()) {
+      try {
+        this.heartbeatCallback("disconnected");
+      } catch (e) {
+        this.log("error", "error in heartbeat callback", e);
+      }
+      return;
+    }
+    if (this.pendingHeartbeatRef) {
+      this.heartbeatTimeout();
+      return;
+    }
+    this.pendingHeartbeatRef = this.makeRef();
+    this.heartbeatSentAt = Date.now();
+    this.push({ topic: "phoenix", event: "heartbeat", payload: {}, ref: this.pendingHeartbeatRef });
+    try {
+      this.heartbeatCallback("sent");
+    } catch (e) {
+      this.log("error", "error in heartbeat callback", e);
+    }
+    this.heartbeatTimeoutTimer = setTimeout(() => this.heartbeatTimeout(), this.heartbeatIntervalMs);
+  }
+  flushSendBuffer() {
+    if (this.isConnected() && this.sendBuffer.length > 0) {
+      this.sendBuffer.forEach((callback) => callback());
+      this.sendBuffer = [];
+    }
+  }
+  /**
+  * @param {MessageEvent<any>} rawMessage
+  */
+  onConnMessage(rawMessage) {
+    this.decode(rawMessage.data, (msg) => {
+      let { topic, event, payload, ref, join_ref } = msg;
+      if (ref && ref === this.pendingHeartbeatRef) {
+        const latency = this.heartbeatSentAt ? Date.now() - this.heartbeatSentAt : void 0;
+        this.clearHeartbeats();
+        try {
+          this.heartbeatCallback(payload.status === "ok" ? "ok" : "error", latency);
+        } catch (e) {
+          this.log("error", "error in heartbeat callback", e);
+        }
+        this.pendingHeartbeatRef = null;
+        this.heartbeatSentAt = null;
+        if (this.autoSendHeartbeat) {
+          this.heartbeatTimer = setTimeout(() => this.sendHeartbeat(), this.heartbeatIntervalMs);
+        }
+      }
+      if (this.hasLogger()) this.log("receive", `${payload.status || ""} ${topic} ${event} ${ref && "(" + ref + ")" || ""}`.trim(), payload);
+      for (let i = 0; i < this.channels.length; i++) {
+        const channel = this.channels[i];
+        if (!channel.isMember(topic, event, payload, join_ref)) {
+          continue;
+        }
+        channel.trigger(event, payload, ref, join_ref);
+      }
+      this.triggerStateCallbacks("message", msg);
+    });
+  }
+  /**
+   * @private
+   * @template {keyof SocketStateChangeCallbacks} K
+   * @param {K} event
+   * @param {...Parameters<SocketStateChangeCallbacks[K][number][1]>} args
+   * @returns {void}
+   */
+  triggerStateCallbacks(event, ...args) {
+    try {
+      this.stateChangeCallbacks[event].forEach(([_, callback]) => {
+        try {
+          callback(...args);
+        } catch (e) {
+          this.log("error", `error in ${event} callback`, e);
+        }
+      });
+    } catch (e) {
+      this.log("error", `error triggering ${event} callbacks`, e);
+    }
+  }
+  leaveOpenTopic(topic) {
+    let dupChannel = this.channels.find((c) => c.topic === topic && (c.isJoined() || c.isJoining()));
+    if (dupChannel) {
+      if (this.hasLogger()) this.log("transport", `leaving duplicate topic "${topic}"`);
+      dupChannel.leave();
+    }
+  }
+};
+var PresenceAdapter = class _PresenceAdapter {
+  constructor(channel, opts) {
+    const phoenixOptions = phoenixPresenceOptions(opts);
+    this.presence = new Presence(channel.getChannel(), phoenixOptions);
+    this.presence.onJoin((key, currentPresence, newPresence) => {
+      const onJoinPayload = _PresenceAdapter.onJoinPayload(key, currentPresence, newPresence);
+      channel.getChannel().trigger("presence", onJoinPayload);
+    });
+    this.presence.onLeave((key, currentPresence, leftPresence) => {
+      const onLeavePayload = _PresenceAdapter.onLeavePayload(key, currentPresence, leftPresence);
+      channel.getChannel().trigger("presence", onLeavePayload);
+    });
+    this.presence.onSync(() => {
+      channel.getChannel().trigger("presence", { event: "sync" });
+    });
+  }
+  get state() {
+    return _PresenceAdapter.transformState(this.presence.state);
+  }
+  /**
+   * @private
+   * Remove 'metas' key
+   * Change 'phx_ref' to 'presence_ref'
+   * Remove 'phx_ref' and 'phx_ref_prev'
+   *
+   * @example Transform state
+   * // returns {
+   *  abc123: [
+   *    { presence_ref: '2', user_id: 1 },
+   *    { presence_ref: '3', user_id: 2 }
+   *  ]
+   * }
+   * RealtimePresence.transformState({
+   *  abc123: {
+   *    metas: [
+   *      { phx_ref: '2', phx_ref_prev: '1' user_id: 1 },
+   *      { phx_ref: '3', user_id: 2 }
+   *    ]
+   *  }
+   * })
+   *
+   */
+  static transformState(state) {
+    state = cloneState(state);
+    return Object.getOwnPropertyNames(state).reduce((newState, key) => {
+      const presences = state[key];
+      newState[key] = transformState(presences);
+      return newState;
+    }, {});
+  }
+  static onJoinPayload(key, currentPresence, newPresence) {
+    const currentPresences = parseCurrentPresences(currentPresence);
+    const newPresences = transformState(newPresence);
+    return {
+      event: "join",
+      key,
+      currentPresences,
+      newPresences
+    };
+  }
+  static onLeavePayload(key, currentPresence, leftPresence) {
+    const currentPresences = parseCurrentPresences(currentPresence);
+    const leftPresences = transformState(leftPresence);
+    return {
+      event: "leave",
+      key,
+      currentPresences,
+      leftPresences
+    };
+  }
+};
+function transformState(presences) {
+  return presences.metas.map((presence) => {
+    const descriptors = Object.getOwnPropertyDescriptors(presence);
+    const transformedPresence = Object.defineProperties({}, descriptors);
+    transformedPresence["presence_ref"] = transformedPresence["phx_ref"];
+    delete transformedPresence["phx_ref"];
+    delete transformedPresence["phx_ref_prev"];
+    return transformedPresence;
+  });
+}
+function cloneState(state) {
+  return JSON.parse(JSON.stringify(state));
+}
+function phoenixPresenceOptions(opts) {
+  return (opts === null || opts === void 0 ? void 0 : opts.events) && { events: opts.events };
+}
+function parseCurrentPresences(currentPresences) {
+  return (currentPresences === null || currentPresences === void 0 ? void 0 : currentPresences.metas) ? transformState(currentPresences) : [];
+}
+var REALTIME_PRESENCE_LISTEN_EVENTS;
+(function(REALTIME_PRESENCE_LISTEN_EVENTS2) {
+  REALTIME_PRESENCE_LISTEN_EVENTS2["SYNC"] = "sync";
+  REALTIME_PRESENCE_LISTEN_EVENTS2["JOIN"] = "join";
+  REALTIME_PRESENCE_LISTEN_EVENTS2["LEAVE"] = "leave";
+})(REALTIME_PRESENCE_LISTEN_EVENTS || (REALTIME_PRESENCE_LISTEN_EVENTS = {}));
+var RealtimePresence = class {
+  get state() {
+    return this.presenceAdapter.state;
+  }
+  /**
+   * Creates a Presence helper that keeps the local presence state in sync with the server.
+   *
+   * @param channel - The realtime channel to bind to.
+   * @param opts - Optional custom event names, e.g. `{ events: { state: 'state', diff: 'diff' } }`.
+   *
+   * @category Realtime
+   *
+   * @example Example for a presence channel
+   * ```ts
+   * const presence = new RealtimePresence(channel)
+   *
+   * channel.on('presence', ({ event, key }) => {
+   *   console.log(`Presence ${event} on ${key}`)
+   * })
+   * ```
+   */
+  constructor(channel, opts) {
+    this.channel = channel;
+    this.presenceAdapter = new PresenceAdapter(this.channel.channelAdapter, opts);
+  }
+};
+function normalizeChannelError(reason) {
+  if (reason instanceof Error) {
+    return reason;
+  }
+  if (typeof reason === "string") {
+    return new Error(reason);
+  }
+  if (reason && typeof reason === "object") {
+    const obj = reason;
+    if (typeof obj.code === "number") {
+      const detail = typeof obj.reason === "string" && obj.reason ? ` (${obj.reason})` : "";
+      return new Error(`socket closed: ${obj.code}${detail}`, { cause: reason });
+    }
+    return new Error("channel error: transport failure", { cause: reason });
+  }
+  return new Error("channel error: connection lost");
+}
+var ChannelAdapter = class {
+  constructor(socket, topic, params) {
+    const phoenixParams = phoenixChannelParams(params);
+    this.channel = socket.getSocket().channel(topic, phoenixParams);
+    this.socket = socket;
+  }
+  get state() {
+    return this.channel.state;
+  }
+  set state(state) {
+    this.channel.state = state;
+  }
+  get joinedOnce() {
+    return this.channel.joinedOnce;
+  }
+  get joinPush() {
+    return this.channel.joinPush;
+  }
+  get rejoinTimer() {
+    return this.channel.rejoinTimer;
+  }
+  on(event, callback) {
+    return this.channel.on(event, callback);
+  }
+  off(event, refNumber) {
+    this.channel.off(event, refNumber);
+  }
+  subscribe(timeout) {
+    return this.channel.join(timeout);
+  }
+  unsubscribe(timeout) {
+    return this.channel.leave(timeout);
+  }
+  teardown() {
+    this.channel.teardown();
+  }
+  onClose(callback) {
+    this.channel.onClose(callback);
+  }
+  onError(callback) {
+    return this.channel.onError(callback);
+  }
+  push(event, payload, timeout) {
+    let push;
+    try {
+      push = this.channel.push(event, payload, timeout);
+    } catch (error) {
+      throw new Error(`tried to push '${event}' to '${this.channel.topic}' before joining. Use channel.subscribe() before pushing events`);
+    }
+    if (this.channel.pushBuffer.length > MAX_PUSH_BUFFER_SIZE) {
+      const removedPush = this.channel.pushBuffer.shift();
+      removedPush.cancelTimeout();
+      this.socket.log("channel", `discarded push due to buffer overflow: ${removedPush.event}`, removedPush.payload());
+    }
+    return push;
+  }
+  updateJoinPayload(payload) {
+    const oldPayload = this.channel.joinPush.payload();
+    this.channel.joinPush.payload = () => Object.assign(Object.assign({}, oldPayload), payload);
+  }
+  canPush() {
+    return this.socket.isConnected() && this.state === CHANNEL_STATES.joined;
+  }
+  isJoined() {
+    return this.state === CHANNEL_STATES.joined;
+  }
+  isJoining() {
+    return this.state === CHANNEL_STATES.joining;
+  }
+  isClosed() {
+    return this.state === CHANNEL_STATES.closed;
+  }
+  isLeaving() {
+    return this.state === CHANNEL_STATES.leaving;
+  }
+  updateFilterBindings(filterBindings) {
+    this.channel.filterBindings = filterBindings;
+  }
+  updatePayloadTransform(callback) {
+    this.channel.onMessage = callback;
+  }
+  /**
+   * @internal
+   */
+  getChannel() {
+    return this.channel;
+  }
+};
+function phoenixChannelParams(options) {
+  return {
+    config: Object.assign({
+      broadcast: { ack: false, self: false },
+      presence: { key: "", enabled: false },
+      private: false
+    }, options.config)
+  };
+}
+var PostgrestReservedCharsRegexp = /[,()"\\]/;
+var needsQuoting = (value) => PostgrestReservedCharsRegexp.test(value) || value !== value.trim();
+var quote = (value) => `"${value.replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
+var serializeScalar = (value) => {
+  const serialized = value === null ? "null" : String(value);
+  return needsQuoting(serialized) ? quote(serialized) : serialized;
+};
+var serializeIsValue = (value) => value === null ? "null" : String(value);
+var serialize = (operator, value) => {
+  if (operator === "in") {
+    const values = Array.isArray(value) ? value : [value];
+    if (values.length === 0) {
+      throw new Error("Realtime `in` filter requires at least one value.");
+    }
+    const items = Array.from(new Set(values)).map((v) => serializeScalar(v)).join(",");
+    return `in.(${items})`;
+  }
+  if (operator === "is") {
+    return `is.${serializeIsValue(value)}`;
+  }
+  return `${operator}.${serializeScalar(value)}`;
+};
+var RealtimePostgresFilterBuilder = class {
+  constructor() {
+    this.filters = [];
+  }
+  add(column, operator, value, negate = false) {
+    const prefix = negate ? "not." : "";
+    this.filters.push(`${column}=${prefix}${serialize(operator, value)}`);
+    return this;
+  }
+  /** Match rows where `column` equals `value` (`column=eq.value`). */
+  eq(column, value) {
+    return this.add(column, "eq", value);
+  }
+  /** Match rows where `column` does not equal `value` (`column=neq.value`). */
+  neq(column, value) {
+    return this.add(column, "neq", value);
+  }
+  /** Match rows where `column` is greater than `value` (`column=gt.value`). */
+  gt(column, value) {
+    return this.add(column, "gt", value);
+  }
+  /** Match rows where `column` is greater than or equal to `value` (`column=gte.value`). */
+  gte(column, value) {
+    return this.add(column, "gte", value);
+  }
+  /** Match rows where `column` is less than `value` (`column=lt.value`). */
+  lt(column, value) {
+    return this.add(column, "lt", value);
+  }
+  /** Match rows where `column` is less than or equal to `value` (`column=lte.value`). */
+  lte(column, value) {
+    return this.add(column, "lte", value);
+  }
+  /**
+   * Match rows where `column` is one of `values` (`column=in.(a,b,c)`).
+   * Requires at least one value; duplicates are removed. An element containing a
+   * reserved character is double-quoted (`in.("a,b",c)`), so commas inside an
+   * element are preserved. `null` is intentionally not accepted (`IN (null)`
+   * never matches in SQL) — use `is`/`not('col','is',null)` for null checks.
+   */
+  in(column, values) {
+    return this.add(column, "in", values);
+  }
+  /** Match rows where `column` matches the case-sensitive `pattern` (`column=like.pattern`). */
+  like(column, pattern) {
+    return this.add(column, "like", pattern);
+  }
+  /** Match rows where `column` matches the case-insensitive `pattern` (`column=ilike.pattern`). */
+  ilike(column, pattern) {
+    return this.add(column, "ilike", pattern);
+  }
+  /** Match rows where `column` matches the POSIX regex `pattern` (`column=match.pattern`). */
+  match(column, pattern) {
+    return this.add(column, "match", pattern);
+  }
+  /** Match rows where `column` matches the case-insensitive POSIX regex `pattern` (`column=imatch.pattern`). */
+  imatch(column, pattern) {
+    return this.add(column, "imatch", pattern);
+  }
+  /**
+   * Match rows where `column` `IS` the given value (`column=is.null`).
+   * Accepts `null`, a boolean, or the keywords `'null' | 'true' | 'false' | 'unknown'`.
+   */
+  is(column, value) {
+    return this.add(column, "is", value);
+  }
+  /** Match rows where `column` is distinct from `value` (`column=isdistinct.value`). NULL-safe inequality. */
+  isDistinct(column, value) {
+    return this.add(column, "isdistinct", value);
+  }
+  not(column, operator, value) {
+    return this.add(column, operator, value, true);
+  }
+  /**
+   * Serialize all conditions into the comma-separated (AND) filter string.
+   *
+   * Conditions are joined by commas, which the server applies as `AND`. A scalar
+   * value (or single `in` element) that contains a reserved character — `,`,
+   * `(`, `)`, `"`, `\` — or surrounding whitespace is double-quoted and escaped
+   * the way PostgREST does, so commas inside a value are preserved rather than
+   * read as a condition boundary.
+   */
+  build() {
+    return this.filters.join(",");
+  }
+  /** Alias for {@link build}; lets the builder be used wherever a string is expected. */
+  toString() {
+    return this.build();
+  }
+};
+var REALTIME_POSTGRES_CHANGES_LISTEN_EVENT;
+(function(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2) {
+  REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["ALL"] = "*";
+  REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["INSERT"] = "INSERT";
+  REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["UPDATE"] = "UPDATE";
+  REALTIME_POSTGRES_CHANGES_LISTEN_EVENT2["DELETE"] = "DELETE";
+})(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT || (REALTIME_POSTGRES_CHANGES_LISTEN_EVENT = {}));
+var REALTIME_LISTEN_TYPES;
+(function(REALTIME_LISTEN_TYPES2) {
+  REALTIME_LISTEN_TYPES2["BROADCAST"] = "broadcast";
+  REALTIME_LISTEN_TYPES2["PRESENCE"] = "presence";
+  REALTIME_LISTEN_TYPES2["POSTGRES_CHANGES"] = "postgres_changes";
+  REALTIME_LISTEN_TYPES2["SYSTEM"] = "system";
+})(REALTIME_LISTEN_TYPES || (REALTIME_LISTEN_TYPES = {}));
+var REALTIME_SUBSCRIBE_STATES;
+(function(REALTIME_SUBSCRIBE_STATES2) {
+  REALTIME_SUBSCRIBE_STATES2["SUBSCRIBED"] = "SUBSCRIBED";
+  REALTIME_SUBSCRIBE_STATES2["TIMED_OUT"] = "TIMED_OUT";
+  REALTIME_SUBSCRIBE_STATES2["CLOSED"] = "CLOSED";
+  REALTIME_SUBSCRIBE_STATES2["CHANNEL_ERROR"] = "CHANNEL_ERROR";
+})(REALTIME_SUBSCRIBE_STATES || (REALTIME_SUBSCRIBE_STATES = {}));
+var RealtimeChannel = class _RealtimeChannel {
+  get state() {
+    return this.channelAdapter.state;
+  }
+  set state(state) {
+    this.channelAdapter.state = state;
+  }
+  get joinedOnce() {
+    return this.channelAdapter.joinedOnce;
+  }
+  get timeout() {
+    return this.socket.timeout;
+  }
+  get joinPush() {
+    return this.channelAdapter.joinPush;
+  }
+  get rejoinTimer() {
+    return this.channelAdapter.rejoinTimer;
+  }
+  /**
+   * Creates a channel that can broadcast messages, sync presence, and listen to Postgres changes.
+   *
+   * The topic determines which realtime stream you are subscribing to. Config options let you
+   * enable acknowledgement for broadcasts, presence tracking, or private channels.
+   *
+   * @category Realtime
+   *
+   * @example Using supabase-js (recommended)
+   * ```ts
+   * import { createClient } from '@supabase/supabase-js'
+   *
+   * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+   * const channel = supabase.channel('room1')
+   * channel
+   *   .on('broadcast', { event: 'cursor-pos' }, (payload) => console.log(payload))
+   *   .subscribe()
+   * ```
+   *
+   * @example Standalone import for bundle-sensitive environments
+   * ```ts
+   * import RealtimeClient from '@supabase/realtime-js'
+   *
+   * const client = new RealtimeClient('https://xyzcompany.supabase.co/realtime/v1', {
+   *   params: { apikey: 'your-publishable-key' },
+   * })
+   * const channel = new RealtimeChannel('realtime:public:messages', { config: {} }, client)
+   * ```
+   */
+  constructor(topic, params = { config: {} }, socket) {
+    var _a, _b;
+    this.topic = topic;
+    this.params = params;
+    this.socket = socket;
+    this.bindings = {};
+    this.subTopic = topic.replace(/^realtime:/i, "");
+    this.params.config = Object.assign({
+      broadcast: { ack: false, self: false },
+      presence: { key: "", enabled: false },
+      private: false
+    }, params.config);
+    this.channelAdapter = new ChannelAdapter(this.socket.socketAdapter, topic, this.params);
+    this.presence = new RealtimePresence(this);
+    this._onClose(() => {
+      this.socket._remove(this);
+    });
+    this._updateFilterTransform();
+    this.broadcastEndpointURL = httpEndpointURL(this.socket.socketAdapter.endPointURL());
+    this.private = this.params.config.private || false;
+    if (!this.private && ((_b = (_a = this.params.config) === null || _a === void 0 ? void 0 : _a.broadcast) === null || _b === void 0 ? void 0 : _b.replay)) {
+      throw new Error(`tried to use replay on public channel '${this.topic}'. It must be a private channel.`);
+    }
+  }
+  /**
+   * Subscribe registers your client with the server.
+   *
+   * The optional `callback` receives a `status` and, on failure, an `err` argument.
+   * Log the full `err` so its `cause`, `name`, and any structured fields aren't hidden
+   * behind `err.message`.
+   *
+   * @category Realtime
+   *
+   * @example Handling errors
+   * ```js
+   * supabase.channel('room1').subscribe((status, err) => {
+   *   if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+   *     // Log the full error: its `cause` often holds the underlying reason.
+   *     console.error(status, err)
+   *   }
+   * })
+   * ```
+   */
+  subscribe(callback, timeout = this.timeout) {
+    var _a, _b, _c, _d;
+    if (!this.socket.isConnected()) {
+      this.socket.connect();
+    }
+    if (this.channelAdapter.isClosed()) {
+      const { config: { broadcast, presence, private: isPrivate, postgres_changes_options } } = this.params;
+      const postgres_changes = (_b = (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.map((r) => r.filter)) !== null && _b !== void 0 ? _b : [];
+      const presence_enabled = !!this.bindings[REALTIME_LISTEN_TYPES.PRESENCE] && this.bindings[REALTIME_LISTEN_TYPES.PRESENCE].length > 0 || ((_c = this.params.config.presence) === null || _c === void 0 ? void 0 : _c.enabled) === true;
+      const accessTokenPayload = {};
+      const config = Object.assign({ broadcast, presence: Object.assign(Object.assign({}, presence), { enabled: presence_enabled }), postgres_changes, private: isPrivate }, postgres_changes_options ? { postgres_changes_options } : {});
+      if (this.socket.accessTokenValue) {
+        accessTokenPayload.access_token = this.socket.accessTokenValue;
+      }
+      this._onError((reason) => {
+        callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR, normalizeChannelError(reason));
+      });
+      this._onClose(() => callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CLOSED));
+      this.updateJoinPayload(Object.assign({ config }, accessTokenPayload));
+      this._updateFilterMessage();
+      const joinTimeout = (postgres_changes_options === null || postgres_changes_options === void 0 ? void 0 : postgres_changes_options.wait) && postgres_changes.length > 0 ? Math.max(timeout, ((_d = postgres_changes_options.timeout) !== null && _d !== void 0 ? _d : DEFAULT_POSTGRES_CHANGES_WAIT_TIMEOUT) + POSTGRES_CHANGES_WAIT_ERROR_GRACE) : timeout;
+      this.channelAdapter.subscribe(joinTimeout).receive("ok", async ({ postgres_changes: postgres_changes2 }) => {
+        if (!this.socket._isManualToken()) {
+          this.socket.setAuth();
+        }
+        if (postgres_changes2 === void 0) {
+          callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.SUBSCRIBED);
+          return;
+        }
+        this._updatePostgresBindings(postgres_changes2, callback);
+      }).receive("error", (error) => {
+        this.state = CHANNEL_STATES.errored;
+        const message = Object.values(error).join(", ") || "error";
+        callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR, new Error(message, { cause: error }));
+      }).receive("timeout", () => {
+        callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.TIMED_OUT);
+      });
+    }
+    return this;
+  }
+  _updatePostgresBindings(postgres_changes, callback) {
+    var _a;
+    const clientPostgresBindings = this.bindings.postgres_changes;
+    const bindingsLen = (_a = clientPostgresBindings === null || clientPostgresBindings === void 0 ? void 0 : clientPostgresBindings.length) !== null && _a !== void 0 ? _a : 0;
+    const newPostgresBindings = [];
+    for (let i = 0; i < bindingsLen; i++) {
+      const clientPostgresBinding = clientPostgresBindings[i];
+      const { filter: { event, schema, table, filter } } = clientPostgresBinding;
+      const serverPostgresFilter = postgres_changes && postgres_changes[i];
+      if (serverPostgresFilter && serverPostgresFilter.event === event && _RealtimeChannel.isFilterValueEqual(serverPostgresFilter.schema, schema) && _RealtimeChannel.isFilterValueEqual(serverPostgresFilter.table, table) && _RealtimeChannel.isFilterValueEqual(serverPostgresFilter.filter, filter)) {
+        newPostgresBindings.push(Object.assign(Object.assign({}, clientPostgresBinding), { id: serverPostgresFilter.id }));
+      } else {
+        this.unsubscribe();
+        this.state = CHANNEL_STATES.errored;
+        callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR, new Error("mismatch between server and client bindings for postgres changes"));
+        return;
+      }
+    }
+    this.bindings.postgres_changes = newPostgresBindings;
+    if (this.state != CHANNEL_STATES.errored && callback) {
+      callback(REALTIME_SUBSCRIBE_STATES.SUBSCRIBED);
+    }
+  }
+  /**
+   * Returns the current presence state for this channel.
+   *
+   * The shape is a map keyed by presence key (for example a user id) where each entry contains the
+   * tracked metadata for that user.
+   *
+   * @category Realtime
+   */
+  presenceState() {
+    return this.presence.state;
+  }
+  /**
+   * Sends the supplied payload to the presence tracker so other subscribers can see that this
+   * client is online. Use `untrack` to stop broadcasting presence for the same key.
+   *
+   * Tracking makes this client visible to other subscribers immediately, regardless of this
+   * channel's `config.presence.enabled` setting or whether it has a `presence` listener — that
+   * flag only affects whether *this* client receives presence updates from others (and, on
+   * RLS-protected channels, whether it's authorized to do so).
+   *
+   * @category Realtime
+   */
+  async track(payload, opts = {}) {
+    return await this.send({
+      type: "presence",
+      event: "track",
+      payload
+    }, opts);
+  }
+  /**
+   * Removes the current presence state for this client.
+   *
+   * @category Realtime
+   */
+  async untrack(opts = {}) {
+    return await this.send({
+      type: "presence",
+      event: "untrack"
+    }, opts);
+  }
+  /**
+   * Listen to realtime events on this channel.
+   * @category Realtime
+   *
+   * @remarks
+   * - By default, Broadcast and Presence are enabled for all projects.
+   * - By default, listening to database changes is disabled for new projects due to database performance and security concerns. You can turn it on by managing Realtime's [replication](/docs/guides/api#realtime-api-overview).
+   * - You can receive the "previous" data for updates and deletes by setting the table's `REPLICA IDENTITY` to `FULL` (e.g., `ALTER TABLE your_table REPLICA IDENTITY FULL;`).
+   * - Row level security is not applied to delete statements. When RLS is enabled and replica identity is set to full, only the primary key is sent to clients.
+   *
+   * @example Listen to broadcast messages
+   * ```js
+   * const channel = supabase.channel("room1")
+   *
+   * channel.on("broadcast", { event: "cursor-pos" }, (payload) => {
+   *   console.log("Cursor position received!", payload);
+   * }).subscribe((status) => {
+   *   if (status === "SUBSCRIBED") {
+   *     channel.send({
+   *       type: "broadcast",
+   *       event: "cursor-pos",
+   *       payload: { x: Math.random(), y: Math.random() },
+   *     });
+   *   }
+   * });
+   * ```
+   *
+   * @example Listen to presence sync
+   * ```js
+   * const channel = supabase.channel('room1')
+   * channel
+   *   .on('presence', { event: 'sync' }, () => {
+   *     console.log('Synced presence state: ', channel.presenceState())
+   *   })
+   *   .subscribe(async (status) => {
+   *     if (status === 'SUBSCRIBED') {
+   *       await channel.track({ online_at: new Date().toISOString() })
+   *     }
+   *   })
+   * ```
+   *
+   * @example Listen to presence join
+   * ```js
+   * const channel = supabase.channel('room1')
+   * channel
+   *   .on('presence', { event: 'join' }, ({ newPresences }) => {
+   *     console.log('Newly joined presences: ', newPresences)
+   *   })
+   *   .subscribe(async (status) => {
+   *     if (status === 'SUBSCRIBED') {
+   *       await channel.track({ online_at: new Date().toISOString() })
+   *     }
+   *   })
+   * ```
+   *
+   * @example Listen to presence leave
+   * ```js
+   * const channel = supabase.channel('room1')
+   * channel
+   *   .on('presence', { event: 'leave' }, ({ leftPresences }) => {
+   *     console.log('Newly left presences: ', leftPresences)
+   *   })
+   *   .subscribe(async (status) => {
+   *     if (status === 'SUBSCRIBED') {
+   *       await channel.track({ online_at: new Date().toISOString() })
+   *       await channel.untrack()
+   *     }
+   *   })
+   * ```
+   *
+   * Registering the same `postgres_changes` filter more than once on a channel is a no-op: the
+   * duplicate is ignored and an error is logged, since the server only ever creates one
+   * subscription per distinct filter.
+   *
+   * @example Listen to all database changes
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: '*', schema: '*' }, payload => {
+   *     console.log('Change received!', payload)
+   *   })
+   *   .subscribe()
+   * ```
+   *
+   * @example Listen to a specific table
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: '*', schema: 'public', table: 'countries' }, payload => {
+   *     console.log('Change received!', payload)
+   *   })
+   *   .subscribe()
+   * ```
+   *
+   * @example Listen to inserts
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'countries' }, payload => {
+   *     console.log('Change received!', payload)
+   *   })
+   *   .subscribe()
+   * ```
+   *
+   * @exampleDescription Listen to updates
+   * By default, Supabase will send only the updated record. If you want to receive the previous values as well you can
+   * enable full replication for the table you are listening to:
+   *
+   * ```sql
+   * alter table "your_table" replica identity full;
+   * ```
+   *
+   * @example Listen to updates
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'countries' }, payload => {
+   *     console.log('Change received!', payload)
+   *   })
+   *   .subscribe()
+   * ```
+   *
+   * @exampleDescription Listen to deletes
+   * By default, Supabase does not send deleted records. If you want to receive the deleted record you can
+   * enable full replication for the table you are listening to:
+   *
+   * ```sql
+   * alter table "your_table" replica identity full;
+   * ```
+   *
+   * @example Listen to deletes
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'countries' }, payload => {
+   *     console.log('Change received!', payload)
+   *   })
+   *   .subscribe()
+   * ```
+   *
+   * @exampleDescription Listen to multiple events
+   * You can chain listeners if you want to listen to multiple events for each table.
+   *
+   * @example Listen to multiple events
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'countries' }, handleRecordInserted)
+   *   .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'countries' }, handleRecordDeleted)
+   *   .subscribe()
+   * ```
+   *
+   * @exampleDescription Listen to row level changes
+   * You can listen to individual rows using the format `{table}:{col}=eq.{val}` - where `{col}` is the column name, and `{val}` is the value which you want to match.
+   *
+   * @example Listen to row level changes
+   * ```js
+   * supabase
+   *   .channel('room1')
+   *   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'countries', filter: 'id=eq.200' }, handleRecordUpdated)
+   *   .subscribe()
+   * ```
+   */
+  on(type, filter, callback) {
+    const stateCheck = this.channelAdapter.isJoined() || this.channelAdapter.isJoining();
+    const typeCheck = type === REALTIME_LISTEN_TYPES.PRESENCE || type === REALTIME_LISTEN_TYPES.POSTGRES_CHANGES;
+    if (stateCheck && typeCheck) {
+      this.socket.log("channel", `cannot add \`${type}\` callbacks for ${this.topic} after \`subscribe()\`.`);
+      throw new Error(`cannot add \`${type}\` callbacks for ${this.topic} after \`subscribe()\`.`);
+    }
+    return this._on(type, filter, callback);
+  }
+  /**
+   * Sends a broadcast message explicitly via REST API.
+   *
+   * This method always uses the REST API endpoint regardless of WebSocket connection state.
+   * Useful when you want to guarantee REST delivery or when gradually migrating from implicit REST fallback.
+   *
+   * Payloads that are `ArrayBuffer` or `ArrayBufferView` (e.g. `Uint8Array`) are sent as
+   * `application/octet-stream`; all other payloads are JSON-encoded.
+   *
+   * @param event The name of the broadcast event
+   * @param payload Payload to be sent (required)
+   * @param opts Options including timeout and persist
+   * @returns Promise resolving to object with success status, and error details if failed
+   *
+   * @category Realtime
+   */
+  async httpSend(event, payload, opts = {}) {
+    var _a;
+    if (payload === void 0 || payload === null) {
+      return Promise.reject(new Error("Payload is required for httpSend()"));
+    }
+    const isBinary = payload instanceof ArrayBuffer || ArrayBuffer.isView(payload);
+    const headers = {
+      apikey: this.socket.apiKey ? this.socket.apiKey : "",
+      "Content-Type": isBinary ? "application/octet-stream" : "application/json"
+    };
+    if (this.socket.accessTokenValue) {
+      headers["Authorization"] = `Bearer ${this.socket.accessTokenValue}`;
+    }
+    const url = new URL(this.broadcastEndpointURL);
+    url.pathname += `/${encodeURIComponent(this.subTopic)}/events/${encodeURIComponent(event)}`;
+    if (this.private) {
+      url.searchParams.set("private", "true");
+    }
+    if (opts.persist) {
+      if (!this.private) {
+        return Promise.reject(new Error("Realtime httpSend() cannot store a message on a public channel."));
+      }
+      const ttl = typeof opts.persist === "object" ? opts.persist.ttl : void 0;
+      if (ttl === void 0) {
+        url.searchParams.set("persist", "true");
+      } else {
+        url.searchParams.set("persist[ttl]", String(ttl));
+      }
+    }
+    const options = {
+      method: "POST",
+      headers,
+      body: isBinary ? payload : JSON.stringify(payload)
+    };
+    const response = await this._fetchWithTimeout(url.toString(), options, (_a = opts.timeout) !== null && _a !== void 0 ? _a : this.timeout);
+    if (response.status === 202) {
+      return { success: true };
+    }
+    if (response.status === 404) {
+      return Promise.reject(new Error("httpSend() requires Realtime server v2.97.0 or newer; the endpoint returned 404. Update your Supabase CLI to a recent version, or upgrade the Realtime server in your self-hosted setup. See https://github.com/supabase/supabase-js/blob/master/packages/core/realtime-js/migrations/httpsend-server-version.md"));
+    }
+    let errorMessage = response.statusText;
+    try {
+      const errorBody = await response.json();
+      errorMessage = errorBody.error || errorBody.message || errorMessage;
+    } catch (_b) {
+    }
+    return Promise.reject(new Error(errorMessage));
+  }
+  /**
+   * Sends a message into the channel.
+   *
+   * @param args Arguments to send to channel
+   * @param args.type The type of event to send
+   * @param args.event The name of the event being sent
+   * @param args.payload Payload to be sent
+   * @param args.persist Stores the broadcast for replay on a private channel
+   * @param opts Options to be used during the send process
+   *
+   * @category Realtime
+   *
+   * @remarks
+   * - When using REST you don't need to subscribe to the channel
+   * - REST calls are only available from 2.37.0 onwards
+   * - If you create a channel only to send a REST broadcast, remove it from
+   *   the client when the send completes
+   *
+   * @example Send a message via websocket
+   * ```js
+   * const channel = supabase.channel('room1')
+   *
+   * channel.subscribe((status) => {
+   *   if (status === 'SUBSCRIBED') {
+   *     channel.send({
+   *       type: 'broadcast',
+   *       event: 'cursor-pos',
+   *       payload: { x: Math.random(), y: Math.random() },
+   *     })
+   *   }
+   * })
+   * ```
+   *
+   * @exampleResponse Send a message via websocket
+   * ```js
+   * ok | timed out | error
+   * ```
+   *
+   * @example Send a message via REST
+   * ```js
+   * const channel = supabase.channel('room1')
+   *
+   * try {
+   *   await channel.httpSend('cursor-pos', { x: Math.random(), y: Math.random() })
+   * } finally {
+   *   await supabase.removeChannel(channel)
+   * }
+   * ```
+   */
+  async send(args, opts = {}) {
+    var _a, _b;
+    if (args.type === "broadcast" && args.persist && (!this.private || this.socket.vsn === VSN_1_0_0)) {
+      const persistError = this.private ? "Realtime send() cannot store a message with protocol 1.0.0. Use httpSend() or connect with vsn 2.0.0." : "Realtime send() cannot store a message on a public channel.";
+      if (this.socket.hasLogger()) {
+        this.socket.log("channel", persistError);
+      } else {
+        console.error(persistError);
+      }
+      return "error";
+    }
+    if (!this.channelAdapter.canPush() && args.type === "broadcast") {
+      const fallbackWarning = "Realtime send() is automatically falling back to REST API. This behavior will be deprecated in the future. Please use httpSend() explicitly for REST delivery.";
+      if (this.socket.hasLogger()) {
+        this.socket.log("channel", fallbackWarning);
+      } else {
+        console.warn(fallbackWarning);
+      }
+      const { event, payload: endpoint_payload } = args;
+      if (args.persist) {
+        const persistError = "Realtime send() fell back to REST and cannot store this message. The batch endpoint does not support persistence. Use httpSend() or send after the channel is connected and subscribed.";
+        if (this.socket.hasLogger()) {
+          this.socket.log("channel", persistError);
+        } else {
+          console.error(persistError);
+        }
+        return "error";
+      }
+      const headers = {
+        apikey: this.socket.apiKey ? this.socket.apiKey : "",
+        "Content-Type": "application/json"
+      };
+      if (this.socket.accessTokenValue) {
+        headers["Authorization"] = `Bearer ${this.socket.accessTokenValue}`;
+      }
+      const options = {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          messages: [
+            {
+              topic: this.subTopic,
+              event,
+              payload: endpoint_payload,
+              private: this.private
+            }
+          ]
+        })
+      };
+      try {
+        const response = await this._fetchWithTimeout(this.broadcastEndpointURL, options, (_a = opts.timeout) !== null && _a !== void 0 ? _a : this.timeout);
+        await ((_b = response.body) === null || _b === void 0 ? void 0 : _b.cancel());
+        return response.ok ? "ok" : "error";
+      } catch (error) {
+        if (error instanceof Error && error.name === "AbortError") {
+          return "timed out";
+        } else {
+          return "error";
+        }
+      }
+    } else {
+      return new Promise((resolve) => {
+        var _a2, _b2, _c;
+        const push = this.channelAdapter.push(args.type, args, opts.timeout || this.timeout);
+        if (args.type === "broadcast" && !((_c = (_b2 = (_a2 = this.params) === null || _a2 === void 0 ? void 0 : _a2.config) === null || _b2 === void 0 ? void 0 : _b2.broadcast) === null || _c === void 0 ? void 0 : _c.ack)) {
+          resolve("ok");
+        }
+        push.receive("ok", () => resolve("ok"));
+        push.receive("error", (response) => resolve(args.persist && typeof (response === null || response === void 0 ? void 0 : response.error) === "string" ? response.error : "error"));
+        push.receive("timeout", () => resolve("timed out"));
+      });
+    }
+  }
+  /**
+   * Updates the payload that will be sent the next time the channel joins (reconnects).
+   * Useful for rotating access tokens or updating config without re-creating the channel.
+   *
+   * @category Realtime
+   */
+  updateJoinPayload(payload) {
+    this.channelAdapter.updateJoinPayload(payload);
+  }
+  /**
+   * Leaves the channel.
+   *
+   * Unsubscribes from server events, and instructs channel to terminate on server.
+   * Triggers onClose() hooks.
+   *
+   * To receive leave acknowledgements, use the a `receive` hook to bind to the server ack, ie:
+   * channel.unsubscribe().receive("ok", () => alert("left!") )
+   *
+   * @category Realtime
+   */
+  async unsubscribe(timeout = this.timeout) {
+    return new Promise((resolve) => {
+      this.channelAdapter.unsubscribe(timeout).receive("ok", () => resolve("ok")).receive("timeout", () => resolve("timed out")).receive("error", () => resolve("error"));
+    });
+  }
+  /**
+   * Destroys and stops related timers.
+   *
+   * @category Realtime
+   */
+  teardown() {
+    this.channelAdapter.teardown();
+  }
+  /** @internal */
+  async _fetchWithTimeout(url, options, timeout) {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    const response = await this.socket.fetch(url, Object.assign(Object.assign({}, options), { signal: controller.signal }));
+    clearTimeout(id);
+    return response;
+  }
+  /** @internal */
+  _on(type, filter, callback) {
+    var _a;
+    const typeLower = type.toLocaleLowerCase();
+    const filterValue = filter === null || filter === void 0 ? void 0 : filter.filter;
+    if (filterValue instanceof RealtimePostgresFilterBuilder || typeof filterValue === "object" && filterValue !== null && typeof filterValue.build === "function") {
+      filter = Object.assign(Object.assign({}, filter), { filter: filterValue.build() });
+    }
+    if (typeLower === REALTIME_LISTEN_TYPES.POSTGRES_CHANGES) {
+      const duplicate = (_a = this.bindings[typeLower]) === null || _a === void 0 ? void 0 : _a.find((bind) => _RealtimeChannel.isSamePostgresFilter(bind.filter, filter));
+      if (duplicate) {
+        this.socket.log("error", `duplicate \`postgres_changes\` binding for ${this.topic} ignored`, filter);
+        return this;
+      }
+    }
+    const ref = this.channelAdapter.on(type, callback);
+    const binding = {
+      type: typeLower,
+      filter,
+      callback,
+      ref
+    };
+    if (this.bindings[typeLower]) {
+      this.bindings[typeLower].push(binding);
+    } else {
+      this.bindings[typeLower] = [binding];
+    }
+    this._updateFilterMessage();
+    return this;
+  }
+  /**
+   * Registers a callback that will be executed when the channel closes.
+   *
+   * @internal
+   */
+  _onClose(callback) {
+    this.channelAdapter.onClose(callback);
+  }
+  /**
+   * Registers a callback that will be executed when the channel encounteres an error.
+   *
+   * @internal
+   */
+  _onError(callback) {
+    this.channelAdapter.onError(callback);
+  }
+  /** @internal */
+  _updateFilterMessage() {
+    this.channelAdapter.updateFilterBindings((binding, payload, ref) => {
+      var _a, _b, _c, _d, _e, _f, _g;
+      const typeLower = binding.event.toLocaleLowerCase();
+      if (this._notThisChannelEvent(typeLower, ref)) {
+        return false;
+      }
+      const bind = (_a = this.bindings[typeLower]) === null || _a === void 0 ? void 0 : _a.find((bind2) => bind2.ref === binding.ref);
+      if (!bind) {
+        return true;
+      }
+      if (["broadcast", "presence", "postgres_changes"].includes(typeLower)) {
+        if ("id" in bind) {
+          const bindId = bind.id;
+          const bindEvent = (_b = bind.filter) === null || _b === void 0 ? void 0 : _b.event;
+          return bindId && ((_c = payload.ids) === null || _c === void 0 ? void 0 : _c.includes(bindId)) && (bindEvent === "*" || (bindEvent === null || bindEvent === void 0 ? void 0 : bindEvent.toLocaleLowerCase()) === ((_d = payload.data) === null || _d === void 0 ? void 0 : _d.type.toLocaleLowerCase()));
+        } else {
+          const bindEvent = (_f = (_e = bind === null || bind === void 0 ? void 0 : bind.filter) === null || _e === void 0 ? void 0 : _e.event) === null || _f === void 0 ? void 0 : _f.toLocaleLowerCase();
+          return bindEvent === "*" || bindEvent === ((_g = payload === null || payload === void 0 ? void 0 : payload.event) === null || _g === void 0 ? void 0 : _g.toLocaleLowerCase());
+        }
+      } else {
+        return bind.type.toLocaleLowerCase() === typeLower;
+      }
+    });
+  }
+  /** @internal */
+  _notThisChannelEvent(event, ref) {
+    const { close, error, leave, join: join2 } = CHANNEL_EVENTS;
+    const events = [close, error, leave, join2];
+    return ref && events.includes(event) && ref !== this.joinPush.ref;
+  }
+  /** @internal */
+  _updateFilterTransform() {
+    this.channelAdapter.updatePayloadTransform((event, payload, ref) => {
+      if (typeof payload === "object" && "ids" in payload) {
+        const postgresChanges = payload.data;
+        const { schema, table, commit_timestamp, type, errors } = postgresChanges;
+        const enrichedPayload = {
+          schema,
+          table,
+          commit_timestamp,
+          eventType: type,
+          new: {},
+          old: {},
+          errors
+        };
+        return Object.assign(Object.assign({}, enrichedPayload), this._getPayloadRecords(postgresChanges));
+      }
+      return payload;
+    });
+  }
+  copyBindings(other) {
+    if (this.joinedOnce) {
+      throw new Error("cannot copy bindings into joined channel");
+    }
+    for (const kind in other.bindings) {
+      for (const binding of other.bindings[kind]) {
+        this._on(binding.type, binding.filter, binding.callback);
+      }
+    }
+  }
+  /**
+   * Compares two optional filter values for equality.
+   * Treats undefined, null, and empty string as equivalent empty values.
+   * @internal
+   */
+  static isFilterValueEqual(serverValue, clientValue) {
+    const normalizedServer = serverValue !== null && serverValue !== void 0 ? serverValue : void 0;
+    const normalizedClient = clientValue !== null && clientValue !== void 0 ? clientValue : void 0;
+    return normalizedServer === normalizedClient;
+  }
+  /**
+   * Two `postgres_changes` filters are the same when the server would collapse them into a single
+   * subscription.
+   * @internal
+   */
+  static isSamePostgresFilter(a, b) {
+    var _a, _b, _c, _d;
+    const selectA = (_b = (_a = a === null || a === void 0 ? void 0 : a.select) === null || _a === void 0 ? void 0 : _a.join()) !== null && _b !== void 0 ? _b : void 0;
+    const selectB = (_d = (_c = b === null || b === void 0 ? void 0 : b.select) === null || _c === void 0 ? void 0 : _c.join()) !== null && _d !== void 0 ? _d : void 0;
+    return (a === null || a === void 0 ? void 0 : a.event) === (b === null || b === void 0 ? void 0 : b.event) && _RealtimeChannel.isFilterValueEqual(a === null || a === void 0 ? void 0 : a.schema, b === null || b === void 0 ? void 0 : b.schema) && _RealtimeChannel.isFilterValueEqual(a === null || a === void 0 ? void 0 : a.table, b === null || b === void 0 ? void 0 : b.table) && _RealtimeChannel.isFilterValueEqual(a === null || a === void 0 ? void 0 : a.filter, b === null || b === void 0 ? void 0 : b.filter) && selectA === selectB;
+  }
+  /** @internal */
+  _getPayloadRecords(payload) {
+    const records2 = {
+      new: {},
+      old: {}
+    };
+    if (payload.type === "INSERT" || payload.type === "UPDATE") {
+      records2.new = convertChangeData(payload.columns, payload.record);
+    }
+    if (payload.type === "UPDATE" || payload.type === "DELETE") {
+      records2.old = convertChangeData(payload.columns, payload.old_record);
+    }
+    return records2;
+  }
+};
+var SocketAdapter = class {
+  constructor(endPoint, options) {
+    this.socket = new Socket(endPoint, options);
+  }
+  get timeout() {
+    return this.socket.timeout;
+  }
+  get endPoint() {
+    return this.socket.endPoint;
+  }
+  get transport() {
+    return this.socket.transport;
+  }
+  get heartbeatIntervalMs() {
+    return this.socket.heartbeatIntervalMs;
+  }
+  get heartbeatCallback() {
+    return this.socket.heartbeatCallback;
+  }
+  set heartbeatCallback(callback) {
+    this.socket.heartbeatCallback = callback;
+  }
+  get heartbeatTimer() {
+    return this.socket.heartbeatTimer;
+  }
+  get pendingHeartbeatRef() {
+    return this.socket.pendingHeartbeatRef;
+  }
+  get reconnectTimer() {
+    return this.socket.reconnectTimer;
+  }
+  get vsn() {
+    return this.socket.vsn;
+  }
+  get encode() {
+    return this.socket.encode;
+  }
+  get decode() {
+    return this.socket.decode;
+  }
+  get reconnectAfterMs() {
+    return this.socket.reconnectAfterMs;
+  }
+  get sendBuffer() {
+    return this.socket.sendBuffer;
+  }
+  get stateChangeCallbacks() {
+    return this.socket.stateChangeCallbacks;
+  }
+  connect() {
+    this.socket.connect();
+  }
+  disconnect(callback, code, reason, timeout = 1e4) {
+    return new Promise((resolve) => {
+      setTimeout(() => resolve("timeout"), timeout);
+      this.socket.disconnect(() => {
+        callback();
+        resolve("ok");
+      }, code, reason);
+    });
+  }
+  push(data) {
+    this.socket.push(data);
+  }
+  log(kind, msg, data) {
+    this.socket.log(kind, msg, data);
+  }
+  hasLogger() {
+    return this.socket.hasLogger();
+  }
+  makeRef() {
+    return this.socket.makeRef();
+  }
+  onOpen(callback) {
+    this.socket.onOpen(callback);
+  }
+  onClose(callback) {
+    this.socket.onClose(callback);
+  }
+  onError(callback) {
+    this.socket.onError(callback);
+  }
+  onMessage(callback) {
+    this.socket.onMessage(callback);
+  }
+  isConnected() {
+    return this.socket.isConnected();
+  }
+  isConnecting() {
+    return this.socket.connectionState() == CONNECTION_STATE.connecting;
+  }
+  isDisconnecting() {
+    return this.socket.connectionState() == CONNECTION_STATE.closing;
+  }
+  connectionState() {
+    return this.socket.connectionState();
+  }
+  endPointURL() {
+    return this.socket.endPointURL();
+  }
+  sendHeartbeat() {
+    this.socket.sendHeartbeat();
+  }
+  /**
+   * @internal
+   */
+  getSocket() {
+    return this.socket;
+  }
+};
+var CONNECTION_TIMEOUTS = {
+  HEARTBEAT_INTERVAL: 25e3,
+  RECONNECT_DELAY: 10,
+  HEARTBEAT_TIMEOUT_FALLBACK: 100
+};
+var RECONNECT_INTERVALS = [1e3, 2e3, 5e3, 1e4];
+var DEFAULT_RECONNECT_FALLBACK = 1e4;
+function createMemorySessionStorage() {
+  const store2 = /* @__PURE__ */ new Map();
+  return {
+    get length() {
+      return store2.size;
+    },
+    clear() {
+      store2.clear();
+    },
+    getItem(key) {
+      return store2.has(key) ? store2.get(key) : null;
+    },
+    key(index2) {
+      var _a;
+      return (_a = Array.from(store2.keys())[index2]) !== null && _a !== void 0 ? _a : null;
+    },
+    removeItem(key) {
+      store2.delete(key);
+    },
+    setItem(key, value) {
+      store2.set(key, String(value));
+    }
+  };
+}
+function resolveSessionStorage() {
+  try {
+    if (typeof globalThis !== "undefined" && globalThis.sessionStorage) {
+      return globalThis.sessionStorage;
+    }
+  } catch (_a) {
+  }
+  return createMemorySessionStorage();
+}
+var WORKER_SCRIPT = `
+  addEventListener("message", (e) => {
+    if (e.data.event === "start") {
+      setInterval(() => postMessage({ event: "keepAlive" }), e.data.interval);
+    }
+  });`;
+var RealtimeClient = class {
+  get endPoint() {
+    return this.socketAdapter.endPoint;
+  }
+  get timeout() {
+    return this.socketAdapter.timeout;
+  }
+  get transport() {
+    return this.socketAdapter.transport;
+  }
+  get heartbeatCallback() {
+    return this.socketAdapter.heartbeatCallback;
+  }
+  get heartbeatIntervalMs() {
+    return this.socketAdapter.heartbeatIntervalMs;
+  }
+  get heartbeatTimer() {
+    if (this.worker) {
+      return this._workerHeartbeatTimer;
+    }
+    return this.socketAdapter.heartbeatTimer;
+  }
+  get pendingHeartbeatRef() {
+    if (this.worker) {
+      return this._pendingWorkerHeartbeatRef;
+    }
+    return this.socketAdapter.pendingHeartbeatRef;
+  }
+  get reconnectTimer() {
+    return this.socketAdapter.reconnectTimer;
+  }
+  get vsn() {
+    return this.socketAdapter.vsn;
+  }
+  get encode() {
+    return this.socketAdapter.encode;
+  }
+  get decode() {
+    return this.socketAdapter.decode;
+  }
+  get reconnectAfterMs() {
+    return this.socketAdapter.reconnectAfterMs;
+  }
+  get sendBuffer() {
+    return this.socketAdapter.sendBuffer;
+  }
+  get stateChangeCallbacks() {
+    return this.socketAdapter.stateChangeCallbacks;
+  }
+  /**
+   * Initializes the Socket.
+   *
+   * @param endPoint The string WebSocket endpoint, ie, "ws://example.com/socket", "wss://example.com", "/socket" (inherited host & protocol)
+   * @param options.transport The Websocket Transport, for example WebSocket. This can be a custom implementation
+   * @param options.timeout The default timeout in milliseconds to trigger push timeouts.
+   * @param options.params The optional params to pass when connecting.
+   * @param options.headers Deprecated: headers cannot be set on websocket connections and this option will be removed in the future.
+   * @param options.heartbeatIntervalMs The millisec interval to send a heartbeat message.
+   * @param options.heartbeatCallback The optional function to handle heartbeat status and latency.
+   * @param options.logger The optional function for specialized logging, ie: logger: (kind, msg, data) => { console.log(`${kind}: ${msg}`, data) }
+   * @param options.logLevel Sets the log level for Realtime
+   * @param options.encode The function to encode outgoing messages. Defaults to JSON: (payload, callback) => callback(JSON.stringify(payload))
+   * @param options.decode The function to decode incoming messages. Defaults to Serializer's decode.
+   * @param options.reconnectAfterMs he optional function that returns the millsec reconnect interval. Defaults to stepped backoff off.
+   * @param options.worker Use Web Worker to set a side flow. Defaults to false.
+   * @param options.workerUrl The URL of the worker script. Defaults to https://realtime.supabase.com/worker.js that includes a heartbeat event call to keep the connection alive.
+   * @param options.vsn The protocol version to use when connecting. Supported versions are "1.0.0" and "2.0.0". Defaults to "2.0.0".
+   *
+   * @category Realtime
+   *
+   * @example Using supabase-js (recommended)
+   * ```ts
+   * import { createClient } from '@supabase/supabase-js'
+   *
+   * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+   * const channel = supabase.channel('room1')
+   * channel
+   *   .on('broadcast', { event: 'cursor-pos' }, (payload) => console.log(payload))
+   *   .subscribe()
+   * ```
+   *
+   * @example Standalone import for bundle-sensitive environments
+   * ```ts
+   * import RealtimeClient from '@supabase/realtime-js'
+   *
+   * const client = new RealtimeClient('https://xyzcompany.supabase.co/realtime/v1', {
+   *   params: { apikey: 'your-publishable-key' },
+   * })
+   * client.connect()
+   * ```
+   */
+  constructor(endPoint, options) {
+    var _a;
+    this.channels = new Array();
+    this.accessTokenValue = null;
+    this.accessToken = null;
+    this.apiKey = null;
+    this.httpEndpoint = "";
+    this.headers = {};
+    this.params = {};
+    this.ref = 0;
+    this.serializer = new serializer_default();
+    this._manuallySetToken = false;
+    this._authPromise = null;
+    this._authGeneration = 0;
+    this._workerHeartbeatTimer = void 0;
+    this._pendingWorkerHeartbeatRef = null;
+    this._pendingDisconnectTimer = null;
+    this._disconnectOnEmptyChannelsAfterMs = 0;
+    this._resolveFetch = (customFetch) => {
+      if (customFetch) {
+        return (...args) => customFetch(...args);
+      }
+      return (...args) => fetch(...args);
+    };
+    if (!((_a = options === null || options === void 0 ? void 0 : options.params) === null || _a === void 0 ? void 0 : _a.apikey)) {
+      throw new Error("API key is required to connect to Realtime");
+    }
+    this.apiKey = options.params.apikey;
+    const socketAdapterOptions = this._initializeOptions(options);
+    this.socketAdapter = new SocketAdapter(endPoint, socketAdapterOptions);
+    this.httpEndpoint = httpEndpointURL(endPoint);
+    this.fetch = this._resolveFetch(options === null || options === void 0 ? void 0 : options.fetch);
+  }
+  /**
+   * Connects the socket, unless already connected.
+   *
+   * @category Realtime
+   */
+  connect() {
+    if (this.isConnecting() || this.isDisconnecting() || this.isConnected()) {
+      return;
+    }
+    if (this.accessToken && !this._authPromise) {
+      this._setAuthSafely("connect");
+    }
+    this._setupConnectionHandlers();
+    try {
+      this.socketAdapter.connect();
+    } catch (error) {
+      const errorMessage = error.message;
+      throw new Error(`WebSocket not available: ${errorMessage}`);
+    }
+    this._handleNodeJsRaceCondition();
+  }
+  /**
+   * Returns the URL of the websocket.
+   * @returns string The URL of the websocket.
+   *
+   * @category Realtime
+   */
+  endpointURL() {
+    return this.socketAdapter.endPointURL();
+  }
+  /**
+   * Disconnects the socket.
+   *
+   * @param code A numeric status code to send on disconnect.
+   * @param reason A custom reason for the disconnect.
+   *
+   * @category Realtime
+   */
+  async disconnect(code, reason) {
+    this._cancelPendingDisconnect();
+    if (this.isDisconnecting()) {
+      return "ok";
+    }
+    return await this.socketAdapter.disconnect(() => {
+      clearInterval(this._workerHeartbeatTimer);
+      this._terminateWorker();
+    }, code, reason);
+  }
+  /**
+   * Returns all created channels
+   *
+   * @category Realtime
+   */
+  getChannels() {
+    return this.channels;
+  }
+  /**
+   * Unsubscribes, removes and tears down a single channel
+   * @param channel A RealtimeChannel instance
+   *
+   * @category Realtime
+   */
+  async removeChannel(channel) {
+    const status = await channel.unsubscribe();
+    if (status === "ok") {
+      channel.teardown();
+    }
+    return status;
+  }
+  /**
+   * Unsubscribes, removes and tears down all channels
+   *
+   * @category Realtime
+   */
+  async removeAllChannels() {
+    const promises = this.channels.map(async (channel) => {
+      const result2 = await channel.unsubscribe();
+      channel.teardown();
+      return result2;
+    });
+    const result = await Promise.all(promises);
+    await this.disconnect();
+    return result;
+  }
+  /**
+   * Logs the message.
+   *
+   * For customized logging, `this.logger` can be overridden in Client constructor.
+   *
+   * @category Realtime
+   */
+  log(kind, msg, data) {
+    this.socketAdapter.log(kind, msg, data);
+  }
+  /**
+   * Returns true if a custom `logger` has been configured on this client.
+   *
+   * @category Realtime
+   */
+  hasLogger() {
+    return this.socketAdapter.hasLogger();
+  }
+  /**
+   * Returns the current state of the socket.
+   *
+   * @category Realtime
+   */
+  connectionState() {
+    return this.socketAdapter.connectionState() || CONNECTION_STATE.closed;
+  }
+  /**
+   * Returns `true` is the connection is open.
+   *
+   * @category Realtime
+   */
+  isConnected() {
+    return this.socketAdapter.isConnected();
+  }
+  /**
+   * Returns `true` if the connection is currently connecting.
+   *
+   * @category Realtime
+   */
+  isConnecting() {
+    return this.socketAdapter.isConnecting();
+  }
+  /**
+   * Returns `true` if the connection is currently disconnecting.
+   *
+   * @category Realtime
+   */
+  isDisconnecting() {
+    return this.socketAdapter.isDisconnecting();
+  }
+  /**
+   * Creates (or reuses) a {@link RealtimeChannel} for the provided topic.
+   *
+   * Topics are automatically prefixed with `realtime:` to match the Realtime service.
+   * If a channel with the same topic already exists it will be returned instead of creating
+   * a duplicate connection.
+   *
+   * @category Realtime
+   */
+  channel(topic, params = { config: {} }) {
+    const realtimeTopic = `realtime:${topic}`;
+    const exists = this.getChannels().find((c) => c.topic === realtimeTopic);
+    if (!exists) {
+      const chan = new RealtimeChannel(`realtime:${topic}`, params, this);
+      this._cancelPendingDisconnect();
+      this.channels.push(chan);
+      return chan;
+    } else {
+      return exists;
+    }
+  }
+  /**
+   * Push out a message if the socket is connected.
+   *
+   * If the socket is not connected, the message gets enqueued within a local buffer, and sent out when a connection is next established.
+   *
+   * @category Realtime
+   */
+  push(data) {
+    this.socketAdapter.push(data);
+  }
+  /**
+   * Sets the JWT access token used for channel subscription authorization and Realtime RLS.
+   *
+   * If param is null it will use the `accessToken` callback function or the token set on the client.
+   *
+   * On callback used, it will set the value of the token internal to the client.
+   *
+   * When a token is explicitly provided AND no `accessToken` callback is configured,
+   * it will be preserved across channel operations (including removeChannel and
+   * resubscribe) and the client stays in manual-token mode.
+   *
+   * When an `accessToken` callback IS configured, the callback is the source of truth:
+   * the client remains in callback mode and continues to refresh from it on heartbeat,
+   * even after a bootstrap/override `setAuth(token)` call.
+   *
+   * The callback is called on connect and on every heartbeat (`heartbeatIntervalMs`,
+   * default 25000ms). Its token must stay valid past the next call, or the server closes
+   * the channel at expiry with no automatic resubscribe.
+   *
+   * @param token A JWT string to override the token set on the client.
+   *
+   * @example Setting the authorization header
+   * // Use a manual token (preserved across resubscribes when no accessToken callback is set)
+   * client.realtime.setAuth('my-custom-jwt')
+   *
+   * // Switch back to using the accessToken callback
+   * client.realtime.setAuth()
+   *
+   * @category Realtime
+   */
+  async setAuth(token = null) {
+    const authGeneration = ++this._authGeneration;
+    const authPromise = this._performAuth(token, authGeneration);
+    if (authGeneration === this._authGeneration) {
+      this._authPromise = authPromise;
+    }
+    try {
+      await authPromise;
+    } finally {
+      if (this._authPromise === authPromise) {
+        this._authPromise = null;
+      }
+    }
+  }
+  /**
+   * Returns true if the current access token was explicitly set via setAuth(token),
+   * false if it was obtained via the accessToken callback.
+   * @internal
+   */
+  _isManualToken() {
+    return this._manuallySetToken;
+  }
+  /**
+   * Sends a heartbeat message if the socket is connected.
+   *
+   * @category Realtime
+   */
+  async sendHeartbeat() {
+    this.socketAdapter.sendHeartbeat();
+  }
+  /**
+   * Sets a callback that receives lifecycle events for internal heartbeat messages.
+   * Useful for instrumenting connection health (e.g. sent/ok/timeout).
+   *
+   * @category Realtime
+   */
+  onHeartbeat(callback) {
+    this.socketAdapter.heartbeatCallback = this._wrapHeartbeatCallback(callback);
+  }
+  /**
+   * Return the next message ref, accounting for overflows
+   *
+   * @internal
+   */
+  _makeRef() {
+    return this.socketAdapter.makeRef();
+  }
+  /**
+   * Removes a channel from RealtimeClient
+   *
+   * @param channel An open subscription.
+   *
+   * @internal
+   */
+  _remove(channel) {
+    this.channels = this.channels.filter((c) => c.topic !== channel.topic);
+    if (this.channels.length === 0) {
+      this.log("transport", "no channels remaining, scheduling disconnect");
+      this._schedulePendingDisconnect();
+    }
+  }
+  /** @internal */
+  _schedulePendingDisconnect() {
+    this._cancelPendingDisconnect();
+    if (this._disconnectOnEmptyChannelsAfterMs === 0) {
+      this.log("transport", "disconnecting immediately - no channels");
+      this.disconnect();
+      return;
+    }
+    this._pendingDisconnectTimer = setTimeout(() => {
+      this._pendingDisconnectTimer = null;
+      if (this.channels.length === 0) {
+        this.log("transport", "deferred disconnect fired - no channels, disconnecting");
+        this.disconnect();
+      }
+    }, this._disconnectOnEmptyChannelsAfterMs);
+    this.log("transport", `deferred disconnect scheduled in ${this._disconnectOnEmptyChannelsAfterMs}ms`);
+  }
+  /** @internal */
+  _cancelPendingDisconnect() {
+    if (this._pendingDisconnectTimer !== null) {
+      this.log("transport", "pending disconnect cancelled - channel activity detected");
+      clearTimeout(this._pendingDisconnectTimer);
+      this._pendingDisconnectTimer = null;
+    }
+  }
+  /**
+   * Perform the actual auth operation
+   * @internal
+   */
+  async _performAuth(token, authGeneration) {
+    let tokenToSend;
+    let isManualToken = false;
+    if (token) {
+      tokenToSend = token;
+      isManualToken = true;
+    } else if (this.accessToken) {
+      try {
+        tokenToSend = await this.accessToken();
+      } catch (e) {
+        this.log("error", "Error fetching access token from callback", e);
+        tokenToSend = this.accessTokenValue;
+      }
+    } else {
+      tokenToSend = this.accessTokenValue;
+    }
+    if (authGeneration !== this._authGeneration) {
+      return;
+    }
+    if (this.accessToken) {
+      this._manuallySetToken = false;
+    } else if (isManualToken) {
+      this._manuallySetToken = true;
+    }
+    if (this.accessTokenValue != tokenToSend) {
+      this.accessTokenValue = tokenToSend;
+      this.channels.forEach((channel) => {
+        const payload = {
+          access_token: tokenToSend,
+          version: DEFAULT_VERSION
+        };
+        channel.updateJoinPayload(payload);
+        if (channel.joinedOnce && channel.channelAdapter.isJoined()) {
+          channel.channelAdapter.push(CHANNEL_EVENTS.access_token, {
+            access_token: tokenToSend
+          });
+        }
+      });
+    }
+  }
+  /**
+   * Wait for any in-flight auth operations to complete
+   * @internal
+   */
+  async _waitForAuthIfNeeded() {
+    if (this._authPromise) {
+      await this._authPromise;
+    }
+  }
+  /**
+   * Safely call setAuth with standardized error handling
+   * @internal
+   */
+  _setAuthSafely(context = "general") {
+    if (!this._isManualToken()) {
+      this.setAuth().catch((e) => {
+        this.log("error", `Error setting auth in ${context}`, e);
+      });
+    }
+  }
+  /** @internal */
+  _setupConnectionHandlers() {
+    this.socketAdapter.onOpen(() => {
+      const authPromise = this._authPromise || (this.accessToken && !this.accessTokenValue ? this.setAuth() : Promise.resolve());
+      authPromise.catch((e) => {
+        this.log("error", "error waiting for auth on connect", e);
+      });
+      if (this.worker && !this.workerRef) {
+        this._startWorkerHeartbeat();
+      }
+    });
+    this.socketAdapter.onClose(() => {
+      if (this.worker && this.workerRef) {
+        this._terminateWorker();
+      }
+    });
+    this.socketAdapter.onMessage((message) => {
+      if (message.ref && message.ref === this._pendingWorkerHeartbeatRef) {
+        this._pendingWorkerHeartbeatRef = null;
+      }
+    });
+  }
+  /** @internal */
+  _handleNodeJsRaceCondition() {
+    if (this.socketAdapter.isConnected()) {
+      this.socketAdapter.getSocket().onConnOpen();
+    }
+  }
+  /** @internal */
+  _wrapHeartbeatCallback(heartbeatCallback) {
+    return (status, latency) => {
+      if (status === "disconnected")
+        return;
+      if (status == "sent")
+        this._setAuthSafely();
+      if (heartbeatCallback)
+        heartbeatCallback(status, latency);
+    };
+  }
+  /** @internal */
+  _startWorkerHeartbeat() {
+    if (this.workerUrl) {
+      this.log("worker", `starting worker for from ${this.workerUrl}`);
+    } else {
+      this.log("worker", `starting default worker`);
+    }
+    const objectUrl = this._workerObjectUrl(this.workerUrl);
+    this.workerRef = new Worker(objectUrl);
+    this.workerRef.onerror = (error) => {
+      this.log("worker", "worker error", error.message);
+      this._terminateWorker();
+      this.disconnect();
+    };
+    this.workerRef.onmessage = (event) => {
+      if (event.data.event === "keepAlive") {
+        this.sendHeartbeat();
+      }
+    };
+    this.workerRef.postMessage({
+      event: "start",
+      interval: this.heartbeatIntervalMs
+    });
+  }
+  /**
+   * Terminate the Web Worker and clear the reference
+   * @internal
+   */
+  _terminateWorker() {
+    if (this.workerRef) {
+      this.log("worker", "terminating worker");
+      this.workerRef.terminate();
+      this.workerRef = void 0;
+    }
+  }
+  /** @internal */
+  _workerObjectUrl(url) {
+    let result_url;
+    if (url) {
+      result_url = url;
+    } else {
+      const blob = new Blob([WORKER_SCRIPT], { type: "application/javascript" });
+      result_url = URL.createObjectURL(blob);
+    }
+    return result_url;
+  }
+  /**
+   * Initialize socket options with defaults
+   * @internal
+   */
+  _initializeOptions(options) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+    this.worker = (_a = options === null || options === void 0 ? void 0 : options.worker) !== null && _a !== void 0 ? _a : false;
+    this.accessToken = (_b = options === null || options === void 0 ? void 0 : options.accessToken) !== null && _b !== void 0 ? _b : null;
+    const result = {};
+    result.timeout = (_c = options === null || options === void 0 ? void 0 : options.timeout) !== null && _c !== void 0 ? _c : DEFAULT_TIMEOUT;
+    result.heartbeatIntervalMs = (_d = options === null || options === void 0 ? void 0 : options.heartbeatIntervalMs) !== null && _d !== void 0 ? _d : CONNECTION_TIMEOUTS.HEARTBEAT_INTERVAL;
+    this._disconnectOnEmptyChannelsAfterMs = (_e = options === null || options === void 0 ? void 0 : options.disconnectOnEmptyChannelsAfterMs) !== null && _e !== void 0 ? _e : 2 * ((_f = options === null || options === void 0 ? void 0 : options.heartbeatIntervalMs) !== null && _f !== void 0 ? _f : CONNECTION_TIMEOUTS.HEARTBEAT_INTERVAL);
+    result.transport = (_g = options === null || options === void 0 ? void 0 : options.transport) !== null && _g !== void 0 ? _g : websocket_factory_default.getWebSocketConstructor();
+    result.params = options === null || options === void 0 ? void 0 : options.params;
+    result.logger = options === null || options === void 0 ? void 0 : options.logger;
+    result.heartbeatCallback = this._wrapHeartbeatCallback(options === null || options === void 0 ? void 0 : options.heartbeatCallback);
+    result.sessionStorage = (_h = options === null || options === void 0 ? void 0 : options.sessionStorage) !== null && _h !== void 0 ? _h : resolveSessionStorage();
+    result.reconnectAfterMs = (_j = options === null || options === void 0 ? void 0 : options.reconnectAfterMs) !== null && _j !== void 0 ? _j : ((tries) => {
+      return RECONNECT_INTERVALS[tries - 1] || DEFAULT_RECONNECT_FALLBACK;
+    });
+    let defaultEncode;
+    let defaultDecode;
+    const vsn = (_k = options === null || options === void 0 ? void 0 : options.vsn) !== null && _k !== void 0 ? _k : DEFAULT_VSN;
+    switch (vsn) {
+      case VSN_1_0_0:
+        defaultEncode = (payload, callback) => {
+          return callback(JSON.stringify(payload));
+        };
+        defaultDecode = (payload, callback) => {
+          return callback(JSON.parse(payload));
+        };
+        break;
+      case VSN_2_0_0:
+        defaultEncode = this.serializer.encode.bind(this.serializer);
+        defaultDecode = this.serializer.decode.bind(this.serializer);
+        break;
+      default:
+        throw new Error(`Unsupported serializer version: ${vsn}`);
+    }
+    result.vsn = vsn;
+    result.encode = (_l = options === null || options === void 0 ? void 0 : options.encode) !== null && _l !== void 0 ? _l : defaultEncode;
+    result.decode = (_m = options === null || options === void 0 ? void 0 : options.decode) !== null && _m !== void 0 ? _m : defaultDecode;
+    result.beforeReconnect = this._reconnectAuth.bind(this);
+    if ((options === null || options === void 0 ? void 0 : options.logLevel) || (options === null || options === void 0 ? void 0 : options.log_level)) {
+      this.logLevel = options.logLevel || options.log_level;
+      result.params = Object.assign(Object.assign({}, result.params), { log_level: this.logLevel });
+    }
+    if (this.worker) {
+      if (typeof window !== "undefined" && !window.Worker) {
+        throw new Error("Web Worker is not supported");
+      }
+      this.workerUrl = options === null || options === void 0 ? void 0 : options.workerUrl;
+      result.autoSendHeartbeat = !this.worker;
+    }
+    return result;
+  }
+  /** @internal */
+  async _reconnectAuth() {
+    await this._waitForAuthIfNeeded();
+    if (!this.isConnected()) {
+      this.connect();
+    }
+  }
+};
+var newer = (a, b) => !b || a.round > b.round || a.round === b.round && a.version > b.version;
+function watchRoom({
+  code,
+  initialState,
+  config,
+  getToken,
+  load,
+  presence,
+  onState,
+  onStatus = () => {
+  },
+  onError = () => {
+  },
+  clientFactory = (url, options) => new RealtimeClient(url, options),
+  environment = globalThis,
+  random = Math.random,
+  mode = "room"
+}) {
+  if (!/^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i.test(code) || !["room", "watch"].includes(mode)) {
+    throw new TypeError("NcqBoard subscriptions require a room UUID and a room/watch mode");
+  }
+  let current2 = initialState, wanted, closed = false, connected2 = false, writing = false;
+  let client, channel, loading, dirty = false, needsSnapshot = true, generation = 0, heartbeat, retry;
+  let resolveReady, reconnectAttempts = 0;
+  const ready = new Promise((resolve) => {
+    resolveReady = resolve;
+  });
+  const status = (value) => {
+    if (!closed) onStatus(value);
+  };
+  const accepts = (value) => value?.code === code && Number.isInteger(value.version) && Number.isInteger(value.round);
+  function accept(value) {
+    if (!accepts(value) || current2 && newer(current2, value)) return;
+    current2 = value;
+    if (wanted && !newer(wanted, value) && wanted.phase !== "closed") wanted = null;
+  }
+  async function sync() {
+    dirty = true;
+    if (closed || !connected2 || writing || loading) return loading;
+    const session = generation;
+    loading = (async () => {
+      let reads = 0;
+      do {
+        if (++reads > 3) throw new Error("NcqBoard snapshot did not catch up");
+        dirty = false;
+        const value = await load();
+        if (closed || session !== generation) return;
+        if (value?.error) throw Object.assign(new Error(value.error), value, { code: value.error });
+        if (!accepts(value)) throw new Error("Invalid NcqBoard snapshot");
+        if (!current2 || !newer(current2, value)) {
+          accept(value);
+          onState(value);
+        }
+        needsSnapshot = false;
+        if (wanted && newer(wanted, current2)) dirty = true;
+      } while (dirty && !closed && connected2 && !writing);
+      if (!closed && session === generation) {
+        reconnectAttempts = 0;
+        status("connected");
+        resolveReady(current2);
+      }
+    })().catch((error) => {
+      if (!closed && session === generation) {
+        connected2 = false;
+        status("reconnecting");
+        onError(error);
+        scheduleReconnect();
+      }
+    }).finally(() => {
+      loading = null;
+      if (dirty && connected2 && !writing && !closed) queueMicrotask(sync);
+    });
+    return loading;
+  }
+  function changed(message) {
+    const notice = message.payload;
+    if (!accepts(notice) || current2 && !newer(notice, current2) && notice.phase !== "closed") return;
+    if (!wanted || newer(notice, wanted) || notice.phase === "closed") wanted = notice;
+    void sync();
+  }
+  function disconnect() {
+    connected2 = false;
+    environment.clearInterval(heartbeat);
+    environment.clearTimeout(retry);
+    if (client) void client.disconnect();
+    client = channel = null;
+  }
+  function scheduleReconnect() {
+    environment.clearTimeout(retry);
+    if (!closed) {
+      const delay = Math.min(3e4, 1e3 * 2 ** Math.min(5, reconnectAttempts++));
+      retry = environment.setTimeout(connect, Math.min(3e4, delay * (1 + random() * 0.2)));
+    }
+  }
+  async function connect() {
+    const session = ++generation;
+    disconnect();
+    status("connecting");
+    try {
+      const settings = await config();
+      const bearer = await getToken(false);
+      if (closed || session !== generation) return;
+      const origin = new URL(settings.url);
+      if (origin.protocol !== "https:" || typeof settings.publishableKey !== "string" || !settings.publishableKey || !/^[a-z][a-z0-9-]{2,29}$/.test(settings.game)) {
+        throw new Error("Invalid NcqBoard realtime configuration");
+      }
+      client = clientFactory(origin.origin + "/realtime/v1", {
+        params: { apikey: settings.publishableKey },
+        accessToken: () => getToken(false)
+      });
+      await client.setAuth(bearer);
+      if (closed || session !== generation) return;
+      channel = client.channel(`ncq-board:${settings.game}:${mode}:${code}`, { config: { private: true } });
+      channel.on("broadcast", { event: "changed" }, (message) => {
+        if (!closed && session === generation) changed(message);
+      }).subscribe((next) => {
+        if (closed || session !== generation) return;
+        if (next === "SUBSCRIBED") {
+          connected2 = true;
+          needsSnapshot = true;
+          environment.clearTimeout(retry);
+          void sync();
+          environment.clearInterval(heartbeat);
+          if (presence) heartbeat = environment.setInterval(() => {
+            if (!closed && connected2) void presence().catch((error) => {
+              if (!closed && session === generation) {
+                connected2 = false;
+                status("reconnecting");
+                onError(error);
+                scheduleReconnect();
+              }
+            });
+          }, 5e3);
+        } else if (["CHANNEL_ERROR", "TIMED_OUT", "CLOSED"].includes(next)) {
+          connected2 = false;
+          environment.clearInterval(heartbeat);
+          status("reconnecting");
+          scheduleReconnect();
+        }
+      });
+    } catch (error) {
+      if (!closed && session === generation) {
+        status("reconnecting");
+        onError(error);
+        scheduleReconnect();
+      }
+    }
+  }
+  const resume = () => {
+    if (!environment.document || environment.document.visibilityState === "visible") void connect();
+  };
+  environment.addEventListener?.("online", resume);
+  environment.document?.addEventListener("visibilitychange", resume);
+  void connect();
+  return {
+    ready,
+    sync,
+    accept,
+    beginWrite() {
+      writing = true;
+    },
+    endWrite(value) {
+      if (value && !value.error) accept(value);
+      writing = false;
+      if (needsSnapshot || wanted && newer(wanted, current2)) void sync();
+      else if (dirty) {
+        dirty = false;
+        if (!value || value.error) void sync();
+      }
+    },
+    close() {
+      if (closed) return;
+      closed = true;
+      generation++;
+      disconnect();
+      resolveReady(null);
+      environment.removeEventListener?.("online", resume);
+      environment.document?.removeEventListener("visibilitychange", resume);
+    }
+  };
+}
 function boardError(code, status = 0) {
   return Object.assign(new Error(code), { code, status });
 }
-function create({ apiUrl, getToken }) {
+function create({ apiUrl, getToken, region }) {
   const url = new URL(apiUrl);
   if (url.protocol !== "https:" || url.username || url.password || url.search || url.hash) {
     throw new TypeError("NcqBoard requires an HTTPS API URL");
   }
   const base2 = url.href.replace(/\/$/, "") + "/api";
+  if (region !== void 0 && !/^[a-z]{2}-[a-z]+-\d$/.test(region)) throw new TypeError("Invalid NcqBoard function region");
   const reads = /* @__PURE__ */ new Map();
   let identity;
   function clearCache() {
@@ -721,9 +5040,9 @@ function create({ apiUrl, getToken }) {
     });
     return entry.pending.then(copy);
   }
-  async function token(forceRefresh) {
+  async function token(forceRefresh, role) {
     try {
-      const value = await getToken({ forceRefresh });
+      const value = await getToken({ forceRefresh, ...role ? { role } : {} });
       if (typeof value === "string" && /^\S+$/.test(value)) return value;
     } catch {
     }
@@ -734,7 +5053,9 @@ function create({ apiUrl, getToken }) {
     const headers = {};
     if (bearer) headers.Authorization = "Bearer " + bearer;
     if (input !== void 0) headers["Content-Type"] = "application/json";
-    const response = await fetch(base2 + path, {
+    const requestUrl = new URL(base2 + path);
+    if (region) requestUrl.searchParams.set("forceFunctionRegion", region);
+    const response = await fetch(requestUrl.href, {
       method: input === void 0 ? "GET" : "POST",
       headers,
       body: input === void 0 ? void 0 : JSON.stringify(input),
@@ -770,6 +5091,17 @@ function create({ apiUrl, getToken }) {
       clearCache();
     }
   }
+  function queued(path, queue, cooldown) {
+    if (typeof queue === "number" && cooldown === void 0) {
+      cooldown = queue;
+      queue = void 0;
+    }
+    return request(
+      path + (queue ? (path.includes("?") ? "&" : "?") + "queue=" + encodeURIComponent(queue) : ""),
+      void 0,
+      cooldown
+    );
+  }
   const room2 = (code, op) => "/rooms/" + encodeURIComponent(code) + "/" + op;
   return Object.freeze({
     lobby: (cooldown = 3) => read(
@@ -787,17 +5119,1283 @@ function create({ apiUrl, getToken }) {
     match: (input = {}) => request("/matchmaking", input),
     cancel: (ticket) => request("/matchmaking/cancel", { ticket }),
     state: (code, cooldown = -1) => request(room2(code, "state"), void 0, cooldown),
+    subscribeRoom: (code, options = {}) => watchRoom({
+      ...options,
+      code,
+      config: () => request("/realtime", void 0, -1),
+      getToken: (force) => token(force, "authenticated"),
+      load: options.load ?? (() => request(room2(code, "state"), void 0, -1)),
+      presence: options.presence === false ? void 0 : options.presence ?? (() => request(room2(code, "presence"), {}))
+    }),
     join: (code) => request(room2(code, "join"), {}),
     move: (code, input) => request(room2(code, "move"), input),
     leave: (code) => request(room2(code, "leave"), {}),
     rematch: (code, input) => request(room2(code, "rematch"), input),
-    profile: (cooldown = 3) => request("/profile", void 0, cooldown),
+    profile: (queue, cooldown) => queued("/profile", queue, cooldown),
+    records: (cooldown = 3) => request("/records", void 0, cooldown),
+    seats: (code, cooldown = 3) => request(room2(code, "seats"), void 0, cooldown),
+    leaderboard: (limit = 100, queue, cooldown) => queued("/leaderboard?limit=" + encodeURIComponent(limit), queue, cooldown),
+    setName: (nickname, avatar) => request("/name", { nickname, avatar }),
     gameRequest: request,
     clearCache
   });
 }
-var NcqBoard = Object.freeze({ create });
+var NcqBoard = Object.freeze({ version: 3, create });
 if (typeof window !== "undefined") window.NcqBoard = NcqBoard;
+
+// ncq/save.js
+(function() {
+  "use strict";
+  var w = typeof window !== "undefined" ? window : null;
+  if (!w) return;
+  var VERSION2 = 3;
+  if (w.NcqSave && w.NcqSave.version >= VERSION2) return;
+  var PREFIX = "ncq:save:";
+  var MAX_BYTES = 2e5;
+  var PUSH_WAIT = 2e3;
+  var BACKUP_EVERY = 24 * 60 * 60 * 1e3;
+  var RETRY = [5e3, 3e4, 12e4, 6e5];
+  var READY_WAIT = 8e3;
+  var ID_RE = /^[A-Za-z0-9_-]{1,60}$/;
+  var own2 = function(o, k) {
+    return Object.prototype.hasOwnProperty.call(o, k);
+  };
+  var STORE_TAG = "ncq2.";
+  var MIX = "ncq-save:v2:";
+  var cfg = null;
+  var rec = null;
+  var vault = {};
+  var watchers = [];
+  var tamper = { storage: 0, at: 0 };
+  var memory = {};
+  var listeners2 = [];
+  var warned2 = {};
+  var cloud = { player: null, identity: null, checked: null, at: 0, error: null, restored: false };
+  var syncing = null, timer = null, retryTimer = null, retries = 0;
+  function warn2(key2, text, e) {
+    if (warned2[key2]) return;
+    warned2[key2] = true;
+    try {
+      if (w.console) w.console.warn("[NcqSave] " + text, e || "");
+    } catch (x) {
+    }
+  }
+  function clone(v) {
+    return v === void 0 ? void 0 : JSON.parse(JSON.stringify(v));
+  }
+  function h32(text, seed) {
+    var h = (seed >>> 0 ^ 2166136261) >>> 0, i;
+    for (i = 0; i < text.length; i++) {
+      h ^= text.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    h ^= h >>> 13;
+    h = Math.imul(h, 1540483477);
+    h ^= h >>> 15;
+    return h >>> 0;
+  }
+  function stream2(seed) {
+    var x = seed >>> 0 || 2654435769;
+    return function() {
+      x ^= x << 13;
+      x ^= x >>> 17;
+      x ^= x << 5;
+      return x >>> 0;
+    };
+  }
+  function codes2(list2) {
+    var out = "", i;
+    for (i = 0; i < list2.length; i += 8192) out += String.fromCharCode.apply(null, list2.slice(i, i + 8192));
+    return out;
+  }
+  var SESSION = (function() {
+    try {
+      if (w.crypto && w.crypto.getRandomValues) return w.crypto.getRandomValues(new Uint32Array(1))[0];
+    } catch (e) {
+    }
+    return Math.floor(Math.random() * 4294967296);
+  })();
+  function seal(k, value2) {
+    var text = JSON.stringify(value2), next = stream2(SESSION ^ h32(k)), list2 = new Array(text.length), i;
+    for (i = 0; i < text.length; i++) list2[i] = text.charCodeAt(i) ^ next() & 65535;
+    return codes2(list2);
+  }
+  function unseal(k, text) {
+    var next = stream2(SESSION ^ h32(k)), list2 = new Array(text.length), i;
+    for (i = 0; i < text.length; i++) list2[i] = text.charCodeAt(i) ^ next() & 65535;
+    return JSON.parse(codes2(list2));
+  }
+  function setData(data) {
+    var out = {};
+    Object.keys(data).forEach(function(k) {
+      if (data[k] !== void 0) out[k] = seal(k, data[k]);
+    });
+    vault = out;
+  }
+  function getData() {
+    var out = {};
+    Object.keys(vault).forEach(function(k) {
+      out[k] = unseal(k, vault[k]);
+    });
+    return out;
+  }
+  var B64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  function toB64(bin) {
+    var out = "", i, n;
+    for (i = 0; i < bin.length; i += 3) {
+      n = bin.charCodeAt(i) << 16 | (bin.charCodeAt(i + 1) || 0) << 8 | (bin.charCodeAt(i + 2) || 0);
+      out += B64.charAt(n >>> 18 & 63) + B64.charAt(n >>> 12 & 63) + (i + 1 < bin.length ? B64.charAt(n >>> 6 & 63) : "=") + (i + 2 < bin.length ? B64.charAt(n & 63) : "=");
+    }
+    return out;
+  }
+  function fromB64(text) {
+    if (!/^[A-Za-z0-9+\/]*={0,2}$/.test(text) || text.length % 4) throw new Error("base64");
+    var list2 = [], i, n, a, b, c, d2;
+    for (i = 0; i < text.length; i += 4) {
+      a = B64.indexOf(text.charAt(i));
+      b = B64.indexOf(text.charAt(i + 1));
+      c = text.charAt(i + 2) === "=" ? 0 : B64.indexOf(text.charAt(i + 2));
+      d2 = text.charAt(i + 3) === "=" ? 0 : B64.indexOf(text.charAt(i + 3));
+      n = a << 18 | b << 12 | c << 6 | d2;
+      list2.push(n >>> 16 & 255);
+      if (text.charAt(i + 2) !== "=") list2.push(n >>> 8 & 255);
+      if (text.charAt(i + 3) !== "=") list2.push(n & 255);
+    }
+    return codes2(list2);
+  }
+  function sign(json, id) {
+    return h32(json, h32(MIX + "sig:" + id)).toString(36);
+  }
+  function encodeStore(json, id) {
+    var bin = unescape(encodeURIComponent(json)), next = stream2(h32(MIX + id)), list2 = new Array(bin.length), i;
+    for (i = 0; i < bin.length; i++) list2[i] = bin.charCodeAt(i) ^ next() & 255;
+    return STORE_TAG + sign(json, id) + "." + toB64(codes2(list2));
+  }
+  function decodeStore(text, id) {
+    var dot = text.indexOf(".", STORE_TAG.length);
+    if (dot < 0) throw new Error("shape");
+    var bin = fromB64(text.slice(dot + 1)), next = stream2(h32(MIX + id)), list2 = new Array(bin.length), i;
+    for (i = 0; i < bin.length; i++) list2[i] = bin.charCodeAt(i) ^ next() & 255;
+    var json = decodeURIComponent(escape(codes2(list2)));
+    return { json, signed: text.slice(STORE_TAG.length, dot) === sign(json, id) };
+  }
+  function noticeTamper(where) {
+    tamper.storage += 1;
+    tamper.at = Date.now();
+    warn2("tamper", "\uAE30\uAE30 \uC800\uC7A5\uC774 \uBC14\uAE65\uC5D0\uC11C \uBC14\uB010 \uAC83 \uAC19\uC544\uC694 (\uC11C\uBA85\uC774 \uB9DE\uC9C0 \uC54A\uC544\uC694). \uADF8\uB300\uB85C \uC4F0\uACE0 \uAE30\uB85D\uB9CC \uB0A8\uACA8\uC694.");
+    try {
+      if (w.NcqMetrics && w.NcqMetrics._tool) w.NcqMetrics._tool("save_tamper", { where });
+    } catch (e) {
+    }
+    try {
+      w.dispatchEvent(new w.CustomEvent("ncq-save-tamper", { detail: { where } }));
+    } catch (e) {
+    }
+  }
+  function isObj(v) {
+    return !!v && typeof v === "object" && !Array.isArray(v);
+  }
+  function newId() {
+    var abc = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", out = "", i;
+    var bytes = null;
+    try {
+      if (w.crypto && w.crypto.getRandomValues) bytes = w.crypto.getRandomValues(new Uint8Array(24));
+    } catch (e) {
+      bytes = null;
+    }
+    for (i = 0; i < 24; i++) out += abc.charAt((bytes ? bytes[i] : Math.floor(Math.random() * 256)) % abc.length);
+    return out;
+  }
+  function key(suffix) {
+    return PREFIX + cfg.id + (suffix || "");
+  }
+  function readRaw(k) {
+    try {
+      return w.localStorage.getItem(k);
+    } catch (e) {
+      return own2(memory, k) ? memory[k] : null;
+    }
+  }
+  function writeRaw(k, text) {
+    try {
+      w.localStorage.setItem(k, text);
+      delete memory[k];
+      return true;
+    } catch (e) {
+      memory[k] = text;
+      warn2("storage", "\uAE30\uAE30\uC5D0 \uC800\uC7A5\uD558\uC9C0 \uBABB\uD588\uC5B4\uC694 (\uC800\uC7A5 \uACF5\uAC04\uC774 \uC5C6\uAC70\uB098 \uB9C9\uD600 \uC788\uC5B4\uC694). \uC571\uC744 \uB2EB\uC73C\uBA74 \uC5C6\uC5B4\uC9C8 \uC218 \uC788\uC5B4\uC694.", e);
+      return false;
+    }
+  }
+  function fill2(data) {
+    var out = isObj(data) ? data : {};
+    Object.keys(cfg.data).forEach(function(k) {
+      if (!own2(out, k)) out[k] = clone(cfg.data[k]);
+    });
+    return out;
+  }
+  function fresh(owner) {
+    return {
+      v: 1,
+      sid: newId(),
+      rev: 0,
+      base: 0,
+      dirty: false,
+      at: 0,
+      owner: owner || null,
+      data: fill2(clone(cfg.data)),
+      rc: {},
+      up: 0,
+      hot: false
+    };
+  }
+  function load() {
+    var raw = readRaw(key()), r = null;
+    if (!raw) return null;
+    try {
+      if (raw.indexOf(STORE_TAG) === 0) {
+        var got = decodeStore(raw, cfg.id);
+        r = JSON.parse(got.json);
+        if (!got.signed) noticeTamper("storage");
+      } else {
+        r = JSON.parse(raw);
+      }
+    } catch (e) {
+      r = null;
+    }
+    if (!isObj(r) || r.v !== 1 || typeof r.sid !== "string" || !isObj(r.data)) {
+      writeRaw(key(":broken"), raw);
+      warn2("broken", "\uAE30\uAE30 \uC800\uC7A5\uC744 \uC77D\uC9C0 \uBABB\uD574 \uCC98\uC74C\uBD80\uD130 \uC2DC\uC791\uD574\uC694 (\uC608\uC804 \uC800\uC7A5\uC740 " + key(":broken") + "\uC5D0 \uB0A8\uACA8 \uB480\uC5B4\uC694).");
+      return null;
+    }
+    r.rc = isObj(r.rc) ? r.rc : {};
+    r.rev = r.rev | 0;
+    r.base = r.base | 0;
+    r.at = +r.at || 0;
+    r.dirty = !!r.dirty;
+    r.owner = r.owner || null;
+    r.up = +r.up || 0;
+    r.hot = !!r.hot;
+    r.data = fill2(r.data);
+    return r;
+  }
+  function use(r) {
+    var data = r.data;
+    delete r.data;
+    rec = r;
+    setData(data);
+  }
+  function plain() {
+    return {
+      v: 1,
+      sid: rec.sid,
+      rev: rec.rev,
+      base: rec.base,
+      dirty: rec.dirty,
+      at: rec.at,
+      owner: rec.owner,
+      data: getData(),
+      rc: rec.rc,
+      up: rec.up,
+      hot: rec.hot
+    };
+  }
+  function sealed(r) {
+    var json = JSON.stringify(r);
+    try {
+      return encodeStore(json, cfg.id);
+    } catch (e) {
+      warn2("encode", "\uC800\uC7A5\uC5D0 \uC4F8 \uC218 \uC5C6\uB294 \uAE00\uC790\uAC00 \uC788\uC5B4 \uAE30\uAE30\uC5D0 \uADF8\uB300\uB85C \uC801\uC5B4\uC694.", e);
+      return json;
+    }
+  }
+  function store2() {
+    return writeRaw(key(), sealed(plain()));
+  }
+  function emit2(source) {
+    var data = getData(), info = { source };
+    listeners2.slice().forEach(function(fn) {
+      try {
+        fn(clone(data), info);
+      } catch (e) {
+        warn2("listener", "onChange \uD568\uC218\uC5D0\uC11C \uC624\uB958\uAC00 \uB0AC\uC5B4\uC694.", e);
+      }
+    });
+    notifyValues(info);
+    try {
+      w.dispatchEvent(new w.CustomEvent("ncq-save", { detail: info }));
+    } catch (e) {
+    }
+  }
+  function ensure() {
+    if (!cfg) {
+      warn2("init", "NcqSave.init({id, data})\uB97C \uBA3C\uC800 \uBD88\uB7EC \uC8FC\uC138\uC694. \uC9C0\uAE08\uC740 \uC774\uB984 'game'\uC73C\uB85C \uC800\uC7A5\uD574\uC694.");
+      init2({});
+    }
+  }
+  function init2(opts) {
+    opts = opts || {};
+    var id = ID_RE.test(String(opts.id || "")) ? String(opts.id) : "game";
+    if (opts.id && id !== String(opts.id)) warn2("id", "id\uB294 \uC601\uBB38\xB7\uC22B\uC790\xB7_\xB7- 60\uC790\uAE4C\uC9C0\uC608\uC694. 'game'\uC73C\uB85C \uC800\uC7A5\uD574\uC694.");
+    if (cfg && cfg.id === id) {
+      if (isObj(opts.data)) {
+        cfg.data = clone(opts.data);
+        setData(fill2(getData()));
+      }
+      if (typeof opts.merge === "function") cfg.merge = opts.merge;
+      return api;
+    }
+    cfg = { id, data: isObj(opts.data) ? clone(opts.data) : {}, merge: typeof opts.merge === "function" ? opts.merge : null };
+    use(load() || fresh());
+    cloud.checked = null;
+    store2();
+    notifyValues({ source: "init" });
+    if (cloudOn()) schedule(0);
+    return api;
+  }
+  function walk(path, make, root) {
+    var parts = String(path).split("."), cur = root, i;
+    for (i = 0; i < parts.length - 1; i++) {
+      if (!isObj(cur[parts[i]])) {
+        if (!make) return null;
+        cur[parts[i]] = {};
+      }
+      cur = cur[parts[i]];
+    }
+    return [cur, parts[parts.length - 1]];
+  }
+  function get(path) {
+    ensure();
+    if (path === void 0 || path === null || path === "") return getData();
+    var top = String(path).split(".")[0];
+    if (!own2(vault, top)) return void 0;
+    var holder = {};
+    holder[top] = unseal(top, vault[top]);
+    var at = walk(path, false, holder);
+    return at && own2(at[0], at[1]) ? at[0][at[1]] : void 0;
+  }
+  function apply2(data, change) {
+    Object.keys(change).forEach(function(path) {
+      var v = change[path], at = walk(path, true, data);
+      if (typeof v === "number" && isFinite(v)) at[0][at[1]] = (typeof at[0][at[1]] === "number" ? at[0][at[1]] : 0) + v;
+      else at[0][at[1]] = clone(v);
+    });
+  }
+  function commit(data, source) {
+    var size2 = JSON.stringify(data).length;
+    if (size2 > MAX_BYTES) warn2("size", "\uC800\uC7A5\uC774 \uB108\uBB34 \uCEE4\uC11C(" + size2 + "\uC790) \uD074\uB77C\uC6B0\uB4DC\uC5D0 \uC62C\uB9AC\uC9C0 \uBABB\uD574\uC694. " + MAX_BYTES + "\uC790 \uC544\uB798\uB85C \uC904\uC5EC \uC8FC\uC138\uC694.");
+    setData(data);
+    rec.rev += 1;
+    rec.at = Date.now();
+    rec.dirty = true;
+    var ok = store2();
+    emit2(source);
+    return ok;
+  }
+  function update(fn) {
+    ensure();
+    if (typeof fn !== "function") return false;
+    var draft = getData(), out;
+    try {
+      out = fn(draft);
+    } catch (e) {
+      warn2("update", "update \uD568\uC218\uC5D0\uC11C \uC624\uB958\uAC00 \uB098\uC11C \uC800\uC7A5\uD558\uC9C0 \uC54A\uC558\uC5B4\uC694.", e);
+      return false;
+    }
+    if (out === false) return false;
+    if (isObj(out) && out !== draft) draft = out;
+    var ok = commit(fill2(draft), "update");
+    if (due()) schedule(PUSH_WAIT);
+    return ok;
+  }
+  function grant(id, change) {
+    ensure();
+    id = id === void 0 || id === null ? "" : String(id);
+    if (id.length > 200) {
+      warn2("grantId", "\uBCF4\uC0C1 id\uB294 200\uC790\uAE4C\uC9C0\uC608\uC694.");
+      return false;
+    }
+    if (id && own2(rec.rc, id)) return true;
+    var draft = getData(), out;
+    if (typeof change === "function") {
+      try {
+        out = change(draft);
+      } catch (e) {
+        warn2("grant", "grant \uD568\uC218\uC5D0\uC11C \uC624\uB958\uAC00 \uB098\uC11C \uB123\uC9C0 \uC54A\uC558\uC5B4\uC694.", e);
+        return false;
+      }
+      if (out === false) return false;
+      if (isObj(out) && out !== draft) draft = out;
+    } else if (isObj(change)) {
+      apply2(draft, change);
+    } else {
+      return false;
+    }
+    if (id) rec.rc[id] = { t: Date.now(), a: isObj(change) ? clone(change) : 0 };
+    rec.hot = true;
+    var ok = commit(fill2(draft), "grant");
+    schedule(0);
+    return ok;
+  }
+  function has2(id) {
+    ensure();
+    return own2(rec.rc, String(id));
+  }
+  function reset() {
+    ensure();
+    var base2 = rec.base, owner = rec.owner, start = fresh(owner);
+    use(start);
+    rec.base = base2;
+    rec.hot = true;
+    commit(getData(), "reset");
+    schedule(0);
+    return true;
+  }
+  function onChange2(fn) {
+    if (typeof fn !== "function") return function() {
+    };
+    listeners2.push(fn);
+    return function() {
+      listeners2 = listeners2.filter(function(f) {
+        return f !== fn;
+      });
+    };
+  }
+  function cloudOn() {
+    return !!(cfg && w.NCQ && w.NCQ.NCQ_SAVE && w.NcqAuth && w.NcqAuth.request);
+  }
+  function call(method, body) {
+    return w.NcqAuth.request("/save/v1/save", method, body);
+  }
+  function parse(remote) {
+    try {
+      var s = JSON.parse(remote.data);
+      if (isObj(s) && isObj(s.data)) return {
+        sid: typeof s.sid === "string" ? s.sid : null,
+        data: s.data,
+        rc: isObj(s.rc) ? s.rc : {},
+        at: +s.at || 0
+      };
+    } catch (e) {
+    }
+    return null;
+  }
+  function stash(why) {
+    writeRaw(key(":" + why), sealed(plain()));
+  }
+  function adopt(remote, theirs, player) {
+    if (rec.rev > 0 && rec.owner !== player) stash("before-cloud");
+    setData(fill2(theirs.data));
+    rec.rc = theirs.rc;
+    rec.sid = theirs.sid || rec.sid;
+    rec.at = theirs.at;
+    rec.base = remote.rev;
+    rec.owner = player;
+    rec.dirty = false;
+    rec.hot = false;
+    rec.up = Date.now();
+    store2();
+    cloud.restored = true;
+    emit2("cloud");
+    return { ok: true, restored: true };
+  }
+  function merge(remote, theirs, player) {
+    stash("before-merge");
+    var mine = rec.owner === player, data, rc = {}, k;
+    var local = { data: getData(), rc: rec.rc, at: rec.at };
+    for (k in theirs.rc) if (own2(theirs.rc, k)) rc[k] = theirs.rc[k];
+    for (k in local.rc) if (own2(local.rc, k)) rc[k] = local.rc[k];
+    if (cfg.merge) {
+      try {
+        data = cfg.merge(clone(local.data), clone(theirs.data), { sameAccount: mine });
+      } catch (e) {
+        warn2("merge", "merge \uD568\uC218\uC5D0\uC11C \uC624\uB958\uAC00 \uB098\uC11C \uAE30\uBCF8 \uBC29\uBC95\uC73C\uB85C \uD569\uCCE4\uC5B4\uC694.", e);
+        data = null;
+      }
+    }
+    if (!isObj(data)) {
+      var pick2 = mine && local.at >= theirs.at ? local : theirs, other = pick2 === local ? theirs : local;
+      data = clone(pick2.data);
+      for (k in other.rc) {
+        if (own2(other.rc, k) && !own2(pick2.rc, k) && isObj(other.rc[k]) && isObj(other.rc[k].a)) apply2(data, other.rc[k].a);
+      }
+    }
+    rec.rc = rc;
+    rec.base = remote.rev;
+    rec.owner = player;
+    rec.sid = mine ? rec.sid : theirs.sid || rec.sid;
+    commit(fill2(data), "cloud");
+    cloud.restored = true;
+  }
+  function settle(remote, player, depth) {
+    if (depth > 3) return Promise.reject(Object.assign(new Error("conflict"), { code: "conflict" }));
+    var mine = rec.owner === player;
+    if (!remote) {
+      rec.owner = player;
+      if (rec.rev === 0 && !rec.dirty) {
+        store2();
+        return Promise.resolve({ ok: true, restored: false });
+      }
+      rec.base = 0;
+      return push(player, depth);
+    }
+    if (remote.rev === rec.base && mine) return rec.dirty && due() ? push(player, depth) : Promise.resolve({ ok: true, restored: false });
+    var theirs = parse(remote);
+    if (!theirs) return Promise.reject(Object.assign(new Error("bad_save"), { code: "bad_save" }));
+    if (!rec.dirty || rec.rev === 0) return Promise.resolve(adopt(remote, theirs, player));
+    merge(remote, theirs, player);
+    return push(player, depth).then(function(r) {
+      r.restored = true;
+      return r;
+    });
+  }
+  function push(player, depth) {
+    var body = JSON.stringify({ sid: rec.sid, data: getData(), rc: rec.rc, at: rec.at });
+    if (body.length > MAX_BYTES) return Promise.reject(Object.assign(new Error("too_large"), { code: "too_large" }));
+    var sent = rec.rev;
+    return call("POST", { base: rec.base, save: body }).then(function(out) {
+      if (out.conflict) return settle(out.save, player, depth + 1);
+      rec.base = out.rev;
+      rec.owner = player;
+      rec.up = Date.now();
+      if (rec.rev === sent) {
+        rec.dirty = false;
+        rec.hot = false;
+      }
+      store2();
+      cloud.at = Date.now();
+      if (rec.dirty && due()) schedule(PUSH_WAIT);
+      return { ok: true, restored: false };
+    });
+  }
+  function sync() {
+    if (!cloudOn()) return Promise.resolve({ ok: false, code: "disabled" });
+    if (syncing) return syncing;
+    syncing = w.NcqAuth.ready().then(function(me) {
+      var player = me && me.player;
+      if (!player) throw Object.assign(new Error("no_player"), { code: "no_player" });
+      cloud.player = player;
+      cloud.identity = me.identity || null;
+      if (rec.owner && rec.owner !== player) {
+        stash("account-" + rec.owner);
+        use(fresh(null));
+        cloud.checked = null;
+        store2();
+        emit2("account");
+      }
+      if (cloud.checked === player) return rec.dirty && due() ? push(player, 0) : { ok: true, restored: false };
+      return call("GET").then(function(out) {
+        return settle(out.save || null, player, 0);
+      }).then(function(r) {
+        cloud.checked = player;
+        return r;
+      });
+    }).then(function(r) {
+      cloud.error = null;
+      retries = 0;
+      return r;
+    }, function(e) {
+      cloud.error = e && e.code || "error";
+      if (cloud.error === "too_large") warn2("size", "\uC800\uC7A5\uC774 \uB108\uBB34 \uCEE4\uC11C \uD074\uB77C\uC6B0\uB4DC\uC5D0 \uC62C\uB9AC\uC9C0 \uBABB\uD588\uC5B4\uC694.");
+      else if (rec.dirty) retry();
+      return { ok: false, code: cloud.error };
+    }).then(function(r) {
+      syncing = null;
+      return r;
+    });
+    return syncing;
+  }
+  function retry() {
+    if (retryTimer) return;
+    var wait = RETRY[Math.min(retries, RETRY.length - 1)];
+    retries += 1;
+    retryTimer = w.setTimeout(function() {
+      retryTimer = null;
+      if (rec.dirty) sync();
+    }, wait);
+  }
+  function schedule(ms) {
+    if (!cloudOn()) return;
+    if (timer) w.clearTimeout(timer);
+    timer = w.setTimeout(function() {
+      timer = null;
+      sync();
+    }, ms);
+  }
+  function due() {
+    if (!rec) return false;
+    if (rec.hot || !rec.up) return true;
+    return Math.abs(Date.now() - rec.up) >= BACKUP_EVERY;
+  }
+  function backup() {
+    if (!cfg && recordStores && Object.keys(recordStores).length) return Promise.resolve({ ok: true });
+    ensure();
+    if (rec.dirty && !rec.hot) {
+      rec.hot = true;
+      store2();
+    }
+    if (timer) {
+      w.clearTimeout(timer);
+      timer = null;
+    }
+    return sync().then(function(r) {
+      return r.ok ? { ok: true } : { ok: false, code: r.code };
+    });
+  }
+  function ready() {
+    ensure();
+    if (!cloudOn()) return Promise.resolve({ cloud: false, ok: true, restored: false });
+    var wait = new Promise(function(resolve) {
+      w.setTimeout(function() {
+        resolve({ ok: false, code: "timeout" });
+      }, READY_WAIT);
+    });
+    return Promise.race([sync(), wait]).then(function(r) {
+      return { cloud: true, ok: !!r.ok, restored: cloud.restored, code: r.code };
+    });
+  }
+  function status() {
+    ensure();
+    return {
+      version: VERSION2,
+      id: cfg.id,
+      saveId: rec.sid,
+      rev: rec.rev,
+      dirty: rec.dirty,
+      at: rec.at,
+      receipts: Object.keys(rec.rc).length,
+      tamper: { storage: tamper.storage, at: tamper.at },
+      cloud: {
+        enabled: cloudOn(),
+        player: cloud.player,
+        identity: cloud.identity,
+        base: rec.base,
+        at: cloud.at,
+        error: cloud.error,
+        busy: !!syncing,
+        restored: cloud.restored,
+        backedUp: rec.up,
+        next: rec.dirty ? due() ? 0 : rec.up + BACKUP_EVERY : null
+      }
+    };
+  }
+  try {
+    w.addEventListener("storage", function(e) {
+      if (!cfg || e.key !== key()) return;
+      var r = load();
+      if (r) {
+        use(r);
+        emit2("other-tab");
+      }
+    });
+    w.addEventListener("online", function() {
+      if (cfg && rec.dirty && due()) sync();
+    });
+    var d = w.document;
+    if (d) d.addEventListener("visibilitychange", function() {
+      if (cfg && d.visibilityState === "hidden" && rec.dirty && due()) {
+        if (timer) {
+          w.clearTimeout(timer);
+          timer = null;
+        }
+        sync();
+      }
+    });
+  } catch (e) {
+  }
+  var KINDS = {
+    int: function(v, start) {
+      v = typeof v === "string" && v.trim() === "" ? NaN : Number(v);
+      return isFinite(v) ? Math.trunc(v) : start;
+    },
+    num: function(v, start) {
+      v = typeof v === "string" && v.trim() === "" ? NaN : Number(v);
+      return isFinite(v) ? v : start;
+    },
+    bool: function(v) {
+      return !!v;
+    },
+    str: function(v, start) {
+      return v === void 0 || v === null ? start : String(v);
+    }
+  };
+  function readValue(kind, path, start) {
+    if (!cfg) return start;
+    var v = get(path);
+    return v === void 0 ? start : KINDS[kind](v, start);
+  }
+  function notifyValues(info) {
+    watchers.slice().forEach(function(it) {
+      var v = readValue(it.kind, it.path, it.start), mark = h32(JSON.stringify(v));
+      if (mark === it.last) return;
+      it.last = mark;
+      try {
+        it.fn(v, info);
+      } catch (e) {
+        warn2("value", "\uAC12\uC758 on \uD568\uC218\uC5D0\uC11C \uC624\uB958\uAC00 \uB0AC\uC5B4\uC694.", e);
+      }
+    });
+  }
+  function value(kind, path, start) {
+    path = String(path || "");
+    if (!path || path.split(".").some(function(p) {
+      return !p;
+    })) {
+      warn2("path:" + path, "\uAC12 \uC774\uB984\uC774 \uBE44\uC5C8\uC5B4\uC694: NcqSave." + kind + '("coins", 0)\uCC98\uB7FC \uBD88\uB7EC\uC694.');
+    }
+    start = KINDS[kind](start, kind === "str" ? "" : kind === "bool" ? false : 0);
+    var numeric = kind === "int" || kind === "num";
+    function read() {
+      return readValue(kind, path, start);
+    }
+    function write(v) {
+      ensure();
+      v = KINDS[kind](v, read());
+      if (read() === v) return true;
+      var done = false;
+      update(function(s) {
+        var at = walk(path, true, s);
+        at[0][at[1]] = v;
+        done = true;
+      });
+      return done;
+    }
+    function change(n, needEnough) {
+      ensure();
+      n = Number(n);
+      if (!numeric || !isFinite(n)) return false;
+      if (kind === "int") n = Math.trunc(n);
+      var done = false;
+      update(function(s) {
+        var at = walk(path, true, s), cur = own2(at[0], at[1]) ? KINDS[kind](at[0][at[1]], start) : start;
+        if (needEnough && (n < 0 || cur < n)) return false;
+        at[0][at[1]] = KINDS[kind](needEnough ? cur - n : cur + n, start);
+        done = true;
+      });
+      return done;
+    }
+    function on(fn) {
+      if (typeof fn !== "function") return function() {
+      };
+      var it = { kind, path, start, fn, last: null };
+      watchers.push(it);
+      if (cfg) notifyValues({ source: "on" });
+      return function() {
+        watchers = watchers.filter(function(x) {
+          return x !== it;
+        });
+      };
+    }
+    function bind(target, format) {
+      return on(function(v) {
+        var text = typeof format === "function" ? format(v) : String(v);
+        if (typeof target === "function") target(text, v);
+        else if (target && "textContent" in target) target.textContent = text;
+      });
+    }
+    var h = { kind, path, get: read, set: write, on, bind };
+    if (numeric) {
+      h.add = function(n) {
+        return change(n, false);
+      };
+      h.spend = function(n) {
+        return change(n, true);
+      };
+    }
+    Object.defineProperty(h, "value", { get: read, set: write, enumerable: true });
+    return Object.freeze(h);
+  }
+  var recordStores = {};
+  function records2(options) {
+    options = options || {};
+    var game = options.id || cfg && cfg.id, name = options.collection, player = options.player;
+    if (!ID_RE.test(game || "") || !/^[A-Za-z][A-Za-z0-9_-]{0,39}$/.test(name || "") || typeof player !== "string" || !/^[A-Za-z0-9_-]{1,100}$/.test(player)) throw new Error("invalid_record_scope");
+    var prefix = PREFIX + game + ":records:" + name + ":" + player + ":";
+    if (recordStores[prefix]) return recordStores[prefix];
+    var path = "/save/v1/records/" + name, callbacks = [], busy2 = null, checked = false, closed = false;
+    var wake = null, attempts = 0, failure = null;
+    function read(k) {
+      var raw = own2(memory, k) ? memory[k] : readRaw(k);
+      if (!raw) return null;
+      try {
+        var decoded = decodeStore(raw, prefix);
+        if (!decoded.signed) noticeTamper("records");
+        return JSON.parse(decoded.json);
+      } catch (e) {
+        failure = "bad_local_record";
+        return null;
+      }
+    }
+    function write(k, value2) {
+      var ok = writeRaw(k, encodeStore(JSON.stringify(value2), prefix));
+      if (!ok) failure = "storage_full";
+      return ok;
+    }
+    function meta() {
+      return read(prefix + "meta") || { cursor: 0, backedUpAt: 0, uploading: false };
+    }
+    function setMeta(values) {
+      var next = meta();
+      Object.keys(values).forEach(function(key2) {
+        next[key2] = values[key2];
+      });
+      return write(prefix + "meta", next);
+    }
+    function itemKey(id) {
+      return prefix + "item:" + encodeURIComponent(id);
+    }
+    function entries() {
+      var keys = Object.keys(memory), seen = {};
+      try {
+        for (var i = 0; i < w.localStorage.length; i++) keys.push(w.localStorage.key(i));
+      } catch (e) {
+      }
+      return keys.filter(function(key2) {
+        if (!key2 || key2.indexOf(prefix + "item:") !== 0 || own2(seen, key2)) return false;
+        seen[key2] = true;
+        return true;
+      }).map(read).filter(function(item) {
+        return item && typeof item.id === "string" && isObj(item.data);
+      });
+    }
+    function pending() {
+      return entries().filter(function(item) {
+        return !item.backed;
+      });
+    }
+    function enabled() {
+      var auth = w.NCQ && w.NCQ.NCQ_AUTH;
+      return !closed && options.cloud !== false && !!(w.NCQ && w.NCQ.NCQ_SAVE && w.NcqAuth && w.NcqAuth.request) && (!auth || auth.game === game);
+    }
+    function due2() {
+      var state = meta();
+      return state.uploading || !state.backedUpAt || Math.abs(Date.now() - state.backedUpAt) >= BACKUP_EVERY;
+    }
+    function emit3(source) {
+      callbacks.slice().forEach(function(fn) {
+        try {
+          fn({ source });
+        } catch (e) {
+          warn2("records-listener", "\uAE30\uB85D \uBCC0\uACBD \uC54C\uB9BC\uC5D0\uC11C \uC624\uB958\uAC00 \uB0AC\uC5B4\uC694.", e);
+        }
+      });
+    }
+    function later(ms) {
+      if (wake) w.clearTimeout(wake);
+      if (enabled()) wake = w.setTimeout(function() {
+        wake = null;
+        syncRecords();
+      }, ms);
+    }
+    function bytes(value2) {
+      return unescape(encodeURIComponent(JSON.stringify(value2))).length;
+    }
+    function add(id, data) {
+      if (closed) return false;
+      try {
+        if (typeof id !== "string" || !id.length || id.length > 200 || !isObj(data)) throw new Error("invalid_record");
+        data = clone(data);
+        if (!isObj(data)) throw new Error("invalid_record");
+        if (bytes(data) > 32e3) throw new Error("record_too_large");
+        if (read(itemKey(id))) return true;
+        var ok = write(itemKey(id), { id, data: clone(data), backed: false });
+        emit3("local");
+        later(PUSH_WAIT);
+        return ok;
+      } catch (e) {
+        failure = e.message || "invalid_record";
+        return false;
+      }
+    }
+    async function request(method, body, cursor) {
+      var me = await w.NcqAuth.ready();
+      if (closed || me.player !== player) throw Object.assign(new Error("account_changed"), { code: "account_changed" });
+      var out = await w.NcqAuth.request(path + (cursor === void 0 ? "" : "?after=" + cursor), method, body, player);
+      if (closed) throw Object.assign(new Error("closed"), { code: "closed" });
+      if (!out || out.ok !== true) throw Object.assign(new Error("bad_response"), { code: out && out.code || "bad_response" });
+      return out;
+    }
+    async function pull() {
+      var more = true;
+      while (more) {
+        var before = meta().cursor, out = await request("GET", void 0, before);
+        if (!Array.isArray(out.items) || out.items.length > 50 || !Number.isSafeInteger(out.cursor) || out.cursor < before || out.hasMore && out.cursor === before) throw new Error("bad_response");
+        var sequence = before;
+        out.items.forEach(function(item) {
+          if (typeof item.id !== "string" || !item.id.length || item.id.length > 200 || !isObj(item.data) || !Number.isSafeInteger(item.sequence) || item.sequence <= sequence) throw new Error("bad_response");
+          sequence = item.sequence;
+          if (!write(itemKey(item.id), { id: item.id, data: item.data, backed: true })) throw new Error("storage_full");
+        });
+        if (out.cursor !== sequence) throw new Error("bad_response");
+        if (!setMeta({
+          cursor: Math.max(meta().cursor, out.cursor),
+          backedUpAt: Math.max(meta().backedUpAt, Number(out.backedUpAt) || 0)
+        })) throw new Error("storage_full");
+        if (out.items.length) emit3("cloud");
+        more = out.hasMore === true;
+      }
+      checked = true;
+    }
+    async function pushRecords() {
+      if (!setMeta({ uploading: true })) throw new Error("storage_full");
+      var left = pending();
+      while (left.length) {
+        var batch = [];
+        for (var i = 0; i < left.length && batch.length < 20; i++) {
+          var item = { id: left[i].id, data: left[i].data };
+          if (batch.length && bytes({ items: batch.concat([item]) }) > 24e4) break;
+          batch.push(item);
+        }
+        var out = await request("POST", { items: batch });
+        if (!Array.isArray(out.acknowledged) || batch.some(function(item2) {
+          return out.acknowledged.indexOf(item2.id) < 0;
+        })) throw new Error("bad_response");
+        batch.forEach(function(item2) {
+          var current2 = read(itemKey(item2.id));
+          if (current2 && !write(itemKey(item2.id), { id: current2.id, data: current2.data, backed: true })) throw new Error("storage_full");
+        });
+        left = pending();
+      }
+      if (!setMeta({ uploading: false, backedUpAt: Date.now() })) throw new Error("storage_full");
+      emit3("backup");
+    }
+    function syncRecords() {
+      if (busy2) return busy2;
+      if (!enabled()) return Promise.resolve({ ok: false, code: "disabled" });
+      if (wake) {
+        w.clearTimeout(wake);
+        wake = null;
+      }
+      busy2 = Promise.resolve().then(async function() {
+        if (!checked) await pull();
+        if (pending().length && due2()) await pushRecords();
+        failure = null;
+        attempts = 0;
+        return { ok: true };
+      }).catch(function(e) {
+        failure = e.code || e.message || "network";
+        attempts += 1;
+        if (failure !== "account_changed" && failure !== "closed") later(RETRY[Math.min(attempts - 1, RETRY.length - 1)]);
+        return { ok: false, code: failure };
+      }).then(function(result) {
+        busy2 = null;
+        if (result.ok && pending().length) later(Math.max(PUSH_WAIT, meta().backedUpAt + BACKUP_EVERY - Date.now()));
+        return result;
+      });
+      return busy2;
+    }
+    function onStorage(event) {
+      if (event.key === null || event.key && event.key.indexOf(prefix) === 0) {
+        emit3("other-tab");
+        later(PUSH_WAIT);
+      }
+    }
+    function onOnline() {
+      later(0);
+    }
+    function onVisibility() {
+      if (!w.document || w.document.visibilityState === "visible") later(0);
+    }
+    var handle = Object.freeze({
+      add,
+      get: function(id) {
+        var item = read(itemKey(id));
+        return item ? clone(item.data) : void 0;
+      },
+      list: function() {
+        return entries().map(function(item) {
+          return { id: item.id, data: clone(item.data) };
+        });
+      },
+      ready: syncRecords,
+      sync: syncRecords,
+      onChange: function(fn) {
+        callbacks.push(fn);
+        return function() {
+          callbacks = callbacks.filter(function(item) {
+            return item !== fn;
+          });
+        };
+      },
+      status: function() {
+        var state = meta();
+        return {
+          player,
+          collection: name,
+          count: entries().length,
+          pending: pending().length,
+          backedUpAt: state.backedUpAt,
+          cursor: state.cursor,
+          cloud: enabled(),
+          busy: !!busy2,
+          error: failure
+        };
+      },
+      dispose: function() {
+        closed = true;
+        if (wake) w.clearTimeout(wake);
+        w.removeEventListener("storage", onStorage);
+        w.removeEventListener("online", onOnline);
+        if (w.document) w.document.removeEventListener("visibilitychange", onVisibility);
+        delete recordStores[prefix];
+      }
+    });
+    recordStores[prefix] = handle;
+    w.addEventListener("storage", onStorage);
+    w.addEventListener("online", onOnline);
+    if (w.document) w.document.addEventListener("visibilitychange", onVisibility);
+    later(0);
+    return handle;
+  }
+  var api = {
+    version: VERSION2,
+    records: records2,
+    init: init2,
+    get,
+    update,
+    grant,
+    has: has2,
+    reset,
+    onChange: onChange2,
+    ready,
+    backup,
+    saveId: function() {
+      ensure();
+      return rec.sid;
+    },
+    status,
+    int: function(path, start) {
+      return value("int", path, start);
+    },
+    num: function(path, start) {
+      return value("num", path, start);
+    },
+    bool: function(path, start) {
+      return value("bool", path, start);
+    },
+    str: function(path, start) {
+      return value("str", path, start);
+    }
+  };
+  w.NcqSave = Object.freeze(api);
+})();
+
+// ncq/device.js
+(function() {
+  "use strict";
+  var w = typeof window !== "undefined" ? window : null;
+  if (!w) return;
+  var VERSION2 = 1;
+  if (w.NcqDevice && w.NcqDevice.version >= VERSION2) return;
+  var d = w.document;
+  var KEY = "ncq:vibration";
+  var GAP = 45;
+  var MAX_MS = 1e3;
+  var MAX_TOTAL = 5e3;
+  var MAX_STEPS = 20;
+  var KINDS = {
+    tap: ["tap", "LIGHT", 12],
+    light: ["tickWeak", "LIGHT", 8],
+    medium: ["tickMedium", "MEDIUM", 16],
+    heavy: ["basicMedium", "HEAVY", 28],
+    success: ["success", "SUCCESS", [18, 60, 28]],
+    warning: ["wiggle", "WARNING", [12, 40, 12, 40, 12]],
+    error: ["error", "ERROR", [40, 50, 40]],
+    // 토스 햅틱 이름 (토스는 그 햅틱, 다른 곳은 가까운 것으로)
+    tickWeak: ["tickWeak", "LIGHT", 8],
+    tickMedium: ["tickMedium", "MEDIUM", 16],
+    softMedium: ["softMedium", "MEDIUM", 22],
+    basicWeak: ["basicWeak", "LIGHT", 14],
+    basicMedium: ["basicMedium", "HEAVY", 28],
+    wiggle: ["wiggle", "WARNING", [12, 40, 12, 40, 12]],
+    confetti: ["confetti", "SUCCESS", [20, 50, 20, 50, 40, 60, 70]]
+  };
+  var NOTICE = { SUCCESS: true, WARNING: true, ERROR: true };
+  var LOWER = {};
+  Object.keys(KINDS).forEach(function(k) {
+    LOWER[k.toLowerCase()] = k;
+  });
+  var own2 = function(o, k) {
+    return Object.prototype.hasOwnProperty.call(o, k);
+  };
+  var on = null;
+  var last = 0;
+  var timers = [];
+  var warned2 = {};
+  function noop2() {
+  }
+  function quiet(p) {
+    if (p && typeof p.then === "function") p.then(noop2, noop2);
+  }
+  function now() {
+    return (/* @__PURE__ */ new Date()).getTime();
+  }
+  function hidden() {
+    return !!d && d.visibilityState === "hidden";
+  }
+  function tossHaptic() {
+    var t3 = w.NcqToss;
+    var dev2 = t3 && t3.Device;
+    return dev2 && typeof dev2.triggerHaptic === "function" ? dev2 : null;
+  }
+  function appHaptic() {
+    var cap = w.Capacitor;
+    var h = cap && cap.Plugins && cap.Plugins.Haptics;
+    if (!h || typeof h.impact !== "function") return null;
+    try {
+      if (typeof cap.isNativePlatform === "function" && !cap.isNativePlatform()) return null;
+      if (typeof cap.isPluginAvailable === "function" && cap.isPluginAvailable("Haptics") === false) return null;
+    } catch (e) {
+      return null;
+    }
+    return h;
+  }
+  function webVibrate() {
+    var nav = w.navigator;
+    return nav && typeof nav.vibrate === "function" ? nav : null;
+  }
+  function stored() {
+    if (on === null) {
+      on = true;
+      try {
+        on = w.localStorage.getItem(KEY) !== "off";
+      } catch (e) {
+      }
+    }
+    return on;
+  }
+  function vibration(value) {
+    if (arguments.length && value !== void 0) {
+      on = !!value;
+      try {
+        if (on) w.localStorage.removeItem(KEY);
+        else w.localStorage.setItem(KEY, "off");
+      } catch (e) {
+      }
+      if (!on) stop();
+    }
+    return stored();
+  }
+  function canVibrate() {
+    if (tossHaptic() || appHaptic()) return true;
+    if (!webVibrate()) return false;
+    try {
+      return (w.navigator.maxTouchPoints || 0) > 0 || "ontouchstart" in w;
+    } catch (e) {
+      return false;
+    }
+  }
+  function stop() {
+    while (timers.length) clearTimeout(timers.pop());
+    var nav = webVibrate();
+    if (nav && !tossHaptic() && !appHaptic()) {
+      try {
+        nav.vibrate(0);
+      } catch (e) {
+      }
+    }
+  }
+  function ms(value) {
+    var n = Math.round(Number(value) || 0);
+    return n < 0 ? 0 : n > MAX_MS ? MAX_MS : n;
+  }
+  function pattern(list2) {
+    var out = [];
+    var total = 0;
+    for (var i = 0; i < list2.length && out.length < MAX_STEPS; i++) {
+      var v = Math.min(ms(list2[i]), MAX_TOTAL - total);
+      if (v <= 0 && i % 2 === 0) break;
+      out.push(v);
+      total += v;
+      if (total >= MAX_TOTAL) break;
+    }
+    while (out.length && out.length % 2 === 0) out.pop();
+    return out;
+  }
+  function tossFor(length) {
+    return length <= 20 ? "tickWeak" : length <= 40 ? "tap" : "basicMedium";
+  }
+  function each(steps, fn) {
+    var at = 0;
+    steps.forEach(function(v, i) {
+      if (i % 2 === 0) {
+        if (at === 0) fn(v);
+        else timers.push(setTimeout(function() {
+          if (!hidden()) fn(v);
+        }, at));
+      }
+      at += v;
+    });
+  }
+  function kindOf(value) {
+    if (value === void 0 || value === null || value === true) return KINDS.tap;
+    if (typeof value === "string") {
+      var k = own2(KINDS, value) ? value : own2(LOWER, value.toLowerCase()) ? LOWER[value.toLowerCase()] : null;
+      if (k) return KINDS[k];
+      if (!own2(warned2, value)) {
+        warned2[value] = true;
+        try {
+          w.console.warn("[NcqDevice] \uBAA8\uB974\uB294 \uC9C4\uB3D9 \uC774\uB984\uC774\uC5D0\uC694: " + value + " (tap light medium heavy success warning error)");
+        } catch (e) {
+        }
+      }
+    }
+    return null;
+  }
+  function vibrate(value) {
+    try {
+      if (value === 0 || value === false) {
+        stop();
+        return false;
+      }
+      if (!stored() || hidden()) return false;
+      var toss = tossHaptic();
+      var app = toss ? null : appHaptic();
+      var nav = toss || app ? null : webVibrate();
+      if (!toss && !app && !nav) return false;
+      var kind = null;
+      var steps = null;
+      if (Array.isArray(value)) {
+        steps = pattern(value);
+        if (!steps.length) return false;
+      } else if (typeof value === "number") {
+        steps = [ms(value)];
+        if (!steps[0]) return false;
+      } else {
+        kind = kindOf(value);
+        if (!kind) return false;
+      }
+      var short = steps ? steps.length === 1 && steps[0] <= 100 : !NOTICE[kind[1]] && !Array.isArray(kind[2]);
+      var t3 = now();
+      if (short && t3 - last < GAP) return false;
+      last = t3;
+      while (timers.length) clearTimeout(timers.pop());
+      if (toss) {
+        if (kind) quiet(toss.triggerHaptic({ type: kind[0] }));
+        else each(steps, function(v) {
+          quiet(toss.triggerHaptic({ type: tossFor(v) }));
+        });
+      } else if (app) {
+        if (kind && NOTICE[kind[1]]) quiet(app.notification({ type: kind[1] }));
+        else if (kind) quiet(app.impact({ style: kind[1] }));
+        else each(steps, function(v) {
+          quiet(app.vibrate({ duration: v }));
+        });
+      } else {
+        return nav.vibrate(kind ? kind[2] : steps.length === 1 ? steps[0] : steps) !== false;
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  if (d && d.addEventListener) {
+    d.addEventListener("visibilitychange", function() {
+      if (hidden()) stop();
+    });
+  }
+  w.NcqDevice = { version: VERSION2, vibrate, canVibrate, vibration };
+})();
 
 // texts.js
 var TEXTS = {
@@ -895,6 +6493,19 @@ var TEXTS = {
     shopRemoveAdsPending: "Ad removal will activate when your payment is confirmed.",
     shopRemoveAdsFailed: "The purchase could not be confirmed. Try again or restore purchases.",
     shopCoinPacks: "Coin packs",
+    rewardAdTitle: "20 free coins",
+    rewardAdGuide: "Watch an ad \xB7 Up to 3 per day. Resets at midnight Korea time.",
+    rewardAdRemaining: "{n} / {max} views left today",
+    rewardAdWatch: "Watch ad",
+    rewardAdWatching: "Please wait\u2026",
+    rewardAdChecking: "Checking remaining views\u2026",
+    rewardAdRetry: "Claim reward",
+    rewardAdDone: "Daily limit reached",
+    rewardAdLimit: "You've received all 3 ad rewards today. Come back after midnight Korea time.",
+    rewardAdBusy: "An ad reward is already in progress on your account. Try again shortly.",
+    rewardAdExpired: "This ad reward session has expired. Please try again.",
+    rewardAdFailed: "Couldn't start the ad reward. Please try again.",
+    rewardAdRetryMessage: "Couldn't receive the reward. Tap Claim reward to retry without watching another ad.",
     shopCoinPacksGuide: "Use coins for skins and placement effects.",
     shopCoinPacksUnavailable: "Coin packs are unavailable on this device.",
     shopCoinPackPrice: "{n} coins \xB7 {price}",
@@ -949,7 +6560,7 @@ var TEXTS = {
     shopMysticPlacement: "Mystic aura",
     shopPlacementGuide: "Choose the effect both players see when you place a stone.",
     shopGoldenPlacementGuide: "A flash of gold. The pass lasts 24 hours.",
-    shopSakuraPlacementGuide: "Petals scatter as the stone lands. Yours to keep.",
+    shopSakuraPlacementGuide: "Petals scatter as the stone lands. The pass lasts 24 hours.",
     shopRipplePlacementGuide: "Blue ripples and water droplets spread from the stone. The pass lasts 24 hours.",
     shopMysticPlacementGuide: "Violet wisps and sparkling particles rise from the stone. The pass lasts 24 hours.",
     shopPlainPlacementGuide: "A stone lands with the standard motion.",
@@ -960,7 +6571,7 @@ var TEXTS = {
     shopBuyEffect: "Activate \xB7 {n} coins",
     shopExtendEffect: "Add 24 hours \xB7 {n} coins",
     shopEffectPurchased: "Golden placement is active.",
-    shopSakuraPurchased: "Cherry blossom placement is now equipped.",
+    shopSakuraPurchased: "Cherry blossom placement equipped. 24 hours added to your pass.",
     shopRipplePurchased: "Blue ripples equipped. 24 hours added to your pass.",
     shopMysticPurchased: "Mystic aura equipped. 24 hours added to your pass.",
     adPrivacy: "Ad privacy settings",
@@ -990,6 +6601,7 @@ var TEXTS = {
     appearancePreview: "Preview",
     gridStyle: "Grid lines",
     stoneSound: "Stone sounds",
+    vibration: "Vibration",
     engravedGrid: "Dark engraved",
     softGrid: "Light engraved",
     referenceStones: "Signature",
@@ -1036,6 +6648,7 @@ var TEXTS = {
     queueExpired: "The search ended. Tap Find a match to try again.",
     onlineMatch: "Online match",
     casualMatch: "Regular match",
+    nextMatch: "Next match",
     spectate: "Watch",
     leaveSpectating: "Back to lobby",
     watchTurn: "{color} to move",
@@ -1103,6 +6716,7 @@ var TEXTS = {
     rankingPage: "Page {page}",
     rankingPageOf: "{page} / {pages}",
     joinTournament: "Enter",
+    joinTournamentExhausted: "No attempts left",
     joinTournamentAttempts: "Enter ({remaining}/{limit})",
     tournamentWaiting: "Finding a weekly tournament opponent\u2026",
     playerAlias: "Player #{alias}",
@@ -1208,7 +6822,7 @@ var TEXTS = {
     placeSelectHint: "Pick a spot",
     placeReadyHint: "Ready",
     place: "Place at {cell}",
-    rematch: "Play again",
+    rematch: "Rematch",
     rematchWaiting: "Waiting \xB7 1/2",
     rematchReady: "Accept rematch",
     confirmLeave: "Leave and close this room for both players?",
@@ -1318,6 +6932,19 @@ var TEXTS = {
     shopRemoveAdsPending: "\uACB0\uC81C\uAC00 \uD655\uC778\uB418\uBA74 \uAD11\uACE0 \uC81C\uAC70\uAC00 \uC801\uC6A9\uB3FC\uC694.",
     shopRemoveAdsFailed: "\uAD6C\uB9E4\uB97C \uD655\uC778\uD558\uC9C0 \uBABB\uD588\uC5B4\uC694. \uB2E4\uC2DC \uC2DC\uB3C4\uD558\uAC70\uB098 \uAD6C\uB9E4\uB97C \uBCF5\uC6D0\uD574 \uC8FC\uC138\uC694.",
     shopCoinPacks: "\uCF54\uC778 \uCDA9\uC804",
+    rewardAdTitle: "\uBB34\uB8CC 20\uCF54\uC778",
+    rewardAdGuide: "\uAD11\uACE0 \uC2DC\uCCAD \xB7 \uD558\uB8E8 \uCD5C\uB300 3\uD68C. \uD55C\uAD6D \uC2DC\uAC04 \uC790\uC815\uC5D0 \uCD08\uAE30\uD654\uB3FC\uC694.",
+    rewardAdRemaining: "\uC624\uB298 \uB0A8\uC740 \uD69F\uC218 {n} / {max}\uD68C",
+    rewardAdWatch: "\uAD11\uACE0 \uBCF4\uAE30",
+    rewardAdWatching: "\uCC98\uB9AC \uC911\u2026",
+    rewardAdChecking: "\uB0A8\uC740 \uD69F\uC218 \uD655\uC778 \uC911\u2026",
+    rewardAdRetry: "\uBCF4\uC0C1 \uC218\uB839",
+    rewardAdDone: "\uC624\uB298 \uC218\uB839 \uC644\uB8CC",
+    rewardAdLimit: "\uC624\uB298 \uAD11\uACE0 \uBCF4\uC0C1 3\uD68C\uB97C \uBAA8\uB450 \uBC1B\uC558\uC5B4\uC694. \uD55C\uAD6D \uC2DC\uAC04 \uC790\uC815 \uC774\uD6C4 \uB2E4\uC2DC \uC774\uC6A9\uD574 \uC8FC\uC138\uC694.",
+    rewardAdBusy: "\uC774 \uACC4\uC815\uC5D0\uC11C \uAD11\uACE0 \uBCF4\uC0C1\uC744 \uC9C4\uD589 \uC911\uC774\uC5D0\uC694. \uC7A0\uC2DC \uD6C4 \uB2E4\uC2DC \uC2DC\uB3C4\uD574 \uC8FC\uC138\uC694.",
+    rewardAdExpired: "\uAD11\uACE0 \uBCF4\uC0C1 \uC2DC\uAC04\uC774 \uB9CC\uB8CC\uB410\uC5B4\uC694. \uB2E4\uC2DC \uC2DC\uB3C4\uD574 \uC8FC\uC138\uC694.",
+    rewardAdFailed: "\uAD11\uACE0 \uBCF4\uC0C1\uC744 \uC2DC\uC791\uD558\uC9C0 \uBABB\uD588\uC5B4\uC694. \uC7A0\uC2DC \uD6C4 \uB2E4\uC2DC \uC2DC\uB3C4\uD574 \uC8FC\uC138\uC694.",
+    rewardAdRetryMessage: "\uBCF4\uC0C1\uC744 \uBC1B\uC9C0 \uBABB\uD588\uC5B4\uC694. \uBCF4\uC0C1 \uC218\uB839\uC744 \uB2E4\uC2DC \uB20C\uB7EC \uC8FC\uC138\uC694. \uC644\uB8CC\uD55C \uAD11\uACE0\uB294 \uB2E4\uC2DC \uBCF4\uC9C0 \uC54A\uC544\uB3C4 \uB3FC\uC694.",
     shopCoinPacksGuide: "\uBCF4\uC720 \uCF54\uC778\uC73C\uB85C \uC2A4\uD0A8\uACFC \uCC29\uC218 \uC5F0\uCD9C\uC744 \uAD6C\uB9E4\uD560 \uC218 \uC788\uC5B4\uC694.",
     shopCoinPacksUnavailable: "\uC774 \uAE30\uAE30\uC5D0\uC11C\uB294 \uCF54\uC778 \uC0C1\uD488\uC744 \uAD6C\uB9E4\uD560 \uC218 \uC5C6\uC5B4\uC694.",
     shopCoinPackPrice: "{n}\uCF54\uC778 \xB7 {price}",
@@ -1372,7 +6999,7 @@ var TEXTS = {
     shopMysticPlacement: "\uC2E0\uBE44\uD55C \uAE30\uC6B4",
     shopPlacementGuide: "\uB3CC\uC744 \uB193\uC744 \uB54C \uB450 \uC0AC\uB78C\uC5D0\uAC8C \uBCF4\uC774\uB294 \uD6A8\uACFC\uC608\uC694.",
     shopGoldenPlacementGuide: "\uAE08\uBE5B \uD30C\uB3D9\uC774 \uBC88\uB729\uC5EC\uC694. 24\uC2DC\uAC04 \uC774\uC6A9\uAD8C\uC774\uC5D0\uC694.",
-    shopSakuraPlacementGuide: "\uBC9A\uAF43\uC78E\uC774 \uD769\uC5B4\uC838\uC694. \uD55C \uBC88 \uAD6C\uB9E4\uD558\uBA74 \uACC4\uC18D \uC4F8 \uC218 \uC788\uC5B4\uC694.",
+    shopSakuraPlacementGuide: "\uBC9A\uAF43\uC78E\uC774 \uD769\uC5B4\uC838\uC694. 24\uC2DC\uAC04 \uC774\uC6A9\uAD8C\uC774\uC5D0\uC694.",
     shopRipplePlacementGuide: "\uB3CC \uBC11\uC5D0\uC11C \uD478\uB978 \uD30C\uBB38\uACFC \uBB3C\uBC29\uC6B8\uC774 \uD37C\uC838\uC694. \uAD6C\uB9E4\uD558\uBA74 24\uC2DC\uAC04 \uC0AC\uC6A9\uD560 \uC218 \uC788\uC5B4\uC694.",
     shopMysticPlacementGuide: "\uBCF4\uB78F\uBE5B \uAE30\uB958\uC640 \uBE5B \uC785\uC790\uAC00 \uD53C\uC5B4\uC62C\uB77C\uC694. \uAD6C\uB9E4\uD558\uBA74 24\uC2DC\uAC04 \uC0AC\uC6A9\uD560 \uC218 \uC788\uC5B4\uC694.",
     shopPlainPlacementGuide: "\uB3CC\uC774 \uD310 \uC704\uC5D0 \uC790\uC5F0\uC2A4\uB7FD\uAC8C \uB0B4\uB824\uC549\uC544\uC694.",
@@ -1383,7 +7010,7 @@ var TEXTS = {
     shopBuyEffect: "\uD65C\uC131\uD654 \xB7 {n} \uCF54\uC778",
     shopExtendEffect: "24\uC2DC\uAC04 \uC5F0\uC7A5 \xB7 {n} \uCF54\uC778",
     shopEffectPurchased: "\uAE08\uBE5B \uCC29\uC218\uB97C \uC801\uC6A9\uD588\uC5B4\uC694.",
-    shopSakuraPurchased: "\uBC9A\uAF43 \uCC29\uC218\uB97C \uAD6C\uB9E4\uD558\uACE0 \uC801\uC6A9\uD588\uC5B4\uC694.",
+    shopSakuraPurchased: "\uBC9A\uAF43 \uCC29\uC218\uB97C \uC801\uC6A9\uD558\uACE0 \uC774\uC6A9 \uC2DC\uAC04\uC744 24\uC2DC\uAC04 \uCD94\uAC00\uD588\uC5B4\uC694.",
     shopRipplePurchased: "\uD478\uB978 \uBB3C\uACB0\uC744 \uC801\uC6A9\uD558\uACE0 \uC774\uC6A9 \uC2DC\uAC04\uC744 24\uC2DC\uAC04 \uCD94\uAC00\uD588\uC5B4\uC694.",
     shopMysticPurchased: "\uC2E0\uBE44\uD55C \uAE30\uC6B4\uC744 \uC801\uC6A9\uD558\uACE0 \uC774\uC6A9 \uC2DC\uAC04\uC744 24\uC2DC\uAC04 \uCD94\uAC00\uD588\uC5B4\uC694.",
     adPrivacy: "\uAD11\uACE0 \uAC1C\uC778\uC815\uBCF4 \uC124\uC815",
@@ -1413,6 +7040,7 @@ var TEXTS = {
     appearancePreview: "\uBBF8\uB9AC\uBCF4\uAE30",
     gridStyle: "\uACA9\uC790\uC120",
     stoneSound: "\uCC29\uC218\uC74C",
+    vibration: "\uC9C4\uB3D9",
     engravedGrid: "\uC9C4\uD55C \uC74C\uAC01",
     softGrid: "\uC605\uC740 \uC74C\uAC01",
     referenceStones: "\uB9DE\uC9F1 \uB3CC",
@@ -1459,6 +7087,7 @@ var TEXTS = {
     queueExpired: "\uB9E4\uCE6D \uB300\uAE30\uAC00 \uB05D\uB0AC\uC5B4\uC694. \uB300\uAD6D \uC2E0\uCCAD\uC744 \uB20C\uB7EC \uB2E4\uC2DC \uC2DC\uB3C4\uD558\uC138\uC694.",
     onlineMatch: "\uC628\uB77C\uC778 \uB300\uAD6D",
     casualMatch: "\uC77C\uBC18 \uB300\uAD6D",
+    nextMatch: "\uB2E4\uC74C \uB300\uAD6D",
     spectate: "\uAD00\uC804",
     leaveSpectating: "\uB85C\uBE44\uB85C",
     watchTurn: "{color} \uCC28\uB840",
@@ -1526,6 +7155,7 @@ var TEXTS = {
     rankingPage: "{page}\uD398\uC774\uC9C0",
     rankingPageOf: "{page} / {pages}",
     joinTournament: "\uB300\uD68C \uCC38\uAC00",
+    joinTournamentExhausted: "\uB3C4\uC804 \uD69F\uC218 \uC18C\uC9C4",
     joinTournamentAttempts: "\uB300\uD68C \uCC38\uAC00 ({remaining}/{limit})",
     tournamentWaiting: "\uC8FC\uAC04 \uB300\uD68C \uC0C1\uB300\uB97C \uCC3E\uB294 \uC911\u2026",
     playerAlias: "\uD50C\uB808\uC774\uC5B4 #{alias}",
@@ -1631,7 +7261,7 @@ var TEXTS = {
     placeSelectHint: "\uC704\uCE58 \uC120\uD0DD",
     placeReadyHint: "\uC120\uD0DD \uC644\uB8CC",
     place: "{cell}\uC5D0 \uB3CC \uB193\uAE30",
-    rematch: "\uB2E4\uC2DC \uB300\uACB0",
+    rematch: "\uC7AC\uB300\uACB0",
     rematchWaiting: "\uC218\uB77D \uB300\uAE30 \xB7 1/2",
     rematchReady: "\uC7AC\uB300\uACB0 \uC218\uB77D",
     confirmLeave: "\uB098\uAC00\uBA74 \uB450 \uC0AC\uB78C \uBAA8\uB450 \uC774 \uBC29\uC5D0\uC11C \uB098\uAC00\uAC8C \uB429\uB2C8\uB2E4. \uB098\uAC08\uAE4C\uC694?",
@@ -1648,6 +7278,11 @@ var TEXTS = {
     network: "\uAC8C\uC784 \uC11C\uBC84\uC5D0 \uC5F0\uACB0\uD560 \uC218 \uC5C6\uC5B4\uC694. \uB2E4\uC2DC \uC2DC\uB3C4\uD558\uC138\uC694."
   }
 };
+
+// nickname.js
+function displayNickname(value) {
+  return typeof value === "string" ? value.normalize("NFC") : "";
+}
 
 // lobby-layout.js
 var lobbyReference = {
@@ -1686,7 +7321,8 @@ var art = {
   navigation: ["panels/bottom_navigation", 477, 139, [11, 8, 456, 119]],
   book: ["icons/book", 260, 197, [9, 9, 242, 180]],
   watch: ["icons/watch", 262, 184, [8, 9, 246, 167]],
-  shop: ["icons/shop", 242, 231, [9, 8, 225, 214]]
+  shop: ["icons/shop", 242, 231, [9, 8, 225, 214]],
+  shopBag: ["shop/bag-stones", 230, 240, [0, 0, 230, 240]]
 };
 var ns = "http://www.w3.org/2000/svg";
 var svgNode = (tag, attributes) => {
@@ -1745,6 +7381,10 @@ function titleUnderline(className) {
   image.setAttribute("aria-hidden", "true");
   return image;
 }
+function primaryButtonSurface(button, className, width, height, { sourceCap = 62, capRatio } = {}) {
+  const cap = capRatio == null ? Math.floor(height / 2) : height * capRatio;
+  return resource(button, "primary", className, [width, height, sourceCap, cap]);
+}
 function installMeasuredLobby() {
   const el2 = (id) => document.getElementById(id);
   const shell = document.querySelector(".shell");
@@ -1792,7 +7432,7 @@ function installMeasuredLobby() {
   resource(el2("show-tournament"), "trophy", "championship-trophy");
   resource(el2("show-tournament"), "chevron", "championship-chevron");
   el2("show-tournament").append(Object.assign(document.createElement("span"), { className: "championship-divider" }));
-  resource(el2("start"), "primary", "start-surface", [934, 155, 62, 77]);
+  primaryButtonSurface(el2("start"), "start-surface", 934, 155);
   el2("start").querySelector("img").remove();
   const startContent = document.createElement("span");
   startContent.className = "start-content";
@@ -1827,12 +7467,20 @@ function installMeasuredLobby() {
 }
 
 // list-dialog.js
-var listDialogReference = { width: 678, height: 1430, border: 2 };
+var listDialogReference = { width: 678, height: 1430, minStageHeight: 1060, border: 2 };
 function listDialogFrameHeight(available, scale) {
-  return Math.min(available, listDialogReference.height * scale);
+  const { height, border } = listDialogReference;
+  return Math.min(available, (height - 2 * border) * scale + 2 * border);
 }
-function installListDialog(dialog, { title, close, icon, tabs, onResize = () => {
-} }) {
+function installListDialog(dialog, {
+  title,
+  close,
+  icon,
+  tabs,
+  minStageHeight = listDialogReference.minStageHeight,
+  onResize = () => {
+  }
+}) {
   dialog.classList.add("forest-list-dialog");
   const stage = dialog.firstElementChild;
   stage.classList.add("list-dialog-stage");
@@ -1851,9 +7499,13 @@ function installListDialog(dialog, { title, close, icon, tabs, onResize = () => 
     if (!dialog.open || !dialog.clientWidth) return;
     const { width, border } = listDialogReference;
     const designWidth = width - 2 * border;
-    const scale = dialog.clientWidth / designWidth;
     const style = getComputedStyle(dialog);
     const available = parseFloat(style.maxHeight) || innerHeight - (parseFloat(style.top) || 0) - (parseFloat(style.bottom) || 0) - 20;
+    if (minStageHeight > 0) {
+      const widthForHeight = 2 * border + Math.max(0, available - 2 * border) * designWidth / minStageHeight;
+      dialog.style.setProperty("--list-dialog-height-width", widthForHeight + "px");
+    }
+    const scale = dialog.clientWidth / designWidth;
     const height = listDialogFrameHeight(available, scale);
     dialog.style.setProperty("--list-dialog-scale", scale);
     dialog.style.setProperty("--list-dialog-height", height + "px");
@@ -1934,7 +7586,22 @@ function installMeasuredRankings(dialog, onCapacity = () => {
 }) {
   const el2 = (id) => document.getElementById(id);
   const art2 = (parent, name, className, panel) => resource(parent, name, "ranking-resource " + className, panel);
-  art2(el2("join-tournament"), "primary", "ranking-primary-surface", [622, 96, 55, 46]);
+  const join2 = el2("join-tournament");
+  let joinSurface;
+  new ResizeObserver(([entry]) => {
+    const box = entry.borderBoxSize?.[0];
+    const width = box?.inlineSize ?? join2.offsetWidth;
+    const height = box?.blockSize ?? join2.offsetHeight;
+    if (!width || !height) return;
+    joinSurface?.remove();
+    joinSurface = primaryButtonSurface(
+      join2,
+      "ranking-resource ranking-primary-surface",
+      width,
+      height,
+      { sourceCap: 55, capRatio: 46 / 96 }
+    );
+  }).observe(join2);
   for (const reward of document.querySelectorAll(".weekly-reward")) {
     art2(reward.querySelector(".weekly-reward-icon"), "round", "ranking-reward-icon-surface");
   }
@@ -1988,7 +7655,13 @@ function installMeasuredMissions() {
     const space = window.NcqSafe.space();
     const width = document.documentElement.clientWidth - space.left - space.right;
     const height = window.innerHeight - space.top - space.bottom;
-    const scale = Math.min(1, width / missionReference.screen[0], height / missionReference.screen[1]);
+    const maximumWidth = parseFloat(getComputedStyle(dialog).getPropertyValue("--popup-max-width")) || 560;
+    const scale = Math.min(
+      1,
+      maximumWidth / missionReference.panel[0],
+      width / missionReference.screen[0],
+      height / missionReference.screen[1]
+    );
     dialog.style.setProperty("--mission-scale", scale);
     dialog.style.width = missionReference.panel[0] * scale + "px";
     dialog.style.height = missionReference.panel[1] * scale + "px";
@@ -2098,6 +7771,21 @@ function createForestUI({ closeView, getView, hasGame, translate, onRankingCapac
     close: el2("watch-close"),
     icon: "watch"
   });
+  const measuredShop = installListDialog(el2("shop"), {
+    title: el2("shop-title"),
+    close: el2("shop").querySelector(".shop-heading .forest-close"),
+    icon: "shopBag",
+    tabs: el2("shop").querySelector(".shop-tabs")
+  });
+  const reviewAction = el2("review-room-action");
+  const reviewSummary = document.querySelector(".review-result");
+  resource(reviewAction.firstElementChild, "pair", "review-action-stones");
+  let reviewSurface;
+  new ResizeObserver(([{ contentRect: { width, height } }]) => {
+    if (!width || !height) return;
+    reviewSurface?.remove();
+    reviewSurface = primaryButtonSurface(reviewAction, "review-primary-surface", width, height);
+  }).observe(reviewAction);
   installMeasuredMissions();
   const setLayer = (dialog, visible) => {
     if (visible && !dialog.open) dialog.showModal();
@@ -2119,6 +7807,11 @@ function createForestUI({ closeView, getView, hasGame, translate, onRankingCapac
     },
     render(game, view) {
       measuredLobby.render(game);
+      if (game && !game.sharedView) {
+        if (reviewSummary.parentElement !== el2("review-own-status")) el2("review-own-status").append(reviewSummary);
+      } else if (reviewSummary.parentElement !== el2("review")) {
+        el2("review").insertBefore(reviewSummary, document.querySelector(".review-footer"));
+      }
       const ranking = !game && view === "tournament";
       const cardParent = ranking ? el2("play-footer") : el2("lobby-profile-slot");
       if (el2("player-card").parentElement !== cardParent) cardParent.prepend(el2("player-card"));
@@ -2130,6 +7823,7 @@ function createForestUI({ closeView, getView, hasGame, translate, onRankingCapac
       setLayer(rankingsDialog, ranking);
       if (ranking) measuredRankings();
       if (!game && view === "records") measuredRecords();
+      if (el2("shop").open) measuredShop();
     },
     profile(rating, lower, upper) {
       meter.setAttribute("aria-label", translate("forestPromotionProgress"));
@@ -2206,6 +7900,303 @@ function animateStonePlacement(cell, marker, {
   return { finished, cancel };
 }
 
+// placement-preview.js
+function previewPlacement(game, from, index2) {
+  if (!game || game.phase !== "playing" || game.turn !== game.you || game.setup || !Number.isInteger(from) || !Number.isInteger(index2) || from < 0 || from >= 90 || index2 < 0 || index2 >= 90 || sideOf(game.board[from]) !== game.you || !legalMoves(game.board, game.you).some((move) => move.from === from && move.to === index2)) return null;
+  return {
+    code: game.code,
+    round: game.round,
+    version: game.version,
+    seat: game.you,
+    from,
+    index: index2,
+    piece: game.board[from],
+    color: game.you,
+    ply: game.moves.length
+  };
+}
+function confirmsPlacement(preview, game) {
+  return Boolean(preview && game.code === preview.code && game.round === preview.round && game.version > preview.version && game.moves[preview.ply]?.from === preview.from && game.moves[preview.ply]?.to === preview.index && game.board[preview.index] === preview.piece && (!game.moveSeats || game.moveSeats[preview.ply] === preview.seat));
+}
+
+// rewarded-coins.js
+function createRewardedCoins({ request, watch, player, changed, credited, uuid = () => crypto.randomUUID() }) {
+  let status = null;
+  let busy2 = false;
+  let pending = null;
+  let owner = null;
+  function sync() {
+    if (owner !== player()) {
+      owner = player();
+      status = null;
+      pending = null;
+    }
+  }
+  return {
+    get state() {
+      sync();
+      return { status, busy: busy2, retry: !!pending?.earned };
+    },
+    async refresh() {
+      sync();
+      const account = owner;
+      const result = await request("");
+      if (account === player() && !result.error) {
+        status = result.rewardAd;
+        changed();
+      }
+      return result;
+    },
+    async run() {
+      sync();
+      if (busy2 || !owner) return { error: "rewardAdBusy" };
+      const account = owner;
+      busy2 = true;
+      changed();
+      try {
+        pending ??= { id: uuid(), earned: false };
+        const id = pending.id;
+        if (!pending.earned) {
+          const start = await request("start", id);
+          if (account !== player()) return {};
+          if (start.error) {
+            if (start.error !== "network") pending = null;
+            return start;
+          }
+          status = start.rewardAd;
+          let complete = false;
+          try {
+            complete = await watch();
+          } catch {
+          }
+          if (account !== player()) return {};
+          if (!complete) {
+            const canceled = await request("cancel", id);
+            if (canceled.error !== "network") pending = null;
+            return { canceled: true };
+          }
+          pending.earned = true;
+        }
+        const result = await request("claim", id);
+        if (account !== player()) return {};
+        if (!result.error) {
+          status = result.rewardAd;
+          pending = null;
+          credited(result);
+        } else if (result.error !== "network") pending = null;
+        return result;
+      } finally {
+        busy2 = false;
+        sync();
+        changed();
+      }
+    }
+  };
+}
+
+// haptics.js
+function createGameHaptics({
+  device = () => globalThis.NcqDevice,
+  blocked = () => false,
+  now = () => performance.now(),
+  schedule = (callback, delay) => setTimeout(callback, delay),
+  clear = (timer) => clearTimeout(timer)
+} = {}) {
+  const seen = /* @__PURE__ */ new Set();
+  const clocks = /* @__PURE__ */ new Map();
+  const pending = /* @__PURE__ */ new Set();
+  let lastTap = -Infinity;
+  const trim = (collection) => {
+    if (collection.size > 1024) collection.delete(collection.keys().next().value);
+  };
+  const available = () => {
+    try {
+      const api = device();
+      return !blocked() && api?.canVibrate() && api.vibration();
+    } catch {
+      return false;
+    }
+  };
+  const play = (kind) => {
+    if (!available()) return;
+    try {
+      device().vibrate(kind);
+    } catch {
+    }
+  };
+  const once = (key, kind, { delay = 0, valid = () => true } = {}) => {
+    if (seen.has(key)) return () => {
+    };
+    seen.add(key);
+    trim(seen);
+    if (!available()) return () => {
+    };
+    const timers = /* @__PURE__ */ new Set();
+    let canceled = false;
+    const cancel = () => {
+      canceled = true;
+      for (const timer of timers) clear(timer);
+      timers.clear();
+      pending.delete(cancel);
+    };
+    const beats = kind === "promotion" ? [[0, "light"], [90, "medium"], [220, "success"]] : [[0, kind]];
+    for (const [offset, feedback2] of beats) {
+      const run2 = () => {
+        if (!canceled && valid()) play(feedback2);
+      };
+      if (delay + offset > 0) {
+        pending.add(cancel);
+        const timer = schedule(() => {
+          timers.delete(timer);
+          if (!timers.size) pending.delete(cancel);
+          run2();
+        }, delay + offset);
+        timers.add(timer);
+      } else run2();
+    }
+    return cancel;
+  };
+  return {
+    once,
+    tap() {
+      if (now() - lastTap < 120) return;
+      lastTap = now();
+      play("light");
+    },
+    clock(key, remaining, allowed = true) {
+      const previous = clocks.get(key);
+      clocks.set(key, remaining);
+      trim(clocks);
+      if (previous > 5e3 && remaining <= 5e3 && remaining > 0) {
+        once("clock:" + key, "warning", { valid: () => allowed });
+      }
+    },
+    stop() {
+      for (const cancel of pending) cancel();
+      try {
+        device()?.vibrate(0);
+      } catch {
+      }
+    }
+  };
+}
+
+// record-storage.js
+function recordSnapshot(game, online) {
+  if (!game || typeof game !== "object" || game.summaryOnly) return null;
+  const code = game.code ?? game.id?.split(":")[0];
+  if (!code || !Number.isInteger(game.round) || !Array.isArray(game.moves)) return null;
+  const snapshot = { id: code + ":" + game.round, code, device: game.device === true || !online };
+  for (const key of [
+    "number",
+    "round",
+    "moves",
+    "winner",
+    "line",
+    "you",
+    "finishedAt",
+    "endReason",
+    "players",
+    "bot",
+    "mode",
+    "rule",
+    "black",
+    "moveColors",
+    "passes",
+    "moveSeats",
+    "placementStyles",
+    "ratingChange",
+    "recordDetail",
+    "formations"
+  ]) {
+    if (game[key] !== void 0) snapshot[key] = game[key];
+  }
+  const actions = game.recordDetail?.actions ?? game.actions;
+  if (Array.isArray(actions)) {
+    snapshot.passes = [1, 2].map((seat) => actions.filter((action) => action.type === "pass" && action.seat === seat).length);
+  }
+  return JSON.parse(JSON.stringify(snapshot));
+}
+function createRecordHistory(NcqSave, { player, cloud, legacy = [], changed }) {
+  if (!NcqSave?.records) return null;
+  const archive2 = NcqSave.records({ id: "matjjangjangi", collection: "games", player, cloud });
+  for (const game of legacy) {
+    const record = recordSnapshot(game, cloud && game.device !== true);
+    if (record) archive2.add(record.id, record);
+  }
+  const unsubscribe = archive2.onChange((info) => {
+    if (info.source === "cloud" || info.source === "other-tab") changed?.();
+  });
+  return {
+    player,
+    list: () => {
+      const records2 = /* @__PURE__ */ new Map();
+      for (const item of archive2.list()) {
+        const record = recordSnapshot(item.data, cloud);
+        if (record && (!records2.has(record.id) || record.recordDetail)) records2.set(record.id, record);
+      }
+      return [...records2.values()].sort((a, b) => new Date(b.finishedAt) - new Date(a.finishedAt));
+    },
+    add: (game) => {
+      const record = recordSnapshot(game, cloud);
+      if (!record) return false;
+      const old = archive2.list().find((item) => item.id === record.id)?.data;
+      const id = record.recordDetail && old && !old.recordDetail ? record.id + "@detail-v1" : record.id;
+      return archive2.add(id, record);
+    },
+    ready: () => archive2.ready(),
+    status: () => archive2.status(),
+    dispose: () => {
+      unsubscribe();
+      archive2.dispose();
+    }
+  };
+}
+function restoreResult(previous, result, saved) {
+  const code = result.id?.split(":")[0] ?? previous.code;
+  const local = saved?.find((game) => game.id === code + ":" + result.round);
+  return {
+    ...previous,
+    ...local,
+    ...result.state,
+    code,
+    round: result.round,
+    you: result.you,
+    ratingChange: result.ratingChange,
+    winner: result.state.winner,
+    finishedAt: result.finishedAt,
+    phase: "finished",
+    canRematch: false,
+    version: Math.max(previous.version + 1, result.version ?? 0),
+    summaryOnly: !local,
+    ...local ? { recordDetail: local.recordDetail } : {},
+    ...local ? { board: replayBoard2(local), actions: local.recordDetail?.actions } : {}
+  };
+}
+function replayBoard2(game) {
+  return replayBoard(game, game.moves.length);
+}
+function mergeFinishedRoom(previous, next, records2) {
+  if (!next.summaryOnly) return next;
+  const local = records2.find((game) => game.id === next.code + ":" + next.round);
+  const current2 = previous?.code === next.code && previous.round === next.round ? previous : {};
+  return {
+    ...current2,
+    ...local,
+    ...next,
+    moves: local?.moves ?? current2.moves ?? [],
+    moveColors: local?.moveColors ?? current2.moveColors,
+    moveSeats: local?.moveSeats ?? current2.moveSeats,
+    line: local?.line ?? current2.line ?? [],
+    placementStyles: local?.placementStyles ?? current2.placementStyles,
+    formations: local?.formations ?? current2.formations ?? next.formations,
+    board: local ? replayBoard2(local) : current2.board ?? next.board,
+    recordDetail: local?.recordDetail ?? current2.recordDetail,
+    summaryOnly: !local,
+    actions: local?.recordDetail?.actions ?? current2.recordDetail?.actions ?? next.actions
+  };
+}
+
 // app.js
 for (const language of ["ko", "en"]) Object.assign(TEXTS[language], JANGI_TEXTS[language]);
 NcqLang.init({ id: "matjjangjangi", texts: TEXTS });
@@ -2244,7 +8235,7 @@ var pendingMatchAdRound = null;
 var placementEffects = {
   plain: { price: 0 },
   golden: { price: 120, expiry: "goldenPlacementUntil", purchased: "shopEffectPurchased" },
-  sakura: { price: 150, purchased: "shopSakuraPurchased" },
+  sakura: { price: 150, expiry: "sakuraPlacementUntil", purchased: "shopSakuraPurchased" },
   ripple: { price: 150, expiry: "ripplePlacementUntil", purchased: "shopRipplePurchased" },
   mystic: { price: 150, expiry: "mysticPlacementUntil", purchased: "shopMysticPurchased" }
 };
@@ -2294,6 +8285,24 @@ var serverWallet;
 var canClaimTestCoins = false;
 var testCoinRequestId;
 var testCoinClaiming = false;
+var rewardedCoins = createRewardedCoins({
+  player: () => authSession?.player,
+  request: (op, requestId) => remoteRequest((client) => client.gameRequest(
+    "/wallet/reward-ad" + (op ? "/" + op : ""),
+    op ? { requestId } : void 0,
+    -1
+  )),
+  // NCQ_ADS_COINS: 코인 20개 보상형 광고
+  watch: () => NcqAds.rewarded("COINS"),
+  changed: () => {
+    if (shop.open) renderRewardAd();
+  },
+  credited: (next) => {
+    if (!applyWallet(next)) return;
+    render();
+    if (next.adReward) showCoinReward(next.adReward.coins, "ad:" + next.adReward.id, "shop");
+  }
+});
 var effectPurchaseIds = {};
 var shopPreview = { ...shopState.appearance };
 var shopTab = "skins";
@@ -2312,10 +8321,12 @@ var cells = [];
 var focused = 76;
 var selected = null;
 selectedFrom = null;
+var pendingPlacement = null;
 var room = null;
 var stream = null;
 var connected = false;
 var busy = false;
+var nextMatchPending = false;
 var reviewPly = 0;
 var awaitingResultDismissal = false;
 var promotionCloseTimer;
@@ -2325,6 +8336,8 @@ var spectator = null;
 var lobbyView = "lobby";
 var recordsReturnView = "lobby";
 var recordsScope = recordsKey;
+var recordHistory = null;
+var recordReceipts = /* @__PURE__ */ new Set();
 var records = loadRecords();
 var recordPreviewObserver;
 var recordPreviewJobs = /* @__PURE__ */ new WeakMap();
@@ -2380,6 +8393,13 @@ var activePlacementSound;
 var placementSoundCue = 0;
 var activePlacement;
 var activePlacementEffect;
+var cancelLandingHaptic;
+var cancelPromotionHaptic;
+var purchaseNotice = 0;
+var haptics = createGameHaptics({
+  blocked: () => document.hidden || adPurchaseBusy || document.querySelector(".shell").inert || Boolean(NcqAds?.status?.().busy) || Boolean(window.NcqFeedback?.isOpen())
+});
+var roundHapticKey = (game) => `${game.code}:${game.round}`;
 var gaugeObserver = new ResizeObserver((entries) => {
   const inset = 4;
   for (const { target, contentRect: { width, height } } of entries) {
@@ -2421,7 +8441,7 @@ function scheduleBoardLayout() {
     match2.removeAttribute("data-compact-board");
     const controlsHeight = () => match2.getBoundingClientRect().height - slot.getBoundingClientRect().height;
     if (desired * 10 / 9 + controlsHeight() > height) match2.setAttribute("data-compact-board", "");
-    const fitted = fitBoardFrame(width, (height - Math.max(216, controlsHeight())) * 9 / 10, inset, border);
+    const fitted = fitBoardFrame(width, (height - Math.max(240, controlsHeight())) * 9 / 10, inset, border);
     board.style.setProperty("--board-frame-size", `${fitted.frame.toFixed(2)}px`);
     board.style.setProperty("--board-grid-size", `${fitted.grid.toFixed(2)}px`);
   });
@@ -2469,6 +8489,7 @@ var forest = createForestUI({
 matchIntroDialog.addEventListener("click", () => matchIntroDialog.close());
 matchIntroDialog.addEventListener("close", () => {
   if (matchIntroDialog.open) return;
+  matchIntro?.cancelHaptic?.();
   clearTimeout(matchIntro?.timer);
   matchIntro = null;
   render();
@@ -2498,7 +8519,7 @@ nicknameEdit.addEventListener("click", () => {
   nicknameEditor.hidden = !opening;
   nicknameEdit.setAttribute("aria-expanded", String(opening));
   if (!opening) return;
-  nicknameInput.value = nicknameOverride;
+  nicknameInput.value = displayNickname(nicknameOverride);
   nicknameInput.focus();
   nicknameInput.select();
 });
@@ -2522,6 +8543,10 @@ el("show-options").addEventListener("click", () => {
   render();
 });
 optionsDialog.addEventListener("close", closeLobbyMenu);
+el("vibration").addEventListener("change", (event) => {
+  window.NcqDevice?.vibration(event.target.checked);
+  if (event.target.checked) haptics.tap();
+});
 el("options-player-id").addEventListener("click", (event) => event.currentTarget.select());
 el("copy-player-id").addEventListener("click", async () => {
   const input = el("options-player-id");
@@ -2611,8 +8636,10 @@ stoneSoundToggle.addEventListener("change", () => {
 document.addEventListener("click", unlockPlacementAudio, { capture: true });
 document.addEventListener("keydown", unlockPlacementAudio, { capture: true });
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) stopPlacementSound();
-  else if (placementAudio) unlockPlacementAudio();
+  if (document.hidden) {
+    stopPlacementSound();
+    haptics.stop();
+  } else if (placementAudio) unlockPlacementAudio();
 });
 try {
   nicknameOverride = localStorage.getItem(nicknameKey)?.trim() ?? "";
@@ -2640,7 +8667,12 @@ for (const row of shopRows) {
   let drag;
   row.addEventListener("pointerdown", (event) => {
     if (event.pointerType === "mouse" && event.button === 0 && row.scrollWidth > row.clientWidth) {
-      drag = { id: event.pointerId, x: event.clientX, scroll: row.scrollLeft };
+      drag = {
+        id: event.pointerId,
+        x: event.clientX,
+        scroll: row.scrollLeft,
+        scale: row.getBoundingClientRect().width / row.offsetWidth || 1
+      };
     }
   });
   row.addEventListener("pointermove", (event) => {
@@ -2651,7 +8683,7 @@ for (const row of shopRows) {
       row.setPointerCapture(event.pointerId);
       row.setAttribute("data-dragging", "");
     }
-    row.scrollLeft = drag.scroll - distance;
+    row.scrollLeft = drag.scroll - distance / drag.scale;
   });
   const endDrag = (event) => {
     if (event.pointerId !== drag?.id) return;
@@ -2691,7 +8723,8 @@ function openShop() {
     if (!card) continue;
     const cardBounds = card.getBoundingClientRect();
     const rowBounds = row.getBoundingClientRect();
-    row.scrollLeft += cardBounds.left - rowBounds.left + (cardBounds.width - rowBounds.width) / 2;
+    const scale = rowBounds.width / row.offsetWidth || 1;
+    row.scrollLeft += (cardBounds.left - rowBounds.left + (cardBounds.width - rowBounds.width) / 2) / scale;
   }
   void refreshWallet();
 }
@@ -2768,6 +8801,7 @@ coinShortageDialog.addEventListener("close", () => {
 });
 for (const tab of shopTabs) {
   el("shop-tab-" + tab).addEventListener("click", () => {
+    if (shopTab !== tab) haptics.tap();
     shopTab = tab;
     feedback("shop-feedback");
     renderShop();
@@ -2777,6 +8811,7 @@ for (const tab of shopTabs) {
 for (const input of shopRadios) {
   input.addEventListener("change", () => {
     if (!input.checked) return;
+    if (shopPreview[input.name] !== input.value) haptics.tap();
     shopPreview[input.name] = input.value;
     feedback("shop-feedback");
     renderShop();
@@ -2784,8 +8819,18 @@ for (const input of shopRadios) {
 }
 shopAction.addEventListener("click", () => saveShopSelection(shopAction.hasAttribute("data-purchase")));
 el("shop-claim-test-coins").addEventListener("click", claimTestCoins);
+el("shop-watch-ad-coins").addEventListener("click", async () => {
+  feedback("shop-feedback");
+  const result = await rewardedCoins.run();
+  if (result.error) {
+    const message = ["rewardAdLimit", "rewardAdBusy", "rewardAdExpired"].includes(result.error) ? result.error : rewardedCoins.state.retry ? "rewardAdRetryMessage" : "rewardAdFailed";
+    feedback("shop-feedback", message, true);
+  }
+  if (backend) void rewardedCoins.refresh();
+});
 for (const { button, effect } of shopEffectOptions) {
   button.addEventListener("click", () => {
+    if ((shopEffectPreview ?? placementStyle) !== effect) haptics.tap();
     shopEffectPreview = effect;
     feedback("shop-feedback");
     renderPlacementCards();
@@ -2846,7 +8891,10 @@ for (let row = 0; row < 10; row += 1) {
 for (const language of NcqLang.list()) {
   el("language").add(new Option(language.name, language.code));
 }
-el("language").addEventListener("change", (event) => NcqLang.set(event.target.value));
+el("language").addEventListener("change", (event) => {
+  if (NcqLang.lang !== event.target.value) haptics.tap();
+  NcqLang.set(event.target.value);
+});
 NcqLang.onChange(render);
 function loadShopState(fallback2) {
   let saved;
@@ -2934,7 +8982,7 @@ function placementUntil(effect) {
 }
 function ownsPlacement(effect) {
   if (effect === "plain") return true;
-  if (effect === "sakura") return serverWallet?.sakuraOwned === true;
+  if (effect === "sakura" && serverWallet?.sakuraOwned) return true;
   return placementUntil(effect) > Date.now();
 }
 function placementRequest() {
@@ -2952,6 +9000,7 @@ async function refreshWallet(cooldown = 3) {
   if (!backend) return;
   const next = await remoteRequest((client) => client.gameRequest("/wallet", void 0, cooldown));
   if (applyWallet(next)) {
+    if (shop.open) void rewardedCoins.refresh();
     canClaimTestCoins = next.canClaimTestCoins === true;
     render();
   }
@@ -3192,7 +9241,7 @@ function showCoinReward(coins, receipt, source) {
   const id = (authSession?.player ?? "") + ":" + receipt;
   if (!Number.isSafeInteger(coins) || coins <= 0 || coinRewardReceipts.has(id)) return;
   coinRewardReceipts.add(id);
-  coinRewardQueue.push({ coins, source, player: authSession?.player });
+  coinRewardQueue.push({ coins, source, player: authSession?.player, receipt: id });
   presentCoinReward();
 }
 function presentCoinReward() {
@@ -3204,6 +9253,7 @@ function presentCoinReward() {
     activeCoinReward = reward;
     renderCoinReward();
     coinRewardDialog.showModal();
+    haptics.once("reward:" + reward.receipt, "success");
     render();
     el("coin-reward-title").focus();
     return;
@@ -3268,7 +9318,7 @@ function renderPlacementCards() {
   const owned = Object.fromEntries(placementStyles.map((effect) => [effect, ownsPlacement(effect)]));
   const applied = owned[placementStyle] ? placementStyle : "plain";
   const selection = shopEffectPreview ?? applied;
-  const timed = Boolean(placementEffects[selection].expiry);
+  const timed = Boolean(placementEffects[selection].expiry) && !(selection === "sakura" && serverWallet?.sakuraOwned);
   const buying = !owned[selection] || timed && applied === selection;
   const price = placementEffects[selection].price;
   let refreshIn = Infinity;
@@ -3307,6 +9357,7 @@ async function refreshCoinCheckout() {
   if (shop.open) renderCoinPacks();
 }
 function renderCoinPacks() {
+  renderRewardAd();
   const list2 = el("shop-coin-pack-buttons");
   const products = playCoinBilling() ? Object.entries(NcqIap.status().products) : [];
   const available = products.flatMap(([id, product]) => {
@@ -3339,6 +9390,16 @@ function renderCoinPacks() {
   const debt = serverWallet?.refundDebt ?? 0;
   el("shop-refund-debt").hidden = debt <= 0;
   if (debt > 0) el("shop-refund-debt").textContent = t2("shopCoinRefundDebt", { n: NcqLang.num(debt) });
+}
+function renderRewardAd() {
+  const { status, busy: busy2, retry } = rewardedCoins.state;
+  const card = el("shop-ad-coins");
+  card.hidden = !backend || !NcqAds?.can("COINS");
+  if (card.hidden) return;
+  el("shop-ad-coins-count").textContent = status ? t2("rewardAdRemaining", { n: NcqLang.num(status.remaining), max: NcqLang.num(status.limit) }) : t2("rewardAdChecking");
+  const button = el("shop-watch-ad-coins");
+  button.disabled = busy2 || adPurchaseBusy || shopSaving || !status || !retry && status.remaining <= 0;
+  button.textContent = t2(busy2 ? "rewardAdWatching" : retry ? "rewardAdRetry" : status?.remaining === 0 ? "rewardAdDone" : "rewardAdWatch");
 }
 function renderAdPurchase() {
   const store2 = NcqIap?.status();
@@ -3410,6 +9471,7 @@ async function initializeAdPurchase() {
 function showShopPurchase(message, values) {
   el("shop-purchase-message").textContent = t2(message, values);
   shopPurchaseDialog.showModal();
+  haptics.once("purchase:" + ++purchaseNotice, "success");
   render();
 }
 function showCoinShortage() {
@@ -3426,6 +9488,7 @@ async function withShopCheckout(checkout) {
   const scrollTop = content.scrollTop;
   const shell = document.querySelector(".shell");
   shop.close();
+  haptics.stop();
   shell.inert = true;
   let purchaseMessage;
   try {
@@ -3568,7 +9631,6 @@ async function buyPlacementEffect(effect) {
     feedback("shop-feedback", "network", true);
     return;
   }
-  const sakura = effect === "sakura";
   const { price, purchased: message } = placementEffects[effect];
   shopSaving = true;
   feedback("shop-feedback");
@@ -3579,9 +9641,9 @@ async function buyPlacementEffect(effect) {
         showCoinShortage();
         return;
       }
-      if (!sakura) effectPurchaseIds[effect] ??= crypto.randomUUID();
-      const path = sakura ? "/wallet/buy-sakura" : effect === "golden" ? "/wallet/buy-effect" : "/wallet/buy-placement";
-      const data = sakura ? {} : { requestId: effectPurchaseIds[effect], effect };
+      effectPurchaseIds[effect] ??= crypto.randomUUID();
+      const path = effect === "golden" ? "/wallet/buy-effect" : "/wallet/buy-placement";
+      const data = { requestId: effectPurchaseIds[effect], effect };
       const result = await remoteRequest((client) => client.gameRequest(path, data));
       if (!applyWallet(result)) {
         if (result.error !== "network") delete effectPurchaseIds[effect];
@@ -3653,6 +9715,8 @@ async function playPlacementSound(delay) {
 }
 function cancelPlacement() {
   stopPlacementSound();
+  cancelLandingHaptic?.();
+  cancelLandingHaptic = void 0;
   activePlacementEffect?.remove();
   activePlacementEffect = null;
   if (!activePlacement) return;
@@ -3771,13 +9835,14 @@ function previewPlacementEffect(button, style) {
   button.querySelector(".shop-effect-art").append(preview);
   void Promise.resolve(playPlacementEffect(preview, style, 0)).finally(() => preview.remove());
 }
-function presentPlacement(index2, style) {
+function presentPlacement(index2, style, landingHaptic) {
   if (index2 == null || document.hidden) return;
   const cell = cells[index2];
   if (!cell || !["1", "2"].includes(cell.dataset.stone) || cell.classList.contains("selected")) return;
   cancelPlacement();
   if (reducedMotion.matches) {
     playPlacementSound(0);
+    landingHaptic?.(0);
     return;
   }
   const landingTime = !el("placement-timing").hidden && placementTimingAvailable() ? replayPlacementDuration : placementTiming.landing;
@@ -3788,6 +9853,7 @@ function presentPlacement(index2, style) {
     shouldContinue: () => !document.hidden && !cell.classList.contains("selected") && cell.dataset.stone !== "0",
     onStart() {
       playPlacementSound(contactTime / 1e3);
+      cancelLandingHaptic = landingHaptic?.(contactTime);
       if (placementEffects[style]?.price) void playPlacementEffect(cell, style, contactTime, landingTime);
     }
   });
@@ -3799,14 +9865,19 @@ function presentPlacement(index2, style) {
     cell.classList.remove("placing");
   });
 }
-function presentRoundPlacement(game, ply) {
-  return presentPlacement(destination(game.moves[ply]), game.placementStyles?.[game.moveSeats?.[ply] - 1]);
+function presentRoundPlacement(game, ply, movingSeat) {
+  const landingHaptic = movingSeat == null ? void 0 : (delay) => haptics.once(
+    `move:${roundHapticKey(game)}:${ply}`,
+    movingSeat === game.you ? "medium" : "light",
+    { delay, valid: () => room?.code === game.code && room.round === game.round && !archive && !spectator }
+  );
+  return presentPlacement(destination(game.moves[ply]), game.placementStyles?.[game.moveSeats?.[ply] - 1], landingHaptic);
 }
 function coordinate(index2) {
   return columns[index2 % size] + (Math.floor(index2 / size) + 1);
 }
 function canAct() {
-  return room?.phase === "playing" && room.turn === room.you && connected && !busy && !matchIntroDialog.open && !leaveDialog.open && (turnDeadline === null || performance.now() < turnDeadline);
+  return room?.phase === "playing" && room.turn === room.you && connected && !busy && !pendingPlacement && !matchIntroDialog.open && !leaveDialog.open && (turnDeadline === null || performance.now() < turnDeadline);
 }
 function activeRule() {
   if (!el("choose-rule")) return defaultRule;
@@ -3843,13 +9914,10 @@ function sideName(game, seat) {
   return t2(colorName(seatColor(game, seat)));
 }
 function matchMode(game) {
-  if (game.mode === "tournament") return "weeklyTournament";
-  if (game.rule === "taraguchi") return "ruleTaraguchiShort";
-  return ruleNames[game.rule] ?? "onlineMatch";
+  return game.mode === "tournament" ? "weeklyTournament" : "casualMatch";
 }
 function recordModeLabel(game) {
-  const mode = t2(game.mode === "tournament" ? "weeklyTournament" : "casualMatch");
-  return game.rule ? mode + " \xB7 " + t2(ruleNames[game.rule]) : mode;
+  return t2(matchMode(game));
 }
 function moveColor(game, ply) {
   return game.moveColors?.[ply] ?? ply % 2 + 1;
@@ -3859,19 +9927,31 @@ function clockDeadline(game) {
 }
 function updateTurnClock(now, deadline, secondsPerTurn, ownTurn, watching) {
   const remaining = Math.max(0, deadline - now);
+  if (!watching && ownTurn && room?.phase === "playing") {
+    haptics.clock(
+      `${roundHapticKey(room)}:${room.moves.length}:${room.turn}`,
+      remaining,
+      connected && !matchIntroDialog.open && !leaveDialog.open && !profileDialog.open
+    );
+  }
   const activeClock = ownTurn ? ownClock : opponentClock;
   const progress = ownTurn ? ownProgress : opponentProgress;
-  const seconds = String(Math.ceil(remaining / 1e3)).padStart(2, "0");
+  const secondsLeft = Math.ceil(remaining / 1e3);
+  const seconds = String(secondsLeft).padStart(2, "0");
+  activeClock.toggleAttribute("data-urgent", secondsLeft <= 10);
   if (activeClock.textContent !== seconds) {
     activeClock.getAnimations().forEach((animation) => animation.cancel());
     activeClock.textContent = seconds;
-    if (!reducedMotion.matches) activeClock.animate([
-      { offset: 0, transform: "translateY(2px) scale(.88)", easing: "cubic-bezier(.16, 1, .3, 1)" },
-      { offset: 0.22, transform: "translateY(-5px) scale(1.55)", easing: "cubic-bezier(.45, 0, .75, 1)" },
-      { offset: 0.48, transform: "translateY(1.5px) scale(.92)", easing: "cubic-bezier(.16, 1, .3, 1)" },
-      { offset: 0.7, transform: "translateY(-2px) scale(1.22)", easing: "ease-in-out" },
-      { offset: 1, transform: "translateY(0) scale(1)" }
-    ], { duration: 700 });
+    if (!reducedMotion.matches) {
+      const gentle = secondsLeft > 20;
+      activeClock.animate([
+        { offset: 0, transform: gentle ? "translateY(.5px) scale(.98)" : "translateY(2px) scale(.88)", easing: "cubic-bezier(.16, 1, .3, 1)" },
+        { offset: 0.22, transform: gentle ? "translateY(-1px) scale(1.08)" : "translateY(-5px) scale(1.55)", easing: "cubic-bezier(.45, 0, .75, 1)" },
+        { offset: 0.48, transform: gentle ? "translateY(.3px) scale(.99)" : "translateY(1.5px) scale(.92)", easing: "cubic-bezier(.16, 1, .3, 1)" },
+        { offset: 0.7, transform: gentle ? "translateY(-.4px) scale(1.03)" : "translateY(-2px) scale(1.22)", easing: "ease-in-out" },
+        { offset: 1, transform: "translateY(0) scale(1)" }
+      ], { duration: 700 });
+    }
   }
   const percent = Math.min(100, remaining / (secondsPerTurn * 1e3) * 100);
   progress.style.setProperty("--match-art-progress", percent.toFixed(2));
@@ -3890,11 +9970,12 @@ function updateTurnClock(now, deadline, secondsPerTurn, ownTurn, watching) {
 function resetTurnGauge(clock, progress, text) {
   clock.getAnimations().forEach((animation) => animation.cancel());
   clock.textContent = text;
+  clock.removeAttribute("data-urgent");
   progress.style.removeProperty("--match-art-progress");
   progress.removeAttribute("data-empty");
 }
 function ownNickname() {
-  return nicknameOverride || playerNickname || t2("guestNickname");
+  return displayNickname(nicknameOverride || playerNickname || t2("guestNickname"));
 }
 function renderPlayers(game, showPanels, watching = false) {
   cancelAnimationFrame(turnFrame);
@@ -3959,6 +10040,10 @@ function feedback(id, message = "", error = false) {
   node.textContent = message ? t2(message) : "";
 }
 function loadRecords(key = recordsScope) {
+  if (key === recordsScope && recordHistory) return recordHistory.list();
+  return legacyRecords(key);
+}
+function legacyRecords(key) {
   try {
     const saved = JSON.parse(localStorage.getItem(key));
     return Array.isArray(saved) ? saved : [];
@@ -3966,55 +10051,57 @@ function loadRecords(key = recordsScope) {
     return [];
   }
 }
-function saveRecord(game) {
-  const id = game.id + ":" + game.round;
-  const existing = new Map([...records, ...loadRecords()].map((record) => [record.id, record]));
-  const {
-    number,
-    round,
-    moves,
-    winner,
-    line,
-    you,
-    finishedAt,
-    endReason,
-    players,
-    bot,
-    mode,
-    rule,
-    black,
-    moveColors,
-    passes,
-    moveSeats,
-    placementStyles: placementStyles2,
-    formations
-  } = game;
-  existing.set(id, {
-    id,
-    number,
-    round,
-    moves,
-    winner,
-    line,
-    you,
-    finishedAt,
-    endReason,
-    players,
-    bot,
-    mode,
-    rule,
-    black,
-    moveColors,
-    passes,
-    moveSeats,
-    placementStyles: placementStyles2,
-    formations
+function bindRecordHistory(player, cloud) {
+  if (recordHistory?.player === player) return;
+  recordHistory?.dispose();
+  recordHistory = createRecordHistory(window.NcqSave, {
+    player,
+    cloud,
+    legacy: legacyRecords(recordsScope),
+    changed: () => {
+      records = loadRecords();
+      if (lobbyView === "records") renderRecords();
+    }
   });
-  records = [...existing.values()].sort((a, b) => b.finishedAt - a.finishedAt).slice(0, 50);
+  records = loadRecords();
+  const history2 = recordHistory;
+  void history2?.ready().then(() => cloud && importLegacyRecords(history2));
+}
+async function importLegacyRecords(history2) {
+  const imported = await remoteRequest((client) => client.gameRequest("/legacy-records", void 0, -1));
+  if (recordHistory !== history2 || !Array.isArray(imported)) return;
+  for (const game of imported) {
+    if (history2.add(game)) acknowledgeRecord(game);
+  }
+  records = loadRecords();
+  if (lobbyView === "records") renderRecords();
+}
+function saveRecord(game, refresh = true) {
+  const snapshot = recordSnapshot(game, Boolean(backend));
+  if (!snapshot) return false;
+  if (recordHistory) {
+    const saved = recordHistory.add(snapshot);
+    if (refresh) records = loadRecords();
+    return saved;
+  }
+  const existing = new Map([...records, ...loadRecords()].map((record) => [record.id, record]));
+  existing.set(snapshot.id, snapshot);
+  records = [...existing.values()].sort((a, b) => new Date(b.finishedAt) - new Date(a.finishedAt));
   try {
     localStorage.setItem(recordsScope, JSON.stringify(records));
+    return true;
   } catch {
   }
+  return false;
+}
+function acknowledgeRecord(game) {
+  if (!backend || !game.recordDetail || !authSession?.player) return;
+  const key = authSession.player + ":" + game.code + ":" + game.round;
+  if (recordReceipts.has(key)) return;
+  recordReceipts.add(key);
+  void remoteRequest((client) => client.gameRequest("/record-receipts/" + game.code + "/" + game.round, {})).then((result) => {
+    if (result.error) recordReceipts.delete(key);
+  }).catch(() => recordReceipts.delete(key));
 }
 function describeOutcome(game) {
   return !game.winner ? "draw" : game.winner === game.you ? "won" : "lost";
@@ -4038,7 +10125,7 @@ function recordResult(game, { personal = false } = {}) {
 }
 function recordPlayer(game, seat) {
   const profile = game.players?.find((player) => player.seat === seat);
-  const savedName = profile?.nickname || (profile?.guestCode ? t2("recordGuest", { code: profile.guestCode }) : "");
+  const savedName = displayNickname(profile?.nickname || (profile?.guestCode ? t2("recordGuest", { code: profile.guestCode }) : ""));
   return { ...profile, savedName, name: savedName || t2(seat === game.you ? "you" : "opponent") };
 }
 function recordPhoto(profile) {
@@ -4089,10 +10176,11 @@ var publicPlayUrl = "https://ncroquis.github.io/matjjangjangi/play/";
 var reviewPlay = el("review-play");
 var reviewRoomAction = el("review-room-action");
 var reviewShare = el("review-share");
+var reviewExit = el("review-exit");
 reviewPlay.href = window.NcqShare?.playUrl?.() || publicPlayUrl;
 function recordVisibilityPath(game) {
   const code = game.code ?? game.id?.split(":")[0];
-  if (!backend || game.device || !recordTokenPattern.test(code) || !Number.isInteger(game.round)) return null;
+  if (!backend || game.device || game.summaryOnly || !recordTokenPattern.test(code) || !Number.isInteger(game.round)) return null;
   return "/records/" + code + "/" + game.round + "/visibility";
 }
 function recordShareUrl(shareId2) {
@@ -4134,7 +10222,7 @@ async function openRecordDialog(game, dialog) {
   dialog.showModal();
   render();
   if (path) {
-    const result = await remoteRequest((client) => client.gameRequest(path, manageVisibility ? void 0 : { public: true }));
+    const result = await remoteRequest((client) => client.gameRequest(path, manageVisibility ? void 0 : { public: true, record: game.recordDetail }));
     const success = !result.error && (manageVisibility || Boolean(result.shareId));
     const active = recordDialogTarget === target && dialog.open;
     if (success && (active || !manageVisibility)) updateRecordShareId(target, result.shareId);
@@ -4172,7 +10260,10 @@ async function toggleRecordVisibility() {
   target.updating = true;
   feedback(target.feedbackId, "recordShareSaving");
   renderRecordDialog();
-  const result = await remoteRequest((client) => client.gameRequest(target.path, { public: !target.shareId }));
+  const result = await remoteRequest((client) => client.gameRequest(
+    target.path,
+    { public: !target.shareId, ...!target.shareId ? { record: target.game.recordDetail } : {} }
+  ));
   target.updating = false;
   if (!result.error) updateRecordShareId(target, result.shareId);
   if (recordDialogTarget !== target || !target.dialog.open) return;
@@ -4564,6 +10655,10 @@ async function openMatchIntro(game) {
   matchIntro = intro;
   renderMatchIntro();
   matchIntroDialog.showModal();
+  intro.cancelHaptic = haptics.once("match:" + roundHapticKey(game), "heavy", {
+    delay: reducedMotion.matches ? 0 : 300,
+    valid: () => matchIntro === intro && matchIntroDialog.open
+  });
   intro.timer = setTimeout(() => {
     if (matchIntro === intro && matchIntroDialog.open) matchIntroDialog.close();
   }, 5e3);
@@ -4778,7 +10873,7 @@ function renderRecords() {
   const saved = recordFavorites();
   const tournamentOnly = recordsReturnView === "tournament";
   el("records-heading").textContent = t2(tournamentOnly ? "tournamentRecords" : "recordList");
-  const visible = records.filter((game) => recordFilter === "all" || (recordFilter === "favorites" ? saved.has(game.id) : describeOutcome(game) === "won"));
+  const visible = records.filter((game) => (!tournamentOnly || game.mode === "tournament") && (recordFilter === "all" || (recordFilter === "favorites" ? saved.has(game.id) : describeOutcome(game) === "won")));
   for (const button of el("record-filters").querySelectorAll("button")) {
     button.setAttribute("aria-pressed", String(button.dataset.filter === recordFilter));
   }
@@ -4855,7 +10950,7 @@ function renderResult(game) {
   deltaText.dataset.direction = el("result-promotion-meter").dataset.direction = direction;
   renderPromotionMeter("result-promotion-meter", "result-promotion", after, { previousRating: before });
 }
-async function playRankPromotion({ code, round }) {
+async function playRankPromotion({ code, round }, notify = false) {
   if (!resultDialog.hasAttribute("data-promoted")) return;
   const ripple = el("result-promotion-ripple").getAnimations().find((animation) => animation.animationName === "promotion-threshold-ripple");
   await ripple?.finished.catch(() => {
@@ -4865,6 +10960,14 @@ async function playRankPromotion({ code, round }) {
   resultDialog.setAttribute("data-promotion-revealed", "");
   renderResult(room);
   rankCelebration.showModal();
+  if (notify) {
+    const plaque = rankCelebration.querySelector(".rank-celebration-plaque");
+    const delay = plaque.getAnimations().find((animation) => animation.animationName === "rank-plaque-in")?.effect.getTiming().delay ?? 0;
+    cancelPromotionHaptic = haptics.once(`result:${code}:${round}`, "promotion", {
+      delay,
+      valid: () => rankCelebration.open && room?.code === code && room.round === round
+    });
+  }
   clearTimeout(promotionCloseTimer);
   promotionCloseTimer = setTimeout(() => rankCelebration.close(), 5e3);
 }
@@ -4883,9 +10986,11 @@ function render() {
   const reviewing = finished && !awaitingReview;
   const sharedReview = Boolean(reviewing && game.sharedView);
   const liveLayout = playing || awaitingReview || Boolean(spectator);
-  nicknameInput.placeholder = playerNickname || t2("guestNickname");
+  nicknameInput.placeholder = displayNickname(playerNickname || t2("guestNickname"));
   el("language").value = NcqLang.lang;
   if (optionsDialog.open) {
+    el("vibration-option").hidden = !window.NcqDevice?.canVibrate();
+    el("vibration").checked = window.NcqDevice?.vibration() ?? true;
     const player = backend && authSession?.player || "";
     el("options-player").hidden = !player;
     const input = el("options-player-id");
@@ -4901,6 +11006,9 @@ function render() {
   document.body.classList.toggle("match-art-backdrop", liveLayout);
   document.body.classList.toggle("spectating", Boolean(spectator));
   document.body.classList.toggle("in-review", reviewing);
+  const postMatchReview = reviewing && Boolean(room);
+  const tournamentReview = postMatchReview && game.mode === "tournament";
+  document.body.classList.toggle("post-match-review", postMatchReview);
   document.body.classList.toggle("shared-review", sharedReview);
   document.body.classList.toggle("in-records", !game && lobbyView === "records");
   el("match").toggleAttribute("data-playing", liveLayout);
@@ -4914,8 +11022,12 @@ function render() {
   el("watch-back").toggleAttribute("data-ncq-main", Boolean(spectator));
   el("review-header").hidden = !reviewing;
   el("review-opponent-profile").hidden = !reviewing;
-  const reviewActionsVisible = reviewing && !profileDialog.open && !recordShareDialog.open;
+  const reviewActionsVisible = reviewing && !profileDialog.open && !recordShareDialog.open && !tournamentCatchUpDialog.open && !coinShortageDialog.open && !matchmaking;
+  reviewExit.hidden = !postMatchReview;
+  reviewExit.disabled = busy || nextMatchPending;
+  reviewExit.toggleAttribute("data-ncq-main", postMatchReview && reviewActionsVisible);
   reviewShare.hidden = !reviewing || !sharedReview && !recordVisibilityPath(game);
+  reviewShare.disabled = postMatchReview && (busy || nextMatchPending);
   reviewShare.toggleAttribute("data-ncq-main", reviewActionsVisible && !reviewShare.hidden);
   reviewPlay.hidden = !sharedReview;
   reviewPlay.toggleAttribute("data-ncq-main", reviewActionsVisible && sharedReview);
@@ -4932,7 +11044,7 @@ function render() {
     button.disabled = busy;
   }
   const mainAction = !game && !matchmaking && !shop.open && !missionDialog.open && !optionsDialog.open && !forest.watchDialog.open && !ruleDialog?.open && !profileDialog.open && !recordDialogTarget?.dialog.open && !tournamentCatchUpDialog.open && !coinShortageDialog.open && !coinRewardDialog.open;
-  el("start").disabled = busy || Boolean(matchmaking);
+  el("start").disabled = busy || nextMatchPending || Boolean(matchmaking);
   el("show-records").disabled = busy || Boolean(matchmaking);
   renderRulePicker(mainAction);
   el("player-card").disabled = busy;
@@ -4944,16 +11056,26 @@ function render() {
   el("play-footer").hidden = !inLobby && !inRankings;
   el("lobby-entry").hidden = !inLobby;
   const joinTournament = el("join-tournament");
-  const showTournamentEntry = inRankings && Boolean(backend) && rankingTab === "weekly";
-  const tournamentStatus = rankingResults.weekly?.result;
+  const tournamentEntry = el("tournament-entry");
+  const joinParent = tournamentReview ? reviewShare.parentElement : tournamentEntry;
+  if (joinTournament.parentElement !== joinParent) {
+    if (tournamentReview) joinParent.insertBefore(joinTournament, reviewShare);
+    else joinParent.prepend(joinTournament);
+  }
+  const showRankingEntry = inRankings && Boolean(backend) && rankingTab === "weekly";
+  const showTournamentEntry = showRankingEntry || tournamentReview;
+  const tournamentState = rankingResults.weekly;
+  const tournamentStatus = tournamentState?.result;
   const attempts = tournamentStatus?.remaining;
   const catchUp = attempts === 0 && tournamentStatus.catchUpRemaining > 0;
+  const attemptsExhausted = !tournamentState?.loading && !tournamentStatus?.error && attempts === 0 && tournamentStatus.catchUpRemaining === 0;
   const enoughCoins = catchUp && tournamentCoinBalance(tournamentStatus) >= tournamentStatus.catchUpCost;
   const attemptsLabel = el("tournament-attempts");
-  el("tournament-entry").hidden = !showTournamentEntry;
+  tournamentEntry.hidden = !showRankingEntry;
+  joinTournament.hidden = !showTournamentEntry;
   attemptsLabel.hidden = attempts !== 0;
   attemptsLabel.textContent = catchUp ? t2(enoughCoins ? "tournamentCatchUp" : "tournamentCatchUpFunds", { n: NcqLang.num(tournamentStatus.catchUpRemaining) }) : t2("tournamentLimit");
-  el("join-tournament-label").textContent = catchUp ? t2("joinTournamentCatchUp") : Number.isInteger(attempts) ? t2("joinTournamentAttempts", { remaining: attempts, limit: tournamentStatus.dailyLimit }) : t2("joinTournament");
+  el("join-tournament-label").textContent = attemptsExhausted ? t2("joinTournamentExhausted") : catchUp ? t2("joinTournamentCatchUp") : Number.isInteger(attempts) ? t2("joinTournamentAttempts", { remaining: attempts, limit: tournamentStatus.dailyLimit }) : t2("joinTournament");
   el("join-tournament-cost").hidden = !catchUp;
   joinTournament.toggleAttribute("data-catch-up", catchUp);
   if (catchUp) {
@@ -4973,9 +11095,9 @@ function render() {
     el("confirm-tournament-catch-up").setAttribute("aria-label", t2("joinTournamentCatchUpCost", { n }));
   }
   el("tournament-records").disabled = busy || Boolean(matchmaking);
-  joinTournament.disabled = busy || Boolean(matchmaking) || !(attempts > 0 || catchUp);
+  joinTournament.disabled = busy || nextMatchPending || Boolean(matchmaking) || tournamentState?.loading === true || Boolean(tournamentStatus?.error) || !(attempts > 0 || catchUp);
   const joinVisible = showTournamentEntry && !joinTournament.disabled;
-  joinTournament.toggleAttribute("data-ncq-main", mainAction && joinVisible);
+  joinTournament.toggleAttribute("data-ncq-main", joinVisible && (mainAction || tournamentReview && reviewActionsVisible));
   el("show-lobby").toggleAttribute("data-ncq-main", mainAction && inRankings && !joinVisible);
   el("records-back").toggleAttribute("data-ncq-main", mainAction && lobbyView === "records");
   if (inLobby) renderLobby();
@@ -4985,9 +11107,8 @@ function render() {
   if (inLobby || inRankings) renderPlayerCard();
   forest.render(game, lobbyView);
   if (matchmaking) {
-    const { canceled, mode: mode2, rule } = matchmaking;
+    const { canceled, mode: mode2 } = matchmaking;
     el("queue-status").textContent = t2(canceled ? "canceling" : mode2 === "tournament" ? "tournamentWaiting" : "findingOpponent");
-    el("queue-rule").textContent = t2(ruleNames[rule]);
     el("cancel-match").disabled = canceled;
   }
   for (const node of [el("lobby-error"), el("match-error")]) {
@@ -5047,11 +11168,12 @@ function render() {
   renderPlayers(game, liveLayout);
   el("review").hidden = !reviewing;
   const canRematch = Boolean(room) && !game.bot && game.mode !== "tournament" && game.canRematch !== false && game.endReason !== "resign" && game.endReason !== "disconnect";
-  reviewRoomAction.hidden = !reviewing;
-  reviewRoomAction.toggleAttribute("data-ncq-main", reviewActionsVisible);
-  reviewRoomAction.dataset.action = canRematch ? "rematch" : "leave";
-  reviewRoomAction.disabled = busy || canRematch && (!connected || game.requested);
-  reviewRoomAction.textContent = t2(!canRematch ? "leave" : game.requested ? "rematchWaiting" : game.rematch ? "rematchReady" : "rematch");
+  const canMatchNext = Boolean(room) && game.mode !== "tournament" && !canRematch;
+  reviewRoomAction.hidden = !reviewing || tournamentReview;
+  reviewRoomAction.toggleAttribute("data-ncq-main", reviewActionsVisible && !tournamentReview);
+  reviewRoomAction.dataset.action = canRematch ? "rematch" : canMatchNext ? "next" : "leave";
+  reviewRoomAction.disabled = busy || nextMatchPending || canRematch && (!connected || game.requested);
+  el("review-room-action-label").textContent = t2(canMatchNext ? "nextMatch" : !canRematch ? "leave" : game.requested ? "rematchWaiting" : game.rematch ? "rematchReady" : "rematch");
   if (finished) renderResult(game);
   if (reviewing) {
     renderReview(game);
@@ -5102,7 +11224,13 @@ el("placement-duration").addEventListener("change", () => {
 });
 function drawGamePosition(game, ply, reviewing = false) {
   const latest = ply === game.moves.length;
-  const displayedBoard = latest && game.board ? game.board : replayBoard(game, ply);
+  let displayedBoard = latest && game.board ? game.board : replayBoard(game, ply);
+  const optimistic = game === room && pendingPlacement?.code === game.code && pendingPlacement.round === game.round ? pendingPlacement : null;
+  if (optimistic) {
+    displayedBoard = [...displayedBoard];
+    displayedBoard[optimistic.from] = 0;
+    displayedBoard[optimistic.index] = optimistic.piece;
+  }
   const moveNumbers = reviewing && showMoveNumbers ? Array(90).fill(0) : null;
   if (moveNumbers) for (let n = 0; n < ply; n++) {
     const move = game.moves[n];
@@ -5112,7 +11240,7 @@ function drawGamePosition(game, ply, reviewing = false) {
     }
   }
   game.displayPly = ply;
-  drawJangiBoard({ game, displayedBoard, cells, selectedFrom, selected, lastMoveMarker, board, selectable: canAct() && !game.setup, coordinate, t: t2, latest, moveNumbers });
+  drawJangiBoard({ game, displayedBoard, cells, selectedFrom, selected, lastMoveMarker, board, selectable: canAct() && !game.setup, coordinate, t: t2, latest, moveNumbers, pendingMove: optimistic });
   if (!reviewing && game.phase === "playing" && !game.setup && game.board) {
     const hint = inCheck(game.board, game.turn) ? "jangiCheck" : game.bikjang ? "jangiBikjang" : null;
     if (hint) el("status").textContent = t2(hint);
@@ -5152,8 +11280,8 @@ function renderSpectator({ game, closed, reconnecting, ply }) {
   board.removeAttribute("inert");
   drawGamePosition(game, current2);
 }
-var version = window.NCQ?.NCQ_VERSION;
-el("app-version").textContent = version ? "v" + version : "dev";
+var version2 = window.NCQ?.NCQ_VERSION;
+el("app-version").textContent = version2 ? "v" + version2 : "dev";
 function loadMatchAds() {
   try {
     const saved = JSON.parse(localStorage.getItem(matchAdsKey));
@@ -5193,6 +11321,7 @@ async function showReturnAd(roundKey = null) {
     if (!progress) return;
     if (roundKey) saveMatchAds({ ...progress, lastAttemptedRound: roundKey });
     stopPlacementSound();
+    haptics.stop();
     if (await NcqAds.interstitial("MATCH_END")) saveMatchAds({ ...loadMatchAds(), lastShownAt: Date.now() });
   };
   shell.inert = true;
@@ -5210,11 +11339,27 @@ async function showReturnAd(roundKey = null) {
   }
 }
 function applyState(next) {
-  if (room?.code === next.code && next.version <= room.version) {
-    if (next.version === room.version && next.players) room = { ...room, players: next.players };
+  if (next.summaryOnly) next = mergeFinishedRoom(room, next, loadRecords());
+  if (room?.code === next.code && next.version <= room.version && !(room.summaryOnly && !next.summaryOnly)) {
+    if (next.version === room.version) {
+      room = {
+        ...room,
+        ...next.players ? { players: next.players } : {},
+        serverNow: next.serverNow,
+        turnEndsAt: next.turnEndsAt,
+        turnSeconds: next.turnSeconds
+      };
+      turnDeadline = clockDeadline(next);
+    }
+    const receipt = authSession?.player + ":" + next.code + ":" + next.round;
+    if (next.phase === "finished" && !recordReceipts.has(receipt) && saveRecord(next)) acknowledgeRecord(next);
     return;
   }
   const sameRound = room?.code === next.code && room.round === next.round;
+  const previewConfirmed = confirmsPlacement(pendingPlacement, next);
+  if (pendingPlacement && pendingPlacement.code === next.code) pendingPlacement = null;
+  const movingSeat = sameRound ? room.turn : void 0;
+  const freshResult = sameRound && room.phase === "playing" && next.phase === "finished";
   const showResult = next.phase === "finished" && (!sameRound || room.phase !== "finished");
   const newMoveCount = sameRound && room.phase === "playing" ? next.moves.length - room.moves.length : 0;
   room = next;
@@ -5225,6 +11370,7 @@ function applyState(next) {
   if (showResult) {
     awaitingResultDismissal = true;
     reviewPly = room.moves.length;
+    if (room.mode === "tournament") void loadRankings("weekly", 1, void 0, false, -1);
   }
   if (room.phase !== "finished") {
     awaitingResultDismissal = false;
@@ -5247,9 +11393,12 @@ function applyState(next) {
     if (room.moves.length) recordCompletedRound(roundKey);
     void recordMissionRound(room);
   }
-  if (room.phase === "finished" && !backend) saveRecord(room);
+  if (room.phase === "finished" && saveRecord(room)) acknowledgeRecord(room);
   render();
-  const placement = newMoveCount === 1 ? presentRoundPlacement(next, next.moves.length - 1) : void 0;
+  const placement = newMoveCount === 1 && !previewConfirmed ? presentRoundPlacement(next, next.moves.length - 1, movingSeat) : void 0;
+  if (sameRound && movingSeat !== next.you && next.turn === next.you && next.phase === "playing" && (newMoveCount === 0 || next.moves.at(-1) == null)) {
+    haptics.once(`turn:${roundHapticKey(next)}:${next.moves.length}:${next.turn}`, "light");
+  }
   if (showResult) {
     const openResult = () => {
       if (room?.code !== next.code || room.round !== next.round || room.phase !== "finished" || resultDialog.open) return;
@@ -5257,7 +11406,10 @@ function applyState(next) {
       resultDialog.removeAttribute("data-promotion-revealed");
       resultDialog.showModal();
       render();
-      void playRankPromotion(next);
+      if (freshResult && !resultDialog.hasAttribute("data-promoted")) {
+        haptics.once("result:" + roundHapticKey(next), describeOutcome(next) === "won" ? "success" : "light");
+      }
+      void playRankPromotion(next, freshResult);
       refreshPlayerCard(-1);
     };
     if (newMoveCount > 0) {
@@ -5267,7 +11419,7 @@ function applyState(next) {
     }
   }
 }
-async function exitRoom(message = "", { showAd = false } = {}) {
+async function exitRoom(message = "", { showAd = false, openRankings = true } = {}) {
   const tournamentMatch = room?.mode === "tournament";
   const adRound = showAd && room?.phase === "finished" ? pendingMatchAdRound : null;
   stream?.close();
@@ -5283,6 +11435,7 @@ async function exitRoom(message = "", { showAd = false } = {}) {
   recordShareDialog.close();
   matchIntroDialog.close();
   room = null;
+  pendingPlacement = null;
   turnDeadline = null;
   cancelAnimationFrame(turnFrame);
   selected = null;
@@ -5298,8 +11451,8 @@ async function exitRoom(message = "", { showAd = false } = {}) {
   refreshPlayerCard();
   void refreshWallet();
   if (adRound) await showReturnAd(adRound);
-  if (tournamentMatch) showRankings();
-  el(tournamentMatch ? "tournament-title" : "start").focus();
+  if (tournamentMatch && openRankings) showRankings();
+  el(tournamentMatch && openRankings ? "tournament-title" : "start").focus();
 }
 async function send(path, data = {}) {
   try {
@@ -5325,7 +11478,10 @@ async function getAuthConfig() {
   );
   if (!response.ok) throw new Error();
   authConfig = await response.json();
-  if (window.NCQ?.NCQ_PLATFORM === "toss") authConfig = { ...authConfig, platform: "toss" };
+  const platform = window.NCQ?.NCQ_PLATFORM;
+  if (platform === "android" || platform === "toss") {
+    authConfig = { ...authConfig, platform: platform === "android" ? "googleplay" : "toss" };
+  }
   return authConfig;
 }
 async function openPlayerSession(force) {
@@ -5350,8 +11506,10 @@ async function openPlayerSession(force) {
   }
   if (backend) {
     const { player } = await window.NcqAuth.ready();
+    await window.NcqAuth.getToken({ role: "authenticated", expectedPlayer: player });
     authSession = { player, expiresAt: Infinity };
     recordsScope = recordsKey + ":" + player;
+    bindRecordHistory(player, true);
     return;
   }
   const { ticket } = await window.NcqAuth.request("/api/auth/session", "POST", {});
@@ -5363,6 +11521,7 @@ async function openPlayerSession(force) {
     recordsScope = scope;
     records = loadRecords();
   }
+  bindRecordHistory(session.player, false);
   await refreshAuthProfile();
 }
 async function ensureIdentity(force = false) {
@@ -5429,7 +11588,47 @@ async function fetchSpectator(code, viewer) {
 }
 function scheduleSpectator(session) {
   if (session.closed || session.game.phase === "finished") return;
+  if (backend) {
+    session.connection = backend.subscribeRoom(session.game.code, {
+      mode: "watch",
+      initialState: session.game,
+      load: () => fetchSpectator(session.game.code),
+      presence: session.viewer ? () => {
+        const request = backend.gameRequest(`/spectate/${session.game.code}/presence`, { viewer: session.viewer });
+        session.pendingPresence = request;
+        return request.finally(() => {
+          if (session.pendingPresence === request) session.pendingPresence = null;
+        });
+      } : false,
+      onState: (next) => updateSpectator(session, next),
+      onStatus: (status) => {
+        if (spectator !== session) return;
+        session.reconnecting = status !== "connected";
+        render();
+      },
+      onError: (error) => {
+        if (spectator !== session) return;
+        session.closed = (error.error ?? error.code) === "notFound";
+        session.reconnecting = !session.closed;
+        if (session.closed) session.connection?.close();
+        render();
+      }
+    });
+    return;
+  }
   session.timer = setTimeout(() => pollSpectator(session), 1e3);
+}
+function updateSpectator(session, next) {
+  if (spectator !== session || next.error) return;
+  const previous = session.game;
+  session.game = next;
+  session.deadline = clockDeadline(next);
+  if (previous.round !== next.round) session.ply = null;
+  session.reconnecting = false;
+  render();
+  if (session.ply === null && previous.round === next.round && next.moves.length === previous.moves.length + 1) {
+    presentRoundPlacement(next, next.moves.length - 1);
+  }
 }
 async function pollSpectator(session) {
   if (!document.hidden) {
@@ -5467,6 +11666,13 @@ async function openSpectator(code) {
   if (room || archive || spectator || matchmaking || busy) return;
   const viewer = crypto.randomUUID?.();
   await run(async () => {
+    if (backend) {
+      try {
+        await ensureIdentity();
+      } catch {
+        return { error: "authFailed" };
+      }
+    }
     const game = await fetchSpectator(code, viewer);
     if (game.error !== "notFound") return game;
     refreshLobby();
@@ -5491,7 +11697,11 @@ async function openSpectator(code) {
   (spectator ? el("status") : el("lobby-heading")).focus();
 }
 async function releaseSpectator(session) {
-  await session.pendingPresence;
+  session.connection?.close();
+  try {
+    await session.pendingPresence;
+  } catch {
+  }
   try {
     await fetch(spectatorUrl(session.game.code, session.viewer), {
       method: "POST",
@@ -5518,28 +11728,26 @@ function openRoom(next) {
 }
 function connectRoom(code) {
   if (backend) {
-    let timer;
-    const polling = { close: () => clearTimeout(timer) };
-    stream = polling;
-    async function refresh() {
-      if (stream !== polling) return;
-      const next = await remoteRequest((client) => client.state(code));
-      if (stream !== polling) return;
+    let subscription;
+    async function failed(error) {
+      if (stream !== subscription) return;
+      const next = { error: error.error ?? error.code ?? "network" };
       if (["notFound", "forbidden", "authFailed", "tournamentClosed"].includes(next.error)) {
         if (next.error === "notFound") {
           if (room?.phase === "playing") {
-            const history2 = await remoteRequest((client) => client.gameRequest("/records", void 0, -1));
-            if (stream !== polling) return;
+            const result = await remoteRequest((client) => client.gameRequest("/results/" + code + "/" + room.round, void 0, -1));
+            if (stream !== subscription) return;
             if (room.phase === "playing") {
-              const result = Array.isArray(history2) && history2.find((record) => record.id === code + ":" + room.round);
-              if (result) {
+              if (!result.error && result.state) {
+                subscription.close();
                 connected = false;
-                applyState({ ...result, code, phase: "finished", version: room.version + 1, canRematch: false });
+                applyState(restoreResult(room, result, loadRecords()));
                 return;
               }
             }
           }
           if (room?.phase === "finished") {
+            subscription.close();
             connected = false;
             room.canRematch = false;
             render();
@@ -5549,14 +11757,27 @@ function connectRoom(code) {
         exitRoom(["authFailed", "tournamentClosed"].includes(next.error) ? next.error : "closed");
         return;
       }
-      connected = !next.error;
-      if (connected) applyState(next);
+      connected = false;
       render();
-      const botWait = next.botMoveAt - next.serverNow;
-      const activeDelay = botWait > 0 ? Math.min(900, Math.max(25, botWait)) : 900;
-      timer = setTimeout(refresh, room?.phase === "finished" || document.hidden ? 2500 : activeDelay);
     }
-    refresh();
+    subscription = backend.subscribeRoom(code, {
+      initialState: room,
+      onState: (next) => {
+        if (stream !== subscription) return;
+        connected = true;
+        applyState(next);
+        render();
+      },
+      onStatus: (status) => {
+        if (stream !== subscription) return;
+        connected = status === "connected";
+        render();
+      },
+      onError: (error) => {
+        void failed(error);
+      }
+    });
+    stream = subscription;
     return;
   }
   const events = new EventSource("./api/rooms/" + code + "/events");
@@ -5594,10 +11815,27 @@ function roomAction(action, details, success = applyState) {
   if (!room) return;
   const { code, round } = room;
   const input = { round, ...details };
-  run(async () => {
-    const next = await post("/rooms/" + code + "/" + action, input, (client) => client[action](code, input));
-    if (action === "leave" && next.error === "notFound") return {};
-    return next;
+  return run(async () => {
+    const connection = stream;
+    connection?.beginWrite?.();
+    let next;
+    try {
+      next = await post("/rooms/" + code + "/" + action, input, (client) => client[action](code, input));
+      if (action === "leave" && next.error === "notFound") return {};
+      return next;
+    } finally {
+      if ((!next || next.error) && pendingPlacement) {
+        const preview = pendingPlacement;
+        pendingPlacement = null;
+        cancelPlacement();
+        if (room?.code === preview.code && room.round === preview.round && room.version === preview.version) {
+          selected = preview.index;
+          selectedFrom = preview.from;
+        }
+      }
+      connection?.endWrite?.(next);
+      if (!next || next.error) void connection?.sync?.();
+    }
   }, (next) => {
     if (room?.code === code) success(next);
   });
@@ -5655,20 +11893,31 @@ function tournamentCoinBalance(status) {
 function startMatching(mode, catchUpCost) {
   if (matchmaking || busy || tournamentCatchUpDialog.open || document.querySelector(".shell").inert) return;
   if (mode === "tournament" && catchUpCost === void 0) {
-    const status = rankingResults.weekly?.result;
-    if (!Number.isInteger(status?.remaining)) return;
+    const state = rankingResults.weekly;
+    const status = state?.result;
+    if (state?.loading || status?.error || !Number.isInteger(status?.remaining)) return;
     if (status.remaining === 0) {
       if (!(status.catchUpRemaining > 0)) return;
       if (tournamentCoinBalance(status) < status.catchUpCost) {
         showCoinShortage();
         return;
       }
-      tournamentCatchUpQuote = { cost: status.catchUpCost, missed: status.catchUpRemaining };
+      tournamentCatchUpQuote = {
+        cost: status.catchUpCost,
+        missed: status.catchUpRemaining,
+        room: room ? { code: room.code, round: room.round } : null
+      };
       tournamentCatchUpDialog.returnValue = "";
       tournamentCatchUpDialog.showModal();
       render();
       return;
     }
+  }
+  if (room) {
+    if (mode === "tournament" && room.mode === "tournament" && room.phase === "finished") {
+      return startNextMatch("tournament", catchUpCost);
+    }
+    return;
   }
   const job = { canceled: false, mode, catchUpCost, rule: "janggi", placement: placementRequest() };
   matchmaking = job;
@@ -5678,10 +11927,12 @@ function startMatching(mode, catchUpCost) {
   findMatch(job);
 }
 tournamentCatchUpDialog.addEventListener("close", () => {
-  const quote = tournamentCatchUpQuote;
+  const quote2 = tournamentCatchUpQuote;
   tournamentCatchUpQuote = void 0;
-  if (tournamentCatchUpDialog.returnValue === "confirm" && quote && lobbyView === "tournament" && rankingTab === "weekly") {
-    startMatching("tournament", quote.cost);
+  const sameRoom = quote2?.room && room?.code === quote2.room.code && room.round === quote2.room.round && room.phase === "finished" && room.mode === "tournament";
+  const rankingsEntry = !quote2?.room && !room && lobbyView === "tournament" && rankingTab === "weekly";
+  if (tournamentCatchUpDialog.returnValue === "confirm" && quote2 && (sameRoom || rankingsEntry)) {
+    startMatching("tournament", quote2.cost);
   }
   if (!matchmaking) render();
 });
@@ -5723,17 +11974,12 @@ function openArchive(record) {
 }
 function showRecords() {
   const source = lobbyView;
-  const tournamentOnly = source === "tournament";
   run(async () => {
     if (backend) {
-      const result = await remoteRequest((client) => client.gameRequest(tournamentOnly ? "/records?mode=tournament" : "/records"));
-      if (Array.isArray(result)) {
-        const device = tournamentOnly ? [] : [...loadRecords(), ...loadRecords(recordsKey)].map((game) => [game.id, { ...game, device: true }]);
-        const remote = tournamentOnly ? result.filter((game) => game.mode === "tournament") : result;
-        const combined = new Map([...device, ...remote.map((game) => [game.id, game])]);
-        records = [...combined.values()].sort((a, b) => new Date(b.finishedAt) - new Date(a.finishedAt));
-      }
-      return Array.isArray(result) ? {} : result;
+      await ensureIdentity();
+      await recordHistory?.ready();
+      records = loadRecords();
+      return {};
     }
     try {
       await ensureIdentity();
@@ -5775,6 +12021,7 @@ var rankingTabs = [...el("ranking-tabs").querySelectorAll("button")];
 for (const button of rankingTabs) {
   const tab = button.dataset.ranking;
   button.addEventListener("click", () => {
+    if (rankingTab !== tab) haptics.tap();
     rankingTab = tab;
     render();
     if (!rankingResults[tab]) loadRankings(tab);
@@ -5814,17 +12061,17 @@ function resizeRankingPage(size2) {
   const first = (state.page - 1) * state.pageSize;
   loadRankings(rankingTab, Math.floor(first / size2) + 1, size2, true);
 }
-async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageSize ?? rankingPageTarget, reusePages = false) {
+async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageSize ?? rankingPageTarget, reusePages = false, cooldown = 3) {
   const previous = rankingResults[tab];
-  if (!backend || previous?.loading && previous.page === page && previous.pageSize === pageSize) return;
+  if (!backend || cooldown >= 0 && previous?.loading && previous.page === page && previous.pageSize === pageSize) return;
   clearTimeout(previous?.refresh);
   const source = reusePages && previous?.source || new RankingPages(
     tab,
-    (path) => remoteRequest((client) => client.gameRequest(path))
+    (path) => remoteRequest((client) => client.gameRequest(path, void 0, cooldown))
   );
   const state = { page, pageSize, source, result: previous?.result, loading: true };
   rankingResults[tab] = state;
-  const visible = () => lobbyView === "tournament" && rankingTab === tab && rankingResults[tab] === state;
+  const visible = () => rankingResults[tab] === state && (lobbyView === "tournament" && rankingTab === tab || tab === "weekly" && room?.mode === "tournament" && room.phase === "finished");
   if (visible()) render();
   state.result = await source.page(page, pageSize);
   state.loading = false;
@@ -5837,7 +12084,9 @@ async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageS
     state.refresh = setTimeout(() => {
       if (rankingResults[tab] !== state) return;
       delete rankingResults[tab];
-      if (lobbyView === "tournament" && rankingTab === tab) loadRankings(tab, state.page, state.pageSize);
+      if (lobbyView === "tournament" && rankingTab === tab || tab === "weekly" && room?.mode === "tournament" && room.phase === "finished") {
+        loadRankings(tab, state.page, state.pageSize, false, -1);
+      }
     }, Math.max(1e3, refreshAfter + 100));
   }
   if (visible()) {
@@ -5845,7 +12094,7 @@ async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageS
   }
 }
 function rankingPlayerName(row) {
-  return row.you ? ownNickname() : row.nickname || t2("playerAlias", { alias: row.alias });
+  return row.you ? ownNickname() : displayNickname(row.nickname || t2("playerAlias", { alias: row.alias }));
 }
 function rankingCard(row, tab, index2) {
   const card = el("ranking-card-template").content.firstElementChild.cloneNode(true);
@@ -5947,6 +12196,7 @@ el("records-back").addEventListener("click", showLobby);
 el("record-filters").addEventListener("click", (event) => {
   const button = event.target.closest("[data-filter]");
   if (!button) return;
+  if (recordFilter !== button.dataset.filter) haptics.tap();
   recordFilter = button.dataset.filter;
   renderRecords();
   el("record-list").parentElement.scrollTop = 0;
@@ -5954,6 +12204,7 @@ el("record-filters").addEventListener("click", (event) => {
 function leaveMatch() {
   if (spectator) {
     const session = spectator;
+    session.connection?.close();
     clearTimeout(session.timer);
     cancelAnimationFrame(turnFrame);
     spectator = null;
@@ -6013,6 +12264,31 @@ function leaveCurrentRoom() {
     void exitRoom("", { showAd: finished });
   });
 }
+async function startNextMatch(mode = "casual", catchUpCost) {
+  if (busy || nextMatchPending || !room || room.phase !== "finished" || room.mode === "tournament" !== (mode === "tournament") || document.querySelector(".shell").inert) return;
+  nextMatchPending = true;
+  render();
+  try {
+    if (connected) {
+      let left = false;
+      await roomAction("leave", {}, (next) => {
+        if (!backend && next.phase === "finished") saveRecord(next);
+        left = true;
+      });
+      if (!left) return;
+    }
+    await exitRoom("", { showAd: true, openRankings: mode !== "tournament" });
+    if (mode === "tournament") {
+      lobbyView = "tournament";
+      rankingTab = "weekly";
+      render();
+    }
+    startMatching(mode, catchUpCost);
+  } finally {
+    nextMatchPending = false;
+    render();
+  }
+}
 leaveDialog.addEventListener("close", () => {
   if (leaveDialog.open) return;
   const target = leaveDialogRoom;
@@ -6025,6 +12301,7 @@ el("leave").addEventListener("click", leaveMatch);
 el("watch-back").addEventListener("click", leaveMatch);
 el("leave-match").addEventListener("click", leaveMatch);
 el("review-back").addEventListener("click", leaveMatch);
+reviewExit.addEventListener("click", leaveMatch);
 reviewMoveNumbers.addEventListener("click", () => {
   showMoveNumbers = !showMoveNumbers;
   render();
@@ -6040,7 +12317,22 @@ for (const side of ["opponent", "own"]) {
   });
 }
 el("place").addEventListener("click", () => {
-  if (canAct() && selected !== null && selectedFrom !== null) roomAction("move", { from: selectedFrom, index: selected, version: room.version });
+  if (!canAct() || selected === null || selectedFrom === null) return;
+  const preview = previewPlacement(room, selectedFrom, selected);
+  if (!preview) return roomAction("move", { from: selectedFrom, index: selected, version: room.version });
+  pendingPlacement = preview;
+  selected = null;
+  selectedFrom = null;
+  render();
+  void presentPlacement(preview.index, room.placementStyles?.[room.you - 1], (delay) => haptics.once(
+    `move:${roundHapticKey(room)}:${preview.ply}`,
+    "medium",
+    {
+      delay,
+      valid: () => room?.code === preview.code && room.round === preview.round && !archive && !spectator
+    }
+  ));
+  roomAction("move", { from: preview.from, index: preview.index, version: preview.version });
 });
 el("opening-actions").addEventListener("click", (event) => {
   const button = event.target.closest("[data-opening]");
@@ -6054,6 +12346,7 @@ el("pass-turn").addEventListener("click", () => {
 });
 reviewRoomAction.addEventListener("click", () => {
   if (reviewRoomAction.dataset.action === "leave") leaveMatch();
+  else if (reviewRoomAction.dataset.action === "next") void startNextMatch();
   else roomAction("rematch", placementRequest());
 });
 el("review").addEventListener("click", (event) => {
@@ -6077,6 +12370,8 @@ el("review").addEventListener("click", (event) => {
 rankCelebration.addEventListener("click", () => rankCelebration.close());
 rankCelebration.addEventListener("close", () => {
   if (rankCelebration.open) return;
+  cancelPromotionHaptic?.();
+  cancelPromotionHaptic = void 0;
   clearTimeout(promotionCloseTimer);
   if (resultDialog.open) el("result-confirm").focus({ preventScroll: true });
 });
@@ -6118,9 +12413,11 @@ board.addEventListener("click", (event) => {
     selected = null;
   } else if (targetsFrom(room, selectedFrom).includes(index2)) selected = index2;
   else {
+    haptics.once(`invalid:${roundHapticKey(room)}:${room.moves.length}:${index2}`, "error");
     feedback("match-error", "invalidMove", true);
     return;
   }
+  haptics.tap();
   focusCell(index2);
   feedback("match-error");
   render();
@@ -6140,9 +12437,10 @@ try {
   if (config.enabled !== false && /^https:\/\/[a-z0-9]{20}\.supabase\.co\/functions\/v1\/(?:ncq-board\/)?matjjangjangi$/.test(config.apiUrl)) {
     backend = NcqBoard.create({
       apiUrl: config.apiUrl,
-      async getToken({ forceRefresh }) {
+      region: config.region,
+      async getToken(options) {
         await ensureIdentity();
-        return window.NcqAuth.getToken({ forceRefresh, expectedPlayer: authSession.player });
+        return window.NcqAuth.getToken({ ...options, expectedPlayer: authSession.player });
       }
     });
     boardApiUrl = config.apiUrl;
@@ -6202,6 +12500,7 @@ if (shareId !== null) {
 window.addEventListener("hashchange", () => {
   if (sharedRecordToken() !== null || archive?.sharedView) location.reload();
 });
+if (!backend) bindRecordHistory("device", false);
 render();
 scheduleMissionReset();
 if (lobbyView === "tournament" && !rankingResults[rankingTab]) loadRankings(rankingTab);

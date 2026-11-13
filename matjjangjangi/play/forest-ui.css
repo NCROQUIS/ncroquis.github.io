@@ -1,5 +1,6 @@
 /* Forest, ivory and gold: supplied artwork with live, localized text. */
 body.forest-ui {
+  --popup-max-width: 560px;
   --forest: #103e20;
   --ivory: #f8f0df;
   --gold: #e4bc53;
@@ -110,10 +111,6 @@ body.forest-ui {
 #watch-dialog #live-games { gap: 8px; }
 #watch-dialog .live-game-entry { color: #193a23; background: linear-gradient(135deg, #fffaf0, #f0e4cd); border-radius: 12px; }
 #watch-dialog .list-count { color: #e9e3c3; }
-.forest-ui #shop.forest-shop { width: min(640px, calc(100vw - var(--ncq-left) - var(--ncq-right) - 16px)); padding: 0; background: linear-gradient(140deg, #fffaf2, #f0e4ce); color: #173d24; }
-.forest-ui #shop form { height: 100%; max-height: none; padding: 12px; }
-.forest-shop .shop-heading { position: relative; padding-inline-end: 39px; }
-.forest-shop .shop-heading > .forest-close { position: absolute; inset: 0 0 auto auto; }
 .forest-ui .shop-tab[aria-pressed="true"], .forest-ui .shop-tabs button[aria-pressed="true"] { background: linear-gradient(#3c762d, #1c5125); }
 .forest-ui .mission-dialog { width: min(510px, calc(100vw - 20px)); background: linear-gradient(135deg, #fffaf2, #f0e1c7); border: 2px solid #dcb864; border-radius: 24px; }
 .forest-ui .mission-dialog form { position: relative; padding: 15px; }
@@ -157,6 +154,7 @@ body.forest-ui {
   box-shadow: inset 0 1px #fffbea, 0 2px 4px #00210f30;
 }
 .forest-ui #place[data-placement-state="selecting"] #place-text { opacity: 1; color: #526447; }
+.forest-ui #place[data-placement-state="selecting"] .player-clock[data-urgent] { color: #b3261e; text-shadow: none; }
 .forest-ui #place[data-placement-state="ready"]:not(:disabled) {
   border-color: #e8c053;
   box-shadow: inset 0 1px #d6e8a680, 0 0 7px #e6c45a66, 0 2px 4px #00210f44;
@@ -217,6 +215,100 @@ body.forest-ui {
 .forest-ui.in-review :is(#review-room-action, #review-play):not(:disabled):hover { background: #2c612b; }
 .forest-ui.in-review #review-room-action:disabled { opacity: 1; background: #d7e1ca; color: #4b6045; border-color: #acb998; }
 .forest-ui.in-review :is(.review-button, .review-player, #review-share, #review-room-action, #review-play):focus-visible { outline-color: #e4bc53; }
+
+/* The next game is the primary action after a completed regular match. */
+.review-primary-surface, #review-room-action .review-action-stones { display: none; }
+.review-own-status { display: flex; flex-direction: column; align-items: end; gap: 2px; min-width: 0; }
+.forest-ui.in-review #review-own-status > .review-result {
+  display: flex; flex-wrap: wrap; justify-content: end; align-items: center; gap: 2px 5px;
+  min-height: 0; max-width: min(154px, 43vw); padding: 0; border: 0; background: none; box-shadow: none;
+  font-size: .63rem; line-height: 1.2;
+}
+.in-review #review-own-status .review-result > svg { display: none; }
+.in-review #review-own-status #review-mode { padding: 1px 4px; font-size: .56rem; }
+.in-review #review-own-status #review-passes { font-size: .54rem; }
+.in-review:not(.shared-review) #review .review-footer {
+  grid-area: 6 / 1 / 7 / -1; grid-template-columns: 36px minmax(0, 1fr) 36px;
+  grid-auto-flow: row; align-items: center; gap: 6px;
+}
+.in-review:not(.shared-review) #review-room-action { grid-area: 1 / 2; }
+.in-review:not(.shared-review) #review-share {
+  grid-area: 1 / 3; width: 36px; min-height: 36px; height: 36px; padding: 7px;
+}
+.in-review:not(.shared-review) #review-share > span {
+  position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+.forest-ui.in-review #review-room-action:is([data-action="next"], [data-action="rematch"]) {
+  position: relative; flex: 1; display: grid; place-items: center; isolation: isolate;
+  min-width: 0; min-height: 48px; padding: 0;
+  border: 0; border-radius: 999px; background: none; box-shadow: none;
+  color: #382605; font-size: clamp(16px, 4.8vw, 20px); font-weight: 800; line-height: 1.15;
+  text-shadow: 0 1px #fff3ad;
+}
+.forest-ui.in-review #review-room-action:is([data-action="next"], [data-action="rematch"]) .review-primary-surface {
+  position: absolute; inset: 0; display: block; pointer-events: none;
+  filter: drop-shadow(0 3px 2px #00100699);
+}
+.forest-ui.in-review #review-room-action:is([data-action="next"], [data-action="rematch"]) .review-action-content {
+  position: relative; z-index: 1; display: flex; align-items: center; justify-content: center;
+  gap: 6px; padding: 3px 12px; transform: translateY(-1px);
+}
+.forest-ui.in-review #review-room-action:is([data-action="next"], [data-action="rematch"]) .review-action-stones {
+  position: relative; inset: auto; order: -1; flex: none; display: block; width: 32px; height: 28px;
+}
+.forest-ui.in-review #review-room-action:is([data-action="next"], [data-action="rematch"]):not(:disabled):hover { background: none; filter: brightness(1.06); }
+.forest-ui.in-review #review-room-action:is([data-action="next"], [data-action="rematch"]):disabled { background: none; filter: grayscale(.6) brightness(.92); color: #695a35; }
+
+/* Completed matches keep distinct rectangular utility buttons on both sides.
+   Only the center action uses the lobby's responsive gold end caps. */
+.forest-ui.in-review.post-match-review #review .review-footer {
+  grid-template-columns: 52px minmax(0, 1fr) 52px;
+  gap: 6px;
+}
+.forest-ui.in-review #review-exit {
+  grid-area: 1 / 1;
+  border-radius: var(--review-radius);
+  border-color: #cdb990;
+  background: var(--review-surface);
+  color: var(--review-ink);
+}
+.forest-ui.in-review.post-match-review :is(#review-exit, #review-share) {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 52px; height: 48px; min-height: 48px; gap: 2px; padding: 4px 2px;
+  font-size: 11px; font-weight: 750; line-height: 1.15;
+}
+.forest-ui.in-review.post-match-review :is(#review-exit, #review-share) svg {
+  flex: none; width: 19px; height: 19px; fill: none;
+  stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.forest-ui.in-review.post-match-review #review-share > span {
+  position: static; width: auto; height: auto; margin: 0; padding: 0;
+  overflow: visible; clip-path: none; white-space: normal;
+}
+.forest-ui.in-review #review-exit:not(:disabled):hover { background: #e9dec6; }
+.forest-ui.in-review #review-exit:focus-visible { outline-color: #e4bc53; }
+.forest-ui.in-review.post-match-review #review-room-action:is([data-action="next"], [data-action="rematch"]) {
+  height: 44px; min-height: 44px; font-size: clamp(14px, 4vw, 18px);
+}
+.forest-ui.in-review.post-match-review #review-room-action .review-action-stones { display: none; }
+.forest-ui.in-review.post-match-review #join-tournament {
+  grid-area: 1 / 2; position: relative; isolation: isolate;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; min-width: 0; height: 44px; min-height: 44px; padding: 0 10px;
+  border: 0; border-radius: 999px; background: none; box-shadow: none;
+  color: #2b2104; font-size: clamp(14px, 4vw, 18px); font-weight: 700; line-height: 1.15;
+  text-shadow: 0 1px 1px #fff5b6;
+}
+.forest-ui.in-review.post-match-review #join-tournament .ranking-primary-surface {
+  position: absolute; inset: 0; display: block; pointer-events: none;
+  filter: drop-shadow(0 3px 2px #00100699);
+}
+.forest-ui.in-review.post-match-review #join-tournament > :not(.ranking-resource) { position: relative; z-index: 1; }
+.forest-ui.in-review.post-match-review #join-tournament .tournament-coin-cost { flex: none; font-size: inherit; color: inherit; }
+.forest-ui.in-review.post-match-review #join-tournament .shop-coin { width: 16px; height: 16px; }
+.forest-ui.in-review.post-match-review #join-tournament:not(:disabled):hover { filter: brightness(1.06); }
+.forest-ui.in-review.post-match-review #join-tournament:disabled { opacity: 1; filter: grayscale(.7) brightness(.92); color: #695a35; }
+.forest-ui.in-review.post-match-review #join-tournament:focus-visible { outline-color: #e4bc53; }
 @media (prefers-reduced-motion: no-preference) {
   .lobby-art-stone:nth-last-child(2) { animation: lobby-stone-drop 5s ease-out infinite; }
   .lobby-art-stone:last-child { animation: lobby-stone-drop 5s .6s ease-out infinite; }

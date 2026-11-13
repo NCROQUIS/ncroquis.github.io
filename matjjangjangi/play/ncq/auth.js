@@ -71,11 +71,12 @@
       return {provider: "toss", token: typeof out === "string" ? out : out.code};
     });
   }
-  function exchange(proof, credential, token) {
+  function exchange(proof, credential, token, refresh) {
     var request = {game: cfg.game, environment: cfg.environment, platform: cfg.platform || "web"};
     if (credential) request.credential = credential;
     if (proof) request.proof = proof;
-    return http("/auth/v1/session", "POST", request, token, proof && proof.provider === "play_games" ? 7500 : 0).then(function (out) {
+    return http(refresh ? "/auth/v1/session/refresh" : "/auth/v1/session", "POST", request, token,
+      proof && proof.provider === "play_games" ? 7500 : 0).then(function (out) {
       return firebase.signInWithCustomToken(auth, out.customToken);
     }).then(function () {
       try { w.localStorage.removeItem(prefix + "credential"); } catch (e) { /* Firebase has saved the login */ }
@@ -122,15 +123,31 @@
     work.then(done, done);
     return work;
   }
-  function tokenSession(user, force, expectedPlayer) {
+  function tokenSession(user, force, expectedPlayer, platformRefreshed, userRefreshed) {
     if (expectedPlayer && user.uid !== expectedPlayer) throw error("identity_changed", 409, "사용자가 바뀌었어요.");
     return user.getIdTokenResult(!!force).then(function (result) {
-      if (auth.currentUser !== user) throw error("identity_changed", 409, "사용자가 바뀌었어요.");
+      if (auth.currentUser !== user) {
+        // A signed refresh replaces Firebase's User object while preserving its UID.
+        if (!userRefreshed && auth.currentUser && auth.currentUser.uid === user.uid) {
+          return tokenSession(auth.currentUser, force, expectedPlayer || user.uid, platformRefreshed, true);
+        }
+        throw error("identity_changed", 409, "사용자가 바뀌었어요.");
+      }
       var scope = result.claims.ncq;
-      if (!scope || scope.game !== cfg.game || scope.environment !== cfg.environment || scope.platform !== (cfg.platform || "web")) {
+      if (!scope || scope.game !== cfg.game || scope.environment !== cfg.environment) {
         throw error("wrong_scope", 403, "이 게임과 환경에서 다시 사용자 확인을 해 주세요.");
       }
-      return {token: result.token, player: user.uid, identity: scope.identity,
+      if (scope.platform !== (cfg.platform || "web")) {
+        if (!platformRefreshed && scope.platform === "web" && cfg.platform === "googleplay") {
+          var player = user.uid;
+          var renewal = busy || track(exchange(null, null, result.token));
+          return renewal.then(function (refreshed) {
+            return tokenSession(refreshed, false, expectedPlayer || player, true);
+          });
+        }
+        throw error("wrong_scope", 403, "이 게임과 환경에서 다시 사용자 확인을 해 주세요.");
+      }
+      return {token: result.token, player: user.uid, identity: scope.identity, role: result.claims.role,
         photoUrl: scope.photoUrl || null, nickname: scope.nickname || null};
     });
   }
@@ -158,7 +175,15 @@
   }
   function getToken(options) {
     options = options || {};
-    return session(options.forceRefresh, options.expectedPlayer).then(function (result) { return result.token; });
+    return session(options.forceRefresh, options.expectedPlayer).then(function (result) {
+      if (options.role !== "authenticated" || result.role === "authenticated") return result.token;
+      // Upgrade an existing signed session in place. Never create another player for a missing claim.
+      var renewal = busy || track(exchange(null, null, result.token, true));
+      return renewal.then(function (user) { return tokenSession(user, true, result.player); }).then(function (fresh) {
+        if (fresh.role !== "authenticated") throw error("auth_unavailable", 503);
+        return fresh.token;
+      });
+    });
   }
   function signIn(proof) {
     return init().then(function () {

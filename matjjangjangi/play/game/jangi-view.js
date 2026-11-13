@@ -13,13 +13,13 @@ export function replayBoard(game, ply) {
 export const targetsFrom = (game, from) => game?.board && from !== null && !game.setup
   ? legalMoves(game.board, game.turn).filter(move => move.from === from).map(move => move.to) : [];
 
-export function drawJangiBoard({ game, displayedBoard, cells, selectedFrom, selected, lastMoveMarker, board, selectable, coordinate, t, latest, moveNumbers }) {
+export function drawJangiBoard({ game, displayedBoard, cells, selectedFrom, selected, lastMoveMarker, board, selectable, coordinate, t, latest, moveNumbers, pendingMove }) {
   const targets = selectable ? targetsFrom(game, selectedFrom) : [];
   const checked = inCheck(displayedBoard, game.turn);
   const flipped = game.you === 2;
   board.dataset.jangi = ''; board.classList.toggle('selectable', selectable);
   const move = game.moves[(latest ? game.moves.length : game.displayPly) - 1];
-  const last = destination(move), lastCell = cells[last];
+  const last = pendingMove?.index ?? destination(move), lastCell = cells[last];
   lastMoveMarker.toggleAttribute('hidden', !lastCell);
   if (lastCell && lastMoveMarker.parentElement !== lastCell) lastCell.append(lastMoveMarker);
   for (const [index, cell] of cells.entries()) {

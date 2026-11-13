@@ -1,0 +1,131 @@
+/* The shop uses the shared 674px list-dialog stage. Frame, heading and tabs
+   are defined in list-dialog.css, together with rankings, records and watch. */
+.forest-ui #shop form.list-dialog-stage {
+  position: absolute; display: flex; gap: 0; max-height: none; padding: 20px 24px 24px;
+}
+#shop .list-dialog-icon { inset: -8px auto auto 38px; width: 72px; height: 76px; }
+#shop .shop-heading > .forest-close { position: relative; inset: auto; }
+#shop .shop-wallet {
+  flex: none; align-self: center; justify-content: center;
+  min-width: 250px; min-height: 50px; margin: 8px 0 0; padding: 4px 20px; gap: 10px;
+  color: #133c23; background: linear-gradient(120deg, #fffbee, #eddfc4);
+  border: 2px solid #d3c291; border-radius: 30px;
+  box-shadow: inset 0 2px #fffdf4, 0 3px 3px #00190a80; font-size: 24px; line-height: 1.2;
+}
+#shop .shop-wallet strong { font-size: 30px; }
+#shop .shop-wallet .shop-coin { width: 34px; height: 34px; }
+#shop .shop-tabs { margin-top: 18px; }
+#shop .shop-content { flex: 1; min-height: 0; margin-top: 18px; padding: 0 2px 4px; }
+#shop .shop-content:has(#shop-skins:not([hidden])) { overflow: clip; }
+#shop .shop-footer { flex: none; margin-top: 14px; gap: 10px; }
+#shop .shop-footer button {
+  min-height: max(66px, calc(44px / var(--list-dialog-scale))); padding: 8px 20px; border-radius: 18px; font-size: 26px; line-height: 1.2; font-weight: 750;
+}
+#shop .shop-footer button[type="submit"] { min-width: 126px; }
+#shop :is(.shop-footer .primary, .shop-coin-buy, #shop-claim-test-coins) {
+  color: #352700; background: linear-gradient(#ffeb7b, #ffc719 45%, #efa600);
+  border: 2px solid #ffdf5d; box-shadow: inset 0 2px #fff8ce, inset 0 -2px #cf8c12, 0 3px 3px #00170b77;
+}
+#shop .shop-footer .primary:disabled {
+  opacity: 1; color: #6d7059; background: #c9ccb6; border-color: #c2bc96; box-shadow: inset 0 1px #efeddd;
+}
+#shop .shop-footer .secondary { color: #193b25; background: linear-gradient(#fffaf0, #ecdec4); border-color: #d2bc8f; }
+#shop :is(#shop-feedback, #restore-feedback) { color: #fff5d5; font-size: 21px; }
+#shop :is(#shop-feedback, #restore-feedback)[data-error] { color: #ffd0bd; }
+
+/* Retain the existing ad-removal offer and all purchase/restore behavior. */
+#shop .shop-ad-offer {
+  flex: none; grid-template-columns: 64px minmax(0, 1fr) auto;
+  margin: 16px 0 0; padding: 12px 16px; gap: 14px;
+  border: 1px solid #d2bc8f; border-radius: 18px;
+  background: linear-gradient(120deg, #f7f5de, #d6e3b9); color: #183e28;
+  box-shadow: inset 0 1px #fff, 0 3px 3px #00170b66;
+}
+#shop .shop-ad-icon { width: 64px; height: 64px; border-radius: 16px; }
+#shop .shop-ad-copy { gap: 3px 8px; }
+#shop .shop-ad-copy h3 { font-size: 24px; line-height: 1.2; }
+#shop .shop-ad-copy p { font-size: 18px; }
+#shop .shop-ad-badge { padding: 2px 8px; font-size: 16px; }
+#shop .shop-ad-actions { gap: 4px; }
+#shop #shop-buy-remove-ads { min-height: 54px; padding: 8px 14px; gap: 6px; border-radius: 28px; font-size: 22px; }
+#shop #shop-buy-remove-ads svg { width: 18px; }
+#shop #shop-restore-ads { min-height: 30px; padding: 2px 8px; font-size: 18px; }
+
+/* Reuse the supplied ivory paper; CSS rims keep the common card corner size. */
+#shop :is(.shop-product, .appearance-choice) { position: relative; isolation: isolate; background: transparent; border-color: #d6bf92; }
+#shop :is(.shop-product, .appearance-choice)::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  border-radius: inherit; background: #f6eddd url("./assets/forest-ui/shop/product-paper.webp") center / cover;
+  box-shadow: inset 0 1px #fffdf4;
+}
+#shop :is(.shop-effect-option[aria-pressed="true"], .appearance-choice:has(input:checked))::after {
+  content: ""; position: absolute; inset: 3px; border: 3px solid #3d8b35; border-radius: 18px; pointer-events: none;
+}
+#shop .shop-products { gap: 16px; padding: 0 0 4px; }
+#shop .shop-product-heading h3 { margin-bottom: 6px; color: #fff8de; font-size: 28px; }
+#shop :is(.shop-product-heading p, #shop-refund-debt) { color: #e9edcd; font-size: 20px; }
+#shop .shop-products-empty { color: #fff8de; border-color: #b8c48e; font-size: 22px; padding: 24px; }
+#shop #shop-claim-test-coins { min-height: 64px; font-size: 24px; border-radius: 18px; }
+#shop .shop-product-list { gap: 16px; }
+#shop .shop-product {
+  grid-template-columns: 118px minmax(0, 1fr) auto; min-height: 176px; gap: 18px;
+  padding: 24px; border-radius: 24px; color: #163c25; box-shadow: 0 3px 4px #00170b66;
+}
+#shop .shop-coin-quantity { font-size: 28px; }
+#shop .shop-coin-buy { min-height: max(64px, calc(44px / var(--list-dialog-scale))); padding: 10px 18px; font-size: 24px; border-radius: 20px; }
+#shop .shop-coin-art { width: 118px; height: 100px; background: url("./assets/forest-ui/shop/coin-stack.webp") center / contain no-repeat; }
+#shop .shop-coin-art::before, #shop .shop-coin-art i { display: none; }
+#shop .shop-effect-option { grid-template-columns: 144px minmax(0, 1fr); }
+#shop .shop-effect-option[aria-pressed="true"] { background: transparent; box-shadow: 0 3px 4px #00170b66; }
+#shop .shop-effect-art { width: 144px; height: 144px; border-radius: 18px; }
+#shop .shop-product-copy { gap: 8px; }
+#shop .shop-product-copy > strong { font-size: 26px; line-height: 1.3; }
+#shop .shop-product-detail { color: #4c6048; font-size: 20px; }
+#shop .shop-effect-status { gap: 6px; padding: 3px 12px; font-size: 20px; }
+#shop .shop-effect-status[data-priced]::before { width: 18px; }
+
+/* Preview and both horizontal skin shelves stay within the fixed frame. */
+#shop #shop-skins { min-height: 0; grid-template-rows: minmax(0, .45fr) minmax(0, 1fr); gap: 16px; }
+#shop .appearance-preview-panel {
+  min-height: 0; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: 22px;
+  padding: 18px; border-color: #d1bc8e; border-radius: 18px; background: linear-gradient(130deg, #fffaf0, #eee1c9);
+}
+#shop #appearance-preview { width: auto; height: 100%; max-width: 100%; max-height: 220px; aspect-ratio: 1; justify-self: center; align-self: center; }
+#shop .appearance-preview-controls h3 { font-size: 26px; line-height: 1.2; margin-bottom: 8px; }
+#shop #shop-preview-guide { font-size: 20px; line-height: 1.3; margin-bottom: 10px; }
+#shop .grid-choices { gap: 8px; }
+#shop .grid-choices legend { position: static; width: auto; height: auto; clip-path: none; font-size: 20px; margin-bottom: 6px; color: #425b3f; }
+#shop .grid-choice { min-height: 44px; padding: 6px 10px; gap: 8px; border-radius: 12px; font-size: 20px; line-height: 1.2; }
+#shop .grid-choice input { width: 22px; height: 22px; }
+#shop .shop-settings { min-height: 0; max-height: none; gap: 14px; }
+#shop .shop-settings > .appearance-group { min-height: 0; }
+#shop .appearance-group-heading { min-height: 34px; margin-bottom: 6px; gap: 12px; }
+#shop .appearance-group-heading h3 { color: #fff8de; font-size: 26px; }
+#shop .appearance-nav { gap: 8px; }
+#shop .appearance-nav button { width: 42px; height: 34px; min-height: 0; font-size: 30px; border-radius: 12px; }
+#shop .appearance-choices { grid-auto-columns: calc((100% - 30px) / 4); gap: 10px; padding: 0 0 4px; }
+#shop .appearance-choice { grid-template-rows: minmax(0, 1fr) auto auto; padding: 12px 8px; gap: 4px; border-radius: 18px; font-size: 20px; line-height: 1.2; }
+#shop .appearance-choice:has(input:checked) { background: transparent; box-shadow: none; }
+#shop .appearance-choice input + span { min-height: 0; }
+#shop .shop-skin-status { padding: 3px 5px; border-radius: 12px; font-size: 18px; line-height: 1.15; }
+#shop .shop-skin-price { font-size: 19px; }
+#shop .shop-skin-price::before { width: 14px; height: 14px; margin-inline-end: 5px; }
+#shop .stone-sample { display: flex; justify-content: center; width: min(100%, 104px); height: 100%; min-height: 0; gap: 6px; }
+#shop .stone-sample .stone { flex: none; width: auto; height: 100%; max-height: 50px; max-width: calc((100% - 6px) / 2); aspect-ratio: 1; }
+#shop .board-sample { max-height: 74px; }
+
+@container shop-skins (max-height: 540px) {
+  #shop .appearance-preview-panel { padding: 12px; gap: 14px; }
+  #shop #appearance-preview { max-height: 160px; }
+  #shop .appearance-preview-controls h3 { font-size: 24px; margin-bottom: 4px; }
+  #shop #shop-preview-guide { font-size: 18px; margin-bottom: 6px; }
+  #shop .grid-choices legend { font-size: 18px; margin-bottom: 3px; }
+  #shop .grid-choice { min-height: 36px; padding: 4px 6px; gap: 6px; font-size: 18px; }
+  #shop .grid-choice input { width: 20px; height: 20px; }
+  #shop #shop-skins, #shop .shop-settings { gap: 10px; }
+  #shop .appearance-group-heading { min-height: 30px; }
+  #shop .appearance-group-heading h3 { font-size: 24px; }
+  #shop .appearance-choice { padding-block: 8px; font-size: 19px; }
+  #shop .shop-skin-status { font-size: 17px; }
+  #shop .board-sample { max-height: 60px; }
+}

@@ -1,0 +1,99 @@
+/* Generated from catalog.json by scripts/prepare-jangi-skins.py. */
+[data-stone-style="reference"][data-stone-style],
+[data-stone-style="classic"][data-stone-style],
+[data-stone-style="glossy"][data-stone-style],
+[data-stone-style="vintage"][data-stone-style],
+[data-stone-style="gilded"][data-stone-style],
+[data-stone-style="porcelain"][data-stone-style],
+[data-stone-style="jade"][data-stone-style],
+[data-stone-style="lacquer"][data-stone-style],
+[data-stone-style="ocean"][data-stone-style],
+[data-stone-style="soda"][data-stone-style],
+[data-stone-style="quartz"][data-stone-style],
+[data-stone-style="marble"][data-stone-style],
+[data-stone-style="sapphire"][data-stone-style],
+[data-stone-style="sakura"][data-stone-style],
+[data-stone-style="aurora"][data-stone-style] {
+  --jangi-bevel:none; --jangi-clip:none;
+  --jangi-font:JanggiBrush,serif; --jangi-weight:400;
+  --jangi-piece-size:98%; --jangi-king-size:111%; --jangi-small-size:82%;
+  --jangi-type-size:6.5cqi; --jangi-king-type:7.6cqi; --jangi-small-type:5.6cqi;
+  --jangi-shadow-size:90.85%; --jangi-king-shadow-size:102.9%; --jangi-small-shadow-size:76.01%;
+  --jangi-check-body:initial; --jangi-check-outline:2px solid #e04a31;
+  --jangi-text-shadow:0 .5px 1px #12251655;
+}
+[data-stone-style="reference"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/reference/cho.webp?v=b282c0885d') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/reference/han.webp?v=144dd01eb2') center / 100% no-repeat;
+  --jangi-cho:#a7edba; --jangi-han:#af3026;
+}
+[data-stone-style="classic"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/classic/cho.webp?v=a37bf9877e') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/classic/han.webp?v=cfa980f95e') center / 100% no-repeat;
+  --jangi-cho:#a7edba; --jangi-han:#af3026;
+}
+[data-stone-style="glossy"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/glossy/cho.webp?v=b66bc2ab66') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/glossy/han.webp?v=b4369bac6f') center / 100% no-repeat;
+  --jangi-cho:#a7edba; --jangi-han:#af3026;
+}
+[data-stone-style="vintage"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/vintage/cho.webp?v=a7eddbed82') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/vintage/han.webp?v=c19f1a2b79') center / 100% no-repeat;
+  --jangi-cho:#b3e7a4; --jangi-han:#a92e24;
+}
+[data-stone-style="gilded"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/gilded/cho.webp?v=e43f3e95de') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/gilded/han.webp?v=cda1142139') center / 100% no-repeat;
+  --jangi-cho:#f1d184; --jangi-han:#a32f24;
+}
+[data-stone-style="porcelain"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/porcelain/cho.webp?v=e8463140c1') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/porcelain/han.webp?v=1f692115a2') center / 100% no-repeat;
+  --jangi-cho:#b3e5be; --jangi-han:#a32d26;
+}
+[data-stone-style="jade"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/jade/cho.webp?v=6c4c41fe52') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/jade/han.webp?v=bd9801fc95') center / 100% no-repeat;
+  --jangi-cho:#e5f2aa; --jangi-han:#a42d27;
+}
+[data-stone-style="lacquer"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/lacquer/cho.webp?v=dd0f05802e') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/lacquer/han.webp?v=943246475c') center / 100% no-repeat;
+  --jangi-cho:#e8d6a0; --jangi-han:#8f292e;
+}
+[data-stone-style="ocean"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/ocean/cho.webp?v=c5dd9ac9cd') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/ocean/han.webp?v=2e1adfbedb') center / 100% no-repeat;
+  --jangi-cho:#c8efcf; --jangi-han:#a5253b;
+}
+[data-stone-style="soda"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/soda/cho.webp?v=e764afd4bc') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/soda/han.webp?v=608261d40a') center / 100% no-repeat;
+  --jangi-cho:#c8edb3; --jangi-han:#a02748;
+}
+[data-stone-style="quartz"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/quartz/cho.webp?v=04d643518b') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/quartz/han.webp?v=c465600aa3') center / 100% no-repeat;
+  --jangi-cho:#cae7b5; --jangi-han:#a42c2b;
+}
+[data-stone-style="marble"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/marble/cho.webp?v=b67353aa8f') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/marble/han.webp?v=b9dece8b2e') center / 100% no-repeat;
+  --jangi-cho:#d0ebbd; --jangi-han:#a42c2b;
+}
+[data-stone-style="sapphire"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/sapphire/cho.webp?v=da0524d214') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/sapphire/han.webp?v=40bb3b471f') center / 100% no-repeat;
+  --jangi-cho:#d9f0aa; --jangi-han:#9c2040;
+}
+[data-stone-style="sakura"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/sakura/cho.webp?v=f7a230af2e') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/sakura/han.webp?v=3b0b1481e4') center / 100% no-repeat;
+  --jangi-cho:#f1ffd4; --jangi-han:#a12749;
+}
+[data-stone-style="aurora"][data-stone-style] {
+  --jangi-cho-body:url('./assets/jangi-skins/aurora/cho.webp?v=9a515677a9') center / 100% no-repeat;
+  --jangi-han-body:url('./assets/jangi-skins/aurora/han.webp?v=a66c7d32c1') center / 100% no-repeat;
+  --jangi-cho:#c8ffbb; --jangi-han:#9b2454;
+}

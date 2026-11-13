@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#0a2238" />
   <title>Pourly</title>
-  <script type="module" crossorigin src="./assets/index-CYG7-C9_.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-B7CU7jBt.css">
+  <script type="module" crossorigin src="./assets/index-YhJbe6Ck.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CoB5aHOH.css">
 </head>
 <body>
   <!-- 바탕: 깊은 물빛 + 천천히 움직이는 빛 + 작은 기포 (이야기 없는 꾸밈) -->
@@ -33,7 +33,7 @@
         <div class="level-info" id="level-info" hidden></div>
       </div>
       <div class="top-right">
-        <button class="coins" id="coins" data-i18n-attr="aria-label:shop; title:shop"><span class="coin-dot"></span><span id="coin-count">0</span><svg class="shop-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11a1.5 1.5 0 0 1-1.5 1.3H7.7a1.5 1.5 0 0 1-1.5-1.3z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><em class="dot" id="shop-dot" hidden></em></button>
+        <button class="coins" id="coins" data-i18n-attr="aria-label:shop; title:shop"><span class="coin-dot"></span><span id="coin-count">0</span><i class="coin-plus" aria-hidden="true">+</i><em class="dot" id="shop-dot" hidden></em></button>
         <button class="icon-btn" id="btn-settings" data-i18n-attr="aria-label:settings; title:settings">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>
         </button>
@@ -78,6 +78,11 @@
       <button class="tool" id="btn-add">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h5M9 3v4.5L7 10v9.5A1.5 1.5 0 0 0 8.5 21h4A1.5 1.5 0 0 0 14 19.5V10l-2-2.5V3"/><path d="M19 8v6M16 11h6"/></svg>
         <span data-i18n="add_bottle"></span><span class="badge coin-badge" id="add-cost"></span>
+      </button>
+      <!-- 상점: 코인 칸만으로는 상점인 줄 몰라서 도구 줄에도 둬요 (6판부터, 살 게 있으면 빨간 점) -->
+      <button class="tool shop-tool" id="btn-shop">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1.2 11a1.5 1.5 0 0 1-1.5 1.3H7.7a1.5 1.5 0 0 1-1.5-1.3z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
+        <span data-i18n="shop"></span><em class="dot" id="shop-tool-dot" hidden></em>
       </button>
     </footer>
     <div class="version" id="app-version"></div>

@@ -14,6 +14,20 @@
     "icon": ""
   },
   {
+    "codename": "dokuduck",
+    "name": "도쿠덕",
+    "summary": "색마다, 줄마다 오리 한 마리! 멍한 흰 오리 도쿠를 찾는 논리 퍼즐",
+    "pitch": "색 구역과 가로줄, 세로줄마다 오리가 딱 한 마리씩 숨어 있어요. 오리끼리는 붙어 앉지 않는다는 규칙만으로 자리를 추리해 찾아내는 세로형 논리 퍼즐이에요. 손그림 느낌의 단색 그림과 멍한 흰 오리 도쿠가 함께해요.",
+    "status": "개발 중",
+    "created": "2026-11-13",
+    "updated": "2026-11-13",
+    "version": "",
+    "developer": "ncroquis-dev",
+    "category": "",
+    "play": "",
+    "icon": ""
+  },
+  {
     "codename": "matjjangjangi",
     "name": "맞짱 장기",
     "summary": "익숙한 맞짱의 감성으로 즐기는 한 수 승부, 맞짱 장기",

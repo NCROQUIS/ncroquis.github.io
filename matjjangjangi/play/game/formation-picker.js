@@ -1,5 +1,6 @@
 import { initial, GLYPHS, HORSE } from './rules.js';
 import { pieceStyleForSeat } from './piece-skins.js';
+import { setPieceGlyph } from './piece-glyph.js';
 
 // Read the same back-rank positions as the rules engine. Opponents face the viewer.
 export function formationPieces(formation, opponent = false) {
@@ -26,7 +27,7 @@ function drawPieces(element, kinds, seat, style) {
     } else {
       const shadow = document.createElement('span'); shadow.className = 'jangi-formation-shadow';
       const face = document.createElement('span'); face.className = `stone ${seat === 1 ? 'black' : 'white'}`;
-      face.dataset.kind = kind; face.textContent = GLYPHS[seat][kind - 1];
+      face.dataset.kind = kind; setPieceGlyph(face, GLYPHS[seat][kind - 1]);
       piece.append(shadow, face);
     }
     return piece;

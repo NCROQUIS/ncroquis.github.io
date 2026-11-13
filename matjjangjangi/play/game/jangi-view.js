@@ -1,5 +1,6 @@
 import { initial, legalMoves, sideOf, GLYPHS, KING, inCheck } from './rules.js';
 import { pieceStyleForSeat } from './piece-skins.js';
+import { setPieceGlyph } from './piece-glyph.js';
 
 export { sideOf, GLYPHS, KING, inCheck };
 export const destination = move => typeof move === 'object' ? move.to : move;
@@ -39,7 +40,7 @@ export function drawJangiBoard({ game, displayedBoard, cells, selectedFrom, sele
     token.hidden = !preview;
     token.dataset.kind = Math.abs(preview);
     token.className = 'stone ' + (sideOf(preview) === 2 ? 'white' : 'black');
-    token.textContent = preview ? GLYPHS[sideOf(preview)][Math.abs(preview) - 1] : '';
+    setPieceGlyph(token, preview ? GLYPHS[sideOf(preview)][Math.abs(preview) - 1] : '');
     cell.toggleAttribute('data-number', Boolean(moveNumbers?.[index]));
     if (moveNumbers?.[index]) cell.dataset.number = moveNumbers[index];
     cell.setAttribute('aria-label', coordinate(index) + ' ' + (piece ? t(side === 1 ? 'black' : 'white') + ' ' + GLYPHS[side][kind - 1] : t('jangiEmpty')));
@@ -68,7 +69,7 @@ export function installJangiArtwork() {
     for (const [index,piece] of initial().board.entries()) {
       if (!piece) continue;
       const cell=document.createElement('span'); cell.className='cell'; cell.dataset.stone=sideOf(piece); cell.dataset.index=index; cell.style.gridArea=`${Math.floor(index/9)+1} / ${index%9+1}`;
-      const token=document.createElement('span'); token.className='stone '+(piece>0?'black':'white'); token.dataset.kind=Math.abs(piece); token.textContent=GLYPHS[sideOf(piece)][Math.abs(piece)-1];
+      const token=document.createElement('span'); token.className='stone '+(piece>0?'black':'white'); token.dataset.kind=Math.abs(piece); setPieceGlyph(token,GLYPHS[sideOf(piece)][Math.abs(piece)-1]);
       const shadow=document.createElement('span'); shadow.className='stone-shadow';
       cell.append(token,shadow); preview.append(cell);
     }

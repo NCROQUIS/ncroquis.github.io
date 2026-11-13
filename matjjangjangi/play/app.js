@@ -123,7 +123,48 @@ function legalMoves(board2, side) {
   }
   return result;
 }
+function facing(board2) {
+  const cho = board2.indexOf(KING), han = board2.indexOf(-KING);
+  if (cho < 0 || han < 0 || cho % 9 !== han % 9) return false;
+  for (let p = Math.min(cho, han) + 9; p < Math.max(cho, han); p += 9) if (board2[p]) return false;
+  return true;
+}
 var positionKey = ({ board: board2, turn }) => board2.join(",") + ":" + turn;
+function apply(state, action) {
+  if (state.winner !== null) throw new Error("gameOver");
+  const side = state.turn;
+  if (!action || typeof action !== "object") throw new Error("invalidMove");
+  const next = { ...state, board: state.board.slice(), positions: { ...state.positions }, last: { ...action, side }, ply: state.ply + 1 };
+  if (action.type === "resign") return { ...next, winner: 3 - side, reason: "resign" };
+  if (action.type === "pass" || action.type === "accept-bikjang") {
+    if (inCheck(state.board, side)) throw new Error("mustEscapeCheck");
+    if (action.type === "accept-bikjang" && !state.bikjang) throw new Error("invalidMove");
+    next.passes = state.passes + 1;
+    next.quiet = state.quiet + 1;
+  } else if (action.type === "move") {
+    if (!Number.isInteger(action.from) || !Number.isInteger(action.to) || action.from < 0 || action.from >= 90 || action.to < 0 || action.to >= 90) throw new Error("invalidMove");
+    if (sideOf(state.board[action.from]) !== side) throw new Error("notYourPiece");
+    if (!legalMoves(state.board, side).some((m) => m.from === action.from && m.to === action.to)) throw new Error(inCheck(state.board, side) ? "mustEscapeCheck" : "invalidMove");
+    next.last.piece = state.board[action.from];
+    next.last.captured = state.board[action.to];
+    next.quiet = state.board[action.to] ? 0 : state.quiet + 1;
+    next.board[action.to] = next.board[action.from];
+    next.board[action.from] = 0;
+    next.passes = 0;
+  } else throw new Error("invalidMove");
+  next.turn = 3 - side;
+  const checked = inCheck(next.board, next.turn);
+  if (checked && !legalMoves(next.board, next.turn).length) return { ...next, winner: side, reason: "checkmate", bikjang: false };
+  const stillFacing = facing(next.board);
+  if (state.bikjang && stillFacing && !inCheck(next.board, side)) return { ...next, winner: 0, reason: "bikjang", bikjang: false };
+  next.bikjang = stillFacing && !checked;
+  if (next.passes >= 2) return { ...next, winner: 0, reason: "passes" };
+  const key = positionKey(next);
+  next.positions[key] = (next.positions[key] || 0) + 1;
+  if (next.positions[key] >= 3) return { ...next, winner: 0, reason: "repetition" };
+  if (next.quiet >= 100) return { ...next, winner: 0, reason: "quiet" };
+  return next;
+}
 
 // game/piece-skins.js
 var PIECE_STYLES = Object.freeze(["reference", "classic", "glossy", "vintage", "gilded", "porcelain", "jade", "lacquer", "ocean", "soda", "quartz", "marble", "sapphire", "sakura", "aurora"]);
@@ -145,6 +186,17 @@ function applyPreviewPieceStyles(preview, choice, game) {
       cell.style.gridArea = `${Math.floor(point / 9) + 1} / ${point % 9 + 1}`;
     }
   }
+}
+
+// game/piece-glyph.js
+function setPieceGlyph(stone, text) {
+  let glyph = stone.firstElementChild;
+  if (!glyph?.classList.contains("jangi-glyph")) {
+    glyph = document.createElement("span");
+    glyph.className = "jangi-glyph";
+    stone.replaceChildren(glyph);
+  }
+  glyph.textContent = text;
 }
 
 // game/jangi-view.js
@@ -186,7 +238,7 @@ function drawJangiBoard({ game, displayedBoard, cells: cells2, selectedFrom: sel
     token.hidden = !preview;
     token.dataset.kind = Math.abs(preview);
     token.className = "stone " + (sideOf(preview) === 2 ? "white" : "black");
-    token.textContent = preview ? GLYPHS[sideOf(preview)][Math.abs(preview) - 1] : "";
+    setPieceGlyph(token, preview ? GLYPHS[sideOf(preview)][Math.abs(preview) - 1] : "");
     cell.toggleAttribute("data-number", Boolean(moveNumbers?.[index2]));
     if (moveNumbers?.[index2]) cell.dataset.number = moveNumbers[index2];
     cell.setAttribute("aria-label", coordinate2(index2) + " " + (piece ? t3(side === 1 ? "black" : "white") + " " + GLYPHS[side][kind - 1] : t3("jangiEmpty")));
@@ -220,7 +272,7 @@ function installJangiArtwork() {
       const token = document.createElement("span");
       token.className = "stone " + (piece > 0 ? "black" : "white");
       token.dataset.kind = Math.abs(piece);
-      token.textContent = GLYPHS[sideOf(piece)][Math.abs(piece) - 1];
+      setPieceGlyph(token, GLYPHS[sideOf(piece)][Math.abs(piece) - 1]);
       const shadow = document.createElement("span");
       shadow.className = "stone-shadow";
       cell.append(token, shadow);
@@ -251,13 +303,18 @@ var JANGI_TEXTS = {
     jangiSelectPiece: "\uC774\uB3D9\uD560 \uB9D0 \uC120\uD0DD",
     jangiSelectTarget: "\uC774\uB3D9\uD560 \uACF3 \uC120\uD0DD",
     jangiMoveSaving: "\uCC29\uC218 \uD655\uC778 \uC911",
+    jangiOwnTurn: "\uB0B4 \uCC28\uB840",
+    jangiOpponentTurn: "\uC0C1\uB300 \uCC28\uB840",
+    jangiOwnGauge: "\uB0B4 \uB0A8\uC740 \uC2DC\uAC04",
+    jangiOpponentGauge: "\uC0C1\uB300 \uB0A8\uC740 \uC2DC\uAC04",
+    jangiClockUpdating: "\uB300\uAD6D \uC2DC\uAC04\uC744 \uD655\uC778\uD558\uACE0 \uC788\uC5B4\uC694.",
     shopStones: "\uC7A5\uAE30\uB9D0",
     shopBoard: "\uC7A5\uAE30\uD310",
     recordPlayGame: "\uC7A5\uAE30 \uB450\uB7EC \uAC00\uAE30",
     shopPreviewGuide: "\uB0B4 \uB9D0\uC5D0\uB9CC \uC801\uC6A9\uB3FC\uC694. \uC0C1\uB300 \uB9D0\uC740 \uC0C1\uB300\uAC00 \uACE0\uB978 \uC2A4\uD0A8\uC73C\uB85C \uBCF4\uC5EC\uC694.",
     jangiEmpty: "\uBE48 \uC790\uB9AC",
     jangiCheck: "\uC7A5\uAD70! \uAD81\uC744 \uC9C0\uD0A4\uB294 \uC218\uB97C \uB450\uC138\uC694.",
-    jangiBikjang: "\uBE45\uC7A5\uC785\uB2C8\uB2E4. \uB9C8\uC8FC \uBCF4\uB294 \uAD81\uC744 \uD480\uAC70\uB098 \uD55C \uC218 \uC27C\uC73C\uB85C \uC218\uB77D\uD558\uC138\uC694.",
+    jangiBikjang: "\uBE45\uC7A5\uC785\uB2C8\uB2E4. \uB2E4\uC74C \uC218\uC5D0 \uB9C8\uC8FC \uBCF4\uB294 \uAD81\uC744 \uD480\uC5B4 \uC8FC\uC138\uC694.",
     jangiFormation: "\uB9C8\uC0C1 \uD3EC\uC9C4 \uC120\uD0DD",
     jangiFormationWait: "\uC0C1\uB300\uAC00 \uB9C8\uC0C1 \uCC28\uB9BC\uC744 \uACE0\uB974\uACE0 \uC788\uC5B4\uC694.",
     jangiFormationChoose: "\uB0B4 \uB9C8\uC0C1 \uCC28\uB9BC\uC744 \uACE0\uB974\uC138\uC694.",
@@ -304,13 +361,18 @@ var JANGI_TEXTS = {
     jangiSelectPiece: "Select a piece",
     jangiSelectTarget: "Tap destination",
     jangiMoveSaving: "Confirming move",
+    jangiOwnTurn: "Your turn",
+    jangiOpponentTurn: "Their turn",
+    jangiOwnGauge: "Your remaining time",
+    jangiOpponentGauge: "Opponent remaining time",
+    jangiClockUpdating: "Updating the match clock\u2026",
     shopStones: "Pieces",
     shopBoard: "Janggi board",
     recordPlayGame: "Play Janggi",
     shopPreviewGuide: "Applies to your pieces. Your opponent uses their own skin.",
     jangiEmpty: "Empty point",
     jangiCheck: "Check! Protect your general.",
-    jangiBikjang: "Bikjang. Break the facing generals or pass to accept a draw.",
+    jangiBikjang: "Bikjang. Break the facing generals on your next move.",
     jangiFormation: "Horse & elephant setup",
     jangiFormationWait: "Your opponent is choosing a formation.",
     jangiFormationChoose: "Choose your formation.",
@@ -367,7 +429,7 @@ function drawPieces(element, kinds, seat, style) {
       const face = document.createElement("span");
       face.className = `stone ${seat === 1 ? "black" : "white"}`;
       face.dataset.kind = kind;
-      face.textContent = GLYPHS[seat][kind - 1];
+      setPieceGlyph(face, GLYPHS[seat][kind - 1]);
       piece.append(shadow, face);
     }
     return piece;
@@ -587,7 +649,7 @@ function t(key, params) {
 function has(key) {
   return own(texts[current], key) || own(texts[fallback], key);
 }
-function apply(root) {
+function apply2(root) {
   let scope = root;
   try {
     if (!scope) scope = document;
@@ -623,7 +685,7 @@ function emit() {
     window.dispatchEvent(new CustomEvent("ncq-lang", { detail: { lang: current } }));
   } catch (e) {
   }
-  apply();
+  apply2();
 }
 function init(options) {
   const opts = options || {};
@@ -645,7 +707,7 @@ function init(options) {
   current = fromAddress() || fromStore() || fromDevice() || fallback;
   started = true;
   markDocument();
-  apply();
+  apply2();
   return current;
 }
 function set(code) {
@@ -716,7 +778,7 @@ var NcqLang = {
   set,
   onChange,
   list,
-  apply,
+  apply: apply2,
   num,
   date,
   missing,
@@ -5543,7 +5605,7 @@ if (typeof window !== "undefined") window.NcqBoard = NcqBoard;
     var at = walk(path, false, holder);
     return at && own2(at[0], at[1]) ? at[0][at[1]] : void 0;
   }
-  function apply2(data, change) {
+  function apply3(data, change) {
     Object.keys(change).forEach(function(path) {
       var v = change[path], at = walk(path, true, data);
       if (typeof v === "number" && isFinite(v)) at[0][at[1]] = (typeof at[0][at[1]] === "number" ? at[0][at[1]] : 0) + v;
@@ -5596,7 +5658,7 @@ if (typeof window !== "undefined") window.NcqBoard = NcqBoard;
       if (out === false) return false;
       if (isObj(out) && out !== draft) draft = out;
     } else if (isObj(change)) {
-      apply2(draft, change);
+      apply3(draft, change);
     } else {
       return false;
     }
@@ -5686,7 +5748,7 @@ if (typeof window !== "undefined") window.NcqBoard = NcqBoard;
       var pick2 = mine && local.at >= theirs.at ? local : theirs, other = pick2 === local ? theirs : local;
       data = clone(pick2.data);
       for (k in other.rc) {
-        if (own2(other.rc, k) && !own2(pick2.rc, k) && isObj(other.rc[k]) && isObj(other.rc[k].a)) apply2(data, other.rc[k].a);
+        if (own2(other.rc, k) && !own2(pick2.rc, k) && isObj(other.rc[k]) && isObj(other.rc[k].a)) apply3(data, other.rc[k].a);
       }
     }
     rec.rc = rc;
@@ -8342,8 +8404,274 @@ function mergeFinishedRoom(previous, next, records2) {
   };
 }
 
+// daily-puzzle.js
+function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
+  const el2 = (id) => document.getElementById(id), dialog = el2("daily-puzzle"), grid = el2("puzzle-grid");
+  const board2 = el2("puzzle-board"), cells2 = [];
+  let data = null, from = null, solved = null, pending = false, loading = false, error = null, message = null, hint = null, generation = 0, motion = null;
+  const state = () => ({ ...initial(), board: data.puzzle.board.slice(), turn: data.puzzle.turn, positions: {} });
+  const coordinate2 = (i) => "ABCDEFGHJ"[i % 9] + (10 - Math.floor(i / 9));
+  for (let i = 0; i < 90; i++) {
+    const cell = document.createElement("button");
+    cell.type = "button";
+    cell.className = "cell";
+    cell.dataset.index = i;
+    cell.setAttribute("role", "gridcell");
+    const token = document.createElement("span");
+    token.className = "stone";
+    const shadow = document.createElement("span");
+    shadow.className = "stone-shadow";
+    cell.append(token, shadow);
+    cell.addEventListener("click", () => void pick2(i));
+    grid.append(cell);
+    cells2.push(cell);
+  }
+  const marker = document.createElement("span");
+  function render2() {
+    const puzzle = data?.puzzle, playable = Boolean(puzzle) && !pending && !loading && !error && !solved;
+    dialog.dataset.result = solved ? "solved" : message === "puzzleWrong" ? "wrong" : "";
+    el2("show-daily-puzzle").toggleAttribute("data-claimed", Boolean(data?.claimed));
+    el2("puzzle-date").textContent = puzzle ? t3("puzzleDate", { day: data.day, n: puzzle.number }) : "";
+    el2("puzzle-reward").textContent = t3(data?.claimed ? "puzzleClaimed" : "puzzleReward", { n: data?.reward ?? 50 });
+    el2("puzzle-side").textContent = solved ? t3("puzzleTheme_" + puzzle.theme) : from !== null ? t3("puzzleSelected", {
+      piece: GLYPHS[puzzle.turn][Math.abs(puzzle.board[from]) - 1]
+    }) : puzzle ? t3("puzzleSide", { side: t3(puzzle.turn === 1 ? "black" : "white") }) : t3("puzzleSubtitle");
+    el2("puzzle-board-slot").hidden = !puzzle || Boolean(error);
+    el2("puzzle-status").textContent = t3(loading ? "puzzleLoading" : pending ? "puzzleSubmit" : error ?? (!puzzle ? "puzzleLoading" : solved ? "puzzleSuccess" : message ?? (data?.claimed ? "puzzleSolvedHint" : "puzzleTheme_" + puzzle.theme)));
+    el2("puzzle-explanation").textContent = solved ? t3("puzzleExplain", {
+      piece: GLYPHS[puzzle.turn][Math.abs(puzzle.board[solved.from]) - 1],
+      from: coordinate2(solved.from),
+      to: coordinate2(solved.to)
+    }) + (solved.granted ? " " + t3("puzzleGranted", { n: data.reward }) : " " + t3("puzzleNext")) : hint !== null ? t3("puzzleHintText") : "";
+    el2("puzzle-hint").disabled = !playable;
+    el2("puzzle-hint").hidden = Boolean(error);
+    el2("puzzle-reset").disabled = pending || loading;
+    el2("puzzle-reset").textContent = t3(error ? "puzzleReload" : solved ? "puzzlePractice" : "puzzleReset");
+    el2("puzzle-reset").toggleAttribute("data-ncq-main", dialog.open && Boolean(error || solved));
+    if (!puzzle) return;
+    const styles = appearance();
+    board2.dataset.boardStyle = styles.board;
+    const displayedBoard = solved ? apply(state(), { type: "move", from: solved.from, to: solved.to }).board : puzzle.board;
+    const game = { ...puzzle, you: puzzle.turn, moves: solved ? [solved] : [], turn: solved ? 3 - puzzle.turn : puzzle.turn };
+    drawJangiBoard({
+      game,
+      displayedBoard,
+      cells: cells2,
+      selectedFrom: from,
+      selected: null,
+      lastMoveMarker: marker,
+      board: board2,
+      selectable: playable,
+      coordinate: coordinate2,
+      t: t3,
+      latest: true,
+      localPieceStyle: styles.stones
+    });
+    for (const [i, cell] of cells2.entries()) {
+      cell.disabled = !playable;
+      cell.classList.toggle("puzzle-hint", i === hint);
+    }
+  }
+  async function load() {
+    const own2 = ++generation;
+    motion?.cancel();
+    motion = null;
+    pending = false;
+    loading = true;
+    error = null;
+    data = null;
+    solved = null;
+    from = null;
+    hint = null;
+    message = null;
+    render2();
+    try {
+      const next = await request();
+      if (own2 !== generation) return;
+      if (next?.error || !next?.puzzle?.board) throw Error();
+      data = next;
+      window.NcqMetrics?.levelStart("daily-puzzle");
+    } catch {
+      if (own2 === generation) error = "puzzleOffline";
+    } finally {
+      if (own2 === generation) {
+        loading = false;
+        render2();
+      }
+    }
+  }
+  async function pick2(index2) {
+    if (!data || pending || solved || error || loading) return;
+    const puzzle = data.puzzle;
+    if (sideOf(puzzle.board[index2]) === puzzle.turn) {
+      from = from === index2 ? null : index2;
+      message = null;
+      render2();
+      return;
+    }
+    if (from === null || !legalMoves(puzzle.board, puzzle.turn).some((m) => m.from === from && m.to === index2)) return;
+    const move = { from, to: index2 }, own2 = generation;
+    pending = true;
+    message = null;
+    render2();
+    try {
+      const result = await request({ day: data.day, id: puzzle.id, ...move });
+      if (own2 !== generation) return;
+      if (result?.error) {
+        error = result.error === "puzzleExpired" ? "puzzleExpired" : "puzzleOffline";
+        return;
+      }
+      if (!result?.correct) {
+        message = "puzzleWrong";
+        from = null;
+        return;
+      }
+      data = { ...data, claimed: true };
+      solved = { ...move, granted: result.granted };
+      hint = null;
+      from = null;
+      if (result.wallet) credited(result.wallet);
+      window.NcqMetrics?.levelEnd("daily-puzzle", true, { score: data.reward });
+      render2();
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) motion = animateJangiMove(cells2[move.from], cells2[move.to], null, {
+        shouldContinue: () => dialog.open && generation === own2 && !document.hidden
+      });
+    } catch {
+      if (own2 === generation) error = "puzzleOffline";
+    } finally {
+      if (own2 === generation) {
+        pending = false;
+        render2();
+      }
+    }
+  }
+  el2("show-daily-puzzle").addEventListener("click", () => {
+    dialog.showModal();
+    void load();
+    changed();
+  });
+  el2("puzzle-close").addEventListener("click", () => dialog.close());
+  dialog.addEventListener("close", () => {
+    ++generation;
+    motion?.cancel();
+    motion = null;
+    pending = false;
+    loading = false;
+    changed();
+  });
+  el2("puzzle-reset").addEventListener("click", () => {
+    if (error) {
+      void load();
+      return;
+    }
+    const finished = Boolean(solved);
+    motion?.cancel();
+    motion = null;
+    solved = null;
+    from = null;
+    hint = null;
+    message = null;
+    if (finished) window.NcqMetrics?.levelStart("daily-puzzle");
+    render2();
+  });
+  el2("puzzle-hint").addEventListener("click", () => {
+    const answer = legalMoves(data.puzzle.board, data.puzzle.turn).find((move) => apply(state(), move).winner === data.puzzle.turn);
+    hint = answer?.from ?? null;
+    from = hint;
+    render2();
+  });
+  const fit = () => board2.style.setProperty("--puzzle-height", Math.floor(el2("puzzle-board-slot").getBoundingClientRect().height) + "px");
+  new ResizeObserver(fit).observe(el2("puzzle-board-slot"));
+  return { render: () => {
+    if (dialog.open) render2();
+  }, isOpen: () => dialog.open, close: () => dialog.close(), dayChanged: () => {
+    if (data && data.day !== new Date(Date.now() + 9 * 60 * 6e4).toISOString().slice(0, 10)) {
+      el2("show-daily-puzzle").removeAttribute("data-claimed");
+      if (dialog.open && !pending) void load();
+    }
+  } };
+}
+
+// daily-puzzle-texts.js
+var DAILY_PUZZLE_TEXTS = {
+  ko: {
+    puzzleTitle: "\uC624\uB298\uC758 \uBB38\uC81C",
+    puzzleEntry: "\uC624\uB298\uC758 \uBB38\uC81C \uD480\uAE30",
+    puzzleSubtitle: "\uAE30\uBCF4 \uC18D \uC2B9\uBD80\uB97C \uB05D\uB0BC \uD55C \uC218",
+    puzzleGoal: "\uD55C \uC218\uB85C \uC678\uD1B5\uC744 \uB9CC\uB4DC\uC138\uC694",
+    puzzleSide: "{side} \uCC28\uB840 \xB7 \uB9D0\uC744 \uACE0\uB974\uACE0 \uC774\uB3D9\uD560 \uACF3\uC744 \uB204\uB974\uC138\uC694.",
+    puzzleReward: "\uD574\uACB0 \uBCF4\uC0C1 {n}\uCF54\uC778",
+    puzzleRules: "\uB9E4\uC77C 00:00 (\uD55C\uAD6D \uC2DC\uAC04) \uC0C8 \uBB38\uC81C \xB7 \uD558\uB8E8 \uD55C \uBC88 \uBCF4\uC0C1",
+    puzzleSource: "\uCC3D\uC791 \uC5F0\uC2B5 \uAE30\uBCF4 \xB7 \uD55C \uC218 \uC678\uD1B5",
+    puzzleLoading: "\uC624\uB298\uC758 \uAE30\uBCF4\uB97C \uBD88\uB7EC\uC624\uB294 \uC911\u2026",
+    puzzleOffline: "\uC5F0\uACB0\uC744 \uD655\uC778\uD55C \uB4A4 \uB2E4\uC2DC \uBD88\uB7EC\uC640 \uC8FC\uC138\uC694.",
+    puzzleReload: "\uB2E4\uC2DC \uBD88\uB7EC\uC624\uAE30",
+    puzzleHint: "\uD78C\uD2B8",
+    puzzleHintText: "\uBE5B\uB098\uB294 \uB9D0\uC744 \uC6C0\uC9C1\uC5EC \uBCF4\uC138\uC694. \uD78C\uD2B8\uB97C \uC368\uB3C4 \uBCF4\uC0C1\uC740 \uAC19\uC544\uC694.",
+    puzzleReset: "\uCC98\uC74C \uC704\uCE58",
+    puzzleClose: "\uB2EB\uAE30",
+    puzzleSubmit: "\uC815\uB2F5 \uD655\uC778 \uC911\u2026",
+    puzzleWrong: "\uC544\uC9C1 \uC678\uD1B5\uC774 \uC544\uB2C8\uC5D0\uC694. \uB2E4\uB978 \uC218\uB97C \uCC3E\uC544\uBCF4\uC138\uC694!",
+    puzzleSuccess: "\uC815\uB2F5! \uC678\uD1B5\uC744 \uB9CC\uB4E4\uC5C8\uC5B4\uC694.",
+    puzzleGranted: "{n}\uCF54\uC778\uC744 \uBC1B\uC558\uC5B4\uC694!",
+    puzzleClaimed: "\uC624\uB298 \uBCF4\uC0C1 \uC218\uB839 \uC644\uB8CC",
+    puzzlePractice: "\uB2E4\uC2DC \uD480\uAE30",
+    puzzleNext: "\uB2E4\uC74C \uBB38\uC81C\uB294 \uD55C\uAD6D \uC2DC\uAC04 \uC790\uC815\uC5D0 \uC5F4\uB824\uC694.",
+    puzzleSelected: "{piece} \uC120\uD0DD \xB7 \uD45C\uC2DC\uB41C \uACF3\uC73C\uB85C \uC6C0\uC9C1\uC5EC \uBCF4\uC138\uC694.",
+    puzzleDate: "{day} \xB7 \uCC3D\uC791 \uAE30\uBCF4 #{n}",
+    puzzleExpired: "\uC0C8\uB85C\uC6B4 \uB0A0\uC774 \uB418\uC5C8\uC5B4\uC694. \uC624\uB298 \uBB38\uC81C\uB97C \uB2E4\uC2DC \uBD88\uB7EC\uC640 \uC8FC\uC138\uC694.",
+    puzzleExplain: "{piece} {from} \u2192 {to}. \uC7A5\uAD70\uC744 \uD53C\uD558\uAC70\uB098 \uB9C9\uAC70\uB098, \uACF5\uACA9\uD55C \uB9D0\uC744 \uC7A1\uC744 \uC218 \uC5C6\uC5B4 \uC678\uD1B5\uC774\uC5D0\uC694.",
+    puzzleSolvedHint: "\uC774\uBBF8 \uBCF4\uC0C1\uC744 \uBC1B\uC740 \uBB38\uC81C\uC608\uC694. \uB2E4\uC2DC \uD480\uBA70 \uC5F0\uC2B5\uD560 \uC218 \uC788\uC5B4\uC694.",
+    puzzleTheme_rookNet: "\uCC28\uC758 \uD3EC\uC704",
+    puzzleTheme_rookCapture: "\uAE38\uC744 \uC5EC\uB294 \uCC28",
+    puzzleTheme_cannonBridge: "\uD3EC\uC758 \uB2E4\uB9AC",
+    puzzleTheme_cannonNet: "\uD3EC\uC758 \uD55C \uC218",
+    puzzleTheme_horseNet: "\uB9C8\uC758 \uD3EC\uC704",
+    puzzleTheme_horsePalace: "\uAD81\uC131\uC744 \uB178\uB9AC\uB294 \uB9C8",
+    puzzleTheme_soldierCapture: "\uC878\uBCD1\uC758 \uB3CC\uD30C",
+    puzzleTheme_soldierNet: "\uC878\uBCD1\uC758 \uB9C8\uBB34\uB9AC"
+  },
+  en: {
+    puzzleTitle: "Daily puzzle",
+    puzzleEntry: "Play today\u2019s puzzle",
+    puzzleSubtitle: "Find the move that ends the game",
+    puzzleGoal: "Checkmate in one move",
+    puzzleSide: "{side} to move \xB7 Pick a piece, then a destination.",
+    puzzleReward: "Solve for {n} coins",
+    puzzleRules: "New puzzle at 00:00 KST \xB7 One reward per day",
+    puzzleSource: "Original practice position \xB7 Mate in one",
+    puzzleLoading: "Loading today\u2019s position\u2026",
+    puzzleOffline: "Check your connection and try loading again.",
+    puzzleReload: "Reload puzzle",
+    puzzleHint: "Hint",
+    puzzleHintText: "Move the highlighted piece. Hints keep your full reward.",
+    puzzleReset: "Reset position",
+    puzzleClose: "Close",
+    puzzleSubmit: "Checking your move\u2026",
+    puzzleWrong: "That is not checkmate yet. Try another move!",
+    puzzleSuccess: "Correct! Checkmate.",
+    puzzleGranted: "You received {n} coins!",
+    puzzleClaimed: "Today\u2019s reward collected",
+    puzzlePractice: "Solve again",
+    puzzleNext: "The next puzzle opens at midnight KST.",
+    puzzleSelected: "{piece} selected \xB7 Choose a marked destination.",
+    puzzleDate: "{day} \xB7 Original position #{n}",
+    puzzleExpired: "A new day has started. Reload today\u2019s puzzle.",
+    puzzleExplain: "{piece} {from} \u2192 {to}. The general cannot escape, block the check, or capture the attacker.",
+    puzzleSolvedHint: "You have collected this reward. Solve again for practice.",
+    puzzleTheme_rookNet: "The rook\u2019s net",
+    puzzleTheme_rookCapture: "Clear the file",
+    puzzleTheme_cannonBridge: "The cannon\u2019s bridge",
+    puzzleTheme_cannonNet: "A cannon finish",
+    puzzleTheme_horseNet: "The horse\u2019s net",
+    puzzleTheme_horsePalace: "A horse at the palace",
+    puzzleTheme_soldierCapture: "Soldier breakthrough",
+    puzzleTheme_soldierNet: "The soldier\u2019s finish"
+  }
+};
+
 // app.js
-for (const language of ["ko", "en"]) Object.assign(TEXTS[language], JANGI_TEXTS[language]);
+for (const language of ["ko", "en"]) Object.assign(TEXTS[language], JANGI_TEXTS[language], DAILY_PUZZLE_TEXTS[language]);
 NcqLang.init({ id: "matjjangjangi", texts: TEXTS });
 try {
   if (!new URL(location.href).searchParams.has("lang") && !localStorage.getItem("matjjangjangi:lang")) NcqLang.set("ko");
@@ -8544,22 +8872,27 @@ var haptics = createGameHaptics({
   blocked: () => document.hidden || adPurchaseBusy || document.querySelector(".shell").inert || Boolean(NcqAds?.status?.().busy) || Boolean(window.NcqFeedback?.isOpen())
 });
 var roundHapticKey = (game) => `${game.code}:${game.round}`;
-var gaugeObserver = new ResizeObserver((entries) => {
-  const inset = 4;
-  for (const { target, contentRect: { width, height } } of entries) {
-    if (height <= 2 * inset || width < height) continue;
-    const right = width - inset;
-    const bottom = height - inset;
-    const radius = height / 2 - inset;
-    target.querySelector("path").setAttribute(
-      "d",
-      `M ${width / 2} ${inset} H ${right - radius}
-       A ${radius} ${radius} 0 0 1 ${right - radius} ${bottom} H ${inset + radius}
-       A ${radius} ${radius} 0 0 1 ${inset + radius} ${inset} Z`
-    );
+var dailyPuzzle = createDailyPuzzle({
+  t: t2,
+  appearance: () => shopState.appearance,
+  changed: () => render(),
+  request: async (input) => {
+    await boardStartup;
+    if (!backend) return { error: "network" };
+    await ensureIdentity();
+    const player = authSession?.player;
+    const result = await remoteRequest((client) => client.gameRequest("/puzzles/daily", input, -1));
+    if (player !== authSession?.player) return { error: "network" };
+    if (result.wallet && player === authSession?.player && applyWallet(result.wallet)) renderCoinBalance();
+    return result;
+  },
+  credited: (wallet) => {
+    if (applyWallet(wallet)) {
+      renderCoinBalance();
+      haptics.once("daily-puzzle:" + wallet.day, "success");
+    }
   }
 });
-for (const id of ["place-gauge", "opponent-gauge"]) gaugeObserver.observe(el(id));
 var boardLayoutFrame;
 function fitBoardFrame(playWidth, availableHeight, inset, border = 0) {
   const proportional = inset.trim().endsWith("%");
@@ -8585,7 +8918,8 @@ function scheduleBoardLayout() {
     match2.removeAttribute("data-compact-board");
     const controlsHeight = () => match2.getBoundingClientRect().height - slot.getBoundingClientRect().height;
     if (desired * 10 / 9 + controlsHeight() > height) match2.setAttribute("data-compact-board", "");
-    const fitted = fitBoardFrame(width, (height - Math.max(240, controlsHeight())) * 9 / 10, inset, border);
+    const reserved = match2.hasAttribute("data-playing") ? controlsHeight() : Math.max(240, controlsHeight());
+    const fitted = fitBoardFrame(width, (height - reserved) * 9 / 10, inset, border);
     board.style.setProperty("--board-frame-size", `${fitted.frame.toFixed(2)}px`);
     board.style.setProperty("--board-grid-size", `${fitted.grid.toFixed(2)}px`);
   });
@@ -8679,13 +9013,15 @@ el("profile-rankings").addEventListener("click", () => {
   profileDialog.close();
   showRankings();
 });
-el("show-options").addEventListener("click", () => {
+function openOptions() {
   feedback("restore-feedback");
   feedback("player-id-feedback");
-  feedbackButton.hidden = Boolean(room ?? archive ?? spectator) || !window.NcqFeedback?.can();
+  feedbackButton.hidden = !window.NcqFeedback?.can();
   optionsDialog.showModal();
   render();
-});
+}
+el("show-options").addEventListener("click", openOptions);
+el("match-options").addEventListener("click", openOptions);
 optionsDialog.addEventListener("close", closeLobbyMenu);
 el("vibration").addEventListener("change", (event) => {
   window.NcqDevice?.vibration(event.target.checked);
@@ -8706,11 +9042,21 @@ el("copy-player-id").addEventListener("click", async () => {
     feedback("player-id-feedback", "optionsPlayerIdCopyManually", true);
   }
 });
-feedbackButton.addEventListener("click", () => {
+feedbackButton.addEventListener("click", async () => {
   optionsDialog.close();
-  window.NcqFeedback.open();
+  const completion = window.NcqFeedback.open();
+  render();
+  try {
+    await completion;
+  } finally {
+    render();
+  }
 });
 window.ncqBack = () => {
+  if (dailyPuzzle.isOpen()) {
+    dailyPuzzle.close();
+    return true;
+  }
   if (window.NcqFeedback?.isOpen()) {
     window.NcqFeedback.close();
     return true;
@@ -9004,6 +9350,7 @@ window.addEventListener("storage", (event) => {
   shopState = loadShopState();
   applyAppearance();
   renderCoinBalance();
+  dailyPuzzle.render();
   renderDailyMissions();
   if (shop.open) renderShop();
 });
@@ -9410,6 +9757,7 @@ function presentCoinReward() {
 }
 function scheduleMissionReset() {
   setTimeout(() => {
+    dailyPuzzle.dayChanged();
     renderDailyMissions();
     void refreshWallet();
     scheduleMissionReset();
@@ -10030,7 +10378,7 @@ function coordinate(index2) {
   return columns[index2 % size] + (Math.floor(index2 / size) + 1);
 }
 function canAct() {
-  return room?.phase === "playing" && room.turn === room.you && connected && !busy && !pendingPlacement && !matchIntroDialog.open && !leaveDialog.open && (turnDeadline === null || performance.now() < turnDeadline);
+  return room?.phase === "playing" && room.turn === room.you && connected && !busy && !pendingPlacement && !matchIntroDialog.open && !leaveDialog.open && !optionsDialog.open && !window.NcqFeedback?.isOpen() && (turnDeadline === null || performance.now() < turnDeadline);
 }
 function activeRule() {
   if (!el("choose-rule")) return defaultRule;
@@ -10096,29 +10444,18 @@ function updateTurnClock(now, deadline, secondsPerTurn, ownTurn, watching) {
   const secondsLeft = Math.ceil(remaining / 1e3);
   const seconds = String(secondsLeft).padStart(2, "0");
   activeClock.toggleAttribute("data-urgent", secondsLeft <= 10);
+  activeClock.closest(".match-player").toggleAttribute("data-low", secondsLeft <= 10);
   if (activeClock.textContent !== seconds) {
     activeClock.getAnimations().forEach((animation) => animation.cancel());
     activeClock.textContent = seconds;
-    if (!reducedMotion.matches) {
-      const gentle = secondsLeft > 20;
-      activeClock.animate([
-        { offset: 0, transform: gentle ? "translateY(.5px) scale(.98)" : "translateY(2px) scale(.88)", easing: "cubic-bezier(.16, 1, .3, 1)" },
-        { offset: 0.22, transform: gentle ? "translateY(-1px) scale(1.08)" : "translateY(-5px) scale(1.55)", easing: "cubic-bezier(.45, 0, .75, 1)" },
-        { offset: 0.48, transform: gentle ? "translateY(.3px) scale(.99)" : "translateY(1.5px) scale(.92)", easing: "cubic-bezier(.16, 1, .3, 1)" },
-        { offset: 0.7, transform: gentle ? "translateY(-.4px) scale(1.03)" : "translateY(-2px) scale(1.22)", easing: "ease-in-out" },
-        { offset: 1, transform: "translateY(0) scale(1)" }
-      ], { duration: 700 });
-    }
   }
-  const percent = Math.min(100, remaining / (secondsPerTurn * 1e3) * 100);
-  progress.style.setProperty("--match-art-progress", percent.toFixed(2));
-  progress.toggleAttribute("data-empty", remaining === 0);
+  renderTimeGauge(progress, remaining, secondsPerTurn * 1e3);
   if (remaining > 0) {
     turnFrame = requestAnimationFrame((time) => updateTurnClock(time, deadline, secondsPerTurn, ownTurn, watching));
   } else if (!watching) {
     const place = el("place");
     place.dataset.placementState = "inactive";
-    el("place-state").hidden = true;
+    el("place-state").textContent = t2("jangiClockUpdating");
     board.classList.remove("selectable");
     for (const cell of cells) cell.setAttribute("aria-disabled", "true");
   }
@@ -10128,8 +10465,16 @@ function resetTurnGauge(clock, progress, text) {
   clock.textContent = text;
   clock.removeAttribute("data-urgent");
   clock.removeAttribute("data-byoyomi");
-  progress.style.removeProperty("--match-art-progress");
-  progress.removeAttribute("data-empty");
+  clock.closest(".match-player").removeAttribute("data-low");
+  renderTimeGauge(progress, null);
+}
+function renderTimeGauge(progress, remainingMs, totalMs = 3e5) {
+  const track = progress.parentElement;
+  const seconds = Math.max(0, Math.ceil((remainingMs ?? 0) / 1e3));
+  progress.style.setProperty("--match-art-progress", String(Math.max(0, Math.min(100, (remainingMs ?? 0) / totalMs * 100))));
+  track.setAttribute("aria-valuemax", String(totalMs / 1e3));
+  track.setAttribute("aria-valuenow", String(Math.min(totalMs / 1e3, seconds)));
+  track.setAttribute("aria-valuetext", remainingMs === null ? "\u2014" : clockText(remainingMs));
 }
 function renderClockRefills(node, count) {
   node.hidden = false;
@@ -10150,12 +10495,11 @@ function updateCumulativeClock(game, deadline, lowerSeat, watching) {
     const remaining = status.formation ? active ? status.formationMs : null : status.remainingMs[seat - 1];
     clock.textContent = remaining === null ? "\u2014" : clockText(remaining);
     clock.toggleAttribute("data-byoyomi", !status.formation && remaining <= 3e4);
+    el(side + "-panel").toggleAttribute("data-low", !status.formation && remaining <= 3e4);
     clock.removeAttribute("data-urgent");
     el(side + "-refills").hidden = status.formation;
     if (!status.formation) renderClockRefills(el(side + "-refills"), status.refills[seat - 1]);
-    const period = status.formation ? 2e4 : active ? status.periodMs : game.clock.remainingMs[seat - 1];
-    progress.style.setProperty("--match-art-progress", String(active ? Math.min(100, remaining / period * 100) : 100));
-    progress.toggleAttribute("data-empty", active && status.expired);
+    renderTimeGauge(progress, remaining, status.formation ? 2e4 : 3e5);
     if (!status.formation && active && !watching && seat === game.you) {
       haptics.clock(
         `${roundHapticKey(game)}:${game.moves.length}:${seat}:${status.refills[seat - 1]}`,
@@ -10170,7 +10514,7 @@ function updateCumulativeClock(game, deadline, lowerSeat, watching) {
   if (!status.expired) turnFrame = requestAnimationFrame(() => updateCumulativeClock(game, deadline, lowerSeat, watching));
   else if (!watching && !status.formation) {
     el("place").dataset.placementState = "inactive";
-    el("place-state").hidden = true;
+    el("place-state").textContent = t2("jangiClockUpdating");
     board.classList.remove("selectable");
     for (const cell of cells) cell.setAttribute("aria-disabled", "true");
   }
@@ -10183,7 +10527,7 @@ function renderPlayers(game, showPanels, watching = false) {
   for (const side of ["own", "opponent"]) el(side + "-refills").hidden = true;
   el("jangi-formation-clock").hidden = true;
   for (const id of ["opponent-panel", "own-panel"]) el(id).hidden = !showPanels;
-  el("live-actions").hidden = !showPanels || watching;
+  el("live-actions").hidden = !showPanels || watching || el("opening-actions").hidden;
   for (const id of ["opponent-profile", "own-profile"]) el(id).disabled = watching || game.phase === "finished";
   const reviewing = !showPanels && game.phase === "finished";
   el("player-bar").hidden = showPanels || reviewing;
@@ -10205,8 +10549,10 @@ function renderPlayers(game, showPanels, watching = false) {
   const opponentTurn = live && !ownTurn;
   el("own-panel").dataset.active = el("place").dataset.active = String(ownTurn);
   el("opponent-panel").dataset.active = el("opponent-timer").dataset.active = String(opponentTurn);
-  el("opponent-turn").textContent = t2(game.setup && live ? opponentTurn ? "jangiFormationActive" : "jangiFormationWaiting" : opponentTurn ? "turnActive" : "turnWaiting");
   for (const [side, seat] of [["own", lowerSeat], ["opponent", 3 - lowerSeat]]) {
+    const active = side === "own" ? ownTurn : opponentTurn;
+    const badge = el(side === "own" ? "place-text" : "opponent-turn");
+    badge.textContent = t2(game.setup && live ? active ? "jangiFormationActive" : "jangiFormationWaiting" : active ? watching ? "turnActive" : side === "own" ? "jangiOwnTurn" : "jangiOpponentTurn" : "turnWaiting");
     const color = colorName(seatColor(game, seat));
     const profile = recordPlayer(game, seat);
     const nickname = watching ? profile.savedName || t2(color) : side === "own" ? ownNickname() : profile.name;
@@ -10223,23 +10569,29 @@ function renderPlayers(game, showPanels, watching = false) {
     stone.dataset.stoneStyle = pieceStyleForSeat(game, seat, shopState.appearance.stones);
     stone.setAttribute("aria-label", t2(color));
   }
-  for (const id of ["place-gauge", "opponent-gauge", "place-divider", "opponent-divider", "own-clock", "opponent-clock"]) {
-    el(id).toggleAttribute("hidden", !watching && deadline === null);
-  }
+  for (const id of ["place-gauge", "opponent-gauge", "own-clock", "opponent-clock"]) el(id).hidden = false;
   if (live && deadline !== null && isCumulativeClock(game)) {
     updateCumulativeClock(game, deadline, lowerSeat, watching);
     return;
   }
   if (!live || deadline === null) {
-    if (watching) {
-      resetTurnGauge(ownClock, ownProgress, "\u2014");
-      resetTurnGauge(opponentClock, opponentProgress, "\u2014");
+    for (const [seat, clock, progress] of [[lowerSeat, ownClock, ownProgress], [3 - lowerSeat, opponentClock, opponentProgress]]) {
+      resetTurnGauge(clock, progress, "\u2014");
+      if (isCumulativeClock(game)) {
+        const remaining = game.clock.remainingMs[seat - 1];
+        clock.textContent = clockText(remaining);
+        clock.toggleAttribute("data-byoyomi", remaining <= 3e4);
+        clock.closest(".match-player").toggleAttribute("data-low", remaining <= 3e4);
+        renderTimeGauge(progress, remaining);
+        renderClockRefills(el((seat === lowerSeat ? "own" : "opponent") + "-refills"), game.clock.refills[seat - 1]);
+      }
     }
     return;
   }
   const idleClock = ownTurn ? opponentClock : ownClock;
   const idleProgress = ownTurn ? opponentProgress : ownProgress;
   resetTurnGauge(idleClock, idleProgress, String(Math.ceil(game.turnSeconds)).padStart(2, "0"));
+  renderTimeGauge(idleProgress, game.turnSeconds * 1e3, game.turnSeconds * 1e3);
   updateTurnClock(performance.now(), deadline, game.turnSeconds, ownTurn, watching);
 }
 function feedback(id, message = "", error = false) {
@@ -11231,6 +11583,9 @@ function render() {
   }
   el("match").hidden = !game;
   el("watch-back").hidden = !spectator;
+  el("leave-match").hidden = !liveLayout || Boolean(spectator);
+  el("match-options").hidden = !liveLayout;
+  el("place-state").hidden = !liveLayout;
   el("watch-back").toggleAttribute("data-ncq-main", Boolean(spectator));
   el("review-header").hidden = !reviewing;
   el("review-opponent-profile").hidden = !reviewing;
@@ -11246,6 +11601,7 @@ function render() {
   el("show-shop").hidden = Boolean(game);
   el("lobby-wallet").hidden = Boolean(game);
   renderCoinBalance();
+  dailyPuzzle.render();
   if (!game) renderDailyMissions();
   if (shop.open) renderShop();
   const nav = el("lobby-nav");
@@ -11255,7 +11611,7 @@ function render() {
     else button.removeAttribute("aria-current");
     button.disabled = busy;
   }
-  const mainAction = !game && !matchmaking && !shop.open && !missionDialog.open && !optionsDialog.open && !forest.watchDialog.open && !ruleDialog?.open && !profileDialog.open && !recordDialogTarget?.dialog.open && !tournamentCatchUpDialog.open && !coinShortageDialog.open && !coinRewardDialog.open;
+  const mainAction = !game && !matchmaking && !shop.open && !missionDialog.open && !dailyPuzzle.isOpen() && !optionsDialog.open && !forest.watchDialog.open && !ruleDialog?.open && !profileDialog.open && !recordDialogTarget?.dialog.open && !tournamentCatchUpDialog.open && !coinShortageDialog.open && !coinRewardDialog.open;
   el("start").disabled = busy || nextMatchPending || Boolean(matchmaking);
   el("show-records").disabled = busy || Boolean(matchmaking);
   renderRulePicker(mainAction);
@@ -11341,9 +11697,6 @@ function render() {
     button.hidden = button.dataset.opening === "swap" ? !maySwap(game) : !mayOffer(game);
     button.toggleAttribute("data-ncq-main", !openingActions.hidden && !button.hidden);
   }
-  const pass = el("pass-turn");
-  pass.hidden = !playing || Boolean(game.setup);
-  pass.disabled = !canAct() || game.board && inCheck(game.board, game.turn);
   let status = "waiting";
   if (finished) status = describeOutcome(game);
   else if (room && !connected) status = "reconnecting";
@@ -11371,9 +11724,8 @@ function render() {
   place.dataset.placementState = placementState;
   const placeState = el("place-state");
   const moveHint = pendingPlacement ? "jangiMoveSaving" : selectedFrom === null ? "jangiSelectPiece" : "jangiSelectTarget";
-  placeState.hidden = !actionable && !pendingPlacement;
-  if (!placeState.hidden) placeState.textContent = t2(moveHint);
-  el("place-text").textContent = t2(game.setup ? game.setup === game.you ? "jangiFormationActive" : "jangiFormationWaiting" : game.turn === game.you ? "turnActive" : "turnWaiting");
+  placeState.hidden = !liveLayout;
+  placeState.textContent = t2(game.setup ? game.setup === game.you ? "jangiFormationChoose" : "jangiFormationWait" : !connected ? "reconnecting" : !playing ? "result" : game.turn !== game.you ? "theirTurn" : moveHint);
   const placeLabel = game.setup ? t2(game.setup === game.you ? "jangiFormationChoose" : "jangiFormationWait") : game.turn !== game.you ? t2("theirTurn") : t2(moveHint);
   place.setAttribute("aria-label", placeLabel);
   place.title = placeLabel;
@@ -11480,7 +11832,8 @@ function renderSpectator({ game, closed, reconnecting, ply }) {
   el("review").hidden = false;
   const place = el("place");
   place.dataset.placementState = "inactive";
-  el("place-state").hidden = true;
+  el("place-state").hidden = !live;
+  el("place-state").textContent = announcement;
   place.removeAttribute("data-ncq-main");
   const lowerLabel = t2(game.setup && live ? game.setup === (game.black ?? 1) ? "jangiFormationActive" : "jangiFormationWaiting" : live && game.turn === (game.black ?? 1) ? "turnActive" : "turnWaiting");
   el("place-text").textContent = lowerLabel;
@@ -12552,11 +12905,6 @@ el("opening-actions").addEventListener("click", (event) => {
   if (!button || button.hidden || !canAct()) return;
   roomAction("move", { action: { type: button.dataset.opening }, version: room.version });
 });
-el("pass-turn").addEventListener("click", () => {
-  if (!canAct() || room.setup || inCheck(room.board, room.turn)) return;
-  if (!window.confirm(t2("confirmPass")) || !canAct()) return;
-  roomAction("move", { action: { type: "pass" }, version: room.version });
-});
 reviewRoomAction.addEventListener("click", () => {
   if (reviewRoomAction.dataset.action === "leave") leaveMatch();
   else if (reviewRoomAction.dataset.action === "next") void startNextMatch();
@@ -12737,6 +13085,7 @@ if (shareId === null) {
 }
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden) {
+    dailyPuzzle.dayChanged();
     renderDailyMissions();
     presentCoinReward();
     void refreshWallet();

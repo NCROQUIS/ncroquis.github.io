@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-  <script src="./ncq/safe.js?v=e6de42aefad4"></script>
-  <script src="./ncq/device.js?v=e6de42aefad4"></script>
-  <script src="./ncq/save.js?v=e6de42aefad4"></script>
+  <script src="./ncq/safe.js?v=1b99ce8116d0"></script>
+  <script src="./ncq/device.js?v=1b99ce8116d0"></script>
+  <script src="./ncq/save.js?v=1b99ce8116d0"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -12,18 +12,19 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=e6de42aefad4">
-  <link rel="stylesheet" href="./style.css?v=e6de42aefad4">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=e6de42aefad4">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=e6de42aefad4">
-  <link rel="stylesheet" href="./forest-ui.css?v=e6de42aefad4">
-  <link rel="stylesheet" href="./lobby-layout.css?v=e6de42aefad4">
-  <link rel="stylesheet" href="./list-dialog.css?v=e6de42aefad4">
-  <link rel="stylesheet" href="./shop-layout.css?v=e6de42aefad4">
-  <link rel="stylesheet" href="./ranking-layout.css?v=e6de42aefad4">
-  <link rel="stylesheet" href="./mission-layout.css?v=e6de42aefad4">
-  <script type="module" src="./app.js?v=e6de42aefad4"></script>
-<link rel="stylesheet" href="./jangi.css?v=e6de42aefad4">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=1b99ce8116d0">
+  <link rel="stylesheet" href="./style.css?v=1b99ce8116d0">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=1b99ce8116d0">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=1b99ce8116d0">
+  <link rel="stylesheet" href="./forest-ui.css?v=1b99ce8116d0">
+  <link rel="stylesheet" href="./lobby-layout.css?v=1b99ce8116d0">
+  <link rel="stylesheet" href="./list-dialog.css?v=1b99ce8116d0">
+  <link rel="stylesheet" href="./shop-layout.css?v=1b99ce8116d0">
+  <link rel="stylesheet" href="./ranking-layout.css?v=1b99ce8116d0">
+  <link rel="stylesheet" href="./mission-layout.css?v=1b99ce8116d0">
+  <script type="module" src="./app.js?v=1b99ce8116d0"></script>
+<link rel="stylesheet" href="./jangi.css?v=1b99ce8116d0">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=1b99ce8116d0">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -107,6 +108,10 @@
           </div>
         </div>
         <div id="lobby-mission-slot"></div>
+        <button id="show-daily-puzzle" type="button" aria-haspopup="dialog" aria-controls="daily-puzzle" data-i18n-attr="aria-label:puzzleEntry; title:puzzleEntry">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="6"/><path d="M9 11h14M9 21h14M11 8v16M21 8v16"/><circle cx="16" cy="16" r="5"/></svg>
+          <strong data-i18n="puzzleTitle"></strong>
+        </button>
         <div id="lobby-championship-slot"></div>
         <div id="lobby-cta-slot"></div>
         <div class="lobby-feed">
@@ -354,7 +359,10 @@
           <button id="leave" type="button" class="quiet"></button>
         </div>
         <div class="match-status">
-          <button id="watch-back" class="review-button" type="button" data-i18n-attr="aria-label:leaveSpectating" hidden>
+          <button id="leave-match" class="jangi-header-button" type="button" data-i18n-attr="aria-label:leave" aria-haspopup="dialog" aria-controls="leave-dialog">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"/></svg>
+          </button>
+          <button id="watch-back" class="jangi-header-button" type="button" data-i18n-attr="aria-label:leaveSpectating" hidden>
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"/></svg>
           </button>
           <div>
@@ -362,6 +370,9 @@
             <p id="round"></p>
           </div>
           <span class="mode-chip" id="mode"></span>
+          <button id="match-options" class="jangi-header-button" type="button" data-i18n-attr="aria-label:options" aria-haspopup="dialog" aria-controls="options">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#settings-icon"/></svg>
+          </button>
           <p id="turn-announcement" class="sr-only" role="status"></p>
         </div>
         <div id="opponent-panel" class="match-art-panel match-player" hidden>
@@ -370,21 +381,13 @@
           </div>
           <button id="opponent-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
             <strong id="opponent-nickname" dir="auto"></strong>
-            <span class="seat"><span id="opponent-stone" class="stone" role="img"></span><span id="opponent-rank" hidden></span></span>
+            <span class="seat"><span id="opponent-stone" class="stone" role="img"></span><span id="opponent-rank" hidden></span><span id="opponent-turn" class="jangi-turn-badge"></span></span>
           </button>
-          <span class="match-art-divider" aria-hidden="true"></span>
-          <div id="opponent-timer" class="match-art-gauge">
-            <svg id="opponent-gauge" aria-hidden="true">
-              <defs><path id="opponent-gauge-outline" pathLength="100" fill="none"
-                          stroke="currentColor" stroke-width="3" stroke-linecap="round"/></defs>
-              <use class="match-art-gauge-track" href="#opponent-gauge-outline"/>
-              <use id="opponent-progress" class="match-art-gauge-progress" href="#opponent-gauge-outline"/>
-            </svg>
-            <span id="opponent-turn"></span>
-            <span id="opponent-divider" class="gauge-divider" aria-hidden="true"></span>
+          <div id="opponent-timer" class="jangi-player-time">
             <span id="opponent-clock" class="player-clock" role="timer"></span>
             <span id="opponent-refills" class="jangi-refills" role="img" hidden></span>
           </div>
+          <div id="opponent-gauge" class="jangi-time-track" role="progressbar" aria-valuemin="0" aria-valuemax="300" aria-valuenow="300" data-i18n-attr="aria-label:jangiOpponentGauge"><span id="opponent-progress" class="jangi-time-fill"></span></div>
         </div>
         <button id="review-opponent-profile" class="review-player" type="button" aria-haspopup="dialog" aria-controls="player-profile" hidden>
           <span class="review-avatar match-avatar" aria-hidden="true">
@@ -412,6 +415,7 @@
             </svg>
           </div>
         </div>
+        <p id="place-state" class="jangi-move-hint" hidden></p>
         <div id="own-panel" class="match-art-panel match-player" hidden>
           <div class="match-art-avatar match-avatar" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
@@ -419,35 +423,19 @@
           </div>
           <button id="own-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
             <strong id="own-nickname"></strong>
-            <span class="seat"><span id="own-stone" class="stone" role="img"></span><span id="own-rank" hidden></span></span>
+            <span class="seat"><span id="own-stone" class="stone" role="img"></span><span id="own-rank" hidden></span><span id="place-text" class="jangi-turn-badge"></span></span>
           </button>
-          <span class="match-art-divider" aria-hidden="true"></span>
-          <div id="place" class="match-art-gauge" role="status" aria-live="off">
-            <svg id="place-gauge" aria-hidden="true">
-              <defs><path id="place-gauge-outline" pathLength="100" fill="none"
-                          stroke="currentColor" stroke-width="3" stroke-linecap="round"/></defs>
-              <use class="match-art-gauge-track" href="#place-gauge-outline"/>
-              <use id="own-progress" class="match-art-gauge-progress" href="#place-gauge-outline"/>
-            </svg>
-            <span class="placement-copy">
-              <span id="place-text"></span>
-              <small id="place-state" hidden></small>
-            </span>
-            <span id="place-divider" class="gauge-divider" aria-hidden="true"></span>
+          <div id="place" class="jangi-player-time" role="status" aria-live="off">
             <span id="own-clock" class="player-clock" role="timer"></span>
             <span id="own-refills" class="jangi-refills" role="img" hidden></span>
           </div>
+          <div id="place-gauge" class="jangi-time-track" role="progressbar" aria-valuemin="0" aria-valuemax="300" aria-valuenow="300" data-i18n-attr="aria-label:jangiOwnGauge"><span id="own-progress" class="jangi-time-fill"></span></div>
         </div>
         <div id="live-actions" class="live-actions" hidden>
           <div id="opening-actions" class="opening-actions" hidden>
             <button type="button" class="match-art-action" data-opening="swap" data-i18n="swapColors"></button>
             <button type="button" class="match-art-action" data-opening="offerFive" data-i18n="offerFifthMoves"></button>
           </div>
-          <button id="pass-turn" class="match-art-action" type="button" data-i18n="passTurn" hidden></button>
-          <button id="leave-match" class="match-art-action" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="./assets/match-ui/icons.svg#resign"/></svg>
-            <span data-i18n="leave"></span>
-          </button>
         </div>
         <div id="review" class="review" hidden>
           <div class="review-controls" role="group" data-i18n-attr="aria-label:review">
@@ -686,6 +674,19 @@
       </form>
     </dialog>
 
+    <dialog id="daily-puzzle" aria-labelledby="puzzle-title">
+      <div class="puzzle-shell">
+        <header class="puzzle-heading"><div><small id="puzzle-date"></small><h2 id="puzzle-title" data-i18n="puzzleTitle"></h2></div><button id="puzzle-close" type="button" data-i18n-attr="aria-label:puzzleClose">×</button></header>
+        <div class="puzzle-intro"><strong data-i18n="puzzleGoal"></strong><span id="puzzle-reward"></span><p id="puzzle-side"></p></div>
+        <div id="puzzle-board-slot" data-ncq-no-main>
+          <div id="puzzle-board" class="board" role="grid" data-i18n-attr="aria-label:board">
+            <div id="puzzle-grid" class="board-grid" role="rowgroup"><svg class="board-lines" viewBox="0 0 9 10" preserveAspectRatio="none" aria-hidden="true"><use href="#board-engraving"/></svg></div>
+          </div>
+        </div>
+        <div class="puzzle-feedback" role="status" aria-live="polite"><strong id="puzzle-status"></strong><p id="puzzle-explanation"></p></div>
+        <footer><div class="puzzle-actions"><button id="puzzle-hint" type="button" data-i18n="puzzleHint"></button><button id="puzzle-reset" type="button" data-i18n="puzzleReset"></button></div><small data-i18n="puzzleRules"></small><small data-i18n="puzzleSource"></small></footer>
+      </div>
+    </dialog>
     <dialog id="missions" class="mission-dialog" aria-labelledby="missions-title">
       <form method="dialog">
         <header class="mission-heading">

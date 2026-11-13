@@ -1,5 +1,5 @@
 @import url('./assets/jangi-skins/skins.css?v=42a1e54805f2');
-/* Only the board, pieces and rule-specific controls override the shared Omok UI. */
+/* Janggi board, pieces and the approved player-card layout. */
 @font-face {
   font-family:JanggiBrush;
   src:url('./assets/jangi-skins/fonts/piece-glyphs.ttf') format('truetype');
@@ -38,6 +38,8 @@
 .stone.white { --piece-ink:var(--jangi-han); }
 .stone:not([data-kind]).black::after { content:'楚'; }
 .stone:not([data-kind]).white::after { content:'漢'; }
+/* Yuji Syuku's line box places visible strokes low. Move only the lettering. */
+.jangi-glyph,.stone:not([data-kind])::after { display:block;transform:translateY(-.06em);pointer-events:none; }
 .cell .stone,.cell .stone.black,.cell .stone.white,#board[data-move-numbers] .cell .stone {
   position:absolute; display:grid; width:var(--jangi-piece-size); height:auto; aspect-ratio:1;
   font-size:var(--jangi-type-size); color:var(--piece-ink);
@@ -47,10 +49,6 @@
 .cell .stone[hidden] { display:none!important; }
 .cell.selected-piece::before { content:'';position:absolute;inset:2%;border:2px solid #fff297;border-radius:9px;box-shadow:0 0 7px #ffe288; }
 .cell.placing { z-index:8; }
-#place { border:1px solid; border-radius:999px; cursor:default; box-sizing:border-box; }
-#place:not(:disabled):hover { filter:none; }
-#place .placement-copy { flex:0 1 auto; min-width:0; }
-#place-state { white-space:normal; text-align:center; }
 .cell.jangi-legal::after { content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:19%;aspect-ratio:1;border-radius:50%;background:#2f7949;box-shadow:0 0 0 2px #ffe8aa;z-index:4;pointer-events:none; }
 .cell.jangi-legal:not([data-stone='0'])::after { width:88%;border:3px solid #ffd26c;border-radius:8px;background:transparent;box-shadow:none; }
 .cell.jangi-check>.stone { background:var(--jangi-check-body,var(--jangi-body)); }
@@ -72,13 +70,10 @@
 #jangi-formation h2 { flex:none;margin:0;font-size:21px;line-height:1.3; }
 .jangi-formation-heading { display:flex;justify-content:space-between;align-items:center;gap:10px; }
 #jangi-formation-clock { flex:none;font-size:23px;font-weight:800;color:#a32825;font-variant-numeric:tabular-nums; }
-.jangi-refills { display:flex;gap:2px;position:absolute;right:9px;bottom:2px;color:#927019;line-height:1; }
-.match-art-gauge[data-active="true"] .jangi-refills { color:#f5d566; }
+.jangi-refills { display:flex;gap:2px;color:#927019;line-height:1; }
 .jangi-refills svg { width:10px;height:12px; }
 .jangi-refills [data-used] { opacity:.2; }
 .jangi-refills[hidden] { display:none; }
-.match-art-gauge:has(.jangi-refills:not([hidden])) .player-clock { padding-bottom:10px; }
-.forest-ui .match-art-gauge .player-clock[data-byoyomi] { color:#e83d37;text-shadow:0 1px 1px #3e1711; }
 .jangi-formation-content { min-height:0;overflow-y:auto;overscroll-behavior:contain; }
 #jangi-formation .jangi-formation-hint { margin:0 0 12px;font-size:11px;line-height:1.55; }
 .jangi-opponent-formation { padding:10px 12px;margin-bottom:12px;border-radius:9px;background:#e9e5d6;border:1px solid #d5c9aa; }
@@ -100,3 +95,60 @@
 #jangi-formation button[type='submit'] { flex:none;min-height:44px; }
 .lobby-logo-pair::after { content:'楚 漢';font:bold 32px Batang,serif;color:#eff6d3;text-shadow:0 2px #123915; }
 .lobby-logo-pair>svg { display:none!important; }
+
+/* The whole active card changes color; both fixed-scale time bars stay visible. */
+.forest-ui .match[data-playing] { max-width:560px; }
+.forest-ui .match[data-playing] .match-status {
+  display:grid;grid-template-columns:44px minmax(0,1fr) 44px;min-height:44px;padding:0;gap:8px;
+}
+.forest-ui .match[data-playing] .match-status::before,
+.forest-ui .match[data-playing] .match-status::after { display:none; }
+.forest-ui .match[data-playing] .match-status h1 { font-size:12px;line-height:1.4;letter-spacing:0;overflow-wrap:anywhere; }
+.forest-ui .match[data-playing] .match-status>div { min-width:0; }
+.forest-ui .jangi-header-button {
+  display:grid;place-items:center;width:44px;height:44px;padding:10px;border:1px solid #cbb584;border-radius:12px;
+  color:#25472f;background:linear-gradient(#fffbed,#eaddbd);box-shadow:0 2px 4px #001a0d40;
+}
+.forest-ui .jangi-header-button svg { width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round; }
+.forest-ui #watch-back { position:static;width:44px;height:44px; }
+.forest-ui .match-player {
+  grid-template-columns:34px minmax(0,1fr) 74px;grid-template-rows:minmax(39px,auto) 6px;column-gap:9px;row-gap:8px;
+  min-height:0;padding:10px 12px 9px;border-radius:16px;
+  color:#24432d;background:linear-gradient(135deg,#fffbed,#f1e5cb);border-color:#d4bf92;box-shadow:0 2px 5px #00180d30;
+}
+.forest-ui .match-player[data-active="true"] {
+  color:#fff9e8;background:linear-gradient(125deg,#2f6b3f,#184b2b);border-color:#edcf7c;box-shadow:0 0 0 1px #edcf7c,0 2px 8px #00180d45;
+}
+.forest-ui .match-player .match-avatar { width:34px;max-width:none; }
+.forest-ui .match-player .match-identity { gap:4px;align-self:stretch;align-content:center; }
+.forest-ui .match-player .match-identity strong { font-size:14px;line-height:1.2; }
+.forest-ui .match-player .match-identity .seat { gap:5px;font-size:11px;line-height:1.2;color:#65705b; }
+.forest-ui .match-player[data-active="true"] .seat { color:#f4f0da; }
+.forest-ui .match-player .match-identity .stone { flex:none;width:17px;height:17px;font-size:14px; }
+.forest-ui .match-player .match-profile-trigger:disabled { opacity:1; }
+.forest-ui .match[data-playing] :is(#opponent-turn,#place-text) {
+  display:inline-flex;align-items:center;gap:4px;min-width:0;margin-inline-start:2px;padding:2px 7px;border-radius:999px;
+  font-size:11px;font-weight:700;line-height:1.3;background:#e7dfce;color:#66705c;white-space:normal;text-align:start;
+}
+.forest-ui .match-player[data-active="true"] :is(#opponent-turn,#place-text) { background:#f1d37e;color:#22472a; }
+.forest-ui .match-player[data-active="true"] .jangi-turn-badge::before { content:'';flex:none;width:5px;height:5px;border-radius:50%;background:#2b6235; }
+.forest-ui .jangi-player-time { display:grid;justify-items:end;align-content:center;gap:3px;min-width:0; }
+.forest-ui #place[data-placement-state]:not(:disabled) { padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:inherit;cursor:default; }
+.forest-ui #place:not(:disabled):hover { filter:none; }
+.forest-ui .jangi-player-time .player-clock { font-size:24px;line-height:1;font-weight:800;letter-spacing:-.5px;color:#29462e; }
+.forest-ui .match-player[data-active="true"] .player-clock { color:#fff3c3; }
+.forest-ui .match-player[data-active="true"] .jangi-refills { color:#ecd37e; }
+.forest-ui .jangi-player-time .player-clock:is([data-byoyomi],[data-urgent]) { color:#b43228;text-shadow:none; }
+.forest-ui .match-player[data-active="true"] .player-clock:is([data-byoyomi],[data-urgent]) { color:#ffaf9e; }
+.forest-ui .jangi-time-track { grid-column:1 / -1;width:100%;height:6px;overflow:hidden;border-radius:999px;background:#d4cdb8; }
+.forest-ui .jangi-time-fill { display:block;height:100%;width:calc(var(--match-art-progress,0) * 1%);border-radius:inherit;background:linear-gradient(90deg,#b58e35,#e5c974); }
+.forest-ui .match-player[data-active="true"] .jangi-time-track { background:#123a22; }
+.forest-ui .match-player[data-active="true"] .jangi-time-fill { background:linear-gradient(90deg,#d0ac4f,#f1d783); }
+.forest-ui .match-player[data-low] .jangi-time-fill { background:#cf5946; }
+.forest-ui .match-player[data-active="true"][data-low] .jangi-time-fill { background:#ff9b83; }
+.forest-ui .match-player[data-active="true"][data-low] .jangi-turn-badge { background:#ffcebc;color:#792b21; }
+.forest-ui #place-state { margin:0;text-align:center;font-size:11px;font-weight:500;line-height:1.4;color:#f1e9c8;white-space:normal; }
+.forest-ui .match[data-compact-board] .match-player { grid-template-columns:30px minmax(0,1fr) 67px;grid-template-rows:minmax(32px,auto) 6px;column-gap:8px;row-gap:4px;padding:5px 10px;border-radius:13px; }
+.forest-ui .match[data-compact-board] .match-player .match-avatar { width:30px; }
+.forest-ui .match[data-compact-board] .match-player .player-clock { font-size:22px; }
+.forest-ui .match[data-compact-board] .jangi-refills svg { width:8px;height:10px; }

@@ -2510,7 +2510,7 @@ dialog input { width: 100%; }
   gap: 9px;
 }
 #shop form > :not(.shop-content) { flex: none; }
-:is(#shop-purchase-complete, #coin-shortage, #leave-dialog, #coin-reward-dialog) {
+:is(#shop-purchase-complete, #coin-shortage, #leave-dialog, #coin-reward-dialog, #bikjang-confirm) {
   inset: var(--ncq-top, 0px) var(--ncq-right, 0px) var(--ncq-bottom, 0px) var(--ncq-left, 0px);
   width: min(340px, calc(100% - var(--ncq-left, 0px) - var(--ncq-right, 0px) - 32px));
   max-height: calc(100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - 16px);
@@ -2518,7 +2518,7 @@ dialog input { width: 100%; }
   box-shadow: 0 12px 32px #18292038;
   text-align: center;
 }
-:is(#shop-purchase-complete, #coin-shortage, #leave-dialog, #coin-reward-dialog) form { gap: 12px; }
+:is(#shop-purchase-complete, #coin-shortage, #leave-dialog, #coin-reward-dialog, #bikjang-confirm) form { gap: 12px; }
 .coin-reward-amount {
   display: flex;
   align-items: center;
@@ -2532,7 +2532,7 @@ dialog input { width: 100%; }
 .coin-reward-balance { color: var(--muted); font-size: .88rem; }
 .coin-reward-balance strong { font-variant-numeric: tabular-nums; }
 .coin-shortage-actions, .leave-dialog-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-:is(#coin-shortage-message, #leave-dialog-message) { line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }
+:is(#coin-shortage-message, #leave-dialog-message, #bikjang-confirm-message) { line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }
 .shop-purchase-check {
   display: grid;
   place-items: center;

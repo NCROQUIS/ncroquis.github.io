@@ -188,6 +188,30 @@ function applyPreviewPieceStyles(preview, choice, game) {
   }
 }
 
+// game/bikjang.js
+var isBikjangDraw = (game) => !game?.winner && (game?.endReason ?? game?.reason ?? game?.recordDetail?.state?.endReason) === "bikjang";
+function endsInBikjangDraw(game, action) {
+  if (!game?.bikjang || game.phase !== "playing" || game.setup) return false;
+  try {
+    const next = apply(
+      { ...game, winner: null, positions: {}, passes: 0 },
+      action.type === "move" ? { ...action, to: action.to ?? action.index } : action
+    );
+    return next.winner === 0 && next.reason === "bikjang";
+  } catch {
+    return false;
+  }
+}
+function bikjangGeometry(board2, flipped = false) {
+  if (!facing(board2)) return null;
+  const kings = [board2.indexOf(KING), board2.indexOf(-KING)];
+  const points = kings.map((index2) => {
+    const visible = flipped ? 89 - index2 : index2;
+    return [visible % 9 + 0.5, Math.floor(visible / 9) + 0.5];
+  });
+  return { kings, path: `M${points[0].join(" ")}L${points[1].join(" ")}` };
+}
+
 // game/piece-glyph.js
 function setPieceGlyph(stone, text) {
   let glyph = stone.firstElementChild;
@@ -215,6 +239,19 @@ function drawJangiBoard({ game, displayedBoard, cells: cells2, selectedFrom: sel
   const targets = selectable ? targetsFrom(game, selectedFrom2) : [];
   const checked = inCheck(displayedBoard, game.turn);
   const flipped = game.you === 2;
+  const bikjang = !game.setup && (latest ? game.bikjang || isBikjangDraw(game) : true) ? bikjangGeometry(displayedBoard, flipped) : null;
+  let line = board2.querySelector(".jangi-bikjang-line");
+  if (!line) {
+    line = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    line.setAttribute("class", "jangi-bikjang-line");
+    line.setAttribute("viewBox", "0 0 9 10");
+    line.setAttribute("preserveAspectRatio", "none");
+    line.setAttribute("aria-hidden", "true");
+    line.append(document.createElementNS("http://www.w3.org/2000/svg", "path"));
+    board2.querySelector(".board-grid").append(line);
+  }
+  line.style.display = bikjang ? "" : "none";
+  if (bikjang) line.firstElementChild.setAttribute("d", bikjang.path);
   board2.dataset.jangi = "";
   board2.classList.toggle("selectable", selectable);
   const move = game.moves[(latest ? game.moves.length : game.displayPly) - 1];
@@ -232,6 +269,7 @@ function drawJangiBoard({ game, displayedBoard, cells: cells2, selectedFrom: sel
     cell.classList.toggle("selected", target);
     cell.classList.toggle("jangi-legal", targets.includes(index2));
     cell.classList.toggle("jangi-check", kind === KING && side === game.turn && checked);
+    cell.classList.toggle("jangi-bikjang", Boolean(bikjang?.kings.includes(index2)));
     const token = cell.firstElementChild;
     const preview = target && !piece ? displayedBoard[selectedFrom2] : piece;
     cell.dataset.stoneStyle = pieceStyleForSeat(game, sideOf(preview), localPieceStyle);
@@ -314,7 +352,18 @@ var JANGI_TEXTS = {
     shopPreviewGuide: "\uB0B4 \uB9D0\uC5D0\uB9CC \uC801\uC6A9\uB3FC\uC694. \uC0C1\uB300 \uB9D0\uC740 \uC0C1\uB300\uAC00 \uACE0\uB978 \uC2A4\uD0A8\uC73C\uB85C \uBCF4\uC5EC\uC694.",
     jangiEmpty: "\uBE48 \uC790\uB9AC",
     jangiCheck: "\uC7A5\uAD70! \uAD81\uC744 \uC9C0\uD0A4\uB294 \uC218\uB97C \uB450\uC138\uC694.",
-    jangiBikjang: "\uBE45\uC7A5\uC785\uB2C8\uB2E4. \uB2E4\uC74C \uC218\uC5D0 \uB9C8\uC8FC \uBCF4\uB294 \uAD81\uC744 \uD480\uC5B4 \uC8FC\uC138\uC694.",
+    jangiBikjang: "\uBE45\uC7A5! \uAD81\uC774 \uC11C\uB85C \uB9C8\uC8FC \uBCF4\uACE0 \uC788\uC5B4\uC694.",
+    jangiBikjangCall: "\uBE45\uC7A5!",
+    jangiBikjangGuide: "\uAD81\uC744 \uC62E\uAE30\uAC70\uB098 \uC0AC\uC774\uB97C \uB9C9\uC73C\uC138\uC694. \uADF8\uB300\uB85C \uB450\uBA74 \uBB34\uC2B9\uBD80\uC785\uB2C8\uB2E4.",
+    jangiBikjangWaiting: "\uC0C1\uB300\uAC00 \uBE45\uC7A5\uC744 \uD574\uC18C\uD558\uC9C0 \uC54A\uC73C\uBA74 \uBB34\uC2B9\uBD80\uAC00 \uB429\uB2C8\uB2E4.",
+    jangiBikjangWatch: "\uB2E4\uC74C \uC218\uC5D0\uB3C4 \uAD81\uC774 \uB9C8\uC8FC \uBCF4\uBA74 \uBE45\uC7A5 \uBB34\uC2B9\uBD80\uC785\uB2C8\uB2E4.",
+    jangiBikjangConfirmTitle: "\uBE45\uC7A5 \uBB34\uC2B9\uBD80\uB85C \uB05D\uB0BC\uAE4C\uC694?",
+    jangiBikjangConfirmMessage: "\uC774 \uC218\uB97C \uB450\uBA74 \uAD81\uC774 \uB9C8\uC8FC \uBCF4\uB294 \uC0C1\uD0DC\uAC00 \uC720\uC9C0\uB418\uC5B4 \uBB34\uC2B9\uBD80\uB85C \uB300\uAD6D\uC774 \uB05D\uB0A9\uB2C8\uB2E4.",
+    jangiBikjangClockNotice: "\uD655\uC778 \uC911\uC5D0\uB3C4 \uB300\uAD6D \uC2DC\uAC04\uC740 \uACC4\uC18D \uD758\uB7EC\uC694.",
+    jangiBikjangContinue: "\uB2E4\uB978 \uC218 \uB450\uAE30",
+    jangiBikjangAccept: "\uBB34\uC2B9\uBD80\uB85C \uB05D\uB0B4\uAE30",
+    jangiBikjangDraw: "\uBE45\uC7A5 \uBB34\uC2B9\uBD80",
+    jangiBikjangDrawReason: "\uB450 \uAD81\uC774 \uB9C8\uC8FC \uBCF4\uB294 \uC0C1\uD0DC\uAC00 \uB2E4\uC74C \uC218\uC5D0\uB3C4 \uC720\uC9C0\uB418\uC5B4 \uBB34\uC2B9\uBD80\uB85C \uB05D\uB0AC\uC2B5\uB2C8\uB2E4.",
     jangiFormation: "\uB9C8\uC0C1 \uD3EC\uC9C4 \uC120\uD0DD",
     jangiFormationWait: "\uC0C1\uB300\uAC00 \uB9C8\uC0C1 \uCC28\uB9BC\uC744 \uACE0\uB974\uACE0 \uC788\uC5B4\uC694.",
     jangiFormationChoose: "\uB0B4 \uB9C8\uC0C1 \uCC28\uB9BC\uC744 \uACE0\uB974\uC138\uC694.",
@@ -372,7 +421,18 @@ var JANGI_TEXTS = {
     shopPreviewGuide: "Applies to your pieces. Your opponent uses their own skin.",
     jangiEmpty: "Empty point",
     jangiCheck: "Check! Protect your general.",
-    jangiBikjang: "Bikjang. Break the facing generals on your next move.",
+    jangiBikjang: "Bikjang! The generals are facing each other.",
+    jangiBikjangCall: "Bikjang!",
+    jangiBikjangGuide: "Move your general or block the line. Leaving it open ends the game in a draw.",
+    jangiBikjangWaiting: "The game is drawn if your opponent leaves the generals facing each other.",
+    jangiBikjangWatch: "If the generals still face after the next move, the game ends in a bikjang draw.",
+    jangiBikjangConfirmTitle: "End in a bikjang draw?",
+    jangiBikjangConfirmMessage: "This move leaves the generals facing each other and ends the game in a draw.",
+    jangiBikjangClockNotice: "Your clock keeps running while you decide.",
+    jangiBikjangContinue: "Choose another move",
+    jangiBikjangAccept: "End in a draw",
+    jangiBikjangDraw: "Bikjang draw",
+    jangiBikjangDrawReason: "The generals remained facing each other after the reply, so the game ended in a draw.",
     jangiFormation: "Horse & elephant setup",
     jangiFormationWait: "Your opponent is choosing a formation.",
     jangiFormationChoose: "Choose your formation.",
@@ -8404,11 +8464,70 @@ function mergeFinishedRoom(previous, next, records2) {
   };
 }
 
+// supabase/functions/matjjangjangi/daily-puzzles.mjs
+var compositions = [
+  { theme: "rookNet", pieces: [[7, 3], [12, -1], [14, -2], [21, -2], [35, -7], [38, 3], [50, 6], [76, 1]] },
+  { theme: "rookCapture", pieces: [[3, -2], [5, -2], [22, -1], [32, 3], [36, 3], [40, -7], [50, 6], [76, 1]] },
+  { theme: "cannonBridge", pieces: [[12, -2], [22, -1], [23, -2], [28, 6], [30, 3], [36, -7], [40, 4], [76, 1]] },
+  { theme: "cannonNet", pieces: [[3, -2], [4, -1], [6, 4], [7, 6], [12, -2], [23, 3], [40, -7], [76, 1]] },
+  { theme: "horseNet", pieces: [[3, -1], [12, -2], [23, -2], [25, 6], [39, 5], [40, -7], [49, 3], [76, 1]] },
+  { theme: "horsePalace", pieces: [[3, -2], [5, -2], [14, -1], [21, 3], [33, -7], [38, 5], [46, 6], [76, 1]] },
+  { theme: "soldierCapture", pieces: [[5, -2], [8, 6], [14, -1], [23, -2], [31, 3], [32, 7], [40, -7], [76, 1]] },
+  { theme: "soldierNet", pieces: [[4, 6], [13, -2], [21, -2], [22, -1], [32, 3], [33, -7], [40, 7], [76, 1]] }
+];
+var DAILY_PUZZLE_COUNT = compositions.length * 4;
+var DAILY_PUZZLE_REWARD = 50;
+var koreaDay = (time) => new Date(time + 9 * 60 * 6e4).toISOString().slice(0, 10);
+function puzzleForDay(day) {
+  if (typeof day !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(day)) throw Error("invalidDay");
+  const time = Date.parse(day + "T00:00:00Z");
+  if (!Number.isFinite(time) || new Date(time).toISOString().slice(0, 10) !== day) throw Error("invalidDay");
+  const offset = Math.floor((time - Date.UTC(2026, 10, 14)) / 864e5);
+  const slot = (offset % DAILY_PUZZLE_COUNT + DAILY_PUZZLE_COUNT) % DAILY_PUZZLE_COUNT;
+  const base2 = compositions[slot % compositions.length], variant = Math.floor(slot / compositions.length);
+  const board2 = Array(90).fill(0), rotate = variant >= 2;
+  for (const [i, piece] of base2.pieces) {
+    const mirrored = variant % 2 ? Math.floor(i / 9) * 9 + 8 - i % 9 : i;
+    board2[rotate ? 89 - mirrored : mirrored] = rotate ? -piece : piece;
+  }
+  return { id: "mate-v1-" + slot, number: slot + 1, theme: base2.theme, board: board2, turn: rotate ? 2 : 1, goal: "mateInOne" };
+}
+
+// daily-puzzle-progress.js
+function createPuzzleProgress({ now = Date.now, elapsed = () => performance.now() } = {}) {
+  let player = null, lastRewardDay = null, serverTime = null, receivedAt = 0;
+  function accept(wallet, owner) {
+    if (owner !== player) {
+      player = owner;
+      lastRewardDay = null;
+      serverTime = null;
+    }
+    if (Object.hasOwn(wallet, "puzzleLastRewardDay")) lastRewardDay = wallet.puzzleLastRewardDay;
+    if (Number.isFinite(wallet.serverNow)) {
+      serverTime = wallet.serverNow;
+      receivedAt = elapsed();
+    }
+  }
+  const today = () => koreaDay(serverTime === null ? now() : serverTime + Math.max(0, elapsed() - receivedAt));
+  return {
+    accept,
+    today,
+    claimed: (day = today()) => Boolean(lastRewardDay && lastRewardDay >= day),
+    correctTime: (time) => {
+      if (Number.isFinite(time)) {
+        serverTime = time;
+        receivedAt = elapsed();
+      }
+    }
+  };
+}
+
 // daily-puzzle.js
 function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
   const el2 = (id) => document.getElementById(id), dialog = el2("daily-puzzle"), grid = el2("puzzle-grid");
   const board2 = el2("puzzle-board"), cells2 = [];
-  let data = null, from = null, solved = null, pending = false, loading = false, error = null, message = null, hint = null, generation = 0, motion = null;
+  const progress = createPuzzleProgress();
+  let data = null, from = null, solved = null, pending = false, error = null, message = null, hint = null, generation = 0, motion = null, claimMove = null;
   const state = () => ({ ...initial(), board: data.puzzle.board.slice(), turn: data.puzzle.turn, positions: {} });
   const coordinate2 = (i) => "ABCDEFGHJ"[i % 9] + (10 - Math.floor(i / 9));
   for (let i = 0; i < 90; i++) {
@@ -8428,16 +8547,17 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
   }
   const marker = document.createElement("span");
   function render2() {
-    const puzzle = data?.puzzle, playable = Boolean(puzzle) && !pending && !loading && !error && !solved;
+    const puzzle = data?.puzzle, playable = Boolean(puzzle) && !pending && !error && !solved;
+    if (data) data.claimed = progress.claimed(data.day);
     dialog.dataset.result = solved ? "solved" : message === "puzzleWrong" ? "wrong" : "";
-    el2("show-daily-puzzle").toggleAttribute("data-claimed", Boolean(data?.claimed));
+    el2("show-daily-puzzle").toggleAttribute("data-claimed", progress.claimed());
     el2("puzzle-date").textContent = puzzle ? t3("puzzleDate", { day: data.day, n: puzzle.number }) : "";
-    el2("puzzle-reward").textContent = t3(data?.claimed ? "puzzleClaimed" : "puzzleReward", { n: data?.reward ?? 50 });
+    el2("puzzle-reward").textContent = t3(data?.claimed ? "puzzleClaimed" : "puzzleReward", { n: DAILY_PUZZLE_REWARD });
     el2("puzzle-side").textContent = solved ? t3("puzzleTheme_" + puzzle.theme) : from !== null ? t3("puzzleSelected", {
       piece: GLYPHS[puzzle.turn][Math.abs(puzzle.board[from]) - 1]
     }) : puzzle ? t3("puzzleSide", { side: t3(puzzle.turn === 1 ? "black" : "white") }) : t3("puzzleSubtitle");
-    el2("puzzle-board-slot").hidden = !puzzle || Boolean(error);
-    el2("puzzle-status").textContent = t3(loading ? "puzzleLoading" : pending ? "puzzleSubmit" : error ?? (!puzzle ? "puzzleLoading" : solved ? "puzzleSuccess" : message ?? (data?.claimed ? "puzzleSolvedHint" : "puzzleTheme_" + puzzle.theme)));
+    el2("puzzle-board-slot").hidden = !puzzle;
+    el2("puzzle-status").textContent = t3(pending ? "puzzleSubmit" : error ?? (!puzzle ? "puzzleLoading" : solved ? "puzzleSuccess" : message ?? (data?.claimed ? "puzzleSolvedHint" : "puzzleTheme_" + puzzle.theme)));
     el2("puzzle-explanation").textContent = solved ? t3("puzzleExplain", {
       piece: GLYPHS[puzzle.turn][Math.abs(puzzle.board[solved.from]) - 1],
       from: coordinate2(solved.from),
@@ -8445,8 +8565,8 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
     }) + (solved.granted ? " " + t3("puzzleGranted", { n: data.reward }) : " " + t3("puzzleNext")) : hint !== null ? t3("puzzleHintText") : "";
     el2("puzzle-hint").disabled = !playable;
     el2("puzzle-hint").hidden = Boolean(error);
-    el2("puzzle-reset").disabled = pending || loading;
-    el2("puzzle-reset").textContent = t3(error ? "puzzleReload" : solved ? "puzzlePractice" : "puzzleReset");
+    el2("puzzle-reset").disabled = pending;
+    el2("puzzle-reset").textContent = t3(error ? claimMove && error !== "puzzleExpired" ? "puzzleRetryReward" : "puzzleReload" : solved ? "puzzlePractice" : "puzzleReset");
     el2("puzzle-reset").toggleAttribute("data-ncq-main", dialog.open && Boolean(error || solved));
     if (!puzzle) return;
     const styles = appearance();
@@ -8472,36 +8592,41 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
       cell.classList.toggle("puzzle-hint", i === hint);
     }
   }
-  async function load() {
-    const own2 = ++generation;
+  function load() {
+    ++generation;
     motion?.cancel();
     motion = null;
     pending = false;
-    loading = true;
     error = null;
-    data = null;
     solved = null;
     from = null;
     hint = null;
     message = null;
+    claimMove = null;
+    const day = progress.today();
+    data = { day, puzzle: puzzleForDay(day), reward: DAILY_PUZZLE_REWARD };
+    window.NcqMetrics?.levelStart("daily-puzzle");
     render2();
-    try {
-      const next = await request();
-      if (own2 !== generation) return;
-      if (next?.error || !next?.puzzle?.board) throw Error();
-      data = next;
-      window.NcqMetrics?.levelStart("daily-puzzle");
-    } catch {
-      if (own2 === generation) error = "puzzleOffline";
-    } finally {
-      if (own2 === generation) {
-        loading = false;
-        render2();
-      }
-    }
+  }
+  function finish(move, granted = false) {
+    solved = { ...move, granted };
+    hint = null;
+    from = null;
+    claimMove = null;
+    error = null;
+    window.NcqMetrics?.levelEnd("daily-puzzle", true, { score: DAILY_PUZZLE_REWARD });
+    render2();
+    const own2 = generation;
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) motion = animateJangiMove(cells2[move.from], cells2[move.to], null, {
+      shouldContinue: () => dialog.open && generation === own2 && !document.hidden
+    });
   }
   async function pick2(index2) {
-    if (!data || pending || solved || error || loading) return;
+    if (!data || pending || solved || error) return;
+    if (data.day !== progress.today()) {
+      load();
+      return;
+    }
     const puzzle = data.puzzle;
     if (sideOf(puzzle.board[index2]) === puzzle.turn) {
       from = from === index2 ? null : index2;
@@ -8510,34 +8635,43 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
       return;
     }
     if (from === null || !legalMoves(puzzle.board, puzzle.turn).some((m) => m.from === from && m.to === index2)) return;
-    const move = { from, to: index2 }, own2 = generation;
+    const move = { from, to: index2 };
+    if (apply(state(), { type: "move", ...move }).winner !== puzzle.turn) {
+      message = "puzzleWrong";
+      from = null;
+      render2();
+      return;
+    }
+    if (progress.claimed(data.day)) {
+      finish(move);
+      return;
+    }
+    await claim(move);
+  }
+  async function claim(move) {
+    if (pending) return;
+    const own2 = generation, puzzle = data.puzzle;
+    claimMove = move;
     pending = true;
+    error = null;
     message = null;
     render2();
     try {
       const result = await request({ day: data.day, id: puzzle.id, ...move });
       if (own2 !== generation) return;
       if (result?.error) {
-        error = result.error === "puzzleExpired" ? "puzzleExpired" : "puzzleOffline";
+        progress.correctTime(result.serverNow);
+        error = result.error === "puzzleExpired" ? "puzzleExpired" : "puzzleClaimFailed";
         return;
       }
-      if (!result?.correct) {
-        message = "puzzleWrong";
-        from = null;
+      if (!result?.correct || !result.wallet) {
+        error = "puzzleClaimFailed";
         return;
       }
-      data = { ...data, claimed: true };
-      solved = { ...move, granted: result.granted };
-      hint = null;
-      from = null;
-      if (result.wallet) credited(result.wallet);
-      window.NcqMetrics?.levelEnd("daily-puzzle", true, { score: data.reward });
-      render2();
-      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) motion = animateJangiMove(cells2[move.from], cells2[move.to], null, {
-        shouldContinue: () => dialog.open && generation === own2 && !document.hidden
-      });
+      credited(result.wallet);
+      finish(move, result.granted);
     } catch {
-      if (own2 === generation) error = "puzzleOffline";
+      if (own2 === generation) error = "puzzleClaimFailed";
     } finally {
       if (own2 === generation) {
         pending = false;
@@ -8547,7 +8681,7 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
   }
   el2("show-daily-puzzle").addEventListener("click", () => {
     dialog.showModal();
-    void load();
+    load();
     changed();
   });
   el2("puzzle-close").addEventListener("click", () => dialog.close());
@@ -8556,12 +8690,12 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
     motion?.cancel();
     motion = null;
     pending = false;
-    loading = false;
     changed();
   });
   el2("puzzle-reset").addEventListener("click", () => {
     if (error) {
-      void load();
+      if (claimMove && error !== "puzzleExpired") void claim(claimMove);
+      else load();
       return;
     }
     const finished = Boolean(solved);
@@ -8582,14 +8716,23 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
   });
   const fit = () => board2.style.setProperty("--puzzle-height", Math.floor(el2("puzzle-board-slot").getBoundingClientRect().height) + "px");
   new ResizeObserver(fit).observe(el2("puzzle-board-slot"));
-  return { render: () => {
-    if (dialog.open) render2();
-  }, isOpen: () => dialog.open, close: () => dialog.close(), dayChanged: () => {
-    if (data && data.day !== new Date(Date.now() + 9 * 60 * 6e4).toISOString().slice(0, 10)) {
-      el2("show-daily-puzzle").removeAttribute("data-claimed");
-      if (dialog.open && !pending) void load();
+  const dayChanged = () => {
+    el2("show-daily-puzzle").toggleAttribute("data-claimed", progress.claimed());
+    if (dialog.open && !pending && data?.day !== progress.today()) load();
+  };
+  return {
+    render: () => {
+      if (dialog.open) render2();
+    },
+    isOpen: () => dialog.open,
+    close: () => dialog.close(),
+    dayChanged,
+    updateWallet: (wallet, player) => {
+      progress.accept(wallet, player);
+      dayChanged();
+      if (dialog.open) render2();
     }
-  } };
+  };
 }
 
 // daily-puzzle-texts.js
@@ -8610,7 +8753,9 @@ var DAILY_PUZZLE_TEXTS = {
     puzzleHintText: "\uBE5B\uB098\uB294 \uB9D0\uC744 \uC6C0\uC9C1\uC5EC \uBCF4\uC138\uC694. \uD78C\uD2B8\uB97C \uC368\uB3C4 \uBCF4\uC0C1\uC740 \uAC19\uC544\uC694.",
     puzzleReset: "\uCC98\uC74C \uC704\uCE58",
     puzzleClose: "\uB2EB\uAE30",
-    puzzleSubmit: "\uC815\uB2F5 \uD655\uC778 \uC911\u2026",
+    puzzleSubmit: "\uBCF4\uC0C1\uC744 \uC9C0\uAE09\uD558\uB294 \uC911\u2026",
+    puzzleRetryReward: "\uBCF4\uC0C1 \uB2E4\uC2DC \uBC1B\uAE30",
+    puzzleClaimFailed: "\uBCF4\uC0C1 \uC9C0\uAE09\uC744 \uD655\uC778\uD558\uC9C0 \uBABB\uD588\uC5B4\uC694. \uB2E4\uC2DC \uBC1B\uAE30\uB97C \uB20C\uB7EC \uC8FC\uC138\uC694.",
     puzzleWrong: "\uC544\uC9C1 \uC678\uD1B5\uC774 \uC544\uB2C8\uC5D0\uC694. \uB2E4\uB978 \uC218\uB97C \uCC3E\uC544\uBCF4\uC138\uC694!",
     puzzleSuccess: "\uC815\uB2F5! \uC678\uD1B5\uC744 \uB9CC\uB4E4\uC5C8\uC5B4\uC694.",
     puzzleGranted: "{n}\uCF54\uC778\uC744 \uBC1B\uC558\uC5B4\uC694!",
@@ -8647,7 +8792,9 @@ var DAILY_PUZZLE_TEXTS = {
     puzzleHintText: "Move the highlighted piece. Hints keep your full reward.",
     puzzleReset: "Reset position",
     puzzleClose: "Close",
-    puzzleSubmit: "Checking your move\u2026",
+    puzzleSubmit: "Collecting your reward\u2026",
+    puzzleRetryReward: "Retry reward",
+    puzzleClaimFailed: "Your reward could not be confirmed. Please retry collecting it.",
     puzzleWrong: "That is not checkmate yet. Try another move!",
     puzzleSuccess: "Correct! Checkmate.",
     puzzleGranted: "You received {n} coins!",
@@ -8884,6 +9031,7 @@ var dailyPuzzle = createDailyPuzzle({
     const result = await remoteRequest((client) => client.gameRequest("/puzzles/daily", input, -1));
     if (player !== authSession?.player) return { error: "network" };
     if (result.wallet && player === authSession?.player && applyWallet(result.wallet)) renderCoinBalance();
+    if (result.error === "puzzleExpired") await refreshWallet(-1);
     return result;
   },
   credited: (wallet) => {
@@ -8934,6 +9082,10 @@ var shopPurchaseDialog = el("shop-purchase-complete");
 var coinShortageDialog = el("coin-shortage");
 var leaveDialog = el("leave-dialog");
 var leaveDialogRoom;
+var bikjangDialog = el("bikjang-confirm");
+var bikjangPending = null;
+var bikjangCallKey = null;
+var bikjangCallTimer;
 var resultDialog = el("result");
 var rankCelebration = el("rank-celebration");
 var shopAction = el("shop-action");
@@ -9053,6 +9205,10 @@ feedbackButton.addEventListener("click", async () => {
   }
 });
 window.ncqBack = () => {
+  if (bikjangDialog.open) {
+    bikjangDialog.close("cancel");
+    return true;
+  }
   if (dailyPuzzle.isOpen()) {
     dailyPuzzle.close();
     return true;
@@ -9443,7 +9599,7 @@ function shopPurchase(selection, state) {
     price: locked.reduce((sum, kind) => sum + skinPrices[kind][selection[kind]], 0)
   };
 }
-function koreaDay(timestamp) {
+function koreaDay2(timestamp) {
   return new Date(timestamp + koreaOffset).toISOString().slice(0, 10);
 }
 function missionProgress(count, target) {
@@ -9489,6 +9645,7 @@ function applyWallet(next) {
   if (next.error || !Number.isInteger(next.coins)) return false;
   if (!serverWallet || next.version >= serverWallet.version && next.day >= serverWallet.day && (next.day !== serverWallet.day || next.count >= serverWallet.count)) {
     serverWallet = next;
+    dailyPuzzle.updateWallet(next, authSession?.player);
   }
   return true;
 }
@@ -9617,7 +9774,7 @@ function renderCoinBalance() {
   el("shop-balance").textContent = coins;
 }
 function renderDailyMissions() {
-  const today = koreaDay(Date.now());
+  const today = koreaDay2(Date.now());
   const missions = today === serverWallet?.day ? serverWallet : { count: 0, claimed: [] };
   const { count, claimed } = missions;
   const ready = missionTargets.filter((target) => target <= count && !claimed.includes(target));
@@ -9702,7 +9859,7 @@ async function claimMission(button) {
   const target = Number(button.value);
   const reward = missionRewards.get(target);
   if (!reward || serverWallet?.claimed?.includes(target)) return;
-  const day = koreaDay(Date.now());
+  const day = koreaDay2(Date.now());
   const restoreFocus = document.activeElement === button;
   missionClaiming = true;
   renderDailyMissions();
@@ -10378,7 +10535,7 @@ function coordinate(index2) {
   return columns[index2 % size] + (Math.floor(index2 / size) + 1);
 }
 function canAct() {
-  return room?.phase === "playing" && room.turn === room.you && connected && !busy && !pendingPlacement && !matchIntroDialog.open && !leaveDialog.open && !optionsDialog.open && !window.NcqFeedback?.isOpen() && (turnDeadline === null || performance.now() < turnDeadline);
+  return room?.phase === "playing" && room.turn === room.you && connected && !busy && !pendingPlacement && !matchIntroDialog.open && !leaveDialog.open && !bikjangDialog.open && !optionsDialog.open && !window.NcqFeedback?.isOpen() && (turnDeadline === null || performance.now() < turnDeadline);
 }
 function activeRule() {
   if (!el("choose-rule")) return defaultRule;
@@ -10453,6 +10610,7 @@ function updateTurnClock(now, deadline, secondsPerTurn, ownTurn, watching) {
   if (remaining > 0) {
     turnFrame = requestAnimationFrame((time) => updateTurnClock(time, deadline, secondsPerTurn, ownTurn, watching));
   } else if (!watching) {
+    if (bikjangDialog.open) bikjangDialog.close("cancel");
     const place = el("place");
     place.dataset.placementState = "inactive";
     el("place-state").textContent = t2("jangiClockUpdating");
@@ -10513,6 +10671,7 @@ function updateCumulativeClock(game, deadline, lowerSeat, watching) {
   if (status.formation) formationClock.textContent = t2("jangiFormationCountdown", { seconds: Math.ceil(status.formationMs / 1e3) });
   if (!status.expired) turnFrame = requestAnimationFrame(() => updateCumulativeClock(game, deadline, lowerSeat, watching));
   else if (!watching && !status.formation) {
+    if (bikjangDialog.open) bikjangDialog.close("cancel");
     el("place").dataset.placementState = "inactive";
     el("place-state").textContent = t2("jangiClockUpdating");
     board.classList.remove("selectable");
@@ -10676,7 +10835,7 @@ var recordResultTexts = {
   unknown: { neutral: "recordUnknownWin", won: "recordPersonalUnknownWin", lost: "recordPersonalUnknownLoss" }
 };
 function recordResult(game, { personal = false } = {}) {
-  if (!game.winner) return t2("draw");
+  if (!game.winner) return t2(isBikjangDraw(game) ? "jangiBikjangDraw" : "draw");
   const reason = game.endReason;
   const ending = reason === "disconnect" || reason === "timeout" ? reason : reason === "resign" || game.actions?.some((action) => action.type === "resign") ? "resign" : reason === "win" || game.line?.length >= 5 ? "win" : "unknown";
   const labels = recordResultTexts[ending];
@@ -11481,7 +11640,11 @@ function renderResult(game) {
   resultDialog.dataset.outcome = outcome;
   resultDialog.dataset.victoryStone = victoryStone;
   el("result-stone-color").textContent = victoryStone ? t2(victoryStone) : "";
-  el("result-title").textContent = t2(label);
+  const bikjang = isBikjangDraw(game);
+  resultDialog.toggleAttribute("data-bikjang", bikjang);
+  el("result-title").textContent = t2(bikjang ? "jangiBikjangDraw" : label);
+  el("result-reason").hidden = !bikjang;
+  el("result-reason").textContent = bikjang ? t2("jangiBikjangDrawReason") : "";
   el("result-symbol").setAttribute("href", `#${icon}`);
   const change = game.ratingChange;
   el("result-rating").hidden = el("result-rating-change").hidden = !change;
@@ -11536,6 +11699,8 @@ async function playRankPromotion({ code, round }, notify = false) {
   promotionCloseTimer = setTimeout(() => rankCelebration.close(), 5e3);
 }
 function render() {
+  el("bikjang-guide").hidden = true;
+  if (bikjangDialog.open && !validBikjangConfirmation(bikjangPending)) bikjangDialog.close("cancel");
   el("placement-timing").hidden = true;
   if (coinRewardDialog.open) renderCoinReward();
   queueMicrotask(presentCoinReward);
@@ -11698,7 +11863,7 @@ function render() {
     button.toggleAttribute("data-ncq-main", !openingActions.hidden && !button.hidden);
   }
   let status = "waiting";
-  if (finished) status = describeOutcome(game);
+  if (finished) status = isBikjangDraw(game) ? "jangiBikjangDraw" : describeOutcome(game);
   else if (room && !connected) status = "reconnecting";
   else if (playing) status = game.turn === game.you ? "yourTurn" : "theirTurn";
   el("room-label").textContent = t2(archive ? "records" : "room");
@@ -11805,17 +11970,41 @@ function drawGamePosition(game, ply, reviewing = false) {
   }
   game.displayPly = ply;
   drawJangiBoard({ game, displayedBoard, cells, selectedFrom, selected, lastMoveMarker, board, selectable: canAct() && !game.setup, coordinate, t: t2, latest, moveNumbers, pendingMove: optimistic, localPieceStyle: shopState.appearance.stones });
+  renderBikjangNotice(game, latest && !reviewing);
   if (!reviewing && game.phase === "playing" && !game.setup && game.board) {
     const hint = inCheck(game.board, game.turn) ? "jangiCheck" : game.bikjang ? "jangiBikjang" : null;
     if (hint) el("status").textContent = t2(hint);
   }
+}
+function renderBikjangNotice(game, latest) {
+  const active = latest && game.phase === "playing" && !game.setup && game.bikjang;
+  const guide = el("bikjang-guide"), call = el("bikjang-call");
+  guide.hidden = !active;
+  if (!active) {
+    clearTimeout(bikjangCallTimer);
+    call.hidden = true;
+    return;
+  }
+  guide.textContent = t2(spectator ? "jangiBikjangWatch" : game.turn === game.you ? "jangiBikjangGuide" : "jangiBikjangWaiting");
+  call.textContent = t2("jangiBikjangCall");
+  const key = `${game.code}:${game.round}:${game.ply ?? game.actions?.length ?? game.moves.length}:${game.turn}`;
+  if (key === bikjangCallKey) return;
+  bikjangCallKey = key;
+  clearTimeout(bikjangCallTimer);
+  call.hidden = true;
+  void call.offsetWidth;
+  call.hidden = false;
+  bikjangCallTimer = setTimeout(() => {
+    call.hidden = true;
+  }, 1400);
+  scheduleBoardLayout();
 }
 function renderSpectator({ game, closed, reconnecting, ply }) {
   let announcement;
   if (closed) announcement = t2("watchEnded");
   else if (reconnecting) announcement = t2("reconnecting");
   else if (game.phase === "finished") {
-    announcement = game.winner ? t2("watchWinner", { color: sideName(game, game.winner) }) : t2("draw");
+    announcement = game.winner ? t2("watchWinner", { color: sideName(game, game.winner) }) : t2(isBikjangDraw(game) ? "jangiBikjangDraw" : "draw");
   } else if (game.setup) {
     announcement = t2("jangiFormationStatus");
   } else if (game.opening) {
@@ -11929,6 +12118,7 @@ function applyState(next) {
   const showResult = next.phase === "finished" && (!sameRound || room.phase !== "finished");
   const newMoveCount = sameRound && room.phase === "playing" ? next.moves.length - room.moves.length : 0;
   room = next;
+  if (bikjangDialog.open && !validBikjangConfirmation(bikjangPending)) bikjangDialog.close("cancel");
   if (leaveDialog.open && (!sameRound || room.phase === "finished")) leaveDialog.close("cancel");
   turnDeadline = clockDeadline(next);
   selected = null;
@@ -11997,6 +12187,7 @@ async function exitRoom(message = "", { showAd = false, openRankings = true } = 
   rankCelebration.close();
   resultDialog.close();
   leaveDialog.close("cancel");
+  bikjangDialog.close("cancel");
   el("share").close();
   recordShareDialog.close();
   matchIntroDialog.close();
@@ -12882,10 +13073,34 @@ for (const side of ["opponent", "own"]) {
     image.hidden = true;
   });
 }
-function movePiece(index2) {
+function validBikjangConfirmation(target) {
+  return target && room?.code === target.code && room.round === target.round && room.version === target.version && room.phase === "playing" && room.turn === room.you && !room.setup && connected && !busy && (turnDeadline === null || performance.now() < turnDeadline);
+}
+bikjangDialog.addEventListener("close", () => {
+  if (bikjangDialog.open) return;
+  const target = bikjangPending, accepted = bikjangDialog.returnValue === "accept";
+  bikjangPending = null;
+  render();
+  if (!validBikjangConfirmation(target)) return;
+  selectedFrom = target.from;
+  if (accepted) movePiece(target.index, target);
+  else {
+    render();
+    focusCell(target.from);
+  }
+});
+function movePiece(index2, confirmation = null) {
   if (!canAct() || selectedFrom === null) return;
   const preview = previewPlacement(room, selectedFrom, index2);
   if (!preview) return;
+  if (endsInBikjangDraw(room, { type: "move", from: preview.from, to: preview.index }) && !(validBikjangConfirmation(confirmation) && confirmation.from === preview.from && confirmation.index === preview.index)) {
+    bikjangPending = preview;
+    bikjangDialog.returnValue = "cancel";
+    bikjangDialog.showModal();
+    render();
+    el("bikjang-cancel").focus();
+    return;
+  }
   pendingPlacement = preview;
   selected = null;
   selectedFrom = null;

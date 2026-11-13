@@ -1,5 +1,6 @@
 import { initial, legalMoves, sideOf, GLYPHS, KING, inCheck } from './rules.js';
 import { pieceStyleForSeat } from './piece-skins.js';
+import {bikjangGeometry,isBikjangDraw} from './bikjang.js';
 import { setPieceGlyph } from './piece-glyph.js';
 
 export { sideOf, GLYPHS, KING, inCheck };
@@ -19,6 +20,18 @@ export function drawJangiBoard({ game, displayedBoard, cells, selectedFrom, sele
   const targets = selectable ? targetsFrom(game, selectedFrom) : [];
   const checked = inCheck(displayedBoard, game.turn);
   const flipped = game.you === 2;
+  const bikjang=(!game.setup && (latest ? game.bikjang || isBikjangDraw(game) : true))
+    ? bikjangGeometry(displayedBoard,flipped) : null;
+  let line=board.querySelector('.jangi-bikjang-line');
+  if(!line) {
+    line=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    line.setAttribute('class','jangi-bikjang-line');line.setAttribute('viewBox','0 0 9 10');
+    line.setAttribute('preserveAspectRatio','none');line.setAttribute('aria-hidden','true');
+    line.append(document.createElementNS('http://www.w3.org/2000/svg','path'));
+    board.querySelector('.board-grid').append(line);
+  }
+  line.style.display=bikjang?'':'none';
+  if(bikjang)line.firstElementChild.setAttribute('d',bikjang.path);
   board.dataset.jangi = ''; board.classList.toggle('selectable', selectable);
   const move = game.moves[(latest ? game.moves.length : game.displayPly) - 1];
   const last = pendingMove?.index ?? destination(move), lastCell = cells[last];
@@ -34,6 +47,7 @@ export function drawJangiBoard({ game, displayedBoard, cells, selectedFrom, sele
     cell.classList.toggle('selected', target);
     cell.classList.toggle('jangi-legal', targets.includes(index));
     cell.classList.toggle('jangi-check', kind === KING && side === game.turn && checked);
+    cell.classList.toggle('jangi-bikjang', Boolean(bikjang?.kings.includes(index)));
     const token = cell.firstElementChild;
     const preview = target && !piece ? displayedBoard[selectedFrom] : piece;
     cell.dataset.stoneStyle = pieceStyleForSeat(game, sideOf(preview), localPieceStyle);

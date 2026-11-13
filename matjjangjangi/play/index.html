@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-  <script src="./ncq/safe.js?v=1b99ce8116d0"></script>
-  <script src="./ncq/device.js?v=1b99ce8116d0"></script>
-  <script src="./ncq/save.js?v=1b99ce8116d0"></script>
+  <script src="./ncq/safe.js?v=0ad43b9200d2"></script>
+  <script src="./ncq/device.js?v=0ad43b9200d2"></script>
+  <script src="./ncq/save.js?v=0ad43b9200d2"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -12,19 +12,19 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=1b99ce8116d0">
-  <link rel="stylesheet" href="./style.css?v=1b99ce8116d0">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=1b99ce8116d0">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=1b99ce8116d0">
-  <link rel="stylesheet" href="./forest-ui.css?v=1b99ce8116d0">
-  <link rel="stylesheet" href="./lobby-layout.css?v=1b99ce8116d0">
-  <link rel="stylesheet" href="./list-dialog.css?v=1b99ce8116d0">
-  <link rel="stylesheet" href="./shop-layout.css?v=1b99ce8116d0">
-  <link rel="stylesheet" href="./ranking-layout.css?v=1b99ce8116d0">
-  <link rel="stylesheet" href="./mission-layout.css?v=1b99ce8116d0">
-  <script type="module" src="./app.js?v=1b99ce8116d0"></script>
-<link rel="stylesheet" href="./jangi.css?v=1b99ce8116d0">
-  <link rel="stylesheet" href="./daily-puzzle.css?v=1b99ce8116d0">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=0ad43b9200d2">
+  <link rel="stylesheet" href="./style.css?v=0ad43b9200d2">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=0ad43b9200d2">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=0ad43b9200d2">
+  <link rel="stylesheet" href="./forest-ui.css?v=0ad43b9200d2">
+  <link rel="stylesheet" href="./lobby-layout.css?v=0ad43b9200d2">
+  <link rel="stylesheet" href="./list-dialog.css?v=0ad43b9200d2">
+  <link rel="stylesheet" href="./shop-layout.css?v=0ad43b9200d2">
+  <link rel="stylesheet" href="./ranking-layout.css?v=0ad43b9200d2">
+  <link rel="stylesheet" href="./mission-layout.css?v=0ad43b9200d2">
+  <script type="module" src="./app.js?v=0ad43b9200d2"></script>
+<link rel="stylesheet" href="./jangi.css?v=0ad43b9200d2">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=0ad43b9200d2">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -413,8 +413,10 @@
                 d="M3.2 5.7h17.6a.5.5 0 0 1 .4.8l-8.8 12a.5.5 0 0 1-.8 0l-8.8-12a.5.5 0 0 1 .4-.8Z"/>
               <path class="review-marker" d="M3 5h18l-9 15Z"/>
             </svg>
+            <span id="bikjang-call" class="jangi-bikjang-call" role="status" hidden></span>
           </div>
         </div>
+        <p id="bikjang-guide" class="jangi-bikjang-guide" role="status" hidden></p>
         <p id="place-state" class="jangi-move-hint" hidden></p>
         <div id="own-panel" class="match-art-panel match-player" hidden>
           <div class="match-art-avatar match-avatar" aria-hidden="true">
@@ -1234,6 +1236,17 @@
         <button id="record-visibility-close" class="secondary" data-ncq-main="Close record visibility settings" data-i18n="done" autofocus></button>
       </form>
     </dialog>
+    <dialog id="bikjang-confirm" aria-labelledby="bikjang-confirm-title" aria-describedby="bikjang-confirm-message bikjang-confirm-clock">
+      <form method="dialog">
+        <h2 id="bikjang-confirm-title" data-i18n="jangiBikjangConfirmTitle"></h2>
+        <p id="bikjang-confirm-message" data-i18n="jangiBikjangConfirmMessage"></p>
+        <p id="bikjang-confirm-clock" data-i18n="jangiBikjangClockNotice"></p>
+        <div class="leave-dialog-actions">
+          <button id="bikjang-cancel" class="secondary" type="submit" value="cancel" data-i18n="jangiBikjangContinue" data-ncq-main="Choose another move" autofocus></button>
+          <button id="bikjang-accept" class="primary" type="submit" value="accept" data-i18n="jangiBikjangAccept" data-ncq-main="Confirm bikjang draw"></button>
+        </div>
+      </form>
+    </dialog>
     <dialog id="result" class="result" aria-labelledby="result-heading result-stone-color result-title">
       <form method="dialog">
         <h2 id="result-heading" data-i18n="result"></h2>
@@ -1253,6 +1266,7 @@
             <span id="rating-range"></span>
           </div>
         </div>
+        <p id="result-reason" class="jangi-result-reason" hidden></p>
         <section id="result-rating" class="result-rating" aria-labelledby="result-meter-heading" hidden>
           <div class="result-rating-heading">
             <h3 id="result-meter-heading" data-i18n="promotionPoints"></h3>

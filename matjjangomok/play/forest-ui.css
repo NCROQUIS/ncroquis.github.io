@@ -161,24 +161,26 @@ body.forest-ui {
 }
 .forest-ui.in-review .review-header h1 { color: #fff9e7; }
 .forest-ui.match-art-backdrop #review .review-controls { border-color: #c9b080; background: linear-gradient(#fff7e8, #eaddc0); box-shadow: 0 2px 5px #001a0c55; }
-.forest-ui.match-art-backdrop :is(#watch-back, #review .review-button) { color: #214426; border-color: #c5ad7e; background: linear-gradient(#fff8eb, #e6d9bb); }
+.forest-ui.match-art-backdrop #review .review-button { color: #214426; border-color: #c5ad7e; background: linear-gradient(#fff8eb, #e6d9bb); }
 .forest-ui.match-art-backdrop #move-count { color: #234721; background: #f4ecd8; border-color: #8ca06d; }
 
 /* Review surfaces carry their own text colors instead of inheriting the forest background's ivory. */
-.forest-ui.in-review {
+.forest-ui:is(.in-review, .match-art-backdrop) {
   --review-radius: 12px;
   --review-ink: #193e25;
   --review-muted: #426044;
   --review-surface: linear-gradient(#fff8eb, #eee3cc);
 }
-.forest-ui.in-review :is(.review-player, .review-controls, .review-result, .review-button, .placement-timing) {
+.forest-ui.in-review :is(.review-player, .review-controls, .review-result, .review-button, .placement-timing),
+.forest-ui.match-art-backdrop .match-header-button {
   border-radius: var(--review-radius);
   border-color: #cdb990;
   background: var(--review-surface);
   color: var(--review-ink);
   box-shadow: inset 0 1px #fffdf580, 0 2px 4px #001a0c40;
 }
-.forest-ui.in-review :is(.review-player, .review-button):not(:disabled):hover { background: #e9dec6; }
+.forest-ui.in-review :is(.review-player, .review-button):not(:disabled):hover,
+.forest-ui.match-art-backdrop .match-header-button:not(:disabled):hover { background: #e9dec6; }
 .forest-ui.in-review .review-player[data-turn] { box-shadow: 0 0 0 2px #829a50, 0 2px 4px #001a0c40; }
 .forest-ui.in-review .review-button:disabled {
   opacity: 1;

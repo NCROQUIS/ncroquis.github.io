@@ -959,7 +959,7 @@ html:has(body.in-match) { overflow-x: clip; }
   flex: none;
   align-content: start;
   --player-height: clamp(58px, 17vw, 83px);
-  --match-heading-size: clamp(1rem, 4.8vw, 1.55rem);
+  --match-heading-size: clamp(.9rem, 4vw, 1.4rem);
   --match-gap: clamp(5px, 1.1dvh, 11px);
   --board-controls-height: calc(
     max(224px, 2 * var(--player-height) + 98px + 4 * var(--match-gap))
@@ -994,7 +994,6 @@ html:has(body.in-match) { overflow-x: clip; }
   transform: translate(-50%, -50%);
 }
 .in-match .match[data-compact-board] { --player-height: 54px; --match-gap: 4px; padding-block: 3px; }
-.match[data-compact-board][data-playing] .match-status { min-height: 24px; }
 .match[data-compact-board] .match-avatar { max-width: 38px; }
 .in-review .match[data-compact-board] .review-player { min-height: 44px; padding-block: 3px; }
 .in-review .match[data-compact-board] #review-header { min-height: 30px; }
@@ -1019,7 +1018,7 @@ html:has(body.in-match) { overflow-x: clip; }
 .match-art-backdrop .topbar { display: none; }
 .match[data-playing] {
   display: grid;
-  grid-template-rows: auto auto [board-start] auto [board-end] auto auto;
+  grid-template-rows: auto auto [board-start] auto [board-end] auto;
   gap: var(--match-gap);
   height: auto;
 }
@@ -1028,8 +1027,10 @@ html:has(body.in-match) { overflow-x: clip; }
   --opening-status-height: max(44px, 2.4 * var(--match-heading-size));
 }
 .match[data-playing] .match-status {
+  position: relative;
   justify-content: center;
-  min-height: 30px;
+  min-height: 40px;
+  padding-inline: 44px;
   margin: 0;
   gap: clamp(5px, 2vw, 12px);
   color: #ffe7bb;
@@ -1044,6 +1045,18 @@ html:has(body.in-match) { overflow-x: clip; }
 }
 .match[data-playing] .match-status::after { transform: scaleX(-1); }
 .match[data-playing] .match-status h1 { font-size: var(--match-heading-size); }
+.match-status-copy { min-width: 0; }
+.match-status .match-header-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+}
+.match-header-button::after { content: ""; position: absolute; inset: -4px; }
+.match-header-back { inset-inline-start: 0; }
+#match-options { inset-inline-end: 0; }
 .match[data-playing] :is(#round, #mode) { display: none; }
 .in-match #match-error {
   position: absolute;
@@ -1062,9 +1075,7 @@ html:has(body.in-match) { overflow-x: clip; }
   pointer-events: none;
 }
 .in-match #match-error:not([data-error]) { color: #ffe7bb; }
-.spectating .match-status { position: relative; min-height: 44px; padding-inline: 44px; }
 .match[data-taraguchi] .match-status { height: var(--opening-status-height); }
-#watch-back { position: absolute; inset-inline-start: 0; width: 40px; height: 40px; }
 .spectating :is(#match-player-photo, #review > :not(.review-controls)) { display: none; }
 .spectating :is(.match-profile-trigger, #place):disabled { opacity: 1; }
 
@@ -1137,7 +1148,6 @@ html:has(body.in-match) { overflow-x: clip; }
 .live-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; }
 .match[data-taraguchi] .live-actions { flex-wrap: nowrap; height: 38px; }
 .match[data-taraguchi] .live-actions button { line-height: 1.2; }
-.match[data-taraguchi] .live-actions:has(.opening-actions:not([hidden])) #leave-match { width: auto; padding-inline: 11px; }
 .opening-actions { display: contents; }
 .live-actions button {
   display: flex;
@@ -1149,7 +1159,7 @@ html:has(body.in-match) { overflow-x: clip; }
   font-size: .84rem;
   font-weight: 720;
 }
-.opening-actions button, .live-actions #pass-turn { width: auto; padding-inline: 11px; }
+.opening-actions button { width: auto; padding-inline: 11px; }
 .live-actions svg { width: 17px; height: 17px; }
 
 :root, [data-board-style] {
@@ -1963,7 +1973,6 @@ body.in-review, body.in-records {
 .shared-review #review-play { grid-area: 6 / 1; }
 @media (max-height: 700px) {
   .in-match .match { --player-height: 52px; --match-gap: 5px; }
-  .match[data-playing] .match-status { min-height: 24px; }
   .in-review .match { --match-gap: 4px; padding-block: 3px; }
   .in-review #review-header { min-height: 30px; }
   .in-review #review-header .review-button { width: 30px; height: 30px; }

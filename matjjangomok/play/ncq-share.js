@@ -92,6 +92,14 @@
     return [prepared.message || prepared.title, url].filter(Boolean).join("\n");
   }
 
+  function mobileBrowser(nav) {
+    // Desktop Web Share opens the OS sheet (including Windows Share), which can hang
+    // independently of the page. Prefer clipboard there; preserve mobile/tablet sharing.
+    if (/Android|iPhone|iPad|iPod/i.test(nav.userAgent || "")) return true;
+    if (nav.platform === "MacIntel" && nav.maxTouchPoints > 1) return true; // iPad desktop UA
+    return Boolean(nav.userAgentData && nav.userAgentData.mobile);
+  }
+
   async function share(prepared) {
     var customUrl = prepared && prepared.url != null;
     var url = customUrl ? httpsUrl(prepared.url) : gameUrl;
@@ -121,7 +129,7 @@
         imageAttached = Boolean(uri);
         return result("shared");
       }
-      if (nav.share) {
+      if (nav.share && mobileBrowser(nav)) {
         var data = {title: prepared.title, text: prepared.message, url: url};
         if (prepared.image && typeof File === "function" && nav.canShare) {
           var withFile = Object.assign({}, data, {

@@ -2,8 +2,8 @@
 <html>
 <head>
   <script src="./ncq/safe.js"></script>
-  <script src="./ncq/device.js?v=a8d04a39fdb9"></script>
-  <script src="./ncq/save.js?v=a8d04a39fdb9"></script>
+  <script src="./ncq/device.js?v=e79daab2feb9"></script>
+  <script src="./ncq/save.js?v=e79daab2feb9"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -13,16 +13,16 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=a8d04a39fdb9">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=a8d04a39fdb9">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=a8d04a39fdb9">
-  <link rel="stylesheet" href="./forest-ui.css?v=a8d04a39fdb9">
-  <link rel="stylesheet" href="./lobby-layout.css?v=a8d04a39fdb9">
-  <link rel="stylesheet" href="./list-dialog.css?v=a8d04a39fdb9">
-  <link rel="stylesheet" href="./shop-layout.css?v=a8d04a39fdb9">
-  <link rel="stylesheet" href="./ranking-layout.css?v=a8d04a39fdb9">
-  <link rel="stylesheet" href="./mission-layout.css?v=a8d04a39fdb9">
-  <script type="module" src="./app.js?v=a8d04a39fdb9"></script>
+  <link rel="stylesheet" href="./style.css?v=e79daab2feb9">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=e79daab2feb9">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=e79daab2feb9">
+  <link rel="stylesheet" href="./forest-ui.css?v=e79daab2feb9">
+  <link rel="stylesheet" href="./lobby-layout.css?v=e79daab2feb9">
+  <link rel="stylesheet" href="./list-dialog.css?v=e79daab2feb9">
+  <link rel="stylesheet" href="./shop-layout.css?v=e79daab2feb9">
+  <link rel="stylesheet" href="./ranking-layout.css?v=e79daab2feb9">
+  <link rel="stylesheet" href="./mission-layout.css?v=e79daab2feb9">
+  <script type="module" src="./app.js?v=e79daab2feb9"></script>
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -353,14 +353,23 @@
           <button id="leave" type="button" class="quiet"></button>
         </div>
         <div class="match-status">
-          <button id="watch-back" class="review-button" type="button" data-i18n-attr="aria-label:leaveSpectating" hidden>
+          <button id="leave-match" class="review-button match-header-button match-header-back" type="button"
+                  data-i18n-attr="aria-label:leave; title:leave" hidden>
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"/></svg>
           </button>
-          <div>
+          <button id="watch-back" class="review-button match-header-button match-header-back" type="button"
+                  data-i18n-attr="aria-label:leaveSpectating; title:leaveSpectating" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"/></svg>
+          </button>
+          <div class="match-status-copy">
             <h1 id="status" tabindex="-1" aria-live="polite"></h1>
             <p id="round"></p>
           </div>
           <span class="mode-chip" id="mode"></span>
+          <button id="match-options" class="review-button match-header-button" type="button"
+                  aria-haspopup="dialog" aria-controls="options" data-i18n-attr="aria-label:options; title:options" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#settings-icon"/></svg>
+          </button>
           <p id="turn-announcement" class="sr-only" role="status"></p>
         </div>
         <div id="opponent-panel" class="match-art-panel match-player" hidden>
@@ -440,11 +449,6 @@
             <button type="button" class="match-art-action" data-opening="swap" data-i18n="swapColors"></button>
             <button type="button" class="match-art-action" data-opening="offerFive" data-i18n="offerFifthMoves"></button>
           </div>
-          <button id="pass-turn" class="match-art-action" type="button" data-i18n="passTurn" hidden></button>
-          <button id="leave-match" class="match-art-action" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="./assets/match-ui/icons.svg#resign"/></svg>
-            <span data-i18n="leave"></span>
-          </button>
         </div>
         <div id="review" class="review" hidden>
           <div class="review-controls" role="group" data-i18n-attr="aria-label:review">

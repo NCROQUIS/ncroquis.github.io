@@ -10205,7 +10205,7 @@ function renderRecordDialog() {
     el("record-send-link").hidden = !prepared;
     el("record-send-link").disabled = sharing;
     el("record-copy-link").disabled = sharing;
-    el("record-share-close").disabled = sharing;
+    el("record-share-close").disabled = false;
   }
   const status = el(feedbackId);
   if (!status.hidden) status.textContent = t2(status.dataset.message);
@@ -10320,7 +10320,7 @@ el("record-copy-link").addEventListener("click", async () => {
 });
 for (const dialog of [recordShareDialog, recordVisibilityDialog]) {
   dialog.addEventListener("cancel", (event) => {
-    if (recordDialogTarget?.updating || recordDialogTarget?.sharing) event.preventDefault();
+    if (recordDialogTarget?.updating) event.preventDefault();
   });
   dialog.addEventListener("close", () => {
     if (dialog.open || recordDialogTarget?.dialog !== dialog) return;
@@ -12259,7 +12259,7 @@ function leaveCurrentRoom() {
   roomAction("leave", {}, (next) => {
     if (next.phase === "finished") {
       if (resigning) void recordMissionRound(next);
-      if (!backend) saveRecord(next);
+      if (saveRecord(next)) acknowledgeRecord(next);
     }
     void exitRoom("", { showAd: finished });
   });
@@ -12272,7 +12272,7 @@ async function startNextMatch(mode = "casual", catchUpCost) {
     if (connected) {
       let left = false;
       await roomAction("leave", {}, (next) => {
-        if (!backend && next.phase === "finished") saveRecord(next);
+        if (next.phase === "finished" && saveRecord(next)) acknowledgeRecord(next);
         left = true;
       });
       if (!left) return;

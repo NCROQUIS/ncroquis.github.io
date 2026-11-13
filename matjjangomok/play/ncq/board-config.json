@@ -1,6 +1,7 @@
 {
   "provider": "supabase",
   "environment": "prod",
+  "region": "ap-northeast-2",
   "ruleset": "omok-free-v1",
   "apiUrl": "https://qqbajkltkhvhlwrxpgfn.supabase.co/functions/v1/matjjangomok"
 }

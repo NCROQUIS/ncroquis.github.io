@@ -258,6 +258,57 @@ body.forest-ui {
 }
 .forest-ui.in-review #review-room-action:is([data-action="next"], [data-action="rematch"]):not(:disabled):hover { background: none; filter: brightness(1.06); }
 .forest-ui.in-review #review-room-action:is([data-action="next"], [data-action="rematch"]):disabled { background: none; filter: grayscale(.6) brightness(.92); color: #695a35; }
+
+/* Completed matches keep distinct rectangular utility buttons on both sides.
+   Only the center action uses the lobby's responsive gold end caps. */
+.forest-ui.in-review.post-match-review #review .review-footer {
+  grid-template-columns: 52px minmax(0, 1fr) 52px;
+  gap: 6px;
+}
+.forest-ui.in-review #review-exit {
+  grid-area: 1 / 1;
+  border-radius: var(--review-radius);
+  border-color: #cdb990;
+  background: var(--review-surface);
+  color: var(--review-ink);
+}
+.forest-ui.in-review.post-match-review :is(#review-exit, #review-share) {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 52px; height: 48px; min-height: 48px; gap: 2px; padding: 4px 2px;
+  font-size: 11px; font-weight: 750; line-height: 1.15;
+}
+.forest-ui.in-review.post-match-review :is(#review-exit, #review-share) svg {
+  flex: none; width: 19px; height: 19px; fill: none;
+  stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+}
+.forest-ui.in-review.post-match-review #review-share > span {
+  position: static; width: auto; height: auto; margin: 0; padding: 0;
+  overflow: visible; clip-path: none; white-space: normal;
+}
+.forest-ui.in-review #review-exit:not(:disabled):hover { background: #e9dec6; }
+.forest-ui.in-review #review-exit:focus-visible { outline-color: #e4bc53; }
+.forest-ui.in-review.post-match-review #review-room-action:is([data-action="next"], [data-action="rematch"]) {
+  height: 44px; min-height: 44px; font-size: clamp(14px, 4vw, 18px);
+}
+.forest-ui.in-review.post-match-review #review-room-action .review-action-stones { display: none; }
+.forest-ui.in-review.post-match-review #join-tournament {
+  grid-area: 1 / 2; position: relative; isolation: isolate;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; min-width: 0; height: 44px; min-height: 44px; padding: 0 10px;
+  border: 0; border-radius: 999px; background: none; box-shadow: none;
+  color: #2b2104; font-size: clamp(14px, 4vw, 18px); font-weight: 700; line-height: 1.15;
+  text-shadow: 0 1px 1px #fff5b6;
+}
+.forest-ui.in-review.post-match-review #join-tournament .ranking-primary-surface {
+  position: absolute; inset: 0; display: block; pointer-events: none;
+  filter: drop-shadow(0 3px 2px #00100699);
+}
+.forest-ui.in-review.post-match-review #join-tournament > :not(.ranking-resource) { position: relative; z-index: 1; }
+.forest-ui.in-review.post-match-review #join-tournament .tournament-coin-cost { flex: none; font-size: inherit; color: inherit; }
+.forest-ui.in-review.post-match-review #join-tournament .shop-coin { width: 16px; height: 16px; }
+.forest-ui.in-review.post-match-review #join-tournament:not(:disabled):hover { filter: brightness(1.06); }
+.forest-ui.in-review.post-match-review #join-tournament:disabled { opacity: 1; filter: grayscale(.7) brightness(.92); color: #695a35; }
+.forest-ui.in-review.post-match-review #join-tournament:focus-visible { outline-color: #e4bc53; }
 @media (prefers-reduced-motion: no-preference) {
   .lobby-art-stone:nth-last-child(2) { animation: lobby-stone-drop 5s ease-out infinite; }
   .lobby-art-stone:last-child { animation: lobby-stone-drop 5s .6s ease-out infinite; }

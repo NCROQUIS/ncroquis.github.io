@@ -16,7 +16,7 @@
 #shop .shop-wallet .shop-coin { width: 34px; height: 34px; }
 #shop .shop-tabs { margin-top: 18px; }
 #shop .shop-content { flex: 1; min-height: 0; margin-top: 18px; padding: 0 2px 4px; }
-#shop .shop-content:has(#shop-skins:not([hidden])) { overflow: clip; }
+#shop .shop-content:has(#shop-skins:not([hidden])) { overflow-x: hidden; overflow-y: auto; }
 #shop .shop-footer { flex: none; margin-top: 14px; gap: 10px; }
 #shop .shop-footer button {
   min-height: max(66px, calc(44px / var(--list-dialog-scale))); padding: 8px 20px; border-radius: 18px; font-size: 26px; line-height: 1.2; font-weight: 750;
@@ -84,20 +84,25 @@
 #shop .shop-effect-status { gap: 6px; padding: 3px 12px; font-size: 20px; }
 #shop .shop-effect-status[data-priced]::before { width: 18px; }
 
-/* Preview and both horizontal skin shelves stay within the fixed frame. */
-#shop #shop-skins { min-height: 0; grid-template-rows: minmax(0, .45fr) minmax(0, 1fr); gap: 16px; }
+/* Leave the action row fixed; unusually short windows can scroll the preview. */
+#shop #shop-skins { min-height: 540px; grid-template-rows: minmax(220px, .65fr) minmax(0, 1fr); gap: 16px; }
 #shop .appearance-preview-panel {
-  min-height: 0; grid-template-columns: minmax(0, .72fr) minmax(0, 1fr); gap: 22px;
-  padding: 18px; border-color: #d1bc8e; border-radius: 18px; background: linear-gradient(130deg, #fffaf0, #eee1c9);
+  min-height: 0; grid-template: minmax(0, 1fr) auto / minmax(0, 1fr); gap: 10px;
+  padding: 12px; border-color: #d1bc8e; border-radius: 18px; background: linear-gradient(130deg, #fffaf0, #eee1c9);
 }
-#shop #appearance-preview { width: auto; height: 100%; max-width: 100%; max-height: 220px; aspect-ratio: 1; justify-self: center; align-self: center; }
-#shop .appearance-preview-controls h3 { font-size: 26px; line-height: 1.2; margin-bottom: 8px; }
-#shop #shop-preview-guide { font-size: 20px; line-height: 1.3; margin-bottom: 10px; }
+#shop #appearance-preview {
+  width: 100%; height: 100%; max-width: none; max-height: none;
+  aspect-ratio: auto; overflow: hidden;
+}
+/* Keep the original grid scale and crop the upper ranks before shrinking either shelf. */
+#shop .appearance-preview-grid {
+  inset: auto var(--board-inset) var(--board-inset); height: auto; aspect-ratio: 9 / 10;
+}
 #shop .grid-choices { gap: 8px; }
-#shop .grid-choices legend { position: static; width: auto; height: auto; clip-path: none; font-size: 20px; margin-bottom: 6px; color: #425b3f; }
+#shop .grid-choices legend { position: absolute; width: 1px; height: 1px; margin: 0; clip-path: inset(50%); overflow: hidden; }
 #shop .grid-choice { min-height: 44px; padding: 6px 10px; gap: 8px; border-radius: 12px; font-size: 20px; line-height: 1.2; }
 #shop .grid-choice input { width: 22px; height: 22px; }
-#shop .shop-settings { min-height: 0; max-height: none; gap: 14px; }
+#shop .shop-settings { min-height: 0; max-height: none; grid-template: repeat(2, minmax(0, 1fr)) / minmax(0, 1fr); gap: 14px; }
 #shop .shop-settings > .appearance-group { min-height: 0; }
 #shop .appearance-group-heading { min-height: 34px; margin-bottom: 6px; gap: 12px; }
 #shop .appearance-group-heading h3 { color: #fff8de; font-size: 26px; }
@@ -115,11 +120,6 @@
 #shop .board-sample { max-height: 74px; }
 
 @container shop-skins (max-height: 540px) {
-  #shop .appearance-preview-panel { padding: 12px; gap: 14px; }
-  #shop #appearance-preview { max-height: 160px; }
-  #shop .appearance-preview-controls h3 { font-size: 24px; margin-bottom: 4px; }
-  #shop #shop-preview-guide { font-size: 18px; margin-bottom: 6px; }
-  #shop .grid-choices legend { font-size: 18px; margin-bottom: 3px; }
   #shop .grid-choice { min-height: 36px; padding: 4px 6px; gap: 6px; font-size: 18px; }
   #shop .grid-choice input { width: 20px; height: 20px; }
   #shop #shop-skins, #shop .shop-settings { gap: 10px; }

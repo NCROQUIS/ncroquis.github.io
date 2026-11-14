@@ -6877,9 +6877,7 @@ var TEXTS = {
     tournamentFinalizing: "Finalizing results",
     tournamentFinalized: "Final results",
     tournamentStandings: "Tournament standings",
-    participationReward: "Participation reward",
     rankingReward: "Ranking reward",
-    participationRewardProgress: "Eligible games: {target} ({count}/{target})",
     rankingRewardPlace: "Reward rank #{rank}",
     weeklyRewardClaim: "Claim",
     weeklyRewardClaimed: "Claimed",
@@ -6899,7 +6897,13 @@ var TEXTS = {
     tournamentMissedAttempts: "Missed attempts this week",
     tournamentMissedCount: "{n}",
     confirmTournamentCatchUp: "Make up one missed attempt? Coins are charged when a match is found.",
-    tournamentPriceChanged: "The catch-up price changed. Check the new price and try again.",
+    tournamentPriceChanged: "Tournament entry has changed. Refresh the game and check the 10-coin fee.",
+    tournamentEntryTitle: "Enter the tournament?",
+    tournamentEntryFee: "Entry fee",
+    joinTournamentFee: "Enter for {n} coins",
+    tournamentCoinRules: "Unlimited entries \xB7 Win +5 / Loss \u221210 / Draw 0 coins",
+    tournamentEntryConfirm: "10 coins are charged when a match is found. A win pays 15 (net +5); a loss costs no extra coins. A draw refunds the fee and earns no ranking points.",
+    tournamentEntrySafety: "If the opponent never moves, or resigns or times out before 6 moves, only the winner\u2019s fee is refunded; no ranking points. Weekly ranking prizes stay the same. No participation bonus.",
     coinNotEnough: "You don\u2019t have enough available coins.",
     coinShortageTitle: "Not enough coins",
     coinShortageMessage: "You don\u2019t have enough coins. Would you like to buy more?",
@@ -7316,9 +7320,7 @@ var TEXTS = {
     tournamentFinalizing: "\uC21C\uC704 \uC9D1\uACC4 \uC911",
     tournamentFinalized: "\uCD5C\uC885 \uC21C\uC704",
     tournamentStandings: "\uB300\uD68C \uB7AD\uD0B9",
-    participationReward: "\uCC38\uAC00 \uBCF4\uC0C1",
     rankingReward: "\uC21C\uC704 \uBCF4\uC0C1",
-    participationRewardProgress: "\uC720\uD6A8 \uB300\uAD6D {target}\uD310 ({count}/{target})",
     rankingRewardPlace: "\uBCF4\uC0C1 \uC21C\uC704 {rank}\uC704",
     weeklyRewardClaim: "\uC218\uB839\uD558\uAE30",
     weeklyRewardClaimed: "\uC218\uB839 \uC644\uB8CC",
@@ -7338,7 +7340,13 @@ var TEXTS = {
     tournamentMissedAttempts: "\uC774\uBC88 \uC8FC \uB193\uCE5C \uB3C4\uC804 \uAE30\uD68C",
     tournamentMissedCount: "{n}\uD310",
     confirmTournamentCatchUp: "\uB193\uCE5C \uB3C4\uC804 1\uD310\uC744 \uBCF4\uCDA9\uD560\uAE4C\uC694? \uCF54\uC778\uC740 \uB300\uAD6D\uC774 \uC131\uB9BD\uD560 \uB54C \uCC28\uAC10\uB3FC\uC694.",
-    tournamentPriceChanged: "\uBCF4\uCDA9 \uAC00\uACA9\uC774 \uBC14\uB00C\uC5C8\uC5B4\uC694. \uC0C8 \uAC00\uACA9\uC744 \uD655\uC778\uD574 \uC8FC\uC138\uC694.",
+    tournamentPriceChanged: "\uB300\uD68C \uCC38\uAC00 \uBC29\uC2DD\uC774 \uBC14\uB00C\uC5C8\uC5B4\uC694. \uC0C8\uB85C\uACE0\uCE68 \uD6C4 \uCC38\uAC00\uBE44 10\uCF54\uC778\uC744 \uD655\uC778\uD574 \uC8FC\uC138\uC694.",
+    tournamentEntryTitle: "\uC8FC\uAC04 \uB300\uD68C\uC5D0 \uCC38\uAC00\uD560\uAE4C\uC694?",
+    tournamentEntryFee: "\uCC38\uAC00\uBE44",
+    joinTournamentFee: "{n}\uCF54\uC778\uC73C\uB85C \uB300\uD68C \uCC38\uAC00",
+    tournamentCoinRules: "\uD69F\uC218 \uC81C\uD55C \uC5C6\uC74C \xB7 \uC2B9\uB9AC +5 / \uD328\uBC30 \u221210 / \uBB34\uC2B9\uBD80 0\uCF54\uC778",
+    tournamentEntryConfirm: "\uB9E4\uCE6D\uC774 \uC131\uC0AC\uB418\uBA74 10\uCF54\uC778\uC744 \uB0B4\uC694. \uC2B9\uB9AC\uD558\uBA74 15\uCF54\uC778\uC744 \uBC1B\uC544 \uC21C\uC774\uC775\uC740 +5\uCF54\uC778\uC774\uC5D0\uC694. \uD328\uBC30 \uC2DC \uCD94\uAC00 \uCC28\uAC10\uC740 \uC5C6\uACE0, \uBB34\uC2B9\uBD80\uB294 \uCC38\uAC00\uBE44 \uD658\uBD88\xB7\uC21C\uC704 \uC810\uC218 0\uC810\uC774\uC5D0\uC694.",
+    tournamentEntrySafety: "\uC0C1\uB300\uAC00 \uD55C \uC218\uB3C4 \uB450\uC9C0 \uC54A\uAC70\uB098 6\uC218 \uBBF8\uB9CC \uAE30\uAD8C\xB7\uC2DC\uAC04\uD328\uB85C \uB05D\uB098\uBA74 \uC2B9\uC790 \uCC38\uAC00\uBE44\uB9CC \uD658\uBD88\uD558\uACE0 \uC21C\uC704\uC5D0 \uBC18\uC601\uD558\uC9C0 \uC54A\uC544\uC694. \uC8FC\uAC04 \uB7AD\uD0B9 \uBCF4\uC0C1\uC740 \uC720\uC9C0\uD558\uBA70 \uCC38\uAC00 \uBCF4\uC0C1\uC740 \uC5C6\uC5B4\uC694.",
     coinNotEnough: "\uC0AC\uC6A9\uD560 \uC218 \uC788\uB294 \uCF54\uC778\uC774 \uBD80\uC871\uD574\uC694.",
     coinShortageTitle: "\uCF54\uC778 \uBD80\uC871",
     coinShortageMessage: "\uCF54\uC778\uC774 \uBD80\uC871\uD569\uB2C8\uB2E4. \uCF54\uC778\uC744 \uAD6C\uB9E4\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?",
@@ -9690,7 +9698,7 @@ async function claimTestCoins() {
   }
 }
 function applyWeeklyRewards(result) {
-  if (result.error || !result.participation) return false;
+  if (result.error || !Object.hasOwn(result, "ranking")) return false;
   weeklyRewards = result;
   clearTimeout(weeklyRewardsTimer);
   const refreshIn = Date.parse(result.refreshAt) - Date.parse(result.serverNow);
@@ -9734,14 +9742,13 @@ function renderRewardBadge(id, ready, label, attribute = "data-reward-ready") {
   else entry.removeAttribute("aria-label");
 }
 function renderWeeklyRewards(mainAction) {
-  const participationReady = Boolean(weeklyRewards?.participation?.available);
   const rankingReady = Boolean(weeklyRewards?.ranking?.available);
-  const hasReward = participationReady || rankingReady;
+  const hasReward = rankingReady;
   renderRewardBadge("show-rankings", hasReward, t2("rankings"));
   const lobbyLabel = [el("lobby-championship").textContent, el("championship-countdown").textContent].filter(Boolean).join(" \xB7 ");
   for (const [id, ready, label] of [
     ["show-tournament", hasReward, lobbyLabel],
-    ["ranking-weekly-tab", participationReady, t2("currentTournament")],
+    ["ranking-weekly-tab", false, t2("currentTournament")],
     ["ranking-previous-tab", rankingReady, t2("previousTournament")]
   ]) {
     renderRewardBadge(id, ready, label, "data-weekly-reward-ready");
@@ -9751,22 +9758,12 @@ function renderWeeklyRewards(mainAction) {
     const reward = weeklyRewards?.[type];
     const card = el(type + "-reward");
     card.hidden = !reward;
-    const tab = type === "participation" ? "weekly" : "previous";
+    const tab = "previous";
     const ready = Boolean(reward?.available);
     button.toggleAttribute("data-weekly-reward-ready", ready);
     button.toggleAttribute("data-ncq-main", ready && !weeklyRewardClaiming && mainAction && lobbyView === "tournament" && rankingTab === tab);
     if (!reward) continue;
-    if (type === "participation") {
-      el("participation-reward-progress").textContent = t2("participationRewardProgress", {
-        target: NcqLang.num(reward.target),
-        count: NcqLang.num(reward.count)
-      });
-      Array.from(el("participation-reward-steps").children).forEach((step, index2) => {
-        step.toggleAttribute("data-completed", index2 < reward.count);
-      });
-    } else {
-      el("ranking-reward-rank").textContent = t2("rankingRewardPlace", { rank: NcqLang.num(reward.rank) });
-    }
+    el("ranking-reward-rank").textContent = t2("rankingRewardPlace", { rank: NcqLang.num(reward.rank) });
     const action = t2(reward.claimed ? "weeklyRewardClaimed" : "weeklyRewardClaim");
     const coins = NcqLang.num(reward.coins);
     button.querySelector(".weekly-reward-coins strong").textContent = coins;
@@ -9943,7 +9940,7 @@ function renderShop() {
   shopAction.hidden = !skins;
   renderPlacementCards();
   setAppearanceTheme(el("appearance-preview"), shopPreview);
-  applyPreviewPieceStyles(el("appearance-preview"), shopPreview.stones, room);
+  applyPreviewPieceStyles(el("appearance-preview"), shopPreview.stones);
   for (const input of shopRadios) {
     input.checked = shopPreview[input.name] === input.value;
     input.disabled = shopSaving;
@@ -9963,17 +9960,11 @@ function renderShop() {
   const { price } = shopPurchase(shopPreview, shopState);
   const changed = Object.keys(shopPreview).some((kind) => shopPreview[kind] !== shopState.appearance[kind]);
   const buying = price > 0;
-  const enough = canAffordShop(price);
   shopAction.toggleAttribute("data-purchase", buying);
   shopAction.disabled = shopSaving || adPurchaseBusy || !buying && !changed;
   shopAction.textContent = buying ? t2("shopBuyPrice", { n: NcqLang.num(price) }) : t2("shopApply");
   const status = el("shop-feedback");
-  status.classList.toggle("sr-only", skins);
   if (!status.hidden) status.textContent = t2(status.dataset.message);
-  const guide = el("shop-preview-guide");
-  guide.textContent = !status.hidden ? status.textContent : t2(buying ? enough ? "shopLockedPreview" : "shopNotEnough" : "shopPreviewGuide");
-  guide.toggleAttribute("data-hint", status.hidden && !buying);
-  guide.toggleAttribute("data-error", !status.hidden && status.hasAttribute("data-error"));
 }
 function renderPlacementCards() {
   clearTimeout(shopEffectTimer);
@@ -11823,36 +11814,28 @@ function render() {
   const showTournamentEntry = showRankingEntry || tournamentReview;
   const tournamentState = rankingResults.weekly;
   const tournamentStatus = tournamentState?.result;
-  const attempts = tournamentStatus?.remaining;
-  const catchUp = attempts === 0 && tournamentStatus.catchUpRemaining > 0;
-  const attemptsExhausted = !tournamentState?.loading && !tournamentStatus?.error && attempts === 0 && tournamentStatus.catchUpRemaining === 0;
-  const enoughCoins = catchUp && tournamentCoinBalance(tournamentStatus) >= tournamentStatus.catchUpCost;
+  const entryReady = tournamentStatus?.entryPolicy === "coins-v1" && tournamentStatus.entryFee === 10;
   const attemptsLabel = el("tournament-attempts");
   tournamentEntry.hidden = !showRankingEntry;
   joinTournament.hidden = !showTournamentEntry;
-  attemptsLabel.hidden = attempts !== 0;
-  attemptsLabel.textContent = catchUp ? t2(enoughCoins ? "tournamentCatchUp" : "tournamentCatchUpFunds", { n: NcqLang.num(tournamentStatus.catchUpRemaining) }) : t2("tournamentLimit");
-  el("join-tournament-label").textContent = attemptsExhausted ? t2("joinTournamentExhausted") : catchUp ? t2("joinTournamentCatchUp") : Number.isInteger(attempts) ? t2("joinTournamentAttempts", { remaining: attempts, limit: tournamentStatus.dailyLimit }) : t2("joinTournament");
-  el("join-tournament-cost").hidden = !catchUp;
-  joinTournament.toggleAttribute("data-catch-up", catchUp);
-  if (catchUp) {
-    const n = NcqLang.num(tournamentStatus.catchUpCost);
-    el("join-tournament-coins").textContent = n;
-    joinTournament.setAttribute("aria-label", t2("joinTournamentCatchUpCost", { n }));
-    joinTournament.setAttribute("aria-haspopup", "dialog");
-  } else {
-    joinTournament.removeAttribute("aria-label");
-    joinTournament.removeAttribute("aria-haspopup");
-  }
+  attemptsLabel.hidden = !entryReady;
+  attemptsLabel.textContent = t2("tournamentCoinRules");
+  el("join-tournament-label").textContent = t2("joinTournament");
+  el("join-tournament-cost").hidden = false;
+  joinTournament.toggleAttribute("data-catch-up", true);
+  const entryCoins = NcqLang.num(tournamentStatus?.entryFee ?? 10);
+  el("join-tournament-coins").textContent = entryCoins;
+  joinTournament.setAttribute("aria-label", t2("joinTournamentFee", { n: entryCoins }));
+  joinTournament.setAttribute("aria-haspopup", "dialog");
   if (tournamentCatchUpDialog.open) {
-    const { missed, cost } = tournamentCatchUpQuote;
+    const { cost } = tournamentCatchUpQuote;
     const n = NcqLang.num(cost);
-    el("tournament-catch-up-missed").textContent = t2("tournamentMissedCount", { n: NcqLang.num(missed) });
+    el("tournament-catch-up-missed").textContent = n;
     el("tournament-catch-up-coins").textContent = n;
-    el("confirm-tournament-catch-up").setAttribute("aria-label", t2("joinTournamentCatchUpCost", { n }));
+    el("confirm-tournament-catch-up").setAttribute("aria-label", t2("joinTournamentFee", { n }));
   }
   el("tournament-records").disabled = busy || Boolean(matchmaking);
-  joinTournament.disabled = busy || nextMatchPending || Boolean(matchmaking) || tournamentState?.loading === true || Boolean(tournamentStatus?.error) || !(attempts > 0 || catchUp);
+  joinTournament.disabled = busy || nextMatchPending || Boolean(matchmaking) || tournamentState?.loading === true || Boolean(tournamentStatus?.error) || !entryReady;
   const joinVisible = showTournamentEntry && !joinTournament.disabled;
   joinTournament.toggleAttribute("data-ncq-main", joinVisible && (mainAction || tournamentReview && reviewActionsVisible));
   el("show-lobby").toggleAttribute("data-ncq-main", mainAction && inRankings && !joinVisible);
@@ -12645,7 +12628,7 @@ async function cancelMatching(job) {
 }
 async function findMatch(job) {
   job.pending = true;
-  const input = { ticket: job.ticket, mode: job.mode, rule: job.rule, catchUpCost: job.catchUpCost, ...job.placement };
+  const input = { ticket: job.ticket, mode: job.mode, rule: job.rule, entryFee: job.entryFee, ...job.placement };
   const result = await post("/matchmaking", { ...input, nickname: ownNickname() }, (client) => client.match(input));
   job.pending = false;
   job.ticket = result.ticket ?? job.ticket;
@@ -12672,36 +12655,33 @@ function requestCancel() {
 function tournamentCoinBalance(status) {
   return serverWallet && serverWallet.version >= status.coinVersion ? serverWallet.coins : status.coins;
 }
-function startMatching(mode, catchUpCost) {
+function startMatching(mode, entryFee) {
   if (matchmaking || busy || tournamentCatchUpDialog.open || document.querySelector(".shell").inert) return;
-  if (mode === "tournament" && catchUpCost === void 0) {
+  if (mode === "tournament" && entryFee === void 0) {
     const state = rankingResults.weekly;
     const status = state?.result;
-    if (state?.loading || status?.error || !Number.isInteger(status?.remaining)) return;
-    if (status.remaining === 0) {
-      if (!(status.catchUpRemaining > 0)) return;
-      if (tournamentCoinBalance(status) < status.catchUpCost) {
-        showCoinShortage();
-        return;
-      }
-      tournamentCatchUpQuote = {
-        cost: status.catchUpCost,
-        missed: status.catchUpRemaining,
-        room: room ? { code: room.code, round: room.round } : null
-      };
-      tournamentCatchUpDialog.returnValue = "";
-      tournamentCatchUpDialog.showModal();
-      render();
+    if (state?.loading || status?.error || status?.entryPolicy !== "coins-v1" || status.entryFee !== 10) return;
+    if (tournamentCoinBalance(status) < status.entryFee) {
+      showCoinShortage();
       return;
     }
+    tournamentCatchUpQuote = {
+      cost: status.entryFee,
+      room: room ? { code: room.code, round: room.round } : null
+    };
+    tournamentCatchUpDialog.returnValue = "";
+    tournamentCatchUpDialog.showModal();
+    render();
+    return;
   }
+  if (mode === "tournament" && entryFee !== 10) return;
   if (room) {
     if (mode === "tournament" && room.mode === "tournament" && room.phase === "finished") {
-      return startNextMatch("tournament", catchUpCost);
+      return startNextMatch("tournament", entryFee);
     }
     return;
   }
-  const job = { canceled: false, mode, catchUpCost, rule: "janggi", placement: placementRequest() };
+  const job = { canceled: false, mode, entryFee, rule: "janggi", placement: placementRequest() };
   matchmaking = job;
   feedback("lobby-error");
   render();
@@ -12791,7 +12771,7 @@ function showRankings(tab = "weekly") {
   void refreshWeeklyRewards();
 }
 el("show-tournament").addEventListener("click", () => {
-  const previous = !weeklyRewards?.participation?.available && weeklyRewards?.ranking?.available;
+  const previous = weeklyRewards?.ranking?.available;
   showRankings(previous ? "previous" : "weekly");
 });
 el("show-rankings").addEventListener("click", () => showRankings());
@@ -13046,7 +13026,7 @@ function leaveCurrentRoom() {
     void exitRoom("", { showAd: finished });
   });
 }
-async function startNextMatch(mode = "casual", catchUpCost) {
+async function startNextMatch(mode = "casual", entryFee) {
   if (busy || nextMatchPending || !room || room.phase !== "finished" || room.mode === "tournament" !== (mode === "tournament") || document.querySelector(".shell").inert) return;
   nextMatchPending = true;
   render();
@@ -13065,7 +13045,7 @@ async function startNextMatch(mode = "casual", catchUpCost) {
       rankingTab = "weekly";
       render();
     }
-    startMatching(mode, catchUpCost);
+    startMatching(mode, entryFee);
   } finally {
     nextMatchPending = false;
     render();

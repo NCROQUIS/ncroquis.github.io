@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-  <script src="./ncq/safe.js?v=34d93bb65340"></script>
-  <script src="./ncq/device.js?v=34d93bb65340"></script>
-  <script src="./ncq/save.js?v=34d93bb65340"></script>
+  <script src="./ncq/safe.js?v=201f6abbb7e2"></script>
+  <script src="./ncq/device.js?v=201f6abbb7e2"></script>
+  <script src="./ncq/save.js?v=201f6abbb7e2"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -12,19 +12,19 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=34d93bb65340">
-  <link rel="stylesheet" href="./style.css?v=34d93bb65340">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=34d93bb65340">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=34d93bb65340">
-  <link rel="stylesheet" href="./forest-ui.css?v=34d93bb65340">
-  <link rel="stylesheet" href="./lobby-layout.css?v=34d93bb65340">
-  <link rel="stylesheet" href="./list-dialog.css?v=34d93bb65340">
-  <link rel="stylesheet" href="./shop-layout.css?v=34d93bb65340">
-  <link rel="stylesheet" href="./ranking-layout.css?v=34d93bb65340">
-  <link rel="stylesheet" href="./mission-layout.css?v=34d93bb65340">
-  <script type="module" src="./app.js?v=34d93bb65340"></script>
-<link rel="stylesheet" href="./jangi.css?v=34d93bb65340">
-  <link rel="stylesheet" href="./daily-puzzle.css?v=34d93bb65340">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=201f6abbb7e2">
+  <link rel="stylesheet" href="./style.css?v=201f6abbb7e2">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=201f6abbb7e2">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=201f6abbb7e2">
+  <link rel="stylesheet" href="./forest-ui.css?v=201f6abbb7e2">
+  <link rel="stylesheet" href="./lobby-layout.css?v=201f6abbb7e2">
+  <link rel="stylesheet" href="./list-dialog.css?v=201f6abbb7e2">
+  <link rel="stylesheet" href="./shop-layout.css?v=201f6abbb7e2">
+  <link rel="stylesheet" href="./ranking-layout.css?v=201f6abbb7e2">
+  <link rel="stylesheet" href="./mission-layout.css?v=201f6abbb7e2">
+  <script type="module" src="./app.js?v=201f6abbb7e2"></script>
+<link rel="stylesheet" href="./jangi.css?v=201f6abbb7e2">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=201f6abbb7e2">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -194,23 +194,6 @@
         <div id="ranking-weekly-panel" class="ranking-panel" role="tabpanel" aria-labelledby="ranking-weekly-tab" tabindex="0">
           <div id="ranking-weekly-list" class="list-body">
             <p id="ranking-weekly-dates" class="ranking-dates" hidden></p>
-            <section id="participation-reward" class="weekly-reward participation-reward" aria-labelledby="participation-reward-title" hidden>
-              <span class="weekly-reward-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><use href="#nav-records"/></svg>
-              </span>
-              <div class="weekly-reward-details">
-                <h2 id="participation-reward-title" data-i18n="participationReward"></h2>
-                <p id="participation-reward-progress"></p>
-              </div>
-              <div id="participation-reward-steps" class="weekly-reward-steps" aria-hidden="true">
-                <span></span><span></span><span></span><span></span><span></span>
-              </div>
-              <button class="primary weekly-reward-claim" type="button" data-weekly-reward="participation">
-                <span class="weekly-reward-coins"><span class="shop-coin" aria-hidden="true"></span><strong></strong></span>
-                <span class="weekly-reward-action"></span>
-              </button>
-              <p id="participation-reward-feedback" class="weekly-reward-feedback feedback" role="status" hidden></p>
-            </section>
             <div id="ranking-weekly-summary" class="ranking-summary" hidden>
               <h2 data-i18n="tournamentStandings"></h2><span></span>
             </div>
@@ -887,19 +870,15 @@
               <span class="cell" data-stone="2" style="grid-area: 9 / 8"><span class="stone white"></span></span>
             </div>
           </div>
-          <div class="appearance-preview-controls">
-            <h3 data-i18n="appearancePreview"></h3>
-            <p id="shop-preview-guide" data-i18n="shopPreviewGuide"></p>
-            <fieldset class="appearance-group grid-choices">
-              <legend data-i18n="gridStyle"></legend>
-              <label class="grid-choice">
-                <input type="radio" name="grid" value="engraved"><span data-i18n="engravedGrid"></span>
-              </label>
-              <label class="grid-choice">
-                <input type="radio" name="grid" value="soft"><span data-i18n="softGrid"></span>
-              </label>
-            </fieldset>
-          </div>
+          <fieldset class="appearance-group grid-choices">
+            <legend class="sr-only" data-i18n="gridStyle"></legend>
+            <label class="grid-choice">
+              <input type="radio" name="grid" value="engraved"><span data-i18n="engravedGrid"></span>
+            </label>
+            <label class="grid-choice">
+              <input type="radio" name="grid" value="soft"><span data-i18n="softGrid"></span>
+            </label>
+          </fieldset>
         </div>
         <div class="shop-settings">
           <section class="appearance-group" aria-labelledby="shop-stone-title">
@@ -1144,18 +1123,19 @@
     <dialog id="tournament-catch-up" aria-labelledby="tournament-catch-up-title"
             aria-describedby="tournament-catch-up-summary tournament-catch-up-message">
       <form method="dialog">
-        <h2 id="tournament-catch-up-title" data-i18n="joinTournamentCatchUp"></h2>
+        <h2 id="tournament-catch-up-title" data-i18n="tournamentEntryTitle"></h2>
         <p id="tournament-catch-up-summary">
-          <span data-i18n="tournamentMissedAttempts"></span>
-          <strong id="tournament-catch-up-missed"></strong>
+          <span data-i18n="tournamentEntryFee"></span>
+          <span class="tournament-coin-cost"><span class="shop-coin" aria-hidden="true"></span><strong id="tournament-catch-up-missed"></strong></span>
         </p>
-        <p id="tournament-catch-up-message" data-i18n="confirmTournamentCatchUp"></p>
+        <p id="tournament-catch-up-message" data-i18n="tournamentEntryConfirm"></p>
+        <p class="tournament-entry-safety" data-i18n="tournamentEntrySafety"></p>
         <div class="tournament-catch-up-actions">
-          <button class="secondary" type="submit" value="cancel" data-ncq-main="Cancel tournament catch-up"
+          <button class="secondary" type="submit" value="cancel" data-ncq-main="Cancel tournament entry"
                   data-i18n="cancel" autofocus></button>
           <button id="confirm-tournament-catch-up" class="primary" type="submit" value="confirm"
-                  data-ncq-main="Confirm tournament catch-up">
-            <span data-i18n="joinTournamentCatchUp"></span>
+                  data-ncq-main="Confirm tournament entry">
+            <span data-i18n="joinTournament"></span>
             <span class="tournament-coin-cost">
               <span class="shop-coin" aria-hidden="true"></span><span id="tournament-catch-up-coins"></span>
             </span>

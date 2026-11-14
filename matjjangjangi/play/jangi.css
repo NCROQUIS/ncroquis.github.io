@@ -75,7 +75,8 @@
 .stone-sample { grid-template-columns:1fr; }
 #shop .stone-sample .stone:only-child { max-width:100%; }
 .stone-sample .stone,.shop-effect-art .stone { font-size:24px; }
-.queue-mark .stone { font-size:37px; }
+.queue-mark { gap:2px; padding-block:6px; }
+.queue-mark .stone { width:32px; border:0; font-size:18.5px; }
 .result-badge.stone::after { display:none; }
 .board-sample { aspect-ratio:9/10; }
 .appearance-preview-grid { container-type:inline-size; grid-template:repeat(10,minmax(0,1fr))/repeat(9,minmax(0,1fr)); }

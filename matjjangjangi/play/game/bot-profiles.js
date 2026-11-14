@@ -3,7 +3,7 @@ export const BOT_POLICY_VERSION = 'jangi-bot-v1';
 export const BOT_TUNING = Object.freeze({
   rookProtection: Object.freeze({ enabled: true, fromLevel: 18 }),
   captureOversight: Object.freeze({
-    percentByLevel: Object.freeze(Array.from({length:27},(_,level)=>Math.max(0,18-level)*2)),
+    percentByLevel: Object.freeze(Array.from({length:27},(_,level)=>Math.max(0,15-level))),
     maxPieceValue: 13,
   }),
   mistakeProtection: Object.freeze({

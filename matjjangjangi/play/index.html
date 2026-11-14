@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-  <script src="./ncq/safe.js?v=0ad43b9200d2"></script>
-  <script src="./ncq/device.js?v=0ad43b9200d2"></script>
-  <script src="./ncq/save.js?v=0ad43b9200d2"></script>
+  <script src="./ncq/safe.js?v=34d93bb65340"></script>
+  <script src="./ncq/device.js?v=34d93bb65340"></script>
+  <script src="./ncq/save.js?v=34d93bb65340"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -12,19 +12,19 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=0ad43b9200d2">
-  <link rel="stylesheet" href="./style.css?v=0ad43b9200d2">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=0ad43b9200d2">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=0ad43b9200d2">
-  <link rel="stylesheet" href="./forest-ui.css?v=0ad43b9200d2">
-  <link rel="stylesheet" href="./lobby-layout.css?v=0ad43b9200d2">
-  <link rel="stylesheet" href="./list-dialog.css?v=0ad43b9200d2">
-  <link rel="stylesheet" href="./shop-layout.css?v=0ad43b9200d2">
-  <link rel="stylesheet" href="./ranking-layout.css?v=0ad43b9200d2">
-  <link rel="stylesheet" href="./mission-layout.css?v=0ad43b9200d2">
-  <script type="module" src="./app.js?v=0ad43b9200d2"></script>
-<link rel="stylesheet" href="./jangi.css?v=0ad43b9200d2">
-  <link rel="stylesheet" href="./daily-puzzle.css?v=0ad43b9200d2">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=34d93bb65340">
+  <link rel="stylesheet" href="./style.css?v=34d93bb65340">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=34d93bb65340">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=34d93bb65340">
+  <link rel="stylesheet" href="./forest-ui.css?v=34d93bb65340">
+  <link rel="stylesheet" href="./lobby-layout.css?v=34d93bb65340">
+  <link rel="stylesheet" href="./list-dialog.css?v=34d93bb65340">
+  <link rel="stylesheet" href="./shop-layout.css?v=34d93bb65340">
+  <link rel="stylesheet" href="./ranking-layout.css?v=34d93bb65340">
+  <link rel="stylesheet" href="./mission-layout.css?v=34d93bb65340">
+  <script type="module" src="./app.js?v=34d93bb65340"></script>
+<link rel="stylesheet" href="./jangi.css?v=34d93bb65340">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=34d93bb65340">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -104,7 +104,7 @@
         <div id="lobby-profile-slot"></div>
         <div class="lobby-showcase" aria-hidden="true">
           <div class="lobby-board-art">
-            <img src="./assets/forest-ui/board/reference-board.webp" alt="" class="lobby-board-image">
+            <img src="./assets/jangi-lobby-hero.png" alt="" class="lobby-board-image" width="1536" height="1024" decoding="async" fetchpriority="high">
           </div>
         </div>
         <div id="lobby-mission-slot"></div>
@@ -380,8 +380,8 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
           </div>
           <button id="opponent-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
-            <strong id="opponent-nickname" dir="auto"></strong>
-            <span class="seat"><span id="opponent-stone" class="stone" role="img"></span><span id="opponent-rank" hidden></span><span id="opponent-turn" class="jangi-turn-badge"></span></span>
+            <span class="jangi-player-name"><span id="opponent-rank" class="jangi-player-rank" hidden></span><strong id="opponent-nickname" dir="auto"></strong></span>
+            <span class="seat"><span id="opponent-stone" class="stone" role="img"></span><span id="opponent-material" class="jangi-material"></span><span id="opponent-turn" class="jangi-turn-badge"></span></span>
           </button>
           <div id="opponent-timer" class="jangi-player-time">
             <span id="opponent-clock" class="player-clock" role="timer"></span>
@@ -396,8 +396,8 @@
           </span>
           <span id="review-opponent-stone" class="stone" aria-hidden="true"></span>
           <span class="review-identity">
-            <span id="review-opponent-seat" class="review-seat"></span>
-            <strong id="review-opponent-name" dir="auto"></strong>
+            <span class="jangi-player-name"><span id="review-opponent-rank" class="jangi-player-rank" hidden></span><strong id="review-opponent-name" dir="auto"></strong></span>
+            <span class="jangi-review-seat"><span id="review-opponent-seat" class="review-seat"></span><span id="review-opponent-material" class="jangi-material"></span></span>
           </span>
           <span id="review-opponent-turn" class="review-turn" hidden></span>
         </button>
@@ -424,8 +424,8 @@
             <img id="match-player-photo" alt="" referrerpolicy="no-referrer" hidden>
           </div>
           <button id="own-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
-            <strong id="own-nickname"></strong>
-            <span class="seat"><span id="own-stone" class="stone" role="img"></span><span id="own-rank" hidden></span><span id="place-text" class="jangi-turn-badge"></span></span>
+            <span class="jangi-player-name"><span id="own-rank" class="jangi-player-rank" hidden></span><strong id="own-nickname"></strong></span>
+            <span class="seat"><span id="own-stone" class="stone" role="img"></span><span id="own-material" class="jangi-material"></span><span id="place-text" class="jangi-turn-badge"></span></span>
           </button>
           <div id="place" class="jangi-player-time" role="status" aria-live="off">
             <span id="own-clock" class="player-clock" role="timer"></span>
@@ -469,8 +469,8 @@
             </span>
             <span id="review-own-stone" class="stone" aria-hidden="true"></span>
             <span class="review-identity">
-              <span id="review-own-seat" class="review-seat"></span>
-              <strong id="review-own-name" dir="auto"></strong>
+              <span class="jangi-player-name"><span id="review-own-rank" class="jangi-player-rank" hidden></span><strong id="review-own-name" dir="auto"></strong></span>
+              <span class="jangi-review-seat"><span id="review-own-seat" class="review-seat"></span><span id="review-own-material" class="jangi-material"></span></span>
             </span>
             <span id="review-own-status" class="review-own-status">
               <span id="review-own-turn" class="review-turn" hidden></span>

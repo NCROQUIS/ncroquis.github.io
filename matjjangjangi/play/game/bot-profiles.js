@@ -1,11 +1,10 @@
 export const BOT_POLICY_VERSION = 'jangi-bot-v1';
 const budgets = [30,40,50,60,75,90,110,135,160,190,230,280,340,410,500,600,720,850,1000,1200,1450,1750,2100,2500,3000,3600,4500];
-const chances = [40,38,36,34,32,30,27,24,21,18,15,12,10,8,6,4,3,2,0,0,0,0,0,0,0,0,0];
 const losses = [250,225,200,180,160,140,120,100,85,70,60,50,40,30,25,20,15,10,0,0,0,0,0,0,0,0,0];
 export const BOT_PROFILES = Object.freeze(budgets.map((thinkMs,level)=>Object.freeze({
   level, name:level<18?`${18-level}급`:`${level-17}단`, version:BOT_POLICY_VERSION,
-  thinkMs, maxNodes:Math.round(thinkMs*700), alternativePercent:chances[level], maxLossCp:losses[level],
-  multiPV:level<18?6:1,
+  thinkMs, maxNodes:Math.round(thinkMs*700), alternativePercent:(26-level)*2, maxLossCp:losses[level],
+  multiPV:27-level,
 })));
 export const botProfile = level => BOT_PROFILES[Number.isInteger(level)?Math.max(0,Math.min(26,level)):0];
 export function botLimits(state, level, now=Date.now()) {

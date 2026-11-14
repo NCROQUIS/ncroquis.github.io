@@ -6,6 +6,7 @@ var CANNON = 4;
 var HORSE = 5;
 var ELEPHANT = 6;
 var SOLDIER = 7;
+var VALUES = [0, 0, 3, 13, 7, 5, 3, 2];
 var GLYPHS = { 1: ["\u695A", "\u58EB", "\u8ECA", "\u5305", "\u99AC", "\u8C61", "\u5352"], 2: ["\u6F22", "\u58EB", "\u8ECA", "\u5305", "\u99AC", "\u8C61", "\u5175"] };
 var sideOf = (piece) => piece > 0 ? 1 : piece < 0 ? 2 : 0;
 var index = (x, y) => y * 9 + x;
@@ -130,6 +131,11 @@ function facing(board2) {
   return true;
 }
 var positionKey = ({ board: board2, turn }) => board2.join(",") + ":" + turn;
+function material(board2) {
+  const points = { 1: 0, 2: 1.5 };
+  for (const piece of board2) if (piece) points[sideOf(piece)] += VALUES[Math.abs(piece)];
+  return points;
+}
 function apply(state, action) {
   if (state.winner !== null) throw new Error("gameOver");
   const side = state.turn;
@@ -295,7 +301,7 @@ function installJangiArtwork() {
   document.getElementById("board-line-path").setAttribute("d", jangiGridPath());
   for (const svg of document.querySelectorAll("svg.board-lines")) svg.setAttribute("viewBox", "0 0 9 10");
   const image = document.querySelector(".lobby-board-image");
-  image.src = "./assets/jangi-lobby.svg";
+  image.src = "./assets/jangi-lobby-hero.png";
   for (const image2 of document.querySelectorAll(".logo-stones image,.start-stones image")) image2.setAttribute("href", "./assets/jangi-pair.svg");
   const preview = document.querySelector(".appearance-preview-grid");
   if (preview) {
@@ -341,6 +347,8 @@ var JANGI_TEXTS = {
     jangiSelectPiece: "\uC774\uB3D9\uD560 \uB9D0 \uC120\uD0DD",
     jangiSelectTarget: "\uC774\uB3D9\uD560 \uACF3 \uC120\uD0DD",
     jangiMoveSaving: "\uCC29\uC218 \uD655\uC778 \uC911",
+    jangiMaterialPoints: "{points}\uC810",
+    jangiMaterialLabel: "\uB0A8\uC740 \uAE30\uBB3C \uC810\uC218 {points}\uC810",
     jangiOwnTurn: "\uB0B4 \uCC28\uB840",
     jangiOpponentTurn: "\uC0C1\uB300 \uCC28\uB840",
     jangiOwnGauge: "\uB0B4 \uB0A8\uC740 \uC2DC\uAC04",
@@ -410,6 +418,8 @@ var JANGI_TEXTS = {
     jangiSelectPiece: "Select a piece",
     jangiSelectTarget: "Tap destination",
     jangiMoveSaving: "Confirming move",
+    jangiMaterialPoints: "{points} pts",
+    jangiMaterialLabel: "Remaining material: {points} points",
     jangiOwnTurn: "Your turn",
     jangiOpponentTurn: "Their turn",
     jangiOwnGauge: "Your remaining time",
@@ -10681,6 +10691,17 @@ function updateCumulativeClock(game, deadline, lowerSeat, watching) {
 function ownNickname() {
   return displayNickname(nicknameOverride || playerNickname || t2("guestNickname"));
 }
+function renderMaterialPoints(game, displayedBoard) {
+  const points = material(displayedBoard);
+  const lowerSeat = spectator ? game.black ?? 1 : game.you;
+  for (const [side, seat] of [["own", lowerSeat], ["opponent", 3 - lowerSeat]]) {
+    const value = NcqLang.num(points[seatColor(game, seat)], { maximumFractionDigits: 1 });
+    for (const id of [side + "-material", "review-" + side + "-material"]) {
+      el(id).textContent = t2("jangiMaterialPoints", { points: value });
+      el(id).setAttribute("aria-label", t2("jangiMaterialLabel", { points: value }));
+    }
+  }
+}
 function renderPlayers(game, showPanels, watching = false) {
   cancelAnimationFrame(turnFrame);
   for (const side of ["own", "opponent"]) el(side + "-refills").hidden = true;
@@ -11065,9 +11086,12 @@ function renderReview(game) {
     const prefix = "review-" + side + "-";
     const label = el(prefix + "name");
     label.textContent = label.title = game.sharedView ? t2(color) : profile.name;
+    const rank = game.sharedView ? "" : recordRank(profile);
+    el(prefix + "rank").hidden = !rank;
+    el(prefix + "rank").textContent = rank;
     const seatLabel = el(prefix + "seat");
     seatLabel.hidden = Boolean(game.sharedView);
-    seatLabel.textContent = [t2(side === "own" ? "you" : "opponent"), t2(color), recordRank(profile)].filter(Boolean).join(" \xB7 ");
+    seatLabel.textContent = [t2(side === "own" ? "you" : "opponent"), t2(color)].join(" \xB7 ");
     el(prefix + "stone").className = "stone " + color;
     el(prefix + "stone").dataset.stoneStyle = pieceStyleForSeat(game, seat, shopState.appearance.stones);
     setRecordPhoto(el(prefix + "photo"), profile);
@@ -11969,6 +11993,7 @@ function drawGamePosition(game, ply, reviewing = false) {
     }
   }
   game.displayPly = ply;
+  renderMaterialPoints(game, displayedBoard);
   drawJangiBoard({ game, displayedBoard, cells, selectedFrom, selected, lastMoveMarker, board, selectable: canAct() && !game.setup, coordinate, t: t2, latest, moveNumbers, pendingMove: optimistic, localPieceStyle: shopState.appearance.stones });
   renderBikjangNotice(game, latest && !reviewing);
   if (!reviewing && game.phase === "playing" && !game.setup && game.board) {

@@ -301,8 +301,7 @@ function installJangiArtwork() {
   document.getElementById("board-line-path").setAttribute("d", jangiGridPath());
   for (const svg of document.querySelectorAll("svg.board-lines")) svg.setAttribute("viewBox", "0 0 9 10");
   const image = document.querySelector(".lobby-board-image");
-  image.src = "./assets/jangi-lobby-hero.png";
-  for (const image2 of document.querySelectorAll(".logo-stones image,.start-stones image")) image2.setAttribute("href", "./assets/jangi-pair.svg");
+  image.src = "./assets/jangi-lobby-hero.webp";
   const preview = document.querySelector(".appearance-preview-grid");
   if (preview) {
     for (const cell of preview.querySelectorAll(".cell")) cell.remove();
@@ -7590,6 +7589,18 @@ function titleUnderline(className) {
   image.setAttribute("aria-hidden", "true");
   return image;
 }
+function janggiIcon(parent, name, className, width, height) {
+  const image = document.createElement("img");
+  Object.assign(image, {
+    src: `./assets/jangi-ui/${name}-pair-white-v2.webp`,
+    alt: "",
+    className: "lobby-resource " + className,
+    width,
+    height
+  });
+  image.setAttribute("aria-hidden", "true");
+  parent.append(image);
+}
 function primaryButtonSurface(button, className, width, height, { sourceCap = 62, capRatio } = {}) {
   const cap = capRatio == null ? Math.floor(height / 2) : height * capRatio;
   return resource(button, "primary", className, [width, height, sourceCap, cap]);
@@ -7615,7 +7626,7 @@ function installMeasuredLobby() {
     stage.style.transform = `scale(${scale}) translateX(-50%)`;
     stage.dataset.sized = "true";
   }).observe(host);
-  resource(document.querySelector(".mark"), "pair", "logo-stones");
+  janggiIcon(document.querySelector(".mark"), "logo", "logo-stones", 256, 256);
   document.querySelector(".brand").append(titleUnderline("lobby-logo-underline"));
   resource(el2("lobby-wallet"), "currency", "currency-surface", [164, 59, 52, 29]);
   resource(el2("lobby-wallet").querySelector(".shop-coin"), "coin", "currency-coin");
@@ -7629,13 +7640,15 @@ function installMeasuredLobby() {
   const meter = document.querySelector(".lobby-rank-meter");
   resource(meter, "track", "meter-track", void 0, true);
   resource(meter.firstElementChild, "fill", "meter-fill", void 0, true);
-  const missionSurface = document.createElement("img");
-  missionSurface.src = "./assets/forest-ui/panels/mission-button.svg";
-  missionSurface.alt = "";
-  missionSurface.className = "lobby-resource mission-surface";
-  el2("show-missions").append(missionSurface);
+  for (const id of ["show-missions", "show-daily-puzzle"]) {
+    const missionSurface = document.createElement("img");
+    missionSurface.src = "./assets/forest-ui/panels/mission-button.svg";
+    missionSurface.alt = "";
+    missionSurface.className = "lobby-resource mission-surface";
+    el2(id).append(missionSurface);
+    resource(el2(id), "notice", "mission-notice");
+  }
   resource(el2("show-missions").querySelector(".mission-shortcut-icon"), "gift", "mission-gift-art");
-  resource(el2("show-missions"), "notice", "mission-notice");
   resource(el2("show-tournament"), "championship", "championship-surface", [924, 86, 45, 28]);
   el2("show-tournament").querySelector(".tournament-icon").remove();
   resource(el2("show-tournament"), "trophy", "championship-trophy");
@@ -7646,7 +7659,7 @@ function installMeasuredLobby() {
   const startContent = document.createElement("span");
   startContent.className = "start-content";
   startContent.append(el2("start").querySelector("[data-i18n]"));
-  resource(startContent, "pair", "start-stones");
+  janggiIcon(startContent, "start", "start-stones", 256, 213);
   el2("start").append(startContent);
   resource(el2("lobby-nav"), "navigation", "navigation-surface", [952, 132, 42, 33]);
   for (const [id, artName] of [["show-records", "book"], ["show-watch", "watch"], ["show-rankings", null], ["show-shop", "shop"]]) {
@@ -8494,7 +8507,7 @@ var compositions = [
   { theme: "soldierNet", pieces: [[4, 6], [13, -2], [21, -2], [22, -1], [32, 3], [33, -7], [40, 7], [76, 1]] }
 ];
 var DAILY_PUZZLE_COUNT = compositions.length * 4;
-var DAILY_PUZZLE_REWARD = 50;
+var DAILY_PUZZLE_REWARD = 10;
 var koreaDay = (time) => new Date(time + 9 * 60 * 6e4).toISOString().slice(0, 10);
 function puzzleForDay(day) {
   if (typeof day !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(day)) throw Error("invalidDay");
@@ -8564,13 +8577,20 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
     cells2.push(cell);
   }
   const marker = document.createElement("span");
+  function renderEntry() {
+    const claimed = progress.claimed(), entry = el2("show-daily-puzzle");
+    entry.toggleAttribute("data-claimed", claimed);
+    entry.toggleAttribute("data-ready", !claimed);
+    entry.setAttribute("aria-label", t3("puzzleEntry") + " \xB7 " + t3(claimed ? "puzzleClaimed" : "puzzleReward", { n: DAILY_PUZZLE_REWARD }));
+  }
   function render2() {
     const puzzle = data?.puzzle, playable = Boolean(puzzle) && !pending && !error && !solved;
     if (data) data.claimed = progress.claimed(data.day);
     dialog.dataset.result = solved ? "solved" : message === "puzzleWrong" ? "wrong" : "";
-    el2("show-daily-puzzle").toggleAttribute("data-claimed", progress.claimed());
+    renderEntry();
     el2("puzzle-date").textContent = puzzle ? t3("puzzleDate", { day: data.day, n: puzzle.number }) : "";
     el2("puzzle-reward").textContent = t3(data?.claimed ? "puzzleClaimed" : "puzzleReward", { n: DAILY_PUZZLE_REWARD });
+    el2("puzzle-reward").toggleAttribute("data-claimed", Boolean(data?.claimed));
     el2("puzzle-side").textContent = solved ? t3("puzzleTheme_" + puzzle.theme) : from !== null ? t3("puzzleSelected", {
       piece: GLYPHS[puzzle.turn][Math.abs(puzzle.board[from]) - 1]
     }) : puzzle ? t3("puzzleSide", { side: t3(puzzle.turn === 1 ? "black" : "white") }) : t3("puzzleSubtitle");
@@ -8585,7 +8605,7 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
     el2("puzzle-hint").hidden = Boolean(error);
     el2("puzzle-reset").disabled = pending;
     el2("puzzle-reset").textContent = t3(error ? claimMove && error !== "puzzleExpired" ? "puzzleRetryReward" : "puzzleReload" : solved ? "puzzlePractice" : "puzzleReset");
-    el2("puzzle-reset").toggleAttribute("data-ncq-main", dialog.open && Boolean(error || solved));
+    el2("puzzle-reset").toggleAttribute("data-ncq-main", dialog.open && !el2("coin-reward-dialog").open && Boolean(error || solved));
     if (!puzzle) return;
     const styles = appearance();
     board2.dataset.boardStyle = styles.board;
@@ -8735,11 +8755,13 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
   const fit = () => board2.style.setProperty("--puzzle-height", Math.floor(el2("puzzle-board-slot").getBoundingClientRect().height) + "px");
   new ResizeObserver(fit).observe(el2("puzzle-board-slot"));
   const dayChanged = () => {
-    el2("show-daily-puzzle").toggleAttribute("data-claimed", progress.claimed());
+    renderEntry();
     if (dialog.open && !pending && data?.day !== progress.today()) load();
   };
+  renderEntry();
   return {
     render: () => {
+      renderEntry();
       if (dialog.open) render2();
     },
     isOpen: () => dialog.open,
@@ -8757,6 +8779,7 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
 var DAILY_PUZZLE_TEXTS = {
   ko: {
     puzzleTitle: "\uC624\uB298\uC758 \uBB38\uC81C",
+    puzzleShortcutTitle: "\uC624\uB298\uC758\n\uBB38\uC81C",
     puzzleEntry: "\uC624\uB298\uC758 \uBB38\uC81C \uD480\uAE30",
     puzzleSubtitle: "\uAE30\uBCF4 \uC18D \uC2B9\uBD80\uB97C \uB05D\uB0BC \uD55C \uC218",
     puzzleGoal: "\uD55C \uC218\uB85C \uC678\uD1B5\uC744 \uB9CC\uB4DC\uC138\uC694",
@@ -8777,7 +8800,7 @@ var DAILY_PUZZLE_TEXTS = {
     puzzleWrong: "\uC544\uC9C1 \uC678\uD1B5\uC774 \uC544\uB2C8\uC5D0\uC694. \uB2E4\uB978 \uC218\uB97C \uCC3E\uC544\uBCF4\uC138\uC694!",
     puzzleSuccess: "\uC815\uB2F5! \uC678\uD1B5\uC744 \uB9CC\uB4E4\uC5C8\uC5B4\uC694.",
     puzzleGranted: "{n}\uCF54\uC778\uC744 \uBC1B\uC558\uC5B4\uC694!",
-    puzzleClaimed: "\uC624\uB298 \uBCF4\uC0C1 \uC218\uB839 \uC644\uB8CC",
+    puzzleClaimed: "\uBCF4\uC0C1 \uD68D\uB4DD \uC644\uB8CC",
     puzzlePractice: "\uB2E4\uC2DC \uD480\uAE30",
     puzzleNext: "\uB2E4\uC74C \uBB38\uC81C\uB294 \uD55C\uAD6D \uC2DC\uAC04 \uC790\uC815\uC5D0 \uC5F4\uB824\uC694.",
     puzzleSelected: "{piece} \uC120\uD0DD \xB7 \uD45C\uC2DC\uB41C \uACF3\uC73C\uB85C \uC6C0\uC9C1\uC5EC \uBCF4\uC138\uC694.",
@@ -8796,6 +8819,7 @@ var DAILY_PUZZLE_TEXTS = {
   },
   en: {
     puzzleTitle: "Daily puzzle",
+    puzzleShortcutTitle: "Daily\npuzzle",
     puzzleEntry: "Play today\u2019s puzzle",
     puzzleSubtitle: "Find the move that ends the game",
     puzzleGoal: "Checkmate in one move",
@@ -9049,14 +9073,12 @@ var dailyPuzzle = createDailyPuzzle({
     const result = await remoteRequest((client) => client.gameRequest("/puzzles/daily", input, -1));
     if (player !== authSession?.player) return { error: "network" };
     if (result.wallet && player === authSession?.player && applyWallet(result.wallet)) renderCoinBalance();
+    if (result.correct && result.granted) showCoinReward(result.reward, "daily-puzzle:" + input.day, "daily-puzzle");
     if (result.error === "puzzleExpired") await refreshWallet(-1);
     return result;
   },
   credited: (wallet) => {
-    if (applyWallet(wallet)) {
-      renderCoinBalance();
-      haptics.once("daily-puzzle:" + wallet.day, "success");
-    }
+    if (applyWallet(wallet)) renderCoinBalance();
   }
 });
 var boardLayoutFrame;
@@ -9227,16 +9249,16 @@ window.ncqBack = () => {
     bikjangDialog.close("cancel");
     return true;
   }
-  if (dailyPuzzle.isOpen()) {
-    dailyPuzzle.close();
-    return true;
-  }
   if (window.NcqFeedback?.isOpen()) {
     window.NcqFeedback.close();
     return true;
   }
   if (coinRewardDialog.open) {
     coinRewardDialog.close();
+    return true;
+  }
+  if (dailyPuzzle.isOpen()) {
+    dailyPuzzle.close();
     return true;
   }
   if (leaveDialog.open) {
@@ -9430,7 +9452,9 @@ coinRewardDialog.addEventListener("close", () => {
   render();
   presentCoinReward();
   if (coinRewardDialog.open) return;
-  if (missionDialog.open) {
+  if (dailyPuzzle.isOpen()) {
+    el("puzzle-reset").focus({ preventScroll: true });
+  } else if (missionDialog.open) {
     const next = missionDialog.querySelector(".mission-claim:not([hidden]):not(:disabled)");
     (next ?? el("mission-close")).focus({ preventScroll: true });
   } else if (shop.open) {
@@ -9906,7 +9930,7 @@ function showCoinReward(coins, receipt, source) {
 }
 function presentCoinReward() {
   if (coinRewardDialog.open || !coinRewardQueue.length || adPurchaseBusy || document.hidden || room || archive || spectator) return;
-  if ([...document.querySelectorAll("dialog[open]")].some((dialog) => dialog !== shop && dialog !== missionDialog)) return;
+  if ([...document.querySelectorAll("dialog[open]")].some((dialog) => dialog !== shop && dialog !== missionDialog && dialog.id !== "daily-puzzle")) return;
   while (coinRewardQueue.length) {
     const reward = coinRewardQueue.shift();
     if (reward.player !== authSession?.player || reward.source === "missions" && !missionDialog.open) continue;

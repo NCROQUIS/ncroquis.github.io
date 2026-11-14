@@ -75,8 +75,7 @@ export function installJangiArtwork() {
   document.getElementById('board-line-path').setAttribute('d', jangiGridPath());
   for (const svg of document.querySelectorAll('svg.board-lines')) svg.setAttribute('viewBox', '0 0 9 10');
   const image = document.querySelector('.lobby-board-image');
-  image.src = './assets/jangi-lobby-hero.png';
-  for (const image of document.querySelectorAll('.logo-stones image,.start-stones image')) image.setAttribute('href','./assets/jangi-pair.svg');
+  image.src = './assets/jangi-lobby-hero.webp';
   const preview = document.querySelector('.appearance-preview-grid');
   if (preview) {
     for (const cell of preview.querySelectorAll('.cell')) cell.remove();

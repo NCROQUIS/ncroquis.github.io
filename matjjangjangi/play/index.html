@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-  <script src="./ncq/safe.js?v=201f6abbb7e2"></script>
-  <script src="./ncq/device.js?v=201f6abbb7e2"></script>
-  <script src="./ncq/save.js?v=201f6abbb7e2"></script>
+  <script src="./ncq/safe.js?v=a675a0d5abe0"></script>
+  <script src="./ncq/device.js?v=a675a0d5abe0"></script>
+  <script src="./ncq/save.js?v=a675a0d5abe0"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -12,19 +12,19 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=201f6abbb7e2">
-  <link rel="stylesheet" href="./style.css?v=201f6abbb7e2">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=201f6abbb7e2">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=201f6abbb7e2">
-  <link rel="stylesheet" href="./forest-ui.css?v=201f6abbb7e2">
-  <link rel="stylesheet" href="./lobby-layout.css?v=201f6abbb7e2">
-  <link rel="stylesheet" href="./list-dialog.css?v=201f6abbb7e2">
-  <link rel="stylesheet" href="./shop-layout.css?v=201f6abbb7e2">
-  <link rel="stylesheet" href="./ranking-layout.css?v=201f6abbb7e2">
-  <link rel="stylesheet" href="./mission-layout.css?v=201f6abbb7e2">
-  <script type="module" src="./app.js?v=201f6abbb7e2"></script>
-<link rel="stylesheet" href="./jangi.css?v=201f6abbb7e2">
-  <link rel="stylesheet" href="./daily-puzzle.css?v=201f6abbb7e2">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=a675a0d5abe0">
+  <link rel="stylesheet" href="./style.css?v=a675a0d5abe0">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=a675a0d5abe0">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=a675a0d5abe0">
+  <link rel="stylesheet" href="./forest-ui.css?v=a675a0d5abe0">
+  <link rel="stylesheet" href="./lobby-layout.css?v=a675a0d5abe0">
+  <link rel="stylesheet" href="./list-dialog.css?v=a675a0d5abe0">
+  <link rel="stylesheet" href="./shop-layout.css?v=a675a0d5abe0">
+  <link rel="stylesheet" href="./ranking-layout.css?v=a675a0d5abe0">
+  <link rel="stylesheet" href="./mission-layout.css?v=a675a0d5abe0">
+  <script type="module" src="./app.js?v=a675a0d5abe0"></script>
+<link rel="stylesheet" href="./jangi.css?v=a675a0d5abe0">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=a675a0d5abe0">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -104,13 +104,13 @@
         <div id="lobby-profile-slot"></div>
         <div class="lobby-showcase" aria-hidden="true">
           <div class="lobby-board-art">
-            <img src="./assets/jangi-lobby-hero.png" alt="" class="lobby-board-image" width="1536" height="1024" decoding="async" fetchpriority="high">
+            <img src="./assets/jangi-lobby-hero.webp" alt="" class="lobby-board-image" width="1536" height="1024" decoding="async" fetchpriority="high">
           </div>
         </div>
         <div id="lobby-mission-slot"></div>
-        <button id="show-daily-puzzle" type="button" aria-haspopup="dialog" aria-controls="daily-puzzle" data-i18n-attr="aria-label:puzzleEntry; title:puzzleEntry">
-          <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="6"/><path d="M9 11h14M9 21h14M11 8v16M21 8v16"/><circle cx="16" cy="16" r="5"/></svg>
-          <strong data-i18n="puzzleTitle"></strong>
+        <button id="show-daily-puzzle" class="mission-shortcut" type="button" aria-haspopup="dialog" aria-controls="daily-puzzle" data-i18n-attr="aria-label:puzzleEntry; title:puzzleEntry">
+          <span class="mission-shortcut-icon" aria-hidden="true"><svg class="puzzle-entry-icon" viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="6"/><path d="M9 11h14M9 21h14M11 8v16M21 8v16"/><circle cx="16" cy="16" r="5"/></svg></span>
+          <span class="mission-shortcut-content"><span class="mission-shortcut-heading"><strong data-i18n="puzzleShortcutTitle"></strong></span></span>
         </button>
         <div id="lobby-championship-slot"></div>
         <div id="lobby-cta-slot"></div>
@@ -520,7 +520,7 @@
       </button>
       <div id="lobby-entry" class="match-request">
         <button id="start" class="primary" type="button" data-ncq-main="Start">
-          <img src="./assets/forest-ui/board/stones_pair.webp" alt=""><span data-i18n="start"></span>
+          <img src="./assets/jangi-ui/start-pair-white-v2.webp" alt="" width="256" height="213"><span data-i18n="start"></span>
         </button>
       </div>
       <div id="tournament-entry" class="match-request" hidden>

@@ -2167,7 +2167,8 @@ dialog input { width: 100%; }
   inset-block: var(--ncq-top, 0px) var(--ncq-bottom, 0px);
   width: min(400px, 90vw);
   max-height: calc(100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - 16px);
-  padding: 16px 18px 19px;
+  padding: 0;
+  overflow: hidden;
   border-color: var(--lobby-border);
   border-radius: 24px;
   background:
@@ -2177,7 +2178,17 @@ dialog input { width: 100%; }
   box-shadow: 0 12px 35px #342c2226;
 }
 .profile-dialog::backdrop { background: #302d2957; }
-.profile-dialog form { gap: 12px; }
+.profile-dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: calc(100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - 18px);
+  padding: 16px 18px 19px;
+}
+.profile-dialog form > :is(.profile-heading, button) { flex: none; }
+.profile-body { display: grid; gap: inherit; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+#nickname-feedback { color: var(--muted); font-size: .85rem; overflow-wrap: anywhere; }
+#nickname-feedback[data-error] { color: #a03529; }
 .profile-dialog:has(#profile-promotion:not([hidden])) form { gap: 9px; }
 .profile-heading, .profile-identity {
   display: flex;
@@ -2485,7 +2496,7 @@ dialog input { width: 100%; }
   to { filter: none; }
 }
 @media (max-height: 700px) {
-  .profile-dialog:has(#profile-rating-standing-row:not([hidden])) { padding-block: 7px 9px; }
+  .profile-dialog:has(#profile-rating-standing-row:not([hidden])) form { padding-block: 7px 9px; }
   .profile-dialog:has(#profile-rating-standing-row:not([hidden])) form { gap: 4px; }
   .profile-dialog:has(#profile-rating-standing-row:not([hidden])) .profile-heading { padding-bottom: 4px; }
   .profile-dialog:has(#profile-rating-standing-row:not([hidden])) .profile-identity .player-avatar { width: 48px; height: 48px; }

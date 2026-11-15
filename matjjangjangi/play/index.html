@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-  <script src="./ncq/safe.js?v=eef00092bdf5"></script>
-  <script src="./ncq/device.js?v=eef00092bdf5"></script>
-  <script src="./ncq/save.js?v=eef00092bdf5"></script>
+  <script src="./ncq/safe.js?v=659499b2d453"></script>
+  <script src="./ncq/device.js?v=659499b2d453"></script>
+  <script src="./ncq/save.js?v=659499b2d453"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -12,19 +12,19 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=eef00092bdf5">
-  <link rel="stylesheet" href="./style.css?v=eef00092bdf5">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=eef00092bdf5">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=eef00092bdf5">
-  <link rel="stylesheet" href="./forest-ui.css?v=eef00092bdf5">
-  <link rel="stylesheet" href="./lobby-layout.css?v=eef00092bdf5">
-  <link rel="stylesheet" href="./list-dialog.css?v=eef00092bdf5">
-  <link rel="stylesheet" href="./shop-layout.css?v=eef00092bdf5">
-  <link rel="stylesheet" href="./ranking-layout.css?v=eef00092bdf5">
-  <link rel="stylesheet" href="./mission-layout.css?v=eef00092bdf5">
-  <script type="module" src="./app.js?v=eef00092bdf5"></script>
-<link rel="stylesheet" href="./jangi.css?v=eef00092bdf5">
-  <link rel="stylesheet" href="./daily-puzzle.css?v=eef00092bdf5">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=659499b2d453">
+  <link rel="stylesheet" href="./style.css?v=659499b2d453">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=659499b2d453">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=659499b2d453">
+  <link rel="stylesheet" href="./forest-ui.css?v=659499b2d453">
+  <link rel="stylesheet" href="./lobby-layout.css?v=659499b2d453">
+  <link rel="stylesheet" href="./list-dialog.css?v=659499b2d453">
+  <link rel="stylesheet" href="./shop-layout.css?v=659499b2d453">
+  <link rel="stylesheet" href="./ranking-layout.css?v=659499b2d453">
+  <link rel="stylesheet" href="./mission-layout.css?v=659499b2d453">
+  <script type="module" src="./app.js?v=659499b2d453"></script>
+<link rel="stylesheet" href="./jangi.css?v=659499b2d453">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=659499b2d453">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -568,10 +568,12 @@
                  fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
           </button>
         </div>
+        <div class="profile-body">
         <label id="profile-nickname-editor" class="nickname-field" hidden>
           <span data-i18n="nickname"></span>
           <input id="nickname" type="text" maxlength="20" autocomplete="nickname" enterkeyhint="done">
         </label>
+        <p id="nickname-feedback" role="status" hidden></p>
         <div class="profile-identity">
           <span class="player-avatar" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
@@ -622,6 +624,7 @@
           </div>
         </section>
         <button id="profile-rankings" class="secondary" type="button" data-i18n="profileRankings" hidden></button>
+        </div>
         <button class="primary" type="submit" data-ncq-main="Confirm profile" data-i18n="confirmProfile" autofocus></button>
       </form>
     </dialog>

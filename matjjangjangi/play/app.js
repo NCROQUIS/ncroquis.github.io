@@ -6793,6 +6793,8 @@ var TEXTS = {
     shopClose: "Close",
     nickname: "Nickname",
     editNickname: "Edit nickname",
+    nicknameSaving: "Saving nickname\u2026",
+    nicknameSaveFailed: "Couldn\u2019t save your nickname. Please try again.",
     guestNickname: "Guest",
     rankKyu: "{n} kyu",
     rankDan: "{n} dan",
@@ -7236,6 +7238,8 @@ var TEXTS = {
     shopClose: "\uB2EB\uAE30",
     nickname: "\uB2C9\uB124\uC784",
     editNickname: "\uB2C9\uB124\uC784 \uD3B8\uC9D1",
+    nicknameSaving: "\uB2C9\uB124\uC784\uC744 \uC800\uC7A5\uD558\uACE0 \uC788\uC5B4\uC694\u2026",
+    nicknameSaveFailed: "\uB2C9\uB124\uC784\uC744 \uC800\uC7A5\uD558\uC9C0 \uBABB\uD588\uC5B4\uC694. \uB2E4\uC2DC \uC2DC\uB3C4\uD574 \uC8FC\uC138\uC694.",
     guestNickname: "\uAC8C\uC2A4\uD2B8",
     rankKyu: "{n}\uAE09",
     rankDan: "{n}\uB2E8",
@@ -7490,6 +7494,9 @@ var TEXTS = {
 // nickname.js
 function displayNickname(value) {
   return typeof value === "string" ? value.normalize("NFC") : "";
+}
+function profileNickname(profile, translate, fallback2 = "") {
+  return displayNickname(profile?.nickname || (profile?.guestCode ? translate("recordGuest", { code: profile.guestCode }) : fallback2));
 }
 
 // lobby-layout.js
@@ -9317,6 +9324,7 @@ var playerStats = null;
 var playerPhoto = null;
 var playerNickname = "";
 var nicknameOverride = "";
+var nicknameSaving = false;
 var profileLoading = false;
 var profileRequest = 0;
 var profileTarget = null;
@@ -9446,6 +9454,7 @@ var coinRewardQueue = [];
 var coinRewardReceipts = /* @__PURE__ */ new Set();
 var activeCoinReward;
 var optionsDialog = el("options");
+var optionsFromMatch = false;
 var feedbackButton = el("send-feedback");
 var profileDialog = el("player-profile");
 var nicknameEdit = el("profile-nickname-edit");
@@ -9493,16 +9502,36 @@ nicknameEdit.addEventListener("click", () => {
   nicknameEditor.hidden = !opening;
   nicknameEdit.setAttribute("aria-expanded", String(opening));
   if (!opening) return;
+  feedback("nickname-feedback");
   nicknameInput.value = displayNickname(nicknameOverride);
   nicknameInput.focus();
   nicknameInput.select();
 });
-profileDialog.querySelector("form").addEventListener("submit", () => {
+profileDialog.querySelector("form").addEventListener("submit", async (event) => {
   if (!profileTarget?.own || nicknameEditor.hidden) return;
-  nicknameOverride = nicknameInput.value.trim();
+  event.preventDefault();
+  if (nicknameSaving) return;
+  const target = profileTarget;
+  const player = authSession?.player;
+  nicknameSaving = true;
+  nicknameInput.disabled = true;
+  ++profileRequest;
+  profileLoading = false;
+  feedback("nickname-feedback", "nicknameSaving");
   try {
-    localStorage.setItem(nicknameKey, nicknameOverride);
+    const nickname = nicknameInput.value.trim();
+    const saved = backend ? await remoteRequest((client) => client.setName(nickname)) : { nickname };
+    if (player !== authSession?.player) return;
+    if (saved.error) throw new Error(saved.error);
+    applyNicknameProfile(saved);
+    if (backend) playerStats = saved;
+    render();
+    if (profileTarget === target) profileDialog.close();
   } catch {
+    if (player === authSession?.player && profileTarget === target) feedback("nickname-feedback", "nicknameSaveFailed", true);
+  } finally {
+    nicknameSaving = false;
+    nicknameInput.disabled = false;
   }
 });
 el("profile-rankings").addEventListener("click", () => {
@@ -9513,12 +9542,16 @@ function openOptions() {
   feedback("restore-feedback");
   feedback("player-id-feedback");
   feedbackButton.hidden = !window.NcqFeedback?.can();
+  optionsFromMatch = Boolean(room ?? archive ?? spectator);
   optionsDialog.showModal();
   render();
 }
 el("show-options").addEventListener("click", openOptions);
 el("match-options").addEventListener("click", openOptions);
-optionsDialog.addEventListener("close", closeLobbyMenu);
+optionsDialog.addEventListener("close", (event) => {
+  if (optionsFromMatch) render();
+  else closeLobbyMenu(event);
+});
 el("vibration").addEventListener("change", (event) => {
   window.NcqDevice?.vibration(event.target.checked);
   if (event.target.checked) haptics.tap();
@@ -9555,6 +9588,11 @@ window.ncqBack = () => {
   }
   if (window.NcqFeedback?.isOpen()) {
     window.NcqFeedback.close();
+    return true;
+  }
+  const recordPopup = document.querySelector(".record-dialog[open]");
+  if (recordPopup) {
+    recordPopup.close();
     return true;
   }
   if (coinRewardDialog.open) {
@@ -9595,6 +9633,18 @@ window.ncqBack = () => {
   }
   if (shop.open) {
     shop.close();
+    return true;
+  }
+  if (profileDialog.open) {
+    profileDialog.close();
+    return true;
+  }
+  if (tournamentCatchUpDialog.open) {
+    tournamentCatchUpDialog.close("cancel");
+    return true;
+  }
+  if (el("matchmaking").open) {
+    requestCancel();
     return true;
   }
   if (forest.back()) return true;
@@ -11007,8 +11057,11 @@ function updateCumulativeClock(game, deadline, lowerSeat, watching) {
     for (const cell of cells) cell.setAttribute("aria-disabled", "true");
   }
 }
-function ownNickname() {
-  return displayNickname(nicknameOverride || playerNickname || t2("guestNickname"));
+function ownNickname(own2 = room?.players?.find((player) => player.seat === room.you)) {
+  return profileNickname({
+    nickname: nicknameOverride || playerNickname || own2?.nickname,
+    guestCode: own2?.guestCode || playerStats?.guestCode
+  }, t2, t2("guestNickname"));
 }
 function renderMaterialPoints(game, displayedBoard) {
   const points = material(displayedBoard);
@@ -11034,7 +11087,7 @@ function renderPlayers(game, showPanels, watching = false) {
   if (!showPanels) {
     for (const [color, seat] of [["black", 1], ["white", 2]]) {
       const profile = recordPlayer(game, seat);
-      el(color + "-player-label").textContent = game.you === seat ? ownNickname() : profile.name;
+      el(color + "-player-label").textContent = game.you === seat ? ownNickname(profile) : profile.name;
       el(color + "-profile").disabled = game.phase === "waiting" && game.you !== seat;
       const stone = el(color + "-profile").querySelector(".stone");
       if (stone) stone.dataset.stoneStyle = pieceStyleForSeat(game, seat, shopState.appearance.stones);
@@ -11054,7 +11107,7 @@ function renderPlayers(game, showPanels, watching = false) {
     badge.textContent = t2(game.setup && live ? active ? "jangiFormationActive" : "jangiFormationWaiting" : active ? watching ? "turnActive" : side === "own" ? "jangiOwnTurn" : "jangiOpponentTurn" : "turnWaiting");
     const color = colorName(seatColor(game, seat));
     const profile = recordPlayer(game, seat);
-    const nickname = watching ? profile.savedName || t2(color) : side === "own" ? ownNickname() : profile.name;
+    const nickname = watching ? profile.savedName || t2(color) : side === "own" ? ownNickname(profile) : profile.name;
     el(side + "-nickname").textContent = nickname;
     el(side + "-nickname").title = nickname;
     if (!watching && side === "own") renderOwnRank();
@@ -11186,7 +11239,7 @@ function recordResult(game, { personal = false } = {}) {
 }
 function recordPlayer(game, seat) {
   const profile = game.players?.find((player) => player.seat === seat);
-  const savedName = displayNickname(profile?.nickname || (profile?.guestCode ? t2("recordGuest", { code: profile.guestCode }) : ""));
+  const savedName = profileNickname(profile, t2);
   return { ...profile, savedName, name: savedName || t2(seat === game.you ? "you" : "opponent") };
 }
 function recordPhoto(profile) {
@@ -11257,7 +11310,7 @@ function renderRecordDialog() {
     toggle.hidden = !ready;
     toggle.disabled = updating;
     toggle.textContent = t2(shareId2 ? "recordMakePrivate" : "recordMakePublic");
-    el("record-visibility-close").disabled = updating;
+    el("record-visibility-close").disabled = false;
   } else {
     el("record-link-panel").hidden = !shareId2;
     const link = el("record-link");
@@ -11265,7 +11318,7 @@ function renderRecordDialog() {
     if (link.value !== url) link.value = url;
     el("record-send-link").hidden = !prepared;
     el("record-send-link").disabled = sharing;
-    el("record-copy-link").disabled = sharing;
+    el("record-copy-link").disabled = false;
     el("record-share-close").disabled = false;
   }
   const status = el(feedbackId);
@@ -11380,9 +11433,6 @@ el("record-copy-link").addEventListener("click", async () => {
   }
 });
 for (const dialog of [recordShareDialog, recordVisibilityDialog]) {
-  dialog.addEventListener("cancel", (event) => {
-    if (recordDialogTarget?.updating) event.preventDefault();
-  });
   dialog.addEventListener("close", () => {
     if (dialog.open || recordDialogTarget?.dialog !== dialog) return;
     const { game } = recordDialogTarget;
@@ -11692,7 +11742,7 @@ function renderMatchIntro() {
   const ownRating = playerStats?.rating ?? recordPlayer(currentGame, game.you).rating;
   setRecordPhoto(el("match-intro-opponent-photo"), opponent);
   for (const [side, name, rating, fallbackLevel] of [
-    ["own", ownNickname(), ownRating, null],
+    ["own", ownNickname(recordPlayer(currentGame, game.you)), ownRating, null],
     ["opponent", opponent.name, opponentRating, opponentLevel]
   ]) {
     const prefix = `match-intro-${side}-`;
@@ -11816,11 +11866,34 @@ async function refreshPlayerCard(cooldown = 3) {
   profileLoading = true;
   if (profileDialog.open) renderPlayerProfile();
   try {
-    const stats = await remoteRequest((client) => client.profile(cooldown));
-    if (request === profileRequest && !stats.error) {
+    try {
+      await ensureIdentity();
+    } catch {
+      return;
+    }
+    const player = authSession?.player;
+    if (request !== profileRequest || !player) return;
+    let stats = await remoteRequest((client) => client.profile(cooldown));
+    if (request !== profileRequest || player !== authSession?.player) return;
+    if (!stats.error && Object.hasOwn(stats, "nickname")) {
+      let migrated = false;
+      try {
+        migrated = localStorage.getItem(nicknameKey + ":synced:" + player) === "1";
+      } catch {
+      }
+      if (!migrated && !stats.nickname && nicknameOverride) {
+        const saved = await remoteRequest((client) => client.setName(nicknameOverride));
+        stats = saved.error ? { ...stats, error: saved.error } : saved;
+      }
+    }
+    if (request === profileRequest && player === authSession?.player && !stats.error) {
+      const previousGuestCode = playerStats?.guestCode;
+      const previousNickname = nicknameOverride;
       playerStats = stats;
+      applyNicknameProfile(stats);
       renderPlayerCard();
       renderOwnRank();
+      if (previousGuestCode !== stats.guestCode || previousNickname !== nicknameOverride) render();
     }
     await refreshAuthProfile();
   } finally {
@@ -11829,6 +11902,35 @@ async function refreshPlayerCard(cooldown = 3) {
       if (profileDialog.open) renderPlayerProfile();
       if (matchIntroDialog.open) renderMatchIntro();
     }
+  }
+}
+function applyNicknameProfile(profile) {
+  if (!Object.hasOwn(profile, "nickname")) return;
+  nicknameOverride = profile.nickname || "";
+  try {
+    localStorage.setItem(nicknameKey, nicknameOverride);
+    if (authSession?.player) {
+      localStorage.setItem(nicknameKey + ":synced:" + authSession.player, "1");
+      localStorage.setItem(nicknameKey + ":owner", authSession.player);
+      localStorage.setItem(nicknameKey + ":" + authSession.player, nicknameOverride);
+    }
+  } catch {
+  }
+}
+function bindNicknameAccount(player) {
+  try {
+    const owner = localStorage.getItem(nicknameKey + ":owner");
+    if (owner && owner !== player || authSession?.player && authSession.player !== player) {
+      nicknameOverride = localStorage.getItem(nicknameKey + ":" + player) || "";
+    }
+  } catch {
+    if (authSession?.player && authSession.player !== player) nicknameOverride = "";
+  }
+  if (authSession?.player && authSession.player !== player) {
+    playerStats = null;
+    playerNickname = "";
+    ++profileRequest;
+    profileLoading = false;
   }
 }
 async function refreshAuthProfile() {
@@ -12495,6 +12597,7 @@ function applyState(next) {
     const openResult = () => {
       if (room?.code !== next.code || room.round !== next.round || room.phase !== "finished" || resultDialog.open) return;
       if (profileDialog.open) profileDialog.close();
+      if (optionsDialog.open) optionsDialog.close();
       resultDialog.removeAttribute("data-promotion-revealed");
       resultDialog.showModal();
       render();
@@ -12524,6 +12627,7 @@ async function exitRoom(message = "", { showAd = false, openRankings = true } = 
   resultDialog.close();
   leaveDialog.close("cancel");
   bikjangDialog.close("cancel");
+  optionsDialog.close();
   el("share").close();
   recordShareDialog.close();
   matchIntroDialog.close();
@@ -12600,6 +12704,7 @@ async function openPlayerSession(force) {
   if (backend) {
     const { player } = await window.NcqAuth.ready();
     await window.NcqAuth.getToken({ role: "authenticated", expectedPlayer: player });
+    bindNicknameAccount(player);
     authSession = { player, expiresAt: Infinity };
     recordsScope = recordsKey + ":" + player;
     bindRecordHistory(player, true);
@@ -12608,6 +12713,7 @@ async function openPlayerSession(force) {
   const { ticket } = await window.NcqAuth.request("/api/auth/session", "POST", {});
   const session = await send("/auth/claim", { ticket });
   if (!session.player) throw new Error();
+  bindNicknameAccount(session.player);
   authSession = session;
   const scope = recordsKey + ":" + session.player;
   if (recordsScope !== scope) {
@@ -13184,7 +13290,7 @@ async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageS
   }
 }
 function rankingPlayerName(row) {
-  return row.you ? ownNickname() : displayNickname(row.nickname || t2("playerAlias", { alias: row.alias }));
+  return row.you ? ownNickname(row) : profileNickname(row, t2, t2("playerAlias", { alias: row.alias }));
 }
 function rankingCard(row, tab, index3) {
   const card = el("ranking-card-template").content.firstElementChild.cloneNode(true);

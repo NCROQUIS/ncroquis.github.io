@@ -1,9 +1,9 @@
 <!doctype html>
 <html>
 <head>
-  <script src="./ncq/safe.js?v=a675a0d5abe0"></script>
-  <script src="./ncq/device.js?v=a675a0d5abe0"></script>
-  <script src="./ncq/save.js?v=a675a0d5abe0"></script>
+  <script src="./ncq/safe.js?v=eef00092bdf5"></script>
+  <script src="./ncq/device.js?v=eef00092bdf5"></script>
+  <script src="./ncq/save.js?v=eef00092bdf5"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -12,19 +12,19 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=a675a0d5abe0">
-  <link rel="stylesheet" href="./style.css?v=a675a0d5abe0">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=a675a0d5abe0">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=a675a0d5abe0">
-  <link rel="stylesheet" href="./forest-ui.css?v=a675a0d5abe0">
-  <link rel="stylesheet" href="./lobby-layout.css?v=a675a0d5abe0">
-  <link rel="stylesheet" href="./list-dialog.css?v=a675a0d5abe0">
-  <link rel="stylesheet" href="./shop-layout.css?v=a675a0d5abe0">
-  <link rel="stylesheet" href="./ranking-layout.css?v=a675a0d5abe0">
-  <link rel="stylesheet" href="./mission-layout.css?v=a675a0d5abe0">
-  <script type="module" src="./app.js?v=a675a0d5abe0"></script>
-<link rel="stylesheet" href="./jangi.css?v=a675a0d5abe0">
-  <link rel="stylesheet" href="./daily-puzzle.css?v=a675a0d5abe0">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=eef00092bdf5">
+  <link rel="stylesheet" href="./style.css?v=eef00092bdf5">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=eef00092bdf5">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=eef00092bdf5">
+  <link rel="stylesheet" href="./forest-ui.css?v=eef00092bdf5">
+  <link rel="stylesheet" href="./lobby-layout.css?v=eef00092bdf5">
+  <link rel="stylesheet" href="./list-dialog.css?v=eef00092bdf5">
+  <link rel="stylesheet" href="./shop-layout.css?v=eef00092bdf5">
+  <link rel="stylesheet" href="./ranking-layout.css?v=eef00092bdf5">
+  <link rel="stylesheet" href="./mission-layout.css?v=eef00092bdf5">
+  <script type="module" src="./app.js?v=eef00092bdf5"></script>
+<link rel="stylesheet" href="./jangi.css?v=eef00092bdf5">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=eef00092bdf5">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -661,15 +661,22 @@
 
     <dialog id="daily-puzzle" aria-labelledby="puzzle-title">
       <div class="puzzle-shell">
-        <header class="puzzle-heading"><div><small id="puzzle-date"></small><h2 id="puzzle-title" data-i18n="puzzleTitle"></h2></div><button id="puzzle-close" type="button" data-i18n-attr="aria-label:puzzleClose">×</button></header>
-        <div class="puzzle-intro"><strong data-i18n="puzzleGoal"></strong><span id="puzzle-reward"></span><p id="puzzle-side"></p></div>
+        <header class="puzzle-heading"><button id="puzzle-back" class="puzzle-icon-button" type="button" data-i18n-attr="aria-label:puzzleList" hidden>‹</button><div><h2 id="puzzle-title"></h2><p id="puzzle-date"></p></div><button id="puzzle-close" class="puzzle-icon-button" type="button" data-i18n-attr="aria-label:puzzleClose">×</button></header>
+        <section id="puzzle-list" class="dp-list-view">
+          <div id="puzzle-overview" class="dp-overview"><div class="dp-overview-top"><div><p id="puzzle-total-label"></p><strong class="dp-total"><span class="dp-coin" aria-hidden="true"></span>30 <span data-total-unit data-i18n="puzzleCoinUnit"></span></strong></div><div class="dp-tally"><strong id="puzzle-tally"></strong><span id="puzzle-earned"></span></div></div><div id="puzzle-progress" class="dp-progress" aria-hidden="true"><span></span><span></span><span></span></div></div>
+          <div id="puzzle-tiers" class="dp-tiers"></div>
+          <footer class="dp-list-footer"><span data-i18n="puzzleRules"></span><span data-i18n="puzzleSource"></span></footer>
+        </section>
+        <section id="puzzle-play" class="ps-play-view" hidden>
+        <div id="puzzle-challenge" class="ps-challenge"><div class="ps-prize"><small data-i18n="puzzleSolveReward"></small><strong><span id="puzzle-reward-icon" class="dp-coin" aria-hidden="true"></span><span id="puzzle-reward"></span><span id="puzzle-reward-unit" data-i18n="puzzleCoinUnit"></span></strong></div><div class="ps-goal"><strong id="puzzle-goal"></strong><div id="puzzle-steps" class="ps-steps"></div></div></div>
         <div id="puzzle-board-slot" data-ncq-no-main>
           <div id="puzzle-board" class="board" role="grid" data-i18n-attr="aria-label:board">
             <div id="puzzle-grid" class="board-grid" role="rowgroup"><svg class="board-lines" viewBox="0 0 9 10" preserveAspectRatio="none" aria-hidden="true"><use href="#board-engraving"/></svg></div>
           </div>
         </div>
-        <div class="puzzle-feedback" role="status" aria-live="polite"><strong id="puzzle-status"></strong><p id="puzzle-explanation"></p></div>
-        <footer><div class="puzzle-actions"><button id="puzzle-hint" type="button" data-i18n="puzzleHint"></button><button id="puzzle-reset" type="button" data-i18n="puzzleReset"></button></div><small data-i18n="puzzleRules"></small><small data-i18n="puzzleSource"></small></footer>
+        <div class="puzzle-feedback" role="status" aria-live="polite"><strong id="puzzle-side"></strong><p id="puzzle-status"></p></div>
+        <footer class="puzzle-actions"><button id="puzzle-hint" type="button" data-i18n="puzzleHint"></button><button id="puzzle-reset" type="button" data-i18n="puzzleReset"></button><button id="puzzle-next" class="puzzle-primary" type="button" hidden></button><button id="puzzle-list-button" type="button" data-i18n="puzzleList" hidden></button></footer>
+        </section>
       </div>
     </dialog>
     <dialog id="missions" class="mission-dialog" aria-labelledby="missions-title">

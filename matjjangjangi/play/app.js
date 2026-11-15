@@ -186,9 +186,9 @@ function applyPreviewPieceStyles(preview, choice, game) {
   for (const cell of preview.querySelectorAll(".cell")) {
     const seat = Number(cell.dataset.stone);
     cell.dataset.stoneStyle = seat === own2 ? normalizePieceStyle(choice) : pieceStyleForSeat(game, seat);
-    const index2 = Number(cell.dataset.index);
-    if (Number.isInteger(index2)) {
-      const point = own2 === 2 ? 89 - index2 : index2;
+    const index3 = Number(cell.dataset.index);
+    if (Number.isInteger(index3)) {
+      const point = own2 === 2 ? 89 - index3 : index3;
       cell.style.gridArea = `${Math.floor(point / 9) + 1} / ${point % 9 + 1}`;
     }
   }
@@ -211,8 +211,8 @@ function endsInBikjangDraw(game, action) {
 function bikjangGeometry(board2, flipped = false) {
   if (!facing(board2)) return null;
   const kings = [board2.indexOf(KING), board2.indexOf(-KING)];
-  const points = kings.map((index2) => {
-    const visible = flipped ? 89 - index2 : index2;
+  const points = kings.map((index3) => {
+    const visible = flipped ? 89 - index3 : index3;
     return [visible % 9 + 0.5, Math.floor(visible / 9) + 0.5];
   });
   return { kings, path: `M${points[0].join(" ")}L${points[1].join(" ")}` };
@@ -264,18 +264,18 @@ function drawJangiBoard({ game, displayedBoard, cells: cells2, selectedFrom: sel
   const last = pendingMove?.index ?? destination(move), lastCell = cells2[last];
   lastMoveMarker2.toggleAttribute("hidden", !lastCell);
   if (lastCell && lastMoveMarker2.parentElement !== lastCell) lastCell.append(lastMoveMarker2);
-  for (const [index2, cell] of cells2.entries()) {
-    const piece = displayedBoard[index2] || 0, side = sideOf(piece), kind = Math.abs(piece);
-    const chosen = selectable && selectedFrom2 === index2;
-    const target = selectable && selected2 === index2;
+  for (const [index3, cell] of cells2.entries()) {
+    const piece = displayedBoard[index3] || 0, side = sideOf(piece), kind = Math.abs(piece);
+    const chosen = selectable && selectedFrom2 === index3;
+    const target = selectable && selected2 === index3;
     cell.dataset.stone = side;
     cell.dataset.kind = kind;
-    cell.style.order = flipped ? 89 - index2 : index2;
+    cell.style.order = flipped ? 89 - index3 : index3;
     cell.classList.toggle("selected-piece", chosen);
     cell.classList.toggle("selected", target);
-    cell.classList.toggle("jangi-legal", targets.includes(index2));
+    cell.classList.toggle("jangi-legal", targets.includes(index3));
     cell.classList.toggle("jangi-check", kind === KING && side === game.turn && checked);
-    cell.classList.toggle("jangi-bikjang", Boolean(bikjang?.kings.includes(index2)));
+    cell.classList.toggle("jangi-bikjang", Boolean(bikjang?.kings.includes(index3)));
     const token = cell.firstElementChild;
     const preview = target && !piece ? displayedBoard[selectedFrom2] : piece;
     cell.dataset.stoneStyle = pieceStyleForSeat(game, sideOf(preview), localPieceStyle);
@@ -283,11 +283,11 @@ function drawJangiBoard({ game, displayedBoard, cells: cells2, selectedFrom: sel
     token.dataset.kind = Math.abs(preview);
     token.className = "stone " + (sideOf(preview) === 2 ? "white" : "black");
     setPieceGlyph(token, preview ? GLYPHS[sideOf(preview)][Math.abs(preview) - 1] : "");
-    cell.toggleAttribute("data-number", Boolean(moveNumbers?.[index2]));
-    if (moveNumbers?.[index2]) cell.dataset.number = moveNumbers[index2];
-    cell.setAttribute("aria-label", coordinate2(index2) + " " + (piece ? t3(side === 1 ? "black" : "white") + " " + GLYPHS[side][kind - 1] : t3("jangiEmpty")));
+    cell.toggleAttribute("data-number", Boolean(moveNumbers?.[index3]));
+    if (moveNumbers?.[index3]) cell.dataset.number = moveNumbers[index3];
+    cell.setAttribute("aria-label", coordinate2(index3) + " " + (piece ? t3(side === 1 ? "black" : "white") + " " + GLYPHS[side][kind - 1] : t3("jangiEmpty")));
     cell.setAttribute("aria-selected", String(chosen || target));
-    cell.setAttribute("aria-disabled", String(!selectable || side !== game.you && !targets.includes(index2)));
+    cell.setAttribute("aria-disabled", String(!selectable || side !== game.you && !targets.includes(index3)));
   }
 }
 function jangiGridPath() {
@@ -305,13 +305,13 @@ function installJangiArtwork() {
   const preview = document.querySelector(".appearance-preview-grid");
   if (preview) {
     for (const cell of preview.querySelectorAll(".cell")) cell.remove();
-    for (const [index2, piece] of initial().board.entries()) {
+    for (const [index3, piece] of initial().board.entries()) {
       if (!piece) continue;
       const cell = document.createElement("span");
       cell.className = "cell";
       cell.dataset.stone = sideOf(piece);
-      cell.dataset.index = index2;
-      cell.style.gridArea = `${Math.floor(index2 / 9) + 1} / ${index2 % 9 + 1}`;
+      cell.dataset.index = index3;
+      cell.style.gridArea = `${Math.floor(index3 / 9) + 1} / ${index3 % 9 + 1}`;
       const token = document.createElement("span");
       token.className = "stone " + (piece > 0 ? "black" : "white");
       token.dataset.kind = Math.abs(piece);
@@ -474,7 +474,7 @@ var JANGI_TEXTS = {
 // game/formation-picker.js
 function formationPieces(formation, opponent = false) {
   const board2 = initial({ choFormation: formation }).board;
-  const pieces = [82, 83, 87, 88].map((index2) => board2[index2]);
+  const pieces = [82, 83, 87, 88].map((index3) => board2[index3]);
   return opponent ? pieces.reverse() : pieces;
 }
 function confirmedFormation(game, seat) {
@@ -533,7 +533,7 @@ var REFILL_MS = 3e4;
 var isCumulativeClock = (game) => game?.clock?.kind === "cumulative-v1";
 function clockStatus(game, serverNow) {
   if (!isCumulativeClock(game)) return null;
-  const clock = game.clock, index2 = game.turn - 1;
+  const clock = game.clock, index3 = game.turn - 1;
   const remainingMs = [...clock.remainingMs], refills = [...clock.refills];
   if (game.setup) return {
     formation: true,
@@ -542,16 +542,16 @@ function clockStatus(game, serverNow) {
     formationMs: Math.max(0, clock.deadline - serverNow),
     expired: serverNow >= clock.deadline
   };
-  const used = serverNow >= clock.deadline ? Math.min(refills[index2], Math.floor((serverNow - clock.deadline) / REFILL_MS) + 1) : 0;
-  const expired = serverNow >= clock.deadline + refills[index2] * REFILL_MS;
-  refills[index2] -= used;
-  remainingMs[index2] = Math.max(0, clock.deadline + used * REFILL_MS - serverNow);
+  const used = serverNow >= clock.deadline ? Math.min(refills[index3], Math.floor((serverNow - clock.deadline) / REFILL_MS) + 1) : 0;
+  const expired = serverNow >= clock.deadline + refills[index3] * REFILL_MS;
+  refills[index3] -= used;
+  remainingMs[index3] = Math.max(0, clock.deadline + used * REFILL_MS - serverNow);
   return {
     formation: false,
     remainingMs,
     refills,
     expired,
-    periodMs: used ? REFILL_MS : clock.remainingMs[index2]
+    periodMs: used ? REFILL_MS : clock.remainingMs[index3]
   };
 }
 function clockText(milliseconds) {
@@ -4359,9 +4359,9 @@ function createMemorySessionStorage() {
     getItem(key) {
       return store2.has(key) ? store2.get(key) : null;
     },
-    key(index2) {
+    key(index3) {
       var _a;
-      return (_a = Array.from(store2.keys())[index2]) !== null && _a !== void 0 ? _a : null;
+      return (_a = Array.from(store2.keys())[index3]) !== null && _a !== void 0 ? _a : null;
     },
     removeItem(key) {
       store2.delete(key);
@@ -5674,7 +5674,7 @@ if (typeof window !== "undefined") window.NcqBoard = NcqBoard;
     var at = walk(path, false, holder);
     return at && own2(at[0], at[1]) ? at[0][at[1]] : void 0;
   }
-  function apply3(data, change) {
+  function apply4(data, change) {
     Object.keys(change).forEach(function(path) {
       var v = change[path], at = walk(path, true, data);
       if (typeof v === "number" && isFinite(v)) at[0][at[1]] = (typeof at[0][at[1]] === "number" ? at[0][at[1]] : 0) + v;
@@ -5727,7 +5727,7 @@ if (typeof window !== "undefined") window.NcqBoard = NcqBoard;
       if (out === false) return false;
       if (isObj(out) && out !== draft) draft = out;
     } else if (isObj(change)) {
-      apply3(draft, change);
+      apply4(draft, change);
     } else {
       return false;
     }
@@ -5817,7 +5817,7 @@ if (typeof window !== "undefined") window.NcqBoard = NcqBoard;
       var pick2 = mine && local.at >= theirs.at ? local : theirs, other = pick2 === local ? theirs : local;
       data = clone(pick2.data);
       for (k in other.rc) {
-        if (own2(other.rc, k) && !own2(pick2.rc, k) && isObj(other.rc[k]) && isObj(other.rc[k].a)) apply3(data, other.rc[k].a);
+        if (own2(other.rc, k) && !own2(pick2.rc, k) && isObj(other.rc[k]) && isObj(other.rc[k].a)) apply4(data, other.rc[k].a);
       }
     }
     rec.rc = rc;
@@ -7554,11 +7554,11 @@ function resource(parent, name, className, panel, clip = false) {
     const dx = [0, targetCap, dw - targetCap, dw];
     const dy = [0, targetCap, dh - targetCap, dh];
     for (let row = 0; row < 3; row++) for (let col = 0; col < 3; col++) {
-      const tile = (source, destination2, index2, fullSize) => {
-        const scale = (source[index2 + 1] - source[index2]) / (destination2[index2 + 1] - destination2[index2]);
-        const from = index2 ? destination2[index2] - 0.5 : destination2[index2] - source[0] / scale;
-        const to = index2 < 2 ? destination2[index2 + 1] + 0.5 : destination2[index2 + 1] + (fullSize - source[3]) / scale;
-        return [from, to - from, source[index2] + (from - destination2[index2]) * scale, (to - from) * scale];
+      const tile = (source, destination2, index3, fullSize) => {
+        const scale = (source[index3 + 1] - source[index3]) / (destination2[index3 + 1] - destination2[index3]);
+        const from = index3 ? destination2[index3] - 0.5 : destination2[index3] - source[0] / scale;
+        const to = index3 < 2 ? destination2[index3 + 1] + 0.5 : destination2[index3 + 1] + (fullSize - source[3]) / scale;
+        return [from, to - from, source[index3] + (from - destination2[index3]) * scale, (to - from) * scale];
       };
       if (dx[col] === dx[col + 1] || dy[row] === dy[row + 1]) continue;
       const [tx, tw, vx, vw] = tile(sx, dx, col, width);
@@ -8197,15 +8197,15 @@ function animateJangiMove(from, cell, marker, {
 }
 
 // placement-preview.js
-function previewPlacement(game, from, index2) {
-  if (!game || game.phase !== "playing" || game.turn !== game.you || game.setup || !Number.isInteger(from) || !Number.isInteger(index2) || from < 0 || from >= 90 || index2 < 0 || index2 >= 90 || sideOf(game.board[from]) !== game.you || !legalMoves(game.board, game.you).some((move) => move.from === from && move.to === index2)) return null;
+function previewPlacement(game, from, index3) {
+  if (!game || game.phase !== "playing" || game.turn !== game.you || game.setup || !Number.isInteger(from) || !Number.isInteger(index3) || from < 0 || from >= 90 || index3 < 0 || index3 >= 90 || sideOf(game.board[from]) !== game.you || !legalMoves(game.board, game.you).some((move) => move.from === from && move.to === index3)) return null;
   return {
     code: game.code,
     round: game.round,
     version: game.version,
     seat: game.you,
     from,
-    index: index2,
+    index: index3,
     piece: game.board[from],
     color: game.you,
     ply: game.moves.length
@@ -8495,6 +8495,92 @@ function mergeFinishedRoom(previous, next, records2) {
   };
 }
 
+// supabase/functions/matjjangjangi/daily-puzzle-bank.mjs
+var PUZZLE_BANK = { "easy": [{ "source": "ALT-0001", "board": [0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 46, "to": 1 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0002", "board": [0, 0, 0, 0, 3, -2, 3, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0, 4, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 6, "to": 24 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0004", "board": [0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 5, 0, -1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 18, "to": 21 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0006", "board": [0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, -4, 4, 0, -2, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 29, "to": 2 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0009", "board": [0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 61, "to": 7 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0011", "board": [0, 0, 0, 0, -1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 3, 0, -5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 43, "to": 7 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0014", "board": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 38, "to": 41 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0018", "board": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 7, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 42, "to": 41 }, "next": null, "reply": null, "distance": 1 }] }] }], "medium": [{ "source": "ALT-0003", "board": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, -1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 62, "to": 17 }, "reply": { "type": "move", "from": 14, "to": 23 }, "next": 1, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 17, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0005", "board": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 3, 0, 0, 0, 0, 0, -1, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 13, "to": 28 }, "reply": { "type": "move", "from": 23, "to": 22 }, "next": 2, "distance": 3 }, { "move": { "type": "move", "from": 13, "to": 34 }, "reply": { "type": "move", "from": 23, "to": 22 }, "next": 1, "distance": 3 }, { "move": { "type": "move", "from": 13, "to": 38 }, "reply": { "type": "move", "from": 23, "to": 22 }, "next": 3, "distance": 3 }, { "move": { "type": "move", "from": 13, "to": 42 }, "reply": { "type": "move", "from": 23, "to": 22 }, "next": 4, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 17, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 17, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 17, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 17, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0007", "board": [0, 0, 0, 0, -2, 0, 0, 0, 5, 0, 0, 0, 0, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 53, "to": 50 }, "reply": { "type": "move", "from": 13, "to": 23 }, "next": 1, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 50, "to": 23 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0013", "board": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 24, "to": 15 }, "reply": { "type": "move", "from": 14, "to": 23 }, "next": 1, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 15, "to": 13 }, "next": null, "reply": null, "distance": 1 }, { "move": { "type": "move", "from": 40, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0015", "board": [0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 40, "to": 31 }, "reply": { "type": "move", "from": 22, "to": 23 }, "next": 1, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 55, "to": 59 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0016", "board": [0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, -2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 26, "to": 23 }, "reply": { "type": "move", "from": 12, "to": 13 }, "next": 1, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 23, "to": 13 }, "next": null, "reply": null, "distance": 1 }, { "move": { "type": "move", "from": 49, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0017", "board": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 61, "to": 16 }, "reply": { "type": "move", "from": 12, "to": 3 }, "next": 1, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 40, "to": 21 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0019", "board": [0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, -2, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 30, "to": 32 }, "reply": { "type": "move", "from": 13, "to": 23 }, "next": 1, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 32, "to": 23 }, "next": null, "reply": null, "distance": 1 }] }] }], "hard": [{ "source": "ALT-0023", "board": [0, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 50, "to": 48 }, "reply": { "type": "move", "from": 12, "to": 13 }, "next": 1, "distance": 5 }, { "move": { "type": "move", "from": 60, "to": 57 }, "reply": { "type": "move", "from": 12, "to": 13 }, "next": 5, "distance": 5 }] }, { "choices": [{ "move": { "type": "move", "from": 41, "to": 86 }, "reply": { "type": "move", "from": 4, "to": 5 }, "next": 2, "distance": 3 }, { "move": { "type": "move", "from": 48, "to": 49 }, "reply": { "type": "move", "from": 13, "to": 14 }, "next": 3, "distance": 3 }, { "move": { "type": "move", "from": 60, "to": 58 }, "reply": { "type": "move", "from": 13, "to": 14 }, "next": 4, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 60, "to": 58 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 41, "to": 86 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 41, "to": 86 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 50, "to": 49 }, "reply": { "type": "move", "from": 13, "to": 14 }, "next": 6, "distance": 3 }, { "move": { "type": "move", "from": 57, "to": 58 }, "reply": { "type": "move", "from": 13, "to": 14 }, "next": 7, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 41, "to": 86 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 41, "to": 5 }, "next": null, "reply": null, "distance": 1 }, { "move": { "type": "move", "from": 41, "to": 36 }, "next": null, "reply": null, "distance": 1 }, { "move": { "type": "move", "from": 41, "to": 59 }, "next": null, "reply": null, "distance": 1 }, { "move": { "type": "move", "from": 41, "to": 68 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0028", "board": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, -3, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 30, "to": 12 }, "reply": { "type": "move", "from": 14, "to": 23 }, "next": 1, "distance": 5 }] }, { "choices": [{ "move": { "type": "move", "from": 12, "to": 3 }, "reply": { "type": "move", "from": 23, "to": 22 }, "next": 3, "distance": 3 }, { "move": { "type": "move", "from": 12, "to": 21 }, "reply": { "type": "move", "from": 23, "to": 14 }, "next": 2, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 50, "to": 29 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 3, "to": 21 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0032", "board": [0, 3, 0, 4, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 3, "to": 84 }, "reply": { "type": "move", "from": 4, "to": 13 }, "next": 1, "distance": 5 }, { "move": { "type": "move", "from": 50, "to": 33 }, "reply": { "type": "move", "from": 4, "to": 5 }, "next": 4, "distance": 5 }] }, { "choices": [{ "move": { "type": "move", "from": 1, "to": 3 }, "reply": { "type": "move", "from": 13, "to": 14 }, "next": 2, "distance": 3 }, { "move": { "type": "move", "from": 50, "to": 33 }, "reply": { "type": "move", "from": 23, "to": 22 }, "next": 3, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 50, "to": 33 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 1, "to": 3 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 3, "to": 84 }, "reply": { "type": "move", "from": 5, "to": 13 }, "next": 5, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 1, "to": 3 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0035", "board": [0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2, 5, 0, 0, 0, 5, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 29, "to": 32 }, "reply": { "type": "move", "from": 23, "to": 22 }, "next": 1, "distance": 5 }] }, { "choices": [{ "move": { "type": "move", "from": 18, "to": 29 }, "reply": { "type": "move", "from": 22, "to": 21 }, "next": 2, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 32, "to": 23 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0052", "board": [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, -2, 0, 0, 0, 0, 0, 0, 0, -1, 5, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 9, "to": 18 }, "reply": { "type": "move", "from": 21, "to": 12 }, "next": 1, "distance": 5 }] }, { "choices": [{ "move": { "type": "move", "from": 22, "to": 29 }, "reply": { "type": "move", "from": 12, "to": 3 }, "next": 2, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 18, "to": 0 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0068", "board": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 19, "to": 10 }, "reply": { "type": "move", "from": 12, "to": 21 }, "next": 7, "distance": 5 }, { "move": { "type": "move", "from": 19, "to": 22 }, "reply": { "type": "move", "from": 12, "to": 3 }, "next": 1, "distance": 5 }, { "move": { "type": "move", "from": 19, "to": 23 }, "reply": { "type": "move", "from": 30, "to": 29 }, "next": 4, "distance": 5 }, { "move": { "type": "move", "from": 57, "to": 42 }, "reply": { "type": "move", "from": 12, "to": 3 }, "next": 9, "distance": 5 }] }, { "choices": [{ "move": { "type": "move", "from": 57, "to": 28 }, "reply": { "type": "move", "from": 3, "to": 12 }, "next": 3, "distance": 3 }, { "move": { "type": "move", "from": 57, "to": 42 }, "reply": { "type": "move", "from": 3, "to": 12 }, "next": 2, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 22, "to": 13 }, "next": null, "reply": null, "distance": 1 }, { "move": { "type": "move", "from": 22, "to": 21 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 22, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 57, "to": 32 }, "reply": { "type": "move", "from": 29, "to": 28 }, "next": 6, "distance": 3 }, { "move": { "type": "move", "from": 57, "to": 42 }, "reply": { "type": "move", "from": 29, "to": 28 }, "next": 5, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 23, "to": 13 }, "next": null, "reply": null, "distance": 1 }, { "move": { "type": "move", "from": 23, "to": 21 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 23, "to": 3 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 57, "to": 42 }, "reply": { "type": "move", "from": 21, "to": 22 }, "next": 8, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 10, "to": 13 }, "next": null, "reply": null, "distance": 1 }, { "move": { "type": "move", "from": 10, "to": 19 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 19, "to": 10 }, "reply": { "type": "move", "from": 3, "to": 4 }, "next": 12, "distance": 3 }, { "move": { "type": "move", "from": 19, "to": 21 }, "reply": { "type": "move", "from": 3, "to": 4 }, "next": 10, "distance": 3 }, { "move": { "type": "move", "from": 19, "to": 22 }, "reply": { "type": "move", "from": 3, "to": 12 }, "next": 2, "distance": 3 }, { "move": { "type": "move", "from": 19, "to": 23 }, "reply": { "type": "move", "from": 3, "to": 4 }, "next": 11, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 21, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 23, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 10, "to": 1 }, "next": null, "reply": null, "distance": 1 }, { "move": { "type": "move", "from": 10, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0092", "board": [0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, -2, -1, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 54, "to": 9 }, "reply": { "type": "move", "from": 13, "to": 12 }, "next": 1, "distance": 5 }, { "move": { "type": "move", "from": 58, "to": 29 }, "reply": { "type": "move", "from": 14, "to": 5 }, "next": 3, "distance": 5 }] }, { "choices": [{ "move": { "type": "move", "from": 9, "to": 12 }, "reply": { "type": "move", "from": 14, "to": 23 }, "next": 2, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 12, "to": 13 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 54, "to": 0 }, "reply": { "type": "move", "from": 13, "to": 4 }, "next": 5, "distance": 3 }, { "move": { "type": "move", "from": 54, "to": 59 }, "reply": { "type": "move", "from": 13, "to": 14 }, "next": 4, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 59, "to": 14 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 0, "to": 4 }, "next": null, "reply": null, "distance": 1 }] }] }, { "source": "ALT-0103", "board": [0, 0, 0, -2, 0, 0, 0, 0, 3, 0, 0, 0, -1, -2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "nodes": [{ "choices": [{ "move": { "type": "move", "from": 8, "to": 26 }, "reply": { "type": "move", "from": 3, "to": 4 }, "next": 1, "distance": 5 }, { "move": { "type": "move", "from": 27, "to": 10 }, "reply": { "type": "move", "from": 3, "to": 4 }, "next": 5, "distance": 5 }, { "move": { "type": "move", "from": 27, "to": 38 }, "reply": { "type": "move", "from": 3, "to": 4 }, "next": 3, "distance": 5 }, { "move": { "type": "move", "from": 29, "to": 11 }, "reply": { "type": "move", "from": 12, "to": 21 }, "next": 7, "distance": 5 }] }, { "choices": [{ "move": { "type": "move", "from": 29, "to": 30 }, "reply": { "type": "move", "from": 13, "to": 21 }, "next": 2, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 26, "to": 21 }, "next": null, "reply": null, "distance": 1 }, { "move": { "type": "move", "from": 30, "to": 21 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 29, "to": 30 }, "reply": { "type": "move", "from": 13, "to": 21 }, "next": 4, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 30, "to": 21 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 29, "to": 30 }, "reply": { "type": "move", "from": 13, "to": 21 }, "next": 6, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 30, "to": 21 }, "next": null, "reply": null, "distance": 1 }] }, { "choices": [{ "move": { "type": "move", "from": 8, "to": 26 }, "reply": { "type": "move", "from": 13, "to": 22 }, "next": 8, "distance": 3 }] }, { "choices": [{ "move": { "type": "move", "from": 27, "to": 38 }, "next": null, "reply": null, "distance": 1 }] }] }] };
+
+// supabase/functions/matjjangjangi/daily-puzzle-tiers.mjs
+var DAILY_PUZZLE_TIERS = [
+  { id: "easy", mateIn: 1, reward: 5, bit: 1 },
+  { id: "medium", mateIn: 2, reward: 10, bit: 2 },
+  { id: "hard", mateIn: 3, reward: 15, bit: 4 }
+];
+var DAILY_PUZZLE_TOTAL = 30;
+function tierPuzzleForDay(day, tier) {
+  const date2 = Date.parse(day + "T00:00:00Z"), config = DAILY_PUZZLE_TIERS.find((t3) => t3.id === tier);
+  if (!config || !/^\d{4}-\d{2}-\d{2}$/.test(day) || !Number.isFinite(date2) || new Date(date2).toISOString().slice(0, 10) !== day) throw Error("invalid");
+  const slot = (Math.floor((date2 - Date.UTC(2026, 10, 15)) / 864e5) % 32 + 32) % 32;
+  const base2 = PUZZLE_BANK[tier][slot % 8], variant = Math.floor(slot / 8), rotate = variant >= 2;
+  const index3 = (i) => {
+    let x = i % 9, y = Math.floor(i / 9);
+    if (variant % 2) x = 8 - x;
+    if (rotate) {
+      x = 8 - x;
+      y = 9 - y;
+    }
+    return y * 9 + x;
+  };
+  const transform = (m) => !m ? null : m.type === "move" ? { type: "move", from: index3(m.from), to: index3(m.to) } : { ...m };
+  const board2 = Array(90).fill(0);
+  base2.board.forEach((v, i) => board2[index3(i)] = rotate ? -v : v);
+  return {
+    ...config,
+    tier,
+    id: `mate-v2-${tier}-${slot}`,
+    number: slot + 1,
+    source: base2.source,
+    nameKey: `puzzleName_${tier}_${slot % 8}`,
+    board: board2,
+    turn: rotate ? 2 : 1,
+    nodes: base2.nodes.map((n) => ({ choices: n.choices.map((c) => ({ ...c, move: transform(c.move), reply: transform(c.reply) })) }))
+  };
+}
+
+// supabase/functions/matjjangjangi/rules-core.mjs
+var KING2 = 1;
+var GUARD2 = 2;
+var ROOK2 = 3;
+var CANNON2 = 4;
+var HORSE2 = 5;
+var ELEPHANT2 = 6;
+var SOLDIER2 = 7;
+var index2 = (x, y) => y * 9 + x;
+var palaceLines2 = [
+  [index2(3, 0), index2(4, 1), index2(5, 2)],
+  [index2(5, 0), index2(4, 1), index2(3, 2)],
+  [index2(3, 7), index2(4, 8), index2(5, 9)],
+  [index2(5, 7), index2(4, 8), index2(3, 9)]
+];
+function initial2({ choFormation = 0, hanFormation = 0 } = {}) {
+  if (![choFormation, hanFormation].every((n) => Number.isInteger(n) && n >= 0 && n < 4)) throw new Error("invalidFormation");
+  const board2 = Array(90).fill(0);
+  for (const side of [1, 2]) {
+    const sign = side === 1 ? 1 : -1;
+    const home = side === 1 ? 9 : 0;
+    const formation = side === 1 ? choFormation : hanFormation;
+    const back = [ROOK2, HORSE2, ELEPHANT2, GUARD2, 0, GUARD2, ELEPHANT2, HORSE2, ROOK2];
+    if (formation & 1) [back[1], back[2]] = [back[2], back[1]];
+    if (formation & 2) [back[6], back[7]] = [back[7], back[6]];
+    for (let x = 0; x < 9; x++) board2[index2(side === 1 ? x : 8 - x, home)] = back[x] * sign;
+    board2[index2(4, side === 1 ? 8 : 1)] = KING2 * sign;
+    for (const x of [1, 7]) board2[index2(x, side === 1 ? 7 : 2)] = CANNON2 * sign;
+    for (const x of [0, 2, 4, 6, 8]) board2[index2(x, side === 1 ? 6 : 3)] = SOLDIER2 * sign;
+  }
+  const state = { board: board2, turn: 1, winner: null, reason: null, ply: 0, passes: 0, quiet: 0, bikjang: false, last: null, positions: {} };
+  state.positions[positionKey2(state)] = 1;
+  return state;
+}
+var positionKey2 = ({ board: board2, turn }) => board2.join(",") + ":" + turn;
+
+// supabase/functions/matjjangjangi/daily-puzzle-play.mjs
+function puzzleState(puzzle) {
+  const s = { ...initial2(), board: puzzle.board.slice(), turn: puzzle.turn, positions: {} };
+  s.positions[positionKey2(s)] = 1;
+  return s;
+}
+function puzzleChoice(puzzle, node, move) {
+  return puzzle.nodes[node]?.choices.find((c) => c.move.from === move?.from && c.move.to === move?.to);
+}
+
 // supabase/functions/matjjangjangi/daily-puzzles.mjs
 var compositions = [
   { theme: "rookNet", pieces: [[7, 3], [12, -1], [14, -2], [21, -2], [35, -7], [38, 3], [50, 6], [76, 1]] },
@@ -8507,43 +8593,40 @@ var compositions = [
   { theme: "soldierNet", pieces: [[4, 6], [13, -2], [21, -2], [22, -1], [32, 3], [33, -7], [40, 7], [76, 1]] }
 ];
 var DAILY_PUZZLE_COUNT = compositions.length * 4;
-var DAILY_PUZZLE_REWARD = 10;
 var koreaDay = (time) => new Date(time + 9 * 60 * 6e4).toISOString().slice(0, 10);
-function puzzleForDay(day) {
-  if (typeof day !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(day)) throw Error("invalidDay");
-  const time = Date.parse(day + "T00:00:00Z");
-  if (!Number.isFinite(time) || new Date(time).toISOString().slice(0, 10) !== day) throw Error("invalidDay");
-  const offset = Math.floor((time - Date.UTC(2026, 10, 14)) / 864e5);
-  const slot = (offset % DAILY_PUZZLE_COUNT + DAILY_PUZZLE_COUNT) % DAILY_PUZZLE_COUNT;
-  const base2 = compositions[slot % compositions.length], variant = Math.floor(slot / compositions.length);
-  const board2 = Array(90).fill(0), rotate = variant >= 2;
-  for (const [i, piece] of base2.pieces) {
-    const mirrored = variant % 2 ? Math.floor(i / 9) * 9 + 8 - i % 9 : i;
-    board2[rotate ? 89 - mirrored : mirrored] = rotate ? -piece : piece;
-  }
-  return { id: "mate-v1-" + slot, number: slot + 1, theme: base2.theme, board: board2, turn: rotate ? 2 : 1, goal: "mateInOne" };
-}
 
 // daily-puzzle-progress.js
 function createPuzzleProgress({ now = Date.now, elapsed = () => performance.now() } = {}) {
-  let player = null, lastRewardDay = null, serverTime = null, receivedAt = 0;
+  let player = null, lastRewardDay = null, rewardMask = 0, serverTime = null, receivedAt = 0;
   function accept(wallet, owner) {
     if (owner !== player) {
       player = owner;
       lastRewardDay = null;
+      rewardMask = 0;
       serverTime = null;
     }
-    if (Object.hasOwn(wallet, "puzzleLastRewardDay")) lastRewardDay = wallet.puzzleLastRewardDay;
+    if (Object.hasOwn(wallet, "puzzleLastRewardDay")) {
+      lastRewardDay = wallet.puzzleLastRewardDay;
+      rewardMask = Number.isInteger(wallet.puzzleRewardMask) ? wallet.puzzleRewardMask & 7 : lastRewardDay ? 2 : 0;
+    }
     if (Number.isFinite(wallet.serverNow)) {
       serverTime = wallet.serverNow;
       receivedAt = elapsed();
     }
   }
   const today = () => koreaDay(serverTime === null ? now() : serverTime + Math.max(0, elapsed() - receivedAt));
+  const mask = (day = today()) => lastRewardDay > day ? 7 : lastRewardDay === day ? rewardMask : 0;
+  const claimed = (tier, day = today()) => {
+    const config = DAILY_PUZZLE_TIERS.find((t3) => t3.id === tier);
+    return config ? Boolean(mask(day) & config.bit) : Boolean(mask(tier ?? day));
+  };
   return {
     accept,
     today,
-    claimed: (day = today()) => Boolean(lastRewardDay && lastRewardDay >= day),
+    mask,
+    claimed,
+    allClaimed: () => mask() === 7,
+    earned: () => DAILY_PUZZLE_TIERS.reduce((n, t3) => n + (claimed(t3.id) ? t3.reward : 0), 0),
     correctTime: (time) => {
       if (Number.isFinite(time)) {
         serverTime = time;
@@ -8555,11 +8638,9 @@ function createPuzzleProgress({ now = Date.now, elapsed = () => performance.now(
 
 // daily-puzzle.js
 function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
-  const el2 = (id) => document.getElementById(id), dialog = el2("daily-puzzle"), grid = el2("puzzle-grid");
-  const board2 = el2("puzzle-board"), cells2 = [];
-  const progress = createPuzzleProgress();
-  let data = null, from = null, solved = null, pending = false, error = null, message = null, hint = null, generation = 0, motion = null, claimMove = null;
-  const state = () => ({ ...initial(), board: data.puzzle.board.slice(), turn: data.puzzle.turn, positions: {} });
+  const el2 = (id) => document.getElementById(id), dialog = el2("daily-puzzle"), board2 = el2("puzzle-board"), grid = el2("puzzle-grid");
+  const progress = createPuzzleProgress(), cells2 = [], cards = /* @__PURE__ */ new Map(), marker = document.createElement("span");
+  let day = progress.today(), owner = null, sessions = /* @__PURE__ */ new Map(), active = null, generation = 0, motion = null;
   const coordinate2 = (i) => "ABCDEFGHJ"[i % 9] + (10 - Math.floor(i / 9));
   for (let i = 0; i < 90; i++) {
     const cell = document.createElement("button");
@@ -8567,55 +8648,153 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
     cell.className = "cell";
     cell.dataset.index = i;
     cell.setAttribute("role", "gridcell");
-    const token = document.createElement("span");
-    token.className = "stone";
-    const shadow = document.createElement("span");
+    const stone = document.createElement("span"), shadow = document.createElement("span");
+    stone.className = "stone";
     shadow.className = "stone-shadow";
-    cell.append(token, shadow);
+    cell.append(stone, shadow);
     cell.addEventListener("click", () => void pick2(i));
     grid.append(cell);
     cells2.push(cell);
   }
-  const marker = document.createElement("span");
+  for (const tier of DAILY_PUZZLE_TIERS) {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "dp-tier-card";
+    card.dataset.tier = tier.id;
+    card.innerHTML = '<span class="dp-tier-info"><span class="dp-tier-badge"></span><strong></strong><small></small></span><span class="dp-tier-result"><span class="dp-tier-amount"><span class="dp-coin" aria-hidden="true"></span><b></b><small></small></span><span class="dp-card-action"></span><span class="dp-done-title"></span><span class="dp-done-coins"></span></span>';
+    card.addEventListener("click", () => openTier(tier.id));
+    el2("puzzle-tiers").append(card);
+    cards.set(tier.id, card);
+  }
+  const current2 = () => sessions.get(active);
+  const cancelMotion = () => {
+    motion?.cancel();
+    motion = null;
+  };
+  function createSession(tier) {
+    const puzzle = tierPuzzleForDay(day, tier);
+    window.NcqMetrics?.levelStart("daily-puzzle-" + tier);
+    return { puzzle, state: puzzleState(puzzle), node: 0, moves: [], history: [], from: null, hint: null, message: null, busy: false, pending: false, solved: false, error: null };
+  }
+  function openTier(tier) {
+    checkDay();
+    cancelMotion();
+    active = tier;
+    const previous = sessions.get(tier);
+    if (!previous || previous.solved && !previous.pending && !previous.error) sessions.set(tier, createSession(tier));
+    render2();
+    el2("puzzle-back").focus({ preventScroll: true });
+  }
+  function showList() {
+    cancelMotion();
+    active = null;
+    render2();
+    cards.get(DAILY_PUZZLE_TIERS.find((t4) => !progress.claimed(t4.id))?.id ?? "easy").focus({ preventScroll: true });
+  }
+  function clearSessions() {
+    generation++;
+    cancelMotion();
+    sessions = /* @__PURE__ */ new Map();
+    active = null;
+    day = progress.today();
+  }
+  function checkDay() {
+    if (day !== progress.today()) {
+      clearSessions();
+      return true;
+    }
+    return false;
+  }
   function renderEntry() {
-    const claimed = progress.claimed(), entry = el2("show-daily-puzzle");
-    entry.toggleAttribute("data-claimed", claimed);
-    entry.toggleAttribute("data-ready", !claimed);
-    entry.setAttribute("aria-label", t3("puzzleEntry") + " \xB7 " + t3(claimed ? "puzzleClaimed" : "puzzleReward", { n: DAILY_PUZZLE_REWARD }));
+    const done = progress.allClaimed(), entry = el2("show-daily-puzzle");
+    entry.toggleAttribute("data-claimed", done);
+    entry.toggleAttribute("data-ready", !done);
+    entry.setAttribute("aria-label", t3("puzzleEntry") + " \xB7 " + t3(done ? "puzzleAllDone" : "puzzleTotalReward", { n: DAILY_PUZZLE_TOTAL }));
+  }
+  function renderList() {
+    const count = DAILY_PUZZLE_TIERS.filter((t4) => progress.claimed(t4.id)).length;
+    el2("puzzle-title").textContent = t3("puzzleTitle");
+    el2("puzzle-date").textContent = t3("puzzleListDate", { day });
+    el2("puzzle-overview").toggleAttribute("data-complete", count === 3);
+    el2("puzzle-total-label").textContent = t3(count === 3 ? "puzzleAllDone" : "puzzleTodayTotal");
+    el2("puzzle-tally").textContent = t3("puzzleCompletedCount", { n: count });
+    el2("puzzle-earned").textContent = t3("puzzleEarned", { n: progress.earned() });
+    for (const [i, tier] of DAILY_PUZZLE_TIERS.entries()) {
+      const card = cards.get(tier.id), done = progress.claimed(tier.id), p = tierPuzzleForDay(day, tier.id);
+      card.toggleAttribute("data-complete", done);
+      card.toggleAttribute("data-ncq-main", dialog.open && !active);
+      card.querySelector(".dp-tier-badge").textContent = t3("puzzleTier_" + tier.id);
+      card.querySelector(".dp-tier-info>strong").textContent = t3(p.nameKey);
+      card.querySelector(".dp-tier-info>small").textContent = t3(done ? "puzzlePracticeAvailable" : "puzzleMateIn", { n: tier.mateIn });
+      card.querySelector(".dp-tier-amount").hidden = done;
+      card.querySelector(".dp-card-action").hidden = done;
+      card.querySelector(".dp-tier-amount>b").textContent = tier.reward;
+      card.querySelector(".dp-tier-amount>small").textContent = t3("puzzleCoinUnit");
+      card.querySelector(".dp-card-action").textContent = t3("puzzleSolve");
+      card.querySelector(".dp-done-title").hidden = !done;
+      card.querySelector(".dp-done-title").textContent = t3("puzzleDone");
+      card.querySelector(".dp-done-coins").hidden = !done;
+      card.querySelector(".dp-done-coins").textContent = t3("puzzleReceived", { n: tier.reward });
+      el2("puzzle-progress").children[i].toggleAttribute("data-done", done);
+    }
   }
   function render2() {
-    const puzzle = data?.puzzle, playable = Boolean(puzzle) && !pending && !error && !solved;
-    if (data) data.claimed = progress.claimed(data.day);
-    dialog.dataset.result = solved ? "solved" : message === "puzzleWrong" ? "wrong" : "";
     renderEntry();
-    el2("puzzle-date").textContent = puzzle ? t3("puzzleDate", { day: data.day, n: puzzle.number }) : "";
-    el2("puzzle-reward").textContent = t3(data?.claimed ? "puzzleClaimed" : "puzzleReward", { n: DAILY_PUZZLE_REWARD });
-    el2("puzzle-reward").toggleAttribute("data-claimed", Boolean(data?.claimed));
-    el2("puzzle-side").textContent = solved ? t3("puzzleTheme_" + puzzle.theme) : from !== null ? t3("puzzleSelected", {
-      piece: GLYPHS[puzzle.turn][Math.abs(puzzle.board[from]) - 1]
-    }) : puzzle ? t3("puzzleSide", { side: t3(puzzle.turn === 1 ? "black" : "white") }) : t3("puzzleSubtitle");
-    el2("puzzle-board-slot").hidden = !puzzle;
-    el2("puzzle-status").textContent = t3(pending ? "puzzleSubmit" : error ?? (!puzzle ? "puzzleLoading" : solved ? "puzzleSuccess" : message ?? (data?.claimed ? "puzzleSolvedHint" : "puzzleTheme_" + puzzle.theme)));
-    el2("puzzle-explanation").textContent = solved ? t3("puzzleExplain", {
-      piece: GLYPHS[puzzle.turn][Math.abs(puzzle.board[solved.from]) - 1],
-      from: coordinate2(solved.from),
-      to: coordinate2(solved.to)
-    }) + (solved.granted ? " " + t3("puzzleGranted", { n: data.reward }) : " " + t3("puzzleNext")) : hint !== null ? t3("puzzleHintText") : "";
+    const s = current2(), playing = Boolean(s);
+    el2("puzzle-list").hidden = playing;
+    el2("puzzle-play").hidden = !playing;
+    el2("puzzle-back").hidden = !playing;
+    dialog.dataset.view = playing ? "play" : "list";
+    dialog.dataset.result = s?.solved ? "solved" : s?.message === "puzzleWrong" ? "wrong" : "";
+    if (!playing) {
+      renderList();
+      return;
+    }
+    for (const card of cards.values()) card.removeAttribute("data-ncq-main");
+    const p = s.puzzle, done = progress.claimed(active), playable = !s.busy && !s.pending && !s.solved;
+    el2("puzzle-title").textContent = t3("puzzleTier_" + active) + " \xB7 " + t3("puzzleTitle");
+    el2("puzzle-date").textContent = t3(p.nameKey);
+    el2("puzzle-challenge").toggleAttribute("data-complete", done);
+    el2("puzzle-reward").textContent = done ? t3("puzzleRewardDone") : p.reward;
+    el2("puzzle-reward-unit").hidden = done;
+    el2("puzzle-reward-icon").classList.toggle("puzzle-check", done);
+    el2("puzzle-goal").textContent = t3(s.solved ? "puzzleMateComplete" : "puzzleMateIn", { n: p.mateIn });
+    const steps = el2("puzzle-steps");
+    steps.replaceChildren();
+    for (let i = 0; i < p.mateIn; i++) {
+      const step = document.createElement("span");
+      step.className = "ps-step";
+      step.textContent = i < s.moves.length ? "\u2713" : i + 1;
+      step.toggleAttribute("data-done", i < s.moves.length);
+      step.toggleAttribute("data-current", !s.solved && i === s.moves.length);
+      step.setAttribute("aria-label", t3("puzzleStep", { n: i + 1 }));
+      steps.append(step);
+    }
+    el2("puzzle-side").textContent = t3(s.solved ? "puzzleCorrect" : s.busy ? "puzzleOpponent" : p.turn === 1 ? "black" : "white");
+    el2("puzzle-status").textContent = t3(s.pending ? "puzzleSubmit" : s.error ?? (s.solved ? done ? "puzzleSolvedHint" : "puzzleSuccess" : s.busy ? "puzzleReplying" : s.message ?? "puzzleInstruction"), { n: p.mateIn - s.moves.length });
+    const feedback2 = el2("puzzle-status").parentElement;
+    feedback2.toggleAttribute("data-busy", s.busy);
+    feedback2.toggleAttribute("data-wrong", s.message === "puzzleWrong");
+    feedback2.toggleAttribute("data-solved", s.solved && !s.pending);
+    el2("puzzle-hint").hidden = s.solved;
     el2("puzzle-hint").disabled = !playable;
-    el2("puzzle-hint").hidden = Boolean(error);
-    el2("puzzle-reset").disabled = pending;
-    el2("puzzle-reset").textContent = t3(error ? claimMove && error !== "puzzleExpired" ? "puzzleRetryReward" : "puzzleReload" : solved ? "puzzlePractice" : "puzzleReset");
-    el2("puzzle-reset").toggleAttribute("data-ncq-main", dialog.open && !el2("coin-reward-dialog").open && Boolean(error || solved));
-    if (!puzzle) return;
+    el2("puzzle-reset").hidden = s.solved && !s.error;
+    el2("puzzle-reset").disabled = s.busy || s.pending;
+    el2("puzzle-reset").textContent = t3(s.error ? "puzzleRetryReward" : "puzzleReset");
+    el2("puzzle-reset").toggleAttribute("data-ncq-main", dialog.open && Boolean(s.error));
+    el2("puzzle-next").hidden = !s.solved || Boolean(s.error);
+    el2("puzzle-next").disabled = s.pending;
+    const next = DAILY_PUZZLE_TIERS.find((t4) => !progress.claimed(t4.id) && t4.id !== active);
+    el2("puzzle-next").textContent = next ? t3("puzzleNextTier", { tier: t3("puzzleTier_" + next.id) }) : t3("puzzlePractice");
+    el2("puzzle-next").toggleAttribute("data-ncq-main", dialog.open && s.solved && !s.error && !s.pending);
+    el2("puzzle-list-button").hidden = !s.solved;
     const styles = appearance();
     board2.dataset.boardStyle = styles.board;
-    const displayedBoard = solved ? apply(state(), { type: "move", from: solved.from, to: solved.to }).board : puzzle.board;
-    const game = { ...puzzle, you: puzzle.turn, moves: solved ? [solved] : [], turn: solved ? 3 - puzzle.turn : puzzle.turn };
     drawJangiBoard({
-      game,
-      displayedBoard,
+      game: { ...s.state, you: p.turn, moves: s.history },
+      displayedBoard: s.state.board,
       cells: cells2,
-      selectedFrom: from,
+      selectedFrom: s.from,
       selected: null,
       lastMoveMarker: marker,
       board: board2,
@@ -8627,150 +8806,177 @@ function createDailyPuzzle({ t: t3, request, credited, appearance, changed }) {
     });
     for (const [i, cell] of cells2.entries()) {
       cell.disabled = !playable;
-      cell.classList.toggle("puzzle-hint", i === hint);
+      cell.classList.toggle("puzzle-hint", i === s.hint);
     }
   }
-  function load() {
-    ++generation;
-    motion?.cancel();
+  async function animate(move, s, epoch) {
+    render2();
+    if (move?.type !== "move" || !dialog.open || active !== s.puzzle.tier || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    cancelMotion();
+    motion = animateJangiMove(cells2[move.from], cells2[move.to], marker, { shouldContinue: () => dialog.open && current2() === s && generation === epoch && !document.hidden });
+    await motion.finished;
     motion = null;
-    pending = false;
-    error = null;
-    solved = null;
-    from = null;
-    hint = null;
-    message = null;
-    claimMove = null;
-    const day = progress.today();
-    data = { day, puzzle: puzzleForDay(day), reward: DAILY_PUZZLE_REWARD };
-    window.NcqMetrics?.levelStart("daily-puzzle");
-    render2();
   }
-  function finish(move, granted = false) {
-    solved = { ...move, granted };
-    hint = null;
-    from = null;
-    claimMove = null;
-    error = null;
-    window.NcqMetrics?.levelEnd("daily-puzzle", true, { score: DAILY_PUZZLE_REWARD });
-    render2();
-    const own2 = generation;
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) motion = animateJangiMove(cells2[move.from], cells2[move.to], null, {
-      shouldContinue: () => dialog.open && generation === own2 && !document.hidden
-    });
-  }
-  async function pick2(index2) {
-    if (!data || pending || solved || error) return;
-    if (data.day !== progress.today()) {
-      load();
-      return;
-    }
-    const puzzle = data.puzzle;
-    if (sideOf(puzzle.board[index2]) === puzzle.turn) {
-      from = from === index2 ? null : index2;
-      message = null;
+  async function pick2(index3) {
+    if (checkDay()) {
       render2();
       return;
     }
-    if (from === null || !legalMoves(puzzle.board, puzzle.turn).some((m) => m.from === from && m.to === index2)) return;
-    const move = { from, to: index2 };
-    if (apply(state(), { type: "move", ...move }).winner !== puzzle.turn) {
-      message = "puzzleWrong";
-      from = null;
+    const s = current2();
+    if (!s || s.busy || s.pending || s.solved) return;
+    if (sideOf(s.state.board[index3]) === s.puzzle.turn) {
+      s.from = s.from === index3 ? null : index3;
+      s.message = null;
       render2();
       return;
     }
-    if (progress.claimed(data.day)) {
-      finish(move);
+    if (s.from === null || !legalMoves(s.state.board, s.state.turn).some((m) => m.from === s.from && m.to === index3)) return;
+    const move = { from: s.from, to: index3 }, choice = puzzleChoice(s.puzzle, s.node, move);
+    if (!choice) {
+      s.message = "puzzleWrong";
+      s.from = null;
+      s.hint = null;
+      render2();
       return;
     }
-    await claim(move);
+    const epoch = generation;
+    s.busy = true;
+    s.from = null;
+    s.hint = null;
+    s.message = null;
+    s.moves.push(move);
+    s.state = apply(s.state, choice.move);
+    s.history.push(choice.move);
+    await animate(choice.move, s, epoch);
+    if (epoch !== generation) return;
+    if (choice.reply) {
+      s.state = apply(s.state, choice.reply);
+      s.history.push(choice.reply);
+      await animate(choice.reply, s, epoch);
+    }
+    if (epoch !== generation) return;
+    s.node = choice.next;
+    s.busy = false;
+    if (choice.next === null) {
+      s.solved = true;
+      window.NcqMetrics?.levelEnd("daily-puzzle-" + s.puzzle.tier, true, { score: s.puzzle.reward });
+      if (!progress.claimed(s.puzzle.tier)) await claim(s);
+    }
+    render2();
   }
-  async function claim(move) {
-    if (pending) return;
-    const own2 = generation, puzzle = data.puzzle;
-    claimMove = move;
-    pending = true;
-    error = null;
-    message = null;
+  async function claim(s) {
+    if (s.pending || checkDay()) {
+      render2();
+      return;
+    }
+    const epoch = generation, tier = s.puzzle.tier;
+    s.pending = true;
+    s.error = null;
     render2();
     try {
-      const result = await request({ day: data.day, id: puzzle.id, ...move });
-      if (own2 !== generation) return;
+      const result = await request({ day, id: s.puzzle.id, tier, moves: s.moves.map((m) => ({ ...m })) });
+      if (epoch !== generation) return;
       if (result?.error) {
         progress.correctTime(result.serverNow);
-        error = result.error === "puzzleExpired" ? "puzzleExpired" : "puzzleClaimFailed";
+        s.error = result.error === "puzzleExpired" ? "puzzleExpired" : "puzzleClaimFailed";
         return;
       }
       if (!result?.correct || !result.wallet) {
-        error = "puzzleClaimFailed";
+        s.error = "puzzleClaimFailed";
         return;
       }
       credited(result.wallet);
-      finish(move, result.granted);
     } catch {
-      if (own2 === generation) error = "puzzleClaimFailed";
+      if (epoch === generation) s.error = "puzzleClaimFailed";
     } finally {
-      if (own2 === generation) {
-        pending = false;
+      if (epoch === generation) {
+        s.pending = false;
+        checkDay();
         render2();
       }
     }
   }
+  function reset() {
+    const s = current2();
+    if (!s || s.busy || s.pending) return;
+    cancelMotion();
+    sessions.set(active, createSession(active));
+    render2();
+  }
   el2("show-daily-puzzle").addEventListener("click", () => {
+    checkDay();
+    active = null;
     dialog.showModal();
-    load();
+    render2();
     changed();
   });
   el2("puzzle-close").addEventListener("click", () => dialog.close());
+  el2("puzzle-back").addEventListener("click", showList);
+  el2("puzzle-list-button").addEventListener("click", showList);
+  dialog.addEventListener("cancel", (event) => {
+    if (active) {
+      event.preventDefault();
+      showList();
+    }
+  });
   dialog.addEventListener("close", () => {
-    ++generation;
-    motion?.cancel();
-    motion = null;
-    pending = false;
+    cancelMotion();
+    active = null;
     changed();
   });
   el2("puzzle-reset").addEventListener("click", () => {
-    if (error) {
-      if (claimMove && error !== "puzzleExpired") void claim(claimMove);
-      else load();
-      return;
-    }
-    const finished = Boolean(solved);
-    motion?.cancel();
-    motion = null;
-    solved = null;
-    from = null;
-    hint = null;
-    message = null;
-    if (finished) window.NcqMetrics?.levelStart("daily-puzzle");
-    render2();
+    const s = current2();
+    if (s?.error) {
+      if (s.error === "puzzleExpired") {
+        clearSessions();
+        render2();
+      } else void claim(s);
+    } else reset();
+  });
+  el2("puzzle-next").addEventListener("click", () => {
+    const next = DAILY_PUZZLE_TIERS.find((t4) => !progress.claimed(t4.id) && t4.id !== active);
+    if (next) openTier(next.id);
+    else reset();
   });
   el2("puzzle-hint").addEventListener("click", () => {
-    const answer = legalMoves(data.puzzle.board, data.puzzle.turn).find((move) => apply(state(), move).winner === data.puzzle.turn);
-    hint = answer?.from ?? null;
-    from = hint;
+    const s = current2();
+    if (!s || s.busy || s.pending || s.solved) return;
+    const move = s.puzzle.nodes[s.node].choices[0].move;
+    s.from = move.from;
+    s.hint = move.from;
+    s.message = "puzzleHintText";
     render2();
   });
-  const fit = () => board2.style.setProperty("--puzzle-height", Math.floor(el2("puzzle-board-slot").getBoundingClientRect().height) + "px");
-  new ResizeObserver(fit).observe(el2("puzzle-board-slot"));
+  new ResizeObserver(() => board2.style.setProperty("--puzzle-height", Math.floor(el2("puzzle-board-slot").getBoundingClientRect().height) + "px")).observe(el2("puzzle-board-slot"));
   const dayChanged = () => {
+    checkDay();
     renderEntry();
-    if (dialog.open && !pending && data?.day !== progress.today()) load();
+    if (dialog.open) render2();
   };
   renderEntry();
   return {
     render: () => {
       renderEntry();
-      if (dialog.open) render2();
+      if (dialog.open) {
+        checkDay();
+        render2();
+      }
     },
     isOpen: () => dialog.open,
     close: () => dialog.close(),
+    back: () => active ? showList() : dialog.close(),
     dayChanged,
+    focusAfterReward: () => {
+      if (active) el2(current2()?.error ? "puzzle-reset" : "puzzle-next").focus({ preventScroll: true });
+      else cards.get("easy").focus({ preventScroll: true });
+    },
     updateWallet: (wallet, player) => {
-      progress.accept(wallet, player);
+      if (owner !== player) {
+        owner = player;
+        progress.accept(wallet, player);
+        clearSessions();
+      } else progress.accept(wallet, player);
       dayChanged();
-      if (dialog.open) render2();
     }
   };
 }
@@ -8785,9 +8991,58 @@ var DAILY_PUZZLE_TEXTS = {
     puzzleGoal: "\uD55C \uC218\uB85C \uC678\uD1B5\uC744 \uB9CC\uB4DC\uC138\uC694",
     puzzleSide: "{side} \uCC28\uB840 \xB7 \uB9D0\uC744 \uACE0\uB974\uACE0 \uC774\uB3D9\uD560 \uACF3\uC744 \uB204\uB974\uC138\uC694.",
     puzzleReward: "\uD574\uACB0 \uBCF4\uC0C1 {n}\uCF54\uC778",
-    puzzleRules: "\uB9E4\uC77C 00:00 (\uD55C\uAD6D \uC2DC\uAC04) \uC0C8 \uBB38\uC81C \xB7 \uD558\uB8E8 \uD55C \uBC88 \uBCF4\uC0C1",
-    puzzleSource: "\uCC3D\uC791 \uC5F0\uC2B5 \uAE30\uBCF4 \xB7 \uD55C \uC218 \uC678\uD1B5",
+    puzzleRules: "\uB9E4\uC77C 00:00 (\uD55C\uAD6D \uC2DC\uAC04) \uC0C8 \uBB38\uC81C \xB7 \uB09C\uC774\uB3C4\uBCC4 \uD558\uB8E8 \uD55C \uBC88 \uBCF4\uC0C1",
+    puzzleSource: "\uB3C5\uB9BD \uCC3D\uC791 \uD3EC\uC9C4 \xB7 \uD78C\uD2B8\uB97C \uC368\uB3C4 \uBCF4\uC0C1\uC740 \uAC19\uC544\uC694",
     puzzleLoading: "\uC624\uB298\uC758 \uAE30\uBCF4\uB97C \uBD88\uB7EC\uC624\uB294 \uC911\u2026",
+    puzzleTier_easy: "\uCD08\uAE09",
+    puzzleTier_medium: "\uC911\uAE09",
+    puzzleTier_hard: "\uACE0\uAE09",
+    puzzleCoinUnit: "\uCF54\uC778",
+    puzzleList: "\uBB38\uC81C \uBAA9\uB85D",
+    puzzleListDate: "{day} \xB7 \uB9E4\uC77C \uC0C8\uB85C \uB3C4\uC804\uD574\uC694",
+    puzzleAllDone: "\uC624\uB298\uC758 \uBCF4\uC0C1\uC744 \uBAA8\uB450 \uBC1B\uC558\uC5B4\uC694!",
+    puzzleTotalReward: "\uC624\uB298 \uCD1D {n}\uCF54\uC778",
+    puzzleTodayTotal: "\uC624\uB298 \uD68D\uB4DD \uAC00\uB2A5\uD55C \uBCF4\uC0C1",
+    puzzleCompletedCount: "{n}/3 \uC644\uB8CC",
+    puzzleEarned: "{n}/30\uCF54\uC778 \uD68D\uB4DD",
+    puzzleReceived: "{n}\uCF54\uC778 \uD68D\uB4DD",
+    puzzleDone: "\uC644\uB8CC",
+    puzzleSolve: "\uBB38\uC81C \uD480\uAE30",
+    puzzlePracticeAvailable: "\uB2E4\uC2DC \uD480\uBA70 \uC5F0\uC2B5\uD560 \uC218 \uC788\uC5B4\uC694",
+    puzzleMateIn: "\uB0B4 {n}\uC218 \uC548\uC5D0 \uC678\uD1B5",
+    puzzleSolveReward: "\uD574\uACB0 \uBCF4\uC0C1",
+    puzzleRewardDone: "\uBCF4\uC0C1 \uC644\uB8CC",
+    puzzleMateComplete: "\uC678\uD1B5 \uC644\uC131!",
+    puzzleStep: "\uB0B4 {n}\uBC88\uC9F8 \uC218",
+    puzzleCorrect: "\uC815\uB2F5",
+    puzzleOpponent: "\uC0C1\uB300",
+    puzzleReplying: "\uC0C1\uB300\uAC00 \uC751\uC218\uD558\uACE0 \uC788\uC5B4\uC694\u2026",
+    puzzleInstruction: "\uB9D0\uC744 \uACE0\uB978 \uB4A4 \uD45C\uC2DC\uB41C \uACF3\uC73C\uB85C \uC6C0\uC9C1\uC774\uC138\uC694.",
+    puzzleNextTier: "{tier} \uB3C4\uC804\uD558\uAE30",
+    puzzleName_easy_0: "\uCC28\uC758 \uD3EC\uC704",
+    puzzleName_easy_1: "\uAE38\uC744 \uC5EC\uB294 \uCC28",
+    puzzleName_easy_2: "\uAD81\uC131\uC758 \uBE48\uD2C8",
+    puzzleName_easy_3: "\uD55C \uC904\uC758 \uC555\uBC15",
+    puzzleName_easy_4: "\uD1F4\uB85C \uBD09\uC1C4",
+    puzzleName_easy_5: "\uB9C8\uC9C0\uB9C9 \uAE38\uBAA9",
+    puzzleName_easy_6: "\uAC00\uAE4C\uC6B4 \uC678\uD1B5",
+    puzzleName_easy_7: "\uC815\uD655\uD55C \uB9C8\uBB34\uB9AC",
+    puzzleName_medium_0: "\uAD81\uC131\uC744 \uC5EC\uB294 \uAE38",
+    puzzleName_medium_1: "\uB450 \uC218\uC758 \uC5F0\uACB0",
+    puzzleName_medium_2: "\uC228\uC740 \uC5F0\uACB0\uACE0\uB9AC",
+    puzzleName_medium_3: "\uC218\uBE44\uB97C \uD754\uB4DC\uB294 \uC218",
+    puzzleName_medium_4: "\uD1F4\uB85C\uB97C \uC881\uD788\uB2E4",
+    puzzleName_medium_5: "\uBA3C\uC800 \uC5F4\uC5B4\uB458 \uAE38",
+    puzzleName_medium_6: "\uB9DE\uBB3C\uB9B0 \uACF5\uACA9",
+    puzzleName_medium_7: "\uBE48\uCE78\uC758 \uD65C\uC6A9",
+    puzzleName_hard_0: "\uBE48\uD2C8\uC744 \uC787\uB294 \uC138 \uC218",
+    puzzleName_hard_1: "\uC138 \uACB9\uC758 \uD3EC\uC704",
+    puzzleName_hard_2: "\uC751\uC218\uB97C \uC77D\uB294 \uAE38",
+    puzzleName_hard_3: "\uAD81\uC131\uC758 \uB9C8\uC9C0\uB9C9 \uD2C8",
+    puzzleName_hard_4: "\uC5F0\uACB0\uB41C \uC555\uBC15",
+    puzzleName_hard_5: "\uD55C \uC218 \uC55E\uC758 \uC900\uBE44",
+    puzzleName_hard_6: "\uD53C\uD560 \uC218 \uC5C6\uB294 \uAE38",
+    puzzleName_hard_7: "\uCE58\uBC00\uD55C \uB9C8\uBB34\uB9AC",
     puzzleOffline: "\uC5F0\uACB0\uC744 \uD655\uC778\uD55C \uB4A4 \uB2E4\uC2DC \uBD88\uB7EC\uC640 \uC8FC\uC138\uC694.",
     puzzleReload: "\uB2E4\uC2DC \uBD88\uB7EC\uC624\uAE30",
     puzzleHint: "\uD78C\uD2B8",
@@ -8797,7 +9052,7 @@ var DAILY_PUZZLE_TEXTS = {
     puzzleSubmit: "\uBCF4\uC0C1\uC744 \uC9C0\uAE09\uD558\uB294 \uC911\u2026",
     puzzleRetryReward: "\uBCF4\uC0C1 \uB2E4\uC2DC \uBC1B\uAE30",
     puzzleClaimFailed: "\uBCF4\uC0C1 \uC9C0\uAE09\uC744 \uD655\uC778\uD558\uC9C0 \uBABB\uD588\uC5B4\uC694. \uB2E4\uC2DC \uBC1B\uAE30\uB97C \uB20C\uB7EC \uC8FC\uC138\uC694.",
-    puzzleWrong: "\uC544\uC9C1 \uC678\uD1B5\uC774 \uC544\uB2C8\uC5D0\uC694. \uB2E4\uB978 \uC218\uB97C \uCC3E\uC544\uBCF4\uC138\uC694!",
+    puzzleWrong: "\uC774 \uC218\uB85C\uB294 \uC678\uD1B5\uC744 \uC644\uC131\uD560 \uC218 \uC5C6\uC5B4\uC694. \uC5EC\uAE30\uC11C \uB2E4\uC2DC \uCC3E\uC544\uBCF4\uC138\uC694!",
     puzzleSuccess: "\uC815\uB2F5! \uC678\uD1B5\uC744 \uB9CC\uB4E4\uC5C8\uC5B4\uC694.",
     puzzleGranted: "{n}\uCF54\uC778\uC744 \uBC1B\uC558\uC5B4\uC694!",
     puzzleClaimed: "\uBCF4\uC0C1 \uD68D\uB4DD \uC644\uB8CC",
@@ -8825,9 +9080,58 @@ var DAILY_PUZZLE_TEXTS = {
     puzzleGoal: "Checkmate in one move",
     puzzleSide: "{side} to move \xB7 Pick a piece, then a destination.",
     puzzleReward: "Solve for {n} coins",
-    puzzleRules: "New puzzle at 00:00 KST \xB7 One reward per day",
-    puzzleSource: "Original practice position \xB7 Mate in one",
+    puzzleRules: "New at 00:00 KST \xB7 One reward per tier daily",
+    puzzleSource: "Original compositions \xB7 Hints keep your full reward",
     puzzleLoading: "Loading today\u2019s position\u2026",
+    puzzleTier_easy: "Easy",
+    puzzleTier_medium: "Medium",
+    puzzleTier_hard: "Hard",
+    puzzleCoinUnit: "coins",
+    puzzleList: "Puzzle list",
+    puzzleListDate: "{day} \xB7 A fresh daily challenge",
+    puzzleAllDone: "All daily rewards collected!",
+    puzzleTotalReward: "Today\u2019s total: {n} coins",
+    puzzleTodayTotal: "Today\u2019s available rewards",
+    puzzleCompletedCount: "{n}/3 complete",
+    puzzleEarned: "{n}/30 coins earned",
+    puzzleReceived: "{n} coins collected",
+    puzzleDone: "Done",
+    puzzleSolve: "Solve puzzle",
+    puzzlePracticeAvailable: "Play again for practice",
+    puzzleMateIn: "Mate within {n} of your moves",
+    puzzleSolveReward: "Solve to earn",
+    puzzleRewardDone: "Collected",
+    puzzleMateComplete: "Checkmate!",
+    puzzleStep: "Your move {n}",
+    puzzleCorrect: "Correct",
+    puzzleOpponent: "Opponent",
+    puzzleReplying: "Your opponent is responding\u2026",
+    puzzleInstruction: "Pick a piece, then a marked destination.",
+    puzzleNextTier: "Try {tier}",
+    puzzleName_easy_0: "The rook\u2019s net",
+    puzzleName_easy_1: "Clear the file",
+    puzzleName_easy_2: "A palace opening",
+    puzzleName_easy_3: "Pressure on the file",
+    puzzleName_easy_4: "No way back",
+    puzzleName_easy_5: "The final passage",
+    puzzleName_easy_6: "A close finish",
+    puzzleName_easy_7: "The precise finish",
+    puzzleName_medium_0: "Open the palace",
+    puzzleName_medium_1: "Two moves connect",
+    puzzleName_medium_2: "The hidden link",
+    puzzleName_medium_3: "Shake the defense",
+    puzzleName_medium_4: "Narrow the escape",
+    puzzleName_medium_5: "Prepare the path",
+    puzzleName_medium_6: "Linked attacks",
+    puzzleName_medium_7: "Use the empty square",
+    puzzleName_hard_0: "Three moves through",
+    puzzleName_hard_1: "A threefold net",
+    puzzleName_hard_2: "Read the response",
+    puzzleName_hard_3: "The palace\u2019s last gap",
+    puzzleName_hard_4: "Connected pressure",
+    puzzleName_hard_5: "One move ahead",
+    puzzleName_hard_6: "The inevitable path",
+    puzzleName_hard_7: "A careful finish",
     puzzleOffline: "Check your connection and try loading again.",
     puzzleReload: "Reload puzzle",
     puzzleHint: "Hint",
@@ -8837,7 +9141,7 @@ var DAILY_PUZZLE_TEXTS = {
     puzzleSubmit: "Collecting your reward\u2026",
     puzzleRetryReward: "Retry reward",
     puzzleClaimFailed: "Your reward could not be confirmed. Please retry collecting it.",
-    puzzleWrong: "That is not checkmate yet. Try another move!",
+    puzzleWrong: "That move will not force mate in time. Try again from here!",
     puzzleSuccess: "Correct! Checkmate.",
     puzzleGranted: "You received {n} coins!",
     puzzleClaimed: "Today\u2019s reward collected",
@@ -9073,7 +9377,7 @@ var dailyPuzzle = createDailyPuzzle({
     const result = await remoteRequest((client) => client.gameRequest("/puzzles/daily", input, -1));
     if (player !== authSession?.player) return { error: "network" };
     if (result.wallet && player === authSession?.player && applyWallet(result.wallet)) renderCoinBalance();
-    if (result.correct && result.granted) showCoinReward(result.reward, "daily-puzzle:" + input.day, "daily-puzzle");
+    if (result.correct && result.granted) showCoinReward(result.reward, "daily-puzzle:" + input.day + ":" + input.tier, "daily-puzzle");
     if (result.error === "puzzleExpired") await refreshWallet(-1);
     return result;
   },
@@ -9258,7 +9562,7 @@ window.ncqBack = () => {
     return true;
   }
   if (dailyPuzzle.isOpen()) {
-    dailyPuzzle.close();
+    dailyPuzzle.back();
     return true;
   }
   if (leaveDialog.open) {
@@ -9415,10 +9719,10 @@ function openShop() {
   void refreshWallet();
 }
 var shopTabs = ["currency", "effects", "skins"];
-var missionRows = [...dailyMissions, repeatMission].map((_, index2) => {
+var missionRows = [...dailyMissions, repeatMission].map((_, index3) => {
   const row = el("daily-mission-row").content.firstElementChild.cloneNode(true);
-  row.querySelector(".mission-goal").id = "mission-goal-" + index2;
-  row.querySelector(".mission-claim").setAttribute("aria-describedby", "mission-goal-" + index2);
+  row.querySelector(".mission-goal").id = "mission-goal-" + index3;
+  row.querySelector(".mission-claim").setAttribute("aria-describedby", "mission-goal-" + index3);
   el("daily-mission-list").append(row);
   return row;
 });
@@ -9453,7 +9757,7 @@ coinRewardDialog.addEventListener("close", () => {
   presentCoinReward();
   if (coinRewardDialog.open) return;
   if (dailyPuzzle.isOpen()) {
-    el("puzzle-reset").focus({ preventScroll: true });
+    dailyPuzzle.focusAfterReward();
   } else if (missionDialog.open) {
     const next = missionDialog.querySelector(".mission-claim:not([hidden]):not(:disabled)");
     (next ?? el("mission-close")).focus({ preventScroll: true });
@@ -9557,12 +9861,12 @@ for (let row = 0; row < 10; row += 1) {
   rowEl.className = "board-row";
   rowEl.setAttribute("role", "row");
   for (let col = 0; col < size; col += 1) {
-    const index2 = row * size + col;
+    const index3 = row * size + col;
     const cell = document.createElement("button");
     cell.type = "button";
     cell.className = "cell";
-    cell.tabIndex = index2 === focused ? 0 : -1;
-    cell.dataset.index = index2;
+    cell.tabIndex = index3 === focused ? 0 : -1;
+    cell.dataset.index = index3;
     cell.setAttribute("role", "gridcell");
     const stone = document.createElement("span");
     stone.className = "stone";
@@ -9816,7 +10120,7 @@ function renderDailyMissions() {
   el("daily-mission-total").textContent = t2("missionMilestoneTotal", progress);
   const filledSegments = Math.max(0, completed - 1);
   el("daily-mission-steps").style.setProperty("--mission-rail-fill", filledSegments / (dailyMissions.length - 1) * 100 + "%");
-  missionSteps.forEach((step, index2) => step.toggleAttribute("data-completed", index2 < completed));
+  missionSteps.forEach((step, index3) => step.toggleAttribute("data-completed", index3 < completed));
   el("show-missions").toggleAttribute("data-ready", hasReward);
   renderRewardBadge("show-lobby", hasReward, t2("playTab"));
   el("daily-mission-action").textContent = t2(hasReward ? "missionClaim" : "missionView");
@@ -9832,14 +10136,14 @@ function renderDailyMissions() {
   slash.textContent = "/";
   total.replaceChildren(document.createTextNode(progress.count), slash, document.createTextNode(progress.target));
   total.setAttribute("aria-label", t2("missionOverviewCount", progress));
-  missionMarkers.forEach((marker, index2) => {
-    const done = index2 < completed;
+  missionMarkers.forEach((marker, index3) => {
+    const done = index3 < completed;
     marker.toggleAttribute("data-done", done);
     marker.textContent = done ? "\u2713" : "";
   });
-  dailyMissions.forEach(({ target, coins: coins2 }, index2) => {
+  dailyMissions.forEach(({ target, coins: coins2 }, index3) => {
     const goal = t2(target === 1 ? "missionFirstGoal" : "missionGoal", { n: NcqLang.num(target) });
-    renderMissionRow(missionRows[index2], {
+    renderMissionRow(missionRows[index3], {
       goal,
       coins: coins2,
       progress: Math.min(count, target),
@@ -10048,10 +10352,10 @@ function renderCoinPacks() {
   }).sort((a, b) => a.coins - b.coins);
   const catalog = JSON.stringify([NcqLang.lang, available]);
   if (list2.dataset.catalog !== catalog) {
-    const cards = available.map(({ id, productId, coins, price }, index2) => {
+    const cards = available.map(({ id, productId, coins, price }, index3) => {
       const card = el("shop-coin-pack-card").content.firstElementChild.cloneNode(true);
       const n = NcqLang.num(coins);
-      card.dataset.tier = Math.min(index2, 2);
+      card.dataset.tier = Math.min(index3, 2);
       card.querySelector(".shop-coin-quantity").textContent = t2("shopPrice", { n });
       const buy = card.querySelector("button");
       buy.textContent = price;
@@ -10515,9 +10819,9 @@ function previewPlacementEffect(button, style) {
   button.querySelector(".shop-effect-art").append(preview);
   void Promise.resolve(playPlacementEffect(preview, style, 0)).finally(() => preview.remove());
 }
-function presentPlacement(index2, style, landingHaptic, from) {
-  if (index2 == null || document.hidden) return;
-  const cell = cells[index2];
+function presentPlacement(index3, style, landingHaptic, from) {
+  if (index3 == null || document.hidden) return;
+  const cell = cells[index3];
   if (!cell || !["1", "2"].includes(cell.dataset.stone) || cell.classList.contains("selected")) return;
   cancelPlacement();
   if (reducedMotion.matches) {
@@ -10527,7 +10831,7 @@ function presentPlacement(index2, style, landingHaptic, from) {
   }
   const landingTime = !el("placement-timing").hidden && placementTimingAvailable() ? replayPlacementDuration : placementTiming.landing;
   cell.classList.add("placing");
-  const moving = Number.isInteger(from) && cells[from] && from !== index2;
+  const moving = Number.isInteger(from) && cells[from] && from !== index3;
   const contactTime = moving ? jangiMoveTiming(landingTime).contact : landingTime * 0.4;
   const options = {
     duration: landingTime,
@@ -10556,8 +10860,8 @@ function presentRoundPlacement(game, ply, movingSeat) {
   );
   return presentPlacement(destination(game.moves[ply]), game.placementStyles?.[game.moveSeats?.[ply] - 1], landingHaptic, game.moves[ply]?.from);
 }
-function coordinate(index2) {
-  return columns[index2 % size] + (Math.floor(index2 / size) + 1);
+function coordinate(index3) {
+  return columns[index3 % size] + (Math.floor(index3 / size) + 1);
 }
 function canAct() {
   return room?.phase === "playing" && room.turn === room.you && connected && !busy && !pendingPlacement && !matchIntroDialog.open && !leaveDialog.open && !bikjangDialog.open && !optionsDialog.open && !window.NcqFeedback?.isOpen() && (turnDeadline === null || performance.now() < turnDeadline);
@@ -10665,7 +10969,7 @@ function renderClockRefills(node, count) {
   node.setAttribute("aria-label", label);
   node.title = label;
   if (!node.children.length) node.innerHTML = Array.from({ length: 3 }, () => '<svg viewBox="0 0 16 20" aria-hidden="true"><path d="M3 1h10M3 19h10M4 2v3c0 2 2 3 4 5-2 2-4 3-4 5v3m8-16v3c0 2-2 3-4 5 2 2 4 3 4 5v3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="m5 5 3 3 3-3zm0 12h6l-3-3z" fill="currentColor"/></svg>').join("");
-  for (const [index2, icon] of [...node.children].entries()) icon.toggleAttribute("data-used", index2 >= count);
+  for (const [index3, icon] of [...node.children].entries()) icon.toggleAttribute("data-used", index3 >= count);
 }
 function updateCumulativeClock(game, deadline, lowerSeat, watching) {
   const finalEnd = game.setup ? game.formationEndsAt : game.turnEndsAt;
@@ -11158,9 +11462,9 @@ function liveGameRow(game, label) {
   const button = row.firstElementChild;
   button.title = label;
   const black = game.black ?? 1;
-  row.querySelectorAll(".live-game-player").forEach((playerRow, index2) => {
-    const profile = recordPlayer(game, index2 === 0 ? black : 3 - black);
-    playerRow.querySelector(".stone").setAttribute("aria-label", t2(colorName(index2 + 1)));
+  row.querySelectorAll(".live-game-player").forEach((playerRow, index3) => {
+    const profile = recordPlayer(game, index3 === 0 ? black : 3 - black);
+    playerRow.querySelector(".stone").setAttribute("aria-label", t2(colorName(index3 + 1)));
     playerRow.querySelector(".live-game-rank").textContent = recordRank(profile);
     const name = profile.savedName || t2("guestNickname");
     const nickname = playerRow.querySelector(".live-game-name");
@@ -11558,11 +11862,11 @@ function recordDate(value) {
 function drawRecordPreview(svg, game) {
   svg.setAttribute("viewBox", "0 0 9 10");
   const position = replayBoard(game, game.moves.length);
-  for (const [index2, piece] of position.entries()) {
+  for (const [index3, piece] of position.entries()) {
     if (!piece) continue;
     const token = document.createElementNS("http://www.w3.org/2000/svg", "text");
-    token.setAttribute("x", index2 % 9 + 0.5);
-    token.setAttribute("y", Math.floor(index2 / 9) + 0.76);
+    token.setAttribute("x", index3 % 9 + 0.5);
+    token.setAttribute("y", Math.floor(index3 / 9) + 0.76);
     token.setAttribute("font-size", ".9");
     token.setAttribute("font-weight", "bold");
     token.setAttribute("text-anchor", "middle");
@@ -12819,11 +13123,11 @@ for (const button of rankingTabs) {
   });
 }
 el("ranking-tabs").addEventListener("keydown", (event) => {
-  const index2 = rankingTabs.indexOf(event.target);
+  const index3 = rankingTabs.indexOf(event.target);
   const length = rankingTabs.length;
   const destinations = {
-    ArrowLeft: (index2 + length - 1) % length,
-    ArrowRight: (index2 + 1) % length,
+    ArrowLeft: (index3 + length - 1) % length,
+    ArrowRight: (index3 + 1) % length,
     Home: 0,
     End: length - 1
   };
@@ -12882,10 +13186,10 @@ async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageS
 function rankingPlayerName(row) {
   return row.you ? ownNickname() : displayNickname(row.nickname || t2("playerAlias", { alias: row.alias }));
 }
-function rankingCard(row, tab, index2) {
+function rankingCard(row, tab, index3) {
   const card = el("ranking-card-template").content.firstElementChild.cloneNode(true);
   const own2 = row.you;
-  const key = own2 ? "self" : row.alias ? "alias:" + row.alias : "entry:" + index2;
+  const key = own2 ? "self" : row.alias ? "alias:" + row.alias : "entry:" + index3;
   card.dataset.rankingPlayer = key;
   card.addEventListener("click", () => openPlayerProfile(void 0, { row, tab, key }));
   card.toggleAttribute("data-own-ranking", Boolean(own2));
@@ -12938,9 +13242,9 @@ function renderRankings() {
   message.hidden = rows.length > 0;
   el("ranking-" + rankingTab + "-retry").hidden = !result?.error;
   const standings = rating ? "rating-standings" : previous ? "previous-standings" : "standings";
-  el(standings).replaceChildren(...rows.map((row, index2) => {
+  el(standings).replaceChildren(...rows.map((row, index3) => {
     const entry = document.createElement("li");
-    entry.append(rankingCard(row, rankingTab, index2));
+    entry.append(rankingCard(row, rankingTab, index3));
     return entry;
   }));
   if (!rating) {
@@ -13118,9 +13422,9 @@ bikjangDialog.addEventListener("close", () => {
     focusCell(target.from);
   }
 });
-function movePiece(index2, confirmation = null) {
+function movePiece(index3, confirmation = null) {
   if (!canAct() || selectedFrom === null) return;
-  const preview = previewPlacement(room, selectedFrom, index2);
+  const preview = previewPlacement(room, selectedFrom, index3);
   if (!preview) return;
   if (endsInBikjangDraw(room, { type: "move", from: preview.from, to: preview.index }) && !(validBikjangConfirmation(confirmation) && confirmation.from === preview.from && confirmation.index === preview.index)) {
     bikjangPending = preview;
@@ -13202,32 +13506,32 @@ el("invite").addEventListener("click", async () => {
     el("share-url").select();
   }
 });
-function focusCell(index2) {
+function focusCell(index3) {
   cells[focused].tabIndex = -1;
-  focused = index2;
+  focused = index3;
   cells[focused].tabIndex = 0;
   cells[focused].focus({ preventScroll: true });
 }
 board.addEventListener("click", (event) => {
   const cell = event.target.closest(".cell");
   if (!cell || !canAct() || room.setup) return;
-  const index2 = Number(cell.dataset.index);
+  const index3 = Number(cell.dataset.index);
   cancelPlacement();
-  if (sideOf(room.board[index2]) === room.you) {
-    selectedFrom = selectedFrom === index2 ? null : index2;
+  if (sideOf(room.board[index3]) === room.you) {
+    selectedFrom = selectedFrom === index3 ? null : index3;
     selected = null;
-  } else if (targetsFrom(room, selectedFrom).includes(index2)) {
-    focusCell(index2);
+  } else if (targetsFrom(room, selectedFrom).includes(index3)) {
+    focusCell(index3);
     feedback("match-error");
-    movePiece(index2);
+    movePiece(index3);
     return;
   } else {
-    haptics.once(`invalid:${roundHapticKey(room)}:${room.moves.length}:${index2}`, "error");
+    haptics.once(`invalid:${roundHapticKey(room)}:${room.moves.length}:${index3}`, "error");
     feedback("match-error", "invalidMove", true);
     return;
   }
   haptics.tap();
-  focusCell(index2);
+  focusCell(index3);
   feedback("match-error");
   render();
 });

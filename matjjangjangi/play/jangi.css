@@ -78,7 +78,6 @@
 .jangi-pass-notice { position:absolute;z-index:15;left:50%;top:43%;transform:translate(-50%,-50%);display:grid;place-items:center;margin:0;padding:8px 17px;max-width:90%;border:1px solid #e5cb85;border-radius:10px;background:#fff5d9f7;color:#274b32;font:800 18px/1.4 'Jangi Noto Sans KR',sans-serif;text-align:center;overflow-wrap:anywhere;box-shadow:0 5px 14px #18271140;pointer-events:none;animation:jangi-pass-arrive 140ms ease-out; }
 .jangi-pass-notice[hidden] { display:none; }
 @keyframes jangi-pass-arrive { from { opacity:0;transform:translate(-50%,calc(-50% + 6px)); } to { opacity:1;transform:translate(-50%,-50%); } }
-@media(prefers-reduced-motion:reduce) { .jangi-pass-notice { animation:none; } }
 .cell[data-number]>.stone::after { content:attr(data-number); }
 .cell[data-number]::before { content:attr(data-number);position:absolute;right:1px;bottom:0;font-size:9px;font-weight:900;color:#fff;background:#285790;border-radius:50%;width:15px;height:15px;display:grid;place-items:center;z-index:5; }
 .cell .stone-shadow { clip-path:none; width:var(--jangi-shadow-size); }

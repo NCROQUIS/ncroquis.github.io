@@ -309,10 +309,8 @@ body.forest-ui {
 .forest-ui.in-review.post-match-review #join-tournament:not(:disabled):hover { filter: brightness(1.06); }
 .forest-ui.in-review.post-match-review #join-tournament:disabled { opacity: 1; filter: grayscale(.7) brightness(.92); color: #695a35; }
 .forest-ui.in-review.post-match-review #join-tournament:focus-visible { outline-color: #e4bc53; }
-@media (prefers-reduced-motion: no-preference) {
-  .lobby-art-stone:nth-last-child(2) { animation: lobby-stone-drop 5s ease-out infinite; }
-  .lobby-art-stone:last-child { animation: lobby-stone-drop 5s .6s ease-out infinite; }
-}
+.lobby-art-stone:nth-last-child(2) { animation: lobby-stone-drop 5s ease-out infinite; }
+.lobby-art-stone:last-child { animation: lobby-stone-drop 5s .6s ease-out infinite; }
 @keyframes lobby-stone-drop {
   0%, 8% { opacity: 0; transform: translate(-50%, -110%) scale(1.12); }
   14%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }

@@ -1,43 +1,64 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" /><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+  <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
+    <meta charset="utf-8" /><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-auth.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
     <meta name="theme-color" content="#16233f" />
     <title>강태공: 한 줄의 승부</title>
-    <script type="module" crossorigin src="./assets/index-D1lA2Igc.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-k3E2-ZKF.css">
+    <script type="module" crossorigin src="./assets/index-DLyehN1G.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-jAH_pGeP.css">
   </head>
   <body>
     <div id="app">
       <canvas id="scene"></canvas>
 
-      <!-- 첫 화면: 던지기 전 -->
+      <!-- 지역 지도: 지역을 눌러 들어가요 (메인 버튼 없음) -->
+      <section id="map" class="layer map" data-ncq-no-main hidden>
+        <header class="topbar">
+          <button id="btn-map-close" class="chip map-btn" data-i18n="close"></button>
+        </header>
+        <div class="map-area">
+          <!-- 지도 그림은 파일(src/assets/art/region-map.webp)이고, 그 위에 지역마다 누르는 자리와 이름을 얹어요 -->
+          <svg id="map-art" viewBox="0 0 360 480" preserveAspectRatio="xMidYMid meet">
+            <defs><clipPath id="map-clip"><rect x="3" y="3" width="354" height="474" rx="22" /></clipPath></defs>
+            <image id="map-img" x="0" y="0" width="360" height="480" preserveAspectRatio="xMidYMid slice" clip-path="url(#map-clip)" />
+            <rect x="3" y="3" width="354" height="474" rx="22" fill="none" stroke="rgba(226,238,248,0.4)" stroke-width="2" />
+            <g id="map-regions"></g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- 배 위: 낚시 상태(로비, 앱을 열면 여기서 시작해요)와 이동 상태 -->
       <section id="home" class="layer">
         <header class="topbar">
-          <div class="chip"><i class="coin"></i><span id="gold">0</span></div>
-          <button id="btn-settings" class="icon-btn top-right" data-i18n-attr="aria-label:settings">
+          <div class="top-left">
+            <div class="chip"><i class="coin"></i><span id="gold">0</span></div>
+          </div>
+          <button id="btn-settings" class="icon-btn top-right lobby-only" data-i18n-attr="aria-label:settings">
             <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-              <path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.3 7.3 0 0 0-1.7-1L15 3.5h-4L10.7 6a7.3 7.3 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.3 7.3 0 0 0 1.7 1l.3 2.5h4l.3-2.5a7.3 7.3 0 0 0 1.7-1l2.4 1 2-3.4-2-1.6ZM13 15.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Z" transform="translate(-1 0)" />
+              <path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.3 7.3 0 0 0-1.7-1L15 3.5h-4L10.7 6a7.3 7.3 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.3 7.3 0 0 0 1.7 1l.3 2.5h4l.3-2.5a7.3 7.3 0 0 0 1.7 1l2.4 1 2-3.4-2-1.6ZM13 15.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Z" transform="translate(-1 0)" />
             </svg>
           </button>
         </header>
-        <div class="title art">
-          <h1 data-i18n="title"></h1>
-          <p data-i18n="subtitle"></p>
+        <!-- 낚시 상태에서만: 도감·장비 (오른쪽 위, 이동 상태에서는 작은 지도 자리) -->
+        <div class="side-col lobby-only">
+          <button id="btn-dex" class="chip side-chip"><span data-i18n="dex"></span></button>
+          <button id="btn-gear" class="chip side-chip"><span data-i18n="gear"></span><i id="gear-dot" class="dot" hidden></i></button>
         </div>
-        <div class="grow"></div>
         <div id="status" class="status">
+          <div id="st-zone" class="pill"><i id="st-zone-dot" class="zone-dot"></i><span id="st-zone-text"></span></div>
           <div id="st-wx" class="pill"><i id="st-wx-icon" class="wx"></i><span id="st-wx-text"></span><button id="ad-wx" class="ad-btn" hidden></button></div>
           <div id="st-cur" class="pill rainbow" hidden><span id="st-cur-text"></span><button id="ad-cur" class="ad-btn" hidden></button></div>
           <div id="st-intu" class="pill" hidden><span id="st-intu-text"></span><button id="ad-intu" class="ad-btn" hidden></button></div>
           <div id="st-bait" class="pill" hidden><span id="st-bait-text"></span></div>
         </div>
-        <p class="spot"><span data-i18n="spot_name"></span><span class="sep">·</span><span id="dex-progress"></span></p>
+        <div class="grow"></div>
+        <p class="spot"><span id="spot-name"></span><span class="sep">·</span><span id="dex-progress"></span></p>
         <nav class="bottom">
-          <button id="btn-dex" class="side-btn"><span data-i18n="dex"></span></button>
-          <button id="btn-cast" class="main-btn" data-ncq-main="던지기 버튼" data-i18n="cast"></button>
-          <button id="btn-gear" class="side-btn"><span data-i18n="gear"></span><i id="gear-dot" class="dot" hidden></i></button>
+          <!-- 낚시 상태: 지도(지역 이동) · 던지기 · 이동(배 이동)이 같은 높이로 나란히. 이동 상태: 낚시 하나 -->
+          <button id="btn-map" class="main-btn alt lobby-only" data-i18n="map"></button>
+          <button id="btn-cast" class="main-btn" data-ncq-main="던지기 버튼"></button>
+          <button id="btn-to-sail" class="main-btn alt lobby-only" data-i18n="to_sail"></button>
         </nav>
         <span id="app-version" class="version"></span>
       </section>
@@ -60,6 +81,8 @@
             <div class="reward"><i class="coin"></i><span id="result-gold"></span></div>
           </div>
           <p id="result-tip" class="tip"></p>
+          <!-- 줄이 끊어졌을 때: 광고를 보고 그 자리에서 이어서 해요 (한 판에 한 번) -->
+          <button id="result-revive" class="main-btn" hidden></button>
           <button id="result-continue" class="main-btn" data-ncq-main="계속 낚시 버튼"></button>
           <button id="result-bait" class="sub-btn" hidden></button>
         </div>
@@ -118,6 +141,7 @@
               <button id="test-gold" data-i18n="test_gold"></button>
               <button id="test-fill" data-i18n="test_fill"></button>
               <button id="test-bot" data-i18n="test_bot"></button>
+              <button id="test-place" data-i18n="test_place"></button>
               <button id="test-intu" data-i18n="test_intu"></button>
               <button id="test-cur" data-i18n="test_cur"></button>
               <button id="test-reset" data-i18n="test_reset"></button>

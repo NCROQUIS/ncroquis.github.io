@@ -7,6 +7,7 @@
   var base = enabled ? String(cfg.url).replace(/\/$/, "") : "";
   var prefix = enabled ? "ncq:invite:" + cfg.game + ":" + cfg.environment + ":" : "";
   var firebase, auth, starting, busy, identityProvider;
+  var profileCache, profileAt = 0, profilePending, profileEpoch = 0, profileListeners = [];
 
   function error(code, status, message) {
     var e = new Error(message || code); e.code = code; e.status = status || 0; return e;
@@ -76,7 +77,8 @@
     if (credential) request.credential = credential;
     if (proof) request.proof = proof;
     return http(refresh ? "/auth/v1/session/refresh" : "/auth/v1/session", "POST", request, token,
-      proof && proof.provider === "play_games" ? 7500 : 0).then(function (out) {
+      proof && /^neptune_kakaopay_/.test(proof.provider) ? 35000 : proof && proof.provider === "play_games" ? 7500 : 0).then(function (out) {
+      if (out.neptune) neptuneSession = out.neptune;
       return firebase.signInWithCustomToken(auth, out.customToken);
     }).then(function () {
       try { w.localStorage.removeItem(prefix + "credential"); } catch (e) { /* Firebase has saved the login */ }
@@ -97,6 +99,7 @@
   }
   function firstLogin(restorePlayGames) {
     function start() {
+      if (cfg.platform === "kakaopay") return Promise.reject(error("identity_required", 401));
       if (cfg.platform === "googleplay" && restorePlayGames !== false) {
         return playGamesProof().then(function (proof) {
           if (!proof) return exchange();
@@ -147,8 +150,11 @@
         }
         throw error("wrong_scope", 403, "이 게임과 환경에서 다시 사용자 확인을 해 주세요.");
       }
+      if (profileCache && (profileCache.player !== user.uid || profileCache.identity !== scope.identity)) {
+        profileCache = null; profileAt = 0; profilePending = null; profileEpoch++;
+      }
       return {token: result.token, player: user.uid, identity: scope.identity, role: result.claims.role,
-        photoUrl: scope.photoUrl || null, nickname: scope.nickname || null};
+        photoUrl: scope.photoUrl || null, nickname: scope.nickname || null, profileVersion: scope.profileVersion || 0};
     });
   }
   function session(force, expectedPlayer) {
@@ -168,19 +174,92 @@
   }
   function summary(result) { return {player: result.player, identity: result.identity}; }
   function ready() { return session().then(summary); }
-  function profile() {
+  function currentPlayer(player) {
+    if (!auth.currentUser || auth.currentUser.uid !== player) throw error("identity_changed", 409);
+  }
+  function publishProfile(value) {
+    currentPlayer(value.player);
+    var changed = !profileCache || profileCache.player !== value.player ||
+      profileCache.profileVersion !== value.profileVersion || profileCache.nickname !== value.nickname;
+    if (profileCache && profileCache.player === value.player && profileCache.profileVersion > value.profileVersion) return profileCache;
+    profileCache = Object.assign({}, value);
+    profileAt = Date.now();
+    if (changed) profileListeners.slice().forEach(function (fn) { try { fn(Object.assign({}, value)); } catch (e) {} });
+    return Object.assign({}, profileCache);
+  }
+  function profile(options) {
+    options = options || {};
     return session().then(function (result) {
-      return {player: result.player, identity: result.identity, photoUrl: result.photoUrl, nickname: result.nickname};
+      if (profileCache && profileCache.player === result.player && !options.forceRefresh && Date.now() - profileAt < 3000) {
+        return Object.assign({}, profileCache);
+      }
+      if (profilePending && profilePending.player === result.player && !options.forceRefresh) return profilePending.work;
+      var epoch = profileEpoch;
+      var pending = {player: result.player};
+      var work = http("/auth/v1/profile", "GET", undefined, result.token).catch(function (e) {
+        if (e.status !== 404) throw e;
+        // Older servers remain readable while the shared API is rolled out.
+        return {player: result.player, identity: result.identity, photoUrl: result.photoUrl,
+          nickname: result.nickname, nicknameOverride: null, defaultNickname: result.nickname,
+          profileVersion: 0, profileInitialized: false, profileManaged: false};
+      }).then(function (value) {
+        currentPlayer(result.player);
+        if (value.player !== result.player) throw error("identity_changed", 409);
+        if (epoch !== profileEpoch) {
+          if (profileCache && profileCache.player === result.player) return Object.assign({}, profileCache);
+          throw error("profile_changed", 409);
+        }
+        if (value.profileManaged !== false) value.profileManaged = true;
+        return publishProfile(value);
+      });
+      pending.work = work.then(function (value) {
+        if (profilePending === pending) profilePending = null;
+        return value;
+      }, function (e) { if (profilePending === pending) profilePending = null; throw e; });
+      profilePending = pending;
+      return pending.work;
     });
+  }
+  function updateProfile(changes, options) {
+    options = options || {};
+    if (!changes || Object.keys(changes).length !== 1 || typeof changes.nickname !== "string" ||
+        Array.from(changes.nickname.trim()).length > 20) return Promise.reject(error("invalid_nickname", 400));
+    return session(false, options.expectedPlayer).then(function (result) {
+      var epoch = ++profileEpoch;
+      profilePending = null;
+      var input = {nickname: changes.nickname};
+      if (options.ifUnset !== undefined) input.ifUnset = options.ifUnset;
+      if (options.expectedVersion !== undefined) input.expectedVersion = options.expectedVersion;
+      return http("/auth/v1/profile", "POST", input, result.token).then(function (value) {
+        currentPlayer(result.player);
+        if (value.player !== result.player) throw error("identity_changed", 409);
+        if (epoch !== profileEpoch) throw error("profile_changed", 409);
+        value.profileManaged = true;
+        return publishProfile(value);
+      });
+    });
+  }
+  function onProfileChange(fn) {
+    if (typeof fn !== "function") throw new TypeError("NcqAuth.onChange requires a function");
+    profileListeners.push(fn);
+    return function () { profileListeners = profileListeners.filter(function (item) { return item !== fn; }); };
+  }
+  function displayName(value, guestLabel) {
+    var name = value && value.nickname;
+    if (typeof name === "string" && name) return name.normalize("NFC");
+    if (typeof guestLabel === "string") return guestLabel;
+    return value && value.guestCode ? "Guest #" + value.guestCode : "Guest";
   }
   function getToken(options) {
     options = options || {};
     return session(options.forceRefresh, options.expectedPlayer).then(function (result) {
-      if (options.role !== "authenticated" || result.role === "authenticated") return result.token;
+      var profileChanged = profileCache && profileCache.player === result.player && profileCache.profileManaged &&
+        profileCache.profileVersion > result.profileVersion;
+      if (!profileChanged && (options.role !== "authenticated" || result.role === "authenticated")) return result.token;
       // Upgrade an existing signed session in place. Never create another player for a missing claim.
       var renewal = busy || track(exchange(null, null, result.token, true));
       return renewal.then(function (user) { return tokenSession(user, true, result.player); }).then(function (fresh) {
-        if (fresh.role !== "authenticated") throw error("auth_unavailable", 503);
+        if (options.role === "authenticated" && fresh.role !== "authenticated") throw error("auth_unavailable", 503);
         return fresh.token;
       });
     });
@@ -205,7 +284,26 @@
       });
     });
   }
-  w.NcqAuth = Object.freeze({ready: ready, profile: profile, signIn: signIn, getToken: getToken, request: request,
+  var neptuneSession = null;
+  function neptuneSignIn(code, environment) {
+    if (cfg.platform !== "kakaopay" || (environment !== "sandbox" && environment !== "production")) {
+      return Promise.reject(error("wrong_scope", 403));
+    }
+    return init().then(function () {
+      if (busy) throw error("busy", 409);
+      neptuneSession = null;
+      // 새 플랫폼의 증명을 기존 게스트나 다른 계정에 자동으로 연결하지 않는다.
+      return track(exchange({provider: environment === "sandbox" ? "neptune_kakaopay_dev" : "neptune_kakaopay_live",
+        token: code}, null, ""));
+    }).then(ready).then(function (session) {
+      if (!neptuneSession || !neptuneSession.userKey) throw error("identity_unavailable", 503);
+      return {player: session.player, identity: session.identity, neptune: Object.assign({}, neptuneSession)};
+    });
+  }
+  w.NcqAuth = Object.freeze({profileContractVersion: 1, ready: ready, profile: profile, updateProfile: updateProfile,
+    displayName: displayName, onChange: onProfileChange,
+    signIn: signIn, getToken: getToken, request: request,
+    neptuneSignIn: neptuneSignIn,
     publicRequest: function (path) { return enabled ? http(path) : Promise.reject(error("disabled")); },
     setIdentityProvider: function (fn) { identityProvider = fn; }
   });

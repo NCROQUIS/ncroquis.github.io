@@ -4374,7 +4374,7 @@ function watchRoom({
 function boardError(code, status = 0) {
   return Object.assign(new Error(code), { code, status });
 }
-function create({ apiUrl, getToken, region }) {
+function create({ apiUrl, getToken, region, profiles }) {
   const url = new URL(apiUrl);
   if (url.protocol !== "https:" || url.username || url.password || url.search || url.hash) {
     throw new TypeError("NcqBoard requires an HTTPS API URL");
@@ -4383,6 +4383,91 @@ function create({ apiUrl, getToken, region }) {
   if (region !== void 0 && !/^[a-z]{2}-[a-z]+-\d$/.test(region)) throw new TypeError("Invalid NcqBoard function region");
   const reads = /* @__PURE__ */ new Map();
   let identity;
+  let mirroredProfile, profileWrite;
+  const avatars = /* @__PURE__ */ new Map();
+  function profileSource() {
+    const source = profiles === false ? null : profiles ?? globalThis.NcqAuth;
+    return source && typeof source.profile === "function" && typeof source.updateProfile === "function" ? source : null;
+  }
+  async function mirrorProfile(account, avatar) {
+    const source = profileSource();
+    if (!source || !account?.profileManaged) return;
+    if ((await source.ready()).player !== account.player) throw boardError("identity_changed", 409);
+    if (profileWrite) {
+      try {
+        await profileWrite;
+      } catch {
+      }
+      return mirrorProfile(account, avatar);
+    }
+    if (mirroredProfile?.player === account.player && mirroredProfile.version >= account.profileVersion && mirroredProfile.name === account.nickname && avatar === void 0) return;
+    if (mirroredProfile?.player === account.player && mirroredProfile.version > account.profileVersion) return;
+    const icon = avatar !== void 0 ? avatar : avatars.get(account.player);
+    const input = { nickname: account.nickname || "", ...typeof icon === "string" && icon ? { avatar: icon } : {} };
+    profileWrite = request("/name", input, 3, account.player).then(async (result) => {
+      if ((await source.ready()).player !== account.player) throw boardError("identity_changed", 409);
+      mirroredProfile = { player: account.player, version: account.profileVersion, name: account.nickname };
+      if (avatar !== void 0) avatars.set(account.player, avatar ?? null);
+      return result;
+    });
+    try {
+      return await profileWrite;
+    } catch (error) {
+      error.profileSaved = true;
+      throw error;
+    } finally {
+      profileWrite = null;
+    }
+  }
+  function boardName(stats) {
+    if (typeof stats.nickname === "string") return { nickname: stats.nickname, avatar: stats.avatar };
+    if (stats.name && typeof stats.name === "object") return { nickname: stats.name.nickname, avatar: stats.name.avatar };
+    return stats.name === null ? { nickname: null, avatar: null } : null;
+  }
+  function accountResult(stats, account) {
+    const shared = Object.prototype.hasOwnProperty.call(stats, "name") && typeof stats.nickname !== "string";
+    const name = shared ? { name: account.nickname ? { nickname: account.nickname, avatar: avatars.get(account.player) ?? null } : null } : {};
+    return {
+      ...stats,
+      ...name,
+      nickname: account.nicknameOverride,
+      accountNickname: account.nickname,
+      defaultNickname: account.defaultNickname,
+      guestCode: account.guestCode,
+      profileVersion: account.profileVersion,
+      profileInitialized: account.profileInitialized
+    };
+  }
+  async function ownProfile(queue, cooldown) {
+    const source = profileSource();
+    const owner = source ? await source.ready() : null;
+    const stats = await queued("/profile", queue, cooldown, owner?.player);
+    if (!source || stats.error) return stats;
+    let account = await source.profile();
+    if (!account?.profileManaged) return stats;
+    if (account.player !== owner.player) throw boardError("identity_changed", 409);
+    const legacy = boardName(stats);
+    if (legacy && !avatars.has(account.player)) avatars.set(account.player, typeof legacy.avatar === "string" ? legacy.avatar : null);
+    if (!account.profileInitialized && legacy?.nickname && legacy.nickname !== account.defaultNickname) {
+      account = await source.updateProfile({ nickname: legacy.nickname }, { ifUnset: true, expectedPlayer: account.player });
+    }
+    const projection = await mirrorProfile(account);
+    return accountResult(projection?.rating !== void 0 ? projection : stats, account);
+  }
+  async function setName(nickname, avatar, options = {}) {
+    const source = profileSource();
+    if (!source) return request("/name", { nickname, avatar });
+    const owner = await source.ready();
+    const current = await source.profile();
+    if (current.player !== owner.player) throw boardError("identity_changed", 409);
+    const account = await source.updateProfile({ nickname }, {
+      expectedPlayer: owner.player,
+      expectedVersion: current.profileVersion,
+      ...options.ifUnset ? { ifUnset: true } : {}
+    });
+    const stats = await mirrorProfile(account, avatar);
+    return accountResult(stats || {}, account);
+  }
   function clearCache() {
     reads.clear();
   }
@@ -4426,11 +4511,12 @@ function create({ apiUrl, getToken, region }) {
     });
     return entry.pending.then(copy);
   }
-  async function token(forceRefresh, role) {
+  async function token(forceRefresh, role, expectedPlayer) {
     try {
-      const value = await getToken({ forceRefresh, ...role ? { role } : {} });
+      const value = await getToken({ forceRefresh, ...role ? { role } : {}, ...expectedPlayer ? { expectedPlayer } : {} });
       if (typeof value === "string" && /^\S+$/.test(value)) return value;
-    } catch {
+    } catch (error) {
+      if (error.code === "identity_changed") throw error;
     }
     clearCache();
     throw boardError("authFailed", 401);
@@ -4454,9 +4540,9 @@ function create({ apiUrl, getToken, region }) {
     if (!response.ok) throw boardError(data.error ?? data.code ?? "network", response.status);
     return data;
   }
-  async function request(path, input, cooldown = 3) {
+  async function request(path, input, cooldown = 3, expectedPlayer) {
     seconds(cooldown);
-    const bearer = await token(false);
+    const bearer = await token(false, void 0, expectedPlayer);
     bindIdentity(bearer);
     const load = async () => {
       try {
@@ -4464,7 +4550,7 @@ function create({ apiUrl, getToken, region }) {
       } catch (error) {
         if (error.status !== 401 || !["authFailed", "unauthorized"].includes(error.code)) throw error;
         clearCache();
-        const fresh = await token(true);
+        const fresh = await token(true, void 0, expectedPlayer);
         bindIdentity(fresh);
         return send(path, input, fresh, 8e3);
       }
@@ -4477,7 +4563,7 @@ function create({ apiUrl, getToken, region }) {
       clearCache();
     }
   }
-  function queued(path, queue, cooldown) {
+  function queued(path, queue, cooldown, expectedPlayer) {
     if (typeof queue === "number" && cooldown === void 0) {
       cooldown = queue;
       queue = void 0;
@@ -4485,7 +4571,8 @@ function create({ apiUrl, getToken, region }) {
     return request(
       path + (queue ? (path.includes("?") ? "&" : "?") + "queue=" + encodeURIComponent(queue) : ""),
       void 0,
-      cooldown
+      cooldown,
+      expectedPlayer
     );
   }
   const room = (code, op) => "/rooms/" + encodeURIComponent(code) + "/" + op;
@@ -4517,11 +4604,16 @@ function create({ apiUrl, getToken, region }) {
     move: (code, input) => request(room(code, "move"), input),
     leave: (code) => request(room(code, "leave"), {}),
     rematch: (code, input) => request(room(code, "rematch"), input),
-    profile: (queue, cooldown) => queued("/profile", queue, cooldown),
+    profile: ownProfile,
     records: (cooldown = 3) => request("/records", void 0, cooldown),
     seats: (code, cooldown = 3) => request(room(code, "seats"), void 0, cooldown),
     leaderboard: (limit = 100, queue, cooldown) => queued("/leaderboard?limit=" + encodeURIComponent(limit), queue, cooldown),
-    setName: (nickname, avatar) => request("/name", { nickname, avatar }),
+    setName,
+    importName: (nickname) => setName(nickname, void 0, { ifUnset: true }),
+    syncProfile: async (account) => {
+      const source = profileSource();
+      return source ? mirrorProfile(account ?? await source.profile({ forceRefresh: true })) : void 0;
+    },
     gameRequest: request,
     clearCache
   });

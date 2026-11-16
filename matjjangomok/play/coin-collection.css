@@ -1,0 +1,47 @@
+.coin-collection-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  overflow: visible;
+  background: transparent;
+  color: #fff9d9;
+  pointer-events: none;
+}
+.coin-collection-layer::backdrop { background: transparent; pointer-events: none; }
+.coin-collection-piece,
+.coin-collection-wallet i {
+  display: block;
+  width: 28px;
+  height: 28px;
+  background: url("./assets/forest-ui/icons/coin.webp") center / contain no-repeat;
+}
+.coin-collection-piece {
+  position: absolute;
+  left: 0;
+  top: 0;
+  filter: drop-shadow(0 2px 3px #42270066);
+  will-change: transform, opacity;
+}
+.coin-collection-wallet {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 28px;
+  padding: 3px 9px;
+  border: 1px solid #ddc16c;
+  border-radius: 999px;
+  background: #174c2b;
+  box-shadow: 0 0 16px #ffd15c55;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+.coin-collection-wallet i { width: 19px; height: 19px; }
+.coin-collection-wallet strong { font: 700 14px / 1.2 "Omok Noto Sans KR", sans-serif; }

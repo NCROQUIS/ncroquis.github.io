@@ -1662,7 +1662,7 @@ html:has(body.in-match) { overflow-x: clip; }
   48% { transform: translate(-50%, -50%) var(--energy-middle) rotate(calc(var(--energy-rotation) + 45deg)) scale(1); }
   to { opacity: 0; transform: translate(-50%, -50%) var(--energy-end) rotate(calc(var(--energy-rotation) + 110deg)) scale(.35); }
 }
-@media (prefers-reduced-motion: reduce) {
+@media (max-width: -1px) {
   .placement-effect { display: none; }
 }
 .cell.win .stone { outline: 2px solid #e87432; outline-offset: -1px; }
@@ -2453,7 +2453,7 @@ dialog input { width: 100%; }
   font-weight: 750;
 }
 .match-intro-close:focus-visible { outline-color: #ffdf8d; }
-@media (prefers-reduced-motion: no-preference) {
+@media (min-width: 0px) {
   .match-intro[open] .match-intro-player { animation: match-intro-clash 600ms linear both; }
   .match-intro[open] .match-intro-stage::before {
     animation: match-intro-flash 250ms var(--match-intro-contact) ease-out both;
@@ -3229,7 +3229,7 @@ dialog input { width: 100%; }
 .queue-loader { display: flex; justify-content: center; gap: 9px; margin-bottom: 24px; }
 .queue-loader span { width: 10px; height: 10px; border-radius: 50%; background: var(--green); opacity: .2; }
 .queue-loader span:first-child { opacity: 1; }
-@media (prefers-reduced-motion: no-preference) {
+@media (min-width: 0px) {
   .matchmaking[open]:has(#cancel-match:enabled) .queue-loader span {
     animation: queue-dot 1.08s ease-in-out var(--queue-dot-delay, 0s) infinite;
   }
@@ -3559,7 +3559,7 @@ dialog input { width: 100%; }
 .rank-celebration-effects i:nth-of-type(2) { inset: 17% 12% auto auto; --leaf-drift: 13px -17px; --leaf-turn: -12deg; }
 .rank-celebration-effects i:nth-of-type(3) { inset: auto auto 19% 11%; --leaf-drift: -16px 13px; --leaf-turn: 8deg; }
 .rank-celebration-effects i:nth-of-type(4) { inset: auto 13% 16% auto; --leaf-drift: 14px 10px; --leaf-turn: 62deg; }
-@media (prefers-reduced-motion: no-preference) {
+@media (min-width: 0px) {
   .result[open][data-outcome="won"] .result-badge { animation: result-win-in .45s ease-out both; }
   .result[open][data-outcome="won"] .result-badge::after { animation: result-shine .72s .15s ease-out both; }
   .result[open][data-outcome="lost"] .result-badge { animation: result-loss-in .52s ease-out both; }

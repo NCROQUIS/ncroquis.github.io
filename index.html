@@ -25,12 +25,18 @@
   --tape-dev: #f1c94f;
   --tape-test: #93c4ec;
   --tape-live: #e9664c;
+  --mat-deep: #264d42;
+  --store-googleplay: #8fd3a6;
+  --store-toss: #9cc6f2;
+  --store-appstore: #c9b6ee;
+  --store-web: #f7e3a1;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --mat: #213f36;
+    --mat-deep: #1b342d;
     --paper: #eceee9;
     --mat-line: rgba(236, 214, 120, 0.1);
     --mat-line-major: rgba(236, 214, 120, 0.2);
@@ -72,9 +78,81 @@ body {
 
 .masthead p { margin: 16px 0 0; max-width: 34em; color: var(--on-mat-soft); font-size: 18px; }
 
+/* 목록 위 숫자판 = 플랫폼 필터 (hub.js). 고른 칸은 카드처럼 종이로 */
+.tally {
+  margin: 56px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 22px 16px 14px;
+  border: 2px solid rgba(243, 247, 244, 0.34);
+  background: var(--mat-deep);
+  color: var(--on-mat);
+  text-decoration: none;
+}
+.tile:hover { border-color: rgba(243, 247, 244, 0.7); }
+.tile:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.tile .strip {
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  width: 46px;
+  height: 16px;
+  background: var(--on-mat);
+  transform: rotate(-3deg);
+}
+.tile-googleplay .strip { background: var(--store-googleplay); }
+.tile-toss .strip { background: var(--store-toss); }
+.tile-appstore .strip { background: var(--store-appstore); }
+.tile-web .strip { background: var(--tape-dev); }
+.tile-before .strip { background: transparent; border: 2px dashed var(--on-mat-soft); }
+.tile .num {
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-size: 52px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.tile-all .num { font-size: 64px; }
+.tile .label { font-size: 16px; font-weight: 600; line-height: 1.3; }
+.tile .sub { font-size: 14px; color: var(--on-mat-soft); line-height: 1.3; }
+.tile[aria-current="true"] {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 12px 20px -12px rgba(0, 0, 0, 0.55);
+  transform: rotate(-0.6deg);
+}
+.tile[aria-current="true"] .sub { color: var(--graphite); }
+
+.shown { margin: 28px 0 0; color: var(--on-mat-soft); }
+.shown strong { color: var(--on-mat); font-weight: 600; }
+
+@media (max-width: 520px) {
+  .tally { margin-top: 40px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+  .tile-all { grid-column: 1 / -1; }
+  .tile .num { font-size: 40px; }
+  .tile-all .num { font-size: 52px; }
+}
+
+/* 카드의 '나와 있는 곳' 표시 */
+.marks { margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.mark { padding: 2px 9px 3px; color: var(--ink); font-size: 13px; font-weight: 600; line-height: 1.4; }
+.mark-googleplay { background: var(--store-googleplay); }
+.mark-toss { background: var(--store-toss); }
+.mark-appstore { background: var(--store-appstore); }
+.mark-web { background: var(--store-web); }
+
 .board {
   list-style: none;
-  margin: 64px 0 0;
+  margin: 36px 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -89,6 +167,7 @@ body {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 12px 20px -12px rgba(0, 0, 0, 0.55);
 }
 
+.board > li[hidden] { display: none; }
 .board li:nth-child(3n + 1) .sheet { transform: rotate(-0.7deg); }
 .board li:nth-child(3n + 2) .sheet { transform: rotate(0.5deg); }
 .board li:nth-child(3n) .sheet { transform: rotate(-0.25deg); }
@@ -324,8 +403,15 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
     <p>엔크로키가 지금 만들고 있는 게임과 앱이에요.</p>
     <p class="start-link"><a href="start/">새 게임을 시작하는 방법</a></p>
   </header>
+<nav class="tally" aria-label="플랫폼별로 보기">
+    <a class="tile tile-all" href="#all" data-filter="all" aria-current="true"><span class="strip" aria-hidden="true"></span><span class="num">39</span><span class="label">전체</span><span class="sub">만들고 있는 게임·앱</span></a>
+    <a class="tile tile-googleplay" href="#googleplay" data-filter="googleplay"><span class="strip" aria-hidden="true"></span><span class="num">21</span><span class="label">구글플레이</span><span class="sub">출시</span></a>
+    <a class="tile tile-web" href="#web" data-filter="web"><span class="strip" aria-hidden="true"></span><span class="num">35</span><span class="label">웹</span><span class="sub">바로 플레이</span></a>
+    <a class="tile tile-before" href="#before" data-filter="before"><span class="strip" aria-hidden="true"></span><span class="num">18</span><span class="label">출시 전</span><span class="sub">아직 만드는 중</span></a>
+  </nav>
+  <p class="shown" aria-live="polite">모두 <strong>39개</strong>를 보여 주고 있어요.</p>
 <ul class="board">
-  <li>
+  <li data-platforms="before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">드</span><div class="title"><h2><a href="dragonslayer/">드래곤 슬레이어</a></h2></div></div>
@@ -335,17 +421,18 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">좀</span><div class="title"><h2><a href="zombiesmash/">좀비 스매시</a></h2></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">줄지어 선 좀비를 도구와 특성의 연쇄로 부수는 3D 턴제 게임</p>
       <p class="quick"><a class="quick-play" href="zombiesmash/play/" aria-label="좀비 스매시 바로 플레이">바로 플레이</a> <span class="ver">v0.1.0</span><a class="quick-board" href="zombiesmash/feedback/" aria-label="좀비 스매시 피드백 게시판">피드백</a></p>
       <p class="note">zombiesmash, 2026.11.16 시작</p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/wakeup5" rel="noopener" aria-label="개발자 GitHub wakeup5">@wakeup5</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">카</span><div class="title"><h2><a href="carout/">카 아웃</a></h2></div></div>
@@ -355,77 +442,84 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
       <p class="by">만든 사람 <a class="dev" href="https://github.com/junyoung-ncroquis" rel="noopener" aria-label="개발자 GitHub junyoung-ncroquis">@junyoung-ncroquis</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">해</span><div class="title"><h2><a href="happy-life-tiles/">해피 라이프 타일</a></h2></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">운동·식단·힐링 타일 3개를 모아 건강한 하루를 채우는 트리플 타일 퍼즐</p>
       <p class="quick"><a class="quick-play" href="happy-life-tiles/play/" aria-label="해피 라이프 타일 바로 플레이">바로 플레이</a> <span class="ver">v0.1.4</span><a class="quick-board" href="happy-life-tiles/feedback/" aria-label="해피 라이프 타일 피드백 게시판">피드백</a></p>
       <p class="note">happy-life-tiles, 2026.11.13 시작 · <time class="updated" datetime="2026-11-16">2026.11.16 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/Heo-SD" rel="noopener" aria-label="개발자 GitHub Heo-SD">@Heo-SD</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><img class="app-icon" src="dokuduck/icon.png?v=77046a5ae7ad" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="dokuduck/">도쿠덕</a></h2><p class="cat">퍼즐</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">색마다, 줄마다 오리 한 마리! 멍한 흰 오리 도쿠를 찾는 논리 퍼즐</p>
       <p class="quick"><a class="quick-play" href="dokuduck/play/" aria-label="도쿠덕 바로 플레이">바로 플레이</a> <span class="ver">v1.0.1</span><a class="quick-board" href="dokuduck/feedback/" aria-label="도쿠덕 피드백 게시판">피드백</a></p>
       <p class="note">dokuduck, 2026.11.13 시작 · <time class="updated" datetime="2026-11-17">2026.11.17 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="matjjangjangi/icon.png?v=f2c78a7bb31f" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="matjjangjangi/">맞짱 장기</a></h2><p class="cat">보드</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">익숙한 맞짱의 감성으로 즐기는 한 수 승부, 맞짱 장기</p>
       <p class="quick"><a class="quick-play" href="matjjangjangi/play/" aria-label="맞짱 장기 바로 플레이">바로 플레이</a> <span class="ver">v0.20.1</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.matjjangjangi" rel="noopener" aria-label="맞짱 장기 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="matjjangjangi/feedback/" aria-label="맞짱 장기 피드백 게시판">피드백</a></p>
       <p class="note">matjjangjangi, 2026.11.12 시작 · <time class="updated" datetime="2026-11-17">2026.11.17 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">강</span><div class="title"><h2><a href="gangtaegong/">강태공: 한 줄의 승부</a></h2></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">버튼 하나로 줄의 팽팽함을 다뤄 대물을 낚아 올리는 손맛 낚시 게임</p>
       <p class="quick"><a class="quick-play" href="gangtaegong/play/" aria-label="강태공: 한 줄의 승부 바로 플레이">바로 플레이</a> <span class="ver">v0.2.0</span><a class="quick-board" href="gangtaegong/feedback/" aria-label="강태공: 한 줄의 승부 피드백 게시판">피드백</a></p>
       <p class="note">gangtaegong, 2026.11.12 시작 · <time class="updated" datetime="2026-11-16">2026.11.16 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/wakeup5" rel="noopener" aria-label="개발자 GitHub wakeup5">@wakeup5</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">벽</span><div class="title"><h2><a href="brickrogue/">벽돌깨기 - 로그라이크</a></h2></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">공을 조준해 쏘고, 카드를 골라 매 판 다른 빌드로 보스까지 버티는 네온 벽돌깨기</p>
       <p class="quick"><a class="quick-play" href="brickrogue/play/" aria-label="벽돌깨기 - 로그라이크 바로 플레이">바로 플레이</a> <span class="ver">v0.15.1</span><a class="quick-board" href="brickrogue/feedback/" aria-label="벽돌깨기 - 로그라이크 피드백 게시판">피드백</a></p>
       <p class="note">brickrogue, 2026.11.12 시작 · <time class="updated" datetime="2026-11-17">2026.11.17 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">해</span><div class="title"><h2><a href="skullswap/">해골 갈아끼우기</a></h2></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">머리와 옷을 갈아 끼우며 강해지는 꼬마 해골의 방치형 RPG</p>
       <p class="quick"><a class="quick-play" href="skullswap/play/" aria-label="해골 갈아끼우기 바로 플레이">바로 플레이</a> <span class="ver">v0.5.0</span><a class="quick-board" href="skullswap/feedback/" aria-label="해골 갈아끼우기 피드백 게시판">피드백</a></p>
       <p class="note">skullswap, 2026.11.11 시작</p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">맞</span><div class="title"><h2><a href="matjjangbaduk/">맞짱 바둑</a></h2></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">9줄에서 가볍게 맞붙는 빠른 바둑 대국</p>
       <p class="quick"><a class="quick-play" href="matjjangbaduk/play/" aria-label="맞짱 바둑 바로 플레이">바로 플레이</a> <span class="ver">v0.5.0</span><a class="quick-board" href="matjjangbaduk/feedback/" aria-label="맞짱 바둑 피드백 게시판">피드백</a></p>
       <p class="note">matjjangbaduk, 2026.11.11 시작 · <time class="updated" datetime="2026-11-17">2026.11.17 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">레</span><div class="title"><h2><a href="legend-demon/">레전드 데몬</a></h2></div></div>
@@ -435,277 +529,304 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="solitaire/icon.png?v=7b2a8f44f000" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="solitaire/">클래식 솔리테어</a></h2><p class="cat">카드</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">누구나 아는 그 카드 게임, 깔끔한 클래식 솔리테어</p>
       <p class="quick"><a class="quick-play" href="solitaire/play/" aria-label="클래식 솔리테어 바로 플레이">바로 플레이</a> <span class="ver">v0.2.0</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.solitaire" rel="noopener" aria-label="클래식 솔리테어 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="solitaire/feedback/" aria-label="클래식 솔리테어 피드백 게시판">피드백</a></p>
       <p class="note">solitaire, 2026.11.10 시작 · <time class="updated" datetime="2026-11-12">2026.11.12 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/Heo-SD" rel="noopener" aria-label="개발자 GitHub Heo-SD">@Heo-SD</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="kkochi/icon.png?v=c4baf73e54d2" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="kkochi/">맵찔이의 꼬치 먹방</a></h2><p class="cat">캐주얼</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">매운 건 후! 불고 나머지는 냠! 햄스터 꼬치 먹방 반응 게임</p>
       <p class="quick"><a class="quick-play" href="kkochi/play/" aria-label="맵찔이의 꼬치 먹방 바로 플레이">바로 플레이</a> <span class="ver">v0.5.2</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.kkochi" rel="noopener" aria-label="맵찔이의 꼬치 먹방 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="kkochi/feedback/" aria-label="맵찔이의 꼬치 먹방 피드백 게시판">피드백</a></p>
       <p class="note">kkochi, 2026.11.10 시작 · <time class="updated" datetime="2026-11-11">2026.11.11 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><img class="app-icon" src="pourly/icon.png?v=fe67c037dd15" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="pourly/">쪼르륵</a></h2><p class="cat">퍼즐</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">붓고 정리하며 머리를 식히는 컬러 워터 소트 퍼즐</p>
       <p class="quick"><a class="quick-play" href="pourly/play/" aria-label="쪼르륵 바로 플레이">바로 플레이</a> <span class="ver">v1.1.0</span><a class="quick-board" href="pourly/feedback/" aria-label="쪼르륵 피드백 게시판">피드백</a></p>
       <p class="note">pourly, 2026.11.9 시작 · <time class="updated" datetime="2026-11-16">2026.11.16 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/junyoung-ncroquis" rel="noopener" aria-label="개발자 GitHub junyoung-ncroquis">@junyoung-ncroquis</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="mergy-juice/icon.png?v=6a4b9a8e12c9" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="mergy-juice/">주시 머지</a></h2><p class="cat">퍼즐</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">주스를 던지고 합쳐 11단계 컬렉션을 채우는 퍼즐</p>
       <p class="quick"><a class="quick-play" href="mergy-juice/play/" aria-label="주시 머지 바로 플레이">바로 플레이</a> <span class="ver">v0.3.0</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.mergyjuice" rel="noopener" aria-label="주시 머지 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="mergy-juice/feedback/" aria-label="주시 머지 피드백 게시판">피드백</a></p>
       <p class="note">mergy-juice, 2026.11.9 시작 · <time class="updated" datetime="2026-11-12">2026.11.12 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/Heo-SD" rel="noopener" aria-label="개발자 GitHub Heo-SD">@Heo-SD</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="billiards-pvp/icon.png?v=cf9a6c1c5744" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="billiards-pvp/">당구 : PVP 3구 4구 포켓볼</a></h2><p class="cat">스포츠</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">세로 화면으로 즐기는 실사 3D 당구. 3구, 4구, 포켓볼 온라인 대전</p>
       <p class="quick"><a class="quick-play" href="billiards-pvp/play/" aria-label="당구 : PVP 3구 4구 포켓볼 바로 플레이">바로 플레이</a> <span class="ver">v1.1.0</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.billiardspvp" rel="noopener" aria-label="당구 : PVP 3구 4구 포켓볼 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="billiards-pvp/feedback/" aria-label="당구 : PVP 3구 4구 포켓볼 피드백 게시판">피드백</a></p>
       <p class="note">billiards-pvp, 2026.11.9 시작 · <time class="updated" datetime="2026-11-17">2026.11.17 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="matjjangomok/icon.png?v=bbd8bbd50fcf" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="matjjangomok/">맞짱 오목</a></h2><p class="cat">보드</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">친구와 방 링크로 바로 만나는 실시간 1대1 오목</p>
       <p class="quick"><a class="quick-play" href="matjjangomok/play/" aria-label="맞짱 오목 바로 플레이">바로 플레이</a> <span class="ver">v1.15.1</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.matjjangomok" rel="noopener" aria-label="맞짱 오목 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="matjjangomok/feedback/" aria-label="맞짱 오목 피드백 게시판">피드백</a></p>
       <p class="note">matjjangomok, 2026.11.7 시작 · <time class="updated" datetime="2026-11-16">2026.11.16 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><img class="app-icon" src="core-station/icon.png?v=4f085fa8b6d4" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="core-station/">코어 스테이션</a></h2><p class="cat">전략</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">정거장을 키워 몰려오는 스웜을 끝없이 막는 방치형 우주 디펜스</p>
       <p class="quick"><a class="quick-play" href="core-station/play/" aria-label="코어 스테이션 바로 플레이">바로 플레이</a> <span class="ver">v1.1.0</span><a class="quick-board" href="core-station/feedback/" aria-label="코어 스테이션 피드백 게시판">피드백</a></p>
       <p class="note">core-station, 2026.11.7 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">크</span><div class="title"><h2><a href="cricket-tour/">크리켓 원정대</a></h2></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">한 손으로 톡, 공 6개로 끝나는 세계 크리켓 경기장 투어</p>
       <p class="quick"><a class="quick-play" href="cricket-tour/play/" aria-label="크리켓 원정대 바로 플레이">바로 플레이</a> <span class="ver">v0.2.1</span><a class="quick-board" href="cricket-tour/feedback/" aria-label="크리켓 원정대 피드백 게시판">피드백</a></p>
       <p class="note">cricket-tour, 2026.11.6 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="pixelsurvivors/icon.png?v=0299a2780df4" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="pixelsurvivors/">픽셀 서바이버즈</a></h2><p class="cat">액션</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">몰려오는 적을 버티며 성장하는 픽셀 아트 서바이벌 액션 게임</p>
       <p class="quick"><a class="quick-play" href="pixelsurvivors/play/" aria-label="픽셀 서바이버즈 바로 플레이">바로 플레이</a> <span class="ver">v0.3.1</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.pixelsurvivors" rel="noopener" aria-label="픽셀 서바이버즈 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="pixelsurvivors/feedback/" aria-label="픽셀 서바이버즈 피드백 게시판">피드백</a></p>
       <p class="note">pixelsurvivors, 2026.11.5 시작 · <time class="updated" datetime="2026-11-11">2026.11.11 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/wakeup5" rel="noopener" aria-label="개발자 GitHub wakeup5">@wakeup5</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="jellyblock/icon.png?v=02eba34def7d" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="jellyblock/">Jellyblock - Puzzle Blast</a></h2><p class="cat">퍼즐</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">젤리처럼 출렁이는 조각을 놓아 줄을 지우는 말랑한 블록 퍼즐</p>
       <p class="quick"><a class="quick-play" href="jellyblock/play/" aria-label="Jellyblock - Puzzle Blast 바로 플레이">바로 플레이</a> <span class="ver">v1.0.1</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.jellyblock" rel="noopener" aria-label="Jellyblock - Puzzle Blast 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="jellyblock/feedback/" aria-label="Jellyblock - Puzzle Blast 피드백 게시판">피드백</a></p>
       <p class="note">jellyblock, 2026.11.5 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="jelly2048/icon.png?v=40ad5970e1c9" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="jelly2048/">2048 : Jelly</a></h2><p class="cat">퍼즐</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">말랑한 젤리 타일을 스와이프로 합치는 3D 감성 2048 퍼즐</p>
       <p class="quick"><a class="quick-play" href="jelly2048/play/" aria-label="2048 : Jelly 바로 플레이">바로 플레이</a> <span class="ver">v1.0.1</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.jelly2048" rel="noopener" aria-label="2048 : Jelly 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="jelly2048/feedback/" aria-label="2048 : Jelly 피드백 게시판">피드백</a></p>
       <p class="note">jelly2048, 2026.11.5 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">오</span><div class="title"><h2><a href="color-five/">오색전대 컬러파이브</a></h2></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">탭 한 번으로 출동! 5인 전대가 회색 도시에 색을 되찾는 탭 방치형 게임</p>
       <p class="quick"><a class="quick-play" href="color-five/play/" aria-label="오색전대 컬러파이브 바로 플레이">바로 플레이</a> <span class="ver">v0.1.0</span><a class="quick-board" href="color-five/feedback/" aria-label="오색전대 컬러파이브 피드백 게시판">피드백</a></p>
       <p class="note">color-five, 2026.11.5 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><img class="app-icon" src="boardmadang/icon.png?v=5d12018dc07b" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="boardmadang/">보드마당</a></h2><p class="cat">보드</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">장기·오목·리버시 등 여러 보드게임을 한곳에서 즐기는 웹 보드게임 모음</p>
       <p class="quick"><a class="quick-play" href="boardmadang/play/" aria-label="보드마당 바로 플레이">바로 플레이</a> <span class="ver">v0.4.0</span><a class="quick-board" href="boardmadang/feedback/" aria-label="보드마당 피드백 게시판">피드백</a></p>
       <p class="note">boardmadang, 2026.11.5 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/wakeup5" rel="noopener" aria-label="개발자 GitHub wakeup5">@wakeup5</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="duel2048/icon.png?v=96dc3a5cd39f" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="duel2048/">2048 Duel</a></h2><p class="cat">퍼즐</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">친구와 같은 블록 순서로 한 판씩 두고 점수를 겨루는 2048 대결 퍼즐</p>
       <p class="quick"><a class="quick-play" href="duel2048/play/" aria-label="2048 Duel 바로 플레이">바로 플레이</a> <span class="ver">v0.3.4</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.duel2048" rel="noopener" aria-label="2048 Duel 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="duel2048/feedback/" aria-label="2048 Duel 피드백 게시판">피드백</a></p>
       <p class="note">duel2048, 2026.11.4 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">데</span><div class="title"><h2><a href="daily-nemo/">데일리네모</a></h2></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">매일 전국이 같은 숨은 그림을 푸는 하루 한 판 네모네모 로직</p>
       <p class="quick"><a class="quick-play" href="daily-nemo/play/" aria-label="데일리네모 바로 플레이">바로 플레이</a> <span class="ver">v0.1.0</span><a class="quick-board" href="daily-nemo/feedback/" aria-label="데일리네모 피드백 게시판">피드백</a></p>
       <p class="note">daily-nemo, 2026.11.4 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="daily-doku/icon.png?v=dc96e6ace4ed" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="daily-doku/">데일리도쿠</a></h2><p class="cat">퍼즐</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">매일 전국이 같은 문제를 푸는 스도쿠, 결과 카드로 친구와 겨뤄요</p>
       <p class="quick"><a class="quick-play" href="daily-doku/play/" aria-label="데일리도쿠 바로 플레이">바로 플레이</a> <span class="ver">v0.5.1</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.dailydoku" rel="noopener" aria-label="데일리도쿠 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="daily-doku/feedback/" aria-label="데일리도쿠 피드백 게시판">피드백</a></p>
       <p class="note">daily-doku, 2026.11.4 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="word-pop/icon.png?v=91d351e4638d" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="word-pop/">워드팝</a></h2><p class="cat">단어</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">글자를 이어 영어 단어를 찾는 영단어 퍼즐</p>
       <p class="quick"><a class="quick-play" href="word-pop/play/" aria-label="워드팝 바로 플레이">바로 플레이</a> <span class="ver">v1.4.2</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.wordpop" rel="noopener" aria-label="워드팝 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="word-pop/feedback/" aria-label="워드팝 피드백 게시판">피드백</a></p>
       <p class="note">word-pop, 2026.11.2 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="splash-man/icon.png?v=bd2349a5d426" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="splash-man/">스플래쉬 맨</a></h2><p class="cat">액션</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">바람을 읽고 물풍선을 던지는 옥상 위 1:1 물싸움</p>
       <p class="quick"><a class="quick-play" href="splash-man/play/" aria-label="스플래쉬 맨 바로 플레이">바로 플레이</a> <span class="ver">v1.7.0</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.splashfighter" rel="noopener" aria-label="스플래쉬 맨 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="splash-man/feedback/" aria-label="스플래쉬 맨 피드백 게시판">피드백</a></p>
       <p class="note">splash-man, 2026.11.2 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="qbi-hit-list/icon.png?v=c2cc2aa402d7" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="qbi-hit-list/">어쌔씬 큐비</a></h2><p class="cat">퍼즐</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">한 칸씩 숨어들어 경비를 해치우는 잠입 퍼즐</p>
       <p class="quick"><a class="quick-play" href="qbi-hit-list/play/" aria-label="어쌔씬 큐비 바로 플레이">바로 플레이</a> <span class="ver">v1.14.2</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.assassinqbi" rel="noopener" aria-label="어쌔씬 큐비 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="qbi-hit-list/feedback/" aria-label="어쌔씬 큐비 피드백 게시판">피드백</a></p>
       <p class="note">qbi-hit-list, 2026.11.2 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="hole-cup/icon.png?v=e1a42989d31b" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="hole-cup/">홀컵 원정대</a></h2><p class="cat">스포츠</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">세계를 도는 한 손 미니골프, 나라마다 보스 홀까지</p>
       <p class="quick"><a class="quick-play" href="hole-cup/play/" aria-label="홀컵 원정대 바로 플레이">바로 플레이</a> <span class="ver">v1.4.2</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.holecup" rel="noopener" aria-label="홀컵 원정대 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="hole-cup/feedback/" aria-label="홀컵 원정대 피드백 게시판">피드백</a></p>
       <p class="note">hole-cup, 2026.11.2 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/ncroquis-dev" rel="noopener" aria-label="개발자 GitHub ncroquis-dev">@ncroquis-dev</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="neon-brick/icon.png?v=5815b439d9ee" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="neon-brick/">네온 브릭</a></h2><p class="cat">아케이드</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">공을 튕겨 네온 벽돌을 깨고, 별 셋에 도전하는 스테이지형 벽돌깨기</p>
       <p class="quick"><a class="quick-play" href="neon-brick/play/" aria-label="네온 브릭 바로 플레이">바로 플레이</a> <span class="ver">v0.4.0</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.neonbrick" rel="noopener" aria-label="네온 브릭 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="neon-brick/feedback/" aria-label="네온 브릭 피드백 게시판">피드백</a></p>
       <p class="note">neon-brick, 2026.11.1 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="nalssinyang/icon.png?v=8f76dc18e498" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="nalssinyang/">날씨냥</a></h2><p class="cat">날씨</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">농담하는 고양이와 함께 보는 심플한 날씨앱</p>
       <p class="quick"><a class="quick-play" href="nalssinyang/play/" aria-label="날씨냥 바로 플레이">바로 플레이</a> <span class="ver">v1.2.2</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.nalssinyang" rel="noopener" aria-label="날씨냥 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="nalssinyang/feedback/" aria-label="날씨냥 피드백 게시판">피드백</a></p>
       <p class="note">nalssinyang, 2026.11.1 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="voca-cards/icon.png?v=901e6a346bbf" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="voca-cards/">영단어 카드</a></h2><p class="cat">교육</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">카드를 카테고리별로 모으며 일상 영단어를 익히는 학습 앱</p>
       <p class="quick"><a class="quick-play" href="voca-cards/play/" aria-label="영단어 카드 바로 플레이">바로 플레이</a> <span class="ver">v1.1.1</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.vocacards" rel="noopener" aria-label="영단어 카드 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="voca-cards/feedback/" aria-label="영단어 카드 피드백 게시판">피드백</a></p>
       <p class="note">voca-cards, 2026.10.31 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="web before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><img class="app-icon" src="thumbbeat/icon.png?v=f33be4b514f2" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="thumbbeat/">엄지비트</a></h2><p class="cat">음악</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-web">웹</span></p>
       <p class="summary">출퇴근길, 엄지 하나로 즐기는 한 정거장 리듬게임</p>
       <p class="quick"><a class="quick-play" href="thumbbeat/play/" aria-label="엄지비트 바로 플레이">바로 플레이</a> <span class="ver">v1.1.1</span><a class="quick-board" href="thumbbeat/feedback/" aria-label="엄지비트 피드백 게시판">피드백</a></p>
       <p class="note">thumbbeat, 2026.10.31 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="station-zero/icon.png?v=98559079b6a3" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="station-zero/">스테이션 제로</a></h2><p class="cat">전략</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">매판 정거장을 새로 지어 스웜을 막는 로그라이크 행성 방어</p>
       <p class="quick"><a class="quick-play" href="station-zero/play/" aria-label="스테이션 제로 바로 플레이">바로 플레이</a> <span class="ver">v1.4.3</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.stationzero" rel="noopener" aria-label="스테이션 제로 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="station-zero/feedback/" aria-label="스테이션 제로 피드백 게시판">피드백</a></p>
       <p class="note">station-zero, 2026.10.31 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="ssokssok-arrow/icon.png?v=5fee981b0ba4" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="ssokssok-arrow/">쏙쏙 화살</a></h2><p class="cat">퍼즐</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">막힌 화살을 순서대로 쏙쏙 빼내는 퍼즐, 친구 기록과 겨루는 로켓 레이스</p>
       <p class="quick"><a class="quick-play" href="ssokssok-arrow/play/" aria-label="쏙쏙 화살 바로 플레이">바로 플레이</a> <span class="ver">v1.5.0</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.ssokssokarrow" rel="noopener" aria-label="쏙쏙 화살 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="ssokssok-arrow/feedback/" aria-label="쏙쏙 화살 피드백 게시판">피드백</a></p>
       <p class="note">ssokssok-arrow, 2026.10.31 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="googleplay web">
     <article class="sheet">
-      <span class="tape" data-status="개발 중">개발 중</span>
+      <span class="tape" data-status="출시">출시</span>
       <div class="head"><img class="app-icon" src="pocket-solitaire/icon.png?v=8608819fe0cc" alt="" width="64" height="64" loading="lazy" decoding="async"><div class="title"><h2><a href="pocket-solitaire/">포켓 솔리테어</a></h2><p class="cat">카드</p></div></div>
+      <p class="marks" aria-label="나와 있는 곳"><span class="mark mark-googleplay">구글플레이</span><span class="mark mark-web">웹</span></p>
       <p class="summary">언제 어디서나 가볍게 즐기는 정통 클론다이크 솔리테어</p>
       <p class="quick"><a class="quick-play" href="pocket-solitaire/play/" aria-label="포켓 솔리테어 바로 플레이">바로 플레이</a> <span class="ver">v1.3.1</span><a class="quick-store" href="https://play.google.com/store/apps/details?id=com.ncroquis.pocketsolitaire" rel="noopener" aria-label="포켓 솔리테어 구글플레이에서 받기">구글플레이</a><a class="quick-board" href="pocket-solitaire/feedback/" aria-label="포켓 솔리테어 피드백 게시판">피드백</a></p>
       <p class="note">pocket-solitaire, 2026.10.31 시작 · <time class="updated" datetime="2026-11-09">2026.11.9 업데이트</time></p>
       <p class="by">만든 사람 <a class="dev" href="https://github.com/kazestory7-lab" rel="noopener" aria-label="개발자 GitHub kazestory7-lab">@kazestory7-lab</a></p>
     </article>
   </li>
-  <li>
+  <li data-platforms="before">
     <article class="sheet">
       <span class="tape" data-status="개발 중">개발 중</span>
       <div class="head"><span class="app-icon none" aria-hidden="true">대</span><div class="title"><h2><a href="daebak-cards/">대박 카드</a></h2></div></div>
@@ -716,7 +837,53 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
     </article>
   </li>
 </ul>
+<p class="empty filtered" hidden>이 플랫폼에 나온 게임이 아직 없어요.</p>
   <footer>© 2026 엔크로키</footer>
 </main>
+<script>
+(function () {
+  // 목록 위 숫자판: 누르면(주소 #키) 그 플랫폼의 카드만 보여요. 카드의 data-platforms에 걸리는 키가 적혀 있어요 (hub.py platforms)
+  var tiles = document.querySelectorAll(".tally [data-filter]");
+  var cards = document.querySelectorAll(".board > li");
+  var shown = document.querySelector(".shown");
+  var empty = document.querySelector(".empty.filtered");
+  if (!tiles.length || !shown) { return; }
+  var leads = { all: "모두 ", googleplay: "구글플레이에 출시한 ", toss: "토스에 출시한 ", appstore: "App Store에 출시한 ",
+    web: "웹에서 바로 해 볼 수 있는 ", before: "아직 출시 전인 " };
+  function known(key) {
+    for (var i = 0; i < tiles.length; i++) {
+      if (tiles[i].getAttribute("data-filter") === key) { return true; }
+    }
+    return false;
+  }
+  function apply() {
+    var key = decodeURIComponent((window.location.hash || "").slice(1));
+    if (!known(key)) { key = "all"; }
+    var count = 0;
+    for (var i = 0; i < cards.length; i++) {
+      var keys = (cards[i].getAttribute("data-platforms") || "").split(" ");
+      var on = key === "all" || keys.indexOf(key) >= 0;
+      cards[i].hidden = !on;
+      if (on) { count++; }
+    }
+    for (var j = 0; j < tiles.length; j++) {
+      if (tiles[j].getAttribute("data-filter") === key) {
+        tiles[j].setAttribute("aria-current", "true");
+      } else {
+        tiles[j].removeAttribute("aria-current");
+      }
+    }
+    shown.textContent = "";
+    shown.appendChild(document.createTextNode(leads[key] || ""));
+    var b = document.createElement("strong");
+    b.textContent = count + "개";
+    shown.appendChild(b);
+    shown.appendChild(document.createTextNode("를 보여 주고 있어요."));
+    if (empty) { empty.hidden = count > 0; }
+  }
+  window.addEventListener("hashchange", apply);
+  apply();
+})();
+</script>
 </body>
 </html>

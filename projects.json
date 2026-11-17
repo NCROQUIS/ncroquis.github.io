@@ -87,7 +87,7 @@
     "category": "보드",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.matjjangjangi",
     "icon": "f2c78a7bb31f",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "gangtaegong",
@@ -177,7 +177,7 @@
     "category": "카드",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.solitaire",
     "icon": "7b2a8f44f000",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "kkochi",
@@ -192,7 +192,7 @@
     "category": "캐주얼",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.kkochi",
     "icon": "c4baf73e54d2",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "pourly",
@@ -222,7 +222,7 @@
     "category": "퍼즐",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.mergyjuice",
     "icon": "6a4b9a8e12c9",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "billiards-pvp",
@@ -237,7 +237,7 @@
     "category": "스포츠",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.billiardspvp",
     "icon": "cf9a6c1c5744",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "matjjangomok",
@@ -252,7 +252,7 @@
     "category": "보드",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.matjjangomok",
     "icon": "bbd8bbd50fcf",
-    "stores": ""
+    "stores": "googleplay,toss"
   },
   {
     "codename": "core-station",
@@ -297,7 +297,7 @@
     "category": "액션",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.pixelsurvivors",
     "icon": "0299a2780df4",
-    "stores": ""
+    "stores": "googleplay,toss"
   },
   {
     "codename": "jellyblock",
@@ -312,7 +312,7 @@
     "category": "퍼즐",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.jellyblock",
     "icon": "02eba34def7d",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "jelly2048",
@@ -327,7 +327,7 @@
     "category": "퍼즐",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.jelly2048",
     "icon": "40ad5970e1c9",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "color-five",
@@ -357,7 +357,7 @@
     "category": "보드",
     "play": "",
     "icon": "5d12018dc07b",
-    "stores": ""
+    "stores": "toss"
   },
   {
     "codename": "duel2048",
@@ -372,7 +372,7 @@
     "category": "퍼즐",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.duel2048",
     "icon": "96dc3a5cd39f",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "daily-nemo",
@@ -402,7 +402,7 @@
     "category": "퍼즐",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.dailydoku",
     "icon": "dc96e6ace4ed",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "word-pop",
@@ -417,7 +417,7 @@
     "category": "단어",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.wordpop",
     "icon": "91d351e4638d",
-    "stores": ""
+    "stores": "googleplay,toss"
   },
   {
     "codename": "splash-man",
@@ -432,7 +432,7 @@
     "category": "액션",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.splashfighter",
     "icon": "bd2349a5d426",
-    "stores": ""
+    "stores": "googleplay,toss"
   },
   {
     "codename": "qbi-hit-list",
@@ -447,7 +447,7 @@
     "category": "퍼즐",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.assassinqbi",
     "icon": "c2cc2aa402d7",
-    "stores": ""
+    "stores": "googleplay,toss"
   },
   {
     "codename": "hole-cup",
@@ -462,7 +462,7 @@
     "category": "스포츠",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.holecup",
     "icon": "e1a42989d31b",
-    "stores": ""
+    "stores": "googleplay,toss"
   },
   {
     "codename": "neon-brick",
@@ -477,7 +477,7 @@
     "category": "아케이드",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.neonbrick",
     "icon": "5815b439d9ee",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "nalssinyang",
@@ -492,7 +492,7 @@
     "category": "날씨",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.nalssinyang",
     "icon": "8f76dc18e498",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "voca-cards",
@@ -507,7 +507,7 @@
     "category": "교육",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.vocacards",
     "icon": "901e6a346bbf",
-    "stores": ""
+    "stores": "googleplay,toss"
   },
   {
     "codename": "thumbbeat",
@@ -537,7 +537,7 @@
     "category": "전략",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.stationzero",
     "icon": "98559079b6a3",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "ssokssok-arrow",
@@ -552,7 +552,7 @@
     "category": "퍼즐",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.ssokssokarrow",
     "icon": "5fee981b0ba4",
-    "stores": ""
+    "stores": "googleplay,toss"
   },
   {
     "codename": "pocket-solitaire",
@@ -567,7 +567,7 @@
     "category": "카드",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.pocketsolitaire",
     "icon": "8608819fe0cc",
-    "stores": ""
+    "stores": "googleplay,toss"
   },
   {
     "codename": "daebak-cards",

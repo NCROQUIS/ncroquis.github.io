@@ -29,8 +29,14 @@ function fitBrand(){
     if(want<min&&!h1){el.style.whiteSpace='normal';el.style.maxWidth=room+'px';}
   });
 }
+// 낮은 화면: 오른쪽 위 프로필·전적 카드가 아래 종목·버튼과 겹치면 카드를 줄여요 (오른쪽 위 기준)
+function fitRank(){
+  const box=document.querySelector('#lobby .rankbox'),pick=document.querySelector('#lobby .lpick');if(!box||!pick||$('lobby').hidden)return;
+  box.style.transform='';const b=box.getBoundingClientRect(),t=pick.getBoundingClientRect().top-8;
+  if(b.bottom>t&&b.height>0){const k=Math.max(.62,(t-b.top)/b.height);box.style.transformOrigin='top right';box.style.transform=`scale(${k})`;}
+}
 function relayout(){
-  fitBrand();
+  fitBrand();fitRank();
   const r=app.getBoundingClientRect();viewW=Math.max(1,r.width);viewH=Math.max(1,r.height);
   renderer.setSize(viewW,viewH,false);camera.aspect=viewW/viewH;camera.updateProjectionMatrix();
   const hud=$('hud'),dock=$('dock');let top=0,bot=viewH;
@@ -652,6 +658,20 @@ $('menuBtn').onclick=()=>{
   $('menu').hidden=false;
 };
 $('menuClose').onclick=()=>{$('menu').hidden=true;};
+// 뒤로가기 (토스·구글플레이 앱): 맨 위에 떠 있는 창부터 닫고, 게임 중이면 메뉴를 열어요. 처리했으면 true, 로비 첫 화면이면 false
+window.ncqBack=()=>{
+  if(!$('adFull').hidden)return true;                       // 광고 중에는 무시
+  for(const [p,c] of [['achs','achsClose'],['profile','profileClose'],['ranks','ranksClose'],['rules','rulesClose'],['settings','setClose'],['menu','menuClose']])
+    if(!$(p).hidden){$(c).click();return true;}
+  if(!$('matching').hidden){matchCancel();return true;}
+  if(!$('sheet').hidden){$('sheetBack').click();return true;}
+  if(G.mode!=='attract'){
+    if(!$('result').hidden){toLobby();return true;}
+    if(stageIntro.end&&!$('stIntro').hidden){stageIntro.end();return true;}
+    $('menuBtn').click();return true;
+  }
+  return false;
+};
 $('menu').addEventListener('pointerdown',e=>{if(e.target===$('menu'))$('menu').hidden=true;});
 $('menuQuit').onclick=()=>{
   const b=$('menuQuit');
@@ -701,7 +721,7 @@ function lobbyWire(anim){
   if(anim){void svg.getBoundingClientRect();svg.classList.add('draw');box.classList.add('zap');clearTimeout(lobbyWire.t);lobbyWire.t=setTimeout(()=>{lobbyWire.t=0;svg.classList.remove('draw');box.classList.remove('zap');lobbyWire(false);},800);}
 }
 // 크기가 바뀌면 다시 그려요 (그리는 연출 중에는 연출이 끝난 뒤에 다시 그려요: 부제 글자가 바뀌어 크기가 달라져도 연출이 끊기지 않게)
-if(window.ResizeObserver)new ResizeObserver(()=>lobbyWire(false)).observe(document.querySelector('.lpick'));
+if(window.ResizeObserver)new ResizeObserver(()=>{lobbyWire(false);fitRank();}).observe(document.querySelector('.lpick'));
 function pickGame(g,quiet){
   if(!GAME_INFO[g])g='4b';const was=nav.game;nav.game=g;
   document.querySelectorAll('[data-pick]').forEach(b=>b.setAttribute('aria-checked',String(b.dataset.pick===g)));

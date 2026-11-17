@@ -25,14 +25,15 @@
   --f-disp:"Black Han Sans","Noto Sans KR",system-ui,sans-serif;
   --dock-h:118px;
   --hud-h:66px;
-  --ad-h:60px;
+  --ad-h:0px;--gap-t:var(--ncq-top,env(safe-area-inset-top,0px));--gap-b:var(--ncq-bottom,env(safe-area-inset-bottom,0px));
   color-scheme:dark;
 }
 [hidden]{display:none!important}
 *{box-sizing:border-box}
 html,body{height:100%;background:var(--bg);color:var(--ink);font-family:var(--f-ui);overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
-#app{position:relative;height:calc(100% - var(--ad-h));width:min(100%,calc(100vh*.62));margin:0 auto;overflow:hidden;background:var(--bg)}
-#adBanner{height:var(--ad-h);width:min(100%,calc(100vh*.62));margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:12px;letter-spacing:.04em;color:var(--ink-dim);background:#10161f;border-bottom:1px dashed var(--line)}
+#app{position:relative;height:calc(100% - var(--gap-t) - var(--gap-b));width:min(100%,calc(100vh*.62));margin:0 auto;overflow:hidden;background:var(--bg)}
+/* 위·아래 가려지는 자리(상태 바·토스 메뉴 줄·홈 인디케이터): 공용 NcqSafe 값, 없으면 기기 안전 영역 */
+#adBanner{height:var(--gap-t);width:min(100%,calc(100vh*.62));margin:0 auto;background:var(--bg)}
 #adFull{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:#070a0f;text-align:center}
 #adKind{font-family:var(--f-disp);font-size:30px}
 #adCount{font-family:var(--f-num);font-size:72px;font-weight:700;line-height:1;color:var(--chalk);font-variant-numeric:tabular-nums}
@@ -346,7 +347,7 @@ button.sm{padding:5px 8px;font-size:12px}
 @keyframes siIn{from{background:rgba(4,7,11,0)}to{background:rgba(4,7,11,.8)}}
 @keyframes siOut{from{background:rgba(4,7,11,.8)}to{background:rgba(4,7,11,0)}}
 @keyframes siCard{from{transform:scale(.86);opacity:0}to{transform:none;opacity:1}}
-@media (prefers-reduced-motion:reduce){#stIntro,#stIntroCard{animation:none}}
+@media (max-width: -1px){#stIntro,#stIntroCard{animation:none}}
 #padZoom{z-index:35}
 .tutGlow{outline:3px solid var(--gold);outline-offset:2px;animation:tutGlow 1s ease-in-out infinite}
 @keyframes tutGlow{50%{outline-color:transparent}}
@@ -360,10 +361,10 @@ button.sm{padding:5px 8px;font-size:12px}
 @keyframes starIn{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
 @keyframes nudge{20%{transform:translateX(-4px)}45%{transform:translateX(4px)}70%{transform:translateX(-2px)}}
 .nudge{animation:nudge .26s}
-@media (prefers-reduced-motion:reduce){#rNote,.mnode.next,.mpin,#rStars span.pop,.tutSpot,.tutGlow,#tutRings>*,#tutArrow,.nudge,#toast,#banner,#sheet,.beads i{transition:none;animation:none}.m-plate.wait .b,.m-plate.wait .m-pic{animation:none}}
+@media (max-width: -1px){#rNote,.mnode.next,.mpin,#rStars span.pop,.tutSpot,.tutGlow,#tutRings>*,#tutArrow,.nudge,#toast,#banner,#sheet,.beads i{transition:none;animation:none}.m-plate.wait .b,.m-plate.wait .m-pic{animation:none}}
 /* 튜토리얼·힌트: 지금 단계가 아닌 조작 칸은 흐리게, 누를 수 없게 */
 .tutOff{opacity:.32;filter:saturate(.35);pointer-events:none;transition:opacity .2s}
-/* 언어: 글자 표로 채우기 전(여는 첫 순간)에는 HTML에 쓴 글자를 숨겨요 (NcqLang이 <html lang>을 정해요) */
+/* 언어: 글자 표로 채우기 전(여는 첫 순간)에는 HTML에 쓴 글자를 숨겨요 (NcqLang이 <html lang><script id="ncq-authored-motion" src="../../ncq-motion.js?v=10dd8b3eaad1"></script>을 정해요) */
 html:not([lang]) [data-i18n]{visibility:hidden}
 /* 긴 차례 안내(영어 'Player 2's turn · Ball in hand' 등)는 한 줄에 들어가게 작게 */
 #banner.long{font-size:19px;padding-inline:12px}
@@ -405,7 +406,7 @@ input.sw:focus-visible{outline:2px solid #ffd34a;outline-offset:2px}
 .lpick.zap .slab{animation:lpZap .5s ease-out both}
 .lpick.zap .slab:nth-child(2){animation-delay:.07s}.lpick.zap .slab:nth-child(3){animation-delay:.14s}
 @keyframes lpZap{0%{box-shadow:0 0 12px rgba(79,179,255,.22)}35%{box-shadow:0 0 22px rgba(120,200,255,.75),inset 0 0 18px rgba(79,179,255,.3);border-color:#bfe6ff}100%{box-shadow:0 0 12px rgba(79,179,255,.22),inset 0 0 14px rgba(79,179,255,.07)}}
-@media (prefers-reduced-motion:reduce){#lpFlow path,.lpick.zap .slab,#lpWire.draw path{animation:none}}
+@media (max-width: -1px){#lpFlow path,.lpick.zap .slab,#lpWire.draw path{animation:none}}
 .games,.lpick .slabs{display:flex;flex-direction:column;gap:10px}
 .gpick{position:relative;flex:1;display:flex}
 .gbtn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:62px;padding:9px 8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;transition:background .15s,border-color .15s}

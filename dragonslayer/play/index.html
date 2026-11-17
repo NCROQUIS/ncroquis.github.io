@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
+<script src="ncq/safe.js"></script>
+<script src="ncq/motion.js"></script>
+<meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-auth.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#2b7f86">
+<title>Dragon Slayer</title>
+<link rel="preload" href="assets/fonts/Jua-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="src/style.css">
+<script src="ncq/sound.js"></script>
+<script src="ncq/save.js"></script>
+<script src="ncq/device.js"></script>
+<script src="ncq/popup.js"></script>
+</head>
+<body>
+<div id="app">
+  <!-- 로비 -->
+  <section id="lobby" class="screen">
+    <div class="lobby-art" aria-hidden="true"></div>
+    <div class="lobby-panel">
+      <h1 data-i18n="title"></h1>
+      <p class="tagline" data-i18n="tagline"></p>
+      <div class="stage-chip" id="lobby-stage"></div>
+      <button id="btn-play" class="btn primary big" data-ncq-main="시작 버튼" data-i18n="play"></button>
+      <button id="btn-settings" class="btn ghost" data-i18n="settings"></button>
+    </div>
+  </section>
+
+  <!-- 게임: 판의 대포를 직접 누르는 화면이라 메인 버튼이 없어요 -->
+  <section id="game" class="screen" data-ncq-no-main hidden>
+    <header id="hud">
+      <div class="hud-stage"><span id="hud-stage"></span><small id="hud-test" data-i18n="test_level"></small></div>
+      <div class="hud-left"><span data-i18n="armor_left"></span> <b id="hud-armor">0</b></div>
+      <button id="btn-pause" class="icon-btn" data-i18n-attr="aria-label:pause"><span class="pause-ico"></span></button>
+    </header>
+    <div id="board-wrap">
+      <canvas id="board"></canvas>
+      <div id="toast" role="status"></div>
+    </div>
+  </section>
+</div>
+
+<dialog id="dlg-pause" class="dlg">
+  <h2 data-i18n="pause"></h2>
+  <button class="btn primary" id="pause-resume" data-ncq-main="계속하기" data-i18n="resume"></button>
+  <button class="btn" id="pause-restart" data-i18n="restart"></button>
+  <button class="btn" id="pause-settings" data-i18n="settings"></button>
+  <button class="btn ghost" id="pause-home" data-i18n="home"></button>
+</dialog>
+
+<dialog id="dlg-result" class="dlg">
+  <div class="result-art" id="result-art" aria-hidden="true"></div>
+  <h2 id="result-title"></h2>
+  <p id="result-body"></p>
+  <button class="btn primary" id="result-main" data-ncq-main="결과 확인"></button>
+  <button class="btn ghost" id="result-home" data-i18n="home"></button>
+</dialog>
+
+<dialog id="dlg-settings" class="dlg">
+  <h2 data-i18n="settings"></h2>
+  <label class="row"><span data-i18n="music"></span><input type="checkbox" id="set-bgm" class="switch"></label>
+  <label class="row"><span data-i18n="sound"></span><input type="checkbox" id="set-sfx" class="switch"></label>
+  <label class="row" id="row-vib"><span data-i18n="vibration"></span><input type="checkbox" id="set-vib" class="switch"></label>
+  <div class="row"><span id="lang-label"></span><span class="lang-list" id="lang-list"></span></div>
+  <button class="btn" id="set-feedback" data-i18n="feedback" hidden></button>
+  <button class="btn primary" id="set-close" data-ncq-main="닫기" data-i18n="close"></button>
+  <small id="app-version"></small>
+</dialog>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

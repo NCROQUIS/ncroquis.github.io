@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_TEST_CHEAT": true, "NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.2.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.dokuduck", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/dokuduck", "board": "https://ncroquis.github.io/dokuduck/feedback/"}});
+window.NCQ = Object.freeze({"NCQ_TEST_CHEAT": true, "NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.3.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.dokuduck", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/dokuduck", "board": "https://ncroquis.github.io/dokuduck/feedback/"}});
 Object.assign(window, window.NCQ);
 
 /* 화면 켜 두기 (ncq_build.py가 넣어요, 웹 공개). 게임을 보는 동안 휴대폰 화면이 저절로 꺼지지 않게 브라우저의
@@ -50,7 +50,8 @@ Object.assign(window, window.NCQ);
 })(window, typeof document !== "undefined" ? document : null);
 
 /* 엔크로키 지표 모듈 (ncq_build.py가 ncq-flags.js 뒤에 붙여요. 직접 고치지 마세요)
-   ncq-metrics 3 (2: 판 시작·끝 NcqMetrics.levelStart·levelEnd, 3: 광고·결제 도구가 보내는 광고·결제 이벤트)
+   ncq-metrics 5 (2: 판 시작·끝 NcqMetrics.levelStart·levelEnd, 3: 광고·결제 도구가 보내는 광고·결제 이벤트,
+   4: 저장 모듈의 save_tamper, 5: 게임 오류 app_error)
 
    아래 이벤트는 게임 코드가 할 일 없이 저절로 모아 킥오프 서버로 보내요.
      first_open     이 기기에서 처음 실행 (설치 ID를 만들 때)
@@ -66,6 +67,8 @@ Object.assign(window, window.NCQ);
      ad_load·ad_fail·ad_show·ad_reward·ad_call {slot, format, stage, why, result}
      purchase_start·purchase·purchase_cancel·purchase_fail·purchase_restore {product, kind, amount, currency, qty, code}
    공용 저장 모듈(NcqSave)은 기기 저장이 바깥에서 바뀐 걸 알아채면 save_tamper {where}를 알려요 (지표 모듈 4).
+   게임 스크립트에서 잡히지 않은 오류는 app_error {kind, msg, src, line}로 알려요 (지표 모듈 5, 업데이트 뒤 깨진 버전을
+   찾으려고). 글의 주소·이메일·긴 숫자는 지우고 120자까지, 한 번 열 때 같은 오류는 한 번·모두 10개까지예요.
    설치 ID는 코드네임별 무작위 값이라 기기·광고 ID·개인정보와 이어지지 않아요. 앱을 지우면 함께 지워져요.
    보내지 못한 이벤트는 기기에 모아 뒀다가(최대 300개) 다음에 보내요. 서버가 받았다고 답한 것만 지워요.
    같은 이벤트가 두 번 가도 서버 집계가 이벤트 ID로 한 번만 세요. 오류가 나도 게임은 그대로 돌아가요. */
@@ -73,7 +76,7 @@ Object.assign(window, window.NCQ);
   "use strict";
   if (!cfg || !cfg.url || !cfg.cn || typeof window === "undefined" || typeof document === "undefined") return;
 
-  var SDK = 4;
+  var SDK = 5;
   var SESSION_GAP = 30 * 60 * 1000;      // 이만큼 쉬면 새 세션
   var BEAT = 15 * 1000;                  // 살아 있음 기록 (꺼져도 그때까지 시간은 남는다)
   var ENGAGE_EVERY = 5 * 60 * 1000;      // 오래 켜 둬도 이만큼마다 플레이 시간을 보낸다
@@ -370,6 +373,34 @@ Object.assign(window, window.NCQ);
     }
     track(name, out);
   }
+  // ------------------------------------------------------------ 게임 오류 (업데이트 뒤 깨진 버전을 찾으려고)
+  // 개인정보가 섞이지 않게 주소·이메일·긴 숫자를 지우고, 한 번 열 때 같은 오류는 한 번·모두 ERR_MAX개까지만 보낸다
+  var ERR_MAX = 10, errCount = 0, errSeen = {};
+  function cleanText(s, n) {
+    return String(s || "").replace(/[a-z][a-z0-9+.-]*:\/\/[^\s)'"]+/gi, "<url>")
+      .replace(/[\w.+-]+@[\w-]+(\.[\w-]+)+/g, "<email>").replace(/\d{4,}/g, "#")
+      .replace(/[\u0000-\u001f\u007f]/g, " ").replace(/^\s+|\s+$/g, "").slice(0, n);
+  }
+  function fileOf(src) {  // 주소에서 파일 이름만 (쿼리·조각 빼고)
+    var m = /([^\/?#]+)(?:[?#].*)?$/.exec(String(src || ""));
+    return m ? cleanText(m[1], 40) : "";
+  }
+  function appError(kind, msg, src, line) {
+    if (errCount >= ERR_MAX) return;
+    var m = cleanText(msg, 120) || "?", f = fileOf(src), key = kind + "|" + m + "|" + f + "|" + line;
+    if (errSeen[key]) return;
+    errSeen[key] = 1;
+    errCount += 1;
+    var props = {kind: kind, msg: m};
+    if (f) props.src = f;
+    if (typeof line === "number" && isFinite(line) && line > 0) props.line = Math.round(line);
+    track("app_error", props);
+  }
+  function reasonText(r) {
+    if (r && typeof r === "object" && typeof r.message === "string") return (r.name ? r.name + ": " : "") + r.message;
+    try { return String(r); } catch (err) { return "?"; }
+  }
+
   function guard(fn) {  // 게임이 부르는 함수: 어떤 값이 와도 오류를 게임으로 넘기지 않는다
     return function (a, b, c) { try { fn(a, b, c); } catch (err) { /* 무시 */ } };
   }
@@ -396,8 +427,15 @@ Object.assign(window, window.NCQ);
     document.addEventListener("pause", safe(hidden), false);   // Capacitor·Cordova 앱이 뒤로 갈 때
     document.addEventListener("resume", safe(shown), false);
     window.addEventListener("online", safe(function () { retryAt = 0; flush(false); }));
+    window.addEventListener("error", safe(function (e) {  // 스크립트 오류만 (이미지·소리 못 불러옴은 빼요)
+      if (!e || (e.target && e.target !== window)) return;
+      appError("error", e.message, e.filename, e.lineno);
+    }));
+    window.addEventListener("unhandledrejection", safe(function (e) {
+      appError("promise", reasonText(e && e.reason));
+    }));
     window.setInterval(safe(beat), BEAT);
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"dokuduck","pf":"web","mk":"web","tr":"share","vn":"0.2.0","vc":0,"cm":"74e7afb","ft":["CHEAT"]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"dokuduck","pf":"web","mk":"web","tr":"share","vn":"0.3.0","vc":0,"cm":"a7dc9a7","ft":["CHEAT"]});

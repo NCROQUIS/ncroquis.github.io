@@ -4,7 +4,7 @@ import base64, json, os, re, sys
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 rd = lambda p: open(os.path.join(root, p), encoding='utf-8').read()
 html = rd('index.html')
-html = html.replace('<script src="ncq/safe.js"></script>\n', '')
+html = html.replace('<script src="ncq/safe.js"></script>\n', '').replace('<script src="ncq/motion.js"></script>\n', '')   # 공용 모듈은 미리보기 한 파일에는 넣지 않아요
 html = html.replace('<link rel="stylesheet" href="css/fonts.css">',
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet">')
 html = html.replace('<link rel="stylesheet" href="css/style.css">', '<style>\n' + rd('css/style.css') + '\n</style>')

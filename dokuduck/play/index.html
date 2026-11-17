@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
+<head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
 <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
 <script src="ncq/safe.js"></script>
+<script src="ncq/motion.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#DDF1EC">
 <title>dokuduck</title>
@@ -21,11 +22,7 @@
     </header>
     <div class="home-hero">
       <div class="logo" id="logo"></div>
-      <div class="pond">
-        <svg class="ripple" viewBox="0 0 300 90" aria-hidden="true"><path d="M22 46 C40 14 250 8 280 44 C296 74 60 88 26 62 C18 56 18 52 22 46Z"/><path class="r2" pathLength="1" d="M70 48 C92 30 210 28 232 46"/><path class="r2" pathLength="1" d="M96 62 C130 70 180 70 208 60"/></svg>
-        <img class="hero-duck" id="hero-duck" alt="도쿠">
-      </div>
-      <p class="tagline">색마다 한 마리, 줄마다 한 마리.<br>오리가 숨은 자리를 찾아 주세요.</p>
+      <div class="map" id="map" aria-label="레벨 길"><div class="map-in" id="map-in"></div></div>
     </div>
     <div class="home-actions">
       <button class="btn big primary" id="btn-play" type="button" data-ncq-main><span id="play-label">레벨 1</span><small id="play-sub"></small></button>
@@ -43,7 +40,7 @@
       </div>
       <button class="iconbtn" id="btn-game-settings" type="button" aria-label="설정"><span class="ic" data-ic="ic_gear"></span></button>
     </header>
-    <div class="hearts-row" id="hearts-row"><span class="badge" id="g-badge" hidden>깊은연못</span><div class="hearts pill" id="g-hearts" aria-label="하트"></div></div>
+    <div class="hearts-row" id="hearts-row"><span class="badge" id="g-badge" hidden>HARD</span><div class="hearts pill" id="g-hearts" aria-label="하트"></div></div>
     <div class="colors-row" id="colors-row"><div class="colors pill" id="g-colors" aria-label="색깔별 진행"></div></div>
     <button class="rules" id="btn-rules" type="button" aria-label="규칙 보기">
       <span class="rule" data-rule="color"><svg class="rb" aria-hidden="true"><rect/></svg><span class="rg" id="rg-color"></span><em>색깔당 오리<br>1마리</em></span>
@@ -66,8 +63,8 @@
       <div class="row"><button class="btn small ghost" id="hint-more" type="button" hidden>자세히</button><button class="btn small primary" id="hint-apply" type="button">확인</button></div>
     </div>
     <div class="draftbar" id="draftbar" hidden>
-      <p>낙서연필로 오리와 X를 가볍게 그려 보세요. 확정하면 한꺼번에 확인해요.</p>
-      <div class="row"><button class="btn small ghost" id="draft-cancel" type="button">취소</button><button class="btn small primary" id="draft-apply" type="button">확정</button></div>
+      <p>오리를 3마리까지 미리 그려 보세요. 틀려도 하트는 그대로예요.</p>
+      <div class="row"><span class="dcount" id="draft-count">오리 0/3</span><button class="btn small ghost" id="draft-cancel" type="button">취소</button><button class="btn small primary" id="draft-apply" type="button">확정</button></div>
     </div>
     <nav class="tools" id="tools">
       <button class="tool" data-tool="hint" type="button"><span class="ic" data-ic="ic_bulb"></span><em>도쿠힌트</em><b class="cnt"></b></button>
@@ -75,6 +72,8 @@
       <button class="tool" data-tool="frog" type="button"><span class="ic" data-ic="ic_frog"></span><em>개굴점프</em><b class="cnt"></b></button>
       <button class="tool" data-tool="draft" type="button"><span class="ic" data-ic="ic_pencil"></span><em>낙서연필</em><b class="cnt"></b></button>
     </nav>
+    <div class="spot" id="spot" hidden></div>
+    <div class="tier" id="tier" hidden aria-hidden="true"><img id="tier-duck" alt=""><div class="tier-band"><b id="tier-title"></b></div><p id="tier-line"></p></div>
   </section>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

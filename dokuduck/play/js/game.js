@@ -6,18 +6,39 @@
   const $ = (s, el) => (el || document).querySelector(s);
   const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
   const PALETTE = ['#F7A8C4', '#8FCDF2', '#8FDDB5', '#C3B1F0', '#FFB98A', '#CBE26B', '#5CC8C2', '#D9B48C', '#C9CED6', '#F58A8A', '#8FA3EE'];
-  const TOOL_UNLOCK = { hint: 1, locate: 1, frog: 21, draft: 21 };
+  const TOOL_UNLOCK = { hint: 1, locate: 5, frog: 12, draft: 21 };            // 도구가 열리는 레벨 (오늘의 퍼즐은 아래 DAILY_UNLOCK)
   const TOOL_NAME = { hint: '도쿠힌트', locate: '오리찾기', frog: '개굴점프', draft: '낙서연필' };
-  const TOOL_DESC = { hint: '다음 수와 그 이유를 알려줘요.', locate: '선택한 색에서 오리 한 마리를 찾아줘요.', frog: '오리가 없는 빈칸 최대 3곳에 X를 찍어요.', draft: '오리와 X를 임시로 표시하고, 확정하거나 취소해요.' };
-  const COMBO_MAX = 5, HARD_NAME = '깊은연못';
-  const LINE_CLEAR = ['어… 벌써 다 풀었네요!', '저… 꽤 똑똑한가 봐요.', '꽥… 다음 연못도 가요!'], LINE_FAIL = ['어… 잠깐 멍해졌어요.', '괜찮아요. 다시 해봐요.'];
+  const TOOL_DESC = { hint: '다음 수와 그 이유를 알려줘요.', locate: '선택한 색에서 오리 한 마리를 찾아줘요.', frog: '오리가 없는 빈칸 최대 3곳에 X를 찍어요.', draft: '오리를 3마리까지 미리 그려 봐요. 틀려도 하트는 그대로!' };
+  const DRAFT_MAX = 3;                                                          // 낙서연필로 한 번에 그려 볼 수 있는 오리 수
+  const COMBO_MAX = 5;
+  // 오리 한마디: 멍한 말투는 좋지만, 연못 이야기나 뜻이 바로 안 와닿는 말은 넣지 않아요
+  const LINE_CLEAR = ['어… 벌써 다 풀었네요!', '저… 꽤 똑똑한가 봐요.'], LINE_FAIL = ['어… 잠깐 멍해졌어요.', '괜찮아요. 다시 해봐요.'];
   function pick(a) { return a[(Math.random() * a.length) | 0]; }
   function iga(w) { const c = w.charCodeAt(w.length - 1) - 0xAC00; return w + (c >= 0 && c <= 11171 && c % 28 ? '이' : '가'); }
   const TOOL_ICON = { hint: 'ic_bulb', locate: 'ic_find', frog: 'ic_frog', draft: 'ic_pencil' };
-  // 연속 플레이 선물: 1~6일차는 작은 선물, 7일차는 큰 선물. 아직 안 열린 도구(레벨 21 전의 개굴점프·낙서연필)는 도쿠힌트로 대신 줘요.
+  // 연속 플레이 선물: 1~6일차는 작은 선물, 7일차는 큰 선물. 아직 안 열린 도구(TOOL_UNLOCK 레벨 전의 개굴점프·낙서연필)는 도쿠힌트로 대신 줘요.
   const STREAK_GIFT = [[['hint', 1]], [['frog', 1]], [['draft', 1]], [['hint', 1]], [['frog', 1]], [['draft', 1]], [['hint', 2], ['locate', 2]]];
   function streakGift(d) { return STREAK_GIFT[d - 1].map(r => S.level < TOOL_UNLOCK[r[0]] ? ['hint', r[1]] : r); }
   const DAILY_UNLOCK = 21;
+
+  /* ---------- 광고 (docs/ncq/ads.md) ----------
+     출시 빌드가 넣어 주는 NcqAds로만 불러요. 지면: TOOL(도구 +1 보상형), REVIVE(이어 하기 보상형), LEVEL_CLEAR(레벨 클리어 뒤 전면), BANNER(위쪽 배너).
+     개발 중(파일을 바로 열거나 미리보기)에는 NcqAds가 없어서 아래 것을 대신 써요: 보상형은 광고 없이 바로 보상, 전면 광고는 없음.
+     출시 빌드인데 NcqAds가 없으면(window.NCQ·window.Capacitor가 있으면) 광고도 보상도 모두 꺼요. */
+  const ADS_DEV = !window.NcqAds && !window.NCQ && !window.Capacitor;
+  const NcqAds = window.NcqAds || {
+    can: () => ADS_DEV, rewarded: async () => ADS_DEV, interstitial: async () => false, banner: async () => false, hideBanner: async () => {},
+    ready: async () => false, privacyRequired: () => false, showPrivacyOptions: async () => false, bannerSpace: () => ({ top: 0, bottom: 0 })
+  };
+  const AD_CLEAR_AFTER = 5, AD_CLEAR_EVERY = 3;                                 // 전면 광고: 5레벨을 넘긴 뒤(6레벨부터) 3판 깰 때마다 한 번 → 8, 11, 14…레벨을 깬 뒤
+  let bannerOn = false;
+  function adBanner() {                                                         // 첫 튜토리얼이 끝난 뒤부터 화면 맨 위에 배너를 띄워요 (자리는 --ncq-top이 비워 줘요)
+    if (bannerOn || !S.tutorialDone) return;
+    bannerOn = true;
+    // NCQ_ADS_BANNER: 위쪽 배너 광고
+    try { Promise.resolve(NcqAds.banner("BANNER", { position: "top" })).catch(() => {}); } catch (e) { /* 광고가 없어도 게임은 그대로 */ }
+  }
+  let adBusy = false;                                                           // 광고를 보는 동안에는 게임을 멈춰요 (시간도 가지 않고, 버튼을 또 눌러도 한 번만)
 
   /* ---------- 유틸 ---------- */
   function rng(seed) {
@@ -41,10 +62,10 @@
   function freshSave() {
     return {
       v: 1, tutorialDone: false, level: 1,
-      tools: { hint: 5, locate: 5, frog: 2, draft: 5 },
+      tools: { hint: 2, locate: 1, frog: 0, draft: 0 },                         // 처음 주는 도구 (GPT 기획): 비상용만 주고 나머지는 깨면서 모아요. 이미 하던 저장의 개수는 그대로예요
       settings: { sfx: true, vib: true, pattern: false, slow: false },
       cur: null, daily: { done: {}, best: null, cur: null, count: 0 },
-      streak: { count: 0, last: -1 }, milestones: {}, seen: {}, wins: 0,
+      streak: { count: 0, last: -1 }, milestones: {}, seen: {}, wins: 0, tv: 2, adN: 0,
       dda: { state: 1, clean: 0, day: -1 }, cursor: {}
     };
   }
@@ -55,6 +76,12 @@
       if (!raw) return;
       const d = JSON.parse(raw);
       if (d && d.v === 1) S = Object.assign(freshSave(), d, { tools: Object.assign(freshSave().tools, d.tools), settings: Object.assign(freshSave().settings, d.settings), daily: Object.assign(freshSave().daily, d.daily), streak: Object.assign(freshSave().streak, d.streak), dda: Object.assign(freshSave().dda, d.dda) });
+      if (d && d.v === 1 && d.tv === undefined) {                               // 도구 여는 레벨을 바꾸기 전의 저장: 이미 쓰던 도구는 소개를 다시 띄우지 않아요
+        S.seen = Object.assign({}, S.seen);
+        if (S.level >= TOOL_UNLOCK.locate) S.seen.tool_locate = 1;
+        if (S.seen.unlock21) { S.seen.tool_frog = 1; S.seen.tool_draft = 1; }
+        S.tv = 2;
+      }
     } catch (e) { /* 저장소를 못 쓰는 환경에서는 이번 실행 동안만 유지 */ }
   }
   function save() {
@@ -65,24 +92,44 @@
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) { /* 무시 */ }
   }
 
-  /* ---------- 출제 정책: 엑셀 '레벨1-1000' 시트 그대로 ----------
-     크기 주기(11레벨부터) 8,10,10,9,10,10,9,10,10 + 10의 배수는 Hard. 표에서 주기와 다른 줄은 FIXED에 적는다.
-     값 = [크기, 최소 등급, 최대 등급, 선배치, Hard, 특별 판 이름] */
+  /* ---------- 출제 정책 ----------
+     4판 보통 → HARD(5의 배수) → 4판 보통 → SUPER HARD(10의 배수)를 끝없이 되풀이해요. 1000레벨을 넘어도 같은 규칙으로 이어지고,
+     문제은행을 한 바퀴 돌면 같은 문제가 다른 방향·다른 색으로 다시 나와요.
+     보통 판의 크기는 주기 8,10,10,9,(HARD),10,9,10,10,(SUPER HARD), 등급은 3까지. HARD는 등급 4, SUPER HARD는 등급 5 (처음 몇십 판은 낮춰서 시작). */
   const CYCLE = [8, 10, 10, 9, 10, 10, 9, 10, 10];
-  const FIXED = {
-    1: [4, 1, 1, 1, 0], 2: [5, 1, 1, 1, 0], 3: [6, 1, 1, 1, 0], 4: [6, 1, 1, 1, 0], 5: [8, 1, 1, 1, 0],
-    6: [6, 1, 2, 1, 0], 7: [7, 1, 2, 1, 0], 8: [8, 1, 2, 1, 0], 9: [9, 1, 2, 1, 0], 10: [7, 2, 2, 1, 0, 'digit1'],
-    20: [8, 2, 2, 0, 0, 'digit2'], 30: [9, 4, 4, 0, 1, '30'], 40: [8, 3, 3, 0, 1, 'window'], 50: [9, 4, 4, 0, 1, '50'],
-    55: [9, 4, 4, 0, 0, 'wave'], 60: [9, 4, 4, 0, 1, '60'], 62: [7, 4, 4, 0, 0, 'bar'], 70: [9, 4, 4, 0, 1, '70'],
-    75: [9, 4, 4, 0, 0, 'pi'], 80: [9, 4, 4, 0, 1, 'IQ'], 90: [9, 4, 4, 0, 1, '90'], 100: [10, 4, 4, 0, 1, '1'],
-    123: [9, 4, 4, 0, 0, '123'], 200: [11, 4, 4, 0, 1], 250: [11, 4, 4, 0, 1], 314: [9, 4, 4, 0, 0], 456: [9, 4, 4, 0, 0, '456']
+  const TIER_NAME = ['', 'HARD', 'SUPER HARD'];
+  const FIXED = {                                                               // 처음 10판: [판 크기, 최소 등급, 최대 등급, 미리 놓인 오리]
+    1: [4, 1, 1, 1], 2: [5, 1, 1, 1], 3: [6, 1, 1, 1], 4: [6, 1, 1, 1], 5: [8, 1, 1, 1],
+    6: [6, 1, 2, 1], 7: [7, 1, 2, 1], 8: [8, 1, 2, 1], 9: [9, 1, 2, 1], 10: [9, 2, 2, 1]
   };
+  const HARD_SIZE = [9, 10, 8, 10, 11, 10, 9, 10], SUPER_SIZE = [10, 9, 10, 11, 10, 9];    // 뒤쪽 판에서 돌려 쓰는 크기
+  const rankMemo = {};
+  // 그 크기·등급의 문제가 12개는 모여 있어야 써요 (몇 개뿐이면 같은 판이 자꾸 나와서 10×10으로 대신해요)
+  function hasRank(size, rank) { const k = size + '/' + rank; if (rankMemo[k] === undefined) rankMemo[k] = (BANK['f' + size] || []).filter(p => p[2] === rank).length >= 12; return rankMemo[k]; }
+  function tierOf(L) { return L % 10 === 0 ? 2 : L % 5 === 0 ? 1 : 0; }           // 0 보통, 1 HARD, 2 SUPER HARD
+  /* HARD·SUPER HARD를 처음 깨면 받는 선물 (GPT 기획). SUPER HARD: 도쿠힌트 1 + 오리찾기 1.
+     HARD: 5·15는 도쿠힌트 1, 25부터는 개굴점프 1과 낙서연필 1을 번갈아 (25 개굴 → 35 연필 → 45 개굴 …). */
+  function levelGift(L) {
+    if (L % 10 === 0) return [['hint', 1], ['locate', 1]];
+    if (L % 5 !== 0) return [];
+    return L < 25 ? [['hint', 1]] : [[((L - 25) / 10) % 2 === 0 ? 'frog' : 'draft', 1]];
+  }
   function policy(L) {
-    const f = FIXED[L];
-    if (f) return { size: f[0], rmin: f[1], rmax: f[2], prefill: f[3], hard: !!f[4], special: f[5] || '' };
-    if (L % 10 === 0) return { size: 10, rmin: 5, rmax: 5, prefill: 0, hard: true, special: '' };
-    const r = L <= 20 ? [1, 2] : L <= 50 ? [1, 3] : [2, 4];
-    return { size: CYCLE[(L - 11) % 10], rmin: r[0], rmax: r[1], prefill: 0, hard: false, special: '' };
+    const t = tierOf(L), f = FIXED[L];
+    const P = (size, rmin, rmax, prefill) => ({ size: size, rmin: rmin, rmax: rmax, prefill: prefill || 0, tier: t, hard: t > 0 });
+    if (f) return P(f[0], f[1], f[2], f[3]);
+    if (t === 2) {                                                              // SUPER HARD: 20은 등급 3, 30~90은 등급 4, 100부터 가장 어려운 등급 5
+      if (L === 20) return P(9, 3, 3);
+      if (L < 100) return P([9, 10, 10, 11, 10, 11, 10][L / 10 - 3], 4, 4);
+      const size = SUPER_SIZE[(L / 10) % SUPER_SIZE.length];
+      return P(hasRank(size, 5) ? size : 10, 5, 5);
+    }
+    if (t === 1) {                                                              // HARD: 15~35는 등급 3, 45부터 등급 4
+      if (L < 45) return P([8, 9, 10][(L - 15) / 10], 3, 3);
+      return P(HARD_SIZE[((L - 45) / 10) % HARD_SIZE.length], 4, 4);
+    }
+    const r = L <= 20 ? [1, 2] : L <= 50 ? [1, 3] : [2, 3];                     // 보통 판은 등급 3까지 (그 위는 HARD·SUPER HARD 몫)
+    return P(CYCLE[(L - 11) % 10], r[0], r[1]);
   }
   function poolIndices(key, rank) {
     const pool = BANK[key];
@@ -104,8 +151,16 @@
     S.dda.day = today;
     const key = (pol.prefill ? (L <= 6 ? 'a' : 'b') : 'f') + pol.size, cand = poolIndices(key, rank);
     const ck = key + 'r' + rank, ord = S.cursor[ck] || 0; S.cursor[ck] = ord + 1;
-    const idx = cand[ord % cand.length], pass = Math.floor(ord / cand.length);
-    return { pk: [key, idx, (idx * 5 + pass * 3) % 8], hard: pol.hard };                  // 은행을 한 바퀴 돌면 다른 방향으로 다시 낸다
+    const pass = Math.floor(ord / cand.length), idx = passOrder(cand, pass, ck)[ord % cand.length];
+    return { pk: [key, idx, (idx * 5 + pass * 3) % 8], hard: pol.hard, tier: pol.tier };                  // 은행을 한 바퀴 돌면 다른 방향으로 다시 낸다
+  }
+  // 은행을 한 바퀴 다 쓴 뒤에는 순서도 다시 섞어요 (바퀴마다 정해진 순서라 저장의 순번과 어긋나지 않고, 바퀴가 바뀔 때 같은 문제가 연달아 나오지 않게 해요)
+  function passOrder(cand, pass, ck) {
+    if (!pass || cand.length < 3) return cand;
+    const mix = p => p ? shuffled(cand, rng(hash(ck) + p * 7919)) : cand;
+    const a = mix(pass), prev = mix(pass - 1);
+    if (a[0] === prev[prev.length - 1]) { const t = a[0]; a[0] = a[1]; a[1] = t; }
+    return a;
   }
   function ddaAfterWin() {
     if (G.level < 6) return;
@@ -312,7 +367,12 @@
       this.fit();
     },
     fit() {
-      const h = $('#board-holder'); if (!h || !h.clientWidth) return;
+      const h = $('#board-holder'), scr = $('#scr-game'); if (!h || !h.clientWidth) return;
+      // 세로가 모자란 화면(작은 휴대폰, 위쪽 배너 광고): 판이 줄기 전에 위아래 줄을 먼저 줄여요.
+      // 1단계(tight)는 여백·줄 높이를 작게. 그래도 한 칸이 34px보다 작아지면 2단계(tight2)로 규칙 카드까지 접어요 (칸이 큰 초반 판에서는 규칙 카드를 남겨요).
+      const short = () => h.clientHeight - 8 < (h.clientWidth - 4) * 0.92;
+      scr.classList.remove('tight', 'tight2');
+      if (short()) { scr.classList.add('tight'); if (short() && (h.clientHeight - 8) / this.n < 34) scr.classList.add('tight2'); }
       const s = Math.floor(Math.min(h.clientWidth - 4, h.clientHeight - 8));
       const bd = $('#board'); bd.style.width = s + 'px'; bd.style.height = s + 'px';
       bd.style.fontSize = Math.max(9, (s - 10) / this.n * .34) + 'px';
@@ -428,14 +488,14 @@
   const UI = { mode: 'play', hint: null, busy: false };
 
   function snapshot() {
-    return { mode: G.mode, level: G.level, day: G.day, pk: G.pk, hard: G.hard, marks: Array.from(G.marks), hearts: G.hearts, found: G.found, mistakes: G.mistakes, score: G.score, combo: G.combo, secs: G.secs, used: G.used, revives: G.revives, status: G.status, lethal: G.lethal, attempt: G.attempt, practice: G.practice };
+    return { mode: G.mode, level: G.level, day: G.day, pk: G.pk, hard: G.hard, tier: G.tier, marks: Array.from(G.marks), hearts: G.hearts, found: G.found, mistakes: G.mistakes, score: G.score, combo: G.combo, secs: G.secs, used: G.used, revives: G.revives, status: G.status, lethal: G.lethal, attempt: G.attempt, practice: G.practice };
   }
   function setupGame(mode, opt, snap) {
     const built = buildPuzzle(opt.pk), b = built.b, n = b.n;
     const seed = hash(opt.pk.join('/') + '|' + (opt.level || opt.day || 0));
     const order = shuffled(PALETTE.map((c, i) => i), rng(seed));
     G = {
-      mode: mode, level: opt.level || 0, day: opt.day || 0, pk: opt.pk, hard: !!opt.hard, practice: !!opt.practice, b: b, n: n, seed: seed, pre: built.pre,
+      mode: mode, level: opt.level || 0, day: opt.day || 0, pk: opt.pk, hard: !!opt.hard, tier: opt.tier !== undefined ? opt.tier : (opt.hard ? 2 : 0), practice: !!opt.practice, b: b, n: n, seed: seed, pre: built.pre,
       colors: order.slice(0, n).map(i => PALETTE[i]), pats: order.slice(0, n),
       marks: new Uint8Array(n * n), hearts: 3, found: 0, mistakes: 0, score: 0, combo: 0, secs: 0,
       used: { hint: 0, locate: 0, frog: 0, draft: 0 }, revives: 0, status: 'play', rev: 0, paidHint: null, draft: null, lethal: null, attempt: 1, tut: null
@@ -448,8 +508,8 @@
   }
   function startMain(resume) {
     if (resume && S.cur && S.cur.level === S.level) setupGame('main', S.cur, S.cur);
-    else { const p = pickMain(S.level); setupGame('main', { pk: p.pk, level: S.level, hard: p.hard }); }
-    enterGame();
+    else { const p = pickMain(S.level); setupGame('main', { pk: p.pk, level: S.level, hard: p.hard, tier: p.tier }); }
+    enterGame(!(resume && S.cur && S.cur.level === S.level));
   }
   function startDaily(practice) {
     const day = dayIndex(), cur = S.daily.cur;
@@ -457,16 +517,41 @@
     else { const p = pickDaily(day); setupGame('daily', { pk: p.pk, day: day, practice: !!practice }); }
     enterGame();
   }
-  function enterGame() {
+  function enterGame(fresh) {
     show('game');
-    $('#guide').hidden = true; $('#hintbar').hidden = true; $('#draftbar').hidden = true; toolsShown(true); $('#tools').classList.remove('dim');
+    $('#guide').hidden = true; $('#hintbar').hidden = true; $('#draftbar').hidden = true; toolsShown(true); $('#tools').classList.remove('dim'); ttMark(null); ttDraft(0); spot(false); $('#tier').hidden = true;
     $('#btn-rules').hidden = false; $('#hearts-row').hidden = false; $('#colors-row').hidden = false;
     const bd = $('#board'); bd.style.animation = 'none'; void bd.offsetWidth; bd.style.animation = '';
     View.build(); hud(true); status('');
     requestAnimationFrame(() => View.fit());
     save();
     if (G.status === 'lost') setTimeout(showFail, 300);
-    else if (G.mode === 'main' && G.level === 21 && !S.seen.unlock21) { S.seen.unlock21 = 1; save(); setTimeout(showUnlock, 350); }
+    else if (G.mode === 'main') {
+      const g = G, tool = () => {                                               // 새로 열린 도구가 있으면 소개하고 한 번 써 보게 해요
+        const t = ['locate', 'frog', 'draft'].find(k => G.level >= TOOL_UNLOCK[k] && !S.seen['tool_' + k]);
+        if (t && G === g && G.status === 'play' && screen === 'game' && !modalOpen) showUnlock(t);
+      };
+      if (fresh && G.tier) {                                                     // HARD·SUPER HARD 판은 시작할 때 알려 줘요 (그동안은 판을 못 눌러요)
+        UI.busy = true;
+        setTimeout(() => {
+          if (G !== g) return;
+          if (screen === 'game' && !modalOpen) tierIntro(G.tier, () => setTimeout(tool, 200)); else { UI.busy = false; tool(); }
+        }, 250);
+      } else setTimeout(tool, 450);
+    }
+  }
+  // HARD·SUPER HARD 판 시작 알림: 1초쯤 자동으로 나왔다가 사라져요 (글자는 영어로만 크게)
+  let tierTok = 0;
+  function tierIntro(t, done) {
+    const el = $('#tier'), g = G, tok = ++tierTok;
+    $('#tier-duck').src = ART[t === 2 ? 'duck_super' : 'duck_hard'] || ART.duck_think;
+    $('#tier-title').textContent = TIER_NAME[t]; $('#tier-line').textContent = t === 2 ? '어… 각오해야겠어요.' : '일단 해보죠.';
+    el.className = 'tier t' + t; el.hidden = false; UI.busy = true; Snd.play('hint');
+    setTimeout(() => {
+      if (tok !== tierTok) return;
+      el.hidden = true;
+      if (G === g) { UI.busy = false; if (done) done(); }
+    }, 1500);
   }
 
   function toolLocked(t) { return G.mode !== 'tutorial' && S.level < TOOL_UNLOCK[t] && !(G.mode === 'main' && G.level >= TOOL_UNLOCK[t]); }
@@ -483,7 +568,7 @@
     $('#g-level-label').textContent = G.mode === 'main' ? '레벨' : G.mode === 'daily' ? (G.practice ? '연습' : '오늘의 퍼즐') : '연습';
     const dt = new Date(G.day * 86400000);
     $('#g-level').textContent = G.mode === 'main' ? G.level : G.mode === 'daily' ? (dt.getUTCMonth() + 1) + '.' + dt.getUTCDate() : G.n + '×' + G.n;
-    $('#g-badge').hidden = !G.hard; $('#g-badge').textContent = HARD_NAME;
+    $('#g-badge').hidden = !G.tier; $('#g-badge').textContent = TIER_NAME[G.tier]; $('#g-badge').className = 'badge t' + G.tier;
     if (fresh) { shownScore = G.score; shownHearts = G.hearts; $('#g-score').textContent = G.score; } else tweenScore(G.score);
     let hh = ''; for (let i = 0; i < 3; i++) hh += '<span class="ic' + (i < G.hearts ? '' : ' empty') + (i >= G.hearts && i < shownHearts ? ' lost' : '') + '" style="background-image:url(' + (i < G.hearts ? ART.ic_heart : ART.ic_heart_empty) + ')"></span>';
     if (fresh || shownHearts !== G.hearts || !$('#g-hearts').firstChild) $('#g-hearts').innerHTML = hh;
@@ -510,9 +595,10 @@
   let ptr = null;
   const lastTap = { cell: -1, time: 0 };
   function dblMs() { return S.settings.slow ? 500 : 350; }
-  function canInput() { return G && G.status === 'play' && !UI.busy && !modalOpen && !UI.hint; }
+  function canInput() { return G && G.status === 'play' && !UI.busy && !modalOpen && !UI.hint && !(G.tt && G.tt.step === 1); }
   function editable(i) {
     if (G.tut) return G.tut.allow ? G.tut.allow.has(i) : G.tut.free;
+    const k = ttdKind(); if (k !== null) return !!k && i === ttdCell();          // 낙서연필 써 보기: 표시된 칸만
     return true;
   }
   function paint(i, start) {
@@ -521,10 +607,12 @@
     if (m === DUCK || m === WRONG) return;
     if (UI.mode === 'draft') {
       if (m !== BLANK) return;
-      const dv = G.draft[i];
+      const dv = G.draft[i], k = ttdKind();
+      if (k === 'duck') return;                                                 // 써 보기: 오리를 그릴 차례에는 두 번 톡톡만 받아요
+      if (start) { lastTap.pi = i; lastTap.pv = dv; }
       if (ptr.pmode === null) ptr.pmode = dv ? 'erase' : 'add';
-      if (ptr.pmode === 'add' && dv === 0) { G.draft[i] = 1; View.cell(i, true); Snd.play('x'); }
-      else if (ptr.pmode === 'erase' && dv !== 0 && (start || dv === 1)) { G.draft[i] = 0; View.erase(i); Snd.play('erase'); }
+      if (ptr.pmode === 'add' && dv === 0) { G.draft[i] = 1; View.cell(i, true); Snd.play('x'); if (k === 'x') ttdNext(); }
+      else if (ptr.pmode === 'erase' && dv !== 0 && (start || dv === 1)) { G.draft[i] = 0; View.erase(i); Snd.play('erase'); if (dv === 2) draftCount(); }
       return;
     }
     if (G.tut && G.tut.kind === 'x') {                                          // 튜토리얼 X 단계: 지정 칸에 X만 추가
@@ -612,7 +700,17 @@
     if (!editable(i)) return;
     const m = G.marks[i];
     if (m === DUCK || m === WRONG) return;
-    if (UI.mode === 'draft') { G.draft[i] = G.draft[i] === 2 ? 0 : 2; View.cell(i, true); Snd.play('ui'); return; }
+    if (UI.mode === 'draft') {
+      const k = ttdKind(); if (k !== null && k !== 'duck') return;              // 써 보기: X 차례에는 한 번 누르기만 받아요
+      const was = lastTap.pi === i ? lastTap.pv : G.draft[i];                    // 두 번 누르기의 첫 번째가 바꿔 놓기 전 상태
+      lastTap.pi = -1;
+      if (was !== 2 && draftDucks() >= DRAFT_MAX) {                              // 이미 3마리: 더 그리지 않고 첫 번째 누르기도 되돌려요
+        G.draft[i] = was; View.cell(i); shake(i); toast('한 번에 ' + DRAFT_MAX + '마리까지 그릴 수 있어요'); return;
+      }
+      G.draft[i] = was === 2 ? 0 : 2; View.cell(i, true); Snd.play('ui'); draftCount();
+      if (k === 'duck' && G.draft[i] === 2) ttdNext();
+      return;
+    }
     if (G.tut && G.tut.kind === 'x') return;
     if (G.b.solSet[i]) {
       const done = placeDuck(i, true);
@@ -644,13 +742,18 @@
   }
   function grant(items) { Object.keys(items).forEach(k => { S.tools[k] = Math.min(999999, (S.tools[k] || 0) + items[k]); }); }
   function win() {
-    G.status = 'won'; UI.busy = true;
+    G.status = 'won'; UI.busy = true; ttEnd(); spot(false);
     const bonus = G.hearts * 200; G.score += bonus;
     const rewards = [], notes = [];
     if (G.mode === 'main') {
       ddaAfterWin();
       S.wins++; S.level = Math.max(S.level, G.level + 1); S.cur = null;
-      if (G.level % 10 === 0 && !S.milestones[G.level]) { S.milestones[G.level] = 1; grant({ hint: 1, locate: 1 }); rewards.push(['hint', 1], ['locate', 1]); notes.push('어라, 건넜어요!'); }
+      if (G.level > AD_CLEAR_AFTER) S.adN = Math.min(99, (S.adN || 0) + 1);       // 전면 광고까지 깬 판 수
+      const gift = levelGift(G.level);                                            // HARD·SUPER HARD를 처음 깼을 때만 받아요
+      if (gift.length && !S.milestones[G.level]) {
+        S.milestones[G.level] = 1; const items = {}; gift.forEach(r => { items[r[0]] = (items[r[0]] || 0) + r[1]; rewards.push(r); });
+        grant(items); notes.push(TIER_NAME[tierOf(G.level)] + ' 클리어 선물');
+      }
       streakWin(rewards, notes);
     } else if (G.mode === 'daily') {
       S.daily.cur = null;
@@ -667,12 +770,12 @@
     setTimeout(() => showResult(rewards, notes, bonus), 2700);
   }
   function lose() {
-    G.status = 'lost'; G.combo = 0; save();
+    G.status = 'lost'; G.combo = 0; ttEnd(); save();
     Snd.play('lose');
     setTimeout(showFail, 650);
   }
   function restartSame() {
-    const keepUsed = G.used, attempt = G.attempt + 1, mode = G.mode, opt = { pk: G.pk, level: G.level, day: G.day, hard: G.hard, practice: G.practice };
+    const keepUsed = G.used, attempt = G.attempt + 1, mode = G.mode, opt = { pk: G.pk, level: G.level, day: G.day, hard: G.hard, tier: G.tier, practice: G.practice };
     setupGame(mode, opt); G.used = keepUsed; G.attempt = attempt;
     closeModal(); enterGame();
   }
@@ -684,23 +787,47 @@
 
   /* ---------- 도구 ---------- */
   function needTool(t) {
-    openModal('<img class="hero" src="' + ART.duck_think + '" alt=""><h2>' + iga(TOOL_NAME[t]) + ' 다 떨어졌어요</h2><p>광고를 보면 ' + TOOL_NAME[t] + ' 1개를 받아요.</p>' +
-      '<div class="col"><button class="btn primary" data-act="ad">' + icon(TOOL_ICON[t]) + '광고 보고 +1</button><button class="btn ghost" data-act="close">닫기</button></div><p class="note">테스트 빌드: 광고 없이 바로 지급돼요</p>',
-      { ad() { grant({ [t]: 1 }); save(); closeModal(); hud(); toast(TOOL_NAME[t] + ' +1'); } });
+    // NCQ_ADS_TOOL: 도구 +1 보상형 광고
+    // (도구가 다 떨어졌을 때 '광고 보고 +1')
+    const head = '<img class="hero" src="' + ART.duck_think + '" alt=""><h2>' + iga(TOOL_NAME[t]) + ' 다 떨어졌어요</h2>';
+    if (!NcqAds.can("TOOL")) {                                                  // 광고를 끈 빌드: 버튼 없이 모으는 방법만 알려 줘요
+      return openModal(head + '<p>HARD·SUPER HARD 판을 깨거나<br>매일 플레이하면 도구를 받아요.</p><div class="col"><button class="btn primary" data-act="close">닫기</button></div>', {});
+    }
+    openModal(head + '<p>광고를 보면 ' + TOOL_NAME[t] + ' 1개를 받아요.</p>' +
+      '<div class="col"><button class="btn primary" data-act="ad">' + icon(TOOL_ICON[t]) + '광고 보고 +1</button><button class="btn ghost" data-act="close">닫기</button></div>' + (ADS_DEV ? '<p class="note">미리보기: 광고 없이 바로 지급돼요</p>' : ''),
+      {
+        async ad() {
+          if (adBusy) return;
+          const g = G; adBusy = true;
+          let ok = false; try { ok = await NcqAds.rewarded("TOOL"); } catch (e) { ok = false; }   // 끝까지 봤을 때만 true예요
+          adBusy = false;
+          if (!ok) return;                                                      // 중간에 닫았거나 광고가 없으면 그대로 둬요 (안내는 NcqAds가 해요)
+          grant({ [t]: 1 }); save();
+          if (G === g) { closeModal(); hud(); }
+          toast(TOOL_NAME[t] + ' +1');
+        }
+      });
   }
   function useTool(t) {
     if (!G || G.status !== 'play' || UI.busy) return;
+    const T = G.tt;
+    if (T && T.step === 1 && t !== T.tool) return;                              // 새 도구 써 보기: 가리킨 도구만 눌러요
     Snd.play('ui');
-    if (UI.mode === 'locate' && t === 'locate') { setMode('play'); return; }
+    if (UI.mode === 'locate' && t === 'locate') { if (!T) setMode('play'); return; }
     if (UI.mode === 'draft') { if (t === 'draft') draftCancel(); return; }
     if (UI.hint) return;
     if (toolLocked(t)) { toast('레벨 ' + TOOL_UNLOCK[t] + '부터 쓸 수 있어요'); return; }
     if (G.tut && t !== 'hint') return;
     if (t === 'hint') return useHint();
-    if (S.tools[t] <= 0) return needTool(t);
+    if (T && T.step === 1) { T.free = true; S.seen['tool_' + t] = 1; if (t === 'draft') S.seen.unlock21 = 1; }   // 써 보는 한 번은 개수를 쓰지 않아요
+    if (S.tools[t] <= 0 && !(T && T.free)) return needTool(t);
     if (t === 'locate') return locateStart();
     if (t === 'frog') return frogGo();
     if (t === 'draft') return draftStart();
+  }
+  function spend(t) {                                                           // 도구 한 개 쓰기 (새 도구 써 보기 중 첫 한 번은 그냥)
+    if (G.tt && G.tt.free && G.tt.tool === t) { G.tt.free = false; return; }
+    S.tools[t]--; G.used[t]++;
   }
   function setMode(m) {
     UI.mode = m; View.clearOverlays();
@@ -753,6 +880,7 @@
     $('#hint-more').hidden = !(h.chain && h.chain.forced.length);
     $('#hintbar').hidden = false; toolsShown(false); status('');
     drawHint(h, false); hud(); requestAnimationFrame(() => View.fit());
+    if (G.tut && G.tut.kind === 'hint') { spot(false); ttMark(null); tutGuide('<b>다음 수</b>를 알려 줘요.<br>읽고 <b>확인</b>을 눌러요', 'duck_joy'); }
   }
   function hintClose(apply) {
     const h = UI.hint; if (!h) return;
@@ -771,13 +899,15 @@
   function openRegs() { const a = E.analyze(G.b, G.marks), r = []; for (let g = 0; g < G.n; g++) if (!a.regHas[g]) r.push(g); return r; }
   function locateReveal(g) {
     const cell = G.b.regCells[g].find(c => G.b.solSet[c]);
-    S.tools.locate--; G.used.locate++; setMode('play');
+    spend('locate'); setMode('play');
     if (!placeDuck(cell, false)) save();
+    if (G.tt) ttStep(3);
   }
   function locateStart() {
     const regs = openRegs();
     if (regs.length === 1) return locateReveal(regs[0]);
     setMode('locate'); View.pickable(regs);
+    if (G.tt) ttStep(2);
   }
   function locatePick(i) {
     const g = G.b.reg[i];
@@ -797,7 +927,7 @@
       giveDuck = sols.find(i => G.marks[i] === BLANK); if (giveDuck === undefined) giveDuck = sols.length ? sols[0] : -1;
       if (giveDuck < 0) return;
     }
-    S.tools.frog--; G.used.frog++; UI.busy = true; hud();
+    spend('frog'); UI.busy = true; hud(); if (G.tt) ttStep(2);
     const fx = $('#fx'), frog = document.createElement('img'); frog.className = 'frog'; frog.src = ART.ic_frog; frog.alt = '';
     frog.style.left = '50%'; frog.style.top = '108%'; fx.appendChild(frog);
     await wait(40);
@@ -811,32 +941,44 @@
     frog.remove(); UI.busy = false; G.paidHint = null;
     if (!targets.length) { if (!placeDuck(giveDuck, false)) save(); } else save();
     hud();
+    if (G.tt) ttStep(3);
   }
 
-  // 연필(드래프트): 임시로 그려 보고 한꺼번에 제출
+  /* 낙서연필: 오리를 3마리까지(X는 마음껏) 미리 그려 보고 확정해요.
+     확정하면 맞는 오리만 남고, 틀린 낙서 오리는 X로 바뀌어요. 하트는 줄지 않아요 (안전하게 확인하는 도구).
+     연필은 확정할 때 1개 써요. 그리다가 취소하거나 아무것도 안 그리고 확정하면 쓰지 않아요. */
+  function draftDucks() { let k = 0; if (G.draft) for (let i = 0; i < G.draft.length; i++) if (G.draft[i] === 2) k++; return k; }
+  function draftCount() { const el = $('#draft-count'); if (el) el.textContent = '오리 ' + draftDucks() + '/' + DRAFT_MAX; }
   function draftStart() {
-    S.tools.draft--; G.used.draft++; G.draft = new Uint8Array(G.n * G.n); save();
-    setMode('draft');
+    G.draft = new Uint8Array(G.n * G.n);
+    setMode('draft'); draftCount();
+    if (G.tt) ttStep(2);
   }
-  function draftCancel() { const d = G.draft; G.draft = null; setMode('play'); if (d) for (let i = 0; i < d.length; i++) if (d[i]) View.cell(i); }
+  function draftCancel() {
+    if (G.tt && G.tt.tool === 'draft') return;                                  // 써 보는 중에는 확정까지 해 봐요
+    const d = G.draft; G.draft = null; setMode('play'); if (d) for (let i = 0; i < d.length; i++) if (d[i]) View.cell(i);
+  }
   function draftApply() {
+    if (G.tt && G.tt.tool === 'draft' && G.tt.step !== TTD_APPLY) return;
     const d = G.draft, n = G.n, wrong = [], right = [], xs = [];
     for (let i = 0; i < n * n; i++) { if (d[i] === 2) (G.b.solSet[i] ? right : wrong).push(i); else if (d[i] === 1) xs.push(i); }
+    if (!wrong.length && !right.length && !xs.length) return draftCancel();      // 아무것도 안 그렸으면 그냥 닫아요 (연필도 안 써요)
     G.draft = null; setMode('play'); G.paidHint = null;
-    if (wrong.length >= G.hearts) {                                             // 치명적 제출: 초안은 버리고 남은 하트만큼 오답 처리
-      const hit = wrong.slice(0, G.hearts);
-      hit.forEach(c => { G.marks[c] = WRONG; }); G.lethal = hit; G.mistakes += hit.length; G.hearts = 0; G.rev++;
-      for (let i = 0; i < n * n; i++) View.cell(i);
-      hit.forEach(shake); Snd.play('wrong'); hud(); lose(); return;
-    }
-    xs.forEach(c => { G.marks[c] = XM; }); wrong.forEach(c => { G.marks[c] = WRONG; G.hearts--; G.mistakes++; });
-    if (wrong.length) { G.combo = 0; Snd.play('wrong'); toast('어라… 틀린 오리가 ' + wrong.length + '마리 있어요.'); }
+    spend('draft');
+    xs.concat(wrong).forEach(c => { G.marks[c] = XM; });                        // 틀린 낙서 오리는 하트를 깎지 않고 X로 바꿔요
     G.rev++;
     for (let i = 0; i < n * n; i++) View.cell(i);
-    wrong.forEach(shake); hud();
+    wrong.forEach(c => {                                                        // 틀린 자리: 오리가 '앗' 하고는 X가 돼요
+      shake(c); View.overlay(c, '<img class="mk duck" src="' + ART.duck_oops + '" alt="" style="animation:blink .25s 2">');
+      setTimeout(() => { if (!View.cells[c]) return; $$('.ov', View.cells[c]).forEach(x => x.remove()); View.cell(c, true); }, 480);
+    });
+    if (wrong.length) Snd.play('x');
+    hud();
     let done = false;
     right.forEach(c => { if (!done) done = placeDuck(c, true); });
     if (!done) save();
+    if (!G.tt && wrong.length && !done) toast(right.length ? '맞는 오리만 남겼어요. 틀린 ' + wrong.length + '마리는 X로!' : '어… 여긴 아니었네요. 하트는 그대로예요.');
+    if (G.tt) ttStep(TTD_APPLY + 1);
   }
 
   /* ---------- 화면·모달 ---------- */
@@ -864,27 +1006,121 @@
     let h = '<img class="hero joy" src="' + ART.duck_joy + '" alt="">';
     if (G.mode === 'tutorial') {
       h += '<h2>연습 끝!</h2><p>이제 진짜 퍼즐을 풀어 볼까요?</p><div class="col"><button class="btn big primary" data-act="next">레벨 1 시작</button></div>';
-      return openModal(h, { next() { closeModal(); startMain(false); } });
+      return openModal(h, { next() { closeModal(); adBanner(); startMain(false); } });
     }
     h += '<h2>' + (G.mode === 'main' ? '레벨 ' + G.level + ' 클리어!' : G.practice ? '연습 완료!' : '오늘의 퍼즐 완료!') + '</h2><p>' + pick(LINE_CLEAR) + '</p>';
     h += '<div class="stats"><div class="stat"><span>시간</span><b>' + fmtTime(G.secs) + '</b></div><div class="stat"><span>실수</span><b>' + G.mistakes + '</b></div><div class="stat"><span>' + (G.mode === 'daily' ? '최고 기록' : '점수') + '</span><b>' + (G.mode === 'daily' ? fmtTime(S.daily.best) : '<i data-count="' + G.score + '" style="font-style:normal">0</i>') + '</b></div></div>';
     if (G.mode === 'main') h += '<p class="note">남은 하트 보너스 +' + bonus + ' · 사용한 도구 ' + usedN + '개</p>';
     if (rewards.length) h += '<p>' + notes.join(' · ') + '</p>' + rewardHTML(rewards);
     h += '<div class="col"><button class="btn big primary" data-act="next">' + (G.mode === 'main' ? '다음 레벨' : '레벨 ' + S.level + ' 이어서') + '</button><button class="btn ghost" data-act="home">' + icon('ic_home') + '홈으로</button></div>';
-    openModal(h, { next() { closeModal(); startMain(true); }, home() { closeModal(); G = null; show('home'); } });
+    const adAfter = G.mode === 'main' && (S.adN || 0) >= AD_CLEAR_EVERY;
+    openModal(h, {
+      async next() {
+        if (adBusy) return;
+        if (adAfter) {
+          // NCQ_ADS_LEVEL_CLEAR: 레벨 클리어 전면 광고
+          // (5레벨을 넘긴 뒤 3판마다, 깬 뒤 '다음 레벨'을 누를 때. 못 보여 줬으면 다음 판을 깬 뒤에 다시 시도해요)
+          adBusy = true;
+          let shown = false; try { shown = await NcqAds.interstitial("LEVEL_CLEAR"); } catch (e) { shown = false; }
+          adBusy = false;
+          if (shown) { S.adN = 0; save(); }
+        }
+        closeModal(); startMain(true);
+      },
+      home() { if (adBusy) return; closeModal(); G = null; show('home'); }
+    });
   }
   function showFail() {
     UI.busy = false;
+    // NCQ_ADS_REVIVE: 이어 하기 보상형 광고
+    // (하트를 다 썼을 때 '광고 보고 계속하기')
+    const canAd = NcqAds.can("REVIVE");
     openModal('<img class="hero" src="' + ART.duck_sad + '" alt=""><h2>하트를 다 썼어요</h2><p>' + pick(LINE_FAIL) + '<br>오리 ' + G.n + '마리 중 ' + G.found + '마리를 찾았어요.</p>' +
-      '<div class="col"><button class="btn primary" data-act="revive">' + icon('ic_heart') + '광고 보고 계속하기</button><button class="btn yellow" data-act="restart">' + icon('ic_retry') + '같은 판 다시 시작</button><button class="btn ghost" data-act="home">' + icon('ic_home') + '홈으로</button></div><p class="note">테스트 빌드: 광고 없이 바로 이어져요</p>',
-      { revive: revive, restart: restartSame, home() { closeModal(); save(); G = null; show('home'); } });
+      '<div class="col">' + (canAd ? '<button class="btn primary" data-act="revive">' + icon('ic_heart') + '광고 보고 계속하기</button>' : '') +
+      '<button class="btn yellow" data-act="restart">' + icon('ic_retry') + '같은 판 다시 시작</button><button class="btn ghost" data-act="home">' + icon('ic_home') + '홈으로</button></div>' + (canAd && ADS_DEV ? '<p class="note">미리보기: 광고 없이 바로 이어져요</p>' : ''),
+      {
+        async revive() {
+          if (adBusy) return;
+          const g = G; adBusy = true;
+          let ok = false; try { ok = await NcqAds.rewarded("REVIVE"); } catch (e) { ok = false; }   // 끝까지 봤을 때만 이어 해요
+          adBusy = false;
+          if (ok && G === g && G.status === 'lost') revive();
+        },
+        restart() { if (!adBusy) restartSame(); },
+        home() { if (adBusy) return; closeModal(); save(); G = null; show('home'); }
+      });
   }
-  function showUnlock() {
+  function showUnlock(t) {
     openModal('<img class="hero" src="' + ART.duck_joy + '" alt=""><h2>새 도구가 열렸어요</h2>' +
-      '<div class="opt">' + icon('ic_frog') + '<span class="l">' + TOOL_NAME.frog + '<small>' + TOOL_DESC.frog + '</small></span></div>' +
-      '<div class="opt">' + icon('ic_pencil') + '<span class="l">' + TOOL_NAME.draft + '<small>' + TOOL_DESC.draft + '</small></span></div>' +
-      '<div class="opt">' + icon('ic_calendar') + '<span class="l">오늘의 퍼즐<small>홈에서 매일 새 퍼즐을 풀 수 있어요</small></span></div>' +
-      '<div class="col"><button class="btn primary" data-act="close">좋아요</button></div>', {});
+      '<div class="opt">' + icon(TOOL_ICON[t]) + '<span class="l">' + TOOL_NAME[t] + '<small>' + TOOL_DESC[t] + '</small></span></div>' +
+      (t === 'draft' ? '<div class="opt">' + icon('ic_calendar') + '<span class="l">오늘의 퍼즐<small>홈에서 매일 새 퍼즐을 풀 수 있어요</small></span></div>' : '') +
+      '<div class="col"><button class="btn primary" data-act="go">써 볼게요</button></div>', { go() { closeModal(); ttStart(t); } });
+  }
+
+  /* ---------- 새 도구 한 번 써 보기 (도구가 열리는 판에서 짧게) ---------- */
+  const TT_TEXT = {
+    locate: ['새 도구 <b>오리찾기</b>!<br>아래 버튼을 <b>눌러 보세요</b>', '오리를 찾고 싶은<br><b>색을 눌러요</b>', '그 색의 오리를<br><b>바로 찾아 줘요!</b>'],
+    frog: ['새 도구 <b>개굴점프</b>!<br>아래 버튼을 <b>눌러 보세요</b>', '개구리가 <b>오리 없는 칸</b>을<br>찾아가요…', '오리 없는 칸에<br><b>X를 찍어 줘요!</b>'],
+    // 낙서연필은 이것저것 그려 보고(맞는 오리 → 틀린 오리 → X) 확정했을 때 어떻게 되는지까지 봐야 알 수 있어서 단계가 더 있어요
+    draft: ['새 도구 <b>낙서연필</b>!<br>아래 버튼을 <b>눌러 보세요</b>', '오리를 <b>3마리까지</b> 미리 그려 봐요.<br>표시된 칸을 <b>두 번 톡톡!</b>', '자신 없는 칸도 괜찮아요.<br>옆 칸도 <b>두 번 톡톡!</b>',
+      'X도 그릴 수 있어요.<br>표시된 칸을 <b>한 번 톡!</b>', '다 그렸으면<br><b>확정</b>을 눌러요', '<b>맞는 오리만</b> 남았어요!<br>틀린 낙서는 X로 바뀌고<br><b>하트는 그대로</b>예요']
+  };
+  // 낙서연필 써 보기의 차례: 2 맞는 칸에 오리 → 3 바로 옆 칸에도 오리(틀린 자리) → 4 다른 칸에 X → 5 확정 → 6 끝. 옆에 빈칸이 모자라면 그 차례는 건너뛰어요.
+  const TTD = { 2: 'duck', 3: 'duck', 4: 'x' }, TTD_APPLY = 5;
+  function ttdKind() { const T = G && G.tt; return T && T.tool === 'draft' && UI.mode === 'draft' ? TTD[T.step] || '' : null; }   // null이면 써 보는 중이 아니에요
+  function ttdCellAt(step) { const T = G.tt; return step === 2 ? T.cell : step === 3 ? T.cell2 : T.cell3; }
+  function ttdCell() { return ttdCellAt(G.tt.step); }
+  function ttdNext() { let st = G.tt.step + 1; while (st < TTD_APPLY && ttdCellAt(st) < 0) st++; ttStep(st); }
+  function ttdNeighbors(c) {                                                    // 정답 칸 바로 옆의 빈칸들 (오리끼리 붙으면 안 되니 늘 틀린 자리예요). 옆 → 위아래 → 대각선 순서
+    const n = G.n, r = (c / n) | 0, q = c % n, out = [];
+    for (const d of [[0, 1], [0, -1], [1, 0], [-1, 0], [1, 1], [1, -1], [-1, 1], [-1, -1]]) {
+      const r2 = r + d[0], q2 = q + d[1], k = r2 * n + q2;
+      if (r2 >= 0 && r2 < n && q2 >= 0 && q2 < n && G.marks[k] === BLANK && !G.b.solSet[k]) out.push(k);
+    }
+    return out;
+  }
+  function ttMark(t) {                                                          // 눌러야 할 도구만 밝게 + 손가락
+    $('#tools').classList.toggle('tt', !!t);
+    $$('.tool').forEach(el => {
+      const on = el.dataset.tool === t, h = $('.tthand', el);
+      el.classList.toggle('pick', on);
+      if (on && !h) el.insertAdjacentHTML('beforeend', '<span class="tthand">' + HAND_SVG + '</span>'); else if (!on && h) h.remove();
+    });
+  }
+  function spot(on) { $('#spot').hidden = !on; $('#scr-game').classList.toggle('spoton', !!on); }   // 화면 전체를 어둡게 (말풍선과 도구 줄만 밝게)
+  function ttStart(t) {
+    if (!G || G.status !== 'play' || screen !== 'game') return;
+    G.tt = { tool: t, step: 0, free: false };
+    $('#btn-rules').hidden = true; $('#guide').hidden = false;
+    ttStep(1);
+  }
+  function ttDraft(step) {                                                      // 낙서연필 써 보기: 그릴 칸과 '확정' 버튼을 차례로 가리켜요
+    const ok = $('#draft-apply'), h = $('.tthand', ok), kind = TTD[step], last = step === TTD_APPLY;
+    $('#draft-cancel').classList.toggle('wait', !!kind || last);                // 써 보는 동안 취소는 흐리게만 보여요 (어디 있는지는 알 수 있게)
+    ok.classList.toggle('wait', !!kind); ok.classList.toggle('pick', last);
+    if (last && !h) ok.insertAdjacentHTML('beforeend', '<span class="tthand">' + HAND_SVG + '</span>'); else if (!last && h) h.remove();
+    if (!kind) { if (last) View.clearOverlays(); return; }
+    const c = ttdCellAt(step), shown = [];
+    for (let st = 2; st <= step; st++) if (ttdCellAt(st) >= 0) shown.push(ttdCellAt(st));   // 앞에서 그린 칸도 같이 밝게
+    View.clearOverlays(); View.dim(shown); View.overlay(c, '<span class="ring target"></span>');
+    View.hand([c], kind === 'duck' ? 'tap2' : 'tap1');
+  }
+  function ttStep(s) {
+    const T = G && G.tt; if (!T) return;
+    if (G.status !== 'play') return ttEnd();
+    const last = s === TT_TEXT[T.tool].length;
+    T.step = s;
+    if (T.tool === 'draft' && s === 2 && T.cell === undefined) { T.cell = tutSingle(); const nb = ttdNeighbors(T.cell); T.cell2 = nb.length ? nb[0] : -1; T.cell3 = nb.length > 1 ? nb[1] : -1; }
+    tutGuide(TT_TEXT[T.tool][s - 1], last ? 'duck_joy' : s === 1 ? 'duck_hello' : 'duck_think', last ? () => { Snd.play('ui'); ttEnd(); } : null);
+    ttMark(s === 1 ? T.tool : null);
+    if (T.tool === 'draft') ttDraft(s);
+  }
+  function ttEnd() {
+    if (!G || !G.tt) return;
+    const wasDraft = G.tt.tool === 'draft';
+    G.tt = null; ttMark(null); if (wasDraft) ttDraft(0);
+    $('#guide').hidden = true; $('#btn-rules').hidden = false;
+    save(); requestAnimationFrame(() => View.fit());
   }
   function showRules() {
     const sq = (x, y, f) => '<rect x="' + x + '" y="' + y + '" width="18" height="18" rx="4" fill="' + f + '"/>';
@@ -920,8 +1156,11 @@
     if (!inGame && (window.NCQ_TEST_CHEAT || !window.NCQ)) h += '<button class="btn ghost" data-act="test">테스트 메뉴</button>';
     // 앱 버전 표시: 빌드가 넣은 버전, 개발 중에는 dev
     const version = window.NCQ && window.NCQ.NCQ_VERSION;
+    h += '<button class="btn ghost" data-act="privacy" id="btn-privacy" hidden>개인정보 설정</button>';
     h += '<button class="btn primary" data-act="close">닫기</button></div><span class="ver" id="app-version">' + (version ? 'v' + version : 'dev') + '</span>';
-    openModal(h, { rules: showRules, restart: confirmRestart, test: showTest }, true);
+    openModal(h, { rules: showRules, restart: confirmRestart, test: showTest, privacy() { NcqAds.showPrivacyOptions(); } }, true);
+    // 광고 동의를 다시 고를 수 있는 곳(유럽 등)에서만 '개인정보 설정' 버튼을 보여 줘요
+    Promise.resolve().then(() => NcqAds.ready()).then(() => { const b = $('#btn-privacy'); if (b && NcqAds.privacyRequired()) b.hidden = false; }).catch(() => {});
   }
   function confirmRestart() {
     openModal('<img class="hero" src="' + ART.duck_think + '" alt=""><h2>처음부터 다시 할까요?</h2><p>같은 퍼즐을 처음 상태로 되돌려요. 이미 쓴 도구는 돌아오지 않아요.</p><div class="col"><button class="btn yellow" data-act="restart">다시 시작</button><button class="btn ghost" data-act="close">취소</button></div>', { restart: restartSame });
@@ -956,11 +1195,63 @@
     $('#streak-n').textContent = streakNow();
     const cont = S.cur && S.cur.level === S.level && S.cur.status !== 'won';
     $('#play-label').textContent = (cont ? '이어하기 · ' : '') + '레벨 ' + S.level;
-    $('#play-sub').textContent = cont ? '오리 ' + S.cur.found + '마리 찾음' : (policy(S.level).hard ? HARD_NAME : '');
+    $('#play-sub').textContent = cont ? '오리 ' + S.cur.found + '마리 찾음' : TIER_NAME[policy(S.level).tier];
     const day = dayIndex(), locked = S.level < DAILY_UNLOCK, done = S.daily.done[day] !== undefined;
     $('#btn-daily').classList.toggle('locked', locked);
     $('#btn-daily').firstElementChild.style.backgroundImage = 'url(' + (locked ? ART.ic_lock : ART.ic_calendar) + ')';
     $('#daily-sub').textContent = locked ? '레벨 ' + DAILY_UNLOCK + '부터' : done ? '완료 ' + fmtTime(S.daily.done[day]) : '';
+    renderMap();
+  }
+
+  /* ---------- 로비: 레벨 길 ----------
+     오리가 한 칸씩 올라가는 길이에요. 아래가 지나온 판, 위가 앞으로 갈 판이고 손가락으로 끌어 올려 볼 수 있어요.
+     판마다 난이도(HARD·SUPER HARD), 깨면 받는 선물, 새로 열리는 도구가 보여요. */
+  const MAP_STEP = 80, MAP_BACK = 30, MAP_AHEAD = 170;
+  function mapX(L) { return 50 + 26 * Math.sin(L * 0.83); }                     // 길이 좌우로 굽이쳐요 (가로 %)
+  function mapOpens(L) { const o = Object.keys(TOOL_UNLOCK).filter(t => TOOL_UNLOCK[t] === L && L > 1).map(t => TOOL_ICON[t]); if (L === DAILY_UNLOCK) o.push('ic_calendar'); return o; }
+  function mapSide(L) {                                                         // 노드 옆 쪽지: 새로 열리는 것, 깨면 받는 선물
+    const ic = k => '<i class="ic" style="background-image:url(' + ART[k] + ')"></i>', o = mapOpens(L), g = levelGift(L), out = [];
+    if (o.length) out.push(o.map(ic).join('') + '<b>열려요</b>');
+    if (g.length) out.push(g.map(r => ic(TOOL_ICON[r[0]])).join('') + '<b>+1</b>');
+    return out.join('<i class="bar"></i>');
+  }
+  function renderMap() {
+    const box = $('#map'), inner = $('#map-in'); if (!box) return;
+    const cur = S.level, lo = Math.max(1, cur - MAP_BACK), hi = cur + MAP_AHEAD;
+    // 아래에서부터 높이를 쌓아요. 큰 노드(HARD·SUPER HARD)의 이름표·얼굴, 지금 판에 서 있는 오리가 옆 노드와 겹치지 않게 그 사이만 더 띄워요.
+    const up = {}; let acc = 70;
+    for (let L = lo; L <= hi; L++) { if (L > lo) acc += MAP_STEP + (tierOf(L) ? 16 : 0) + (tierOf(L - 1) ? 10 : 0) + (L - 1 === cur ? 36 : 0); up[L] = acc; }
+    const H = acc + 120, Y = L => H - up[L];
+    // 길은 노드에서 꺾이지 않게, 노드 사이를 잘게 나눠 물결 모양 그대로 한 줄로 이어요
+    const SUB = 8; let way = '', done = '', nodes = '';
+    for (let L = lo; L <= hi; L++) {
+      const x = mapX(L).toFixed(1), y = Y(L);
+      let seg = (L === lo ? 'M' : 'L') + mapX(L).toFixed(2) + ' ' + y.toFixed(1);
+      if (L > lo) { let mid = ''; for (let k = 1; k < SUB; k++) { const f = k / SUB; mid += 'L' + mapX(L - 1 + f).toFixed(2) + ' ' + (Y(L - 1) + (y - Y(L - 1)) * f).toFixed(1); } seg = mid + seg; }
+      way += seg; if (L <= cur) done += seg;
+      const t = tierOf(L), st = L < cur ? 'done' : L === cur ? 'cur' : 'todo', side = mapSide(L);
+      const el = st === 'cur' ? 'button' : 'div';                                // 누를 수 있는 건 지금 판뿐이에요
+      nodes += '<' + el + (st === 'cur' ? ' type="button"' : ' role="img"') + ' class="nd t' + t + ' ' + st + '" data-l="' + L + '" style="left:' + x + '%;top:' + y + 'px" aria-label="레벨 ' + L + (t ? ' ' + TIER_NAME[t] : '') + '">' +
+        (t && st !== 'cur' ? '<i class="face" style="background-image:url(' + (ART[t === 2 ? 'head_super' : 'head_hard'] || '') + ')"></i>' : '') +
+        '<span class="nb">' + L + '</span>' +
+        (t ? '<em class="tag">' + TIER_NAME[t] + '</em>' : '') +
+        (side ? '<span class="side ' + (mapX(L) < 50 ? 'r' : 'l') + '">' + side + '</span>' : '') +
+        (st !== 'cur' ? '' : t ? '<span class="me pic" style="background-image:url(' + (ART[t === 2 ? 'duck_super' : 'duck_hard'] || '') + ')"></span>' : '<span class="me">' + duckHTML(L, '') + '</span>') + '</' + el + '>';
+    }
+    inner.style.height = H + 'px';
+    inner.innerHTML = '<svg viewBox="0 0 100 ' + H + '" preserveAspectRatio="none" aria-hidden="true"><path class="way" d="' + way + '"/><path class="way edge" d="' + done + '"/><path class="way done" d="' + done + '"/></svg>' + nodes;
+    box.scrollTop = Y(cur) - box.clientHeight * 0.58;                           // 지금 판이 가운데 조금 아래에 오게
+  }
+  function mapBind() {
+    const box = $('#map'); let drag = null, moved = false;
+    box.addEventListener('click', e => {                                        // 지금 판 노드만 눌러져요 (다른 노드는 보기만)
+      const nd = e.target.closest('.nd.cur'); if (!nd || moved) return;
+      Snd.ensure(); Snd.play('ui'); startMain(true);
+    });
+    // 마우스로도 끌어서 올려 볼 수 있게 (손가락은 그냥 스크롤)
+    box.addEventListener('pointerdown', e => { moved = false; if (e.pointerType === 'mouse') drag = { y: e.clientY, top: box.scrollTop }; });
+    window.addEventListener('pointermove', e => { if (!drag) return; const dy = e.clientY - drag.y; if (Math.abs(dy) > 5) moved = true; box.scrollTop = drag.top - dy; });
+    window.addEventListener('pointerup', () => { drag = null; });
   }
 
   /* ---------- 튜토리얼: 별도 4×4 판에서 배치 → 제외 → 추론 순서로 직접 해 보기 ---------- */
@@ -970,7 +1261,7 @@
     G.tut = { step: 0, kind: '', allow: null, free: false, first: pre };
     show('game');
     $('#hintbar').hidden = true; $('#draftbar').hidden = true; toolsShown(false); $('#btn-rules').hidden = true; $('#hearts-row').hidden = true; $('#colors-row').hidden = true; $('#guide').hidden = false;
-    View.build(); hud(true); status('');
+    View.build(); hud(true); status(''); ttMark(null); spot(false);
     requestAnimationFrame(() => View.fit());
     tutStep(1);
   }
@@ -1023,13 +1314,17 @@
     else if (s === 4) { tutTargets('duck', [tutSingle()], 'tap2'); tutGuide('이 줄에 남은 칸은 하나! 여기를 <b>두 번 톡톡!</b>', 'duck_hello'); }
     else if (s === 5) { tutTargets('x', tutBasic(false), 'rub'); tutGuide('오리끼리는 붙을 수 없어요. 표시된 칸을 <b>쓱 문질러 X!</b>', 'duck_think'); }
     else if (s === 6) { tutTargets('duck', [tutSingle()], 'tap2'); tutGuide('세 번째 오리 자리가 보여요. <b>두 번 톡톡!</b>', 'duck_hello'); }
-    else if (s === 7) {
-      T.kind = 'free'; T.allow = null; T.free = true; T.demo = ''; View.clearOverlays(); toolsShown(true); hud();
-      tutGuide('마지막 한 마리는 혼자 찾아봐요. 막히면 아래 <b>도쿠힌트</b>!', 'duck_think');
+    else if (s === 7) {                                                         // 화면을 어둡게 하고 도쿠힌트를 바로 눌러 보게 해요
+      T.kind = 'hint'; T.allow = new Set(); T.free = false; T.demo = ''; View.clearOverlays();
+      tutBasic(false).forEach(c => { G.marks[c] = XM; View.cell(c, true); }); G.rev++;   // 남은 뻔한 X는 채워 둬서 힌트가 바로 마지막 오리를 알려 주게
+      toolsShown(true); hud(); spot(true); ttMark('hint');
+      tutGuide('마지막은 <b>도쿠힌트</b>로!<br>아래 버튼을 <b>눌러 봐요</b>', 'duck_think');
     }
+    else if (s === 8) { tutTargets('duck', [tutSingle()], 'tap2'); tutGuide('이제 남은 자리는 하나! <b>두 번 톡톡!</b>', 'duck_hello'); }   // 힌트가 오리 자리가 아니었을 때만
   }
   function tutProgress() {
     const T = G.tut; if (!T) return;
+    if (T.kind === 'hint') { if (!UI.hint) tutStep(8); return; }
     if (T.kind === 'duck') { if (Array.from(T.allow).every(c => G.marks[c] === DUCK)) tutStep(T.step + 1); }
     else if (T.kind === 'x') {
       const left = Array.from(T.allow).filter(c => G.marks[c] === BLANK);
@@ -1045,7 +1340,6 @@
     document.head.appendChild(dk);
     loadSave();
     $$('[data-ic]').forEach(el => { el.style.backgroundImage = 'url(' + (ART[el.dataset.ic] || '') + ')'; });
-    $('#hero-duck').src = ART.duck_hello;
     ['color', 'line', 'adj'].forEach(k => { $('#rg-' + k).innerHTML = ruleGrid(k); });
     const logo = $('#logo'); if (ART.logo) logo.style.backgroundImage = 'url(' + ART.logo + ')'; else logo.textContent = 'dokuduck';
     const board = $('#board');
@@ -1054,6 +1348,7 @@
     board.addEventListener('contextmenu', e => e.preventDefault());
     board.addEventListener('pointerleave', () => { if (!ptr && G && UI.mode === 'locate') View.pickHover(-1); });
     $('#btn-play').onclick = () => { Snd.ensure(); Snd.play('ui'); startMain(true); };
+    mapBind();
     $('#btn-daily').onclick = () => {
       Snd.ensure(); Snd.play('ui');
       if (S.level < DAILY_UNLOCK) return toast('레벨 ' + DAILY_UNLOCK + '부터 열려요');
@@ -1097,18 +1392,20 @@
       if (acts[a]) acts[a](); else if (a === 'close') closeModal();
     });
     document.addEventListener('pointerdown', e => {                             // 보드 밖을 누르면 색 선택 취소
-      if (G && UI.mode === 'locate' && !e.target.closest('#board') && !e.target.closest('.tool')) setMode('play');
+      if (G && UI.mode === 'locate' && !G.tt && !e.target.closest('#board') && !e.target.closest('.tool')) setMode('play');
     });
     window.addEventListener('resize', () => View.fit());
     if (window.ResizeObserver) new ResizeObserver(() => View.fit()).observe($('#board-holder'));
     setInterval(() => {
-      if (G && G.status === 'play' && screen === 'game' && !document.hidden && !modalOpen && !G.tut) { G.secs++; if (G.secs % 10 === 0) save(); }
+      if (G && G.status === 'play' && screen === 'game' && !document.hidden && !modalOpen && !adBusy && !G.tut) { G.secs++; if (G.secs % 10 === 0) save(); }
     }, 1000);
     document.addEventListener('visibilitychange', () => { if (document.hidden && G && G.status === 'play' && G.mode !== 'tutorial') save(); });
     if (!S.tutorialDone) startTutorial(); else show('home');
+    adBanner();
   }
   // 기기 뒤로가기(구글플레이·토스): 떠 있는 창 → 도구 모드 → 게임 화면 순서로 닫고, 홈이면 false
   window.ncqBack = function () {
+    if (adBusy) return true;                                                    // 광고를 보는 동안에는 화면을 바꾸지 않아요
     if (modalOpen) { if (G && (G.status === 'lost' || G.status === 'won')) return true; closeModal(); return true; }
     if (screen === 'game') { $('#btn-back').click(); return true; }
     return false;

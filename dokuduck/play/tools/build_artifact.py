@@ -4,7 +4,7 @@ import base64, json, os, re, sys
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 rd = lambda p: open(os.path.join(root, p), encoding='utf-8').read()
 html = rd('index.html')
-html = html.replace('<script src="ncq/safe.js"></script>\n', '').replace('<script src="ncq/motion.js"></script>\n', '')   # 공용 모듈은 미리보기 한 파일에는 넣지 않아요
+html = html.replace('<script src="ncq/safe.js"></script>\n', '').replace('<script src="ncq/motion.js"></script>\n', '').replace('<script src="ncq/device.js"></script>\n', '')   # 공용 모듈은 미리보기 한 파일에는 넣지 않아요
 html = html.replace('<link rel="stylesheet" href="css/fonts.css">',
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gaegu:wght@700&display=swap" rel="stylesheet">')
 html = html.replace('<link rel="stylesheet" href="css/style.css">', '<style>\n' + rd('css/style.css') + '\n</style>')
@@ -12,7 +12,8 @@ art = {}
 for m in re.finditer(r"(\w+): 'assets/img/([^']+)'", rd('js/art.js')):
     art[m.group(1)] = 'data:image/webp;base64,' + base64.b64encode(open(os.path.join(root, 'assets/img', m.group(2)), 'rb').read()).decode()
 html = html.replace('<script src="js/art.js"></script>', '<script>window.DOKU_ART=' + json.dumps(art, separators=(',', ':')) + ';window.NCQ_TEST_CHEAT=true;</script>')
-for f in ('js/bank.js', 'js/engine.js', 'js/game.js'):
+html = html.replace('<script type="module" src="ncq/lang.js"></script>', '<script type="module">' + rd('ncq/lang.js') + '</script>')   # 언어 모듈은 한 파일 안에 그대로
+for f in ('js/bank.js', 'js/engine.js', 'js/texts.js', 'js/game.js'):
     tag = '<script src="%s"></script>' % f
     assert tag in html, f
     html = html.replace(tag, '<script>' + rd(f) + '</script>')

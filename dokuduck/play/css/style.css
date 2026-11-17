@@ -447,3 +447,10 @@ img { max-width: 100%; -webkit-user-drag: none; }
   .tool .ic { width: 30px; height: 30px; }
   .btn.big { min-height: 64px; font-size: 28px; }
 }
+
+/* 언어 (NcqLang): 여는 첫 순간 다른 언어가 비치지 않게, 언어가 정해지기 전에는 글자를 숨겨요 */
+html:not([lang]) [data-i18n], html:not([lang]) [data-i18n-html] { visibility: hidden; }
+.opt.lang { flex-wrap: wrap; row-gap: 6px; }
+.opt.lang .seg { display: flex; gap: 6px; flex: none; }
+.segb { font: inherit; font-size: 16px; padding: 4px 12px; border: 3px solid var(--ink); border-radius: 14px 12px 15px 11px; background: var(--paper); color: var(--ink); }
+.segb.on { background: var(--duck); }

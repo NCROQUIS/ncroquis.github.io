@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
 <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
 <script src="ncq/safe.js"></script>
 <script src="ncq/motion.js"></script>
+<script src="ncq/device.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#DDF1EC">
 <title>dokuduck</title>
@@ -16,38 +17,38 @@
   <!-- 홈 -->
   <section id="scr-home" class="scr" hidden>
     <header class="topbar">
-      <button class="chip" id="btn-streak" type="button" aria-label="연속 플레이"><span class="ic" data-ic="ic_flame"></span><b id="streak-n">0</b>일</button>
+      <button class="chip" id="btn-streak" type="button" aria-label="Play streak" data-i18n-attr="aria-label:aria_streak"><span class="ic" data-ic="ic_flame"></span><b id="streak-n">0</b><span id="streak-u"></span></button>
       <span class="grow"></span>
-      <button class="iconbtn" id="btn-home-settings" type="button" aria-label="설정"><span class="ic" data-ic="ic_gear"></span></button>
+      <button class="iconbtn" id="btn-home-settings" type="button" aria-label="Settings" data-i18n-attr="aria-label:aria_settings"><span class="ic" data-ic="ic_gear"></span></button>
     </header>
     <div class="home-hero">
       <div class="logo" id="logo"></div>
-      <div class="map" id="map" aria-label="레벨 길"><div class="map-in" id="map-in"></div></div>
+      <div class="map" id="map" aria-label="Level path" data-i18n-attr="aria-label:aria_map"><div class="map-in" id="map-in"></div></div>
     </div>
     <div class="home-actions">
-      <button class="btn big primary" id="btn-play" type="button" data-ncq-main><span id="play-label">레벨 1</span><small id="play-sub"></small></button>
-      <button class="btn sub" id="btn-daily" type="button"><span class="ic" data-ic="ic_calendar"></span><span id="daily-label">오늘의 퍼즐</span><small id="daily-sub"></small></button>
+      <button class="btn big primary" id="btn-play" type="button" data-ncq-main><span id="play-label"></span><small id="play-sub"></small></button>
+      <button class="btn sub" id="btn-daily" type="button"><span class="ic" data-ic="ic_calendar"></span><span id="daily-label" data-i18n="lbl_daily">Daily Puzzle</span><small id="daily-sub"></small></button>
     </div>
   </section>
 
   <!-- 인게임 -->
   <section id="scr-game" class="scr" data-ncq-no-main hidden>
     <header class="topbar">
-      <button class="iconbtn" id="btn-back" type="button" aria-label="홈으로"><span class="ic" data-ic="ic_back"></span></button>
+      <button class="iconbtn" id="btn-back" type="button" aria-label="Home" data-i18n-attr="aria-label:aria_back"><span class="ic" data-ic="ic_back"></span></button>
       <div class="scorebox">
-        <div class="sb"><span id="g-level-label">레벨</span><b id="g-level">1</b></div>
-        <div class="sb"><span>점수</span><b id="g-score">0</b></div>
+        <div class="sb"><span id="g-level-label"></span><b id="g-level">1</b></div>
+        <div class="sb"><span data-i18n="lbl_score">Score</span><b id="g-score">0</b></div>
       </div>
-      <button class="iconbtn" id="btn-game-settings" type="button" aria-label="설정"><span class="ic" data-ic="ic_gear"></span></button>
+      <button class="iconbtn" id="btn-game-settings" type="button" aria-label="Settings" data-i18n-attr="aria-label:aria_settings"><span class="ic" data-ic="ic_gear"></span></button>
     </header>
-    <div class="hearts-row" id="hearts-row"><span class="badge" id="g-badge" hidden>HARD</span><div class="hearts pill" id="g-hearts" aria-label="하트"></div></div>
-    <div class="colors-row" id="colors-row"><div class="colors pill" id="g-colors" aria-label="색깔별 진행"></div></div>
-    <button class="rules" id="btn-rules" type="button" aria-label="규칙 보기">
-      <span class="rule" data-rule="color"><svg class="rb" aria-hidden="true"><rect/></svg><span class="rg" id="rg-color"></span><em>색깔당 오리<br>1마리</em></span>
-      <span class="rule" data-rule="line"><svg class="rb" aria-hidden="true"><rect/></svg><span class="rg" id="rg-line"></span><em>행과 열마다<br>오리 1마리</em></span>
-      <span class="rule" data-rule="adj"><svg class="rb" aria-hidden="true"><rect/></svg><span class="rg" id="rg-adj"></span><em>오리 인접<br>불가</em></span>
+    <div class="hearts-row" id="hearts-row"><span class="badge" id="g-badge" hidden>HARD</span><div class="hearts pill" id="g-hearts" aria-label="Hearts" data-i18n-attr="aria-label:aria_hearts"></div></div>
+    <div class="colors-row" id="colors-row"><div class="colors pill" id="g-colors" aria-label="Progress by color" data-i18n-attr="aria-label:aria_colors"></div></div>
+    <button class="rules" id="btn-rules" type="button" aria-label="Show rules" data-i18n-attr="aria-label:aria_rules">
+      <span class="rule" data-rule="color"><svg class="rb" aria-hidden="true"><rect/></svg><span class="rg" id="rg-color"></span><em data-i18n-html="card_color"></em></span>
+      <span class="rule" data-rule="line"><svg class="rb" aria-hidden="true"><rect/></svg><span class="rg" id="rg-line"></span><em data-i18n-html="card_line"></em></span>
+      <span class="rule" data-rule="adj"><svg class="rb" aria-hidden="true"><rect/></svg><span class="rg" id="rg-adj"></span><em data-i18n-html="card_adj"></em></span>
     </button>
-    <div class="guide" id="guide" hidden><img id="guide-duck" alt=""><p id="guide-text"></p><button class="btn small" id="guide-ok" type="button" hidden>알겠어요</button></div>
+    <div class="guide" id="guide" hidden><img id="guide-duck" alt=""><p id="guide-text"></p><button class="btn small" id="guide-ok" type="button" hidden data-i18n="got_it">Got it</button></div>
     <div class="board-holder" id="board-holder">
       <div class="board" id="board">
         <svg class="regions" id="regions" aria-hidden="true"></svg>
@@ -60,17 +61,17 @@
     <div class="hintbar" id="hintbar" hidden>
       <img id="hint-duck" alt="">
       <p id="hint-text"></p>
-      <div class="row"><button class="btn small ghost" id="hint-more" type="button" hidden>자세히</button><button class="btn small primary" id="hint-apply" type="button">확인</button></div>
+      <div class="row"><button class="btn small ghost" id="hint-more" type="button" hidden data-i18n="more">Details</button><button class="btn small primary" id="hint-apply" type="button" data-i18n="ok">OK</button></div>
     </div>
     <div class="draftbar" id="draftbar" hidden>
-      <p>오리를 3마리까지 미리 그려 보세요. 틀려도 하트는 그대로예요.</p>
-      <div class="row"><span class="dcount" id="draft-count">오리 0/3</span><button class="btn small ghost" id="draft-cancel" type="button">취소</button><button class="btn small primary" id="draft-apply" type="button">확정</button></div>
+      <p data-i18n="draft_bar">Sketch up to 3 ducks. Wrong ones cost no hearts.</p>
+      <div class="row"><span class="dcount" id="draft-count"></span><button class="btn small ghost" id="draft-cancel" type="button" data-i18n="cancel">Cancel</button><button class="btn small primary" id="draft-apply" type="button" data-i18n="confirm">Confirm</button></div>
     </div>
     <nav class="tools" id="tools">
-      <button class="tool" data-tool="hint" type="button"><span class="ic" data-ic="ic_bulb"></span><em>도쿠힌트</em><b class="cnt"></b></button>
-      <button class="tool" data-tool="locate" type="button"><span class="ic" data-ic="ic_find"></span><em>오리찾기</em><b class="cnt"></b></button>
-      <button class="tool" data-tool="frog" type="button"><span class="ic" data-ic="ic_frog"></span><em>개굴점프</em><b class="cnt"></b></button>
-      <button class="tool" data-tool="draft" type="button"><span class="ic" data-ic="ic_pencil"></span><em>낙서연필</em><b class="cnt"></b></button>
+      <button class="tool" data-tool="hint" type="button"><span class="ic" data-ic="ic_bulb"></span><em data-i18n="tool_hint">Doku Hint</em><b class="cnt"></b></button>
+      <button class="tool" data-tool="locate" type="button"><span class="ic" data-ic="ic_find"></span><em data-i18n="tool_locate">Duck Finder</em><b class="cnt"></b></button>
+      <button class="tool" data-tool="frog" type="button"><span class="ic" data-ic="ic_frog"></span><em data-i18n="tool_frog">Frog Hop</em><b class="cnt"></b></button>
+      <button class="tool" data-tool="draft" type="button"><span class="ic" data-ic="ic_pencil"></span><em data-i18n="tool_draft">Doodle Pen</em><b class="cnt"></b></button>
     </nav>
     <div class="spot" id="spot" hidden></div>
     <div class="okdim" id="okdim" hidden></div>
@@ -84,6 +85,8 @@
 <script src="js/art.js"></script>
 <script src="js/bank.js"></script>
 <script src="js/engine.js"></script>
+<script src="js/texts.js"></script>
+<script type="module" src="ncq/lang.js"></script>
 <script src="js/game.js"></script>
 </body>
 </html>

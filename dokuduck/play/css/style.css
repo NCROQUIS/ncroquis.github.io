@@ -264,6 +264,25 @@ img { max-width: 100%; -webkit-user-drag: none; }
 .spot { position: absolute; inset: 0; z-index: 6; background: rgba(58, 46, 42, .8); }
 .scr > .spot { animation: fade .3s both; }
 .scr.spoton .guide, .scr.spoton .tools { position: relative; z-index: 7; }
+/* 말풍선에 '알겠어요'가 떠 있는 동안: 말풍선만 밝게 두고 나머지는 살짝 어둡게 덮어 못 누르게 해요. 버튼은 까딱까딱 흔들리고 웅웅 번져요 */
+.okdim { position: absolute; inset: 0; z-index: 6; background: rgba(58, 46, 42, .45); }
+.scr > .okdim { animation: fade .25s both; }
+.scr.okon .guide { position: relative; z-index: 7; }
+.scr.okhole .board-holder { position: relative; z-index: 7; pointer-events: none; }   /* 설명하는 칸만 밝게: 판을 덮개 위로 올리고 판의 어둠에서 그 칸만 뚫어요 */
+.scr.okhole .board .dim .dimr { fill: rgba(58, 46, 42, .45); }
+.scr.okhole .cell.unlit > .base { opacity: .5; }                                /* 밝게 남긴 칸이 아니면 그 칸의 오리·X도 같이 어둡게 */
+.scr.okon .hintbar { z-index: 7; }                                              /* 힌트 안내 줄('확인')은 덮개 위에 */
+.btn.nudge { animation: oknudge 1.25s ease-in-out infinite; }
+.guide #guide-ok.nudge { background: var(--duck); }
+@keyframes oknudge {
+  0%, 62%, 100% { transform: none; outline: 0 solid rgba(255, 152, 56, 0); outline-offset: 0; }
+  7% { transform: rotate(-9deg) scale(1.08); }
+  16% { transform: rotate(8deg) scale(1.12); }
+  25% { transform: rotate(-6deg) scale(1.12); }
+  34% { transform: rotate(4deg) scale(1.08); }
+  43% { transform: none; outline: 0 solid rgba(255, 152, 56, .95); outline-offset: 0; }
+  61% { transform: scale(1.05); outline: 7px solid rgba(255, 152, 56, 0); outline-offset: 5px; }
+}
 .tool.pick { z-index: 2; background: #FFF1B8; animation: toolpick 1s ease-in-out infinite; }
 .tthand { position: absolute; left: 50%; bottom: 78%; width: 46px; margin-left: -23px; transform: rotate(180deg); pointer-events: none; z-index: 3; animation: ttbob .9s ease-in-out infinite; }
 .tthand svg { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 -4px 0 rgba(58, 46, 42, .22)); }

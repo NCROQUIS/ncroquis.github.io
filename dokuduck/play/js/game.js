@@ -411,8 +411,9 @@
       svg.setAttribute('viewBox', '0 0 ' + n * 100 + ' ' + n * 100);
       svg.innerHTML = '<defs><clipPath id="dimclip">' + rects + '</clipPath><mask id="dimmask" maskUnits="userSpaceOnUse" x="-60" y="-60" width="' + L + '" height="' + L + '"><rect x="-60" y="-60" width="' + L + '" height="' + L + '" fill="#fff"/><g fill="#000" clip-path="url(#dimclip)">' + holes + '</g></mask></defs><rect class="dimr" x="-60" y="-60" width="' + L + '" height="' + L + '" mask="url(#dimmask)"/>';
       $('#dim').classList.add('on');
+      const lit = new Set(cells); this.cells.forEach((el, i) => el.classList.toggle('unlit', !lit.has(i)));   // 밝게 남긴 칸이 아닌 칸 표시
     },
-    dimOff() { $('#dim').classList.remove('on'); },
+    dimOff() { $('#dim').classList.remove('on'); if (this.cells) this.cells.forEach(el => el.classList.remove('unlit')); },
     // 틀린 이유가 된 곳을 빨간 점선으로 잠깐 둘러요
     bad(html) {
       const g = $('#bad'); if (!g) return;
@@ -519,7 +520,7 @@
   }
   function enterGame(fresh) {
     show('game');
-    $('#guide').hidden = true; $('#hintbar').hidden = true; $('#draftbar').hidden = true; toolsShown(true); $('#tools').classList.remove('dim'); ttMark(null); ttDraft(0); spot(false); $('#tier').hidden = true;
+    $('#guide').hidden = true; $('#hintbar').hidden = true; $('#draftbar').hidden = true; toolsShown(true); $('#tools').classList.remove('dim'); ttMark(null); ttDraft(0); spot(false); okDim(false); $('#tier').hidden = true;
     $('#btn-rules').hidden = false; $('#hearts-row').hidden = false; $('#colors-row').hidden = false;
     const bd = $('#board'); bd.style.animation = 'none'; void bd.offsetWidth; bd.style.animation = '';
     View.build(); hud(true); status('');
@@ -865,6 +866,14 @@
       else View.overlay(c, '<span class="ring target"></span>');
     });
     if (detail && h.chain) h.chain.forced.forEach((c, k) => View.overlay(c, '<img class="mk duck ghost" src="' + ART.duck_idle + '" alt=""><span class="mk num">' + (k + 1) + '</span>'));
+    UI.hintDetail = !!detail; dimSync();                                        // 힌트가 가리키는 곳·말풍선·안내 줄만 밝게
+  }
+  function hintCells(h, detail) {                                               // 힌트가 가리키는 칸: 근거가 된 줄·색 구역, 근거 칸, 바꿀 칸 (자세히 보기면 차례로 정해지는 칸도)
+    const set = new Set(h.targets);
+    h.ev.units.forEach(u => E.unitCells(G.b, u.type, u.idx).forEach(c => set.add(c)));
+    h.ev.cells.forEach(c => set.add(c));
+    if (detail && h.chain) h.chain.forced.forEach(c => set.add(c));
+    return Array.from(set);
   }
   function useHint() {
     let h = G.paidHint && G.paidHint.rev === G.rev ? G.paidHint.h : null;
@@ -879,12 +888,13 @@
     $('#hint-duck').src = ART.duck_think; $('#hint-text').textContent = hintText(h);
     $('#hint-more').hidden = !(h.chain && h.chain.forced.length);
     $('#hintbar').hidden = false; toolsShown(false); status('');
+    $('#hint-apply').classList.toggle('nudge', !!(G.tut && G.tut.kind === 'hint'));   // 튜토리얼의 힌트: '확인'을 누르라고 까딱까딱
     drawHint(h, false); hud(); requestAnimationFrame(() => View.fit());
     if (G.tut && G.tut.kind === 'hint') { spot(false); ttMark(null); tutGuide('<b>다음 수</b>를 알려 줘요.<br>읽고 <b>확인</b>을 눌러요', 'duck_joy'); }
   }
   function hintClose(apply) {
     const h = UI.hint; if (!h) return;
-    UI.hint = null; View.clearOverlays();
+    UI.hint = null; View.clearOverlays(); dimSync();
     $('#hintbar').hidden = true; toolsShown(true);
     if (apply) {
       G.paidHint = null;
@@ -901,7 +911,7 @@
     const cell = G.b.regCells[g].find(c => G.b.solSet[c]);
     spend('locate'); setMode('play');
     if (!placeDuck(cell, false)) save();
-    if (G.tt) ttStep(3);
+    if (G.tt) { G.tt.show = [cell]; ttStep(3); }
   }
   function locateStart() {
     const regs = openRegs();
@@ -941,7 +951,7 @@
     frog.remove(); UI.busy = false; G.paidHint = null;
     if (!targets.length) { if (!placeDuck(giveDuck, false)) save(); } else save();
     hud();
-    if (G.tt) ttStep(3);
+    if (G.tt) { G.tt.show = targets.length ? targets : [giveDuck]; ttStep(3); }
   }
 
   /* 낙서연필: 오리를 3마리까지(X는 마음껏) 미리 그려 보고 확정해요.
@@ -978,7 +988,7 @@
     right.forEach(c => { if (!done) done = placeDuck(c, true); });
     if (!done) save();
     if (!G.tt && wrong.length && !done) toast(right.length ? '맞는 오리만 남겼어요. 틀린 ' + wrong.length + '마리는 X로!' : '어… 여긴 아니었네요. 하트는 그대로예요.');
-    if (G.tt) ttStep(TTD_APPLY + 1);
+    if (G.tt) { G.tt.show = right.concat(wrong, xs); ttStep(TTD_APPLY + 1); }
   }
 
   /* ---------- 화면·모달 ---------- */
@@ -1088,6 +1098,18 @@
     });
   }
   function spot(on) { $('#spot').hidden = !on; $('#scr-game').classList.toggle('spoton', !!on); }   // 화면 전체를 어둡게 (말풍선과 도구 줄만 밝게)
+  /* 눌러야 할 것이 하나뿐일 때는 그것만 밝게 두고 나머지를 살짝 어둡게 덮어요 (다른 곳은 못 누른다는 걸 알 수 있게):
+     - 말풍선에 '알겠어요'가 떠 있을 때: 말풍선(+ 지금 설명하는 칸). 버튼은 까딱까딱 움직여요.
+     - 힌트를 보여 줄 때: 힌트가 가리키는 칸, 아래 안내 줄('확인'), 말풍선.
+     밝게 남길 칸이 있으면 판을 덮개 위로 올리고 판의 어둠에서 그 칸만 뚫어요 (그동안 판은 눌리지 않아요). */
+  let okOn = false, okCells = null;
+  function dimSync() {
+    const scr = $('#scr-game'), hint = !!(G && UI.hint), on = okOn || hint;
+    const cells = hint ? hintCells(UI.hint, UI.hintDetail) : okCells, hole = !!(on && cells && cells.length);
+    $('#okdim').hidden = !on; scr.classList.toggle('okon', on); scr.classList.toggle('okhole', hole); $('#guide-ok').classList.toggle('nudge', okOn);
+    if (hole) View.dim(cells);
+  }
+  function okDim(on, cells) { okOn = !!on; okCells = on && cells && cells.length ? cells : null; dimSync(); }
   function ttStart(t) {
     if (!G || G.status !== 'play' || screen !== 'game') return;
     G.tt = { tool: t, step: 0, free: false };
@@ -1111,7 +1133,7 @@
     const last = s === TT_TEXT[T.tool].length;
     T.step = s;
     if (T.tool === 'draft' && s === 2 && T.cell === undefined) { T.cell = tutSingle(); const nb = ttdNeighbors(T.cell); T.cell2 = nb.length ? nb[0] : -1; T.cell3 = nb.length > 1 ? nb[1] : -1; }
-    tutGuide(TT_TEXT[T.tool][s - 1], last ? 'duck_joy' : s === 1 ? 'duck_hello' : 'duck_think', last ? () => { Snd.play('ui'); ttEnd(); } : null);
+    tutGuide(TT_TEXT[T.tool][s - 1], last ? 'duck_joy' : s === 1 ? 'duck_hello' : 'duck_think', last ? () => { Snd.play('ui'); ttEnd(); } : null, last ? T.show : null);
     ttMark(s === 1 ? T.tool : null);
     if (T.tool === 'draft') ttDraft(s);
   }
@@ -1119,7 +1141,8 @@
     if (!G || !G.tt) return;
     const wasDraft = G.tt.tool === 'draft';
     G.tt = null; ttMark(null); if (wasDraft) ttDraft(0);
-    $('#guide').hidden = true; $('#btn-rules').hidden = false;
+    if ($('#scr-game').classList.contains('okhole')) View.dimOff();
+    $('#guide').hidden = true; okDim(false); $('#btn-rules').hidden = false;
     save(); requestAnimationFrame(() => View.fit());
   }
   function showRules() {
@@ -1172,7 +1195,11 @@
         m10() { lv(-10); }, m1() { lv(-1); }, p1() { lv(1); }, p10() { lv(10); },
         tools() { grant({ hint: 5, locate: 5, frog: 5, draft: 5 }); save(); toast('도구 +5'); },
         tut() { closeModal(); startTutorial(); },
-        reset() { S = freshSave(); try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* 무시 */ } closeModal(); startTutorial(); }
+        reset() {
+          S = freshSave(); try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* 무시 */ }
+          bannerOn = false; try { Promise.resolve(NcqAds.hideBanner()).catch(() => {}); } catch (e) { /* 무시 */ }   // 처음부터 다시: 튜토리얼 동안에는 배너도 다시 숨겨요
+          closeModal(); startTutorial();
+        }
       }, true);
     function lv(d) { S.level = Math.max(1, S.level + d); S.cur = null; save(); showTest(); renderHome(); }
   }
@@ -1265,9 +1292,9 @@
     requestAnimationFrame(() => View.fit());
     tutStep(1);
   }
-  function tutGuide(html, img, ok) {
+  function tutGuide(html, img, ok, cells) {
     $('#guide-text').innerHTML = html; $('#guide-duck').src = ART[img || 'duck_hello'];
-    const b = $('#guide-ok'); b.hidden = !ok; b.onclick = ok || null;
+    const b = $('#guide-ok'); b.hidden = !ok; b.onclick = ok || null; okDim(!!ok, cells);
     const g = $('#guide'); g.style.animation = 'none'; void g.offsetWidth; g.style.animation = '';
     requestAnimationFrame(() => View.fit());
   }
@@ -1308,7 +1335,7 @@
     if (s === 1) { tutTargets('duck', [T.first], 'tap2'); tutGuide('<b>동그라미 친 칸</b>을 빠르게<br><b>두 번 톡톡!</b>', 'duck_hello'); }
     else if (s === 2) {
       T.kind = 'info'; T.allow = new Set(); T.demo = ''; View.clearOverlays(); View.unit('reg', G.b.reg[T.first]);
-      tutGuide('잘했어요! <b>같은 색</b> 칸에는 오리가 <b>딱 한 마리</b>예요.', 'duck_joy', () => { Snd.play('ui'); tutStep(3); });
+      tutGuide('잘했어요! <b>같은 색</b> 칸에는 오리가 <b>딱 한 마리</b>예요.', 'duck_joy', () => { Snd.play('ui'); tutStep(3); }, G.b.regCells[G.b.reg[T.first]]);
     }
     else if (s === 3) { tutTargets('x', tutBasic(true), 'tap1'); tutGuide('같은 줄에도 오리는 한 마리뿐! 표시된 칸을 <b>톡 눌러 X</b>', 'duck_think'); }
     else if (s === 4) { tutTargets('duck', [tutSingle()], 'tap2'); tutGuide('이 줄에 남은 칸은 하나! 여기를 <b>두 번 톡톡!</b>', 'duck_hello'); }

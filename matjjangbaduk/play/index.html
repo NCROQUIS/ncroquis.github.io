@@ -1,10 +1,10 @@
 <!doctype html>
 <html><head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
-  <script src="./ncq/safe.js?v=a121734f1ce4"></script>
-  <script src="./ncq/motion.js?v=a121734f1ce4"></script>
-  <script src="./ncq/device.js?v=a121734f1ce4"></script>
-  <script src="./ncq/sound.js?v=a121734f1ce4"></script>
-  <script src="./ncq/save.js?v=a121734f1ce4"></script>
+  <script src="./ncq/safe.js?v=aeeb77fbbd29"></script>
+  <script src="./ncq/motion.js?v=aeeb77fbbd29"></script>
+  <script src="./ncq/device.js?v=aeeb77fbbd29"></script>
+  <script src="./ncq/sound.js?v=aeeb77fbbd29"></script>
+  <script src="./ncq/save.js?v=aeeb77fbbd29"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -13,19 +13,19 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=a121734f1ce4">
-  <link rel="stylesheet" href="./omok.css?v=a121734f1ce4">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=a121734f1ce4">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=a121734f1ce4">
-  <link rel="stylesheet" href="./forest-ui.css?v=a121734f1ce4">
-  <link rel="stylesheet" href="./lobby-layout.css?v=a121734f1ce4">
-  <link rel="stylesheet" href="./list-dialog.css?v=a121734f1ce4">
-  <link rel="stylesheet" href="./shop-layout.css?v=a121734f1ce4">
-  <link rel="stylesheet" href="./ranking-layout.css?v=a121734f1ce4">
-  <link rel="stylesheet" href="./mission-layout.css?v=a121734f1ce4">
-  <link rel="stylesheet" href="./jangi-match.css?v=a121734f1ce4">
-  <script type="module" src="./app.js?v=a121734f1ce4"></script>
-<link rel="stylesheet" href="./style.css?v=a121734f1ce4"><script src="./ncq/auth-sdk.js?v=a121734f1ce4"></script><title>맞짱 바둑 · Baduk Duel</title><link rel="stylesheet" href="./jangi-lobby-puzzle.css?v=a121734f1ce4"><link rel="stylesheet" href="./daily-puzzle.css?v=a121734f1ce4"><link rel="stylesheet" href="./jangi-rewards.css?v=a121734f1ce4">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=aeeb77fbbd29">
+  <link rel="stylesheet" href="./omok.css?v=aeeb77fbbd29">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=aeeb77fbbd29">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=aeeb77fbbd29">
+  <link rel="stylesheet" href="./forest-ui.css?v=aeeb77fbbd29">
+  <link rel="stylesheet" href="./lobby-layout.css?v=aeeb77fbbd29">
+  <link rel="stylesheet" href="./list-dialog.css?v=aeeb77fbbd29">
+  <link rel="stylesheet" href="./shop-layout.css?v=aeeb77fbbd29">
+  <link rel="stylesheet" href="./ranking-layout.css?v=aeeb77fbbd29">
+  <link rel="stylesheet" href="./mission-layout.css?v=aeeb77fbbd29">
+  <link rel="stylesheet" href="./jangi-match.css?v=aeeb77fbbd29">
+  <script type="module" src="./app.js?v=aeeb77fbbd29"></script>
+<link rel="stylesheet" href="./style.css?v=aeeb77fbbd29"><script src="./ncq/auth-sdk.js?v=aeeb77fbbd29"></script><title>맞짱 바둑 · Baduk Duel</title><link rel="stylesheet" href="./jangi-lobby-puzzle.css?v=aeeb77fbbd29"><link rel="stylesheet" href="./daily-puzzle.css?v=aeeb77fbbd29"><link rel="stylesheet" href="./jangi-rewards.css?v=aeeb77fbbd29">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -371,7 +371,7 @@
           </div>
           <button id="opponent-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
             <strong id="opponent-nickname" dir="auto" class="name"></strong>
-            <span class="seat"><span id="opponent-stone" class="stone" role="img"></span><span id="opponent-rank" class="color"></span><small class="captures"></small><span id="opponent-turn" class="jangi-turn-badge"></span></span>
+            <span class="seat"><span id="opponent-stone" class="stone" role="img"></span><span id="opponent-rank" class="color"></span><small class="captures"></small></span>
           </button>
           <div id="opponent-timer" class="jangi-player-time">
             <span id="opponent-clock" class="player-clock" role="timer"></span>
@@ -412,7 +412,7 @@
           </div>
           <button id="own-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
             <strong id="own-nickname" class="name"></strong>
-            <span class="seat"><span id="own-stone" class="stone" role="img"></span><span id="own-rank" class="color"></span><small class="captures"></small><span id="place-text" class="jangi-turn-badge"></span></span>
+            <span class="seat"><span id="own-stone" class="stone" role="img"></span><span id="own-rank" class="color"></span><small class="captures"></small></span>
           </button>
           <div id="own-timer" class="jangi-player-time">
             <span id="own-clock" class="player-clock" role="timer"></span>
@@ -420,7 +420,7 @@
           </div>
           <div id="place-gauge" class="jangi-time-track" role="progressbar" aria-valuemin="0" data-i18n-attr="aria-label:badukOwnGauge"><span id="own-progress" class="jangi-time-fill"></span></div>
         </div>
-        <div id="live-actions" class="live-actions" hidden=""><button id="place" class="match-art-action" type="button" data-ncq-main="Place stone"><span class="placement-copy"><span id="place-action-label" data-i18n="placeStone"></span><small id="place-state" hidden=""></small></span></button><button id="resume-play" class="match-art-action" type="button" data-i18n="morePlay" hidden=""></button><button id="pass-turn" class="match-art-action" type="button" data-i18n="pass"></button>
+        <div id="live-actions" class="live-actions" hidden=""><button id="request-score" class="match-art-action" type="button" data-i18n="requestScoring"></button><button id="pass-turn" class="match-art-action" type="button" data-i18n="pass"></button><button id="resume-play" class="match-art-action" type="button" data-i18n="morePlay" hidden=""></button><button id="place" class="match-art-action" type="button" data-ncq-main="Place stone"><span class="placement-copy"><span id="place-action-label" data-i18n="placeStone"></span><small id="place-state" hidden=""></small></span></button>
           <div id="opening-actions" class="opening-actions" hidden="">
             <button type="button" class="match-art-action" data-opening="swap" data-i18n="swapColors"></button>
             <button type="button" class="match-art-action" data-opening="offerFive" data-i18n="offerFifthMoves"></button>
@@ -1324,5 +1324,5 @@
 </template>
 
 
-<dialog id="practice-dialog" class=""><form method="dialog"><div class="dialog-heading"><h2 data-i18n="practice"></h2><button class="quiet" data-i18n-attr="aria-label:close">✕</button></div></form><label class="option-row"><span data-i18n="boardSize"></span><select id="practice-board-size"><option value="9" data-i18n="boardMode9"></option><option value="19" data-i18n="boardMode19"></option></select></label><label class="option-row"><span data-i18n="opponent"></span><select id="practice-mode"><option value="ai" data-i18n="aiOpponent"></option><option value="local" data-i18n="localOpponent"></option></select></label><label class="option-row"><span data-i18n="difficulty"></span><select id="difficulty"><option value="0" data-i18n="level0"></option><option value="1" data-i18n="level1"></option><option value="2" data-i18n="level2"></option><option value="3" data-i18n="level3"></option></select></label><label class="option-row"><span data-i18n="myColor"></span><select id="my-color"><option value="1" data-i18n="black"></option><option value="2" data-i18n="white"></option></select></label><button id="start-practice" class="primary" data-ncq-main="연습 시작" data-i18n="start"></button></dialog><dialog id="confirm-dialog" class=""><h2 id="confirm-title"></h2><p id="confirm-text"></p><div class="dialog-actions"><button id="confirm-no" class="secondary" data-i18n="cancel"></button><button id="confirm-yes" class="primary" data-ncq-main="확인" data-i18n="confirm"></button></div></dialog><dialog id="tutorial-dialog" class="academy-dialog" aria-labelledby="academy-title"><div class="academy-frame"><header class="academy-header"><button id="academy-close" class="quiet" type="button" aria-label="Close">‹</button><h2 id="academy-title"></h2><button id="academy-grade" class="quiet academy-rank" type="button"></button></header><div id="academy-content" class="academy-content"></div><footer id="academy-footer" class="academy-footer"></footer></div></dialog><div id="toast" class="toast" role="status" hidden=""></div>
+<dialog id="practice-dialog" class=""><form method="dialog"><div class="dialog-heading"><h2 data-i18n="practice"></h2><button class="quiet" data-i18n-attr="aria-label:close">✕</button></div></form><label class="option-row"><span data-i18n="boardSize"></span><select id="practice-board-size"><option value="9" data-i18n="boardMode9"></option><option value="19" data-i18n="boardMode19"></option></select></label><label class="option-row"><span data-i18n="opponent"></span><select id="practice-mode"><option value="ai" data-i18n="aiOpponent"></option><option value="local" data-i18n="localOpponent"></option></select></label><label class="option-row"><span data-i18n="difficulty"></span><select id="difficulty"><option value="0" data-i18n="level0"></option><option value="1" data-i18n="level1"></option><option value="2" data-i18n="level2"></option><option value="3" data-i18n="level3"></option></select></label><label class="option-row"><span data-i18n="myColor"></span><select id="my-color"><option value="1" data-i18n="black"></option><option value="2" data-i18n="white"></option></select></label><button id="start-practice" class="primary" data-ncq-main="연습 시작" data-i18n="start"></button></dialog><dialog id="score-request-dialog" aria-labelledby="score-request-title"><h2 id="score-request-title" data-i18n="incomingScoringTitle"></h2><p data-i18n="incomingScoringText"></p><div class="dialog-actions"><button id="decline-score" class="secondary" data-i18n="declineScoring"></button><button id="accept-score" class="primary" data-ncq-main="계가 요청 수락" data-i18n="acceptScoring"></button></div></dialog><dialog id="confirm-dialog" class=""><h2 id="confirm-title"></h2><p id="confirm-text"></p><div class="dialog-actions"><button id="confirm-no" class="secondary" data-i18n="cancel"></button><button id="confirm-yes" class="primary" data-ncq-main="확인" data-i18n="confirm"></button></div></dialog><dialog id="tutorial-dialog" class="academy-dialog" aria-labelledby="academy-title"><div class="academy-frame"><header class="academy-header"><button id="academy-close" class="quiet" type="button" aria-label="Close">‹</button><h2 id="academy-title"></h2><button id="academy-grade" class="quiet academy-rank" type="button"></button></header><div id="academy-content" class="academy-content"></div><footer id="academy-footer" class="academy-footer"></footer></div></dialog><div id="toast" class="toast" role="status" hidden=""></div>
 </body></html>

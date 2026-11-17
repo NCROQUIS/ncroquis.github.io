@@ -93,14 +93,16 @@
 .match[data-scoring] #round {
   display: block;
   color: #e1c6aa;
+  white-space: pre-line;
+  line-height: 1.35;
 }
 
 .match[data-playing] { grid-template-rows: auto auto [board-start] auto [board-end] auto auto; }
 .forest-ui .match[data-playing] { --board-area-width: 100%; }
-.forest-ui #opponent-turn { min-width: 0; }
 .forest-ui .match-player .seat { flex-wrap: wrap; }
 .forest-ui .match-player .color { display: none; }
 .forest-ui #live-actions { flex-wrap: nowrap; }
+.forest-ui #live-actions #request-score { flex: none; width: auto; max-width: 36%; min-height: 44px; padding: 5px 10px; white-space: normal; overflow-wrap: anywhere; line-height: 1.2; }
 .forest-ui #live-actions #place {
   flex: 1; width: auto; min-width: 0; min-height: 44px; padding: 5px 12px;
   border: 1px solid #c1a875; border-radius: 999px;
@@ -325,3 +327,24 @@
 .server-wallet .shop-coin {width:17px;height:17px;}
 #lobby-stage .server-wallet {position:absolute;top:62px;right:0;width:260px;display:block;text-align:right;font-size:24px;line-height:1.35;white-space:nowrap;}
 #rankings-dialog .tournament-entry-safety {font-size:20px;line-height:28px;color:#e9ebc2;margin:6px 0;}
+
+/* Player card states and small hourglasses from matjjangjangi@6e31ac55561daa7f89908a92cd2633e2ee53f6da:jangi.css. */
+.forest-ui .match-player {
+  grid-template-columns:34px minmax(0,1fr) 74px;grid-template-rows:minmax(39px,auto) 6px;column-gap:9px;row-gap:8px;
+  min-height:0;padding:10px 12px 9px;border-radius:16px;
+  color:#f0ead5;background:linear-gradient(135deg,#f4f0db24,#e5edda14);border-color:#d9e1bf33;box-shadow:0 2px 5px #00180d18;
+}
+.forest-ui .match-player[data-active="true"] {
+  color:#24432d;background:linear-gradient(135deg,#fffbed,#f1e5cb);border-color:#f1d073;box-shadow:0 0 0 1px #edcf7c,0 2px 9px #f1cf7240;
+}
+.forest-ui .match-player .match-identity .seat { gap:5px;font-size:11px;line-height:1.2;color:#e5e7d1; }
+.forest-ui .match-player[data-active="true"] .seat { color:#65705b; }
+.forest-ui .jangi-player-time .player-clock { font-size:24px;line-height:1;font-weight:800;letter-spacing:-.5px;color:#f4eed8; }
+.forest-ui .match-player[data-active="true"] .player-clock { color:#29462e; }
+.forest-ui .match-player[data-active="true"] .jangi-refills { color:#927019; }
+.forest-ui .match-player[data-active="true"] .player-clock:is([data-byoyomi],[data-urgent]) { color:#b43228; }
+.forest-ui .match-player:not([data-active="true"]) .jangi-time-track { background:#123a2280; }
+.forest-ui .match-player[data-active="true"] .jangi-time-track { background:#d4cdb8; }
+.forest-ui .match-player[data-active="true"] .jangi-time-fill { background:linear-gradient(90deg,#58944d,#2e6837); }
+.forest-ui .match-player[data-active="true"][data-low] .jangi-time-fill { background:#cf5946; }
+.forest-ui .match[data-playing] .match-player .jangi-refills svg { width:6px;height:8px; }

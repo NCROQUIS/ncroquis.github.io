@@ -1,1 +1,71 @@
-const qg_0x57c699=qg_0x4ab6;(function(_0x32510d,_0x1962b0){const _0x2a97b6=qg_0x4ab6,_0x1c1c94=_0x32510d();while(!![]){try{const _0x5750d6=-parseInt(_0x2a97b6(0x118))/0x1*(-parseInt(_0x2a97b6(0x11f))/0x2)+parseInt(_0x2a97b6(0x11d))/0x3+parseInt(_0x2a97b6(0x121))/0x4*(-parseInt(_0x2a97b6(0x135))/0x5)+parseInt(_0x2a97b6(0x120))/0x6+parseInt(_0x2a97b6(0x131))/0x7*(-parseInt(_0x2a97b6(0x12d))/0x8)+-parseInt(_0x2a97b6(0x126))/0x9*(parseInt(_0x2a97b6(0x129))/0xa)+parseInt(_0x2a97b6(0x12b))/0xb*(parseInt(_0x2a97b6(0x133))/0xc);if(_0x5750d6===_0x1962b0)break;else _0x1c1c94['push'](_0x1c1c94['shift']());}catch(_0x1b8cef){_0x1c1c94['push'](_0x1c1c94['shift']());}}}(qg_0x5376,0x2f426));function qg_0x5376(){const _0xe1f94c=['ChvZAa','Aw5JBhvKzxm','mJiZwwPovxrI','C2nVCMu','D2LKDgG','yM90Dg9T','zNjVBq','nZu3mJa2AvfsCNLu','yMLRAMfUzW','mte0oePhBxngCa','nJu2odK4B0vrt2Di','mtK1mdHPzLL4zNC','C2LKzq','C2LNBG','Aw5KzxHpzG','AgvPz2H0','ow1gs2TxzG','CMLNAhq','Bwf4','odyZnteWww5IqM5r','BwfW','mtiYmJmYAuXltvrb','AhLWB3q','mJGXmtyZmNbiB3LjBW','BwLU','AM9PBG','zMXVB3i','n251DgH4AG','Dg9W','mJe2wKftz2XS','BgvMDa','nJbquMz0Cwm','ywjZ','y2HLy2S'];qg_0x5376=function(){return _0xe1f94c;};return qg_0x5376();}import{KING,HORSE,ELEPHANT,sideOf,pseudoMoves,facing}from'./rules.js';const point=(_0x59a4b0,_0xf02294)=>{const _0x75cadf=qg_0x4ab6,_0x29b0d8=_0xf02294?0x59-_0x59a4b0:_0x59a4b0;return[_0x29b0d8%0x9+0.5,Math[_0x75cadf(0x130)](_0x29b0d8/0x9)+0.5];},path=_0x257245=>_0x257245[qg_0x57c699(0x12a)]((_0x1f4981,_0x519341)=>''+(_0x519341?'L':'M')+_0x1f4981[qg_0x57c699(0x12f)]('\x20'))['join']('');function qg_0x4ab6(_0x2b153d,_0x489867){_0x2b153d=_0x2b153d-0x117;const _0x537664=qg_0x5376();let _0x4ab686=_0x537664[_0x2b153d];if(qg_0x4ab6['vCWAUN']===undefined){var _0x3f86c7=function(_0x48fe6a){const _0x147533='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x59a89b='',_0x59a4b0='';for(let _0xf02294=0x0,_0x29b0d8,_0x257245,_0x1f4981=0x0;_0x257245=_0x48fe6a['charAt'](_0x1f4981++);~_0x257245&&(_0x29b0d8=_0xf02294%0x4?_0x29b0d8*0x40+_0x257245:_0x257245,_0xf02294++%0x4)?_0x59a89b+=String['fromCharCode'](0xff&_0x29b0d8>>(-0x2*_0xf02294&0x6)):0x0){_0x257245=_0x147533['indexOf'](_0x257245);}for(let _0x519341=0x0,_0x5284ea=_0x59a89b['length'];_0x519341<_0x5284ea;_0x519341++){_0x59a4b0+='%'+('00'+_0x59a89b['charCodeAt'](_0x519341)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x59a4b0);};qg_0x4ab6['wllvUH']=_0x3f86c7,qg_0x4ab6['pOQxhd']={},qg_0x4ab6['vCWAUN']=!![];}const _0x5ee391=_0x537664[0x0];qg_0x4ab6['nlHExM']!==_0x5ee391&&(qg_0x4ab6['pOQxhd']={},qg_0x4ab6['nlHExM']=_0x5ee391);const _0x43b9af=qg_0x4ab6['pOQxhd'][_0x2b153d];return _0x43b9af===undefined?(_0x4ab686=qg_0x4ab6['wllvUH'](_0x4ab686),qg_0x4ab6['pOQxhd'][_0x2b153d]=_0x4ab686):_0x4ab686=_0x43b9af,_0x4ab686;}function route(_0x5284ea,_0x36a4ee,_0x547ea4,_0x45aeb0){const _0xa2a8d3=qg_0x57c699,_0x252f40=_0x36a4ee%0x9,_0x29da2c=Math[_0xa2a8d3(0x130)](_0x36a4ee/0x9),_0x4f2695=_0x547ea4%0x9-_0x252f40,_0x5909ea=Math[_0xa2a8d3(0x130)](_0x547ea4/0x9)-_0x29da2c,_0x2aab79=[[_0x252f40+0.5,_0x29da2c+0.5]],_0x6663dc=Math[_0xa2a8d3(0x136)](_0x5284ea[_0x36a4ee]);if(_0x6663dc===HORSE||_0x6663dc===ELEPHANT){const _0x4a1c7e=Math[_0xa2a8d3(0x136)](_0x4f2695)>Math['abs'](_0x5909ea),_0x406855=[_0x252f40+0.5+(_0x4a1c7e?Math[_0xa2a8d3(0x123)](_0x4f2695):0x0),_0x29da2c+0.5+(_0x4a1c7e?0x0:Math[_0xa2a8d3(0x123)](_0x5909ea))];_0x2aab79['push'](_0x406855);if(_0x6663dc===ELEPHANT)_0x2aab79[_0xa2a8d3(0x138)]([_0x406855[0x0]+Math['sign'](_0x4f2695),_0x406855[0x1]+Math[_0xa2a8d3(0x123)](_0x5909ea)]);}_0x2aab79[_0xa2a8d3(0x138)]([_0x547ea4%0x9+0.5,Math[_0xa2a8d3(0x130)](_0x547ea4/0x9)+0.5]);if(_0x45aeb0)for(const _0x304a7e of _0x2aab79){_0x304a7e[0x0]=0x9-_0x304a7e[0x0],_0x304a7e[0x1]=0xa-_0x304a7e[0x1];}const _0x2e6e7c=_0x2aab79['map'](_0x4a6983=>[..._0x4a6983]),_0x19646a=_0x2e6e7c['at'](-0x1),_0x184e4f=_0x2e6e7c['at'](-0x2),_0x17703d=Math['hypot'](_0x19646a[0x0]-_0x184e4f[0x0],_0x19646a[0x1]-_0x184e4f[0x1]),_0x5ef8a5=Math['min'](0.55,_0x17703d*0.6);return _0x19646a[0x0]-=(_0x19646a[0x0]-_0x184e4f[0x0])/_0x17703d*_0x5ef8a5,_0x19646a[0x1]-=(_0x19646a[0x1]-_0x184e4f[0x1])/_0x17703d*_0x5ef8a5,{'from':_0x36a4ee,'to':_0x547ea4,'points':_0x2aab79,'path':path(_0x2aab79),'arrowPath':path(_0x2e6e7c)};}export function boardThreats(_0x181168,{flipped:flipped=![],bikjang:bikjang=![],offeringSide:offeringSide=0x1}={}){const _0x4982b4=qg_0x57c699,_0x2d95dd=[];for(const _0x27b758 of[0x1,0x2]){const _0x63e5c0=_0x181168[_0x4982b4(0x124)](_0x27b758===0x1?KING:-KING);if(_0x63e5c0<0x0)continue;for(let _0x58238e=0x0;_0x58238e<0x5a;_0x58238e++){if(sideOf(_0x181168[_0x58238e])===0x3-_0x27b758&&pseudoMoves(_0x181168,_0x58238e)[_0x4982b4(0x117)](_0x63e5c0))_0x2d95dd[_0x4982b4(0x138)](route(_0x181168,_0x58238e,_0x63e5c0,flipped));}}if(_0x2d95dd['length'])return{'kind':_0x4982b4(0x137),'routes':_0x2d95dd,'callers':_0x2d95dd[_0x4982b4(0x12a)](_0x2efe1a=>_0x2efe1a[_0x4982b4(0x11c)]),'kings':[...new Set(_0x2d95dd[_0x4982b4(0x12a)](_0x392bfc=>_0x392bfc['to']))]};if(!bikjang||!facing(_0x181168))return null;const _0x89033a=_0x181168[_0x4982b4(0x124)](offeringSide===0x2?-KING:KING),_0x4b7e2f=_0x181168[_0x4982b4(0x124)](offeringSide===0x2?KING:-KING);return{'kind':_0x4982b4(0x11e),'routes':[route(_0x181168,_0x89033a,_0x4b7e2f,flipped)],'callers':[_0x89033a],'kings':[_0x181168[_0x4982b4(0x124)](KING),_0x181168[_0x4982b4(0x124)](-KING)]};}export const threatPoint=point;export function speechPlacement(_0x35f565,_0xa113d1,_0x58aaf6,_0x28b5fc){const _0x26b286=qg_0x57c699,_0x4cf8e4=0x5,_0x49e284=_0x35f565['x']+_0x35f565[_0x26b286(0x11a)]/0x2,_0x342a77=_0x35f565['y']+_0x35f565[_0x26b286(0x125)]/0x2,_0x112adb=[];for(const _0x518e1e of[0x0,-0.5,0.5]){_0x112adb[_0x26b286(0x138)]({'side':'left','x':_0x35f565['x']+_0x35f565[_0x26b286(0x11a)]+_0x4cf8e4,'y':_0x342a77-_0xa113d1[_0x26b286(0x125)]/0x2+_0xa113d1['height']*_0x518e1e}),_0x112adb[_0x26b286(0x138)]({'side':'right','x':_0x35f565['x']-_0xa113d1[_0x26b286(0x11a)]-_0x4cf8e4,'y':_0x342a77-_0xa113d1['height']/0x2+_0xa113d1[_0x26b286(0x125)]*_0x518e1e}),_0x112adb[_0x26b286(0x138)]({'side':_0x26b286(0x11b),'x':_0x49e284-_0xa113d1['width']/0x2+_0xa113d1[_0x26b286(0x11a)]*_0x518e1e,'y':_0x35f565['y']-_0xa113d1[_0x26b286(0x125)]-_0x4cf8e4}),_0x112adb[_0x26b286(0x138)]({'side':_0x26b286(0x132),'x':_0x49e284-_0xa113d1[_0x26b286(0x11a)]/0x2+_0xa113d1['width']*_0x518e1e,'y':_0x35f565['y']+_0x35f565['height']+_0x4cf8e4});}for(const _0x54932e of _0x112adb){_0x54932e['x']=Math[_0x26b286(0x128)](0x2,Math[_0x26b286(0x12e)](_0x58aaf6[_0x26b286(0x11a)]-_0xa113d1[_0x26b286(0x11a)]-0x2,_0x54932e['x'])),_0x54932e['y']=Math[_0x26b286(0x128)](0x2,Math[_0x26b286(0x12e)](_0x58aaf6['height']-_0xa113d1[_0x26b286(0x125)]-0x2,_0x54932e['y']));const _0x1363f0=[_0x35f565,..._0x28b5fc]['reduce']((_0x1d52f2,_0x2f8d70)=>_0x1d52f2+Math[_0x26b286(0x128)](0x0,Math['min'](_0x54932e['x']+_0xa113d1['width'],_0x2f8d70['x']+_0x2f8d70['width'])-Math[_0x26b286(0x128)](_0x54932e['x'],_0x2f8d70['x']))*Math[_0x26b286(0x128)](0x0,Math[_0x26b286(0x12e)](_0x54932e['y']+_0xa113d1[_0x26b286(0x125)],_0x2f8d70['y']+_0x2f8d70[_0x26b286(0x125)])-Math['max'](_0x54932e['y'],_0x2f8d70['y'])),0x0);_0x54932e['score']=_0x1363f0*0x3e8+Math[_0x26b286(0x12c)](_0x54932e['x']+_0xa113d1[_0x26b286(0x11a)]/0x2-_0x49e284,_0x54932e['y']+_0xa113d1[_0x26b286(0x125)]/0x2-_0x342a77);}_0x112adb['sort']((_0x390d11,_0x38ed28)=>_0x390d11[_0x26b286(0x119)]-_0x38ed28['score']);const _0x171b54=_0x112adb[0x0],_0x575282=_0x171b54['side']===_0x26b286(0x134)||_0x171b54[_0x26b286(0x122)]===_0x26b286(0x127);return _0x171b54['tail']=Math[_0x26b286(0x128)](0x8,Math[_0x26b286(0x12e)]((_0x575282?_0xa113d1[_0x26b286(0x125)]:_0xa113d1[_0x26b286(0x11a)])-0x8,_0x575282?_0x342a77-_0x171b54['y']:_0x49e284-_0x171b54['x'])),_0x171b54;}
+import { KING, HORSE, ELEPHANT, sideOf, pseudoMoves, facing } from './rules.js';
+
+const point = (index, flipped) => {
+  const visible = flipped ? 89 - index : index;
+  return [visible % 9 + .5, Math.floor(visible / 9) + .5];
+};
+const path = points => points.map((p, i) => `${i ? 'L' : 'M'}${p.join(' ')}`).join('');
+
+function route(board, from, to, flipped) {
+  const x = from % 9, y = Math.floor(from / 9), dx = to % 9 - x, dy = Math.floor(to / 9) - y;
+  const points = [[x + .5, y + .5]], kind = Math.abs(board[from]);
+  if (kind === HORSE || kind === ELEPHANT) {
+    const horizontal = Math.abs(dx) > Math.abs(dy);
+    const first = [x + .5 + (horizontal ? Math.sign(dx) : 0), y + .5 + (horizontal ? 0 : Math.sign(dy))];
+    points.push(first);
+    if (kind === ELEPHANT) points.push([first[0] + Math.sign(dx), first[1] + Math.sign(dy)]);
+  }
+  points.push([to % 9 + .5, Math.floor(to / 9) + .5]);
+  if (flipped) for (const p of points) { p[0] = 9 - p[0]; p[1] = 10 - p[1]; }
+  // Stop the arrow outside the general's body, including short, adjacent attacks.
+  const trimmed = points.map(p => [...p]), end = trimmed.at(-1), previous = trimmed.at(-2);
+  const distance = Math.hypot(end[0] - previous[0], end[1] - previous[1]);
+  const inset = Math.min(.55, distance * .6);
+  end[0] -= (end[0] - previous[0]) / distance * inset;
+  end[1] -= (end[1] - previous[1]) / distance * inset;
+  return { from, to, points, path: path(points), arrowPath: path(trimmed) };
+}
+
+// Use exactly the same attack detection as inCheck, including screens and blocked legs.
+// Both sides are inspected so optimistic moves and historical positions need no turn guess.
+export function boardThreats(board, { flipped = false, bikjang = false, offeringSide = 1 } = {}) {
+  const routes = [];
+  for (const side of [1, 2]) {
+    const king = board.indexOf(side === 1 ? KING : -KING);
+    if (king < 0) continue;
+    for (let from = 0; from < 90; from++) {
+      if (sideOf(board[from]) === 3 - side && pseudoMoves(board, from).includes(king)) routes.push(route(board, from, king, flipped));
+    }
+  }
+  if (routes.length) return { kind: 'check', routes, callers: routes.map(r => r.from), kings: [...new Set(routes.map(r => r.to))] };
+  if (!bikjang || !facing(board)) return null;
+  const from = board.indexOf(offeringSide === 2 ? -KING : KING), to = board.indexOf(offeringSide === 2 ? KING : -KING);
+  return { kind: 'bikjang', routes: [route(board, from, to, flipped)], callers: [from], kings: [board.indexOf(KING), board.indexOf(-KING)] };
+}
+
+export const threatPoint = point;
+
+// Prefer empty space beside the caller; clamp every candidate inside the board.
+export function speechPlacement(anchor, size, bounds, obstacles, {preferredSide} = {}) {
+  const gap = 5, centerX = anchor.x + anchor.width / 2, centerY = anchor.y + anchor.height / 2;
+  const candidates = [];
+  for (const offset of [0, -.5, .5, -1, 1, -1.5, 1.5]) {
+    candidates.push({ side: 'left', x: anchor.x + anchor.width + gap, y: centerY - size.height / 2 + size.height * offset });
+    candidates.push({ side: 'right', x: anchor.x - size.width - gap, y: centerY - size.height / 2 + size.height * offset });
+    candidates.push({ side: 'bottom', x: centerX - size.width / 2 + size.width * offset, y: anchor.y - size.height - gap });
+    candidates.push({ side: 'top', x: centerX - size.width / 2 + size.width * offset, y: anchor.y + anchor.height + gap });
+  }
+  for (const candidate of candidates) {
+    candidate.x = Math.max(2, Math.min(bounds.width - size.width - 2, candidate.x));
+    candidate.y = Math.max(2, Math.min(bounds.height - size.height - 2, candidate.y));
+    const overlap = [anchor, ...obstacles].reduce((total, box) => total +
+      Math.max(0, Math.min(candidate.x + size.width, box.x + box.width) - Math.max(candidate.x, box.x)) *
+      Math.max(0, Math.min(candidate.y + size.height, box.y + box.height) - Math.max(candidate.y, box.y)), 0);
+    candidate.score = overlap * 1000 + Math.hypot(candidate.x + size.width / 2 - centerX, candidate.y + size.height / 2 - centerY)
+      + (preferredSide && candidate.side !== preferredSide ? bounds.width : 0);
+  }
+  candidates.sort((a, b) => a.score - b.score);
+  const best = candidates[0], vertical = best.side === 'left' || best.side === 'right';
+  best.tail = Math.max(8, Math.min((vertical ? size.height : size.width) - 8, vertical ? centerY - best.y : centerX - best.x));
+  return best;
+}

@@ -145,16 +145,16 @@
 .forest-ui .match-player {
   grid-template-columns:34px minmax(0,1fr) 74px;grid-template-rows:minmax(39px,auto) 6px;column-gap:9px;row-gap:8px;
   min-height:0;padding:10px 12px 9px;border-radius:16px;
-  color:#24432d;background:linear-gradient(135deg,#fffbed,#f1e5cb);border-color:#d4bf92;box-shadow:0 2px 5px #00180d30;
+  color:#f0ead5;background:linear-gradient(135deg,#f4f0db24,#e5edda14);border-color:#d9e1bf33;box-shadow:0 2px 5px #00180d18;
 }
 .forest-ui .match-player[data-active="true"] {
-  color:#fff9e8;background:linear-gradient(125deg,#2f6b3f,#184b2b);border-color:#edcf7c;box-shadow:0 0 0 1px #edcf7c,0 2px 8px #00180d45;
+  color:#24432d;background:linear-gradient(135deg,#fffbed,#f1e5cb);border-color:#f1d073;box-shadow:0 0 0 1px #edcf7c,0 2px 9px #f1cf7240;
 }
 .forest-ui .match-player .match-avatar { width:34px;max-width:none; }
 .forest-ui .match-player .match-identity { gap:4px;align-self:stretch;align-content:center; }
 .forest-ui .match-player .match-identity strong { font-size:14px;line-height:1.2; }
-.forest-ui .match-player .match-identity .seat { gap:5px;font-size:11px;line-height:1.2;color:#65705b; }
-.forest-ui .match-player[data-active="true"] .seat { color:#f4f0da; }
+.forest-ui .match-player .match-identity .seat { gap:5px;font-size:11px;line-height:1.2;color:#e5e7d1; }
+.forest-ui .match-player[data-active="true"] .seat { color:#65705b; }
 .forest-ui .match-player .match-identity .stone { flex:none;width:17px;height:17px;font-size:14px; }
 .forest-ui .match-player .match-profile-trigger:disabled { opacity:1; }
 .forest-ui .match[data-playing] :is(#opponent-turn,#place-text) {
@@ -166,20 +166,52 @@
 .forest-ui .jangi-player-time { display:grid;justify-items:end;align-content:center;gap:3px;min-width:0; }
 .forest-ui #place[data-placement-state]:not(:disabled) { padding:0;border:0;border-radius:0;background:none;box-shadow:none;color:inherit;cursor:default; }
 .forest-ui #place:not(:disabled):hover { filter:none; }
-.forest-ui .jangi-player-time .player-clock { font-size:24px;line-height:1;font-weight:800;letter-spacing:-.5px;color:#29462e; }
-.forest-ui .match-player[data-active="true"] .player-clock { color:#fff3c3; }
-.forest-ui .match-player[data-active="true"] .jangi-refills { color:#ecd37e; }
+.forest-ui .jangi-player-time .player-clock { font-size:24px;line-height:1;font-weight:800;letter-spacing:-.5px;color:#f4eed8; }
+.forest-ui .match-player[data-active="true"] .player-clock { color:#29462e; }
+.forest-ui .match-player[data-active="true"] .jangi-refills { color:#927019; }
 .forest-ui .jangi-player-time .player-clock:is([data-byoyomi],[data-urgent]) { color:#b43228;text-shadow:none; }
-.forest-ui .match-player[data-active="true"] .player-clock:is([data-byoyomi],[data-urgent]) { color:#ffaf9e; }
+.forest-ui .match-player[data-active="true"] .player-clock:is([data-byoyomi],[data-urgent]) { color:#b43228; }
 .forest-ui .jangi-time-track { grid-column:1 / -1;width:100%;height:6px;overflow:hidden;border-radius:999px;background:#d4cdb8; }
 .forest-ui .jangi-time-fill { display:block;height:100%;width:calc(var(--match-art-progress,0) * 1%);border-radius:inherit;background:linear-gradient(90deg,#b58e35,#e5c974); }
-.forest-ui .match-player[data-active="true"] .jangi-time-track { background:#123a22; }
-.forest-ui .match-player[data-active="true"] .jangi-time-fill { background:linear-gradient(90deg,#d0ac4f,#f1d783); }
+.forest-ui .match-player:not([data-active="true"]) .jangi-time-track { background:#123a2280; }
+.forest-ui .match-player[data-active="true"] .jangi-time-track { background:#d4cdb8; }
+.forest-ui .match-player[data-active="true"] .jangi-time-fill { background:linear-gradient(90deg,#58944d,#2e6837); }
 .forest-ui .match-player[data-low] .jangi-time-fill { background:#cf5946; }
-.forest-ui .match-player[data-active="true"][data-low] .jangi-time-fill { background:#ff9b83; }
+.forest-ui .match-player[data-active="true"][data-low] .jangi-time-fill { background:#cf5946; }
 .forest-ui .match-player[data-active="true"][data-low] .jangi-turn-badge { background:#ffcebc;color:#792b21; }
 .forest-ui #place-state { margin:0;text-align:center;font-size:11px;font-weight:500;line-height:1.4;color:#f1e9c8;white-space:normal; }
 .forest-ui .match[data-compact-board] .match-player { grid-template-columns:30px minmax(0,1fr) 67px;grid-template-rows:minmax(32px,auto) 6px;column-gap:8px;row-gap:4px;padding:5px 10px;border-radius:13px; }
 .forest-ui .match[data-compact-board] .match-player .match-avatar { width:30px; }
 .forest-ui .match[data-compact-board] .match-player .player-clock { font-size:22px; }
 .forest-ui .match[data-compact-board] .jangi-refills svg { width:8px;height:10px; }
+
+/* Turn state is conveyed by the card, without selection/waiting labels. */
+#opponent-turn,#place-text,#place-state { display:none!important; }
+.jangi-captured { --capture-size:22px;display:flex;align-items:end;justify-content:center;gap:8px;width:100%;height:30px;min-height:30px;flex:none;grid-column:1/-1;padding:0 3px 2px;box-sizing:border-box;pointer-events:none; }
+.jangi-captured[hidden] { display:none; }
+.jangi-captured-pile { position:relative;display:block;flex:none;width:calc(var(--capture-size) + (var(--pile-count) - 1)*6px);height:calc(var(--capture-size) + 4px); }
+.jangi-captured-token { position:absolute;left:calc(var(--pile-index)*6px);bottom:calc(var(--pile-index)*1px);width:var(--capture-size);height:var(--capture-size); }
+.jangi-captured-token .stone { position:absolute;inset:0;width:100%;height:100%;z-index:2;font-size:16px; }
+.jangi-captured-token .stone-shadow { display:block;position:absolute;inset:3px -2px -3px;z-index:1;background:radial-gradient(ellipse,#0008 30%,#0004 50%,transparent 72%); }
+.forest-ui .match[data-compact-board] .jangi-captured { --capture-size:20px;height:26px;min-height:26px;gap:7px; }
+.forest-ui .match[data-compact-board] .jangi-captured-token .stone { font-size:14px; }
+.forest-ui .match[data-tight-board] { gap:2px; }
+.forest-ui .match[data-tight-board] .match-player { grid-template-columns:28px minmax(0,1fr) 63px;grid-template-rows:minmax(28px,auto) 4px;padding:4px 9px;row-gap:3px; }
+.forest-ui .match[data-tight-board] .match-player .match-avatar { width:28px; }
+.forest-ui .match[data-tight-board] .match-player .match-identity { gap:2px; }
+.forest-ui .match[data-tight-board] .match-player .match-identity strong { font-size:12px; }
+.forest-ui .match[data-tight-board] .match-player .player-clock { font-size:20px; }
+.forest-ui .match[data-tight-board] .jangi-time-track { height:4px; }
+.forest-ui .match[data-tight-board] .jangi-captured { --capture-size:18px;height:23px;min-height:23px; }
+.forest-ui .match[data-tight-board] .jangi-captured-token .stone { font-size:13px; }
+.forest-ui .match[data-tight-board] .jangi-bikjang-guide { padding:4px 8px; }
+.jangi-response-speech { border-color:#347357;color:#236246;z-index:12; }
+.jangi-response-speech::after { border-color:#347357; }
+.jangi-end-notice { position:absolute;inset:0;z-index:18;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;pointer-events:none;isolation:isolate;animation:jangi-end-arrive 1400ms both; }
+.jangi-end-notice[hidden] { display:none; }
+.jangi-end-notice::before { content:'';position:absolute;width:40%;aspect-ratio:1;border:3px double #dab65c;border-radius:50%;background:radial-gradient(ellipse,#284938e8 35%,#122a23d9 65%,transparent 67%);box-shadow:0 0 0 5px #b1873b55,0 5px 15px #0007;z-index:-2; }
+.jangi-end-notice::after { content:'';position:absolute;width:90%;height:24%;background:linear-gradient(110deg,#28595300,#2e6458e6 18%,#173c32 48%,#2e6458e6 82%,#28595300);clip-path:polygon(0 8%,24% 22%,80% 0,72% 25%,100% 32%,91% 52%,100% 86%,76% 75%,20% 100%,28% 78%,0 70%,8% 48%);border-block:2px solid #dfbd67;z-index:-1; }
+.jangi-end-notice strong { max-width:90%;padding:4px 8px;font-size:clamp(24px,11cqi,48px);font-weight:900;line-height:1.15;letter-spacing:-.055em;text-align:center;overflow-wrap:anywhere;color:#ffe9a4;text-shadow:0 2px #7a501b,0 4px 2px #171b15,1px 0 #7a501b,-1px 0 #7a501b; }
+.jangi-end-notice>span { max-width:90%;padding:3px 15px;border:1px solid #d6ba78;border-radius:999px;background:#173d2de8;color:#fff0bc;font-size:clamp(11px,4cqi,16px);font-weight:800;line-height:1.4;text-align:center; }
+.board[data-ending] .jangi-threat-speech,.board[data-ending] .jangi-pass-notice { visibility:hidden; }
+@keyframes jangi-end-arrive { 0% { opacity:0;transform:scale(.65); } 16% { opacity:1;transform:scale(1.06); } 26%,84% { opacity:1;transform:scale(1); } 100% { opacity:0;transform:scale(1.025); } }

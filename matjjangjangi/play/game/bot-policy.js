@@ -1,1 +1,99 @@
-const q4_0x342085=q4_0xcf1c;(function(_0x35dfc0,_0x351435){const _0x170c7a=q4_0xcf1c,_0xe84ed7=_0x35dfc0();while(!![]){try{const _0x5ca0bb=parseInt(_0x170c7a(0x1e5))/0x1*(-parseInt(_0x170c7a(0x1da))/0x2)+parseInt(_0x170c7a(0x1d8))/0x3+parseInt(_0x170c7a(0x200))/0x4*(-parseInt(_0x170c7a(0x1e6))/0x5)+parseInt(_0x170c7a(0x1f6))/0x6*(parseInt(_0x170c7a(0x1d6))/0x7)+parseInt(_0x170c7a(0x1e4))/0x8+-parseInt(_0x170c7a(0x1fa))/0x9+-parseInt(_0x170c7a(0x1f5))/0xa*(-parseInt(_0x170c7a(0x1e0))/0xb);if(_0x5ca0bb===_0x351435)break;else _0xe84ed7['push'](_0xe84ed7['shift']());}catch(_0x385193){_0xe84ed7['push'](_0xe84ed7['shift']());}}}(q4_0x32d9,0xde0d7));import{apply,inCheck,legalMoves,KING,ROOK,VALUES}from'./rules.js';function q4_0xcf1c(_0x164eba,_0x45a198){_0x164eba=_0x164eba-0x1d2;const _0x32d9a0=q4_0x32d9();let _0xcf1cd3=_0x32d9a0[_0x164eba];if(q4_0xcf1c['pFgQVf']===undefined){var _0x3d6cb7=function(_0x2f49be){const _0xdd69ca='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x24cd12='',_0x302ffd='';for(let _0x3c9fdd=0x0,_0x3ab158,_0x37dfd4,_0x329f09=0x0;_0x37dfd4=_0x2f49be['charAt'](_0x329f09++);~_0x37dfd4&&(_0x3ab158=_0x3c9fdd%0x4?_0x3ab158*0x40+_0x37dfd4:_0x37dfd4,_0x3c9fdd++%0x4)?_0x24cd12+=String['fromCharCode'](0xff&_0x3ab158>>(-0x2*_0x3c9fdd&0x6)):0x0){_0x37dfd4=_0xdd69ca['indexOf'](_0x37dfd4);}for(let _0x51e153=0x0,_0x485bb7=_0x24cd12['length'];_0x51e153<_0x485bb7;_0x51e153++){_0x302ffd+='%'+('00'+_0x24cd12['charCodeAt'](_0x51e153)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x302ffd);};q4_0xcf1c['Wazfsy']=_0x3d6cb7,q4_0xcf1c['JCxodq']={},q4_0xcf1c['pFgQVf']=!![];}const _0x19abff=_0x32d9a0[0x0];q4_0xcf1c['TFJIRX']!==_0x19abff&&(q4_0xcf1c['JCxodq']={},q4_0xcf1c['TFJIRX']=_0x19abff);const _0x580c59=q4_0xcf1c['JCxodq'][_0x164eba];return _0x580c59===undefined?(_0xcf1cd3=q4_0xcf1c['Wazfsy'](_0xcf1cd3),q4_0xcf1c['JCxodq'][_0x164eba]=_0xcf1cd3):_0xcf1cd3=_0x580c59,_0xcf1cd3;}import{botProfile,seededRandom}from'./bot-profiles.js';export const actionKey=_0x302ffd=>_0x302ffd[q4_0x342085(0x1fe)]==='pass'?q4_0x342085(0x1f3):_0x302ffd[q4_0x342085(0x1dd)]+':'+(_0x302ffd['to']??_0x302ffd[q4_0x342085(0x1eb)]);function q4_0x32d9(){const _0x578956=['BwfW','ChjVDgvJDfjVB2TZ','nda2mdyZAMrpsxHx','CMvKDwnL','mtu4mta2mhvNs1vXCa','y2fWDhvYzs1VDMvYC2LNAhq','nZj4suj4DLG','yM9HCMq','Bw92zq','zNjVBq','AwDUB3jLzc10AhjLyxq','C29YDa','mta2odG3qNHpEgfW','Bwf4tg9ZC0nW','BgvUz3rO','ywjZ','mJmZndqZmMLXB1DLrq','ndG4nZLruwnfr0i','nJCZotu2nvLqtvfwta','C2XPy2u','zMLUza','AgfZ','ywn0AxzL','Aw5KzxG','zMLSDgvY','AxngAw5PDgu','Bwf4','ywz0zxjnAxn0ywTL','ywX0zxjUyxrPDMvqzxjJzw50','yM9VBgvHBG','D2LUBMvY','CgfZCW','C2nVCMu','mJu0mg5QwMj3Aa','nZHOqKXtrKS','CMLZAW','Bwf0zq','BMv0twf0zxjPywXmB3nZ','mJe1nZC1q2v5ufPV','DhvYBG','BwLZDgfRzvbYB3rLy3rPB25nAw5mB3nZq3a','y2fWDhvYzu92zxjZAwDODe1HEfbPzwnLvMfSDwu','DhLWzq','Bw92zwqTCgLLy2u','nerQD1L6qW','BMv4Da','y29VBgrVD24','C29Tzq','y2fWDhvYzu92zxjZAwDODfbLCMnLBNq'];q4_0x32d9=function(){return _0x578956;};return q4_0x32d9();}export function protectionForTurn(_0x3c9fdd,{seed:seed='',memory:memory={}}={}){const _0x53486e=q4_0x342085,_0x3ab158=typeof memory[_0x53486e(0x1ef)]===_0x53486e(0x1f1)?memory[_0x53486e(0x1ef)]:(memory[_0x53486e(0x202)]??0x0)>0x0,_0x37dfd4=_0x3ab158&&seededRandom(seed+':mistake-protection')()*0x64<_0x3c9fdd['mistakeProtectionPercent'];return{'eligible':_0x3ab158,'active':_0x37dfd4};}export function legalBotActions(_0x329f09){const _0x4d8b89=q4_0x342085,_0x51e153=legalMoves(_0x329f09[_0x4d8b89(0x1db)],_0x329f09[_0x4d8b89(0x1fb)]);if(!inCheck(_0x329f09[_0x4d8b89(0x1db)],_0x329f09[_0x4d8b89(0x1fb)]))_0x51e153['push']({'type':_0x4d8b89(0x1f3)});return _0x51e153;}function hangingRook(_0x485bb7,_0x1a0fd9){const _0x329b31=q4_0x342085,_0x3adbf6=apply(_0x485bb7,_0x1a0fd9);if(_0x3adbf6[_0x329b31(0x1f2)]!==null)return![];const _0x4709f6=_0x1a0fd9['type']===_0x329b31(0x1dc)?VALUES[Math[_0x329b31(0x1e3)](_0x485bb7['board'][_0x1a0fd9['to']])]:0x0;return legalMoves(_0x3adbf6['board'],_0x3adbf6['turn'])['some'](_0x345db0=>Math[_0x329b31(0x1e3)](_0x3adbf6[_0x329b31(0x1db)][_0x345db0['to']])===ROOK&&_0x4709f6<VALUES[ROOK]-0x1);}export function selectBotCandidate(_0x4acf5c,_0x4e992b,_0x37287e,{seed:seed='',memory:memory={},protection:_0x33621b}={}){const _0x48a1d6=q4_0x342085,_0x4da929=botProfile(_0x4e992b,_0x4acf5c),_0x41be0b=new Set(legalBotActions(_0x4acf5c)[_0x48a1d6(0x1d4)](actionKey));_0x33621b??=protectionForTurn(_0x4da929,{'seed':seed,'memory':memory});const _0x1149fb=_0x37287e[_0x48a1d6(0x1ec)](_0x430daf=>_0x41be0b[_0x48a1d6(0x1e9)](actionKey(_0x430daf['move']))&&Number['isFinite'](_0x430daf[_0x48a1d6(0x1f4)]));if(!_0x1149fb[_0x48a1d6(0x1e2)])throw new Error('engineNoLegalCandidate');_0x1149fb[_0x48a1d6(0x1df)]((_0x4aaf59,_0x24aa50)=>_0x24aa50['score']-_0x4aaf59[_0x48a1d6(0x1f4)]);const _0x105bf0=_0x1149fb['find'](_0x1b7645=>apply(_0x4acf5c,_0x1b7645['move'])[_0x48a1d6(0x1f2)]===_0x4acf5c[_0x48a1d6(0x1fb)]);if(_0x105bf0)return{'action':_0x105bf0[_0x48a1d6(0x1dc)],'memory':{'afterMistake':![]},'protection':_0x33621b,'lossCp':0x0,'alternative':![]};const _0x3ab02d=_0x1149fb[0x0],_0x56644b=seededRandom(seed),_0x1de0b3=_0x1149fb['slice'](0x1)[_0x48a1d6(0x1ec)](_0x3ea700=>_0x3ab02d[_0x48a1d6(0x1f4)]-_0x3ea700[_0x48a1d6(0x1f4)]<=_0x4da929[_0x48a1d6(0x1e1)]&&!(_0x3ea700[_0x48a1d6(0x1f8)]<0x0&&!(_0x3ab02d[_0x48a1d6(0x1f8)]<0x0))&&!(_0x33621b[_0x48a1d6(0x1ea)]&&_0x3ab02d[_0x48a1d6(0x1f4)]-_0x3ea700[_0x48a1d6(0x1f4)]>=_0x4da929[_0x48a1d6(0x1fc)])&&!(_0x4da929[_0x48a1d6(0x1d5)]&&hangingRook(_0x4acf5c,_0x3ea700[_0x48a1d6(0x1dc)])));let _0x97ab9b=_0x3ab02d;if(_0x1de0b3[_0x48a1d6(0x1e2)]&&_0x56644b()*0x64<_0x4da929[_0x48a1d6(0x1f0)]){const _0x34578f=_0x1de0b3[_0x48a1d6(0x1d4)](_0x2e04a3=>Math['exp'](-(_0x3ab02d[_0x48a1d6(0x1f4)]-_0x2e04a3[_0x48a1d6(0x1f4)])/Math[_0x48a1d6(0x1ee)](0xf,_0x4da929[_0x48a1d6(0x1e1)]/0x3)));let _0x5c5b94=_0x56644b()*_0x34578f[_0x48a1d6(0x1d7)]((_0x1f9526,_0x4d95ff)=>_0x1f9526+_0x4d95ff,0x0);_0x97ab9b=_0x1de0b3[_0x48a1d6(0x1e8)]((_0x36eaee,_0x4d1287)=>(_0x5c5b94-=_0x34578f[_0x4d1287])<=0x0)??_0x1de0b3['at'](-0x1);}const _0x5dfb58=_0x3ab02d[_0x48a1d6(0x1f4)]-_0x97ab9b[_0x48a1d6(0x1f4)];return{'action':_0x97ab9b[_0x48a1d6(0x1dc)],'lossCp':_0x5dfb58,'alternative':_0x97ab9b!==_0x3ab02d,'protection':_0x33621b,'memory':{'afterMistake':_0x5dfb58>=_0x4da929['mistakeProtectionMinLossCp']}};}function captureRisk(_0x49c960,_0x160a3c,_0x43ae4b){const _0x5659dd=q4_0x342085,_0x14222f=apply(_0x49c960,_0x160a3c);if(_0x14222f['winner']!==null)return null;const _0x3c07e2=_0x160a3c[_0x5659dd(0x1fe)]===_0x5659dd(0x1dc)?VALUES[Math[_0x5659dd(0x1e3)](_0x49c960[_0x5659dd(0x1db)][_0x160a3c['to']])]??0x0:0x0;let _0x353050=null;for(const _0x4129bb of legalMoves(_0x14222f[_0x5659dd(0x1db)],_0x14222f[_0x5659dd(0x1fb)])){const _0x4f5621=Math['abs'](_0x14222f[_0x5659dd(0x1db)][_0x4129bb['to']]),_0x12bd3c=VALUES[_0x4f5621]??0x0;if(!_0x4f5621||_0x4f5621===KING||_0x12bd3c>_0x43ae4b||_0x12bd3c<=_0x3c07e2)continue;const _0x27ea7b=_0x14222f[_0x5659dd(0x1db)][_0x5659dd(0x1e7)](),_0x56dae4=Math[_0x5659dd(0x1e3)](_0x27ea7b[_0x4129bb[_0x5659dd(0x1dd)]]);_0x27ea7b[_0x4129bb['to']]=_0x27ea7b[_0x4129bb[_0x5659dd(0x1dd)]],_0x27ea7b[_0x4129bb[_0x5659dd(0x1dd)]]=0x0;const _0x3b61bd=legalMoves(_0x27ea7b,_0x49c960[_0x5659dd(0x1fb)])[_0x5659dd(0x1d2)](_0x5ef5e7=>_0x5ef5e7['to']===_0x4129bb['to']),_0x171460=_0x12bd3c-_0x3c07e2-(_0x3b61bd?VALUES[_0x56dae4]:0x0);if(_0x171460<=0x0||_0x171460<=(_0x353050?.[_0x5659dd(0x1f9)]??0x0))continue;_0x353050={'piece':_0x4f5621,'square':_0x4129bb['to'],'reply':_0x4129bb,'netMaterialLoss':_0x171460,'kind':_0x160a3c[_0x5659dd(0x1fe)]==='move'&&_0x4129bb['to']===_0x160a3c['to']?_0x5659dd(0x1ff):_0x5659dd(0x1de)};}return _0x353050?{'next':_0x14222f,'risk':_0x353050}:null;}function losesImmediately(_0x26809a,_0xccf717){const _0x3d82bb=q4_0x342085;for(const _0x2f7506 of legalMoves(_0x26809a['board'],_0x26809a[_0x3d82bb(0x1fb)])){const _0x4a67db=_0x26809a[_0x3d82bb(0x1db)][_0x3d82bb(0x1e7)]();_0x4a67db[_0x2f7506['to']]=_0x4a67db[_0x2f7506[_0x3d82bb(0x1dd)]],_0x4a67db[_0x2f7506['from']]=0x0;if(inCheck(_0x4a67db,_0xccf717)&&!legalMoves(_0x4a67db,_0xccf717)[_0x3d82bb(0x1e2)])return!![];}return![];}export function selectCaptureOversight(_0x648d16,_0x4a2081,_0x1fa106,{seed:seed='',memory:memory={},protection:_0x42abb3}={}){const _0x38784f=q4_0x342085;_0x42abb3??=protectionForTurn(_0x4a2081,{'seed':seed,'memory':memory});if(!(_0x4a2081[_0x38784f(0x1d3)]>0x0)||_0x42abb3[_0x38784f(0x1ea)])return null;const _0x22ce53=seededRandom(seed+':capture-oversight');if(_0x22ce53()*0x64>=_0x4a2081[_0x38784f(0x1d3)])return null;const _0x321c84=legalBotActions(_0x648d16),_0x457e7d=new Set(_0x321c84[_0x38784f(0x1d4)](actionKey)),_0x406a26=_0x1fa106[_0x38784f(0x1ec)](_0x50d914=>_0x457e7d[_0x38784f(0x1e9)](actionKey(_0x50d914['move']))&&Number[_0x38784f(0x1ed)](_0x50d914[_0x38784f(0x1f4)]))[_0x38784f(0x1df)]((_0x4d5c4f,_0x552b61)=>_0x552b61[_0x38784f(0x1f4)]-_0x4d5c4f[_0x38784f(0x1f4)]);if(!_0x406a26[_0x38784f(0x1e2)])return null;if(_0x321c84[_0x38784f(0x1d2)](_0x3783cd=>apply(_0x648d16,_0x3783cd)[_0x38784f(0x1f2)]===_0x648d16[_0x38784f(0x1fb)]))return null;const _0x7e6a61=_0x406a26[0x0],_0xfdd2cd=_0x4a2081[_0x38784f(0x1fd)],_0x155b02=captureRisk(_0x648d16,_0x7e6a61[_0x38784f(0x1dc)],Infinity)?.['risk'][_0x38784f(0x1f9)]??0x0,_0x1d80a8=new Map(_0x406a26[_0x38784f(0x1d4)](_0x2c1ec1=>[actionKey(_0x2c1ec1[_0x38784f(0x1dc)]),_0x2c1ec1])),_0x42947f=_0x321c84[_0x38784f(0x1ec)](_0x3faf6f=>_0x3faf6f[_0x38784f(0x1fe)]===_0x38784f(0x1dc)&&actionKey(_0x3faf6f)!==actionKey(_0x7e6a61[_0x38784f(0x1dc)]));for(let _0x3e7ee4=_0x42947f[_0x38784f(0x1e2)]-0x1;_0x3e7ee4>0x0;_0x3e7ee4--){const _0x4e92a2=Math['floor'](_0x22ce53()*(_0x3e7ee4+0x1));[_0x42947f[_0x3e7ee4],_0x42947f[_0x4e92a2]]=[_0x42947f[_0x4e92a2],_0x42947f[_0x3e7ee4]];}for(const _0x715fa3 of _0x42947f){const _0x418a4b=_0x1d80a8['get'](actionKey(_0x715fa3));if(_0x418a4b?.[_0x38784f(0x1f8)]<0x0&&!(_0x7e6a61[_0x38784f(0x1f8)]<0x0))continue;if(_0x4a2081['protectRooks']&&hangingRook(_0x648d16,_0x715fa3))continue;const _0x84c490=captureRisk(_0x648d16,_0x715fa3,_0xfdd2cd);if(!_0x84c490||_0x84c490[_0x38784f(0x1f7)][_0x38784f(0x1f9)]<=_0x155b02||losesImmediately(_0x84c490[_0x38784f(0x201)],_0x648d16[_0x38784f(0x1fb)]))continue;return{'action':_0x715fa3,'alternative':!![],'decisionType':_0x38784f(0x1d9),'protection':_0x42abb3,'lossCp':_0x418a4b?_0x7e6a61['score']-_0x418a4b[_0x38784f(0x1f4)]:null,'captureOversight':_0x84c490[_0x38784f(0x1f7)],'memory':{'afterMistake':!![]}};}return null;}
+import {apply,inCheck,legalMoves,KING,ROOK,VALUES} from './rules.js';
+import {botProfile,seededRandom} from './bot-profiles.js';
+
+export const actionKey=m=>m.type==='pass'?'pass':`${m.from}:${m.to??m.index}`;
+export function protectionForTurn(profile,{seed='',memory={}}={}) {
+  // An old counter becomes one pending opportunity; no countdown remains after the next confirmed move.
+  const eligible=typeof memory.afterMistake==='boolean'?memory.afterMistake:(memory.cooldown??0)>0;
+  const active=eligible&&seededRandom(seed+':mistake-protection')()*100<profile.mistakeProtectionPercent;
+  return {eligible,active};
+}
+export function legalBotActions(state) {
+  const actions=legalMoves(state.board,state.turn);
+  if(!inCheck(state.board,state.turn))actions.push({type:'pass'});
+  return actions;
+}
+function hangingRook(state,move) {
+  const next=apply(state,move);if(next.winner!==null)return false;
+  const captured=move.type==='move'?VALUES[Math.abs(state.board[move.to])]:0;
+  return legalMoves(next.board,next.turn).some(reply=>Math.abs(next.board[reply.to])===ROOK&&
+    captured<VALUES[ROOK]-1);
+}
+export function selectBotCandidate(state,level,candidates,{seed='',memory={},protection}={}) {
+  const profile=botProfile(level,state),legal=new Set(legalBotActions(state).map(actionKey));
+  protection??=protectionForTurn(profile,{seed,memory});
+  const valid=candidates.filter(c=>legal.has(actionKey(c.move))&&Number.isFinite(c.score));
+  if(!valid.length)throw new Error('engineNoLegalCandidate');
+  valid.sort((a,b)=>b.score-a.score);
+  const instant=valid.find(c=>apply(state,c.move).winner===state.turn);
+  if(instant)return {action:instant.move,memory:{afterMistake:false},protection,lossCp:0,alternative:false};
+  const best=valid[0],random=seededRandom(seed);
+  const alternatives=valid.slice(1).filter(c=>best.score-c.score<=profile.maxLossCp&&
+    !(c.mate<0&&!(best.mate<0))&&!(protection.active&&best.score-c.score>=profile.mistakeProtectionMinLossCp)&&
+    !(profile.protectRooks&&hangingRook(state,c.move)));
+  let selected=best;
+  if(alternatives.length&&random()*100<profile.alternativePercent) {
+    const weights=alternatives.map(c=>Math.exp(-(best.score-c.score)/Math.max(15,profile.maxLossCp/3)));
+    let point=random()*weights.reduce((a,b)=>a+b,0);
+    selected=alternatives.find((_,i)=>(point-=weights[i])<=0)??alternatives.at(-1);
+  }
+  const lossCp=best.score-selected.score;
+  return {action:selected.move,lossCp,alternative:selected!==best,protection,
+    memory:{afterMistake:lossCp>=profile.mistakeProtectionMinLossCp}};
+}
+
+// One immediate exchange only: this is a tunable missed threat, not a full engine evaluation.
+function captureRisk(state,move,maxPieceValue) {
+  const next=apply(state,move);if(next.winner!==null)return null;
+  const gained=move.type==='move'?(VALUES[Math.abs(state.board[move.to])]??0):0;
+  let risk=null;
+  for(const reply of legalMoves(next.board,next.turn)) {
+    const piece=Math.abs(next.board[reply.to]),value=VALUES[piece]??0;
+    if(!piece||piece===KING||value>maxPieceValue||value<=gained)continue;
+    const after=next.board.slice(),attacker=Math.abs(after[reply.from]);
+    after[reply.to]=after[reply.from];after[reply.from]=0;
+    const recaptured=legalMoves(after,state.turn).some(m=>m.to===reply.to);
+    const netLoss=value-gained-(recaptured?VALUES[attacker]:0);
+    if(netLoss<=0||netLoss<=(risk?.netMaterialLoss??0))continue;
+    risk={piece,square:reply.to,reply,netMaterialLoss:netLoss,
+      kind:move.type==='move'&&reply.to===move.to?'moved-piece':'ignored-threat'};
+  }
+  return risk?{next,risk}:null;
+}
+
+function losesImmediately(next,side) {
+  for(const reply of legalMoves(next.board,next.turn)) {
+    const board=next.board.slice();board[reply.to]=board[reply.from];board[reply.from]=0;
+    if(inCheck(board,side)&&!legalMoves(board,side).length)return true;
+  }
+  return false;
+}
+
+export function selectCaptureOversight(state,profile,candidates,{seed='',memory={},protection}={}) {
+  protection??=protectionForTurn(profile,{seed,memory});
+  if(!(profile.captureOversightPercent>0)||protection.active)return null;
+  const random=seededRandom(seed+':capture-oversight');
+  if(random()*100>=profile.captureOversightPercent)return null;
+  const legal=legalBotActions(state),keys=new Set(legal.map(actionKey));
+  const valid=candidates.filter(c=>keys.has(actionKey(c.move))&&Number.isFinite(c.score)).sort((a,b)=>b.score-a.score);
+  if(!valid.length)return null;
+  // Preserve known wins and forced-loss handling, including callers outside analyzeRoom.
+  if(legal.some(move=>apply(state,move).winner===state.turn))return null;
+  const best=valid[0],maximum=profile.captureOversightMaxPieceValue;
+  const baseline=captureRisk(state,best.move,Infinity)?.risk.netMaterialLoss??0;
+  const known=new Map(valid.map(c=>[actionKey(c.move),c]));
+  // Shuffle legal moves independently of engine rank so top-N and cp caps cannot erase the mistake.
+  const choices=legal.filter(move=>move.type==='move'&&actionKey(move)!==actionKey(best.move));
+  for(let i=choices.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[choices[i],choices[j]]=[choices[j],choices[i]];}
+  for(const move of choices) {
+    const scored=known.get(actionKey(move));
+    if(scored?.mate<0&&!(best.mate<0))continue;
+    if(profile.protectRooks&&hangingRook(state,move))continue;
+    const exposed=captureRisk(state,move,maximum);
+    if(!exposed||exposed.risk.netMaterialLoss<=baseline||losesImmediately(exposed.next,state.turn))continue;
+    return {action:move,alternative:true,decisionType:'capture-oversight',protection,
+      lossCp:scored?best.score-scored.score:null,captureOversight:exposed.risk,
+      memory:{afterMistake:true}};
+  }
+  return null;
+}

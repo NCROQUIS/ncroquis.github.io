@@ -1,1 +1,59 @@
-(function(_0x48289f,_0x25d6e0){const _0x346f07=qc_0x593e,_0xde52b3=_0x48289f();while(!![]){try{const _0x44b07c=-parseInt(_0x346f07(0x188))/0x1+-parseInt(_0x346f07(0x18c))/0x2+parseInt(_0x346f07(0x194))/0x3+parseInt(_0x346f07(0x183))/0x4+parseInt(_0x346f07(0x181))/0x5*(-parseInt(_0x346f07(0x18a))/0x6)+parseInt(_0x346f07(0x185))/0x7+-parseInt(_0x346f07(0x17f))/0x8*(-parseInt(_0x346f07(0x18b))/0x9);if(_0x44b07c===_0x25d6e0)break;else _0xde52b3['push'](_0xde52b3['shift']());}catch(_0x3ccaa7){_0xde52b3['push'](_0xde52b3['shift']());}}}(qc_0x5670,0xd926b));function qc_0x593e(_0x511c20,_0x316da3){_0x511c20=_0x511c20-0x174;const _0x5670a7=qc_0x5670();let _0x593e3f=_0x5670a7[_0x511c20];if(qc_0x593e['ZvcMGd']===undefined){var _0xd98e7c=function(_0x4c84f2){const _0x259ca2='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3c3b3f='',_0x3ed331='';for(let _0x3007fd=0x0,_0x4e08ad,_0x192ffc,_0x289922=0x0;_0x192ffc=_0x4c84f2['charAt'](_0x289922++);~_0x192ffc&&(_0x4e08ad=_0x3007fd%0x4?_0x4e08ad*0x40+_0x192ffc:_0x192ffc,_0x3007fd++%0x4)?_0x3c3b3f+=String['fromCharCode'](0xff&_0x4e08ad>>(-0x2*_0x3007fd&0x6)):0x0){_0x192ffc=_0x259ca2['indexOf'](_0x192ffc);}for(let _0x4f47a3=0x0,_0x1d2fdd=_0x3c3b3f['length'];_0x4f47a3<_0x1d2fdd;_0x4f47a3++){_0x3ed331+='%'+('00'+_0x3c3b3f['charCodeAt'](_0x4f47a3)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x3ed331);};qc_0x593e['pZENoN']=_0xd98e7c,qc_0x593e['OemaYN']={},qc_0x593e['ZvcMGd']=!![];}const _0xb0224c=_0x5670a7[0x0];qc_0x593e['Ehrwij']!==_0xb0224c&&(qc_0x593e['OemaYN']={},qc_0x593e['Ehrwij']=_0xb0224c);const _0x321fc4=qc_0x593e['OemaYN'][_0x511c20];return _0x321fc4===undefined?(_0x593e3f=qc_0x593e['pZENoN'](_0x593e3f),qc_0x593e['OemaYN'][_0x511c20]=_0x593e3f):_0x593e3f=_0x321fc4,_0x593e3f;}function qc_0x5670(){const _0x521c04=['y3vYCMvUDfrPBwu','mte1oeXVrNjJuq','mtHbt3j0vKO','mZi3mZi1nKfutxfjAa','D2LKDgG','z2v0qM91BMrPBMDdBgLLBNrszwn0','ChGPksbZy2fSzsG','AgvPz2H0','zMLSDgvY','ms4X','BwLU','nJa0nZCZBwnlrhb1','y3vIAwmTyMv6AwvYkc4ZlcaWlcaUmIWGmsK','Dg9W','ms4WncWGlJK4','ms4XmG','yMX1CIGXlJnWEcK','zwfZzs1PBG','yw5PBwf0zq','BgvMDa','ms4WnsWGlJK4','zwfZzs1VDxq','yMX1CIGWChGP','nJqXnJm2mg1dCMjuta','DhjHBNnSyxrLkgnHBgmOltuWjsaRia','mJa3mZbeBePvrhe','BwfW','nZaZnde5mKvsEunnBa','lNn0B25L','ndi3mJuZnfnAswrlrq','lJK5nsWGms4Wmdu','CxvLCNLtzwXLy3rVCG','odq4mZm0C0rADKLe'];qc_0x5670=function(){return _0x521c04;};return qc_0x5670();}export const JANGI_TRAVEL_DURATION=0xf0;export function jangiMoveTiming(_0x3ed331=0x50){return{'duration':JANGI_TRAVEL_DURATION+_0x3ed331,'contact':JANGI_TRAVEL_DURATION+_0x3ed331*0.4};}export function animateJangiMove(_0x3007fd,_0x4e08ad,_0x192ffc,{landing:landing=0x50,onStart:_0x289922,shouldContinue:shouldContinue=()=>!![],requestFrame:requestFrame=requestAnimationFrame,cancelFrame:cancelFrame=cancelAnimationFrame}={}){const _0x1d5d57=qc_0x593e,_0x4f47a3=_0x3007fd[_0x1d5d57(0x18e)](),_0x1d2fdd=_0x4e08ad[_0x1d5d57(0x18e)](),_0x42e85f=_0x4f47a3[_0x1d5d57(0x17b)]+_0x4f47a3['width']/0x2-_0x1d2fdd[_0x1d5d57(0x17b)]-_0x1d2fdd['width']/0x2,_0x32aa3c=_0x4f47a3['top']+_0x4f47a3[_0x1d5d57(0x190)]/0x2-_0x1d2fdd[_0x1d5d57(0x175)]-_0x1d2fdd[_0x1d5d57(0x190)]/0x2,_0x2f3eb5=Math['min'](0xb,_0x1d2fdd[_0x1d5d57(0x18d)]*0.23),{duration:_0x2282f7,contact:_0x3456ff}=jangiMoveTiming(landing),_0x15e18d=JANGI_TRAVEL_DURATION*0.25/_0x2282f7,_0x192a4b=JANGI_TRAVEL_DURATION/_0x2282f7,_0x5df43d=_0x3456ff/_0x2282f7,_0x2a7376=(JANGI_TRAVEL_DURATION+landing*0.78)/_0x2282f7,_0x18d889=(_0x357b6e,_0x3faa5,_0x4519fc='1')=>_0x1d5d57(0x180)+_0x357b6e+'px),\x20calc(-50%\x20+\x20'+_0x3faa5+_0x1d5d57(0x18f)+_0x4519fc+')',_0x385702=_0x1d5d57(0x174),_0x558890=[{'offset':0x0,'transform':_0x18d889(_0x42e85f,_0x32aa3c),'easing':_0x1d5d57(0x17d)},{'offset':_0x15e18d,'transform':_0x18d889(_0x42e85f,_0x32aa3c-_0x2f3eb5,_0x1d5d57(0x177)),'easing':_0x385702},{'offset':_0x192a4b,'transform':_0x18d889(0x0,-_0x2f3eb5,_0x1d5d57(0x177)),'easing':_0x1d5d57(0x179)},{'offset':_0x5df43d,'transform':_0x18d889(0x0,0x0,_0x1d5d57(0x176)),'easing':_0x1d5d57(0x17d)},{'offset':_0x2a7376,'transform':_0x18d889(0x0,0x0,_0x1d5d57(0x186))},{'offset':0x1,'transform':_0x18d889(0x0,0x0)}],_0x1fa8ae=[{'offset':0x0,'transform':_0x18d889(_0x42e85f,_0x32aa3c),'opacity':0x1,'filter':_0x1d5d57(0x17e),'easing':_0x1d5d57(0x17d)},{'offset':_0x15e18d,'transform':_0x18d889(_0x42e85f+0x2,_0x32aa3c+0x2,'1.1'),'opacity':0.48,'filter':_0x1d5d57(0x178),'easing':_0x385702},{'offset':_0x192a4b,'transform':_0x18d889(0x2,0x2,_0x1d5d57(0x192)),'opacity':0.48,'filter':_0x1d5d57(0x178),'easing':_0x1d5d57(0x179)},{'offset':_0x5df43d,'transform':_0x18d889(0x0,0x0,_0x1d5d57(0x17c)),'opacity':0x1,'filter':_0x1d5d57(0x17e)},{'offset':0x1,'transform':_0x18d889(0x0,0x0),'opacity':0x1,'filter':_0x1d5d57(0x17e)}],_0x32ca6c=[[_0x4e08ad[_0x1d5d57(0x187)](_0x1d5d57(0x184)),_0x558890],[_0x4e08ad['querySelector']('.stone-shadow'),_0x1fa8ae],[_0x192ffc,[{'offset':0x0,'opacity':0x0},{'offset':_0x5df43d,'opacity':0x0},{'offset':_0x2a7376,'opacity':0x1},{'offset':0x1,'opacity':0x1}]]][_0x1d5d57(0x191)](([_0x1d0b0c])=>_0x1d0b0c)[_0x1d5d57(0x182)](([_0xb827df,_0x5cfdb8])=>{const _0x41d479=_0x1d5d57,_0x13bfdc=_0xb827df[_0x41d479(0x17a)](_0x5cfdb8,{'duration':_0x2282f7,'fill':'both','easing':'linear'});return _0x13bfdc['pause'](),_0x13bfdc['currentTime']=0x0,_0x13bfdc;});let _0x3a454c,_0x4d17fd,_0x36a5f4=![],_0x5ad2dc;const _0x316e76=new Promise(_0x4250ee=>{_0x5ad2dc=_0x4250ee;});function _0x250110(){if(_0x36a5f4)return;_0x36a5f4=!![],cancelFrame(_0x3a454c),_0x32ca6c['forEach'](_0xf99950=>_0xf99950['cancel']()),_0x5ad2dc();}function _0x41b9fc(_0x54f296){const _0x5175cd=_0x1d5d57;if(!shouldContinue())return _0x250110();_0x4d17fd===undefined&&(_0x4d17fd=_0x54f296,_0x289922?.(_0x3456ff));const _0x2897a9=Math[_0x5175cd(0x193)](_0x2282f7,Math['max'](0x0,_0x54f296-_0x4d17fd));_0x32ca6c['forEach'](_0x481ef3=>{const _0x3be8b3=_0x5175cd;_0x481ef3[_0x3be8b3(0x189)]=_0x2897a9;});if(_0x2897a9>=_0x2282f7)_0x250110();else _0x3a454c=requestFrame(_0x41b9fc);}return _0x3a454c=requestFrame(_0x41b9fc),{'finished':_0x316e76,'cancel':_0x250110};}
+// Move the body above the board while its independent shadow follows the surface.
+export const JANGI_TRAVEL_DURATION = 240;
+export function jangiMoveTiming(landing = 80) {
+  return { duration:JANGI_TRAVEL_DURATION + landing, contact:JANGI_TRAVEL_DURATION + landing * .4 };
+}
+
+export function animateJangiMove(from, cell, marker, { landing = 80, onStart, shouldContinue = () => true,
+  requestFrame = requestAnimationFrame, cancelFrame = cancelAnimationFrame } = {}) {
+  const source = from.getBoundingClientRect(), target = cell.getBoundingClientRect();
+  const x = source.left + source.width / 2 - target.left - target.width / 2;
+  const y = source.top + source.height / 2 - target.top - target.height / 2;
+  const lift = Math.min(11, target.width * .23);
+  const {duration,contact} = jangiMoveTiming(landing);
+  const raised = JANGI_TRAVEL_DURATION * .25 / duration, arrived = JANGI_TRAVEL_DURATION / duration;
+  const impact = contact / duration, settle = (JANGI_TRAVEL_DURATION + landing * .78) / duration;
+  const pose = (dx,dy,scale = '1') => `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(${scale})`;
+  const smooth = 'cubic-bezier(.3, 0, .2, 1)';
+  const stone = [
+    {offset:0,transform:pose(x,y),easing:'ease-out'},
+    {offset:raised,transform:pose(x,y-lift,'1.12'),easing:smooth},
+    {offset:arrived,transform:pose(0,-lift,'1.12'),easing:'ease-in'},
+    {offset:impact,transform:pose(0,0,'1.04, .98'),easing:'ease-out'},
+    {offset:settle,transform:pose(0,0,'.995, 1.005')},
+    {offset:1,transform:pose(0,0)},
+  ];
+  const shadow = [
+    {offset:0,transform:pose(x,y),opacity:1,filter:'blur(0px)',easing:'ease-out'},
+    {offset:raised,transform:pose(x+2,y+2,'1.1'),opacity:.48,filter:'blur(1.3px)',easing:smooth},
+    {offset:arrived,transform:pose(2,2,'1.1'),opacity:.48,filter:'blur(1.3px)',easing:'ease-in'},
+    {offset:impact,transform:pose(0,0,'1.05, .98'),opacity:1,filter:'blur(0px)'},
+    {offset:1,transform:pose(0,0),opacity:1,filter:'blur(0px)'},
+  ];
+  const animations = [
+    [cell.querySelector('.stone'),stone], [cell.querySelector('.stone-shadow'),shadow],
+    [marker,[{offset:0,opacity:0},{offset:impact,opacity:0},{offset:settle,opacity:1},{offset:1,opacity:1}]],
+  ].filter(([element]) => element).map(([element,keyframes]) => {
+    const animation = element.animate(keyframes,{duration,fill:'both',easing:'linear'});
+    animation.pause(); animation.currentTime = 0;
+    return animation;
+  });
+  let frame, started, stopped = false, resolve;
+  const finished = new Promise(done => { resolve = done; });
+  function cancel() {
+    if (stopped) return;
+    stopped = true; cancelFrame(frame);
+    animations.forEach(animation => animation.cancel()); resolve();
+  }
+  function tick(time) {
+    if (!shouldContinue()) return cancel();
+    // Measure from the first displayed frame, including on a busy WebView.
+    if (started === undefined) { started = time; onStart?.(contact); }
+    const elapsed = Math.min(duration,Math.max(0,time-started));
+    animations.forEach(animation => { animation.currentTime = elapsed; });
+    if (elapsed >= duration) cancel();
+    else frame = requestFrame(tick);
+  }
+  frame = requestFrame(tick);
+  return {finished,cancel};
+}

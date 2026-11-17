@@ -1,1 +1,59 @@
-(function(_0x140a53,_0x1b412f){const _0x38f2e5=q7_0x300e,_0x4e28ec=_0x140a53();while(!![]){try{const _0x7916d1=-parseInt(_0x38f2e5(0xa4))/0x1+parseInt(_0x38f2e5(0x6e))/0x2*(-parseInt(_0x38f2e5(0x96))/0x3)+-parseInt(_0x38f2e5(0x71))/0x4*(parseInt(_0x38f2e5(0x89))/0x5)+-parseInt(_0x38f2e5(0x78))/0x6*(parseInt(_0x38f2e5(0xa5))/0x7)+-parseInt(_0x38f2e5(0x86))/0x8*(parseInt(_0x38f2e5(0x93))/0x9)+parseInt(_0x38f2e5(0x6c))/0xa+parseInt(_0x38f2e5(0x6f))/0xb*(parseInt(_0x38f2e5(0x9e))/0xc);if(_0x7916d1===_0x1b412f)break;else _0x4e28ec['push'](_0x4e28ec['shift']());}catch(_0x5f55d0){_0x4e28ec['push'](_0x4e28ec['shift']());}}}(q7_0x35d0,0xdd8a3));function q7_0x35d0(){const _0x249739=['zgLZywjSzwq','mJrKvgXADuS','lMPHBMDPlwzVCM1HDgLVBI1WAwvJzxm','A2LUza','w25HBwu9iMzVCM1HDgLVBIjDw3zHBhvLpsiWiL0','Aw5WDxq','y2XHC3nmAxn0','AMfUz2LgB3jTyxrPB25tyxzPBMC','C3rYB25N','C2v0qxr0CMLIDxrL','Ew91','zgf0yxnLDa','yxbWzw5K','DMfSDwu','zMLUzeXHC3q','oejWv3Pbqq','y2HLy2TLza','CMv2zxjZzq','nvrOvLfkyq','yMXHy2S','AMfUz2LgB3jTyxrPB25iAw50tgvNywn5','C2vHDa','y29Kzq','CgvUzgLUzW','CM91BMq','y2XHC3noyw1L','ywrK','CgLLy2vZ','mtq2ntK3nJDtquLVvKS','y3jLyxrLrwXLBwvUDa','imk3ia','ntq4mZfYA05qAxG','AMfUz2LpChbVBMvUDezVCM1HDgLVBLn1Bw1HCNK','AMfUz2LgB3jTyxrPB25dAg9Zzw4','lMPHBMDPlwzVCM1HDgLVBI1ZDgf0zq','C3rVBMuG','CMvWBgfJzunOAwXKCMvU','AMfUz2LfBgvWAgfUDa','y2XVy2S','mJC5ntK2neDIugvjCa','AM9PBG','CxvLCNLtzwXLy3rVCKfSBa','AMfUz2LgB3jTyxrPB25oB3rdAg9Zzw4','yM9HCMq','D2HPDgu','mtmYnJG5nwX5rNDWAG','mtC5nJKZnuX2r1vsvG','Dgv4DenVBNrLBNq','CxvLCNLtzwXLy3rVCG','AMfUz2LpChbVBMvUDezVCM1HDgLVBG','AMfUz2LpChbVBMvUDezVCM1HDgLVBLbLBMrPBMC','zM9YBwf0Aw9U','mZm2ntqYmfvnANLJsG','lMPHBMDPlwzVCM1HDgLVBI1OAw50','otj4zhLUzNi','mJy0sgHMC1HS','ywn0Aw9UCW','nZKWodKYt2LtwMn3','yNv0Dg9Uw3r5Cgu9iNn1yM1PDcjD','DhLWzq','lMPHBMDPlwzVCM1HDgLVBI1JAg9Py2u','C3bHBG','BwfW'];q7_0x35d0=function(){return _0x249739;};return q7_0x35d0();}import{initial,GLYPHS,HORSE}from'./rules.js';import{pieceStyleForSeat}from'./piece-skins.js';function q7_0x300e(_0x2f3ec8,_0x8d3b44){_0x2f3ec8=_0x2f3ec8-0x6b;const _0x35d0f7=q7_0x35d0();let _0x300e73=_0x35d0f7[_0x2f3ec8];if(q7_0x300e['vqFngm']===undefined){var _0x4a82e7=function(_0x3b57d4){const _0x1728e1='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x54f74d='',_0x24972c='';for(let _0x985363=0x0,_0x254121,_0x253bdb,_0x599c44=0x0;_0x253bdb=_0x3b57d4['charAt'](_0x599c44++);~_0x253bdb&&(_0x254121=_0x985363%0x4?_0x254121*0x40+_0x253bdb:_0x253bdb,_0x985363++%0x4)?_0x54f74d+=String['fromCharCode'](0xff&_0x254121>>(-0x2*_0x985363&0x6)):0x0){_0x253bdb=_0x1728e1['indexOf'](_0x253bdb);}for(let _0x47f7a9=0x0,_0x2dd7cf=_0x54f74d['length'];_0x47f7a9<_0x2dd7cf;_0x47f7a9++){_0x24972c+='%'+('00'+_0x54f74d['charCodeAt'](_0x47f7a9)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x24972c);};q7_0x300e['SkKbUX']=_0x4a82e7,q7_0x300e['nRuKOz']={},q7_0x300e['vqFngm']=!![];}const _0x57bfca=_0x35d0f7[0x0];q7_0x300e['lIDnqd']!==_0x57bfca&&(q7_0x300e['nRuKOz']={},q7_0x300e['lIDnqd']=_0x57bfca);const _0x385f6d=q7_0x300e['nRuKOz'][_0x2f3ec8];return _0x385f6d===undefined?(_0x300e73=q7_0x300e['SkKbUX'](_0x300e73),q7_0x300e['nRuKOz'][_0x2f3ec8]=_0x300e73):_0x300e73=_0x385f6d,_0x300e73;}import{setPieceGlyph}from'./piece-glyph.js';export function formationPieces(_0x24972c,_0x985363=![]){const _0x997be8=q7_0x300e,_0x254121=initial({'choFormation':_0x24972c})[_0x997be8(0xa2)],_0x253bdb=[0x52,0x53,0x57,0x58][_0x997be8(0x76)](_0x599c44=>_0x254121[_0x599c44]);return _0x985363?_0x253bdb[_0x997be8(0x88)]():_0x253bdb;}export function confirmedFormation(_0x47f7a9,_0x2dd7cf){const _0x16c505=q7_0x300e,_0x111385=_0x47f7a9?.[_0x16c505(0x70)]?.[_0x16c505(0x85)](_0x22c950=>_0x22c950[_0x16c505(0x73)]==='formation'&&_0x22c950[_0x16c505(0x8c)]===_0x2dd7cf);return Number['isInteger'](_0x111385?.[_0x16c505(0x6b)])&&_0x111385['formation']>=0x0&&_0x111385[_0x16c505(0x6b)]<0x4?_0x111385[_0x16c505(0x6b)]:null;}function drawPieces(_0x43907e,_0x3971f7,_0x43e2ac,_0x4a250d){const _0x1d11ac=q7_0x300e;_0x43907e[_0x1d11ac(0x82)]['stoneStyle']=_0x4a250d;const _0x3c60cd=_0x43e2ac+':'+(_0x3971f7?.[_0x1d11ac(0x9f)](',')??_0x1d11ac(0x8e));if(_0x43907e[_0x1d11ac(0x82)][_0x1d11ac(0x92)]===_0x3c60cd)return;_0x43907e['dataset'][_0x1d11ac(0x92)]=_0x3c60cd,_0x43907e[_0x1d11ac(0x9b)](...(_0x3971f7??[null,null,null,null])['map'](_0x23709d=>{const _0x3c827e=_0x1d11ac,_0x3ff41b=document['createElement']('span');_0x3ff41b[_0x3c827e(0x90)]='jangi-formation-piece';if(_0x23709d===null)_0x3ff41b[_0x3c827e(0x7d)][_0x3c827e(0x91)](_0x3c827e(0x8e)),_0x3ff41b[_0x3c827e(0xa6)]='?';else{const _0x420c59=document[_0x3c827e(0x94)](_0x3c827e(0x75));_0x420c59[_0x3c827e(0x90)]='jangi-formation-shadow';const _0x2997ba=document['createElement'](_0x3c827e(0x75));_0x2997ba[_0x3c827e(0x90)]=_0x3c827e(0x9a)+(_0x43e2ac===0x1?'black':_0x3c827e(0xa3)),_0x2997ba[_0x3c827e(0x82)][_0x3c827e(0x7a)]=_0x23709d,setPieceGlyph(_0x2997ba,GLYPHS[_0x43e2ac][_0x23709d-0x1]),_0x3ff41b[_0x3c827e(0x83)](_0x420c59,_0x2997ba);}return _0x3ff41b;}));}export function renderFormationPicker(_0x2b2aaa,_0x1be605,{t:_0x33b288,busy:busy=![],localPieceStyle:_0x57d0b4}){const _0x454aca=q7_0x300e;_0x2b2aaa[_0x454aca(0xa7)](_0x454aca(0x6d))[_0x454aca(0xa6)]=_0x33b288(_0x1be605[_0x454aca(0x9d)]?.[_0x454aca(0x7a)]==='cumulative-v1'?'jangiFormationHint':_0x454aca(0x8b));const _0x5f5082=_0x1be605[_0x454aca(0x81)],_0x740bf0=0x3-_0x5f5082,_0x68adb8=confirmedFormation(_0x1be605,_0x740bf0),_0x578cac=_0x1be605[_0x454aca(0x8d)]+':'+_0x1be605['round'];_0x2b2aaa[_0x454aca(0x82)][_0x454aca(0x8f)]!==_0x578cac&&(_0x2b2aaa['dataset'][_0x454aca(0x8f)]=_0x578cac,_0x2b2aaa['querySelector'](_0x454aca(0x7b))[_0x454aca(0x87)]=!![]);for(const _0x445385 of _0x2b2aaa[_0x454aca(0xa0)](_0x454aca(0x74))){const _0x1bfe92=_0x445385[_0x454aca(0xa7)](_0x454aca(0x7c));_0x1bfe92[_0x454aca(0x77)]=busy,drawPieces(_0x445385[_0x454aca(0xa7)](_0x454aca(0x79)),formationPieces(Number(_0x1bfe92[_0x454aca(0x84)])),_0x5f5082,pieceStyleForSeat(_0x1be605,_0x5f5082,_0x57d0b4));}const _0xd1e01c=_0x2b2aaa[_0x454aca(0xa7)]('#jangi-opponent-formation');_0xd1e01c['dataset']['confirmed']=String(_0x68adb8!==null),_0xd1e01c[_0x454aca(0xa7)](_0x454aca(0x7f))[_0x454aca(0xa6)]=_0x33b288(_0x454aca(0xa8),{'side':_0x33b288(_0x740bf0===0x1?_0x454aca(0x8a):_0x454aca(0xa3))}),_0xd1e01c[_0x454aca(0xa7)](_0x454aca(0x99))[_0x454aca(0xa6)]=_0x33b288(_0x68adb8===null?_0x454aca(0xa1):_0x454aca(0x98)),drawPieces(_0xd1e01c[_0x454aca(0xa7)](_0x454aca(0x79)),_0x68adb8===null?null:formationPieces(_0x68adb8,!![]),_0x740bf0,pieceStyleForSeat(_0x1be605,_0x740bf0,_0x57d0b4)),_0xd1e01c[_0x454aca(0x80)]('aria-label',_0x68adb8===null?_0x33b288(_0x454aca(0xa9)):_0x33b288(_0x454aca(0x97),{'side':_0x33b288(_0x740bf0===0x1?_0x454aca(0x8a):'white'),'pieces':formationPieces(_0x68adb8,!![])[_0x454aca(0x76)](_0x52e2f9=>_0x33b288(_0x52e2f9===HORSE?'jangiHorse':_0x454aca(0x9c)))[_0x454aca(0x9f)](_0x454aca(0x95))}));const _0x5e6ec9=_0x2b2aaa['querySelector'](_0x454aca(0x72));_0x5e6ec9['disabled']=busy,_0x5e6ec9[_0x454aca(0xa6)]=_0x33b288(busy?_0x454aca(0x7e):'jangiFormationConfirm');}
+import { initial, GLYPHS, HORSE } from './rules.js';
+import { pieceStyleForSeat } from './piece-skins.js';
+import { setPieceGlyph } from './piece-glyph.js';
+
+// Read the same back-rank positions as the rules engine. Opponents face the viewer.
+export function formationPieces(formation, opponent = false) {
+  const board = initial({ choFormation: formation }).board;
+  const pieces = [82, 83, 87, 88].map(index => board[index]);
+  return opponent ? pieces.reverse() : pieces;
+}
+
+export function confirmedFormation(game, seat) {
+  const action = game?.actions?.findLast(action => action.type === 'formation' && action.seat === seat);
+  return Number.isInteger(action?.formation) && action.formation >= 0 && action.formation < 4 ? action.formation : null;
+}
+
+function drawPieces(element, kinds, seat, style) {
+  element.dataset.stoneStyle = style;
+  const key = `${seat}:${kinds?.join(',') ?? 'pending'}`;
+  if (element.dataset.pieces === key) return;
+  element.dataset.pieces = key;
+  element.replaceChildren(...(kinds ?? [null, null, null, null]).map(kind => {
+    const piece = document.createElement('span');
+    piece.className = 'jangi-formation-piece';
+    if (kind === null) {
+      piece.classList.add('pending'); piece.textContent = '?';
+    } else {
+      const shadow = document.createElement('span'); shadow.className = 'jangi-formation-shadow';
+      const face = document.createElement('span'); face.className = `stone ${seat === 1 ? 'black' : 'white'}`;
+      face.dataset.kind = kind; setPieceGlyph(face, GLYPHS[seat][kind - 1]);
+      piece.append(shadow, face);
+    }
+    return piece;
+  }));
+}
+
+export function renderFormationPicker(dialog, game, { t, busy = false, localPieceStyle }) {
+  dialog.querySelector('.jangi-formation-hint').textContent = t(game.clock?.kind === 'cumulative-v1' ? 'jangiFormationHint' : 'jangiFormationHintLegacy');
+  const seat = game.you, opponent = 3 - seat, formation = confirmedFormation(game, opponent);
+  const round = `${game.code}:${game.round}`;
+  if (dialog.dataset.round !== round) {
+    dialog.dataset.round = round;
+    dialog.querySelector('[name="formation"][value="0"]').checked = true;
+  }
+  for (const option of dialog.querySelectorAll('.jangi-formation-choice')) {
+    const input = option.querySelector('input'); input.disabled = busy;
+    drawPieces(option.querySelector('.jangi-formation-pieces'), formationPieces(Number(input.value)), seat, pieceStyleForSeat(game, seat, localPieceStyle));
+  }
+  const preview = dialog.querySelector('#jangi-opponent-formation');
+  preview.dataset.confirmed = String(formation !== null);
+  preview.querySelector('strong').textContent = t('jangiOpponentFormation', { side: t(opponent === 1 ? 'black' : 'white') });
+  preview.querySelector('.jangi-formation-state').textContent = t(formation === null ? 'jangiFormationNotChosen' : 'jangiFormationChosen');
+  drawPieces(preview.querySelector('.jangi-formation-pieces'), formation === null ? null : formationPieces(formation, true), opponent, pieceStyleForSeat(game, opponent, localPieceStyle));
+  preview.setAttribute('aria-label', formation === null ? t('jangiOpponentFormationPending')
+    : t('jangiOpponentFormationSummary', { side: t(opponent === 1 ? 'black' : 'white'), pieces: formationPieces(formation, true).map(kind => t(kind === HORSE ? 'jangiHorse' : 'jangiElephant')).join(' · ') }));
+  const confirm = dialog.querySelector('button[type="submit"]');
+  confirm.disabled = busy;
+  confirm.textContent = t(busy ? 'jangiFormationSaving' : 'jangiFormationConfirm');
+}

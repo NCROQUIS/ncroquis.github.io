@@ -2120,6 +2120,10 @@ dialog input { width: 100%; }
 #options form { display: flex; flex-direction: column; max-height: calc(100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - 54px); }
 #options form > :not(.options-content) { flex: none; }
 #options .options-content { display: grid; grid-auto-rows: max-content; gap: 10px; min-height: 0; overflow-y: auto; }
+#options .audio-credits { padding: 8px 0; border-top: 1px solid #b4bda6; font-size: 12px; line-height: 1.5; }
+#options .audio-credits summary { cursor: pointer; }
+#options .audio-credits p { margin: 8px 0; font-size: inherit; line-height: inherit; overflow-wrap: anywhere; }
+#options .audio-credits a { color: inherit; text-decoration: underline; }
 .option-row {
   display: flex;
   align-items: center;

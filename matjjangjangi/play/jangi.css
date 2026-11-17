@@ -30,6 +30,8 @@
 .board-grid { grid-template:repeat(10,minmax(0,1fr))/repeat(9,minmax(0,1fr)); }
 .board-row { display:contents; }
 .board-lines { aspect-ratio:9/10; }
+/* Approved star marks: 8% cell radius, 1.25 CSS px, 90% opacity. */
+.board-starting-marks { fill:none;stroke-width:1.25px;opacity:.9;stroke-linecap:round;stroke-linejoin:round; }
 /* Grid strokes must never thicken the lettering in the tiny replay boards. */
 .record-preview .record-pieces { stroke:none; }
 .record-preview .record-piece-glyph { font-family:JanggiBrush,serif;font-weight:400; }
@@ -214,19 +216,14 @@
 .forest-ui .match[data-tight-board] .jangi-bikjang-guide { padding:4px 8px; }
 .jangi-response-speech { border-color:#347357;color:#236246;z-index:12; }
 .jangi-response-speech::after { border-color:#347357; }
-.jangi-end-notice { position:absolute;inset:0;z-index:18;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;pointer-events:none;isolation:isolate;animation:jangi-end-arrive 1400ms both; }
+.jangi-end-notice { position:absolute;inset:0;z-index:18;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;pointer-events:none;isolation:isolate; }
 .jangi-end-notice[hidden] { display:none; }
-.jangi-end-notice::before { content:'';position:absolute;width:40%;aspect-ratio:1;border:3px double #dab65c;border-radius:50%;background:radial-gradient(ellipse,#284938e8 35%,#122a23d9 65%,transparent 67%);box-shadow:0 0 0 5px #b1873b55,0 5px 15px #0007;z-index:-2; }
-.jangi-end-notice::after { content:'';position:absolute;width:90%;height:24%;background:linear-gradient(110deg,#28595300,#2e6458e6 18%,#173c32 48%,#2e6458e6 82%,#28595300);clip-path:polygon(0 8%,24% 22%,80% 0,72% 25%,100% 32%,91% 52%,100% 86%,76% 75%,20% 100%,28% 78%,0 70%,8% 48%);border-block:2px solid #dfbd67;z-index:-1; }
-.jangi-end-notice strong { max-width:90%;padding:4px 8px;font-size:clamp(24px,11cqi,48px);font-weight:900;line-height:1.15;letter-spacing:-.055em;text-align:center;overflow-wrap:anywhere;color:#ffe9a4;text-shadow:0 2px #7a501b,0 4px 2px #171b15,1px 0 #7a501b,-1px 0 #7a501b; }
-.jangi-end-notice>span { max-width:90%;padding:3px 15px;border:1px solid #d6ba78;border-radius:999px;background:#173d2de8;color:#fff0bc;font-size:clamp(11px,4cqi,16px);font-weight:800;line-height:1.4;text-align:center; }
 .board[data-ending] .jangi-threat-speech,.board[data-ending] .jangi-pass-notice { visibility:hidden; }
-@keyframes jangi-end-arrive { 0% { opacity:0;transform:scale(.65); } 16% { opacity:1;transform:scale(1.06); } 26%,84% { opacity:1;transform:scale(1); } 100% { opacity:0;transform:scale(1.025); } }
 
 /* Approved 120 CSS px ink stamp. No backing, caption plate or floor shadow. */
 .jangi-end-notice[data-stamp] { animation:none; }
-.jangi-end-notice[data-stamp]::before,.jangi-end-notice[data-stamp]::after { display:none; }
-.jangi-end-notice[data-stamp]>strong,.jangi-end-notice[data-stamp]>span { position:absolute;width:1px;height:1px;max-width:none;padding:0;margin:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;background:none;box-shadow:none;text-shadow:none; }
+.jangi-end-notice::before,.jangi-end-notice::after { content:none;display:none; }
+.jangi-end-notice>strong,.jangi-end-notice>span { position:absolute;width:1px;height:1px;max-width:none;padding:0;margin:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;background:none;box-shadow:none;text-shadow:none; }
 .jangi-checkmate-stamp { position:absolute;left:50%;top:50%;translate:-50% -50%;width:120px;height:75px;z-index:2;transform:rotate(-7deg);background:none;box-shadow:none;pointer-events:none; }
 .jangi-checkmate-stamp[hidden],.jangi-stamp-effects[hidden] { display:none; }
 .jangi-checkmate-stamp img { display:block;width:100%;height:100%;padding:0;border:0;object-fit:contain;background:none;box-shadow:none;user-select:none; }
@@ -239,6 +236,13 @@
 .jangi-stamp-fallback b { font-size:23px;line-height:1.1; }.jangi-stamp-fallback em { font-size:15px;line-height:1.1;font-style:normal;font-weight:800; }
 .jangi-checkmate-stamp[data-language="en"] .jangi-stamp-fallback b { font-size:16px; }
 .jangi-checkmate-stamp[data-fallback] img { display:none; }.jangi-checkmate-stamp[data-fallback] .jangi-stamp-fallback { display:flex; }
+.jangi-checkmate-stamp[data-dynamic] .jangi-stamp-fallback { position:absolute;inset:0;display:grid;grid-template-rows:63% 37%;justify-items:center;align-items:center;gap:0;width:100%;height:100%;padding:7px 7px 6px;border:0;color:#a7251b; }
+.jangi-checkmate-stamp[data-dynamic] .jangi-stamp-fallback b { max-width:100%;font-size:26px;line-height:1;letter-spacing:-.06em;font-weight:900;white-space:nowrap;filter:url(#jangi-stamp-ink); }
+.jangi-checkmate-stamp[data-dynamic][data-long-title] .jangi-stamp-fallback b { font-size:22px; }
+.jangi-checkmate-stamp[data-dynamic] .jangi-stamp-fallback em { max-width:100%;font-size:14px;line-height:1.1;white-space:nowrap;filter:url(#jangi-stamp-ink); }
+.jangi-checkmate-stamp[data-dynamic][data-language='en'] .jangi-stamp-fallback b { font-size:15px;letter-spacing:-.025em;text-transform:uppercase; }
+.jangi-checkmate-stamp[data-dynamic][data-language='en'] .jangi-stamp-fallback em { font-size:12px;text-transform:uppercase; }
+.jangi-checkmate-stamp[data-dynamic][data-fallback] .jangi-stamp-fallback { border:3px double #a7251b;border-radius:5px; }
 
 /* Approved card: profile/name/clock, fixed time track, then captured pieces inside. */
 .forest-ui .match-player { height:106px;grid-template-rows:minmax(35px,1fr) 4px 27px;padding:8px 12px;row-gap:5px; }

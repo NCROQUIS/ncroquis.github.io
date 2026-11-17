@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
 <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
-  <script src="./ncq/safe.js?v=e7d9a739c944"></script>
-  <script src="./ncq/motion.js?v=e7d9a739c944"></script>
-  <script src="./ncq/device.js?v=e7d9a739c944"></script>
-  <script src="./ncq/sound.js?v=e7d9a739c944"></script>
-  <script src="./ncq/save.js?v=e7d9a739c944"></script>
+  <script src="./ncq/safe.js?v=084725976548"></script>
+  <script src="./ncq/motion.js?v=084725976548"></script>
+  <script src="./ncq/device.js?v=084725976548"></script>
+  <script src="./ncq/sound.js?v=084725976548"></script>
+  <script src="./ncq/save.js?v=084725976548"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -14,24 +14,29 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=e7d9a739c944">
-  <link rel="stylesheet" href="./style.css?v=e7d9a739c944">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=e7d9a739c944">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=e7d9a739c944">
-  <link rel="stylesheet" href="./forest-ui.css?v=e7d9a739c944">
-  <link rel="stylesheet" href="./lobby-layout.css?v=e7d9a739c944">
-  <link rel="stylesheet" href="./list-dialog.css?v=e7d9a739c944">
-  <link rel="stylesheet" href="./shop-layout.css?v=e7d9a739c944">
-  <link rel="stylesheet" href="./ranking-layout.css?v=e7d9a739c944">
-  <link rel="stylesheet" href="./mission-layout.css?v=e7d9a739c944">
-  <script type="module" src="./app.js?v=e7d9a739c944"></script>
-<link rel="stylesheet" href="./jangi.css?v=e7d9a739c944">
-  <link rel="stylesheet" href="./daily-puzzle.css?v=e7d9a739c944">
-  <link rel="stylesheet" href="./together.css?v=e7d9a739c944">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=084725976548">
+  <link rel="stylesheet" href="./style.css?v=084725976548">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=084725976548">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=084725976548">
+  <link rel="stylesheet" href="./forest-ui.css?v=084725976548">
+  <link rel="stylesheet" href="./lobby-layout.css?v=084725976548">
+  <link rel="stylesheet" href="./list-dialog.css?v=084725976548">
+  <link rel="stylesheet" href="./shop-layout.css?v=084725976548">
+  <link rel="stylesheet" href="./ranking-layout.css?v=084725976548">
+  <link rel="stylesheet" href="./mission-layout.css?v=084725976548">
+  <script type="module" src="./app.js?v=084725976548"></script>
+<link rel="stylesheet" href="./jangi.css?v=084725976548">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=084725976548">
+  <link rel="stylesheet" href="./together.css?v=084725976548">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
     <defs>
+      <filter id="jangi-stamp-ink" x="-3%" y="-3%" width="106%" height="106%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" seed="12" result="grain"/>
+        <feColorMatrix in="grain" type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 8 0 0 0 -1.8" result="ink"/>
+        <feComposite in="SourceGraphic" in2="ink" operator="in"/>
+      </filter>
       <symbol id="nav-ranking" viewBox="0 0 24 24">
         <path d="M7 3h10v5a5 5 0 0 1-10 0V3Zm0 2H3v2a4 4 0 0 0 4 4m10-6h4v2a4 4 0 0 1-4 4m-5 2v6m-4 2h8m-6-2h4"
               fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -77,9 +82,11 @@
         M1.5 .5V14.5 M2.5 .5V14.5 M3.5 .5V14.5 M4.5 .5V14.5 M5.5 .5V14.5
         M6.5 .5V14.5 M7.5 .5V14.5 M8.5 .5V14.5 M9.5 .5V14.5 M10.5 .5V14.5
         M11.5 .5V14.5 M12.5 .5V14.5 M13.5 .5V14.5"/>
+      <path id="board-starting-marks-path" vector-effect="non-scaling-stroke"/>
       <g id="board-engraving">
         <use class="board-line-highlight" href="#board-line-path" x=".033" y=".033"/>
         <use href="#board-line-path"/>
+        <use class="board-starting-marks" href="#board-starting-marks-path"/>
       </g>
     </defs>
   </svg>
@@ -687,6 +694,11 @@
           <button id="ad-privacy" class="secondary" type="button" data-i18n="adPrivacy" hidden></button>
           <button id="restore-purchases" class="secondary" type="button" data-i18n="purchaseRestore" hidden></button>
           <p id="restore-feedback" role="status" hidden></p>
+            <details class="audio-credits">
+              <summary data-i18n="jangiAudioCredits"></summary>
+              <p data-i18n="jangiAudioCreditText"></p>
+              <a id="audio-source-link" data-i18n="jangiAudioSource" hidden></a>
+            </details>
         </div>
         <button class="primary" type="submit" data-ncq-main="Close options" data-i18n="done"></button>
       </form>
@@ -1392,7 +1404,7 @@
     <div id="tg-actions-2" class="tg-slide-actions" data-slide-actions="2" data-open="false" role="group" data-i18n-attr="aria-label:togetherActions" aria-hidden="true" inert><button type="button" data-together="pass" data-i18n="togetherPass"></button><button type="button" data-together="resign" data-i18n="togetherResign"></button><button type="button" data-together="close-actions" data-i18n="togetherClose" data-ncq-main="Close local actions"></button></div>
   </div>
   <div id="tg-captured-2" class="jangi-captured tg-captured tg-far" role="img"></div>
-  <div id="tg-board-slot"><div id="tg-board" class="board"><div id="tg-grid" class="board-grid" role="grid"><svg class="board-lines" viewBox="0 0 9 10" preserveAspectRatio="none" aria-hidden="true"><use href="#board-engraving"/></svg></div><div id="tg-pass-notice" class="jangi-pass-notice" role="status" hidden></div></div></div>
+  <div id="tg-board-slot"><div id="tg-board" class="board"><div id="tg-grid" class="board-grid" role="grid"><svg class="board-lines" viewBox="0 0 9 10" preserveAspectRatio="none" aria-hidden="true"><use href="#board-engraving"/></svg></div><div id="tg-pass-notice" class="jangi-pass-notice" role="status" hidden></div><div id="tg-round-notice" class="jangi-end-notice" role="status" aria-live="assertive" hidden><strong></strong><span></span><div class="jangi-checkmate-stamp" aria-hidden="true" hidden><img width="360" height="225" alt="" draggable="false"><div class="jangi-stamp-fallback"><b></b><em></em></div></div><div class="jangi-stamp-effects" aria-hidden="true" hidden><div class="jangi-stamp-ring"></div><div class="jangi-stamp-flash"></div><div class="jangi-stamp-dust"></div></div></div></div></div>
   <div id="tg-captured-1" class="jangi-captured tg-captured" role="img"></div>
   <div class="tg-player" data-player="1">
     <div class="tg-controls"><div class="tg-controls-left"><button id="tg-exit" class="tg-round-button" type="button" data-i18n-attr="aria-label:togetherLeave">‹</button></div><button type="button" class="tg-undo" data-undo="1"></button><div class="tg-controls-right"><button id="tg-menu" class="tg-round-button" type="button" data-menu="1" aria-expanded="false" aria-controls="tg-actions-1" data-i18n-attr="aria-label:togetherActions; title:togetherActions">⋯</button><button id="tg-options" class="tg-round-button" type="button" aria-haspopup="dialog" aria-controls="options" data-i18n-attr="aria-label:options; title:options"><img src="./assets/forest-ui/icons/settings.webp" alt=""></button></div></div>

@@ -1,16 +1,77 @@
 <!doctype html>
 <html>
   <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
-    <meta charset="utf-8" /><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-auth.js"></script>
+    <meta charset="utf-8" /><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
     <meta name="theme-color" content="#16233f" />
     <title>강태공: 한 줄의 승부</title>
-    <script type="module" crossorigin src="./assets/index-DLyehN1G.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-jAH_pGeP.css">
+    <script type="module" crossorigin src="./assets/index-DlaT8BPZ.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-ChMM_WM3.css">
   </head>
   <body>
     <div id="app">
       <canvas id="scene"></canvas>
+
+      <!-- 로비(항구): 앱을 열면 여기서 시작해요. '출항'으로 바다에 나가고, 아래 탭으로 상점·장비·도감·기록실을 열어요 -->
+      <section id="lobby" class="layer lobby">
+        <header class="topbar">
+          <div class="top-left">
+            <div class="chip"><i class="coin"></i><span id="lb-gold">0</span></div>
+            <button id="lb-pearl" class="chip pearl-chip"><i class="pearl"></i><span id="lb-pearl-n">0</span><b class="plus">+</b></button>
+          </div>
+          <button id="lb-settings" class="icon-btn top-right" data-i18n-attr="aria-label:settings">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.3 7.3 0 0 0-1.7-1L15 3.5h-4L10.7 6a7.3 7.3 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.3 7.3 0 0 0 1.7 1l.3 2.5h4l.3-2.5a7.3 7.3 0 0 0 1.7 1l2.4 1 2-3.4-2-1.6ZM13 15.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Z" transform="translate(-1 0)" />
+            </svg>
+          </button>
+        </header>
+        <div class="lobby-main">
+          <!-- 항구: 의뢰·낚시 패스·기념 팩 칸, 다음 목표, 출항 -->
+          <div id="pane-harbor" class="pane harbor">
+            <div class="lobby-cards">
+              <div class="lobby-col">
+                <button id="lb-quest" class="lobby-card"><span id="lb-quest-t" class="t"></span><span id="lb-quest-s" class="s"></span><i id="lb-quest-dot" class="dot" hidden></i></button>
+                <button id="lb-pass" class="lobby-card"><span class="t" data-i18n="pass"></span><span id="lb-pass-s" class="s"></span><i id="lb-pass-dot" class="dot" hidden></i></button>
+              </div>
+              <div class="lobby-col right">
+                <button id="lb-offer" class="lobby-card offer" hidden><span class="t" data-i18n="memo"></span><span id="lb-offer-s" class="s"></span></button>
+              </div>
+            </div>
+            <div class="grow"></div>
+            <p id="lb-goal" class="goal-line" hidden></p>
+            <div class="lobby-go">
+              <button id="btn-depart" class="main-btn" data-ncq-main="출항 버튼" data-i18n="depart"></button>
+            </div>
+          </div>
+          <!-- 탭: 상점·장비·도감·기록실 (메인 버튼 없음) -->
+          <div id="pane-shop" class="pane sheetlike" data-ncq-no-main hidden>
+            <h2 class="pane-title" data-i18n="shop"></h2>
+            <div id="shop-body" class="pane-body"></div>
+          </div>
+          <div id="pane-gear" class="pane sheetlike" data-ncq-no-main hidden>
+            <h2 class="pane-title" data-i18n="gear"></h2>
+            <div id="pane-gear-list" class="pane-body"></div>
+          </div>
+          <div id="pane-dex" class="pane sheetlike" data-ncq-no-main hidden>
+            <h2 class="pane-title"><span data-i18n="dex"></span><span id="dex-count" class="pane-sub"></span></h2>
+            <div class="pane-body">
+              <div id="dex-reward" class="reward-bar"><span id="dex-reward-t"></span><i><b id="dex-reward-fill"></b></i></div>
+              <div id="dex-list" class="grid"></div>
+            </div>
+          </div>
+          <div id="pane-records" class="pane sheetlike" data-ncq-no-main hidden>
+            <h2 class="pane-title" data-i18n="records"></h2>
+            <div id="records-body" class="pane-body"></div>
+          </div>
+        </div>
+        <nav class="tabbar">
+          <button class="tab" data-tab="shop"><i class="ti ti-shop"></i><span data-i18n="shop"></span></button>
+          <button class="tab" data-tab="gear"><i class="ti ti-gear"></i><span data-i18n="gear"></span><i id="tab-gear-dot" class="dot" hidden></i></button>
+          <button class="tab home" data-tab="harbor"><i class="ti ti-harbor"></i><span data-i18n="harbor"></span></button>
+          <button class="tab" data-tab="dex"><i class="ti ti-dex"></i><span data-i18n="dex"></span></button>
+          <button class="tab" data-tab="records"><i class="ti ti-records"></i><span data-i18n="records"></span></button>
+        </nav>
+      </section>
 
       <!-- 지역 지도: 지역을 눌러 들어가요 (메인 버튼 없음) -->
       <section id="map" class="layer map" data-ncq-no-main hidden>
@@ -28,11 +89,12 @@
         </div>
       </section>
 
-      <!-- 배 위: 낚시 상태(로비, 앱을 열면 여기서 시작해요)와 이동 상태 -->
+      <!-- 배 위: 낚시 상태와 이동 상태 (뒤로가기로 로비에 돌아가요) -->
       <section id="home" class="layer">
         <header class="topbar">
           <div class="top-left">
             <div class="chip"><i class="coin"></i><span id="gold">0</span></div>
+            <div class="chip"><i class="pearl"></i><span id="pearl">0</span></div>
           </div>
           <button id="btn-settings" class="icon-btn top-right lobby-only" data-i18n-attr="aria-label:settings">
             <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
@@ -40,11 +102,6 @@
             </svg>
           </button>
         </header>
-        <!-- 낚시 상태에서만: 도감·장비 (오른쪽 위, 이동 상태에서는 작은 지도 자리) -->
-        <div class="side-col lobby-only">
-          <button id="btn-dex" class="chip side-chip"><span data-i18n="dex"></span></button>
-          <button id="btn-gear" class="chip side-chip"><span data-i18n="gear"></span><i id="gear-dot" class="dot" hidden></i></button>
-        </div>
         <div id="status" class="status">
           <div id="st-zone" class="pill"><i id="st-zone-dot" class="zone-dot"></i><span id="st-zone-text"></span></div>
           <div id="st-wx" class="pill"><i id="st-wx-icon" class="wx"></i><span id="st-wx-text"></span><button id="ad-wx" class="ad-btn" hidden></button></div>
@@ -55,8 +112,8 @@
         <div class="grow"></div>
         <p class="spot"><span id="spot-name"></span><span class="sep">·</span><span id="dex-progress"></span></p>
         <nav class="bottom">
-          <!-- 낚시 상태: 지도(지역 이동) · 던지기 · 이동(배 이동)이 같은 높이로 나란히. 이동 상태: 낚시 하나 -->
-          <button id="btn-map" class="main-btn alt lobby-only" data-i18n="map"></button>
+          <!-- 낚시 상태: 항구(로비) · 던지기 · 이동(배 이동)이 같은 높이로 나란히, 던지기가 가운데. 이동 상태: 낚시 하나 -->
+          <button id="btn-harbor" class="main-btn alt lobby-only" data-i18n="harbor"></button>
           <button id="btn-cast" class="main-btn" data-ncq-main="던지기 버튼"></button>
           <button id="btn-to-sail" class="main-btn alt lobby-only" data-i18n="to_sail"></button>
         </nav>
@@ -81,24 +138,23 @@
             <div class="reward"><i class="coin"></i><span id="result-gold"></span></div>
           </div>
           <p id="result-tip" class="tip"></p>
-          <!-- 줄이 끊어졌을 때: 광고를 보고 그 자리에서 이어서 해요 (한 판에 한 번) -->
+          <p id="result-quest" class="intu-line quest" hidden></p>
+          <p id="result-goal" class="goal-line inline" hidden></p>
+          <!-- 줄이 끊어졌을 때: 광고나 진주로 그 자리에서 이어서 해요 (한 판에 한 번) -->
           <button id="result-revive" class="main-btn" hidden></button>
-          <button id="result-continue" class="main-btn" data-ncq-main="계속 낚시 버튼"></button>
+          <button id="result-revive-pearl" class="sub-btn" hidden></button>
+          <div class="result-row">
+            <button id="result-continue" class="main-btn" data-ncq-main="계속 낚시 버튼"></button>
+            <button id="result-upgrade" class="main-btn alt" data-i18n="upgrade" hidden></button>
+          </div>
           <button id="result-bait" class="sub-btn" hidden></button>
+          <button id="result-share" class="share-btn" data-i18n-attr="aria-label:share" hidden>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M18 16a3 3 0 0 0-2.2.9l-6.9-4a3 3 0 0 0 0-1.8l6.9-4A3 3 0 1 0 15 5a3 3 0 0 0 .1.9l-6.9 4a3 3 0 1 0 0 4.2l6.9 4A3 3 0 1 0 18 16Z" /></svg>
+          </button>
         </div>
       </section>
 
-      <!-- 도감 -->
-      <section id="sheet-dex" class="sheet" data-ncq-no-main hidden>
-        <header class="sheet-head">
-          <h2 data-i18n="dex"></h2>
-          <span id="dex-count" class="sheet-sub"></span>
-          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
-        </header>
-        <div id="dex-list" class="sheet-body grid"></div>
-      </section>
-
-      <!-- 장비 -->
+      <!-- 장비 (낚시 중 결과 화면의 '강화'로 열어요. 로비에서는 장비 탭) -->
       <section id="sheet-gear" class="sheet" data-ncq-no-main hidden>
         <header class="sheet-head">
           <h2 data-i18n="gear"></h2>
@@ -106,6 +162,29 @@
           <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
         </header>
         <div id="gear-list" class="sheet-body"></div>
+      </section>
+
+      <!-- 의뢰 -->
+      <section id="sheet-quest" class="sheet" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="quests"></h2>
+          <span id="quest-left" class="sheet-sub"></span>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div id="quest-list" class="sheet-body"></div>
+      </section>
+
+      <!-- 낚시 패스 -->
+      <section id="sheet-pass" class="sheet" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="pass"></h2>
+          <span id="pass-left" class="sheet-sub"></span>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div class="sheet-body">
+          <div id="pass-head" class="pass-head"></div>
+          <div id="pass-list"></div>
+        </div>
       </section>
 
       <!-- 설정 -->
@@ -134,11 +213,15 @@
             <input id="vib-on" type="checkbox" class="switch" />
           </div>
           <button id="btn-feedback" class="wide-btn" data-i18n="feedback" hidden></button>
+          <button id="btn-restore" class="wide-btn" data-i18n="restore" hidden></button>
           <button id="btn-privacy" class="wide-btn" data-i18n="privacy" hidden></button>
           <div id="test-menu" class="test" hidden>
             <p data-i18n="test_menu"></p>
             <div class="test-row">
               <button id="test-gold" data-i18n="test_gold"></button>
+              <button id="test-pearl" data-i18n="test_pearl"></button>
+              <button id="test-scale" data-i18n="test_scale"></button>
+              <button id="test-pass" data-i18n="test_pass"></button>
               <button id="test-fill" data-i18n="test_fill"></button>
               <button id="test-bot" data-i18n="test_bot"></button>
               <button id="test-place" data-i18n="test_place"></button>

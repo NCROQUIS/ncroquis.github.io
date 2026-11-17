@@ -62,11 +62,10 @@
 #missions .mission-row:nth-child(3) { top: 186px; }
 #missions .mission-row:nth-child(4) { top: 277px; }
 #missions .mission-row[data-state="ready"] { border-color: #97b65e; background: linear-gradient(135deg, #f2f8dd, #deebbc); }
-#missions .mission-stones { position: absolute; left: 14px; top: 12.5px; width: 57px; height: 57px; border-radius: 50%; background: #e8ddca; }
-#missions .mission-row[data-state="ready"] .mission-stones { background: #dce9bc; }
+#missions .mission-stones { position: absolute; left: 14px; top: 12.5px; width: 57px; height: 57px; border-radius: 50%; background: #e8ddca url("./assets/jangi-ui/logo-pair-white-v2.webp") center / 95% auto no-repeat; }
+#missions .mission-row[data-state="ready"] .mission-stones { background-color: #dce9bc; }
 #missions .mission-stones::after { display: none; }
-#missions .mission-stones i { display: block; position: absolute; left: 6px; top: 9px; width: 31px; height: 31px; border-radius: 0; box-shadow: none; background: url("./assets/forest-ui/board/stone_black.webp") center / contain no-repeat; }
-#missions .mission-stones i + i { left: 27px; top: 24px; width: 30px; height: 30px; background-image: url("./assets/forest-ui/board/stone_white.webp"); }
+#missions .mission-stones i, #missions .mission-stones i + i { display:none; }
 #missions .mission-detail { position: absolute; left: 89px; top: 7px; width: 268px; height: 65px; display: block; }
 #missions .mission-label { display: flex; align-items: center; flex-wrap: nowrap; gap: 14px; height: 30px; }
 #missions .mission-goal { font-size: 22px; font-weight: 760; line-height: 30px; letter-spacing: -1.3px; white-space: nowrap; }

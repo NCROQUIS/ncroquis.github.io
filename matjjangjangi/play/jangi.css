@@ -1,5 +1,9 @@
 @import url('./assets/jangi-skins/skins.css?v=42a1e54805f2');
 /* Janggi board, pieces and the approved player-card layout. */
+#shop .list-dialog-icon { background:url('./assets/jangi-ui/logo-pair-white-v2.webp') center / contain no-repeat; }
+#shop .list-dialog-icon svg { display:none!important; }
+.sound-volume { gap:12px; }
+.sound-volume input[type='range'] { width:45%;min-width:100px;min-height:28px;padding:0;accent-color:var(--green); }
 @font-face {
   font-family:JanggiBrush;
   src:url('./assets/jangi-skins/fonts/piece-glyphs.ttf') format('truetype');

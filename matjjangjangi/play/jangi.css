@@ -223,6 +223,23 @@
 .board[data-ending] .jangi-threat-speech,.board[data-ending] .jangi-pass-notice { visibility:hidden; }
 @keyframes jangi-end-arrive { 0% { opacity:0;transform:scale(.65); } 16% { opacity:1;transform:scale(1.06); } 26%,84% { opacity:1;transform:scale(1); } 100% { opacity:0;transform:scale(1.025); } }
 
+/* Approved 120 CSS px ink stamp. No backing, caption plate or floor shadow. */
+.jangi-end-notice[data-stamp] { animation:none; }
+.jangi-end-notice[data-stamp]::before,.jangi-end-notice[data-stamp]::after { display:none; }
+.jangi-end-notice[data-stamp]>strong,.jangi-end-notice[data-stamp]>span { position:absolute;width:1px;height:1px;max-width:none;padding:0;margin:0;border:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap;background:none;box-shadow:none;text-shadow:none; }
+.jangi-checkmate-stamp { position:absolute;left:50%;top:50%;translate:-50% -50%;width:120px;height:75px;z-index:2;transform:rotate(-7deg);background:none;box-shadow:none;pointer-events:none; }
+.jangi-checkmate-stamp[hidden],.jangi-stamp-effects[hidden] { display:none; }
+.jangi-checkmate-stamp img { display:block;width:100%;height:100%;padding:0;border:0;object-fit:contain;background:none;box-shadow:none;user-select:none; }
+.jangi-stamp-effects { position:absolute;inset:0;pointer-events:none;z-index:1; }
+.jangi-stamp-ring { position:absolute;left:50%;top:50%;translate:-50% -50%;width:120px;height:75px;border:2px solid #aa443955;border-radius:7px;opacity:0; }
+.jangi-stamp-flash { position:absolute;inset:7%;background:radial-gradient(ellipse at center,#fff2c899,transparent 58%);opacity:0; }
+.jangi-stamp-dust { position:absolute;left:50%;top:50%; }
+.jangi-stamp-dust>i { position:absolute;width:5px;height:3px;border-radius:50%;background:#c19a5c;opacity:0; }
+.jangi-stamp-fallback { display:none;width:120px;height:75px;flex-direction:column;justify-content:center;align-items:center;gap:4px;border:3px double #a7251b;border-radius:5px;color:#a7251b;text-align:center; }
+.jangi-stamp-fallback b { font-size:23px;line-height:1.1; }.jangi-stamp-fallback em { font-size:15px;line-height:1.1;font-style:normal;font-weight:800; }
+.jangi-checkmate-stamp[data-language="en"] .jangi-stamp-fallback b { font-size:16px; }
+.jangi-checkmate-stamp[data-fallback] img { display:none; }.jangi-checkmate-stamp[data-fallback] .jangi-stamp-fallback { display:flex; }
+
 /* Approved card: profile/name/clock, fixed time track, then captured pieces inside. */
 .forest-ui .match-player { height:106px;grid-template-rows:minmax(35px,1fr) 4px 27px;padding:8px 12px;row-gap:5px; }
 .forest-ui .match-player .match-avatar { overflow:visible; }

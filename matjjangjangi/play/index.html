@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
 <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
-  <script src="./ncq/safe.js?v=b4250f21d9d5"></script>
-  <script src="./ncq/motion.js?v=b4250f21d9d5"></script>
-  <script src="./ncq/device.js?v=b4250f21d9d5"></script>
-  <script src="./ncq/sound.js?v=b4250f21d9d5"></script>
-  <script src="./ncq/save.js?v=b4250f21d9d5"></script>
+  <script src="./ncq/safe.js?v=da7a41b81fd1"></script>
+  <script src="./ncq/motion.js?v=da7a41b81fd1"></script>
+  <script src="./ncq/device.js?v=da7a41b81fd1"></script>
+  <script src="./ncq/sound.js?v=da7a41b81fd1"></script>
+  <script src="./ncq/save.js?v=da7a41b81fd1"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -14,20 +14,20 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=b4250f21d9d5">
-  <link rel="stylesheet" href="./style.css?v=b4250f21d9d5">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=b4250f21d9d5">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=b4250f21d9d5">
-  <link rel="stylesheet" href="./forest-ui.css?v=b4250f21d9d5">
-  <link rel="stylesheet" href="./lobby-layout.css?v=b4250f21d9d5">
-  <link rel="stylesheet" href="./list-dialog.css?v=b4250f21d9d5">
-  <link rel="stylesheet" href="./shop-layout.css?v=b4250f21d9d5">
-  <link rel="stylesheet" href="./ranking-layout.css?v=b4250f21d9d5">
-  <link rel="stylesheet" href="./mission-layout.css?v=b4250f21d9d5">
-  <script type="module" src="./app.js?v=b4250f21d9d5"></script>
-<link rel="stylesheet" href="./jangi.css?v=b4250f21d9d5">
-  <link rel="stylesheet" href="./daily-puzzle.css?v=b4250f21d9d5">
-  <link rel="stylesheet" href="./together.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=da7a41b81fd1">
+  <link rel="stylesheet" href="./style.css?v=da7a41b81fd1">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=da7a41b81fd1">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=da7a41b81fd1">
+  <link rel="stylesheet" href="./forest-ui.css?v=da7a41b81fd1">
+  <link rel="stylesheet" href="./lobby-layout.css?v=da7a41b81fd1">
+  <link rel="stylesheet" href="./list-dialog.css?v=da7a41b81fd1">
+  <link rel="stylesheet" href="./shop-layout.css?v=da7a41b81fd1">
+  <link rel="stylesheet" href="./ranking-layout.css?v=da7a41b81fd1">
+  <link rel="stylesheet" href="./mission-layout.css?v=da7a41b81fd1">
+  <script type="module" src="./app.js?v=da7a41b81fd1"></script>
+<link rel="stylesheet" href="./jangi.css?v=da7a41b81fd1">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=da7a41b81fd1">
+  <link rel="stylesheet" href="./together.css?v=da7a41b81fd1">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -402,7 +402,16 @@
               <path class="review-marker" d="M3 5h18l-9 15Z"/>
             </svg>
             <p id="pass-notice" class="jangi-pass-notice" role="status" aria-live="polite" hidden></p>
-            <div id="round-notice" class="jangi-end-notice" role="status" aria-live="assertive" hidden><strong></strong><span></span></div>
+            <div id="round-notice" class="jangi-end-notice" role="status" aria-live="assertive" hidden>
+              <strong></strong><span></span>
+              <div class="jangi-checkmate-stamp" aria-hidden="true" hidden>
+                <img width="360" height="225" alt="" draggable="false">
+                <div class="jangi-stamp-fallback"><b></b><em></em></div>
+              </div>
+              <div class="jangi-stamp-effects" aria-hidden="true" hidden>
+                <div class="jangi-stamp-ring"></div><div class="jangi-stamp-flash"></div><div class="jangi-stamp-dust"></div>
+              </div>
+            </div>
           </div>
         </div>
         <p id="bikjang-guide" class="jangi-bikjang-guide" role="status" hidden></p>
@@ -1370,20 +1379,29 @@
 <button class="primary" type="submit" data-ncq-main="Confirm Janggi formation" data-i18n="jangiFormationConfirm"></button></form></dialog>
 <dialog id="together-formation" class="tg-dialog" aria-labelledby="tg-title">
   <div class="tg-formation-shell">
-    <section class="tg-side tg-upper" data-seat="2"><header><span class="tg-king stone white" data-kind="1"><span class="jangi-glyph">漢</span></span><div><h3 data-i18n="togetherHan"></h3><p data-i18n="togetherChoose"></p></div><span class="tg-ready-state"></span></header><div class="tg-choices" role="group"></div><button class="tg-confirm" type="button" data-ready="2"></button></section>
+    <section class="tg-side tg-upper" data-seat="2"><header><span class="tg-king stone white" data-kind="1"><span class="jangi-glyph">漢</span></span><div><h3 data-i18n="togetherHan"></h3><p data-i18n="togetherChoose"></p></div><span class="tg-ready-state"></span></header><div class="tg-choices" role="group"></div><button class="tg-confirm" type="button" data-ready="2" data-ncq-main="Han ready"></button></section>
     <div class="tg-divider"><button class="tg-close" type="button" data-together="close-formation" data-i18n-attr="aria-label:togetherClose">×</button><div><h2 id="tg-title" data-i18n="togetherTitle"></h2><p data-i18n="togetherLocal"></p></div><span id="tg-ready-count" aria-live="polite"></span></div>
-    <section class="tg-side" data-seat="1"><header><span class="tg-king stone black" data-kind="1"><span class="jangi-glyph">楚</span></span><div><h3 data-i18n="togetherCho"></h3><p data-i18n="togetherChoose"></p></div><span class="tg-ready-state"></span></header><div class="tg-choices" role="group"></div><button class="tg-confirm" type="button" data-ready="1"></button></section>
-    <button id="tg-start" class="tg-primary" type="button" data-ncq-main="Start together" data-i18n="togetherStart" disabled></button>
+    <section class="tg-side" data-seat="1"><header><span class="tg-king stone black" data-kind="1"><span class="jangi-glyph">楚</span></span><div><h3 data-i18n="togetherCho"></h3><p data-i18n="togetherChoose"></p></div><span class="tg-ready-state"></span></header><div class="tg-choices" role="group"></div><button class="tg-confirm" type="button" data-ready="1" data-ncq-main="Cho ready"></button></section>
+    <p class="tg-auto-start" data-i18n="togetherAutoStart"></p>
   </div>
 </dialog>
 <section id="together-match" data-ncq-no-main hidden>
-  <div class="tg-player tg-far" data-player="2"><span class="tg-side-mark stone white" data-kind="1"><span class="jangi-glyph">漢</span></span><span class="tg-turn-label"></span><button type="button" class="tg-undo" data-undo="2"></button></div>
+  <div id="tg-table">
+  <div class="tg-player tg-far" data-player="2">
+    <div class="tg-controls"><span class="tg-controls-left" aria-hidden="true"></span><button type="button" class="tg-undo" data-undo="2"></button><div class="tg-controls-right tg-controls-far"><button id="tg-menu-2" class="tg-round-button" type="button" data-menu="2" aria-expanded="false" aria-controls="tg-actions-2" data-i18n-attr="aria-label:togetherActions; title:togetherActions">⋯</button></div></div>
+    <div id="tg-actions-2" class="tg-slide-actions" data-slide-actions="2" data-open="false" role="group" data-i18n-attr="aria-label:togetherActions" aria-hidden="true" inert><button type="button" data-together="pass" data-i18n="togetherPass"></button><button type="button" data-together="resign" data-i18n="togetherResign"></button><button type="button" data-together="close-actions" data-i18n="togetherClose" data-ncq-main="Close local actions"></button></div>
+  </div>
+  <div id="tg-captured-2" class="jangi-captured tg-captured tg-far" role="img"></div>
   <div id="tg-board-slot"><div id="tg-board" class="board"><div id="tg-grid" class="board-grid" role="grid"><svg class="board-lines" viewBox="0 0 9 10" preserveAspectRatio="none" aria-hidden="true"><use href="#board-engraving"/></svg></div><div id="tg-pass-notice" class="jangi-pass-notice" role="status" hidden></div></div></div>
-  <div class="tg-player" data-player="1"><button id="tg-exit" class="tg-round-button" type="button" data-i18n-attr="aria-label:togetherLeave">‹</button><button type="button" class="tg-undo" data-undo="1"></button><button id="tg-options" class="tg-round-button" type="button" data-i18n-attr="aria-label:togetherOptions"><img src="./assets/forest-ui/icons/settings.webp" alt=""></button></div>
+  <div id="tg-captured-1" class="jangi-captured tg-captured" role="img"></div>
+  <div class="tg-player" data-player="1">
+    <div class="tg-controls"><div class="tg-controls-left"><button id="tg-exit" class="tg-round-button" type="button" data-i18n-attr="aria-label:togetherLeave">‹</button></div><button type="button" class="tg-undo" data-undo="1"></button><div class="tg-controls-right"><button id="tg-menu" class="tg-round-button" type="button" data-menu="1" aria-expanded="false" aria-controls="tg-actions-1" data-i18n-attr="aria-label:togetherActions; title:togetherActions">⋯</button><button id="tg-options" class="tg-round-button" type="button" aria-haspopup="dialog" aria-controls="options" data-i18n-attr="aria-label:options; title:options"><img src="./assets/forest-ui/icons/settings.webp" alt=""></button></div></div>
+    <div id="tg-actions-1" class="tg-slide-actions" data-slide-actions="1" data-open="false" role="group" data-i18n-attr="aria-label:togetherActions" aria-hidden="true" inert><button type="button" data-together="pass" data-i18n="togetherPass"></button><button type="button" data-together="resign" data-i18n="togetherResign"></button><button type="button" data-together="close-actions" data-i18n="togetherClose" data-ncq-main="Close local actions"></button></div>
+  </div>
   <div id="tg-after" hidden><button type="button" data-together="rematch" data-i18n="togetherRematch" data-ncq-main="Play together again"></button><button type="button" data-together="lobby" data-i18n="togetherLeave"></button></div>
-  <p id="tg-status" role="status" aria-live="polite"></p>
+
+  </div>
 </section>
-<dialog id="together-actions" class="tg-dialog tg-small" aria-labelledby="tg-actions-title"><div class="tg-menu"><h2 id="tg-actions-title"></h2><button type="button" data-together="pass" data-i18n="togetherPass"></button><button type="button" data-together="resign" data-i18n="togetherResign"></button><button type="button" data-together="rematch" data-i18n="togetherRematch"></button><button type="button" data-together="settings" data-i18n="togetherSettings"></button><button type="button" data-together="lobby" data-i18n="togetherLeave"></button><button type="button" data-together="close-actions" data-i18n="togetherClose" data-ncq-main="Close together options"></button></div></dialog>
 <dialog id="together-confirm" class="tg-dialog tg-small" aria-labelledby="tg-confirm-title"><div class="tg-menu"><h2 id="tg-confirm-title"></h2><p id="tg-confirm-info"></p><div class="tg-buttons"><button id="tg-confirm-cancel" type="button" data-i18n="togetherCancel"></button><button id="tg-confirm-yes" class="tg-primary" type="button" data-ncq-main="Confirm together action"></button></div></div></dialog>
 <dialog id="together-result" class="tg-dialog tg-small" aria-labelledby="tg-result-title"><div class="tg-menu"><h2 id="tg-result-title"></h2><p id="tg-result-reason"></p><button type="button" class="tg-primary" data-together="rematch" data-i18n="togetherRematch" data-ncq-main="Play together again"></button><button type="button" data-together="lobby" data-i18n="togetherLeave"></button><button type="button" data-together="close-result" data-i18n="togetherClose"></button></div></dialog>
 </body>

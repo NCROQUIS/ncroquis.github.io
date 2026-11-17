@@ -1,0 +1,11 @@
+/* Original Jangi daily-puzzle shortcut shares the mission-button frame. */
+#lobby-stage :is(#show-missions, #show-daily-puzzle) { position: relative; display: block; width: 114px; height: 132px; min-height: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+#lobby-stage :is(#show-missions, #show-daily-puzzle)::after { display: none; }
+#lobby-stage :is(#show-missions, #show-daily-puzzle) .mission-surface { border-radius: 30px; overflow: hidden; }
+#lobby-stage :is(#show-missions, #show-daily-puzzle) .mission-shortcut-icon { position: absolute; left: 34px; top: 17px; width: 46px; height: 51px; padding: 0; border: 0; background: none; }
+#lobby-stage :is(#show-missions, #show-daily-puzzle) .mission-shortcut-content { position: absolute; left: 0; top: 73px; width: 114px; height: 40px; display: block; }
+#lobby-stage :is(#show-missions, #show-daily-puzzle) .mission-shortcut-heading { display: block; font-size: 26px; line-height: 40px; font-weight: 800; text-align: center; color: #153c20; }
+#lobby-stage :is(#show-missions, #show-daily-puzzle):lang(en) .mission-shortcut-heading { font-size: 23px; }
+#lobby-stage :is(#show-missions, #show-daily-puzzle) .mission-shortcut-heading strong { display: block; font-size: inherit; line-height: inherit; font-weight: inherit; text-align: center; }
+#lobby-stage :is(#show-missions, #show-daily-puzzle) .mission-notice { inset: -7px auto auto 88px; width: 31px; height: 31px; display: none; }
+#lobby-stage :is(#show-missions, #show-daily-puzzle)[data-ready] .mission-notice { display: block; }

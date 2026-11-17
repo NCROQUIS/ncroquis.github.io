@@ -92,6 +92,14 @@
     return [prepared.message || prepared.title, url].filter(Boolean).join("\n");
   }
 
+  function mobileBrowser(nav) {
+    // Desktop Web Share opens the OS sheet (including Windows Share), which can hang
+    // independently of the page. Prefer clipboard there; preserve mobile/tablet sharing.
+    if (/Android|iPhone|iPad|iPod/i.test(nav.userAgent || "")) return true;
+    if (nav.platform === "MacIntel" && nav.maxTouchPoints > 1) return true; // iPad desktop UA
+    return Boolean(nav.userAgentData && nav.userAgentData.mobile);
+  }
+
   async function share(prepared) {
     var customUrl = prepared && prepared.url != null;
     var url = customUrl ? httpsUrl(prepared.url) : gameUrl;
@@ -121,7 +129,7 @@
         imageAttached = Boolean(uri);
         return result("shared");
       }
-      if (nav.share) {
+      if (nav.share && mobileBrowser(nav)) {
         var data = {title: prepared.title, text: prepared.message, url: url};
         if (prepared.image && typeof File === "function" && nav.canShare) {
           var withFile = Object.assign({}, data, {
@@ -174,10 +182,72 @@
     }
   }
 
+  async function copy(prepared) {
+    var url = prepared && prepared.url != null ? httpsUrl(prepared.url) : gameUrl;
+    try {
+      if (!prepared || !url || !w.navigator.clipboard || !w.navigator.clipboard.writeText) throw new Error("clipboard_unavailable");
+      await w.navigator.clipboard.writeText(messageWithLink(prepared, url));
+      return {status: "copied", url: url, imageAttached: false};
+    } catch (error) { return {status: "failed", url: url, imageAttached: false}; }
+  }
+
+  function connectPopup(element, options) {
+    var popup = w.NcqPopup;
+    if (!popup) throw new Error("popup_unavailable");
+    var handle = popup.register(element);
+    options = options || {};
+    var prepared, fallback, sessionScope, generation = 0, view = 0, disposed = false;
+    var state = {status: "idle", sharing: false, preparing: false};
+    function emit(changes, token, owner) {
+      if (disposed || owner !== generation || !token.isCurrent()) return false;
+      state = Object.assign({}, state, changes);
+      if (typeof options.onState === "function") options.onState(Object.assign({}, state));
+      return true;
+    }
+    async function prepare(input) {
+      input = input || {};
+      var owner = ++generation, token = popup.lease(element, "share-prepare");
+      sessionScope = token;
+      view++; prepared = null;
+      fallback = {url: input.url, title: input.title, message: input.message};
+      emit({status: "preparing", preparing: true, sharing: false, result: null}, token, owner);
+      try {
+        var value = await prepareShare(input);
+        if (disposed || owner !== generation || !token.isCurrent()) return null;
+        prepared = value;
+        emit({status: "ready", preparing: false}, token, owner); return value;
+      } catch (error) {
+        emit({status: "failed", preparing: false}, token, owner); return null;
+      }
+    }
+    async function execute(kind) {
+      if (disposed || !handle.isOpen() || !sessionScope || !sessionScope.isCurrent()
+          || (kind === "share" && (state.sharing || !prepared))) return {status: "failed"};
+      var owner = generation, token = popup.lease(element, "share-" + kind), stamp = ++view;
+      var changes = {status: kind === "share" ? "sharing" : "copying"};
+      if (kind === "share") changes.sharing = true;
+      emit(changes, token, owner);
+      // Invoke immediately inside the click; keep Web Share's transient user activation.
+      var result = await (kind === "share" ? share(prepared) : copy(prepared || fallback));
+      var next = stamp === view ? {status: result.status, result: result} : {};
+      if (kind === "share") next.sharing = false;
+      emit(next, token, owner);
+      return result;
+    }
+    return Object.freeze({
+      prepare: prepare, share: function () { return execute("share"); }, copy: function () { return execute("copy"); },
+      state: function () { return Object.assign({}, state); },
+      dispose: function () { disposed = true; generation++; prepared = fallback = null; }
+    });
+  }
+
   w.NcqShare = Object.freeze({
     can: function () { return Boolean(gameUrl); },
     prepareShare: prepareShare,
     share: share,
+    copy: copy,
+    connectPopup: connectPopup,
+    popupContractVersion: 1,
     playUrl: playUrl,
     saveImage: saveImage
   });

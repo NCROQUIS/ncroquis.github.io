@@ -129,6 +129,7 @@
   }
 
   function close(sent) {
+    if (state.popup) { state.popup.dispose(); state.popup = null; }
     try {
       if (state.root && state.root.parentNode) state.root.parentNode.removeChild(state.root);
     } catch (e) { /* 이미 없어요 */ }
@@ -186,11 +187,14 @@
           if (hp.value) { close(true); return; }
           if (!text.value.trim()) { err.textContent = t("empty"); text.focus(); return; }
           go.disabled = true; go.textContent = t("sending"); err.textContent = "";
+          var lease = w.NcqPopup ? w.NcqPopup.lease(root, "feedback-send") : null;
           send({ category: chosen, text: text.value, contact: mail.value }).then(function (out) {
-            if (!state.open) return;
+            if (!state.open || state.root !== root || (lease && !lease.isCurrent())) return;
             if (out.ok) {
               go.textContent = t("thanks");
-              setTimeout(function () { close(true); }, 1200);
+              setTimeout(function () {
+                if (state.root === root && (!lease || lease.isCurrent())) close(true);
+              }, 1200);
             } else {
               go.disabled = false; go.textContent = t("send"); err.textContent = out.error || t("fail");
             }
@@ -198,7 +202,14 @@
         });
         state.root = root;
         document.body.appendChild(root);
-        setTimeout(function () { try { text.focus(); } catch (e) { /* 초점은 덤 */ } }, 50);
+        if (w.NcqPopup) {
+          root.id = "ncq-feedback";
+          state.popup = w.NcqPopup.register(root, {
+            isOpen: function () { return state.open && state.root === root; },
+            show: function () {}, hide: function () { close(false); }
+          });
+        }
+        setTimeout(function () { try { if (state.root === root) text.focus(); } catch (e) { /* 초점은 덤 */ } }, 50);
       } catch (e) {
         close(false);
       }

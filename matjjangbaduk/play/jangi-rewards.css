@@ -1,0 +1,191 @@
+/* Fee, weekly and coin reward styles from Jangi 19e442b style.css. */
+
+.weekly-reward {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: var(--lobby-section-gap);
+  padding: 12px clamp(9px, 3cqw, 14px);
+  border: 1px solid #e8d6ac;
+  border-radius: var(--lobby-card-radius);
+  background: #fffdfa;
+}
+
+.weekly-reward-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: #fff0ce;
+  color: #7f5416;
+}
+
+.weekly-reward-icon svg { width: 18px; height: 18px; }
+
+.participation-reward .weekly-reward-icon { align-self: start; }
+
+.weekly-reward-details h2 { font-size: .94rem; line-height: 1.35; }
+
+.weekly-reward-details p { color: var(--muted); font-size: .75rem; line-height: 1.35; }
+
+.weekly-reward-steps {
+  grid-area: 2 / 1 / 3 / 3;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+  width: min(100%, 180px);
+}
+
+.weekly-reward-steps span {
+  display: grid;
+  place-items: center;
+  min-height: 16px;
+  border-radius: 5px;
+  background: #eae8df;
+  color: white;
+  font-size: .8rem;
+  line-height: 1;
+}
+
+.weekly-reward-steps span[data-completed] { background: #6c8845; }
+
+.weekly-reward-steps span[data-completed]::before { content: "✓"; }
+
+.weekly-reward-claim.primary {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 3px;
+  width: auto;
+  min-width: 78px;
+  min-height: 52px;
+  padding: 5px 9px;
+  border-color: #39551f;
+  border-radius: 9px;
+  background: #496c28;
+  font-size: .75rem;
+  line-height: 1.2;
+}
+
+.weekly-reward-claim.primary:not([aria-disabled="true"]):hover { background: #39551f; }
+
+.weekly-reward-claim[aria-disabled="true"]:not([data-claimed]) { cursor: default; opacity: .62; }
+
+.weekly-reward-claim.primary[data-claimed] { border-color: #dbe2cc; background: #e9efdb; color: #344f1c; opacity: 1; }
+
+.participation-reward .weekly-reward-claim { grid-area: 1 / 3 / span 2; }
+
+.weekly-reward-coins { display: inline-flex; align-items: center; gap: 5px; font-size: .94rem; }
+
+.weekly-reward-coins .shop-coin { width: 15px; height: 15px; }
+
+.weekly-reward-feedback { grid-column: 1 / -1; margin: 0; font-size: .75rem; }
+
+[data-weekly-reward-ready]::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-inline-start: 5px;
+  border-radius: 50%;
+  background: #c43e35;
+}
+
+.tournament-card[data-weekly-reward-ready] { position: relative; }
+
+:is(.tournament-card, .weekly-reward-claim)[data-weekly-reward-ready]::after {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  margin: 0;
+  outline: 2px solid #fffdfa;
+}
+
+.tournament-card[data-weekly-reward-ready]::after { inset: 7px 8px auto auto; }
+
+.weekly-reward-claim[data-weekly-reward-ready]::after { inset: -3px -3px auto auto; }
+
+#join-tournament[data-catch-up], #confirm-tournament-catch-up {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.tournament-coin-cost {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #ffe9a5;
+  font-size: .9em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tournament-coin-cost .shop-coin { width: 1em; }
+
+#tournament-catch-up {
+  inset: var(--ncq-top, 0px) var(--ncq-right, 0px) var(--ncq-bottom, 0px) var(--ncq-left, 0px);
+  max-width: min(560px, calc(100dvw - var(--ncq-left, 0px) - var(--ncq-right, 0px) - 16px));
+  max-height: calc(100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - 16px);
+  background: #fffcf4;
+}
+
+#tournament-catch-up-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 11px;
+  border-radius: 9px;
+  background: #eaf0dd;
+  color: #3f5b24;
+}
+
+#tournament-catch-up-summary strong { white-space: nowrap; }
+
+#tournament-catch-up-message { color: var(--muted); font-size: .9rem; }
+
+.tournament-entry-safety { color: var(--muted); font-size: .8rem; line-height: 1.45; }
+
+.tournament-catch-up-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+
+:is(#shop-purchase-complete, #coin-shortage, #leave-dialog, #coin-reward-dialog, #bikjang-confirm) {
+  inset: var(--ncq-top, 0px) var(--ncq-right, 0px) var(--ncq-bottom, 0px) var(--ncq-left, 0px);
+  width: min(340px, calc(100% - var(--ncq-left, 0px) - var(--ncq-right, 0px) - 32px));
+  max-height: calc(100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - 16px);
+  background: #fffcf4;
+  box-shadow: 0 12px 32px #18292038;
+  text-align: center;
+}
+
+:is(#shop-purchase-complete, #coin-shortage, #leave-dialog, #coin-reward-dialog, #bikjang-confirm) form { gap: 12px; }
+
+.coin-reward-amount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-block: 9px;
+  font-size: 1.65rem;
+  color: var(--green);
+}
+
+.coin-reward-amount .shop-coin { width: 42px; }
+
+.coin-reward-balance { color: var(--muted); font-size: .88rem; }
+
+.coin-reward-balance strong { font-variant-numeric: tabular-nums; }
+
+.coin-shortage-actions, .leave-dialog-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+:is(#coin-shortage-message, #leave-dialog-message, #bikjang-confirm-message) { line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }

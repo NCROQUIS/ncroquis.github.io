@@ -1,0 +1,6 @@
+{
+  "game": "matjjangbaduk",
+  "environment": "prod",
+  "ruleset": "baduk-9-v1",
+  "apiUrl": "https://qqbajkltkhvhlwrxpgfn.supabase.co/functions/v1/matjjangbaduk-game"
+}

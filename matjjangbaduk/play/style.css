@@ -1,4 +1,21 @@
-/* Omok's UI is reused verbatim in omok.css. Only Baduk-specific states live here. */
+/* Original Omok UI + Jangi's player cards. Only Baduk-specific states live here. */
+#lobby-stage #lobby-entry { display: grid; grid-template-columns: 250px minmax(0,1fr); gap: 26px; }
+#lobby-stage .lobby-board-picker { position: relative; display: block; min-width: 0; height: 155px; font-size: 52px; font-weight: 800; color: #253712; }
+#lobby-stage #board-size { position: relative; z-index: 1; appearance: none; width: 100%; height: 100%; min-height: 0; padding: 0 62px 0 28px; border: 0; border-radius: 34px; background: transparent; box-shadow: none; color: inherit; font: inherit; line-height: 1.2; cursor: pointer; }
+#lobby-stage #board-size:lang(en) { font-size: 44px; }
+#lobby-stage #board-size option { font-size: 16px; }
+#lobby-stage #board-size:focus-visible { outline: 5px solid #326e3c; outline-offset: -10px; }
+#lobby-stage #board-size:disabled { cursor: default; opacity: .6; }
+#lobby-stage .board-size-chevron { position: absolute; z-index: 2; right: 28px; top: 65px; width: 20px; height: 20px; border-right: 5px solid currentColor; border-bottom: 5px solid currentColor; transform: rotate(45deg); pointer-events: none; }
+#lobby-stage #lobby-entry #start { width: 100%; }
+#lobby-stage #lobby-entry #start .start-content { gap: 22px; transform: translate(-5px,-6px); }
+#lobby-stage #lobby-entry #start .start-stones { width: 70px; height: 62px; }
+#lobby-stage #lobby-entry #start [data-i18n] { font-size: 56px; }
+#lobby-stage #lobby-entry #start:lang(en) [data-i18n] { font-size: 50px; }
+#board[data-size="19"] .cell .move-number { font-size: 1.6cqi; }
+.shared-review #review-header { padding-bottom: 50px; }
+.shared-review .review-result { max-width: 100%; flex-wrap: wrap; justify-content: center; }
+.shared-review .review-footer { grid-template-columns: minmax(0,1fr); grid-auto-flow: row; }
 #board .board-grid {
   grid-template-rows: repeat(9, minmax(0, 1fr));
 }
@@ -78,9 +95,29 @@
   color: #e1c6aa;
 }
 
-.match[data-scoring] {
-  grid-template-rows: auto auto minmax(110px, 1fr) auto auto auto;
+.match[data-playing] { grid-template-rows: auto auto [board-start] auto [board-end] auto auto; }
+.forest-ui .match[data-playing] { --board-area-width: 100%; }
+.forest-ui #opponent-turn { min-width: 0; }
+.forest-ui .match-player .seat { flex-wrap: wrap; }
+.forest-ui .match-player .color { display: none; }
+.forest-ui #live-actions { flex-wrap: nowrap; }
+.forest-ui #live-actions #place {
+  flex: 1; width: auto; min-width: 0; min-height: 44px; padding: 5px 12px;
+  border: 1px solid #c1a875; border-radius: 999px;
+  color: #1c3d22; background: linear-gradient(#fff8e9, #e4d4b3);
+  box-shadow: 0 2px 4px #001a0d40; cursor: pointer;
 }
+.forest-ui #live-actions #place[data-placement-state="ready"]:not(:disabled) {
+  color: #22472a; border-color: #edcf7c; background: linear-gradient(#ffe9a0, #e4be5f);
+}
+.forest-ui #live-actions #place:disabled { cursor: default; }
+.forest-ui #live-actions .placement-copy { flex: initial; gap: 2px; }
+.forest-ui #live-actions #place-state { color: inherit; font-size: 10px; }
+.forest-ui #live-actions :is(#pass-turn, #resume-play) { flex: none; min-height: 44px; }
+.jangi-pass-notice { font-family: inherit; }
+.live-actions #pass-turn { width: auto; padding-inline: 16px; }
+.in-review #review-room-action { min-width: 0; }
+.in-review .review-own-status .review-result { text-align: end; }
 
 .match[data-scoring] #match-error {
   margin: 0;
@@ -269,7 +306,22 @@
 .academy-celebration .academy-medal { width: 92px; height: 92px; font-size: 3rem; }
 .academy-celebration > strong { font-size: 1.7rem; color: #527337; }
 #academy-play { width: 100%; margin-top: 14px; }
-@media (prefers-reduced-motion: no-preference) {
+@media (min-width: 0px) {
   .academy-celebration .academy-medal { animation: academy-award .4s ease-out; }
   @keyframes academy-award { from { transform: scale(.65) rotate(-12deg); opacity: .1; } to { transform: none; opacity: 1; } }
 }
+/* Go uses the live board renderer inside Jangi's puzzle frame. */
+#daily-puzzle { font-family:inherit; }
+#daily-puzzle #puzzle-board-slot { position:relative;isolation:isolate; }
+#daily-puzzle #puzzle-board {position:absolute;max-width:none;aspect-ratio:1;margin:0;}
+#daily-puzzle #puzzle-grid {grid-template-columns:1fr;grid-template-rows:repeat(9,minmax(0,1fr));}
+#daily-puzzle .cell:disabled {opacity:1;}
+#daily-puzzle .cell[data-target]::after {content:'';position:absolute;inset:2%;border:2px solid #d79a29;border-radius:50%;pointer-events:none;z-index:4;box-shadow:0 0 3px #fff3c9;}
+#daily-puzzle .cell.puzzle-hint::before {border-radius:50%;}
+#tournament-entry {flex:none;padding:8px 0 0;}
+#tournament-entry .primary {width:100%;}
+#tournament-entry[hidden] {display:none!important;}
+.server-wallet {font-size:11px;line-height:1.4;color:#fff4c2;display:flex;align-items:center;gap:5px;}
+.server-wallet .shop-coin {width:17px;height:17px;}
+#lobby-stage .server-wallet {position:absolute;top:62px;right:0;width:260px;display:block;text-align:right;font-size:24px;line-height:1.35;white-space:nowrap;}
+#rankings-dialog .tournament-entry-safety {font-size:20px;line-height:28px;color:#e9ebc2;margin:6px 0;}

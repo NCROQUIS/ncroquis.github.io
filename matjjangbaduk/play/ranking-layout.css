@@ -96,22 +96,28 @@
 #rankings-dialog .weekly-reward-feedback { top: 118px; left: 18px; right: 18px; color: #8c3a1b; font-size: 18px; line-height: 24px; }
 #rankings-dialog #play-footer { flex: none; display: grid; gap: 22px; margin: 0; padding: 0; }
 #rankings-dialog #player-card {
-  position: relative; isolation: isolate; display: grid; grid-template-columns: 84px minmax(0, 1fr) 112px;
-  align-items: center; gap: 18px; width: calc(100% + 4px); height: 110px; min-height: 110px;
-  margin: 0 -2px; padding: 0 17px 0 25px; border: 1px solid #f3e8d7; border-radius: 23px;
+  position: relative; isolation: isolate; display: grid; grid-template-columns: 70px 58px minmax(0, 1fr) 112px;
+  align-items: center; gap: 18px; width: 100%; height: 110px; min-height: 110px;
+  margin: 0; padding: 0 13px 0 23px; border: 1px solid #f3e8d7; border-radius: 23px;
   background: linear-gradient(125deg, #fffbf6, #f2e3ca); box-shadow: inset 0 1px 1px #fff, 0 3px 4px #00170ba0;
 }
 #rankings-dialog #player-card :is(.profile-surface, .score-surface, .avatar-surface, .avatar-symbol) { display: none; }
-#rankings-dialog #player-card .player-avatar { width: 84px; height: 84px; }
-#rankings-dialog #player-card .player-avatar > svg { left: 23px; top: 20px; width: 34px; height: 38px; }
-#rankings-dialog #player-card .player-summary { align-self: center; display: flex; justify-content: center; padding-left: 14px; min-height: 74px; border-left: 1px solid #c6b18a; gap: 0; }
-#rankings-dialog #player-card .player-name-line { font-size: 26px; line-height: 36px; }
-#rankings-dialog #player-card .player-card-record { display: block; font-size: 20px; line-height: 30px; }
+#rankings-dialog #player-card .player-avatar { width: 58px; height: 58px; }
+#rankings-dialog #player-card .player-summary { align-self: center; display: flex; justify-content: center; padding: 0; min-height: 0; border: 0; gap: 1px; }
+#rankings-dialog #player-card .player-name-line { font-size: 22px; line-height: 30px; }
+#rankings-dialog #player-card .player-card-record { display: block; font-size: 18px; line-height: 26px; }
 #rankings-dialog #player-card .player-card-badge { font-size: 14px; line-height: 21px; }
 #rankings-dialog #player-career { width: 112px; height: 46px; }
 #rankings-dialog #player-career strong { font-size: 25px; line-height: 46px; }
 #rankings-dialog #player-career:lang(en) strong { font-size: 21px; }
 #rankings-dialog #player-career small { display: none; }
+#rankings-dialog .ranking-cards .ranking-card[data-own-ranking], #rankings-dialog #player-card {
+  border-color: #c1dc80;
+  background: linear-gradient(110deg, #edf6d8, #d3eab6);
+  box-shadow: inset 4px 0 #5e8d29, inset 0 1px 1px #ffffff80, 0 2px 3px #001b0b70;
+}
+#rankings-dialog .ranking-card[data-own-ranking] .ranking-place:not([data-medal]) { color: #365e17; }
+#rankings-dialog .ranking-card[data-own-ranking] .ranking-card-score { background: #b7d68b; }
 #rankings-dialog .match-request { margin: 0 2px; }
 #rankings-dialog #join-tournament {
   position: relative; isolation: isolate; display: flex; align-items: center; justify-content: center;

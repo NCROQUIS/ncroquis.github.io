@@ -1,22 +1,32 @@
 <!doctype html>
-<html><head>
-  <script src="./ncq/safe.js"></script>
-  <meta charset="utf-8"><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
+<html><head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
+  <script src="./ncq/safe.js?v=a121734f1ce4"></script>
+  <script src="./ncq/motion.js?v=a121734f1ce4"></script>
+  <script src="./ncq/device.js?v=a121734f1ce4"></script>
+  <script src="./ncq/sound.js?v=a121734f1ce4"></script>
+  <script src="./ncq/save.js?v=a121734f1ce4"></script>
+  <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
+  <link rel="preload" href="./assets/forest-ui/fonts/subsets/core-fdd61f2eac06.woff2" as="font" type="font/woff2" crossorigin="">
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./omok.css">
-  <link rel="stylesheet" href="./forest-ui.css">
-  <link rel="stylesheet" href="./lobby-layout.css">
-  <link rel="stylesheet" href="./list-dialog.css">
-  <link rel="stylesheet" href="./ranking-layout.css">
-  <link rel="stylesheet" href="./mission-layout.css">
-  <script type="module" src="./app.js"></script>
-<link rel="stylesheet" href="./style.css"><script src="./ncq/save.js"></script><script src="./ncq/sound.js"></script><script src="./ncq/auth-sdk.js"></script><title>맞짱 바둑 · Baduk Duel</title></head>
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=a121734f1ce4">
+  <link rel="stylesheet" href="./omok.css?v=a121734f1ce4">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=a121734f1ce4">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=a121734f1ce4">
+  <link rel="stylesheet" href="./forest-ui.css?v=a121734f1ce4">
+  <link rel="stylesheet" href="./lobby-layout.css?v=a121734f1ce4">
+  <link rel="stylesheet" href="./list-dialog.css?v=a121734f1ce4">
+  <link rel="stylesheet" href="./shop-layout.css?v=a121734f1ce4">
+  <link rel="stylesheet" href="./ranking-layout.css?v=a121734f1ce4">
+  <link rel="stylesheet" href="./mission-layout.css?v=a121734f1ce4">
+  <link rel="stylesheet" href="./jangi-match.css?v=a121734f1ce4">
+  <script type="module" src="./app.js?v=a121734f1ce4"></script>
+<link rel="stylesheet" href="./style.css?v=a121734f1ce4"><script src="./ncq/auth-sdk.js?v=a121734f1ce4"></script><title>맞짱 바둑 · Baduk Duel</title><link rel="stylesheet" href="./jangi-lobby-puzzle.css?v=a121734f1ce4"><link rel="stylesheet" href="./daily-puzzle.css?v=a121734f1ce4"><link rel="stylesheet" href="./jangi-rewards.css?v=a121734f1ce4">
+</head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
     <defs>
@@ -115,6 +125,10 @@
               </span>
               <span id="daily-mission-action" class="mission-details"></span>
             </button>
+<button id="show-daily-puzzle" class="mission-shortcut" type="button" aria-haspopup="dialog" aria-controls="daily-puzzle" data-i18n-attr="aria-label:puzzleEntry; title:puzzleEntry">
+          <span class="mission-shortcut-icon" aria-hidden="true"><svg class="puzzle-entry-icon" viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="6"/><path d="M9 11h14M9 21h14M11 8v16M21 8v16"/><circle cx="16" cy="16" r="5"/></svg></span>
+          <span class="mission-shortcut-content"><span class="mission-shortcut-heading"><strong data-i18n="puzzleShortcutTitle"></strong></span></span>
+        </button>
             <button id="show-tournament" class="tournament-card" type="button" aria-controls="tutorial-dialog">
               <svg class="tournament-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-ranking"></use></svg>
               <strong id="lobby-championship" data-i18n="academyTitle"></strong>
@@ -164,8 +178,8 @@
           <button id="show-lobby" class="forest-close" type="button" data-ncq-main="Close championship" data-i18n-attr="aria-label:done" data-page="lobby">×</button>
         </div>
         <div id="ranking-tabs" class="ranking-tabs" role="tablist" aria-labelledby="tournament-title">
-          <button id="ranking-weekly-tab" type="button" role="tab" aria-selected="false" aria-controls="ranking-weekly-panel" data-ranking="weekly" data-i18n="forestThisWeek" disabled="" tabindex="-1"></button>
-          <button id="ranking-previous-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="ranking-previous-panel" data-ranking="previous" data-i18n="forestLastWeek" disabled=""></button>
+          <button id="ranking-weekly-tab" type="button" role="tab" aria-selected="false" aria-controls="ranking-weekly-panel" data-ranking="weekly" data-i18n="forestThisWeek" tabindex="-1"></button>
+          <button id="ranking-previous-tab" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="ranking-previous-panel" data-ranking="previous" data-i18n="forestLastWeek"></button>
           <button id="ranking-rating-tab" type="button" role="tab" aria-selected="true" tabindex="0" aria-controls="ranking-rating-panel" data-ranking="rating" data-i18n="forestOverall"></button>
         </div>
         <div id="ranking-weekly-panel" class="ranking-panel" role="tabpanel" aria-labelledby="ranking-weekly-tab" tabindex="0" hidden="">
@@ -335,14 +349,20 @@
           <button id="leave" type="button" class="quiet"></button>
         </div>
         <div class="match-status">
-          <button id="watch-back" class="review-button" type="button" data-i18n-attr="aria-label:leaveSpectating" hidden="">
+          <button id="leave-match" class="jangi-header-button" type="button" data-i18n-attr="aria-label:leave; title:leave" hidden="">
             <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"></use></svg>
           </button>
-          <div>
+          <button id="watch-back" class="jangi-header-button" type="button" data-i18n-attr="aria-label:leaveSpectating; title:leaveSpectating" hidden="">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-back-icon"></use></svg>
+          </button>
+          <div class="match-status-copy">
             <h1 id="status" tabindex="-1" aria-live="polite"></h1>
             <p id="round"></p>
           </div>
           <span class="mode-chip" id="mode"></span>
+          <button id="match-options" class="jangi-header-button" type="button" aria-haspopup="dialog" aria-controls="options" data-i18n-attr="aria-label:options; title:options" hidden="">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#settings-icon"></use></svg>
+          </button>
           <p id="turn-announcement" class="sr-only" role="status"></p>
         </div>
         <div id="opponent-panel" class="match-art-panel match-player" hidden="">
@@ -351,19 +371,13 @@
           </div>
           <button id="opponent-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
             <strong id="opponent-nickname" dir="auto" class="name"></strong>
-            <span class="seat"><span id="opponent-stone" class="stone" role="img"></span><span id="opponent-rank" class="color"></span><small class="captures"></small></span>
+            <span class="seat"><span id="opponent-stone" class="stone" role="img"></span><span id="opponent-rank" class="color"></span><small class="captures"></small><span id="opponent-turn" class="jangi-turn-badge"></span></span>
           </button>
-          <span class="match-art-divider" aria-hidden="true"></span>
-          <div id="opponent-timer" class="match-art-gauge">
-            <svg id="opponent-gauge" aria-hidden="true">
-              <defs><path id="opponent-gauge-outline" pathLength="100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></defs>
-              <use class="match-art-gauge-track" href="#opponent-gauge-outline"></use>
-              <use id="opponent-progress" class="match-art-gauge-progress" href="#opponent-gauge-outline"></use>
-            </svg>
-            <span id="opponent-turn"></span>
-            <span id="opponent-divider" class="gauge-divider" aria-hidden="true"></span>
+          <div id="opponent-timer" class="jangi-player-time">
             <span id="opponent-clock" class="player-clock" role="timer"></span>
+            <span id="opponent-refills" class="jangi-refills" role="img"></span>
           </div>
+          <div id="opponent-gauge" class="jangi-time-track" role="progressbar" aria-valuemin="0" data-i18n-attr="aria-label:badukOpponentGauge"><span id="opponent-progress" class="jangi-time-fill"></span></div>
         </div>
         <button id="review-opponent-profile" class="review-player" type="button" aria-haspopup="dialog" aria-controls="player-profile" hidden="">
           <span class="review-avatar match-avatar" aria-hidden="true">
@@ -385,9 +399,10 @@
               </svg>
             </div>
             <svg id="last-move-marker" viewBox="0 0 24 24" aria-hidden="true" hidden="">
-              <use href="./assets/match-ui/icons.svg#last-move"></use>
+              <path class="live-marker" fill="#ffae35" stroke="#fff2ce" stroke-width="1.3" stroke-linejoin="round" d="M3.2 5.7h17.6a.5.5 0 0 1 .4.8l-8.8 12a.5.5 0 0 1-.8 0l-8.8-12a.5.5 0 0 1 .4-.8Z"></path>
               <path class="review-marker" d="M3 5h18l-9 15Z"></path>
             </svg>
+            <p id="pass-notice" class="jangi-pass-notice" role="status" aria-live="polite" hidden=""></p>
           </div>
         </div>
         <div id="own-panel" class="match-art-panel match-player" hidden="">
@@ -397,33 +412,19 @@
           </div>
           <button id="own-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
             <strong id="own-nickname" class="name"></strong>
-            <span class="seat"><span id="own-stone" class="stone" role="img"></span><span id="own-rank" class="color"></span><small class="captures"></small></span>
+            <span class="seat"><span id="own-stone" class="stone" role="img"></span><span id="own-rank" class="color"></span><small class="captures"></small><span id="place-text" class="jangi-turn-badge"></span></span>
           </button>
-          <span class="match-art-divider" aria-hidden="true"></span>
-          <button id="place" class="match-art-gauge" type="button" data-ncq-main="Place stone">
-            <svg id="place-gauge" aria-hidden="true">
-              <defs><path id="place-gauge-outline" pathLength="100" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></defs>
-              <use class="match-art-gauge-track" href="#place-gauge-outline"></use>
-              <use id="own-progress" class="match-art-gauge-progress" href="#place-gauge-outline"></use>
-            </svg>
-            <span class="placement-copy">
-              <span id="place-text" data-i18n="placeStone"></span>
-              <small id="place-state" hidden=""></small>
-            </span>
-            <span id="place-divider" class="gauge-divider" aria-hidden="true"></span>
+          <div id="own-timer" class="jangi-player-time">
             <span id="own-clock" class="player-clock" role="timer"></span>
-          </button>
+            <span id="own-refills" class="jangi-refills" role="img"></span>
+          </div>
+          <div id="place-gauge" class="jangi-time-track" role="progressbar" aria-valuemin="0" data-i18n-attr="aria-label:badukOwnGauge"><span id="own-progress" class="jangi-time-fill"></span></div>
         </div>
-        <div id="live-actions" class="live-actions" hidden=""><button id="resume-play" class="match-art-action" type="button" data-i18n="morePlay" hidden=""></button>
+        <div id="live-actions" class="live-actions" hidden=""><button id="place" class="match-art-action" type="button" data-ncq-main="Place stone"><span class="placement-copy"><span id="place-action-label" data-i18n="placeStone"></span><small id="place-state" hidden=""></small></span></button><button id="resume-play" class="match-art-action" type="button" data-i18n="morePlay" hidden=""></button><button id="pass-turn" class="match-art-action" type="button" data-i18n="pass"></button>
           <div id="opening-actions" class="opening-actions" hidden="">
             <button type="button" class="match-art-action" data-opening="swap" data-i18n="swapColors"></button>
             <button type="button" class="match-art-action" data-opening="offerFive" data-i18n="offerFifthMoves"></button>
           </div>
-          <button id="pass-turn" class="match-art-action" type="button" data-i18n="pass"></button>
-          <button id="leave-match" class="match-art-action" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="./assets/match-ui/icons.svg#resign"></use></svg>
-            <span data-i18n="resign"></span>
-          </button>
         </div>
         <div id="review" class="review" hidden="">
           <div class="review-controls" role="group" data-i18n-attr="aria-label:review">
@@ -457,20 +458,28 @@
               <span id="review-own-seat" class="review-seat"></span>
               <strong id="review-own-name" dir="auto"></strong>
             </span>
-            <span id="review-own-turn" class="review-turn" hidden=""></span>
+            <span id="review-own-status" class="review-own-status">
+              <span id="review-own-turn" class="review-turn" hidden=""></span>
+            </span>
           </button>
-          <div class="review-result">
+          <span class="review-result">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm2 5h8m-8 4h8m-8 4h4"></path></svg>
             <strong id="review-result"></strong>
             <span id="review-mode"></span>
             <span id="review-passes" hidden=""></span>
-          </div>
+          </span>
           <div class="review-footer">
-            <button id="review-share" type="button" class="secondary" aria-haspopup="dialog" aria-controls="record-share-dialog">
+            <button id="review-exit" type="button" class="secondary review-edge-action" hidden="">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v16h5m5-12 4 4-4 4M8 12h12"></path></svg>
+              <span data-i18n="leave"></span>
+            </button>
+            <button id="review-share" type="button" class="secondary" aria-haspopup="dialog" aria-controls="record-share-dialog" data-i18n-attr="title:recordShareAction">
               <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-share-icon"></use></svg>
               <span data-i18n="recordShareAction"></span>
             </button>
-            <button id="review-room-action" class="primary" type="button" data-ncq-main="다시 두기"></button>
+            <button id="review-room-action" class="primary" type="button" data-ncq-main="다시 두기">
+              <span class="review-action-content"><span id="review-room-action-label"></span></span>
+            </button>
           </div>
           <a id="review-play" class="primary" rel="noreferrer" data-i18n="recordPlay" hidden=""></a>
         </div>
@@ -487,10 +496,31 @@
         </div>
         <p id="match-error" class="feedback" role="status" hidden=""></p>
       </section>
-    </main>
+    <dialog id="daily-puzzle" aria-labelledby="puzzle-title">
+      <div class="puzzle-shell">
+        <header class="puzzle-heading"><button id="puzzle-back" class="puzzle-icon-button" type="button" data-i18n-attr="aria-label:puzzleList" hidden>‹</button><div><h2 id="puzzle-title"></h2><p id="puzzle-date"></p></div><button id="puzzle-close" class="puzzle-icon-button" type="button" data-i18n-attr="aria-label:puzzleClose">×</button></header>
+        <section id="puzzle-list" class="dp-list-view">
+          <div id="puzzle-overview" class="dp-overview"><div class="dp-overview-top"><div><p id="puzzle-total-label"></p><strong class="dp-total"><span class="dp-coin" aria-hidden="true"></span>30 <span data-total-unit data-i18n="puzzleCoinUnit"></span></strong></div><div class="dp-tally"><strong id="puzzle-tally"></strong><span id="puzzle-earned"></span></div></div><div id="puzzle-progress" class="dp-progress" aria-hidden="true"><span></span><span></span><span></span></div></div>
+          <div id="puzzle-tiers" class="dp-tiers"></div>
+          <footer class="dp-list-footer"><span data-i18n="puzzleRules"></span><span data-i18n="puzzleSource"></span></footer>
+        </section>
+        <section id="puzzle-play" class="ps-play-view" hidden>
+        <div id="puzzle-challenge" class="ps-challenge"><div class="ps-prize"><small data-i18n="puzzleSolveReward"></small><strong><span id="puzzle-reward-icon" class="dp-coin" aria-hidden="true"></span><span id="puzzle-reward"></span><span id="puzzle-reward-unit" data-i18n="puzzleCoinUnit"></span></strong></div><div class="ps-goal"><strong id="puzzle-goal"></strong><div id="puzzle-steps" class="ps-steps"></div></div></div>
+        <div id="puzzle-board-slot" data-ncq-no-main>
+          <div id="puzzle-board" class="board" role="grid" data-i18n-attr="aria-label:board">
+            <div id="puzzle-grid" class="board-grid" role="rowgroup"><svg class="board-lines" viewBox="0 0 9 10" preserveAspectRatio="none" aria-hidden="true"><use href="#board-engraving"/></svg></div>
+          </div>
+        </div>
+        <div class="puzzle-feedback" role="status" aria-live="polite"><strong id="puzzle-side"></strong><p id="puzzle-status"></p></div>
+        <footer class="puzzle-actions"><button id="puzzle-hint" type="button" data-i18n="puzzleHint"></button><button id="puzzle-reset" type="button" data-i18n="puzzleReset"></button><button id="puzzle-next" class="puzzle-primary" type="button" hidden></button><button id="puzzle-list-button" type="button" data-i18n="puzzleList" hidden></button></footer>
+        </section>
+      </div>
+    </dialog>
+</main>
     <p id="lobby-error" class="feedback" role="status" hidden=""></p>
     <div id="play-footer" class="play-footer">
       <button id="player-card" class="ranking-card player-card" type="button" data-own-ranking="" aria-haspopup="dialog" aria-controls="player-profile">
+        <strong id="player-ranking-place" class="ranking-place" hidden></strong>
         <span class="player-card-identity">
           <span class="player-avatar" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor"><use href="#records-person"></use></svg>
@@ -511,6 +541,14 @@
         </span>
       </button>
       <div id="lobby-entry" class="match-request">
+        <label class="lobby-board-picker">
+          <span class="sr-only" data-i18n="boardSize"></span>
+          <select id="board-size" data-i18n-attr="aria-label:boardSize">
+            <option value="9" data-i18n="boardSize9"></option>
+            <option value="19" data-i18n="boardSize19"></option>
+          </select>
+          <span class="board-size-chevron" aria-hidden="true"></span>
+        </label>
         <button id="start" class="primary" type="button" data-ncq-main="대국 신청">
           <img src="./assets/forest-ui/board/stones_pair.webp" alt=""><span data-i18n="matchRequest"></span>
         </button>
@@ -560,6 +598,7 @@
           <span data-i18n="nickname"></span>
           <input id="nickname" type="text" maxlength="20" autocomplete="nickname" enterkeyhint="done">
         </label>
+        <p id="nickname-feedback" role="status" hidden=""></p>
         <div class="profile-identity">
           <span class="player-avatar" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"></circle><path d="M4 21v-2a8 8 0 0 1 16 0v2z"></path></svg>
@@ -618,24 +657,30 @@
       <form method="dialog">
         <h2 id="options-title" tabindex="-1" data-i18n="options" autofocus=""></h2>
         <small id="app-version" class="version"></small>
-        <div class="option-row">
-          <label for="language" data-i18n="language"></label>
-          <select id="language"></select>
+        <div class="options-content">
+          <div class="option-row">
+            <label for="language" data-i18n="language"></label>
+            <select id="language"></select>
+          </div>
+          <label class="option-row sound-option">
+            <span data-i18n="stoneSound"></span>
+            <input id="stone-sound" type="checkbox" checked="">
+          </label><label class="option-row sound-option"><span data-i18n="helpers"></span><input id="helpers" type="checkbox"></label><button id="choose-rule" type="button" class="secondary" data-i18n="practice" aria-controls="practice-dialog" aria-haspopup="dialog"></button>
+          <label id="vibration-option" class="option-row sound-option" hidden="">
+            <span data-i18n="vibration"></span>
+            <input id="vibration" type="checkbox" checked="">
+          </label>
+          <div id="options-player" class="option-row" hidden="">
+            <label for="options-player-id" data-i18n="optionsPlayerId"></label>
+            <button id="copy-player-id" class="secondary" type="button" data-i18n="optionsPlayerIdCopy" data-i18n-attr="aria-label:optionsPlayerIdCopyLabel"></button>
+            <input id="options-player-id" type="text" readonly="" spellcheck="false">
+            <p id="player-id-feedback" role="status" hidden=""></p>
+          </div>
+          <button id="send-feedback" class="secondary" type="button" data-i18n="sendFeedback" hidden=""></button>
+          <button id="ad-privacy" class="secondary" type="button" data-i18n="adPrivacy" hidden=""></button>
+          <button id="restore-purchases" class="secondary" type="button" data-i18n="purchaseRestore" hidden=""></button>
+          <p id="restore-feedback" role="status" hidden=""></p>
         </div>
-        <label class="option-row sound-option">
-          <span data-i18n="stoneSound"></span>
-          <input id="stone-sound" type="checkbox" checked="">
-        </label><label class="option-row sound-option"><span data-i18n="helpers"></span><input id="helpers" type="checkbox"></label><button id="choose-rule" type="button" class="secondary" data-i18n="practice" aria-controls="practice-dialog" aria-haspopup="dialog"></button>
-        <div id="options-player" class="option-row" hidden="">
-          <label for="options-player-id" data-i18n="optionsPlayerId"></label>
-          <button id="copy-player-id" class="secondary" type="button" data-i18n="optionsPlayerIdCopy" data-i18n-attr="aria-label:optionsPlayerIdCopyLabel"></button>
-          <input id="options-player-id" type="text" readonly="" spellcheck="false">
-          <p id="player-id-feedback" role="status" hidden=""></p>
-        </div>
-        <button id="send-feedback" class="secondary" type="button" data-i18n="sendFeedback" hidden=""></button>
-        <button id="ad-privacy" class="secondary" type="button" data-i18n="adPrivacy" hidden=""></button>
-        <button id="restore-purchases" class="secondary" type="button" data-i18n="purchaseRestore" hidden=""></button>
-        <p id="restore-feedback" role="status" hidden=""></p>
         <button class="primary" type="button" data-ncq-main="Close options" data-i18n="done" id="save-options"></button>
       </form>
     </dialog>
@@ -699,12 +744,12 @@
 
     <dialog id="shop" aria-labelledby="shop-title">
       <form method="dialog">
-        <div class="shop-heading">
+        <div class="shop-heading list-heading">
           <button class="forest-close" type="button" data-close-dialog="shop" data-ncq-main="Close shop" data-i18n-attr="aria-label:done">×</button>
           <h2 id="shop-title" tabindex="-1" data-i18n="shop" autofocus=""></h2>
-          <div class="shop-wallet"><span class="shop-coin" aria-hidden="true"></span>
-            <span data-i18n="shopBalance"></span><strong id="shop-balance"></strong>
-          </div>
+        </div>
+        <div class="shop-wallet"><span class="shop-coin" aria-hidden="true"></span>
+          <span data-i18n="shopBalance"></span><strong id="shop-balance"></strong>
         </div>
         <div class="shop-tabs" role="group" data-i18n-attr="aria-label:shop">
           <button id="shop-tab-currency" type="button" aria-controls="shop-currency" aria-pressed="false" data-i18n="shopCurrency"></button>
@@ -739,6 +784,15 @@
             <p data-i18n="shopCoinPacksGuide"></p>
           </div>
           <p id="shop-refund-debt" hidden=""></p>
+          <article id="shop-ad-coins" class="shop-product" aria-labelledby="shop-ad-coins-title" hidden="">
+            <span class="shop-coin-art" aria-hidden="true"><i></i><i></i></span>
+            <span class="shop-product-copy">
+              <strong id="shop-ad-coins-title" class="shop-coin-quantity" data-i18n="rewardAdTitle"></strong>
+              <span class="shop-product-detail" data-i18n="rewardAdGuide"></span>
+              <span id="shop-ad-coins-count" class="shop-effect-status" aria-live="polite"></span>
+            </span>
+            <button id="shop-watch-ad-coins" class="shop-coin-buy" type="button" data-ncq-main="Watch an ad for 20 coins" disabled=""></button>
+          </article>
           <button id="shop-claim-test-coins" class="primary" type="button" data-i18n="shopTestCoinClaim" data-ncq-main="Claim developer test coins" hidden=""></button>
           <p id="shop-no-coin-packs" class="shop-products-empty" data-i18n="shopCoinPacksUnavailable" hidden=""></p>
           <ul id="shop-coin-pack-buttons" class="shop-product-list" role="list"></ul>
@@ -767,6 +821,7 @@
                   <strong data-i18n="shopSakuraPlacement"></strong>
                   <span class="shop-product-detail" data-i18n="shopSakuraPlacementGuide"></span>
                   <span class="shop-effect-status"></span>
+                  <span class="shop-product-detail shop-effect-time" hidden=""></span>
                 </span>
               </button>
             </li>
@@ -1031,7 +1086,8 @@
           <span class="shop-coin" aria-hidden="true"></span><strong id="coin-reward-coins"></strong>
         </p>
         <p class="coin-reward-balance"><span data-i18n="shopBalance"></span> <strong id="coin-reward-balance"></strong></p>
-        <button id="coin-reward-confirm" class="primary" type="submit" data-ncq-main="Confirm received coins" data-i18n="confirmProfile"></button>
+        <button id="coin-reward-confirm" class="primary" type="submit" data-ncq-main="Confirm received coins"
+                data-i18n="confirmProfile"></button>
       </form>
     </dialog>
 
@@ -1049,8 +1105,10 @@
         <h2 id="coin-shortage-title" data-i18n="coinShortageTitle"></h2>
         <p id="coin-shortage-message" data-i18n="coinShortageMessage"></p>
         <div class="coin-shortage-actions">
-          <button class="secondary" type="submit" value="no" data-i18n="coinShortageNo" data-ncq-main="Stay on the current screen"></button>
-          <button class="primary" type="submit" value="yes" data-i18n="coinShortageYes" data-ncq-main="Open the coin shop" autofocus=""></button>
+          <button class="secondary" type="submit" value="no" data-i18n="coinShortageNo"
+                  data-ncq-main="Stay on the current screen"></button>
+          <button class="primary" type="submit" value="yes" data-i18n="coinShortageYes"
+                  data-ncq-main="Open the coin shop" autofocus></button>
         </div>
       </form>
     </dialog>
@@ -1074,18 +1132,22 @@
       </li>
     </template>
 
-    <dialog id="tournament-catch-up" aria-labelledby="tournament-catch-up-title" aria-describedby="tournament-catch-up-summary tournament-catch-up-message">
+    <dialog id="tournament-catch-up" aria-labelledby="tournament-catch-up-title"
+            aria-describedby="tournament-catch-up-summary tournament-catch-up-message">
       <form method="dialog">
-        <h2 id="tournament-catch-up-title" data-i18n="joinTournamentCatchUp"></h2>
+        <h2 id="tournament-catch-up-title" data-i18n="tournamentEntryTitle"></h2>
         <p id="tournament-catch-up-summary">
-          <span data-i18n="tournamentMissedAttempts"></span>
-          <strong id="tournament-catch-up-missed"></strong>
+          <span data-i18n="tournamentEntryFee"></span>
+          <span class="tournament-coin-cost"><span class="shop-coin" aria-hidden="true"></span><strong id="tournament-catch-up-missed"></strong></span>
         </p>
-        <p id="tournament-catch-up-message" data-i18n="confirmTournamentCatchUp"></p>
+        <p id="tournament-catch-up-message" data-i18n="tournamentEntryConfirm"></p>
+        <p class="tournament-entry-safety" data-i18n="tournamentEntrySafety"></p>
         <div class="tournament-catch-up-actions">
-          <button class="secondary" type="submit" value="cancel" data-ncq-main="Cancel tournament catch-up" data-i18n="cancel" autofocus=""></button>
-          <button id="confirm-tournament-catch-up" class="primary" type="submit" value="confirm" data-ncq-main="Confirm tournament catch-up">
-            <span data-i18n="joinTournamentCatchUp"></span>
+          <button class="secondary" type="submit" value="cancel" data-ncq-main="Cancel tournament entry"
+                  data-i18n="cancel" autofocus></button>
+          <button id="confirm-tournament-catch-up" class="primary" type="submit" value="confirm"
+                  data-ncq-main="Confirm tournament entry">
+            <span data-i18n="joinTournament"></span>
             <span class="tournament-coin-cost">
               <span class="shop-coin" aria-hidden="true"></span><span id="tournament-catch-up-coins"></span>
             </span>
@@ -1093,10 +1155,9 @@
         </div>
       </form>
     </dialog>
-    <dialog id="matchmaking" class="matchmaking" aria-labelledby="queue-title" aria-describedby="queue-rule queue-status">
+    <dialog id="matchmaking" class="matchmaking" aria-labelledby="queue-title" aria-describedby="queue-status">
       <div class="queue-mark" aria-hidden="true"><span class="stone black"></span><span class="stone white"></span></div>
       <h2 id="queue-title" data-i18n="matching"></h2>
-      <p id="queue-rule"></p>
       <p id="queue-status"></p>
       <div class="queue-loader" aria-hidden="true"><span></span><span></span><span></span></div>
       <button id="cancel-match" class="secondary" type="button" data-ncq-main="Cancel matchmaking" data-i18n="cancel" autofocus=""></button>
@@ -1263,4 +1324,5 @@
 </template>
 
 
-<dialog id="practice-dialog" class=""><form method="dialog"><div class="dialog-heading"><h2 data-i18n="practice"></h2><button class="quiet" data-i18n-attr="aria-label:close">✕</button></div></form><label class="option-row"><span data-i18n="opponent"></span><select id="practice-mode"><option value="ai" data-i18n="aiOpponent"></option><option value="local" data-i18n="localOpponent"></option></select></label><label class="option-row"><span data-i18n="difficulty"></span><select id="difficulty"><option value="0" data-i18n="level0"></option><option value="1" data-i18n="level1"></option><option value="2" data-i18n="level2"></option><option value="3" data-i18n="level3"></option></select></label><label class="option-row"><span data-i18n="myColor"></span><select id="my-color"><option value="1" data-i18n="black"></option><option value="2" data-i18n="white"></option></select></label><button id="start-practice" class="primary" data-ncq-main="연습 시작" data-i18n="start"></button></dialog><dialog id="confirm-dialog" class=""><h2 id="confirm-title"></h2><p id="confirm-text"></p><div class="dialog-actions"><button id="confirm-no" class="secondary" data-i18n="cancel"></button><button id="confirm-yes" class="primary" data-ncq-main="확인" data-i18n="confirm"></button></div></dialog><dialog id="tutorial-dialog" class="academy-dialog" aria-labelledby="academy-title"><div class="academy-frame"><header class="academy-header"><button id="academy-close" class="quiet" type="button" aria-label="Close">‹</button><h2 id="academy-title"></h2><button id="academy-grade" class="quiet academy-rank" type="button"></button></header><div id="academy-content" class="academy-content"></div><footer id="academy-footer" class="academy-footer"></footer></div></dialog><div id="toast" class="toast" role="status" hidden=""></div></body></html>
+<dialog id="practice-dialog" class=""><form method="dialog"><div class="dialog-heading"><h2 data-i18n="practice"></h2><button class="quiet" data-i18n-attr="aria-label:close">✕</button></div></form><label class="option-row"><span data-i18n="boardSize"></span><select id="practice-board-size"><option value="9" data-i18n="boardMode9"></option><option value="19" data-i18n="boardMode19"></option></select></label><label class="option-row"><span data-i18n="opponent"></span><select id="practice-mode"><option value="ai" data-i18n="aiOpponent"></option><option value="local" data-i18n="localOpponent"></option></select></label><label class="option-row"><span data-i18n="difficulty"></span><select id="difficulty"><option value="0" data-i18n="level0"></option><option value="1" data-i18n="level1"></option><option value="2" data-i18n="level2"></option><option value="3" data-i18n="level3"></option></select></label><label class="option-row"><span data-i18n="myColor"></span><select id="my-color"><option value="1" data-i18n="black"></option><option value="2" data-i18n="white"></option></select></label><button id="start-practice" class="primary" data-ncq-main="연습 시작" data-i18n="start"></button></dialog><dialog id="confirm-dialog" class=""><h2 id="confirm-title"></h2><p id="confirm-text"></p><div class="dialog-actions"><button id="confirm-no" class="secondary" data-i18n="cancel"></button><button id="confirm-yes" class="primary" data-ncq-main="확인" data-i18n="confirm"></button></div></dialog><dialog id="tutorial-dialog" class="academy-dialog" aria-labelledby="academy-title"><div class="academy-frame"><header class="academy-header"><button id="academy-close" class="quiet" type="button" aria-label="Close">‹</button><h2 id="academy-title"></h2><button id="academy-grade" class="quiet academy-rank" type="button"></button></header><div id="academy-content" class="academy-content"></div><footer id="academy-footer" class="academy-footer"></footer></div></dialog><div id="toast" class="toast" role="status" hidden=""></div>
+</body></html>

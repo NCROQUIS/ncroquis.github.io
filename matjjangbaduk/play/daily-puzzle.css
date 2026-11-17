@@ -55,7 +55,7 @@
 #daily-puzzle #puzzle-reward-unit {font-size:12px;letter-spacing:0}
 #daily-puzzle .ps-prize .puzzle-check {background-image:url('./assets/forest-ui/icons/check.webp')}
 #daily-puzzle #puzzle-board-slot {display:grid;place-items:center;flex:1;min-height:80px}
-#daily-puzzle #puzzle-board {width:min(100%,calc(var(--puzzle-height,300px) * .9));aspect-ratio:9/10;margin:0}
+#daily-puzzle #puzzle-board {aspect-ratio:1;margin:0}
 #puzzle-grid {container-type:inline-size}
 #puzzle-grid .cell {display:grid;place-items:center;border-radius:0;box-shadow:none}
 #puzzle-grid .stone {top:50%;left:50%;transform:translate(-50%,-50%);z-index:2}
@@ -120,4 +120,18 @@
   #daily-puzzle .ps-goal>strong {font-size:10px;max-width:150px}
   #daily-puzzle .ps-step {width:20px;height:20px}
   #daily-puzzle .puzzle-feedback {min-height:26px;padding:3px 7px}
+}
+
+/* Keep the board and controls visible when a phone is turned sideways. */
+@container(max-height:330px) and (min-width:440px) {
+  #daily-puzzle .puzzle-shell {padding:4px;gap:3px}
+  #daily-puzzle .ps-play-view {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);grid-template-rows:auto minmax(0,1fr) auto;gap:3px}
+  #daily-puzzle #puzzle-board-slot {grid-column:1;grid-row:1/4;min-height:0}
+  #daily-puzzle .ps-challenge {grid-column:2;grid-row:1;min-height:30px;padding:3px 6px}
+  #daily-puzzle .ps-prize>strong {font-size:22px;line-height:1}
+  #daily-puzzle #puzzle-reward-icon {width:21px;height:22px}
+  #daily-puzzle .ps-goal>strong,#daily-puzzle #puzzle-side {display:none}
+  #daily-puzzle .puzzle-feedback {grid-column:2;grid-row:2;display:block;min-height:0;overflow:auto;padding:2px 6px}
+  #daily-puzzle #puzzle-status {line-height:1.25}
+  #daily-puzzle .puzzle-actions {grid-column:2;grid-row:3}
 }

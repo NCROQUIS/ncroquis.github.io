@@ -1,10 +1,10 @@
 <!doctype html>
 <html><head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
-  <script src="./ncq/safe.js?v=aeeb77fbbd29"></script>
-  <script src="./ncq/motion.js?v=aeeb77fbbd29"></script>
-  <script src="./ncq/device.js?v=aeeb77fbbd29"></script>
-  <script src="./ncq/sound.js?v=aeeb77fbbd29"></script>
-  <script src="./ncq/save.js?v=aeeb77fbbd29"></script>
+  <script src="./ncq/safe.js?v=0ca733dc93d5"></script>
+  <script src="./ncq/motion.js?v=0ca733dc93d5"></script>
+  <script src="./ncq/device.js?v=0ca733dc93d5"></script>
+  <script src="./ncq/sound.js?v=0ca733dc93d5"></script>
+  <script src="./ncq/save.js?v=0ca733dc93d5"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -13,19 +13,19 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=aeeb77fbbd29">
-  <link rel="stylesheet" href="./omok.css?v=aeeb77fbbd29">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=aeeb77fbbd29">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=aeeb77fbbd29">
-  <link rel="stylesheet" href="./forest-ui.css?v=aeeb77fbbd29">
-  <link rel="stylesheet" href="./lobby-layout.css?v=aeeb77fbbd29">
-  <link rel="stylesheet" href="./list-dialog.css?v=aeeb77fbbd29">
-  <link rel="stylesheet" href="./shop-layout.css?v=aeeb77fbbd29">
-  <link rel="stylesheet" href="./ranking-layout.css?v=aeeb77fbbd29">
-  <link rel="stylesheet" href="./mission-layout.css?v=aeeb77fbbd29">
-  <link rel="stylesheet" href="./jangi-match.css?v=aeeb77fbbd29">
-  <script type="module" src="./app.js?v=aeeb77fbbd29"></script>
-<link rel="stylesheet" href="./style.css?v=aeeb77fbbd29"><script src="./ncq/auth-sdk.js?v=aeeb77fbbd29"></script><title>맞짱 바둑 · Baduk Duel</title><link rel="stylesheet" href="./jangi-lobby-puzzle.css?v=aeeb77fbbd29"><link rel="stylesheet" href="./daily-puzzle.css?v=aeeb77fbbd29"><link rel="stylesheet" href="./jangi-rewards.css?v=aeeb77fbbd29">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=0ca733dc93d5">
+  <link rel="stylesheet" href="./omok.css?v=0ca733dc93d5">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=0ca733dc93d5">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=0ca733dc93d5">
+  <link rel="stylesheet" href="./forest-ui.css?v=0ca733dc93d5">
+  <link rel="stylesheet" href="./lobby-layout.css?v=0ca733dc93d5">
+  <link rel="stylesheet" href="./list-dialog.css?v=0ca733dc93d5">
+  <link rel="stylesheet" href="./shop-layout.css?v=0ca733dc93d5">
+  <link rel="stylesheet" href="./ranking-layout.css?v=0ca733dc93d5">
+  <link rel="stylesheet" href="./mission-layout.css?v=0ca733dc93d5">
+  <link rel="stylesheet" href="./jangi-match.css?v=0ca733dc93d5">
+  <script type="module" src="./app.js?v=0ca733dc93d5"></script>
+<link rel="stylesheet" href="./style.css?v=0ca733dc93d5"><script src="./ncq/auth-sdk.js?v=0ca733dc93d5"></script><title>맞짱 바둑 · Baduk Duel</title><link rel="stylesheet" href="./jangi-lobby-puzzle.css?v=0ca733dc93d5"><link rel="stylesheet" href="./daily-puzzle.css?v=0ca733dc93d5"><link rel="stylesheet" href="./jangi-rewards.css?v=0ca733dc93d5">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -129,11 +129,11 @@
           <span class="mission-shortcut-icon" aria-hidden="true"><svg class="puzzle-entry-icon" viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="6"/><path d="M9 11h14M9 21h14M11 8v16M21 8v16"/><circle cx="16" cy="16" r="5"/></svg></span>
           <span class="mission-shortcut-content"><span class="mission-shortcut-heading"><strong data-i18n="puzzleShortcutTitle"></strong></span></span>
         </button>
-            <button id="show-tournament" class="tournament-card" type="button" aria-controls="tutorial-dialog">
+            <button id="show-tournament" class="tournament-card" type="button" aria-haspopup="dialog" aria-controls="rankings-dialog">
               <svg class="tournament-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#nav-ranking"></use></svg>
-              <strong id="lobby-championship" data-i18n="academyTitle"></strong>
-              <small data-i18n="learningSummary"></small>
-              <time id="championship-countdown" class="championship-countdown" data-i18n="learningSteps"></time>
+              <strong id="lobby-championship" data-i18n="forestChampionship"></strong>
+              <small data-i18n="tournamentSummary"></small>
+              <time id="championship-countdown" class="championship-countdown"></time>
             </button>
           </div>
           <div class="list-heading">
@@ -174,7 +174,7 @@
 
       <section id="tournament" class="lobby" hidden="">
         <div class="list-heading">
-          <h1 id="tournament-title" tabindex="-1" data-i18n="rankings"></h1>
+          <h1 id="tournament-title" tabindex="-1" data-i18n="forestChampionship"></h1>
           <button id="show-lobby" class="forest-close" type="button" data-ncq-main="Close championship" data-i18n-attr="aria-label:done" data-page="lobby">×</button>
         </div>
         <div id="ranking-tabs" class="ranking-tabs" role="tablist" aria-labelledby="tournament-title">
@@ -541,16 +541,11 @@
         </span>
       </button>
       <div id="lobby-entry" class="match-request">
-        <label class="lobby-board-picker">
-          <span class="sr-only" data-i18n="boardSize"></span>
-          <select id="board-size" data-i18n-attr="aria-label:boardSize">
-            <option value="9" data-i18n="boardSize9"></option>
-            <option value="19" data-i18n="boardSize19"></option>
-          </select>
-          <span class="board-size-chevron" aria-hidden="true"></span>
-        </label>
-        <button id="start" class="primary" type="button" data-ncq-main="대국 신청">
+        <button id="start" class="primary board-start" type="button" data-board-size="9" data-ncq-main="9줄 대국">
           <img src="./assets/forest-ui/board/stones_pair.webp" alt=""><span data-i18n="matchRequest"></span>
+        </button>
+        <button id="start-19" class="primary board-start" type="button" data-board-size="19" data-ncq-main="19줄 대국">
+          <span class="start-content"><span data-i18n="matchRequest"></span></span>
         </button>
       </div>
       <div id="tournament-entry" class="match-request" hidden="">

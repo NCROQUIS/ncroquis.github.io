@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
 <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
-  <script src="./ncq/safe.js?v=8c40da3e895e"></script>
-  <script src="./ncq/motion.js?v=8c40da3e895e"></script>
-  <script src="./ncq/device.js?v=8c40da3e895e"></script>
-  <script src="./ncq/sound.js?v=8c40da3e895e"></script>
-  <script src="./ncq/save.js?v=8c40da3e895e"></script>
+  <script src="./ncq/safe.js?v=b4250f21d9d5"></script>
+  <script src="./ncq/motion.js?v=b4250f21d9d5"></script>
+  <script src="./ncq/device.js?v=b4250f21d9d5"></script>
+  <script src="./ncq/sound.js?v=b4250f21d9d5"></script>
+  <script src="./ncq/save.js?v=b4250f21d9d5"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -14,19 +14,20 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=8c40da3e895e">
-  <link rel="stylesheet" href="./style.css?v=8c40da3e895e">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=8c40da3e895e">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=8c40da3e895e">
-  <link rel="stylesheet" href="./forest-ui.css?v=8c40da3e895e">
-  <link rel="stylesheet" href="./lobby-layout.css?v=8c40da3e895e">
-  <link rel="stylesheet" href="./list-dialog.css?v=8c40da3e895e">
-  <link rel="stylesheet" href="./shop-layout.css?v=8c40da3e895e">
-  <link rel="stylesheet" href="./ranking-layout.css?v=8c40da3e895e">
-  <link rel="stylesheet" href="./mission-layout.css?v=8c40da3e895e">
-  <script type="module" src="./app.js?v=8c40da3e895e"></script>
-<link rel="stylesheet" href="./jangi.css?v=8c40da3e895e">
-  <link rel="stylesheet" href="./daily-puzzle.css?v=8c40da3e895e">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./style.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./forest-ui.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./lobby-layout.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./list-dialog.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./shop-layout.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./ranking-layout.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./mission-layout.css?v=b4250f21d9d5">
+  <script type="module" src="./app.js?v=b4250f21d9d5"></script>
+<link rel="stylesheet" href="./jangi.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=b4250f21d9d5">
+  <link rel="stylesheet" href="./together.css?v=b4250f21d9d5">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -114,7 +115,7 @@
           <span class="mission-shortcut-icon" aria-hidden="true"><svg class="puzzle-entry-icon" viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="6"/><path d="M9 11h14M9 21h14M11 8v16M21 8v16"/><circle cx="16" cy="16" r="5"/></svg></span>
           <span class="mission-shortcut-content"><span class="mission-shortcut-heading"><strong data-i18n="puzzleShortcutTitle"></strong></span></span>
         </button>
-        <div id="lobby-championship-slot"></div>
+        <div id="lobby-championship-slot"><button id="show-together" type="button" aria-haspopup="dialog" aria-controls="together-formation"><span class="together-entry-pair" aria-hidden="true"><span class="stone white" data-kind="1"><span class="jangi-glyph">漢</span></span><span class="stone black" data-kind="1"><span class="jangi-glyph">楚</span></span></span><span class="together-entry-label"><strong data-i18n="togetherTitle"></strong><small data-i18n="togetherLocal"></small></span><span class="together-entry-chevron" aria-hidden="true">›</span></button></div>
         <div id="lobby-cta-slot"></div>
         <div class="lobby-feed">
           <div class="lobby-highlights">
@@ -360,20 +361,21 @@
           </button>
           <p id="turn-announcement" class="sr-only" role="status"></p>
         </div>
-        <div id="opponent-captured" class="jangi-captured" role="img" hidden></div>
         <div id="opponent-panel" class="match-art-panel match-player" hidden>
           <div class="match-art-avatar match-avatar" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
+            <span id="opponent-stone" class="stone jangi-seat-badge" role="img"></span>
           </div>
           <button id="opponent-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
             <span class="jangi-player-name"><span id="opponent-rank" class="jangi-player-rank" hidden></span><strong id="opponent-nickname" dir="auto"></strong></span>
-            <span class="seat"><span id="opponent-stone" class="stone" role="img"></span><span id="opponent-material" class="jangi-material"></span><span id="opponent-turn" class="jangi-turn-badge" hidden aria-hidden="true"></span></span>
+            <span class="seat" hidden><span id="opponent-material" class="jangi-material"></span><span id="opponent-turn" class="jangi-turn-badge" hidden aria-hidden="true"></span></span>
           </button>
           <div id="opponent-timer" class="jangi-player-time">
             <span id="opponent-clock" class="player-clock" role="timer"></span>
             <span id="opponent-refills" class="jangi-refills" role="img" hidden></span>
           </div>
           <div id="opponent-gauge" class="jangi-time-track" role="progressbar" aria-valuemin="0" aria-valuemax="300" aria-valuenow="300" data-i18n-attr="aria-label:jangiOpponentGauge"><span id="opponent-progress" class="jangi-time-fill"></span></div>
+          <div id="opponent-captured" class="jangi-captured" role="img" hidden></div>
         </div>
         <button id="review-opponent-profile" class="review-player" type="button" aria-haspopup="dialog" aria-controls="player-profile" hidden>
           <span class="review-avatar match-avatar" aria-hidden="true">
@@ -409,18 +411,19 @@
           <div class="match-art-avatar match-avatar" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
             <img id="match-player-photo" alt="" referrerpolicy="no-referrer" hidden>
+            <span id="own-stone" class="stone jangi-seat-badge" role="img"></span>
           </div>
           <button id="own-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
             <span class="jangi-player-name"><span id="own-rank" class="jangi-player-rank" hidden></span><strong id="own-nickname"></strong></span>
-            <span class="seat"><span id="own-stone" class="stone" role="img"></span><span id="own-material" class="jangi-material"></span><span id="place-text" class="jangi-turn-badge" hidden aria-hidden="true"></span></span>
+            <span class="seat" hidden><span id="own-material" class="jangi-material"></span><span id="place-text" class="jangi-turn-badge" hidden aria-hidden="true"></span></span>
           </button>
           <div id="place" class="jangi-player-time" role="status" aria-live="off">
             <span id="own-clock" class="player-clock" role="timer"></span>
             <span id="own-refills" class="jangi-refills" role="img" hidden></span>
           </div>
           <div id="place-gauge" class="jangi-time-track" role="progressbar" aria-valuemin="0" aria-valuemax="300" aria-valuenow="300" data-i18n-attr="aria-label:jangiOwnGauge"><span id="own-progress" class="jangi-time-fill"></span></div>
+          <div id="own-captured" class="jangi-captured" role="img" hidden></div>
         </div>
-        <div id="own-captured" class="jangi-captured" role="img" hidden></div>
         <div id="live-actions" class="live-actions" hidden>
           <div id="opening-actions" class="opening-actions" hidden>
             <button type="button" class="match-art-action" data-opening="swap" data-i18n="swapColors"></button>
@@ -1365,5 +1368,23 @@
 <label class="jangi-formation-choice"><input type="radio" name="formation" value="3"><span class="jangi-formation-pieces" aria-hidden="true"></span><span class="jangi-formation-caption" data-i18n="jangiFormation3"></span></label>
 </div></div>
 <button class="primary" type="submit" data-ncq-main="Confirm Janggi formation" data-i18n="jangiFormationConfirm"></button></form></dialog>
+<dialog id="together-formation" class="tg-dialog" aria-labelledby="tg-title">
+  <div class="tg-formation-shell">
+    <section class="tg-side tg-upper" data-seat="2"><header><span class="tg-king stone white" data-kind="1"><span class="jangi-glyph">漢</span></span><div><h3 data-i18n="togetherHan"></h3><p data-i18n="togetherChoose"></p></div><span class="tg-ready-state"></span></header><div class="tg-choices" role="group"></div><button class="tg-confirm" type="button" data-ready="2"></button></section>
+    <div class="tg-divider"><button class="tg-close" type="button" data-together="close-formation" data-i18n-attr="aria-label:togetherClose">×</button><div><h2 id="tg-title" data-i18n="togetherTitle"></h2><p data-i18n="togetherLocal"></p></div><span id="tg-ready-count" aria-live="polite"></span></div>
+    <section class="tg-side" data-seat="1"><header><span class="tg-king stone black" data-kind="1"><span class="jangi-glyph">楚</span></span><div><h3 data-i18n="togetherCho"></h3><p data-i18n="togetherChoose"></p></div><span class="tg-ready-state"></span></header><div class="tg-choices" role="group"></div><button class="tg-confirm" type="button" data-ready="1"></button></section>
+    <button id="tg-start" class="tg-primary" type="button" data-ncq-main="Start together" data-i18n="togetherStart" disabled></button>
+  </div>
+</dialog>
+<section id="together-match" data-ncq-no-main hidden>
+  <div class="tg-player tg-far" data-player="2"><span class="tg-side-mark stone white" data-kind="1"><span class="jangi-glyph">漢</span></span><span class="tg-turn-label"></span><button type="button" class="tg-undo" data-undo="2"></button></div>
+  <div id="tg-board-slot"><div id="tg-board" class="board"><div id="tg-grid" class="board-grid" role="grid"><svg class="board-lines" viewBox="0 0 9 10" preserveAspectRatio="none" aria-hidden="true"><use href="#board-engraving"/></svg></div><div id="tg-pass-notice" class="jangi-pass-notice" role="status" hidden></div></div></div>
+  <div class="tg-player" data-player="1"><button id="tg-exit" class="tg-round-button" type="button" data-i18n-attr="aria-label:togetherLeave">‹</button><button type="button" class="tg-undo" data-undo="1"></button><button id="tg-options" class="tg-round-button" type="button" data-i18n-attr="aria-label:togetherOptions"><img src="./assets/forest-ui/icons/settings.webp" alt=""></button></div>
+  <div id="tg-after" hidden><button type="button" data-together="rematch" data-i18n="togetherRematch" data-ncq-main="Play together again"></button><button type="button" data-together="lobby" data-i18n="togetherLeave"></button></div>
+  <p id="tg-status" role="status" aria-live="polite"></p>
+</section>
+<dialog id="together-actions" class="tg-dialog tg-small" aria-labelledby="tg-actions-title"><div class="tg-menu"><h2 id="tg-actions-title"></h2><button type="button" data-together="pass" data-i18n="togetherPass"></button><button type="button" data-together="resign" data-i18n="togetherResign"></button><button type="button" data-together="rematch" data-i18n="togetherRematch"></button><button type="button" data-together="settings" data-i18n="togetherSettings"></button><button type="button" data-together="lobby" data-i18n="togetherLeave"></button><button type="button" data-together="close-actions" data-i18n="togetherClose" data-ncq-main="Close together options"></button></div></dialog>
+<dialog id="together-confirm" class="tg-dialog tg-small" aria-labelledby="tg-confirm-title"><div class="tg-menu"><h2 id="tg-confirm-title"></h2><p id="tg-confirm-info"></p><div class="tg-buttons"><button id="tg-confirm-cancel" type="button" data-i18n="togetherCancel"></button><button id="tg-confirm-yes" class="tg-primary" type="button" data-ncq-main="Confirm together action"></button></div></div></dialog>
+<dialog id="together-result" class="tg-dialog tg-small" aria-labelledby="tg-result-title"><div class="tg-menu"><h2 id="tg-result-title"></h2><p id="tg-result-reason"></p><button type="button" class="tg-primary" data-together="rematch" data-i18n="togetherRematch" data-ncq-main="Play together again"></button><button type="button" data-together="lobby" data-i18n="togetherLeave"></button><button type="button" data-together="close-result" data-i18n="togetherClose"></button></div></dialog>
 </body>
 </html>

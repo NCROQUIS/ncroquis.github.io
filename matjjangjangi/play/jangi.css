@@ -30,6 +30,9 @@
 .board-grid { grid-template:repeat(10,minmax(0,1fr))/repeat(9,minmax(0,1fr)); }
 .board-row { display:contents; }
 .board-lines { aspect-ratio:9/10; }
+/* Grid strokes must never thicken the lettering in the tiny replay boards. */
+.record-preview .record-pieces { stroke:none; }
+.record-preview .record-piece-glyph { font-family:JanggiBrush,serif;font-weight:400; }
 .stone.black,.stone.white {
   --piece-ink:var(--jangi-cho);
   position:relative; display:inline-grid; place-items:center;
@@ -219,3 +222,32 @@
 .jangi-end-notice>span { max-width:90%;padding:3px 15px;border:1px solid #d6ba78;border-radius:999px;background:#173d2de8;color:#fff0bc;font-size:clamp(11px,4cqi,16px);font-weight:800;line-height:1.4;text-align:center; }
 .board[data-ending] .jangi-threat-speech,.board[data-ending] .jangi-pass-notice { visibility:hidden; }
 @keyframes jangi-end-arrive { 0% { opacity:0;transform:scale(.65); } 16% { opacity:1;transform:scale(1.06); } 26%,84% { opacity:1;transform:scale(1); } 100% { opacity:0;transform:scale(1.025); } }
+
+/* Approved card: profile/name/clock, fixed time track, then captured pieces inside. */
+.forest-ui .match-player { height:106px;grid-template-rows:minmax(35px,1fr) 4px 27px;padding:8px 12px;row-gap:5px; }
+.forest-ui .match-player .match-avatar { overflow:visible; }
+.forest-ui .match-player .match-avatar img { border-radius:50%; }
+.forest-ui .match-player .match-avatar .jangi-seat-badge { position:absolute;left:-5px;top:-5px;z-index:2;width:19px;height:19px;font-size:15px; }
+.forest-ui .match-player .match-identity { display:flex;align-items:stretch;justify-content:center;flex-direction:column;min-height:0; }
+.forest-ui .match-player .jangi-player-name { align-items:center; }
+.forest-ui .match-player .seat { display:none; }
+.forest-ui .match-player .jangi-refills { gap:2px; }
+.forest-ui .match[data-playing] .match-player .jangi-refills svg { width:6px;height:8px; }
+.forest-ui .match-player .jangi-time-track { height:4px; }
+.forest-ui .match-player .jangi-captured { --capture-size:24px;align-self:stretch;justify-content:start;gap:6px;height:27px;min-height:27px;padding:3px 0 0;border-top:1px solid #dbdaba2b; }
+.forest-ui .match-player[data-active="true"] .jangi-captured { border-color:#90793730; }
+.forest-ui .match-player .jangi-captured-pile { width:calc(var(--capture-size) + (var(--pile-count) - 1)*4px);height:24px; }
+.forest-ui .match-player .jangi-captured-token { left:calc(var(--pile-index)*4px); }
+.forest-ui .match-player .jangi-captured-token .stone { font-size:18px; }
+.forest-ui .match[data-compact-board] .match-player { height:96px;grid-template-rows:minmax(32px,1fr) 4px 26px;padding:6px 10px;row-gap:4px; }
+.forest-ui .match[data-compact-board] .match-player .jangi-captured { --capture-size:22px;height:26px;min-height:26px;gap:5px; }
+.forest-ui .match[data-compact-board] .match-player .jangi-captured-token .stone { font-size:16px; }
+.forest-ui .match[data-tight-board] .match-player { height:84px;grid-template-rows:minmax(28px,1fr) 4px 23px;padding:4px 9px;row-gap:3px; }
+.forest-ui .match[data-tight-board] .match-player .jangi-captured { --capture-size:20px;height:23px;min-height:23px;gap:5px; }
+.forest-ui .match[data-tight-board] .match-player .jangi-captured-token .stone { font-size:15px; }
+.jangi-captured-token[data-capture-arriving] { visibility:hidden; }
+.jangi-capture-layer { position:fixed;inset:0;z-index:30;pointer-events:none; }
+.jangi-capture-layer .jangi-captured-token { bottom:auto;transform-origin:center; }
+.cell .jangi-capture-victim { position:absolute;left:50%;top:50%;bottom:auto;z-index:0;transform:translate(-50%,-50%);pointer-events:none; }
+.cell .jangi-capture-victim>.stone,.jangi-capture-flying>.stone { position:absolute;inset:0;width:100%;height:100%;font-size:inherit;transform:none; }
+.jangi-capture-flying { will-change:transform; }

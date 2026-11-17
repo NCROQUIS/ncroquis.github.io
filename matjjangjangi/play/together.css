@@ -40,7 +40,7 @@ body.in-together #lobby-stage-host{visibility:hidden;pointer-events:none}
 .tg-controls[inert]{visibility:hidden;pointer-events:none}
 .tg-controls-left{justify-self:start;display:flex;align-items:center}
 .tg-controls-right{justify-self:end;display:flex;align-items:center;gap:4px}
-.tg-controls-far{justify-self:start}
+.tg-controls-far{justify-self:end;align-self:end}
 .tg-controls>.tg-undo{min-width:0;width:100%;padding:9px 4px;white-space:nowrap}
 .tg-slide-actions{position:absolute;inset:0;z-index:3;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:3px;border:1px solid #789063;border-radius:13px;background:#174f35;color:#36583c;transform:translateY(110%);visibility:hidden;pointer-events:none;transition:transform 280ms cubic-bezier(.2,.8,.2,1),visibility 0s linear 280ms}
 .tg-slide-actions[data-open='true']{transform:translateY(0);visibility:visible;pointer-events:auto;transition-delay:0s}

@@ -73,17 +73,22 @@
       tools: { hint: 2, locate: 1, frog: 0, draft: 0 },                         // 처음 주는 도구 (GPT 기획): 비상용만 주고 나머지는 깨면서 모아요. 이미 하던 저장의 개수는 그대로예요
       settings: { sfx: true, pattern: false, slow: false },
       cur: null, daily: { done: {}, best: null, cur: null, count: 0 },
-      streak: { count: 0, last: -1 }, milestones: {}, seen: {}, wins: 0, tv: 2, adN: 0,
+      streak: { count: 0, last: -1 }, milestones: {}, seen: {}, wins: 0, tv: 2, adN: 0, vs: newVs(),
       dda: { state: 1, clean: 0, day: -1 }, cursor: {}
     };
   }
   let S = freshSave();
+  /* 판 모양 바꾸기: 기기마다 정해지는 수(vs)로 같은 문제도 방향(반전·회전 8가지)과 색 배치를 다르게 내요.
+     규칙이 대칭이라 답 하나·힌트 풀이·난이도 등급은 그대로예요. 판 정보(pk)에 넣어 두니 하던 판·다시 하기는 같은 모양이에요. */
+  function newVs() { return (Math.random() * 1e9) | 0; }
+  function vsOf(salt) { return hash((S.vs >>> 0) + ':' + salt); }
   function loadSave() {
     try {
       const raw = localStorage.getItem(SAVE_KEY);
       if (!raw) return;
       const d = JSON.parse(raw);
       if (d && d.v === 1) S = Object.assign(freshSave(), d, { tools: Object.assign(freshSave().tools, d.tools), settings: Object.assign(freshSave().settings, d.settings), daily: Object.assign(freshSave().daily, d.daily), streak: Object.assign(freshSave().streak, d.streak), dda: Object.assign(freshSave().dda, d.dda) });
+      if (!S.vs) { S.vs = newVs(); try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) { /* 이번 실행 동안만 */ } }   // 예전 저장도 이제부터 여는 판은 모양이 달라져요
       if (S.settings.vib !== undefined) {                                        // 예전 저장의 진동 끔은 공용 진동 설정(NcqDevice)으로 한 번 옮겨요
         if (S.settings.vib === false && window.NcqDevice) window.NcqDevice.vibration(false);
         delete S.settings.vib;
@@ -164,7 +169,8 @@
     const key = (pol.prefill ? (L <= 6 ? 'a' : 'b') : 'f') + pol.size, cand = poolIndices(key, rank);
     const ck = key + 'r' + rank, ord = S.cursor[ck] || 0; S.cursor[ck] = ord + 1;
     const pass = Math.floor(ord / cand.length), idx = passOrder(cand, pass, ck)[ord % cand.length];
-    return { pk: [key, idx, (idx * 5 + pass * 3) % 8], hard: pol.hard, tier: pol.tier };                  // 은행을 한 바퀴 돌면 다른 방향으로 다시 낸다
+    const v = vsOf(key + '/' + idx);
+    return { pk: [key, idx, (idx * 5 + pass * 3 + v) % 8, v % 997], hard: pol.hard, tier: pol.tier };       // 기기마다 다른 방향·색, 은행을 한 바퀴 돌면 또 다른 방향으로
   }
   // 은행을 한 바퀴 다 쓴 뒤에는 순서도 다시 섞어요 (바퀴마다 정해진 순서라 저장의 순번과 어긋나지 않고, 바퀴가 바뀔 때 같은 문제가 연달아 나오지 않게 해요)
   function passOrder(cand, pass, ck) {
@@ -1310,7 +1316,8 @@
 
   /* ---------- 튜토리얼: 별도 4×4 판에서 배치 → 제외 → 추론 순서로 직접 해 보기 ---------- */
   function startTutorial() {
-    setupGame('tutorial', { pk: ['a4', 0, 0] });
+    const v = vsOf('tutorial');
+    setupGame('tutorial', { pk: ['a4', 0, v % 8, v % 997] });                     // 튜토리얼도 기기마다 방향·색이 달라요 (단계는 판을 보고 정해져서 그대로예요)
     const pre = G.pre[0]; G.marks[pre] = BLANK; G.found = 0;
     G.tut = { step: 0, kind: '', allow: null, free: false, first: pre };
     show('game');

@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.2.2", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.dragonslayer", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/dragonslayer", "board": "https://ncroquis.github.io/dragonslayer/feedback/"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "dragonslayer", "environment": "test", "platform": "web", "firebase": {"projectId": "ncq-auth-test", "apiKey": "AIzaSyD4CoZ5Zgu5tn1I_xcEqyA-8OdNQY4hoFI", "appId": "1:1092518000531:web:59b3357077a1178a329a66"}}});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.3.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.dragonslayer", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/dragonslayer", "board": "https://ncroquis.github.io/dragonslayer/feedback/"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "dragonslayer", "environment": "test", "platform": "web", "firebase": {"projectId": "ncq-auth-test", "apiKey": "AIzaSyD4CoZ5Zgu5tn1I_xcEqyA-8OdNQY4hoFI", "appId": "1:1092518000531:web:59b3357077a1178a329a66"}}});
 Object.assign(window, window.NCQ);
 
 /* 화면 켜 두기 (ncq_build.py가 넣어요, 웹 공개). 게임을 보는 동안 휴대폰 화면이 저절로 꺼지지 않게 브라우저의
@@ -456,4 +456,4 @@ Object.assign(window, window.NCQ);
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"dragonslayer","pf":"web","mk":"web","tr":"share","vn":"0.2.2","vc":0,"cm":"149d693","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"dragonslayer","pf":"web","mk":"web","tr":"share","vn":"0.3.0","vc":0,"cm":"33518f8","ft":[]});

@@ -205,9 +205,9 @@
     "version": "1.1.0",
     "developer": "junyoung-ncroquis",
     "category": "퍼즐",
-    "play": "",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.pourly",
     "icon": "fe67c037dd15",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "mergy-juice",

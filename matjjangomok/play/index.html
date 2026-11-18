@@ -2,29 +2,32 @@
 <html>
 <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
   <script src="./ncq/safe.js"></script>
-  <script src="./ncq/motion.js?v=5e49bc429625"></script>
-  <script src="./ncq/device.js?v=5e49bc429625"></script>
-  <script src="./ncq/sound.js?v=5e49bc429625"></script>
-  <script src="./ncq/save.js?v=5e49bc429625"></script>
+  <script src="./ncq/motion.js?v=957a281b549f"></script>
+  <script src="./ncq/device.js?v=957a281b549f"></script>
+  <script src="./ncq/sound.js?v=957a281b549f"></script>
+  <script src="./ncq/save.js?v=957a281b549f"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
-  <link rel="preload" href="./assets/forest-ui/fonts/subsets/core-86679da50f02.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/forest-ui/fonts/subsets/core-7dccc98ad827.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=5e49bc429625">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=5e49bc429625">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=5e49bc429625">
-  <link rel="stylesheet" href="./forest-ui.css?v=5e49bc429625">
-  <link rel="stylesheet" href="./lobby-layout.css?v=5e49bc429625">
-  <link rel="stylesheet" href="./list-dialog.css?v=5e49bc429625">
-  <link rel="stylesheet" href="./shop-layout.css?v=5e49bc429625">
-  <link rel="stylesheet" href="./ranking-layout.css?v=5e49bc429625">
-  <link rel="stylesheet" href="./mission-layout.css?v=5e49bc429625">
-  <script type="module" src="./app.js?v=5e49bc429625"></script>
+  <link rel="stylesheet" href="./style.css?v=957a281b549f">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=957a281b549f">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=957a281b549f">
+  <link rel="stylesheet" href="./forest-ui.css?v=957a281b549f">
+  <link rel="stylesheet" href="./lobby-layout.css?v=957a281b549f">
+  <link rel="stylesheet" href="./list-dialog.css?v=957a281b549f">
+  <link rel="stylesheet" href="./shop-layout.css?v=957a281b549f">
+  <link rel="stylesheet" href="./ranking-layout.css?v=957a281b549f">
+  <link rel="stylesheet" href="./mission-layout.css?v=957a281b549f">
+  <link rel="stylesheet" href="./game-modes.css?v=957a281b549f">
+  <link rel="stylesheet" href="./webview-ui.css?v=957a281b549f">
+  <script type="module" src="./webview-ui.js?v=957a281b549f"></script>
+  <script type="module" src="./app.js?v=957a281b549f"></script>
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -109,6 +112,10 @@
         </div>
         <div id="lobby-mission-slot"></div>
         <div id="lobby-championship-slot"></div>
+        <div id="lobby-mode-actions">
+          <button id="show-ai" type="button" class="secondary" data-i18n="aiMatch"></button>
+          <button id="show-together" type="button" class="secondary" data-i18n="together"></button>
+        </div>
         <div id="lobby-cta-slot"></div>
         <div class="lobby-feed">
           <div class="lobby-highlights">
@@ -452,6 +459,9 @@
             <button type="button" class="match-art-action" data-opening="offerFive" data-i18n="offerFifthMoves"></button>
           </div>
         </div>
+        <div id="ai-actions" class="ai-actions" hidden>
+          <button id="ai-undo" type="button" class="secondary"></button>
+        </div>
         <div id="review" class="review" hidden>
           <div class="review-controls" role="group" data-i18n-attr="aria-label:review">
             <button class="review-button" type="button" data-step="first" data-i18n-attr="aria-label:firstMove">
@@ -668,9 +678,14 @@
             <select id="language"></select>
           </div>
           <label class="option-row sound-option">
-            <span data-i18n="stoneSound"></span>
+            <span data-i18n="soundEffects"></span>
             <input id="stone-sound" type="checkbox" checked>
           </label>
+          <div class="option-row effects-volume-option">
+            <label for="effects-volume" data-i18n="effectsVolume"></label>
+            <output id="effects-volume-value" for="effects-volume">100%</output>
+            <input id="effects-volume" type="range" min="0" max="100" step="1" value="100">
+          </div>
           <label id="vibration-option" class="option-row sound-option" hidden>
             <span data-i18n="vibration"></span>
             <input id="vibration" type="checkbox" checked>
@@ -685,6 +700,11 @@
           <button id="send-feedback" class="secondary" type="button" data-i18n="sendFeedback" hidden></button>
           <button id="ad-privacy" class="secondary" type="button" data-i18n="adPrivacy" hidden></button>
           <button id="restore-purchases" class="secondary" type="button" data-i18n="purchaseRestore" hidden></button>
+          <details class="audio-credits">
+            <summary data-i18n="audioCredits"></summary>
+            <p data-i18n="audioCreditsDescription"></p>
+            <a id="audio-source-link" data-i18n="audioSourceLink"></a>
+          </details>
           <p id="restore-feedback" role="status" hidden></p>
         </div>
         <button class="primary" type="submit" data-ncq-main="Close options" data-i18n="done"></button>
@@ -1332,5 +1352,48 @@
       </form>
     </dialog>
 </template>
+  <dialog id="ai-rank-picker" class="mode-dialog" aria-labelledby="ai-rank-title">
+    <form method="dialog"><h2 id="ai-rank-title" data-i18n="aiRankTitle" tabindex="-1"></h2>
+      <div class="ai-rank-tabs" role="tablist" aria-labelledby="ai-rank-title">
+        <button type="button" role="tab" data-ai-group="0" data-i18n="aiRankLow"></button>
+        <button type="button" role="tab" data-ai-group="1" data-i18n="aiRankMid"></button>
+        <button type="button" role="tab" data-ai-group="2" data-i18n="aiRankHigh"></button>
+      </div>
+      <div id="ai-rank-grid" class="ai-rank-grid"></div>
+      <p data-i18n="aiRankInfo"></p>
+      <button id="ai-start" type="button" class="primary" data-ncq-main="Start AI game"></button>
+      <button type="submit" class="secondary" data-i18n="cancel"></button>
+    </form>
+  </dialog>
+  <dialog id="ai-undo-dialog" class="mode-dialog" aria-labelledby="ai-undo-title">
+    <form method="dialog"><h2 id="ai-undo-title" data-i18n="aiUndoTitle"></h2>
+      <p data-i18n="aiUndoInfo"></p><p id="ai-undo-error" role="status"></p>
+      <button id="ai-undo-cost" type="submit" value="undo" class="primary" data-ncq-main="Confirm undo"></button>
+      <button type="submit" value="cancel" class="secondary" data-i18n="cancel"></button>
+    </form>
+  </dialog>
+  <section id="together-screen" class="together-screen" hidden aria-label="Play together" data-ncq-no-main>
+    <header><button id="together-leave" type="button" class="secondary" data-i18n-attr="aria-label:leave">←</button>
+      <h1 data-i18n="together"></h1><button id="together-settings" type="button" class="secondary" data-i18n-attr="aria-label:options">⚙</button></header>
+    <div class="together-group">
+      <div class="together-seat together-upper" data-together-side="2"><strong></strong>
+        <button type="button" data-tg-undo></button><button type="button" data-tg-place data-ncq-main="White place"></button>
+        <button type="button" data-tg-pass data-i18n="togetherPass"></button><button type="button" data-tg-resign data-i18n="togetherResign"></button></div>
+      <div id="together-board-host"></div>
+      <div class="together-seat" data-together-side="1"><strong></strong>
+        <button type="button" data-tg-undo></button><button type="button" data-tg-place data-ncq-main="Black place"></button>
+        <button type="button" data-tg-pass data-i18n="togetherPass"></button><button type="button" data-tg-resign data-i18n="togetherResign"></button></div>
+    </div><p data-i18n="togetherRules"></p>
+  </section>
+  <dialog id="together-confirm" class="mode-dialog" aria-labelledby="together-confirm-title">
+    <form method="dialog"><h2 id="together-confirm-title"></h2><p id="together-confirm-info"></p>
+      <button id="together-confirm-yes" type="submit" value="yes" class="primary" data-ncq-main="Confirm together action"></button>
+      <button type="submit" value="cancel" class="secondary" data-i18n="cancel"></button>
+    </form>
+  </dialog>
+  <dialog id="together-result" class="mode-dialog" aria-labelledby="together-result-title">
+    <h2 id="together-result-title"></h2><button id="together-again" type="button" class="primary" data-i18n="togetherRematch" data-ncq-main="Play together again"></button>
+    <button id="together-done" type="button" class="secondary" data-i18n="leave"></button>
+  </dialog>
 </body>
 </html>

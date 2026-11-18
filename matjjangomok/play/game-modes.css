@@ -1,0 +1,40 @@
+#lobby-stage { grid-template-rows: minmax(0,40fr) 80px minmax(0,29fr) 130px minmax(0,82fr) 457px minmax(0,82fr) 210px minmax(0,48fr) 155px minmax(0,104fr) 132px minmax(0,55fr); }
+#lobby-stage #lobby-championship-slot { height: 210px; }
+#lobby-stage #lobby-mode-actions { position:absolute; left:50px; top:98px; width:924px; height:112px; display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+#lobby-stage #lobby-mode-actions button { font:800 38px/1.2 "Omok Noto Sans KR",sans-serif; border-radius:22px; background:linear-gradient(#fffcf2,#e5d7b7); color:#244420; border:2px solid #d5c497; box-shadow:inset 0 2px #fff,0 5px 0 #a6966e,0 9px 9px #00190b66; }
+.mode-dialog { box-sizing:border-box; width:min(420px,calc(100vw - var(--ncq-left) - var(--ncq-right) - 24px)); max-height:calc(100dvh - var(--ncq-top) - var(--ncq-bottom) - 24px); overflow:auto; }
+.mode-dialog form { display:grid; gap:12px; }
+.mode-dialog h2 { margin:0; font-size:23px; }
+.mode-dialog p { margin:0; line-height:1.5; color:#455b3f; }
+.mode-dialog button { min-height:42px; border-radius:12px; }
+.ai-rank-tabs,.ai-rank-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; }
+.ai-rank-tabs button { font-size:13px; padding:7px 3px; }
+.ai-rank-tabs [aria-selected="true"],.ai-rank-grid [aria-pressed="true"] { background:#54802d; color:#fffbea; }
+.ai-rank-grid button { padding:8px; background:#f2efdf; color:#244420; border:1px solid #b4bf9b; }
+.ai-actions { flex:none; text-align:center; padding:5px 0; }
+.ai-actions button { min-height:36px; padding:6px 18px; border-radius:12px; }
+.ai-actions[hidden] { display:none; }
+.in-ai-match #match { --ai-actions-height:46px; }
+.in-ai-match #board { --board-chrome:340px; }
+.in-ai-match #opponent-panel .match-avatar > :is(svg,img) { visibility:hidden; }
+.in-ai-match #opponent-panel .match-avatar::after { content:"AI"; position:absolute; inset:0; display:grid; place-items:center; font-size:18px; font-weight:800; color:#24552b; }
+.together-screen { position:fixed; inset:0; z-index:20; box-sizing:border-box; padding:calc(var(--ncq-top) + 8px) calc(var(--ncq-right) + 10px) calc(var(--ncq-bottom) + 8px) calc(var(--ncq-left) + 10px); display:flex; flex-direction:column; align-items:center; justify-content:space-between; gap:8px; background:linear-gradient(#07341955,#07341955),url('./assets/forest-ui/background/forest_green.webp') center/cover; color:#fff5d8; }
+.together-screen[hidden] { display:none; }
+.together-screen header { width:min(560px,100%); display:flex; justify-content:space-between; align-items:center; gap:12px; flex:none; }
+.together-screen h1 { font-size:22px; line-height:1.2; margin:0; }
+.together-screen header button { min-width:38px; min-height:38px; border-radius:12px; }
+.together-screen > p { margin:0; font-size:12px; text-align:center; flex:none; }
+.together-group { --together-size:min(560px,calc(100vw - var(--ncq-left) - var(--ncq-right) - 20px),calc(100dvh - var(--ncq-top) - var(--ncq-bottom) - 210px)); width:min(560px,100%); display:grid; gap:9px; }
+#together-board-host { display:flex; justify-content:center; }
+.together-screen .board { width:var(--together-size); height:var(--together-size); min-height:0; max-width:none; max-height:none; margin:0; aspect-ratio:1; }
+.together-screen .board-grid { position:absolute; inset:4.8%; display:grid; grid-template-columns:repeat(15,minmax(0,1fr)); grid-template-rows:repeat(15,minmax(0,1fr)); }
+.together-seat { display:grid; grid-template-columns:38px repeat(2,minmax(0,1fr)) 48px 42px; gap:5px; align-items:center; padding:6px; background:#ece3c7; color:#23441e; border-radius:12px; border:2px solid #acaa83; min-height:42px; box-sizing:border-box; }
+.together-seat[data-active] { border-color:#ffc936; box-shadow:0 0 10px #ffcf4177; }
+.together-seat:not([data-active]) { color:#f0ead5; background:linear-gradient(135deg,#f4f0db24,#e5edda14); border-color:#d9e1bf33; box-shadow:0 2px 5px #00180d18; }
+.together-seat:not([data-active]) [data-tg-place] { visibility:hidden; pointer-events:none; }
+.together-seat button { border-radius:8px; min-height:30px; min-width:0; max-width:100%; padding:4px; font-size:12px; line-height:1.2; color:#244420; background:#fffbea; overflow-wrap:anywhere; }
+.together-seat [data-tg-place]:enabled { background:#527c24; color:#fffbea; }
+.together-seat strong { text-align:center; font-size:13px; }
+.together-upper,#together-confirm[data-side="2"] form { transform:rotate(180deg); }
+.in-together #lobby-stage-host { visibility:hidden; }
+@media(max-width:359px) { .together-seat { grid-template-columns:20px repeat(2,minmax(0,1fr)) 39px 34px; gap:3px; padding:4px; } .together-seat button { font-size:11px; } }

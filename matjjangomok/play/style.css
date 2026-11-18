@@ -23,6 +23,7 @@ button:disabled { cursor: default; opacity: .62; }
 h1, h2, p { margin: 0; }
 
 .shell {
+  --match-gutter: 16px;
   --lobby-border: #e8e4dc;
   --lobby-green: #466821;
   min-height: 100dvh;
@@ -946,17 +947,18 @@ button.entry-body:hover { background: #ebeede; }
 .in-match:not(.match-art-backdrop, .in-review) { background: #222522; color: #f5f3e9; }
 .in-match > .shell, .in-match main { display: flex; flex-direction: column; }
 .in-match > .shell { height: 100dvh; }
-.in-match .shell > main { display: grid; place-items: center; }
+.in-match .shell > main { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; place-items: center; }
 .in-match .topbar { border-color: #414842; }
 .in-match .eyebrow, .in-match .match-status p { color: #bcc5b9; }
 .in-match .quiet { background: #323932; color: #f5f3e9; border-color: #505950; }
 .in-match .quiet:not(:disabled):hover { background: #434d43; }
 .match { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 520px; margin-inline: auto; padding-block: 7px; }
-.match > * { flex: none; }
+.match > * { flex: none; min-width: 0; }
 .in-match { overflow-x: clip; }
 html:has(body.in-match) { overflow-x: clip; }
 .in-match .match {
   flex: none;
+  min-width: 0;
   align-content: start;
   --player-height: clamp(58px, 17vw, 83px);
   --match-heading-size: clamp(.9rem, 4vw, 1.4rem);
@@ -966,7 +968,12 @@ html:has(body.in-match) { overflow-x: clip; }
     + max(0px, var(--opening-status-height, 30px) - 30px)
     + var(--placement-timing-height, 0px)
   );
-  --board-area-width: calc(min(640px, 100vw) - var(--ncq-left, 0px) - var(--ncq-right, 0px) - 4px);
+  /* Extend the grid towards both edges only as far as the narrower safe gutter. */
+  --board-bleed: min(
+    max(0px, var(--match-gutter, 12px) - var(--ncq-left, 0px)),
+    max(0px, var(--match-gutter, 12px) - var(--ncq-right, 0px))
+  );
+  --board-area-width: calc(100% + 2 * var(--board-bleed) - 4px);
   --board-area-height: max(150px, 100dvh - var(--ncq-top, 0px) - var(--ncq-bottom, 0px) - var(--board-controls-height));
   position: relative;
   max-width: none;
@@ -1018,6 +1025,7 @@ html:has(body.in-match) { overflow-x: clip; }
 .match-art-backdrop .topbar { display: none; }
 .match[data-playing] {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto auto [board-start] auto [board-end] auto;
   gap: var(--match-gap);
   height: auto;
@@ -1044,7 +1052,7 @@ html:has(body.in-match) { overflow-x: clip; }
   background: url("./assets/match-ui/laurel.svg") center / contain no-repeat;
 }
 .match[data-playing] .match-status::after { transform: scaleX(-1); }
-.match[data-playing] .match-status h1 { font-size: var(--match-heading-size); }
+.match[data-playing] .match-status h1 { font-size: var(--match-heading-size); overflow-wrap: anywhere; }
 .match-status-copy { min-width: 0; }
 .match-status .match-header-button {
   position: absolute;
@@ -1130,6 +1138,10 @@ html:has(body.in-match) { overflow-x: clip; }
   opacity: 1;
 }
 .match-art-gauge > svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.match-player:not([data-active="true"]) > :is(.match-art-gauge, .match-art-divider) {
+  visibility: hidden;
+  pointer-events: none;
+}
 #place[data-active="true"]:disabled { opacity: 1; }
 #place[data-active="true"]:disabled #place-text { opacity: .55; }
 .placement-copy {
@@ -1714,6 +1726,7 @@ body.in-review, body.in-records {
     linear-gradient(145deg, #f7efe3, #fcf8f2 46%, #f3ece0);
 }
 .in-review > .shell, .in-records > .shell {
+  --match-gutter: 10px;
   padding-inline: max(10px, var(--ncq-left, 0px)) max(10px, var(--ncq-right, 0px));
 }
 .in-review .topbar, .in-review .match-status, .in-records .topbar { display: none; }
@@ -2144,6 +2157,13 @@ dialog input { width: 100%; }
 }
 .sound-option { cursor: pointer; }
 .sound-option input { width: 18px; height: 18px; min-height: 0; padding: 0; margin: 0; accent-color: var(--green); }
+.effects-volume-option { display: grid; grid-template-columns: minmax(0, 1fr) auto; padding-block: 8px; }
+.effects-volume-option output { font-variant-numeric: tabular-nums; }
+#effects-volume { grid-column: 1 / -1; width: 100%; min-width: 0; min-height: 28px; padding: 0; margin: 0; accent-color: var(--green); }
+.audio-credits { font-size: .73rem; font-weight: 400; line-height: 1.5; }
+.audio-credits summary { cursor: pointer; font-weight: 650; }
+.audio-credits p { margin-block: 6px; overflow-wrap: anywhere; }
+.audio-credits a { color: inherit; overflow-wrap: anywhere; }
 #options-player {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

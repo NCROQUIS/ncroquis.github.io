@@ -1,0 +1,30 @@
+/* The game owns the viewport. Only designated inner content areas scroll. */
+html { width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; }
+body { position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; }
+* { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+:is(input, textarea, select, [contenteditable]:not([contenteditable="false"]), [data-copyable]),
+:is([contenteditable]:not([contenteditable="false"]), [data-copyable]) * {
+  -webkit-user-select: text; user-select: text; -webkit-touch-callout: default;
+}
+img { -webkit-user-drag: none; }
+:is(#board, #together-board) { touch-action: none; }
+:is(.list-body, .options-content, .shop-content, .shop-product-list, .mission-content, .mode-dialog) {
+  overscroll-behavior: contain;
+}
+
+/* Publisher-specific disclosure, outside the scaled artwork so its label stays readable. */
+body[data-kakao-rating] { --kakao-rating-space: 28px; }
+body:is(.in-match, .in-together) { --kakao-rating-space: 0px; }
+#lobby-stage-host { top: calc(var(--ncq-top) + var(--kakao-rating-space, 0px)); }
+#kakao-age-rating {
+  position: fixed; z-index: 10;
+  top: var(--ncq-top); right: var(--ncq-right); left: var(--ncq-left);
+  height: 28px; display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding-inline: 6px; background: #f8f0df; border-bottom: 1px solid #bba66d;
+  color: #173c24; font: 700 12px/1.2 "Omok Noto Sans KR", sans-serif;
+  pointer-events: none;
+}
+body:not([data-omok-ready]) #kakao-age-rating { z-index: 2147483647; }
+#kakao-age-rating b { padding: 2px 5px; border-radius: 4px; background: #24813d; color: #fff; font: 800 12px/1.2 "Omok Noto Sans KR", sans-serif; }
+#kakao-age-rating [data-i18n] { visibility: visible; }
+body:is(.in-match, .in-together) #kakao-age-rating { display: none; }

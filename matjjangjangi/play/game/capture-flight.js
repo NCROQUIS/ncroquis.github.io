@@ -1,1 +1,79 @@
-(function(_0x29e887,_0x1f54a8){const _0x5e5b30=q8_0x4c60,_0x5a7943=_0x29e887();while(!![]){try{const _0x53ffa5=-parseInt(_0x5e5b30(0x101))/0x1+-parseInt(_0x5e5b30(0xc7))/0x2+parseInt(_0x5e5b30(0xd8))/0x3+-parseInt(_0x5e5b30(0xeb))/0x4*(-parseInt(_0x5e5b30(0xc6))/0x5)+-parseInt(_0x5e5b30(0xfa))/0x6+parseInt(_0x5e5b30(0x118))/0x7*(parseInt(_0x5e5b30(0xd1))/0x8)+-parseInt(_0x5e5b30(0xe1))/0x9*(-parseInt(_0x5e5b30(0x10f))/0xa);if(_0x53ffa5===_0x1f54a8)break;else _0x5a7943['push'](_0x5a7943['shift']());}catch(_0xf7ddbf){_0x5a7943['push'](_0x5a7943['shift']());}}}(q8_0x14df,0x56ebc));function q8_0x14df(){const _0x366f38=['lMjVyxjKlwDYAwq','y3jLyxrLrwXLBwvUDa','ywz0zxi','zgf0yxnLDa','ls1Qyw5NAs1WAwvJzs1ZAxPL','CMvTB3zLqxr0CMLIDxrL','A2LUza','zM9YD2fYzhm','y2fWDhvYzwq','yxjYAxzHBa','Bwf4','DMLJDgLT','mtbNvhLIzhK','z2v0rwXLBwvUDej5swq','AxnjBNrLz2vY','ywjZ','zgf0ys1Jyxb0DxjLlwfYCML2Aw5N','ls1Qyw5NAs1ZBwfSBc10ExbL','C2v0qxr0CMLIDxrL','AMfUz2KTy2fWDhvYzs12Awn0Aw0','ChGPihnJywXLka','mtrosxncwKi','AgLKzgvU','ndC3nJvMBevPtKy','mJm1ote2DuXVCu9d','ksbYB3rHDguOmcK','CMvZAxPL','lNn0B25L','D2LKDgG','yw5PBwf0Aw9U','C2nVCgu','y2fUy2vS','BM9Kzq','yxjPys1OAwrKzw4','mJC2mZu1mK93B3b4uG','CxvLCNLtzwXLy3rVCG','DgLTzxi','zMLUAxnOzwq','C3r5Bgu','yxnZAwDU','mtaWjq','nZC0mJCWt1rXENHZ','Aw5OzxjPDa','DhjHBNnSyxrLka','ls1Qyw5NAs10ExbLlxnPEMu','BM9Uzq','zxzLCNK','DhjHEq','BgvMDa','y3vIAwmTyMv6AwvYkc4Xlc43ncWUmJGSmsK','mJC4odm4owPNBeXeDG','tMnXu2fMzq','CMvTB3zL','C29Tzq','DhjHBNnSyxrLkdaSmcKGC2nHBguOmsK','yMXHy2S','zNjVBq','AMfUz2KTy2fWDhvYzs1MBhLPBMC','AxndB25Uzwn0zwq','zM9UDfnPEMu','mtzvwgH5ywi','y2XHC3noyw1L','Dhj1zq','y2XVC2vZDa','BgfZDevSzw1LBNrdAgLSza','z2v0uhjVCgvYDhLwywX1zq','ChGS','B25dAgfUz2u','ls1Qyw5NAs1ZBwfSBc1ZAxPL','ChGPihnJywXLkdeUmdqPihjVDgf0zsGTn2rLzYK','AgvPz2H0','DgHLBG','w2rHDgeTA2LUzd0I','Bgf1BMnOzwq','ywrKrxzLBNrmAxn0zw5LCG','mJm4ndCZmgrvwwH2uG','y2XHC3nmAxn0','CMvZB2X2zq','DMLZAwjPBgL0EwnOyw5Nzq','yxbWzw5K','z2v0qM91BMrPBMDdBgLLBNrszwn0','zgL2','ndi1ntCWDNfLuw1k','yw5PBwf0zq'];q8_0x14df=function(){return _0x366f38;};return q8_0x14df();}function q8_0x4c60(_0x34f61c,_0x3d7f74){_0x34f61c=_0x34f61c-0xc6;const _0x14dfeb=q8_0x14df();let _0x4c60b3=_0x14dfeb[_0x34f61c];if(q8_0x4c60['tyimWh']===undefined){var _0x14934c=function(_0x4917c0){const _0x10d065='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x255b40='',_0x2f4229='';for(let _0x50168e=0x0,_0x419401,_0x1e1972,_0x1fbaa0=0x0;_0x1e1972=_0x4917c0['charAt'](_0x1fbaa0++);~_0x1e1972&&(_0x419401=_0x50168e%0x4?_0x419401*0x40+_0x1e1972:_0x1e1972,_0x50168e++%0x4)?_0x255b40+=String['fromCharCode'](0xff&_0x419401>>(-0x2*_0x50168e&0x6)):0x0){_0x1e1972=_0x10d065['indexOf'](_0x1e1972);}for(let _0x5bb9da=0x0,_0x171c03=_0x255b40['length'];_0x5bb9da<_0x171c03;_0x5bb9da++){_0x2f4229+='%'+('00'+_0x255b40['charCodeAt'](_0x5bb9da)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x2f4229);};q8_0x4c60['BqUBEp']=_0x14934c,q8_0x4c60['YrLnlv']={},q8_0x4c60['tyimWh']=!![];}const _0x365744=_0x14dfeb[0x0];q8_0x4c60['jECldQ']!==_0x365744&&(q8_0x4c60['YrLnlv']={},q8_0x4c60['jECldQ']=_0x365744);const _0x568d27=q8_0x4c60['YrLnlv'][_0x34f61c];return _0x568d27===undefined?(_0x4c60b3=q8_0x4c60['BqUBEp'](_0x4c60b3),q8_0x4c60['YrLnlv'][_0x34f61c]=_0x4c60b3):_0x4c60b3=_0x568d27,_0x4c60b3;}import{KING,sideOf}from'./rules.js';import{capturedToken}from'./captured-pieces.js';import{pieceStyleForSeat}from'./piece-skins.js';export const CAPTURE_FLIGHT_MS=0x1b8;export function captureMove(_0x2f4229,_0x50168e){const _0x59d31b=q8_0x4c60,_0x419401=_0x50168e?.[_0x59d31b(0xe7)],_0x1e1972=_0x50168e?.['to']??_0x50168e?.['index'];if(_0x2f4229?.['length']!==0x5a||![_0x419401,_0x1e1972][_0x59d31b(0xdd)](_0x2c06ed=>Number[_0x59d31b(0x111)](_0x2c06ed)&&_0x2c06ed>=0x0&&_0x2c06ed<0x5a)||_0x419401===_0x1e1972)return null;const _0x1fbaa0=_0x2f4229[_0x419401],_0x5bb9da=_0x2f4229[_0x1e1972];if(!_0x1fbaa0||!_0x5bb9da||Math['abs'](_0x5bb9da)===KING||sideOf(_0x1fbaa0)===sideOf(_0x5bb9da))return null;const _0x171c03=[..._0x2f4229];return _0x171c03[_0x419401]=0x0,_0x171c03[_0x1e1972]=_0x1fbaa0,{'from':_0x419401,'to':_0x1e1972,'attacker':_0x1fbaa0,'victim':_0x5bb9da,'after':_0x171c03};}export function createCaptureFlight(){const _0x1b4d31=q8_0x4c60;let _0x1d5301;const _0x5c179f=document[_0x1b4d31(0x104)](_0x1b4d31(0x100));_0x5c179f[_0x1b4d31(0xec)]='jangi-capture-layer',_0x5c179f[_0x1b4d31(0x115)](_0x1b4d31(0xd0),'true'),document['body']['append'](_0x5c179f);function _0x161521(){const _0x490f84=_0x1b4d31,_0xe3ae61=_0x1d5301;if(!_0xe3ae61)return;_0x1d5301=null,clearTimeout(_0xe3ae61[_0x490f84(0xd3)]),_0xe3ae61['animation']?.[_0x490f84(0xce)](),_0xe3ae61[_0x490f84(0x10c)]?.[_0x490f84(0x108)](_0x490f84(0x113)),_0xe3ae61[_0x490f84(0xcf)][_0x490f84(0xe3)](),_0xe3ae61[_0x490f84(0xfc)]();}function _0x5e1d51(_0xb9723a){const _0x25f8c3=_0x1b4d31,_0x517907=document[_0x25f8c3(0x110)](_0xb9723a[_0x25f8c3(0xde)]),_0xfbafc4=_0x517907?.['querySelector'](_0x25f8c3(0xf7)+Math[_0x25f8c3(0x112)](_0xb9723a[_0x25f8c3(0x10e)])+'\x22]');return _0xfbafc4?.[_0x25f8c3(0xef)];}function _0x5dfe10({scope:_0x2f4156,board:_0x30cc18}){const _0x1a83e9=_0x1b4d31,_0x1a34da=_0x1d5301;if(!_0x1a34da)return;if(_0x1a34da[_0x1a83e9(0xcd)]!==_0x2f4156||_0x1a34da[_0x1a83e9(0x105)][_0x1a83e9(0xe4)]((_0x3dec96,_0x100627)=>_0x3dec96!==_0x30cc18[_0x100627]))return _0x161521();const _0x496405=_0x5e1d51(_0x1a34da);if(!_0x496405?.[_0x1a83e9(0xe9)]||!_0x496405[_0x1a83e9(0xff)]()[_0x1a83e9(0xcb)])return _0x161521();_0x496405!==_0x1a34da[_0x1a83e9(0x10c)]&&(_0x1a34da['arrival']?.[_0x1a83e9(0x108)](_0x1a83e9(0x113)),_0x1a34da['arrival']=_0x496405),_0x496405['setAttribute'](_0x1a83e9(0x113),'');}function _0x36a854({game:_0x3b017d,before:_0x38fb9f,move:_0x44f597,scope:_0x8f48cb,tray:_0x2a6330,cell:_0x5f10b6,localStyle:_0x2ff92f}){const _0x1dbcd9=_0x1b4d31;_0x161521();const _0x3852ec=captureMove(_0x38fb9f,_0x44f597);if(!_0x3852ec||document[_0x1dbcd9(0x119)]||!_0x5f10b6?.[_0x1dbcd9(0xff)]()['width'])return null;let _0x34c8b1;const _0x23ce2d=new Promise(_0x1c8437=>_0x34c8b1=_0x1c8437),_0x5c305f={..._0x3852ec,'scope':_0x8f48cb,'tray':_0x2a6330,'resolve':_0x34c8b1,'finished':_0x23ce2d},_0x576229=_0x5e1d51(_0x5c305f);if(!_0x576229?.[_0x1dbcd9(0xff)]()['width'])return null;_0x5c305f[_0x1dbcd9(0x10c)]=_0x576229,_0x576229[_0x1dbcd9(0x115)](_0x1dbcd9(0x113),'');const _0x10286b=sideOf(_0x3852ec[_0x1dbcd9(0x10e)])===0x1?_0x3b017d[_0x1dbcd9(0xe6)]??0x1:0x3-(_0x3b017d[_0x1dbcd9(0xe6)]??0x1),_0x67c778=capturedToken(_0x3852ec[_0x1dbcd9(0x10e)],pieceStyleForSeat(_0x3b017d,_0x10286b,_0x2ff92f));_0x67c778[_0x1dbcd9(0x106)][_0x1dbcd9(0x109)]=Math['abs'](_0x3852ec[_0x1dbcd9(0x10e)]),_0x67c778['querySelector']('.stone')[_0x1dbcd9(0x106)][_0x1dbcd9(0x109)]=_0x1dbcd9(0x10b),_0x67c778[_0x1dbcd9(0xfb)]['add'](_0x1dbcd9(0x116)),_0x67c778[_0x1dbcd9(0x115)](_0x1dbcd9(0xd0),_0x1dbcd9(0xed)),Object[_0x1dbcd9(0xd6)](_0x67c778[_0x1dbcd9(0xd2)](_0x1dbcd9(0xca))[_0x1dbcd9(0xd5)],{'width':_0x1dbcd9(0xd7),'height':'100%','fontSize':_0x1dbcd9(0xd9),'transform':_0x1dbcd9(0xdc)}),_0x5f10b6[_0x1dbcd9(0xfe)](_0x67c778);const _0x1d8273=getComputedStyle(_0x67c778),_0x4ee5bb=[0x2,0x7]['includes'](Math['abs'](_0x3852ec[_0x1dbcd9(0x10e)])),_0x329f29=parseFloat(_0x1d8273[_0x1dbcd9(0xf0)](_0x4ee5bb?_0x1dbcd9(0xf3):_0x1dbcd9(0x107)))||0x62,_0x37580c=parseFloat(_0x1d8273['getPropertyValue'](_0x4ee5bb?_0x1dbcd9(0x114):_0x1dbcd9(0xdb)))||6.5,_0x165cf3=_0x5f10b6[_0x1dbcd9(0xff)]()['width']*_0x329f29/0x64;return _0x67c778[_0x1dbcd9(0xd5)][_0x1dbcd9(0xcb)]=_0x165cf3+'px',_0x67c778[_0x1dbcd9(0xd5)]['height']=_0x165cf3+'px',_0x67c778[_0x1dbcd9(0xd5)][_0x1dbcd9(0xea)]=_0x5f10b6[_0x1dbcd9(0xee)](_0x1dbcd9(0x103))[_0x1dbcd9(0xff)]()['width']*_0x37580c/0x64+'px',_0x5c305f[_0x1dbcd9(0xcf)]=_0x67c778,_0x1d5301=_0x5c305f,{'finished':_0x23ce2d,'movementEnded'(){const _0x399c20=_0x1dbcd9;if(_0x1d5301===_0x5c305f&&!_0x5c305f[_0x399c20(0xf8)])_0x161521();},'contact'(){const _0xe03138=_0x1dbcd9;if(_0x1d5301!==_0x5c305f||_0x5c305f['launched'])return;_0x5c305f[_0xe03138(0xf8)]=!![];const _0x29bc88=_0x67c778[_0xe03138(0xff)](),_0x2c5750=_0x5c305f[_0xe03138(0x10c)][_0xe03138(0xff)]();if(document[_0xe03138(0x119)]||!_0x2c5750[_0xe03138(0xcb)])return _0x161521();const _0x38c999=_0x2c5750['x']+_0x2c5750[_0xe03138(0xcb)]/0x2-_0x29bc88['x']-_0x29bc88[_0xe03138(0xcb)]/0x2,_0x50e2c7=_0x2c5750['y']+_0x2c5750[_0xe03138(0xf5)]/0x2-_0x29bc88['y']-_0x29bc88['height']/0x2,_0x3efa67=_0x2c5750[_0xe03138(0xcb)]/_0x29bc88[_0xe03138(0xcb)];_0x67c778[_0xe03138(0xfb)]['remove'](_0xe03138(0x116)),_0x67c778[_0xe03138(0xfb)]['add'](_0xe03138(0xe8)),_0x5c179f[_0xe03138(0xfe)](_0x67c778),_0x67c778['style'][_0xe03138(0xdf)]=_0x29bc88['x']+'px',_0x67c778['style']['top']=_0x29bc88['y']+'px',_0x5c305f['animation']=_0x67c778[_0xe03138(0x102)]([{'transform':_0xe03138(0xe5)},{'offset':0.22,'transform':_0xe03138(0xda)+(_0x38c999*0.28+0xe)+_0xe03138(0xf1)+(_0x50e2c7*0.22-0x14)+_0xe03138(0xf4)},{'offset':0.62,'transform':'translate('+(_0x38c999*0.73+0x8)+_0xe03138(0xf1)+(_0x50e2c7*0.68-0xe)+_0xe03138(0x117)+Math[_0xe03138(0x10d)](0.8,_0x3efa67)+')\x20rotate(4deg)'},{'transform':_0xe03138(0xda)+_0x38c999+_0xe03138(0xf1)+_0x50e2c7+_0xe03138(0x117)+_0x3efa67+_0xe03138(0xc8)}],{'duration':CAPTURE_FLIGHT_MS,'easing':_0xe03138(0xe0),'fill':_0xe03138(0x10a)});const _0x40eb39=()=>{if(_0x1d5301===_0x5c305f)_0x161521();};_0x5c305f[_0xe03138(0xcc)][_0xe03138(0xd4)][_0xe03138(0xf6)](_0x40eb39,_0x40eb39),_0x5c305f[_0xe03138(0xd3)]=setTimeout(_0x40eb39,CAPTURE_FLIGHT_MS+0x64);}};}return document[_0x1b4d31(0xf9)](_0x1b4d31(0xfd),()=>{const _0x4e5521=_0x1b4d31;if(document[_0x4e5521(0x119)])_0x161521();}),window[_0x1b4d31(0xf9)](_0x1b4d31(0xc9),_0x161521),window[_0x1b4d31(0xe2)]?.[_0x1b4d31(0xf2)](_0x161521),{'prepare':_0x36a854,'synchronize':_0x5dfe10,'cancel':_0x161521};}
+import {KING,sideOf} from './rules.js';
+import {capturedToken} from './captured-pieces.js';
+import {pieceStyleForSeat} from './piece-skins.js';
+
+export const CAPTURE_FLIGHT_MS=440;
+export function captureMove(before,move){
+  const from=move?.from,to=move?.to??move?.index;
+  if(before?.length!==90||![from,to].every(n=>Number.isInteger(n)&&n>=0&&n<90)||from===to)return null;
+  const attacker=before[from],victim=before[to];
+  if(!attacker||!victim||Math.abs(victim)===KING||sideOf(attacker)===sideOf(victim))return null;
+  const after=[...before];after[from]=0;after[to]=attacker;
+  return{from,to,attacker,victim,after};
+}
+
+// One cosmetic transaction. The displayed position owns inventory; this only hides its arriving token.
+export function createCaptureFlight(){
+  let active;
+  const layer=document.createElement('div');layer.className='jangi-capture-layer';layer.setAttribute('aria-hidden','true');
+  document.body.append(layer);
+  function cancel(){
+    const run=active;if(!run)return;active=null;clearTimeout(run.timer);run.animation?.cancel();
+    run.arrival?.removeAttribute('data-capture-arriving');run.node.remove();run.resolve();
+  }
+  function destination(run){
+    const tray=document.getElementById(run.tray),pile=tray?.querySelector(`[data-kind="${Math.abs(run.victim)}"]`);
+    return pile?.lastElementChild;
+  }
+  function synchronize({scope,board}){
+    const run=active;if(!run)return;
+    if(run.scope!==scope||run.after.some((p,i)=>p!==board[i]))return cancel();
+    const target=destination(run);
+    if(!target?.isConnected||!target.getBoundingClientRect().width)return cancel();
+    if(target!==run.arrival){run.arrival?.removeAttribute('data-capture-arriving');run.arrival=target;}
+    target.setAttribute('data-capture-arriving','');
+  }
+  function prepare({game,before,move,scope,tray,cell,localStyle}){
+    cancel();const capture=captureMove(before,move);
+    if(!capture||document.hidden||!cell?.getBoundingClientRect().width)return null;
+    let resolve;const finished=new Promise(done=>resolve=done);
+    const run={...capture,scope,tray,resolve,finished};
+    const arrival=destination(run);if(!arrival?.getBoundingClientRect().width)return null;
+    run.arrival=arrival;arrival.setAttribute('data-capture-arriving','');
+    const seat=sideOf(capture.victim)===1?game.black??1:3-(game.black??1);
+    const node=capturedToken(capture.victim,pieceStyleForSeat(game,seat,localStyle));
+    node.dataset.kind=Math.abs(capture.victim);
+    // Do not let this temporary defender change :has([data-kind]) rules for the moving piece's shadow.
+    node.querySelector('.stone').dataset.kind='captured';
+    node.classList.add('jangi-capture-victim');node.setAttribute('aria-hidden','true');
+    Object.assign(node.querySelector('.stone').style,{width:'100%',height:'100%',fontSize:'inherit',transform:'none'});
+    cell.append(node);
+    const style=getComputedStyle(node),small=[2,7].includes(Math.abs(capture.victim));
+    const size=parseFloat(style.getPropertyValue(small?'--jangi-small-size':'--jangi-piece-size'))||98;
+    const font=parseFloat(style.getPropertyValue(small?'--jangi-small-type':'--jangi-type-size'))||6.5;
+    const width=cell.getBoundingClientRect().width*size/100;
+    node.style.width=width+'px';node.style.height=width+'px';
+    node.style.fontSize=(cell.closest('.board-grid').getBoundingClientRect().width*font/100)+'px';
+    run.node=node;active=run;
+    return{finished,movementEnded(){if(active===run&&!run.launched)cancel();},contact(){
+      if(active!==run||run.launched)return;run.launched=true;
+      const a=node.getBoundingClientRect(),b=run.arrival.getBoundingClientRect();
+      if(document.hidden||!b.width)return cancel();
+      const x=b.x+b.width/2-a.x-a.width/2,y=b.y+b.height/2-a.y-a.height/2,scale=b.width/a.width;
+      node.classList.remove('jangi-capture-victim');node.classList.add('jangi-capture-flying');
+      layer.append(node);node.style.left=a.x+'px';node.style.top=a.y+'px';
+      run.animation=node.animate([
+        {transform:'translate(0,0) scale(1)'},
+        {offset:.22,transform:`translate(${x*.28+14}px,${y*.22-20}px) scale(1.04) rotate(-7deg)`},
+        {offset:.62,transform:`translate(${x*.73+8}px,${y*.68-14}px) scale(${Math.max(.8,scale)}) rotate(4deg)`},
+        {transform:`translate(${x}px,${y}px) scale(${scale}) rotate(0)`},
+      ],{duration:CAPTURE_FLIGHT_MS,easing:'cubic-bezier(.1,.74,.28,1)',fill:'forwards'});
+      const complete=()=>{if(active===run)cancel();};
+      run.animation.finished.then(complete,complete);run.timer=setTimeout(complete,CAPTURE_FLIGHT_MS+100);
+    }};
+  }
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)cancel();});
+  window.addEventListener('resize',cancel);
+  window.NcqSafe?.onChange(cancel);
+  return{prepare,synchronize,cancel};
+}

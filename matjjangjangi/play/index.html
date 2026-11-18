@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
 <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
-  <script src="./ncq/safe.js?v=084725976548"></script>
-  <script src="./ncq/motion.js?v=084725976548"></script>
-  <script src="./ncq/device.js?v=084725976548"></script>
-  <script src="./ncq/sound.js?v=084725976548"></script>
-  <script src="./ncq/save.js?v=084725976548"></script>
+  <script src="./ncq/safe.js?v=9ead710a021d"></script>
+  <script src="./ncq/motion.js?v=9ead710a021d"></script>
+  <script src="./ncq/device.js?v=9ead710a021d"></script>
+  <script src="./ncq/sound.js?v=9ead710a021d"></script>
+  <script src="./ncq/save.js?v=9ead710a021d"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -14,20 +14,21 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=084725976548">
-  <link rel="stylesheet" href="./style.css?v=084725976548">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=084725976548">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=084725976548">
-  <link rel="stylesheet" href="./forest-ui.css?v=084725976548">
-  <link rel="stylesheet" href="./lobby-layout.css?v=084725976548">
-  <link rel="stylesheet" href="./list-dialog.css?v=084725976548">
-  <link rel="stylesheet" href="./shop-layout.css?v=084725976548">
-  <link rel="stylesheet" href="./ranking-layout.css?v=084725976548">
-  <link rel="stylesheet" href="./mission-layout.css?v=084725976548">
-  <script type="module" src="./app.js?v=084725976548"></script>
-<link rel="stylesheet" href="./jangi.css?v=084725976548">
-  <link rel="stylesheet" href="./daily-puzzle.css?v=084725976548">
-  <link rel="stylesheet" href="./together.css?v=084725976548">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./style.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./forest-ui.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./lobby-layout.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./list-dialog.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./shop-layout.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./ranking-layout.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./mission-layout.css?v=9ead710a021d">
+  <script type="module" src="./app.js?v=9ead710a021d"></script>
+<link rel="stylesheet" href="./jangi.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./together.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./ai-match.css?v=9ead710a021d">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -122,7 +123,7 @@
           <span class="mission-shortcut-icon" aria-hidden="true"><svg class="puzzle-entry-icon" viewBox="0 0 32 32"><rect x="3" y="3" width="26" height="26" rx="6"/><path d="M9 11h14M9 21h14M11 8v16M21 8v16"/><circle cx="16" cy="16" r="5"/></svg></span>
           <span class="mission-shortcut-content"><span class="mission-shortcut-heading"><strong data-i18n="puzzleShortcutTitle"></strong></span></span>
         </button>
-        <div id="lobby-championship-slot"><button id="show-together" type="button" aria-haspopup="dialog" aria-controls="together-formation"><span class="together-entry-pair" aria-hidden="true"><span class="stone white" data-kind="1"><span class="jangi-glyph">漢</span></span><span class="stone black" data-kind="1"><span class="jangi-glyph">楚</span></span></span><span class="together-entry-label"><strong data-i18n="togetherTitle"></strong><small data-i18n="togetherLocal"></small></span><span class="together-entry-chevron" aria-hidden="true">›</span></button></div>
+        <div id="lobby-championship-slot"><div id="lobby-mode-slot"><button id="show-ai" type="button" aria-haspopup="dialog" aria-controls="ai-rank-picker"><span class="ai-entry-mark" aria-hidden="true">AI</span><strong data-i18n="aiMatch"></strong><span class="together-entry-chevron" aria-hidden="true">›</span></button><button id="show-together" type="button" aria-haspopup="dialog" aria-controls="together-formation"><span class="together-entry-pair" aria-hidden="true"><span class="stone white" data-kind="1"><span class="jangi-glyph">漢</span></span><span class="stone black" data-kind="1"><span class="jangi-glyph">楚</span></span></span><span class="together-entry-label"><strong data-i18n="togetherTitle"></strong></span><span class="together-entry-chevron" aria-hidden="true">›</span></button></div></div>
         <div id="lobby-cta-slot"></div>
         <div class="lobby-feed">
           <div class="lobby-highlights">
@@ -371,6 +372,7 @@
         <div id="opponent-panel" class="match-art-panel match-player" hidden>
           <div class="match-art-avatar match-avatar" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2z"/></svg>
+            <span id="ai-opponent-avatar" hidden>AI</span>
             <span id="opponent-stone" class="stone jangi-seat-badge" role="img"></span>
           </div>
           <button id="opponent-profile" class="match-identity match-profile-trigger" type="button" aria-haspopup="dialog" aria-controls="player-profile">
@@ -446,6 +448,7 @@
             <button type="button" class="match-art-action" data-opening="offerFive" data-i18n="offerFifthMoves"></button>
           </div>
         </div>
+        <div id="ai-match-actions" hidden><button id="ai-undo" type="button" aria-haspopup="dialog" aria-controls="ai-undo-confirm"><span aria-hidden="true">↶ </span><span data-i18n="aiUndo"></span></button><button id="ai-retry" type="button" data-i18n="aiRetry" hidden></button><span id="ai-action-status" class="sr-only" role="status"></span></div>
         <div id="review" class="review" hidden>
           <div class="review-controls" role="group" data-i18n-attr="aria-label:review">
             <button class="review-button" type="button" data-step="first" data-i18n-attr="aria-label:firstMove">
@@ -1389,6 +1392,14 @@
 <label class="jangi-formation-choice"><input type="radio" name="formation" value="3"><span class="jangi-formation-pieces" aria-hidden="true"></span><span class="jangi-formation-caption" data-i18n="jangiFormation3"></span></label>
 </div></div>
 <button class="primary" type="submit" data-ncq-main="Confirm Janggi formation" data-i18n="jangiFormationConfirm"></button></form></dialog>
+<dialog id="ai-rank-picker" class="ai-dialog" aria-labelledby="ai-rank-heading">
+  <header><h2 id="ai-rank-heading" data-i18n="aiChooseRank"></h2><form method="dialog"><button type="submit" value="cancel" data-i18n-attr="aria-label:close">×</button></form></header>
+  <div class="ai-selected"><span class="ai-entry-mark" aria-hidden="true">AI</span><strong id="ai-selected-rank"></strong></div>
+  <div class="ai-rank-tabs" role="tablist" data-i18n-attr="aria-label:aiChooseRank"><button id="ai-rank-tab-0" type="button" role="tab" data-ai-group="0" aria-controls="ai-rank-grid" aria-selected="true" data-i18n="aiRankEasy"></button><button id="ai-rank-tab-1" type="button" role="tab" data-ai-group="1" aria-controls="ai-rank-grid" aria-selected="false" data-i18n="aiRankMiddle"></button><button id="ai-rank-tab-2" type="button" role="tab" data-ai-group="2" aria-controls="ai-rank-grid" aria-selected="false" data-i18n="aiRankDan"></button></div>
+  <div id="ai-rank-grid" role="tabpanel" aria-labelledby="ai-rank-tab-0"></div>
+  <button id="ai-start" class="ai-primary" type="button" data-ncq-main="Start AI match"></button>
+</dialog>
+<dialog id="ai-undo-confirm" class="ai-dialog ai-confirm" aria-labelledby="ai-undo-heading" aria-describedby="ai-undo-description"><h2 id="ai-undo-heading" data-i18n="aiUndoHeading"></h2><p id="ai-undo-description"></p><form method="dialog"><button type="submit" value="cancel" data-i18n="cancel"></button><button type="submit" class="ai-primary" value="undo" data-i18n="aiUndo" data-ncq-main="Confirm AI undo"></button></form></dialog>
 <dialog id="together-formation" class="tg-dialog" aria-labelledby="tg-title">
   <div class="tg-formation-shell">
     <section class="tg-side tg-upper" data-seat="2"><header><span class="tg-king stone white" data-kind="1"><span class="jangi-glyph">漢</span></span><div><h3 data-i18n="togetherChoose"></h3></div><span class="tg-ready-state"></span></header><div class="tg-choices" role="group"></div><button class="tg-confirm" type="button" data-ready="2" data-ncq-main="Han ready"></button></section>

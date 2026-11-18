@@ -1,1 +1,77 @@
-function q2_0x4863(_0x220846,_0xa7d47f){_0x220846=_0x220846-0x1aa;const _0x383ebb=q2_0x383e();let _0x486366=_0x383ebb[_0x220846];if(q2_0x4863['vLUrkA']===undefined){var _0x1a53a5=function(_0x312d76){const _0x38f8b5='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x20d421='',_0x19ceec='';for(let _0x2ff6a9=0x0,_0x5ad905,_0x3191b4,_0x1c336a=0x0;_0x3191b4=_0x312d76['charAt'](_0x1c336a++);~_0x3191b4&&(_0x5ad905=_0x2ff6a9%0x4?_0x5ad905*0x40+_0x3191b4:_0x3191b4,_0x2ff6a9++%0x4)?_0x20d421+=String['fromCharCode'](0xff&_0x5ad905>>(-0x2*_0x2ff6a9&0x6)):0x0){_0x3191b4=_0x38f8b5['indexOf'](_0x3191b4);}for(let _0x1219b5=0x0,_0x136722=_0x20d421['length'];_0x1219b5<_0x136722;_0x1219b5++){_0x19ceec+='%'+('00'+_0x20d421['charCodeAt'](_0x1219b5)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x19ceec);};q2_0x4863['KlSmtr']=_0x1a53a5,q2_0x4863['NoOcVv']={},q2_0x4863['vLUrkA']=!![];}const _0x3c1622=_0x383ebb[0x0];q2_0x4863['dhgKEo']!==_0x3c1622&&(q2_0x4863['NoOcVv']={},q2_0x4863['dhgKEo']=_0x3c1622);const _0x129086=q2_0x4863['NoOcVv'][_0x220846];return _0x129086===undefined?(_0x486366=q2_0x4863['KlSmtr'](_0x486366),q2_0x4863['NoOcVv'][_0x220846]=_0x486366):_0x486366=_0x129086,_0x486366;}const q2_0x11131a=q2_0x4863;(function(_0x3cb7ca,_0x450ee0){const _0x1d9675=q2_0x4863,_0x5ca19e=_0x3cb7ca();while(!![]){try{const _0x459974=-parseInt(_0x1d9675(0x1b1))/0x1+-parseInt(_0x1d9675(0x1b2))/0x2+-parseInt(_0x1d9675(0x1c3))/0x3+parseInt(_0x1d9675(0x1c2))/0x4+parseInt(_0x1d9675(0x1ba))/0x5+-parseInt(_0x1d9675(0x1ab))/0x6*(-parseInt(_0x1d9675(0x1c1))/0x7)+parseInt(_0x1d9675(0x1bd))/0x8;if(_0x459974===_0x450ee0)break;else _0x5ca19e['push'](_0x5ca19e['shift']());}catch(_0x453818){_0x5ca19e['push'](_0x5ca19e['shift']());}}}(q2_0x383e,0x4d95d));import{apply,inCheck,legalMoves,pseudoMoves,sideOf,VALUES,SOLDIER,KING,ROOK,CANNON,HORSE,ELEPHANT}from'./rules.js';function q2_0x383e(){const _0x474086=['ChvZAa','DhLWzq','C29YDa','BgvUz3rO','CgX5','Bw92zq','mteYnti4mfHJsgXtEq','zMLSDgvY','y2fUzgLKyxrLCW','ndG4mZKZnKPss1jtuW','AgfZ','ywrK','BM93','mtrtuMLgEem','mtaXnJiXmLzHDxfrDq','mtmYmtyXmvHmCvLlDW','ywjZ','zNjVBq','nZmYnZe0sNDTBe12','C2nVCMu','yM9HCMq','D2LUBMvY','Bwf4','CgfZCW','ntu4ote3sKf1wKf6','mZmXotjnzxL0wvi','DhvYBG'];q2_0x383e=function(){return _0x474086;};return q2_0x383e();}export function evaluate(_0x19ceec,_0x2ff6a9){const _0x3979b4=q2_0x4863;let _0x5ad905=0x0;const _0x3191b4=[null,new Set(),new Set()];for(let _0x1c336a=0x0;_0x1c336a<0x5a;_0x1c336a++)if(_0x19ceec[_0x1c336a]){for(const _0x1219b5 of pseudoMoves(_0x19ceec,_0x1c336a))_0x3191b4[sideOf(_0x19ceec[_0x1c336a])][_0x3979b4(0x1bf)](_0x1219b5);}for(let _0x136722=0x0;_0x136722<0x5a;_0x136722++){const _0x3b49d1=_0x19ceec[_0x136722];if(!_0x3b49d1)continue;const _0x262027=sideOf(_0x3b49d1),_0x5f52d1=Math[_0x3979b4(0x1c4)](_0x3b49d1),_0x5976ed=Math['floor'](_0x136722/0x9),_0x430a96=_0x136722%0x9;let _0x226050=VALUES[_0x5f52d1]*0x64;if(_0x5f52d1!==KING)_0x226050+=(0x4-Math['abs'](0x4-_0x430a96))*0x5;if(_0x5f52d1===SOLDIER)_0x226050+=(_0x262027===0x1?0x9-_0x5976ed:_0x5976ed)*0xc;if([ROOK,HORSE,ELEPHANT]['includes'](_0x5f52d1))_0x226050+=pseudoMoves(_0x19ceec,_0x136722)[_0x3979b4(0x1b7)]*0x3;if(_0x5f52d1===CANNON)_0x226050+=pseudoMoves(_0x19ceec,_0x136722)['length']*0x4;if(_0x5f52d1!==KING&&_0x3191b4[0x3-_0x262027][_0x3979b4(0x1be)](_0x136722))_0x226050-=VALUES[_0x5f52d1]*(_0x3191b4[_0x262027][_0x3979b4(0x1be)](_0x136722)?0x8:0x2d);_0x5ad905+=_0x262027===_0x2ff6a9?_0x226050:-_0x226050;}if(inCheck(_0x19ceec,_0x2ff6a9))_0x5ad905-=0x3c;if(inCheck(_0x19ceec,0x3-_0x2ff6a9))_0x5ad905+=0x3c;return _0x5ad905;}function ordered(_0x2cda0d,_0x3058fb){const _0x5e084d=q2_0x4863;return legalMoves(_0x2cda0d,_0x3058fb)['sort']((_0x28664a,_0x35b1f9)=>(VALUES[Math[_0x5e084d(0x1c4)](_0x2cda0d[_0x35b1f9['to']])]||0x0)*0x64-VALUES[Math[_0x5e084d(0x1c4)](_0x2cda0d[_0x35b1f9[_0x5e084d(0x1aa)]])]-((VALUES[Math[_0x5e084d(0x1c4)](_0x2cda0d[_0x28664a['to']])]||0x0)*0x64-VALUES[Math[_0x5e084d(0x1c4)](_0x2cda0d[_0x28664a['from']])]));}export function analyzeMoves(_0x5b11d7,{depth:depth=0x3,nodeLimit:nodeLimit=0x1770,timeLimitMs:timeLimitMs=0xb4,now:now=()=>performance[q2_0x11131a(0x1c0)]()}={}){const _0xd348cf=q2_0x11131a;if(_0x5b11d7[_0xd348cf(0x1ae)]!==null)return{'candidates':[],'nodes':0x0,'depth':0x0};const _0x38c249=now()+timeLimitMs;let _0x46600e=0x0,_0x5cfa01=![],_0x4ace0d=0x0;const _0x5977b6=()=>_0x46600e>=nodeLimit||now()>=_0x38c249;function _0x3ef5d6(_0x4e2e30){const _0x168d3a=_0xd348cf,_0x31583c=ordered(_0x4e2e30[_0x168d3a(0x1ad)],_0x4e2e30['turn']);if(!inCheck(_0x4e2e30['board'],_0x4e2e30[_0x168d3a(0x1b3)]))_0x31583c['push']({'type':_0x168d3a(0x1b0)});return _0x31583c;}function _0x3080d0(_0x1a3b48,_0x132389,_0x5cda77,_0x187163,_0x467c30=0x2){const _0x5d2d55=_0xd348cf;if(_0x1a3b48['winner']!==null)return _0x1a3b48[_0x5d2d55(0x1ae)]===0x0?0x0:_0x1a3b48['winner']===_0x1a3b48[_0x5d2d55(0x1b3)]?0xf4240-_0x1a3b48[_0x5d2d55(0x1b8)]:-0xf4240+_0x1a3b48[_0x5d2d55(0x1b8)];if(_0x5977b6())return _0x5cfa01=!![],evaluate(_0x1a3b48[_0x5d2d55(0x1ad)],_0x1a3b48[_0x5d2d55(0x1b3)]);_0x46600e++;const _0x570915=inCheck(_0x1a3b48[_0x5d2d55(0x1ad)],_0x1a3b48[_0x5d2d55(0x1b3)]);if(_0x132389<=0x0&&!_0x570915){const _0x480a5b=evaluate(_0x1a3b48['board'],_0x1a3b48[_0x5d2d55(0x1b3)]);if(_0x467c30<=0x0||_0x480a5b>=_0x187163)return _0x480a5b;_0x5cda77=Math[_0x5d2d55(0x1af)](_0x5cda77,_0x480a5b);for(const _0x193001 of _0x3ef5d6(_0x1a3b48)[_0x5d2d55(0x1bb)](_0x3a88fc=>_0x3a88fc[_0x5d2d55(0x1b5)]===_0x5d2d55(0x1b9)&&_0x1a3b48['board'][_0x3a88fc['to']])){const _0x4b4328=-_0x3080d0(apply(_0x1a3b48,_0x193001),0x0,-_0x187163,-_0x5cda77,_0x467c30-0x1);if(_0x5cfa01)return _0x5cda77;_0x5cda77=Math[_0x5d2d55(0x1af)](_0x5cda77,_0x4b4328);if(_0x5cda77>=_0x187163)break;}return _0x5cda77;}if(_0x132389<=0x0&&_0x467c30<=0x0)return evaluate(_0x1a3b48[_0x5d2d55(0x1ad)],_0x1a3b48[_0x5d2d55(0x1b3)]);const _0x51ca59=_0x3ef5d6(_0x1a3b48);if(!_0x51ca59[_0x5d2d55(0x1b7)])return _0x570915?-0xf4240-_0x1a3b48[_0x5d2d55(0x1b8)]:0x0;let _0x49f0fe=-Infinity;for(const _0x31926f of _0x51ca59){const _0x36ea60=-_0x3080d0(apply(_0x1a3b48,_0x31926f),_0x132389-0x1,-_0x187163,-_0x5cda77,_0x132389<=0x0?_0x467c30-0x1:_0x467c30);if(_0x5cfa01)return _0x49f0fe===-Infinity?evaluate(_0x1a3b48[_0x5d2d55(0x1ad)],_0x1a3b48[_0x5d2d55(0x1b3)]):_0x49f0fe;_0x49f0fe=Math['max'](_0x49f0fe,_0x36ea60),_0x5cda77=Math[_0x5d2d55(0x1af)](_0x5cda77,_0x36ea60);if(_0x5cda77>=_0x187163)break;}return _0x49f0fe;}const _0x14a173=_0x3ef5d6(_0x5b11d7);let _0x34a1ee=[];for(const _0x314b0f of _0x14a173){const _0x5a3f9a=apply(_0x5b11d7,_0x314b0f),_0x39525e=_0x5a3f9a['winner']!==null?_0x5a3f9a[_0xd348cf(0x1ae)]===0x0?0x0:_0x5a3f9a[_0xd348cf(0x1ae)]===_0x5b11d7[_0xd348cf(0x1b3)]?0xf4240:-0xf4240:-evaluate(_0x5a3f9a[_0xd348cf(0x1ad)],_0x5a3f9a[_0xd348cf(0x1b3)]);_0x34a1ee[_0xd348cf(0x1b4)]({'move':_0x314b0f,'score':_0x39525e});if(_0x5a3f9a[_0xd348cf(0x1ae)]===_0x5b11d7['turn'])return{'candidates':[{'move':_0x314b0f,'score':0xf4240,'mate':0x1}],'nodes':_0x46600e,'depth':0x1};}_0x34a1ee[_0xd348cf(0x1b6)]((_0x2d3896,_0x4fb2f4)=>_0x4fb2f4[_0xd348cf(0x1ac)]-_0x2d3896['score']);for(let _0x218c93=0x1;_0x218c93<=depth&&!_0x5977b6();_0x218c93++){const _0x35a513=[];for(const _0x3f5ca8 of _0x34a1ee){if(_0x5977b6()){_0x5cfa01=!![];break;}const _0x274e42=-_0x3080d0(apply(_0x5b11d7,_0x3f5ca8[_0xd348cf(0x1b9)]),_0x218c93-0x1,-Infinity,Infinity);if(_0x5cfa01)break;_0x35a513['push']({'move':_0x3f5ca8[_0xd348cf(0x1b9)],'score':_0x274e42});}if(_0x5cfa01)break;_0x34a1ee=_0x35a513[_0xd348cf(0x1b6)]((_0x25f5b5,_0x3b8f4b)=>_0x3b8f4b['score']-_0x25f5b5[_0xd348cf(0x1ac)]),_0x4ace0d=_0x218c93;}return{'candidates':_0x34a1ee,'nodes':_0x46600e,'depth':_0x4ace0d};}export function chooseMove(_0x351899,_0x512328={}){const _0x36add2=q2_0x11131a;return analyzeMoves(_0x351899,_0x512328)[_0x36add2(0x1bc)][0x0]?.['move']??null;}
+import { apply, inCheck, legalMoves, pseudoMoves, sideOf, VALUES, SOLDIER, KING, ROOK, CANNON, HORSE, ELEPHANT } from './rules.js';
+
+// A small deterministic practice opponent; it is explicitly labelled as AI in the UI.
+export function evaluate(board, side) {
+  let total = 0;
+  const attacks=[null,new Set(),new Set()];
+  for(let i=0;i<90;i++)if(board[i])for(const to of pseudoMoves(board,i))attacks[sideOf(board[i])].add(to);
+  for (let i = 0; i < 90; i++) {
+    const piece = board[i];
+    if (!piece) continue;
+    const owner = sideOf(piece), kind = Math.abs(piece), y = Math.floor(i / 9), x = i % 9;
+    let value = VALUES[kind] * 100;
+    if (kind !== KING) value += (4 - Math.abs(4 - x)) * 5;
+    if (kind === SOLDIER) value += (owner === 1 ? 9 - y : y) * 12;
+    if ([ROOK,HORSE,ELEPHANT].includes(kind)) value += pseudoMoves(board,i).length*3;
+    if (kind===CANNON) value += pseudoMoves(board,i).length*4;
+    if (kind!==KING && attacks[3-owner].has(i)) value -= VALUES[kind]*(attacks[owner].has(i)?8:45);
+    total += owner === side ? value : -value;
+  }
+  if(inCheck(board,side))total-=60;if(inCheck(board,3-side))total+=60;
+  return total;
+}
+function ordered(board, side) {
+  return legalMoves(board, side).sort((a, b) =>
+    ((VALUES[Math.abs(board[b.to])] || 0) * 100 - VALUES[Math.abs(board[b.from])]) -
+    ((VALUES[Math.abs(board[a.to])] || 0) * 100 - VALUES[Math.abs(board[a.from])]));
+}
+
+export function analyzeMoves(state,{depth=3,nodeLimit=6000,timeLimitMs=180,now=()=>performance.now()}={}) {
+  if(state.winner!==null)return {candidates:[],nodes:0,depth:0};
+  const deadline=now()+timeLimitMs;let nodes=0,aborted=false,completedDepth=0;
+  const expired=()=>nodes>=nodeLimit||now()>=deadline;
+  function actions(s) {const list=ordered(s.board,s.turn);if(!inCheck(s.board,s.turn))list.push({type:'pass'});return list;}
+  function search(s,remaining,alpha,beta,qdepth=2) {
+    if(s.winner!==null)return s.winner===0?0:s.winner===s.turn?1000000-s.ply:-1000000+s.ply;
+    if(expired()){aborted=true;return evaluate(s.board,s.turn);}nodes++;
+    const checked=inCheck(s.board,s.turn);
+    if(remaining<=0&&!checked) {
+      const stand=evaluate(s.board,s.turn);if(qdepth<=0||stand>=beta)return stand;
+      alpha=Math.max(alpha,stand);
+      for(const m of actions(s).filter(m=>m.type==='move'&&s.board[m.to])) {
+        const value=-search(apply(s,m),0,-beta,-alpha,qdepth-1);
+        if(aborted)return alpha;alpha=Math.max(alpha,value);if(alpha>=beta)break;
+      }
+      return alpha;
+    }
+    if(remaining<=0&&qdepth<=0)return evaluate(s.board,s.turn);
+    const moves=actions(s);if(!moves.length)return checked?-1000000-s.ply:0;
+    let best=-Infinity;
+    for(const m of moves) {
+      const value=-search(apply(s,m),remaining-1,-beta,-alpha,remaining<=0?qdepth-1:qdepth);
+      if(aborted)return best===-Infinity?evaluate(s.board,s.turn):best;
+      best=Math.max(best,value);alpha=Math.max(alpha,value);if(alpha>=beta)break;
+    }
+    return best;
+  }
+  const moves=actions(state);let candidates=[];
+  for(const move of moves) {
+    const next=apply(state,move);
+    const score=next.winner!==null?(next.winner===0?0:next.winner===state.turn?1000000:-1000000):-evaluate(next.board,next.turn);
+    candidates.push({move,score});
+    if(next.winner===state.turn)return {candidates:[{move,score:1000000,mate:1}],nodes,depth:1};
+  }
+  candidates.sort((a,b)=>b.score-a.score);
+  for(let level=1;level<=depth&&!expired();level++) {
+    const iteration=[];
+    for(const entry of candidates) {
+      if(expired()){aborted=true;break;}
+      const score=-search(apply(state,entry.move),level-1,-Infinity,Infinity);
+      if(aborted)break;iteration.push({move:entry.move,score});
+    }
+    if(aborted)break;
+    candidates=iteration.sort((a,b)=>b.score-a.score);completedDepth=level;
+  }
+  return {candidates,nodes,depth:completedDepth};
+}
+export function chooseMove(state,options={}) {return analyzeMoves(state,options).candidates[0]?.move??null;}

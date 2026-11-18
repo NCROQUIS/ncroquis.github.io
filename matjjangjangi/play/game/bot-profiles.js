@@ -1,1 +1,48 @@
-const q7_0x5cd1ff=q7_0x3238;function q7_0x2f82(){const _0x128252=['y2HHCKnVzgvbDa','yM90vhvUAw5NvMvYC2LVBG','ndu2AeLbquDi','y2fWDhvYzu92zxjZAwDODa','Bwf4ugLLy2vwywX1zq','mta4nJu2yK1hB05H','CgX5','DgHPBMTnCW','Bwf4','ntqYoefmCgHKAq','zw5HyMXLza','mte5nfn1yKjiEq','mta4otmZnwXct3nnzW','ntqWz1HUDLbn','C3rHDgu','odyYodG3nKTpvengzG','AMfUz2KTDhvUAw5NlxyY','BwLUtg9ZC0nW','mtK3mhzrqwnhBq','Bwf4tM9Kzxm','zMXVB3i','BwfW','mJy1mJf0vMXwANC','Aw11Ba','mJe5mtnAtKj2rfy','BwLU','zNjLzxPL','mZm5mdfxyxz5CKK','Bgv2zwW','y2XVy2S','DhvYBG','mZrMrw9TENu','BM93','CM91BMq','zNjVBq'];q7_0x2f82=function(){return _0x128252;};return q7_0x2f82();}(function(_0x530bc4,_0x13dfaa){const _0xee3ec5=q7_0x3238,_0x3823e5=_0x530bc4();while(!![]){try{const _0x1751ca=parseInt(_0xee3ec5(0x9f))/0x1*(-parseInt(_0xee3ec5(0x83))/0x2)+parseInt(_0xee3ec5(0x89))/0x3*(parseInt(_0xee3ec5(0x90))/0x4)+parseInt(_0xee3ec5(0x93))/0x5+parseInt(_0xee3ec5(0x92))/0x6*(parseInt(_0xee3ec5(0x7f))/0x7)+parseInt(_0xee3ec5(0x8c))/0x8*(parseInt(_0xee3ec5(0x94))/0x9)+parseInt(_0xee3ec5(0x99))/0xa*(-parseInt(_0xee3ec5(0x9d))/0xb)+-parseInt(_0xee3ec5(0x96))/0xc;if(_0x1751ca===_0x13dfaa)break;else _0x3823e5['push'](_0x3823e5['shift']());}catch(_0xc3524c){_0x3823e5['push'](_0x3823e5['shift']());}}}(q7_0x2f82,0x9b557));export const BOT_POLICY_VERSION='jangi-bot-v1';export const BOT_TUNING_VERSION=q7_0x5cd1ff(0x97);export const BOT_TUNING=Object[q7_0x5cd1ff(0x7e)]({'rookProtection':Object['freeze']({'enabled':!![],'fromLevel':0x12}),'captureOversight':Object['freeze']({'percentByLevel':Object[q7_0x5cd1ff(0x7e)](Array[q7_0x5cd1ff(0x86)]({'length':0x1b},(_0x168b07,_0x3f5c1a)=>Math['max'](0x0,0xf-_0x3f5c1a))),'maxPieceValue':0xd}),'mistakeProtection':Object[q7_0x5cd1ff(0x7e)]({'percentByLevel':Object['freeze'](Array[q7_0x5cd1ff(0x86)]({'length':0x1b},(_0x5dd34d,_0xffc23)=>Math[q7_0x5cd1ff(0x8f)](0x0,0x64-(0x1a-_0xffc23)*0x4))),'minLossCp':0x64})});const budgets=[0x1e,0x28,0x32,0x3c,0x4b,0x5a,0x6e,0x87,0xa0,0xbe,0xe6,0x118,0x154,0x19a,0x1f4,0x258,0x2d0,0x352,0x3e8,0x4b0,0x5aa,0x6d6,0x834,0x9c4,0xbb8,0xe10,0x1194];export const BOT_PROFILES=Object[q7_0x5cd1ff(0x7e)](budgets[q7_0x5cd1ff(0x9c)]((_0x17f824,_0x5258b7)=>Object[q7_0x5cd1ff(0x7e)]({'level':_0x5258b7,'name':_0x5258b7<0x12?0x12-_0x5258b7+'급':_0x5258b7-0x11+'단','version':BOT_POLICY_VERSION,'thinkMs':_0x17f824,'maxNodes':Math[q7_0x5cd1ff(0x85)](_0x17f824*0x2bc),'alternativePercent':(0x1a-_0x5258b7)*0x3,'maxLossCp':(0x1a-_0x5258b7)*0xf,'multiPV':0x1+Math[q7_0x5cd1ff(0x9b)]((0x1a-_0x5258b7)/0x2),'protectRooks':BOT_TUNING['rookProtection'][q7_0x5cd1ff(0x91)]&&_0x5258b7>=BOT_TUNING['rookProtection']['fromLevel'],'captureOversightPercent':BOT_TUNING[q7_0x5cd1ff(0x8a)]['percentByLevel'][_0x5258b7],'captureOversightMaxPieceValue':BOT_TUNING['captureOversight'][q7_0x5cd1ff(0x8b)],'mistakeProtectionPercent':BOT_TUNING['mistakeProtection']['percentByLevel'][_0x5258b7],'mistakeProtectionMinLossCp':BOT_TUNING['mistakeProtection'][q7_0x5cd1ff(0x98)]})));export const botDecisionSeed=_0x4bee1b=>(_0x4bee1b['id']??_0x4bee1b['code'])+':'+(_0x4bee1b[q7_0x5cd1ff(0x85)]??0x1)+':'+_0x4bee1b['state'][q7_0x5cd1ff(0x8d)]+':'+_0x4bee1b[q7_0x5cd1ff(0x95)][q7_0x5cd1ff(0x82)]+':'+BOT_POLICY_VERSION;export const LEGACY_BOT_PROFILES=Object[q7_0x5cd1ff(0x7e)](BOT_PROFILES[q7_0x5cd1ff(0x9c)](_0x2ccf21=>Object[q7_0x5cd1ff(0x7e)]({..._0x2ccf21,'multiPV':0x1b-_0x2ccf21[q7_0x5cd1ff(0x80)],'maxLossCp':(0x1a-_0x2ccf21[q7_0x5cd1ff(0x80)])*0x14})));export const botProfile=(_0x28341c,_0x154ed4)=>{const _0x117001=q7_0x5cd1ff,_0x4c6bad=_0x154ed4&&_0x154ed4[_0x117001(0x88)]!==BOT_TUNING_VERSION?LEGACY_BOT_PROFILES:BOT_PROFILES;return _0x4c6bad[Number['isInteger'](_0x28341c)?Math[_0x117001(0x8f)](0x0,Math['min'](0x1a,_0x28341c)):0x0];};export function botLimits(_0x346bf4,_0x2bd1ef,_0x298d94=Date[q7_0x5cd1ff(0x84)]()){const _0x2c93c4=q7_0x5cd1ff,_0x430dec=botProfile(_0x2bd1ef,_0x346bf4);let _0x107c78=Infinity;if(_0x346bf4[_0x2c93c4(0x81)]?.['kind']==='cumulative-v1'){const {deadline:_0x290fb1,refills:_0x5e631b}=_0x346bf4[_0x2c93c4(0x81)],_0x1ef38d=_0x5e631b[_0x346bf4['turn']-0x1],_0x375c14=_0x298d94>=_0x290fb1?Math[_0x2c93c4(0x7d)](_0x1ef38d,Math[_0x2c93c4(0x9b)]((_0x298d94-_0x290fb1)/0x7530)+0x1):0x0;_0x107c78=Math[_0x2c93c4(0x8f)](0x0,_0x290fb1+_0x375c14*0x7530-_0x298d94);}const _0x352ae2=Math[_0x2c93c4(0x8f)](0x1,Math[_0x2c93c4(0x7d)](_0x430dec[_0x2c93c4(0x8e)],_0x107c78<=0x1388?0x12c:_0x107c78<=0x7530?0x5dc:Infinity,_0x107c78-0x3e8));return{..._0x430dec,'thinkMs':_0x352ae2,'maxNodes':Math[_0x2c93c4(0x8f)](0x1,Math[_0x2c93c4(0x7d)](_0x430dec[_0x2c93c4(0x9a)],Math[_0x2c93c4(0x85)](_0x352ae2*0x2bc))),'remainingMs':_0x107c78};}function q7_0x3238(_0x43ef8f,_0x460a25){_0x43ef8f=_0x43ef8f-0x7d;const _0x2f82f1=q7_0x2f82();let _0x323820=_0x2f82f1[_0x43ef8f];if(q7_0x3238['NNygDv']===undefined){var _0x4ce02a=function(_0x107ca9){const _0x26b840='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x263423='',_0x168b07='';for(let _0x3f5c1a=0x0,_0x5dd34d,_0xffc23,_0x17f824=0x0;_0xffc23=_0x107ca9['charAt'](_0x17f824++);~_0xffc23&&(_0x5dd34d=_0x3f5c1a%0x4?_0x5dd34d*0x40+_0xffc23:_0xffc23,_0x3f5c1a++%0x4)?_0x263423+=String['fromCharCode'](0xff&_0x5dd34d>>(-0x2*_0x3f5c1a&0x6)):0x0){_0xffc23=_0x26b840['indexOf'](_0xffc23);}for(let _0x5258b7=0x0,_0x4bee1b=_0x263423['length'];_0x5258b7<_0x4bee1b;_0x5258b7++){_0x168b07+='%'+('00'+_0x263423['charCodeAt'](_0x5258b7)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x168b07);};q7_0x3238['CgxzoV']=_0x4ce02a,q7_0x3238['hOfOTu']={},q7_0x3238['NNygDv']=!![];}const _0x4410e9=_0x2f82f1[0x0];q7_0x3238['SAogAM']!==_0x4410e9&&(q7_0x3238['hOfOTu']={},q7_0x3238['SAogAM']=_0x4410e9);const _0xb60e06=q7_0x3238['hOfOTu'][_0x43ef8f];return _0xb60e06===undefined?(_0x323820=q7_0x3238['CgxzoV'](_0x323820),q7_0x3238['hOfOTu'][_0x43ef8f]=_0x323820):_0x323820=_0xb60e06,_0x323820;}export function seededRandom(_0xe4b8f7){const _0x3b15c2=q7_0x5cd1ff;let _0x238903=0x811c9dc5;for(const _0x662ad4 of String(_0xe4b8f7))_0x238903=Math[_0x3b15c2(0x9e)](_0x238903^_0x662ad4[_0x3b15c2(0x87)](0x0),0x1000193);return()=>{const _0x143f5c=_0x3b15c2;_0x238903+=0x6d2b79f5;let _0x1e9b88=Math[_0x143f5c(0x9e)](_0x238903^_0x238903>>>0xf,_0x238903|0x1);return _0x1e9b88^=_0x1e9b88+Math[_0x143f5c(0x9e)](_0x1e9b88^_0x1e9b88>>>0x7,_0x1e9b88|0x3d),((_0x1e9b88^_0x1e9b88>>>0xe)>>>0x0)/0x100000000;};}
+export const BOT_POLICY_VERSION = 'jangi-bot-v1';
+// Fixed when a round starts; missing markers retain the deployed v1 tuning.
+export const BOT_TUNING_VERSION = 'jangi-tuning-v2';
+// Server tuning: level 0 = 18 kyu, 17 = 1 kyu, 18 = 1 dan, 26 = 9 dan.
+export const BOT_TUNING = Object.freeze({
+  rookProtection: Object.freeze({ enabled: true, fromLevel: 18 }),
+  captureOversight: Object.freeze({
+    percentByLevel: Object.freeze(Array.from({length:27},(_,level)=>Math.max(0,15-level))),
+    maxPieceValue: 13,
+  }),
+  mistakeProtection: Object.freeze({
+    percentByLevel: Object.freeze(Array.from({length:27},(_,level)=>Math.max(0,100-(26-level)*4))),
+    minLossCp: 100,
+  }),
+});
+const budgets = [30,40,50,60,75,90,110,135,160,190,230,280,340,410,500,600,720,850,1000,1200,1450,1750,2100,2500,3000,3600,4500];
+export const BOT_PROFILES = Object.freeze(budgets.map((thinkMs,level)=>Object.freeze({
+  level, name:level<18?`${18-level}급`:`${level-17}단`, version:BOT_POLICY_VERSION,
+  thinkMs, maxNodes:Math.round(thinkMs*700), alternativePercent:(26-level)*3, maxLossCp:(26-level)*15,
+  multiPV:1+Math.floor((26-level)/2),
+  protectRooks:BOT_TUNING.rookProtection.enabled&&level>=BOT_TUNING.rookProtection.fromLevel,
+  captureOversightPercent:BOT_TUNING.captureOversight.percentByLevel[level],
+  captureOversightMaxPieceValue:BOT_TUNING.captureOversight.maxPieceValue,
+  mistakeProtectionPercent:BOT_TUNING.mistakeProtection.percentByLevel[level],
+  mistakeProtectionMinLossCp:BOT_TUNING.mistakeProtection.minLossCp,
+})));
+export const botDecisionSeed = room => `${room.id??room.code}:${room.round??1}:${room.state.ply}:${room.state.turn}:${BOT_POLICY_VERSION}`;
+export const LEGACY_BOT_PROFILES = Object.freeze(BOT_PROFILES.map(profile=>Object.freeze({
+  ...profile,multiPV:27-profile.level,maxLossCp:(26-profile.level)*20,
+})));
+export const botProfile = (level,state) => {
+  const profiles=state&&state.botTuningVersion!==BOT_TUNING_VERSION?LEGACY_BOT_PROFILES:BOT_PROFILES;
+  return profiles[Number.isInteger(level)?Math.max(0,Math.min(26,level)):0];
+};
+export function botLimits(state, level, now=Date.now()) {
+  const profile=botProfile(level,state);let remaining=Infinity;
+  if(state.clock?.kind==='cumulative-v1') {
+    const {deadline,refills}=state.clock,available=refills[state.turn-1];
+    const used=now>=deadline?Math.min(available,Math.floor((now-deadline)/30000)+1):0;
+    remaining=Math.max(0,deadline+used*30000-now);
+  }
+  const thinkMs=Math.max(1,Math.min(profile.thinkMs,remaining<=5000?300:remaining<=30000?1500:Infinity,remaining-1000));
+  return {...profile,thinkMs,maxNodes:Math.max(1,Math.min(profile.maxNodes,Math.round(thinkMs*700))),remainingMs:remaining};
+}
+export function seededRandom(seed) {
+  let n=2166136261;for(const c of String(seed))n=Math.imul(n^c.charCodeAt(0),16777619);
+  return ()=>{n+=0x6D2B79F5;let t=Math.imul(n^n>>>15,n|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;};
+}

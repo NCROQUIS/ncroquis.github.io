@@ -1,1 +1,61 @@
-(function(_0x15804b,_0x5832d1){const _0x5c41c9=qa_0x2b49,_0x7412b3=_0x15804b();while(!![]){try{const _0x521ea5=parseInt(_0x5c41c9(0x207))/0x1*(-parseInt(_0x5c41c9(0x1f6))/0x2)+parseInt(_0x5c41c9(0x1eb))/0x3+parseInt(_0x5c41c9(0x200))/0x4*(parseInt(_0x5c41c9(0x213))/0x5)+-parseInt(_0x5c41c9(0x20b))/0x6*(-parseInt(_0x5c41c9(0x1fb))/0x7)+-parseInt(_0x5c41c9(0x203))/0x8+-parseInt(_0x5c41c9(0x1ec))/0x9*(-parseInt(_0x5c41c9(0x1f5))/0xa)+parseInt(_0x5c41c9(0x209))/0xb*(-parseInt(_0x5c41c9(0x1fd))/0xc);if(_0x521ea5===_0x5832d1)break;else _0x7412b3['push'](_0x7412b3['shift']());}catch(_0x3e8ef9){_0x7412b3['push'](_0x7412b3['shift']());}}}(qa_0x5340,0x33601));import{inCheck,legalMoves,sideOf}from'./rules.js';import{speechPlacement}from'./threat-geometry.js';export function checkResponse(_0xb0af78,_0x59266c,_0x36bcf9){const _0x12388f=qa_0x2b49,_0x466c24=_0x36bcf9?.[_0x12388f(0x1f1)],_0x74daa9=_0x36bcf9?.['to']??_0x36bcf9?.[_0x12388f(0x205)];if(![_0x466c24,_0x74daa9][_0x12388f(0x214)](Number[_0x12388f(0x20f)])||_0x466c24===_0x74daa9||_0xb0af78?.[_0x12388f(0x1e1)]!==0x5a||_0x59266c?.[_0x12388f(0x1e1)]!==0x5a)return null;const _0x4f206f=sideOf(_0xb0af78[_0x466c24]);if(!_0x4f206f||!inCheck(_0xb0af78,_0x4f206f)||inCheck(_0x59266c,_0x4f206f)||!legalMoves(_0xb0af78,_0x4f206f)[_0x12388f(0x1e0)](_0x378f51=>_0x378f51[_0x12388f(0x1f1)]===_0x466c24&&_0x378f51['to']===_0x74daa9))return null;const _0x3163d2=[..._0xb0af78];return _0x3163d2[_0x74daa9]=_0x3163d2[_0x466c24],_0x3163d2[_0x466c24]=0x0,_0x3163d2['every']((_0x3efad9,_0x3e86e5)=>_0x3efad9===_0x59266c[_0x3e86e5])?{'side':_0x4f206f,'from':_0x466c24,'to':_0x74daa9}:null;}const controllers=new WeakMap();function controller(_0x55f6c7,_0x3936f9){const _0x538289=qa_0x2b49,_0x4e3512=_0x55f6c7[_0x538289(0x1ef)]('.board-grid'),_0x599b8c=document[_0x538289(0x204)]('span');_0x599b8c[_0x538289(0x1ed)]='jangi-threat-speech\x20jangi-response-speech',_0x599b8c[_0x538289(0x1e2)]=!![],_0x599b8c[_0x538289(0x1fc)](_0x538289(0x1f8),_0x538289(0x1e8)),_0x599b8c[_0x538289(0x1fc)](_0x538289(0x1f3),'polite'),_0x4e3512[_0x538289(0x206)](_0x599b8c);let _0x4203fd,_0x360308,_0x3dee5f,_0x7d0f76,_0xe18475,_0x29a879,_0xed72e2,_0x57925c=![];function _0x4533e4(){const _0x1b3e1c=_0x538289;clearTimeout(_0x29a879),clearTimeout(_0xed72e2),_0x599b8c[_0x1b3e1c(0x1e2)]=!![],_0x57925c=![];}function _0x37bb71(){_0x4533e4(),_0x4203fd=null,_0x360308=null,_0x3dee5f=null;}function _0x285621(){const _0x2d20f2=_0x538289;if(_0x599b8c[_0x2d20f2(0x1e2)]||_0x7d0f76===undefined)return;const _0x141e6e=_0x4e3512[_0x2d20f2(0x212)]();if(!_0x141e6e[_0x2d20f2(0x1e3)]||!_0x141e6e[_0x2d20f2(0x208)])return;const _0x106408=_0xcdaf0e=>{const _0x2167cc=_0x2d20f2,_0x56efef=_0xe18475?0x59-Number(_0xcdaf0e['dataset']['index']):Number(_0xcdaf0e[_0x2167cc(0x1ea)][_0x2167cc(0x205)]),_0x14f6bf=getComputedStyle(_0xcdaf0e['querySelector'](_0x2167cc(0x202))),_0xcc06f8=parseFloat(_0x14f6bf[_0x2167cc(0x1e3)])||_0x141e6e[_0x2167cc(0x1e3)]/0x9,_0xb2e6f9=parseFloat(_0x14f6bf[_0x2167cc(0x208)])||_0x141e6e[_0x2167cc(0x208)]/0xa;return{'x':(_0x56efef%0x9+0.5)*_0x141e6e[_0x2167cc(0x1e3)]/0x9-_0xcc06f8/0x2,'y':(Math[_0x2167cc(0x20c)](_0x56efef/0x9)+0.5)*_0x141e6e[_0x2167cc(0x208)]/0xa-_0xb2e6f9/0x2,'width':_0xcc06f8,'height':_0xb2e6f9};},_0x4db99d=_0x3936f9[_0x7d0f76],_0x566e92=_0x599b8c[_0x2d20f2(0x212)](),_0x1d3bda=speechPlacement(_0x106408(_0x4db99d),_0x566e92,_0x141e6e,_0x3936f9[_0x2d20f2(0x1e6)](_0x3cd912=>_0x3cd912!==_0x4db99d&&_0x3cd912['dataset']['stone']!=='0')[_0x2d20f2(0x1ff)](_0x106408),{'preferredSide':_0x2d20f2(0x20e)});_0x599b8c[_0x2d20f2(0x1ee)]['left']=_0x1d3bda['x']+'px',_0x599b8c['style'][_0x2d20f2(0x1e4)]=_0x1d3bda['y']+'px',_0x599b8c[_0x2d20f2(0x1ea)][_0x2d20f2(0x1e9)]=_0x1d3bda[_0x2d20f2(0x210)],_0x599b8c['style'][_0x2d20f2(0x1fe)](_0x2d20f2(0x1e5),_0x1d3bda[_0x2d20f2(0x1e9)]+'px'),_0x599b8c[_0x2d20f2(0x1ea)][_0x2d20f2(0x20d)]=_0x7d0f76;}function _0x5e131a({shown:_0x5698fc,scope:_0x47ecf2,step:_0x1bc6c,move:_0x3aeb57,nextFlipped:_0x471da6,t:_0x27a622}){const _0x160c3f=_0x538289,_0x44244c=_0x360308===_0x47ecf2&&_0x1bc6c===_0x3dee5f+0x1,_0x5bbdb1=_0x44244c&&_0x4203fd?checkResponse(_0x4203fd,_0x5698fc,_0x3aeb57):null,_0x43e08f=_0x360308!==_0x47ecf2||_0x3dee5f!==_0x1bc6c||_0x4203fd?.[_0x160c3f(0x1e0)]((_0x1930c2,_0x8adbfa)=>_0x1930c2!==_0x5698fc[_0x8adbfa]);if(_0x43e08f)_0x4533e4();return _0x4203fd=[..._0x5698fc],_0x360308=_0x47ecf2,_0x3dee5f=_0x1bc6c,_0xe18475=_0x471da6,_0x599b8c[_0x160c3f(0x1f2)]=_0x27a622(_0x160c3f(0x211)),_0x5bbdb1&&!document[_0x160c3f(0x1e2)]&&(_0x7d0f76=_0x5bbdb1['to'],_0x57925c=!![],_0x29a879=setTimeout(()=>{const _0x1f82cf=_0x160c3f;_0x599b8c[_0x1f82cf(0x1e2)]=![],_0x285621(),_0x599b8c[_0x1f82cf(0x1f7)]([{'opacity':0x0,'transform':_0x1f82cf(0x1f4)},{'opacity':0x1,'transform':'translateY(0)\x20scale(1)'}],{'duration':0xc8,'easing':_0x1f82cf(0x1f9)}),_0xed72e2=setTimeout(_0x4533e4,0x44c);},0x168)),_0x285621(),_0x57925c;}return new ResizeObserver(_0x285621)['observe'](_0x4e3512),document['addEventListener'](_0x538289(0x20a),()=>{if(document['hidden'])_0x4533e4();}),{'render':_0x5e131a,'clear':_0x37bb71};}function qa_0x2b49(_0x5c62c5,_0x20b631){_0x5c62c5=_0x5c62c5-0x1e0;const _0x53400a=qa_0x5340();let _0x2b492a=_0x53400a[_0x5c62c5];if(qa_0x2b49['VBkbgi']===undefined){var _0x5f0277=function(_0x5a70b8){const _0x55627e='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4f41e8='',_0xb0af78='';for(let _0x59266c=0x0,_0x36bcf9,_0x466c24,_0x74daa9=0x0;_0x466c24=_0x5a70b8['charAt'](_0x74daa9++);~_0x466c24&&(_0x36bcf9=_0x59266c%0x4?_0x36bcf9*0x40+_0x466c24:_0x466c24,_0x59266c++%0x4)?_0x4f41e8+=String['fromCharCode'](0xff&_0x36bcf9>>(-0x2*_0x59266c&0x6)):0x0){_0x466c24=_0x55627e['indexOf'](_0x466c24);}for(let _0x4f206f=0x0,_0x3163d2=_0x4f41e8['length'];_0x4f206f<_0x3163d2;_0x4f206f++){_0xb0af78+='%'+('00'+_0x4f41e8['charCodeAt'](_0x4f206f)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0xb0af78);};qa_0x2b49['UEHYiH']=_0x5f0277,qa_0x2b49['kqnUQA']={},qa_0x2b49['VBkbgi']=!![];}const _0x8783f7=_0x53400a[0x0];qa_0x2b49['KlpRlI']!==_0x8783f7&&(qa_0x2b49['kqnUQA']={},qa_0x2b49['KlpRlI']=_0x8783f7);const _0x50bf8d=qa_0x2b49['kqnUQA'][_0x5c62c5];return _0x50bf8d===undefined?(_0x2b492a=qa_0x2b49['UEHYiH'](_0x2b492a),qa_0x2b49['kqnUQA'][_0x5c62c5]=_0x2b492a):_0x2b492a=_0x50bf8d,_0x2b492a;}export function renderCheckResponse({board:_0x511a4c,cells:_0x286870,..._0x41deb9}){const _0x49f9ac=qa_0x2b49;if(!controllers['has'](_0x511a4c))controllers[_0x49f9ac(0x1e7)](_0x511a4c,controller(_0x511a4c,_0x286870));return controllers['get'](_0x511a4c)[_0x49f9ac(0x201)](_0x41deb9);}export function clearCheckResponse(_0x3bba65){const _0x297731=qa_0x2b49;controllers[_0x297731(0x1f0)](_0x3bba65)?.[_0x297731(0x1fa)]();}function qa_0x5340(){const _0x2fc55c=['AgvPz2H0','mtf3r1nIsem','DMLZAwjPBgL0EwnOyw5Nzq','nJbpu2HkDu0','zMXVB3i','y2fSBgvY','yM90Dg9T','AxnjBNrLz2vY','C2LKzq','AMfUz2LszxbLBenHBgW','z2v0qM91BMrPBMDdBgLLBNrszwn0','nJi1C25hEvfe','zxzLCNK','C29Tzq','BgvUz3rO','AgLKzgvU','D2LKDgG','Dg9W','ls10ywLSlw9MzNnLDa','zMLSDgvY','C2v0','C3rHDhvZ','DgfPBa','zgf0yxnLDa','mZmZnJyWAgvwwM1i','mtu2mtuWowzeu1HPzq','y2XHC3noyw1L','C3r5Bgu','CxvLCNLtzwXLy3rVCG','z2v0','zNjVBq','Dgv4DenVBNrLBNq','yxjPys1SAxzL','DhjHBNnSyxrLwsG1ChGPihnJywXLkc44kq','mtbUuM5XuwO','mtaYmfnzDvPkDW','yw5PBwf0zq','CM9Szq','zwfZzs1VDxq','y2XLyxi','mJi1nZC4vhf0CfLJ','C2v0qxr0CMLIDxrL','ntyWmJe2ng1AtKPXzG','C2v0uhjVCgvYDhK','BwfW','mta0mZzeBfnqwNO','CMvUzgvY','lNn0B25L','mJa0nJG4DgrsD0TP','y3jLyxrLrwXLBwvUDa','Aw5KzxG','yxbWzw5K','nduYvvnHB21Z'];qa_0x5340=function(){return _0x2fc55c;};return qa_0x5340();}
+import { inCheck, legalMoves, sideOf } from './rules.js';
+import { speechPlacement } from './threat-geometry.js';
+
+export function checkResponse(before, after, move) {
+  const from = move?.from, to = move?.to ?? move?.index;
+  if (![from,to].every(Number.isInteger) || from === to || before?.length !== 90 || after?.length !== 90) return null;
+  const side = sideOf(before[from]);
+  if (!side || !inCheck(before, side) || inCheck(after, side) || !legalMoves(before, side).some(m => m.from === from && m.to === to)) return null;
+  const expected = [...before]; expected[to] = expected[from]; expected[from] = 0;
+  return expected.every((piece,i) => piece === after[i]) ? { side, from, to } : null;
+}
+
+const controllers = new WeakMap();
+function controller(board, cells) {
+  const grid = board.querySelector('.board-grid'), bubble = document.createElement('span');
+  bubble.className = 'jangi-threat-speech jangi-response-speech'; bubble.hidden = true;
+  bubble.setAttribute('role','status'); bubble.setAttribute('aria-live','polite'); grid.append(bubble);
+  let previous, lastScope, lastStep, caller, flipped, start, end, active = false;
+  function hide() { clearTimeout(start); clearTimeout(end); bubble.hidden = true; active = false; }
+  function clear() { hide(); previous = null; lastScope = null; lastStep = null; }
+  function position() {
+    if (bubble.hidden || caller === undefined) return;
+    const bounds = grid.getBoundingClientRect();
+    if(!bounds.width||!bounds.height)return;
+    const box=cell=>{
+      const point=flipped?89-Number(cell.dataset.index):Number(cell.dataset.index),style=getComputedStyle(cell.querySelector('.stone'));
+      const width=parseFloat(style.width)||bounds.width/9,height=parseFloat(style.height)||bounds.height/10;
+      return{x:(point%9+.5)*bounds.width/9-width/2,y:(Math.floor(point/9)+.5)*bounds.height/10-height/2,width,height};
+    };
+    const anchor=cells[caller],size=bubble.getBoundingClientRect();
+    const best=speechPlacement(box(anchor),size,bounds,cells.filter(cell=>cell!==anchor&&cell.dataset.stone!=='0').map(box),{preferredSide:'bottom'});
+    bubble.style.left=best.x+'px';bubble.style.top=best.y+'px';
+    bubble.dataset.tail=best.side;bubble.style.setProperty('--tail-offset',best.tail+'px');
+    bubble.dataset.caller=caller;
+  }
+  function render({shown,scope,step,move,nextFlipped,t}) {
+    const adjacent = lastScope === scope && step === lastStep+1;
+    const response = adjacent && previous ? checkResponse(previous,shown,move) : null;
+    const changed = lastScope !== scope || lastStep !== step || previous?.some((p,i)=>p!==shown[i]);
+    if(changed)hide();
+    previous=[...shown];lastScope=scope;lastStep=step;flipped=nextFlipped;
+    bubble.textContent=t('jangiRepelCall');
+    if(response && !document.hidden){
+      caller=response.to;active=true;
+      start=setTimeout(()=>{
+        bubble.hidden=false;position();
+        bubble.animate([{opacity:0,transform:'translateY(5px) scale(.8)'},{opacity:1,transform:'translateY(0) scale(1)'}],{duration:200,easing:'ease-out'});
+        end=setTimeout(hide,1100);
+      },360);
+    }
+    position();return active;
+  }
+  new ResizeObserver(position).observe(grid);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)hide();});
+  return {render,clear};
+}
+export function renderCheckResponse({board,cells,...input}) {
+  if(!controllers.has(board))controllers.set(board,controller(board,cells));
+  return controllers.get(board).render(input);
+}
+export function clearCheckResponse(board) {controllers.get(board)?.clear();}

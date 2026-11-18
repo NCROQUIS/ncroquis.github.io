@@ -1,1 +1,71 @@
-const qp_0x6bd33b=qp_0x52ff;(function(_0x5afda8,_0xbbfb4e){const _0x53e2a5=qp_0x52ff,_0x1188d4=_0x5afda8();while(!![]){try{const _0x51ceba=-parseInt(_0x53e2a5(0x11a))/0x1*(parseInt(_0x53e2a5(0x107))/0x2)+parseInt(_0x53e2a5(0x108))/0x3*(parseInt(_0x53e2a5(0x10c))/0x4)+-parseInt(_0x53e2a5(0x117))/0x5*(parseInt(_0x53e2a5(0x120))/0x6)+parseInt(_0x53e2a5(0x105))/0x7+parseInt(_0x53e2a5(0x124))/0x8*(-parseInt(_0x53e2a5(0x127))/0x9)+parseInt(_0x53e2a5(0x10b))/0xa*(parseInt(_0x53e2a5(0x10e))/0xb)+-parseInt(_0x53e2a5(0x113))/0xc;if(_0x51ceba===_0xbbfb4e)break;else _0x1188d4['push'](_0x1188d4['shift']());}catch(_0x40a731){_0x1188d4['push'](_0x1188d4['shift']());}}}(qp_0x44c5,0xef451));import{KING,HORSE,ELEPHANT,sideOf,pseudoMoves,facing}from'./rules.js';const point=(_0x59ae53,_0x4ab642)=>{const _0x8bbba2=qp_0x52ff,_0x50deb1=_0x4ab642?0x59-_0x59ae53:_0x59ae53;return[_0x50deb1%0x9+0.5,Math[_0x8bbba2(0x11b)](_0x50deb1/0x9)+0.5];},path=_0x2602bc=>_0x2602bc[qp_0x6bd33b(0x114)]((_0x3896aa,_0x5fa906)=>''+(_0x5fa906?'L':'M')+_0x3896aa['join']('\x20'))[qp_0x6bd33b(0x112)]('');function qp_0x44c5(){const _0x3ba29e=['CMvKDwnL','mtm3mxD3DMPMyW','zMXVB3i','yM90Dg9T','Bwf4','C2nVCMu','BgvMDa','nNDNrKHcAW','Aw5KzxHpzG','AgvPz2H0','AhLWB3q','oeXpEhvVtG','CMLNAhq','D2LKDgG','ntC4mZu4rvrwtgDz','DgfPBa','nJG0ntiWmMnrDK5dBG','ChvZAa','mte1ogXmshLcza','nJG2mdC2z3PnzvHN','BwLU','y2HLy2S','oda2mteXmhbrDwDvuq','mtzVsNPlyue','ywjZ','mJjNsezIrNu','BgvUz3rO','C29YDa','C2LKzq','AM9PBG','mte4ndy2nZzzBwXvB2y','BwfW','zNjVBq','C2LNBG','mZm5nZy2nwD0C2T3DW','Dg9W'];qp_0x44c5=function(){return _0x3ba29e;};return qp_0x44c5();}function qp_0x52ff(_0xaec547,_0x2eef30){_0xaec547=_0xaec547-0x104;const _0x44c5b9=qp_0x44c5();let _0x52ff70=_0x44c5b9[_0xaec547];if(qp_0x52ff['VyLcdI']===undefined){var _0x55af36=function(_0x2d8959){const _0x282cc4='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3f14e2='',_0x59ae53='';for(let _0x4ab642=0x0,_0x50deb1,_0x2602bc,_0x3896aa=0x0;_0x2602bc=_0x2d8959['charAt'](_0x3896aa++);~_0x2602bc&&(_0x50deb1=_0x4ab642%0x4?_0x50deb1*0x40+_0x2602bc:_0x2602bc,_0x4ab642++%0x4)?_0x3f14e2+=String['fromCharCode'](0xff&_0x50deb1>>(-0x2*_0x4ab642&0x6)):0x0){_0x2602bc=_0x282cc4['indexOf'](_0x2602bc);}for(let _0x5fa906=0x0,_0x470a17=_0x3f14e2['length'];_0x5fa906<_0x470a17;_0x5fa906++){_0x59ae53+='%'+('00'+_0x3f14e2['charCodeAt'](_0x5fa906)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x59ae53);};qp_0x52ff['ckNoVd']=_0x55af36,qp_0x52ff['FhWSlO']={},qp_0x52ff['VyLcdI']=!![];}const _0x4f6c68=_0x44c5b9[0x0];qp_0x52ff['AArycs']!==_0x4f6c68&&(qp_0x52ff['FhWSlO']={},qp_0x52ff['AArycs']=_0x4f6c68);const _0xabea4d=qp_0x52ff['FhWSlO'][_0xaec547];return _0xabea4d===undefined?(_0x52ff70=qp_0x52ff['ckNoVd'](_0x52ff70),qp_0x52ff['FhWSlO'][_0xaec547]=_0x52ff70):_0x52ff70=_0xabea4d,_0x52ff70;}function route(_0x470a17,_0x48a24e,_0x515d5a,_0x3b0a54){const _0x3a4c3d=qp_0x6bd33b,_0x245154=_0x48a24e%0x9,_0xd96517=Math[_0x3a4c3d(0x11b)](_0x48a24e/0x9),_0x22653a=_0x515d5a%0x9-_0x245154,_0x482d41=Math['floor'](_0x515d5a/0x9)-_0xd96517,_0x117f27=[[_0x245154+0.5,_0xd96517+0.5]],_0x599762=Math[_0x3a4c3d(0x10d)](_0x470a17[_0x48a24e]);if(_0x599762===HORSE||_0x599762===ELEPHANT){const _0x5337c7=Math[_0x3a4c3d(0x10d)](_0x22653a)>Math['abs'](_0x482d41),_0x19ba1a=[_0x245154+0.5+(_0x5337c7?Math[_0x3a4c3d(0x116)](_0x22653a):0x0),_0xd96517+0.5+(_0x5337c7?0x0:Math[_0x3a4c3d(0x116)](_0x482d41))];_0x117f27['push'](_0x19ba1a);if(_0x599762===ELEPHANT)_0x117f27['push']([_0x19ba1a[0x0]+Math[_0x3a4c3d(0x116)](_0x22653a),_0x19ba1a[0x1]+Math[_0x3a4c3d(0x116)](_0x482d41)]);}_0x117f27[_0x3a4c3d(0x106)]([_0x515d5a%0x9+0.5,Math['floor'](_0x515d5a/0x9)+0.5]);if(_0x3b0a54)for(const _0x59b0ca of _0x117f27){_0x59b0ca[0x0]=0x9-_0x59b0ca[0x0],_0x59b0ca[0x1]=0xa-_0x59b0ca[0x1];}const _0xb6b4aa=_0x117f27[_0x3a4c3d(0x114)](_0x1ec6f5=>[..._0x1ec6f5]),_0x4f7fcb=_0xb6b4aa['at'](-0x1),_0x3e3934=_0xb6b4aa['at'](-0x2),_0x1dc696=Math[_0x3a4c3d(0x123)](_0x4f7fcb[0x0]-_0x3e3934[0x0],_0x4f7fcb[0x1]-_0x3e3934[0x1]),_0x510c7c=Math[_0x3a4c3d(0x109)](0.55,_0x1dc696*0.6);return _0x4f7fcb[0x0]-=(_0x4f7fcb[0x0]-_0x3e3934[0x0])/_0x1dc696*_0x510c7c,_0x4f7fcb[0x1]-=(_0x4f7fcb[0x1]-_0x3e3934[0x1])/_0x1dc696*_0x510c7c,{'from':_0x48a24e,'to':_0x515d5a,'points':_0x117f27,'path':path(_0x117f27),'arrowPath':path(_0xb6b4aa)};}export function boardThreats(_0x2b7648,{flipped:flipped=![],bikjang:bikjang=![],offeringSide:offeringSide=0x1}={}){const _0x14ab39=qp_0x6bd33b,_0x5c93fb=[];for(const _0x230364 of[0x1,0x2]){const _0x5ebce3=_0x2b7648[_0x14ab39(0x121)](_0x230364===0x1?KING:-KING);if(_0x5ebce3<0x0)continue;for(let _0x58d2fc=0x0;_0x58d2fc<0x5a;_0x58d2fc++){if(sideOf(_0x2b7648[_0x58d2fc])===0x3-_0x230364&&pseudoMoves(_0x2b7648,_0x58d2fc)['includes'](_0x5ebce3))_0x5c93fb[_0x14ab39(0x106)](route(_0x2b7648,_0x58d2fc,_0x5ebce3,flipped));}}if(_0x5c93fb[_0x14ab39(0x10f)])return{'kind':_0x14ab39(0x10a),'routes':_0x5c93fb,'callers':_0x5c93fb[_0x14ab39(0x114)](_0x43395f=>_0x43395f[_0x14ab39(0x115)]),'kings':[...new Set(_0x5c93fb[_0x14ab39(0x114)](_0x126de0=>_0x126de0['to']))]};if(!bikjang||!facing(_0x2b7648))return null;const _0x164c1c=_0x2b7648['indexOf'](offeringSide===0x2?-KING:KING),_0x1761db=_0x2b7648[_0x14ab39(0x121)](offeringSide===0x2?KING:-KING);return{'kind':'bikjang','routes':[route(_0x2b7648,_0x164c1c,_0x1761db,flipped)],'callers':[_0x164c1c],'kings':[_0x2b7648[_0x14ab39(0x121)](KING),_0x2b7648[_0x14ab39(0x121)](-KING)]};}export const threatPoint=point;export function speechPlacement(_0x1afe43,_0x4a1e3c,_0x17b1bb,_0x277be5,{preferredSide:_0x3d4753}={}){const _0x2bc828=qp_0x6bd33b,_0x177117=0x5,_0x3dc3cc=_0x1afe43['x']+_0x1afe43[_0x2bc828(0x126)]/0x2,_0x21c8e0=_0x1afe43['y']+_0x1afe43[_0x2bc828(0x122)]/0x2,_0x1383bb=[];for(const _0x19c1ad of[0x0,-0.5,0.5,-0x1,0x1,-1.5,1.5]){_0x1383bb['push']({'side':_0x2bc828(0x11f),'x':_0x1afe43['x']+_0x1afe43[_0x2bc828(0x126)]+_0x177117,'y':_0x21c8e0-_0x4a1e3c['height']/0x2+_0x4a1e3c[_0x2bc828(0x122)]*_0x19c1ad}),_0x1383bb[_0x2bc828(0x106)]({'side':_0x2bc828(0x125),'x':_0x1afe43['x']-_0x4a1e3c[_0x2bc828(0x126)]-_0x177117,'y':_0x21c8e0-_0x4a1e3c['height']/0x2+_0x4a1e3c[_0x2bc828(0x122)]*_0x19c1ad}),_0x1383bb[_0x2bc828(0x106)]({'side':_0x2bc828(0x11c),'x':_0x3dc3cc-_0x4a1e3c[_0x2bc828(0x126)]/0x2+_0x4a1e3c[_0x2bc828(0x126)]*_0x19c1ad,'y':_0x1afe43['y']-_0x4a1e3c['height']-_0x177117}),_0x1383bb['push']({'side':_0x2bc828(0x118),'x':_0x3dc3cc-_0x4a1e3c['width']/0x2+_0x4a1e3c[_0x2bc828(0x126)]*_0x19c1ad,'y':_0x1afe43['y']+_0x1afe43[_0x2bc828(0x122)]+_0x177117});}for(const _0xa9af47 of _0x1383bb){_0xa9af47['x']=Math[_0x2bc828(0x11d)](0x2,Math[_0x2bc828(0x109)](_0x17b1bb[_0x2bc828(0x126)]-_0x4a1e3c[_0x2bc828(0x126)]-0x2,_0xa9af47['x'])),_0xa9af47['y']=Math[_0x2bc828(0x11d)](0x2,Math[_0x2bc828(0x109)](_0x17b1bb[_0x2bc828(0x122)]-_0x4a1e3c[_0x2bc828(0x122)]-0x2,_0xa9af47['y']));const _0x437e7e=[_0x1afe43,..._0x277be5][_0x2bc828(0x119)]((_0x1d864b,_0x4e8ccb)=>_0x1d864b+Math[_0x2bc828(0x11d)](0x0,Math[_0x2bc828(0x109)](_0xa9af47['x']+_0x4a1e3c[_0x2bc828(0x126)],_0x4e8ccb['x']+_0x4e8ccb[_0x2bc828(0x126)])-Math[_0x2bc828(0x11d)](_0xa9af47['x'],_0x4e8ccb['x']))*Math['max'](0x0,Math[_0x2bc828(0x109)](_0xa9af47['y']+_0x4a1e3c[_0x2bc828(0x122)],_0x4e8ccb['y']+_0x4e8ccb[_0x2bc828(0x122)])-Math[_0x2bc828(0x11d)](_0xa9af47['y'],_0x4e8ccb['y'])),0x0);_0xa9af47['score']=_0x437e7e*0x3e8+Math[_0x2bc828(0x123)](_0xa9af47['x']+_0x4a1e3c[_0x2bc828(0x126)]/0x2-_0x3dc3cc,_0xa9af47['y']+_0x4a1e3c[_0x2bc828(0x122)]/0x2-_0x21c8e0)+(_0x3d4753&&_0xa9af47[_0x2bc828(0x111)]!==_0x3d4753?_0x17b1bb['width']:0x0);}_0x1383bb[_0x2bc828(0x110)]((_0x42e0b7,_0x2ca4a2)=>_0x42e0b7[_0x2bc828(0x11e)]-_0x2ca4a2['score']);const _0x417404=_0x1383bb[0x0],_0x30b7af=_0x417404[_0x2bc828(0x111)]===_0x2bc828(0x11f)||_0x417404[_0x2bc828(0x111)]===_0x2bc828(0x125);return _0x417404[_0x2bc828(0x104)]=Math[_0x2bc828(0x11d)](0x8,Math['min']((_0x30b7af?_0x4a1e3c[_0x2bc828(0x122)]:_0x4a1e3c[_0x2bc828(0x126)])-0x8,_0x30b7af?_0x21c8e0-_0x417404['y']:_0x3dc3cc-_0x417404['x'])),_0x417404;}
+import { KING, HORSE, ELEPHANT, sideOf, pseudoMoves, facing } from './rules.js';
+
+const point = (index, flipped) => {
+  const visible = flipped ? 89 - index : index;
+  return [visible % 9 + .5, Math.floor(visible / 9) + .5];
+};
+const path = points => points.map((p, i) => `${i ? 'L' : 'M'}${p.join(' ')}`).join('');
+
+function route(board, from, to, flipped) {
+  const x = from % 9, y = Math.floor(from / 9), dx = to % 9 - x, dy = Math.floor(to / 9) - y;
+  const points = [[x + .5, y + .5]], kind = Math.abs(board[from]);
+  if (kind === HORSE || kind === ELEPHANT) {
+    const horizontal = Math.abs(dx) > Math.abs(dy);
+    const first = [x + .5 + (horizontal ? Math.sign(dx) : 0), y + .5 + (horizontal ? 0 : Math.sign(dy))];
+    points.push(first);
+    if (kind === ELEPHANT) points.push([first[0] + Math.sign(dx), first[1] + Math.sign(dy)]);
+  }
+  points.push([to % 9 + .5, Math.floor(to / 9) + .5]);
+  if (flipped) for (const p of points) { p[0] = 9 - p[0]; p[1] = 10 - p[1]; }
+  // Stop the arrow outside the general's body, including short, adjacent attacks.
+  const trimmed = points.map(p => [...p]), end = trimmed.at(-1), previous = trimmed.at(-2);
+  const distance = Math.hypot(end[0] - previous[0], end[1] - previous[1]);
+  const inset = Math.min(.55, distance * .6);
+  end[0] -= (end[0] - previous[0]) / distance * inset;
+  end[1] -= (end[1] - previous[1]) / distance * inset;
+  return { from, to, points, path: path(points), arrowPath: path(trimmed) };
+}
+
+// Use exactly the same attack detection as inCheck, including screens and blocked legs.
+// Both sides are inspected so optimistic moves and historical positions need no turn guess.
+export function boardThreats(board, { flipped = false, bikjang = false, offeringSide = 1 } = {}) {
+  const routes = [];
+  for (const side of [1, 2]) {
+    const king = board.indexOf(side === 1 ? KING : -KING);
+    if (king < 0) continue;
+    for (let from = 0; from < 90; from++) {
+      if (sideOf(board[from]) === 3 - side && pseudoMoves(board, from).includes(king)) routes.push(route(board, from, king, flipped));
+    }
+  }
+  if (routes.length) return { kind: 'check', routes, callers: routes.map(r => r.from), kings: [...new Set(routes.map(r => r.to))] };
+  if (!bikjang || !facing(board)) return null;
+  const from = board.indexOf(offeringSide === 2 ? -KING : KING), to = board.indexOf(offeringSide === 2 ? KING : -KING);
+  return { kind: 'bikjang', routes: [route(board, from, to, flipped)], callers: [from], kings: [board.indexOf(KING), board.indexOf(-KING)] };
+}
+
+export const threatPoint = point;
+
+// Prefer empty space beside the caller; clamp every candidate inside the board.
+export function speechPlacement(anchor, size, bounds, obstacles, {preferredSide} = {}) {
+  const gap = 5, centerX = anchor.x + anchor.width / 2, centerY = anchor.y + anchor.height / 2;
+  const candidates = [];
+  for (const offset of [0, -.5, .5, -1, 1, -1.5, 1.5]) {
+    candidates.push({ side: 'left', x: anchor.x + anchor.width + gap, y: centerY - size.height / 2 + size.height * offset });
+    candidates.push({ side: 'right', x: anchor.x - size.width - gap, y: centerY - size.height / 2 + size.height * offset });
+    candidates.push({ side: 'bottom', x: centerX - size.width / 2 + size.width * offset, y: anchor.y - size.height - gap });
+    candidates.push({ side: 'top', x: centerX - size.width / 2 + size.width * offset, y: anchor.y + anchor.height + gap });
+  }
+  for (const candidate of candidates) {
+    candidate.x = Math.max(2, Math.min(bounds.width - size.width - 2, candidate.x));
+    candidate.y = Math.max(2, Math.min(bounds.height - size.height - 2, candidate.y));
+    const overlap = [anchor, ...obstacles].reduce((total, box) => total +
+      Math.max(0, Math.min(candidate.x + size.width, box.x + box.width) - Math.max(candidate.x, box.x)) *
+      Math.max(0, Math.min(candidate.y + size.height, box.y + box.height) - Math.max(candidate.y, box.y)), 0);
+    candidate.score = overlap * 1000 + Math.hypot(candidate.x + size.width / 2 - centerX, candidate.y + size.height / 2 - centerY)
+      + (preferredSide && candidate.side !== preferredSide ? bounds.width : 0);
+  }
+  candidates.sort((a, b) => a.score - b.score);
+  const best = candidates[0], vertical = best.side === 'left' || best.side === 'right';
+  best.tail = Math.max(8, Math.min((vertical ? size.height : size.width) - 8, vertical ? centerY - best.y : centerX - best.x));
+  return best;
+}

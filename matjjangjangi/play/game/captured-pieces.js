@@ -1,1 +1,47 @@
-function q9_0x568e(_0x18fc45,_0x1e89c3){_0x18fc45=_0x18fc45-0x16c;const _0x3c8a35=q9_0x3c8a();let _0x568e8d=_0x3c8a35[_0x18fc45];if(q9_0x568e['YwpsNy']===undefined){var _0x19d9fa=function(_0x52c012){const _0x188435='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3d5c6d='',_0x272556='';for(let _0x3b52e0=0x0,_0x3c507a,_0x2f71e1,_0x12bae1=0x0;_0x2f71e1=_0x52c012['charAt'](_0x12bae1++);~_0x2f71e1&&(_0x3c507a=_0x3b52e0%0x4?_0x3c507a*0x40+_0x2f71e1:_0x2f71e1,_0x3b52e0++%0x4)?_0x3d5c6d+=String['fromCharCode'](0xff&_0x3c507a>>(-0x2*_0x3b52e0&0x6)):0x0){_0x2f71e1=_0x188435['indexOf'](_0x2f71e1);}for(let _0x27d874=0x0,_0x3be4a8=_0x3d5c6d['length'];_0x27d874<_0x3be4a8;_0x27d874++){_0x272556+='%'+('00'+_0x3d5c6d['charCodeAt'](_0x27d874)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x272556);};q9_0x568e['GWQvhB']=_0x19d9fa,q9_0x568e['XfFjZn']={},q9_0x568e['YwpsNy']=!![];}const _0x4083bf=_0x3c8a35[0x0];q9_0x568e['VssFTz']!==_0x4083bf&&(q9_0x568e['XfFjZn']={},q9_0x568e['VssFTz']=_0x4083bf);const _0x36ff95=q9_0x568e['XfFjZn'][_0x18fc45];return _0x36ff95===undefined?(_0x568e8d=q9_0x568e['GWQvhB'](_0x568e8d),q9_0x568e['XfFjZn'][_0x18fc45]=_0x568e8d):_0x568e8d=_0x36ff95,_0x568e8d;}(function(_0x4565c4,_0x5c0563){const _0x3f92bf=q9_0x568e,_0x6278a6=_0x4565c4();while(!![]){try{const _0x1b7122=parseInt(_0x3f92bf(0x189))/0x1*(-parseInt(_0x3f92bf(0x17f))/0x2)+parseInt(_0x3f92bf(0x16d))/0x3*(parseInt(_0x3f92bf(0x179))/0x4)+-parseInt(_0x3f92bf(0x172))/0x5+parseInt(_0x3f92bf(0x18f))/0x6+-parseInt(_0x3f92bf(0x17e))/0x7*(-parseInt(_0x3f92bf(0x175))/0x8)+-parseInt(_0x3f92bf(0x186))/0x9+-parseInt(_0x3f92bf(0x17d))/0xa*(parseInt(_0x3f92bf(0x16f))/0xb);if(_0x1b7122===_0x5c0563)break;else _0x6278a6['push'](_0x6278a6['shift']());}catch(_0x27fe6d){_0x6278a6['push'](_0x6278a6['shift']());}}}(q9_0x3c8a,0x64d52));import{KING,GLYPHS,sideOf}from'./rules.js';function q9_0x3c8a(){const _0x720f07=['C2LKzq','C3rVBMuTC2HHzg93','A2LUza','mJu0nZiWqxfOr2Hi','mJCWoxvIwufPBq','ntzVr2Pfy0K','Bwf4','BwfW','CgLLy2vZs2v5','zMLSBa','yMXHy2S','AxnbCNjHEq','mtmXnJGWohf3BxP4EG','AMfUz2KTy2fWDhvYzwqTDg9Rzw4','C2v0qxr0CMLIDxrL','mJeYmJDJthbjBgu','ls1WAwXLlwLUzgv4','C3rYAw5NAwz5','y291BNq','C3r5Bgu','yxjPys1OAwrKzw4','mZqZmJG0nK15A2zjCG','C3rVBMvtDhLSzq','AM9PBG','y3jLyxrLrwXLBwvUDa','AgLKzgvU','Aw5JBhvKzxm','AMfUz2Ldyxb0DxjLze5VBMu','mZG3otnsAfbNCgu','ywjZ','odHQC2LYDwi','C3bHBG','y2XHC3noyw1L','nJqZotK1wMjArgrq','zgf0yxnLDa','D2HPDgu','mJa1nNjnD0v0BW','ls1WAwXLlwnVDw50','C2v0uhjVCgvYDhK','yxbWzw5K','mJuYC0L2EMfN'];q9_0x3c8a=function(){return _0x720f07;};return q9_0x3c8a();}import{pieceStyleForSeat}from'./piece-skins.js';import{setPieceGlyph}from'./piece-glyph.js';const inventory=[0x0,0x1,0x2,0x2,0x2,0x2,0x2,0x5],order=[0x3,0x4,0x5,0x6,0x2,0x7];export function capturedPieces(_0x272556,_0x3b52e0){const _0x1a5b2d=q9_0x568e;if(!Array[_0x1a5b2d(0x185)](_0x272556)||_0x272556['length']!==0x5a||![0x1,0x2][_0x1a5b2d(0x194)](_0x3b52e0)||!_0x272556['includes'](KING)||!_0x272556[_0x1a5b2d(0x194)](-KING))return[];const _0x3c507a=Array(0x8)[_0x1a5b2d(0x183)](0x0);for(const _0x2f71e1 of _0x272556)if(sideOf(_0x2f71e1)===_0x3b52e0)_0x3c507a[Math[_0x1a5b2d(0x16e)](_0x2f71e1)]++;return order[_0x1a5b2d(0x181)](_0x12bae1=>({'kind':_0x12bae1,'count':Math[_0x1a5b2d(0x180)](0x0,inventory[_0x12bae1]-_0x3c507a[_0x12bae1])}))['filter'](_0x27d874=>_0x27d874[_0x1a5b2d(0x18c)]);}export function capturedToken(_0x3be4a8,_0x45d52e,_0x3bec2d=0x0){const _0x10927e=q9_0x568e,_0x29c4bd=document[_0x10927e(0x192)](_0x10927e(0x170));_0x29c4bd[_0x10927e(0x171)]=_0x10927e(0x187),_0x29c4bd[_0x10927e(0x173)][_0x10927e(0x190)]=_0x45d52e,_0x29c4bd[_0x10927e(0x18d)][_0x10927e(0x177)](_0x10927e(0x18a),_0x3bec2d);const _0x4df099=document[_0x10927e(0x192)](_0x10927e(0x170));_0x4df099[_0x10927e(0x171)]=_0x10927e(0x17b);const _0x595e1d=document[_0x10927e(0x192)](_0x10927e(0x170));return _0x595e1d[_0x10927e(0x171)]='stone\x20'+(sideOf(_0x3be4a8)===0x1?_0x10927e(0x184):_0x10927e(0x174)),_0x595e1d[_0x10927e(0x173)][_0x10927e(0x17c)]=Math[_0x10927e(0x16e)](_0x3be4a8),setPieceGlyph(_0x595e1d,GLYPHS[sideOf(_0x3be4a8)][Math[_0x10927e(0x16e)](_0x3be4a8)-0x1]),_0x29c4bd[_0x10927e(0x178)](_0x4df099,_0x595e1d),_0x29c4bd;}export function renderCapturedPieces(_0x2e6a5b,{game:_0x3c2b30,board:_0x3b783b,capturedSide:_0x45205c,localStyle:_0x306a97,label:_0x3ae828,t:_0x4dd854,reserveEmpty:reserveEmpty=![]}){const _0x55554f=q9_0x568e,_0xee6356=_0x3c2b30['summaryOnly']?[]:capturedPieces(_0x3b783b,_0x45205c);_0x2e6a5b[_0x55554f(0x193)]=!reserveEmpty&&_0xee6356['length']===0x0;const _0x16b119=_0x45205c===0x1?_0x3c2b30[_0x55554f(0x184)]??0x1:0x3-(_0x3c2b30[_0x55554f(0x184)]??0x1),_0x24be54=pieceStyleForSeat(_0x3c2b30,_0x16b119,_0x306a97),_0x5b55fd=_0xee6356['map'](({kind:_0x8f33f5,count:_0x37b696})=>GLYPHS[_0x45205c][_0x8f33f5-0x1]+'\x20×\x20'+_0x37b696)[_0x55554f(0x191)](',\x20'),_0x454f02=_0x4dd854(_0x3ae828,{'pieces':_0x5b55fd||_0x4dd854(_0x55554f(0x16c))}),_0x5b23c3=JSON[_0x55554f(0x18b)]([_0xee6356,_0x45205c,_0x24be54,_0x454f02]);if(_0x2e6a5b[_0x55554f(0x173)]['piecesKey']===_0x5b23c3)return;_0x2e6a5b['dataset'][_0x55554f(0x182)]=_0x5b23c3,_0x2e6a5b[_0x55554f(0x173)][_0x55554f(0x17a)]=_0x45205c,_0x2e6a5b['setAttribute']('aria-label',_0x454f02),_0x2e6a5b['replaceChildren']();for(const {kind:_0x3ad86d,count:_0x1fef89}of _0xee6356){const _0x223ee5=document[_0x55554f(0x192)](_0x55554f(0x170));_0x223ee5[_0x55554f(0x171)]='jangi-captured-pile',_0x223ee5[_0x55554f(0x173)][_0x55554f(0x17c)]=_0x3ad86d,_0x223ee5[_0x55554f(0x173)]['count']=_0x1fef89,_0x223ee5[_0x55554f(0x18d)][_0x55554f(0x177)](_0x55554f(0x176),_0x1fef89),_0x223ee5[_0x55554f(0x188)](_0x55554f(0x18e),'true');for(let _0x38a651=0x0;_0x38a651<_0x1fef89;_0x38a651++){_0x223ee5[_0x55554f(0x178)](capturedToken((_0x45205c===0x1?0x1:-0x1)*_0x3ad86d,_0x24be54,_0x38a651));}_0x2e6a5b[_0x55554f(0x178)](_0x223ee5);}}
+import { KING, GLYPHS, sideOf } from './rules.js';
+import { pieceStyleForSeat } from './piece-skins.js';
+import { setPieceGlyph } from './piece-glyph.js';
+
+const inventory = [0, 1, 2, 2, 2, 2, 2, 5];
+const order = [3, 4, 5, 6, 2, 7];
+// Derive from the shown position, so undo/replay and rejected optimistic moves restore the piles.
+export function capturedPieces(board, side) {
+  if (!Array.isArray(board) || board.length !== 90 || ![1, 2].includes(side) ||
+      !board.includes(KING) || !board.includes(-KING)) return [];
+  const remaining = Array(8).fill(0);
+  for (const piece of board) if (sideOf(piece) === side) remaining[Math.abs(piece)]++;
+  return order.map(kind => ({ kind, count: Math.max(0, inventory[kind] - remaining[kind]) })).filter(p => p.count);
+}
+
+export function capturedToken(piece, style, index = 0) {
+  const token = document.createElement('span'); token.className = 'jangi-captured-token';
+  token.dataset.stoneStyle = style; token.style.setProperty('--pile-index', index);
+  const shadow = document.createElement('span'); shadow.className = 'stone-shadow';
+  const body = document.createElement('span'); body.className = 'stone ' + (sideOf(piece) === 1 ? 'black' : 'white');
+  body.dataset.kind = Math.abs(piece); setPieceGlyph(body, GLYPHS[sideOf(piece)][Math.abs(piece) - 1]);
+  token.append(shadow, body); return token;
+}
+
+export function renderCapturedPieces(node, { game, board, capturedSide, localStyle, label, t, reserveEmpty = false }) {
+  const groups = game.summaryOnly ? [] : capturedPieces(board, capturedSide);
+  node.hidden = !reserveEmpty && groups.length === 0;
+  const seat=capturedSide===1?game.black??1:3-(game.black??1);
+  const style = pieceStyleForSeat(game, seat, localStyle);
+  const text = groups.map(({kind,count}) => GLYPHS[capturedSide][kind - 1] + ' × ' + count).join(', ');
+  const description = t(label, { pieces: text || t('jangiCapturedNone') });
+  const key = JSON.stringify([groups, capturedSide, style, description]);
+  if (node.dataset.piecesKey === key) return;
+  node.dataset.piecesKey = key;
+  node.dataset.side = capturedSide;
+  node.setAttribute('aria-label', description);
+  node.replaceChildren();
+  for (const {kind,count} of groups) {
+    const pile = document.createElement('span');
+    pile.className = 'jangi-captured-pile'; pile.dataset.kind = kind; pile.dataset.count = count;
+    pile.style.setProperty('--pile-count', count); pile.setAttribute('aria-hidden', 'true');
+    for (let n = 0; n < count; n++) {
+      pile.append(capturedToken((capturedSide === 1 ? 1 : -1) * kind, style, n));
+    }
+    node.append(pile);
+  }
+}

@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.21.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangjangi", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/matjjangjangi", "board": "https://ncroquis.github.io/matjjangjangi/feedback/"}, "NCQ_SHARE": {"url": "https://ncroquis.github.io/matjjangjangi/share/", "title": "맞짱 장기"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "matjjangjangi", "environment": "prod", "platform": "web", "firebase": {"projectId": "ncq-auth-prod", "apiKey": "AIzaSyDqEPsungpngw_qgoPvZhCGRZah1KpjQTk", "appId": "1:82264449125:web:1f719a207abad22b95e68c"}}});
+window.NCQ = Object.freeze({"NCQ_TEST_LANG": true, "NCQ_TEST_PLACEMENT_TIMING": true, "NCQ_TEST_SAFE": true, "NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.22.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangjangi", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/matjjangjangi", "board": "https://ncroquis.github.io/matjjangjangi/feedback/"}, "NCQ_SHARE": {"url": "https://ncroquis.github.io/matjjangjangi/share/", "title": "맞짱 장기"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "matjjangjangi", "environment": "prod", "platform": "web", "firebase": {"projectId": "ncq-auth-prod", "apiKey": "AIzaSyDqEPsungpngw_qgoPvZhCGRZah1KpjQTk", "appId": "1:82264449125:web:1f719a207abad22b95e68c"}}});
 Object.assign(window, window.NCQ);
 
 /* 화면 켜 두기 (ncq_build.py가 넣어요, 웹 공개). 게임을 보는 동안 휴대폰 화면이 저절로 꺼지지 않게 브라우저의
@@ -50,8 +50,8 @@ Object.assign(window, window.NCQ);
 })(window, typeof document !== "undefined" ? document : null);
 
 /* 엔크로키 지표 모듈 (ncq_build.py가 ncq-flags.js 뒤에 붙여요. 직접 고치지 마세요)
-   ncq-metrics 5 (2: 판 시작·끝 NcqMetrics.levelStart·levelEnd, 3: 광고·결제 도구가 보내는 광고·결제 이벤트,
-   4: 저장 모듈의 save_tamper, 5: 게임 오류 app_error)
+   ncq-metrics 7 (2: 판 시작·끝 NcqMetrics.levelStart·levelEnd, 3: 광고·결제 도구가 보내는 광고·결제 이벤트,
+   4: 저장 모듈의 save_tamper, 5: 게임 오류 app_error, 6: 토스 포인트 지급 promo_reward, 7: 진행 단계 NcqMetrics.step)
 
    아래 이벤트는 게임 코드가 할 일 없이 저절로 모아 킥오프 서버로 보내요.
      first_open     이 기기에서 처음 실행 (설치 ID를 만들 때)
@@ -61,6 +61,8 @@ Object.assign(window, window.NCQ);
    한 판씩 하는 게임은 판 시작·끝을 알려요 (Firebase 추천 이벤트와 같은 이름. 경험치로 오르는 유저 레벨이 아니에요):
      NcqMetrics.levelStart("stage-3")                  → level_start {level_name, round}
      NcqMetrics.levelEnd("stage-3", true, {score: 120}) → level_end {level_name, round, success, ms, score}
+   진행 단계는 처음 거친 단계를 알려요 (이탈 지점: 새로 온 사람이 어느 단계까지 왔다가 떠나는지):
+     NcqMetrics.step("03_first_match")                 → step {step_name}  (설치마다 단계 이름당 처음 한 번만 보내요)
    판 이름은 스테이지나 모드(예: "endless")예요. ms는 시작부터 끝까지 화면을 보고 있던 시간이고, 끝을 알리지 않은 판은
    서버가 '그만둔 판'으로 세요.
    광고·결제는 공용 도구(NcqAds·NcqIap)가 NcqMetrics._tool로 알려요 (게임 코드는 할 일이 없어요):
@@ -76,7 +78,7 @@ Object.assign(window, window.NCQ);
   "use strict";
   if (!cfg || !cfg.url || !cfg.cn || typeof window === "undefined" || typeof document === "undefined") return;
 
-  var SDK = 5;
+  var SDK = 7;
   var SESSION_GAP = 30 * 60 * 1000;      // 이만큼 쉬면 새 세션
   var BEAT = 15 * 1000;                  // 살아 있음 기록 (꺼져도 그때까지 시간은 남는다)
   var ENGAGE_EVERY = 5 * 60 * 1000;      // 오래 켜 둬도 이만큼마다 플레이 시간을 보낸다
@@ -354,10 +356,26 @@ Object.assign(window, window.NCQ);
     if (typeof score === "number" && isFinite(score)) props.score = score;
     track("level_end", props);
   }
+  // ------------------------------------------------------------ 진행 단계 (게임이 부르는 함수, 이탈 지점)
+  // 설치마다 단계 이름당 처음 한 번만 보낸다 (같은 단계를 몇 번 불러도 돼요). 서버는 첫 실행부터 어느 단계까지 왔는지 세요
+  var STEP_MAX = 60;  // 한 설치가 기억하는 단계 이름 수 (넘으면 더 보내지 않아요)
+  var stepsSent = loadJson("steps");
+  if (!stepsSent || typeof stepsSent !== "object") stepsSent = {};
+  function step(name) {
+    name = roundName(name).slice(0, 40);
+    if (!name || Object.prototype.hasOwnProperty.call(stepsSent, name)) return;
+    var n = 0, k;
+    for (k in stepsSent) n += 1;
+    if (n >= STEP_MAX) return;
+    stepsSent[name] = 1;
+    save("steps", JSON.stringify(stepsSent));
+    track("step", {step_name: name});
+  }
   // ------------------------------------------------------------ 광고·결제 (공용 도구 NcqAds·NcqIap가 부르는 함수)
   // 이름은 정해 둔 것만 받고, 값은 짧은 글·숫자·참거짓만 남긴다 (게임 코드가 부르는 함수가 아니에요)
   var TOOL_EVENTS = {ad_load: 1, ad_fail: 1, ad_show: 1, ad_reward: 1, ad_call: 1, purchase_start: 1, purchase: 1,
-                     purchase_cancel: 1, purchase_fail: 1, purchase_restore: 1, save_tamper: 1};
+                     purchase_cancel: 1, purchase_fail: 1, purchase_restore: 1, save_tamper: 1,
+                     promo_reward: 1};
   function toolEvent(name, props) {
     if (typeof name !== "string" || !Object.prototype.hasOwnProperty.call(TOOL_EVENTS, name)) return;
     var out = {}, n = 0;
@@ -405,7 +423,7 @@ Object.assign(window, window.NCQ);
     return function (a, b, c) { try { fn(a, b, c); } catch (err) { /* 무시 */ } };
   }
   try {
-    window.NcqMetrics = {levelStart: guard(levelStart), levelEnd: guard(levelEnd), _tool: guard(toolEvent), sdk: SDK};
+    window.NcqMetrics = {levelStart: guard(levelStart), levelEnd: guard(levelEnd), step: guard(step), _tool: guard(toolEvent), sdk: SDK};
   } catch (e) { /* 무시 */ }
 
   try {
@@ -438,4 +456,4 @@ Object.assign(window, window.NCQ);
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangjangi","pf":"web","mk":"web","tr":"share","vn":"0.21.0","vc":0,"cm":"42f28bd","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangjangi","pf":"web","mk":"web","tr":"share","vn":"0.22.0","vc":0,"cm":"063228b","ft":["LANG","PLACEMENT_TIMING","SAFE"]});

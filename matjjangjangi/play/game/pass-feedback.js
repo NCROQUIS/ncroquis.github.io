@@ -1,1 +1,50 @@
-function qi_0x38d7(){const _0x451165=['ntK4mJmYwK5UzNL1','y29SB3i','ywn0Aw9UCW','CgfZC2vZ','CgHHC2u','zw5KuMvHC29U','Bw92zvbSEq','odi2otziyMjWrvC','Aw5KzxG','BwfW','Bw92zvnLyxrZ','BgL2zq','Dgv4DenVBNrLBNq','AgLKzgvU','CMvKDwnL','AxnjBNrLz2vY','Bw92zunVBg9YCW','D2LUBMvY','BgfZDa','mNHSswHMtq','Bwf4','AxnbCNjHEq','C2LKzq','mtq0mJm3thPuwxLw','mtq0nJaZmJb1zKL4wgK','ChvZAa','CM91BMq','C2vHDa','zNjVBq','CMvJB3jKrgv0ywLS','DhLWzq','mZq1ndK1odftBw9gze8','mJy3ndq3nwXuDgfrsa','ndvkBfPrvK4','mtHfBLHOwu0','Bw92zq','CgX5','BgvUz3rO','CgfZCW','Aw5JBhvKzxm','CMvWBgf5','mJK1mJGXCNrdEvrr','CgXHEwLUzW','otzjwvvqzeC'];qi_0x38d7=function(){return _0x451165;};return qi_0x38d7();}function qi_0x246b(_0x4cfe19,_0x616a3c){_0x4cfe19=_0x4cfe19-0xe5;const _0x38d7c7=qi_0x38d7();let _0x246b64=_0x38d7c7[_0x4cfe19];if(qi_0x246b['ryquQZ']===undefined){var _0x5b9448=function(_0x557c23){const _0x410779='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0xc45331='',_0x3c6590='';for(let _0x356bb9=0x0,_0x32e017,_0x1c11bc,_0x379809=0x0;_0x1c11bc=_0x557c23['charAt'](_0x379809++);~_0x1c11bc&&(_0x32e017=_0x356bb9%0x4?_0x32e017*0x40+_0x1c11bc:_0x1c11bc,_0x356bb9++%0x4)?_0xc45331+=String['fromCharCode'](0xff&_0x32e017>>(-0x2*_0x356bb9&0x6)):0x0){_0x1c11bc=_0x410779['indexOf'](_0x1c11bc);}for(let _0x1a42d4=0x0,_0x1c4dd1=_0xc45331['length'];_0x1a42d4<_0x1c4dd1;_0x1a42d4++){_0x3c6590+='%'+('00'+_0xc45331['charCodeAt'](_0x1a42d4)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x3c6590);};qi_0x246b['sMXBtm']=_0x5b9448,qi_0x246b['myBdbp']={},qi_0x246b['ryquQZ']=!![];}const _0x287fe1=_0x38d7c7[0x0];qi_0x246b['KtDAHV']!==_0x287fe1&&(qi_0x246b['myBdbp']={},qi_0x246b['KtDAHV']=_0x287fe1);const _0x2004e2=qi_0x246b['myBdbp'][_0x4cfe19];return _0x2004e2===undefined?(_0x246b64=qi_0x246b['sMXBtm'](_0x246b64),qi_0x246b['myBdbp'][_0x4cfe19]=_0x246b64):_0x246b64=_0x2004e2,_0x246b64;}const qi_0x55519f=qi_0x246b;(function(_0x53a111,_0x3dea1e){const _0x16a648=qi_0x246b,_0x23d681=_0x53a111();while(!![]){try{const _0x87bd3c=-parseInt(_0x16a648(0xf3))/0x1*(parseInt(_0x16a648(0xef))/0x2)+parseInt(_0x16a648(0x107))/0x3*(parseInt(_0x16a648(0x10f))/0x4)+-parseInt(_0x16a648(0xfc))/0x5*(-parseInt(_0x16a648(0xfe))/0x6)+parseInt(_0x16a648(0x105))/0x7+parseInt(_0x16a648(0x108))/0x8*(parseInt(_0x16a648(0xfd))/0x9)+parseInt(_0x16a648(0xf4))/0xa+-parseInt(_0x16a648(0xfb))/0xb;if(_0x87bd3c===_0x3dea1e)break;else _0x23d681['push'](_0x23d681['shift']());}catch(_0x55988e){_0x23d681['push'](_0x23d681['shift']());}}}(qi_0x38d7,0xcddf7));export const isPassDraw=_0x3c6590=>!_0x3c6590?.[qi_0x55519f(0xed)]&&_0x3c6590?.[qi_0x55519f(0x10c)]!==qi_0x55519f(0x106)&&(_0x3c6590?.[qi_0x55519f(0x10d)]??_0x3c6590?.['reason']??_0x3c6590?.[qi_0x55519f(0xf9)]?.['state']?.[qi_0x55519f(0x10d)])==='passes';export function replayTimeline(_0x356bb9){const _0x1912da=qi_0x55519f,_0x32e017=_0x356bb9?.['moves']??[],_0x1c11bc=_0x356bb9?.[_0x1912da(0xf9)]?.[_0x1912da(0x10a)]??_0x356bb9?.[_0x1912da(0x10a)],_0x379809=()=>_0x32e017[_0x1912da(0xe5)]((_0x133d08,_0x2eb4df)=>({'type':_0x1912da(0xff),'moveIndex':_0x2eb4df,'movePly':_0x2eb4df+0x1,'side':_0x356bb9[_0x1912da(0xec)]?.[_0x2eb4df]??_0x356bb9[_0x1912da(0xe6)]?.[_0x2eb4df]??_0x2eb4df%0x2+0x1}));if(!Array[_0x1912da(0xf1)](_0x1c11bc))return _0x379809();const _0x1a42d4=[];let _0x1c4dd1=0x0,_0x84b302=0x1;for(const _0x16bd69 of _0x1c11bc){if(!['move','pass'][_0x1912da(0x103)](_0x16bd69?.[_0x1912da(0xfa)]))continue;const _0x1aee43=_0x16bd69[_0x1912da(0xf7)]??_0x16bd69[_0x1912da(0x109)]??_0x16bd69[_0x1912da(0xf2)];if(_0x1aee43!==_0x84b302)return _0x379809();if(_0x16bd69[_0x1912da(0xfa)]===_0x1912da(0xff)){const _0x14af2d=_0x32e017[_0x1c4dd1];if(!_0x14af2d||_0x14af2d[_0x1912da(0xf8)]!==_0x16bd69[_0x1912da(0xf8)]||_0x14af2d['to']!==(_0x16bd69[_0x1912da(0x110)]??_0x16bd69['to']))return _0x379809();_0x1a42d4[_0x1912da(0xf5)]({'type':_0x1912da(0xff),'side':_0x84b302,'moveIndex':_0x1c4dd1,'movePly':++_0x1c4dd1});}else _0x1a42d4['push']({'type':_0x1912da(0x102),'side':_0x84b302,'movePly':_0x1c4dd1});_0x84b302=0x3-_0x84b302;}return _0x1c4dd1===_0x32e017[_0x1912da(0x101)]?_0x1a42d4:_0x379809();}export const replayLength=_0x5a8090=>replayTimeline(_0x5a8090)[qi_0x55519f(0x101)];export function replayPosition(_0x2d11fd,_0xab3d4d){const _0x143d03=qi_0x55519f,_0x2ce9a7=replayTimeline(_0x2d11fd),_0x1a8b89=Math[_0x143d03(0xf0)](0x0,Math['min'](_0x2ce9a7[_0x143d03(0x101)],_0xab3d4d));return{'actions':_0x2ce9a7,'ply':_0x1a8b89,'total':_0x2ce9a7[_0x143d03(0x101)],'movePly':_0x2ce9a7[_0x1a8b89-0x1]?.[_0x143d03(0x10e)]??0x0,'last':_0x2ce9a7[_0x1a8b89-0x1]??null,'nextSide':_0x2ce9a7[_0x1a8b89]?.[_0x143d03(0xf2)]??null};}export function createPassNotice(_0x2a2a9c,_0x403052,{schedule:schedule=setTimeout,cancel:cancel=clearTimeout}={}){const _0x284b45=qi_0x55519f;let _0x586bfc=null,_0xc7892c=null,_0x55f397=0x0;function _0x334d44(){const _0x32057e=qi_0x246b;_0x55f397++;if(_0xc7892c!==null)cancel(_0xc7892c);_0xc7892c=null,_0x2a2a9c[_0x32057e(0xe9)]=!![];}function _0x503bd8(){const _0x1b07ee=qi_0x246b;_0x334d44();const _0x2fa42d=_0x55f397;_0x2a2a9c[_0x1b07ee(0xe8)]=_0x403052(),_0x2a2a9c[_0x1b07ee(0xe9)]=![],_0xc7892c=schedule(()=>{const _0x5c037a=_0x1b07ee;_0x2fa42d===_0x55f397&&(_0x2a2a9c[_0x5c037a(0xe9)]=!![],_0xc7892c=null);},0x3e8);}function _0x55bb8b(_0x342b16,{mode:mode=_0x284b45(0xe7),active:active=!![],position:position=0x0}={}){const _0x3632f7=_0x284b45,_0x4860ef=_0x342b16?mode+':'+(_0x342b16['code']??_0x342b16['id'])+':'+_0x342b16[_0x3632f7(0xf6)]+':'+(mode===_0x3632f7(0x104)?position:''):null,_0x23a970=Number[_0x3632f7(0xeb)](_0x342b16?.[_0x3632f7(0x100)])?_0x342b16[_0x3632f7(0x100)]:(_0x342b16?.['moves']?.[_0x3632f7(0x101)]??0x0)+(Array[_0x3632f7(0xf1)](_0x342b16?.[_0x3632f7(0x10b)])?_0x342b16[_0x3632f7(0x10b)][_0x3632f7(0xea)]((_0x4751e0,_0x4b23ac)=>_0x4751e0+_0x4b23ac,0x0):0x0);if(!_0x586bfc||_0x586bfc['scope']!==_0x4860ef){_0x586bfc={'scope':_0x4860ef,'ply':_0x23a970},_0x334d44();return;}if(mode===_0x3632f7(0x104))return;if(!active){_0x586bfc['ply']=_0x23a970,_0x334d44();return;}if(_0x23a970<=_0x586bfc[_0x3632f7(0x100)])return;_0x586bfc['ply']=_0x23a970,_0x334d44();if(_0x342b16?.[_0x3632f7(0xee)]?.[_0x3632f7(0xfa)]==='pass'&&_0x342b16[_0x3632f7(0x10c)]==='playing'&&!_0x342b16['setup'])_0x503bd8();}return{'sync':_0x55bb8b,'flash':_0x503bd8,'hide':_0x334d44};}
+// A pass is recorded by the server; display never infers a draw from pass totals.
+export const isPassDraw = game => !game?.winner && game?.phase !== 'playing' &&
+  (game?.endReason ?? game?.reason ?? game?.recordDetail?.state?.endReason) === 'passes';
+
+// Keep stored moves and signed payloads intact. Only the viewer uses this index.
+export function replayTimeline(game) {
+  const moves=game?.moves??[],source=game?.recordDetail?.actions??game?.actions;
+  const legacy=()=>moves.map((_,moveIndex)=>({type:'move',moveIndex,movePly:moveIndex+1,
+    side:game.moveColors?.[moveIndex]??game.moveSeats?.[moveIndex]??moveIndex%2+1}));
+  if(!Array.isArray(source))return legacy();
+  const result=[];let moveIndex=0,side=1;
+  for(const action of source){
+    if(!['move','pass'].includes(action?.type))continue;
+    const seat=action.seat??action.color??action.side;
+    if(seat!==side)return legacy();
+    if(action.type==='move'){
+      const move=moves[moveIndex];
+      if(!move||move.from!==action.from||move.to!==(action.index??action.to))return legacy();
+      result.push({type:'move',side,moveIndex,movePly:++moveIndex});
+    }else result.push({type:'pass',side,movePly:moveIndex});
+    side=3-side;
+  }
+  return moveIndex===moves.length?result:legacy();
+}
+export const replayLength = game => replayTimeline(game).length;
+export function replayPosition(game,step) {
+  const actions=replayTimeline(game),ply=Math.max(0,Math.min(actions.length,step));
+  return {actions,ply,total:actions.length,movePly:actions[ply-1]?.movePly??0,
+    last:actions[ply-1]??null,nextSide:actions[ply]?.side??null};
+}
+
+export function createPassNotice(node,translate,{schedule=setTimeout,cancel=clearTimeout}={}) {
+  let previous=null,timer=null,generation=0;
+  function hide(){generation++;if(timer!==null)cancel(timer);timer=null;node.hidden=true;}
+  function flash(){
+    hide();const token=generation;node.textContent=translate();node.hidden=false;
+    timer=schedule(()=>{if(token===generation){node.hidden=true;timer=null;}},1000);
+  }
+  function sync(game,{mode='live',active=true,position=0}={}){
+    const scope=game?`${mode}:${game.code??game.id}:${game.round}:${mode==='replay'?position:''}`:null;
+    const ply=Number.isInteger(game?.ply)?game.ply:(game?.moves?.length??0)+(Array.isArray(game?.passes)?game.passes.reduce((a,b)=>a+b,0):0);
+    if(!previous||previous.scope!==scope){previous={scope,ply};hide();return;}
+    if(mode==='replay')return;
+    if(!active){previous.ply=ply;hide();return;}
+    if(ply<=previous.ply)return;
+    previous.ply=ply;hide();
+    if(game?.last?.type==='pass'&&game.phase==='playing'&&!game.setup)flash();
+  }
+  return {sync,flash,hide};
+}

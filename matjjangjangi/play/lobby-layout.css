@@ -15,7 +15,7 @@ body.forest-ui:not(.in-match) {
   position: absolute; top: 0; left: 50%; transform-origin: top left;
   display: grid;
   grid-template-columns: 1024px;
-  grid-template-rows: minmax(0, 40fr) 80px minmax(0, 29fr) 130px minmax(0, 82fr) 457px minmax(0, 82fr) 160px minmax(0, 48fr) 155px minmax(0, 104fr) 132px minmax(0, 55fr);
+  grid-template-rows: minmax(0, 40fr) 80px minmax(0, 29fr) 130px minmax(0, 82fr) 457px minmax(0, 82fr) 238px minmax(0, 48fr) 155px minmax(0, 104fr) 132px minmax(0, 55fr);
   font-family: "Jangi Noto Sans KR", sans-serif;
   color: #15391e;
 }

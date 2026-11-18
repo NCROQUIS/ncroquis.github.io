@@ -1,1 +1,122 @@
-const qo_0x3ef721=qo_0x339b;(function(_0x5a3022,_0x30b996){const _0x4edbb3=qo_0x339b,_0x5ecb88=_0x5a3022();while(!![]){try{const _0x18ee1b=-parseInt(_0x4edbb3(0x20a))/0x1*(parseInt(_0x4edbb3(0x21e))/0x2)+parseInt(_0x4edbb3(0x236))/0x3+-parseInt(_0x4edbb3(0x1e4))/0x4*(parseInt(_0x4edbb3(0x200))/0x5)+parseInt(_0x4edbb3(0x1e6))/0x6+parseInt(_0x4edbb3(0x1e7))/0x7*(parseInt(_0x4edbb3(0x22d))/0x8)+-parseInt(_0x4edbb3(0x226))/0x9+parseInt(_0x4edbb3(0x1d9))/0xa*(parseInt(_0x4edbb3(0x1dd))/0xb);if(_0x18ee1b===_0x30b996)break;else _0x5ecb88['push'](_0x5ecb88['shift']());}catch(_0x1e463c){_0x5ecb88['push'](_0x5ecb88['shift']());}}}(qo_0x54a5,0x9dcb3));import{speechPlacement,threatPoint}from'./threat-geometry.js';function qo_0x54a5(){const _0x36ff73=['CxvLCNLtzwXLy3rVCG','zNjVBq','C3r5Bgu','CM91DgvZ','ohb4zuPyBG','C2LKzq','ntqWnda1nKjAsKHWvq','mJf4u2vSr3i','yMLRAMfUzY1JywXS','DgHLBG','AgvPz2H0','y3vIAwmTyMv6AwvYkc4Ylc43lc4YldeP','yxbWzw5K','zgf0ys1LBNrLCMLUzW','DgfPBa','zgvMCW','AMfUz2KTDgHYzwf0lwXPBMu','AMfUz2KTDgHYzwf0lwfYCM93lq','lJeY','y2XHC3noyw1L','D2LKDgG','yM9HCMq','z2v0','y3jLyxrLrwXLBwvUDe5t','yMLRAMfUzW','A2LUz3m','y2fSBgvYCW','zMLSDgvY','B2jZzxj2zq','C2v0qxr0CMLIDxrL','C2nHBguOlJCYkq','C3zN','mteYmdeWnwzUvKTnwq','AgLKzgvU','z2v0qM91BMrPBMDdBgLLBNrszwn0','BwfW','C3rHDhvZ','Cgf0Aa','zwfZzs1VDxq','zgf0yxnLDa','mcaWidKGmta','DhjHBNnSyxrLkc01mcuSy2fSyYGTntaLic0Gm3b4ksKGC2nHBguOms4WnYK','mte4ntmYD2HsCKXO','AMfUz2KTDgHYzwf0lxjVDxrL','A2LUza','yxv0BW','C2nHBguOmsK','y2XLyxi','CMvTB3zLqxr0CMLIDxrL','Dhj1zq','BgvMDa','yxjPys1HDg9TAwm','Dgv4DenVBNrLBNq','DhjHBNnSyxrLkc01mcuSltuWjsKGC2nHBguOmsK','mcaWidaGn3b4icnLnZmWmJqXma','BM9Uzq','Ahr0CdOVl3D3DY53mY5VCMCVmJaWmc9ZDMC','y2fSBgvY','C3bHBG','DxnLCLnWywnLt25vC2u','ttaGmeWUmJyGlJeYtdaGlJi0wG','Dg9W','ofnbD3PxCW','lJi0','lNn0B25L','zMXVB3i','igPHBMDPlwjPA2PHBMCTBgLUzq','zM9YrwfJAa','CgXHy2LUzW','y2XHC3nmAxn0','mtaZndmYnJH0CMjbB1q','ywrKrxzLBNrmAxn0zw5LCG','Cg9SAxrL','BwfYA2vY','yw5PBwf0zq','y29UDgfPBNm','AMfUz2KTDgHYzwf0lxjPBMC','mty3mdG1nLvVzuHTza','AMfUz2LcAwTQyw5Nq2fSBa','y2fUy2vS','Aw5KzxG','DMLZAwjPBgL0EwnOyw5Nzq','yxjPys1OAwrKzw4','AMfUz2KTDgHYzwf0lwfYCM93','zgL2','z2v0vg90ywXmzw5NDgG','mJGXmdy5nfDhvvjtAq','AMfUz2LdAgvJA0nHBgW','lMjVyxjKlwDYAwq','mJaWmgfyzKj5Cq','CMvHzhK','mcaWidaGmNb4icnLnZmWmJq0ma','AMfUz2KTDgHYzwf0lwvMzMvJDhm','mtm5ndHcwwDOy0q','ChvZAa','y3jLyxrLrwXLBwvUDa'];qo_0x54a5=function(){return _0x36ff73;};return qo_0x54a5();}import{clearCheckResponse}from'./check-response.js';function qo_0x339b(_0x4ee45c,_0x1548a9){_0x4ee45c=_0x4ee45c-0x1d9;const _0x54a509=qo_0x54a5();let _0x339b94=_0x54a509[_0x4ee45c];if(qo_0x339b['LxsfCQ']===undefined){var _0x2a5e10=function(_0x263026){const _0x4756af='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2cf1aa='',_0x176e48='';for(let _0x244d16=0x0,_0x2c6e70,_0x3040d8,_0x777c9=0x0;_0x3040d8=_0x263026['charAt'](_0x777c9++);~_0x3040d8&&(_0x2c6e70=_0x244d16%0x4?_0x2c6e70*0x40+_0x3040d8:_0x3040d8,_0x244d16++%0x4)?_0x2cf1aa+=String['fromCharCode'](0xff&_0x2c6e70>>(-0x2*_0x244d16&0x6)):0x0){_0x3040d8=_0x4756af['indexOf'](_0x3040d8);}for(let _0x1e3cd5=0x0,_0x454f9f=_0x2cf1aa['length'];_0x1e3cd5<_0x454f9f;_0x1e3cd5++){_0x176e48+='%'+('00'+_0x2cf1aa['charCodeAt'](_0x1e3cd5)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x176e48);};qo_0x339b['DptckP']=_0x2a5e10,qo_0x339b['hjSyzB']={},qo_0x339b['LxsfCQ']=!![];}const _0x3a5f1d=_0x54a509[0x0];qo_0x339b['omyAkc']!==_0x3a5f1d&&(qo_0x339b['hjSyzB']={},qo_0x339b['omyAkc']=_0x3a5f1d);const _0x5c87c2=qo_0x339b['hjSyzB'][_0x4ee45c];return _0x5c87c2===undefined?(_0x339b94=qo_0x339b['DptckP'](_0x339b94),qo_0x339b['hjSyzB'][_0x4ee45c]=_0x339b94):_0x339b94=_0x5c87c2,_0x339b94;}const controllers=new WeakMap(),svgNS=qo_0x3ef721(0x218);let serial=0x0;function svgElement(_0x176e48,_0x244d16){const _0x2979ab=qo_0x3ef721,_0x2c6e70=document[_0x2979ab(0x1f7)](svgNS,_0x176e48);for(const [_0x3040d8,_0x777c9]of Object['entries'](_0x244d16))_0x2c6e70['setAttribute'](_0x3040d8,_0x777c9);return _0x2c6e70;}function createController(_0x1e3cd5,_0x454f9f){const _0x858bbc=qo_0x3ef721,_0x101904=_0x1e3cd5[_0x858bbc(0x1e0)](_0x858bbc(0x238)),_0x5c0a99=document[_0x858bbc(0x1df)](_0x858bbc(0x234));_0x5c0a99['className']=_0x858bbc(0x1dc),_0x5c0a99[_0x858bbc(0x201)]=!![],_0x5c0a99[_0x858bbc(0x1fd)]('role',_0x858bbc(0x204)),_0x5c0a99['setAttribute']('aria-live',_0x858bbc(0x228)),_0x5c0a99['setAttribute'](_0x858bbc(0x213),_0x858bbc(0x211)),_0x101904[_0x858bbc(0x1ec)](_0x5c0a99);const _0xe671f8=++serial;let _0x54c141,_0x14ef7b,_0x18ac72,_0x2f4411,_0x1ed592,_0x23840b=[],_0xe8be59=[],_0x4be95f=[],_0x312067=[];const _0x5c69be=()=>{const _0x7df16d=_0x858bbc;_0x23840b[_0x7df16d(0x223)](_0x1d54ef=>_0x1d54ef[_0x7df16d(0x22f)]()),_0x23840b=[];};function _0x25a14b(){const _0x57f251=_0x858bbc;clearTimeout(_0x2f4411),clearTimeout(_0x1ed592),_0x5c69be(),_0x54c141=null,_0x14ef7b=null,_0x5c0a99[_0x57f251(0x201)]=!![],_0x5c0a99['replaceChildren']();}function _0xb3b2cc(){const _0x32f7af=_0x858bbc;if(!_0x14ef7b||_0x5c0a99['hidden'])return;const _0x506545=_0x101904[_0x32f7af(0x202)]();if(!_0x506545[_0x32f7af(0x1f4)]||!_0x506545['height'])return;const _0x3284aa=(_0x357c02,_0x274522=![])=>{const _0x20f6c6=_0x32f7af,_0x3a82bb=_0x18ac72?0x59-Number(_0x357c02[_0x20f6c6(0x207)][_0x20f6c6(0x230)]):Number(_0x357c02[_0x20f6c6(0x207)]['index']),_0xde12a3=getComputedStyle(_0x357c02['querySelector'](_0x20f6c6(0x220))),_0x1b592b=(parseFloat(_0xde12a3[_0x20f6c6(0x1f4)])||_0x506545['width']/0x9)*(_0x274522?1.1:0x1),_0x4085a8=(parseFloat(_0xde12a3['height'])||_0x506545[_0x20f6c6(0x1ea)]/0xa)*(_0x274522?1.1:0x1)+(_0x274522?0x6:0x0);return{'x':(_0x3a82bb%0x9+0.5)*_0x506545[_0x20f6c6(0x1f4)]/0x9-_0x1b592b/0x2,'y':(Math[_0x20f6c6(0x221)](_0x3a82bb/0x9)+0.5)*_0x506545['height']/0xa-_0x4085a8/0x2-(_0x274522?0x3:0x0),'width':_0x1b592b,'height':_0x4085a8};},_0x36bc62=_0x454f9f[_0x32f7af(0x1fb)](_0x34efaf=>_0x34efaf[_0x32f7af(0x207)]['stone']!=='0'),_0x4daadd=[];for(const _0x5657cf of _0xe8be59){const _0x6ee72a=_0x454f9f[Number(_0x5657cf[_0x32f7af(0x207)][_0x32f7af(0x219)])],_0x42fbd3=_0x3284aa(_0x6ee72a,!![]),_0x19ed0a=_0x5657cf[_0x32f7af(0x202)](),_0x2e609a=speechPlacement(_0x42fbd3,_0x19ed0a,_0x506545,[..._0x36bc62[_0x32f7af(0x1fb)](_0x580472=>_0x580472!==_0x6ee72a)['map'](_0x21f07b=>_0x3284aa(_0x21f07b)),..._0x4daadd]);_0x5657cf[_0x32f7af(0x1e2)][_0x32f7af(0x212)]=_0x2e609a['x']+'px',_0x5657cf[_0x32f7af(0x1e2)][_0x32f7af(0x21d)]=_0x2e609a['y']+'px',_0x5657cf[_0x32f7af(0x207)][_0x32f7af(0x1ee)]=_0x2e609a[_0x32f7af(0x1e5)],_0x5657cf[_0x32f7af(0x1e2)]['setProperty']('--tail-offset',_0x2e609a[_0x32f7af(0x1ee)]+'px'),_0x4daadd[_0x32f7af(0x1de)]({'x':_0x2e609a['x'],'y':_0x2e609a['y'],'width':_0x19ed0a['width'],'height':_0x19ed0a[_0x32f7af(0x1ea)]});}}function _0x1181d3(){const _0x546f05=_0x858bbc;if(!_0x14ef7b||_0x5c0a99[_0x546f05(0x201)])return;_0x5c0a99[_0x546f05(0x210)](_0x546f05(0x1ed)),_0xb3b2cc(),clearTimeout(_0x1ed592),_0x1ed592=setTimeout(()=>{const _0xabc5cf=_0x546f05;for(const _0xca46ed of _0xe8be59)_0xca46ed[_0xabc5cf(0x201)]=!![];},0x578);if(document['hidden'])return;for(const _0x3058bd of _0x312067){const _0x26a787=_0x3058bd[_0x546f05(0x235)]();_0x3058bd[_0x546f05(0x1e2)]['strokeDasharray']=_0x26a787,_0x23840b['push'](_0x3058bd['animate']([{'strokeDashoffset':_0x26a787},{'strokeDashoffset':0x0}],{'duration':0x1b8,'easing':_0x546f05(0x1eb)}));}for(const _0x29d5af of _0xe8be59)_0x23840b[_0x546f05(0x1de)](_0x29d5af['animate']([{'transform':_0x546f05(0x1fe),'opacity':0.2},{'transform':'scale(1.1)','opacity':0x1,'offset':0.65},{'transform':_0x546f05(0x20e),'opacity':0x1}],{'duration':0x17c,'easing':_0x546f05(0x206)}));for(const _0x1cacf7 of _0x14ef7b[_0x546f05(0x1fa)]){const _0x378826=_0x454f9f[_0x1cacf7],_0x15357e=_0x378826[_0x546f05(0x1e0)](_0x546f05(0x220));if(!_0x378826[_0x546f05(0x225)][_0x546f05(0x22b)](_0x546f05(0x224)))_0x23840b[_0x546f05(0x1de)](_0x15357e[_0x546f05(0x22a)]([{'transform':'translate(-50%,-50%)\x20scale(1)'},{'transform':_0x546f05(0x209),'offset':0.4},{'transform':_0x546f05(0x215)}],{'duration':0x17c,'easing':_0x546f05(0x206)}));}for(const _0x21f8a6 of _0x4be95f)_0x23840b[_0x546f05(0x1de)](_0x21f8a6[_0x546f05(0x22a)]([{'boxShadow':_0x546f05(0x1db)},{'boxShadow':_0x546f05(0x216)},{'boxShadow':_0x546f05(0x1db)}],{'duration':0x258,'iterations':0x2}));}function _0x40efe9(_0x11e1ab,_0x30e8f0,_0x2a8151,_0x572701,_0xa17fd5=0x0){const _0x19c451=_0x858bbc;if(!_0x11e1ab){_0x25a14b();return;}const _0x2b9184=_0x572701(_0x11e1ab['kind']===_0x19c451(0x1f8)?_0x19c451(0x22e):_0x19c451(0x237));if(_0x54c141===_0x30e8f0&&_0x18ac72===_0x2a8151){for(const _0x2747a5 of _0xe8be59)if(_0x2747a5[_0x19c451(0x214)]!==_0x2b9184)_0x2747a5[_0x19c451(0x214)]=_0x2b9184;_0xb3b2cc();return;}_0x25a14b(),_0x54c141=_0x30e8f0,_0x14ef7b=_0x11e1ab,_0x18ac72=_0x2a8151,_0x5c0a99['hidden']=![],_0x5c0a99[_0x19c451(0x207)][_0x19c451(0x20c)]=_0x11e1ab[_0x19c451(0x20c)],_0x5c0a99[_0x19c451(0x1fd)]('data-entering','');const _0x2f5409=svgElement(_0x19c451(0x1ff),{'class':_0x19c451(0x1f0)+(_0x11e1ab['kind']===_0x19c451(0x1f8)?_0x19c451(0x222):''),'viewBox':_0x19c451(0x208),'preserveAspectRatio':_0x19c451(0x217),'aria-hidden':'true','focusable':'false'});_0x312067=[];for(const _0x38c527 of _0x11e1ab[_0x19c451(0x1e3)]){const _0x5dfdf3=svgElement('path',{'d':_0x38c527[_0x19c451(0x205)],'class':'jangi-threat-underlay'}),_0x886f7d=svgElement(_0x19c451(0x205),{'d':_0x38c527['arrowPath'],'class':_0x19c451(0x20b),'marker-end':'url(#jangi-threat-arrow-'+_0xe671f8+')','data-from':_0x38c527[_0x19c451(0x1e1)],'data-to':_0x38c527['to']});_0x2f5409[_0x19c451(0x1ec)](_0x5dfdf3,_0x886f7d),_0x312067[_0x19c451(0x1de)](_0x5dfdf3,_0x886f7d);}const _0x5c7db8=svgElement(_0x19c451(0x1ef),{}),_0x1b495c=svgElement(_0x19c451(0x229),{'id':_0x19c451(0x1f1)+_0xe671f8,'markerWidth':'.26','markerHeight':_0x19c451(0x21f),'refX':_0x19c451(0x21f),'refY':_0x19c451(0x1f2),'markerUnits':_0x19c451(0x21b),'orient':_0x19c451(0x20d)});_0x1b495c[_0x19c451(0x1ec)](svgElement(_0x19c451(0x205),{'d':_0x19c451(0x21c),'class':_0x19c451(0x233)})),_0x5c7db8[_0x19c451(0x1ec)](_0x1b495c),_0x2f5409[_0x19c451(0x1ec)](_0x5c7db8),_0x5c0a99['append'](_0x2f5409),_0x4be95f=_0x11e1ab[_0x19c451(0x1f9)]['map'](_0x538a0b=>{const _0x407161=_0x19c451,_0x1a43a5=document[_0x407161(0x1df)](_0x407161(0x21a)),_0x46084e=threatPoint(_0x538a0b,_0x18ac72);return _0x1a43a5[_0x407161(0x1f3)]=_0x407161(0x22c),_0x1a43a5[_0x407161(0x1e2)][_0x407161(0x212)]=_0x46084e[0x0]/0x9*0x64+'%',_0x1a43a5[_0x407161(0x1e2)][_0x407161(0x21d)]=_0x46084e[0x1]/0xa*0x64+'%',_0x1a43a5[_0x407161(0x1fd)](_0x407161(0x232),_0x407161(0x211)),_0x5c0a99[_0x407161(0x1ec)](_0x1a43a5),_0x1a43a5;}),_0xe8be59=_0x11e1ab[_0x19c451(0x1fa)][_0x19c451(0x203)](_0x1a1a9e=>{const _0x32eea6=_0x19c451,_0xf9b1da=document['createElement'](_0x32eea6(0x21a));_0xf9b1da['className']='jangi-threat-speech',_0xf9b1da[_0x32eea6(0x207)][_0x32eea6(0x219)]=_0x1a1a9e,_0xf9b1da['textContent']=_0x2b9184;if(_0x11e1ab[_0x32eea6(0x20c)]===_0x32eea6(0x1f8)&&_0x1e3cd5['id']===_0x32eea6(0x1f5))_0xf9b1da['id']=_0x32eea6(0x1e8);return _0x5c0a99['append'](_0xf9b1da),_0xf9b1da;}),_0xb3b2cc(),_0x2f4411=setTimeout(_0x1181d3,0x168+_0xa17fd5);}return new ResizeObserver(_0xb3b2cc)[_0x858bbc(0x1fc)](_0x101904),document['fonts']?.[_0x858bbc(0x1da)][_0x858bbc(0x1e9)](_0xb3b2cc),document[_0x858bbc(0x227)](_0x858bbc(0x231),()=>{const _0x176bab=_0x858bbc;if(!document[_0x176bab(0x201)])return;clearTimeout(_0x2f4411),_0x5c69be(),_0x5c0a99[_0x176bab(0x210)]('data-entering');for(const _0x919145 of _0xe8be59)_0x919145[_0x176bab(0x201)]=!![];}),{'render':_0x40efe9,'clear':_0x25a14b};}export function renderJangiThreats({board:_0x4c18b1,cells:_0x287224,geometry:_0x29f4d9,key:_0x45f8ef,flipped:_0x422153,t:_0x18f5dc,delay:_0x2442da}){const _0x16411c=qo_0x3ef721;if(!controllers['has'](_0x4c18b1))controllers['set'](_0x4c18b1,createController(_0x4c18b1,_0x287224));controllers[_0x16411c(0x1f6)](_0x4c18b1)['render'](_0x29f4d9,_0x45f8ef,_0x422153,_0x18f5dc,_0x2442da);}export function clearJangiThreats(_0x14bd8a){const _0x9e22ef=qo_0x3ef721;controllers['get'](_0x14bd8a)?.[_0x9e22ef(0x20f)](),clearCheckResponse(_0x14bd8a);}
+import { speechPlacement, threatPoint } from './threat-geometry.js';
+import { clearCheckResponse } from './check-response.js';
+
+const controllers = new WeakMap(), svgNS = 'http://www.w3.org/2000/svg';
+let serial = 0;
+function svgElement(tag, attributes) {
+  const node = document.createElementNS(svgNS, tag);
+  for (const [name, value] of Object.entries(attributes)) node.setAttribute(name, value);
+  return node;
+}
+
+function createController(board, cells) {
+  const grid = board.querySelector('.board-grid'), layer = document.createElement('div');
+  layer.className = 'jangi-threat-effects'; layer.hidden = true;
+  layer.setAttribute('role', 'status'); layer.setAttribute('aria-live', 'polite'); layer.setAttribute('aria-atomic', 'true');
+  grid.append(layer);
+  const id = ++serial;
+  let key, geometry, flipped, startTimer, hideTimer, animations = [], speeches = [], rings = [], paths = [];
+  const cancelAnimations = () => { animations.forEach(animation => animation.cancel()); animations = []; };
+  function clear() {
+    clearTimeout(startTimer); clearTimeout(hideTimer); cancelAnimations();
+    key = null; geometry = null; layer.hidden = true; layer.replaceChildren();
+  }
+  function position() {
+    if (!geometry || layer.hidden) return;
+    const bounds = grid.getBoundingClientRect();
+    if (!bounds.width || !bounds.height) return;
+    const box = (cell, calling = false) => {
+      const visible = flipped ? 89 - Number(cell.dataset.index) : Number(cell.dataset.index);
+      // Measure the skin's resting body, then reserve the caller's full hop/scale.
+      // This remains stable during travel and also covers the larger general.
+      const style = getComputedStyle(cell.querySelector('.stone'));
+      const width = (parseFloat(style.width) || bounds.width / 9) * (calling ? 1.1 : 1);
+      const height = (parseFloat(style.height) || bounds.height / 10) * (calling ? 1.1 : 1) + (calling ? 6 : 0);
+      return { x: (visible % 9 + .5) * bounds.width / 9 - width / 2,
+        y: (Math.floor(visible / 9) + .5) * bounds.height / 10 - height / 2 - (calling ? 3 : 0), width, height };
+    };
+    const occupied = cells.filter(cell => cell.dataset.stone !== '0');
+    const placed = [];
+    for (const speech of speeches) {
+      const caller = cells[Number(speech.dataset.caller)], anchor = box(caller, true), size = speech.getBoundingClientRect();
+      const best = speechPlacement(anchor, size, bounds, [...occupied.filter(cell => cell !== caller).map(cell => box(cell)), ...placed]);
+      speech.style.left = `${best.x}px`; speech.style.top = `${best.y}px`;
+      speech.dataset.tail = best.side; speech.style.setProperty('--tail-offset', `${best.tail}px`);
+      placed.push({ x: best.x, y: best.y, width: size.width, height: size.height });
+    }
+  }
+  function start() {
+    if (!geometry || layer.hidden) return;
+    layer.removeAttribute('data-entering'); position();
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => { for (const speech of speeches) speech.hidden = true; }, 1400);
+    if (document.hidden) return;
+    for (const line of paths) {
+      const length = line.getTotalLength();
+      line.style.strokeDasharray = length;
+      animations.push(line.animate([{ strokeDashoffset: length }, { strokeDashoffset: 0 }], { duration: 440, easing: 'cubic-bezier(.2,.7,.2,1)' }));
+    }
+    for (const speech of speeches) animations.push(speech.animate([
+      { transform: 'scale(.72)', opacity: .2 }, { transform: 'scale(1.1)', opacity: 1, offset: .65 }, { transform: 'scale(1)', opacity: 1 },
+    ], { duration: 380, easing: 'ease-out' }));
+    for (const caller of geometry.callers) {
+      const cell = cells[caller], stone = cell.querySelector('.stone');
+      // Never compete with the existing lift/travel animation on a moving piece.
+      if (!cell.classList.contains('placing')) animations.push(stone.animate([
+        { transform: 'translate(-50%,-50%) scale(1)' },
+        { transform: 'translate(-50%,calc(-50% - 3px)) scale(1.07)', offset: .4 },
+        { transform: 'translate(-50%,-50%) scale(1)' },
+      ], { duration: 380, easing: 'ease-out' }));
+    }
+    for (const ring of rings) animations.push(ring.animate([
+      { boxShadow: '0 0 0 2px #e7302440' }, { boxShadow: '0 0 0 7px #e7302410' }, { boxShadow: '0 0 0 2px #e7302440' },
+    ], { duration: 600, iterations: 2 }));
+  }
+  function render(model, nextKey, nextFlipped, t, delay = 0) {
+    if (!model) { clear(); return; }
+    const label = t(model.kind === 'bikjang' ? 'jangiBikjangCall' : 'jangiCheckCall');
+    if (key === nextKey && flipped === nextFlipped) {
+      for (const speech of speeches) if (speech.textContent !== label) speech.textContent = label;
+      position(); return;
+    }
+    clear(); key = nextKey; geometry = model; flipped = nextFlipped;
+    layer.hidden = false; layer.dataset.kind = model.kind; layer.setAttribute('data-entering', '');
+    const svg = svgElement('svg', { class: 'jangi-threat-line' + (model.kind === 'bikjang' ? ' jangi-bikjang-line' : ''),
+      viewBox: '0 0 9 10', preserveAspectRatio: 'none', 'aria-hidden': 'true', focusable: 'false' });
+    paths = [];
+    for (const route of model.routes) {
+      const underlay = svgElement('path', { d: route.path, class: 'jangi-threat-underlay' });
+      const line = svgElement('path', { d: route.arrowPath, class: 'jangi-threat-route', 'marker-end': `url(#jangi-threat-arrow-${id})`, 'data-from': route.from, 'data-to': route.to });
+      svg.append(underlay, line); paths.push(underlay, line);
+    }
+    const defs = svgElement('defs', {}), marker = svgElement('marker', { id: `jangi-threat-arrow-${id}`, markerWidth: '.26', markerHeight: '.24', refX: '.24', refY: '.12', markerUnits: 'userSpaceOnUse', orient: 'auto' });
+    marker.append(svgElement('path', { d: 'M0 0L.26 .12L0 .24Z', class: 'jangi-threat-arrow' })); defs.append(marker); svg.append(defs); layer.append(svg);
+    rings = model.kings.map(index => {
+      const ring = document.createElement('span'), p = threatPoint(index, flipped);
+      ring.className = 'jangi-threat-ring'; ring.style.left = `${p[0] / 9 * 100}%`; ring.style.top = `${p[1] / 10 * 100}%`;
+      ring.setAttribute('aria-hidden', 'true'); layer.append(ring); return ring;
+    });
+    speeches = model.callers.map(index => {
+      const speech = document.createElement('span'); speech.className = 'jangi-threat-speech'; speech.dataset.caller = index; speech.textContent = label;
+      if (model.kind === 'bikjang' && board.id === 'board') speech.id = 'bikjang-call';
+      layer.append(speech); return speech;
+    });
+    position();
+    // The regular 320ms move lands first; server confirmation keeps the same board key.
+    startTimer = setTimeout(start, 360 + delay);
+  }
+  new ResizeObserver(position).observe(grid);
+  document.fonts?.ready.then(position);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) return;
+    clearTimeout(startTimer); cancelAnimations();
+    layer.removeAttribute('data-entering'); for (const speech of speeches) speech.hidden = true;
+  });
+  return { render, clear };
+}
+
+export function renderJangiThreats({ board, cells, geometry, key, flipped, t, delay }) {
+  if (!controllers.has(board)) controllers.set(board, createController(board, cells));
+  controllers.get(board).render(geometry, key, flipped, t, delay);
+}
+export function clearJangiThreats(board) { controllers.get(board)?.clear(); clearCheckResponse(board); }

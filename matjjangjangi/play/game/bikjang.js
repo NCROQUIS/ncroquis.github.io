@@ -1,1 +1,25 @@
-const q5_0x5ed92b=q5_0x5856;(function(_0x36a371,_0x3e6629){const _0xcd7888=q5_0x5856,_0x1c963c=_0x36a371();while(!![]){try{const _0x57f8bf=-parseInt(_0xcd7888(0xd5))/0x1*(-parseInt(_0xcd7888(0xe4))/0x2)+-parseInt(_0xcd7888(0xe2))/0x3+parseInt(_0xcd7888(0xdf))/0x4*(parseInt(_0xcd7888(0xdc))/0x5)+-parseInt(_0xcd7888(0xe3))/0x6*(parseInt(_0xcd7888(0xd6))/0x7)+-parseInt(_0xcd7888(0xda))/0x8*(parseInt(_0xcd7888(0xd9))/0x9)+parseInt(_0xcd7888(0xd2))/0xa+parseInt(_0xcd7888(0xde))/0xb;if(_0x57f8bf===_0x3e6629)break;else _0x1c963c['push'](_0x1c963c['shift']());}catch(_0x123372){_0x1c963c['push'](_0x1c963c['shift']());}}}(q5_0x4b65,0x23496));import{apply,facing,KING}from'./rules.js';export const isBikjangDraw=_0x7b43b=>!_0x7b43b?.[q5_0x5ed92b(0xdb)]&&(_0x7b43b?.[q5_0x5ed92b(0xd1)]??_0x7b43b?.[q5_0x5ed92b(0xd8)]??_0x7b43b?.['recordDetail']?.['state']?.['endReason'])===q5_0x5ed92b(0xe1);function q5_0x4b65(){const _0x54e20f=['n09REvbkzq','CgHHC2u','CMvHC29U','nJCYmZLpwgfXuNG','mJrnu3fUtMK','D2LUBMvY','nxjlyuHsCG','zMXVB3i','mtmYmJC1y2rKu3je','odGYnJKYEeHPy3P6','Aw5KzxG','yMLRAMfUzW','mZu4mJa5rwT4zfPd','mtmZmJyXmM5rAwjADW','ndruCNjszui','CgXHEwLUzW','zw5KuMvHC29U','mJuXmZu2mgziuwz5AW','Bw92zq','AM9PBG','mteWounZtLHcEG'];q5_0x4b65=function(){return _0x54e20f;};return q5_0x4b65();}function q5_0x5856(_0x40d2ab,_0x4fcabe){_0x40d2ab=_0x40d2ab-0xd1;const _0x4b65d0=q5_0x4b65();let _0x585644=_0x4b65d0[_0x40d2ab];if(q5_0x5856['fHFDyO']===undefined){var _0x338e8e=function(_0x3aae63){const _0x594696='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4ff10c='',_0x7b43b='';for(let _0x105a8e=0x0,_0x290ba1,_0x414349,_0x5be80d=0x0;_0x414349=_0x3aae63['charAt'](_0x5be80d++);~_0x414349&&(_0x290ba1=_0x105a8e%0x4?_0x290ba1*0x40+_0x414349:_0x414349,_0x105a8e++%0x4)?_0x4ff10c+=String['fromCharCode'](0xff&_0x290ba1>>(-0x2*_0x105a8e&0x6)):0x0){_0x414349=_0x594696['indexOf'](_0x414349);}for(let _0x5be6d3=0x0,_0x475880=_0x4ff10c['length'];_0x5be6d3<_0x475880;_0x5be6d3++){_0x7b43b+='%'+('00'+_0x4ff10c['charCodeAt'](_0x5be6d3)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x7b43b);};q5_0x5856['nhHTim']=_0x338e8e,q5_0x5856['FvbLBU']={},q5_0x5856['fHFDyO']=!![];}const _0x4405b5=_0x4b65d0[0x0];q5_0x5856['ikUBBH']!==_0x4405b5&&(q5_0x5856['FvbLBU']={},q5_0x5856['ikUBBH']=_0x4405b5);const _0x46e946=q5_0x5856['FvbLBU'][_0x40d2ab];return _0x46e946===undefined?(_0x585644=q5_0x5856['nhHTim'](_0x585644),q5_0x5856['FvbLBU'][_0x40d2ab]=_0x585644):_0x585644=_0x46e946,_0x585644;}export function endsInBikjangDraw(_0x105a8e,_0x290ba1){const _0x26a7ae=q5_0x5ed92b;if(!_0x105a8e?.['bikjang']||_0x105a8e[_0x26a7ae(0xd7)]!==_0x26a7ae(0xe5)||_0x105a8e['setup'])return![];try{const _0x414349=apply({..._0x105a8e,'winner':null,'positions':{},'passes':0x0},_0x290ba1['type']===_0x26a7ae(0xd3)?{..._0x290ba1,'to':_0x290ba1['to']??_0x290ba1[_0x26a7ae(0xe0)]}:_0x290ba1);return _0x414349['winner']===0x0&&_0x414349[_0x26a7ae(0xd8)]==='bikjang';}catch{return![];}}export function bikjangGeometry(_0x5be80d,_0x5be6d3=![]){const _0x42603e=q5_0x5ed92b;if(!facing(_0x5be80d))return null;const _0x475880=[_0x5be80d['indexOf'](KING),_0x5be80d['indexOf'](-KING)],_0x26fe0e=_0x475880['map'](_0x651be1=>{const _0x4baab3=q5_0x5856,_0x2ea188=_0x5be6d3?0x59-_0x651be1:_0x651be1;return[_0x2ea188%0x9+0.5,Math[_0x4baab3(0xdd)](_0x2ea188/0x9)+0.5];});return{'kings':_0x475880,'path':'M'+_0x26fe0e[0x0][_0x42603e(0xd4)]('\x20')+'L'+_0x26fe0e[0x1][_0x42603e(0xd4)]('\x20')};}
+import {apply,facing,KING} from './rules.js';
+
+export const isBikjangDraw = game => !game?.winner &&
+  (game?.endReason ?? game?.reason ?? game?.recordDetail?.state?.endReason) === 'bikjang';
+
+// Public snapshots omit repetition history and use 0 for an unfinished winner.
+// The shared rules still decide checkmate priority and whether this action accepts bikjang.
+export function endsInBikjangDraw(game,action) {
+  if(!game?.bikjang || game.phase!=='playing' || game.setup)return false;
+  try {
+    const next=apply({...game,winner:null,positions:{},passes:0},
+      action.type==='move'?{...action,to:action.to??action.index}:action);
+    return next.winner===0 && next.reason==='bikjang';
+  } catch {return false;}
+}
+
+export function bikjangGeometry(board,flipped=false) {
+  if(!facing(board))return null;
+  const kings=[board.indexOf(KING),board.indexOf(-KING)];
+  const points=kings.map(index=>{
+    const visible=flipped?89-index:index;
+    return [visible%9+.5,Math.floor(visible/9)+.5];
+  });
+  return {kings,path:`M${points[0].join(' ')}L${points[1].join(' ')}`};
+}

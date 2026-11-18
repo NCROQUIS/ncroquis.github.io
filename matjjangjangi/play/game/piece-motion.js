@@ -1,1 +1,60 @@
-(function(_0x37e4db,_0x543635){const _0x2bb9de=qk_0x1375,_0x21be12=_0x37e4db();while(!![]){try{const _0x29076f=parseInt(_0x2bb9de(0x1c0))/0x1+-parseInt(_0x2bb9de(0x1a5))/0x2+-parseInt(_0x2bb9de(0x1aa))/0x3*(parseInt(_0x2bb9de(0x1a2))/0x4)+parseInt(_0x2bb9de(0x1a9))/0x5*(parseInt(_0x2bb9de(0x1ac))/0x6)+parseInt(_0x2bb9de(0x1ae))/0x7+parseInt(_0x2bb9de(0x1c4))/0x8*(parseInt(_0x2bb9de(0x1ab))/0x9)+-parseInt(_0x2bb9de(0x1c6))/0xa;if(_0x29076f===_0x543635)break;else _0x21be12['push'](_0x21be12['shift']());}catch(_0x5d6c76){_0x21be12['push'](_0x21be12['shift']());}}}(qk_0x530a,0x477af));export const JANGI_TRAVEL_DURATION=0xf0;export function jangiMoveTiming(_0x29f900=0x50){return{'duration':JANGI_TRAVEL_DURATION+_0x29f900,'contact':JANGI_TRAVEL_DURATION+_0x29f900*0.4};}function qk_0x1375(_0x2c1ccd,_0x5c930c){_0x2c1ccd=_0x2c1ccd-0x1a2;const _0x530a85=qk_0x530a();let _0x1375d4=_0x530a85[_0x2c1ccd];if(qk_0x1375['IerJPk']===undefined){var _0x1c5829=function(_0x1ba513){const _0x51629d='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2782c1='',_0x29f900='';for(let _0x364e4a=0x0,_0x360825,_0x50ad9d,_0x375937=0x0;_0x50ad9d=_0x1ba513['charAt'](_0x375937++);~_0x50ad9d&&(_0x360825=_0x364e4a%0x4?_0x360825*0x40+_0x50ad9d:_0x50ad9d,_0x364e4a++%0x4)?_0x2782c1+=String['fromCharCode'](0xff&_0x360825>>(-0x2*_0x364e4a&0x6)):0x0){_0x50ad9d=_0x51629d['indexOf'](_0x50ad9d);}for(let _0x3faaaf=0x0,_0x546261=_0x2782c1['length'];_0x3faaaf<_0x546261;_0x3faaaf++){_0x29f900+='%'+('00'+_0x2782c1['charCodeAt'](_0x3faaaf)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x29f900);};qk_0x1375['TNFoXP']=_0x1c5829,qk_0x1375['fSjqiH']={},qk_0x1375['IerJPk']=!![];}const _0x54a1e4=_0x530a85[0x0];qk_0x1375['hEyJBU']!==_0x54a1e4&&(qk_0x1375['fSjqiH']={},qk_0x1375['hEyJBU']=_0x54a1e4);const _0x2aa125=qk_0x1375['fSjqiH'][_0x2c1ccd];return _0x2aa125===undefined?(_0x1375d4=qk_0x1375['TNFoXP'](_0x1375d4),qk_0x1375['fSjqiH'][_0x2c1ccd]=_0x1375d4):_0x1375d4=_0x2aa125,_0x1375d4;}export function animateJangiMove(_0x364e4a,_0x360825,_0x50ad9d,{landing:landing=0x50,onStart:_0x375937,onContact:_0x3faaaf,shouldContinue:shouldContinue=()=>!![],requestFrame:requestFrame=requestAnimationFrame,cancelFrame:cancelFrame=cancelAnimationFrame}={}){const _0x3f1d6a=qk_0x1375,_0x546261=_0x364e4a[_0x3f1d6a(0x1b2)](),_0x5d50c6=_0x360825['getBoundingClientRect'](),_0x2e75ec=_0x546261[_0x3f1d6a(0x1b9)]+_0x546261[_0x3f1d6a(0x1a8)]/0x2-_0x5d50c6[_0x3f1d6a(0x1b9)]-_0x5d50c6[_0x3f1d6a(0x1a8)]/0x2,_0x4aca8c=_0x546261['top']+_0x546261[_0x3f1d6a(0x1c1)]/0x2-_0x5d50c6[_0x3f1d6a(0x1c5)]-_0x5d50c6[_0x3f1d6a(0x1c1)]/0x2,_0x4f58dd=Math['min'](0xb,_0x5d50c6[_0x3f1d6a(0x1a8)]*0.23),{duration:_0x5da90a,contact:_0x2e70c5}=jangiMoveTiming(landing),_0x442d6b=JANGI_TRAVEL_DURATION*0.25/_0x5da90a,_0xd54e6b=JANGI_TRAVEL_DURATION/_0x5da90a,_0x2670ff=_0x2e70c5/_0x5da90a,_0x3d516a=(JANGI_TRAVEL_DURATION+landing*0.78)/_0x5da90a,_0x566308=(_0x27ce2f,_0x3c720d,_0x1c166a='1')=>_0x3f1d6a(0x1bc)+_0x27ce2f+_0x3f1d6a(0x1be)+_0x3c720d+'px))\x20scale('+_0x1c166a+')',_0x12b9f0=_0x3f1d6a(0x1b7),_0x1438ef=[{'offset':0x0,'transform':_0x566308(_0x2e75ec,_0x4aca8c),'easing':_0x3f1d6a(0x1ad)},{'offset':_0x442d6b,'transform':_0x566308(_0x2e75ec,_0x4aca8c-_0x4f58dd,_0x3f1d6a(0x1c3)),'easing':_0x12b9f0},{'offset':_0xd54e6b,'transform':_0x566308(0x0,-_0x4f58dd,_0x3f1d6a(0x1c3)),'easing':_0x3f1d6a(0x1a6)},{'offset':_0x2670ff,'transform':_0x566308(0x0,0x0,_0x3f1d6a(0x1a3)),'easing':_0x3f1d6a(0x1ad)},{'offset':_0x3d516a,'transform':_0x566308(0x0,0x0,'.995,\x201.005')},{'offset':0x1,'transform':_0x566308(0x0,0x0)}],_0x334e4e=[{'offset':0x0,'transform':_0x566308(_0x2e75ec,_0x4aca8c),'opacity':0x1,'filter':_0x3f1d6a(0x1b1),'easing':_0x3f1d6a(0x1ad)},{'offset':_0x442d6b,'transform':_0x566308(_0x2e75ec+0x2,_0x4aca8c+0x2,_0x3f1d6a(0x1a4)),'opacity':0.48,'filter':'blur(1.3px)','easing':_0x12b9f0},{'offset':_0xd54e6b,'transform':_0x566308(0x2,0x2,_0x3f1d6a(0x1a4)),'opacity':0.48,'filter':_0x3f1d6a(0x1bf),'easing':_0x3f1d6a(0x1a6)},{'offset':_0x2670ff,'transform':_0x566308(0x0,0x0,_0x3f1d6a(0x1c8)),'opacity':0x1,'filter':_0x3f1d6a(0x1b1)},{'offset':0x1,'transform':_0x566308(0x0,0x0),'opacity':0x1,'filter':_0x3f1d6a(0x1b1)}],_0x2b7199=[[_0x360825[_0x3f1d6a(0x1a7)](_0x3f1d6a(0x1b0)),_0x1438ef],[_0x360825[_0x3f1d6a(0x1a7)](_0x3f1d6a(0x1ba)),_0x334e4e],[_0x50ad9d,[{'offset':0x0,'opacity':0x0},{'offset':_0x2670ff,'opacity':0x0},{'offset':_0x3d516a,'opacity':0x1},{'offset':0x1,'opacity':0x1}]]][_0x3f1d6a(0x1b3)](([_0x2c1f8c])=>_0x2c1f8c)[_0x3f1d6a(0x1b8)](([_0xc5b569,_0x120c72])=>{const _0x5bd2d4=_0x3f1d6a,_0x457beb=_0xc5b569[_0x5bd2d4(0x1b4)](_0x120c72,{'duration':_0x5da90a,'fill':'both','easing':_0x5bd2d4(0x1c2)});return _0x457beb[_0x5bd2d4(0x1c7)](),_0x457beb[_0x5bd2d4(0x1af)]=0x0,_0x457beb;});let _0x347a9a,_0xe191fb,_0x4c4669=![],_0x4bec59=![],_0x180777;const _0x321260=new Promise(_0x20de98=>{_0x180777=_0x20de98;});function _0x42d882(){const _0x2b0879=_0x3f1d6a;if(_0x4c4669)return;_0x4c4669=!![],cancelFrame(_0x347a9a),_0x2b7199[_0x2b0879(0x1bb)](_0x4a100a=>_0x4a100a[_0x2b0879(0x1bd)]()),_0x180777();}function _0x2ab5fd(_0x4e8d14){const _0x130c4a=_0x3f1d6a;if(!shouldContinue())return _0x42d882();_0xe191fb===undefined&&(_0xe191fb=_0x4e8d14,_0x375937?.(_0x2e70c5));const _0x1519d2=Math[_0x130c4a(0x1b5)](_0x5da90a,Math[_0x130c4a(0x1b6)](0x0,_0x4e8d14-_0xe191fb));_0x2b7199[_0x130c4a(0x1bb)](_0x4a1d22=>{_0x4a1d22['currentTime']=_0x1519d2;});!_0x4bec59&&_0x1519d2>=_0x2e70c5&&(_0x4bec59=!![],_0x3faaaf?.());if(_0x1519d2>=_0x5da90a)_0x42d882();else _0x347a9a=requestFrame(_0x2ab5fd);}return _0x347a9a=requestFrame(_0x2ab5fd),{'finished':_0x321260,'cancel':_0x42d882};}function qk_0x530a(){const _0x1ac9b3=['mJaXndu0mevosNLjqW','Cgf1C2u','ms4WnsWGlJK4','nhn3qw5Iwa','ms4WncWGlJK4','ms4X','nZGZote4ufrIBw5L','zwfZzs1PBG','CxvLCNLtzwXLy3rVCG','D2LKDgG','nxDSqNHhtG','oti3nJe1C3LsAKzH','ovbiDxnJBW','otm4mJu2BvDiDKDm','zwfZzs1VDxq','otm5ntqWug9prNnW','y3vYCMvUDfrPBwu','lNn0B25L','yMX1CIGWChGP','z2v0qM91BMrPBMDdBgLLBNrszwn0','zMLSDgvY','yw5PBwf0zq','BwLU','Bwf4','y3vIAwmTyMv6AwvYkc4ZlcaWlcaUmIWGmsK','BwfW','BgvMDa','lNn0B25LlxnOywrVDW','zM9YrwfJAa','DhjHBNnSyxrLkgnHBgmOltuWjsaRia','y2fUy2vS','ChGPlcbJywXJkc01mcuGkYa','yMX1CIGXlJnWEcK','ntmYnduYswL3Agro','AgvPz2H0','BgLUzwfY','ms4XmG','mJK3odGYne5LA3n1CW','Dg9W'];qk_0x530a=function(){return _0x1ac9b3;};return qk_0x530a();}
+// Move the body above the board while its independent shadow follows the surface.
+export const JANGI_TRAVEL_DURATION = 240;
+export function jangiMoveTiming(landing = 80) {
+  return { duration:JANGI_TRAVEL_DURATION + landing, contact:JANGI_TRAVEL_DURATION + landing * .4 };
+}
+
+export function animateJangiMove(from, cell, marker, { landing = 80, onStart, onContact, shouldContinue = () => true,
+  requestFrame = requestAnimationFrame, cancelFrame = cancelAnimationFrame } = {}) {
+  const source = from.getBoundingClientRect(), target = cell.getBoundingClientRect();
+  const x = source.left + source.width / 2 - target.left - target.width / 2;
+  const y = source.top + source.height / 2 - target.top - target.height / 2;
+  const lift = Math.min(11, target.width * .23);
+  const {duration,contact} = jangiMoveTiming(landing);
+  const raised = JANGI_TRAVEL_DURATION * .25 / duration, arrived = JANGI_TRAVEL_DURATION / duration;
+  const impact = contact / duration, settle = (JANGI_TRAVEL_DURATION + landing * .78) / duration;
+  const pose = (dx,dy,scale = '1') => `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(${scale})`;
+  const smooth = 'cubic-bezier(.3, 0, .2, 1)';
+  const stone = [
+    {offset:0,transform:pose(x,y),easing:'ease-out'},
+    {offset:raised,transform:pose(x,y-lift,'1.12'),easing:smooth},
+    {offset:arrived,transform:pose(0,-lift,'1.12'),easing:'ease-in'},
+    {offset:impact,transform:pose(0,0,'1.04, .98'),easing:'ease-out'},
+    {offset:settle,transform:pose(0,0,'.995, 1.005')},
+    {offset:1,transform:pose(0,0)},
+  ];
+  const shadow = [
+    {offset:0,transform:pose(x,y),opacity:1,filter:'blur(0px)',easing:'ease-out'},
+    {offset:raised,transform:pose(x+2,y+2,'1.1'),opacity:.48,filter:'blur(1.3px)',easing:smooth},
+    {offset:arrived,transform:pose(2,2,'1.1'),opacity:.48,filter:'blur(1.3px)',easing:'ease-in'},
+    {offset:impact,transform:pose(0,0,'1.05, .98'),opacity:1,filter:'blur(0px)'},
+    {offset:1,transform:pose(0,0),opacity:1,filter:'blur(0px)'},
+  ];
+  const animations = [
+    [cell.querySelector('.stone'),stone], [cell.querySelector('.stone-shadow'),shadow],
+    [marker,[{offset:0,opacity:0},{offset:impact,opacity:0},{offset:settle,opacity:1},{offset:1,opacity:1}]],
+  ].filter(([element]) => element).map(([element,keyframes]) => {
+    const animation = element.animate(keyframes,{duration,fill:'both',easing:'linear'});
+    animation.pause(); animation.currentTime = 0;
+    return animation;
+  });
+  let frame, started, stopped = false, contacted = false, resolve;
+  const finished = new Promise(done => { resolve = done; });
+  function cancel() {
+    if (stopped) return;
+    stopped = true; cancelFrame(frame);
+    animations.forEach(animation => animation.cancel()); resolve();
+  }
+  function tick(time) {
+    if (!shouldContinue()) return cancel();
+    // Measure from the first displayed frame, including on a busy WebView.
+    if (started === undefined) { started = time; onStart?.(contact); }
+    const elapsed = Math.min(duration,Math.max(0,time-started));
+    animations.forEach(animation => { animation.currentTime = elapsed; });
+    if (!contacted && elapsed >= contact) { contacted = true; onContact?.(); }
+    if (elapsed >= duration) cancel();
+    else frame = requestFrame(tick);
+  }
+  frame = requestFrame(tick);
+  return {finished,cancel};
+}

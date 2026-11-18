@@ -1,1 +1,75 @@
-const q4_0x5b34f4=q4_0x3953;(function(_0x504b2e,_0xfca173){const _0xcedbd=q4_0x3953,_0x537bc9=_0x504b2e();while(!![]){try{const _0x4883e5=parseInt(_0xcedbd(0x1e7))/0x1*(-parseInt(_0xcedbd(0x1d0))/0x2)+parseInt(_0xcedbd(0x1ef))/0x3+-parseInt(_0xcedbd(0x1d8))/0x4*(-parseInt(_0xcedbd(0x1db))/0x5)+parseInt(_0xcedbd(0x1f3))/0x6+parseInt(_0xcedbd(0x1e5))/0x7*(parseInt(_0xcedbd(0x1d7))/0x8)+-parseInt(_0xcedbd(0x1e9))/0x9*(parseInt(_0xcedbd(0x1d4))/0xa)+parseInt(_0xcedbd(0x1f4))/0xb;if(_0x4883e5===_0xfca173)break;else _0x537bc9['push'](_0x537bc9['shift']());}catch(_0x3d9cef){_0x537bc9['push'](_0x537bc9['shift']());}}}(q4_0x15a6,0xb939a));import{inCheck,sideOf}from'./rules.js';import{createLoopMusic}from'./loop-music.js';import{GUGAK_AUDIO}from'./audio-assets.js';export const GAME_AUDIO=Object[q4_0x5b34f4(0x1e1)]({'music':'./assets/audio/jangi/match-bgm.mp3?v=52e852f3a85d','move':q4_0x5b34f4(0x1d9),...GUGAK_AUDIO});export function moveAudio(_0x593490,_0xc0de63){const _0x55935a=q4_0x5b34f4;if(!_0x593490||!Number[_0x55935a(0x1e6)](_0xc0de63?.[_0x55935a(0x1ec)])||!Number['isInteger'](_0xc0de63?.['to']))return{};const _0xd0c039=sideOf(_0x593490[_0xc0de63[_0x55935a(0x1ec)]]);if(!_0xd0c039)return{};const _0x17bbaa=[..._0x593490];return _0x17bbaa[_0xc0de63['to']]=_0x17bbaa[_0xc0de63[_0x55935a(0x1ec)]],_0x17bbaa[_0xc0de63[_0x55935a(0x1ec)]]=0x0,{'capture':Boolean(_0x593490[_0xc0de63['to']]&&sideOf(_0x593490[_0xc0de63['to']])!==_0xd0c039),'check':inCheck(_0x17bbaa,0x3-_0xd0c039)};}function q4_0x3953(_0x1fb7b7,_0x55037c){_0x1fb7b7=_0x1fb7b7-0x1d0;const _0x15a668=q4_0x15a6();let _0x395325=_0x15a668[_0x1fb7b7];if(q4_0x3953['ppJtvD']===undefined){var _0x3d8e27=function(_0x553f9d){const _0x2ee8a0='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0xe305b1='',_0x593490='';for(let _0xc0de63=0x0,_0xd0c039,_0x17bbaa,_0x35dd2=0x0;_0x17bbaa=_0x553f9d['charAt'](_0x35dd2++);~_0x17bbaa&&(_0xd0c039=_0xc0de63%0x4?_0xd0c039*0x40+_0x17bbaa:_0x17bbaa,_0xc0de63++%0x4)?_0xe305b1+=String['fromCharCode'](0xff&_0xd0c039>>(-0x2*_0xc0de63&0x6)):0x0){_0x17bbaa=_0x2ee8a0['indexOf'](_0x17bbaa);}for(let _0x4c5f46=0x0,_0x57d7db=_0xe305b1['length'];_0x4c5f46<_0x57d7db;_0x4c5f46++){_0x593490+='%'+('00'+_0xe305b1['charCodeAt'](_0x4c5f46)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x593490);};q4_0x3953['jNBTef']=_0x3d8e27,q4_0x3953['BlMBnR']={},q4_0x3953['ppJtvD']=!![];}const _0x2552a3=_0x15a668[0x0];q4_0x3953['AaEHnl']!==_0x2552a3&&(q4_0x3953['BlMBnR']={},q4_0x3953['AaEHnl']=_0x2552a3);const _0xbac7e0=q4_0x3953['BlMBnR'][_0x1fb7b7];return _0xbac7e0===undefined?(_0x395325=q4_0x3953['jNBTef'](_0x395325),q4_0x3953['BlMBnR'][_0x1fb7b7]=_0x395325):_0x395325=_0xbac7e0,_0x395325;}export function createGameAudio({sound:sound=globalThis[q4_0x5b34f4(0x1f8)],hidden:hidden=()=>globalThis[q4_0x5b34f4(0x1d3)]?.[q4_0x5b34f4(0x1e8)],setTimer:setTimer=setTimeout,clearTimer:clearTimer=clearTimeout}={}){const _0x24ab78=q4_0x5b34f4;let _0x35dd2=![];const _0x4c5f46=createLoopMusic({'sound':sound,'src':GAME_AUDIO['music']}),_0x57d7db=new Set(),_0x1228bd=new Set(),_0x3aef37=new Set();sound?.[_0x24ab78(0x1f7)](Object[_0x24ab78(0x1e3)](GAME_AUDIO)[_0x24ab78(0x1f2)](([_0x246667])=>_0x246667!==_0x24ab78(0x1f6))[_0x24ab78(0x1ee)](([,_0x351c8a])=>_0x351c8a));const _0x4d8d6e=(_0x1c4597,_0x584b2e=0.75)=>{const _0x5af9fe=_0x24ab78;if(hidden()||!sound?.[_0x5af9fe(0x1da)](_0x5af9fe(0x1ed)))return;const _0x2fff9c=sound[_0x5af9fe(0x1ed)](GAME_AUDIO[_0x1c4597],{'volume':_0x584b2e});if(_0x2fff9c)_0x1228bd['add'](_0x2fff9c);};function _0x110a9e(){const _0x3f2ca6=_0x24ab78;for(const _0x3ae151 of _0x57d7db)clearTimer(_0x3ae151);_0x57d7db['clear']();for(const _0x122beb of _0x1228bd)_0x122beb[_0x3f2ca6(0x1d2)]();_0x1228bd[_0x3f2ca6(0x1df)]();}function _0x19ddb7(_0x162d90,_0x4b8d00){const _0x451083=_0x24ab78,_0x11c6e7=setTimer(()=>{const _0x525699=q4_0x3953;_0x57d7db[_0x525699(0x1d5)](_0x11c6e7),_0x4b8d00();},Math[_0x451083(0x1f5)](0x0,_0x162d90));_0x57d7db[_0x451083(0x1dd)](_0x11c6e7);}return{'placement'(_0x591b29,_0x52c3e1={}){const _0x31ed7a=_0x24ab78;_0x110a9e(),_0x19ddb7(_0x591b29*0x3e8,()=>_0x4d8d6e(_0x52c3e1[_0x31ed7a(0x1d1)]?_0x31ed7a(0x1d1):'move',_0x52c3e1['capture']?0.8:0.65));if(_0x52c3e1[_0x31ed7a(0x1e4)])_0x19ddb7(_0x52c3e1[_0x31ed7a(0x1de)]??0x168,()=>_0x4d8d6e(_0x31ed7a(0x1e4),0.62));},'cancelMove':_0x110a9e,'stop'(){_0x110a9e();},'scene'(_0x334b9a){const _0xab2816=_0x24ab78;_0x334b9a=Boolean(_0x334b9a);if(_0x334b9a===_0x35dd2)return;_0x35dd2=_0x334b9a,_0x4c5f46[_0xab2816(0x1eb)](_0x334b9a);if(!_0x334b9a)_0x110a9e();},'result'(_0x31f7d0,_0x21da75){const _0x59b7b2=_0x24ab78;if(![_0x59b7b2(0x1d6),'lost'][_0x59b7b2(0x1f1)](_0x21da75)||_0x3aef37['has'](_0x31f7d0)||hidden())return;_0x3aef37[_0x59b7b2(0x1dd)](_0x31f7d0);if(_0x3aef37[_0x59b7b2(0x1ea)]>0x100)_0x3aef37[_0x59b7b2(0x1d5)](_0x3aef37[_0x59b7b2(0x1dc)]()[_0x59b7b2(0x1f0)]()[_0x59b7b2(0x1e0)]);_0x4d8d6e(_0x21da75,0.72);},'musicState':()=>_0x4c5f46[_0x24ab78(0x1e2)]()};}function q4_0x15a6(){const _0xa0b21b=['zNjVBq','C2z4','BwfW','nJGZmZy0y21NuLzb','BMv4Da','Aw5JBhvKzxm','zMLSDgvY','mZCZmJC1nNjctgzgtq','odKXmJaZnujwCxH6Aq','Bwf4','BxvZAwm','Bg9Hza','tMnXu291BMq','nJu2mtrqqLfcAw4','y2fWDhvYzq','C3rVCa','zg9JDw1LBNq','nJeWBgnguhbL','zgvSzxrL','D29U','mJmYAKfNqw12','mtq4mg9YEKPkwG','lI9HC3nLDhmVBwf0y2GTDwKVC3rVBMuTB24TD29Vzc53yxy','zw5HyMXLza','ntv5wuj1D1y','DMfSDwvZ','ywrK','y2HLy2TbDa','y2XLyxi','DMfSDwu','zNjLzxPL','C3rHDgu','zw50CMLLCW','y2HLy2S','ody1nZzYufDzEeG','AxnjBNrLz2vY','nK1NqvL4zW','AgLKzgvU','mtu3ndCZtNvIqwvy','C2L6zq','C2nLBMu'];q4_0x15a6=function(){return _0xa0b21b;};return q4_0x15a6();}
+import { inCheck, sideOf } from './rules.js';
+import { createLoopMusic } from './loop-music.js';
+import { GUGAK_AUDIO } from './audio-assets.js';
+import { END_AUDIO } from './end-audio-assets.js';
+import { createEndAudio } from './end-audio.js';
+
+export const GAME_AUDIO = Object.freeze({
+  music: './assets/audio/jangi/match-bgm.mp3?v=52e852f3a85d',
+  move: './assets/match-ui/stone-on-wood.wav',
+  ...GUGAK_AUDIO,
+  ...END_AUDIO,
+});
+
+export function moveAudio(board, move) {
+  if (!board || !Number.isInteger(move?.from) || !Number.isInteger(move?.to)) return {};
+  const side = sideOf(board[move.from]);
+  if (!side) return {};
+  const next = [...board]; next[move.to] = next[move.from]; next[move.from] = 0;
+  return {capture: Boolean(board[move.to] && sideOf(board[move.to]) !== side), check: inCheck(next, 3-side)};
+}
+
+// NcqSound owns playback, mute/volume, unlocking and platform interruption handling.
+export function createGameAudio({sound = globalThis.NcqSound, hidden = () => globalThis.document?.hidden,
+  blocked = () => false, now = () => performance.now(), setTimer = setTimeout, clearTimer = clearTimeout} = {}) {
+  let music = false;
+  const background = createLoopMusic({sound, src:GAME_AUDIO.music});
+  const timers = new Set(), voices = new Set(), results = new Set(), resultVoices = new Set();
+  const endings = createEndAudio({sound,hidden,blocked,now,setTimer,clearTimer,onPromotion:()=>stopResult(.06)});
+  sound?.load(Object.entries(GAME_AUDIO).filter(([kind]) => kind !== 'music').map(([,url])=>url));
+  const play = (kind, volume = .75, group = voices) => {
+    if (hidden() || !sound?.enabled('sfx')) return;
+    const voice = sound.sfx(GAME_AUDIO[kind], {volume});
+    if (voice) group.add(voice);
+  };
+  function cancelMove() {
+    for (const timer of timers) clearTimer(timer);
+    timers.clear();
+    for (const voice of voices) voice.stop();
+    voices.clear();
+  }
+  function later(ms, action) {
+    const timer = setTimer(() => { timers.delete(timer); action(); }, Math.max(0, ms));
+    timers.add(timer);
+  }
+  function stopResult(fade=.03) {
+    for (const voice of resultVoices) voice.stop(fade);
+    resultVoices.clear();
+  }
+  return {
+    placement(delaySeconds, cue = {}) {
+      cancelMove();
+      later(delaySeconds*1000, () => play(cue.capture ? 'capture' : 'move', cue.capture ? .8 : .65));
+      if (cue.check) later(cue.checkAt ?? 360, () => play('check', .62));
+    },
+    cancelMove,
+    stop() { cancelMove(); stopResult(); endings.stop(); },
+    stamp: endings.stamp,
+    promotion: endings.promotion,
+    scene(active) {
+      active = Boolean(active);
+      if (active === music) return;
+      music = active;
+      background.scene(active);
+      if (!active) cancelMove();
+      else { stopResult(); endings.stop(); }
+    },
+    result(key, outcome) {
+      if (!['won','lost'].includes(outcome) || results.has(key) || hidden()) return;
+      results.add(key);
+      if (results.size > 256) results.delete(results.values().next().value);
+      stopResult();play(outcome, .72, resultVoices);
+    },
+    musicState: () => background.state(),
+  };
+}

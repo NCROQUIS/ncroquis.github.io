@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+  <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
+    <meta charset="UTF-8" /><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-auth.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+    <meta name="theme-color" content="#bfe8da" />
+    <title>Car Out</title>
+    <script type="module" crossorigin src="./assets/index-BLDkdmv1.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Dk5eXzXh.css">
+  </head>
+  <body>
+    <div id="app">
+      <header class="hud">
+        <div class="pill level" id="level-label"></div>
+        <div class="pill coin" id="coin-pill"><span class="coin-icon" aria-hidden="true">🪙</span><b id="coin-text">0</b></div>
+        <div class="progress" aria-live="polite">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="4" /><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8z" /></svg>
+          <div class="bar"><div class="fill" id="progress-fill"></div><span id="progress-text">0/0</span></div>
+        </div>
+        <button class="icon-btn" id="settings-btn" data-i18n-attr="aria-label:settings; title:settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.5" /><rect x="14" y="5" width="4" height="14" rx="1.5" /></svg>
+        </button>
+      </header>
+
+      <main id="play" data-ncq-no-main>
+        <canvas id="board"></canvas>
+        <p class="hint" id="hint" data-i18n="hint_tap" hidden></p>
+        <div class="toast" id="toast" role="status"></div>
+      </main>
+
+      <!-- 아이템 막대 (화면 흐름 안에 둬서 판을 가리지 않아요) -->
+      <nav class="items" id="items"></nav>
+
+      <!-- 판 끝 -->
+      <section class="result" id="result" hidden>
+        <div class="card">
+          <div class="badge" id="result-badge"></div>
+          <h2 id="result-title"></h2>
+          <p id="result-body"></p>
+          <div class="feature" id="feature" hidden>
+            <div class="feature-icon" id="feature-icon" aria-hidden="true"></div>
+            <div class="feature-info">
+              <div class="feature-label" id="feature-label"></div>
+              <div class="feature-bar"><div class="feature-fill" id="feature-fill"></div><span id="feature-text"></span></div>
+            </div>
+          </div>
+          <div class="reward" id="reward" hidden>
+            <div class="reward-coins" id="reward-coins"></div>
+            <div class="chest-row">
+              <div class="chest-icon" id="chest-icon" aria-hidden="true">🎁</div>
+              <div class="feature-info">
+                <div class="feature-label" id="chest-label"></div>
+                <div class="feature-bar"><div class="feature-fill chest-fill" id="chest-fill"></div><span id="chest-text"></span></div>
+              </div>
+            </div>
+          </div>
+          <div class="hearts-line" id="hearts-line" hidden></div>
+          <button class="btn primary revive" id="revive-btn" hidden></button>
+          <button class="btn primary" id="result-btn" data-ncq-main="결과 버튼"></button>
+        </div>
+      </section>
+    </div>
+
+    <dialog id="settings" class="sheet">
+      <h2 data-i18n="settings"></h2>
+      <div class="row">
+        <span id="lang-title"></span>
+        <div class="seg" id="lang-options"></div>
+      </div>
+      <div class="row">
+        <span data-i18n="sound"></span>
+        <button class="toggle" id="sound-toggle" role="switch"></button>
+      </div>
+      <div class="row">
+        <span data-i18n="hearts"></span>
+        <b class="hearts-value" id="settings-hearts"></b>
+      </div>
+      <div class="row" id="vibration-row">
+        <span data-i18n="vibration"></span>
+        <button class="toggle" id="vibration-toggle" role="switch"></button>
+      </div>
+      <button class="btn" id="restart-btn" data-i18n="restart"></button>
+      <button class="btn" id="feedback-btn" data-i18n="feedback" hidden></button>
+      <button class="btn primary" id="resume-btn" data-i18n="resume" data-ncq-main="계속하기 버튼"></button>
+      <small class="version" id="app-version"></small>
+    </dialog>
+
+    <dialog id="intro" class="sheet intro">
+      <div class="intro-icon" id="intro-icon" aria-hidden="true"></div>
+      <h2 id="intro-title"></h2>
+      <p id="intro-body"></p>
+      <button class="btn primary" id="intro-ok" data-i18n="got_it" data-ncq-main="새 요소 확인 버튼"></button>
+    </dialog>
+
+    <dialog id="daily" class="sheet daily">
+      <h2 data-i18n="daily_title"></h2>
+      <p class="daily-sub" data-i18n="daily_body"></p>
+      <div class="daily-grid" id="daily-grid"></div>
+      <button class="btn primary" id="daily-claim" data-i18n="daily_claim" data-ncq-main="출석 보상 받기 버튼"></button>
+    </dialog>
+
+    <dialog id="nohearts" class="sheet intro">
+      <div class="intro-icon heart-icon" aria-hidden="true">💔</div>
+      <h2 data-i18n="nohearts_title"></h2>
+      <p id="nohearts-body"></p>
+      <button class="btn primary" id="refill-btn" data-ncq-main="하트 채우기 버튼"></button>
+      <button class="btn" id="nohearts-close" data-i18n="close"></button>
+    </dialog>
+
+    <dialog id="buy" class="sheet intro">
+      <div class="intro-icon" id="buy-icon" aria-hidden="true"></div>
+      <h2 id="buy-title"></h2>
+      <p id="buy-body"></p>
+      <button class="btn primary" id="buy-ok" data-ncq-main="아이템 사기 버튼"></button>
+      <button class="btn" id="buy-cancel" data-i18n="close"></button>
+    </dialog>
+
+  </body>
+</html>

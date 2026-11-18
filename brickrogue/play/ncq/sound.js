@@ -11,6 +11,7 @@
 //   NcqSound.bgm(null)                         배경음 끄기 (fade만큼 천천히) · NcqSound.bgm()은 지금 곡 주소
 //   NcqSound.sfx("assets/audio/hit.mp3")       효과음 한 번 ({volume: 0.5, rate: 1.2, loop: true, gap: 0})
 //                                              돌려받은 값의 stop()으로 멈춰요 (되풀이 효과음). 못 울리면 null
+//   NcqSound.popup("open", "pop")              기본 팝업음: open·close / pop·wood·chime·digital (생략하면 pop)
 //   NcqSound.load(["assets/audio/hit.mp3"])    효과음 미리 불러 두기 (약속: 모두 불렀으면 true)
 //   NcqSound.enabled("bgm") · NcqSound.enabled("sfx", false)   켬·끔 (설정 화면, 기본 켬, 기기에 저장)
 //   NcqSound.volume("bgm") · NcqSound.volume("sfx", 0.5)       음량 0~1 (설정 화면의 슬라이더 값, 기본 1, 기기에 저장)
@@ -29,7 +30,7 @@
   "use strict";
   var w = typeof window !== "undefined" ? window : null;
   if (!w) return;
-  var VERSION = 1;
+  var VERSION = 2;
   if (w.NcqSound && w.NcqSound.version >= VERSION) return; // 두 번 불러도 한 번만
   var d = w.document;
   var CHANNELS = ["bgm", "sfx"];
@@ -612,7 +613,62 @@
     });
   }
 
-  function sfx(src, opts) {
+  // 파일 없이 만드는 짧은 기본음. 한 번 만든 버퍼를 같은 AudioContext에서 다시 써요.
+  var popupBuffers = Object.create(null);
+  var popupLengths = {pop: [0.14, 0.12], wood: [0.16, 0.13], chime: [0.32, 0.27], digital: [0.15, 0.12]};
+
+  function popupBuffer(c, style, action) {
+    var key = style + ":" + action;
+    if (own(popupBuffers, key)) return popupBuffers[key];
+    var opening = action === "open";
+    var duration = popupLengths[style][opening ? 0 : 1], rate = c.sampleRate;
+    var buf = c.createBuffer(1, Math.ceil(duration * rate), rate);
+    var data = buf.getChannelData(0), tau = Math.PI * 2, phase = 0, peak = 0, noise = 0, seed = 17;
+    for (var i = 0; i < data.length; i++) {
+      var t = i / rate, p = t / duration, value, base, freq;
+      if (style === "pop") {
+        var start = opening ? 440 : 620, finish = opening ? 820 : 290;
+        freq = finish + (start - finish) * Math.exp(-p * 5);
+        phase += tau * freq / rate;
+        value = (Math.sin(phase) + 0.18 * Math.sin(phase * 2)) * Math.exp(-p * 5.8);
+      } else if (style === "wood") {
+        base = opening ? 780 : 570;
+        seed = (seed * 1664525 + 1013904223) >>> 0;
+        noise += 0.16 * (seed / 2147483648 - 1 - noise);
+        value = Math.sin(tau * base * t) * Math.exp(-t / 0.026)
+          + 0.5 * Math.sin(tau * base * 2.71 * t) * Math.exp(-t / 0.014)
+          + 0.2 * Math.sin(tau * base * 4.13 * t) * Math.exp(-t / 0.008)
+          + noise * 0.2 * Math.exp(-t * 100);
+      } else if (style === "chime") {
+        base = opening ? 880 : 740;
+        value = Math.sin(tau * base * t) * Math.exp(-t * 15)
+          + 0.28 * Math.sin(tau * base * 2.76 * t) * Math.exp(-t * 24);
+        var delay = t - 0.055, note = base * (opening ? 1.5 : 0.75);
+        if (delay > 0) value += 0.7 * Math.sin(tau * note * delay) * Math.exp(-delay * 19) * Math.min(1, delay / 0.004);
+      } else {
+        freq = p < 0.38 ? 660 : (opening ? 990 : 440);
+        phase += tau * freq / rate;
+        value = (Math.sin(phase) + 0.1 * Math.sin(phase * 3)) * Math.exp(-p * 3);
+        value *= 0.3 + 0.7 * Math.min(1, Math.abs(p - 0.38) / 0.04);
+      }
+      data[i] = value * Math.min(1, t / 0.004) * Math.min(1, (duration - t) / 0.012);
+      peak = Math.max(peak, Math.abs(data[i]));
+    }
+    if (peak) for (var j = 0; j < data.length; j++) data[j] *= 0.38 / peak;
+    popupBuffers[key] = buf;
+    return buf;
+  }
+
+  function popup(action, style, opts) {
+    style = style === undefined ? "pop" : style;
+    if ((action !== "open" && action !== "close") || !own(popupLengths, style)) return null;
+    // 열림·닫힘은 짧은 한 번 소리예요 (파일 효과음의 loop 옵션과 분리).
+    return effect(style + ":" + action, Object.assign({}, opts || {}, {loop: false}), {style: style, action: action});
+  }
+
+  function sfx(src, opts) { return effect(src, opts); }
+
+  function effect(src, opts, preset) {
     try {
       if (!src) return null;
       src = String(src);
@@ -623,15 +679,16 @@
       var t = now();
       if (c.state !== "running" && t - touched > TOUCH && t - made > TOUCH) return null; // 잠겨 있어요 (첫 터치 전)
       var gap = num(o.gap, 0, 60000, GAP);
-      if (gap && own(lastAt, src) && t - lastAt[src] < gap) return null;
-      var b = own(bank, src) ? bank[src] : null;
+      var key = (preset ? "popup:" : "file:") + src;
+      if (gap && own(lastAt, key) && t - lastAt[key] < gap) return null;
+      var b = preset ? {buf: popupBuffer(c, preset.style, preset.action)} : (own(bank, src) ? bank[src] : null);
       if (b && b.failed) return null;
-      lastAt[src] = t;
+      lastAt[key] = t;
       var v = {node: null, gain: null, off: false};
       if (b && b.buf && c.state === "running") {
         ring(v, b.buf, o);
       } else { // 아직 안 불렸거나 잠금이 풀리는 중: LATE 안에 울릴 수 있을 때만
-        Promise.all([fetchSound(src), started(c)]).then(function (r) {
+        Promise.all([b && b.buf ? Promise.resolve(b.buf) : fetchSound(src), started(c)]).then(function (r) {
           if (r[0] && now() - t <= LATE && read().sfx.on && active() && c.state === "running") ring(v, r[0], o);
           else v.off = true;
         });
@@ -730,7 +787,7 @@
     });
   } catch (e) { /* 그래도 괜찮아요 */ }
 
-  w.NcqSound = {version: VERSION, bgm: bgm, sfx: sfx, load: load, enabled: enabled, volume: volume, level: level,
+  w.NcqSound = {version: VERSION, bgm: bgm, sfx: sfx, popup: popup, load: load, enabled: enabled, volume: volume, level: level,
                 settings: settings, onChange: onChange, pause: pause, resume: resume, context: context, output: output,
                 state: state};
 })();

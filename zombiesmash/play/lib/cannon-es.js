@@ -1,1 +1,13023 @@
-const q0_0x3ac257=q0_0x4954;(function(_0x17b7ce,_0x540af4){const _0x4b2043=q0_0x4954,_0x3e34e7=_0x17b7ce();while(!![]){try{const _0x3d89ef=parseInt(_0x4b2043(0x245))/0x1*(parseInt(_0x4b2043(0x31b))/0x2)+parseInt(_0x4b2043(0x242))/0x3*(parseInt(_0x4b2043(0x393))/0x4)+-parseInt(_0x4b2043(0x359))/0x5*(-parseInt(_0x4b2043(0x291))/0x6)+-parseInt(_0x4b2043(0x3ce))/0x7*(parseInt(_0x4b2043(0x298))/0x8)+-parseInt(_0x4b2043(0x260))/0x9*(parseInt(_0x4b2043(0x232))/0xa)+-parseInt(_0x4b2043(0x3db))/0xb*(parseInt(_0x4b2043(0x343))/0xc)+-parseInt(_0x4b2043(0x3c0))/0xd*(parseInt(_0x4b2043(0x337))/0xe);if(_0x3d89ef===_0x540af4)break;else _0x3e34e7['push'](_0x3e34e7['shift']());}catch(_0x299f42){_0x3e34e7['push'](_0x3e34e7['shift']());}}}(q0_0x2a50,0x741b2));class ObjectCollisionMatrix{constructor(){const _0x1f0ad6=q0_0x4954;this[_0x1f0ad6(0x2f2)]={};}['get'](_0x177d16,_0x612bdb){const _0x2caac8=q0_0x4954;let {id:_0x577c86}=_0x177d16,{id:_0x32b06c}=_0x612bdb;if(_0x32b06c>_0x577c86){const _0x2929cb=_0x32b06c;_0x32b06c=_0x577c86,_0x577c86=_0x2929cb;}return _0x577c86+'-'+_0x32b06c in this[_0x2caac8(0x2f2)];}[q0_0x3ac257(0x38a)](_0x39b658,_0x19a322,_0x4a1be3){let {id:_0x4d9333}=_0x39b658,{id:_0x2c6e44}=_0x19a322;if(_0x2c6e44>_0x4d9333){const _0x5c9133=_0x2c6e44;_0x2c6e44=_0x4d9333,_0x4d9333=_0x5c9133;}_0x4a1be3?this['matrix'][_0x4d9333+'-'+_0x2c6e44]=!![]:delete this['matrix'][_0x4d9333+'-'+_0x2c6e44];}[q0_0x3ac257(0x2c4)](){const _0x25ef9f=q0_0x3ac257;this[_0x25ef9f(0x2f2)]={};}[q0_0x3ac257(0x35d)](_0x52fcac){}}class Mat3{constructor(_0x42ab02){const _0x47d943=q0_0x3ac257;_0x42ab02===void 0x0&&(_0x42ab02=[0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0]),this[_0x47d943(0x251)]=_0x42ab02;}['identity'](){const _0xd58c68=q0_0x3ac257,_0x6df1c4=this[_0xd58c68(0x251)];_0x6df1c4[0x0]=0x1,_0x6df1c4[0x1]=0x0,_0x6df1c4[0x2]=0x0,_0x6df1c4[0x3]=0x0,_0x6df1c4[0x4]=0x1,_0x6df1c4[0x5]=0x0,_0x6df1c4[0x6]=0x0,_0x6df1c4[0x7]=0x0,_0x6df1c4[0x8]=0x1;}[q0_0x3ac257(0x2c7)](){const _0x133059=this['elements'];_0x133059[0x0]=0x0,_0x133059[0x1]=0x0,_0x133059[0x2]=0x0,_0x133059[0x3]=0x0,_0x133059[0x4]=0x0,_0x133059[0x5]=0x0,_0x133059[0x6]=0x0,_0x133059[0x7]=0x0,_0x133059[0x8]=0x0;}[q0_0x3ac257(0x1e0)](_0x4ac086){const _0xff55a7=q0_0x3ac257,_0x5a12bb=this[_0xff55a7(0x251)];_0x5a12bb[0x0]=_0x4ac086['x'],_0x5a12bb[0x4]=_0x4ac086['y'],_0x5a12bb[0x8]=_0x4ac086['z'];}[q0_0x3ac257(0x2b2)](_0x3b8119){const _0x21d88e=q0_0x3ac257;_0x3b8119===void 0x0&&(_0x3b8119=new Vec3());const _0x4054b9=this[_0x21d88e(0x251)];return _0x3b8119['x']=_0x4054b9[0x0],_0x3b8119['y']=_0x4054b9[0x4],_0x3b8119['z']=_0x4054b9[0x8],_0x3b8119;}[q0_0x3ac257(0x205)](_0x1fec07,_0x3095e7){const _0x5b6ec5=q0_0x3ac257;_0x3095e7===void 0x0&&(_0x3095e7=new Vec3());const _0x3ba8fa=this[_0x5b6ec5(0x251)],_0x531455=_0x1fec07['x'],_0x42d0ef=_0x1fec07['y'],_0x119805=_0x1fec07['z'];return _0x3095e7['x']=_0x3ba8fa[0x0]*_0x531455+_0x3ba8fa[0x1]*_0x42d0ef+_0x3ba8fa[0x2]*_0x119805,_0x3095e7['y']=_0x3ba8fa[0x3]*_0x531455+_0x3ba8fa[0x4]*_0x42d0ef+_0x3ba8fa[0x5]*_0x119805,_0x3095e7['z']=_0x3ba8fa[0x6]*_0x531455+_0x3ba8fa[0x7]*_0x42d0ef+_0x3ba8fa[0x8]*_0x119805,_0x3095e7;}[q0_0x3ac257(0x324)](_0x3f1a88){const _0x30f13e=q0_0x3ac257;for(let _0x36241c=0x0;_0x36241c<this[_0x30f13e(0x251)][_0x30f13e(0x25b)];_0x36241c++){this[_0x30f13e(0x251)][_0x36241c]*=_0x3f1a88;}}[q0_0x3ac257(0x201)](_0x18a242,_0x4806fc){const _0x386048=q0_0x3ac257;_0x4806fc===void 0x0&&(_0x4806fc=new Mat3());const _0x5899c6=this[_0x386048(0x251)],_0x4ae0c5=_0x18a242[_0x386048(0x251)],_0x2730cd=_0x4806fc[_0x386048(0x251)],_0x4f8ebe=_0x5899c6[0x0],_0x213880=_0x5899c6[0x1],_0x5ab735=_0x5899c6[0x2],_0x46f62b=_0x5899c6[0x3],_0x79c883=_0x5899c6[0x4],_0x37ea18=_0x5899c6[0x5],_0x4d8574=_0x5899c6[0x6],_0x5b23ac=_0x5899c6[0x7],_0x281f1a=_0x5899c6[0x8],_0xbaeee4=_0x4ae0c5[0x0],_0x37600d=_0x4ae0c5[0x1],_0x2a2f7e=_0x4ae0c5[0x2],_0x1ad73d=_0x4ae0c5[0x3],_0x2df4a7=_0x4ae0c5[0x4],_0x48456c=_0x4ae0c5[0x5],_0x2d46fd=_0x4ae0c5[0x6],_0x20c9be=_0x4ae0c5[0x7],_0x4ce894=_0x4ae0c5[0x8];return _0x2730cd[0x0]=_0x4f8ebe*_0xbaeee4+_0x213880*_0x1ad73d+_0x5ab735*_0x2d46fd,_0x2730cd[0x1]=_0x4f8ebe*_0x37600d+_0x213880*_0x2df4a7+_0x5ab735*_0x20c9be,_0x2730cd[0x2]=_0x4f8ebe*_0x2a2f7e+_0x213880*_0x48456c+_0x5ab735*_0x4ce894,_0x2730cd[0x3]=_0x46f62b*_0xbaeee4+_0x79c883*_0x1ad73d+_0x37ea18*_0x2d46fd,_0x2730cd[0x4]=_0x46f62b*_0x37600d+_0x79c883*_0x2df4a7+_0x37ea18*_0x20c9be,_0x2730cd[0x5]=_0x46f62b*_0x2a2f7e+_0x79c883*_0x48456c+_0x37ea18*_0x4ce894,_0x2730cd[0x6]=_0x4d8574*_0xbaeee4+_0x5b23ac*_0x1ad73d+_0x281f1a*_0x2d46fd,_0x2730cd[0x7]=_0x4d8574*_0x37600d+_0x5b23ac*_0x2df4a7+_0x281f1a*_0x20c9be,_0x2730cd[0x8]=_0x4d8574*_0x2a2f7e+_0x5b23ac*_0x48456c+_0x281f1a*_0x4ce894,_0x4806fc;}['scale'](_0x157c92,_0x18f82c){const _0x5aa46f=q0_0x3ac257;_0x18f82c===void 0x0&&(_0x18f82c=new Mat3());const _0xe9504e=this[_0x5aa46f(0x251)],_0xb80b3=_0x18f82c[_0x5aa46f(0x251)];for(let _0x1d8375=0x0;_0x1d8375!==0x3;_0x1d8375++){_0xb80b3[0x3*_0x1d8375+0x0]=_0x157c92['x']*_0xe9504e[0x3*_0x1d8375+0x0],_0xb80b3[0x3*_0x1d8375+0x1]=_0x157c92['y']*_0xe9504e[0x3*_0x1d8375+0x1],_0xb80b3[0x3*_0x1d8375+0x2]=_0x157c92['z']*_0xe9504e[0x3*_0x1d8375+0x2];}return _0x18f82c;}[q0_0x3ac257(0x220)](_0x521626,_0x336fa7){const _0x302681=q0_0x3ac257;_0x336fa7===void 0x0&&(_0x336fa7=new Vec3());const _0x41da14=0x3,_0x321553=0x4,_0x35dbab=[];let _0x215d7,_0x3d5af6;for(_0x215d7=0x0;_0x215d7<_0x41da14*_0x321553;_0x215d7++){_0x35dbab['push'](0x0);}for(_0x215d7=0x0;_0x215d7<0x3;_0x215d7++){for(_0x3d5af6=0x0;_0x3d5af6<0x3;_0x3d5af6++){_0x35dbab[_0x215d7+_0x321553*_0x3d5af6]=this['elements'][_0x215d7+0x3*_0x3d5af6];}}_0x35dbab[0x3+0x4*0x0]=_0x521626['x'],_0x35dbab[0x3+0x4*0x1]=_0x521626['y'],_0x35dbab[0x3+0x4*0x2]=_0x521626['z'];let _0x4c0a62=0x3;const _0x2129de=_0x4c0a62;let _0x1daff8;const _0x1ef7ca=0x4;let _0x2b3b11;do{_0x215d7=_0x2129de-_0x4c0a62;if(_0x35dbab[_0x215d7+_0x321553*_0x215d7]===0x0)for(_0x3d5af6=_0x215d7+0x1;_0x3d5af6<_0x2129de;_0x3d5af6++){if(_0x35dbab[_0x215d7+_0x321553*_0x3d5af6]!==0x0){_0x1daff8=_0x1ef7ca;do{_0x2b3b11=_0x1ef7ca-_0x1daff8,_0x35dbab[_0x2b3b11+_0x321553*_0x215d7]+=_0x35dbab[_0x2b3b11+_0x321553*_0x3d5af6];}while(--_0x1daff8);break;}}if(_0x35dbab[_0x215d7+_0x321553*_0x215d7]!==0x0)for(_0x3d5af6=_0x215d7+0x1;_0x3d5af6<_0x2129de;_0x3d5af6++){const _0xbe1d88=_0x35dbab[_0x215d7+_0x321553*_0x3d5af6]/_0x35dbab[_0x215d7+_0x321553*_0x215d7];_0x1daff8=_0x1ef7ca;do{_0x2b3b11=_0x1ef7ca-_0x1daff8,_0x35dbab[_0x2b3b11+_0x321553*_0x3d5af6]=_0x2b3b11<=_0x215d7?0x0:_0x35dbab[_0x2b3b11+_0x321553*_0x3d5af6]-_0x35dbab[_0x2b3b11+_0x321553*_0x215d7]*_0xbe1d88;}while(--_0x1daff8);}}while(--_0x4c0a62);_0x336fa7['z']=_0x35dbab[0x2*_0x321553+0x3]/_0x35dbab[0x2*_0x321553+0x2],_0x336fa7['y']=(_0x35dbab[0x1*_0x321553+0x3]-_0x35dbab[0x1*_0x321553+0x2]*_0x336fa7['z'])/_0x35dbab[0x1*_0x321553+0x1],_0x336fa7['x']=(_0x35dbab[0x0*_0x321553+0x3]-_0x35dbab[0x0*_0x321553+0x2]*_0x336fa7['z']-_0x35dbab[0x0*_0x321553+0x1]*_0x336fa7['y'])/_0x35dbab[0x0*_0x321553+0x0];if(isNaN(_0x336fa7['x'])||isNaN(_0x336fa7['y'])||isNaN(_0x336fa7['z'])||_0x336fa7['x']===Infinity||_0x336fa7['y']===Infinity||_0x336fa7['z']===Infinity)throw'Could\x20not\x20solve\x20equation!\x20Got\x20x=['+_0x336fa7['toString']()+'],\x20b=['+_0x521626[_0x302681(0x2e7)]()+_0x302681(0x1c2)+this[_0x302681(0x2e7)]()+']';return _0x336fa7;}['e'](_0xbef49,_0x59447f,_0x5cd516){const _0x2a50fc=q0_0x3ac257;if(_0x5cd516===undefined)return this[_0x2a50fc(0x251)][_0x59447f+0x3*_0xbef49];else this[_0x2a50fc(0x251)][_0x59447f+0x3*_0xbef49]=_0x5cd516;}[q0_0x3ac257(0x191)](_0x2d7ff4){const _0x3c3cf3=q0_0x3ac257;for(let _0x18fd21=0x0;_0x18fd21<_0x2d7ff4[_0x3c3cf3(0x251)]['length'];_0x18fd21++){this[_0x3c3cf3(0x251)][_0x18fd21]=_0x2d7ff4[_0x3c3cf3(0x251)][_0x18fd21];}return this;}[q0_0x3ac257(0x2e7)](){let _0x5584d1='';const _0x3d7395=',';for(let _0x216e7f=0x0;_0x216e7f<0x9;_0x216e7f++){_0x5584d1+=this['elements'][_0x216e7f]+_0x3d7395;}return _0x5584d1;}[q0_0x3ac257(0x384)](_0x3cdf94){const _0x2dde32=q0_0x3ac257;_0x3cdf94===void 0x0&&(_0x3cdf94=new Mat3());const _0x474fa5=0x3,_0x33326a=0x6,_0x3eb160=reverse_eqns;let _0x703ac0,_0x3d5cee;for(_0x703ac0=0x0;_0x703ac0<0x3;_0x703ac0++){for(_0x3d5cee=0x0;_0x3d5cee<0x3;_0x3d5cee++){_0x3eb160[_0x703ac0+_0x33326a*_0x3d5cee]=this[_0x2dde32(0x251)][_0x703ac0+0x3*_0x3d5cee];}}_0x3eb160[0x3+0x6*0x0]=0x1,_0x3eb160[0x3+0x6*0x1]=0x0,_0x3eb160[0x3+0x6*0x2]=0x0,_0x3eb160[0x4+0x6*0x0]=0x0,_0x3eb160[0x4+0x6*0x1]=0x1,_0x3eb160[0x4+0x6*0x2]=0x0,_0x3eb160[0x5+0x6*0x0]=0x0,_0x3eb160[0x5+0x6*0x1]=0x0,_0x3eb160[0x5+0x6*0x2]=0x1;let _0x15a11c=0x3;const _0x4047d1=_0x15a11c;let _0x1d6744;const _0x4c9ec2=_0x33326a;let _0x213c13;do{_0x703ac0=_0x4047d1-_0x15a11c;if(_0x3eb160[_0x703ac0+_0x33326a*_0x703ac0]===0x0)for(_0x3d5cee=_0x703ac0+0x1;_0x3d5cee<_0x4047d1;_0x3d5cee++){if(_0x3eb160[_0x703ac0+_0x33326a*_0x3d5cee]!==0x0){_0x1d6744=_0x4c9ec2;do{_0x213c13=_0x4c9ec2-_0x1d6744,_0x3eb160[_0x213c13+_0x33326a*_0x703ac0]+=_0x3eb160[_0x213c13+_0x33326a*_0x3d5cee];}while(--_0x1d6744);break;}}if(_0x3eb160[_0x703ac0+_0x33326a*_0x703ac0]!==0x0)for(_0x3d5cee=_0x703ac0+0x1;_0x3d5cee<_0x4047d1;_0x3d5cee++){const _0x51e8b4=_0x3eb160[_0x703ac0+_0x33326a*_0x3d5cee]/_0x3eb160[_0x703ac0+_0x33326a*_0x703ac0];_0x1d6744=_0x4c9ec2;do{_0x213c13=_0x4c9ec2-_0x1d6744,_0x3eb160[_0x213c13+_0x33326a*_0x3d5cee]=_0x213c13<=_0x703ac0?0x0:_0x3eb160[_0x213c13+_0x33326a*_0x3d5cee]-_0x3eb160[_0x213c13+_0x33326a*_0x703ac0]*_0x51e8b4;}while(--_0x1d6744);}}while(--_0x15a11c);_0x703ac0=0x2;do{_0x3d5cee=_0x703ac0-0x1;do{const _0x30d79b=_0x3eb160[_0x703ac0+_0x33326a*_0x3d5cee]/_0x3eb160[_0x703ac0+_0x33326a*_0x703ac0];_0x1d6744=_0x33326a;do{_0x213c13=_0x33326a-_0x1d6744,_0x3eb160[_0x213c13+_0x33326a*_0x3d5cee]=_0x3eb160[_0x213c13+_0x33326a*_0x3d5cee]-_0x3eb160[_0x213c13+_0x33326a*_0x703ac0]*_0x30d79b;}while(--_0x1d6744);}while(_0x3d5cee--);}while(--_0x703ac0);_0x703ac0=0x2;do{const _0x5d90b5=0x1/_0x3eb160[_0x703ac0+_0x33326a*_0x703ac0];_0x1d6744=_0x33326a;do{_0x213c13=_0x33326a-_0x1d6744,_0x3eb160[_0x213c13+_0x33326a*_0x703ac0]=_0x3eb160[_0x213c13+_0x33326a*_0x703ac0]*_0x5d90b5;}while(--_0x1d6744);}while(_0x703ac0--);_0x703ac0=0x2;do{_0x3d5cee=0x2;do{_0x213c13=_0x3eb160[_0x474fa5+_0x3d5cee+_0x33326a*_0x703ac0];if(isNaN(_0x213c13)||_0x213c13===Infinity)throw _0x2dde32(0x385)+this['toString']()+']';_0x3cdf94['e'](_0x703ac0,_0x3d5cee,_0x213c13);}while(_0x3d5cee--);}while(_0x703ac0--);return _0x3cdf94;}[q0_0x3ac257(0x3a5)](_0x1fff66){const _0x137eaa=_0x1fff66['x'],_0x4a1c2f=_0x1fff66['y'],_0x352966=_0x1fff66['z'],_0x1d4148=_0x1fff66['w'],_0x8cca30=_0x137eaa+_0x137eaa,_0x52c032=_0x4a1c2f+_0x4a1c2f,_0x280dde=_0x352966+_0x352966,_0x7eed1e=_0x137eaa*_0x8cca30,_0x33ef9e=_0x137eaa*_0x52c032,_0x27273d=_0x137eaa*_0x280dde,_0x5252c2=_0x4a1c2f*_0x52c032,_0x39fddf=_0x4a1c2f*_0x280dde,_0x5681da=_0x352966*_0x280dde,_0x406404=_0x1d4148*_0x8cca30,_0x39ded7=_0x1d4148*_0x52c032,_0x40ec93=_0x1d4148*_0x280dde,_0xe49947=this['elements'];return _0xe49947[0x3*0x0+0x0]=0x1-(_0x5252c2+_0x5681da),_0xe49947[0x3*0x0+0x1]=_0x33ef9e-_0x40ec93,_0xe49947[0x3*0x0+0x2]=_0x27273d+_0x39ded7,_0xe49947[0x3*0x1+0x0]=_0x33ef9e+_0x40ec93,_0xe49947[0x3*0x1+0x1]=0x1-(_0x7eed1e+_0x5681da),_0xe49947[0x3*0x1+0x2]=_0x39fddf-_0x406404,_0xe49947[0x3*0x2+0x0]=_0x27273d-_0x39ded7,_0xe49947[0x3*0x2+0x1]=_0x39fddf+_0x406404,_0xe49947[0x3*0x2+0x2]=0x1-(_0x7eed1e+_0x5252c2),this;}[q0_0x3ac257(0x228)](_0x1f16ae){const _0x1fdb86=q0_0x3ac257;_0x1f16ae===void 0x0&&(_0x1f16ae=new Mat3());const _0x70031c=this[_0x1fdb86(0x251)],_0x12972f=_0x1f16ae[_0x1fdb86(0x251)];let _0x181a3d;return _0x12972f[0x0]=_0x70031c[0x0],_0x12972f[0x4]=_0x70031c[0x4],_0x12972f[0x8]=_0x70031c[0x8],_0x181a3d=_0x70031c[0x1],_0x12972f[0x1]=_0x70031c[0x3],_0x12972f[0x3]=_0x181a3d,_0x181a3d=_0x70031c[0x2],_0x12972f[0x2]=_0x70031c[0x6],_0x12972f[0x6]=_0x181a3d,_0x181a3d=_0x70031c[0x5],_0x12972f[0x5]=_0x70031c[0x7],_0x12972f[0x7]=_0x181a3d,_0x1f16ae;}}const reverse_eqns=[0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0];class Vec3{constructor(_0x1d0ee3,_0x4294ec,_0xdeb808){_0x1d0ee3===void 0x0&&(_0x1d0ee3=0x0),_0x4294ec===void 0x0&&(_0x4294ec=0x0),_0xdeb808===void 0x0&&(_0xdeb808=0x0),this['x']=_0x1d0ee3,this['y']=_0x4294ec,this['z']=_0xdeb808;}[q0_0x3ac257(0x2cc)](_0x4349fa,_0x135a36){_0x135a36===void 0x0&&(_0x135a36=new Vec3());const _0x21d828=_0x4349fa['x'],_0x316881=_0x4349fa['y'],_0x1b6dc6=_0x4349fa['z'],_0x3680b8=this['x'],_0xf5df53=this['y'],_0x2f4ae1=this['z'];return _0x135a36['x']=_0xf5df53*_0x1b6dc6-_0x2f4ae1*_0x316881,_0x135a36['y']=_0x2f4ae1*_0x21d828-_0x3680b8*_0x1b6dc6,_0x135a36['z']=_0x3680b8*_0x316881-_0xf5df53*_0x21d828,_0x135a36;}['set'](_0x45d14a,_0x1a8c56,_0x82051d){return this['x']=_0x45d14a,this['y']=_0x1a8c56,this['z']=_0x82051d,this;}[q0_0x3ac257(0x2c7)](){this['x']=this['y']=this['z']=0x0;}[q0_0x3ac257(0x3d7)](_0x2a446d,_0x211acf){if(_0x211acf)_0x211acf['x']=_0x2a446d['x']+this['x'],_0x211acf['y']=_0x2a446d['y']+this['y'],_0x211acf['z']=_0x2a446d['z']+this['z'];else return new Vec3(this['x']+_0x2a446d['x'],this['y']+_0x2a446d['y'],this['z']+_0x2a446d['z']);}[q0_0x3ac257(0x325)](_0x3036a1,_0x39fe60){if(_0x39fe60)_0x39fe60['x']=this['x']-_0x3036a1['x'],_0x39fe60['y']=this['y']-_0x3036a1['y'],_0x39fe60['z']=this['z']-_0x3036a1['z'];else return new Vec3(this['x']-_0x3036a1['x'],this['y']-_0x3036a1['y'],this['z']-_0x3036a1['z']);}[q0_0x3ac257(0x1b2)](){return new Mat3([0x0,-this['z'],this['y'],this['z'],0x0,-this['x'],-this['y'],this['x'],0x0]);}['normalize'](){const _0x2b74aa=q0_0x3ac257,_0x55b2ae=this['x'],_0x171af7=this['y'],_0x513db6=this['z'],_0x58ff8e=Math[_0x2b74aa(0x1e2)](_0x55b2ae*_0x55b2ae+_0x171af7*_0x171af7+_0x513db6*_0x513db6);if(_0x58ff8e>0x0){const _0x11c058=0x1/_0x58ff8e;this['x']*=_0x11c058,this['y']*=_0x11c058,this['z']*=_0x11c058;}else this['x']=0x0,this['y']=0x0,this['z']=0x0;return _0x58ff8e;}[q0_0x3ac257(0x229)](_0x51bbb9){const _0x2e8619=q0_0x3ac257;_0x51bbb9===void 0x0&&(_0x51bbb9=new Vec3());const _0x1dbadf=this['x'],_0x2e325a=this['y'],_0x2949cd=this['z'];let _0x2cf0fc=Math[_0x2e8619(0x1e2)](_0x1dbadf*_0x1dbadf+_0x2e325a*_0x2e325a+_0x2949cd*_0x2949cd);return _0x2cf0fc>0x0?(_0x2cf0fc=0x1/_0x2cf0fc,_0x51bbb9['x']=_0x1dbadf*_0x2cf0fc,_0x51bbb9['y']=_0x2e325a*_0x2cf0fc,_0x51bbb9['z']=_0x2949cd*_0x2cf0fc):(_0x51bbb9['x']=0x1,_0x51bbb9['y']=0x0,_0x51bbb9['z']=0x0),_0x51bbb9;}[q0_0x3ac257(0x25b)](){const _0x1f5fa0=q0_0x3ac257,_0x6ba943=this['x'],_0x2a1a33=this['y'],_0x2ad7b6=this['z'];return Math[_0x1f5fa0(0x1e2)](_0x6ba943*_0x6ba943+_0x2a1a33*_0x2a1a33+_0x2ad7b6*_0x2ad7b6);}['lengthSquared'](){const _0x4a8ec5=q0_0x3ac257;return this[_0x4a8ec5(0x318)](this);}[q0_0x3ac257(0x2ec)](_0x479110){const _0x35a9a4=q0_0x3ac257,_0x411108=this['x'],_0x15d91e=this['y'],_0xef0bd1=this['z'],_0x3eed9e=_0x479110['x'],_0x3767f2=_0x479110['y'],_0x5e379f=_0x479110['z'];return Math[_0x35a9a4(0x1e2)]((_0x3eed9e-_0x411108)*(_0x3eed9e-_0x411108)+(_0x3767f2-_0x15d91e)*(_0x3767f2-_0x15d91e)+(_0x5e379f-_0xef0bd1)*(_0x5e379f-_0xef0bd1));}[q0_0x3ac257(0x1f9)](_0xc7a363){const _0x49a0a1=this['x'],_0x300a88=this['y'],_0x805c53=this['z'],_0x32e054=_0xc7a363['x'],_0x20f4f2=_0xc7a363['y'],_0x397935=_0xc7a363['z'];return(_0x32e054-_0x49a0a1)*(_0x32e054-_0x49a0a1)+(_0x20f4f2-_0x300a88)*(_0x20f4f2-_0x300a88)+(_0x397935-_0x805c53)*(_0x397935-_0x805c53);}['scale'](_0x34f1d0,_0x307224){_0x307224===void 0x0&&(_0x307224=new Vec3());const _0x5cc5c1=this['x'],_0x11e1d7=this['y'],_0x11e409=this['z'];return _0x307224['x']=_0x34f1d0*_0x5cc5c1,_0x307224['y']=_0x34f1d0*_0x11e1d7,_0x307224['z']=_0x34f1d0*_0x11e409,_0x307224;}[q0_0x3ac257(0x2de)](_0x1de06e,_0xd38153){return _0xd38153===void 0x0&&(_0xd38153=new Vec3()),_0xd38153['x']=_0x1de06e['x']*this['x'],_0xd38153['y']=_0x1de06e['y']*this['y'],_0xd38153['z']=_0x1de06e['z']*this['z'],_0xd38153;}['addScaledVector'](_0x2a97b9,_0x1010c1,_0x3e6e65){return _0x3e6e65===void 0x0&&(_0x3e6e65=new Vec3()),_0x3e6e65['x']=this['x']+_0x2a97b9*_0x1010c1['x'],_0x3e6e65['y']=this['y']+_0x2a97b9*_0x1010c1['y'],_0x3e6e65['z']=this['z']+_0x2a97b9*_0x1010c1['z'],_0x3e6e65;}[q0_0x3ac257(0x318)](_0x2af168){return this['x']*_0x2af168['x']+this['y']*_0x2af168['y']+this['z']*_0x2af168['z'];}[q0_0x3ac257(0x335)](){return this['x']===0x0&&this['y']===0x0&&this['z']===0x0;}[q0_0x3ac257(0x28c)](_0x4d869a){return _0x4d869a===void 0x0&&(_0x4d869a=new Vec3()),_0x4d869a['x']=-this['x'],_0x4d869a['y']=-this['y'],_0x4d869a['z']=-this['z'],_0x4d869a;}['tangents'](_0xdb1137,_0x3d7355){const _0x427bbc=q0_0x3ac257,_0x10f110=this[_0x427bbc(0x25b)]();if(_0x10f110>0x0){const _0x21a245=Vec3_tangents_n,_0x533e8a=0x1/_0x10f110;_0x21a245[_0x427bbc(0x38a)](this['x']*_0x533e8a,this['y']*_0x533e8a,this['z']*_0x533e8a);const _0x1796b7=Vec3_tangents_randVec;Math[_0x427bbc(0x23b)](_0x21a245['x'])<0.9?(_0x1796b7[_0x427bbc(0x38a)](0x1,0x0,0x0),_0x21a245[_0x427bbc(0x2cc)](_0x1796b7,_0xdb1137)):(_0x1796b7[_0x427bbc(0x38a)](0x0,0x1,0x0),_0x21a245[_0x427bbc(0x2cc)](_0x1796b7,_0xdb1137)),_0x21a245['cross'](_0xdb1137,_0x3d7355);}else _0xdb1137[_0x427bbc(0x38a)](0x1,0x0,0x0),_0x3d7355['set'](0x0,0x1,0x0);}[q0_0x3ac257(0x2e7)](){return this['x']+','+this['y']+','+this['z'];}['toArray'](){return[this['x'],this['y'],this['z']];}['copy'](_0x3a4f02){return this['x']=_0x3a4f02['x'],this['y']=_0x3a4f02['y'],this['z']=_0x3a4f02['z'],this;}[q0_0x3ac257(0x290)](_0x14e5b6,_0x11ff85,_0x2612e4){const _0x1a2c18=this['x'],_0x340115=this['y'],_0x2f53a0=this['z'];_0x2612e4['x']=_0x1a2c18+(_0x14e5b6['x']-_0x1a2c18)*_0x11ff85,_0x2612e4['y']=_0x340115+(_0x14e5b6['y']-_0x340115)*_0x11ff85,_0x2612e4['z']=_0x2f53a0+(_0x14e5b6['z']-_0x2f53a0)*_0x11ff85;}[q0_0x3ac257(0x20c)](_0x4e1d61,_0x3a2844){const _0x16ccf8=q0_0x3ac257;_0x3a2844===void 0x0&&(_0x3a2844=0.000001);if(Math[_0x16ccf8(0x23b)](this['x']-_0x4e1d61['x'])>_0x3a2844||Math[_0x16ccf8(0x23b)](this['y']-_0x4e1d61['y'])>_0x3a2844||Math[_0x16ccf8(0x23b)](this['z']-_0x4e1d61['z'])>_0x3a2844)return![];return!![];}[q0_0x3ac257(0x3af)](_0x333c99){const _0x88d40e=q0_0x3ac257;_0x333c99===void 0x0&&(_0x333c99=0.000001);if(Math[_0x88d40e(0x23b)](this['x'])>_0x333c99||Math[_0x88d40e(0x23b)](this['y'])>_0x333c99||Math['abs'](this['z'])>_0x333c99)return![];return!![];}[q0_0x3ac257(0x239)](_0x370a28,_0x13c73c){const _0x41d08b=q0_0x3ac257;return this['negate'](antip_neg),antip_neg[_0x41d08b(0x20c)](_0x370a28,_0x13c73c);}[q0_0x3ac257(0x31d)](){return new Vec3(this['x'],this['y'],this['z']);}}Vec3['ZERO']=new Vec3(0x0,0x0,0x0),Vec3[q0_0x3ac257(0x3a8)]=new Vec3(0x1,0x0,0x0),Vec3[q0_0x3ac257(0x30d)]=new Vec3(0x0,0x1,0x0),Vec3[q0_0x3ac257(0x19d)]=new Vec3(0x0,0x0,0x1);const Vec3_tangents_n=new Vec3(),Vec3_tangents_randVec=new Vec3(),antip_neg=new Vec3();class AABB{constructor(_0x1ac817){const _0x587036=q0_0x3ac257;_0x1ac817===void 0x0&&(_0x1ac817={}),this['lowerBound']=new Vec3(),this[_0x587036(0x2b4)]=new Vec3(),_0x1ac817['lowerBound']&&this['lowerBound'][_0x587036(0x191)](_0x1ac817[_0x587036(0x279)]),_0x1ac817[_0x587036(0x2b4)]&&this[_0x587036(0x2b4)]['copy'](_0x1ac817[_0x587036(0x2b4)]);}[q0_0x3ac257(0x36c)](_0x51bb8e,_0x3db351,_0x28183c,_0x3a4aec){const _0x1389ed=q0_0x3ac257,_0x18b2d8=this[_0x1389ed(0x279)],_0x18650b=this[_0x1389ed(0x2b4)],_0x4a3b87=_0x28183c;_0x18b2d8['copy'](_0x51bb8e[0x0]);_0x4a3b87&&_0x4a3b87[_0x1389ed(0x205)](_0x18b2d8,_0x18b2d8);_0x18650b[_0x1389ed(0x191)](_0x18b2d8);for(let _0x2e3ad0=0x1;_0x2e3ad0<_0x51bb8e['length'];_0x2e3ad0++){let _0x5383a1=_0x51bb8e[_0x2e3ad0];_0x4a3b87&&(_0x4a3b87[_0x1389ed(0x205)](_0x5383a1,tmp$1),_0x5383a1=tmp$1),_0x5383a1['x']>_0x18650b['x']&&(_0x18650b['x']=_0x5383a1['x']),_0x5383a1['x']<_0x18b2d8['x']&&(_0x18b2d8['x']=_0x5383a1['x']),_0x5383a1['y']>_0x18650b['y']&&(_0x18650b['y']=_0x5383a1['y']),_0x5383a1['y']<_0x18b2d8['y']&&(_0x18b2d8['y']=_0x5383a1['y']),_0x5383a1['z']>_0x18650b['z']&&(_0x18650b['z']=_0x5383a1['z']),_0x5383a1['z']<_0x18b2d8['z']&&(_0x18b2d8['z']=_0x5383a1['z']);}return _0x3db351&&(_0x3db351[_0x1389ed(0x3d7)](_0x18b2d8,_0x18b2d8),_0x3db351[_0x1389ed(0x3d7)](_0x18650b,_0x18650b)),_0x3a4aec&&(_0x18b2d8['x']-=_0x3a4aec,_0x18b2d8['y']-=_0x3a4aec,_0x18b2d8['z']-=_0x3a4aec,_0x18650b['x']+=_0x3a4aec,_0x18650b['y']+=_0x3a4aec,_0x18650b['z']+=_0x3a4aec),this;}[q0_0x3ac257(0x191)](_0x2b50db){const _0x448f7e=q0_0x3ac257;return this[_0x448f7e(0x279)]['copy'](_0x2b50db['lowerBound']),this['upperBound']['copy'](_0x2b50db['upperBound']),this;}[q0_0x3ac257(0x31d)](){const _0x29d9fb=q0_0x3ac257;return new AABB()[_0x29d9fb(0x191)](this);}[q0_0x3ac257(0x3c9)](_0x1d4206){const _0x23aeca=q0_0x3ac257;this['lowerBound']['x']=Math[_0x23aeca(0x2ad)](this['lowerBound']['x'],_0x1d4206[_0x23aeca(0x279)]['x']),this[_0x23aeca(0x2b4)]['x']=Math[_0x23aeca(0x225)](this['upperBound']['x'],_0x1d4206[_0x23aeca(0x2b4)]['x']),this[_0x23aeca(0x279)]['y']=Math[_0x23aeca(0x2ad)](this[_0x23aeca(0x279)]['y'],_0x1d4206[_0x23aeca(0x279)]['y']),this[_0x23aeca(0x2b4)]['y']=Math[_0x23aeca(0x225)](this[_0x23aeca(0x2b4)]['y'],_0x1d4206['upperBound']['y']),this[_0x23aeca(0x279)]['z']=Math[_0x23aeca(0x2ad)](this[_0x23aeca(0x279)]['z'],_0x1d4206['lowerBound']['z']),this[_0x23aeca(0x2b4)]['z']=Math[_0x23aeca(0x225)](this[_0x23aeca(0x2b4)]['z'],_0x1d4206[_0x23aeca(0x2b4)]['z']);}['overlaps'](_0x1f0ada){const _0x2a1a80=q0_0x3ac257,_0x579258=this['lowerBound'],_0x3593f6=this[_0x2a1a80(0x2b4)],_0x563436=_0x1f0ada[_0x2a1a80(0x279)],_0x2af477=_0x1f0ada['upperBound'],_0x2bc6db=_0x563436['x']<=_0x3593f6['x']&&_0x3593f6['x']<=_0x2af477['x']||_0x579258['x']<=_0x2af477['x']&&_0x2af477['x']<=_0x3593f6['x'],_0x4f2db6=_0x563436['y']<=_0x3593f6['y']&&_0x3593f6['y']<=_0x2af477['y']||_0x579258['y']<=_0x2af477['y']&&_0x2af477['y']<=_0x3593f6['y'],_0xf7f134=_0x563436['z']<=_0x3593f6['z']&&_0x3593f6['z']<=_0x2af477['z']||_0x579258['z']<=_0x2af477['z']&&_0x2af477['z']<=_0x3593f6['z'];return _0x2bc6db&&_0x4f2db6&&_0xf7f134;}[q0_0x3ac257(0x268)](){const _0x417171=q0_0x3ac257,_0x1ca0e2=this[_0x417171(0x279)],_0x436cc3=this['upperBound'];return(_0x436cc3['x']-_0x1ca0e2['x'])*(_0x436cc3['y']-_0x1ca0e2['y'])*(_0x436cc3['z']-_0x1ca0e2['z']);}[q0_0x3ac257(0x27b)](_0x44bbce){const _0x553d93=q0_0x3ac257,_0x49e1bd=this[_0x553d93(0x279)],_0xb6f1d3=this['upperBound'],_0x454a11=_0x44bbce[_0x553d93(0x279)],_0x3299e3=_0x44bbce[_0x553d93(0x2b4)];return _0x49e1bd['x']<=_0x454a11['x']&&_0xb6f1d3['x']>=_0x3299e3['x']&&_0x49e1bd['y']<=_0x454a11['y']&&_0xb6f1d3['y']>=_0x3299e3['y']&&_0x49e1bd['z']<=_0x454a11['z']&&_0xb6f1d3['z']>=_0x3299e3['z'];}['getCorners'](_0x547baa,_0x162e72,_0x1167c4,_0x4cf21a,_0x57ebd5,_0x5e2e7b,_0x19c484,_0x30ac40){const _0x296021=q0_0x3ac257,_0xea6d=this['lowerBound'],_0x4e0d3f=this[_0x296021(0x2b4)];_0x547baa[_0x296021(0x191)](_0xea6d),_0x162e72[_0x296021(0x38a)](_0x4e0d3f['x'],_0xea6d['y'],_0xea6d['z']),_0x1167c4['set'](_0x4e0d3f['x'],_0x4e0d3f['y'],_0xea6d['z']),_0x4cf21a[_0x296021(0x38a)](_0xea6d['x'],_0x4e0d3f['y'],_0x4e0d3f['z']),_0x57ebd5[_0x296021(0x38a)](_0x4e0d3f['x'],_0xea6d['y'],_0x4e0d3f['z']),_0x5e2e7b[_0x296021(0x38a)](_0xea6d['x'],_0x4e0d3f['y'],_0xea6d['z']),_0x19c484[_0x296021(0x38a)](_0xea6d['x'],_0xea6d['y'],_0x4e0d3f['z']),_0x30ac40[_0x296021(0x191)](_0x4e0d3f);}[q0_0x3ac257(0x25f)](_0x313d49,_0x3932d4){const _0x4a5cca=q0_0x3ac257,_0x52cb3a=transformIntoFrame_corners,_0x47e3d4=_0x52cb3a[0x0],_0x377da2=_0x52cb3a[0x1],_0x5c6201=_0x52cb3a[0x2],_0x5775f2=_0x52cb3a[0x3],_0x2fc7c1=_0x52cb3a[0x4],_0xb6028d=_0x52cb3a[0x5],_0x37d8a0=_0x52cb3a[0x6],_0x1ad2d1=_0x52cb3a[0x7];this[_0x4a5cca(0x21b)](_0x47e3d4,_0x377da2,_0x5c6201,_0x5775f2,_0x2fc7c1,_0xb6028d,_0x37d8a0,_0x1ad2d1);for(let _0x52fe91=0x0;_0x52fe91!==0x8;_0x52fe91++){const _0x3749cd=_0x52cb3a[_0x52fe91];_0x313d49[_0x4a5cca(0x16d)](_0x3749cd,_0x3749cd);}return _0x3932d4[_0x4a5cca(0x36c)](_0x52cb3a);}['toWorldFrame'](_0x2d797f,_0x563b71){const _0x170688=q0_0x3ac257,_0x1a6878=transformIntoFrame_corners,_0x5c3bd2=_0x1a6878[0x0],_0x3fcfd5=_0x1a6878[0x1],_0x2513de=_0x1a6878[0x2],_0x439c33=_0x1a6878[0x3],_0x1a5344=_0x1a6878[0x4],_0x16e02f=_0x1a6878[0x5],_0x293316=_0x1a6878[0x6],_0x2f6d76=_0x1a6878[0x7];this[_0x170688(0x21b)](_0x5c3bd2,_0x3fcfd5,_0x2513de,_0x439c33,_0x1a5344,_0x16e02f,_0x293316,_0x2f6d76);for(let _0x30d085=0x0;_0x30d085!==0x8;_0x30d085++){const _0xfac278=_0x1a6878[_0x30d085];_0x2d797f[_0x170688(0x310)](_0xfac278,_0xfac278);}return _0x563b71[_0x170688(0x36c)](_0x1a6878);}[q0_0x3ac257(0x3f2)](_0x4b26e4){const _0x34a6fc=q0_0x3ac257,{direction:_0x573793,from:_0x26ec29}=_0x4b26e4,_0x523b86=0x1/_0x573793['x'],_0x3fe839=0x1/_0x573793['y'],_0x1bea38=0x1/_0x573793['z'],_0x2965b5=(this[_0x34a6fc(0x279)]['x']-_0x26ec29['x'])*_0x523b86,_0x128067=(this[_0x34a6fc(0x2b4)]['x']-_0x26ec29['x'])*_0x523b86,_0x1f8840=(this[_0x34a6fc(0x279)]['y']-_0x26ec29['y'])*_0x3fe839,_0x4fb75d=(this[_0x34a6fc(0x2b4)]['y']-_0x26ec29['y'])*_0x3fe839,_0x230e95=(this[_0x34a6fc(0x279)]['z']-_0x26ec29['z'])*_0x1bea38,_0xdf6eae=(this['upperBound']['z']-_0x26ec29['z'])*_0x1bea38,_0x31408d=Math[_0x34a6fc(0x225)](Math['max'](Math['min'](_0x2965b5,_0x128067),Math['min'](_0x1f8840,_0x4fb75d)),Math[_0x34a6fc(0x2ad)](_0x230e95,_0xdf6eae)),_0x54c7ba=Math['min'](Math[_0x34a6fc(0x2ad)](Math['max'](_0x2965b5,_0x128067),Math[_0x34a6fc(0x225)](_0x1f8840,_0x4fb75d)),Math['max'](_0x230e95,_0xdf6eae));if(_0x54c7ba<0x0)return![];if(_0x31408d>_0x54c7ba)return![];return!![];}}const tmp$1=new Vec3(),transformIntoFrame_corners=[new Vec3(),new Vec3(),new Vec3(),new Vec3(),new Vec3(),new Vec3(),new Vec3(),new Vec3()];class ArrayCollisionMatrix{constructor(){const _0x5a5144=q0_0x3ac257;this[_0x5a5144(0x2f2)]=[];}[q0_0x3ac257(0x1e8)](_0x507b11,_0x10ee94){const _0x39b9c5=q0_0x3ac257;let {index:_0x21c17c}=_0x507b11,{index:_0x249762}=_0x10ee94;if(_0x249762>_0x21c17c){const _0x5a3f00=_0x249762;_0x249762=_0x21c17c,_0x21c17c=_0x5a3f00;}return this[_0x39b9c5(0x2f2)][(_0x21c17c*(_0x21c17c+0x1)>>0x1)+_0x249762-0x1];}[q0_0x3ac257(0x38a)](_0x4e6e2c,_0x307737,_0x35d7d6){const _0x1c824b=q0_0x3ac257;let {index:_0x2b8572}=_0x4e6e2c,{index:_0x143f3c}=_0x307737;if(_0x143f3c>_0x2b8572){const _0x406353=_0x143f3c;_0x143f3c=_0x2b8572,_0x2b8572=_0x406353;}this[_0x1c824b(0x2f2)][(_0x2b8572*(_0x2b8572+0x1)>>0x1)+_0x143f3c-0x1]=_0x35d7d6?0x1:0x0;}['reset'](){const _0x10a812=q0_0x3ac257;for(let _0x52e12a=0x0,_0x291281=this[_0x10a812(0x2f2)]['length'];_0x52e12a!==_0x291281;_0x52e12a++){this[_0x10a812(0x2f2)][_0x52e12a]=0x0;}}[q0_0x3ac257(0x35d)](_0x583667){const _0x22c379=q0_0x3ac257;this[_0x22c379(0x2f2)][_0x22c379(0x25b)]=_0x583667*(_0x583667-0x1)>>0x1;}}class EventTarget{[q0_0x3ac257(0x1b4)](_0x50bbf3,_0x52005c){const _0x47ed47=q0_0x3ac257;this[_0x47ed47(0x38c)]===undefined&&(this[_0x47ed47(0x38c)]={});const _0x54a4b2=this['_listeners'];return _0x54a4b2[_0x50bbf3]===undefined&&(_0x54a4b2[_0x50bbf3]=[]),!_0x54a4b2[_0x50bbf3][_0x47ed47(0x287)](_0x52005c)&&_0x54a4b2[_0x50bbf3][_0x47ed47(0x2b9)](_0x52005c),this;}[q0_0x3ac257(0x1c8)](_0x1e0838,_0x493384){const _0x50014c=q0_0x3ac257;if(this[_0x50014c(0x38c)]===undefined)return![];const _0x2dc54b=this['_listeners'];if(_0x2dc54b[_0x1e0838]!==undefined&&_0x2dc54b[_0x1e0838][_0x50014c(0x287)](_0x493384))return!![];return![];}['hasAnyEventListener'](_0xa75be8){const _0x4116d1=q0_0x3ac257;if(this[_0x4116d1(0x38c)]===undefined)return![];const _0x17483a=this[_0x4116d1(0x38c)];return _0x17483a[_0xa75be8]!==undefined;}[q0_0x3ac257(0x2e2)](_0x8dc799,_0x1dec75){const _0x25c9d3=q0_0x3ac257;if(this[_0x25c9d3(0x38c)]===undefined)return this;const _0x647448=this[_0x25c9d3(0x38c)];if(_0x647448[_0x8dc799]===undefined)return this;const _0xd09f12=_0x647448[_0x8dc799][_0x25c9d3(0x2b3)](_0x1dec75);return _0xd09f12!==-0x1&&_0x647448[_0x8dc799][_0x25c9d3(0x28b)](_0xd09f12,0x1),this;}[q0_0x3ac257(0x1f0)](_0xd2457e){const _0x53384f=q0_0x3ac257;if(this[_0x53384f(0x38c)]===undefined)return this;const _0x47b589=this[_0x53384f(0x38c)],_0x2f299e=_0x47b589[_0xd2457e[_0x53384f(0x2ba)]];if(_0x2f299e!==undefined){_0xd2457e['target']=this;for(let _0x47272b=0x0,_0x5baaa6=_0x2f299e[_0x53384f(0x25b)];_0x47272b<_0x5baaa6;_0x47272b++){_0x2f299e[_0x47272b]['call'](this,_0xd2457e);}}return this;}}class Quaternion{constructor(_0x4af375,_0x321637,_0x5c7c79,_0x566991){_0x4af375===void 0x0&&(_0x4af375=0x0),_0x321637===void 0x0&&(_0x321637=0x0),_0x5c7c79===void 0x0&&(_0x5c7c79=0x0),_0x566991===void 0x0&&(_0x566991=0x1),this['x']=_0x4af375,this['y']=_0x321637,this['z']=_0x5c7c79,this['w']=_0x566991;}[q0_0x3ac257(0x38a)](_0x3659aa,_0xebd3ec,_0x455eb5,_0x5b6ccb){return this['x']=_0x3659aa,this['y']=_0xebd3ec,this['z']=_0x455eb5,this['w']=_0x5b6ccb,this;}[q0_0x3ac257(0x2e7)](){return this['x']+','+this['y']+','+this['z']+','+this['w'];}[q0_0x3ac257(0x1cc)](){return[this['x'],this['y'],this['z'],this['w']];}['setFromAxisAngle'](_0x403a52,_0x24aedd){const _0x4087a4=Math['sin'](_0x24aedd*0.5);return this['x']=_0x403a52['x']*_0x4087a4,this['y']=_0x403a52['y']*_0x4087a4,this['z']=_0x403a52['z']*_0x4087a4,this['w']=Math['cos'](_0x24aedd*0.5),this;}[q0_0x3ac257(0x34c)](_0x21f46d){const _0x5a3397=q0_0x3ac257;_0x21f46d===void 0x0&&(_0x21f46d=new Vec3());this[_0x5a3397(0x2eb)]();const _0x37e5cf=0x2*Math[_0x5a3397(0x3b2)](this['w']),_0x10ac2c=Math[_0x5a3397(0x1e2)](0x1-this['w']*this['w']);return _0x10ac2c<0.001?(_0x21f46d['x']=this['x'],_0x21f46d['y']=this['y'],_0x21f46d['z']=this['z']):(_0x21f46d['x']=this['x']/_0x10ac2c,_0x21f46d['y']=this['y']/_0x10ac2c,_0x21f46d['z']=this['z']/_0x10ac2c),[_0x21f46d,_0x37e5cf];}[q0_0x3ac257(0x1c4)](_0x19a460,_0x30517b){const _0x5bb2fb=q0_0x3ac257;if(_0x19a460[_0x5bb2fb(0x239)](_0x30517b)){const _0x1d6cb0=sfv_t1,_0xa4bfb6=sfv_t2;_0x19a460[_0x5bb2fb(0x33e)](_0x1d6cb0,_0xa4bfb6),this[_0x5bb2fb(0x39c)](_0x1d6cb0,Math['PI']);}else{const _0x3a0c52=_0x19a460[_0x5bb2fb(0x2cc)](_0x30517b);this['x']=_0x3a0c52['x'],this['y']=_0x3a0c52['y'],this['z']=_0x3a0c52['z'],this['w']=Math[_0x5bb2fb(0x1e2)](_0x19a460[_0x5bb2fb(0x25b)]()**0x2*_0x30517b[_0x5bb2fb(0x25b)]()**0x2)+_0x19a460[_0x5bb2fb(0x318)](_0x30517b),this['normalize']();}return this;}[q0_0x3ac257(0x28a)](_0x504dde,_0x1a53df){_0x1a53df===void 0x0&&(_0x1a53df=new Quaternion());const _0x51fd18=this['x'],_0x50bf7a=this['y'],_0x3c03c4=this['z'],_0x25e22c=this['w'],_0x2d4cbe=_0x504dde['x'],_0x27ad17=_0x504dde['y'],_0x4d8625=_0x504dde['z'],_0x589947=_0x504dde['w'];return _0x1a53df['x']=_0x51fd18*_0x589947+_0x25e22c*_0x2d4cbe+_0x50bf7a*_0x4d8625-_0x3c03c4*_0x27ad17,_0x1a53df['y']=_0x50bf7a*_0x589947+_0x25e22c*_0x27ad17+_0x3c03c4*_0x2d4cbe-_0x51fd18*_0x4d8625,_0x1a53df['z']=_0x3c03c4*_0x589947+_0x25e22c*_0x4d8625+_0x51fd18*_0x27ad17-_0x50bf7a*_0x2d4cbe,_0x1a53df['w']=_0x25e22c*_0x589947-_0x51fd18*_0x2d4cbe-_0x50bf7a*_0x27ad17-_0x3c03c4*_0x4d8625,_0x1a53df;}[q0_0x3ac257(0x2d9)](_0x4954f7){const _0x14fcfc=q0_0x3ac257;_0x4954f7===void 0x0&&(_0x4954f7=new Quaternion());const _0x3d26fc=this['x'],_0xfeef8b=this['y'],_0xbe1803=this['z'],_0x3f9a18=this['w'];this[_0x14fcfc(0x307)](_0x4954f7);const _0x55912c=0x1/(_0x3d26fc*_0x3d26fc+_0xfeef8b*_0xfeef8b+_0xbe1803*_0xbe1803+_0x3f9a18*_0x3f9a18);return _0x4954f7['x']*=_0x55912c,_0x4954f7['y']*=_0x55912c,_0x4954f7['z']*=_0x55912c,_0x4954f7['w']*=_0x55912c,_0x4954f7;}[q0_0x3ac257(0x307)](_0x4bbc04){return _0x4bbc04===void 0x0&&(_0x4bbc04=new Quaternion()),_0x4bbc04['x']=-this['x'],_0x4bbc04['y']=-this['y'],_0x4bbc04['z']=-this['z'],_0x4bbc04['w']=this['w'],_0x4bbc04;}['normalize'](){const _0x18bd62=q0_0x3ac257;let _0x5ce810=Math[_0x18bd62(0x1e2)](this['x']*this['x']+this['y']*this['y']+this['z']*this['z']+this['w']*this['w']);return _0x5ce810===0x0?(this['x']=0x0,this['y']=0x0,this['z']=0x0,this['w']=0x0):(_0x5ce810=0x1/_0x5ce810,this['x']*=_0x5ce810,this['y']*=_0x5ce810,this['z']*=_0x5ce810,this['w']*=_0x5ce810),this;}[q0_0x3ac257(0x2e8)](){const _0x592d8d=(0x3-(this['x']*this['x']+this['y']*this['y']+this['z']*this['z']+this['w']*this['w']))/0x2;return _0x592d8d===0x0?(this['x']=0x0,this['y']=0x0,this['z']=0x0,this['w']=0x0):(this['x']*=_0x592d8d,this['y']*=_0x592d8d,this['z']*=_0x592d8d,this['w']*=_0x592d8d),this;}[q0_0x3ac257(0x205)](_0x5b2cb0,_0x58b30c){_0x58b30c===void 0x0&&(_0x58b30c=new Vec3());const _0x2f1935=_0x5b2cb0['x'],_0x186748=_0x5b2cb0['y'],_0x288219=_0x5b2cb0['z'],_0x1b621a=this['x'],_0x5ff7a3=this['y'],_0x1537b4=this['z'],_0x35e693=this['w'],_0x582cec=_0x35e693*_0x2f1935+_0x5ff7a3*_0x288219-_0x1537b4*_0x186748,_0x1d7a2d=_0x35e693*_0x186748+_0x1537b4*_0x2f1935-_0x1b621a*_0x288219,_0x55bc98=_0x35e693*_0x288219+_0x1b621a*_0x186748-_0x5ff7a3*_0x2f1935,_0x5972d2=-_0x1b621a*_0x2f1935-_0x5ff7a3*_0x186748-_0x1537b4*_0x288219;return _0x58b30c['x']=_0x582cec*_0x35e693+_0x5972d2*-_0x1b621a+_0x1d7a2d*-_0x1537b4-_0x55bc98*-_0x5ff7a3,_0x58b30c['y']=_0x1d7a2d*_0x35e693+_0x5972d2*-_0x5ff7a3+_0x55bc98*-_0x1b621a-_0x582cec*-_0x1537b4,_0x58b30c['z']=_0x55bc98*_0x35e693+_0x5972d2*-_0x1537b4+_0x582cec*-_0x5ff7a3-_0x1d7a2d*-_0x1b621a,_0x58b30c;}[q0_0x3ac257(0x191)](_0x447634){return this['x']=_0x447634['x'],this['y']=_0x447634['y'],this['z']=_0x447634['z'],this['w']=_0x447634['w'],this;}[q0_0x3ac257(0x248)](_0x33720a,_0x3f14a6){const _0x294076=q0_0x3ac257;_0x3f14a6===void 0x0&&(_0x3f14a6=_0x294076(0x1d9));let _0x3e1736,_0xe18081,_0x43d7b3;const _0x3fb326=this['x'],_0x45fdee=this['y'],_0x242473=this['z'],_0x10c5c3=this['w'];switch(_0x3f14a6){case _0x294076(0x1d9):const _0x442d70=_0x3fb326*_0x45fdee+_0x242473*_0x10c5c3;_0x442d70>0.499&&(_0x3e1736=0x2*Math[_0x294076(0x2ac)](_0x3fb326,_0x10c5c3),_0xe18081=Math['PI']/0x2,_0x43d7b3=0x0);_0x442d70<-0.499&&(_0x3e1736=-0x2*Math[_0x294076(0x2ac)](_0x3fb326,_0x10c5c3),_0xe18081=-Math['PI']/0x2,_0x43d7b3=0x0);if(_0x3e1736===undefined){const _0x1e45a0=_0x3fb326*_0x3fb326,_0x30959d=_0x45fdee*_0x45fdee,_0x2928d1=_0x242473*_0x242473;_0x3e1736=Math[_0x294076(0x2ac)](0x2*_0x45fdee*_0x10c5c3-0x2*_0x3fb326*_0x242473,0x1-0x2*_0x30959d-0x2*_0x2928d1),_0xe18081=Math['asin'](0x2*_0x442d70),_0x43d7b3=Math[_0x294076(0x2ac)](0x2*_0x3fb326*_0x10c5c3-0x2*_0x45fdee*_0x242473,0x1-0x2*_0x1e45a0-0x2*_0x2928d1);}break;default:throw new Error(_0x294076(0x246)+_0x3f14a6+_0x294076(0x27d));}_0x33720a['y']=_0x3e1736,_0x33720a['z']=_0xe18081,_0x33720a['x']=_0x43d7b3;}[q0_0x3ac257(0x1c1)](_0x442f4f,_0x30342f,_0x22047b,_0x40abe2){const _0x3315d3=q0_0x3ac257;_0x40abe2===void 0x0&&(_0x40abe2=_0x3315d3(0x1fa));const _0x363414=Math[_0x3315d3(0x2a0)](_0x442f4f/0x2),_0x105685=Math[_0x3315d3(0x2a0)](_0x30342f/0x2),_0x4e2d99=Math['cos'](_0x22047b/0x2),_0x57c36b=Math[_0x3315d3(0x2a1)](_0x442f4f/0x2),_0x41eb09=Math[_0x3315d3(0x2a1)](_0x30342f/0x2),_0xa4518b=Math[_0x3315d3(0x2a1)](_0x22047b/0x2);if(_0x40abe2===_0x3315d3(0x1fa))this['x']=_0x57c36b*_0x105685*_0x4e2d99+_0x363414*_0x41eb09*_0xa4518b,this['y']=_0x363414*_0x41eb09*_0x4e2d99-_0x57c36b*_0x105685*_0xa4518b,this['z']=_0x363414*_0x105685*_0xa4518b+_0x57c36b*_0x41eb09*_0x4e2d99,this['w']=_0x363414*_0x105685*_0x4e2d99-_0x57c36b*_0x41eb09*_0xa4518b;else{if(_0x40abe2===_0x3315d3(0x2f3))this['x']=_0x57c36b*_0x105685*_0x4e2d99+_0x363414*_0x41eb09*_0xa4518b,this['y']=_0x363414*_0x41eb09*_0x4e2d99-_0x57c36b*_0x105685*_0xa4518b,this['z']=_0x363414*_0x105685*_0xa4518b-_0x57c36b*_0x41eb09*_0x4e2d99,this['w']=_0x363414*_0x105685*_0x4e2d99+_0x57c36b*_0x41eb09*_0xa4518b;else{if(_0x40abe2===_0x3315d3(0x3d5))this['x']=_0x57c36b*_0x105685*_0x4e2d99-_0x363414*_0x41eb09*_0xa4518b,this['y']=_0x363414*_0x41eb09*_0x4e2d99+_0x57c36b*_0x105685*_0xa4518b,this['z']=_0x363414*_0x105685*_0xa4518b+_0x57c36b*_0x41eb09*_0x4e2d99,this['w']=_0x363414*_0x105685*_0x4e2d99-_0x57c36b*_0x41eb09*_0xa4518b;else{if(_0x40abe2===_0x3315d3(0x18b))this['x']=_0x57c36b*_0x105685*_0x4e2d99-_0x363414*_0x41eb09*_0xa4518b,this['y']=_0x363414*_0x41eb09*_0x4e2d99+_0x57c36b*_0x105685*_0xa4518b,this['z']=_0x363414*_0x105685*_0xa4518b-_0x57c36b*_0x41eb09*_0x4e2d99,this['w']=_0x363414*_0x105685*_0x4e2d99+_0x57c36b*_0x41eb09*_0xa4518b;else{if(_0x40abe2==='YZX')this['x']=_0x57c36b*_0x105685*_0x4e2d99+_0x363414*_0x41eb09*_0xa4518b,this['y']=_0x363414*_0x41eb09*_0x4e2d99+_0x57c36b*_0x105685*_0xa4518b,this['z']=_0x363414*_0x105685*_0xa4518b-_0x57c36b*_0x41eb09*_0x4e2d99,this['w']=_0x363414*_0x105685*_0x4e2d99-_0x57c36b*_0x41eb09*_0xa4518b;else _0x40abe2===_0x3315d3(0x215)&&(this['x']=_0x57c36b*_0x105685*_0x4e2d99-_0x363414*_0x41eb09*_0xa4518b,this['y']=_0x363414*_0x41eb09*_0x4e2d99-_0x57c36b*_0x105685*_0xa4518b,this['z']=_0x363414*_0x105685*_0xa4518b+_0x57c36b*_0x41eb09*_0x4e2d99,this['w']=_0x363414*_0x105685*_0x4e2d99+_0x57c36b*_0x41eb09*_0xa4518b);}}}}return this;}[q0_0x3ac257(0x31d)](){return new Quaternion(this['x'],this['y'],this['z'],this['w']);}[q0_0x3ac257(0x1eb)](_0x1e46c5,_0x5ce23c,_0x2f89ae){const _0x584cbd=q0_0x3ac257;_0x2f89ae===void 0x0&&(_0x2f89ae=new Quaternion());const _0x1734d3=this['x'],_0x2c44cb=this['y'],_0x21928b=this['z'],_0x5a4aa9=this['w'];let _0x1fe44d=_0x1e46c5['x'],_0x374b95=_0x1e46c5['y'],_0x41e50b=_0x1e46c5['z'],_0x151e19=_0x1e46c5['w'],_0x556d1f,_0x3de907,_0x2c0088,_0x34662c,_0x26905e;return _0x3de907=_0x1734d3*_0x1fe44d+_0x2c44cb*_0x374b95+_0x21928b*_0x41e50b+_0x5a4aa9*_0x151e19,_0x3de907<0x0&&(_0x3de907=-_0x3de907,_0x1fe44d=-_0x1fe44d,_0x374b95=-_0x374b95,_0x41e50b=-_0x41e50b,_0x151e19=-_0x151e19),0x1-_0x3de907>0.000001?(_0x556d1f=Math[_0x584cbd(0x3b2)](_0x3de907),_0x2c0088=Math[_0x584cbd(0x2a1)](_0x556d1f),_0x34662c=Math[_0x584cbd(0x2a1)]((0x1-_0x5ce23c)*_0x556d1f)/_0x2c0088,_0x26905e=Math[_0x584cbd(0x2a1)](_0x5ce23c*_0x556d1f)/_0x2c0088):(_0x34662c=0x1-_0x5ce23c,_0x26905e=_0x5ce23c),_0x2f89ae['x']=_0x34662c*_0x1734d3+_0x26905e*_0x1fe44d,_0x2f89ae['y']=_0x34662c*_0x2c44cb+_0x26905e*_0x374b95,_0x2f89ae['z']=_0x34662c*_0x21928b+_0x26905e*_0x41e50b,_0x2f89ae['w']=_0x34662c*_0x5a4aa9+_0x26905e*_0x151e19,_0x2f89ae;}[q0_0x3ac257(0x398)](_0xb910cf,_0x132843,_0x356a2b,_0x5585c3){_0x5585c3===void 0x0&&(_0x5585c3=new Quaternion());const _0x52aba7=_0xb910cf['x']*_0x356a2b['x'],_0x47ca72=_0xb910cf['y']*_0x356a2b['y'],_0x329775=_0xb910cf['z']*_0x356a2b['z'],_0x3c7796=this['x'],_0x16c953=this['y'],_0x586dd6=this['z'],_0x5841a3=this['w'],_0x4e6a9d=_0x132843*0.5;return _0x5585c3['x']+=_0x4e6a9d*(_0x52aba7*_0x5841a3+_0x47ca72*_0x586dd6-_0x329775*_0x16c953),_0x5585c3['y']+=_0x4e6a9d*(_0x47ca72*_0x5841a3+_0x329775*_0x3c7796-_0x52aba7*_0x586dd6),_0x5585c3['z']+=_0x4e6a9d*(_0x329775*_0x5841a3+_0x52aba7*_0x16c953-_0x47ca72*_0x3c7796),_0x5585c3['w']+=_0x4e6a9d*(-_0x52aba7*_0x3c7796-_0x47ca72*_0x16c953-_0x329775*_0x586dd6),_0x5585c3;}}const sfv_t1=new Vec3(),sfv_t2=new Vec3(),SHAPE_TYPES={'SPHERE':0x1,'PLANE':0x2,'BOX':0x4,'COMPOUND':0x8,'CONVEXPOLYHEDRON':0x10,'HEIGHTFIELD':0x20,'PARTICLE':0x40,'CYLINDER':0x80,'TRIMESH':0x100};class Shape{constructor(_0x5f447f){const _0xcd3388=q0_0x3ac257;_0x5f447f===void 0x0&&(_0x5f447f={}),this['id']=Shape[_0xcd3388(0x31e)]++,this[_0xcd3388(0x2ba)]=_0x5f447f['type']||0x0,this['boundingSphereRadius']=0x0,this[_0xcd3388(0x1a0)]=_0x5f447f['collisionResponse']?_0x5f447f['collisionResponse']:!![],this[_0xcd3388(0x204)]=_0x5f447f[_0xcd3388(0x204)]!==undefined?_0x5f447f[_0xcd3388(0x204)]:0x1,this['collisionFilterMask']=_0x5f447f[_0xcd3388(0x1cd)]!==undefined?_0x5f447f[_0xcd3388(0x1cd)]:-0x1,this[_0xcd3388(0x256)]=_0x5f447f['material']?_0x5f447f['material']:null,this[_0xcd3388(0x350)]=null;}[q0_0x3ac257(0x199)](){const _0x24e36c=q0_0x3ac257;throw _0x24e36c(0x1dc)+this['type'];}[q0_0x3ac257(0x268)](){const _0x8c7b9d=q0_0x3ac257;throw _0x8c7b9d(0x1be)+this[_0x8c7b9d(0x2ba)];}[q0_0x3ac257(0x376)](_0xff997a,_0x2205dc){const _0x5de3d5=q0_0x3ac257;throw _0x5de3d5(0x244)+this['type'];}[q0_0x3ac257(0x270)](_0x1c137a,_0x2916aa,_0x5bb2ed,_0x56df39){const _0x38e76e=q0_0x3ac257;throw _0x38e76e(0x263)+this['type'];}}Shape['idCounter']=0x0,Shape[q0_0x3ac257(0x27f)]=SHAPE_TYPES;class Transform{constructor(_0x2c7a1a){const _0x198923=q0_0x3ac257;_0x2c7a1a===void 0x0&&(_0x2c7a1a={}),this[_0x198923(0x252)]=new Vec3(),this[_0x198923(0x3cd)]=new Quaternion(),_0x2c7a1a[_0x198923(0x252)]&&this[_0x198923(0x252)]['copy'](_0x2c7a1a['position']),_0x2c7a1a[_0x198923(0x3cd)]&&this[_0x198923(0x3cd)][_0x198923(0x191)](_0x2c7a1a[_0x198923(0x3cd)]);}[q0_0x3ac257(0x16d)](_0x31d4d2,_0x5917d9){const _0x9592d1=q0_0x3ac257;return Transform[_0x9592d1(0x224)](this['position'],this[_0x9592d1(0x3cd)],_0x31d4d2,_0x5917d9);}['pointToWorld'](_0x1c6963,_0x5d984b){const _0x2e1dfe=q0_0x3ac257;return Transform['pointToWorldFrame'](this[_0x2e1dfe(0x252)],this[_0x2e1dfe(0x3cd)],_0x1c6963,_0x5d984b);}[q0_0x3ac257(0x29a)](_0x58d13d,_0x48ea46){const _0x1e0670=q0_0x3ac257;return _0x48ea46===void 0x0&&(_0x48ea46=new Vec3()),this[_0x1e0670(0x3cd)][_0x1e0670(0x205)](_0x58d13d,_0x48ea46),_0x48ea46;}static[q0_0x3ac257(0x224)](_0x5138e6,_0xa3deac,_0x1e61de,_0x251fef){const _0x37ab24=q0_0x3ac257;return _0x251fef===void 0x0&&(_0x251fef=new Vec3()),_0x1e61de[_0x37ab24(0x325)](_0x5138e6,_0x251fef),_0xa3deac[_0x37ab24(0x307)](tmpQuat$1),tmpQuat$1[_0x37ab24(0x205)](_0x251fef,_0x251fef),_0x251fef;}static['pointToWorldFrame'](_0x4de089,_0x2b9ccd,_0x37e995,_0x289b94){const _0x196dc3=q0_0x3ac257;return _0x289b94===void 0x0&&(_0x289b94=new Vec3()),_0x2b9ccd[_0x196dc3(0x205)](_0x37e995,_0x289b94),_0x289b94['vadd'](_0x4de089,_0x289b94),_0x289b94;}static[q0_0x3ac257(0x29a)](_0x34bf65,_0x4908b6,_0x41bffa){return _0x41bffa===void 0x0&&(_0x41bffa=new Vec3()),_0x34bf65['vmult'](_0x4908b6,_0x41bffa),_0x41bffa;}static[q0_0x3ac257(0x176)](_0x5bea5e,_0x3aad35,_0x11685a,_0x10e21b){const _0x381dee=q0_0x3ac257;return _0x10e21b===void 0x0&&(_0x10e21b=new Vec3()),_0x3aad35['w']*=-0x1,_0x3aad35[_0x381dee(0x205)](_0x11685a,_0x10e21b),_0x3aad35['w']*=-0x1,_0x10e21b;}}const tmpQuat$1=new Quaternion();class ConvexPolyhedron extends Shape{constructor(_0x18d2c6){const _0x1876ba=q0_0x3ac257;_0x18d2c6===void 0x0&&(_0x18d2c6={});const {vertices:vertices=[],faces:faces=[],normals:normals=[],axes:_0x5206d1,boundingSphereRadius:_0x19ee26}=_0x18d2c6;super({'type':Shape[_0x1876ba(0x27f)][_0x1876ba(0x3cb)]}),this[_0x1876ba(0x32b)]=vertices,this[_0x1876ba(0x1a6)]=faces,this[_0x1876ba(0x173)]=normals,this[_0x1876ba(0x173)][_0x1876ba(0x25b)]===0x0&&this[_0x1876ba(0x321)](),!_0x19ee26?this['updateBoundingSphereRadius']():this['boundingSphereRadius']=_0x19ee26,this[_0x1876ba(0x3a6)]=[],this[_0x1876ba(0x349)]=!![],this[_0x1876ba(0x3dd)]=[],this[_0x1876ba(0x1ab)]=!![],this[_0x1876ba(0x3ee)]=_0x5206d1?_0x5206d1[_0x1876ba(0x1bc)]():null,this[_0x1876ba(0x280)]=[],this['computeEdges']();}[q0_0x3ac257(0x20d)](){const _0x209682=q0_0x3ac257,_0x521a39=this[_0x209682(0x1a6)],_0x2e94a2=this['vertices'],_0xef29c1=this[_0x209682(0x280)];_0xef29c1[_0x209682(0x25b)]=0x0;const _0x1fef6e=new Vec3();for(let _0x4209b2=0x0;_0x4209b2!==_0x521a39[_0x209682(0x25b)];_0x4209b2++){const _0xbafd34=_0x521a39[_0x4209b2],_0x4ce20d=_0xbafd34[_0x209682(0x25b)];for(let _0x5ef6d1=0x0;_0x5ef6d1!==_0x4ce20d;_0x5ef6d1++){const _0x3f5c39=(_0x5ef6d1+0x1)%_0x4ce20d;_0x2e94a2[_0xbafd34[_0x5ef6d1]][_0x209682(0x325)](_0x2e94a2[_0xbafd34[_0x3f5c39]],_0x1fef6e),_0x1fef6e[_0x209682(0x2eb)]();let _0x3c6bd1=![];for(let _0x2a1b01=0x0;_0x2a1b01!==_0xef29c1[_0x209682(0x25b)];_0x2a1b01++){if(_0xef29c1[_0x2a1b01][_0x209682(0x20c)](_0x1fef6e)||_0xef29c1[_0x2a1b01]['almostEquals'](_0x1fef6e)){_0x3c6bd1=!![];break;}}!_0x3c6bd1&&_0xef29c1[_0x209682(0x2b9)](_0x1fef6e['clone']());}}}[q0_0x3ac257(0x321)](){const _0xa78016=q0_0x3ac257;this[_0xa78016(0x173)]['length']=this['faces'][_0xa78016(0x25b)];for(let _0x1429fa=0x0;_0x1429fa<this[_0xa78016(0x1a6)][_0xa78016(0x25b)];_0x1429fa++){for(let _0x1077a6=0x0;_0x1077a6<this[_0xa78016(0x1a6)][_0x1429fa][_0xa78016(0x25b)];_0x1077a6++){if(!this[_0xa78016(0x32b)][this[_0xa78016(0x1a6)][_0x1429fa][_0x1077a6]])throw new Error(_0xa78016(0x3d6)+this[_0xa78016(0x1a6)][_0x1429fa][_0x1077a6]+_0xa78016(0x24a));}const _0x2d98b3=this[_0xa78016(0x173)][_0x1429fa]||new Vec3();this['getFaceNormal'](_0x1429fa,_0x2d98b3),_0x2d98b3[_0xa78016(0x28c)](_0x2d98b3),this[_0xa78016(0x173)][_0x1429fa]=_0x2d98b3;const _0x2d6d57=this[_0xa78016(0x32b)][this[_0xa78016(0x1a6)][_0x1429fa][0x0]];if(_0x2d98b3[_0xa78016(0x318)](_0x2d6d57)<0x0){console['error'](_0xa78016(0x165)+_0x1429fa+_0xa78016(0x341)+_0x2d98b3['toString']()+_0xa78016(0x387));for(let _0x23aaa6=0x0;_0x23aaa6<this[_0xa78016(0x1a6)][_0x1429fa][_0xa78016(0x25b)];_0x23aaa6++){console[_0xa78016(0x3ec)](_0xa78016(0x3a4)+this[_0xa78016(0x1a6)][_0x1429fa][_0x23aaa6]+_0xa78016(0x341)+this[_0xa78016(0x32b)][this['faces'][_0x1429fa][_0x23aaa6]][_0xa78016(0x2e7)]()+')');}}}}[q0_0x3ac257(0x1b8)](_0x3f8dc9,_0xd78813){const _0x3a8a33=q0_0x3ac257,_0x42703e=this[_0x3a8a33(0x1a6)][_0x3f8dc9],_0x202ae0=this[_0x3a8a33(0x32b)][_0x42703e[0x0]],_0xa2e033=this[_0x3a8a33(0x32b)][_0x42703e[0x1]],_0x334292=this[_0x3a8a33(0x32b)][_0x42703e[0x2]];ConvexPolyhedron['computeNormal'](_0x202ae0,_0xa2e033,_0x334292,_0xd78813);}static[q0_0x3ac257(0x351)](_0x404f79,_0x25d50d,_0x514dcf,_0x36b12c){const _0xb5edf1=q0_0x3ac257,_0x313b2b=new Vec3(),_0x43b9d4=new Vec3();_0x25d50d[_0xb5edf1(0x325)](_0x404f79,_0x43b9d4),_0x514dcf[_0xb5edf1(0x325)](_0x25d50d,_0x313b2b),_0x313b2b[_0xb5edf1(0x2cc)](_0x43b9d4,_0x36b12c),!_0x36b12c['isZero']()&&_0x36b12c[_0xb5edf1(0x2eb)]();}['clipAgainstHull'](_0x4fa501,_0x428e95,_0x507450,_0x41da53,_0x5b8e48,_0x51c02b,_0x435187,_0x5ccc61,_0x24baa2){const _0x2b3cab=q0_0x3ac257,_0x5de3e6=new Vec3();let _0x246485=-0x1,_0x4e78e2=-Number[_0x2b3cab(0x16c)];for(let _0x723bfd=0x0;_0x723bfd<_0x507450[_0x2b3cab(0x1a6)][_0x2b3cab(0x25b)];_0x723bfd++){_0x5de3e6[_0x2b3cab(0x191)](_0x507450['faceNormals'][_0x723bfd]),_0x5b8e48[_0x2b3cab(0x205)](_0x5de3e6,_0x5de3e6);const _0x35b7e4=_0x5de3e6[_0x2b3cab(0x318)](_0x51c02b);_0x35b7e4>_0x4e78e2&&(_0x4e78e2=_0x35b7e4,_0x246485=_0x723bfd);}const _0x445a6f=[];for(let _0x2376f6=0x0;_0x2376f6<_0x507450['faces'][_0x246485][_0x2b3cab(0x25b)];_0x2376f6++){const _0x58ce96=_0x507450['vertices'][_0x507450['faces'][_0x246485][_0x2376f6]],_0x239214=new Vec3();_0x239214[_0x2b3cab(0x191)](_0x58ce96),_0x5b8e48[_0x2b3cab(0x205)](_0x239214,_0x239214),_0x41da53[_0x2b3cab(0x3d7)](_0x239214,_0x239214),_0x445a6f['push'](_0x239214);}_0x246485>=0x0&&this[_0x2b3cab(0x185)](_0x51c02b,_0x4fa501,_0x428e95,_0x445a6f,_0x435187,_0x5ccc61,_0x24baa2);}[q0_0x3ac257(0x31f)](_0x4cf7b4,_0x3fc2a2,_0x18fc5d,_0x3b0814,_0x4b8750,_0x195b71,_0x3767dc,_0x4970dd){const _0x1b9029=q0_0x3ac257,_0x1e103b=new Vec3(),_0x315848=new Vec3(),_0x5c8fe5=new Vec3(),_0x5c1dfd=new Vec3(),_0x467c55=new Vec3(),_0x3cdd04=new Vec3();let _0x24faef=Number['MAX_VALUE'];const _0x4799af=this;if(!_0x4799af[_0x1b9029(0x3ee)]){const _0x24021c=_0x3767dc?_0x3767dc[_0x1b9029(0x25b)]:_0x4799af[_0x1b9029(0x1a6)][_0x1b9029(0x25b)];for(let _0x340fca=0x0;_0x340fca<_0x24021c;_0x340fca++){const _0x10e5e7=_0x3767dc?_0x3767dc[_0x340fca]:_0x340fca;_0x1e103b[_0x1b9029(0x191)](_0x4799af[_0x1b9029(0x173)][_0x10e5e7]),_0x18fc5d[_0x1b9029(0x205)](_0x1e103b,_0x1e103b);const _0x35a486=_0x4799af[_0x1b9029(0x25a)](_0x1e103b,_0x4cf7b4,_0x3fc2a2,_0x18fc5d,_0x3b0814,_0x4b8750);if(_0x35a486===![])return![];_0x35a486<_0x24faef&&(_0x24faef=_0x35a486,_0x195b71[_0x1b9029(0x191)](_0x1e103b));}}else for(let _0x73caac=0x0;_0x73caac!==_0x4799af['uniqueAxes'][_0x1b9029(0x25b)];_0x73caac++){_0x18fc5d[_0x1b9029(0x205)](_0x4799af[_0x1b9029(0x3ee)][_0x73caac],_0x1e103b);const _0x542bfd=_0x4799af[_0x1b9029(0x25a)](_0x1e103b,_0x4cf7b4,_0x3fc2a2,_0x18fc5d,_0x3b0814,_0x4b8750);if(_0x542bfd===![])return![];_0x542bfd<_0x24faef&&(_0x24faef=_0x542bfd,_0x195b71[_0x1b9029(0x191)](_0x1e103b));}if(!_0x4cf7b4[_0x1b9029(0x3ee)]){const _0x469679=_0x4970dd?_0x4970dd[_0x1b9029(0x25b)]:_0x4cf7b4['faces']['length'];for(let _0x506d16=0x0;_0x506d16<_0x469679;_0x506d16++){const _0x50f2df=_0x4970dd?_0x4970dd[_0x506d16]:_0x506d16;_0x315848[_0x1b9029(0x191)](_0x4cf7b4[_0x1b9029(0x173)][_0x50f2df]),_0x4b8750[_0x1b9029(0x205)](_0x315848,_0x315848);const _0x40f5bd=_0x4799af[_0x1b9029(0x25a)](_0x315848,_0x4cf7b4,_0x3fc2a2,_0x18fc5d,_0x3b0814,_0x4b8750);if(_0x40f5bd===![])return![];_0x40f5bd<_0x24faef&&(_0x24faef=_0x40f5bd,_0x195b71[_0x1b9029(0x191)](_0x315848));}}else for(let _0x691c9=0x0;_0x691c9!==_0x4cf7b4[_0x1b9029(0x3ee)][_0x1b9029(0x25b)];_0x691c9++){_0x4b8750[_0x1b9029(0x205)](_0x4cf7b4[_0x1b9029(0x3ee)][_0x691c9],_0x315848);const _0x456f13=_0x4799af['testSepAxis'](_0x315848,_0x4cf7b4,_0x3fc2a2,_0x18fc5d,_0x3b0814,_0x4b8750);if(_0x456f13===![])return![];_0x456f13<_0x24faef&&(_0x24faef=_0x456f13,_0x195b71[_0x1b9029(0x191)](_0x315848));}for(let _0x2bd6a2=0x0;_0x2bd6a2!==_0x4799af[_0x1b9029(0x280)][_0x1b9029(0x25b)];_0x2bd6a2++){_0x18fc5d['vmult'](_0x4799af[_0x1b9029(0x280)][_0x2bd6a2],_0x5c1dfd);for(let _0x448ad5=0x0;_0x448ad5!==_0x4cf7b4[_0x1b9029(0x280)]['length'];_0x448ad5++){_0x4b8750[_0x1b9029(0x205)](_0x4cf7b4['uniqueEdges'][_0x448ad5],_0x467c55),_0x5c1dfd[_0x1b9029(0x2cc)](_0x467c55,_0x3cdd04);if(!_0x3cdd04[_0x1b9029(0x3af)]()){_0x3cdd04[_0x1b9029(0x2eb)]();const _0x26d2fc=_0x4799af[_0x1b9029(0x25a)](_0x3cdd04,_0x4cf7b4,_0x3fc2a2,_0x18fc5d,_0x3b0814,_0x4b8750);if(_0x26d2fc===![])return![];_0x26d2fc<_0x24faef&&(_0x24faef=_0x26d2fc,_0x195b71[_0x1b9029(0x191)](_0x3cdd04));}}}return _0x3b0814[_0x1b9029(0x325)](_0x3fc2a2,_0x5c8fe5),_0x5c8fe5[_0x1b9029(0x318)](_0x195b71)>0x0&&_0x195b71[_0x1b9029(0x28c)](_0x195b71),!![];}['testSepAxis'](_0x5814c0,_0x4f4861,_0x3ebe5d,_0xee03f0,_0xc91254,_0x1fa0ef){const _0x5aa769=q0_0x3ac257,_0x431e55=this;ConvexPolyhedron[_0x5aa769(0x233)](_0x431e55,_0x5814c0,_0x3ebe5d,_0xee03f0,maxminA),ConvexPolyhedron['project'](_0x4f4861,_0x5814c0,_0xc91254,_0x1fa0ef,maxminB);const _0x5b4152=maxminA[0x0],_0x29bcc3=maxminA[0x1],_0xbfd128=maxminB[0x0],_0x56fb02=maxminB[0x1];if(_0x5b4152<_0x56fb02||_0xbfd128<_0x29bcc3)return![];const _0x4fc0f5=_0x5b4152-_0x56fb02,_0xba9ed0=_0xbfd128-_0x29bcc3,_0x2f89ec=_0x4fc0f5<_0xba9ed0?_0x4fc0f5:_0xba9ed0;return _0x2f89ec;}['calculateLocalInertia'](_0x2390b0,_0x562204){const _0x312e47=q0_0x3ac257,_0x5805b6=new Vec3(),_0x527bc5=new Vec3();this[_0x312e47(0x29c)](_0x527bc5,_0x5805b6);const _0x3ec96c=_0x5805b6['x']-_0x527bc5['x'],_0x260203=_0x5805b6['y']-_0x527bc5['y'],_0x123569=_0x5805b6['z']-_0x527bc5['z'];_0x562204['x']=0x1/0xc*_0x2390b0*(0x2*_0x260203*0x2*_0x260203+0x2*_0x123569*0x2*_0x123569),_0x562204['y']=0x1/0xc*_0x2390b0*(0x2*_0x3ec96c*0x2*_0x3ec96c+0x2*_0x123569*0x2*_0x123569),_0x562204['z']=0x1/0xc*_0x2390b0*(0x2*_0x260203*0x2*_0x260203+0x2*_0x3ec96c*0x2*_0x3ec96c);}['getPlaneConstantOfFace'](_0x41c444){const _0x4fca3e=q0_0x3ac257,_0x14eed4=this['faces'][_0x41c444],_0x561aab=this[_0x4fca3e(0x173)][_0x41c444],_0x13bcfc=this[_0x4fca3e(0x32b)][_0x14eed4[0x0]],_0x53dcba=-_0x561aab['dot'](_0x13bcfc);return _0x53dcba;}[q0_0x3ac257(0x185)](_0xb23fe6,_0x3b8402,_0x5d4fde,_0x28f220,_0x188471,_0xb2ec71,_0x172220){const _0x3be418=q0_0x3ac257,_0x3ce81c=new Vec3(),_0xa721bf=new Vec3(),_0x1b24bf=new Vec3(),_0x169595=new Vec3(),_0xc921c0=new Vec3(),_0x38c2bb=new Vec3(),_0x275de4=new Vec3(),_0x575e12=new Vec3(),_0x572eab=this,_0x27c251=[],_0xc5d32c=_0x28f220,_0x57217a=_0x27c251;let _0x5c329e=-0x1,_0x1434ad=Number[_0x3be418(0x16c)];for(let _0x35dec6=0x0;_0x35dec6<_0x572eab[_0x3be418(0x1a6)][_0x3be418(0x25b)];_0x35dec6++){_0x3ce81c[_0x3be418(0x191)](_0x572eab[_0x3be418(0x173)][_0x35dec6]),_0x5d4fde['vmult'](_0x3ce81c,_0x3ce81c);const _0x3f6fff=_0x3ce81c['dot'](_0xb23fe6);_0x3f6fff<_0x1434ad&&(_0x1434ad=_0x3f6fff,_0x5c329e=_0x35dec6);}if(_0x5c329e<0x0)return;const _0x4eb6a6=_0x572eab['faces'][_0x5c329e];_0x4eb6a6[_0x3be418(0x2fd)]=[];for(let _0x348bc4=0x0;_0x348bc4<_0x572eab[_0x3be418(0x1a6)]['length'];_0x348bc4++){for(let _0x4ad10d=0x0;_0x4ad10d<_0x572eab['faces'][_0x348bc4][_0x3be418(0x25b)];_0x4ad10d++){_0x4eb6a6[_0x3be418(0x2b3)](_0x572eab[_0x3be418(0x1a6)][_0x348bc4][_0x4ad10d])!==-0x1&&_0x348bc4!==_0x5c329e&&_0x4eb6a6[_0x3be418(0x2fd)][_0x3be418(0x2b3)](_0x348bc4)===-0x1&&_0x4eb6a6[_0x3be418(0x2fd)][_0x3be418(0x2b9)](_0x348bc4);}}const _0x750a6f=_0x4eb6a6['length'];for(let _0x4d37a2=0x0;_0x4d37a2<_0x750a6f;_0x4d37a2++){const _0x22d8e8=_0x572eab['vertices'][_0x4eb6a6[_0x4d37a2]],_0x4129ad=_0x572eab[_0x3be418(0x32b)][_0x4eb6a6[(_0x4d37a2+0x1)%_0x750a6f]];_0x22d8e8['vsub'](_0x4129ad,_0xa721bf),_0x1b24bf[_0x3be418(0x191)](_0xa721bf),_0x5d4fde[_0x3be418(0x205)](_0x1b24bf,_0x1b24bf),_0x3b8402[_0x3be418(0x3d7)](_0x1b24bf,_0x1b24bf),_0x169595[_0x3be418(0x191)](this[_0x3be418(0x173)][_0x5c329e]),_0x5d4fde[_0x3be418(0x205)](_0x169595,_0x169595),_0x3b8402[_0x3be418(0x3d7)](_0x169595,_0x169595),_0x1b24bf[_0x3be418(0x2cc)](_0x169595,_0xc921c0),_0xc921c0['negate'](_0xc921c0),_0x38c2bb[_0x3be418(0x191)](_0x22d8e8),_0x5d4fde[_0x3be418(0x205)](_0x38c2bb,_0x38c2bb),_0x3b8402[_0x3be418(0x3d7)](_0x38c2bb,_0x38c2bb);const _0x2c8655=_0x4eb6a6[_0x3be418(0x2fd)][_0x4d37a2];_0x275de4['copy'](this[_0x3be418(0x173)][_0x2c8655]);const _0x5c09d9=this[_0x3be418(0x3e3)](_0x2c8655);_0x575e12[_0x3be418(0x191)](_0x275de4),_0x5d4fde['vmult'](_0x575e12,_0x575e12);const _0x58fcfd=_0x5c09d9-_0x575e12[_0x3be418(0x318)](_0x3b8402);this[_0x3be418(0x1df)](_0xc5d32c,_0x57217a,_0x575e12,_0x58fcfd);while(_0xc5d32c[_0x3be418(0x25b)]){_0xc5d32c['shift']();}while(_0x57217a[_0x3be418(0x25b)]){_0xc5d32c[_0x3be418(0x2b9)](_0x57217a[_0x3be418(0x1f5)]());}}_0x275de4[_0x3be418(0x191)](this['faceNormals'][_0x5c329e]);const _0x5ebcac=this[_0x3be418(0x3e3)](_0x5c329e);_0x575e12['copy'](_0x275de4),_0x5d4fde[_0x3be418(0x205)](_0x575e12,_0x575e12);const _0x5f0ebd=_0x5ebcac-_0x575e12[_0x3be418(0x318)](_0x3b8402);for(let _0x46287a=0x0;_0x46287a<_0xc5d32c[_0x3be418(0x25b)];_0x46287a++){let _0x527506=_0x575e12['dot'](_0xc5d32c[_0x46287a])+_0x5f0ebd;_0x527506<=_0x188471&&(console[_0x3be418(0x22e)](_0x3be418(0x1ee)+_0x527506+_0x3be418(0x1bf)+_0x188471),_0x527506=_0x188471);if(_0x527506<=_0xb2ec71){const _0x37feb4=_0xc5d32c[_0x46287a];if(_0x527506<=0.000001){const _0x1c6cba={'point':_0x37feb4,'normal':_0x575e12,'depth':_0x527506};_0x172220[_0x3be418(0x2b9)](_0x1c6cba);}}}}[q0_0x3ac257(0x1df)](_0x388db0,_0x4f4b4f,_0x4f403a,_0x38e458){const _0x13a011=q0_0x3ac257;let _0x7db68c,_0x5a4757;const _0x53608b=_0x388db0[_0x13a011(0x25b)];if(_0x53608b<0x2)return _0x4f4b4f;let _0x138f62=_0x388db0[_0x388db0[_0x13a011(0x25b)]-0x1],_0x49e4c9=_0x388db0[0x0];_0x7db68c=_0x4f403a['dot'](_0x138f62)+_0x38e458;for(let _0x49f55d=0x0;_0x49f55d<_0x53608b;_0x49f55d++){_0x49e4c9=_0x388db0[_0x49f55d],_0x5a4757=_0x4f403a[_0x13a011(0x318)](_0x49e4c9)+_0x38e458;if(_0x7db68c<0x0){if(_0x5a4757<0x0){const _0x528da4=new Vec3();_0x528da4[_0x13a011(0x191)](_0x49e4c9),_0x4f4b4f[_0x13a011(0x2b9)](_0x528da4);}else{const _0x2d713f=new Vec3();_0x138f62['lerp'](_0x49e4c9,_0x7db68c/(_0x7db68c-_0x5a4757),_0x2d713f),_0x4f4b4f[_0x13a011(0x2b9)](_0x2d713f);}}else{if(_0x5a4757<0x0){const _0x3dd934=new Vec3();_0x138f62[_0x13a011(0x290)](_0x49e4c9,_0x7db68c/(_0x7db68c-_0x5a4757),_0x3dd934),_0x4f4b4f[_0x13a011(0x2b9)](_0x3dd934),_0x4f4b4f[_0x13a011(0x2b9)](_0x49e4c9);}}_0x138f62=_0x49e4c9,_0x7db68c=_0x5a4757;}return _0x4f4b4f;}[q0_0x3ac257(0x19e)](_0x3c6849,_0xbb3bc4){const _0x44ec39=q0_0x3ac257;while(this['worldVertices']['length']<this[_0x44ec39(0x32b)][_0x44ec39(0x25b)]){this[_0x44ec39(0x3a6)]['push'](new Vec3());}const _0x278362=this[_0x44ec39(0x32b)],_0xe095dc=this['worldVertices'];for(let _0x1c7474=0x0;_0x1c7474!==this['vertices']['length'];_0x1c7474++){_0xbb3bc4[_0x44ec39(0x205)](_0x278362[_0x1c7474],_0xe095dc[_0x1c7474]),_0x3c6849['vadd'](_0xe095dc[_0x1c7474],_0xe095dc[_0x1c7474]);}this[_0x44ec39(0x349)]=![];}[q0_0x3ac257(0x29c)](_0x547973,_0x5d0514){const _0x30fbe5=q0_0x3ac257,_0xc064ec=this[_0x30fbe5(0x32b)];_0x547973['set'](Number[_0x30fbe5(0x16c)],Number[_0x30fbe5(0x16c)],Number[_0x30fbe5(0x16c)]),_0x5d0514[_0x30fbe5(0x38a)](-Number[_0x30fbe5(0x16c)],-Number['MAX_VALUE'],-Number[_0x30fbe5(0x16c)]);for(let _0x36b687=0x0;_0x36b687<this[_0x30fbe5(0x32b)][_0x30fbe5(0x25b)];_0x36b687++){const _0x31c6c1=_0xc064ec[_0x36b687];if(_0x31c6c1['x']<_0x547973['x'])_0x547973['x']=_0x31c6c1['x'];else _0x31c6c1['x']>_0x5d0514['x']&&(_0x5d0514['x']=_0x31c6c1['x']);if(_0x31c6c1['y']<_0x547973['y'])_0x547973['y']=_0x31c6c1['y'];else _0x31c6c1['y']>_0x5d0514['y']&&(_0x5d0514['y']=_0x31c6c1['y']);if(_0x31c6c1['z']<_0x547973['z'])_0x547973['z']=_0x31c6c1['z'];else _0x31c6c1['z']>_0x5d0514['z']&&(_0x5d0514['z']=_0x31c6c1['z']);}}[q0_0x3ac257(0x322)](_0xde8ed6){const _0x43e321=q0_0x3ac257,_0x14c373=this[_0x43e321(0x173)][_0x43e321(0x25b)];while(this['worldFaceNormals'][_0x43e321(0x25b)]<_0x14c373){this['worldFaceNormals'][_0x43e321(0x2b9)](new Vec3());}const _0x2175a1=this[_0x43e321(0x173)],_0x2bef74=this['worldFaceNormals'];for(let _0x3a006b=0x0;_0x3a006b!==_0x14c373;_0x3a006b++){_0xde8ed6[_0x43e321(0x205)](_0x2175a1[_0x3a006b],_0x2bef74[_0x3a006b]);}this[_0x43e321(0x1ab)]=![];}[q0_0x3ac257(0x199)](){const _0x71a913=q0_0x3ac257;let _0x2c4890=0x0;const _0x4c6ccf=this[_0x71a913(0x32b)];for(let _0x2779d7=0x0;_0x2779d7!==_0x4c6ccf[_0x71a913(0x25b)];_0x2779d7++){const _0x585754=_0x4c6ccf[_0x2779d7][_0x71a913(0x312)]();_0x585754>_0x2c4890&&(_0x2c4890=_0x585754);}this[_0x71a913(0x2e4)]=Math[_0x71a913(0x1e2)](_0x2c4890);}[q0_0x3ac257(0x270)](_0xc393ec,_0xb5c1b5,_0x13a570,_0x1de550){const _0x16524a=q0_0x3ac257,_0x7f11e=this['vertices'];let _0x202831,_0x4c0108,_0x1e062d,_0x22d139,_0x2de477,_0x3ec4f0,_0x4e8fdb=new Vec3();for(let _0x28a6db=0x0;_0x28a6db<_0x7f11e[_0x16524a(0x25b)];_0x28a6db++){_0x4e8fdb[_0x16524a(0x191)](_0x7f11e[_0x28a6db]),_0xb5c1b5[_0x16524a(0x205)](_0x4e8fdb,_0x4e8fdb),_0xc393ec[_0x16524a(0x3d7)](_0x4e8fdb,_0x4e8fdb);const _0x1d6b82=_0x4e8fdb;(_0x202831===undefined||_0x1d6b82['x']<_0x202831)&&(_0x202831=_0x1d6b82['x']),(_0x22d139===undefined||_0x1d6b82['x']>_0x22d139)&&(_0x22d139=_0x1d6b82['x']),(_0x4c0108===undefined||_0x1d6b82['y']<_0x4c0108)&&(_0x4c0108=_0x1d6b82['y']),(_0x2de477===undefined||_0x1d6b82['y']>_0x2de477)&&(_0x2de477=_0x1d6b82['y']),(_0x1e062d===undefined||_0x1d6b82['z']<_0x1e062d)&&(_0x1e062d=_0x1d6b82['z']),(_0x3ec4f0===undefined||_0x1d6b82['z']>_0x3ec4f0)&&(_0x3ec4f0=_0x1d6b82['z']);}_0x13a570['set'](_0x202831,_0x4c0108,_0x1e062d),_0x1de550[_0x16524a(0x38a)](_0x22d139,_0x2de477,_0x3ec4f0);}['volume'](){const _0x226d89=q0_0x3ac257;return 0x4*Math['PI']*this[_0x226d89(0x2e4)]/0x3;}['getAveragePointLocal'](_0x4a634d){const _0x34a6f5=q0_0x3ac257;_0x4a634d===void 0x0&&(_0x4a634d=new Vec3());const _0x23cbae=this[_0x34a6f5(0x32b)];for(let _0x171dbe=0x0;_0x171dbe<_0x23cbae[_0x34a6f5(0x25b)];_0x171dbe++){_0x4a634d['vadd'](_0x23cbae[_0x171dbe],_0x4a634d);}return _0x4a634d[_0x34a6f5(0x2fc)](0x1/_0x23cbae[_0x34a6f5(0x25b)],_0x4a634d),_0x4a634d;}[q0_0x3ac257(0x17c)](_0x153288,_0x289a76){const _0x28c0d5=q0_0x3ac257,_0x55f673=this['vertices'][_0x28c0d5(0x25b)],_0x17c015=this[_0x28c0d5(0x32b)];if(_0x289a76){for(let _0x4656ef=0x0;_0x4656ef<_0x55f673;_0x4656ef++){const _0x3a23f0=_0x17c015[_0x4656ef];_0x289a76[_0x28c0d5(0x205)](_0x3a23f0,_0x3a23f0);}for(let _0xd137bb=0x0;_0xd137bb<this['faceNormals']['length'];_0xd137bb++){const _0x3c461b=this[_0x28c0d5(0x173)][_0xd137bb];_0x289a76[_0x28c0d5(0x205)](_0x3c461b,_0x3c461b);}}if(_0x153288)for(let _0x401200=0x0;_0x401200<_0x55f673;_0x401200++){const _0x34b828=_0x17c015[_0x401200];_0x34b828['vadd'](_0x153288,_0x34b828);}}[q0_0x3ac257(0x356)](_0x4942a9){const _0x59539f=q0_0x3ac257,_0x23ffbf=this[_0x59539f(0x32b)],_0x86fe0d=this['faces'],_0x2449a7=this[_0x59539f(0x173)],_0x5c05f9=null,_0x153a7f=new Vec3();this[_0x59539f(0x368)](_0x153a7f);for(let _0x2bfa94=0x0;_0x2bfa94<this[_0x59539f(0x1a6)]['length'];_0x2bfa94++){let _0x286f62=_0x2449a7[_0x2bfa94];const _0x22be2d=_0x23ffbf[_0x86fe0d[_0x2bfa94][0x0]],_0x4f8e46=new Vec3();_0x4942a9[_0x59539f(0x325)](_0x22be2d,_0x4f8e46);const _0x20978f=_0x286f62[_0x59539f(0x318)](_0x4f8e46),_0x4512ab=new Vec3();_0x153a7f[_0x59539f(0x325)](_0x22be2d,_0x4512ab);const _0x5a4da7=_0x286f62[_0x59539f(0x318)](_0x4512ab);if(_0x20978f<0x0&&_0x5a4da7>0x0||_0x20978f>0x0&&_0x5a4da7<0x0)return![];}return _0x5c05f9?0x1:-0x1;}static[q0_0x3ac257(0x233)](_0xc8a733,_0x5affa0,_0x53e166,_0x5f025e,_0x28b63f){const _0x2a4045=q0_0x3ac257,_0x1ed15f=_0xc8a733[_0x2a4045(0x32b)][_0x2a4045(0x25b)];project_worldVertex;const _0x323717=project_localAxis;let _0x2cbfcb=0x0,_0x553d50=0x0;const _0x302b36=project_localOrigin,_0x30f5a1=_0xc8a733[_0x2a4045(0x32b)];_0x302b36[_0x2a4045(0x2c7)](),Transform[_0x2a4045(0x176)](_0x53e166,_0x5f025e,_0x5affa0,_0x323717),Transform['pointToLocalFrame'](_0x53e166,_0x5f025e,_0x302b36,_0x302b36);const _0x26e4ae=_0x302b36[_0x2a4045(0x318)](_0x323717);_0x553d50=_0x2cbfcb=_0x30f5a1[0x0][_0x2a4045(0x318)](_0x323717);for(let _0x43e21c=0x1;_0x43e21c<_0x1ed15f;_0x43e21c++){const _0x2012ef=_0x30f5a1[_0x43e21c][_0x2a4045(0x318)](_0x323717);_0x2012ef>_0x2cbfcb&&(_0x2cbfcb=_0x2012ef),_0x2012ef<_0x553d50&&(_0x553d50=_0x2012ef);}_0x553d50-=_0x26e4ae,_0x2cbfcb-=_0x26e4ae;if(_0x553d50>_0x2cbfcb){const _0x4e6c97=_0x553d50;_0x553d50=_0x2cbfcb,_0x2cbfcb=_0x4e6c97;}_0x28b63f[0x0]=_0x2cbfcb,_0x28b63f[0x1]=_0x553d50;}}const maxminA=[],maxminB=[],project_worldVertex=new Vec3(),project_localAxis=new Vec3(),project_localOrigin=new Vec3();class Box extends Shape{constructor(_0x4d56d7){const _0x3b5182=q0_0x3ac257;super({'type':Shape[_0x3b5182(0x27f)][_0x3b5182(0x34a)]}),this[_0x3b5182(0x37d)]=_0x4d56d7,this[_0x3b5182(0x231)]=null,this[_0x3b5182(0x274)](),this['updateBoundingSphereRadius']();}[q0_0x3ac257(0x274)](){const _0x227b4d=q0_0x3ac257,_0x1b9789=this['halfExtents']['x'],_0x362f05=this[_0x227b4d(0x37d)]['y'],_0x136810=this[_0x227b4d(0x37d)]['z'],_0x2ecdf2=Vec3,_0x4499bd=[new _0x2ecdf2(-_0x1b9789,-_0x362f05,-_0x136810),new _0x2ecdf2(_0x1b9789,-_0x362f05,-_0x136810),new _0x2ecdf2(_0x1b9789,_0x362f05,-_0x136810),new _0x2ecdf2(-_0x1b9789,_0x362f05,-_0x136810),new _0x2ecdf2(-_0x1b9789,-_0x362f05,_0x136810),new _0x2ecdf2(_0x1b9789,-_0x362f05,_0x136810),new _0x2ecdf2(_0x1b9789,_0x362f05,_0x136810),new _0x2ecdf2(-_0x1b9789,_0x362f05,_0x136810)],_0x364428=[[0x3,0x2,0x1,0x0],[0x4,0x5,0x6,0x7],[0x5,0x4,0x0,0x1],[0x2,0x3,0x7,0x6],[0x0,0x4,0x7,0x3],[0x1,0x2,0x6,0x5]],_0x39cf87=[new _0x2ecdf2(0x0,0x0,0x1),new _0x2ecdf2(0x0,0x1,0x0),new _0x2ecdf2(0x1,0x0,0x0)],_0x1341da=new ConvexPolyhedron({'vertices':_0x4499bd,'faces':_0x364428,'axes':_0x39cf87});this['convexPolyhedronRepresentation']=_0x1341da,_0x1341da[_0x227b4d(0x256)]=this['material'];}[q0_0x3ac257(0x376)](_0x5b0098,_0x21b0a1){const _0x54ba4f=q0_0x3ac257;return _0x21b0a1===void 0x0&&(_0x21b0a1=new Vec3()),Box[_0x54ba4f(0x171)](this['halfExtents'],_0x5b0098,_0x21b0a1),_0x21b0a1;}static[q0_0x3ac257(0x171)](_0x36f456,_0x5d2dd4,_0x35c8f4){const _0x34256d=_0x36f456;_0x35c8f4['x']=0x1/0xc*_0x5d2dd4*(0x2*_0x34256d['y']*0x2*_0x34256d['y']+0x2*_0x34256d['z']*0x2*_0x34256d['z']),_0x35c8f4['y']=0x1/0xc*_0x5d2dd4*(0x2*_0x34256d['x']*0x2*_0x34256d['x']+0x2*_0x34256d['z']*0x2*_0x34256d['z']),_0x35c8f4['z']=0x1/0xc*_0x5d2dd4*(0x2*_0x34256d['y']*0x2*_0x34256d['y']+0x2*_0x34256d['x']*0x2*_0x34256d['x']);}['getSideNormals'](_0xe12c3f,_0x3fb777){const _0x56395a=q0_0x3ac257,_0x21991a=_0xe12c3f,_0x3ba23c=this[_0x56395a(0x37d)];_0x21991a[0x0][_0x56395a(0x38a)](_0x3ba23c['x'],0x0,0x0),_0x21991a[0x1][_0x56395a(0x38a)](0x0,_0x3ba23c['y'],0x0),_0x21991a[0x2][_0x56395a(0x38a)](0x0,0x0,_0x3ba23c['z']),_0x21991a[0x3][_0x56395a(0x38a)](-_0x3ba23c['x'],0x0,0x0),_0x21991a[0x4][_0x56395a(0x38a)](0x0,-_0x3ba23c['y'],0x0),_0x21991a[0x5][_0x56395a(0x38a)](0x0,0x0,-_0x3ba23c['z']);if(_0x3fb777!==undefined)for(let _0x341f1b=0x0;_0x341f1b!==_0x21991a[_0x56395a(0x25b)];_0x341f1b++){_0x3fb777[_0x56395a(0x205)](_0x21991a[_0x341f1b],_0x21991a[_0x341f1b]);}return _0x21991a;}[q0_0x3ac257(0x268)](){const _0x354b0c=q0_0x3ac257;return 0x8*this['halfExtents']['x']*this['halfExtents']['y']*this[_0x354b0c(0x37d)]['z'];}[q0_0x3ac257(0x199)](){const _0xe2631f=q0_0x3ac257;this[_0xe2631f(0x2e4)]=this[_0xe2631f(0x37d)][_0xe2631f(0x25b)]();}[q0_0x3ac257(0x1ad)](_0x111478,_0xacbe64,_0x4eaf32){const _0x12b181=q0_0x3ac257,_0x32af91=this['halfExtents'],_0x1c4bf0=[[_0x32af91['x'],_0x32af91['y'],_0x32af91['z']],[-_0x32af91['x'],_0x32af91['y'],_0x32af91['z']],[-_0x32af91['x'],-_0x32af91['y'],_0x32af91['z']],[-_0x32af91['x'],-_0x32af91['y'],-_0x32af91['z']],[_0x32af91['x'],-_0x32af91['y'],-_0x32af91['z']],[_0x32af91['x'],_0x32af91['y'],-_0x32af91['z']],[-_0x32af91['x'],_0x32af91['y'],-_0x32af91['z']],[_0x32af91['x'],-_0x32af91['y'],_0x32af91['z']]];for(let _0x325186=0x0;_0x325186<_0x1c4bf0['length'];_0x325186++){worldCornerTempPos[_0x12b181(0x38a)](_0x1c4bf0[_0x325186][0x0],_0x1c4bf0[_0x325186][0x1],_0x1c4bf0[_0x325186][0x2]),_0xacbe64[_0x12b181(0x205)](worldCornerTempPos,worldCornerTempPos),_0x111478[_0x12b181(0x3d7)](worldCornerTempPos,worldCornerTempPos),_0x4eaf32(worldCornerTempPos['x'],worldCornerTempPos['y'],worldCornerTempPos['z']);}}[q0_0x3ac257(0x270)](_0x5eb8b1,_0x373851,_0x2082c1,_0x33e5dd){const _0x48d90f=q0_0x3ac257,_0x500881=this[_0x48d90f(0x37d)];worldCornersTemp[0x0][_0x48d90f(0x38a)](_0x500881['x'],_0x500881['y'],_0x500881['z']),worldCornersTemp[0x1][_0x48d90f(0x38a)](-_0x500881['x'],_0x500881['y'],_0x500881['z']),worldCornersTemp[0x2][_0x48d90f(0x38a)](-_0x500881['x'],-_0x500881['y'],_0x500881['z']),worldCornersTemp[0x3][_0x48d90f(0x38a)](-_0x500881['x'],-_0x500881['y'],-_0x500881['z']),worldCornersTemp[0x4]['set'](_0x500881['x'],-_0x500881['y'],-_0x500881['z']),worldCornersTemp[0x5]['set'](_0x500881['x'],_0x500881['y'],-_0x500881['z']),worldCornersTemp[0x6][_0x48d90f(0x38a)](-_0x500881['x'],_0x500881['y'],-_0x500881['z']),worldCornersTemp[0x7][_0x48d90f(0x38a)](_0x500881['x'],-_0x500881['y'],_0x500881['z']);const _0x5b8279=worldCornersTemp[0x0];_0x373851[_0x48d90f(0x205)](_0x5b8279,_0x5b8279),_0x5eb8b1[_0x48d90f(0x3d7)](_0x5b8279,_0x5b8279),_0x33e5dd[_0x48d90f(0x191)](_0x5b8279),_0x2082c1['copy'](_0x5b8279);for(let _0x12e979=0x1;_0x12e979<0x8;_0x12e979++){const _0x318f1c=worldCornersTemp[_0x12e979];_0x373851[_0x48d90f(0x205)](_0x318f1c,_0x318f1c),_0x5eb8b1[_0x48d90f(0x3d7)](_0x318f1c,_0x318f1c);const _0x5e4cc6=_0x318f1c['x'],_0x51feb7=_0x318f1c['y'],_0x22a32a=_0x318f1c['z'];_0x5e4cc6>_0x33e5dd['x']&&(_0x33e5dd['x']=_0x5e4cc6),_0x51feb7>_0x33e5dd['y']&&(_0x33e5dd['y']=_0x51feb7),_0x22a32a>_0x33e5dd['z']&&(_0x33e5dd['z']=_0x22a32a),_0x5e4cc6<_0x2082c1['x']&&(_0x2082c1['x']=_0x5e4cc6),_0x51feb7<_0x2082c1['y']&&(_0x2082c1['y']=_0x51feb7),_0x22a32a<_0x2082c1['z']&&(_0x2082c1['z']=_0x22a32a);}}}const worldCornerTempPos=new Vec3(),worldCornersTemp=[new Vec3(),new Vec3(),new Vec3(),new Vec3(),new Vec3(),new Vec3(),new Vec3(),new Vec3()],BODY_TYPES={'DYNAMIC':0x1,'STATIC':0x2,'KINEMATIC':0x4},BODY_SLEEP_STATES={'AWAKE':0x0,'SLEEPY':0x1,'SLEEPING':0x2};class Body extends EventTarget{constructor(_0x4916c3){const _0x571b61=q0_0x3ac257;_0x4916c3===void 0x0&&(_0x4916c3={});super(),this['id']=Body[_0x571b61(0x31e)]++,this[_0x571b61(0x320)]=-0x1,this[_0x571b61(0x24d)]=null,this[_0x571b61(0x3a3)]=new Vec3(),this[_0x571b61(0x204)]=typeof _0x4916c3[_0x571b61(0x204)]==='number'?_0x4916c3[_0x571b61(0x204)]:0x1,this[_0x571b61(0x1cd)]=typeof _0x4916c3[_0x571b61(0x1cd)]==='number'?_0x4916c3[_0x571b61(0x1cd)]:-0x1,this[_0x571b61(0x1a0)]=typeof _0x4916c3['collisionResponse']==='boolean'?_0x4916c3[_0x571b61(0x1a0)]:!![],this[_0x571b61(0x252)]=new Vec3(),this[_0x571b61(0x1d4)]=new Vec3(),this['interpolatedPosition']=new Vec3(),this[_0x571b61(0x219)]=new Vec3();_0x4916c3['position']&&(this[_0x571b61(0x252)][_0x571b61(0x191)](_0x4916c3['position']),this[_0x571b61(0x1d4)][_0x571b61(0x191)](_0x4916c3['position']),this[_0x571b61(0x2df)][_0x571b61(0x191)](_0x4916c3[_0x571b61(0x252)]),this[_0x571b61(0x219)][_0x571b61(0x191)](_0x4916c3[_0x571b61(0x252)]));this[_0x571b61(0x1d1)]=new Vec3();_0x4916c3['velocity']&&this[_0x571b61(0x1d1)]['copy'](_0x4916c3['velocity']);this[_0x571b61(0x1f1)]=new Vec3(),this['force']=new Vec3();const _0x35dd1d=typeof _0x4916c3[_0x571b61(0x30f)]===_0x571b61(0x319)?_0x4916c3[_0x571b61(0x30f)]:0x0;this[_0x571b61(0x30f)]=_0x35dd1d,this[_0x571b61(0x213)]=_0x35dd1d>0x0?0x1/_0x35dd1d:0x0,this[_0x571b61(0x256)]=_0x4916c3[_0x571b61(0x256)]||null,this[_0x571b61(0x26d)]=typeof _0x4916c3['linearDamping']===_0x571b61(0x319)?_0x4916c3['linearDamping']:0.01,this[_0x571b61(0x2ba)]=_0x35dd1d<=0x0?Body['STATIC']:Body[_0x571b61(0x1f3)],typeof _0x4916c3[_0x571b61(0x2ba)]===typeof Body[_0x571b61(0x1cb)]&&(this['type']=_0x4916c3[_0x571b61(0x2ba)]),this[_0x571b61(0x1e9)]=typeof _0x4916c3[_0x571b61(0x1e9)]!==_0x571b61(0x2b7)?_0x4916c3[_0x571b61(0x1e9)]:!![],this['sleepState']=Body[_0x571b61(0x1c5)],this['sleepSpeedLimit']=typeof _0x4916c3[_0x571b61(0x3ac)]!==_0x571b61(0x2b7)?_0x4916c3['sleepSpeedLimit']:0.1,this[_0x571b61(0x17f)]=typeof _0x4916c3[_0x571b61(0x17f)]!==_0x571b61(0x2b7)?_0x4916c3['sleepTimeLimit']:0x1,this[_0x571b61(0x254)]=0x0,this['wakeUpAfterNarrowphase']=![],this[_0x571b61(0x2ea)]=new Vec3(),this['quaternion']=new Quaternion(),this['initQuaternion']=new Quaternion(),this['previousQuaternion']=new Quaternion(),this[_0x571b61(0x1ff)]=new Quaternion(),_0x4916c3['quaternion']&&(this[_0x571b61(0x3cd)][_0x571b61(0x191)](_0x4916c3[_0x571b61(0x3cd)]),this[_0x571b61(0x262)][_0x571b61(0x191)](_0x4916c3[_0x571b61(0x3cd)]),this['previousQuaternion'][_0x571b61(0x191)](_0x4916c3['quaternion']),this[_0x571b61(0x1ff)]['copy'](_0x4916c3[_0x571b61(0x3cd)])),this[_0x571b61(0x22b)]=new Vec3(),_0x4916c3[_0x571b61(0x22b)]&&this[_0x571b61(0x22b)][_0x571b61(0x191)](_0x4916c3[_0x571b61(0x22b)]),this[_0x571b61(0x18a)]=new Vec3(),this[_0x571b61(0x37f)]=[],this[_0x571b61(0x264)]=[],this[_0x571b61(0x36b)]=[],this[_0x571b61(0x377)]=new Vec3(),this[_0x571b61(0x26a)]=new Vec3(),this['invInertiaWorld']=new Mat3(),this['invMassSolve']=0x0,this['invInertiaSolve']=new Vec3(),this[_0x571b61(0x2bc)]=new Mat3(),this['fixedRotation']=typeof _0x4916c3[_0x571b61(0x2f5)]!=='undefined'?_0x4916c3['fixedRotation']:![],this[_0x571b61(0x36f)]=typeof _0x4916c3[_0x571b61(0x36f)]!==_0x571b61(0x2b7)?_0x4916c3['angularDamping']:0.01,this[_0x571b61(0x3df)]=new Vec3(0x1,0x1,0x1),_0x4916c3['linearFactor']&&this['linearFactor'][_0x571b61(0x191)](_0x4916c3[_0x571b61(0x3df)]),this[_0x571b61(0x3ef)]=new Vec3(0x1,0x1,0x1),_0x4916c3[_0x571b61(0x3ef)]&&this['angularFactor'][_0x571b61(0x191)](_0x4916c3[_0x571b61(0x3ef)]),this[_0x571b61(0x297)]=new AABB(),this[_0x571b61(0x234)]=!![],this[_0x571b61(0x3ea)]=0x0,this[_0x571b61(0x1ed)]=new Vec3(),this[_0x571b61(0x300)]=Boolean(_0x4916c3[_0x571b61(0x300)]),_0x4916c3[_0x571b61(0x1ae)]&&this[_0x571b61(0x35f)](_0x4916c3[_0x571b61(0x1ae)]),this[_0x571b61(0x172)]();}[q0_0x3ac257(0x2e3)](){const _0x46bb39=q0_0x3ac257,_0x36abd1=this[_0x46bb39(0x1e3)];this['sleepState']=Body[_0x46bb39(0x1c5)],this[_0x46bb39(0x1fe)]=![],_0x36abd1===Body['SLEEPING']&&this[_0x46bb39(0x1f0)](Body[_0x46bb39(0x203)]);}[q0_0x3ac257(0x23d)](){const _0x59a0ad=q0_0x3ac257;this['sleepState']=Body[_0x59a0ad(0x1f8)],this[_0x59a0ad(0x1d1)]['set'](0x0,0x0,0x0),this[_0x59a0ad(0x22b)][_0x59a0ad(0x38a)](0x0,0x0,0x0),this[_0x59a0ad(0x1fe)]=![];}[q0_0x3ac257(0x362)](_0x2e9765){const _0x5dae85=q0_0x3ac257;if(this[_0x5dae85(0x1e9)]){const _0x28c755=this['sleepState'],_0x3109ae=this[_0x5dae85(0x1d1)]['lengthSquared']()+this['angularVelocity'][_0x5dae85(0x312)](),_0x59df12=this['sleepSpeedLimit']**0x2;if(_0x28c755===Body['AWAKE']&&_0x3109ae<_0x59df12)this[_0x5dae85(0x1e3)]=Body[_0x5dae85(0x3ad)],this[_0x5dae85(0x254)]=_0x2e9765,this['dispatchEvent'](Body[_0x5dae85(0x333)]);else{if(_0x28c755===Body[_0x5dae85(0x3ad)]&&_0x3109ae>_0x59df12)this[_0x5dae85(0x2e3)]();else _0x28c755===Body['SLEEPY']&&_0x2e9765-this[_0x5dae85(0x254)]>this[_0x5dae85(0x17f)]&&(this[_0x5dae85(0x23d)](),this['dispatchEvent'](Body[_0x5dae85(0x259)]));}}}['updateSolveMassProperties'](){const _0x3eda5c=q0_0x3ac257;this[_0x3eda5c(0x1e3)]===Body['SLEEPING']||this[_0x3eda5c(0x2ba)]===Body[_0x3eda5c(0x238)]?(this[_0x3eda5c(0x1ec)]=0x0,this['invInertiaSolve'][_0x3eda5c(0x2c7)](),this[_0x3eda5c(0x2bc)]['setZero']()):(this[_0x3eda5c(0x1ec)]=this['invMass'],this[_0x3eda5c(0x383)][_0x3eda5c(0x191)](this[_0x3eda5c(0x26a)]),this[_0x3eda5c(0x2bc)]['copy'](this[_0x3eda5c(0x352)]));}['pointToLocalFrame'](_0x4b1272,_0x5d85be){const _0x7f26e4=q0_0x3ac257;return _0x5d85be===void 0x0&&(_0x5d85be=new Vec3()),_0x4b1272[_0x7f26e4(0x325)](this[_0x7f26e4(0x252)],_0x5d85be),this[_0x7f26e4(0x3cd)][_0x7f26e4(0x307)]()[_0x7f26e4(0x205)](_0x5d85be,_0x5d85be),_0x5d85be;}[q0_0x3ac257(0x176)](_0x5ddc8d,_0x44b7cc){const _0x58d3bc=q0_0x3ac257;return _0x44b7cc===void 0x0&&(_0x44b7cc=new Vec3()),this['quaternion'][_0x58d3bc(0x307)]()[_0x58d3bc(0x205)](_0x5ddc8d,_0x44b7cc),_0x44b7cc;}['pointToWorldFrame'](_0x28854d,_0x19eadc){const _0x2cbb13=q0_0x3ac257;return _0x19eadc===void 0x0&&(_0x19eadc=new Vec3()),this[_0x2cbb13(0x3cd)][_0x2cbb13(0x205)](_0x28854d,_0x19eadc),_0x19eadc[_0x2cbb13(0x3d7)](this['position'],_0x19eadc),_0x19eadc;}['vectorToWorldFrame'](_0x1a8ef1,_0x2564de){const _0xb7e783=q0_0x3ac257;return _0x2564de===void 0x0&&(_0x2564de=new Vec3()),this['quaternion'][_0xb7e783(0x205)](_0x1a8ef1,_0x2564de),_0x2564de;}[q0_0x3ac257(0x35f)](_0x22f25d,_0x4f90b4,_0x2f9ada){const _0x47ee40=q0_0x3ac257,_0x35d709=new Vec3(),_0x4c02ef=new Quaternion();return _0x4f90b4&&_0x35d709[_0x47ee40(0x191)](_0x4f90b4),_0x2f9ada&&_0x4c02ef[_0x47ee40(0x191)](_0x2f9ada),this[_0x47ee40(0x37f)][_0x47ee40(0x2b9)](_0x22f25d),this['shapeOffsets'][_0x47ee40(0x2b9)](_0x35d709),this[_0x47ee40(0x36b)][_0x47ee40(0x2b9)](_0x4c02ef),this[_0x47ee40(0x172)](),this[_0x47ee40(0x3e2)](),this[_0x47ee40(0x234)]=!![],_0x22f25d['body']=this,this;}[q0_0x3ac257(0x2c0)](_0x36c208){const _0x113d62=q0_0x3ac257,_0x289ea4=this[_0x113d62(0x37f)][_0x113d62(0x2b3)](_0x36c208);if(_0x289ea4===-0x1)return console[_0x113d62(0x3ec)](_0x113d62(0x218)),this;return this[_0x113d62(0x37f)]['splice'](_0x289ea4,0x1),this[_0x113d62(0x264)][_0x113d62(0x28b)](_0x289ea4,0x1),this[_0x113d62(0x36b)][_0x113d62(0x28b)](_0x289ea4,0x1),this[_0x113d62(0x172)](),this[_0x113d62(0x3e2)](),this[_0x113d62(0x234)]=!![],_0x36c208[_0x113d62(0x350)]=null,this;}[q0_0x3ac257(0x3e2)](){const _0x10ab9d=q0_0x3ac257,_0x4b3d60=this[_0x10ab9d(0x37f)],_0x28beb7=this[_0x10ab9d(0x264)],_0xa617e2=_0x4b3d60[_0x10ab9d(0x25b)];let _0x506581=0x0;for(let _0x56621a=0x0;_0x56621a!==_0xa617e2;_0x56621a++){const _0x58aa49=_0x4b3d60[_0x56621a];_0x58aa49[_0x10ab9d(0x199)]();const _0x3bcbac=_0x28beb7[_0x56621a][_0x10ab9d(0x25b)](),_0x5fc7bb=_0x58aa49[_0x10ab9d(0x2e4)];_0x3bcbac+_0x5fc7bb>_0x506581&&(_0x506581=_0x3bcbac+_0x5fc7bb);}this[_0x10ab9d(0x3ea)]=_0x506581;}[q0_0x3ac257(0x39d)](){const _0x4500cf=q0_0x3ac257,_0x457101=this[_0x4500cf(0x37f)],_0x29921d=this[_0x4500cf(0x264)],_0x1a1acc=this[_0x4500cf(0x36b)],_0x2a2c4f=_0x457101[_0x4500cf(0x25b)],_0x118fa6=tmpVec,_0x541173=tmpQuat,_0x4faf0b=this[_0x4500cf(0x3cd)],_0x4e038d=this[_0x4500cf(0x297)],_0x5b926c=updateAABB_shapeAABB;for(let _0x43863f=0x0;_0x43863f!==_0x2a2c4f;_0x43863f++){const _0x14fb5e=_0x457101[_0x43863f];_0x4faf0b[_0x4500cf(0x205)](_0x29921d[_0x43863f],_0x118fa6),_0x118fa6[_0x4500cf(0x3d7)](this['position'],_0x118fa6),_0x4faf0b[_0x4500cf(0x28a)](_0x1a1acc[_0x43863f],_0x541173),_0x14fb5e[_0x4500cf(0x270)](_0x118fa6,_0x541173,_0x5b926c[_0x4500cf(0x279)],_0x5b926c[_0x4500cf(0x2b4)]),_0x43863f===0x0?_0x4e038d[_0x4500cf(0x191)](_0x5b926c):_0x4e038d[_0x4500cf(0x3c9)](_0x5b926c);}this[_0x4500cf(0x234)]=![];}[q0_0x3ac257(0x170)](_0x74d552){const _0x5dfb83=q0_0x3ac257,_0x573a5f=this[_0x5dfb83(0x26a)];if(_0x573a5f['x']===_0x573a5f['y']&&_0x573a5f['y']===_0x573a5f['z']&&!_0x74d552);else{const _0x299fe8=uiw_m1,_0x159191=uiw_m2;uiw_m3,_0x299fe8[_0x5dfb83(0x3a5)](this[_0x5dfb83(0x3cd)]),_0x299fe8[_0x5dfb83(0x228)](_0x159191),_0x299fe8[_0x5dfb83(0x2fc)](_0x573a5f,_0x299fe8),_0x299fe8[_0x5dfb83(0x201)](_0x159191,this[_0x5dfb83(0x352)]);}}[q0_0x3ac257(0x3e4)](_0x444d9c,_0x386228){const _0x279f03=q0_0x3ac257;_0x386228===void 0x0&&(_0x386228=new Vec3());if(this[_0x279f03(0x2ba)]!==Body[_0x279f03(0x1f3)])return;this[_0x279f03(0x1e3)]===Body[_0x279f03(0x1f8)]&&this[_0x279f03(0x2e3)]();const _0x3bdc85=Body_applyForce_rotForce;_0x386228['cross'](_0x444d9c,_0x3bdc85),this[_0x279f03(0x27e)]['vadd'](_0x444d9c,this[_0x279f03(0x27e)]),this[_0x279f03(0x2ea)]['vadd'](_0x3bdc85,this[_0x279f03(0x2ea)]);}['applyLocalForce'](_0x2d71ea,_0x24124c){const _0x37d08d=q0_0x3ac257;_0x24124c===void 0x0&&(_0x24124c=new Vec3());if(this['type']!==Body[_0x37d08d(0x1f3)])return;const _0x3c5825=Body_applyLocalForce_worldForce,_0x266a76=Body_applyLocalForce_relativePointWorld;this[_0x37d08d(0x29a)](_0x2d71ea,_0x3c5825),this[_0x37d08d(0x29a)](_0x24124c,_0x266a76),this[_0x37d08d(0x3e4)](_0x3c5825,_0x266a76);}[q0_0x3ac257(0x3f1)](_0x5e3e0b){const _0x5b5572=q0_0x3ac257;if(this[_0x5b5572(0x2ba)]!==Body[_0x5b5572(0x1f3)])return;this['sleepState']===Body[_0x5b5572(0x1f8)]&&this[_0x5b5572(0x2e3)](),this['torque']['vadd'](_0x5e3e0b,this[_0x5b5572(0x2ea)]);}[q0_0x3ac257(0x311)](_0x3816ef,_0x279937){const _0x501061=q0_0x3ac257;_0x279937===void 0x0&&(_0x279937=new Vec3());if(this[_0x501061(0x2ba)]!==Body['DYNAMIC'])return;this[_0x501061(0x1e3)]===Body[_0x501061(0x1f8)]&&this['wakeUp']();const _0x267338=_0x279937,_0x682d61=Body_applyImpulse_velo;_0x682d61[_0x501061(0x191)](_0x3816ef),_0x682d61['scale'](this['invMass'],_0x682d61),this[_0x501061(0x1d1)]['vadd'](_0x682d61,this[_0x501061(0x1d1)]);const _0x10b39b=Body_applyImpulse_rotVelo;_0x267338[_0x501061(0x2cc)](_0x3816ef,_0x10b39b),this['invInertiaWorld'][_0x501061(0x205)](_0x10b39b,_0x10b39b),this['angularVelocity'][_0x501061(0x3d7)](_0x10b39b,this[_0x501061(0x22b)]);}[q0_0x3ac257(0x379)](_0x2182e2,_0xbf5949){const _0x287609=q0_0x3ac257;_0xbf5949===void 0x0&&(_0xbf5949=new Vec3());if(this['type']!==Body['DYNAMIC'])return;const _0x7de4c9=Body_applyLocalImpulse_worldImpulse,_0x18316b=Body_applyLocalImpulse_relativePoint;this[_0x287609(0x29a)](_0x2182e2,_0x7de4c9),this[_0x287609(0x29a)](_0xbf5949,_0x18316b),this['applyImpulse'](_0x7de4c9,_0x18316b);}[q0_0x3ac257(0x172)](){const _0x4850f6=q0_0x3ac257,_0x36af0c=Body_updateMassProperties_halfExtents;this[_0x4850f6(0x213)]=this['mass']>0x0?0x1/this['mass']:0x0;const _0x1fa64b=this['inertia'],_0x22047e=this[_0x4850f6(0x2f5)];this[_0x4850f6(0x39d)](),_0x36af0c[_0x4850f6(0x38a)]((this['aabb'][_0x4850f6(0x2b4)]['x']-this['aabb'][_0x4850f6(0x279)]['x'])/0x2,(this['aabb'][_0x4850f6(0x2b4)]['y']-this[_0x4850f6(0x297)][_0x4850f6(0x279)]['y'])/0x2,(this[_0x4850f6(0x297)][_0x4850f6(0x2b4)]['z']-this[_0x4850f6(0x297)][_0x4850f6(0x279)]['z'])/0x2),Box['calculateInertia'](_0x36af0c,this['mass'],_0x1fa64b),this[_0x4850f6(0x26a)][_0x4850f6(0x38a)](_0x1fa64b['x']>0x0&&!_0x22047e?0x1/_0x1fa64b['x']:0x0,_0x1fa64b['y']>0x0&&!_0x22047e?0x1/_0x1fa64b['y']:0x0,_0x1fa64b['z']>0x0&&!_0x22047e?0x1/_0x1fa64b['z']:0x0),this[_0x4850f6(0x170)](!![]);}[q0_0x3ac257(0x3c5)](_0x490df3,_0x134df8){const _0xf2135e=q0_0x3ac257,_0x2e8eb0=new Vec3();return _0x490df3['vsub'](this[_0xf2135e(0x252)],_0x2e8eb0),this[_0xf2135e(0x22b)]['cross'](_0x2e8eb0,_0x134df8),this[_0xf2135e(0x1d1)][_0xf2135e(0x3d7)](_0x134df8,_0x134df8),_0x134df8;}[q0_0x3ac257(0x398)](_0x3cab82,_0x38f864,_0xe3ab28){const _0x4c5ae2=q0_0x3ac257;this[_0x4c5ae2(0x1d4)][_0x4c5ae2(0x191)](this['position']),this[_0x4c5ae2(0x18c)][_0x4c5ae2(0x191)](this['quaternion']);if(!(this['type']===Body['DYNAMIC']||this[_0x4c5ae2(0x2ba)]===Body[_0x4c5ae2(0x238)])||this[_0x4c5ae2(0x1e3)]===Body[_0x4c5ae2(0x1f8)])return;const _0x36edd4=this['velocity'],_0x47fc50=this[_0x4c5ae2(0x22b)],_0x1155fc=this['position'],_0x1f5dfe=this[_0x4c5ae2(0x27e)],_0x16bcce=this['torque'],_0x59aef9=this[_0x4c5ae2(0x3cd)],_0x41ee33=this[_0x4c5ae2(0x213)],_0x53a9b7=this[_0x4c5ae2(0x352)],_0x1b0e43=this[_0x4c5ae2(0x3df)],_0x45367e=_0x41ee33*_0x3cab82;_0x36edd4['x']+=_0x1f5dfe['x']*_0x45367e*_0x1b0e43['x'],_0x36edd4['y']+=_0x1f5dfe['y']*_0x45367e*_0x1b0e43['y'],_0x36edd4['z']+=_0x1f5dfe['z']*_0x45367e*_0x1b0e43['z'];const _0x67ec6f=_0x53a9b7[_0x4c5ae2(0x251)],_0x4f2909=this[_0x4c5ae2(0x3ef)],_0x382a6b=_0x16bcce['x']*_0x4f2909['x'],_0x5828b3=_0x16bcce['y']*_0x4f2909['y'],_0x566665=_0x16bcce['z']*_0x4f2909['z'];_0x47fc50['x']+=_0x3cab82*(_0x67ec6f[0x0]*_0x382a6b+_0x67ec6f[0x1]*_0x5828b3+_0x67ec6f[0x2]*_0x566665),_0x47fc50['y']+=_0x3cab82*(_0x67ec6f[0x3]*_0x382a6b+_0x67ec6f[0x4]*_0x5828b3+_0x67ec6f[0x5]*_0x566665),_0x47fc50['z']+=_0x3cab82*(_0x67ec6f[0x6]*_0x382a6b+_0x67ec6f[0x7]*_0x5828b3+_0x67ec6f[0x8]*_0x566665),_0x1155fc['x']+=_0x36edd4['x']*_0x3cab82,_0x1155fc['y']+=_0x36edd4['y']*_0x3cab82,_0x1155fc['z']+=_0x36edd4['z']*_0x3cab82,_0x59aef9['integrate'](this[_0x4c5ae2(0x22b)],_0x3cab82,this['angularFactor'],_0x59aef9),_0x38f864&&(_0xe3ab28?_0x59aef9[_0x4c5ae2(0x2e8)]():_0x59aef9[_0x4c5ae2(0x2eb)]()),this['aabbNeedsUpdate']=!![],this[_0x4c5ae2(0x170)]();}}Body[q0_0x3ac257(0x31e)]=0x0,Body['COLLIDE_EVENT_NAME']=q0_0x3ac257(0x2ed),Body[q0_0x3ac257(0x1f3)]=BODY_TYPES[q0_0x3ac257(0x1f3)],Body[q0_0x3ac257(0x1cb)]=BODY_TYPES['STATIC'],Body[q0_0x3ac257(0x238)]=BODY_TYPES['KINEMATIC'],Body['AWAKE']=BODY_SLEEP_STATES[q0_0x3ac257(0x1c5)],Body[q0_0x3ac257(0x3ad)]=BODY_SLEEP_STATES[q0_0x3ac257(0x3ad)],Body[q0_0x3ac257(0x1f8)]=BODY_SLEEP_STATES[q0_0x3ac257(0x1f8)],Body[q0_0x3ac257(0x203)]={'type':q0_0x3ac257(0x1c9)},Body[q0_0x3ac257(0x333)]={'type':q0_0x3ac257(0x212)},Body[q0_0x3ac257(0x259)]={'type':q0_0x3ac257(0x23d)};const tmpVec=new Vec3(),tmpQuat=new Quaternion(),updateAABB_shapeAABB=new AABB(),uiw_m1=new Mat3(),uiw_m2=new Mat3(),uiw_m3=new Mat3(),Body_applyForce_rotForce=new Vec3(),Body_applyLocalForce_worldForce=new Vec3(),Body_applyLocalForce_relativePointWorld=new Vec3(),Body_applyImpulse_velo=new Vec3(),Body_applyImpulse_rotVelo=new Vec3(),Body_applyLocalImpulse_worldImpulse=new Vec3(),Body_applyLocalImpulse_relativePoint=new Vec3(),Body_updateMassProperties_halfExtents=new Vec3();class Broadphase{constructor(){const _0x296a8f=q0_0x3ac257;this[_0x296a8f(0x24d)]=null,this[_0x296a8f(0x323)]=![],this['dirty']=!![];}['collisionPairs'](_0x350f68,_0x1fd4fa,_0x58ceba){const _0x829e3b=q0_0x3ac257;throw new Error(_0x829e3b(0x1d7));}[q0_0x3ac257(0x28f)](_0x5cb685,_0x150ce5){const _0x372e6d=q0_0x3ac257;if((_0x5cb685[_0x372e6d(0x204)]&_0x150ce5[_0x372e6d(0x1cd)])===0x0||(_0x150ce5[_0x372e6d(0x204)]&_0x5cb685[_0x372e6d(0x1cd)])===0x0)return![];if(((_0x5cb685[_0x372e6d(0x2ba)]&Body[_0x372e6d(0x1cb)])!==0x0||_0x5cb685[_0x372e6d(0x1e3)]===Body['SLEEPING'])&&((_0x150ce5['type']&Body[_0x372e6d(0x1cb)])!==0x0||_0x150ce5['sleepState']===Body[_0x372e6d(0x1f8)]))return![];return!![];}['intersectionTest'](_0x2b7d4b,_0x1557c3,_0x1289bd,_0x4d9225){const _0x2d6925=q0_0x3ac257;this[_0x2d6925(0x323)]?this[_0x2d6925(0x284)](_0x2b7d4b,_0x1557c3,_0x1289bd,_0x4d9225):this[_0x2d6925(0x2f9)](_0x2b7d4b,_0x1557c3,_0x1289bd,_0x4d9225);}['doBoundingSphereBroadphase'](_0x3d41d1,_0x2bf5be,_0xbfd0cf,_0x598b95){const _0x3095fd=q0_0x3ac257,_0x4767e9=Broadphase_collisionPairs_r;_0x2bf5be[_0x3095fd(0x252)][_0x3095fd(0x325)](_0x3d41d1[_0x3095fd(0x252)],_0x4767e9);const _0x16e7d1=(_0x3d41d1[_0x3095fd(0x3ea)]+_0x2bf5be[_0x3095fd(0x3ea)])**0x2,_0x434842=_0x4767e9['lengthSquared']();_0x434842<_0x16e7d1&&(_0xbfd0cf[_0x3095fd(0x2b9)](_0x3d41d1),_0x598b95[_0x3095fd(0x2b9)](_0x2bf5be));}[q0_0x3ac257(0x284)](_0x95ac1c,_0xb3d3b5,_0xfa76ef,_0xac501a){const _0xba6bf2=q0_0x3ac257;_0x95ac1c[_0xba6bf2(0x234)]&&_0x95ac1c[_0xba6bf2(0x39d)](),_0xb3d3b5['aabbNeedsUpdate']&&_0xb3d3b5[_0xba6bf2(0x39d)](),_0x95ac1c[_0xba6bf2(0x297)]['overlaps'](_0xb3d3b5['aabb'])&&(_0xfa76ef['push'](_0x95ac1c),_0xac501a[_0xba6bf2(0x2b9)](_0xb3d3b5));}[q0_0x3ac257(0x174)](_0x4bf9e1,_0x12f71b){const _0x53bb92=q0_0x3ac257,_0x4181b9=Broadphase_makePairsUnique_temp,_0x520360=Broadphase_makePairsUnique_p1,_0x1f656e=Broadphase_makePairsUnique_p2,_0x40e60c=_0x4bf9e1[_0x53bb92(0x25b)];for(let _0x482981=0x0;_0x482981!==_0x40e60c;_0x482981++){_0x520360[_0x482981]=_0x4bf9e1[_0x482981],_0x1f656e[_0x482981]=_0x12f71b[_0x482981];}_0x4bf9e1[_0x53bb92(0x25b)]=0x0,_0x12f71b[_0x53bb92(0x25b)]=0x0;for(let _0x644d8c=0x0;_0x644d8c!==_0x40e60c;_0x644d8c++){const _0x4cddf3=_0x520360[_0x644d8c]['id'],_0x30939f=_0x1f656e[_0x644d8c]['id'],_0x165a06=_0x4cddf3<_0x30939f?_0x4cddf3+','+_0x30939f:_0x30939f+','+_0x4cddf3;_0x4181b9[_0x165a06]=_0x644d8c,_0x4181b9[_0x53bb92(0x221)][_0x53bb92(0x2b9)](_0x165a06);}for(let _0x428474=0x0;_0x428474!==_0x4181b9[_0x53bb92(0x221)][_0x53bb92(0x25b)];_0x428474++){const _0x59a436=_0x4181b9['keys'][_0x53bb92(0x3b6)](),_0x4f037c=_0x4181b9[_0x59a436];_0x4bf9e1[_0x53bb92(0x2b9)](_0x520360[_0x4f037c]),_0x12f71b[_0x53bb92(0x2b9)](_0x1f656e[_0x4f037c]),delete _0x4181b9[_0x59a436];}}[q0_0x3ac257(0x1a9)](_0x3a6994){}static[q0_0x3ac257(0x2f8)](_0x29f866,_0x499d57){const _0x1086c8=q0_0x3ac257,_0x1043c2=new Vec3();_0x29f866[_0x1086c8(0x252)][_0x1086c8(0x325)](_0x499d57[_0x1086c8(0x252)],_0x1043c2);const _0x19efc4=_0x29f866[_0x1086c8(0x37f)][0x0],_0x30678d=_0x499d57['shapes'][0x0];return Math[_0x1086c8(0x363)](_0x19efc4[_0x1086c8(0x2e4)]+_0x30678d[_0x1086c8(0x2e4)],0x2)>_0x1043c2[_0x1086c8(0x312)]();}[q0_0x3ac257(0x16f)](_0x5dbb6f,_0x2067d9,_0x212478){const _0x46d7f6=q0_0x3ac257;return console[_0x46d7f6(0x3ec)](_0x46d7f6(0x38e)),[];}}const Broadphase_collisionPairs_r=new Vec3();new Vec3(),new Quaternion(),new Vec3();const Broadphase_makePairsUnique_temp={'keys':[]},Broadphase_makePairsUnique_p1=[],Broadphase_makePairsUnique_p2=[];new Vec3();class GridBroadphase extends Broadphase{constructor(_0x4373f2,_0x3cb9de,_0x27803a,_0x30451b,_0x5c3f1e){const _0x32d490=q0_0x3ac257;_0x4373f2===void 0x0&&(_0x4373f2=new Vec3(0x64,0x64,0x64));_0x3cb9de===void 0x0&&(_0x3cb9de=new Vec3(-0x64,-0x64,-0x64));_0x27803a===void 0x0&&(_0x27803a=0xa);_0x30451b===void 0x0&&(_0x30451b=0xa);_0x5c3f1e===void 0x0&&(_0x5c3f1e=0xa);super(),this['nx']=_0x27803a,this['ny']=_0x30451b,this['nz']=_0x5c3f1e,this[_0x32d490(0x33a)]=_0x4373f2,this['aabbMax']=_0x3cb9de;const _0x39e7fc=this['nx']*this['ny']*this['nz'];if(_0x39e7fc<=0x0)throw _0x32d490(0x354);this[_0x32d490(0x26e)]=[],this[_0x32d490(0x1da)]=[],this[_0x32d490(0x26e)][_0x32d490(0x25b)]=_0x39e7fc,this[_0x32d490(0x1da)]['length']=_0x39e7fc;for(let _0x346b48=0x0;_0x346b48<_0x39e7fc;_0x346b48++){this['bins'][_0x346b48]=[],this[_0x32d490(0x1da)][_0x346b48]=0x0;}}[q0_0x3ac257(0x253)](_0x3ee52e,_0x5bd962,_0x1a76a2){const _0x5ac5b1=q0_0x3ac257,_0x3e89d5=_0x3ee52e[_0x5ac5b1(0x227)][_0x5ac5b1(0x25b)],_0x5d73d7=_0x3ee52e['bodies'],_0x559054=this[_0x5ac5b1(0x2c6)],_0x49827f=this[_0x5ac5b1(0x33a)],_0x26764c=this['nx'],_0x393522=this['ny'],_0x6e9b36=this['nz'],_0x19b705=_0x393522*_0x6e9b36,_0x5aa5b2=_0x6e9b36,_0x3e800e=0x1,_0x3c2980=_0x559054['x'],_0xad1ea=_0x559054['y'],_0x48641e=_0x559054['z'],_0x35bed0=_0x49827f['x'],_0x5eef5f=_0x49827f['y'],_0x276ac7=_0x49827f['z'],_0x434c6d=_0x26764c/(_0x3c2980-_0x35bed0),_0x162b4c=_0x393522/(_0xad1ea-_0x5eef5f),_0x17bb32=_0x6e9b36/(_0x48641e-_0x276ac7),_0x10b3e4=(_0x3c2980-_0x35bed0)/_0x26764c,_0x2c83dd=(_0xad1ea-_0x5eef5f)/_0x393522,_0x19304c=(_0x48641e-_0x276ac7)/_0x6e9b36,_0x5ba36c=Math['sqrt'](_0x10b3e4*_0x10b3e4+_0x2c83dd*_0x2c83dd+_0x19304c*_0x19304c)*0.5,_0x59c1f6=Shape[_0x5ac5b1(0x27f)],_0x11a5c8=_0x59c1f6['SPHERE'],_0x32de85=_0x59c1f6[_0x5ac5b1(0x1d6)];_0x59c1f6[_0x5ac5b1(0x34a)],_0x59c1f6['COMPOUND'],_0x59c1f6[_0x5ac5b1(0x3cb)];const _0x3582bf=this[_0x5ac5b1(0x26e)],_0x544da9=this[_0x5ac5b1(0x1da)],_0x59bd66=this['bins'][_0x5ac5b1(0x25b)];for(let _0x591377=0x0;_0x591377!==_0x59bd66;_0x591377++){_0x544da9[_0x591377]=0x0;}const _0xad3f6b=Math['ceil'];function _0x579ad3(_0x400b01,_0xe940a2,_0x32ab63,_0x280e49,_0x24966a,_0x53312c,_0x5865f6){let _0x788ac8=(_0x400b01-_0x35bed0)*_0x434c6d|0x0,_0x1fabcf=(_0xe940a2-_0x5eef5f)*_0x162b4c|0x0,_0xeb11ba=(_0x32ab63-_0x276ac7)*_0x17bb32|0x0,_0x5e86bb=_0xad3f6b((_0x280e49-_0x35bed0)*_0x434c6d),_0x256cc7=_0xad3f6b((_0x24966a-_0x5eef5f)*_0x162b4c),_0x417f98=_0xad3f6b((_0x53312c-_0x276ac7)*_0x17bb32);if(_0x788ac8<0x0)_0x788ac8=0x0;else _0x788ac8>=_0x26764c&&(_0x788ac8=_0x26764c-0x1);if(_0x1fabcf<0x0)_0x1fabcf=0x0;else _0x1fabcf>=_0x393522&&(_0x1fabcf=_0x393522-0x1);if(_0xeb11ba<0x0)_0xeb11ba=0x0;else _0xeb11ba>=_0x6e9b36&&(_0xeb11ba=_0x6e9b36-0x1);if(_0x5e86bb<0x0)_0x5e86bb=0x0;else _0x5e86bb>=_0x26764c&&(_0x5e86bb=_0x26764c-0x1);if(_0x256cc7<0x0)_0x256cc7=0x0;else _0x256cc7>=_0x393522&&(_0x256cc7=_0x393522-0x1);if(_0x417f98<0x0)_0x417f98=0x0;else _0x417f98>=_0x6e9b36&&(_0x417f98=_0x6e9b36-0x1);_0x788ac8*=_0x19b705,_0x1fabcf*=_0x5aa5b2,_0xeb11ba*=_0x3e800e,_0x5e86bb*=_0x19b705,_0x256cc7*=_0x5aa5b2,_0x417f98*=_0x3e800e;for(let _0x37d295=_0x788ac8;_0x37d295<=_0x5e86bb;_0x37d295+=_0x19b705){for(let _0x168457=_0x1fabcf;_0x168457<=_0x256cc7;_0x168457+=_0x5aa5b2){for(let _0x2c6cb7=_0xeb11ba;_0x2c6cb7<=_0x417f98;_0x2c6cb7+=_0x3e800e){const _0x452c2f=_0x37d295+_0x168457+_0x2c6cb7;_0x3582bf[_0x452c2f][_0x544da9[_0x452c2f]++]=_0x5865f6;}}}}for(let _0x31e925=0x0;_0x31e925!==_0x3e89d5;_0x31e925++){const _0x444a9a=_0x5d73d7[_0x31e925],_0x2280e6=_0x444a9a[_0x5ac5b1(0x37f)][0x0];switch(_0x2280e6[_0x5ac5b1(0x2ba)]){case _0x11a5c8:{const _0x5b366c=_0x2280e6,_0x61353d=_0x444a9a[_0x5ac5b1(0x252)]['x'],_0x30518d=_0x444a9a[_0x5ac5b1(0x252)]['y'],_0x50e2a8=_0x444a9a['position']['z'],_0x45d2b2=_0x5b366c[_0x5ac5b1(0x32a)];_0x579ad3(_0x61353d-_0x45d2b2,_0x30518d-_0x45d2b2,_0x50e2a8-_0x45d2b2,_0x61353d+_0x45d2b2,_0x30518d+_0x45d2b2,_0x50e2a8+_0x45d2b2,_0x444a9a);break;}case _0x32de85:{const _0x2156d2=_0x2280e6;_0x2156d2['worldNormalNeedsUpdate']&&_0x2156d2[_0x5ac5b1(0x194)](_0x444a9a[_0x5ac5b1(0x3cd)]);const _0x494e8f=_0x2156d2[_0x5ac5b1(0x269)],_0x117020=_0x35bed0+_0x10b3e4*0.5-_0x444a9a['position']['x'],_0x32a679=_0x5eef5f+_0x2c83dd*0.5-_0x444a9a[_0x5ac5b1(0x252)]['y'],_0x41c388=_0x276ac7+_0x19304c*0.5-_0x444a9a[_0x5ac5b1(0x252)]['z'],_0x293508=GridBroadphase_collisionPairs_d;_0x293508[_0x5ac5b1(0x38a)](_0x117020,_0x32a679,_0x41c388);for(let _0x567278=0x0,_0x35f873=0x0;_0x567278!==_0x26764c;_0x567278++,_0x35f873+=_0x19b705,_0x293508['y']=_0x32a679,_0x293508['x']+=_0x10b3e4){for(let _0x3b7aea=0x0,_0x48a71b=0x0;_0x3b7aea!==_0x393522;_0x3b7aea++,_0x48a71b+=_0x5aa5b2,_0x293508['z']=_0x41c388,_0x293508['y']+=_0x2c83dd){for(let _0x115669=0x0,_0x5a497c=0x0;_0x115669!==_0x6e9b36;_0x115669++,_0x5a497c+=_0x3e800e,_0x293508['z']+=_0x19304c){if(_0x293508[_0x5ac5b1(0x318)](_0x494e8f)<_0x5ba36c){const _0xa9389f=_0x35f873+_0x48a71b+_0x5a497c;_0x3582bf[_0xa9389f][_0x544da9[_0xa9389f]++]=_0x444a9a;}}}}break;}default:{_0x444a9a[_0x5ac5b1(0x234)]&&_0x444a9a['updateAABB']();_0x579ad3(_0x444a9a[_0x5ac5b1(0x297)][_0x5ac5b1(0x279)]['x'],_0x444a9a[_0x5ac5b1(0x297)][_0x5ac5b1(0x279)]['y'],_0x444a9a[_0x5ac5b1(0x297)][_0x5ac5b1(0x279)]['z'],_0x444a9a[_0x5ac5b1(0x297)]['upperBound']['x'],_0x444a9a['aabb'][_0x5ac5b1(0x2b4)]['y'],_0x444a9a['aabb'][_0x5ac5b1(0x2b4)]['z'],_0x444a9a);break;}}}for(let _0x30d36c=0x0;_0x30d36c!==_0x59bd66;_0x30d36c++){const _0x234d9c=_0x544da9[_0x30d36c];if(_0x234d9c>0x1){const _0x46750e=_0x3582bf[_0x30d36c];for(let _0x117210=0x0;_0x117210!==_0x234d9c;_0x117210++){const _0x5bc1f6=_0x46750e[_0x117210];for(let _0x30fd75=0x0;_0x30fd75!==_0x117210;_0x30fd75++){const _0xc8670a=_0x46750e[_0x30fd75];this[_0x5ac5b1(0x28f)](_0x5bc1f6,_0xc8670a)&&this[_0x5ac5b1(0x226)](_0x5bc1f6,_0xc8670a,_0x5bd962,_0x1a76a2);}}}}this[_0x5ac5b1(0x174)](_0x5bd962,_0x1a76a2);}}const GridBroadphase_collisionPairs_d=new Vec3();new Vec3();class NaiveBroadphase extends Broadphase{constructor(){super();}[q0_0x3ac257(0x253)](_0x4e84b0,_0x561010,_0x2477a7){const _0x141276=q0_0x3ac257,_0x43914f=_0x4e84b0[_0x141276(0x227)],_0x278ff8=_0x43914f[_0x141276(0x25b)];let _0x55d6a1,_0x1ca170;for(let _0x9ac938=0x0;_0x9ac938!==_0x278ff8;_0x9ac938++){for(let _0x38b1ad=0x0;_0x38b1ad!==_0x9ac938;_0x38b1ad++){_0x55d6a1=_0x43914f[_0x9ac938],_0x1ca170=_0x43914f[_0x38b1ad];if(!this[_0x141276(0x28f)](_0x55d6a1,_0x1ca170))continue;this[_0x141276(0x226)](_0x55d6a1,_0x1ca170,_0x561010,_0x2477a7);}}}[q0_0x3ac257(0x16f)](_0x467677,_0x265596,_0x288179){const _0x40e06d=q0_0x3ac257;_0x288179===void 0x0&&(_0x288179=[]);for(let _0x2b1916=0x0;_0x2b1916<_0x467677[_0x40e06d(0x227)]['length'];_0x2b1916++){const _0x45c256=_0x467677[_0x40e06d(0x227)][_0x2b1916];_0x45c256[_0x40e06d(0x234)]&&_0x45c256['updateAABB'](),_0x45c256['aabb'][_0x40e06d(0x1a3)](_0x265596)&&_0x288179[_0x40e06d(0x2b9)](_0x45c256);}return _0x288179;}}class RaycastResult{constructor(){const _0x418c9d=q0_0x3ac257;this['rayFromWorld']=new Vec3(),this['rayToWorld']=new Vec3(),this[_0x418c9d(0x2cb)]=new Vec3(),this[_0x418c9d(0x292)]=new Vec3(),this[_0x418c9d(0x261)]=![],this[_0x418c9d(0x1ae)]=null,this[_0x418c9d(0x350)]=null,this[_0x418c9d(0x187)]=-0x1,this[_0x418c9d(0x241)]=-0x1,this[_0x418c9d(0x164)]=![];}['reset'](){const _0x3c0c67=q0_0x3ac257;this['rayFromWorld'][_0x3c0c67(0x2c7)](),this[_0x3c0c67(0x2f4)][_0x3c0c67(0x2c7)](),this[_0x3c0c67(0x2cb)][_0x3c0c67(0x2c7)](),this[_0x3c0c67(0x292)]['setZero'](),this[_0x3c0c67(0x261)]=![],this[_0x3c0c67(0x1ae)]=null,this[_0x3c0c67(0x350)]=null,this['hitFaceIndex']=-0x1,this[_0x3c0c67(0x241)]=-0x1,this[_0x3c0c67(0x164)]=![];}['abort'](){this['shouldStop']=!![];}[q0_0x3ac257(0x38a)](_0x59c0a3,_0x51b641,_0x3a86b0,_0x18925b,_0x596a43,_0x15609a,_0x231be0){const _0x41f863=q0_0x3ac257;this[_0x41f863(0x266)]['copy'](_0x59c0a3),this[_0x41f863(0x2f4)]['copy'](_0x51b641),this[_0x41f863(0x2cb)][_0x41f863(0x191)](_0x3a86b0),this[_0x41f863(0x292)][_0x41f863(0x191)](_0x18925b),this[_0x41f863(0x1ae)]=_0x596a43,this['body']=_0x15609a,this[_0x41f863(0x241)]=_0x231be0;}}let _Shape$types$SPHERE,_Shape$types$PLANE,_Shape$types$BOX,_Shape$types$CYLINDER,_Shape$types$CONVEXPO,_Shape$types$HEIGHTFI,_Shape$types$TRIMESH;const RAY_MODES={'CLOSEST':0x1,'ANY':0x2,'ALL':0x4};_Shape$types$SPHERE=Shape[q0_0x3ac257(0x27f)]['SPHERE'],_Shape$types$PLANE=Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x1d6)],_Shape$types$BOX=Shape['types'][q0_0x3ac257(0x34a)],_Shape$types$CYLINDER=Shape[q0_0x3ac257(0x27f)]['CYLINDER'],_Shape$types$CONVEXPO=Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x3cb)],_Shape$types$HEIGHTFI=Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x369)],_Shape$types$TRIMESH=Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x19c)];class Ray{get[_Shape$types$SPHERE](){const _0x57e441=q0_0x3ac257;return this[_0x57e441(0x1c6)];}get[_Shape$types$PLANE](){return this['_intersectPlane'];}get[_Shape$types$BOX](){return this['_intersectBox'];}get[_Shape$types$CYLINDER](){const _0x1ecbcd=q0_0x3ac257;return this[_0x1ecbcd(0x3cf)];}get[_Shape$types$CONVEXPO](){const _0x294d7e=q0_0x3ac257;return this[_0x294d7e(0x3cf)];}get[_Shape$types$HEIGHTFI](){return this['_intersectHeightfield'];}get[_Shape$types$TRIMESH](){return this['_intersectTrimesh'];}constructor(_0x5addc7,_0x10a789){const _0x189ef5=q0_0x3ac257;_0x5addc7===void 0x0&&(_0x5addc7=new Vec3()),_0x10a789===void 0x0&&(_0x10a789=new Vec3()),this[_0x189ef5(0x303)]=_0x5addc7[_0x189ef5(0x31d)](),this['to']=_0x10a789[_0x189ef5(0x31d)](),this[_0x189ef5(0x267)]=new Vec3(),this[_0x189ef5(0x386)]=0.0001,this['checkCollisionResponse']=!![],this['skipBackfaces']=![],this['collisionFilterMask']=-0x1,this[_0x189ef5(0x204)]=-0x1,this[_0x189ef5(0x22a)]=Ray[_0x189ef5(0x3a9)],this['result']=new RaycastResult(),this[_0x189ef5(0x261)]=![],this[_0x189ef5(0x29d)]=_0x55008d=>{};}[q0_0x3ac257(0x1ce)](_0x31f920,_0x4b9055){const _0x525bfb=q0_0x3ac257;return this[_0x525bfb(0x22a)]=_0x4b9055['mode']||Ray['ANY'],this['result']=_0x4b9055[_0x525bfb(0x1a8)]||new RaycastResult(),this['skipBackfaces']=!!_0x4b9055[_0x525bfb(0x2a9)],this[_0x525bfb(0x1cd)]=typeof _0x4b9055[_0x525bfb(0x1cd)]!==_0x525bfb(0x2b7)?_0x4b9055[_0x525bfb(0x1cd)]:-0x1,this[_0x525bfb(0x204)]=typeof _0x4b9055[_0x525bfb(0x204)]!=='undefined'?_0x4b9055[_0x525bfb(0x204)]:-0x1,this[_0x525bfb(0x1b6)]=typeof _0x4b9055[_0x525bfb(0x1b6)]!==_0x525bfb(0x2b7)?_0x4b9055[_0x525bfb(0x1b6)]:!![],_0x4b9055['from']&&this[_0x525bfb(0x303)][_0x525bfb(0x191)](_0x4b9055['from']),_0x4b9055['to']&&this['to'][_0x525bfb(0x191)](_0x4b9055['to']),this['callback']=_0x4b9055[_0x525bfb(0x29d)]||(()=>{}),this[_0x525bfb(0x261)]=![],this[_0x525bfb(0x1a8)]['reset'](),this[_0x525bfb(0x381)](),this[_0x525bfb(0x198)](tmpAABB$1),tmpArray[_0x525bfb(0x25b)]=0x0,_0x31f920[_0x525bfb(0x29e)][_0x525bfb(0x16f)](_0x31f920,tmpAABB$1,tmpArray),this['intersectBodies'](tmpArray),this[_0x525bfb(0x261)];}[q0_0x3ac257(0x344)](_0xea656c,_0x3f05d0){const _0x4c793d=q0_0x3ac257;_0x3f05d0&&(this['result']=_0x3f05d0,this[_0x4c793d(0x381)]());const _0x5a698a=this[_0x4c793d(0x1b6)];if(_0x5a698a&&!_0xea656c[_0x4c793d(0x1a0)])return;if((this['collisionFilterGroup']&_0xea656c['collisionFilterMask'])===0x0||(_0xea656c[_0x4c793d(0x204)]&this[_0x4c793d(0x1cd)])===0x0)return;const _0x429dc0=intersectBody_xi,_0x41b49c=intersectBody_qi;for(let _0x470f6e=0x0,_0x46b736=_0xea656c[_0x4c793d(0x37f)]['length'];_0x470f6e<_0x46b736;_0x470f6e++){const _0xca8b31=_0xea656c[_0x4c793d(0x37f)][_0x470f6e];if(_0x5a698a&&!_0xca8b31[_0x4c793d(0x1a0)])continue;_0xea656c[_0x4c793d(0x3cd)]['mult'](_0xea656c['shapeOrientations'][_0x470f6e],_0x41b49c),_0xea656c['quaternion'][_0x4c793d(0x205)](_0xea656c[_0x4c793d(0x264)][_0x470f6e],_0x429dc0),_0x429dc0['vadd'](_0xea656c['position'],_0x429dc0),this[_0x4c793d(0x1e1)](_0xca8b31,_0x41b49c,_0x429dc0,_0xea656c);if(this[_0x4c793d(0x1a8)]['shouldStop'])break;}}[q0_0x3ac257(0x395)](_0x4e6577,_0x456519){const _0x1c45b3=q0_0x3ac257;_0x456519&&(this['result']=_0x456519,this['updateDirection']());for(let _0x24d629=0x0,_0x2c20ff=_0x4e6577[_0x1c45b3(0x25b)];!this[_0x1c45b3(0x1a8)][_0x1c45b3(0x164)]&&_0x24d629<_0x2c20ff;_0x24d629++){this[_0x1c45b3(0x344)](_0x4e6577[_0x24d629]);}}[q0_0x3ac257(0x381)](){const _0x3a25b4=q0_0x3ac257;this['to'][_0x3a25b4(0x325)](this[_0x3a25b4(0x303)],this[_0x3a25b4(0x267)]),this['direction'][_0x3a25b4(0x2eb)]();}['intersectShape'](_0x331436,_0x5d062d,_0x36afc7,_0x9628fa){const _0x48adc7=q0_0x3ac257,_0x26bd24=this['from'],_0x296ad0=distanceFromIntersection(_0x26bd24,this['direction'],_0x36afc7);if(_0x296ad0>_0x331436[_0x48adc7(0x2e4)])return;const _0x58f2ab=this[_0x331436['type']];_0x58f2ab&&_0x58f2ab[_0x48adc7(0x32e)](this,_0x331436,_0x5d062d,_0x36afc7,_0x9628fa,_0x331436);}[q0_0x3ac257(0x2a7)](_0x1c9908,_0x3e7a42,_0x433a52,_0x3d5cd0,_0x1f2c41){const _0x183212=q0_0x3ac257;return this[_0x183212(0x3cf)](_0x1c9908['convexPolyhedronRepresentation'],_0x3e7a42,_0x433a52,_0x3d5cd0,_0x1f2c41);}[q0_0x3ac257(0x3c7)](_0x5b4e5a,_0x4bc1cf,_0x1dcfbf,_0x1b9e5d,_0x2fabf0){const _0x19f31b=q0_0x3ac257,_0x27fb02=this[_0x19f31b(0x303)],_0x451253=this['to'],_0x168735=this[_0x19f31b(0x267)],_0x29116a=new Vec3(0x0,0x0,0x1);_0x4bc1cf['vmult'](_0x29116a,_0x29116a);const _0x5c0d59=new Vec3();_0x27fb02[_0x19f31b(0x325)](_0x1dcfbf,_0x5c0d59);const _0x364674=_0x5c0d59[_0x19f31b(0x318)](_0x29116a);_0x451253['vsub'](_0x1dcfbf,_0x5c0d59);const _0x1cf781=_0x5c0d59[_0x19f31b(0x318)](_0x29116a);if(_0x364674*_0x1cf781>0x0)return;if(_0x27fb02[_0x19f31b(0x2ec)](_0x451253)<_0x364674)return;const _0x1fca51=_0x29116a['dot'](_0x168735);if(Math[_0x19f31b(0x23b)](_0x1fca51)<this[_0x19f31b(0x386)])return;const _0x2025d4=new Vec3(),_0x2ff7e3=new Vec3(),_0x2d2c0b=new Vec3();_0x27fb02[_0x19f31b(0x325)](_0x1dcfbf,_0x2025d4);const _0x3b264a=-_0x29116a[_0x19f31b(0x318)](_0x2025d4)/_0x1fca51;_0x168735['scale'](_0x3b264a,_0x2ff7e3),_0x27fb02['vadd'](_0x2ff7e3,_0x2d2c0b),this[_0x19f31b(0x2f1)](_0x29116a,_0x2d2c0b,_0x2fabf0,_0x1b9e5d,-0x1);}['getAABB'](_0x47f532){const _0x58393f=q0_0x3ac257,{lowerBound:_0x49c8aa,upperBound:_0xc41f50}=_0x47f532,_0x5525b6=this['to'],_0x9d431=this['from'];_0x49c8aa['x']=Math[_0x58393f(0x2ad)](_0x5525b6['x'],_0x9d431['x']),_0x49c8aa['y']=Math[_0x58393f(0x2ad)](_0x5525b6['y'],_0x9d431['y']),_0x49c8aa['z']=Math[_0x58393f(0x2ad)](_0x5525b6['z'],_0x9d431['z']),_0xc41f50['x']=Math[_0x58393f(0x225)](_0x5525b6['x'],_0x9d431['x']),_0xc41f50['y']=Math['max'](_0x5525b6['y'],_0x9d431['y']),_0xc41f50['z']=Math[_0x58393f(0x225)](_0x5525b6['z'],_0x9d431['z']);}[q0_0x3ac257(0x1ef)](_0x46b588,_0x471425,_0x484f14,_0x557748,_0x4ad5c5){const _0x2c0d7a=q0_0x3ac257;_0x46b588[_0x2c0d7a(0x211)],_0x46b588['elementSize'];const _0x28885b=intersectHeightfield_localRay;_0x28885b[_0x2c0d7a(0x303)][_0x2c0d7a(0x191)](this[_0x2c0d7a(0x303)]),_0x28885b['to'][_0x2c0d7a(0x191)](this['to']),Transform[_0x2c0d7a(0x224)](_0x484f14,_0x471425,_0x28885b[_0x2c0d7a(0x303)],_0x28885b['from']),Transform[_0x2c0d7a(0x224)](_0x484f14,_0x471425,_0x28885b['to'],_0x28885b['to']),_0x28885b[_0x2c0d7a(0x381)]();const _0x35fdcd=intersectHeightfield_index;let _0x33e0bc,_0x23caa7,_0x112bda,_0x17511b;_0x33e0bc=_0x23caa7=0x0,_0x112bda=_0x17511b=_0x46b588['data']['length']-0x1;const _0x48ad9a=new AABB();_0x28885b[_0x2c0d7a(0x198)](_0x48ad9a),_0x46b588[_0x2c0d7a(0x3e8)](_0x48ad9a[_0x2c0d7a(0x279)]['x'],_0x48ad9a[_0x2c0d7a(0x279)]['y'],_0x35fdcd,!![]),_0x33e0bc=Math[_0x2c0d7a(0x225)](_0x33e0bc,_0x35fdcd[0x0]),_0x23caa7=Math[_0x2c0d7a(0x225)](_0x23caa7,_0x35fdcd[0x1]),_0x46b588['getIndexOfPosition'](_0x48ad9a['upperBound']['x'],_0x48ad9a['upperBound']['y'],_0x35fdcd,!![]),_0x112bda=Math['min'](_0x112bda,_0x35fdcd[0x0]+0x1),_0x17511b=Math['min'](_0x17511b,_0x35fdcd[0x1]+0x1);for(let _0xe924c7=_0x33e0bc;_0xe924c7<_0x112bda;_0xe924c7++){for(let _0x108639=_0x23caa7;_0x108639<_0x17511b;_0x108639++){if(this[_0x2c0d7a(0x1a8)]['shouldStop'])return;_0x46b588['getAabbAtIndex'](_0xe924c7,_0x108639,_0x48ad9a);if(!_0x48ad9a['overlapsRay'](_0x28885b))continue;_0x46b588['getConvexTrianglePillar'](_0xe924c7,_0x108639,![]),Transform[_0x2c0d7a(0x3dc)](_0x484f14,_0x471425,_0x46b588['pillarOffset'],worldPillarOffset),this[_0x2c0d7a(0x3cf)](_0x46b588[_0x2c0d7a(0x308)],_0x471425,worldPillarOffset,_0x557748,_0x4ad5c5,intersectConvexOptions);if(this[_0x2c0d7a(0x1a8)][_0x2c0d7a(0x164)])return;_0x46b588['getConvexTrianglePillar'](_0xe924c7,_0x108639,!![]),Transform[_0x2c0d7a(0x3dc)](_0x484f14,_0x471425,_0x46b588[_0x2c0d7a(0x2c2)],worldPillarOffset),this[_0x2c0d7a(0x3cf)](_0x46b588[_0x2c0d7a(0x308)],_0x471425,worldPillarOffset,_0x557748,_0x4ad5c5,intersectConvexOptions);}}}[q0_0x3ac257(0x1c6)](_0x2facfa,_0x5a3f9a,_0x265fcc,_0xfa2d47,_0xef6416){const _0x3f4321=q0_0x3ac257,_0x1f1441=this[_0x3f4321(0x303)],_0x3c2021=this['to'],_0xa27dee=_0x2facfa['radius'],_0x2438ac=(_0x3c2021['x']-_0x1f1441['x'])**0x2+(_0x3c2021['y']-_0x1f1441['y'])**0x2+(_0x3c2021['z']-_0x1f1441['z'])**0x2,_0x46c92f=0x2*((_0x3c2021['x']-_0x1f1441['x'])*(_0x1f1441['x']-_0x265fcc['x'])+(_0x3c2021['y']-_0x1f1441['y'])*(_0x1f1441['y']-_0x265fcc['y'])+(_0x3c2021['z']-_0x1f1441['z'])*(_0x1f1441['z']-_0x265fcc['z'])),_0x567261=(_0x1f1441['x']-_0x265fcc['x'])**0x2+(_0x1f1441['y']-_0x265fcc['y'])**0x2+(_0x1f1441['z']-_0x265fcc['z'])**0x2-_0xa27dee**0x2,_0x37e044=_0x46c92f**0x2-0x4*_0x2438ac*_0x567261,_0x158647=Ray_intersectSphere_intersectionPoint,_0x5365e2=Ray_intersectSphere_normal;if(_0x37e044<0x0)return;else{if(_0x37e044===0x0)_0x1f1441[_0x3f4321(0x290)](_0x3c2021,_0x37e044,_0x158647),_0x158647['vsub'](_0x265fcc,_0x5365e2),_0x5365e2[_0x3f4321(0x2eb)](),this[_0x3f4321(0x2f1)](_0x5365e2,_0x158647,_0xef6416,_0xfa2d47,-0x1);else{const _0x5230b3=(-_0x46c92f-Math[_0x3f4321(0x1e2)](_0x37e044))/(0x2*_0x2438ac),_0x10fa12=(-_0x46c92f+Math[_0x3f4321(0x1e2)](_0x37e044))/(0x2*_0x2438ac);_0x5230b3>=0x0&&_0x5230b3<=0x1&&(_0x1f1441[_0x3f4321(0x290)](_0x3c2021,_0x5230b3,_0x158647),_0x158647[_0x3f4321(0x325)](_0x265fcc,_0x5365e2),_0x5365e2['normalize'](),this[_0x3f4321(0x2f1)](_0x5365e2,_0x158647,_0xef6416,_0xfa2d47,-0x1));if(this[_0x3f4321(0x1a8)][_0x3f4321(0x164)])return;_0x10fa12>=0x0&&_0x10fa12<=0x1&&(_0x1f1441[_0x3f4321(0x290)](_0x3c2021,_0x10fa12,_0x158647),_0x158647[_0x3f4321(0x325)](_0x265fcc,_0x5365e2),_0x5365e2[_0x3f4321(0x2eb)](),this['reportIntersection'](_0x5365e2,_0x158647,_0xef6416,_0xfa2d47,-0x1));}}}['_intersectConvex'](_0x5a4bcf,_0xb90e89,_0xb3dddd,_0x2b1a05,_0x35fc24,_0x4c7bfc){const _0x119d04=q0_0x3ac257;intersectConvex_minDistNormal;const _0x8e5dea=intersectConvex_normal,_0x58d492=intersectConvex_vector;intersectConvex_minDistIntersect;const _0x17174f=_0x4c7bfc&&_0x4c7bfc[_0x119d04(0x306)]||null,_0x4c6fa8=_0x5a4bcf[_0x119d04(0x1a6)],_0x18d34e=_0x5a4bcf[_0x119d04(0x32b)],_0x330e45=_0x5a4bcf[_0x119d04(0x173)],_0x1cf0ef=this[_0x119d04(0x267)],_0x2e713e=this[_0x119d04(0x303)],_0x2129e6=this['to'],_0x49deab=_0x2e713e[_0x119d04(0x2ec)](_0x2129e6),_0x2cdb9b=_0x17174f?_0x17174f[_0x119d04(0x25b)]:_0x4c6fa8[_0x119d04(0x25b)],_0x269be6=this[_0x119d04(0x1a8)];for(let _0x152ac7=0x0;!_0x269be6[_0x119d04(0x164)]&&_0x152ac7<_0x2cdb9b;_0x152ac7++){const _0x38d7cb=_0x17174f?_0x17174f[_0x152ac7]:_0x152ac7,_0x5dd7c7=_0x4c6fa8[_0x38d7cb],_0x4b34ef=_0x330e45[_0x38d7cb],_0x5d0bfc=_0xb90e89,_0x33629a=_0xb3dddd;_0x58d492['copy'](_0x18d34e[_0x5dd7c7[0x0]]),_0x5d0bfc[_0x119d04(0x205)](_0x58d492,_0x58d492),_0x58d492['vadd'](_0x33629a,_0x58d492),_0x58d492['vsub'](_0x2e713e,_0x58d492),_0x5d0bfc[_0x119d04(0x205)](_0x4b34ef,_0x8e5dea);const _0x4e6e6b=_0x1cf0ef[_0x119d04(0x318)](_0x8e5dea);if(Math[_0x119d04(0x23b)](_0x4e6e6b)<this[_0x119d04(0x386)])continue;const _0x4d2170=_0x8e5dea['dot'](_0x58d492)/_0x4e6e6b;if(_0x4d2170<0x0)continue;_0x1cf0ef[_0x119d04(0x2fc)](_0x4d2170,intersectPoint),intersectPoint[_0x119d04(0x3d7)](_0x2e713e,intersectPoint),a[_0x119d04(0x191)](_0x18d34e[_0x5dd7c7[0x0]]),_0x5d0bfc[_0x119d04(0x205)](a,a),_0x33629a[_0x119d04(0x3d7)](a,a);for(let _0x3eee3e=0x1;!_0x269be6[_0x119d04(0x164)]&&_0x3eee3e<_0x5dd7c7[_0x119d04(0x25b)]-0x1;_0x3eee3e++){b[_0x119d04(0x191)](_0x18d34e[_0x5dd7c7[_0x3eee3e]]),c[_0x119d04(0x191)](_0x18d34e[_0x5dd7c7[_0x3eee3e+0x1]]),_0x5d0bfc[_0x119d04(0x205)](b,b),_0x5d0bfc[_0x119d04(0x205)](c,c),_0x33629a['vadd'](b,b),_0x33629a[_0x119d04(0x3d7)](c,c);const _0xebb88a=intersectPoint[_0x119d04(0x2ec)](_0x2e713e);if(!(Ray[_0x119d04(0x17b)](intersectPoint,a,b,c)||Ray['pointInTriangle'](intersectPoint,b,a,c))||_0xebb88a>_0x49deab)continue;this[_0x119d04(0x2f1)](_0x8e5dea,intersectPoint,_0x35fc24,_0x2b1a05,_0x38d7cb);}}}[q0_0x3ac257(0x282)](_0x272e13,_0x671701,_0x362d6d,_0x5418c9,_0x4ee4d7,_0x563b67){const _0x502388=q0_0x3ac257,_0x116d15=intersectTrimesh_normal,_0x2c4bea=intersectTrimesh_triangles,_0x25e046=intersectTrimesh_treeTransform,_0x49f85a=intersectConvex_vector,_0x15cf01=intersectTrimesh_localDirection,_0x574dd1=intersectTrimesh_localFrom,_0x34c80f=intersectTrimesh_localTo,_0xb00407=intersectTrimesh_worldIntersectPoint,_0x3dd116=intersectTrimesh_worldNormal,_0x20c311=_0x272e13[_0x502388(0x293)];_0x272e13[_0x502388(0x32b)];const _0x4cfa92=this[_0x502388(0x303)],_0x27372c=this['to'],_0x37f8e1=this['direction'];_0x25e046[_0x502388(0x252)][_0x502388(0x191)](_0x362d6d),_0x25e046[_0x502388(0x3cd)][_0x502388(0x191)](_0x671701),Transform[_0x502388(0x176)](_0x362d6d,_0x671701,_0x37f8e1,_0x15cf01),Transform['pointToLocalFrame'](_0x362d6d,_0x671701,_0x4cfa92,_0x574dd1),Transform[_0x502388(0x224)](_0x362d6d,_0x671701,_0x27372c,_0x34c80f),_0x34c80f['x']*=_0x272e13[_0x502388(0x2fc)]['x'],_0x34c80f['y']*=_0x272e13['scale']['y'],_0x34c80f['z']*=_0x272e13[_0x502388(0x2fc)]['z'],_0x574dd1['x']*=_0x272e13[_0x502388(0x2fc)]['x'],_0x574dd1['y']*=_0x272e13[_0x502388(0x2fc)]['y'],_0x574dd1['z']*=_0x272e13['scale']['z'],_0x34c80f['vsub'](_0x574dd1,_0x15cf01),_0x15cf01[_0x502388(0x2eb)]();const _0x5384a1=_0x574dd1[_0x502388(0x1f9)](_0x34c80f);_0x272e13['tree'][_0x502388(0x314)](this,_0x25e046,_0x2c4bea);for(let _0x597a3d=0x0,_0x4b50b8=_0x2c4bea[_0x502388(0x25b)];!this['result'][_0x502388(0x164)]&&_0x597a3d!==_0x4b50b8;_0x597a3d++){const _0x49fbf7=_0x2c4bea[_0x597a3d];_0x272e13[_0x502388(0x182)](_0x49fbf7,_0x116d15),_0x272e13['getVertex'](_0x20c311[_0x49fbf7*0x3],a),a[_0x502388(0x325)](_0x574dd1,_0x49f85a);const _0xafb644=_0x15cf01['dot'](_0x116d15),_0x4e7ae8=_0x116d15[_0x502388(0x318)](_0x49f85a)/_0xafb644;if(_0x4e7ae8<0x0)continue;_0x15cf01[_0x502388(0x2fc)](_0x4e7ae8,intersectPoint),intersectPoint['vadd'](_0x574dd1,intersectPoint),_0x272e13[_0x502388(0x1d5)](_0x20c311[_0x49fbf7*0x3+0x1],b),_0x272e13[_0x502388(0x1d5)](_0x20c311[_0x49fbf7*0x3+0x2],c);const _0x47cb74=intersectPoint[_0x502388(0x1f9)](_0x574dd1);if(!(Ray[_0x502388(0x17b)](intersectPoint,b,a,c)||Ray[_0x502388(0x17b)](intersectPoint,a,b,c))||_0x47cb74>_0x5384a1)continue;Transform['vectorToWorldFrame'](_0x671701,_0x116d15,_0x3dd116),Transform['pointToWorldFrame'](_0x362d6d,_0x671701,intersectPoint,_0xb00407),this['reportIntersection'](_0x3dd116,_0xb00407,_0x4ee4d7,_0x5418c9,_0x49fbf7);}_0x2c4bea[_0x502388(0x25b)]=0x0;}[q0_0x3ac257(0x2f1)](_0x4bf23a,_0x44ca09,_0x35cb0b,_0x2f97ba,_0xd3479c){const _0x103be1=q0_0x3ac257,_0x64bb45=this[_0x103be1(0x303)],_0x1ebae4=this['to'],_0x2ea0f3=_0x64bb45[_0x103be1(0x2ec)](_0x44ca09),_0x64cc1a=this[_0x103be1(0x1a8)];if(this[_0x103be1(0x2a9)]&&_0x4bf23a[_0x103be1(0x318)](this['direction'])>0x0)return;_0x64cc1a[_0x103be1(0x187)]=typeof _0xd3479c!==_0x103be1(0x2b7)?_0xd3479c:-0x1;switch(this[_0x103be1(0x22a)]){case Ray['ALL']:this[_0x103be1(0x261)]=!![],_0x64cc1a['set'](_0x64bb45,_0x1ebae4,_0x4bf23a,_0x44ca09,_0x35cb0b,_0x2f97ba,_0x2ea0f3),_0x64cc1a[_0x103be1(0x261)]=!![],this[_0x103be1(0x29d)](_0x64cc1a);break;case Ray[_0x103be1(0x255)]:(_0x2ea0f3<_0x64cc1a['distance']||!_0x64cc1a[_0x103be1(0x261)])&&(this['hasHit']=!![],_0x64cc1a['hasHit']=!![],_0x64cc1a[_0x103be1(0x38a)](_0x64bb45,_0x1ebae4,_0x4bf23a,_0x44ca09,_0x35cb0b,_0x2f97ba,_0x2ea0f3));break;case Ray[_0x103be1(0x3a9)]:this['hasHit']=!![],_0x64cc1a[_0x103be1(0x261)]=!![],_0x64cc1a[_0x103be1(0x38a)](_0x64bb45,_0x1ebae4,_0x4bf23a,_0x44ca09,_0x35cb0b,_0x2f97ba,_0x2ea0f3),_0x64cc1a[_0x103be1(0x164)]=!![];break;}}static['pointInTriangle'](_0x1737c8,_0x4dca30,_0x5c9811,_0x451c9a){const _0x396801=q0_0x3ac257;_0x451c9a[_0x396801(0x325)](_0x4dca30,v0),_0x5c9811[_0x396801(0x325)](_0x4dca30,v1),_0x1737c8[_0x396801(0x325)](_0x4dca30,v2);const _0x124a9a=v0[_0x396801(0x318)](v0),_0x1986ae=v0[_0x396801(0x318)](v1),_0x29dc33=v0['dot'](v2),_0x579417=v1[_0x396801(0x318)](v1),_0x4de868=v1[_0x396801(0x318)](v2);let _0x58311c,_0x4e3fde;return(_0x58311c=_0x579417*_0x29dc33-_0x1986ae*_0x4de868)>=0x0&&(_0x4e3fde=_0x124a9a*_0x4de868-_0x1986ae*_0x29dc33)>=0x0&&_0x58311c+_0x4e3fde<_0x124a9a*_0x579417-_0x1986ae*_0x1986ae;}}Ray['CLOSEST']=RAY_MODES[q0_0x3ac257(0x255)],Ray[q0_0x3ac257(0x3a9)]=RAY_MODES[q0_0x3ac257(0x3a9)],Ray[q0_0x3ac257(0x2be)]=RAY_MODES[q0_0x3ac257(0x2be)];const tmpAABB$1=new AABB(),tmpArray=[],v1=new Vec3(),v2=new Vec3(),intersectBody_xi=new Vec3(),intersectBody_qi=new Quaternion(),intersectPoint=new Vec3(),a=new Vec3(),b=new Vec3(),c=new Vec3();new Vec3(),new RaycastResult();const intersectConvexOptions={'faceList':[0x0]},worldPillarOffset=new Vec3(),intersectHeightfield_localRay=new Ray(),intersectHeightfield_index=[],Ray_intersectSphere_intersectionPoint=new Vec3(),Ray_intersectSphere_normal=new Vec3(),intersectConvex_normal=new Vec3(),intersectConvex_minDistNormal=new Vec3(),intersectConvex_minDistIntersect=new Vec3(),intersectConvex_vector=new Vec3(),intersectTrimesh_normal=new Vec3(),intersectTrimesh_localDirection=new Vec3(),intersectTrimesh_localFrom=new Vec3(),intersectTrimesh_localTo=new Vec3(),intersectTrimesh_worldNormal=new Vec3(),intersectTrimesh_worldIntersectPoint=new Vec3();new AABB();const intersectTrimesh_triangles=[],intersectTrimesh_treeTransform=new Transform(),v0=new Vec3(),intersect=new Vec3();function distanceFromIntersection(_0xc440af,_0x16123f,_0x46fffd){const _0x2f41a4=q0_0x3ac257;_0x46fffd[_0x2f41a4(0x325)](_0xc440af,v0);const _0x14d611=v0[_0x2f41a4(0x318)](_0x16123f);_0x16123f[_0x2f41a4(0x2fc)](_0x14d611,intersect),intersect[_0x2f41a4(0x3d7)](_0xc440af,intersect);const _0x479e75=_0x46fffd[_0x2f41a4(0x2ec)](intersect);return _0x479e75;}class SAPBroadphase extends Broadphase{static[q0_0x3ac257(0x2ae)](_0x5f90b9,_0xd4cf5d,_0x259b21){const _0x3ec2ac=q0_0x3ac257;let _0x364df3,_0x4ef06b;if(_0x259b21===0x0)_0x364df3=_0x5f90b9['position']['x'],_0x4ef06b=_0xd4cf5d[_0x3ec2ac(0x252)]['x'];else{if(_0x259b21===0x1)_0x364df3=_0x5f90b9[_0x3ec2ac(0x252)]['y'],_0x4ef06b=_0xd4cf5d[_0x3ec2ac(0x252)]['y'];else _0x259b21===0x2&&(_0x364df3=_0x5f90b9['position']['z'],_0x4ef06b=_0xd4cf5d[_0x3ec2ac(0x252)]['z']);}const _0x4a0d62=_0x5f90b9[_0x3ec2ac(0x3ea)],_0x3aa0aa=_0xd4cf5d['boundingRadius'],_0x1a3ddf=_0x364df3+_0x4a0d62,_0x566fbb=_0x4ef06b-_0x3aa0aa;return _0x566fbb<_0x1a3ddf;}static[q0_0x3ac257(0x3b4)](_0x2ada2f){const _0x1722ea=q0_0x3ac257;for(let _0x594ad9=0x1,_0x579496=_0x2ada2f['length'];_0x594ad9<_0x579496;_0x594ad9++){const _0x7a086c=_0x2ada2f[_0x594ad9];let _0x3277da;for(_0x3277da=_0x594ad9-0x1;_0x3277da>=0x0;_0x3277da--){if(_0x2ada2f[_0x3277da]['aabb'][_0x1722ea(0x279)]['x']<=_0x7a086c['aabb'][_0x1722ea(0x279)]['x'])break;_0x2ada2f[_0x3277da+0x1]=_0x2ada2f[_0x3277da];}_0x2ada2f[_0x3277da+0x1]=_0x7a086c;}return _0x2ada2f;}static[q0_0x3ac257(0x196)](_0x64f467){const _0x3280bd=q0_0x3ac257;for(let _0x275d80=0x1,_0x44bd3a=_0x64f467[_0x3280bd(0x25b)];_0x275d80<_0x44bd3a;_0x275d80++){const _0x50a151=_0x64f467[_0x275d80];let _0x4ed069;for(_0x4ed069=_0x275d80-0x1;_0x4ed069>=0x0;_0x4ed069--){if(_0x64f467[_0x4ed069][_0x3280bd(0x297)][_0x3280bd(0x279)]['y']<=_0x50a151[_0x3280bd(0x297)][_0x3280bd(0x279)]['y'])break;_0x64f467[_0x4ed069+0x1]=_0x64f467[_0x4ed069];}_0x64f467[_0x4ed069+0x1]=_0x50a151;}return _0x64f467;}static[q0_0x3ac257(0x19f)](_0x548135){const _0x49ee31=q0_0x3ac257;for(let _0x460d83=0x1,_0x57d8b1=_0x548135[_0x49ee31(0x25b)];_0x460d83<_0x57d8b1;_0x460d83++){const _0x24b2b4=_0x548135[_0x460d83];let _0x59fe1b;for(_0x59fe1b=_0x460d83-0x1;_0x59fe1b>=0x0;_0x59fe1b--){if(_0x548135[_0x59fe1b][_0x49ee31(0x297)]['lowerBound']['z']<=_0x24b2b4[_0x49ee31(0x297)][_0x49ee31(0x279)]['z'])break;_0x548135[_0x59fe1b+0x1]=_0x548135[_0x59fe1b];}_0x548135[_0x59fe1b+0x1]=_0x24b2b4;}return _0x548135;}constructor(_0x4b2217){const _0x4841c0=q0_0x3ac257;super(),this[_0x4841c0(0x2b0)]=[],this['world']=null,this['axisIndex']=0x0;const _0x5e4a43=this[_0x4841c0(0x2b0)];this[_0x4841c0(0x285)]=_0x49076a=>{const _0x5524fb=_0x4841c0;_0x5e4a43[_0x5524fb(0x2b9)](_0x49076a[_0x5524fb(0x350)]);},this[_0x4841c0(0x23f)]=_0x2ae861=>{const _0x305d2e=_0x4841c0,_0x210f88=_0x5e4a43[_0x305d2e(0x2b3)](_0x2ae861['body']);_0x210f88!==-0x1&&_0x5e4a43['splice'](_0x210f88,0x1);},_0x4b2217&&this[_0x4841c0(0x1a9)](_0x4b2217);}['setWorld'](_0x3daad3){const _0x59fb7c=q0_0x3ac257;this[_0x59fb7c(0x2b0)]['length']=0x0;for(let _0x42b053=0x0;_0x42b053<_0x3daad3[_0x59fb7c(0x227)]['length'];_0x42b053++){this[_0x59fb7c(0x2b0)][_0x59fb7c(0x2b9)](_0x3daad3[_0x59fb7c(0x227)][_0x42b053]);}_0x3daad3[_0x59fb7c(0x2e2)]('addBody',this[_0x59fb7c(0x285)]),_0x3daad3[_0x59fb7c(0x2e2)](_0x59fb7c(0x1f6),this['_removeBodyHandler']),_0x3daad3[_0x59fb7c(0x1b4)](_0x59fb7c(0x286),this['_addBodyHandler']),_0x3daad3[_0x59fb7c(0x1b4)](_0x59fb7c(0x1f6),this[_0x59fb7c(0x23f)]),this['world']=_0x3daad3,this['dirty']=!![];}[q0_0x3ac257(0x253)](_0x26d3a8,_0x20ceb1,_0x57debd){const _0x4a9f03=q0_0x3ac257,_0x5382a5=this[_0x4a9f03(0x2b0)],_0x2e824f=_0x5382a5[_0x4a9f03(0x25b)],_0x551f73=this['axisIndex'];let _0x97413f,_0x52e513;this[_0x4a9f03(0x235)]&&(this[_0x4a9f03(0x258)](),this['dirty']=![]);for(_0x97413f=0x0;_0x97413f!==_0x2e824f;_0x97413f++){const _0x1786c4=_0x5382a5[_0x97413f];for(_0x52e513=_0x97413f+0x1;_0x52e513<_0x2e824f;_0x52e513++){const _0x220d6f=_0x5382a5[_0x52e513];if(!this[_0x4a9f03(0x28f)](_0x1786c4,_0x220d6f))continue;if(!SAPBroadphase[_0x4a9f03(0x2ae)](_0x1786c4,_0x220d6f,_0x551f73))break;this[_0x4a9f03(0x226)](_0x1786c4,_0x220d6f,_0x20ceb1,_0x57debd);}}}[q0_0x3ac257(0x258)](){const _0x781f65=q0_0x3ac257,_0x1ec8fc=this[_0x781f65(0x2b0)],_0x2eee00=this['axisIndex'],_0x46cd99=_0x1ec8fc[_0x781f65(0x25b)];for(let _0x488451=0x0;_0x488451!==_0x46cd99;_0x488451++){const _0x4939e8=_0x1ec8fc[_0x488451];_0x4939e8[_0x781f65(0x234)]&&_0x4939e8['updateAABB']();}if(_0x2eee00===0x0)SAPBroadphase[_0x781f65(0x3b4)](_0x1ec8fc);else{if(_0x2eee00===0x1)SAPBroadphase[_0x781f65(0x196)](_0x1ec8fc);else _0x2eee00===0x2&&SAPBroadphase[_0x781f65(0x19f)](_0x1ec8fc);}}[q0_0x3ac257(0x23e)](){const _0x37fa91=q0_0x3ac257;let _0x566c71=0x0,_0x294a14=0x0,_0xaf8842=0x0,_0x35aade=0x0,_0x24ef4b=0x0,_0x183390=0x0;const _0x52eac5=this[_0x37fa91(0x2b0)],_0x540a56=_0x52eac5[_0x37fa91(0x25b)],_0x15eade=0x1/_0x540a56;for(let _0x17c00c=0x0;_0x17c00c!==_0x540a56;_0x17c00c++){const _0x38fea1=_0x52eac5[_0x17c00c],_0xd03191=_0x38fea1['position']['x'];_0x566c71+=_0xd03191,_0x294a14+=_0xd03191*_0xd03191;const _0x383a83=_0x38fea1[_0x37fa91(0x252)]['y'];_0xaf8842+=_0x383a83,_0x35aade+=_0x383a83*_0x383a83;const _0x2a3461=_0x38fea1[_0x37fa91(0x252)]['z'];_0x24ef4b+=_0x2a3461,_0x183390+=_0x2a3461*_0x2a3461;}const _0x5d935f=_0x294a14-_0x566c71*_0x566c71*_0x15eade,_0x32a9e9=_0x35aade-_0xaf8842*_0xaf8842*_0x15eade,_0x2e9b99=_0x183390-_0x24ef4b*_0x24ef4b*_0x15eade;if(_0x5d935f>_0x32a9e9)_0x5d935f>_0x2e9b99?this[_0x37fa91(0x38b)]=0x0:this[_0x37fa91(0x38b)]=0x2;else _0x32a9e9>_0x2e9b99?this[_0x37fa91(0x38b)]=0x1:this[_0x37fa91(0x38b)]=0x2;}[q0_0x3ac257(0x16f)](_0x2e3982,_0x422fce,_0x4ddf72){const _0x56f4de=q0_0x3ac257;_0x4ddf72===void 0x0&&(_0x4ddf72=[]);this[_0x56f4de(0x235)]&&(this['sortList'](),this[_0x56f4de(0x235)]=![]);const _0x1dfc5b=this[_0x56f4de(0x38b)];let _0x11663b='x';_0x1dfc5b===0x1&&(_0x11663b='y');_0x1dfc5b===0x2&&(_0x11663b='z');const _0x279855=this[_0x56f4de(0x2b0)];_0x422fce[_0x56f4de(0x279)][_0x11663b],_0x422fce[_0x56f4de(0x2b4)][_0x11663b];for(let _0x2b2a84=0x0;_0x2b2a84<_0x279855[_0x56f4de(0x25b)];_0x2b2a84++){const _0x20094d=_0x279855[_0x2b2a84];_0x20094d[_0x56f4de(0x234)]&&_0x20094d[_0x56f4de(0x39d)](),_0x20094d[_0x56f4de(0x297)]['overlaps'](_0x422fce)&&_0x4ddf72[_0x56f4de(0x2b9)](_0x20094d);}return _0x4ddf72;}}class Utils{static['defaults'](_0x1a1497,_0x2e8431){_0x1a1497===void 0x0&&(_0x1a1497={});for(let _0x274828 in _0x2e8431){!(_0x274828 in _0x1a1497)&&(_0x1a1497[_0x274828]=_0x2e8431[_0x274828]);}return _0x1a1497;}}function q0_0x4954(_0x2ed93e,_0x34b7dd){_0x2ed93e=_0x2ed93e-0x160;const _0x2a50b5=q0_0x2a50();let _0x495435=_0x2a50b5[_0x2ed93e];if(q0_0x4954['ewyMUm']===undefined){var _0x14fe1b=function(_0x1bd415){const _0x5cf578='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4abb9e='',_0x177d16='';for(let _0x612bdb=0x0,_0x577c86,_0x32b06c,_0x2929cb=0x0;_0x32b06c=_0x1bd415['charAt'](_0x2929cb++);~_0x32b06c&&(_0x577c86=_0x612bdb%0x4?_0x577c86*0x40+_0x32b06c:_0x32b06c,_0x612bdb++%0x4)?_0x4abb9e+=String['fromCharCode'](0xff&_0x577c86>>(-0x2*_0x612bdb&0x6)):0x0){_0x32b06c=_0x5cf578['indexOf'](_0x32b06c);}for(let _0x39b658=0x0,_0x19a322=_0x4abb9e['length'];_0x39b658<_0x19a322;_0x39b658++){_0x177d16+='%'+('00'+_0x4abb9e['charCodeAt'](_0x39b658)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x177d16);};q0_0x4954['hnWMTD']=_0x14fe1b,q0_0x4954['WhRADC']={},q0_0x4954['ewyMUm']=!![];}const _0x1e734c=_0x2a50b5[0x0];q0_0x4954['oVUJyT']!==_0x1e734c&&(q0_0x4954['WhRADC']={},q0_0x4954['oVUJyT']=_0x1e734c);const _0x45e896=q0_0x4954['WhRADC'][_0x2ed93e];return _0x45e896===undefined?(_0x495435=q0_0x4954['hnWMTD'](_0x495435),q0_0x4954['WhRADC'][_0x2ed93e]=_0x495435):_0x495435=_0x45e896,_0x495435;}class Constraint{constructor(_0x8fd488,_0x40a819,_0x4434c1){const _0x31d883=q0_0x3ac257;_0x4434c1===void 0x0&&(_0x4434c1={}),_0x4434c1=Utils['defaults'](_0x4434c1,{'collideConnected':!![],'wakeUpBodies':!![]}),this[_0x31d883(0x32f)]=[],this[_0x31d883(0x1d2)]=_0x8fd488,this[_0x31d883(0x35e)]=_0x40a819,this['id']=Constraint[_0x31d883(0x31e)]++,this['collideConnected']=_0x4434c1[_0x31d883(0x2af)],_0x4434c1[_0x31d883(0x1b9)]&&(_0x8fd488&&_0x8fd488['wakeUp'](),_0x40a819&&_0x40a819[_0x31d883(0x2e3)]());}[q0_0x3ac257(0x338)](){const _0x555790=q0_0x3ac257;throw new Error(_0x555790(0x163));}['enable'](){const _0xe1faa3=q0_0x3ac257,_0x3e3b83=this[_0xe1faa3(0x32f)];for(let _0x4e1032=0x0;_0x4e1032<_0x3e3b83[_0xe1faa3(0x25b)];_0x4e1032++){_0x3e3b83[_0x4e1032][_0xe1faa3(0x21f)]=!![];}}[q0_0x3ac257(0x35a)](){const _0x46ca3e=q0_0x3ac257,_0x4b7427=this[_0x46ca3e(0x32f)];for(let _0x1b6a2f=0x0;_0x1b6a2f<_0x4b7427[_0x46ca3e(0x25b)];_0x1b6a2f++){_0x4b7427[_0x1b6a2f][_0x46ca3e(0x21f)]=![];}}}Constraint[q0_0x3ac257(0x31e)]=0x0;class JacobianElement{constructor(){const _0x1a1d2e=q0_0x3ac257;this[_0x1a1d2e(0x389)]=new Vec3(),this[_0x1a1d2e(0x301)]=new Vec3();}[q0_0x3ac257(0x277)](_0x2b6ac7){const _0x298c8c=q0_0x3ac257;return _0x2b6ac7[_0x298c8c(0x389)]['dot'](this['spatial'])+_0x2b6ac7[_0x298c8c(0x301)][_0x298c8c(0x318)](this['rotational']);}[q0_0x3ac257(0x2d1)](_0x4570c5,_0x3ccc9d){const _0x3e3464=q0_0x3ac257;return _0x4570c5[_0x3e3464(0x318)](this[_0x3e3464(0x389)])+_0x3ccc9d[_0x3e3464(0x318)](this['rotational']);}}class Equation{constructor(_0x371893,_0x5a1790,_0x5c6058,_0x712264){const _0x588dba=q0_0x3ac257;_0x5c6058===void 0x0&&(_0x5c6058=-0xf4240),_0x712264===void 0x0&&(_0x712264=0xf4240),this['id']=Equation[_0x588dba(0x31e)]++,this['minForce']=_0x5c6058,this[_0x588dba(0x30b)]=_0x712264,this['bi']=_0x371893,this['bj']=_0x5a1790,this['a']=0x0,this['b']=0x0,this[_0x588dba(0x276)]=0x0,this['jacobianElementA']=new JacobianElement(),this[_0x588dba(0x1b1)]=new JacobianElement(),this[_0x588dba(0x21f)]=!![],this[_0x588dba(0x257)]=0x0,this[_0x588dba(0x243)](0x989680,0x4,0x1/0x3c);}[q0_0x3ac257(0x243)](_0x402978,_0x3f5747,_0x1f3a08){const _0x487d21=q0_0x3ac257,_0x5f35a7=_0x3f5747,_0x49379b=_0x402978,_0x53bfc3=_0x1f3a08;this['a']=0x4/(_0x53bfc3*(0x1+0x4*_0x5f35a7)),this['b']=0x4*_0x5f35a7/(0x1+0x4*_0x5f35a7),this[_0x487d21(0x276)]=0x4/(_0x53bfc3*_0x53bfc3*_0x49379b*(0x1+0x4*_0x5f35a7));}[q0_0x3ac257(0x39a)](_0x34eded,_0x246086,_0xd0979){const _0x56763e=q0_0x3ac257,_0x414d92=this['computeGW'](),_0x53276a=this[_0x56763e(0x2d6)](),_0x2618d2=this[_0x56763e(0x313)]();return-_0x53276a*_0x34eded-_0x414d92*_0x246086-_0x2618d2*_0xd0979;}[q0_0x3ac257(0x2d6)](){const _0x4d1f4e=q0_0x3ac257,_0x484ec9=this[_0x4d1f4e(0x2b1)],_0x5a8083=this[_0x4d1f4e(0x1b1)],_0x25b115=this['bi'],_0x2731a4=this['bj'],_0x1135b7=_0x25b115[_0x4d1f4e(0x252)],_0x24fde7=_0x2731a4[_0x4d1f4e(0x252)];return _0x484ec9[_0x4d1f4e(0x389)][_0x4d1f4e(0x318)](_0x1135b7)+_0x5a8083[_0x4d1f4e(0x389)][_0x4d1f4e(0x318)](_0x24fde7);}['computeGW'](){const _0x3146eb=q0_0x3ac257,_0x41009a=this['jacobianElementA'],_0x25b2c6=this['jacobianElementB'],_0x14b3d5=this['bi'],_0xe9a912=this['bj'],_0x1b1d92=_0x14b3d5[_0x3146eb(0x1d1)],_0x168d71=_0xe9a912[_0x3146eb(0x1d1)],_0x129602=_0x14b3d5[_0x3146eb(0x22b)],_0x29df59=_0xe9a912[_0x3146eb(0x22b)];return _0x41009a[_0x3146eb(0x2d1)](_0x1b1d92,_0x129602)+_0x25b2c6[_0x3146eb(0x2d1)](_0x168d71,_0x29df59);}[q0_0x3ac257(0x1f2)](){const _0x3eaf41=q0_0x3ac257,_0x2e3b24=this[_0x3eaf41(0x2b1)],_0x1a3f88=this['jacobianElementB'],_0x53c603=this['bi'],_0x4495dd=this['bj'],_0x25cdf0=_0x53c603[_0x3eaf41(0x3a3)],_0xc5ee62=_0x4495dd[_0x3eaf41(0x3a3)],_0x46580b=_0x53c603[_0x3eaf41(0x1ed)],_0x466f49=_0x4495dd['wlambda'];return _0x2e3b24[_0x3eaf41(0x2d1)](_0x25cdf0,_0x46580b)+_0x1a3f88[_0x3eaf41(0x2d1)](_0xc5ee62,_0x466f49);}[q0_0x3ac257(0x313)](){const _0x10770e=q0_0x3ac257,_0x23e588=this['jacobianElementA'],_0x2e90ce=this['jacobianElementB'],_0x46d063=this['bi'],_0x563d8a=this['bj'],_0x18f320=_0x46d063[_0x10770e(0x27e)],_0x340686=_0x46d063['torque'],_0x30bc30=_0x563d8a['force'],_0x287abb=_0x563d8a['torque'],_0x27f82e=_0x46d063['invMassSolve'],_0xa7fe54=_0x563d8a[_0x10770e(0x1ec)];return _0x18f320['scale'](_0x27f82e,iMfi),_0x30bc30[_0x10770e(0x2fc)](_0xa7fe54,iMfj),_0x46d063[_0x10770e(0x2bc)][_0x10770e(0x205)](_0x340686,invIi_vmult_taui),_0x563d8a[_0x10770e(0x2bc)][_0x10770e(0x205)](_0x287abb,invIj_vmult_tauj),_0x23e588[_0x10770e(0x2d1)](iMfi,invIi_vmult_taui)+_0x2e90ce[_0x10770e(0x2d1)](iMfj,invIj_vmult_tauj);}[q0_0x3ac257(0x25d)](){const _0x3f195d=q0_0x3ac257,_0x291acf=this[_0x3f195d(0x2b1)],_0x1a2e9b=this['jacobianElementB'],_0x40e13c=this['bi'],_0x1223fc=this['bj'],_0x5545ab=_0x40e13c['invMassSolve'],_0xc707=_0x1223fc[_0x3f195d(0x1ec)],_0x369c96=_0x40e13c['invInertiaWorldSolve'],_0x240682=_0x1223fc[_0x3f195d(0x2bc)];let _0x1f4d56=_0x5545ab+_0xc707;return _0x369c96[_0x3f195d(0x205)](_0x291acf[_0x3f195d(0x301)],tmp),_0x1f4d56+=tmp[_0x3f195d(0x318)](_0x291acf[_0x3f195d(0x301)]),_0x240682[_0x3f195d(0x205)](_0x1a2e9b['rotational'],tmp),_0x1f4d56+=tmp['dot'](_0x1a2e9b[_0x3f195d(0x301)]),_0x1f4d56;}[q0_0x3ac257(0x272)](_0x50ad6d){const _0x3a884e=q0_0x3ac257,_0x429aa3=this['jacobianElementA'],_0x568f5e=this[_0x3a884e(0x1b1)],_0x338b9e=this['bi'],_0x4b32f6=this['bj'],_0x32714d=addToWlambda_temp;_0x338b9e[_0x3a884e(0x3a3)][_0x3a884e(0x3b1)](_0x338b9e[_0x3a884e(0x1ec)]*_0x50ad6d,_0x429aa3[_0x3a884e(0x389)],_0x338b9e[_0x3a884e(0x3a3)]),_0x4b32f6[_0x3a884e(0x3a3)][_0x3a884e(0x3b1)](_0x4b32f6[_0x3a884e(0x1ec)]*_0x50ad6d,_0x568f5e[_0x3a884e(0x389)],_0x4b32f6[_0x3a884e(0x3a3)]),_0x338b9e[_0x3a884e(0x2bc)][_0x3a884e(0x205)](_0x429aa3[_0x3a884e(0x301)],_0x32714d),_0x338b9e[_0x3a884e(0x1ed)][_0x3a884e(0x3b1)](_0x50ad6d,_0x32714d,_0x338b9e[_0x3a884e(0x1ed)]),_0x4b32f6[_0x3a884e(0x2bc)]['vmult'](_0x568f5e[_0x3a884e(0x301)],_0x32714d),_0x4b32f6['wlambda'][_0x3a884e(0x3b1)](_0x50ad6d,_0x32714d,_0x4b32f6[_0x3a884e(0x1ed)]);}[q0_0x3ac257(0x2c3)](){const _0x51c826=q0_0x3ac257;return this[_0x51c826(0x25d)]()+this[_0x51c826(0x276)];}}Equation['idCounter']=0x0;const iMfi=new Vec3(),iMfj=new Vec3(),invIi_vmult_taui=new Vec3(),invIj_vmult_tauj=new Vec3(),tmp=new Vec3(),addToWlambda_temp=new Vec3();class ContactEquation extends Equation{constructor(_0x516f7f,_0x5368ff,_0x469682){_0x469682===void 0x0&&(_0x469682=0xf4240),super(_0x516f7f,_0x5368ff,0x0,_0x469682),this['restitution']=0x0,this['ri']=new Vec3(),this['rj']=new Vec3(),this['ni']=new Vec3();}[q0_0x3ac257(0x39a)](_0x1491c1){const _0xf8b54f=q0_0x3ac257,_0x581792=this['a'],_0x199730=this['b'],_0x54d176=this['bi'],_0x3bb3ec=this['bj'],_0x1b9093=this['ri'],_0x2ac8a0=this['rj'],_0x29472d=ContactEquation_computeB_temp1,_0x177391=ContactEquation_computeB_temp2,_0x10cb8b=_0x54d176[_0xf8b54f(0x1d1)],_0x37aca6=_0x54d176['angularVelocity'];_0x54d176['force'],_0x54d176[_0xf8b54f(0x2ea)];const _0x5e498f=_0x3bb3ec[_0xf8b54f(0x1d1)],_0x8dbe7f=_0x3bb3ec[_0xf8b54f(0x22b)];_0x3bb3ec['force'],_0x3bb3ec[_0xf8b54f(0x2ea)];const _0x8db143=ContactEquation_computeB_temp3,_0x41f675=this[_0xf8b54f(0x2b1)],_0x55ab61=this[_0xf8b54f(0x1b1)],_0xc5358b=this['ni'];_0x1b9093['cross'](_0xc5358b,_0x29472d),_0x2ac8a0[_0xf8b54f(0x2cc)](_0xc5358b,_0x177391),_0xc5358b['negate'](_0x41f675['spatial']),_0x29472d[_0xf8b54f(0x28c)](_0x41f675[_0xf8b54f(0x301)]),_0x55ab61[_0xf8b54f(0x389)][_0xf8b54f(0x191)](_0xc5358b),_0x55ab61[_0xf8b54f(0x301)]['copy'](_0x177391),_0x8db143[_0xf8b54f(0x191)](_0x3bb3ec[_0xf8b54f(0x252)]),_0x8db143['vadd'](_0x2ac8a0,_0x8db143),_0x8db143[_0xf8b54f(0x325)](_0x54d176[_0xf8b54f(0x252)],_0x8db143),_0x8db143[_0xf8b54f(0x325)](_0x1b9093,_0x8db143);const _0x991847=_0xc5358b['dot'](_0x8db143),_0x28af12=this[_0xf8b54f(0x1ac)]+0x1,_0xc09547=_0x28af12*_0x5e498f[_0xf8b54f(0x318)](_0xc5358b)-_0x28af12*_0x10cb8b['dot'](_0xc5358b)+_0x8dbe7f[_0xf8b54f(0x318)](_0x177391)-_0x37aca6[_0xf8b54f(0x318)](_0x29472d),_0x82cf23=this[_0xf8b54f(0x313)](),_0x121ec6=-_0x991847*_0x581792-_0xc09547*_0x199730-_0x1491c1*_0x82cf23;return _0x121ec6;}[q0_0x3ac257(0x30e)](){const _0x213769=q0_0x3ac257,_0x36b923=ContactEquation_getImpactVelocityAlongNormal_vi,_0x3b5be3=ContactEquation_getImpactVelocityAlongNormal_vj,_0x3c7fcc=ContactEquation_getImpactVelocityAlongNormal_xi,_0x24312f=ContactEquation_getImpactVelocityAlongNormal_xj,_0x548802=ContactEquation_getImpactVelocityAlongNormal_relVel;return this['bi'][_0x213769(0x252)][_0x213769(0x3d7)](this['ri'],_0x3c7fcc),this['bj'][_0x213769(0x252)][_0x213769(0x3d7)](this['rj'],_0x24312f),this['bi']['getVelocityAtWorldPoint'](_0x3c7fcc,_0x36b923),this['bj'][_0x213769(0x3c5)](_0x24312f,_0x3b5be3),_0x36b923[_0x213769(0x325)](_0x3b5be3,_0x548802),this['ni']['dot'](_0x548802);}}const ContactEquation_computeB_temp1=new Vec3(),ContactEquation_computeB_temp2=new Vec3(),ContactEquation_computeB_temp3=new Vec3(),ContactEquation_getImpactVelocityAlongNormal_vi=new Vec3(),ContactEquation_getImpactVelocityAlongNormal_vj=new Vec3(),ContactEquation_getImpactVelocityAlongNormal_xi=new Vec3(),ContactEquation_getImpactVelocityAlongNormal_xj=new Vec3(),ContactEquation_getImpactVelocityAlongNormal_relVel=new Vec3();class PointToPointConstraint extends Constraint{constructor(_0xdfcb27,_0x1263f4,_0x53e7c1,_0x2f3c58,_0xab0a38){const _0x3eee8a=q0_0x3ac257;_0x1263f4===void 0x0&&(_0x1263f4=new Vec3());_0x2f3c58===void 0x0&&(_0x2f3c58=new Vec3());_0xab0a38===void 0x0&&(_0xab0a38=0xf4240);super(_0xdfcb27,_0x53e7c1),this[_0x3eee8a(0x18e)]=_0x1263f4[_0x3eee8a(0x31d)](),this[_0x3eee8a(0x26f)]=_0x2f3c58[_0x3eee8a(0x31d)]();const _0x195d44=this[_0x3eee8a(0x3a2)]=new ContactEquation(_0xdfcb27,_0x53e7c1),_0x1fece6=this[_0x3eee8a(0x1d3)]=new ContactEquation(_0xdfcb27,_0x53e7c1),_0x4885ba=this[_0x3eee8a(0x347)]=new ContactEquation(_0xdfcb27,_0x53e7c1);this[_0x3eee8a(0x32f)]['push'](_0x195d44,_0x1fece6,_0x4885ba),_0x195d44[_0x3eee8a(0x166)]=_0x1fece6[_0x3eee8a(0x166)]=_0x4885ba[_0x3eee8a(0x166)]=-_0xab0a38,_0x195d44['maxForce']=_0x1fece6[_0x3eee8a(0x30b)]=_0x4885ba[_0x3eee8a(0x30b)]=_0xab0a38,_0x195d44['ni']['set'](0x1,0x0,0x0),_0x1fece6['ni'][_0x3eee8a(0x38a)](0x0,0x1,0x0),_0x4885ba['ni'][_0x3eee8a(0x38a)](0x0,0x0,0x1);}[q0_0x3ac257(0x338)](){const _0x1a3657=q0_0x3ac257,_0x266451=this[_0x1a3657(0x1d2)],_0x401c91=this['bodyB'],_0x5a6b8c=this['equationX'],_0x51f0a3=this[_0x1a3657(0x1d3)],_0x268756=this['equationZ'];_0x266451[_0x1a3657(0x3cd)][_0x1a3657(0x205)](this[_0x1a3657(0x18e)],_0x5a6b8c['ri']),_0x401c91[_0x1a3657(0x3cd)][_0x1a3657(0x205)](this[_0x1a3657(0x26f)],_0x5a6b8c['rj']),_0x51f0a3['ri'][_0x1a3657(0x191)](_0x5a6b8c['ri']),_0x51f0a3['rj'][_0x1a3657(0x191)](_0x5a6b8c['rj']),_0x268756['ri'][_0x1a3657(0x191)](_0x5a6b8c['ri']),_0x268756['rj']['copy'](_0x5a6b8c['rj']);}}class ConeEquation extends Equation{constructor(_0x4c2449,_0x1bc444,_0x1c0a3f){const _0x4fb683=q0_0x3ac257;_0x1c0a3f===void 0x0&&(_0x1c0a3f={});const _0x1ef4c2=typeof _0x1c0a3f['maxForce']!==_0x4fb683(0x2b7)?_0x1c0a3f['maxForce']:0xf4240;super(_0x4c2449,_0x1bc444,-_0x1ef4c2,_0x1ef4c2),this[_0x4fb683(0x39b)]=_0x1c0a3f[_0x4fb683(0x39b)]?_0x1c0a3f[_0x4fb683(0x39b)][_0x4fb683(0x31d)]():new Vec3(0x1,0x0,0x0),this[_0x4fb683(0x21c)]=_0x1c0a3f[_0x4fb683(0x21c)]?_0x1c0a3f['axisB'][_0x4fb683(0x31d)]():new Vec3(0x0,0x1,0x0),this['angle']=typeof _0x1c0a3f[_0x4fb683(0x18d)]!==_0x4fb683(0x2b7)?_0x1c0a3f[_0x4fb683(0x18d)]:0x0;}[q0_0x3ac257(0x39a)](_0x5b3b0e){const _0x195147=q0_0x3ac257,_0x287509=this['a'],_0x438422=this['b'],_0x299105=this[_0x195147(0x39b)],_0x1a5cca=this[_0x195147(0x21c)],_0x52d8aa=tmpVec1$2,_0x10e2a7=tmpVec2$2,_0x16ed9b=this[_0x195147(0x2b1)],_0x346230=this[_0x195147(0x1b1)];_0x299105[_0x195147(0x2cc)](_0x1a5cca,_0x52d8aa),_0x1a5cca[_0x195147(0x2cc)](_0x299105,_0x10e2a7),_0x16ed9b[_0x195147(0x301)][_0x195147(0x191)](_0x10e2a7),_0x346230[_0x195147(0x301)][_0x195147(0x191)](_0x52d8aa);const _0x4c779d=Math['cos'](this[_0x195147(0x18d)])-_0x299105[_0x195147(0x318)](_0x1a5cca),_0x11959d=this[_0x195147(0x24c)](),_0x409a9b=this['computeGiMf'](),_0x5f3d05=-_0x4c779d*_0x287509-_0x11959d*_0x438422-_0x5b3b0e*_0x409a9b;return _0x5f3d05;}}const tmpVec1$2=new Vec3(),tmpVec2$2=new Vec3();class RotationalEquation extends Equation{constructor(_0x3c09af,_0x43fc3b,_0x15f816){const _0x4d99ac=q0_0x3ac257;_0x15f816===void 0x0&&(_0x15f816={});const _0x254555=typeof _0x15f816['maxForce']!==_0x4d99ac(0x2b7)?_0x15f816[_0x4d99ac(0x30b)]:0xf4240;super(_0x3c09af,_0x43fc3b,-_0x254555,_0x254555),this[_0x4d99ac(0x39b)]=_0x15f816[_0x4d99ac(0x39b)]?_0x15f816[_0x4d99ac(0x39b)][_0x4d99ac(0x31d)]():new Vec3(0x1,0x0,0x0),this[_0x4d99ac(0x21c)]=_0x15f816[_0x4d99ac(0x21c)]?_0x15f816[_0x4d99ac(0x21c)][_0x4d99ac(0x31d)]():new Vec3(0x0,0x1,0x0),this[_0x4d99ac(0x332)]=Math['PI']/0x2;}[q0_0x3ac257(0x39a)](_0x596063){const _0x786aba=q0_0x3ac257,_0x4c9522=this['a'],_0xd99ba=this['b'],_0x30f27d=this[_0x786aba(0x39b)],_0x36ed8a=this[_0x786aba(0x21c)],_0x192e6f=tmpVec1$1,_0xb76ba1=tmpVec2$1,_0xa69024=this[_0x786aba(0x2b1)],_0x107887=this['jacobianElementB'];_0x30f27d[_0x786aba(0x2cc)](_0x36ed8a,_0x192e6f),_0x36ed8a['cross'](_0x30f27d,_0xb76ba1),_0xa69024[_0x786aba(0x301)][_0x786aba(0x191)](_0xb76ba1),_0x107887[_0x786aba(0x301)][_0x786aba(0x191)](_0x192e6f);const _0x9505e8=Math[_0x786aba(0x2a0)](this[_0x786aba(0x332)])-_0x30f27d['dot'](_0x36ed8a),_0x235c93=this[_0x786aba(0x24c)](),_0x219b9a=this['computeGiMf'](),_0x3b25e1=-_0x9505e8*_0x4c9522-_0x235c93*_0xd99ba-_0x596063*_0x219b9a;return _0x3b25e1;}}const tmpVec1$1=new Vec3(),tmpVec2$1=new Vec3();class ConeTwistConstraint extends PointToPointConstraint{constructor(_0xe009c1,_0x88e07d,_0x4860c9){const _0x1162ac=q0_0x3ac257;_0x4860c9===void 0x0&&(_0x4860c9={});const _0x2812dd=typeof _0x4860c9[_0x1162ac(0x30b)]!==_0x1162ac(0x2b7)?_0x4860c9['maxForce']:0xf4240,_0x5c669e=_0x4860c9[_0x1162ac(0x18e)]?_0x4860c9[_0x1162ac(0x18e)][_0x1162ac(0x31d)]():new Vec3(),_0x327083=_0x4860c9[_0x1162ac(0x26f)]?_0x4860c9[_0x1162ac(0x26f)]['clone']():new Vec3();super(_0xe009c1,_0x5c669e,_0x88e07d,_0x327083,_0x2812dd),this[_0x1162ac(0x39b)]=_0x4860c9[_0x1162ac(0x39b)]?_0x4860c9[_0x1162ac(0x39b)][_0x1162ac(0x31d)]():new Vec3(),this[_0x1162ac(0x21c)]=_0x4860c9[_0x1162ac(0x21c)]?_0x4860c9[_0x1162ac(0x21c)]['clone']():new Vec3(),this[_0x1162ac(0x2af)]=!!_0x4860c9[_0x1162ac(0x2af)],this[_0x1162ac(0x18d)]=typeof _0x4860c9[_0x1162ac(0x18d)]!==_0x1162ac(0x2b7)?_0x4860c9[_0x1162ac(0x18d)]:0x0;const _0x2a7130=this[_0x1162ac(0x3b9)]=new ConeEquation(_0xe009c1,_0x88e07d,_0x4860c9),_0xbd9b04=this[_0x1162ac(0x175)]=new RotationalEquation(_0xe009c1,_0x88e07d,_0x4860c9);this['twistAngle']=typeof _0x4860c9[_0x1162ac(0x2a8)]!=='undefined'?_0x4860c9[_0x1162ac(0x2a8)]:0x0,_0x2a7130[_0x1162ac(0x30b)]=0x0,_0x2a7130[_0x1162ac(0x166)]=-_0x2812dd,_0xbd9b04[_0x1162ac(0x30b)]=0x0,_0xbd9b04[_0x1162ac(0x166)]=-_0x2812dd,this['equations'][_0x1162ac(0x2b9)](_0x2a7130,_0xbd9b04);}[q0_0x3ac257(0x338)](){const _0x1084aa=q0_0x3ac257,_0x3fb2ac=this[_0x1084aa(0x1d2)],_0x405b40=this[_0x1084aa(0x35e)],_0x56216a=this['coneEquation'],_0xe8a4b3=this[_0x1084aa(0x175)];super[_0x1084aa(0x338)](),_0x3fb2ac['vectorToWorldFrame'](this[_0x1084aa(0x39b)],_0x56216a['axisA']),_0x405b40[_0x1084aa(0x29a)](this[_0x1084aa(0x21c)],_0x56216a[_0x1084aa(0x21c)]),this[_0x1084aa(0x39b)][_0x1084aa(0x33e)](_0xe8a4b3[_0x1084aa(0x39b)],_0xe8a4b3['axisA']),_0x3fb2ac['vectorToWorldFrame'](_0xe8a4b3[_0x1084aa(0x39b)],_0xe8a4b3[_0x1084aa(0x39b)]),this[_0x1084aa(0x21c)]['tangents'](_0xe8a4b3[_0x1084aa(0x21c)],_0xe8a4b3['axisB']),_0x405b40[_0x1084aa(0x29a)](_0xe8a4b3[_0x1084aa(0x21c)],_0xe8a4b3[_0x1084aa(0x21c)]),_0x56216a[_0x1084aa(0x18d)]=this[_0x1084aa(0x18d)],_0xe8a4b3['maxAngle']=this[_0x1084aa(0x2a8)];}}new Vec3(),new Vec3();class DistanceConstraint extends Constraint{constructor(_0x101209,_0x1b023c,_0x324e60,_0x320ced){const _0x46706b=q0_0x3ac257;_0x320ced===void 0x0&&(_0x320ced=0xf4240);super(_0x101209,_0x1b023c);typeof _0x324e60==='undefined'&&(_0x324e60=_0x101209[_0x46706b(0x252)]['distanceTo'](_0x1b023c[_0x46706b(0x252)]));this['distance']=_0x324e60;const _0x233fc7=this[_0x46706b(0x382)]=new ContactEquation(_0x101209,_0x1b023c);this[_0x46706b(0x32f)][_0x46706b(0x2b9)](_0x233fc7),_0x233fc7[_0x46706b(0x166)]=-_0x320ced,_0x233fc7[_0x46706b(0x30b)]=_0x320ced;}[q0_0x3ac257(0x338)](){const _0x10bd63=q0_0x3ac257,_0x5c231d=this[_0x10bd63(0x1d2)],_0x47843f=this[_0x10bd63(0x35e)],_0x5afa2c=this[_0x10bd63(0x382)],_0x3cb377=this[_0x10bd63(0x241)]*0.5,_0x5f1aeb=_0x5afa2c['ni'];_0x47843f[_0x10bd63(0x252)][_0x10bd63(0x325)](_0x5c231d[_0x10bd63(0x252)],_0x5f1aeb),_0x5f1aeb[_0x10bd63(0x2eb)](),_0x5f1aeb[_0x10bd63(0x2fc)](_0x3cb377,_0x5afa2c['ri']),_0x5f1aeb[_0x10bd63(0x2fc)](-_0x3cb377,_0x5afa2c['rj']);}}class LockConstraint extends PointToPointConstraint{constructor(_0x3f23c0,_0x1a4309,_0x235d60){const _0xe9251f=q0_0x3ac257;_0x235d60===void 0x0&&(_0x235d60={});const _0x278581=typeof _0x235d60['maxForce']!=='undefined'?_0x235d60[_0xe9251f(0x30b)]:0xf4240,_0x54ad75=new Vec3(),_0x49c99f=new Vec3(),_0x3f33dc=new Vec3();_0x3f23c0[_0xe9251f(0x252)]['vadd'](_0x1a4309[_0xe9251f(0x252)],_0x3f33dc),_0x3f33dc[_0xe9251f(0x2fc)](0.5,_0x3f33dc),_0x1a4309[_0xe9251f(0x224)](_0x3f33dc,_0x49c99f),_0x3f23c0[_0xe9251f(0x224)](_0x3f33dc,_0x54ad75),super(_0x3f23c0,_0x54ad75,_0x1a4309,_0x49c99f,_0x278581),this['xA']=_0x3f23c0[_0xe9251f(0x176)](Vec3[_0xe9251f(0x3a8)]),this['xB']=_0x1a4309[_0xe9251f(0x176)](Vec3[_0xe9251f(0x3a8)]),this['yA']=_0x3f23c0[_0xe9251f(0x176)](Vec3[_0xe9251f(0x30d)]),this['yB']=_0x1a4309[_0xe9251f(0x176)](Vec3['UNIT_Y']),this['zA']=_0x3f23c0[_0xe9251f(0x176)](Vec3['UNIT_Z']),this['zB']=_0x1a4309[_0xe9251f(0x176)](Vec3[_0xe9251f(0x19d)]);const _0x1ad816=this['rotationalEquation1']=new RotationalEquation(_0x3f23c0,_0x1a4309,_0x235d60),_0x6f56f0=this[_0xe9251f(0x34b)]=new RotationalEquation(_0x3f23c0,_0x1a4309,_0x235d60),_0x1e733f=this[_0xe9251f(0x179)]=new RotationalEquation(_0x3f23c0,_0x1a4309,_0x235d60);this['equations'][_0xe9251f(0x2b9)](_0x1ad816,_0x6f56f0,_0x1e733f);}['update'](){const _0x1c9092=q0_0x3ac257,_0x523773=this[_0x1c9092(0x1d2)],_0x49b3ce=this['bodyB'];this['motorEquation'];const _0x1eda5d=this[_0x1c9092(0x364)],_0xbc4ede=this[_0x1c9092(0x34b)],_0x4d997b=this['rotationalEquation3'];LockConstraint_update_tmpVec1,LockConstraint_update_tmpVec2,super[_0x1c9092(0x338)](),_0x523773['vectorToWorldFrame'](this['xA'],_0x1eda5d[_0x1c9092(0x39b)]),_0x49b3ce[_0x1c9092(0x29a)](this['yB'],_0x1eda5d[_0x1c9092(0x21c)]),_0x523773['vectorToWorldFrame'](this['yA'],_0xbc4ede[_0x1c9092(0x39b)]),_0x49b3ce[_0x1c9092(0x29a)](this['zB'],_0xbc4ede['axisB']),_0x523773['vectorToWorldFrame'](this['zA'],_0x4d997b[_0x1c9092(0x39b)]),_0x49b3ce['vectorToWorldFrame'](this['xB'],_0x4d997b['axisB']);}}const LockConstraint_update_tmpVec1=new Vec3(),LockConstraint_update_tmpVec2=new Vec3();class RotationalMotorEquation extends Equation{constructor(_0x169cae,_0x179a37,_0x10dc20){const _0x3088e2=q0_0x3ac257;_0x10dc20===void 0x0&&(_0x10dc20=0xf4240),super(_0x169cae,_0x179a37,-_0x10dc20,_0x10dc20),this[_0x3088e2(0x39b)]=new Vec3(),this[_0x3088e2(0x21c)]=new Vec3(),this[_0x3088e2(0x1f4)]=0x0;}[q0_0x3ac257(0x39a)](_0x43d8f8){const _0x7f833b=q0_0x3ac257;this['a'];const _0x26287c=this['b'];this['bi'],this['bj'];const _0x132e5c=this[_0x7f833b(0x39b)],_0x30aaee=this[_0x7f833b(0x21c)],_0x534dc5=this[_0x7f833b(0x2b1)],_0x59d4fe=this['jacobianElementB'];_0x534dc5[_0x7f833b(0x301)][_0x7f833b(0x191)](_0x132e5c),_0x30aaee[_0x7f833b(0x28c)](_0x59d4fe[_0x7f833b(0x301)]);const _0x1eca6d=this[_0x7f833b(0x24c)]()-this[_0x7f833b(0x1f4)],_0x1fd820=this[_0x7f833b(0x313)](),_0x137411=-_0x1eca6d*_0x26287c-_0x43d8f8*_0x1fd820;return _0x137411;}}class HingeConstraint extends PointToPointConstraint{constructor(_0x289a6b,_0xcb7675,_0x2eee21){const _0x19b5f7=q0_0x3ac257;_0x2eee21===void 0x0&&(_0x2eee21={});const _0xcba669=typeof _0x2eee21['maxForce']!==_0x19b5f7(0x2b7)?_0x2eee21['maxForce']:0xf4240,_0x211f64=_0x2eee21[_0x19b5f7(0x18e)]?_0x2eee21[_0x19b5f7(0x18e)][_0x19b5f7(0x31d)]():new Vec3(),_0x8a248d=_0x2eee21[_0x19b5f7(0x26f)]?_0x2eee21[_0x19b5f7(0x26f)][_0x19b5f7(0x31d)]():new Vec3();super(_0x289a6b,_0x211f64,_0xcb7675,_0x8a248d,_0xcba669);const _0x3f5626=this[_0x19b5f7(0x39b)]=_0x2eee21[_0x19b5f7(0x39b)]?_0x2eee21[_0x19b5f7(0x39b)]['clone']():new Vec3(0x1,0x0,0x0);_0x3f5626['normalize']();const _0x5c37b1=this[_0x19b5f7(0x21c)]=_0x2eee21['axisB']?_0x2eee21['axisB'][_0x19b5f7(0x31d)]():new Vec3(0x1,0x0,0x0);_0x5c37b1[_0x19b5f7(0x2eb)](),this['collideConnected']=!!_0x2eee21[_0x19b5f7(0x2af)];const _0x45aac2=this[_0x19b5f7(0x364)]=new RotationalEquation(_0x289a6b,_0xcb7675,_0x2eee21),_0x16df73=this[_0x19b5f7(0x34b)]=new RotationalEquation(_0x289a6b,_0xcb7675,_0x2eee21),_0x330de8=this[_0x19b5f7(0x1d0)]=new RotationalMotorEquation(_0x289a6b,_0xcb7675,_0xcba669);_0x330de8['enabled']=![],this[_0x19b5f7(0x32f)]['push'](_0x45aac2,_0x16df73,_0x330de8);}[q0_0x3ac257(0x326)](){const _0xe5eb00=q0_0x3ac257;this[_0xe5eb00(0x1d0)][_0xe5eb00(0x21f)]=!![];}[q0_0x3ac257(0x374)](){const _0x106b1b=q0_0x3ac257;this[_0x106b1b(0x1d0)][_0x106b1b(0x21f)]=![];}[q0_0x3ac257(0x20f)](_0x3e86ae){this['motorEquation']['targetVelocity']=_0x3e86ae;}['setMotorMaxForce'](_0x2c36e8){const _0x23f223=q0_0x3ac257;this[_0x23f223(0x1d0)]['maxForce']=_0x2c36e8,this['motorEquation']['minForce']=-_0x2c36e8;}[q0_0x3ac257(0x338)](){const _0x22ce12=q0_0x3ac257,_0x1d6d07=this[_0x22ce12(0x1d2)],_0x53b8e=this['bodyB'],_0x506f99=this[_0x22ce12(0x1d0)],_0x53c280=this['rotationalEquation1'],_0xf17d9=this[_0x22ce12(0x34b)],_0x218165=HingeConstraint_update_tmpVec1,_0x3794d6=HingeConstraint_update_tmpVec2,_0xbfdb3f=this['axisA'],_0x44fbb7=this[_0x22ce12(0x21c)];super[_0x22ce12(0x338)](),_0x1d6d07[_0x22ce12(0x3cd)][_0x22ce12(0x205)](_0xbfdb3f,_0x218165),_0x53b8e[_0x22ce12(0x3cd)][_0x22ce12(0x205)](_0x44fbb7,_0x3794d6),_0x218165[_0x22ce12(0x33e)](_0x53c280[_0x22ce12(0x39b)],_0xf17d9[_0x22ce12(0x39b)]),_0x53c280[_0x22ce12(0x21c)][_0x22ce12(0x191)](_0x3794d6),_0xf17d9[_0x22ce12(0x21c)][_0x22ce12(0x191)](_0x3794d6),this[_0x22ce12(0x1d0)][_0x22ce12(0x21f)]&&(_0x1d6d07[_0x22ce12(0x3cd)][_0x22ce12(0x205)](this[_0x22ce12(0x39b)],_0x506f99[_0x22ce12(0x39b)]),_0x53b8e[_0x22ce12(0x3cd)]['vmult'](this[_0x22ce12(0x21c)],_0x506f99[_0x22ce12(0x21c)]));}}const HingeConstraint_update_tmpVec1=new Vec3(),HingeConstraint_update_tmpVec2=new Vec3();class FrictionEquation extends Equation{constructor(_0x3716fa,_0x5cfab0,_0x10bd66){super(_0x3716fa,_0x5cfab0,-_0x10bd66,_0x10bd66),this['ri']=new Vec3(),this['rj']=new Vec3(),this['t']=new Vec3();}[q0_0x3ac257(0x39a)](_0x2b983a){const _0x3ff2b3=q0_0x3ac257;this['a'];const _0xdd3e5b=this['b'];this['bi'],this['bj'];const _0x30cfac=this['ri'],_0x41d352=this['rj'],_0x327e98=FrictionEquation_computeB_temp1,_0x28bf3d=FrictionEquation_computeB_temp2,_0x1eb713=this['t'];_0x30cfac['cross'](_0x1eb713,_0x327e98),_0x41d352[_0x3ff2b3(0x2cc)](_0x1eb713,_0x28bf3d);const _0x319e22=this['jacobianElementA'],_0x2169af=this[_0x3ff2b3(0x1b1)];_0x1eb713[_0x3ff2b3(0x28c)](_0x319e22['spatial']),_0x327e98[_0x3ff2b3(0x28c)](_0x319e22[_0x3ff2b3(0x301)]),_0x2169af[_0x3ff2b3(0x389)]['copy'](_0x1eb713),_0x2169af['rotational'][_0x3ff2b3(0x191)](_0x28bf3d);const _0x16f918=this[_0x3ff2b3(0x24c)](),_0x1a7149=this['computeGiMf'](),_0x3649f5=-_0x16f918*_0xdd3e5b-_0x2b983a*_0x1a7149;return _0x3649f5;}}const FrictionEquation_computeB_temp1=new Vec3(),FrictionEquation_computeB_temp2=new Vec3();class ContactMaterial{constructor(_0x5eb0e2,_0x3ac485,_0x15439f){const _0x27de12=q0_0x3ac257;_0x15439f=Utils[_0x27de12(0x3e6)](_0x15439f,{'friction':0.3,'restitution':0.3,'contactEquationStiffness':0x989680,'contactEquationRelaxation':0x3,'frictionEquationStiffness':0x989680,'frictionEquationRelaxation':0x3}),this['id']=ContactMaterial[_0x27de12(0x31e)]++,this[_0x27de12(0x3b0)]=[_0x5eb0e2,_0x3ac485],this['friction']=_0x15439f[_0x27de12(0x3d4)],this[_0x27de12(0x1ac)]=_0x15439f[_0x27de12(0x1ac)],this['contactEquationStiffness']=_0x15439f[_0x27de12(0x32d)],this[_0x27de12(0x21a)]=_0x15439f['contactEquationRelaxation'],this[_0x27de12(0x348)]=_0x15439f[_0x27de12(0x348)],this[_0x27de12(0x3d9)]=_0x15439f[_0x27de12(0x3d9)];}}ContactMaterial[q0_0x3ac257(0x31e)]=0x0;class Material{constructor(_0x26fc15){const _0x427beb=q0_0x3ac257;_0x26fc15===void 0x0&&(_0x26fc15={});let _0x1bfd57='';typeof _0x26fc15===_0x427beb(0x206)&&(_0x1bfd57=_0x26fc15,_0x26fc15={}),this['name']=_0x1bfd57,this['id']=Material[_0x427beb(0x31e)]++,this[_0x427beb(0x3d4)]=typeof _0x26fc15['friction']!=='undefined'?_0x26fc15[_0x427beb(0x3d4)]:-0x1,this[_0x427beb(0x1ac)]=typeof _0x26fc15['restitution']!=='undefined'?_0x26fc15['restitution']:-0x1;}}Material[q0_0x3ac257(0x31e)]=0x0;class Spring{constructor(_0xa1ed41,_0x42c0b9,_0x4da296){const _0x5a9eb9=q0_0x3ac257;_0x4da296===void 0x0&&(_0x4da296={}),this[_0x5a9eb9(0x21d)]=typeof _0x4da296[_0x5a9eb9(0x21d)]===_0x5a9eb9(0x319)?_0x4da296[_0x5a9eb9(0x21d)]:0x1,this['stiffness']=_0x4da296[_0x5a9eb9(0x353)]||0x64,this['damping']=_0x4da296[_0x5a9eb9(0x360)]||0x1,this[_0x5a9eb9(0x1d2)]=_0xa1ed41,this[_0x5a9eb9(0x35e)]=_0x42c0b9,this[_0x5a9eb9(0x210)]=new Vec3(),this[_0x5a9eb9(0x3f0)]=new Vec3(),_0x4da296[_0x5a9eb9(0x210)]&&this['localAnchorA'][_0x5a9eb9(0x191)](_0x4da296[_0x5a9eb9(0x210)]),_0x4da296[_0x5a9eb9(0x3f0)]&&this['localAnchorB'][_0x5a9eb9(0x191)](_0x4da296[_0x5a9eb9(0x3f0)]),_0x4da296['worldAnchorA']&&this[_0x5a9eb9(0x189)](_0x4da296[_0x5a9eb9(0x304)]),_0x4da296['worldAnchorB']&&this[_0x5a9eb9(0x1bd)](_0x4da296[_0x5a9eb9(0x3e7)]);}[q0_0x3ac257(0x189)](_0x5e97a1){const _0x3ca2fd=q0_0x3ac257;this['bodyA'][_0x3ca2fd(0x224)](_0x5e97a1,this[_0x3ca2fd(0x210)]);}[q0_0x3ac257(0x1bd)](_0x5420ee){this['bodyB']['pointToLocalFrame'](_0x5420ee,this['localAnchorB']);}[q0_0x3ac257(0x275)](_0x3aa04f){const _0x542170=q0_0x3ac257;this[_0x542170(0x1d2)][_0x542170(0x3dc)](this[_0x542170(0x210)],_0x3aa04f);}['getWorldAnchorB'](_0x3a2165){const _0x152872=q0_0x3ac257;this[_0x152872(0x35e)]['pointToWorldFrame'](this[_0x152872(0x3f0)],_0x3a2165);}[q0_0x3ac257(0x3e4)](){const _0x3f05ec=q0_0x3ac257,_0x59a9ea=this[_0x3f05ec(0x353)],_0x429084=this[_0x3f05ec(0x360)],_0x52d107=this[_0x3f05ec(0x21d)],_0x2c6309=this[_0x3f05ec(0x1d2)],_0x52a7a5=this[_0x3f05ec(0x35e)],_0x8a1ecf=applyForce_r,_0x1c46fb=applyForce_r_unit,_0x1e2abe=applyForce_u,_0x23e598=applyForce_f,_0x598e43=applyForce_tmp,_0x84870c=applyForce_worldAnchorA,_0x4ec3f0=applyForce_worldAnchorB,_0x204db7=applyForce_ri,_0x456322=applyForce_rj,_0x22d4d3=applyForce_ri_x_f,_0x5a2a2c=applyForce_rj_x_f;this[_0x3f05ec(0x275)](_0x84870c),this[_0x3f05ec(0x396)](_0x4ec3f0),_0x84870c[_0x3f05ec(0x325)](_0x2c6309['position'],_0x204db7),_0x4ec3f0[_0x3f05ec(0x325)](_0x52a7a5['position'],_0x456322),_0x4ec3f0[_0x3f05ec(0x325)](_0x84870c,_0x8a1ecf);const _0x8c3bd5=_0x8a1ecf[_0x3f05ec(0x25b)]();_0x1c46fb['copy'](_0x8a1ecf),_0x1c46fb[_0x3f05ec(0x2eb)](),_0x52a7a5[_0x3f05ec(0x1d1)]['vsub'](_0x2c6309[_0x3f05ec(0x1d1)],_0x1e2abe),_0x52a7a5[_0x3f05ec(0x22b)][_0x3f05ec(0x2cc)](_0x456322,_0x598e43),_0x1e2abe[_0x3f05ec(0x3d7)](_0x598e43,_0x1e2abe),_0x2c6309[_0x3f05ec(0x22b)][_0x3f05ec(0x2cc)](_0x204db7,_0x598e43),_0x1e2abe[_0x3f05ec(0x325)](_0x598e43,_0x1e2abe),_0x1c46fb[_0x3f05ec(0x2fc)](-_0x59a9ea*(_0x8c3bd5-_0x52d107)-_0x429084*_0x1e2abe['dot'](_0x1c46fb),_0x23e598),_0x2c6309[_0x3f05ec(0x27e)][_0x3f05ec(0x325)](_0x23e598,_0x2c6309['force']),_0x52a7a5[_0x3f05ec(0x27e)][_0x3f05ec(0x3d7)](_0x23e598,_0x52a7a5[_0x3f05ec(0x27e)]),_0x204db7[_0x3f05ec(0x2cc)](_0x23e598,_0x22d4d3),_0x456322[_0x3f05ec(0x2cc)](_0x23e598,_0x5a2a2c),_0x2c6309[_0x3f05ec(0x2ea)][_0x3f05ec(0x325)](_0x22d4d3,_0x2c6309[_0x3f05ec(0x2ea)]),_0x52a7a5['torque'][_0x3f05ec(0x3d7)](_0x5a2a2c,_0x52a7a5['torque']);}}function q0_0x2a50(){const _0x25e889=['Dg9SzxjHBMnL','yM94q3LSAw5Kzxi','BgLUzwfYrgfTCgLUzW','yMLUCW','CgL2B3rc','y2fSy3vSyxrLv29YBgrbqujc','CMf5vgvZDa','ywrKvg9xBgfTyMrH','y3jLyxrLrNjPy3rPB25gCM9TqxzLCMfNzq','DxbKyxrLq29UDMv4ug9SEwHLzhjVBLjLChjLC2vUDgf0Aw9U','z2v0v29YBgrbBMnOB3jb','zxbZ','BxvSDgLWBhLfBgvTzw50','CgXHBMvqyxj0AwnSzq','Bg93zxjcB3vUza','ChjVzMLSzq','y29UDgfPBNm','Aw5KzxHvCef4Axm','ig5VDcbZDxbWB3j0zwqGEwv0lG','zM9Yy2u','DhLWzxm','Dw5PCxvLrwrNzxm','C2TPzeLUzM8','x2LUDgvYC2vJDfrYAw1LC2G','z3jVDw5Kt2jQzwn0','zg9cB3vUzgLUz0jVEejYB2fKCgHHC2u','x2fKzejVzhLiyw5KBgvY','ywrKqM9KEq','Aw5JBhvKzxm','ywnJDw11Bgf0B3i','zgvMyxvSDa','BxvSDa','C3bSAwnL','BMvNyxrL','ChjLu3rLCa','yMvNAw5dB250ywn0','BMvLzejYB2fKCgHHC2vdB2XSAxnPB24','BgvYCa','ntC2CNniuxHI','AgL0ug9PBNrxB3jSza','Aw5KAwnLCW','z2v0uMvJDe1PBK1HEa','BNvTv2HLzwXZt25hCM91BMq','y29UDgfJDhm','ywfIyG','mtaXntu2oeTnrxHQrG','C2v0qNjHA2u','DMvJDg9Yvg9xB3jSzezYyw1L','Cg9PBNq','y29TChv0zuXVy2fSqufcqG','y2fSBgjHy2S','yNjVywrWAgfZzq','D2HLzwXgB3jJzxm','y29Z','C2LU','DgLJAW','z2v0u2LKzu5VCM1HBhm','zNjPy3rPB25tBgLW','yM9KEu92zxjSyxblzwvWzxi','y3vZDg9Tu2XPzgLUz1jVDgf0Aw9UywXtCgvLza','x2LUDgvYC2vJDejVEa','DhDPC3rbBMDSzq','C2TPCejHy2TMywnLCW','zgfTCgLUz1jLBgf4yxrPB24','C2HHCgvc','yxrHBJi','BwLU','y2HLy2TcB3vUzhm','y29SBgLKzunVBM5Ly3rLza','yxHPC0XPC3q','AMfJB2jPyw5fBgvTzw50qq','z2v0vhjHy2u','Aw5KzxHpzG','DxbWzxjcB3vUza','Aw5KzxHgB3j3yxjKqxHPCW','CxvHDe5VCM1HBgL6zuzHC3q','Dw5KzwzPBMvK','ywrKvg9xB3jSza','ChvZAa','DhLWzq','zNjPy3rPB25szxn1Bhq','Aw52sw5LCNrPyvDVCMXKu29SDMu','D2HLzwXbEgvZ','quXm','C3vZCgvUC2LVBLn0AwzMBMvZCW','CMvTB3zLu2HHCgu','DxbKyxrLv2HLzwXuCMfUC2zVCM0','CgLSBgfYt2zMC2v0','y29TChv0zum','CMvZzxq','yM94q29UDMv4','ywfIyK1HEa','C2v0wMvYBW','DxbKyxrLvMvOAwnSzq','C2LKzuLTChvSC2u','z2v0q29UDgfJDhm','AgL0tM9YBwfSv29YBgq','y3jVC3m','CM9VDa','Aw5KzxHsAwDODef4Axm','DgLTzq','y29UC3rYywLUDhm','BxvSDgLWBhLwzwn0B3jZ','y2fZDfjHEq','D29YBgruCMfUC2zVCM0','Bwf4u3vZCgvUC2LVBKzVCMnL','ChjLu3rLCenHBgXIywnR','y29TChv0zuDX','DJnWB29S','AxngCM9UDfDOzwvS','Aw52zxjZzq','y29UDgfJDe1HDgvYAwfSvgfIBgu','BwfRzunVBNrHy3rdB25ZDhjHAw50CW','ywrKv2HLzwW','zw5Ku2HHCgvdB250ywn0','DM11Ba','Aw50zxjWB2XHDgvKug9ZAxrPB24','DxbKyxrLrNjPy3rPB24','yMLUza','CMvTB3zLrxzLBNrmAxn0zw5LCG','D2fRzvvW','yM91BMrPBMDtCgHLCMvsywrPDxm','C3vZCgvUC2LVBKXLBMD0Aa','C2XPCeLUzM8','Dg9tDhjPBMC','BM9YBwfSAxPLrMfZDa','z2v0u2HHCgvcEuLK','Dg9YCxvL','BM9YBwfSAxPL','zgLZDgfUy2vuBW','y29SBgLKzq','z2v0qM9KEuj5swq','C3vZCgvUC2LVBK1HEeXLBMD0Aa','yM94ugfYDgLJBgu','CMvWB3j0sw50zxjZzwn0Aw9U','Bwf0CML4','wvHA','CMf5vg9xB3jSza','zML4zwrsB3rHDgLVBG','y29SBgLZAw9Utwf0CML4','CgfYDgLJBgvdEwXPBMrLCG','yM91BMrPBMDtCgHLCMvdAgvJAW','zg9cB3vUzgLUz1nWAgvYzujYB2fKCgHHC2u','y3vYCMvUDfzLAgLJBgvtCgvLzeTTsg91CG','y29Uy2f0','C2nHBgu','y29UBMvJDgvKrMfJzxm','x2DLDfvUC2nHBgvKvMvYDgv4','y29UDMv4ugfYDgLJBgu','AxnuCMLNz2vY','CM90yxrPB25HBa','C3bOzxjLu3bOzxjL','zNjVBq','D29YBgrbBMnOB3jb','CMvTB3zLrw1WDhLoB2rLCW','zMfJzuXPC3q','y29UANvNyxrL','CgLSBgfYq29UDMv4','DxbKyxrLu3vZCgvUC2LVBG','zw5Kq29UDgfJDa','Bwf4rM9Yy2u','C3bOzxjLq29UDMv4','vu5jvf9z','z2v0sw1Wywn0vMvSB2nPDhLbBg9Uz05VCM1HBa','BwfZCW','Cg9PBNruB1DVCMXK','yxbWBhLjBxb1BhnL','BgvUz3rOu3f1yxjLza','y29TChv0zuDPtwy','CMf5uxvLCNK','CMvTB3zLrNjVBvDVCMXK','D2LKDgG','ywrKqM9KEuv2zw50','zg90','BNvTyMvY','z2v0vhjPyw5NBgvwzxj0AwnLCW','mtyYotyYAhDzz1Pz','z2v0s2v5','y2XVBMu','AwrdB3vUDgvY','zMLUzfnLCgfYyxrPBMDbEgLZ','Aw5KzxG','y29TChv0zu5VCM1HBhm','y29TChv0zvDVCMXKrMfJzu5VCM1HBhm','DxnLqM91BMrPBMDcB3HLCW','C211Bhq','DNn1yG','zw5HyMXLtw90B3i','z2v0rwrNzvzLy3rVCG','C21VB3rOAw5NuMfKAxvZ','AgfZqwn0AxzLqM9KAwvZ','CMfKAxvZ','DMvYDgLJzxm','y29UC3rYDwn0t2jQzwn0','y29UDgfJDevXDwf0Aw9Uu3rPzMzUzxnZ','y2fSBa','zxf1yxrPB25Z','CMvTB3zLrxf1yxrPB24','zxfZ','Bwf4qw5NBgu','C2XLzxb5rxzLBNq','CMvTB3zLq29UDgfJDe1HDgvYAwfS','AxnAzxjV','yxHSzuXVy2fS','mZC4nJe2AMDJD3bP','DxbKyxrL','y2fJAgvfBMfIBgvK','ywfIyK1PBG','z2v0rgLMzG','C3vIzgL2AwrL','z2v0q29UDMv4vhjPyw5NBgvqAwXSyxi','DgfUz2vUDhm','zgLYzwn0Aw9Uv29YBgq','C29SDMvY','xsa9ifzLyZmO','C2HHCgvpDMvYBgfWs2vLCgvY','mZmXmJu2ne9VCgjZAG','Aw50zxjZzwn0qM9KEq','z2v0rwrNzvzLCNrLEa','y2HHC3nPC0nVBM5Ly3rPB25qB2LUDfDVCMXK','zxf1yxrPB25A','zNjPy3rPB25fCxvHDgLVBLn0AwzMBMvZCW','D29YBgrwzxj0AwnLC05LzwrZvxbKyxrL','qK9y','CM90yxrPB25HBevXDwf0Aw9UmG','Dg9bEgLZqw5NBgu','z2v0q2fJAgvdB252zxHuCMLHBMDSzvbPBgXHCKTLEq','BM9YBwfSCW','Bw90B3juyxjNzxrwzwXVy2L0Eq','yM9KEq','y29TChv0zu5VCM1HBa','Aw52sw5LCNrPyvDVCMXK','C3rPzMzUzxnZ','r3jPzejYB2fKCgHHC2u6ievHy2GGzgLTzw5ZAw9Uj3mGBIbTDxn0igjLid4W','CMf5y2fZDefSBa','Cg9PBNrjC0LUC2LKzq','DxbKyxrLu29SDMvnyxnZuhjVCgvYDgLLCW','zgLYzwn0Aw9Utg9JywW','nda5ndbtCffdBMC','zgLZywjSzq','BMf2AwDHDgLVBLn0yxj0','zgfTCgLUz0nVBxbYzxnZAw9U','C2v0tNvTt2jQzwn0CW','yM9KEui','ywrKu2HHCgu','zgfTCgLUzW','yxbWBhK','C2XLzxbuAwnR','Cg93','CM90yxrPB25HBevXDwf0Aw9Umq','y3LSAw5KzxjdEwXPBMrLCG','ChjLDMLVDxm','C2XPzgLUzW','z2v0qxzLCMfNzvbVAw50tg9JywW','sevjr0HurKLfteq','C3bLzwrpzLnVDw5K','C2HHCgvpCMLLBNrHDgLVBNm','C2v0rNjVBvbVAw50CW','CgXHBMvuCMLTzxnO','zwXLBwvUDfnPEMu','yw5NDwXHCKrHBxbPBMC','y2HHC3nPC0nVBM5Ly3rPB25qB2LUDeXVy2fS','y29UDMv4','z2v0vhjPyw5NBgu','yM94qM94','zgLZywjSzu1VDg9Y','y29UDMv4sgvPz2H0zMLLBgq','y2fSy3vSyxrLtg9JywXjBMvYDgLH','Aw5LCNrPyq','Bwf4vMfSDwu','yxbWBhLmB2nHBeLTChvSC2u','z2v0q29UDgv4Da','y29SBgLZAw9Utwf0CML4uhjLDMLVDxm','DMLZAxrLza','AgfSzKv4DgvUDhm','zgvUC2L0Eq','C2HHCgvZ','u1birvjf','DxbKyxrLrgLYzwn0Aw9U','zgLZDgfUy2vfCxvHDgLVBG','Aw52sw5LCNrPyvnVBhzL','CMv2zxjZzq','q291BgqGBM90ihjLDMvYC2uHiee9wW','ChjLy2LZAw9U','ksbSB29RCYbSAwTLigL0ihbVAw50CYbPBNrVihrOzsbZAgfWzt8GvgHLihzLCNrPy2vZigzVBgXVDY4GtwfRzsbZDxjLihrOzxKGyxjLig9YzgvYzwqGq0nxigfYB3vUzcb0AguGBM9YBwfSlcb1C2LUzYb0AguGCMLNAhqGAgfUzcbYDwXLlG','CgvYzM9YBwfUy2u','C3bHDgLHBa','C2v0','yxHPC0LUzgv4','x2XPC3rLBMvYCW','C3bOzxjLsgvPz2H0zMLLBgq','lMfHyMjrDwvYEsbPCYbUB3qGAw1WBgvTzw50zwqGAw4GDgHPCYbcCM9HzhbOyxnLihn1yMnSyxnZlG','CxvHDe5VCM1HBgL6zvnRAxa','vgHLihnWAgvYzsbYywrPDxmGy2fUBM90igjLig5Lz2f0AxzLlG','y29SBgLZAw9Utwf0CML4vgLJAW','CMvTB3zLqM9KEuv2zw50','ndKZmtC2t1fzDNbk','C3vZCgvUC2LVBLjLC3rmzw5NDgG','Aw50zxjZzwn0qM9KAwvZ','z2v0v29YBgrbBMnOB3jc','C2v0u2nHBgu','Aw50zwDYyxrL','z2v0v29YBgrwzxj0zxG','y29TChv0zui','yxHPC0e','C2v0rNjVBuf4AxnbBMDSzq','DxbKyxrLqufcqG','DxbKyxrLv2HLzwW','AwruB0jVzhLnyxa','C3vIC29SDMvY','y29UDgfJDfbVAw50ug9VBa','zxf1yxrPB25y','DMXHBwjKyq','lNzLCNrPy2vZwW','C2v0uM90yxrPB25gCM9TuxvHDgvYBMLVBG','D29YBgrwzxj0AwnLCW','y3jLyxrLvg9YDxm','vu5jvf9y','qu5z','BMvPz2HIB3jZ','C3bOzxjLqM94','C2XLzxbtCgvLzeXPBwL0','u0Xfrvbz','z2v0vhjPyw5NBgvbDa','ywXTB3n0wMvYBW','Bwf0zxjPywXZ','ywrKu2nHBgvKvMvJDg9Y','ywnVCW','Aw50zxjUywXtDgvW','Aw5Zzxj0Aw9Uu29YDfG','C3rLCa','Cg9W','y2XLyxjdywnOzwrdB252zxHuCMLHBMDSzvbPBgXHCG','y3vYCMvUDenVBNrHy3rnyxrLCMLHBa','y29UzuvXDwf0Aw9U','ChjVDg90ExbL','z3jHDML0Eq','vgHLign5BgLUzgvYihjHzgL1C1rVCcbJyw5UB3qGyMuGBMvNyxrPDMuU','CgXHBMvdEwXPBMrLCG','yM94sgvPz2H0zMLLBgq','C3rLCg51BwjLCG','ntjUqurPrNa','C3bSAxq','zgvSDgfsB3rHDgLVBG','BMfYCM93CgHHC2u','D2HLzwXcB2rPzxm','z2v0vMvSB2nPDhLbDfDVCMXKug9PBNq','zgvMyxvSDenVBNrHy3rnyxrLCMLHBa','x2LUDgvYC2vJDfbSyw5L','C3bOzxjLugXHBMu','zxH0zw5K','ywrKrxf1yxrPB24','q09ovKvyue9mwuHfrfjptG','x2nHy2HLzfbPBgXHCNm','CxvHDgvYBMLVBG','n0TfD1bQBq','x2LUDgvYC2vJDenVBNzLEa','x3vWzgf0zq','AgvPz2H0zMLLBgrdEwXPBMrLCG','zNjPy3rPB25hCMf2Axr5','zgvWDgG','zNjPy3rPB24','wLHz','vMvYDgv4ia','DMfKza','yMvNAw5tAgfWzunVBNrHy3q','zNjPy3rPB25fCxvHDgLVBLjLBgf4yxrPB24','Bwf4rgvWDgG','mtfUvLvgzfO','Cg9PBNruB1DVCMXKrNjHBwu','D29YBgrgywnLtM9YBwfSCW','zNjPy3rPB25fCxvHDgLVBLbVB2W','BgLUzwfYrMfJDg9Y','ywrKq29UC3rYywLUDa','BM9KzvbVB2W','DxbKyxrLqM91BMrPBMDsywrPDxm','z2v0ugXHBMvdB25ZDgfUDe9MrMfJzq','yxbWBhLgB3jJzq','y2vPBa','zgvMyxvSDhm','D29YBgrbBMnOB3jc','z2v0sw5KzxHpzLbVC2L0Aw9U','z2v0v2HLzwXuCMfUC2zVCM1xB3jSza','yM91BMrPBMDsywrPDxm','C2v0v2HLzwXgB3jJzq','D2fYBG','q1Lmsu5ervi','Dw5PCxvLqxHLCW','yw5NDwXHCKzHy3rVCG','Bg9JywXbBMnOB3jc','yxbWBhLuB3jXDwu','B3zLCMXHChnsyxK','y2HPBgrYzw4','Aw5Zzxj0','C3vZCgvUC2LVBKzVCMnL','EhL6','C2v0u3rLzxjPBMDwywX1zq','Bwv0Ag9KihvWzgf0zsGPig5VDcbPBxbSBwvTzw50zwqGAw4GDgHPCYbdB25ZDhjHAw50ihn1yMnSyxnZiq','C2HVDwXKu3rVCa','lMzHy2voB3jTywXZwW','BwLUrM9Yy2u','Dg9xB3jSzezYyw1L','C2LKzufJy2vSzxjHDgLVBG','DxbKyxrLtwf4vMfSDwu','zw5NAw5LrM9Yy2u','C29YDa','tufyx1zbtfvf','Cg9PBNruB0XVy2fS','DhjLzq','ywfIyLf1zxj5','DxbKyxrLsw5LCNrPyvDVCMXK','y2fSy3vSyxrLsw5LCNrPyq','DxbKyxrLtwfZC1bYB3bLCNrPzxm','zMfJzu5VCM1HBhm','BwfRzvbHAxjZvw5PCxvL','DhDPC3rfCxvHDgLVBG','DMvJDg9Yvg9mB2nHBezYyw1L','zw1PDenVBNrHy3rfDMvUDhm','DxbKyxrLv2HLzwXuCMfUC2zVCM1xB3jSza','CM90yxrPB25HBevXDwf0Aw9UmW','BM93','Cg9PBNrjBLrYAwfUz2XL','DhjHBNnMB3jTqwXSug9PBNrZ','q09mteLerv9fvKvovf9oqu1f','Dw5ZAgLMDa','C2XLzxbuAw1LtgLTAxq','y3jLyxrLq29UDgfJDevXDwf0Aw9U','z2v0qwfIyKf0sw5KzxG','z2v0tM9YBwfS','y2HHC3nPC0jVzhK','zwrNzxm','y2XPCezHy2vbz2fPBNn0shvSBa','CMvTB3zL','AgL0rMfJzuLUzgv4','zML4zwrtDgvW','C2v0v29YBgrbBMnOB3jb','Aw5PDefUz3vSyxjwzwXVy2L0Eq','wLLy','ChjLDMLVDxnrDwf0zxjUAw9U','yw5NBgu','CgL2B3rb','AgvPz2H0','CMf5y2fZDefUEq','y29WEq','z3jHzhC','yxbWBhLfBMDPBMvgB3jJzq','y29TChv0zvDVCMXKtM9YBwfS','CM9SBeLUzMX1zw5Jzq','Aw5Zzxj0Aw9Uu29YDfK','CMvSzwfZzq','z2v0qufcqG','DxbKyxrLqM91BMrPBMDtCgHLCMvsywrPDxm','Bwf4u3vZCgvUC2LVBLrYyxzLBa','z2v0tMvPz2HIB3jZ','vfjjtuvtsa','vu5jvf9A','y29TChv0zvDVCMXKvMvYDgLJzxm','Aw5Zzxj0Aw9Uu29YDfO','y29SBgLZAw9UuMvZCg9UC2u','yxHSzvDVCMXK','B2jQzwn0CW','B3zLCMXHChm','yxbWBhLxAgvLBezVCMnL','CMf5y2fZDfjLC3vSDa','zMfJzxm','zNjPy3rPB25fCxvHDgLVBNm','CMvZDwX0','C2v0v29YBgq','DxbKyxrLrwrNzxm','D29YBgrgywnLtM9YBwfSC05LzwrZvxbKyxrL','CMvZDgL0DxrPB24','zM9YrwfJAfDVCMXKq29YBMvY','C2HHCgu','C3bOzxjLugfYDgLJBgu','D29YBgroB3jTywXozwvKC1vWzgf0zq','AMfJB2jPyw5fBgvTzw50qG','y3jVC3nTyxq','C3vIC3LZDgvTCW','ywrKrxzLBNrmAxn0zw5LCG','AgfZqw55rxzLBNrmAxn0zw5LCG','y2HLy2TdB2XSAxnPB25szxnWB25Zzq','wKvstW','z2v0rMfJzu5VCM1HBa','D2fRzvvWqM9KAwvZ','zMXVB3i','y29UDgfJDg1HDgvYAwfSCW','C2XPy2u','C2v0v29YBgrbBMnOB3jc','DM9SDw1LkcKGBM90igLTCgXLBwvUDgvKigzVCIbZAgfWzsb0ExbLia','ihrVig1PBKrPC3q9','CMfKAxvZqM90Dg9T','C2v0rNjVBuv1BgvY','xsWGqt1B','C3vZCgvUC2LVBLjLBgf0AxzLvMvSB2nPDhK','C2v0rNjVBvzLy3rVCNm','qvDbs0u','x2LUDgvYC2vJDfnWAgvYzq','CgXHBMvdB252zxG','AgfZrxzLBNrmAxn0zw5LCG','D2fRzxvW','C3bOzxjLvhjPBwvZAa','u1rbveLd','Dg9bCNjHEq','y29SBgLZAw9UrMLSDgvYtwfZAW','Aw50zxjZzwn0v29YBgq','zM9YD2fYzefJy2vSzxjHDgLVBG','Bw90B3jfCxvHDgLVBG','DMvSB2nPDhK','yM9KEue','zxf1yxrPB25z','ChjLDMLVDxnqB3nPDgLVBG','z2v0vMvYDgv4','ueXbtKu','y29SBgLZAw9UugfPCNmGBM90igLTCgXLBwvUDgvKigzVCIb0AgLZiejYB2fKugHHC2uGy2XHC3mH','DxnLq3vZDg9Tu2XPzgLUz1jVDgf0Aw9UywXtCgvLza','wvPy','yMLUtgvUz3rOCW','DxbKyxrLtwLUvMfSDwu','y29TChv0zujVDw5KAw5Nu3bOzxjLuMfKAxvZkcKGBM90igLTCgXLBwvUDgvKigzVCIbZAgfWzsb0ExbLia','zM9YD2fYzeLTChvSC2u','AxnjBKnVBNrHy3q','y2XPCezHy2vbz2fPBNn0ugXHBMu','C2v0vhjHy2u','Aw50zxjZzwn0u2HHCgu','C3fYDa','C2XLzxbtDgf0zq','y2XPChbLzeLUDKnVBNrHy3reB3rtDxnWzw5ZAw9U','DxbKyxrLtM9YBwfSCW','C3bOzxjLq3LSAw5Kzxi','zw5HyMXLrNjPy3rPB25szwr1y3rPB24','z2v0','ywXSB3DtBgvLCa','zgvMyxvSDe1HDgvYAwfS','C2XLCNa','Aw52twfZC1nVBhzL','D2XHBwjKyq','y2XHBxbLzdOGzgvWDgG9','x2LUDgvYC2vJDeHLAwDODgzPzwXK','zgLZCgf0y2HfDMvUDa','Aw5PDfzLBg9JAxr5','y29TChv0zuDxBgfTyMrH','rfLoqu1jqW','DgfYz2v0vMvSB2nPDhK','C2HPzNq','CMvTB3zLqM9KEq','CMvTB3zLq29UC3rYywLUDa','u0XfrvbjtKC','zgLZDgfUy2vtCxvHCMvK','wfLA','y3vYCMvUDa','yNjHA2u','BM9YBwfS','D2fRzvvWqwz0zxjoyxjYB3DWAgfZzq','Aw50zxjWB2XHDgvKuxvHDgvYBMLVBG','C2v0q2fJAgvKq29UDMv4vhjPyw5NBgvqAwXSyxi','Bw11Bhq','BNvTu2vNBwvUDhm','D2fRzxvWrxzLBNq','y29SBgLZAw9UrMLSDgvYr3jVDxa','DM11Bhq','C3rYAw5N','uefsveLdteu','C3rLzxjPBMC','zgvUC2L0AwvZ','z2v0vhjPyw5NBgvZsw5bqujc','BM9Kzxm','ywXTB3n0rxf1ywXZ','y29TChv0zuvKz2vZ','y29UDgfJDa','C2v0tw90B3jtCgvLza','Bg9JywXbBMnOB3jb','zgf0yq','C2XLzxb5','Aw52twfZCW','DMLZy29ZAxr5','wfPz','C2HHCgvb','CgfYDgLJBgvZ','u2HHCguGzg9LCYbUB3qGyMvSB25NihrVihrOzsbIB2r5','Aw5PDfbVC2L0Aw9U','y29UDgfJDevXDwf0Aw9UuMvSyxHHDgLVBG','z2v0q29YBMvYCW','yxHPC0i','CMvZDeXLBMD0Aa','BgfZDenHBgXuAw1L','zw5HyMXLza','C29SDMu','A2v5CW','z2v0sgvPz2H0qxq','y3jLyxrLtM9Kzq','Cg9PBNruB0XVy2fSrNjHBwu','Bwf4','Aw50zxjZzwn0Aw9UvgvZDa','yM9KAwvZ','DhjHBNnWB3nL','Dw5PDa','Bw9Kzq','yw5NDwXHCLzLBg9JAxr5','BMv4DeLK','y29VCMrPBMf0zvn5C3rLBq','Bg9N','Cg9ZDfn0zxa','z2v0q29UDgfJDe1HDgvYAwfS','y29UDMv4ug9SEwHLzhjVBLjLChjLC2vUDgf0Aw9U','mtb2s1HiCMS','ChjVAMvJDa','ywfIyK5LzwrZvxbKyxrL','zgLYDhK','DgLTAw5N','AxrLCMf0Aw9UCW','s0Loru1bveLd','AxnbBNrPCgfYywXSzwXuBW','ChjLC3n1CMvZ','ywjZ','y3jLyxrLrNjPy3rPB25fCxvHDgLVBNngCM9Tq29UDgfJDa','C2XLzxa','yxv0B0rLDgvJDef4Axm','x3jLBw92zujVzhLiyw5KBgvY','zg9qCM9MAwXPBMC','zgLZDgfUy2u','m3f1ruP5sW','C2v0u3bVB2TqyxjHBxm','y2fSy3vSyxrLtg9JywXjBMvYDgLHkcKGBM90igLTCgXLBwvUDgvKigzVCIbZAgfWzsb0ExbLia','mtbWtxHbwgC','rxvSzxiGB3jKzxiG','CMvTB3zLqwXSrxf1yxrPB25Z','Dg9fDwXLCG','CM90yxrPB24','ig5VDcbMB3vUzce','ywrK','y29TChv0zuDx','D29YBgq','BwLUvMfSDwu','z2v0vMvOAwnSzuf4AxnxB3jSza','CMf5y2fZDenSB3nLC3q','zwXLBwvUDhm','Cg9ZAxrPB24','y29SBgLZAw9UugfPCNm','DgLTzuXHC3rtBgvLChK','q0Xpu0vtva','Bwf0zxjPywW','BxvSDgLWBgLLCG','C29YDeXPC3q','C2XLzxbfDMvUDa','DgvZDfnLCef4Axm','BgvUz3rO','D2HLzwXjBMzVCW','y29TChv0zuDPtuD0','y3jLyxrLrwXLBwvUDa','Dg9mB2nHBezYyw1L','nJyZnJCXn2LAD1jmwa','AgfZsgL0','Aw5PDff1yxrLCM5PB24','y2fSy3vSyxrLv29YBgrbqujckcKGBM90igLTCgXLBwvUDgvKigzVCIbZAgfWzsb0ExbLia','C2HHCgvpzMzZzxrZ','y29UDMv4q29UDMv4','CMf5rNjVBvDVCMXK','zgLYzwn0Aw9U','DM9SDw1L','D29YBgroB3jTywW','Aw52sw5LCNrPyq'];q0_0x2a50=function(){return _0x25e889;};return q0_0x2a50();}const applyForce_r=new Vec3(),applyForce_r_unit=new Vec3(),applyForce_u=new Vec3(),applyForce_f=new Vec3(),applyForce_worldAnchorA=new Vec3(),applyForce_worldAnchorB=new Vec3(),applyForce_ri=new Vec3(),applyForce_rj=new Vec3(),applyForce_ri_x_f=new Vec3(),applyForce_rj_x_f=new Vec3(),applyForce_tmp=new Vec3();class WheelInfo{constructor(_0x5145ad){const _0x342fc9=q0_0x3ac257;_0x5145ad===void 0x0&&(_0x5145ad={}),_0x5145ad=Utils[_0x342fc9(0x3e6)](_0x5145ad,{'chassisConnectionPointLocal':new Vec3(),'chassisConnectionPointWorld':new Vec3(),'directionLocal':new Vec3(),'directionWorld':new Vec3(),'axleLocal':new Vec3(),'axleWorld':new Vec3(),'suspensionRestLength':0x1,'suspensionMaxLength':0x2,'radius':0x1,'suspensionStiffness':0x64,'dampingCompression':0xa,'dampingRelaxation':0xa,'frictionSlip':10.5,'forwardAcceleration':0x1,'sideAcceleration':0x1,'steering':0x0,'rotation':0x0,'deltaRotation':0x0,'rollInfluence':0.01,'maxSuspensionForce':Number[_0x342fc9(0x16c)],'isFrontWheel':!![],'clippedInvContactDotSuspension':0x1,'suspensionRelativeVelocity':0x0,'suspensionForce':0x0,'slipInfo':0x0,'skidInfo':0x0,'suspensionLength':0x0,'maxSuspensionTravel':0x1,'useCustomSlidingRotationalSpeed':![],'customSlidingRotationalSpeed':-0.1}),this[_0x342fc9(0x19a)]=_0x5145ad[_0x342fc9(0x19a)],this[_0x342fc9(0x2a6)]=_0x5145ad[_0x342fc9(0x2a6)],this['useCustomSlidingRotationalSpeed']=_0x5145ad[_0x342fc9(0x1d8)],this[_0x342fc9(0x367)]=![],this['chassisConnectionPointLocal']=_0x5145ad[_0x342fc9(0x370)][_0x342fc9(0x31d)](),this[_0x342fc9(0x346)]=_0x5145ad[_0x342fc9(0x346)][_0x342fc9(0x31d)](),this[_0x342fc9(0x358)]=_0x5145ad[_0x342fc9(0x358)][_0x342fc9(0x31d)](),this[_0x342fc9(0x33f)]=_0x5145ad[_0x342fc9(0x33f)][_0x342fc9(0x31d)](),this[_0x342fc9(0x336)]=_0x5145ad[_0x342fc9(0x336)]['clone'](),this[_0x342fc9(0x1a1)]=_0x5145ad[_0x342fc9(0x1a1)][_0x342fc9(0x31d)](),this[_0x342fc9(0x394)]=_0x5145ad[_0x342fc9(0x394)],this['suspensionMaxLength']=_0x5145ad[_0x342fc9(0x2ef)],this[_0x342fc9(0x32a)]=_0x5145ad['radius'],this[_0x342fc9(0x2bf)]=_0x5145ad[_0x342fc9(0x2bf)],this[_0x342fc9(0x35c)]=_0x5145ad[_0x342fc9(0x35c)],this['dampingRelaxation']=_0x5145ad[_0x342fc9(0x2aa)],this[_0x342fc9(0x2a4)]=_0x5145ad['frictionSlip'],this[_0x342fc9(0x1cf)]=_0x5145ad[_0x342fc9(0x1cf)],this[_0x342fc9(0x168)]=_0x5145ad[_0x342fc9(0x168)],this[_0x342fc9(0x208)]=0x0,this[_0x342fc9(0x249)]=0x0,this[_0x342fc9(0x3c2)]=0x0,this[_0x342fc9(0x195)]=_0x5145ad[_0x342fc9(0x195)],this[_0x342fc9(0x2d4)]=_0x5145ad[_0x342fc9(0x2d4)],this['engineForce']=0x0,this['brake']=0x0,this[_0x342fc9(0x2d8)]=_0x5145ad[_0x342fc9(0x2d8)],this['clippedInvContactDotSuspension']=0x1,this[_0x342fc9(0x1c3)]=0x0,this[_0x342fc9(0x160)]=0x0,this[_0x342fc9(0x2e6)]=0x0,this[_0x342fc9(0x281)]=0x0,this[_0x342fc9(0x2e5)]=0x0,this[_0x342fc9(0x2c9)]=0x0,this[_0x342fc9(0x1dd)]=0x0,this[_0x342fc9(0x1a5)]=new RaycastResult(),this[_0x342fc9(0x2d3)]=new Transform(),this['isInContact']=![];}[q0_0x3ac257(0x39e)](_0x17e5c6){const _0x45a6b3=q0_0x3ac257,_0x96b95=this['raycastResult'];if(this['isInContact']){const _0x2150a0=_0x96b95[_0x45a6b3(0x2cb)][_0x45a6b3(0x318)](_0x96b95['directionWorld']);_0x96b95[_0x45a6b3(0x292)][_0x45a6b3(0x325)](_0x17e5c6[_0x45a6b3(0x252)],relpos),_0x17e5c6[_0x45a6b3(0x3c5)](relpos,chassis_velocity_at_contactPoint);const _0x315f0e=_0x96b95[_0x45a6b3(0x2cb)][_0x45a6b3(0x318)](chassis_velocity_at_contactPoint);if(_0x2150a0>=-0.1)this['suspensionRelativeVelocity']=0x0,this[_0x45a6b3(0x1e4)]=0x1/0.1;else{const _0x5be59f=-0x1/_0x2150a0;this[_0x45a6b3(0x1c3)]=_0x315f0e*_0x5be59f,this[_0x45a6b3(0x1e4)]=_0x5be59f;}}else _0x96b95[_0x45a6b3(0x2e5)]=this[_0x45a6b3(0x394)],this[_0x45a6b3(0x1c3)]=0x0,_0x96b95[_0x45a6b3(0x33f)][_0x45a6b3(0x2fc)](-0x1,_0x96b95[_0x45a6b3(0x2cb)]),this[_0x45a6b3(0x1e4)]=0x1;}}const chassis_velocity_at_contactPoint=new Vec3(),relpos=new Vec3();class RaycastVehicle{constructor(_0x156500){const _0x3f334a=q0_0x3ac257;this[_0x3f334a(0x183)]=_0x156500['chassisBody'],this['wheelInfos']=[],this[_0x3f334a(0x367)]=![],this['world']=null,this['indexRightAxis']=typeof _0x156500['indexRightAxis']!==_0x3f334a(0x2b7)?_0x156500['indexRightAxis']:0x2,this[_0x3f334a(0x2b5)]=typeof _0x156500[_0x3f334a(0x2b5)]!==_0x3f334a(0x2b7)?_0x156500[_0x3f334a(0x2b5)]:0x0,this['indexUpAxis']=typeof _0x156500[_0x3f334a(0x27c)]!==_0x3f334a(0x2b7)?_0x156500['indexUpAxis']:0x1,this[_0x3f334a(0x2d0)]=[],this[_0x3f334a(0x2d5)]=()=>{},this[_0x3f334a(0x2fa)]=0x0,this[_0x3f334a(0x295)]=0x0;}[q0_0x3ac257(0x2dc)](_0x1cc9cf){const _0x8c297=q0_0x3ac257;_0x1cc9cf===void 0x0&&(_0x1cc9cf={});const _0x37b563=new WheelInfo(_0x1cc9cf),_0x58f3b2=this[_0x8c297(0x25c)][_0x8c297(0x25b)];return this[_0x8c297(0x25c)][_0x8c297(0x2b9)](_0x37b563),_0x58f3b2;}[q0_0x3ac257(0x162)](_0x3b6994,_0x191be1){const _0x15446d=q0_0x3ac257,_0x338ad3=this[_0x15446d(0x25c)][_0x191be1];_0x338ad3[_0x15446d(0x208)]=_0x3b6994;}[q0_0x3ac257(0x193)](_0x26714c,_0x5cfef0){const _0x1381a6=q0_0x3ac257;this[_0x1381a6(0x25c)][_0x5cfef0]['engineForce']=_0x26714c;}[q0_0x3ac257(0x299)](_0x22ee7c,_0xf361b3){const _0x32222c=q0_0x3ac257;this[_0x32222c(0x25c)][_0xf361b3][_0x32222c(0x1fc)]=_0x22ee7c;}[q0_0x3ac257(0x2b8)](_0x1e425b){const _0x5abf0e=q0_0x3ac257;_0x1e425b[_0x5abf0e(0x286)](this[_0x5abf0e(0x183)]);const _0x33a62=this;this[_0x5abf0e(0x2d5)]=()=>{const _0x580a92=_0x5abf0e;_0x33a62[_0x580a92(0x2c8)](_0x1e425b['dt']);},_0x1e425b[_0x5abf0e(0x1b4)](_0x5abf0e(0x28d),this[_0x5abf0e(0x2d5)]),this[_0x5abf0e(0x24d)]=_0x1e425b;}[q0_0x3ac257(0x24f)](_0x2dbb0a,_0x32b98b){const _0x455916=q0_0x3ac257;_0x32b98b[_0x455916(0x38a)](_0x2dbb0a===0x0?0x1:0x0,_0x2dbb0a===0x1?0x1:0x0,_0x2dbb0a===0x2?0x1:0x0),this[_0x455916(0x183)][_0x455916(0x29a)](_0x32b98b,_0x32b98b);}[q0_0x3ac257(0x2c8)](_0x54be36){const _0x3aa64e=q0_0x3ac257,_0x514b41=this[_0x3aa64e(0x25c)],_0x17eea9=_0x514b41[_0x3aa64e(0x25b)],_0x3dd430=this[_0x3aa64e(0x183)];for(let _0x39cd4a=0x0;_0x39cd4a<_0x17eea9;_0x39cd4a++){this[_0x3aa64e(0x2c1)](_0x39cd4a);}this[_0x3aa64e(0x2fa)]=3.6*_0x3dd430[_0x3aa64e(0x1d1)][_0x3aa64e(0x25b)]();const _0x52f80c=new Vec3();this[_0x3aa64e(0x24f)](this['indexForwardAxis'],_0x52f80c);_0x52f80c[_0x3aa64e(0x318)](_0x3dd430[_0x3aa64e(0x1d1)])<0x0&&(this[_0x3aa64e(0x2fa)]*=-0x1);for(let _0x1056af=0x0;_0x1056af<_0x17eea9;_0x1056af++){this[_0x3aa64e(0x2d2)](_0x514b41[_0x1056af]);}this[_0x3aa64e(0x309)](_0x54be36);const _0x232aec=new Vec3(),_0x5a5bb4=new Vec3();for(let _0x5ec6a8=0x0;_0x5ec6a8<_0x17eea9;_0x5ec6a8++){const _0x3c52dd=_0x514b41[_0x5ec6a8];let _0x5cab69=_0x3c52dd[_0x3aa64e(0x160)];_0x5cab69>_0x3c52dd[_0x3aa64e(0x2d4)]&&(_0x5cab69=_0x3c52dd[_0x3aa64e(0x2d4)]),_0x3c52dd['raycastResult'][_0x3aa64e(0x2cb)][_0x3aa64e(0x2fc)](_0x5cab69*_0x54be36,_0x232aec),_0x3c52dd['raycastResult'][_0x3aa64e(0x292)]['vsub'](_0x3dd430[_0x3aa64e(0x252)],_0x5a5bb4),_0x3dd430[_0x3aa64e(0x311)](_0x232aec,_0x5a5bb4);}this[_0x3aa64e(0x2e0)](_0x54be36);const _0x2d7775=new Vec3(),_0x307008=new Vec3(),_0x3334dd=new Vec3();for(let _0x3d33ff=0x0;_0x3d33ff<_0x17eea9;_0x3d33ff++){const _0x1b4c06=_0x514b41[_0x3d33ff];_0x3dd430[_0x3aa64e(0x3c5)](_0x1b4c06['chassisConnectionPointWorld'],_0x3334dd);let _0x119f14=0x1;switch(this[_0x3aa64e(0x27c)]){case 0x1:_0x119f14=-0x1;break;}if(_0x1b4c06['isInContact']){this[_0x3aa64e(0x24f)](this['indexForwardAxis'],_0x307008);const _0x57c4cf=_0x307008['dot'](_0x1b4c06[_0x3aa64e(0x1a5)][_0x3aa64e(0x2cb)]);_0x1b4c06[_0x3aa64e(0x1a5)][_0x3aa64e(0x2cb)][_0x3aa64e(0x2fc)](_0x57c4cf,_0x2d7775),_0x307008[_0x3aa64e(0x325)](_0x2d7775,_0x307008);const _0x2c937f=_0x307008[_0x3aa64e(0x318)](_0x3334dd);_0x1b4c06[_0x3aa64e(0x3c2)]=_0x119f14*_0x2c937f*_0x54be36/_0x1b4c06['radius'];}(_0x1b4c06[_0x3aa64e(0x367)]||!_0x1b4c06[_0x3aa64e(0x1de)])&&_0x1b4c06[_0x3aa64e(0x16a)]!==0x0&&_0x1b4c06['useCustomSlidingRotationalSpeed']&&(_0x1b4c06[_0x3aa64e(0x3c2)]=(_0x1b4c06[_0x3aa64e(0x16a)]>0x0?0x1:-0x1)*_0x1b4c06[_0x3aa64e(0x2a6)]*_0x54be36),Math['abs'](_0x1b4c06[_0x3aa64e(0x1fc)])>Math['abs'](_0x1b4c06[_0x3aa64e(0x16a)])&&(_0x1b4c06[_0x3aa64e(0x3c2)]=0x0),_0x1b4c06['rotation']+=_0x1b4c06[_0x3aa64e(0x3c2)],_0x1b4c06['deltaRotation']*=0.99;}}[q0_0x3ac257(0x309)](_0x49ccf6){const _0x2c78fc=q0_0x3ac257,_0xc0bf66=this[_0x2c78fc(0x183)],_0x2341e1=_0xc0bf66['mass'],_0x51f404=this[_0x2c78fc(0x25c)],_0x437651=_0x51f404[_0x2c78fc(0x25b)];for(let _0x44b4ca=0x0;_0x44b4ca<_0x437651;_0x44b4ca++){const _0xccebf2=_0x51f404[_0x44b4ca];if(_0xccebf2[_0x2c78fc(0x1de)]){let _0x32c535;const _0x540bc8=_0xccebf2[_0x2c78fc(0x394)],_0x451284=_0xccebf2['suspensionLength'],_0x547782=_0x540bc8-_0x451284;_0x32c535=_0xccebf2['suspensionStiffness']*_0x547782*_0xccebf2[_0x2c78fc(0x1e4)];const _0x238605=_0xccebf2['suspensionRelativeVelocity'];let _0x54e3fd;_0x238605<0x0?_0x54e3fd=_0xccebf2[_0x2c78fc(0x35c)]:_0x54e3fd=_0xccebf2[_0x2c78fc(0x2aa)],_0x32c535-=_0x54e3fd*_0x238605,_0xccebf2[_0x2c78fc(0x160)]=_0x32c535*_0x2341e1,_0xccebf2['suspensionForce']<0x0&&(_0xccebf2[_0x2c78fc(0x160)]=0x0);}else _0xccebf2[_0x2c78fc(0x160)]=0x0;}}['removeFromWorld'](_0x326658){const _0x400b8e=q0_0x3ac257;this['constraints'],_0x326658[_0x400b8e(0x1f6)](this[_0x400b8e(0x183)]),_0x326658[_0x400b8e(0x2e2)]('preStep',this[_0x400b8e(0x2d5)]),this[_0x400b8e(0x24d)]=null;}[q0_0x3ac257(0x2d2)](_0x5c0b4f){const _0x7118fb=q0_0x3ac257,_0x5c6ade=castRay_rayvector,_0x558c6f=castRay_target;this[_0x7118fb(0x178)](_0x5c0b4f);const _0x147319=this[_0x7118fb(0x183)];let _0x88813=-0x1;const _0x2c6d22=_0x5c0b4f[_0x7118fb(0x394)]+_0x5c0b4f[_0x7118fb(0x32a)];_0x5c0b4f[_0x7118fb(0x33f)][_0x7118fb(0x2fc)](_0x2c6d22,_0x5c6ade);const _0x491909=_0x5c0b4f['chassisConnectionPointWorld'];_0x491909[_0x7118fb(0x3d7)](_0x5c6ade,_0x558c6f);const _0x5b7b3c=_0x5c0b4f[_0x7118fb(0x1a5)];_0x5b7b3c[_0x7118fb(0x2c4)]();const _0x3a1541=_0x147319[_0x7118fb(0x1a0)];_0x147319['collisionResponse']=![],this[_0x7118fb(0x24d)][_0x7118fb(0x271)](_0x491909,_0x558c6f,_0x5b7b3c),_0x147319['collisionResponse']=_0x3a1541;const _0x4b68f4=_0x5b7b3c[_0x7118fb(0x350)];_0x5c0b4f[_0x7118fb(0x1a5)][_0x7118fb(0x283)]=0x0;if(_0x4b68f4){_0x88813=_0x5b7b3c[_0x7118fb(0x241)],_0x5c0b4f[_0x7118fb(0x1a5)][_0x7118fb(0x2cb)]=_0x5b7b3c[_0x7118fb(0x2cb)],_0x5c0b4f['isInContact']=!![];const _0x4e8975=_0x5b7b3c['distance'];_0x5c0b4f[_0x7118fb(0x2e5)]=_0x4e8975-_0x5c0b4f[_0x7118fb(0x32a)];const _0x185c04=_0x5c0b4f[_0x7118fb(0x394)]-_0x5c0b4f[_0x7118fb(0x19a)],_0x4fd991=_0x5c0b4f[_0x7118fb(0x394)]+_0x5c0b4f[_0x7118fb(0x19a)];_0x5c0b4f['suspensionLength']<_0x185c04&&(_0x5c0b4f['suspensionLength']=_0x185c04);_0x5c0b4f[_0x7118fb(0x2e5)]>_0x4fd991&&(_0x5c0b4f['suspensionLength']=_0x4fd991,_0x5c0b4f[_0x7118fb(0x1a5)][_0x7118fb(0x2c4)]());const _0x3ff396=_0x5c0b4f[_0x7118fb(0x1a5)][_0x7118fb(0x2cb)][_0x7118fb(0x318)](_0x5c0b4f['directionWorld']),_0x4021e5=new Vec3();_0x147319[_0x7118fb(0x3c5)](_0x5c0b4f[_0x7118fb(0x1a5)]['hitPointWorld'],_0x4021e5);const _0x40cda5=_0x5c0b4f['raycastResult'][_0x7118fb(0x2cb)][_0x7118fb(0x318)](_0x4021e5);if(_0x3ff396>=-0.1)_0x5c0b4f['suspensionRelativeVelocity']=0x0,_0x5c0b4f[_0x7118fb(0x1e4)]=0x1/0.1;else{const _0x584b80=-0x1/_0x3ff396;_0x5c0b4f[_0x7118fb(0x1c3)]=_0x40cda5*_0x584b80,_0x5c0b4f[_0x7118fb(0x1e4)]=_0x584b80;}}else _0x5c0b4f[_0x7118fb(0x2e5)]=_0x5c0b4f[_0x7118fb(0x394)]+0x0*_0x5c0b4f[_0x7118fb(0x19a)],_0x5c0b4f[_0x7118fb(0x1c3)]=0x0,_0x5c0b4f[_0x7118fb(0x33f)][_0x7118fb(0x2fc)](-0x1,_0x5c0b4f[_0x7118fb(0x1a5)][_0x7118fb(0x2cb)]),_0x5c0b4f['clippedInvContactDotSuspension']=0x1;return _0x88813;}['updateWheelTransformWorld'](_0x2e2347){const _0x433df1=q0_0x3ac257;_0x2e2347[_0x433df1(0x1de)]=![];const _0x1588b2=this['chassisBody'];_0x1588b2[_0x433df1(0x3dc)](_0x2e2347[_0x433df1(0x370)],_0x2e2347[_0x433df1(0x346)]),_0x1588b2['vectorToWorldFrame'](_0x2e2347['directionLocal'],_0x2e2347[_0x433df1(0x33f)]),_0x1588b2[_0x433df1(0x29a)](_0x2e2347['axleLocal'],_0x2e2347[_0x433df1(0x1a1)]);}[q0_0x3ac257(0x2c1)](_0x2d22e6){const _0x327931=q0_0x3ac257,_0x2f9a68=tmpVec4,_0x25c32c=tmpVec5,_0x17bec9=tmpVec6,_0x4f691f=this[_0x327931(0x25c)][_0x2d22e6];this[_0x327931(0x178)](_0x4f691f),_0x4f691f[_0x327931(0x358)][_0x327931(0x2fc)](-0x1,_0x2f9a68),_0x25c32c[_0x327931(0x191)](_0x4f691f[_0x327931(0x336)]),_0x2f9a68[_0x327931(0x2cc)](_0x25c32c,_0x17bec9),_0x17bec9['normalize'](),_0x25c32c[_0x327931(0x2eb)]();const _0x41ed34=_0x4f691f[_0x327931(0x208)],_0x3ffd7a=new Quaternion();_0x3ffd7a[_0x327931(0x39c)](_0x2f9a68,_0x41ed34);const _0x5f4245=new Quaternion();_0x5f4245[_0x327931(0x39c)](_0x25c32c,_0x4f691f['rotation']);const _0x478bd3=_0x4f691f[_0x327931(0x2d3)][_0x327931(0x3cd)];this[_0x327931(0x183)]['quaternion']['mult'](_0x3ffd7a,_0x478bd3),_0x478bd3[_0x327931(0x28a)](_0x5f4245,_0x478bd3),_0x478bd3[_0x327931(0x2eb)]();const _0x1b05d3=_0x4f691f['worldTransform'][_0x327931(0x252)];_0x1b05d3[_0x327931(0x191)](_0x4f691f[_0x327931(0x33f)]),_0x1b05d3[_0x327931(0x2fc)](_0x4f691f[_0x327931(0x2e5)],_0x1b05d3),_0x1b05d3[_0x327931(0x3d7)](_0x4f691f['chassisConnectionPointWorld'],_0x1b05d3);}[q0_0x3ac257(0x3e9)](_0x2d80f0){const _0x5b7c95=q0_0x3ac257;return this[_0x5b7c95(0x25c)][_0x2d80f0][_0x5b7c95(0x2d3)];}[q0_0x3ac257(0x2e0)](_0x472f78){const _0x278a15=q0_0x3ac257,_0x6ae355=updateFriction_surfNormalWS_scaled_proj,_0x499f7e=this[_0x278a15(0x25c)],_0x3e4ba5=_0x499f7e[_0x278a15(0x25b)],_0x285344=this['chassisBody'],_0x1dc578=updateFriction_forwardWS,_0x1db4e8=updateFriction_axle;this['numWheelsOnGround']=0x0;for(let _0x5644ec=0x0;_0x5644ec<_0x3e4ba5;_0x5644ec++){const _0x43de53=_0x499f7e[_0x5644ec],_0x98113f=_0x43de53['raycastResult'][_0x278a15(0x350)];_0x98113f&&this[_0x278a15(0x295)]++,_0x43de53['sideImpulse']=0x0,_0x43de53['forwardImpulse']=0x0,!_0x1dc578[_0x5644ec]&&(_0x1dc578[_0x5644ec]=new Vec3()),!_0x1db4e8[_0x5644ec]&&(_0x1db4e8[_0x5644ec]=new Vec3());}for(let _0x88d45c=0x0;_0x88d45c<_0x3e4ba5;_0x88d45c++){const _0x18f79e=_0x499f7e[_0x88d45c],_0x6054f0=_0x18f79e[_0x278a15(0x1a5)][_0x278a15(0x350)];if(_0x6054f0){const _0x34fc86=_0x1db4e8[_0x88d45c],_0x479cb5=this['getWheelTransformWorld'](_0x88d45c);_0x479cb5[_0x278a15(0x29a)](directions[this[_0x278a15(0x2ce)]],_0x34fc86);const _0x29f178=_0x18f79e[_0x278a15(0x1a5)][_0x278a15(0x2cb)],_0x38d777=_0x34fc86[_0x278a15(0x318)](_0x29f178);_0x29f178[_0x278a15(0x2fc)](_0x38d777,_0x6ae355),_0x34fc86[_0x278a15(0x325)](_0x6ae355,_0x34fc86),_0x34fc86[_0x278a15(0x2eb)](),_0x29f178[_0x278a15(0x2cc)](_0x34fc86,_0x1dc578[_0x88d45c]),_0x1dc578[_0x88d45c][_0x278a15(0x2eb)](),_0x18f79e[_0x278a15(0x2c9)]=resolveSingleBilateral(_0x285344,_0x18f79e[_0x278a15(0x1a5)][_0x278a15(0x292)],_0x6054f0,_0x18f79e[_0x278a15(0x1a5)][_0x278a15(0x292)],_0x34fc86),_0x18f79e[_0x278a15(0x2c9)]*=sideFrictionStiffness2;}}const _0x401064=0x1,_0x17cc93=0.5;this[_0x278a15(0x367)]=![];for(let _0x2414bb=0x0;_0x2414bb<_0x3e4ba5;_0x2414bb++){const _0x2edf1c=_0x499f7e[_0x2414bb],_0x3f964a=_0x2edf1c[_0x278a15(0x1a5)][_0x278a15(0x350)];let _0x1bffb2=0x0;_0x2edf1c[_0x278a15(0x2e6)]=0x1;if(_0x3f964a){const _0x4da006=0x0,_0xcc9025=_0x2edf1c['brake']?_0x2edf1c[_0x278a15(0x1fc)]:_0x4da006;_0x1bffb2=calcRollingFriction(_0x285344,_0x3f964a,_0x2edf1c[_0x278a15(0x1a5)]['hitPointWorld'],_0x1dc578[_0x2414bb],_0xcc9025),_0x1bffb2+=_0x2edf1c['engineForce']*_0x472f78;const _0x257e93=_0xcc9025/_0x1bffb2;_0x2edf1c[_0x278a15(0x2e6)]*=_0x257e93;}_0x2edf1c[_0x278a15(0x1dd)]=0x0,_0x2edf1c[_0x278a15(0x281)]=0x1;if(_0x3f964a){_0x2edf1c[_0x278a15(0x281)]=0x1;const _0x1edd29=_0x2edf1c[_0x278a15(0x160)]*_0x472f78*_0x2edf1c[_0x278a15(0x2a4)],_0x3af053=_0x1edd29,_0x569bca=_0x1edd29*_0x3af053;_0x2edf1c['forwardImpulse']=_0x1bffb2;const _0x32f5f2=_0x2edf1c[_0x278a15(0x1dd)]*_0x17cc93/_0x2edf1c[_0x278a15(0x1cf)],_0x153240=_0x2edf1c[_0x278a15(0x2c9)]*_0x401064/_0x2edf1c[_0x278a15(0x168)],_0x509e6e=_0x32f5f2*_0x32f5f2+_0x153240*_0x153240;_0x2edf1c[_0x278a15(0x367)]=![];if(_0x509e6e>_0x569bca){this[_0x278a15(0x367)]=!![],_0x2edf1c[_0x278a15(0x367)]=!![];const _0x38b157=_0x1edd29/Math[_0x278a15(0x1e2)](_0x509e6e);_0x2edf1c[_0x278a15(0x281)]*=_0x38b157;}}}if(this[_0x278a15(0x367)])for(let _0x489593=0x0;_0x489593<_0x3e4ba5;_0x489593++){const _0x222894=_0x499f7e[_0x489593];_0x222894['sideImpulse']!==0x0&&(_0x222894[_0x278a15(0x281)]<0x1&&(_0x222894[_0x278a15(0x1dd)]*=_0x222894['skidInfo'],_0x222894['sideImpulse']*=_0x222894['skidInfo']));}for(let _0x8a4144=0x0;_0x8a4144<_0x3e4ba5;_0x8a4144++){const _0x218fd3=_0x499f7e[_0x8a4144],_0x32ea7c=new Vec3();_0x218fd3[_0x278a15(0x1a5)][_0x278a15(0x292)][_0x278a15(0x325)](_0x285344['position'],_0x32ea7c);if(_0x218fd3['forwardImpulse']!==0x0){const _0x300f44=new Vec3();_0x1dc578[_0x8a4144][_0x278a15(0x2fc)](_0x218fd3[_0x278a15(0x1dd)],_0x300f44),_0x285344['applyImpulse'](_0x300f44,_0x32ea7c);}if(_0x218fd3[_0x278a15(0x2c9)]!==0x0){const _0x91f81d=_0x218fd3[_0x278a15(0x1a5)]['body'],_0x3edd14=new Vec3();_0x218fd3[_0x278a15(0x1a5)]['hitPointWorld'][_0x278a15(0x325)](_0x91f81d['position'],_0x3edd14);const _0x26c96a=new Vec3();_0x1db4e8[_0x8a4144][_0x278a15(0x2fc)](_0x218fd3[_0x278a15(0x2c9)],_0x26c96a),_0x285344['vectorToLocalFrame'](_0x32ea7c,_0x32ea7c),_0x32ea7c[_0x278a15(0x161)[this[_0x278a15(0x27c)]]]*=_0x218fd3[_0x278a15(0x195)],_0x285344[_0x278a15(0x29a)](_0x32ea7c,_0x32ea7c),_0x285344[_0x278a15(0x311)](_0x26c96a,_0x32ea7c),_0x26c96a['scale'](-0x1,_0x26c96a),_0x91f81d[_0x278a15(0x311)](_0x26c96a,_0x3edd14);}}}}new Vec3(),new Vec3(),new Vec3();const tmpVec4=new Vec3(),tmpVec5=new Vec3(),tmpVec6=new Vec3();new Ray(),new Vec3();const castRay_rayvector=new Vec3(),castRay_target=new Vec3(),directions=[new Vec3(0x1,0x0,0x0),new Vec3(0x0,0x1,0x0),new Vec3(0x0,0x0,0x1)],updateFriction_surfNormalWS_scaled_proj=new Vec3(),updateFriction_axle=[],updateFriction_forwardWS=[],sideFrictionStiffness2=0x1,calcRollingFriction_vel1=new Vec3(),calcRollingFriction_vel2=new Vec3(),calcRollingFriction_vel=new Vec3();function calcRollingFriction(_0x15f5c8,_0x592dae,_0x11826f,_0x2320c3,_0x9affc){const _0x5c07f3=q0_0x3ac257;let _0x50a57e=0x0;const _0x29f30b=_0x11826f,_0x340e90=calcRollingFriction_vel1,_0x233dc7=calcRollingFriction_vel2,_0x490d69=calcRollingFriction_vel;_0x15f5c8[_0x5c07f3(0x3c5)](_0x29f30b,_0x340e90),_0x592dae['getVelocityAtWorldPoint'](_0x29f30b,_0x233dc7),_0x340e90[_0x5c07f3(0x325)](_0x233dc7,_0x490d69);const _0x131eed=_0x2320c3[_0x5c07f3(0x318)](_0x490d69),_0x7c84dd=computeImpulseDenominator(_0x15f5c8,_0x11826f,_0x2320c3),_0x29f715=computeImpulseDenominator(_0x592dae,_0x11826f,_0x2320c3),_0x50aa44=0x1,_0x24c134=_0x50aa44/(_0x7c84dd+_0x29f715);return _0x50a57e=-_0x131eed*_0x24c134,_0x9affc<_0x50a57e&&(_0x50a57e=_0x9affc),_0x50a57e<-_0x9affc&&(_0x50a57e=-_0x9affc),_0x50a57e;}const computeImpulseDenominator_r0=new Vec3(),computeImpulseDenominator_c0=new Vec3(),computeImpulseDenominator_vec=new Vec3(),computeImpulseDenominator_m=new Vec3();function computeImpulseDenominator(_0x30325f,_0x238a4c,_0x36376c){const _0x276393=q0_0x3ac257,_0x4721fd=computeImpulseDenominator_r0,_0x3b31da=computeImpulseDenominator_c0,_0x1e474d=computeImpulseDenominator_vec,_0x355809=computeImpulseDenominator_m;return _0x238a4c['vsub'](_0x30325f[_0x276393(0x252)],_0x4721fd),_0x4721fd['cross'](_0x36376c,_0x3b31da),_0x30325f['invInertiaWorld'][_0x276393(0x205)](_0x3b31da,_0x355809),_0x355809[_0x276393(0x2cc)](_0x4721fd,_0x1e474d),_0x30325f[_0x276393(0x213)]+_0x36376c[_0x276393(0x318)](_0x1e474d);}const resolveSingleBilateral_vel1=new Vec3(),resolveSingleBilateral_vel2=new Vec3(),resolveSingleBilateral_vel=new Vec3();function resolveSingleBilateral(_0x54c055,_0x415f15,_0x30f31e,_0x89795c,_0x1ba2db){const _0x206930=q0_0x3ac257,_0x5318b5=_0x1ba2db['lengthSquared']();if(_0x5318b5>1.1)return 0x0;const _0x9be66e=resolveSingleBilateral_vel1,_0x4aeb7b=resolveSingleBilateral_vel2,_0x1c877d=resolveSingleBilateral_vel;_0x54c055[_0x206930(0x3c5)](_0x415f15,_0x9be66e),_0x30f31e[_0x206930(0x3c5)](_0x89795c,_0x4aeb7b),_0x9be66e['vsub'](_0x4aeb7b,_0x1c877d);const _0x27b7a0=_0x1ba2db[_0x206930(0x318)](_0x1c877d),_0x9c804=0.2,_0x5c0ea5=0x1/(_0x54c055[_0x206930(0x213)]+_0x30f31e[_0x206930(0x213)]),_0x3e33a1=-_0x9c804*_0x27b7a0*_0x5c0ea5;return _0x3e33a1;}class Sphere extends Shape{constructor(_0x173334){const _0x1694c1=q0_0x3ac257;super({'type':Shape[_0x1694c1(0x27f)][_0x1694c1(0x380)]}),this['radius']=_0x173334!==undefined?_0x173334:0x1;if(this[_0x1694c1(0x32a)]<0x0)throw new Error(_0x1694c1(0x390));this['updateBoundingSphereRadius']();}['calculateLocalInertia'](_0x4c2e86,_0x2450a8){_0x2450a8===void 0x0&&(_0x2450a8=new Vec3());const _0x374955=0x2*_0x4c2e86*this['radius']*this['radius']/0x5;return _0x2450a8['x']=_0x374955,_0x2450a8['y']=_0x374955,_0x2450a8['z']=_0x374955,_0x2450a8;}['volume'](){const _0x46e425=q0_0x3ac257;return 0x4*Math['PI']*Math[_0x46e425(0x363)](this[_0x46e425(0x32a)],0x3)/0x3;}['updateBoundingSphereRadius'](){const _0x5139cf=q0_0x3ac257;this[_0x5139cf(0x2e4)]=this[_0x5139cf(0x32a)];}[q0_0x3ac257(0x270)](_0x55b40f,_0x579ccb,_0x348570,_0x4f41b0){const _0x3671eb=q0_0x3ac257,_0x30a55e=this[_0x3671eb(0x32a)],_0xdca5ce=['x','y','z'];for(let _0x162002=0x0;_0x162002<_0xdca5ce[_0x3671eb(0x25b)];_0x162002++){const _0xd74e3b=_0xdca5ce[_0x162002];_0x348570[_0xd74e3b]=_0x55b40f[_0xd74e3b]-_0x30a55e,_0x4f41b0[_0xd74e3b]=_0x55b40f[_0xd74e3b]+_0x30a55e;}}}class RigidVehicle{constructor(_0x53852f){const _0x16d99a=q0_0x3ac257;_0x53852f===void 0x0&&(_0x53852f={}),this[_0x16d99a(0x3c4)]=[],this[_0x16d99a(0x22d)]=typeof _0x53852f[_0x16d99a(0x22d)]!==_0x16d99a(0x2b7)?_0x53852f[_0x16d99a(0x22d)][_0x16d99a(0x31d)]():new Vec3(0x1,0x2,0x3),_0x53852f[_0x16d99a(0x183)]?this['chassisBody']=_0x53852f[_0x16d99a(0x183)]:this[_0x16d99a(0x183)]=new Body({'mass':0x1,'shape':new Box(new Vec3(0x5,0.5,0x2))}),this[_0x16d99a(0x2d0)]=[],this[_0x16d99a(0x2bd)]=[],this[_0x16d99a(0x29f)]=[];}[q0_0x3ac257(0x2dc)](_0x241034){const _0x506380=q0_0x3ac257;_0x241034===void 0x0&&(_0x241034={});let _0x1ba8c7;_0x241034[_0x506380(0x350)]?_0x1ba8c7=_0x241034[_0x506380(0x350)]:_0x1ba8c7=new Body({'mass':0x1,'shape':new Sphere(1.2)});this[_0x506380(0x3c4)][_0x506380(0x2b9)](_0x1ba8c7),this[_0x506380(0x29f)][_0x506380(0x2b9)](0x0);const _0xf1d089=typeof _0x241034[_0x506380(0x252)]!==_0x506380(0x2b7)?_0x241034['position'][_0x506380(0x31d)]():new Vec3(),_0xeef74b=new Vec3();this['chassisBody']['pointToWorldFrame'](_0xf1d089,_0xeef74b),_0x1ba8c7[_0x506380(0x252)][_0x506380(0x38a)](_0xeef74b['x'],_0xeef74b['y'],_0xeef74b['z']);const _0x1a896c=typeof _0x241034['axis']!==_0x506380(0x2b7)?_0x241034['axis'][_0x506380(0x31d)]():new Vec3(0x0,0x0,0x1);this[_0x506380(0x2bd)][_0x506380(0x2b9)](_0x1a896c);const _0x1c48fc=new HingeConstraint(this[_0x506380(0x183)],_0x1ba8c7,{'pivotA':_0xf1d089,'axisA':_0x1a896c,'pivotB':Vec3[_0x506380(0x1b7)],'axisB':_0x1a896c,'collideConnected':![]});return this[_0x506380(0x2d0)]['push'](_0x1c48fc),this[_0x506380(0x3c4)]['length']-0x1;}[q0_0x3ac257(0x162)](_0x29ba04,_0x179087){const _0x3b5001=q0_0x3ac257,_0x53a0f6=this[_0x3b5001(0x2bd)][_0x179087],_0x1bb975=Math['cos'](_0x29ba04),_0x3cf8e9=Math['sin'](_0x29ba04),_0x199788=_0x53a0f6['x'],_0x853b10=_0x53a0f6['z'];this[_0x3b5001(0x2d0)][_0x179087]['axisA']['set'](-_0x1bb975*_0x199788+_0x3cf8e9*_0x853b10,0x0,_0x3cf8e9*_0x199788+_0x1bb975*_0x853b10);}[q0_0x3ac257(0x20f)](_0x4e6442,_0x42d914){const _0x44822f=q0_0x3ac257,_0x10bd34=this[_0x44822f(0x2d0)][_0x42d914];_0x10bd34[_0x44822f(0x326)](),_0x10bd34[_0x44822f(0x34f)]=_0x4e6442;}[q0_0x3ac257(0x374)](_0x3abdba){const _0x86d8d9=q0_0x3ac257,_0x3287f6=this[_0x86d8d9(0x2d0)][_0x3abdba];_0x3287f6[_0x86d8d9(0x374)]();}[q0_0x3ac257(0x3eb)](_0x47aa85,_0x4224fd){const _0x11c6c2=q0_0x3ac257;this[_0x11c6c2(0x29f)][_0x4224fd]=_0x47aa85;}[q0_0x3ac257(0x1a4)](_0x770e64,_0x540924){const _0x1f6272=q0_0x3ac257,_0x51f58f=this[_0x1f6272(0x2bd)][_0x540924],_0x5c4a01=this[_0x1f6272(0x3c4)][_0x540924],_0xe4d265=_0x5c4a01[_0x1f6272(0x2ea)];_0x51f58f[_0x1f6272(0x2fc)](_0x770e64,torque),_0x5c4a01[_0x1f6272(0x29a)](torque,torque),_0xe4d265['vadd'](torque,_0xe4d265);}[q0_0x3ac257(0x2b8)](_0x5ea1f4){const _0x322ca7=q0_0x3ac257,_0x57e1c1=this[_0x322ca7(0x2d0)],_0x30269a=this[_0x322ca7(0x3c4)][_0x322ca7(0x2fb)]([this[_0x322ca7(0x183)]]);for(let _0x4bc666=0x0;_0x4bc666<_0x30269a[_0x322ca7(0x25b)];_0x4bc666++){_0x5ea1f4[_0x322ca7(0x286)](_0x30269a[_0x4bc666]);}for(let _0x201d93=0x0;_0x201d93<_0x57e1c1[_0x322ca7(0x25b)];_0x201d93++){_0x5ea1f4['addConstraint'](_0x57e1c1[_0x201d93]);}_0x5ea1f4[_0x322ca7(0x1b4)](_0x322ca7(0x28d),this['_update'][_0x322ca7(0x2e1)](this));}[q0_0x3ac257(0x3d0)](){const _0x1f9af8=q0_0x3ac257,_0x385bd1=this[_0x1f9af8(0x29f)];for(let _0x51acee=0x0;_0x51acee<_0x385bd1[_0x1f9af8(0x25b)];_0x51acee++){this['applyWheelForce'](_0x385bd1[_0x51acee],_0x51acee);}}[q0_0x3ac257(0x315)](_0x245905){const _0x58c566=q0_0x3ac257,_0xe6514b=this['constraints'],_0x551a2d=this[_0x58c566(0x3c4)][_0x58c566(0x2fb)]([this['chassisBody']]);for(let _0x37d107=0x0;_0x37d107<_0x551a2d[_0x58c566(0x25b)];_0x37d107++){_0x245905['removeBody'](_0x551a2d[_0x37d107]);}for(let _0x31fd1a=0x0;_0x31fd1a<_0xe6514b['length'];_0x31fd1a++){_0x245905[_0x58c566(0x1f7)](_0xe6514b[_0x31fd1a]);}}['getWheelSpeed'](_0x5ec91a){const _0x25705f=q0_0x3ac257,_0x25fb16=this['wheelAxes'][_0x5ec91a],_0x38a9be=this[_0x25705f(0x3c4)][_0x5ec91a],_0x49da1a=_0x38a9be[_0x25705f(0x22b)];return this[_0x25705f(0x183)][_0x25705f(0x29a)](_0x25fb16,worldAxis),_0x49da1a['dot'](worldAxis);}}const torque=new Vec3(),worldAxis=new Vec3();class SPHSystem{constructor(){const _0x35779a=q0_0x3ac257;this['particles']=[],this[_0x35779a(0x37e)]=0x1,this['smoothingRadius']=0x1,this[_0x35779a(0x36a)]=0x1,this[_0x35779a(0x214)]=0.01,this['eps']=0.000001,this[_0x35779a(0x23a)]=[],this[_0x35779a(0x209)]=[],this[_0x35779a(0x3aa)]=[];}[q0_0x3ac257(0x24b)](_0x54abc7){const _0x1e0307=q0_0x3ac257;this[_0x1e0307(0x217)][_0x1e0307(0x2b9)](_0x54abc7),this['neighbors'][_0x1e0307(0x25b)]<this['particles']['length']&&this[_0x1e0307(0x3aa)][_0x1e0307(0x2b9)]([]);}[q0_0x3ac257(0x186)](_0x15fbeb){const _0x4695f3=q0_0x3ac257,_0x5a24a9=this[_0x4695f3(0x217)][_0x4695f3(0x2b3)](_0x15fbeb);_0x5a24a9!==-0x1&&(this[_0x4695f3(0x217)]['splice'](_0x5a24a9,0x1),this[_0x4695f3(0x3aa)][_0x4695f3(0x25b)]>this[_0x4695f3(0x217)][_0x4695f3(0x25b)]&&this['neighbors'][_0x4695f3(0x3b6)]());}['getNeighbors'](_0x34eb3c,_0xaf0291){const _0x3ef9bc=q0_0x3ac257,_0x4c2486=this[_0x3ef9bc(0x217)][_0x3ef9bc(0x25b)],_0x1efcfe=_0x34eb3c['id'],_0x3d76a7=this[_0x3ef9bc(0x328)]*this[_0x3ef9bc(0x328)],_0x447cd5=SPHSystem_getNeighbors_dist;for(let _0x17d07c=0x0;_0x17d07c!==_0x4c2486;_0x17d07c++){const _0x4fe2ed=this['particles'][_0x17d07c];_0x4fe2ed['position']['vsub'](_0x34eb3c[_0x3ef9bc(0x252)],_0x447cd5),_0x1efcfe!==_0x4fe2ed['id']&&_0x447cd5[_0x3ef9bc(0x312)]()<_0x3d76a7&&_0xaf0291['push'](_0x4fe2ed);}}[q0_0x3ac257(0x338)](){const _0x3373a4=q0_0x3ac257,_0x116527=this[_0x3373a4(0x217)][_0x3373a4(0x25b)],_0x51338a=SPHSystem_update_dist,_0xdc7052=this[_0x3373a4(0x36a)],_0x28d007=this[_0x3373a4(0x276)];for(let _0x31e193=0x0;_0x31e193!==_0x116527;_0x31e193++){const _0x4c99a6=this[_0x3373a4(0x217)][_0x31e193],_0x522eaa=this[_0x3373a4(0x3aa)][_0x31e193];_0x522eaa[_0x3373a4(0x25b)]=0x0,this[_0x3373a4(0x19b)](_0x4c99a6,_0x522eaa),_0x522eaa[_0x3373a4(0x2b9)](this[_0x3373a4(0x217)][_0x31e193]);const _0x15f144=_0x522eaa[_0x3373a4(0x25b)];let _0x1b7a13=0x0;for(let _0x4690b7=0x0;_0x4690b7!==_0x15f144;_0x4690b7++){_0x4c99a6[_0x3373a4(0x252)]['vsub'](_0x522eaa[_0x4690b7][_0x3373a4(0x252)],_0x51338a);const _0x572426=_0x51338a['length'](),_0x2f5bab=this['w'](_0x572426);_0x1b7a13+=_0x522eaa[_0x4690b7][_0x3373a4(0x30f)]*_0x2f5bab;}this[_0x3373a4(0x209)][_0x31e193]=_0x1b7a13,this['pressures'][_0x31e193]=_0xdc7052*_0xdc7052*(this[_0x3373a4(0x209)][_0x31e193]-this[_0x3373a4(0x37e)]);}const _0x3d0f00=SPHSystem_update_a_pressure,_0x287696=SPHSystem_update_a_visc,_0x2c60fe=SPHSystem_update_gradW,_0x418f1e=SPHSystem_update_r_vec,_0x387ddc=SPHSystem_update_u;for(let _0x53e40a=0x0;_0x53e40a!==_0x116527;_0x53e40a++){const _0x35d9a7=this['particles'][_0x53e40a];_0x3d0f00['set'](0x0,0x0,0x0),_0x287696['set'](0x0,0x0,0x0);let _0x5d7c88,_0x441638;const _0x323c7b=this[_0x3373a4(0x3aa)][_0x53e40a],_0x39b930=_0x323c7b[_0x3373a4(0x25b)];for(let _0x3d058e=0x0;_0x3d058e!==_0x39b930;_0x3d058e++){const _0x1eb274=_0x323c7b[_0x3d058e];_0x35d9a7[_0x3373a4(0x252)][_0x3373a4(0x325)](_0x1eb274[_0x3373a4(0x252)],_0x418f1e);const _0x4a33cf=_0x418f1e['length']();_0x5d7c88=-_0x1eb274[_0x3373a4(0x30f)]*(this[_0x3373a4(0x23a)][_0x53e40a]/(this[_0x3373a4(0x209)][_0x53e40a]*this[_0x3373a4(0x209)][_0x53e40a]+_0x28d007)+this[_0x3373a4(0x23a)][_0x3d058e]/(this[_0x3373a4(0x209)][_0x3d058e]*this[_0x3373a4(0x209)][_0x3d058e]+_0x28d007)),this[_0x3373a4(0x192)](_0x418f1e,_0x2c60fe),_0x2c60fe[_0x3373a4(0x2fc)](_0x5d7c88,_0x2c60fe),_0x3d0f00['vadd'](_0x2c60fe,_0x3d0f00),_0x1eb274[_0x3373a4(0x1d1)][_0x3373a4(0x325)](_0x35d9a7[_0x3373a4(0x1d1)],_0x387ddc),_0x387ddc[_0x3373a4(0x2fc)](0x1/(0.0001+this[_0x3373a4(0x209)][_0x53e40a]*this[_0x3373a4(0x209)][_0x3d058e])*this[_0x3373a4(0x214)]*_0x1eb274['mass'],_0x387ddc),_0x441638=this['nablaw'](_0x4a33cf),_0x387ddc[_0x3373a4(0x2fc)](_0x441638,_0x387ddc),_0x287696[_0x3373a4(0x3d7)](_0x387ddc,_0x287696);}_0x287696['scale'](_0x35d9a7[_0x3373a4(0x30f)],_0x287696),_0x3d0f00[_0x3373a4(0x2fc)](_0x35d9a7[_0x3373a4(0x30f)],_0x3d0f00),_0x35d9a7[_0x3373a4(0x27e)][_0x3373a4(0x3d7)](_0x287696,_0x35d9a7[_0x3373a4(0x27e)]),_0x35d9a7[_0x3373a4(0x27e)][_0x3373a4(0x3d7)](_0x3d0f00,_0x35d9a7[_0x3373a4(0x27e)]);}}['w'](_0x32106c){const _0x27ab7d=q0_0x3ac257,_0x3ae6b6=this[_0x27ab7d(0x328)];return 0x13b/(0x40*Math['PI']*_0x3ae6b6**0x9)*(_0x3ae6b6*_0x3ae6b6-_0x32106c*_0x32106c)**0x3;}['gradw'](_0x130d63,_0x5a64e5){const _0x2c6a1f=q0_0x3ac257,_0x481eb3=_0x130d63[_0x2c6a1f(0x25b)](),_0x3ff87a=this[_0x2c6a1f(0x328)];_0x130d63[_0x2c6a1f(0x2fc)](0x3b1/(0x20*Math['PI']*_0x3ff87a**0x9)*(_0x3ff87a*_0x3ff87a-_0x481eb3*_0x481eb3)**0x2,_0x5a64e5);}['nablaw'](_0x387f43){const _0x51d361=q0_0x3ac257,_0x2b7c6b=this[_0x51d361(0x328)],_0x2e5ad2=0x3b1/(0x20*Math['PI']*_0x2b7c6b**0x9)*(_0x2b7c6b*_0x2b7c6b-_0x387f43*_0x387f43)*(0x7*_0x387f43*_0x387f43-0x3*_0x2b7c6b*_0x2b7c6b);return _0x2e5ad2;}}const SPHSystem_getNeighbors_dist=new Vec3(),SPHSystem_update_dist=new Vec3(),SPHSystem_update_a_pressure=new Vec3(),SPHSystem_update_a_visc=new Vec3(),SPHSystem_update_gradW=new Vec3(),SPHSystem_update_r_vec=new Vec3(),SPHSystem_update_u=new Vec3();class Cylinder extends ConvexPolyhedron{constructor(_0x3b3aca,_0x5eba7a,_0x15a67c,_0x50693f){const _0x522245=q0_0x3ac257;_0x3b3aca===void 0x0&&(_0x3b3aca=0x1);_0x5eba7a===void 0x0&&(_0x5eba7a=0x1);_0x15a67c===void 0x0&&(_0x15a67c=0x1);_0x50693f===void 0x0&&(_0x50693f=0x8);if(_0x3b3aca<0x0)throw new Error(_0x522245(0x3bc));if(_0x5eba7a<0x0)throw new Error('The\x20cylinder\x20radiusBottom\x20cannot\x20be\x20negative.');const _0x31c4a6=_0x50693f,_0x16e12a=[],_0x246d70=[],_0x3363fd=[],_0x593a73=[],_0x19c791=[],_0x4ba338=Math[_0x522245(0x2a0)],_0x22533f=Math[_0x522245(0x2a1)];_0x16e12a['push'](new Vec3(-_0x5eba7a*_0x22533f(0x0),-_0x15a67c*0.5,_0x5eba7a*_0x4ba338(0x0))),_0x593a73[_0x522245(0x2b9)](0x0),_0x16e12a[_0x522245(0x2b9)](new Vec3(-_0x3b3aca*_0x22533f(0x0),_0x15a67c*0.5,_0x3b3aca*_0x4ba338(0x0))),_0x19c791[_0x522245(0x2b9)](0x1);for(let _0x46b024=0x0;_0x46b024<_0x31c4a6;_0x46b024++){const _0x59c5b3=0x2*Math['PI']/_0x31c4a6*(_0x46b024+0x1),_0x249f7b=0x2*Math['PI']/_0x31c4a6*(_0x46b024+0.5);_0x46b024<_0x31c4a6-0x1?(_0x16e12a['push'](new Vec3(-_0x5eba7a*_0x22533f(_0x59c5b3),-_0x15a67c*0.5,_0x5eba7a*_0x4ba338(_0x59c5b3))),_0x593a73[_0x522245(0x2b9)](0x2*_0x46b024+0x2),_0x16e12a[_0x522245(0x2b9)](new Vec3(-_0x3b3aca*_0x22533f(_0x59c5b3),_0x15a67c*0.5,_0x3b3aca*_0x4ba338(_0x59c5b3))),_0x19c791[_0x522245(0x2b9)](0x2*_0x46b024+0x3),_0x3363fd[_0x522245(0x2b9)]([0x2*_0x46b024,0x2*_0x46b024+0x1,0x2*_0x46b024+0x3,0x2*_0x46b024+0x2])):_0x3363fd['push']([0x2*_0x46b024,0x2*_0x46b024+0x1,0x1,0x0]),(_0x31c4a6%0x2===0x1||_0x46b024<_0x31c4a6/0x2)&&_0x246d70[_0x522245(0x2b9)](new Vec3(-_0x22533f(_0x249f7b),0x0,_0x4ba338(_0x249f7b)));}_0x3363fd[_0x522245(0x2b9)](_0x593a73),_0x246d70['push'](new Vec3(0x0,0x1,0x0));const _0x2d12e1=[];for(let _0x59b110=0x0;_0x59b110<_0x19c791[_0x522245(0x25b)];_0x59b110++){_0x2d12e1[_0x522245(0x2b9)](_0x19c791[_0x19c791[_0x522245(0x25b)]-_0x59b110-0x1]);}_0x3363fd['push'](_0x2d12e1),super({'vertices':_0x16e12a,'faces':_0x3363fd,'axes':_0x246d70}),this[_0x522245(0x2ba)]=Shape[_0x522245(0x27f)][_0x522245(0x3ed)],this['radiusTop']=_0x3b3aca,this[_0x522245(0x1c0)]=_0x5eba7a,this[_0x522245(0x18f)]=_0x15a67c,this[_0x522245(0x202)]=_0x50693f;}}class Particle extends Shape{constructor(){const _0x354ed2=q0_0x3ac257;super({'type':Shape['types'][_0x354ed2(0x207)]});}['calculateLocalInertia'](_0x4eee5a,_0xd84b70){const _0x42f0a4=q0_0x3ac257;return _0xd84b70===void 0x0&&(_0xd84b70=new Vec3()),_0xd84b70[_0x42f0a4(0x38a)](0x0,0x0,0x0),_0xd84b70;}[q0_0x3ac257(0x268)](){return 0x0;}['updateBoundingSphereRadius'](){const _0x3438d6=q0_0x3ac257;this[_0x3438d6(0x2e4)]=0x0;}[q0_0x3ac257(0x270)](_0x211cc8,_0xc06db5,_0x54f3bb,_0x21f78d){_0x54f3bb['copy'](_0x211cc8),_0x21f78d['copy'](_0x211cc8);}}class Plane extends Shape{constructor(){const _0x5ddf7b=q0_0x3ac257;super({'type':Shape[_0x5ddf7b(0x27f)][_0x5ddf7b(0x1d6)]}),this[_0x5ddf7b(0x269)]=new Vec3(),this[_0x5ddf7b(0x1b0)]=!![],this[_0x5ddf7b(0x2e4)]=Number[_0x5ddf7b(0x16c)];}[q0_0x3ac257(0x194)](_0x475420){const _0x24698e=q0_0x3ac257,_0x452a66=this['worldNormal'];_0x452a66[_0x24698e(0x38a)](0x0,0x0,0x1),_0x475420[_0x24698e(0x205)](_0x452a66,_0x452a66),this[_0x24698e(0x1b0)]=![];}[q0_0x3ac257(0x376)](_0x5d3928,_0x5620bc){return _0x5620bc===void 0x0&&(_0x5620bc=new Vec3()),_0x5620bc;}[q0_0x3ac257(0x268)](){const _0x534b08=q0_0x3ac257;return Number[_0x534b08(0x16c)];}[q0_0x3ac257(0x270)](_0x1cf70e,_0x184640,_0x26753e,_0x5c132c){const _0x1b9d8d=q0_0x3ac257;tempNormal['set'](0x0,0x0,0x1),_0x184640[_0x1b9d8d(0x205)](tempNormal,tempNormal);const _0x11ee32=Number[_0x1b9d8d(0x16c)];_0x26753e[_0x1b9d8d(0x38a)](-_0x11ee32,-_0x11ee32,-_0x11ee32),_0x5c132c['set'](_0x11ee32,_0x11ee32,_0x11ee32);if(tempNormal['x']===0x1)_0x5c132c['x']=_0x1cf70e['x'];else tempNormal['x']===-0x1&&(_0x26753e['x']=_0x1cf70e['x']);if(tempNormal['y']===0x1)_0x5c132c['y']=_0x1cf70e['y'];else tempNormal['y']===-0x1&&(_0x26753e['y']=_0x1cf70e['y']);if(tempNormal['z']===0x1)_0x5c132c['z']=_0x1cf70e['z'];else tempNormal['z']===-0x1&&(_0x26753e['z']=_0x1cf70e['z']);}[q0_0x3ac257(0x199)](){const _0x1d1878=q0_0x3ac257;this[_0x1d1878(0x2e4)]=Number[_0x1d1878(0x16c)];}}const tempNormal=new Vec3();class Heightfield extends Shape{constructor(_0x47bf37,_0x2e0f7f){const _0x2537ae=q0_0x3ac257;_0x2e0f7f===void 0x0&&(_0x2e0f7f={}),_0x2e0f7f=Utils[_0x2537ae(0x3e6)](_0x2e0f7f,{'maxValue':null,'minValue':null,'elementSize':0x1}),super({'type':Shape[_0x2537ae(0x27f)][_0x2537ae(0x369)]}),this[_0x2537ae(0x211)]=_0x47bf37,this[_0x2537ae(0x378)]=_0x2e0f7f[_0x2537ae(0x378)],this[_0x2537ae(0x24e)]=_0x2e0f7f[_0x2537ae(0x24e)],this[_0x2537ae(0x36e)]=_0x2e0f7f[_0x2537ae(0x36e)],_0x2e0f7f['minValue']===null&&this[_0x2537ae(0x1db)](),_0x2e0f7f[_0x2537ae(0x378)]===null&&this[_0x2537ae(0x169)](),this[_0x2537ae(0x339)]=!![],this[_0x2537ae(0x308)]=new ConvexPolyhedron(),this[_0x2537ae(0x2c2)]=new Vec3(),this['updateBoundingSphereRadius'](),this[_0x2537ae(0x3cc)]={};}[q0_0x3ac257(0x338)](){const _0x4ccd01=q0_0x3ac257;this[_0x4ccd01(0x3cc)]={};}[q0_0x3ac257(0x1db)](){const _0x3afb16=q0_0x3ac257,_0x3715d3=this[_0x3afb16(0x211)];let _0x3f4aa2=_0x3715d3[0x0][0x0];for(let _0x542928=0x0;_0x542928!==_0x3715d3['length'];_0x542928++){for(let _0x542a3d=0x0;_0x542a3d!==_0x3715d3[_0x542928][_0x3afb16(0x25b)];_0x542a3d++){const _0x19a53f=_0x3715d3[_0x542928][_0x542a3d];_0x19a53f<_0x3f4aa2&&(_0x3f4aa2=_0x19a53f);}}this[_0x3afb16(0x24e)]=_0x3f4aa2;}[q0_0x3ac257(0x169)](){const _0x49f270=q0_0x3ac257,_0x302d86=this[_0x49f270(0x211)];let _0x5b5e92=_0x302d86[0x0][0x0];for(let _0x1ba21a=0x0;_0x1ba21a!==_0x302d86[_0x49f270(0x25b)];_0x1ba21a++){for(let _0x30e0e2=0x0;_0x30e0e2!==_0x302d86[_0x1ba21a][_0x49f270(0x25b)];_0x30e0e2++){const _0x5bc82c=_0x302d86[_0x1ba21a][_0x30e0e2];_0x5bc82c>_0x5b5e92&&(_0x5b5e92=_0x5bc82c);}}this[_0x49f270(0x378)]=_0x5b5e92;}['setHeightValueAtIndex'](_0x8a1d45,_0x5997c7,_0x418373){const _0x4345b8=q0_0x3ac257,_0x27c51c=this[_0x4345b8(0x211)];_0x27c51c[_0x8a1d45][_0x5997c7]=_0x418373,this['clearCachedConvexTrianglePillar'](_0x8a1d45,_0x5997c7,![]),_0x8a1d45>0x0&&(this[_0x4345b8(0x3b7)](_0x8a1d45-0x1,_0x5997c7,!![]),this[_0x4345b8(0x3b7)](_0x8a1d45-0x1,_0x5997c7,![])),_0x5997c7>0x0&&(this[_0x4345b8(0x3b7)](_0x8a1d45,_0x5997c7-0x1,!![]),this[_0x4345b8(0x3b7)](_0x8a1d45,_0x5997c7-0x1,![])),_0x5997c7>0x0&&_0x8a1d45>0x0&&this[_0x4345b8(0x3b7)](_0x8a1d45-0x1,_0x5997c7-0x1,!![]);}[q0_0x3ac257(0x294)](_0xddc2c9,_0x4da30e,_0x4437d7,_0x412b77,_0xfa8a57){_0xfa8a57===void 0x0&&(_0xfa8a57=[]);const _0xae7b70=this['data'];let _0x3487f9=this['minValue'];for(let _0x352324=_0xddc2c9;_0x352324<=_0x4437d7;_0x352324++){for(let _0xc5a40=_0x4da30e;_0xc5a40<=_0x412b77;_0xc5a40++){const _0x3dccf3=_0xae7b70[_0x352324][_0xc5a40];_0x3dccf3>_0x3487f9&&(_0x3487f9=_0x3dccf3);}}_0xfa8a57[0x0]=this['minValue'],_0xfa8a57[0x1]=_0x3487f9;}['getIndexOfPosition'](_0x5aabb2,_0x16d243,_0x458178,_0x1cafe2){const _0x28b31b=q0_0x3ac257,_0x47cda8=this[_0x28b31b(0x36e)],_0x1cfc0f=this['data'];let _0xdb1ff6=Math[_0x28b31b(0x1ba)](_0x5aabb2/_0x47cda8),_0x390f11=Math[_0x28b31b(0x1ba)](_0x16d243/_0x47cda8);_0x458178[0x0]=_0xdb1ff6,_0x458178[0x1]=_0x390f11;_0x1cafe2&&(_0xdb1ff6<0x0&&(_0xdb1ff6=0x0),_0x390f11<0x0&&(_0x390f11=0x0),_0xdb1ff6>=_0x1cfc0f['length']-0x1&&(_0xdb1ff6=_0x1cfc0f['length']-0x1),_0x390f11>=_0x1cfc0f[0x0][_0x28b31b(0x25b)]-0x1&&(_0x390f11=_0x1cfc0f[0x0][_0x28b31b(0x25b)]-0x1));if(_0xdb1ff6<0x0||_0x390f11<0x0||_0xdb1ff6>=_0x1cfc0f[_0x28b31b(0x25b)]-0x1||_0x390f11>=_0x1cfc0f[0x0][_0x28b31b(0x25b)]-0x1)return![];return!![];}[q0_0x3ac257(0x3ae)](_0x414140,_0x7d47bf,_0x254b98,_0x5e4941,_0x480770,_0x533875){const _0x1cc124=q0_0x3ac257,_0x1647b0=getHeightAt_idx;this[_0x1cc124(0x3e8)](_0x414140,_0x7d47bf,_0x1647b0,_0x254b98);let _0x3f5516=_0x1647b0[0x0],_0x5162cd=_0x1647b0[0x1];const _0x459813=this[_0x1cc124(0x211)];_0x254b98&&(_0x3f5516=Math[_0x1cc124(0x2ad)](_0x459813['length']-0x2,Math[_0x1cc124(0x225)](0x0,_0x3f5516)),_0x5162cd=Math['min'](_0x459813[0x0]['length']-0x2,Math[_0x1cc124(0x225)](0x0,_0x5162cd)));const _0xbc6eb=this[_0x1cc124(0x36e)],_0xaca976=(_0x414140/_0xbc6eb-_0x3f5516)**0x2+(_0x7d47bf/_0xbc6eb-_0x5162cd)**0x2,_0x1a53d8=(_0x414140/_0xbc6eb-(_0x3f5516+0x1))**0x2+(_0x7d47bf/_0xbc6eb-(_0x5162cd+0x1))**0x2,_0x2059aa=_0xaca976>_0x1a53d8;return this[_0x1cc124(0x372)](_0x3f5516,_0x5162cd,_0x2059aa,_0x5e4941,_0x480770,_0x533875),_0x2059aa;}['getNormalAt'](_0x38394d,_0x36dcd7,_0x1aa3ee,_0x25656f){const _0x1ff887=q0_0x3ac257,_0x24e6c7=getNormalAt_a,_0x482fe9=getNormalAt_b,_0x202394=getNormalAt_c,_0x41853c=getNormalAt_e0,_0x4bcccc=getNormalAt_e1;this['getTriangleAt'](_0x38394d,_0x36dcd7,_0x1aa3ee,_0x24e6c7,_0x482fe9,_0x202394),_0x482fe9[_0x1ff887(0x325)](_0x24e6c7,_0x41853c),_0x202394[_0x1ff887(0x325)](_0x24e6c7,_0x4bcccc),_0x41853c[_0x1ff887(0x2cc)](_0x4bcccc,_0x25656f),_0x25656f[_0x1ff887(0x2eb)]();}[q0_0x3ac257(0x181)](_0x1efc04,_0x31ecce,_0x36e5e5){const _0x10ff5e=q0_0x3ac257;let {lowerBound:_0x3c457b,upperBound:_0x4f5f94}=_0x36e5e5;const _0x4c90ff=this[_0x10ff5e(0x211)],_0x6164b0=this[_0x10ff5e(0x36e)];_0x3c457b[_0x10ff5e(0x38a)](_0x1efc04*_0x6164b0,_0x31ecce*_0x6164b0,_0x4c90ff[_0x1efc04][_0x31ecce]),_0x4f5f94[_0x10ff5e(0x38a)]((_0x1efc04+0x1)*_0x6164b0,(_0x31ecce+0x1)*_0x6164b0,_0x4c90ff[_0x1efc04+0x1][_0x31ecce+0x1]);}[q0_0x3ac257(0x222)](_0x4bb223,_0x63786d,_0x203eb1){const _0x3d067e=q0_0x3ac257,_0x3818d8=this['data'],_0x567f88=getHeightAt_a,_0x41f613=getHeightAt_b,_0xea930c=getHeightAt_c,_0x10a592=getHeightAt_idx;this[_0x3d067e(0x3e8)](_0x4bb223,_0x63786d,_0x10a592,_0x203eb1);let _0x14fda2=_0x10a592[0x0],_0x54e755=_0x10a592[0x1];_0x203eb1&&(_0x14fda2=Math[_0x3d067e(0x2ad)](_0x3818d8['length']-0x2,Math['max'](0x0,_0x14fda2)),_0x54e755=Math['min'](_0x3818d8[0x0][_0x3d067e(0x25b)]-0x2,Math[_0x3d067e(0x225)](0x0,_0x54e755)));const _0x5f2126=this[_0x3d067e(0x3ae)](_0x4bb223,_0x63786d,_0x203eb1,_0x567f88,_0x41f613,_0xea930c);barycentricWeights(_0x4bb223,_0x63786d,_0x567f88['x'],_0x567f88['y'],_0x41f613['x'],_0x41f613['y'],_0xea930c['x'],_0xea930c['y'],getHeightAt_weights);const _0x5f37aa=getHeightAt_weights;return _0x5f2126?_0x3818d8[_0x14fda2+0x1][_0x54e755+0x1]*_0x5f37aa['x']+_0x3818d8[_0x14fda2][_0x54e755+0x1]*_0x5f37aa['y']+_0x3818d8[_0x14fda2+0x1][_0x54e755]*_0x5f37aa['z']:_0x3818d8[_0x14fda2][_0x54e755]*_0x5f37aa['x']+_0x3818d8[_0x14fda2+0x1][_0x54e755]*_0x5f37aa['y']+_0x3818d8[_0x14fda2][_0x54e755+0x1]*_0x5f37aa['z'];}[q0_0x3ac257(0x34d)](_0x43c1ff,_0x22cbb6,_0x26cea2){return _0x43c1ff+'_'+_0x22cbb6+'_'+(_0x26cea2?0x1:0x0);}['getCachedConvexTrianglePillar'](_0x13559e,_0x58a8a7,_0x5d21bd){const _0x3ed1e3=q0_0x3ac257;return this[_0x3ed1e3(0x3cc)][this[_0x3ed1e3(0x34d)](_0x13559e,_0x58a8a7,_0x5d21bd)];}[q0_0x3ac257(0x200)](_0x460dbd,_0xf3b274,_0x2bf5e9,_0x74842b,_0x49c042){const _0x219470=q0_0x3ac257;this[_0x219470(0x3cc)][this[_0x219470(0x34d)](_0x460dbd,_0xf3b274,_0x2bf5e9)]={'convex':_0x74842b,'offset':_0x49c042};}[q0_0x3ac257(0x3b7)](_0x4c763b,_0x29e8ab,_0x4e3177){const _0x44021a=q0_0x3ac257;delete this[_0x44021a(0x3cc)][this['getCacheConvexTrianglePillarKey'](_0x4c763b,_0x29e8ab,_0x4e3177)];}['getTriangle'](_0x5dd1af,_0x591321,_0x40521c,_0x54de68,_0x28d4a9,_0x102f9d){const _0x2fc08d=q0_0x3ac257,_0x1fff9b=this[_0x2fc08d(0x211)],_0x495e4e=this[_0x2fc08d(0x36e)];_0x40521c?(_0x54de68[_0x2fc08d(0x38a)]((_0x5dd1af+0x1)*_0x495e4e,(_0x591321+0x1)*_0x495e4e,_0x1fff9b[_0x5dd1af+0x1][_0x591321+0x1]),_0x28d4a9[_0x2fc08d(0x38a)](_0x5dd1af*_0x495e4e,(_0x591321+0x1)*_0x495e4e,_0x1fff9b[_0x5dd1af][_0x591321+0x1]),_0x102f9d[_0x2fc08d(0x38a)]((_0x5dd1af+0x1)*_0x495e4e,_0x591321*_0x495e4e,_0x1fff9b[_0x5dd1af+0x1][_0x591321])):(_0x54de68[_0x2fc08d(0x38a)](_0x5dd1af*_0x495e4e,_0x591321*_0x495e4e,_0x1fff9b[_0x5dd1af][_0x591321]),_0x28d4a9[_0x2fc08d(0x38a)]((_0x5dd1af+0x1)*_0x495e4e,_0x591321*_0x495e4e,_0x1fff9b[_0x5dd1af+0x1][_0x591321]),_0x102f9d[_0x2fc08d(0x38a)](_0x5dd1af*_0x495e4e,(_0x591321+0x1)*_0x495e4e,_0x1fff9b[_0x5dd1af][_0x591321+0x1]));}['getConvexTrianglePillar'](_0x5ac883,_0x237e8b,_0x4d4e32){const _0x3b4855=q0_0x3ac257;let _0x4cf8b5=this[_0x3b4855(0x308)],_0x33e2fd=this[_0x3b4855(0x2c2)];if(this[_0x3b4855(0x339)]){const _0x3f9ca7=this['getCachedConvexTrianglePillar'](_0x5ac883,_0x237e8b,_0x4d4e32);if(_0x3f9ca7){this[_0x3b4855(0x308)]=_0x3f9ca7[_0x3b4855(0x371)],this['pillarOffset']=_0x3f9ca7['offset'];return;}_0x4cf8b5=new ConvexPolyhedron(),_0x33e2fd=new Vec3(),this[_0x3b4855(0x308)]=_0x4cf8b5,this[_0x3b4855(0x2c2)]=_0x33e2fd;}const _0x3dc23a=this[_0x3b4855(0x211)],_0xf1d84=this[_0x3b4855(0x36e)],_0x453f7c=_0x4cf8b5[_0x3b4855(0x1a6)];_0x4cf8b5[_0x3b4855(0x32b)][_0x3b4855(0x25b)]=0x6;for(let _0x4365ff=0x0;_0x4365ff<0x6;_0x4365ff++){!_0x4cf8b5['vertices'][_0x4365ff]&&(_0x4cf8b5[_0x3b4855(0x32b)][_0x4365ff]=new Vec3());}_0x453f7c[_0x3b4855(0x25b)]=0x5;for(let _0x1e7dfa=0x0;_0x1e7dfa<0x5;_0x1e7dfa++){!_0x453f7c[_0x1e7dfa]&&(_0x453f7c[_0x1e7dfa]=[]);}const _0x12d4ff=_0x4cf8b5['vertices'],_0x3af8b5=(Math['min'](_0x3dc23a[_0x5ac883][_0x237e8b],_0x3dc23a[_0x5ac883+0x1][_0x237e8b],_0x3dc23a[_0x5ac883][_0x237e8b+0x1],_0x3dc23a[_0x5ac883+0x1][_0x237e8b+0x1])-this[_0x3b4855(0x24e)])/0x2+this[_0x3b4855(0x24e)];!_0x4d4e32?(_0x33e2fd[_0x3b4855(0x38a)]((_0x5ac883+0.25)*_0xf1d84,(_0x237e8b+0.25)*_0xf1d84,_0x3af8b5),_0x12d4ff[0x0][_0x3b4855(0x38a)](-0.25*_0xf1d84,-0.25*_0xf1d84,_0x3dc23a[_0x5ac883][_0x237e8b]-_0x3af8b5),_0x12d4ff[0x1]['set'](0.75*_0xf1d84,-0.25*_0xf1d84,_0x3dc23a[_0x5ac883+0x1][_0x237e8b]-_0x3af8b5),_0x12d4ff[0x2][_0x3b4855(0x38a)](-0.25*_0xf1d84,0.75*_0xf1d84,_0x3dc23a[_0x5ac883][_0x237e8b+0x1]-_0x3af8b5),_0x12d4ff[0x3][_0x3b4855(0x38a)](-0.25*_0xf1d84,-0.25*_0xf1d84,-Math[_0x3b4855(0x23b)](_0x3af8b5)-0x1),_0x12d4ff[0x4][_0x3b4855(0x38a)](0.75*_0xf1d84,-0.25*_0xf1d84,-Math[_0x3b4855(0x23b)](_0x3af8b5)-0x1),_0x12d4ff[0x5][_0x3b4855(0x38a)](-0.25*_0xf1d84,0.75*_0xf1d84,-Math[_0x3b4855(0x23b)](_0x3af8b5)-0x1),_0x453f7c[0x0][0x0]=0x0,_0x453f7c[0x0][0x1]=0x1,_0x453f7c[0x0][0x2]=0x2,_0x453f7c[0x1][0x0]=0x5,_0x453f7c[0x1][0x1]=0x4,_0x453f7c[0x1][0x2]=0x3,_0x453f7c[0x2][0x0]=0x0,_0x453f7c[0x2][0x1]=0x2,_0x453f7c[0x2][0x2]=0x5,_0x453f7c[0x2][0x3]=0x3,_0x453f7c[0x3][0x0]=0x1,_0x453f7c[0x3][0x1]=0x0,_0x453f7c[0x3][0x2]=0x3,_0x453f7c[0x3][0x3]=0x4,_0x453f7c[0x4][0x0]=0x4,_0x453f7c[0x4][0x1]=0x5,_0x453f7c[0x4][0x2]=0x2,_0x453f7c[0x4][0x3]=0x1):(_0x33e2fd[_0x3b4855(0x38a)]((_0x5ac883+0.75)*_0xf1d84,(_0x237e8b+0.75)*_0xf1d84,_0x3af8b5),_0x12d4ff[0x0][_0x3b4855(0x38a)](0.25*_0xf1d84,0.25*_0xf1d84,_0x3dc23a[_0x5ac883+0x1][_0x237e8b+0x1]-_0x3af8b5),_0x12d4ff[0x1][_0x3b4855(0x38a)](-0.75*_0xf1d84,0.25*_0xf1d84,_0x3dc23a[_0x5ac883][_0x237e8b+0x1]-_0x3af8b5),_0x12d4ff[0x2][_0x3b4855(0x38a)](0.25*_0xf1d84,-0.75*_0xf1d84,_0x3dc23a[_0x5ac883+0x1][_0x237e8b]-_0x3af8b5),_0x12d4ff[0x3][_0x3b4855(0x38a)](0.25*_0xf1d84,0.25*_0xf1d84,-Math[_0x3b4855(0x23b)](_0x3af8b5)-0x1),_0x12d4ff[0x4][_0x3b4855(0x38a)](-0.75*_0xf1d84,0.25*_0xf1d84,-Math[_0x3b4855(0x23b)](_0x3af8b5)-0x1),_0x12d4ff[0x5][_0x3b4855(0x38a)](0.25*_0xf1d84,-0.75*_0xf1d84,-Math[_0x3b4855(0x23b)](_0x3af8b5)-0x1),_0x453f7c[0x0][0x0]=0x0,_0x453f7c[0x0][0x1]=0x1,_0x453f7c[0x0][0x2]=0x2,_0x453f7c[0x1][0x0]=0x5,_0x453f7c[0x1][0x1]=0x4,_0x453f7c[0x1][0x2]=0x3,_0x453f7c[0x2][0x0]=0x2,_0x453f7c[0x2][0x1]=0x5,_0x453f7c[0x2][0x2]=0x3,_0x453f7c[0x2][0x3]=0x0,_0x453f7c[0x3][0x0]=0x3,_0x453f7c[0x3][0x1]=0x4,_0x453f7c[0x3][0x2]=0x1,_0x453f7c[0x3][0x3]=0x0,_0x453f7c[0x4][0x0]=0x1,_0x453f7c[0x4][0x1]=0x4,_0x453f7c[0x4][0x2]=0x5,_0x453f7c[0x4][0x3]=0x2),_0x4cf8b5[_0x3b4855(0x321)](),_0x4cf8b5[_0x3b4855(0x20d)](),_0x4cf8b5['updateBoundingSphereRadius'](),this[_0x3b4855(0x200)](_0x5ac883,_0x237e8b,_0x4d4e32,_0x4cf8b5,_0x33e2fd);}[q0_0x3ac257(0x376)](_0x1de1ad,_0x196328){const _0x5c5670=q0_0x3ac257;return _0x196328===void 0x0&&(_0x196328=new Vec3()),_0x196328[_0x5c5670(0x38a)](0x0,0x0,0x0),_0x196328;}[q0_0x3ac257(0x268)](){const _0xd91d6e=q0_0x3ac257;return Number[_0xd91d6e(0x16c)];}['calculateWorldAABB'](_0x963e87,_0x4515a0,_0x10c27b,_0x1f4024){const _0x5ab45c=q0_0x3ac257;_0x10c27b['set'](-Number[_0x5ab45c(0x16c)],-Number[_0x5ab45c(0x16c)],-Number[_0x5ab45c(0x16c)]),_0x1f4024[_0x5ab45c(0x38a)](Number['MAX_VALUE'],Number['MAX_VALUE'],Number['MAX_VALUE']);}[q0_0x3ac257(0x199)](){const _0x376228=q0_0x3ac257,_0x5b4744=this[_0x376228(0x211)],_0x4bfdab=this[_0x376228(0x36e)];this[_0x376228(0x2e4)]=new Vec3(_0x5b4744['length']*_0x4bfdab,_0x5b4744[0x0][_0x376228(0x25b)]*_0x4bfdab,Math[_0x376228(0x225)](Math[_0x376228(0x23b)](this[_0x376228(0x378)]),Math[_0x376228(0x23b)](this[_0x376228(0x24e)])))[_0x376228(0x25b)]();}['setHeightsFromImage'](_0x2a85d8,_0x4b3b6b){const _0x246c47=q0_0x3ac257,{x:_0x32fbf9,z:_0x332cee,y:_0x3cb784}=_0x4b3b6b,_0x3c7c9b=document[_0x246c47(0x25e)]('canvas');_0x3c7c9b['width']=_0x2a85d8[_0x246c47(0x316)],_0x3c7c9b[_0x246c47(0x18f)]=_0x2a85d8[_0x246c47(0x18f)];const _0x14005d=_0x3c7c9b[_0x246c47(0x37a)]('2d');_0x14005d['drawImage'](_0x2a85d8,0x0,0x0);const _0x18c48f=_0x14005d['getImageData'](0x0,0x0,_0x2a85d8[_0x246c47(0x316)],_0x2a85d8[_0x246c47(0x18f)]),_0x314172=this[_0x246c47(0x211)];_0x314172['length']=0x0,this[_0x246c47(0x36e)]=Math[_0x246c47(0x23b)](_0x32fbf9)/_0x18c48f[_0x246c47(0x316)];for(let _0x3efa12=0x0;_0x3efa12<_0x18c48f[_0x246c47(0x18f)];_0x3efa12++){const _0x3049c6=[];for(let _0x11a973=0x0;_0x11a973<_0x18c48f[_0x246c47(0x316)];_0x11a973++){const _0x5d7aa6=_0x18c48f[_0x246c47(0x211)][(_0x3efa12*_0x18c48f['height']+_0x11a973)*0x4],_0x32ca24=_0x18c48f[_0x246c47(0x211)][(_0x3efa12*_0x18c48f[_0x246c47(0x18f)]+_0x11a973)*0x4+0x1],_0x145f86=_0x18c48f[_0x246c47(0x211)][(_0x3efa12*_0x18c48f['height']+_0x11a973)*0x4+0x2],_0x183d3f=(_0x5d7aa6+_0x32ca24+_0x145f86)/0x4/0xff*_0x332cee;_0x32fbf9<0x0?_0x3049c6['push'](_0x183d3f):_0x3049c6[_0x246c47(0x17e)](_0x183d3f);}_0x3cb784<0x0?_0x314172[_0x246c47(0x17e)](_0x3049c6):_0x314172[_0x246c47(0x2b9)](_0x3049c6);}this[_0x246c47(0x169)](),this['updateMinValue'](),this[_0x246c47(0x338)]();}}const getHeightAt_idx=[],getHeightAt_weights=new Vec3(),getHeightAt_a=new Vec3(),getHeightAt_b=new Vec3(),getHeightAt_c=new Vec3(),getNormalAt_a=new Vec3(),getNormalAt_b=new Vec3(),getNormalAt_c=new Vec3(),getNormalAt_e0=new Vec3(),getNormalAt_e1=new Vec3();function barycentricWeights(_0x5ae8c4,_0x131240,_0x48d85f,_0x426ca5,_0x2aaf13,_0x1bf632,_0x3590d0,_0x2a9425,_0x45fd87){_0x45fd87['x']=((_0x1bf632-_0x2a9425)*(_0x5ae8c4-_0x3590d0)+(_0x3590d0-_0x2aaf13)*(_0x131240-_0x2a9425))/((_0x1bf632-_0x2a9425)*(_0x48d85f-_0x3590d0)+(_0x3590d0-_0x2aaf13)*(_0x426ca5-_0x2a9425)),_0x45fd87['y']=((_0x2a9425-_0x426ca5)*(_0x5ae8c4-_0x3590d0)+(_0x48d85f-_0x3590d0)*(_0x131240-_0x2a9425))/((_0x1bf632-_0x2a9425)*(_0x48d85f-_0x3590d0)+(_0x3590d0-_0x2aaf13)*(_0x426ca5-_0x2a9425)),_0x45fd87['z']=0x1-_0x45fd87['x']-_0x45fd87['y'];}class OctreeNode{constructor(_0x5ab9b2){const _0x1156ea=q0_0x3ac257;_0x5ab9b2===void 0x0&&(_0x5ab9b2={}),this[_0x1156ea(0x2cd)]=_0x5ab9b2[_0x1156ea(0x2cd)]||null,this[_0x1156ea(0x297)]=_0x5ab9b2[_0x1156ea(0x297)]?_0x5ab9b2[_0x1156ea(0x297)][_0x1156ea(0x31d)]():new AABB(),this[_0x1156ea(0x211)]=[],this[_0x1156ea(0x3f3)]=[];}[q0_0x3ac257(0x2c4)](){const _0xf127b5=q0_0x3ac257;this['children']['length']=this[_0xf127b5(0x211)][_0xf127b5(0x25b)]=0x0;}[q0_0x3ac257(0x3f4)](_0x3fb364,_0x40e73b,_0x58ff3c){const _0x931471=q0_0x3ac257;_0x58ff3c===void 0x0&&(_0x58ff3c=0x0);const _0x2df23c=this['data'];if(!this[_0x931471(0x297)][_0x931471(0x27b)](_0x3fb364))return![];const _0x1815a0=this[_0x931471(0x3f3)],_0x4b7ab6=this[_0x931471(0x3da)]||this[_0x931471(0x2cd)][_0x931471(0x3da)];if(_0x58ff3c<_0x4b7ab6){let _0x4711a6=![];!_0x1815a0[_0x931471(0x25b)]&&(this[_0x931471(0x33c)](),_0x4711a6=!![]);for(let _0x37dc46=0x0;_0x37dc46!==0x8;_0x37dc46++){if(_0x1815a0[_0x37dc46]['insert'](_0x3fb364,_0x40e73b,_0x58ff3c+0x1))return!![];}_0x4711a6&&(_0x1815a0[_0x931471(0x25b)]=0x0);}return _0x2df23c[_0x931471(0x2b9)](_0x40e73b),!![];}[q0_0x3ac257(0x33c)](){const _0x178869=q0_0x3ac257,_0x4bdd09=this['aabb'],_0x4771e4=_0x4bdd09['lowerBound'],_0x5f459a=_0x4bdd09[_0x178869(0x2b4)],_0x193fad=this['children'];_0x193fad[_0x178869(0x2b9)](new OctreeNode({'aabb':new AABB({'lowerBound':new Vec3(0x0,0x0,0x0)})}),new OctreeNode({'aabb':new AABB({'lowerBound':new Vec3(0x1,0x0,0x0)})}),new OctreeNode({'aabb':new AABB({'lowerBound':new Vec3(0x1,0x1,0x0)})}),new OctreeNode({'aabb':new AABB({'lowerBound':new Vec3(0x1,0x1,0x1)})}),new OctreeNode({'aabb':new AABB({'lowerBound':new Vec3(0x0,0x1,0x1)})}),new OctreeNode({'aabb':new AABB({'lowerBound':new Vec3(0x0,0x0,0x1)})}),new OctreeNode({'aabb':new AABB({'lowerBound':new Vec3(0x1,0x0,0x1)})}),new OctreeNode({'aabb':new AABB({'lowerBound':new Vec3(0x0,0x1,0x0)})})),_0x5f459a['vsub'](_0x4771e4,halfDiagonal),halfDiagonal[_0x178869(0x2fc)](0.5,halfDiagonal);const _0x28b792=this['root']||this;for(let _0x586e41=0x0;_0x586e41!==0x8;_0x586e41++){const _0x98c968=_0x193fad[_0x586e41];_0x98c968[_0x178869(0x2cd)]=_0x28b792;const _0xaadcad=_0x98c968[_0x178869(0x297)][_0x178869(0x279)];_0xaadcad['x']*=halfDiagonal['x'],_0xaadcad['y']*=halfDiagonal['y'],_0xaadcad['z']*=halfDiagonal['z'],_0xaadcad[_0x178869(0x3d7)](_0x4771e4,_0xaadcad),_0xaadcad[_0x178869(0x3d7)](halfDiagonal,_0x98c968['aabb'][_0x178869(0x2b4)]);}}[q0_0x3ac257(0x16f)](_0x4fad75,_0x377418){const _0x42bea7=q0_0x3ac257;this['data'],this[_0x42bea7(0x3f3)];const _0x49eaea=[this];while(_0x49eaea[_0x42bea7(0x25b)]){const _0x5bdacd=_0x49eaea['pop']();_0x5bdacd[_0x42bea7(0x297)][_0x42bea7(0x1a3)](_0x4fad75)&&Array[_0x42bea7(0x3ba)][_0x42bea7(0x2b9)][_0x42bea7(0x361)](_0x377418,_0x5bdacd[_0x42bea7(0x211)]),Array[_0x42bea7(0x3ba)][_0x42bea7(0x2b9)][_0x42bea7(0x361)](_0x49eaea,_0x5bdacd[_0x42bea7(0x3f3)]);}return _0x377418;}['rayQuery'](_0x45d64a,_0x3d2fe7,_0x418d60){const _0x4e11e1=q0_0x3ac257;return _0x45d64a[_0x4e11e1(0x198)](tmpAABB),tmpAABB['toLocalFrame'](_0x3d2fe7,tmpAABB),this[_0x4e11e1(0x16f)](tmpAABB,_0x418d60),_0x418d60;}['removeEmptyNodes'](){const _0x5d3cc2=q0_0x3ac257;for(let _0x33a566=this['children'][_0x5d3cc2(0x25b)]-0x1;_0x33a566>=0x0;_0x33a566--){this[_0x5d3cc2(0x3f3)][_0x33a566][_0x5d3cc2(0x305)](),!this[_0x5d3cc2(0x3f3)][_0x33a566][_0x5d3cc2(0x3f3)]['length']&&!this[_0x5d3cc2(0x3f3)][_0x33a566]['data']['length']&&this[_0x5d3cc2(0x3f3)][_0x5d3cc2(0x28b)](_0x33a566,0x1);}}}class Octree extends OctreeNode{constructor(_0xf9ca4d,_0x58d4e){const _0x2815bb=q0_0x3ac257;_0x58d4e===void 0x0&&(_0x58d4e={}),super({'root':null,'aabb':_0xf9ca4d}),this['maxDepth']=typeof _0x58d4e['maxDepth']!==_0x2815bb(0x2b7)?_0x58d4e[_0x2815bb(0x3da)]:0x8;}}const halfDiagonal=new Vec3(),tmpAABB=new AABB();class Trimesh extends Shape{constructor(_0x3903ec,_0x5e2dd8){const _0xf370ed=q0_0x3ac257;super({'type':Shape['types'][_0xf370ed(0x19c)]}),this['vertices']=new Float32Array(_0x3903ec),this['indices']=new Int16Array(_0x5e2dd8),this['normals']=new Float32Array(_0x5e2dd8[_0xf370ed(0x25b)]),this[_0xf370ed(0x297)]=new AABB(),this['edges']=null,this['scale']=new Vec3(0x1,0x1,0x1),this[_0xf370ed(0x16e)]=new Octree(),this[_0xf370ed(0x1aa)](),this[_0xf370ed(0x1e5)](),this[_0xf370ed(0x39d)](),this[_0xf370ed(0x199)](),this['updateTree']();}['updateTree'](){const _0x347ae3=q0_0x3ac257,_0x406656=this[_0x347ae3(0x16e)];_0x406656[_0x347ae3(0x2c4)](),_0x406656[_0x347ae3(0x297)][_0x347ae3(0x191)](this[_0x347ae3(0x297)]);const _0x1c6968=this[_0x347ae3(0x2fc)];_0x406656[_0x347ae3(0x297)]['lowerBound']['x']*=0x1/_0x1c6968['x'],_0x406656[_0x347ae3(0x297)][_0x347ae3(0x279)]['y']*=0x1/_0x1c6968['y'],_0x406656['aabb'][_0x347ae3(0x279)]['z']*=0x1/_0x1c6968['z'],_0x406656['aabb'][_0x347ae3(0x2b4)]['x']*=0x1/_0x1c6968['x'],_0x406656[_0x347ae3(0x297)]['upperBound']['y']*=0x1/_0x1c6968['y'],_0x406656[_0x347ae3(0x297)][_0x347ae3(0x2b4)]['z']*=0x1/_0x1c6968['z'];const _0x26858c=new AABB(),_0x268826=new Vec3(),_0x56363d=new Vec3(),_0x321d19=new Vec3(),_0x41e9af=[_0x268826,_0x56363d,_0x321d19];for(let _0x2d43de=0x0;_0x2d43de<this[_0x347ae3(0x293)][_0x347ae3(0x25b)]/0x3;_0x2d43de++){const _0xdcee61=_0x2d43de*0x3;this[_0x347ae3(0x2fe)](this[_0x347ae3(0x293)][_0xdcee61],_0x268826),this[_0x347ae3(0x2fe)](this[_0x347ae3(0x293)][_0xdcee61+0x1],_0x56363d),this['_getUnscaledVertex'](this['indices'][_0xdcee61+0x2],_0x321d19),_0x26858c[_0x347ae3(0x36c)](_0x41e9af),_0x406656[_0x347ae3(0x3f4)](_0x26858c,_0x2d43de);}_0x406656['removeEmptyNodes']();}[q0_0x3ac257(0x20a)](_0x4977a5,_0x21a820){const _0x59dca1=q0_0x3ac257;unscaledAABB['copy'](_0x4977a5);const _0x2b9998=this[_0x59dca1(0x2fc)],_0x53bbfe=_0x2b9998['x'],_0x4f7000=_0x2b9998['y'],_0x56e8af=_0x2b9998['z'],_0x19dcff=unscaledAABB[_0x59dca1(0x279)],_0x1bcddb=unscaledAABB[_0x59dca1(0x2b4)];return _0x19dcff['x']/=_0x53bbfe,_0x19dcff['y']/=_0x4f7000,_0x19dcff['z']/=_0x56e8af,_0x1bcddb['x']/=_0x53bbfe,_0x1bcddb['y']/=_0x4f7000,_0x1bcddb['z']/=_0x56e8af,this['tree'][_0x59dca1(0x16f)](unscaledAABB,_0x21a820);}[q0_0x3ac257(0x397)](_0x9514be){const _0x5703df=q0_0x3ac257,_0x5466d4=this[_0x5703df(0x2fc)]['x']===this[_0x5703df(0x2fc)]['y']&&this[_0x5703df(0x2fc)]['y']===this['scale']['z'],_0x357450=_0x9514be['x']===_0x9514be['y']&&_0x9514be['y']===_0x9514be['z'];!(_0x5466d4&&_0x357450)&&this[_0x5703df(0x1e5)](),this['scale'][_0x5703df(0x191)](_0x9514be),this[_0x5703df(0x39d)](),this[_0x5703df(0x199)]();}['updateNormals'](){const _0x7840a5=q0_0x3ac257,_0x2ce7a7=computeNormals_n,_0x51df1d=this[_0x7840a5(0x34e)];for(let _0x31e3c9=0x0;_0x31e3c9<this[_0x7840a5(0x293)][_0x7840a5(0x25b)]/0x3;_0x31e3c9++){const _0x42ee4a=_0x31e3c9*0x3,_0x1b3818=this['indices'][_0x42ee4a],_0x599eaf=this[_0x7840a5(0x293)][_0x42ee4a+0x1],_0x2f6df2=this[_0x7840a5(0x293)][_0x42ee4a+0x2];this[_0x7840a5(0x1d5)](_0x1b3818,va),this[_0x7840a5(0x1d5)](_0x599eaf,vb),this[_0x7840a5(0x1d5)](_0x2f6df2,vc),Trimesh[_0x7840a5(0x351)](vb,va,vc,_0x2ce7a7),_0x51df1d[_0x42ee4a]=_0x2ce7a7['x'],_0x51df1d[_0x42ee4a+0x1]=_0x2ce7a7['y'],_0x51df1d[_0x42ee4a+0x2]=_0x2ce7a7['z'];}}[q0_0x3ac257(0x1aa)](){const _0x165f91=q0_0x3ac257,_0x435862={},_0x4543d1=(_0x2d2cad,_0x2ae7b2)=>{const _0x2e54ee=_0x2d2cad<_0x2ae7b2?_0x2d2cad+'_'+_0x2ae7b2:_0x2ae7b2+'_'+_0x2d2cad;_0x435862[_0x2e54ee]=!![];};for(let _0x388faa=0x0;_0x388faa<this[_0x165f91(0x293)][_0x165f91(0x25b)]/0x3;_0x388faa++){const _0x4d4e2f=_0x388faa*0x3,_0x7d097f=this[_0x165f91(0x293)][_0x4d4e2f],_0x5e2bf6=this[_0x165f91(0x293)][_0x4d4e2f+0x1],_0x48a6f5=this[_0x165f91(0x293)][_0x4d4e2f+0x2];_0x4543d1(_0x7d097f,_0x5e2bf6),_0x4543d1(_0x5e2bf6,_0x48a6f5),_0x4543d1(_0x48a6f5,_0x7d097f);}const _0x1d38e3=Object[_0x165f91(0x221)](_0x435862);this[_0x165f91(0x184)]=new Int16Array(_0x1d38e3[_0x165f91(0x25b)]*0x2);for(let _0x134e99=0x0;_0x134e99<_0x1d38e3[_0x165f91(0x25b)];_0x134e99++){const _0x1d0015=_0x1d38e3[_0x134e99][_0x165f91(0x3c1)]('_');this[_0x165f91(0x184)][0x2*_0x134e99]=parseInt(_0x1d0015[0x0],0xa),this['edges'][0x2*_0x134e99+0x1]=parseInt(_0x1d0015[0x1],0xa);}}['getEdgeVertex'](_0x1c2f6,_0x526969,_0x20f11f){const _0x20f7a6=q0_0x3ac257,_0xd91286=this[_0x20f7a6(0x184)][_0x1c2f6*0x2+(_0x526969?0x1:0x0)];this[_0x20f7a6(0x1d5)](_0xd91286,_0x20f11f);}[q0_0x3ac257(0x327)](_0x1c9701,_0x376862){const _0x3809d6=q0_0x3ac257,_0x5db936=getEdgeVector_va,_0x38efc6=getEdgeVector_vb;this[_0x3809d6(0x345)](_0x1c9701,0x0,_0x5db936),this['getEdgeVertex'](_0x1c9701,0x1,_0x38efc6),_0x38efc6['vsub'](_0x5db936,_0x376862);}static['computeNormal'](_0xdc63f4,_0x302b87,_0x4050ef,_0x1a5318){const _0xa156c9=q0_0x3ac257;_0x302b87[_0xa156c9(0x325)](_0xdc63f4,ab),_0x4050ef[_0xa156c9(0x325)](_0x302b87,cb),cb[_0xa156c9(0x2cc)](ab,_0x1a5318),!_0x1a5318['isZero']()&&_0x1a5318[_0xa156c9(0x2eb)]();}['getVertex'](_0x540e24,_0x8206fe){const _0x430b35=q0_0x3ac257,_0x4bd75d=this[_0x430b35(0x2fc)];return this['_getUnscaledVertex'](_0x540e24,_0x8206fe),_0x8206fe['x']*=_0x4bd75d['x'],_0x8206fe['y']*=_0x4bd75d['y'],_0x8206fe['z']*=_0x4bd75d['z'],_0x8206fe;}['_getUnscaledVertex'](_0x3dead9,_0x539502){const _0x4a7afc=q0_0x3ac257,_0xdfa256=_0x3dead9*0x3,_0x3864ff=this[_0x4a7afc(0x32b)];return _0x539502[_0x4a7afc(0x38a)](_0x3864ff[_0xdfa256],_0x3864ff[_0xdfa256+0x1],_0x3864ff[_0xdfa256+0x2]);}[q0_0x3ac257(0x399)](_0x11e129,_0x973c24,_0x3c0585,_0x3216c0){const _0x5df72e=q0_0x3ac257;return this['getVertex'](_0x11e129,_0x3216c0),Transform[_0x5df72e(0x3dc)](_0x973c24,_0x3c0585,_0x3216c0,_0x3216c0),_0x3216c0;}[q0_0x3ac257(0x31a)](_0x48ea06,_0x17e500,_0x46d281,_0x4cb87f){const _0x501d62=q0_0x3ac257,_0x32f3bf=_0x48ea06*0x3;this['getVertex'](this[_0x501d62(0x293)][_0x32f3bf],_0x17e500),this['getVertex'](this[_0x501d62(0x293)][_0x32f3bf+0x1],_0x46d281),this[_0x501d62(0x1d5)](this[_0x501d62(0x293)][_0x32f3bf+0x2],_0x4cb87f);}[q0_0x3ac257(0x182)](_0x4e3eda,_0x3fc5d2){const _0x569378=q0_0x3ac257,_0x3dc878=_0x4e3eda*0x3;return _0x3fc5d2['set'](this[_0x569378(0x34e)][_0x3dc878],this[_0x569378(0x34e)][_0x3dc878+0x1],this[_0x569378(0x34e)][_0x3dc878+0x2]);}[q0_0x3ac257(0x376)](_0xbe8e1e,_0x54818d){const _0x3f8372=q0_0x3ac257;this[_0x3f8372(0x29c)](cli_aabb);const _0x5bf720=cli_aabb[_0x3f8372(0x2b4)]['x']-cli_aabb[_0x3f8372(0x279)]['x'],_0xc97b17=cli_aabb['upperBound']['y']-cli_aabb[_0x3f8372(0x279)]['y'],_0xc936bf=cli_aabb['upperBound']['z']-cli_aabb[_0x3f8372(0x279)]['z'];return _0x54818d[_0x3f8372(0x38a)](0x1/0xc*_0xbe8e1e*(0x2*_0xc97b17*0x2*_0xc97b17+0x2*_0xc936bf*0x2*_0xc936bf),0x1/0xc*_0xbe8e1e*(0x2*_0x5bf720*0x2*_0x5bf720+0x2*_0xc936bf*0x2*_0xc936bf),0x1/0xc*_0xbe8e1e*(0x2*_0xc97b17*0x2*_0xc97b17+0x2*_0x5bf720*0x2*_0x5bf720));}[q0_0x3ac257(0x29c)](_0x5aac2d){const _0x483ccc=q0_0x3ac257,_0x480003=_0x5aac2d[_0x483ccc(0x279)],_0x3ce6be=_0x5aac2d['upperBound'],_0x196eb5=this[_0x483ccc(0x32b)][_0x483ccc(0x25b)];this['vertices'];const _0x24006f=computeLocalAABB_worldVert;this[_0x483ccc(0x1d5)](0x0,_0x24006f),_0x480003[_0x483ccc(0x191)](_0x24006f),_0x3ce6be[_0x483ccc(0x191)](_0x24006f);for(let _0x2c0f69=0x0;_0x2c0f69!==_0x196eb5;_0x2c0f69++){this[_0x483ccc(0x1d5)](_0x2c0f69,_0x24006f);if(_0x24006f['x']<_0x480003['x'])_0x480003['x']=_0x24006f['x'];else _0x24006f['x']>_0x3ce6be['x']&&(_0x3ce6be['x']=_0x24006f['x']);if(_0x24006f['y']<_0x480003['y'])_0x480003['y']=_0x24006f['y'];else _0x24006f['y']>_0x3ce6be['y']&&(_0x3ce6be['y']=_0x24006f['y']);if(_0x24006f['z']<_0x480003['z'])_0x480003['z']=_0x24006f['z'];else _0x24006f['z']>_0x3ce6be['z']&&(_0x3ce6be['z']=_0x24006f['z']);}}['updateAABB'](){const _0x40d01d=q0_0x3ac257;this[_0x40d01d(0x29c)](this[_0x40d01d(0x297)]);}[q0_0x3ac257(0x199)](){const _0x143f7d=q0_0x3ac257;let _0x471402=0x0;const _0x415a4e=this[_0x143f7d(0x32b)],_0xe68697=new Vec3();for(let _0x490431=0x0,_0x37966b=_0x415a4e[_0x143f7d(0x25b)]/0x3;_0x490431!==_0x37966b;_0x490431++){this[_0x143f7d(0x1d5)](_0x490431,_0xe68697);const _0x4e1e86=_0xe68697[_0x143f7d(0x312)]();_0x4e1e86>_0x471402&&(_0x471402=_0x4e1e86);}this[_0x143f7d(0x2e4)]=Math[_0x143f7d(0x1e2)](_0x471402);}['calculateWorldAABB'](_0x2d1f07,_0x2e5007,_0x41eaea,_0x203b06){const _0x2e51db=q0_0x3ac257,_0x549f48=calculateWorldAABB_frame,_0x559c09=calculateWorldAABB_aabb;_0x549f48[_0x2e51db(0x252)]=_0x2d1f07,_0x549f48[_0x2e51db(0x3cd)]=_0x2e5007,this[_0x2e51db(0x297)][_0x2e51db(0x167)](_0x549f48,_0x559c09),_0x41eaea[_0x2e51db(0x191)](_0x559c09['lowerBound']),_0x203b06['copy'](_0x559c09[_0x2e51db(0x2b4)]);}[q0_0x3ac257(0x268)](){return 0x4*Math['PI']*this['boundingSphereRadius']/0x3;}static[q0_0x3ac257(0x3a7)](_0x3d65ab,_0x100fdd,_0x574223,_0x5af134,_0x4d7a62){const _0x4725f7=q0_0x3ac257;_0x3d65ab===void 0x0&&(_0x3d65ab=0x1);_0x100fdd===void 0x0&&(_0x100fdd=0.5);_0x574223===void 0x0&&(_0x574223=0x8);_0x5af134===void 0x0&&(_0x5af134=0x6);_0x4d7a62===void 0x0&&(_0x4d7a62=Math['PI']*0x2);const _0x343c11=[],_0x4a365d=[];for(let _0x3daf2c=0x0;_0x3daf2c<=_0x574223;_0x3daf2c++){for(let _0x114f33=0x0;_0x114f33<=_0x5af134;_0x114f33++){const _0x581ca0=_0x114f33/_0x5af134*_0x4d7a62,_0x59dfa9=_0x3daf2c/_0x574223*Math['PI']*0x2,_0x496b3f=(_0x3d65ab+_0x100fdd*Math[_0x4725f7(0x2a0)](_0x59dfa9))*Math[_0x4725f7(0x2a0)](_0x581ca0),_0x5c80e1=(_0x3d65ab+_0x100fdd*Math['cos'](_0x59dfa9))*Math['sin'](_0x581ca0),_0x472394=_0x100fdd*Math['sin'](_0x59dfa9);_0x343c11[_0x4725f7(0x2b9)](_0x496b3f,_0x5c80e1,_0x472394);}}for(let _0x5c581b=0x1;_0x5c581b<=_0x574223;_0x5c581b++){for(let _0x379ff0=0x1;_0x379ff0<=_0x5af134;_0x379ff0++){const _0x3d7d4e=(_0x5af134+0x1)*_0x5c581b+_0x379ff0-0x1,_0x4d14be=(_0x5af134+0x1)*(_0x5c581b-0x1)+_0x379ff0-0x1,_0x4af603=(_0x5af134+0x1)*(_0x5c581b-0x1)+_0x379ff0,_0x4683cb=(_0x5af134+0x1)*_0x5c581b+_0x379ff0;_0x4a365d[_0x4725f7(0x2b9)](_0x3d7d4e,_0x4d14be,_0x4683cb),_0x4a365d[_0x4725f7(0x2b9)](_0x4d14be,_0x4af603,_0x4683cb);}}return new Trimesh(_0x343c11,_0x4a365d);}}const computeNormals_n=new Vec3(),unscaledAABB=new AABB(),getEdgeVector_va=new Vec3(),getEdgeVector_vb=new Vec3(),cb=new Vec3(),ab=new Vec3(),va=new Vec3(),vb=new Vec3(),vc=new Vec3(),cli_aabb=new AABB(),computeLocalAABB_worldVert=new Vec3(),calculateWorldAABB_frame=new Transform(),calculateWorldAABB_aabb=new AABB();class Solver{constructor(){const _0x5e51f7=q0_0x3ac257;this[_0x5e51f7(0x32f)]=[];}[q0_0x3ac257(0x220)](_0x546841,_0x2ee85a){return 0x0;}[q0_0x3ac257(0x3ca)](_0x4b36cc){const _0x517a4a=q0_0x3ac257;_0x4b36cc[_0x517a4a(0x21f)]&&!_0x4b36cc['bi'][_0x517a4a(0x300)]&&!_0x4b36cc['bj'][_0x517a4a(0x300)]&&this[_0x517a4a(0x32f)][_0x517a4a(0x2b9)](_0x4b36cc);}[q0_0x3ac257(0x330)](_0x11899c){const _0xa15c7d=q0_0x3ac257,_0x6c56e7=this[_0xa15c7d(0x32f)],_0x34f4b8=_0x6c56e7[_0xa15c7d(0x2b3)](_0x11899c);_0x34f4b8!==-0x1&&_0x6c56e7[_0xa15c7d(0x28b)](_0x34f4b8,0x1);}[q0_0x3ac257(0x247)](){const _0x1162cc=q0_0x3ac257;this[_0x1162cc(0x32f)]['length']=0x0;}}class GSSolver extends Solver{constructor(){const _0x45298b=q0_0x3ac257;super(),this['iterations']=0xa,this[_0x45298b(0x26b)]=1e-7;}[q0_0x3ac257(0x220)](_0x105935,_0x53a1c0){const _0x5e8b8e=q0_0x3ac257;let _0x3974fc=0x0;const _0x21b48f=this[_0x5e8b8e(0x237)],_0x477999=this['tolerance']*this[_0x5e8b8e(0x26b)],_0x92471a=this['equations'],_0x33c6f0=_0x92471a[_0x5e8b8e(0x25b)],_0x5547e0=_0x53a1c0[_0x5e8b8e(0x227)],_0x10ed32=_0x5547e0[_0x5e8b8e(0x25b)],_0x39d065=_0x105935;let _0x5317a5,_0x29f485,_0x2d811c,_0x328845,_0x5e7466,_0x511e4f;if(_0x33c6f0!==0x0)for(let _0x8bc9f=0x0;_0x8bc9f!==_0x10ed32;_0x8bc9f++){_0x5547e0[_0x8bc9f][_0x5e8b8e(0x357)]();}const _0x5ce8af=GSSolver_solve_invCs,_0x1af55b=GSSolver_solve_Bs,_0x5999b3=GSSolver_solve_lambda;_0x5ce8af[_0x5e8b8e(0x25b)]=_0x33c6f0,_0x1af55b[_0x5e8b8e(0x25b)]=_0x33c6f0,_0x5999b3[_0x5e8b8e(0x25b)]=_0x33c6f0;for(let _0x2d962f=0x0;_0x2d962f!==_0x33c6f0;_0x2d962f++){const _0x370c2c=_0x92471a[_0x2d962f];_0x5999b3[_0x2d962f]=0x0,_0x1af55b[_0x2d962f]=_0x370c2c[_0x5e8b8e(0x39a)](_0x39d065),_0x5ce8af[_0x2d962f]=0x1/_0x370c2c['computeC']();}if(_0x33c6f0!==0x0){for(let _0x436d73=0x0;_0x436d73!==_0x10ed32;_0x436d73++){const _0xfcf6=_0x5547e0[_0x436d73],_0xce4d5a=_0xfcf6[_0x5e8b8e(0x3a3)],_0x54f2ce=_0xfcf6['wlambda'];_0xce4d5a['set'](0x0,0x0,0x0),_0x54f2ce['set'](0x0,0x0,0x0);}for(_0x3974fc=0x0;_0x3974fc!==_0x21b48f;_0x3974fc++){_0x328845=0x0;for(let _0x54b1c0=0x0;_0x54b1c0!==_0x33c6f0;_0x54b1c0++){const _0xc31dea=_0x92471a[_0x54b1c0];_0x5317a5=_0x1af55b[_0x54b1c0],_0x29f485=_0x5ce8af[_0x54b1c0],_0x511e4f=_0x5999b3[_0x54b1c0],_0x5e7466=_0xc31dea[_0x5e8b8e(0x1f2)](),_0x2d811c=_0x29f485*(_0x5317a5-_0x5e7466-_0xc31dea[_0x5e8b8e(0x276)]*_0x511e4f);if(_0x511e4f+_0x2d811c<_0xc31dea['minForce'])_0x2d811c=_0xc31dea['minForce']-_0x511e4f;else _0x511e4f+_0x2d811c>_0xc31dea[_0x5e8b8e(0x30b)]&&(_0x2d811c=_0xc31dea['maxForce']-_0x511e4f);_0x5999b3[_0x54b1c0]+=_0x2d811c,_0x328845+=_0x2d811c>0x0?_0x2d811c:-_0x2d811c,_0xc31dea[_0x5e8b8e(0x272)](_0x2d811c);}if(_0x328845*_0x328845<_0x477999)break;}for(let _0x28d213=0x0;_0x28d213!==_0x10ed32;_0x28d213++){const _0x363948=_0x5547e0[_0x28d213],_0x203ec6=_0x363948['velocity'],_0x46ec09=_0x363948[_0x5e8b8e(0x22b)];_0x363948[_0x5e8b8e(0x3a3)]['vmul'](_0x363948['linearFactor'],_0x363948['vlambda']),_0x203ec6[_0x5e8b8e(0x3d7)](_0x363948[_0x5e8b8e(0x3a3)],_0x203ec6),_0x363948['wlambda'][_0x5e8b8e(0x2de)](_0x363948[_0x5e8b8e(0x3ef)],_0x363948[_0x5e8b8e(0x1ed)]),_0x46ec09['vadd'](_0x363948[_0x5e8b8e(0x1ed)],_0x46ec09);}let _0x3a1859=_0x92471a[_0x5e8b8e(0x25b)];const _0x212f13=0x1/_0x39d065;while(_0x3a1859--){_0x92471a[_0x3a1859][_0x5e8b8e(0x257)]=_0x5999b3[_0x3a1859]*_0x212f13;}}return _0x3974fc;}}const GSSolver_solve_lambda=[],GSSolver_solve_invCs=[],GSSolver_solve_Bs=[];class SplitSolver extends Solver{constructor(_0x4e1b27){const _0x2e1efa=q0_0x3ac257;super(),this['iterations']=0xa,this[_0x2e1efa(0x26b)]=1e-7,this[_0x2e1efa(0x3a0)]=_0x4e1b27,this[_0x2e1efa(0x20b)]=[],this[_0x2e1efa(0x3e1)]=[];while(this[_0x2e1efa(0x3e1)][_0x2e1efa(0x25b)]<0x80){this[_0x2e1efa(0x3e1)][_0x2e1efa(0x2b9)](this[_0x2e1efa(0x223)]());}}[q0_0x3ac257(0x223)](){return{'body':null,'children':[],'eqs':[],'visited':![]};}[q0_0x3ac257(0x220)](_0x2afd6f,_0x4db63a){const _0x1897a2=q0_0x3ac257,_0x133086=SplitSolver_solve_nodes,_0x577581=this[_0x1897a2(0x3e1)],_0x3d43a7=_0x4db63a[_0x1897a2(0x227)],_0x277120=this[_0x1897a2(0x32f)],_0x48c0a8=_0x277120['length'],_0x237147=_0x3d43a7[_0x1897a2(0x25b)],_0x13e92c=this['subsolver'];while(_0x577581[_0x1897a2(0x25b)]<_0x237147){_0x577581[_0x1897a2(0x2b9)](this['createNode']());}_0x133086['length']=_0x237147;for(let _0x19dba1=0x0;_0x19dba1<_0x237147;_0x19dba1++){_0x133086[_0x19dba1]=_0x577581[_0x19dba1];}for(let _0x2064d0=0x0;_0x2064d0!==_0x237147;_0x2064d0++){const _0x474437=_0x133086[_0x2064d0];_0x474437[_0x1897a2(0x350)]=_0x3d43a7[_0x2064d0],_0x474437[_0x1897a2(0x3f3)][_0x1897a2(0x25b)]=0x0,_0x474437[_0x1897a2(0x331)][_0x1897a2(0x25b)]=0x0,_0x474437['visited']=![];}for(let _0x2ce93e=0x0;_0x2ce93e!==_0x48c0a8;_0x2ce93e++){const _0x3da4b8=_0x277120[_0x2ce93e],_0x33b526=_0x3d43a7['indexOf'](_0x3da4b8['bi']),_0x3bb4d5=_0x3d43a7['indexOf'](_0x3da4b8['bj']),_0x3d32de=_0x133086[_0x33b526],_0x120fa9=_0x133086[_0x3bb4d5];_0x3d32de[_0x1897a2(0x3f3)]['push'](_0x120fa9),_0x3d32de[_0x1897a2(0x331)]['push'](_0x3da4b8),_0x120fa9[_0x1897a2(0x3f3)][_0x1897a2(0x2b9)](_0x3d32de),_0x120fa9[_0x1897a2(0x331)][_0x1897a2(0x2b9)](_0x3da4b8);}let _0x362c67,_0x57ea59=0x0,_0x10ca07=SplitSolver_solve_eqs;_0x13e92c[_0x1897a2(0x26b)]=this[_0x1897a2(0x26b)],_0x13e92c[_0x1897a2(0x237)]=this[_0x1897a2(0x237)];const _0x3c106d=SplitSolver_solve_dummyWorld;while(_0x362c67=getUnvisitedNode(_0x133086)){_0x10ca07[_0x1897a2(0x25b)]=0x0,_0x3c106d['bodies'][_0x1897a2(0x25b)]=0x0,bfs(_0x362c67,visitFunc,_0x3c106d[_0x1897a2(0x227)],_0x10ca07);const _0x51155f=_0x10ca07[_0x1897a2(0x25b)];_0x10ca07=_0x10ca07[_0x1897a2(0x16b)](sortById);for(let _0x1982f9=0x0;_0x1982f9!==_0x51155f;_0x1982f9++){_0x13e92c[_0x1897a2(0x3ca)](_0x10ca07[_0x1982f9]);}_0x13e92c['solve'](_0x2afd6f,_0x3c106d),_0x13e92c[_0x1897a2(0x247)](),_0x57ea59++;}return _0x57ea59;}}const SplitSolver_solve_nodes=[],SplitSolver_solve_eqs=[],SplitSolver_solve_dummyWorld={'bodies':[]},STATIC=Body[q0_0x3ac257(0x1cb)];function getUnvisitedNode(_0x1bdc57){const _0x2652b2=q0_0x3ac257,_0xef39af=_0x1bdc57[_0x2652b2(0x25b)];for(let _0x55a34f=0x0;_0x55a34f!==_0xef39af;_0x55a34f++){const _0x3e291b=_0x1bdc57[_0x55a34f];if(!_0x3e291b[_0x2652b2(0x37c)]&&!(_0x3e291b[_0x2652b2(0x350)][_0x2652b2(0x2ba)]&STATIC))return _0x3e291b;}return![];}const queue=[];function bfs(_0x191d26,_0xdd416b,_0x1767b5,_0x476caf){const _0x5c1f91=q0_0x3ac257;queue['push'](_0x191d26),_0x191d26[_0x5c1f91(0x37c)]=!![],_0xdd416b(_0x191d26,_0x1767b5,_0x476caf);while(queue[_0x5c1f91(0x25b)]){const _0x64a311=queue[_0x5c1f91(0x3b6)]();let _0xb44712;while(_0xb44712=getUnvisitedNode(_0x64a311[_0x5c1f91(0x3f3)])){_0xb44712[_0x5c1f91(0x37c)]=!![],_0xdd416b(_0xb44712,_0x1767b5,_0x476caf),queue[_0x5c1f91(0x2b9)](_0xb44712);}}}function visitFunc(_0x26e3fd,_0x5cb3ba,_0x2a6622){const _0xce9fa1=q0_0x3ac257;_0x5cb3ba[_0xce9fa1(0x2b9)](_0x26e3fd[_0xce9fa1(0x350)]);const _0x2529ba=_0x26e3fd[_0xce9fa1(0x331)][_0xce9fa1(0x25b)];for(let _0x3ef386=0x0;_0x3ef386!==_0x2529ba;_0x3ef386++){const _0x4f180b=_0x26e3fd['eqs'][_0x3ef386];!_0x2a6622[_0xce9fa1(0x287)](_0x4f180b)&&_0x2a6622[_0xce9fa1(0x2b9)](_0x4f180b);}}function sortById(_0x584fd6,_0x2d307e){return _0x2d307e['id']-_0x584fd6['id'];}class Pool{constructor(){const _0x46ec7c=q0_0x3ac257;this[_0x46ec7c(0x1a2)]=[],this[_0x46ec7c(0x2ba)]=Object;}['release'](){const _0x2055e7=q0_0x3ac257,_0x528c43=arguments['length'];for(let _0x55adf1=0x0;_0x55adf1!==_0x528c43;_0x55adf1++){this['objects'][_0x2055e7(0x2b9)](_0x55adf1<0x0||arguments[_0x2055e7(0x25b)]<=_0x55adf1?undefined:arguments[_0x55adf1]);}return this;}[q0_0x3ac257(0x1e8)](){const _0x12d58e=q0_0x3ac257;return this[_0x12d58e(0x1a2)][_0x12d58e(0x25b)]===0x0?this[_0x12d58e(0x32c)]():this['objects'][_0x12d58e(0x3b6)]();}['constructObject'](){throw new Error('constructObject()\x20not\x20implemented\x20in\x20this\x20Pool\x20subclass\x20yet!');}['resize'](_0xedcb5b){const _0x4d1bf1=q0_0x3ac257,_0x1a8f38=this[_0x4d1bf1(0x1a2)];while(_0x1a8f38[_0x4d1bf1(0x25b)]>_0xedcb5b){_0x1a8f38[_0x4d1bf1(0x3b6)]();}while(_0x1a8f38[_0x4d1bf1(0x25b)]<_0xedcb5b){_0x1a8f38['push'](this[_0x4d1bf1(0x32c)]());}return this;}}class Vec3Pool extends Pool{constructor(){const _0x462a5a=q0_0x3ac257;super(...arguments),this[_0x462a5a(0x2ba)]=Vec3;}[q0_0x3ac257(0x32c)](){return new Vec3();}}const COLLISION_TYPES={'sphereSphere':Shape['types']['SPHERE'],'spherePlane':Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x380)]|Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x1d6)],'boxBox':Shape['types']['BOX']|Shape[q0_0x3ac257(0x27f)]['BOX'],'sphereBox':Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x380)]|Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x34a)],'planeBox':Shape['types'][q0_0x3ac257(0x1d6)]|Shape[q0_0x3ac257(0x27f)]['BOX'],'convexConvex':Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x3cb)],'sphereConvex':Shape[q0_0x3ac257(0x27f)]['SPHERE']|Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x3cb)],'planeConvex':Shape[q0_0x3ac257(0x27f)]['PLANE']|Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x3cb)],'boxConvex':Shape['types'][q0_0x3ac257(0x34a)]|Shape[q0_0x3ac257(0x27f)]['CONVEXPOLYHEDRON'],'sphereHeightfield':Shape[q0_0x3ac257(0x27f)]['SPHERE']|Shape['types']['HEIGHTFIELD'],'boxHeightfield':Shape['types'][q0_0x3ac257(0x34a)]|Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x369)],'convexHeightfield':Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x3cb)]|Shape[q0_0x3ac257(0x27f)]['HEIGHTFIELD'],'sphereParticle':Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x207)]|Shape['types'][q0_0x3ac257(0x380)],'planeParticle':Shape[q0_0x3ac257(0x27f)]['PLANE']|Shape['types'][q0_0x3ac257(0x207)],'boxParticle':Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x34a)]|Shape[q0_0x3ac257(0x27f)]['PARTICLE'],'convexParticle':Shape['types'][q0_0x3ac257(0x207)]|Shape['types'][q0_0x3ac257(0x3cb)],'cylinderCylinder':Shape['types'][q0_0x3ac257(0x3ed)],'sphereCylinder':Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x380)]|Shape['types'][q0_0x3ac257(0x3ed)],'planeCylinder':Shape['types']['PLANE']|Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x3ed)],'boxCylinder':Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x34a)]|Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x3ed)],'convexCylinder':Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x3cb)]|Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x3ed)],'heightfieldCylinder':Shape['types'][q0_0x3ac257(0x369)]|Shape['types'][q0_0x3ac257(0x3ed)],'particleCylinder':Shape['types']['PARTICLE']|Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x3ed)],'sphereTrimesh':Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x380)]|Shape[q0_0x3ac257(0x27f)]['TRIMESH'],'planeTrimesh':Shape[q0_0x3ac257(0x27f)][q0_0x3ac257(0x1d6)]|Shape['types'][q0_0x3ac257(0x19c)]};class Narrowphase{get[COLLISION_TYPES[q0_0x3ac257(0x302)]](){const _0x107057=q0_0x3ac257;return this[_0x107057(0x302)];}get[COLLISION_TYPES[q0_0x3ac257(0x3c8)]](){const _0x4e7788=q0_0x3ac257;return this[_0x4e7788(0x3c8)];}get[COLLISION_TYPES[q0_0x3ac257(0x373)]](){const _0x10317b=q0_0x3ac257;return this[_0x10317b(0x373)];}get[COLLISION_TYPES[q0_0x3ac257(0x3ab)]](){const _0x2cc8eb=q0_0x3ac257;return this[_0x2cc8eb(0x3ab)];}get[COLLISION_TYPES['planeBox']](){return this['planeBox'];}get[COLLISION_TYPES[q0_0x3ac257(0x265)]](){const _0x140be3=q0_0x3ac257;return this[_0x140be3(0x265)];}get[COLLISION_TYPES[q0_0x3ac257(0x30c)]](){const _0x176961=q0_0x3ac257;return this[_0x176961(0x30c)];}get[COLLISION_TYPES[q0_0x3ac257(0x1c7)]](){const _0x2c08ca=q0_0x3ac257;return this[_0x2c08ca(0x1c7)];}get[COLLISION_TYPES[q0_0x3ac257(0x2c5)]](){const _0x3dcc90=q0_0x3ac257;return this[_0x3dcc90(0x2c5)];}get[COLLISION_TYPES[q0_0x3ac257(0x38d)]](){const _0x16b479=q0_0x3ac257;return this[_0x16b479(0x38d)];}get[COLLISION_TYPES[q0_0x3ac257(0x3be)]](){const _0x15980f=q0_0x3ac257;return this[_0x15980f(0x3be)];}get[COLLISION_TYPES[q0_0x3ac257(0x375)]](){const _0x5b4e2f=q0_0x3ac257;return this[_0x5b4e2f(0x375)];}get[COLLISION_TYPES['sphereParticle']](){const _0x261923=q0_0x3ac257;return this[_0x261923(0x1af)];}get[COLLISION_TYPES[q0_0x3ac257(0x278)]](){return this['planeParticle'];}get[COLLISION_TYPES[q0_0x3ac257(0x2f0)]](){const _0x511ac8=q0_0x3ac257;return this[_0x511ac8(0x2f0)];}get[COLLISION_TYPES[q0_0x3ac257(0x2ff)]](){const _0x1e4725=q0_0x3ac257;return this[_0x1e4725(0x2ff)];}get[COLLISION_TYPES[q0_0x3ac257(0x365)]](){return this['convexConvex'];}get[COLLISION_TYPES[q0_0x3ac257(0x1e6)]](){const _0x22ec72=q0_0x3ac257;return this[_0x22ec72(0x30c)];}get[COLLISION_TYPES[q0_0x3ac257(0x3bd)]](){return this['planeConvex'];}get[COLLISION_TYPES[q0_0x3ac257(0x26c)]](){const _0x5a275d=q0_0x3ac257;return this[_0x5a275d(0x2c5)];}get[COLLISION_TYPES['convexCylinder']](){const _0x21deb6=q0_0x3ac257;return this[_0x21deb6(0x265)];}get[COLLISION_TYPES['heightfieldCylinder']](){const _0x3306ee=q0_0x3ac257;return this[_0x3306ee(0x3d1)];}get[COLLISION_TYPES[q0_0x3ac257(0x2f7)]](){const _0x1fbf59=q0_0x3ac257;return this[_0x1fbf59(0x2f7)];}get[COLLISION_TYPES['sphereTrimesh']](){return this['sphereTrimesh'];}get[COLLISION_TYPES[q0_0x3ac257(0x36d)]](){const _0x53a7f2=q0_0x3ac257;return this[_0x53a7f2(0x36d)];}constructor(_0x4aa702){const _0x1b9e7d=q0_0x3ac257;this[_0x1b9e7d(0x3a1)]=[],this[_0x1b9e7d(0x3de)]=[],this[_0x1b9e7d(0x1a8)]=[],this[_0x1b9e7d(0x2bb)]=[],this['v3pool']=new Vec3Pool(),this[_0x1b9e7d(0x24d)]=_0x4aa702,this[_0x1b9e7d(0x3b8)]=_0x4aa702[_0x1b9e7d(0x3c6)],this[_0x1b9e7d(0x1e7)]=![];}['createContactEquation'](_0x18c144,_0x323599,_0xe953be,_0x5d21b5,_0x5c9a8e,_0x7a5f69){const _0x28207d=q0_0x3ac257;let _0x45ad2f;this[_0x28207d(0x3a1)][_0x28207d(0x25b)]?(_0x45ad2f=this['contactPointPool']['pop'](),_0x45ad2f['bi']=_0x18c144,_0x45ad2f['bj']=_0x323599):_0x45ad2f=new ContactEquation(_0x18c144,_0x323599);_0x45ad2f[_0x28207d(0x21f)]=_0x18c144[_0x28207d(0x1a0)]&&_0x323599['collisionResponse']&&_0xe953be['collisionResponse']&&_0x5d21b5[_0x28207d(0x1a0)];const _0x2a9785=this[_0x28207d(0x3b8)];_0x45ad2f[_0x28207d(0x1ac)]=_0x2a9785[_0x28207d(0x1ac)],_0x45ad2f[_0x28207d(0x243)](_0x2a9785['contactEquationStiffness'],_0x2a9785[_0x28207d(0x21a)],this[_0x28207d(0x24d)]['dt']);const _0x748503=_0xe953be['material']||_0x18c144[_0x28207d(0x256)],_0x2112e3=_0x5d21b5[_0x28207d(0x256)]||_0x323599[_0x28207d(0x256)];return _0x748503&&_0x2112e3&&_0x748503['restitution']>=0x0&&_0x2112e3[_0x28207d(0x1ac)]>=0x0&&(_0x45ad2f[_0x28207d(0x1ac)]=_0x748503[_0x28207d(0x1ac)]*_0x2112e3[_0x28207d(0x1ac)]),_0x45ad2f['si']=_0x5c9a8e||_0xe953be,_0x45ad2f['sj']=_0x7a5f69||_0x5d21b5,_0x45ad2f;}['createFrictionEquationsFromContact'](_0x50782f,_0x58243b){const _0x2ed829=q0_0x3ac257,_0x599a83=_0x50782f['bi'],_0x1cfbf5=_0x50782f['bj'],_0x483638=_0x50782f['si'],_0x497d38=_0x50782f['sj'],_0x42f62a=this['world'],_0x464536=this[_0x2ed829(0x3b8)];let _0x4a6750=_0x464536[_0x2ed829(0x3d4)];const _0x37f04e=_0x483638[_0x2ed829(0x256)]||_0x599a83[_0x2ed829(0x256)],_0x520797=_0x497d38[_0x2ed829(0x256)]||_0x1cfbf5[_0x2ed829(0x256)];_0x37f04e&&_0x520797&&_0x37f04e['friction']>=0x0&&_0x520797['friction']>=0x0&&(_0x4a6750=_0x37f04e[_0x2ed829(0x3d4)]*_0x520797[_0x2ed829(0x3d4)]);if(_0x4a6750>0x0){const _0x500731=_0x4a6750*(_0x42f62a[_0x2ed829(0x3d2)]||_0x42f62a[_0x2ed829(0x3bb)])[_0x2ed829(0x25b)]();let _0x359a19=_0x599a83[_0x2ed829(0x213)]+_0x1cfbf5[_0x2ed829(0x213)];_0x359a19>0x0&&(_0x359a19=0x1/_0x359a19);const _0x155b57=this[_0x2ed829(0x3de)],_0x36b7a3=_0x155b57[_0x2ed829(0x25b)]?_0x155b57[_0x2ed829(0x3b6)]():new FrictionEquation(_0x599a83,_0x1cfbf5,_0x500731*_0x359a19),_0x586128=_0x155b57[_0x2ed829(0x25b)]?_0x155b57[_0x2ed829(0x3b6)]():new FrictionEquation(_0x599a83,_0x1cfbf5,_0x500731*_0x359a19);return _0x36b7a3['bi']=_0x586128['bi']=_0x599a83,_0x36b7a3['bj']=_0x586128['bj']=_0x1cfbf5,_0x36b7a3['minForce']=_0x586128['minForce']=-_0x500731*_0x359a19,_0x36b7a3[_0x2ed829(0x30b)]=_0x586128[_0x2ed829(0x30b)]=_0x500731*_0x359a19,_0x36b7a3['ri'][_0x2ed829(0x191)](_0x50782f['ri']),_0x36b7a3['rj'][_0x2ed829(0x191)](_0x50782f['rj']),_0x586128['ri'][_0x2ed829(0x191)](_0x50782f['ri']),_0x586128['rj'][_0x2ed829(0x191)](_0x50782f['rj']),_0x50782f['ni'][_0x2ed829(0x33e)](_0x36b7a3['t'],_0x586128['t']),_0x36b7a3['setSpookParams'](_0x464536[_0x2ed829(0x348)],_0x464536[_0x2ed829(0x3d9)],_0x42f62a['dt']),_0x586128[_0x2ed829(0x243)](_0x464536[_0x2ed829(0x348)],_0x464536[_0x2ed829(0x3d9)],_0x42f62a['dt']),_0x36b7a3[_0x2ed829(0x21f)]=_0x586128[_0x2ed829(0x21f)]=_0x50782f['enabled'],_0x58243b[_0x2ed829(0x2b9)](_0x36b7a3,_0x586128),!![];}return![];}['createFrictionFromAverage'](_0x3816da){const _0xbbed21=q0_0x3ac257;let _0x21f0c0=this[_0xbbed21(0x1a8)][this[_0xbbed21(0x1a8)][_0xbbed21(0x25b)]-0x1];if(!this['createFrictionEquationsFromContact'](_0x21f0c0,this[_0xbbed21(0x2bb)])||_0x3816da===0x1)return;const _0x44bbf9=this['frictionResult'][this[_0xbbed21(0x2bb)][_0xbbed21(0x25b)]-0x2],_0x9d8599=this[_0xbbed21(0x2bb)][this[_0xbbed21(0x2bb)][_0xbbed21(0x25b)]-0x1];averageNormal[_0xbbed21(0x2c7)](),averageContactPointA[_0xbbed21(0x2c7)](),averageContactPointB[_0xbbed21(0x2c7)]();const _0x6f0fa4=_0x21f0c0['bi'];_0x21f0c0['bj'];for(let _0x5a1bcd=0x0;_0x5a1bcd!==_0x3816da;_0x5a1bcd++){_0x21f0c0=this[_0xbbed21(0x1a8)][this['result'][_0xbbed21(0x25b)]-0x1-_0x5a1bcd],_0x21f0c0['bi']!==_0x6f0fa4?(averageNormal[_0xbbed21(0x3d7)](_0x21f0c0['ni'],averageNormal),averageContactPointA[_0xbbed21(0x3d7)](_0x21f0c0['ri'],averageContactPointA),averageContactPointB[_0xbbed21(0x3d7)](_0x21f0c0['rj'],averageContactPointB)):(averageNormal[_0xbbed21(0x325)](_0x21f0c0['ni'],averageNormal),averageContactPointA[_0xbbed21(0x3d7)](_0x21f0c0['rj'],averageContactPointA),averageContactPointB[_0xbbed21(0x3d7)](_0x21f0c0['ri'],averageContactPointB));}const _0x599004=0x1/_0x3816da;averageContactPointA['scale'](_0x599004,_0x44bbf9['ri']),averageContactPointB[_0xbbed21(0x2fc)](_0x599004,_0x44bbf9['rj']),_0x9d8599['ri'][_0xbbed21(0x191)](_0x44bbf9['ri']),_0x9d8599['rj'][_0xbbed21(0x191)](_0x44bbf9['rj']),averageNormal['normalize'](),averageNormal[_0xbbed21(0x33e)](_0x44bbf9['t'],_0x9d8599['t']);}[q0_0x3ac257(0x2ca)](_0x512d28,_0x3ca7e0,_0x247c6c,_0x3195b4,_0x38202d,_0x557462,_0x5d4693){const _0x10859d=q0_0x3ac257;this[_0x10859d(0x3a1)]=_0x38202d,this[_0x10859d(0x3de)]=_0x5d4693,this['result']=_0x3195b4,this[_0x10859d(0x2bb)]=_0x557462;const _0x5255eb=tmpQuat1,_0x44abbd=tmpQuat2,_0x28a2fc=tmpVec1,_0x307a5c=tmpVec2;for(let _0x5055f5=0x0,_0x529356=_0x512d28[_0x10859d(0x25b)];_0x5055f5!==_0x529356;_0x5055f5++){const _0x1668ab=_0x512d28[_0x5055f5],_0x2320ee=_0x3ca7e0[_0x5055f5];let _0x46359e=null;_0x1668ab[_0x10859d(0x256)]&&_0x2320ee[_0x10859d(0x256)]&&(_0x46359e=_0x247c6c[_0x10859d(0x230)](_0x1668ab[_0x10859d(0x256)],_0x2320ee[_0x10859d(0x256)])||null);const _0x574e79=_0x1668ab[_0x10859d(0x2ba)]&Body[_0x10859d(0x238)]&&_0x2320ee[_0x10859d(0x2ba)]&Body[_0x10859d(0x1cb)]||_0x1668ab[_0x10859d(0x2ba)]&Body[_0x10859d(0x1cb)]&&_0x2320ee[_0x10859d(0x2ba)]&Body['KINEMATIC']||_0x1668ab[_0x10859d(0x2ba)]&Body[_0x10859d(0x238)]&&_0x2320ee[_0x10859d(0x2ba)]&Body['KINEMATIC'];for(let _0x3bccda=0x0;_0x3bccda<_0x1668ab[_0x10859d(0x37f)][_0x10859d(0x25b)];_0x3bccda++){_0x1668ab['quaternion'][_0x10859d(0x28a)](_0x1668ab['shapeOrientations'][_0x3bccda],_0x5255eb),_0x1668ab[_0x10859d(0x3cd)][_0x10859d(0x205)](_0x1668ab[_0x10859d(0x264)][_0x3bccda],_0x28a2fc),_0x28a2fc[_0x10859d(0x3d7)](_0x1668ab[_0x10859d(0x252)],_0x28a2fc);const _0x3e9604=_0x1668ab[_0x10859d(0x37f)][_0x3bccda];for(let _0x57f62c=0x0;_0x57f62c<_0x2320ee[_0x10859d(0x37f)][_0x10859d(0x25b)];_0x57f62c++){_0x2320ee['quaternion']['mult'](_0x2320ee[_0x10859d(0x36b)][_0x57f62c],_0x44abbd),_0x2320ee[_0x10859d(0x3cd)][_0x10859d(0x205)](_0x2320ee[_0x10859d(0x264)][_0x57f62c],_0x307a5c),_0x307a5c['vadd'](_0x2320ee[_0x10859d(0x252)],_0x307a5c);const _0x4baf1f=_0x2320ee[_0x10859d(0x37f)][_0x57f62c];if(!(_0x3e9604[_0x10859d(0x1cd)]&_0x4baf1f[_0x10859d(0x204)]&&_0x4baf1f['collisionFilterMask']&_0x3e9604[_0x10859d(0x204)]))continue;if(_0x28a2fc['distanceTo'](_0x307a5c)>_0x3e9604[_0x10859d(0x2e4)]+_0x4baf1f['boundingSphereRadius'])continue;let _0x4ef746=null;_0x3e9604[_0x10859d(0x256)]&&_0x4baf1f[_0x10859d(0x256)]&&(_0x4ef746=_0x247c6c[_0x10859d(0x230)](_0x3e9604[_0x10859d(0x256)],_0x4baf1f[_0x10859d(0x256)])||null);this[_0x10859d(0x3b8)]=_0x4ef746||_0x46359e||_0x247c6c[_0x10859d(0x3c6)];const _0x997665=_0x3e9604['type']|_0x4baf1f[_0x10859d(0x2ba)],_0x3bee66=this[_0x997665];if(_0x3bee66){let _0x291dc7=![];_0x3e9604['type']<_0x4baf1f[_0x10859d(0x2ba)]?_0x291dc7=_0x3bee66['call'](this,_0x3e9604,_0x4baf1f,_0x28a2fc,_0x307a5c,_0x5255eb,_0x44abbd,_0x1668ab,_0x2320ee,_0x3e9604,_0x4baf1f,_0x574e79):_0x291dc7=_0x3bee66[_0x10859d(0x32e)](this,_0x4baf1f,_0x3e9604,_0x307a5c,_0x28a2fc,_0x44abbd,_0x5255eb,_0x2320ee,_0x1668ab,_0x3e9604,_0x4baf1f,_0x574e79),_0x291dc7&&_0x574e79&&(_0x247c6c[_0x10859d(0x342)][_0x10859d(0x38a)](_0x3e9604['id'],_0x4baf1f['id']),_0x247c6c[_0x10859d(0x2a5)][_0x10859d(0x38a)](_0x1668ab['id'],_0x2320ee['id']));}}}}}[q0_0x3ac257(0x302)](_0x4dbf52,_0x9aae5,_0x3dde47,_0x46ceec,_0x2eddff,_0x524f09,_0x2697bc,_0x44b75c,_0x2141a1,_0x146f54,_0xa4efc1){const _0x3aa91e=q0_0x3ac257;if(_0xa4efc1)return _0x3dde47[_0x3aa91e(0x1f9)](_0x46ceec)<(_0x4dbf52[_0x3aa91e(0x32a)]+_0x9aae5[_0x3aa91e(0x32a)])**0x2;const _0x5da002=this[_0x3aa91e(0x180)](_0x2697bc,_0x44b75c,_0x4dbf52,_0x9aae5,_0x2141a1,_0x146f54);_0x46ceec['vsub'](_0x3dde47,_0x5da002['ni']),_0x5da002['ni'][_0x3aa91e(0x2eb)](),_0x5da002['ri'][_0x3aa91e(0x191)](_0x5da002['ni']),_0x5da002['rj'][_0x3aa91e(0x191)](_0x5da002['ni']),_0x5da002['ri'][_0x3aa91e(0x2fc)](_0x4dbf52['radius'],_0x5da002['ri']),_0x5da002['rj'][_0x3aa91e(0x2fc)](-_0x9aae5[_0x3aa91e(0x32a)],_0x5da002['rj']),_0x5da002['ri'][_0x3aa91e(0x3d7)](_0x3dde47,_0x5da002['ri']),_0x5da002['ri']['vsub'](_0x2697bc['position'],_0x5da002['ri']),_0x5da002['rj'][_0x3aa91e(0x3d7)](_0x46ceec,_0x5da002['rj']),_0x5da002['rj'][_0x3aa91e(0x325)](_0x44b75c[_0x3aa91e(0x252)],_0x5da002['rj']),this[_0x3aa91e(0x1a8)][_0x3aa91e(0x2b9)](_0x5da002),this['createFrictionEquationsFromContact'](_0x5da002,this[_0x3aa91e(0x2bb)]);}['spherePlane'](_0x31f70e,_0x4997df,_0x3cbd07,_0x50fcf9,_0xa67840,_0x2fbbdf,_0x234a98,_0x70c8a3,_0x1b7616,_0x4d3405,_0x2d1485){const _0x1caf22=q0_0x3ac257,_0x270bb2=this[_0x1caf22(0x180)](_0x234a98,_0x70c8a3,_0x31f70e,_0x4997df,_0x1b7616,_0x4d3405);_0x270bb2['ni'][_0x1caf22(0x38a)](0x0,0x0,0x1),_0x2fbbdf[_0x1caf22(0x205)](_0x270bb2['ni'],_0x270bb2['ni']),_0x270bb2['ni'][_0x1caf22(0x28c)](_0x270bb2['ni']),_0x270bb2['ni'][_0x1caf22(0x2eb)](),_0x270bb2['ni'][_0x1caf22(0x2fc)](_0x31f70e[_0x1caf22(0x32a)],_0x270bb2['ri']),_0x3cbd07['vsub'](_0x50fcf9,point_on_plane_to_sphere),_0x270bb2['ni']['scale'](_0x270bb2['ni']['dot'](point_on_plane_to_sphere),plane_to_sphere_ortho),point_on_plane_to_sphere[_0x1caf22(0x325)](plane_to_sphere_ortho,_0x270bb2['rj']);if(-point_on_plane_to_sphere[_0x1caf22(0x318)](_0x270bb2['ni'])<=_0x31f70e['radius']){if(_0x2d1485)return!![];const _0x5c5deb=_0x270bb2['ri'],_0x269743=_0x270bb2['rj'];_0x5c5deb[_0x1caf22(0x3d7)](_0x3cbd07,_0x5c5deb),_0x5c5deb['vsub'](_0x234a98[_0x1caf22(0x252)],_0x5c5deb),_0x269743[_0x1caf22(0x3d7)](_0x50fcf9,_0x269743),_0x269743[_0x1caf22(0x325)](_0x70c8a3['position'],_0x269743),this[_0x1caf22(0x1a8)][_0x1caf22(0x2b9)](_0x270bb2),this['createFrictionEquationsFromContact'](_0x270bb2,this[_0x1caf22(0x2bb)]);}}[q0_0x3ac257(0x373)](_0x45f37f,_0x3199a9,_0x315dd4,_0x480786,_0x9dd56e,_0x415c70,_0x54daab,_0x55c319,_0x3c5ace,_0x530137,_0x47741e){const _0x523a22=q0_0x3ac257;return _0x45f37f[_0x523a22(0x231)][_0x523a22(0x256)]=_0x45f37f[_0x523a22(0x256)],_0x3199a9[_0x523a22(0x231)][_0x523a22(0x256)]=_0x3199a9[_0x523a22(0x256)],_0x45f37f[_0x523a22(0x231)][_0x523a22(0x1a0)]=_0x45f37f['collisionResponse'],_0x3199a9['convexPolyhedronRepresentation'][_0x523a22(0x1a0)]=_0x3199a9[_0x523a22(0x1a0)],this[_0x523a22(0x265)](_0x45f37f[_0x523a22(0x231)],_0x3199a9[_0x523a22(0x231)],_0x315dd4,_0x480786,_0x9dd56e,_0x415c70,_0x54daab,_0x55c319,_0x45f37f,_0x3199a9,_0x47741e);}[q0_0x3ac257(0x3ab)](_0x42b4f2,_0x18d02d,_0x351b20,_0x2f0e07,_0x54dbdb,_0x313b65,_0xc128f,_0x2f22ff,_0x5bb60d,_0x238b06,_0x2bc521){const _0x40a5ed=q0_0x3ac257,_0x386974=this[_0x40a5ed(0x2d7)],_0x28881c=sphereBox_sides;_0x351b20['vsub'](_0x2f0e07,box_to_sphere),_0x18d02d[_0x40a5ed(0x2a3)](_0x28881c,_0x313b65);const _0x42d463=_0x42b4f2['radius'];let _0x2aa893=![];const _0x4bf570=sphereBox_side_ns,_0x45b08b=sphereBox_side_ns1,_0x5a636c=sphereBox_side_ns2;let _0x160516=null,_0x567ca2=0x0,_0x22baa3=0x0,_0x21897c=0x0,_0x4e475c=null;for(let _0x48637d=0x0,_0x435354=_0x28881c[_0x40a5ed(0x25b)];_0x48637d!==_0x435354&&_0x2aa893===![];_0x48637d++){const _0x4a1c3c=sphereBox_ns;_0x4a1c3c[_0x40a5ed(0x191)](_0x28881c[_0x48637d]);const _0xad7b57=_0x4a1c3c[_0x40a5ed(0x25b)]();_0x4a1c3c[_0x40a5ed(0x2eb)]();const _0x4717c3=box_to_sphere[_0x40a5ed(0x318)](_0x4a1c3c);if(_0x4717c3<_0xad7b57+_0x42d463&&_0x4717c3>0x0){const _0x2c9511=sphereBox_ns1,_0x334793=sphereBox_ns2;_0x2c9511[_0x40a5ed(0x191)](_0x28881c[(_0x48637d+0x1)%0x3]),_0x334793[_0x40a5ed(0x191)](_0x28881c[(_0x48637d+0x2)%0x3]);const _0x36669a=_0x2c9511[_0x40a5ed(0x25b)](),_0x5a17ce=_0x334793[_0x40a5ed(0x25b)]();_0x2c9511[_0x40a5ed(0x2eb)](),_0x334793['normalize']();const _0xafb422=box_to_sphere[_0x40a5ed(0x318)](_0x2c9511),_0x19e723=box_to_sphere[_0x40a5ed(0x318)](_0x334793);if(_0xafb422<_0x36669a&&_0xafb422>-_0x36669a&&_0x19e723<_0x5a17ce&&_0x19e723>-_0x5a17ce){const _0x5b8769=Math[_0x40a5ed(0x23b)](_0x4717c3-_0xad7b57-_0x42d463);if(_0x4e475c===null||_0x5b8769<_0x4e475c){_0x4e475c=_0x5b8769,_0x22baa3=_0xafb422,_0x21897c=_0x19e723,_0x160516=_0xad7b57,_0x4bf570[_0x40a5ed(0x191)](_0x4a1c3c),_0x45b08b[_0x40a5ed(0x191)](_0x2c9511),_0x5a636c[_0x40a5ed(0x191)](_0x334793),_0x567ca2++;if(_0x2bc521)return!![];}}}}if(_0x567ca2){_0x2aa893=!![];const _0xe405b1=this[_0x40a5ed(0x180)](_0xc128f,_0x2f22ff,_0x42b4f2,_0x18d02d,_0x5bb60d,_0x238b06);_0x4bf570[_0x40a5ed(0x2fc)](-_0x42d463,_0xe405b1['ri']),_0xe405b1['ni'][_0x40a5ed(0x191)](_0x4bf570),_0xe405b1['ni'][_0x40a5ed(0x28c)](_0xe405b1['ni']),_0x4bf570[_0x40a5ed(0x2fc)](_0x160516,_0x4bf570),_0x45b08b[_0x40a5ed(0x2fc)](_0x22baa3,_0x45b08b),_0x4bf570[_0x40a5ed(0x3d7)](_0x45b08b,_0x4bf570),_0x5a636c['scale'](_0x21897c,_0x5a636c),_0x4bf570[_0x40a5ed(0x3d7)](_0x5a636c,_0xe405b1['rj']),_0xe405b1['ri']['vadd'](_0x351b20,_0xe405b1['ri']),_0xe405b1['ri']['vsub'](_0xc128f[_0x40a5ed(0x252)],_0xe405b1['ri']),_0xe405b1['rj'][_0x40a5ed(0x3d7)](_0x2f0e07,_0xe405b1['rj']),_0xe405b1['rj']['vsub'](_0x2f22ff[_0x40a5ed(0x252)],_0xe405b1['rj']),this[_0x40a5ed(0x1a8)]['push'](_0xe405b1),this[_0x40a5ed(0x23c)](_0xe405b1,this[_0x40a5ed(0x2bb)]);}let _0xa13f1a=_0x386974[_0x40a5ed(0x1e8)]();const _0x23fbc4=sphereBox_sphere_to_corner;for(let _0x4cbd1e=0x0;_0x4cbd1e!==0x2&&!_0x2aa893;_0x4cbd1e++){for(let _0x47ba61=0x0;_0x47ba61!==0x2&&!_0x2aa893;_0x47ba61++){for(let _0x4e273c=0x0;_0x4e273c!==0x2&&!_0x2aa893;_0x4e273c++){_0xa13f1a[_0x40a5ed(0x38a)](0x0,0x0,0x0);_0x4cbd1e?_0xa13f1a['vadd'](_0x28881c[0x0],_0xa13f1a):_0xa13f1a[_0x40a5ed(0x325)](_0x28881c[0x0],_0xa13f1a);_0x47ba61?_0xa13f1a[_0x40a5ed(0x3d7)](_0x28881c[0x1],_0xa13f1a):_0xa13f1a[_0x40a5ed(0x325)](_0x28881c[0x1],_0xa13f1a);_0x4e273c?_0xa13f1a[_0x40a5ed(0x3d7)](_0x28881c[0x2],_0xa13f1a):_0xa13f1a[_0x40a5ed(0x325)](_0x28881c[0x2],_0xa13f1a);_0x2f0e07[_0x40a5ed(0x3d7)](_0xa13f1a,_0x23fbc4),_0x23fbc4[_0x40a5ed(0x325)](_0x351b20,_0x23fbc4);if(_0x23fbc4[_0x40a5ed(0x312)]()<_0x42d463*_0x42d463){if(_0x2bc521)return!![];_0x2aa893=!![];const _0x5301e2=this[_0x40a5ed(0x180)](_0xc128f,_0x2f22ff,_0x42b4f2,_0x18d02d,_0x5bb60d,_0x238b06);_0x5301e2['ri'][_0x40a5ed(0x191)](_0x23fbc4),_0x5301e2['ri']['normalize'](),_0x5301e2['ni'][_0x40a5ed(0x191)](_0x5301e2['ri']),_0x5301e2['ri'][_0x40a5ed(0x2fc)](_0x42d463,_0x5301e2['ri']),_0x5301e2['rj']['copy'](_0xa13f1a),_0x5301e2['ri'][_0x40a5ed(0x3d7)](_0x351b20,_0x5301e2['ri']),_0x5301e2['ri'][_0x40a5ed(0x325)](_0xc128f['position'],_0x5301e2['ri']),_0x5301e2['rj']['vadd'](_0x2f0e07,_0x5301e2['rj']),_0x5301e2['rj'][_0x40a5ed(0x325)](_0x2f22ff[_0x40a5ed(0x252)],_0x5301e2['rj']),this[_0x40a5ed(0x1a8)]['push'](_0x5301e2),this['createFrictionEquationsFromContact'](_0x5301e2,this[_0x40a5ed(0x2bb)]);}}}}_0x386974[_0x40a5ed(0x197)](_0xa13f1a),_0xa13f1a=null;const _0x47023d=_0x386974[_0x40a5ed(0x1e8)](),_0x22c9b2=_0x386974[_0x40a5ed(0x1e8)](),_0x8c58de=_0x386974[_0x40a5ed(0x1e8)](),_0xd6631d=_0x386974[_0x40a5ed(0x1e8)](),_0x122c54=_0x386974[_0x40a5ed(0x1e8)](),_0x5560bd=_0x28881c[_0x40a5ed(0x25b)];for(let _0x984657=0x0;_0x984657!==_0x5560bd&&!_0x2aa893;_0x984657++){for(let _0x44a454=0x0;_0x44a454!==_0x5560bd&&!_0x2aa893;_0x44a454++){if(_0x984657%0x3!==_0x44a454%0x3){_0x28881c[_0x44a454][_0x40a5ed(0x2cc)](_0x28881c[_0x984657],_0x47023d),_0x47023d['normalize'](),_0x28881c[_0x984657]['vadd'](_0x28881c[_0x44a454],_0x22c9b2),_0x8c58de['copy'](_0x351b20),_0x8c58de[_0x40a5ed(0x325)](_0x22c9b2,_0x8c58de),_0x8c58de[_0x40a5ed(0x325)](_0x2f0e07,_0x8c58de);const _0x3eeaa7=_0x8c58de[_0x40a5ed(0x318)](_0x47023d);_0x47023d[_0x40a5ed(0x2fc)](_0x3eeaa7,_0xd6631d);let _0x1aa850=0x0;while(_0x1aa850===_0x984657%0x3||_0x1aa850===_0x44a454%0x3){_0x1aa850++;}_0x122c54[_0x40a5ed(0x191)](_0x351b20),_0x122c54[_0x40a5ed(0x325)](_0xd6631d,_0x122c54),_0x122c54['vsub'](_0x22c9b2,_0x122c54),_0x122c54[_0x40a5ed(0x325)](_0x2f0e07,_0x122c54);const _0x1ed4d0=Math[_0x40a5ed(0x23b)](_0x3eeaa7),_0x3bb5cf=_0x122c54[_0x40a5ed(0x25b)]();if(_0x1ed4d0<_0x28881c[_0x1aa850][_0x40a5ed(0x25b)]()&&_0x3bb5cf<_0x42d463){if(_0x2bc521)return!![];_0x2aa893=!![];const _0x55e10b=this[_0x40a5ed(0x180)](_0xc128f,_0x2f22ff,_0x42b4f2,_0x18d02d,_0x5bb60d,_0x238b06);_0x22c9b2[_0x40a5ed(0x3d7)](_0xd6631d,_0x55e10b['rj']),_0x55e10b['rj'][_0x40a5ed(0x191)](_0x55e10b['rj']),_0x122c54[_0x40a5ed(0x28c)](_0x55e10b['ni']),_0x55e10b['ni'][_0x40a5ed(0x2eb)](),_0x55e10b['ri']['copy'](_0x55e10b['rj']),_0x55e10b['ri']['vadd'](_0x2f0e07,_0x55e10b['ri']),_0x55e10b['ri'][_0x40a5ed(0x325)](_0x351b20,_0x55e10b['ri']),_0x55e10b['ri'][_0x40a5ed(0x2eb)](),_0x55e10b['ri'][_0x40a5ed(0x2fc)](_0x42d463,_0x55e10b['ri']),_0x55e10b['ri'][_0x40a5ed(0x3d7)](_0x351b20,_0x55e10b['ri']),_0x55e10b['ri'][_0x40a5ed(0x325)](_0xc128f['position'],_0x55e10b['ri']),_0x55e10b['rj'][_0x40a5ed(0x3d7)](_0x2f0e07,_0x55e10b['rj']),_0x55e10b['rj'][_0x40a5ed(0x325)](_0x2f22ff['position'],_0x55e10b['rj']),this[_0x40a5ed(0x1a8)][_0x40a5ed(0x2b9)](_0x55e10b),this[_0x40a5ed(0x23c)](_0x55e10b,this[_0x40a5ed(0x2bb)]);}}}}_0x386974[_0x40a5ed(0x197)](_0x47023d,_0x22c9b2,_0x8c58de,_0xd6631d,_0x122c54);}['planeBox'](_0x533991,_0x270900,_0x5d269e,_0x26dfa8,_0xf6b110,_0x473637,_0x42e6ec,_0xd8975b,_0x24b8c5,_0x558a91,_0x22eab2){const _0x36d6eb=q0_0x3ac257;return _0x270900[_0x36d6eb(0x231)][_0x36d6eb(0x256)]=_0x270900[_0x36d6eb(0x256)],_0x270900[_0x36d6eb(0x231)][_0x36d6eb(0x1a0)]=_0x270900['collisionResponse'],_0x270900[_0x36d6eb(0x231)]['id']=_0x270900['id'],this[_0x36d6eb(0x1c7)](_0x533991,_0x270900['convexPolyhedronRepresentation'],_0x5d269e,_0x26dfa8,_0xf6b110,_0x473637,_0x42e6ec,_0xd8975b,_0x533991,_0x270900,_0x22eab2);}['convexConvex'](_0x137731,_0x527212,_0x570102,_0x1b8467,_0x2f8cb5,_0x275065,_0xeccb04,_0x34cc8f,_0x55bb42,_0xb43179,_0x5d6af6,_0x4a9681,_0x240157){const _0x470615=q0_0x3ac257,_0x1ad048=convexConvex_sepAxis;if(_0x570102[_0x470615(0x2ec)](_0x1b8467)>_0x137731[_0x470615(0x2e4)]+_0x527212['boundingSphereRadius'])return;if(_0x137731['findSeparatingAxis'](_0x527212,_0x570102,_0x2f8cb5,_0x1b8467,_0x275065,_0x1ad048,_0x4a9681,_0x240157)){const _0x581e3e=[],_0x43d1ea=convexConvex_q;_0x137731['clipAgainstHull'](_0x570102,_0x2f8cb5,_0x527212,_0x1b8467,_0x275065,_0x1ad048,-0x64,0x64,_0x581e3e);let _0x146abb=0x0;for(let _0x3768d8=0x0;_0x3768d8!==_0x581e3e[_0x470615(0x25b)];_0x3768d8++){if(_0x5d6af6)return!![];const _0x20ebc1=this[_0x470615(0x180)](_0xeccb04,_0x34cc8f,_0x137731,_0x527212,_0x55bb42,_0xb43179),_0x11e551=_0x20ebc1['ri'],_0x2daabe=_0x20ebc1['rj'];_0x1ad048[_0x470615(0x28c)](_0x20ebc1['ni']),_0x581e3e[_0x3768d8][_0x470615(0x1fd)][_0x470615(0x28c)](_0x43d1ea),_0x43d1ea[_0x470615(0x2fc)](_0x581e3e[_0x3768d8][_0x470615(0x3d3)],_0x43d1ea),_0x581e3e[_0x3768d8]['point'][_0x470615(0x3d7)](_0x43d1ea,_0x11e551),_0x2daabe[_0x470615(0x191)](_0x581e3e[_0x3768d8][_0x470615(0x29b)]),_0x11e551[_0x470615(0x325)](_0x570102,_0x11e551),_0x2daabe['vsub'](_0x1b8467,_0x2daabe),_0x11e551['vadd'](_0x570102,_0x11e551),_0x11e551[_0x470615(0x325)](_0xeccb04[_0x470615(0x252)],_0x11e551),_0x2daabe['vadd'](_0x1b8467,_0x2daabe),_0x2daabe['vsub'](_0x34cc8f['position'],_0x2daabe),this[_0x470615(0x1a8)]['push'](_0x20ebc1),_0x146abb++,!this[_0x470615(0x1e7)]&&this['createFrictionEquationsFromContact'](_0x20ebc1,this[_0x470615(0x2bb)]);}this['enableFrictionReduction']&&_0x146abb&&this[_0x470615(0x273)](_0x146abb);}}[q0_0x3ac257(0x30c)](_0x377b24,_0x2a5604,_0x525c6c,_0xa505d9,_0x4b0b5c,_0x3b93e3,_0x21a710,_0x59deab,_0x4e888c,_0x5e0ef5,_0x3cca00){const _0x26f774=q0_0x3ac257,_0x1e94ad=this[_0x26f774(0x2d7)];_0x525c6c[_0x26f774(0x325)](_0xa505d9,convex_to_sphere);const _0x58949e=_0x2a5604[_0x26f774(0x173)],_0x2a1f9a=_0x2a5604[_0x26f774(0x1a6)],_0x215812=_0x2a5604[_0x26f774(0x32b)],_0x2ece07=_0x377b24[_0x26f774(0x32a)];let _0x10bda8=![];for(let _0x40d9b1=0x0;_0x40d9b1!==_0x215812[_0x26f774(0x25b)];_0x40d9b1++){const _0x492861=_0x215812[_0x40d9b1],_0x526a48=sphereConvex_worldCorner;_0x3b93e3[_0x26f774(0x205)](_0x492861,_0x526a48),_0xa505d9[_0x26f774(0x3d7)](_0x526a48,_0x526a48);const _0x1422f5=sphereConvex_sphereToCorner;_0x526a48['vsub'](_0x525c6c,_0x1422f5);if(_0x1422f5[_0x26f774(0x312)]()<_0x2ece07*_0x2ece07){if(_0x3cca00)return!![];_0x10bda8=!![];const _0x29f1bc=this[_0x26f774(0x180)](_0x21a710,_0x59deab,_0x377b24,_0x2a5604,_0x4e888c,_0x5e0ef5);_0x29f1bc['ri'][_0x26f774(0x191)](_0x1422f5),_0x29f1bc['ri']['normalize'](),_0x29f1bc['ni'][_0x26f774(0x191)](_0x29f1bc['ri']),_0x29f1bc['ri'][_0x26f774(0x2fc)](_0x2ece07,_0x29f1bc['ri']),_0x526a48[_0x26f774(0x325)](_0xa505d9,_0x29f1bc['rj']),_0x29f1bc['ri'][_0x26f774(0x3d7)](_0x525c6c,_0x29f1bc['ri']),_0x29f1bc['ri'][_0x26f774(0x325)](_0x21a710[_0x26f774(0x252)],_0x29f1bc['ri']),_0x29f1bc['rj'][_0x26f774(0x3d7)](_0xa505d9,_0x29f1bc['rj']),_0x29f1bc['rj']['vsub'](_0x59deab['position'],_0x29f1bc['rj']),this[_0x26f774(0x1a8)][_0x26f774(0x2b9)](_0x29f1bc),this['createFrictionEquationsFromContact'](_0x29f1bc,this[_0x26f774(0x2bb)]);return;}}for(let _0x3b9480=0x0,_0x2482ec=_0x2a1f9a[_0x26f774(0x25b)];_0x3b9480!==_0x2482ec&&_0x10bda8===![];_0x3b9480++){const _0x312ebd=_0x58949e[_0x3b9480],_0x45025d=_0x2a1f9a[_0x3b9480],_0x140eb1=sphereConvex_worldNormal;_0x3b93e3[_0x26f774(0x205)](_0x312ebd,_0x140eb1);const _0x265c9e=sphereConvex_worldPoint;_0x3b93e3[_0x26f774(0x205)](_0x215812[_0x45025d[0x0]],_0x265c9e),_0x265c9e['vadd'](_0xa505d9,_0x265c9e);const _0x517217=sphereConvex_worldSpherePointClosestToPlane;_0x140eb1[_0x26f774(0x2fc)](-_0x2ece07,_0x517217),_0x525c6c[_0x26f774(0x3d7)](_0x517217,_0x517217);const _0x1a216b=sphereConvex_penetrationVec;_0x517217['vsub'](_0x265c9e,_0x1a216b);const _0x5b258f=_0x1a216b[_0x26f774(0x318)](_0x140eb1),_0x49d370=sphereConvex_sphereToWorldPoint;_0x525c6c[_0x26f774(0x325)](_0x265c9e,_0x49d370);if(_0x5b258f<0x0&&_0x49d370['dot'](_0x140eb1)>0x0){const _0x2e9561=[];for(let _0x4d580e=0x0,_0x250cbf=_0x45025d['length'];_0x4d580e!==_0x250cbf;_0x4d580e++){const _0x1b63c1=_0x1e94ad[_0x26f774(0x1e8)]();_0x3b93e3[_0x26f774(0x205)](_0x215812[_0x45025d[_0x4d580e]],_0x1b63c1),_0xa505d9[_0x26f774(0x3d7)](_0x1b63c1,_0x1b63c1),_0x2e9561[_0x26f774(0x2b9)](_0x1b63c1);}if(pointInPolygon(_0x2e9561,_0x140eb1,_0x525c6c)){if(_0x3cca00)return!![];_0x10bda8=!![];const _0x405d5d=this[_0x26f774(0x180)](_0x21a710,_0x59deab,_0x377b24,_0x2a5604,_0x4e888c,_0x5e0ef5);_0x140eb1[_0x26f774(0x2fc)](-_0x2ece07,_0x405d5d['ri']),_0x140eb1[_0x26f774(0x28c)](_0x405d5d['ni']);const _0x4d18c5=_0x1e94ad['get']();_0x140eb1[_0x26f774(0x2fc)](-_0x5b258f,_0x4d18c5);const _0x5a9718=_0x1e94ad[_0x26f774(0x1e8)]();_0x140eb1[_0x26f774(0x2fc)](-_0x2ece07,_0x5a9718),_0x525c6c[_0x26f774(0x325)](_0xa505d9,_0x405d5d['rj']),_0x405d5d['rj'][_0x26f774(0x3d7)](_0x5a9718,_0x405d5d['rj']),_0x405d5d['rj'][_0x26f774(0x3d7)](_0x4d18c5,_0x405d5d['rj']),_0x405d5d['rj'][_0x26f774(0x3d7)](_0xa505d9,_0x405d5d['rj']),_0x405d5d['rj'][_0x26f774(0x325)](_0x59deab[_0x26f774(0x252)],_0x405d5d['rj']),_0x405d5d['ri'][_0x26f774(0x3d7)](_0x525c6c,_0x405d5d['ri']),_0x405d5d['ri'][_0x26f774(0x325)](_0x21a710['position'],_0x405d5d['ri']),_0x1e94ad['release'](_0x4d18c5),_0x1e94ad['release'](_0x5a9718),this[_0x26f774(0x1a8)][_0x26f774(0x2b9)](_0x405d5d),this[_0x26f774(0x23c)](_0x405d5d,this[_0x26f774(0x2bb)]);for(let _0x49dc02=0x0,_0x9f064a=_0x2e9561[_0x26f774(0x25b)];_0x49dc02!==_0x9f064a;_0x49dc02++){_0x1e94ad[_0x26f774(0x197)](_0x2e9561[_0x49dc02]);}return;}else for(let _0x189cc9=0x0;_0x189cc9!==_0x45025d[_0x26f774(0x25b)];_0x189cc9++){const _0x4f5478=_0x1e94ad[_0x26f774(0x1e8)](),_0x3009c6=_0x1e94ad['get']();_0x3b93e3['vmult'](_0x215812[_0x45025d[(_0x189cc9+0x1)%_0x45025d[_0x26f774(0x25b)]]],_0x4f5478),_0x3b93e3[_0x26f774(0x205)](_0x215812[_0x45025d[(_0x189cc9+0x2)%_0x45025d['length']]],_0x3009c6),_0xa505d9['vadd'](_0x4f5478,_0x4f5478),_0xa505d9[_0x26f774(0x3d7)](_0x3009c6,_0x3009c6);const _0x3b5db7=sphereConvex_edge;_0x3009c6[_0x26f774(0x325)](_0x4f5478,_0x3b5db7);const _0x58efc7=sphereConvex_edgeUnit;_0x3b5db7[_0x26f774(0x229)](_0x58efc7);const _0xd5aaf0=_0x1e94ad[_0x26f774(0x1e8)](),_0x347504=_0x1e94ad[_0x26f774(0x1e8)]();_0x525c6c[_0x26f774(0x325)](_0x4f5478,_0x347504);const _0x173e83=_0x347504[_0x26f774(0x318)](_0x58efc7);_0x58efc7[_0x26f774(0x2fc)](_0x173e83,_0xd5aaf0),_0xd5aaf0[_0x26f774(0x3d7)](_0x4f5478,_0xd5aaf0);const _0x5f12f2=_0x1e94ad[_0x26f774(0x1e8)]();_0xd5aaf0[_0x26f774(0x325)](_0x525c6c,_0x5f12f2);if(_0x173e83>0x0&&_0x173e83*_0x173e83<_0x3b5db7[_0x26f774(0x312)]()&&_0x5f12f2['lengthSquared']()<_0x2ece07*_0x2ece07){if(_0x3cca00)return!![];const _0x14aadc=this[_0x26f774(0x180)](_0x21a710,_0x59deab,_0x377b24,_0x2a5604,_0x4e888c,_0x5e0ef5);_0xd5aaf0[_0x26f774(0x325)](_0xa505d9,_0x14aadc['rj']),_0xd5aaf0[_0x26f774(0x325)](_0x525c6c,_0x14aadc['ni']),_0x14aadc['ni']['normalize'](),_0x14aadc['ni'][_0x26f774(0x2fc)](_0x2ece07,_0x14aadc['ri']),_0x14aadc['rj']['vadd'](_0xa505d9,_0x14aadc['rj']),_0x14aadc['rj'][_0x26f774(0x325)](_0x59deab['position'],_0x14aadc['rj']),_0x14aadc['ri'][_0x26f774(0x3d7)](_0x525c6c,_0x14aadc['ri']),_0x14aadc['ri'][_0x26f774(0x325)](_0x21a710[_0x26f774(0x252)],_0x14aadc['ri']),this[_0x26f774(0x1a8)][_0x26f774(0x2b9)](_0x14aadc),this['createFrictionEquationsFromContact'](_0x14aadc,this[_0x26f774(0x2bb)]);for(let _0x252b57=0x0,_0x5c717a=_0x2e9561[_0x26f774(0x25b)];_0x252b57!==_0x5c717a;_0x252b57++){_0x1e94ad[_0x26f774(0x197)](_0x2e9561[_0x252b57]);}_0x1e94ad[_0x26f774(0x197)](_0x4f5478),_0x1e94ad['release'](_0x3009c6),_0x1e94ad[_0x26f774(0x197)](_0xd5aaf0),_0x1e94ad[_0x26f774(0x197)](_0x5f12f2),_0x1e94ad[_0x26f774(0x197)](_0x347504);return;}_0x1e94ad[_0x26f774(0x197)](_0x4f5478),_0x1e94ad['release'](_0x3009c6),_0x1e94ad['release'](_0xd5aaf0),_0x1e94ad[_0x26f774(0x197)](_0x5f12f2),_0x1e94ad[_0x26f774(0x197)](_0x347504);}for(let _0x17c9a9=0x0,_0x23e180=_0x2e9561[_0x26f774(0x25b)];_0x17c9a9!==_0x23e180;_0x17c9a9++){_0x1e94ad[_0x26f774(0x197)](_0x2e9561[_0x17c9a9]);}}}}[q0_0x3ac257(0x1c7)](_0x11da8f,_0x1b4647,_0x9755c8,_0x5678c1,_0x2e40e9,_0x36e9f4,_0x199bb2,_0x2a420f,_0x4b86fd,_0x17fd6b,_0x5160ba){const _0x271cbe=q0_0x3ac257,_0xf43651=planeConvex_v,_0x30ec71=planeConvex_normal;_0x30ec71['set'](0x0,0x0,0x1),_0x2e40e9[_0x271cbe(0x205)](_0x30ec71,_0x30ec71);let _0x1571bb=0x0;const _0x44f962=planeConvex_relpos;for(let _0x3e3865=0x0;_0x3e3865!==_0x1b4647[_0x271cbe(0x32b)][_0x271cbe(0x25b)];_0x3e3865++){_0xf43651['copy'](_0x1b4647['vertices'][_0x3e3865]),_0x36e9f4[_0x271cbe(0x205)](_0xf43651,_0xf43651),_0x5678c1[_0x271cbe(0x3d7)](_0xf43651,_0xf43651),_0xf43651[_0x271cbe(0x325)](_0x9755c8,_0x44f962);const _0x4ce1c2=_0x30ec71[_0x271cbe(0x318)](_0x44f962);if(_0x4ce1c2<=0x0){if(_0x5160ba)return!![];const _0x311d69=this[_0x271cbe(0x180)](_0x199bb2,_0x2a420f,_0x11da8f,_0x1b4647,_0x4b86fd,_0x17fd6b),_0x6a4f1b=planeConvex_projected;_0x30ec71[_0x271cbe(0x2fc)](_0x30ec71['dot'](_0x44f962),_0x6a4f1b),_0xf43651[_0x271cbe(0x325)](_0x6a4f1b,_0x6a4f1b),_0x6a4f1b[_0x271cbe(0x325)](_0x9755c8,_0x311d69['ri']),_0x311d69['ni'][_0x271cbe(0x191)](_0x30ec71),_0xf43651[_0x271cbe(0x325)](_0x5678c1,_0x311d69['rj']),_0x311d69['ri']['vadd'](_0x9755c8,_0x311d69['ri']),_0x311d69['ri'][_0x271cbe(0x325)](_0x199bb2['position'],_0x311d69['ri']),_0x311d69['rj'][_0x271cbe(0x3d7)](_0x5678c1,_0x311d69['rj']),_0x311d69['rj'][_0x271cbe(0x325)](_0x2a420f['position'],_0x311d69['rj']),this['result'][_0x271cbe(0x2b9)](_0x311d69),_0x1571bb++,!this[_0x271cbe(0x1e7)]&&this[_0x271cbe(0x23c)](_0x311d69,this['frictionResult']);}}this['enableFrictionReduction']&&_0x1571bb&&this[_0x271cbe(0x273)](_0x1571bb);}[q0_0x3ac257(0x2c5)](_0x5d4019,_0x2a0121,_0x3edf01,_0x2f7047,_0x30a67e,_0x44b7f5,_0x36893f,_0x1b4567,_0x3b51b8,_0x14d530,_0x2ee828){const _0x292df7=q0_0x3ac257;return _0x5d4019[_0x292df7(0x231)][_0x292df7(0x256)]=_0x5d4019[_0x292df7(0x256)],_0x5d4019[_0x292df7(0x231)][_0x292df7(0x1a0)]=_0x5d4019[_0x292df7(0x1a0)],this[_0x292df7(0x265)](_0x5d4019[_0x292df7(0x231)],_0x2a0121,_0x3edf01,_0x2f7047,_0x30a67e,_0x44b7f5,_0x36893f,_0x1b4567,_0x5d4019,_0x2a0121,_0x2ee828);}[q0_0x3ac257(0x38d)](_0x4ae4d0,_0x454318,_0x417e42,_0x5d7f5c,_0x38cb73,_0x3a41ab,_0x194ca0,_0x342aa8,_0x33f74a,_0x3755df,_0x376588){const _0x1b3f86=q0_0x3ac257,_0x3c8889=_0x454318['data'],_0x19bb0e=_0x4ae4d0['radius'],_0x16c42f=_0x454318[_0x1b3f86(0x36e)],_0x1abf08=sphereHeightfield_tmp2,_0x4d2214=sphereHeightfield_tmp1;Transform[_0x1b3f86(0x224)](_0x5d7f5c,_0x3a41ab,_0x417e42,_0x4d2214);let _0x1238df=Math[_0x1b3f86(0x1ba)]((_0x4d2214['x']-_0x19bb0e)/_0x16c42f)-0x1,_0x344658=Math['ceil']((_0x4d2214['x']+_0x19bb0e)/_0x16c42f)+0x1,_0x341822=Math[_0x1b3f86(0x1ba)]((_0x4d2214['y']-_0x19bb0e)/_0x16c42f)-0x1,_0x291c7c=Math[_0x1b3f86(0x3e5)]((_0x4d2214['y']+_0x19bb0e)/_0x16c42f)+0x1;if(_0x344658<0x0||_0x291c7c<0x0||_0x1238df>_0x3c8889[_0x1b3f86(0x25b)]||_0x341822>_0x3c8889[0x0][_0x1b3f86(0x25b)])return;_0x1238df<0x0&&(_0x1238df=0x0);_0x344658<0x0&&(_0x344658=0x0);_0x341822<0x0&&(_0x341822=0x0);_0x291c7c<0x0&&(_0x291c7c=0x0);_0x1238df>=_0x3c8889['length']&&(_0x1238df=_0x3c8889[_0x1b3f86(0x25b)]-0x1);_0x344658>=_0x3c8889['length']&&(_0x344658=_0x3c8889[_0x1b3f86(0x25b)]-0x1);_0x291c7c>=_0x3c8889[0x0]['length']&&(_0x291c7c=_0x3c8889[0x0][_0x1b3f86(0x25b)]-0x1);_0x341822>=_0x3c8889[0x0][_0x1b3f86(0x25b)]&&(_0x341822=_0x3c8889[0x0][_0x1b3f86(0x25b)]-0x1);const _0x410f96=[];_0x454318[_0x1b3f86(0x294)](_0x1238df,_0x341822,_0x344658,_0x291c7c,_0x410f96);const _0x572a92=_0x410f96[0x0],_0x1123d2=_0x410f96[0x1];if(_0x4d2214['z']-_0x19bb0e>_0x1123d2||_0x4d2214['z']+_0x19bb0e<_0x572a92)return;const _0x4342a4=this['result'];for(let _0x3b1c74=_0x1238df;_0x3b1c74<_0x344658;_0x3b1c74++){for(let _0x4099c2=_0x341822;_0x4099c2<_0x291c7c;_0x4099c2++){const _0x42cda6=_0x4342a4[_0x1b3f86(0x25b)];let _0x3e3319=![];_0x454318[_0x1b3f86(0x33d)](_0x3b1c74,_0x4099c2,![]),Transform[_0x1b3f86(0x3dc)](_0x5d7f5c,_0x3a41ab,_0x454318[_0x1b3f86(0x2c2)],_0x1abf08);_0x417e42['distanceTo'](_0x1abf08)<_0x454318[_0x1b3f86(0x308)]['boundingSphereRadius']+_0x4ae4d0[_0x1b3f86(0x2e4)]&&(_0x3e3319=this['sphereConvex'](_0x4ae4d0,_0x454318[_0x1b3f86(0x308)],_0x417e42,_0x1abf08,_0x38cb73,_0x3a41ab,_0x194ca0,_0x342aa8,_0x4ae4d0,_0x454318,_0x376588));if(_0x376588&&_0x3e3319)return!![];_0x454318[_0x1b3f86(0x33d)](_0x3b1c74,_0x4099c2,!![]),Transform['pointToWorldFrame'](_0x5d7f5c,_0x3a41ab,_0x454318[_0x1b3f86(0x2c2)],_0x1abf08);_0x417e42[_0x1b3f86(0x2ec)](_0x1abf08)<_0x454318[_0x1b3f86(0x308)][_0x1b3f86(0x2e4)]+_0x4ae4d0[_0x1b3f86(0x2e4)]&&(_0x3e3319=this[_0x1b3f86(0x30c)](_0x4ae4d0,_0x454318['pillarConvex'],_0x417e42,_0x1abf08,_0x38cb73,_0x3a41ab,_0x194ca0,_0x342aa8,_0x4ae4d0,_0x454318,_0x376588));if(_0x376588&&_0x3e3319)return!![];const _0x261413=_0x4342a4['length']-_0x42cda6;if(_0x261413>0x2)return;}}}['boxHeightfield'](_0x1beb93,_0x2fde5e,_0x1043fd,_0x382113,_0x2fa219,_0x1068f9,_0xa6c895,_0x3103bc,_0x59f040,_0x475aef,_0x35ecd8){const _0x484465=q0_0x3ac257;return _0x1beb93[_0x484465(0x231)][_0x484465(0x256)]=_0x1beb93[_0x484465(0x256)],_0x1beb93[_0x484465(0x231)][_0x484465(0x1a0)]=_0x1beb93[_0x484465(0x1a0)],this[_0x484465(0x375)](_0x1beb93[_0x484465(0x231)],_0x2fde5e,_0x1043fd,_0x382113,_0x2fa219,_0x1068f9,_0xa6c895,_0x3103bc,_0x1beb93,_0x2fde5e,_0x35ecd8);}['convexHeightfield'](_0x5a1e8b,_0x925225,_0x1a41a6,_0x30ad7a,_0x2e1e0b,_0x36a4f3,_0x3268fb,_0x4d96b3,_0x49ad71,_0x3497ce,_0x111ff4){const _0x129c7a=q0_0x3ac257,_0x47858b=_0x925225[_0x129c7a(0x211)],_0x208f8c=_0x925225[_0x129c7a(0x36e)],_0x2f464a=_0x5a1e8b[_0x129c7a(0x2e4)],_0x304494=convexHeightfield_tmp2,_0x157194=convexHeightfield_faceList,_0x173387=convexHeightfield_tmp1;Transform['pointToLocalFrame'](_0x30ad7a,_0x36a4f3,_0x1a41a6,_0x173387);let _0x40282c=Math[_0x129c7a(0x1ba)]((_0x173387['x']-_0x2f464a)/_0x208f8c)-0x1,_0x9829f8=Math[_0x129c7a(0x3e5)]((_0x173387['x']+_0x2f464a)/_0x208f8c)+0x1,_0x3f6fda=Math[_0x129c7a(0x1ba)]((_0x173387['y']-_0x2f464a)/_0x208f8c)-0x1,_0x2d7c17=Math[_0x129c7a(0x3e5)]((_0x173387['y']+_0x2f464a)/_0x208f8c)+0x1;if(_0x9829f8<0x0||_0x2d7c17<0x0||_0x40282c>_0x47858b[_0x129c7a(0x25b)]||_0x3f6fda>_0x47858b[0x0][_0x129c7a(0x25b)])return;_0x40282c<0x0&&(_0x40282c=0x0);_0x9829f8<0x0&&(_0x9829f8=0x0);_0x3f6fda<0x0&&(_0x3f6fda=0x0);_0x2d7c17<0x0&&(_0x2d7c17=0x0);_0x40282c>=_0x47858b[_0x129c7a(0x25b)]&&(_0x40282c=_0x47858b[_0x129c7a(0x25b)]-0x1);_0x9829f8>=_0x47858b['length']&&(_0x9829f8=_0x47858b[_0x129c7a(0x25b)]-0x1);_0x2d7c17>=_0x47858b[0x0][_0x129c7a(0x25b)]&&(_0x2d7c17=_0x47858b[0x0][_0x129c7a(0x25b)]-0x1);_0x3f6fda>=_0x47858b[0x0][_0x129c7a(0x25b)]&&(_0x3f6fda=_0x47858b[0x0][_0x129c7a(0x25b)]-0x1);const _0x36228b=[];_0x925225[_0x129c7a(0x294)](_0x40282c,_0x3f6fda,_0x9829f8,_0x2d7c17,_0x36228b);const _0x9fee8a=_0x36228b[0x0],_0x2cc263=_0x36228b[0x1];if(_0x173387['z']-_0x2f464a>_0x2cc263||_0x173387['z']+_0x2f464a<_0x9fee8a)return;for(let _0x278a5a=_0x40282c;_0x278a5a<_0x9829f8;_0x278a5a++){for(let _0x91d00c=_0x3f6fda;_0x91d00c<_0x2d7c17;_0x91d00c++){let _0x39c024=![];_0x925225[_0x129c7a(0x33d)](_0x278a5a,_0x91d00c,![]),Transform[_0x129c7a(0x3dc)](_0x30ad7a,_0x36a4f3,_0x925225[_0x129c7a(0x2c2)],_0x304494);_0x1a41a6[_0x129c7a(0x2ec)](_0x304494)<_0x925225['pillarConvex'][_0x129c7a(0x2e4)]+_0x5a1e8b[_0x129c7a(0x2e4)]&&(_0x39c024=this[_0x129c7a(0x265)](_0x5a1e8b,_0x925225['pillarConvex'],_0x1a41a6,_0x304494,_0x2e1e0b,_0x36a4f3,_0x3268fb,_0x4d96b3,null,null,_0x111ff4,_0x157194,null));if(_0x111ff4&&_0x39c024)return!![];_0x925225[_0x129c7a(0x33d)](_0x278a5a,_0x91d00c,!![]),Transform[_0x129c7a(0x3dc)](_0x30ad7a,_0x36a4f3,_0x925225[_0x129c7a(0x2c2)],_0x304494);_0x1a41a6['distanceTo'](_0x304494)<_0x925225['pillarConvex'][_0x129c7a(0x2e4)]+_0x5a1e8b['boundingSphereRadius']&&(_0x39c024=this[_0x129c7a(0x265)](_0x5a1e8b,_0x925225[_0x129c7a(0x308)],_0x1a41a6,_0x304494,_0x2e1e0b,_0x36a4f3,_0x3268fb,_0x4d96b3,null,null,_0x111ff4,_0x157194,null));if(_0x111ff4&&_0x39c024)return!![];}}}[q0_0x3ac257(0x1af)](_0x4dc261,_0x19b645,_0x3f4fe3,_0x1304c7,_0x1f9ebf,_0x555c9c,_0xa52430,_0x7613f1,_0x56c0ce,_0x579745,_0x1126de){const _0x2722d9=q0_0x3ac257,_0x345f7a=particleSphere_normal;_0x345f7a[_0x2722d9(0x38a)](0x0,0x0,0x1),_0x1304c7[_0x2722d9(0x325)](_0x3f4fe3,_0x345f7a);const _0x1044fe=_0x345f7a[_0x2722d9(0x312)]();if(_0x1044fe<=_0x4dc261[_0x2722d9(0x32a)]*_0x4dc261[_0x2722d9(0x32a)]){if(_0x1126de)return!![];const _0x4e7e2b=this[_0x2722d9(0x180)](_0x7613f1,_0xa52430,_0x19b645,_0x4dc261,_0x56c0ce,_0x579745);_0x345f7a[_0x2722d9(0x2eb)](),_0x4e7e2b['rj'][_0x2722d9(0x191)](_0x345f7a),_0x4e7e2b['rj'][_0x2722d9(0x2fc)](_0x4dc261[_0x2722d9(0x32a)],_0x4e7e2b['rj']),_0x4e7e2b['ni']['copy'](_0x345f7a),_0x4e7e2b['ni'][_0x2722d9(0x28c)](_0x4e7e2b['ni']),_0x4e7e2b['ri'][_0x2722d9(0x38a)](0x0,0x0,0x0),this[_0x2722d9(0x1a8)][_0x2722d9(0x2b9)](_0x4e7e2b),this['createFrictionEquationsFromContact'](_0x4e7e2b,this[_0x2722d9(0x2bb)]);}}['planeParticle'](_0x74a89e,_0x9c61ed,_0x2b71b3,_0x195140,_0x268902,_0x2da400,_0x330e98,_0xb06968,_0x748820,_0x200fa8,_0x4f5b58){const _0x2017e3=q0_0x3ac257,_0x2c62dc=particlePlane_normal;_0x2c62dc[_0x2017e3(0x38a)](0x0,0x0,0x1),_0x330e98[_0x2017e3(0x3cd)][_0x2017e3(0x205)](_0x2c62dc,_0x2c62dc);const _0x40f7d2=particlePlane_relpos;_0x195140['vsub'](_0x330e98['position'],_0x40f7d2);const _0x485066=_0x2c62dc['dot'](_0x40f7d2);if(_0x485066<=0x0){if(_0x4f5b58)return!![];const _0x326069=this[_0x2017e3(0x180)](_0xb06968,_0x330e98,_0x9c61ed,_0x74a89e,_0x748820,_0x200fa8);_0x326069['ni'][_0x2017e3(0x191)](_0x2c62dc),_0x326069['ni'][_0x2017e3(0x28c)](_0x326069['ni']),_0x326069['ri'][_0x2017e3(0x38a)](0x0,0x0,0x0);const _0x4f52f0=particlePlane_projected;_0x2c62dc[_0x2017e3(0x2fc)](_0x2c62dc[_0x2017e3(0x318)](_0x195140),_0x4f52f0),_0x195140[_0x2017e3(0x325)](_0x4f52f0,_0x4f52f0),_0x326069['rj'][_0x2017e3(0x191)](_0x4f52f0),this[_0x2017e3(0x1a8)][_0x2017e3(0x2b9)](_0x326069),this['createFrictionEquationsFromContact'](_0x326069,this[_0x2017e3(0x2bb)]);}}[q0_0x3ac257(0x2f0)](_0x5882de,_0x31c551,_0x36da2e,_0x215395,_0x3a6f44,_0x11652c,_0x4302ee,_0xc94b76,_0x387396,_0x365d93,_0x110f80){const _0x1c8c32=q0_0x3ac257;return _0x5882de[_0x1c8c32(0x231)][_0x1c8c32(0x256)]=_0x5882de[_0x1c8c32(0x256)],_0x5882de[_0x1c8c32(0x231)][_0x1c8c32(0x1a0)]=_0x5882de[_0x1c8c32(0x1a0)],this['convexParticle'](_0x5882de[_0x1c8c32(0x231)],_0x31c551,_0x36da2e,_0x215395,_0x3a6f44,_0x11652c,_0x4302ee,_0xc94b76,_0x5882de,_0x31c551,_0x110f80);}[q0_0x3ac257(0x2ff)](_0x4a241d,_0x57aef5,_0x146017,_0x1a0d6e,_0x4f51ad,_0x440300,_0x4a2518,_0x298ffa,_0x24be40,_0x96fd25,_0x42a672){const _0x89dfa7=q0_0x3ac257;let _0x180688=-0x1;const _0xfcc9cc=convexParticle_penetratedFaceNormal,_0x2a6590=convexParticle_worldPenetrationVec;let _0x990527=null;const _0x2a6959=convexParticle_local;_0x2a6959[_0x89dfa7(0x191)](_0x1a0d6e),_0x2a6959['vsub'](_0x146017,_0x2a6959),_0x4f51ad[_0x89dfa7(0x307)](cqj),cqj[_0x89dfa7(0x205)](_0x2a6959,_0x2a6959);if(_0x4a241d['pointIsInside'](_0x2a6959)){_0x4a241d['worldVerticesNeedsUpdate']&&_0x4a241d['computeWorldVertices'](_0x146017,_0x4f51ad);_0x4a241d[_0x89dfa7(0x1ab)]&&_0x4a241d['computeWorldFaceNormals'](_0x4f51ad);for(let _0x53f99c=0x0,_0x2e05ff=_0x4a241d[_0x89dfa7(0x1a6)][_0x89dfa7(0x25b)];_0x53f99c!==_0x2e05ff;_0x53f99c++){const _0x51d7fd=[_0x4a241d[_0x89dfa7(0x3a6)][_0x4a241d['faces'][_0x53f99c][0x0]]],_0x4db574=_0x4a241d[_0x89dfa7(0x3dd)][_0x53f99c];_0x1a0d6e[_0x89dfa7(0x325)](_0x51d7fd[0x0],convexParticle_vertexToParticle);const _0x47f2f4=-_0x4db574[_0x89dfa7(0x318)](convexParticle_vertexToParticle);if(_0x990527===null||Math[_0x89dfa7(0x23b)](_0x47f2f4)<Math[_0x89dfa7(0x23b)](_0x990527)){if(_0x42a672)return!![];_0x990527=_0x47f2f4,_0x180688=_0x53f99c,_0xfcc9cc['copy'](_0x4db574);}}if(_0x180688!==-0x1){const _0x5dc39b=this[_0x89dfa7(0x180)](_0x298ffa,_0x4a2518,_0x57aef5,_0x4a241d,_0x24be40,_0x96fd25);_0xfcc9cc['scale'](_0x990527,_0x2a6590),_0x2a6590['vadd'](_0x1a0d6e,_0x2a6590),_0x2a6590[_0x89dfa7(0x325)](_0x146017,_0x2a6590),_0x5dc39b['rj']['copy'](_0x2a6590),_0xfcc9cc[_0x89dfa7(0x28c)](_0x5dc39b['ni']),_0x5dc39b['ri'][_0x89dfa7(0x38a)](0x0,0x0,0x0);const _0x13f9d6=_0x5dc39b['ri'],_0x4c3fe6=_0x5dc39b['rj'];_0x13f9d6['vadd'](_0x1a0d6e,_0x13f9d6),_0x13f9d6[_0x89dfa7(0x325)](_0x298ffa[_0x89dfa7(0x252)],_0x13f9d6),_0x4c3fe6['vadd'](_0x146017,_0x4c3fe6),_0x4c3fe6[_0x89dfa7(0x325)](_0x4a2518[_0x89dfa7(0x252)],_0x4c3fe6),this[_0x89dfa7(0x1a8)]['push'](_0x5dc39b),this[_0x89dfa7(0x23c)](_0x5dc39b,this['frictionResult']);}else console[_0x89dfa7(0x3ec)]('Point\x20found\x20inside\x20convex,\x20but\x20did\x20not\x20find\x20penetrating\x20face!');}}[q0_0x3ac257(0x3d1)](_0x587fbe,_0x2ce635,_0x5acd75,_0x1333db,_0x507645,_0x41ec5c,_0x4abccc,_0x456fe9,_0x302eb5,_0x5153f6,_0x17f164){const _0x5e7a48=q0_0x3ac257;return this[_0x5e7a48(0x375)](_0x2ce635,_0x587fbe,_0x1333db,_0x5acd75,_0x41ec5c,_0x507645,_0x456fe9,_0x4abccc,_0x302eb5,_0x5153f6,_0x17f164);}['particleCylinder'](_0x433865,_0x499d71,_0x31ecb8,_0x350da7,_0xbb56c9,_0x24f9f7,_0x3ebdf6,_0x13a811,_0x4e5f18,_0x999f7a,_0x418ec0){const _0x207e7a=q0_0x3ac257;return this[_0x207e7a(0x2ff)](_0x499d71,_0x433865,_0x350da7,_0x31ecb8,_0x24f9f7,_0xbb56c9,_0x13a811,_0x3ebdf6,_0x4e5f18,_0x999f7a,_0x418ec0);}[q0_0x3ac257(0x1ca)](_0x4851b3,_0x2f52a3,_0x261172,_0x33eae2,_0x2640d0,_0x490568,_0xca73f2,_0x298082,_0x4361fb,_0xd46545,_0x267ee3){const _0x48c206=q0_0x3ac257,_0x7b74c9=sphereTrimesh_edgeVertexA,_0x2308c3=sphereTrimesh_edgeVertexB,_0x3db5b9=sphereTrimesh_edgeVector,_0x165d4d=sphereTrimesh_edgeVectorUnit,_0xb7a509=sphereTrimesh_localSpherePos,_0x4cb712=sphereTrimesh_tmp,_0x432c36=sphereTrimesh_localSphereAABB,_0x5d1027=sphereTrimesh_v2,_0xf6a8a6=sphereTrimesh_relpos,_0x179485=sphereTrimesh_triangles;Transform[_0x48c206(0x224)](_0x33eae2,_0x490568,_0x261172,_0xb7a509);const _0x17c087=_0x4851b3[_0x48c206(0x32a)];_0x432c36['lowerBound']['set'](_0xb7a509['x']-_0x17c087,_0xb7a509['y']-_0x17c087,_0xb7a509['z']-_0x17c087),_0x432c36[_0x48c206(0x2b4)][_0x48c206(0x38a)](_0xb7a509['x']+_0x17c087,_0xb7a509['y']+_0x17c087,_0xb7a509['z']+_0x17c087),_0x2f52a3['getTrianglesInAABB'](_0x432c36,_0x179485);const _0x1c48e2=sphereTrimesh_v,_0x21da18=_0x4851b3[_0x48c206(0x32a)]*_0x4851b3[_0x48c206(0x32a)];for(let _0x37129f=0x0;_0x37129f<_0x179485[_0x48c206(0x25b)];_0x37129f++){for(let _0x1b3844=0x0;_0x1b3844<0x3;_0x1b3844++){_0x2f52a3[_0x48c206(0x1d5)](_0x2f52a3[_0x48c206(0x293)][_0x179485[_0x37129f]*0x3+_0x1b3844],_0x1c48e2),_0x1c48e2[_0x48c206(0x325)](_0xb7a509,_0xf6a8a6);if(_0xf6a8a6['lengthSquared']()<=_0x21da18){_0x5d1027[_0x48c206(0x191)](_0x1c48e2),Transform[_0x48c206(0x3dc)](_0x33eae2,_0x490568,_0x5d1027,_0x1c48e2),_0x1c48e2[_0x48c206(0x325)](_0x261172,_0xf6a8a6);if(_0x267ee3)return!![];let _0x766ea8=this[_0x48c206(0x180)](_0xca73f2,_0x298082,_0x4851b3,_0x2f52a3,_0x4361fb,_0xd46545);_0x766ea8['ni'][_0x48c206(0x191)](_0xf6a8a6),_0x766ea8['ni']['normalize'](),_0x766ea8['ri']['copy'](_0x766ea8['ni']),_0x766ea8['ri'][_0x48c206(0x2fc)](_0x4851b3[_0x48c206(0x32a)],_0x766ea8['ri']),_0x766ea8['ri'][_0x48c206(0x3d7)](_0x261172,_0x766ea8['ri']),_0x766ea8['ri'][_0x48c206(0x325)](_0xca73f2[_0x48c206(0x252)],_0x766ea8['ri']),_0x766ea8['rj']['copy'](_0x1c48e2),_0x766ea8['rj']['vsub'](_0x298082[_0x48c206(0x252)],_0x766ea8['rj']),this[_0x48c206(0x1a8)][_0x48c206(0x2b9)](_0x766ea8),this[_0x48c206(0x23c)](_0x766ea8,this[_0x48c206(0x2bb)]);}}}for(let _0x508079=0x0;_0x508079<_0x179485['length'];_0x508079++){for(let _0x2f82c6=0x0;_0x2f82c6<0x3;_0x2f82c6++){_0x2f52a3[_0x48c206(0x1d5)](_0x2f52a3[_0x48c206(0x293)][_0x179485[_0x508079]*0x3+_0x2f82c6],_0x7b74c9),_0x2f52a3['getVertex'](_0x2f52a3[_0x48c206(0x293)][_0x179485[_0x508079]*0x3+(_0x2f82c6+0x1)%0x3],_0x2308c3),_0x2308c3[_0x48c206(0x325)](_0x7b74c9,_0x3db5b9),_0xb7a509[_0x48c206(0x325)](_0x2308c3,_0x4cb712);const _0x5e497e=_0x4cb712['dot'](_0x3db5b9);_0xb7a509[_0x48c206(0x325)](_0x7b74c9,_0x4cb712);let _0x28bf16=_0x4cb712[_0x48c206(0x318)](_0x3db5b9);if(_0x28bf16>0x0&&_0x5e497e<0x0){_0xb7a509[_0x48c206(0x325)](_0x7b74c9,_0x4cb712),_0x165d4d[_0x48c206(0x191)](_0x3db5b9),_0x165d4d['normalize'](),_0x28bf16=_0x4cb712[_0x48c206(0x318)](_0x165d4d),_0x165d4d[_0x48c206(0x2fc)](_0x28bf16,_0x4cb712),_0x4cb712[_0x48c206(0x3d7)](_0x7b74c9,_0x4cb712);const _0x16828f=_0x4cb712[_0x48c206(0x2ec)](_0xb7a509);if(_0x16828f<_0x4851b3[_0x48c206(0x32a)]){if(_0x267ee3)return!![];const _0xe0031=this[_0x48c206(0x180)](_0xca73f2,_0x298082,_0x4851b3,_0x2f52a3,_0x4361fb,_0xd46545);_0x4cb712[_0x48c206(0x325)](_0xb7a509,_0xe0031['ni']),_0xe0031['ni']['normalize'](),_0xe0031['ni'][_0x48c206(0x2fc)](_0x4851b3[_0x48c206(0x32a)],_0xe0031['ri']),_0xe0031['ri'][_0x48c206(0x3d7)](_0x261172,_0xe0031['ri']),_0xe0031['ri'][_0x48c206(0x325)](_0xca73f2[_0x48c206(0x252)],_0xe0031['ri']),Transform[_0x48c206(0x3dc)](_0x33eae2,_0x490568,_0x4cb712,_0x4cb712),_0x4cb712[_0x48c206(0x325)](_0x298082[_0x48c206(0x252)],_0xe0031['rj']),Transform[_0x48c206(0x29a)](_0x490568,_0xe0031['ni'],_0xe0031['ni']),Transform[_0x48c206(0x29a)](_0x490568,_0xe0031['ri'],_0xe0031['ri']),this[_0x48c206(0x1a8)][_0x48c206(0x2b9)](_0xe0031),this[_0x48c206(0x23c)](_0xe0031,this[_0x48c206(0x2bb)]);}}}}const _0x23dc2b=sphereTrimesh_va,_0x407ea3=sphereTrimesh_vb,_0x15e699=sphereTrimesh_vc,_0x277cf6=sphereTrimesh_normal;for(let _0x27a211=0x0,_0x30e69f=_0x179485[_0x48c206(0x25b)];_0x27a211!==_0x30e69f;_0x27a211++){_0x2f52a3['getTriangleVertices'](_0x179485[_0x27a211],_0x23dc2b,_0x407ea3,_0x15e699),_0x2f52a3[_0x48c206(0x182)](_0x179485[_0x27a211],_0x277cf6),_0xb7a509['vsub'](_0x23dc2b,_0x4cb712);let _0x2b3573=_0x4cb712['dot'](_0x277cf6);_0x277cf6['scale'](_0x2b3573,_0x4cb712),_0xb7a509[_0x48c206(0x325)](_0x4cb712,_0x4cb712),_0x2b3573=_0x4cb712['distanceTo'](_0xb7a509);if(Ray[_0x48c206(0x17b)](_0x4cb712,_0x23dc2b,_0x407ea3,_0x15e699)&&_0x2b3573<_0x4851b3[_0x48c206(0x32a)]){if(_0x267ee3)return!![];let _0x5cd45e=this[_0x48c206(0x180)](_0xca73f2,_0x298082,_0x4851b3,_0x2f52a3,_0x4361fb,_0xd46545);_0x4cb712[_0x48c206(0x325)](_0xb7a509,_0x5cd45e['ni']),_0x5cd45e['ni']['normalize'](),_0x5cd45e['ni'][_0x48c206(0x2fc)](_0x4851b3['radius'],_0x5cd45e['ri']),_0x5cd45e['ri']['vadd'](_0x261172,_0x5cd45e['ri']),_0x5cd45e['ri'][_0x48c206(0x325)](_0xca73f2['position'],_0x5cd45e['ri']),Transform['pointToWorldFrame'](_0x33eae2,_0x490568,_0x4cb712,_0x4cb712),_0x4cb712[_0x48c206(0x325)](_0x298082[_0x48c206(0x252)],_0x5cd45e['rj']),Transform[_0x48c206(0x29a)](_0x490568,_0x5cd45e['ni'],_0x5cd45e['ni']),Transform['vectorToWorldFrame'](_0x490568,_0x5cd45e['ri'],_0x5cd45e['ri']),this[_0x48c206(0x1a8)][_0x48c206(0x2b9)](_0x5cd45e),this[_0x48c206(0x23c)](_0x5cd45e,this[_0x48c206(0x2bb)]);}}_0x179485[_0x48c206(0x25b)]=0x0;}['planeTrimesh'](_0xd399ae,_0x1d8c46,_0x23b716,_0x39f26f,_0x491abb,_0x564993,_0x593649,_0x294ee0,_0x34a83d,_0x356bda,_0x65a73b){const _0x517180=q0_0x3ac257,_0x4d451d=new Vec3(),_0x1d5da6=planeTrimesh_normal;_0x1d5da6[_0x517180(0x38a)](0x0,0x0,0x1),_0x491abb[_0x517180(0x205)](_0x1d5da6,_0x1d5da6);for(let _0x3a0969=0x0;_0x3a0969<_0x1d8c46[_0x517180(0x32b)]['length']/0x3;_0x3a0969++){_0x1d8c46[_0x517180(0x1d5)](_0x3a0969,_0x4d451d);const _0xbf7176=new Vec3();_0xbf7176['copy'](_0x4d451d),Transform[_0x517180(0x3dc)](_0x39f26f,_0x564993,_0xbf7176,_0x4d451d);const _0x1009af=planeTrimesh_relpos;_0x4d451d[_0x517180(0x325)](_0x23b716,_0x1009af);const _0x55710d=_0x1d5da6[_0x517180(0x318)](_0x1009af);if(_0x55710d<=0x0){if(_0x65a73b)return!![];const _0x4c93cd=this[_0x517180(0x180)](_0x593649,_0x294ee0,_0xd399ae,_0x1d8c46,_0x34a83d,_0x356bda);_0x4c93cd['ni'][_0x517180(0x191)](_0x1d5da6);const _0x184e91=planeTrimesh_projected;_0x1d5da6[_0x517180(0x2fc)](_0x1009af[_0x517180(0x318)](_0x1d5da6),_0x184e91),_0x4d451d[_0x517180(0x325)](_0x184e91,_0x184e91),_0x4c93cd['ri'][_0x517180(0x191)](_0x184e91),_0x4c93cd['ri']['vsub'](_0x593649[_0x517180(0x252)],_0x4c93cd['ri']),_0x4c93cd['rj'][_0x517180(0x191)](_0x4d451d),_0x4c93cd['rj'][_0x517180(0x325)](_0x294ee0[_0x517180(0x252)],_0x4c93cd['rj']),this[_0x517180(0x1a8)][_0x517180(0x2b9)](_0x4c93cd),this['createFrictionEquationsFromContact'](_0x4c93cd,this[_0x517180(0x2bb)]);}}}}const averageNormal=new Vec3(),averageContactPointA=new Vec3(),averageContactPointB=new Vec3(),tmpVec1=new Vec3(),tmpVec2=new Vec3(),tmpQuat1=new Quaternion(),tmpQuat2=new Quaternion(),planeTrimesh_normal=new Vec3(),planeTrimesh_relpos=new Vec3(),planeTrimesh_projected=new Vec3(),sphereTrimesh_normal=new Vec3(),sphereTrimesh_relpos=new Vec3();new Vec3();const sphereTrimesh_v=new Vec3(),sphereTrimesh_v2=new Vec3(),sphereTrimesh_edgeVertexA=new Vec3(),sphereTrimesh_edgeVertexB=new Vec3(),sphereTrimesh_edgeVector=new Vec3(),sphereTrimesh_edgeVectorUnit=new Vec3(),sphereTrimesh_localSpherePos=new Vec3(),sphereTrimesh_tmp=new Vec3(),sphereTrimesh_va=new Vec3(),sphereTrimesh_vb=new Vec3(),sphereTrimesh_vc=new Vec3(),sphereTrimesh_localSphereAABB=new AABB(),sphereTrimesh_triangles=[],point_on_plane_to_sphere=new Vec3(),plane_to_sphere_ortho=new Vec3(),pointInPolygon_edge=new Vec3(),pointInPolygon_edge_x_normal=new Vec3(),pointInPolygon_vtp=new Vec3();function pointInPolygon(_0x580f00,_0x21a07c,_0x1d922c){const _0x30cdbc=q0_0x3ac257;let _0x11af59=null;const _0x1a6026=_0x580f00[_0x30cdbc(0x25b)];for(let _0x206302=0x0;_0x206302!==_0x1a6026;_0x206302++){const _0x41b84a=_0x580f00[_0x206302],_0x3261eb=pointInPolygon_edge;_0x580f00[(_0x206302+0x1)%_0x1a6026]['vsub'](_0x41b84a,_0x3261eb);const _0x5d7fc5=pointInPolygon_edge_x_normal;_0x3261eb['cross'](_0x21a07c,_0x5d7fc5);const _0x59f77e=pointInPolygon_vtp;_0x1d922c[_0x30cdbc(0x325)](_0x41b84a,_0x59f77e);const _0x15760b=_0x5d7fc5[_0x30cdbc(0x318)](_0x59f77e);if(_0x11af59===null||_0x15760b>0x0&&_0x11af59===!![]||_0x15760b<=0x0&&_0x11af59===![]){_0x11af59===null&&(_0x11af59=_0x15760b>0x0);continue;}else return![];}return!![];}const box_to_sphere=new Vec3(),sphereBox_ns=new Vec3(),sphereBox_ns1=new Vec3(),sphereBox_ns2=new Vec3(),sphereBox_sides=[new Vec3(),new Vec3(),new Vec3(),new Vec3(),new Vec3(),new Vec3()],sphereBox_sphere_to_corner=new Vec3(),sphereBox_side_ns=new Vec3(),sphereBox_side_ns1=new Vec3(),sphereBox_side_ns2=new Vec3(),convex_to_sphere=new Vec3(),sphereConvex_edge=new Vec3(),sphereConvex_edgeUnit=new Vec3(),sphereConvex_sphereToCorner=new Vec3(),sphereConvex_worldCorner=new Vec3(),sphereConvex_worldNormal=new Vec3(),sphereConvex_worldPoint=new Vec3(),sphereConvex_worldSpherePointClosestToPlane=new Vec3(),sphereConvex_penetrationVec=new Vec3(),sphereConvex_sphereToWorldPoint=new Vec3();new Vec3(),new Vec3();const planeConvex_v=new Vec3(),planeConvex_normal=new Vec3(),planeConvex_relpos=new Vec3(),planeConvex_projected=new Vec3(),convexConvex_sepAxis=new Vec3(),convexConvex_q=new Vec3(),particlePlane_normal=new Vec3(),particlePlane_relpos=new Vec3(),particlePlane_projected=new Vec3(),particleSphere_normal=new Vec3(),cqj=new Quaternion(),convexParticle_local=new Vec3();new Vec3();const convexParticle_penetratedFaceNormal=new Vec3(),convexParticle_vertexToParticle=new Vec3(),convexParticle_worldPenetrationVec=new Vec3(),convexHeightfield_tmp1=new Vec3(),convexHeightfield_tmp2=new Vec3(),convexHeightfield_faceList=[0x0],sphereHeightfield_tmp1=new Vec3(),sphereHeightfield_tmp2=new Vec3();class OverlapKeeper{constructor(){const _0x568bf3=q0_0x3ac257;this[_0x568bf3(0x1fb)]=[],this[_0x568bf3(0x366)]=[];}[q0_0x3ac257(0x31c)](_0x2899f6,_0x2a3167){if(_0x2a3167<_0x2899f6){const _0x949e46=_0x2a3167;_0x2a3167=_0x2899f6,_0x2899f6=_0x949e46;}return _0x2899f6<<0x10|_0x2a3167;}[q0_0x3ac257(0x38a)](_0x195832,_0x4e3bf6){const _0x331250=q0_0x3ac257,_0x4f31c1=this[_0x331250(0x31c)](_0x195832,_0x4e3bf6),_0x206bcf=this[_0x331250(0x1fb)];let _0x3c5ecb=0x0;while(_0x4f31c1>_0x206bcf[_0x3c5ecb]){_0x3c5ecb++;}if(_0x4f31c1===_0x206bcf[_0x3c5ecb])return;for(let _0x7b9b6=_0x206bcf[_0x331250(0x25b)]-0x1;_0x7b9b6>=_0x3c5ecb;_0x7b9b6--){_0x206bcf[_0x7b9b6+0x1]=_0x206bcf[_0x7b9b6];}_0x206bcf[_0x3c5ecb]=_0x4f31c1;}['tick'](){const _0x6b9420=q0_0x3ac257,_0x4488fb=this[_0x6b9420(0x1fb)];this[_0x6b9420(0x1fb)]=this[_0x6b9420(0x366)],this[_0x6b9420(0x366)]=_0x4488fb,this[_0x6b9420(0x1fb)][_0x6b9420(0x25b)]=0x0;}['getDiff'](_0x72b1d1,_0x2895b7){const _0x4f9c31=q0_0x3ac257,_0xaa8560=this[_0x4f9c31(0x1fb)],_0x2dfadd=this[_0x4f9c31(0x366)],_0x3db819=_0xaa8560[_0x4f9c31(0x25b)],_0x222268=_0x2dfadd[_0x4f9c31(0x25b)];let _0x15c382=0x0;for(let _0x62a21d=0x0;_0x62a21d<_0x3db819;_0x62a21d++){let _0x447476=![];const _0x5fac3b=_0xaa8560[_0x62a21d];while(_0x5fac3b>_0x2dfadd[_0x15c382]){_0x15c382++;}_0x447476=_0x5fac3b===_0x2dfadd[_0x15c382],!_0x447476&&unpackAndPush(_0x72b1d1,_0x5fac3b);}_0x15c382=0x0;for(let _0x266249=0x0;_0x266249<_0x222268;_0x266249++){let _0x9673fc=![];const _0x5ccbcf=_0x2dfadd[_0x266249];while(_0x5ccbcf>_0xaa8560[_0x15c382]){_0x15c382++;}_0x9673fc=_0xaa8560[_0x15c382]===_0x5ccbcf,!_0x9673fc&&unpackAndPush(_0x2895b7,_0x5ccbcf);}}}function unpackAndPush(_0x148b9f,_0x31b804){const _0x1cea71=q0_0x3ac257;_0x148b9f[_0x1cea71(0x2b9)]((_0x31b804&0xffff0000)>>0x10,_0x31b804&0xffff);}const getKey=(_0xf4bdd7,_0x35a4d7)=>_0xf4bdd7<_0x35a4d7?_0xf4bdd7+'-'+_0x35a4d7:_0x35a4d7+'-'+_0xf4bdd7;class TupleDictionary{constructor(){const _0x150037=q0_0x3ac257;this[_0x150037(0x211)]={'keys':[]};}[q0_0x3ac257(0x1e8)](_0x38a615,_0x533854){const _0xad61c5=q0_0x3ac257,_0x5b9eae=getKey(_0x38a615,_0x533854);return this[_0xad61c5(0x211)][_0x5b9eae];}['set'](_0x198f92,_0x961295,_0x2da994){const _0x99378b=q0_0x3ac257,_0x64c18c=getKey(_0x198f92,_0x961295);!this[_0x99378b(0x1e8)](_0x198f92,_0x961295)&&this[_0x99378b(0x211)][_0x99378b(0x221)][_0x99378b(0x2b9)](_0x64c18c),this[_0x99378b(0x211)][_0x64c18c]=_0x2da994;}['delete'](_0x225e66,_0x428e6f){const _0x3f9d3c=q0_0x3ac257,_0x354a22=getKey(_0x225e66,_0x428e6f),_0x5c16c1=this[_0x3f9d3c(0x211)]['keys'][_0x3f9d3c(0x2b3)](_0x354a22);_0x5c16c1!==-0x1&&this[_0x3f9d3c(0x211)][_0x3f9d3c(0x221)]['splice'](_0x5c16c1,0x1),delete this['data'][_0x354a22];}[q0_0x3ac257(0x2c4)](){const _0x579931=q0_0x3ac257,_0x27e6e7=this[_0x579931(0x211)],_0x3833a2=_0x27e6e7[_0x579931(0x221)];while(_0x3833a2[_0x579931(0x25b)]>0x0){const _0x4ca91d=_0x3833a2['pop']();delete _0x27e6e7[_0x4ca91d];}}}class World extends EventTarget{constructor(_0x4fa347){const _0xa49551=q0_0x3ac257;_0x4fa347===void 0x0&&(_0x4fa347={}),super(),this['dt']=-0x1,this[_0xa49551(0x1e9)]=!!_0x4fa347['allowSleep'],this[_0xa49551(0x296)]=[],this[_0xa49551(0x1a7)]=[],this['quatNormalizeSkip']=_0x4fa347[_0xa49551(0x38f)]!==undefined?_0x4fa347[_0xa49551(0x38f)]:0x0,this[_0xa49551(0x2b6)]=_0x4fa347['quatNormalizeFast']!==undefined?_0x4fa347['quatNormalizeFast']:![],this['time']=0x0,this[_0xa49551(0x3bf)]=0x0,this['default_dt']=0x1/0x3c,this[_0xa49551(0x22c)]=0x0,this[_0xa49551(0x3bb)]=new Vec3(),_0x4fa347[_0xa49551(0x3bb)]&&this[_0xa49551(0x3bb)][_0xa49551(0x191)](_0x4fa347['gravity']),_0x4fa347[_0xa49551(0x3d2)]&&(this[_0xa49551(0x3d2)]=new Vec3(),this[_0xa49551(0x3d2)][_0xa49551(0x191)](_0x4fa347['frictionGravity'])),this[_0xa49551(0x29e)]=_0x4fa347[_0xa49551(0x29e)]!==undefined?_0x4fa347[_0xa49551(0x29e)]:new NaiveBroadphase(),this[_0xa49551(0x227)]=[],this[_0xa49551(0x329)]=![],this[_0xa49551(0x340)]=_0x4fa347['solver']!==undefined?_0x4fa347['solver']:new GSSolver(),this[_0xa49551(0x2d0)]=[],this['narrowphase']=new Narrowphase(this),this[_0xa49551(0x2f6)]=new ArrayCollisionMatrix(),this[_0xa49551(0x37b)]=new ArrayCollisionMatrix(),this[_0xa49551(0x2a5)]=new OverlapKeeper(),this[_0xa49551(0x342)]=new OverlapKeeper(),this[_0xa49551(0x1bb)]=[],this[_0xa49551(0x2da)]=new TupleDictionary(),this['defaultMaterial']=new Material(_0xa49551(0x289)),this[_0xa49551(0x3c6)]=new ContactMaterial(this['defaultMaterial'],this[_0xa49551(0x1ea)],{'friction':0.3,'restitution':0x0}),this[_0xa49551(0x240)]=![],this[_0xa49551(0x27a)]={'solve':0x0,'makeContactConstraints':0x0,'broadphase':0x0,'integrate':0x0,'narrowphase':0x0},this['accumulator']=0x0,this['subsystems']=[],this[_0xa49551(0x317)]={'type':'addBody','body':null},this[_0xa49551(0x392)]={'type':_0xa49551(0x1f6),'body':null},this[_0xa49551(0x39f)]={},this[_0xa49551(0x29e)][_0xa49551(0x1a9)](this);}['getContactMaterial'](_0x34d30b,_0x268416){const _0x121e18=q0_0x3ac257;return this[_0x121e18(0x2da)][_0x121e18(0x1e8)](_0x34d30b['id'],_0x268416['id']);}[q0_0x3ac257(0x391)](){const _0x27efe0=q0_0x3ac257,_0x428fa8=this[_0x27efe0(0x37b)];this['collisionMatrixPrevious']=this['collisionMatrix'],this[_0x27efe0(0x2f6)]=_0x428fa8,this[_0x27efe0(0x2f6)][_0x27efe0(0x2c4)](),this['bodyOverlapKeeper'][_0x27efe0(0x2a2)](),this[_0x27efe0(0x342)][_0x27efe0(0x2a2)]();}[q0_0x3ac257(0x3e0)](_0x1cba04){this['constraints']['push'](_0x1cba04);}[q0_0x3ac257(0x1f7)](_0x1ec8bd){const _0x593d9d=q0_0x3ac257,_0x4655a2=this[_0x593d9d(0x2d0)]['indexOf'](_0x1ec8bd);_0x4655a2!==-0x1&&this[_0x593d9d(0x2d0)][_0x593d9d(0x28b)](_0x4655a2,0x1);}['rayTest'](_0x4bfae9,_0x4e92ae,_0xdc0e19){const _0x142447=q0_0x3ac257;_0xdc0e19 instanceof RaycastResult?this[_0x142447(0x250)](_0x4bfae9,_0x4e92ae,{'skipBackfaces':!![]},_0xdc0e19):this[_0x142447(0x355)](_0x4bfae9,_0x4e92ae,{'skipBackfaces':!![]},_0xdc0e19);}[q0_0x3ac257(0x355)](_0x38f376,_0x2419c9,_0x56a2d6,_0x7b28f6){const _0x3f617f=q0_0x3ac257;return _0x56a2d6===void 0x0&&(_0x56a2d6={}),_0x56a2d6[_0x3f617f(0x22a)]=Ray[_0x3f617f(0x2be)],_0x56a2d6['from']=_0x38f376,_0x56a2d6['to']=_0x2419c9,_0x56a2d6['callback']=_0x7b28f6,tmpRay[_0x3f617f(0x1ce)](this,_0x56a2d6);}[q0_0x3ac257(0x190)](_0x7de81c,_0x16038d,_0x31f204,_0x915389){const _0x5699cc=q0_0x3ac257;return _0x31f204===void 0x0&&(_0x31f204={}),_0x31f204[_0x5699cc(0x22a)]=Ray[_0x5699cc(0x3a9)],_0x31f204[_0x5699cc(0x303)]=_0x7de81c,_0x31f204['to']=_0x16038d,_0x31f204['result']=_0x915389,tmpRay['intersectWorld'](this,_0x31f204);}['raycastClosest'](_0x404159,_0x31a361,_0xfd86c,_0x18dafc){const _0x42c6af=q0_0x3ac257;return _0xfd86c===void 0x0&&(_0xfd86c={}),_0xfd86c['mode']=Ray[_0x42c6af(0x255)],_0xfd86c[_0x42c6af(0x303)]=_0x404159,_0xfd86c['to']=_0x31a361,_0xfd86c[_0x42c6af(0x1a8)]=_0x18dafc,tmpRay['intersectWorld'](this,_0xfd86c);}[q0_0x3ac257(0x286)](_0x3f7355){const _0x2b9692=q0_0x3ac257;if(this[_0x2b9692(0x227)][_0x2b9692(0x287)](_0x3f7355))return;_0x3f7355[_0x2b9692(0x320)]=this[_0x2b9692(0x227)][_0x2b9692(0x25b)],this[_0x2b9692(0x227)][_0x2b9692(0x2b9)](_0x3f7355),_0x3f7355['world']=this,_0x3f7355[_0x2b9692(0x219)]['copy'](_0x3f7355[_0x2b9692(0x252)]),_0x3f7355[_0x2b9692(0x1f1)][_0x2b9692(0x191)](_0x3f7355[_0x2b9692(0x1d1)]),_0x3f7355[_0x2b9692(0x254)]=this[_0x2b9692(0x2cf)],_0x3f7355 instanceof Body&&(_0x3f7355[_0x2b9692(0x18a)][_0x2b9692(0x191)](_0x3f7355[_0x2b9692(0x22b)]),_0x3f7355['initQuaternion'][_0x2b9692(0x191)](_0x3f7355[_0x2b9692(0x3cd)])),this[_0x2b9692(0x2f6)][_0x2b9692(0x35d)](this[_0x2b9692(0x227)]['length']),this[_0x2b9692(0x317)][_0x2b9692(0x350)]=_0x3f7355,this[_0x2b9692(0x39f)][_0x3f7355['id']]=_0x3f7355,this['dispatchEvent'](this[_0x2b9692(0x317)]);}[q0_0x3ac257(0x1f6)](_0x32c4f2){const _0x6cac8e=q0_0x3ac257;_0x32c4f2[_0x6cac8e(0x24d)]=null;const _0x267eb8=this[_0x6cac8e(0x227)][_0x6cac8e(0x25b)]-0x1,_0x2a160d=this['bodies'],_0x490f3a=_0x2a160d[_0x6cac8e(0x2b3)](_0x32c4f2);if(_0x490f3a!==-0x1){_0x2a160d[_0x6cac8e(0x28b)](_0x490f3a,0x1);for(let _0x2a1888=0x0;_0x2a1888!==_0x2a160d[_0x6cac8e(0x25b)];_0x2a1888++){_0x2a160d[_0x2a1888]['index']=_0x2a1888;}this[_0x6cac8e(0x2f6)][_0x6cac8e(0x35d)](_0x267eb8),this['removeBodyEvent']['body']=_0x32c4f2,delete this[_0x6cac8e(0x39f)][_0x32c4f2['id']],this[_0x6cac8e(0x1f0)](this[_0x6cac8e(0x392)]);}}[q0_0x3ac257(0x2ee)](_0x5ef070){const _0x6207d7=q0_0x3ac257;return this[_0x6207d7(0x39f)][_0x5ef070];}['getShapeById'](_0x2605ef){const _0x397547=q0_0x3ac257,_0xd32334=this[_0x397547(0x227)];for(let _0x4536a0=0x0;_0x4536a0<_0xd32334[_0x397547(0x25b)];_0x4536a0++){const _0x1ea765=_0xd32334[_0x4536a0][_0x397547(0x37f)];for(let _0x30c6cb=0x0;_0x30c6cb<_0x1ea765[_0x397547(0x25b)];_0x30c6cb++){const _0xeaea46=_0x1ea765[_0x30c6cb];if(_0xeaea46['id']===_0x2605ef)return _0xeaea46;}}return null;}['addContactMaterial'](_0x419872){const _0x3a7075=q0_0x3ac257;this[_0x3a7075(0x1bb)]['push'](_0x419872),this['contactMaterialTable']['set'](_0x419872[_0x3a7075(0x3b0)][0x0]['id'],_0x419872['materials'][0x1]['id'],_0x419872);}[q0_0x3ac257(0x334)](_0x151ad8){const _0x2a1669=q0_0x3ac257,_0x2ebe32=this[_0x2a1669(0x1bb)]['indexOf'](_0x151ad8);if(_0x2ebe32===-0x1)return;this[_0x2a1669(0x1bb)]['splice'](_0x2ebe32,0x1),this[_0x2a1669(0x2da)]['delete'](_0x151ad8[_0x2a1669(0x3b0)][0x0]['id'],_0x151ad8['materials'][0x1]['id']);}[q0_0x3ac257(0x188)](_0xfd8098,_0x70a364){const _0x5e2c8f=q0_0x3ac257;_0xfd8098===void 0x0&&(_0xfd8098=0x1/0x3c);_0x70a364===void 0x0&&(_0x70a364=0xa);const _0x120a9b=performance[_0x5e2c8f(0x17a)]()/0x3e8;if(!this['lastCallTime'])this[_0x5e2c8f(0x3b5)](_0xfd8098,undefined,_0x70a364);else{const _0x13258a=_0x120a9b-this[_0x5e2c8f(0x21e)];this['step'](_0xfd8098,_0x13258a,_0x70a364);}this[_0x5e2c8f(0x21e)]=_0x120a9b;}['step'](_0x212175,_0x222ac5,_0x332752){const _0x244505=q0_0x3ac257;_0x332752===void 0x0&&(_0x332752=0xa);if(_0x222ac5===undefined)this[_0x244505(0x3b3)](_0x212175),this[_0x244505(0x2cf)]+=_0x212175;else{this['accumulator']+=_0x222ac5;const _0x4c4d08=performance[_0x244505(0x17a)]();let _0x238f9b=0x0;while(this[_0x244505(0x288)]>=_0x212175&&_0x238f9b<_0x332752){this[_0x244505(0x3b3)](_0x212175),this[_0x244505(0x288)]-=_0x212175,_0x238f9b++;if(performance['now']()-_0x4c4d08>_0x212175*0x3e8)break;}this[_0x244505(0x288)]=this[_0x244505(0x288)]%_0x212175;const _0x21b3cb=this['accumulator']/_0x212175;for(let _0x448d4f=0x0;_0x448d4f!==this[_0x244505(0x227)][_0x244505(0x25b)];_0x448d4f++){const _0x1f1361=this['bodies'][_0x448d4f];_0x1f1361[_0x244505(0x1d4)][_0x244505(0x290)](_0x1f1361[_0x244505(0x252)],_0x21b3cb,_0x1f1361['interpolatedPosition']),_0x1f1361['previousQuaternion'][_0x244505(0x1eb)](_0x1f1361[_0x244505(0x3cd)],_0x21b3cb,_0x1f1361[_0x244505(0x1ff)]),_0x1f1361[_0x244505(0x18c)][_0x244505(0x2eb)]();}this[_0x244505(0x2cf)]+=_0x222ac5;}}[q0_0x3ac257(0x3b3)](_0x1f3d4c){const _0x354f59=q0_0x3ac257;this['dt']=_0x1f3d4c;const _0x57e87f=this['contacts'],_0x39e396=World_step_p1,_0x536276=World_step_p2,_0xbff823=this[_0x354f59(0x227)][_0x354f59(0x25b)],_0x36a998=this[_0x354f59(0x227)],_0x5b6202=this[_0x354f59(0x340)],_0x58e9e1=this[_0x354f59(0x3bb)],_0x1024f0=this[_0x354f59(0x240)],_0x28628c=this[_0x354f59(0x27a)],_0x19c0a3=Body['DYNAMIC'];let _0x4878c3=-Infinity;const _0x4448b2=this[_0x354f59(0x2d0)],_0x2863bc=World_step_frictionEquationPool;_0x58e9e1[_0x354f59(0x25b)]();const _0x1fc15d=_0x58e9e1['x'],_0x441c31=_0x58e9e1['y'],_0x510c60=_0x58e9e1['z'];let _0x190754=0x0;_0x1024f0&&(_0x4878c3=performance['now']());for(_0x190754=0x0;_0x190754!==_0xbff823;_0x190754++){const _0x5434c4=_0x36a998[_0x190754];if(_0x5434c4['type']===_0x19c0a3){const _0x33e27d=_0x5434c4['force'],_0x2a4e5f=_0x5434c4[_0x354f59(0x30f)];_0x33e27d['x']+=_0x2a4e5f*_0x1fc15d,_0x33e27d['y']+=_0x2a4e5f*_0x441c31,_0x33e27d['z']+=_0x2a4e5f*_0x510c60;}}for(let _0x72f3c=0x0,_0x23f541=this['subsystems'][_0x354f59(0x25b)];_0x72f3c!==_0x23f541;_0x72f3c++){this[_0x354f59(0x1b3)][_0x72f3c][_0x354f59(0x338)]();}_0x1024f0&&(_0x4878c3=performance[_0x354f59(0x17a)]());_0x39e396[_0x354f59(0x25b)]=0x0,_0x536276[_0x354f59(0x25b)]=0x0,this[_0x354f59(0x29e)][_0x354f59(0x253)](this,_0x39e396,_0x536276);_0x1024f0&&(_0x28628c[_0x354f59(0x29e)]=performance[_0x354f59(0x17a)]()-_0x4878c3);let _0x59ec63=_0x4448b2['length'];for(_0x190754=0x0;_0x190754!==_0x59ec63;_0x190754++){const _0x38f04a=_0x4448b2[_0x190754];if(!_0x38f04a[_0x354f59(0x2af)])for(let _0x45772a=_0x39e396['length']-0x1;_0x45772a>=0x0;_0x45772a-=0x1){(_0x38f04a[_0x354f59(0x1d2)]===_0x39e396[_0x45772a]&&_0x38f04a['bodyB']===_0x536276[_0x45772a]||_0x38f04a[_0x354f59(0x35e)]===_0x39e396[_0x45772a]&&_0x38f04a['bodyA']===_0x536276[_0x45772a])&&(_0x39e396['splice'](_0x45772a,0x1),_0x536276[_0x354f59(0x28b)](_0x45772a,0x1));}}this[_0x354f59(0x391)]();_0x1024f0&&(_0x4878c3=performance[_0x354f59(0x17a)]());const _0x24aba7=World_step_oldContacts,_0x16e94a=_0x57e87f[_0x354f59(0x25b)];for(_0x190754=0x0;_0x190754!==_0x16e94a;_0x190754++){_0x24aba7['push'](_0x57e87f[_0x190754]);}_0x57e87f['length']=0x0;const _0x180a64=this['frictionEquations'][_0x354f59(0x25b)];for(_0x190754=0x0;_0x190754!==_0x180a64;_0x190754++){_0x2863bc[_0x354f59(0x2b9)](this[_0x354f59(0x1a7)][_0x190754]);}this[_0x354f59(0x1a7)][_0x354f59(0x25b)]=0x0,this['narrowphase'][_0x354f59(0x2ca)](_0x39e396,_0x536276,this,_0x57e87f,_0x24aba7,this['frictionEquations'],_0x2863bc);_0x1024f0&&(_0x28628c[_0x354f59(0x3c3)]=performance[_0x354f59(0x17a)]()-_0x4878c3);_0x1024f0&&(_0x4878c3=performance['now']());for(_0x190754=0x0;_0x190754<this[_0x354f59(0x1a7)][_0x354f59(0x25b)];_0x190754++){_0x5b6202[_0x354f59(0x3ca)](this[_0x354f59(0x1a7)][_0x190754]);}const _0x5b9124=_0x57e87f[_0x354f59(0x25b)];for(let _0x51334c=0x0;_0x51334c!==_0x5b9124;_0x51334c++){const _0x3aef5d=_0x57e87f[_0x51334c],_0x411f7c=_0x3aef5d['bi'],_0x463ee3=_0x3aef5d['bj'],_0x592ce6=_0x3aef5d['si'],_0x56a1e2=_0x3aef5d['sj'];let _0x352edb;_0x411f7c[_0x354f59(0x256)]&&_0x463ee3[_0x354f59(0x256)]?_0x352edb=this[_0x354f59(0x230)](_0x411f7c[_0x354f59(0x256)],_0x463ee3['material'])||this[_0x354f59(0x3c6)]:_0x352edb=this[_0x354f59(0x3c6)];_0x352edb[_0x354f59(0x3d4)];_0x411f7c[_0x354f59(0x256)]&&_0x463ee3[_0x354f59(0x256)]&&(_0x411f7c[_0x354f59(0x256)][_0x354f59(0x3d4)]>=0x0&&_0x463ee3[_0x354f59(0x256)][_0x354f59(0x3d4)]>=0x0&&_0x411f7c[_0x354f59(0x256)]['friction']*_0x463ee3[_0x354f59(0x256)][_0x354f59(0x3d4)],_0x411f7c['material'][_0x354f59(0x1ac)]>=0x0&&_0x463ee3['material'][_0x354f59(0x1ac)]>=0x0&&(_0x3aef5d['restitution']=_0x411f7c['material']['restitution']*_0x463ee3[_0x354f59(0x256)][_0x354f59(0x1ac)]));_0x5b6202[_0x354f59(0x3ca)](_0x3aef5d);if(_0x411f7c['allowSleep']&&_0x411f7c[_0x354f59(0x2ba)]===Body[_0x354f59(0x1f3)]&&_0x411f7c[_0x354f59(0x1e3)]===Body[_0x354f59(0x1f8)]&&_0x463ee3[_0x354f59(0x1e3)]===Body[_0x354f59(0x1c5)]&&_0x463ee3[_0x354f59(0x2ba)]!==Body[_0x354f59(0x1cb)]){const _0x5de4c9=_0x463ee3['velocity'][_0x354f59(0x312)]()+_0x463ee3[_0x354f59(0x22b)][_0x354f59(0x312)](),_0x45ac2e=_0x463ee3[_0x354f59(0x3ac)]**0x2;_0x5de4c9>=_0x45ac2e*0x2&&(_0x411f7c[_0x354f59(0x1fe)]=!![]);}if(_0x463ee3['allowSleep']&&_0x463ee3['type']===Body[_0x354f59(0x1f3)]&&_0x463ee3[_0x354f59(0x1e3)]===Body['SLEEPING']&&_0x411f7c[_0x354f59(0x1e3)]===Body[_0x354f59(0x1c5)]&&_0x411f7c['type']!==Body[_0x354f59(0x1cb)]){const _0x16a848=_0x411f7c[_0x354f59(0x1d1)][_0x354f59(0x312)]()+_0x411f7c[_0x354f59(0x22b)][_0x354f59(0x312)](),_0x64e4a2=_0x411f7c['sleepSpeedLimit']**0x2;_0x16a848>=_0x64e4a2*0x2&&(_0x463ee3['wakeUpAfterNarrowphase']=!![]);}this['collisionMatrix'][_0x354f59(0x38a)](_0x411f7c,_0x463ee3,!![]),!this[_0x354f59(0x37b)][_0x354f59(0x1e8)](_0x411f7c,_0x463ee3)&&(World_step_collideEvent[_0x354f59(0x350)]=_0x463ee3,World_step_collideEvent[_0x354f59(0x20e)]=_0x3aef5d,_0x411f7c[_0x354f59(0x1f0)](World_step_collideEvent),World_step_collideEvent['body']=_0x411f7c,_0x463ee3[_0x354f59(0x1f0)](World_step_collideEvent)),this[_0x354f59(0x2a5)][_0x354f59(0x38a)](_0x411f7c['id'],_0x463ee3['id']),this[_0x354f59(0x342)][_0x354f59(0x38a)](_0x592ce6['id'],_0x56a1e2['id']);}this[_0x354f59(0x177)]();_0x1024f0&&(_0x28628c[_0x354f59(0x2db)]=performance[_0x354f59(0x17a)]()-_0x4878c3,_0x4878c3=performance[_0x354f59(0x17a)]());for(_0x190754=0x0;_0x190754!==_0xbff823;_0x190754++){const _0x19009c=_0x36a998[_0x190754];_0x19009c[_0x354f59(0x1fe)]&&(_0x19009c[_0x354f59(0x2e3)](),_0x19009c[_0x354f59(0x1fe)]=![]);}_0x59ec63=_0x4448b2[_0x354f59(0x25b)];for(_0x190754=0x0;_0x190754!==_0x59ec63;_0x190754++){const _0x2c38e1=_0x4448b2[_0x190754];_0x2c38e1[_0x354f59(0x338)]();for(let _0x58462f=0x0,_0x667a93=_0x2c38e1['equations'][_0x354f59(0x25b)];_0x58462f!==_0x667a93;_0x58462f++){const _0x38a616=_0x2c38e1['equations'][_0x58462f];_0x5b6202[_0x354f59(0x3ca)](_0x38a616);}}_0x5b6202[_0x354f59(0x220)](_0x1f3d4c,this);_0x1024f0&&(_0x28628c[_0x354f59(0x220)]=performance['now']()-_0x4878c3);_0x5b6202['removeAllEquations']();const _0x230969=Math['pow'];for(_0x190754=0x0;_0x190754!==_0xbff823;_0x190754++){const _0x257d81=_0x36a998[_0x190754];if(_0x257d81[_0x354f59(0x2ba)]&_0x19c0a3){const _0x1de129=_0x230969(0x1-_0x257d81[_0x354f59(0x26d)],_0x1f3d4c),_0x1cd1bb=_0x257d81['velocity'];_0x1cd1bb[_0x354f59(0x2fc)](_0x1de129,_0x1cd1bb);const _0x18139e=_0x257d81[_0x354f59(0x22b)];if(_0x18139e){const _0x539a21=_0x230969(0x1-_0x257d81[_0x354f59(0x36f)],_0x1f3d4c);_0x18139e['scale'](_0x539a21,_0x18139e);}}}this['dispatchEvent'](World_step_preStepEvent);_0x1024f0&&(_0x4878c3=performance[_0x354f59(0x17a)]());const _0x1467e3=this['stepnumber'],_0x578670=_0x1467e3%(this[_0x354f59(0x38f)]+0x1)===0x0,_0x27b5a2=this[_0x354f59(0x2b6)];for(_0x190754=0x0;_0x190754!==_0xbff823;_0x190754++){_0x36a998[_0x190754]['integrate'](_0x1f3d4c,_0x578670,_0x27b5a2);}this['clearForces'](),this[_0x354f59(0x29e)]['dirty']=!![];_0x1024f0&&(_0x28628c[_0x354f59(0x398)]=performance['now']()-_0x4878c3);this[_0x354f59(0x3bf)]+=0x1,this[_0x354f59(0x1f0)](World_step_postStepEvent);let _0x149ba9=!![];if(this[_0x354f59(0x1e9)]){_0x149ba9=![];for(_0x190754=0x0;_0x190754!==_0xbff823;_0x190754++){const _0x311762=_0x36a998[_0x190754];_0x311762[_0x354f59(0x362)](this[_0x354f59(0x2cf)]),_0x311762['sleepState']!==Body[_0x354f59(0x1f8)]&&(_0x149ba9=!![]);}}this[_0x354f59(0x329)]=_0x149ba9;}[q0_0x3ac257(0x177)](){const _0x650825=q0_0x3ac257,_0x5d70c7=this[_0x650825(0x1b5)](_0x650825(0x28e)),_0x301ab0=this['hasAnyEventListener'](_0x650825(0x30a));(_0x5d70c7||_0x301ab0)&&this['bodyOverlapKeeper'][_0x650825(0x33b)](additions,removals);if(_0x5d70c7){for(let _0x22eb0f=0x0,_0x574864=additions[_0x650825(0x25b)];_0x22eb0f<_0x574864;_0x22eb0f+=0x2){beginContactEvent['bodyA']=this['getBodyById'](additions[_0x22eb0f]),beginContactEvent[_0x650825(0x35e)]=this[_0x650825(0x2ee)](additions[_0x22eb0f+0x1]),this[_0x650825(0x1f0)](beginContactEvent);}beginContactEvent[_0x650825(0x1d2)]=beginContactEvent[_0x650825(0x35e)]=null;}if(_0x301ab0){for(let _0x2d5406=0x0,_0x42db47=removals[_0x650825(0x25b)];_0x2d5406<_0x42db47;_0x2d5406+=0x2){endContactEvent[_0x650825(0x1d2)]=this['getBodyById'](removals[_0x2d5406]),endContactEvent[_0x650825(0x35e)]=this[_0x650825(0x2ee)](removals[_0x2d5406+0x1]),this[_0x650825(0x1f0)](endContactEvent);}endContactEvent[_0x650825(0x1d2)]=endContactEvent[_0x650825(0x35e)]=null;}additions['length']=removals[_0x650825(0x25b)]=0x0;const _0x6eaec8=this['hasAnyEventListener'](_0x650825(0x3d8)),_0x53930b=this[_0x650825(0x1b5)](_0x650825(0x2dd));(_0x6eaec8||_0x53930b)&&this[_0x650825(0x342)][_0x650825(0x33b)](additions,removals);if(_0x6eaec8){for(let _0x315fa0=0x0,_0x302ef8=additions[_0x650825(0x25b)];_0x315fa0<_0x302ef8;_0x315fa0+=0x2){const _0x40b317=this[_0x650825(0x2e9)](additions[_0x315fa0]),_0x59dfea=this['getShapeById'](additions[_0x315fa0+0x1]);beginShapeContactEvent[_0x650825(0x216)]=_0x40b317,beginShapeContactEvent['shapeB']=_0x59dfea;if(_0x40b317)beginShapeContactEvent[_0x650825(0x1d2)]=_0x40b317[_0x650825(0x350)];if(_0x59dfea)beginShapeContactEvent['bodyB']=_0x59dfea[_0x650825(0x350)];this[_0x650825(0x1f0)](beginShapeContactEvent);}beginShapeContactEvent[_0x650825(0x1d2)]=beginShapeContactEvent['bodyB']=beginShapeContactEvent[_0x650825(0x216)]=beginShapeContactEvent[_0x650825(0x2ab)]=null;}if(_0x53930b){for(let _0x2c04a9=0x0,_0x1965a0=removals['length'];_0x2c04a9<_0x1965a0;_0x2c04a9+=0x2){const _0x558ab2=this[_0x650825(0x2e9)](removals[_0x2c04a9]),_0x11d382=this[_0x650825(0x2e9)](removals[_0x2c04a9+0x1]);endShapeContactEvent[_0x650825(0x216)]=_0x558ab2,endShapeContactEvent[_0x650825(0x2ab)]=_0x11d382;if(_0x558ab2)endShapeContactEvent['bodyA']=_0x558ab2[_0x650825(0x350)];if(_0x11d382)endShapeContactEvent[_0x650825(0x35e)]=_0x11d382[_0x650825(0x350)];this['dispatchEvent'](endShapeContactEvent);}endShapeContactEvent[_0x650825(0x1d2)]=endShapeContactEvent[_0x650825(0x35e)]=endShapeContactEvent[_0x650825(0x216)]=endShapeContactEvent[_0x650825(0x2ab)]=null;}}['clearForces'](){const _0x48b88c=q0_0x3ac257,_0x471b10=this[_0x48b88c(0x227)],_0x537eb4=_0x471b10[_0x48b88c(0x25b)];for(let _0x52ca96=0x0;_0x52ca96!==_0x537eb4;_0x52ca96++){const _0x10a5bb=_0x471b10[_0x52ca96];_0x10a5bb['force'],_0x10a5bb[_0x48b88c(0x2ea)],_0x10a5bb[_0x48b88c(0x27e)]['set'](0x0,0x0,0x0),_0x10a5bb['torque'][_0x48b88c(0x38a)](0x0,0x0,0x0);}}}new AABB();const tmpRay=new Ray(),performance=globalThis[q0_0x3ac257(0x388)]||{};if(!performance[q0_0x3ac257(0x17a)]){let nowOffset=Date[q0_0x3ac257(0x17a)]();performance[q0_0x3ac257(0x236)]&&performance[q0_0x3ac257(0x236)]['navigationStart']&&(nowOffset=performance['timing'][q0_0x3ac257(0x35b)]),performance[q0_0x3ac257(0x17a)]=()=>Date['now']()-nowOffset;}new Vec3();const World_step_postStepEvent={'type':q0_0x3ac257(0x22f)},World_step_preStepEvent={'type':q0_0x3ac257(0x28d)},World_step_collideEvent={'type':Body[q0_0x3ac257(0x17d)],'body':null,'contact':null},World_step_oldContacts=[],World_step_frictionEquationPool=[],World_step_p1=[],World_step_p2=[],additions=[],removals=[],beginContactEvent={'type':'beginContact','bodyA':null,'bodyB':null},endContactEvent={'type':q0_0x3ac257(0x30a),'bodyA':null,'bodyB':null},beginShapeContactEvent={'type':'beginShapeContact','bodyA':null,'bodyB':null,'shapeA':null,'shapeB':null},endShapeContactEvent={'type':'endShapeContact','bodyA':null,'bodyB':null,'shapeA':null,'shapeB':null};export{AABB,ArrayCollisionMatrix,BODY_SLEEP_STATES,BODY_TYPES,Body,Box,Broadphase,COLLISION_TYPES,ConeTwistConstraint,Constraint,ContactEquation,ContactMaterial,ConvexPolyhedron,Cylinder,DistanceConstraint,Equation,EventTarget,FrictionEquation,GSSolver,GridBroadphase,Heightfield,HingeConstraint,JacobianElement,LockConstraint,Mat3,Material,NaiveBroadphase,Narrowphase,ObjectCollisionMatrix,Particle,Plane,PointToPointConstraint,Pool,Quaternion,RAY_MODES,Ray,RaycastResult,RaycastVehicle,RigidVehicle,RotationalEquation,RotationalMotorEquation,SAPBroadphase,SHAPE_TYPES,SPHSystem,Shape,Solver,Sphere,SplitSolver,Spring,Transform,Trimesh,Vec3,Vec3Pool,WheelInfo,World};
+/**
+ * Records what objects are colliding with each other
+ */
+class ObjectCollisionMatrix {
+  /**
+   * The matrix storage.
+   */
+
+  /**
+   * @todo Remove useless constructor
+   */
+  constructor() {
+    this.matrix = {};
+  }
+  /**
+   * get
+   */
+
+
+  get(bi, bj) {
+    let {
+      id: i
+    } = bi;
+    let {
+      id: j
+    } = bj;
+
+    if (j > i) {
+      const temp = j;
+      j = i;
+      i = temp;
+    }
+
+    return `${i}-${j}` in this.matrix;
+  }
+  /**
+   * set
+   */
+
+
+  set(bi, bj, value) {
+    let {
+      id: i
+    } = bi;
+    let {
+      id: j
+    } = bj;
+
+    if (j > i) {
+      const temp = j;
+      j = i;
+      i = temp;
+    }
+
+    if (value) {
+      this.matrix[`${i}-${j}`] = true;
+    } else {
+      delete this.matrix[`${i}-${j}`];
+    }
+  }
+  /**
+   * Empty the matrix
+   */
+
+
+  reset() {
+    this.matrix = {};
+  }
+  /**
+   * Set max number of objects
+   */
+
+
+  setNumObjects(n) {}
+
+}
+
+/**
+ * A 3x3 matrix.
+ * Authored by {@link http://github.com/schteppe/ schteppe}
+ */
+class Mat3 {
+  /**
+   * A vector of length 9, containing all matrix elements.
+   */
+
+  /**
+   * @param elements A vector of length 9, containing all matrix elements.
+   */
+  constructor(elements) {
+    if (elements === void 0) {
+      elements = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    }
+
+    this.elements = elements;
+  }
+  /**
+   * Sets the matrix to identity
+   * @todo Should perhaps be renamed to `setIdentity()` to be more clear.
+   * @todo Create another function that immediately creates an identity matrix eg. `eye()`
+   */
+
+
+  identity() {
+    const e = this.elements;
+    e[0] = 1;
+    e[1] = 0;
+    e[2] = 0;
+    e[3] = 0;
+    e[4] = 1;
+    e[5] = 0;
+    e[6] = 0;
+    e[7] = 0;
+    e[8] = 1;
+  }
+  /**
+   * Set all elements to zero
+   */
+
+
+  setZero() {
+    const e = this.elements;
+    e[0] = 0;
+    e[1] = 0;
+    e[2] = 0;
+    e[3] = 0;
+    e[4] = 0;
+    e[5] = 0;
+    e[6] = 0;
+    e[7] = 0;
+    e[8] = 0;
+  }
+  /**
+   * Sets the matrix diagonal elements from a Vec3
+   */
+
+
+  setTrace(vector) {
+    const e = this.elements;
+    e[0] = vector.x;
+    e[4] = vector.y;
+    e[8] = vector.z;
+  }
+  /**
+   * Gets the matrix diagonal elements
+   */
+
+
+  getTrace(target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    const e = this.elements;
+    target.x = e[0];
+    target.y = e[4];
+    target.z = e[8];
+    return target;
+  }
+  /**
+   * Matrix-Vector multiplication
+   * @param v The vector to multiply with
+   * @param target Optional, target to save the result in.
+   */
+
+
+  vmult(v, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    const e = this.elements;
+    const x = v.x;
+    const y = v.y;
+    const z = v.z;
+    target.x = e[0] * x + e[1] * y + e[2] * z;
+    target.y = e[3] * x + e[4] * y + e[5] * z;
+    target.z = e[6] * x + e[7] * y + e[8] * z;
+    return target;
+  }
+  /**
+   * Matrix-scalar multiplication
+   */
+
+
+  smult(s) {
+    for (let i = 0; i < this.elements.length; i++) {
+      this.elements[i] *= s;
+    }
+  }
+  /**
+   * Matrix multiplication
+   * @param matrix Matrix to multiply with from left side.
+   */
+
+
+  mmult(matrix, target) {
+    if (target === void 0) {
+      target = new Mat3();
+    }
+
+    const A = this.elements;
+    const B = matrix.elements;
+    const T = target.elements;
+    const a11 = A[0],
+          a12 = A[1],
+          a13 = A[2],
+          a21 = A[3],
+          a22 = A[4],
+          a23 = A[5],
+          a31 = A[6],
+          a32 = A[7],
+          a33 = A[8];
+    const b11 = B[0],
+          b12 = B[1],
+          b13 = B[2],
+          b21 = B[3],
+          b22 = B[4],
+          b23 = B[5],
+          b31 = B[6],
+          b32 = B[7],
+          b33 = B[8];
+    T[0] = a11 * b11 + a12 * b21 + a13 * b31;
+    T[1] = a11 * b12 + a12 * b22 + a13 * b32;
+    T[2] = a11 * b13 + a12 * b23 + a13 * b33;
+    T[3] = a21 * b11 + a22 * b21 + a23 * b31;
+    T[4] = a21 * b12 + a22 * b22 + a23 * b32;
+    T[5] = a21 * b13 + a22 * b23 + a23 * b33;
+    T[6] = a31 * b11 + a32 * b21 + a33 * b31;
+    T[7] = a31 * b12 + a32 * b22 + a33 * b32;
+    T[8] = a31 * b13 + a32 * b23 + a33 * b33;
+    return target;
+  }
+  /**
+   * Scale each column of the matrix
+   */
+
+
+  scale(vector, target) {
+    if (target === void 0) {
+      target = new Mat3();
+    }
+
+    const e = this.elements;
+    const t = target.elements;
+
+    for (let i = 0; i !== 3; i++) {
+      t[3 * i + 0] = vector.x * e[3 * i + 0];
+      t[3 * i + 1] = vector.y * e[3 * i + 1];
+      t[3 * i + 2] = vector.z * e[3 * i + 2];
+    }
+
+    return target;
+  }
+  /**
+   * Solve Ax=b
+   * @param b The right hand side
+   * @param target Optional. Target vector to save in.
+   * @return The solution x
+   * @todo should reuse arrays
+   */
+
+
+  solve(b, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    // Construct equations
+    const nr = 3; // num rows
+
+    const nc = 4; // num cols
+
+    const eqns = [];
+    let i;
+    let j;
+
+    for (i = 0; i < nr * nc; i++) {
+      eqns.push(0);
+    }
+
+    for (i = 0; i < 3; i++) {
+      for (j = 0; j < 3; j++) {
+        eqns[i + nc * j] = this.elements[i + 3 * j];
+      }
+    }
+
+    eqns[3 + 4 * 0] = b.x;
+    eqns[3 + 4 * 1] = b.y;
+    eqns[3 + 4 * 2] = b.z; // Compute right upper triangular version of the matrix - Gauss elimination
+
+    let n = 3;
+    const k = n;
+    let np;
+    const kp = 4; // num rows
+
+    let p;
+
+    do {
+      i = k - n;
+
+      if (eqns[i + nc * i] === 0) {
+        // the pivot is null, swap lines
+        for (j = i + 1; j < k; j++) {
+          if (eqns[i + nc * j] !== 0) {
+            np = kp;
+
+            do {
+              // do ligne( i ) = ligne( i ) + ligne( k )
+              p = kp - np;
+              eqns[p + nc * i] += eqns[p + nc * j];
+            } while (--np);
+
+            break;
+          }
+        }
+      }
+
+      if (eqns[i + nc * i] !== 0) {
+        for (j = i + 1; j < k; j++) {
+          const multiplier = eqns[i + nc * j] / eqns[i + nc * i];
+          np = kp;
+
+          do {
+            // do ligne( k ) = ligne( k ) - multiplier * ligne( i )
+            p = kp - np;
+            eqns[p + nc * j] = p <= i ? 0 : eqns[p + nc * j] - eqns[p + nc * i] * multiplier;
+          } while (--np);
+        }
+      }
+    } while (--n); // Get the solution
+
+
+    target.z = eqns[2 * nc + 3] / eqns[2 * nc + 2];
+    target.y = (eqns[1 * nc + 3] - eqns[1 * nc + 2] * target.z) / eqns[1 * nc + 1];
+    target.x = (eqns[0 * nc + 3] - eqns[0 * nc + 2] * target.z - eqns[0 * nc + 1] * target.y) / eqns[0 * nc + 0];
+
+    if (isNaN(target.x) || isNaN(target.y) || isNaN(target.z) || target.x === Infinity || target.y === Infinity || target.z === Infinity) {
+      throw `Could not solve equation! Got x=[${target.toString()}], b=[${b.toString()}], A=[${this.toString()}]`;
+    }
+
+    return target;
+  }
+  /**
+   * Get an element in the matrix by index. Index starts at 0, not 1!!!
+   * @param value If provided, the matrix element will be set to this value.
+   */
+
+
+  e(row, column, value) {
+    if (value === undefined) {
+      return this.elements[column + 3 * row];
+    } else {
+      // Set value
+      this.elements[column + 3 * row] = value;
+    }
+  }
+  /**
+   * Copy another matrix into this matrix object.
+   */
+
+
+  copy(matrix) {
+    for (let i = 0; i < matrix.elements.length; i++) {
+      this.elements[i] = matrix.elements[i];
+    }
+
+    return this;
+  }
+  /**
+   * Returns a string representation of the matrix.
+   */
+
+
+  toString() {
+    let r = '';
+    const sep = ',';
+
+    for (let i = 0; i < 9; i++) {
+      r += this.elements[i] + sep;
+    }
+
+    return r;
+  }
+  /**
+   * reverse the matrix
+   * @param target Target matrix to save in.
+   * @return The solution x
+   */
+
+
+  reverse(target) {
+    if (target === void 0) {
+      target = new Mat3();
+    }
+
+    // Construct equations
+    const nr = 3; // num rows
+
+    const nc = 6; // num cols
+
+    const eqns = reverse_eqns;
+    let i;
+    let j;
+
+    for (i = 0; i < 3; i++) {
+      for (j = 0; j < 3; j++) {
+        eqns[i + nc * j] = this.elements[i + 3 * j];
+      }
+    }
+
+    eqns[3 + 6 * 0] = 1;
+    eqns[3 + 6 * 1] = 0;
+    eqns[3 + 6 * 2] = 0;
+    eqns[4 + 6 * 0] = 0;
+    eqns[4 + 6 * 1] = 1;
+    eqns[4 + 6 * 2] = 0;
+    eqns[5 + 6 * 0] = 0;
+    eqns[5 + 6 * 1] = 0;
+    eqns[5 + 6 * 2] = 1; // Compute right upper triangular version of the matrix - Gauss elimination
+
+    let n = 3;
+    const k = n;
+    let np;
+    const kp = nc; // num rows
+
+    let p;
+
+    do {
+      i = k - n;
+
+      if (eqns[i + nc * i] === 0) {
+        // the pivot is null, swap lines
+        for (j = i + 1; j < k; j++) {
+          if (eqns[i + nc * j] !== 0) {
+            np = kp;
+
+            do {
+              // do line( i ) = line( i ) + line( k )
+              p = kp - np;
+              eqns[p + nc * i] += eqns[p + nc * j];
+            } while (--np);
+
+            break;
+          }
+        }
+      }
+
+      if (eqns[i + nc * i] !== 0) {
+        for (j = i + 1; j < k; j++) {
+          const multiplier = eqns[i + nc * j] / eqns[i + nc * i];
+          np = kp;
+
+          do {
+            // do line( k ) = line( k ) - multiplier * line( i )
+            p = kp - np;
+            eqns[p + nc * j] = p <= i ? 0 : eqns[p + nc * j] - eqns[p + nc * i] * multiplier;
+          } while (--np);
+        }
+      }
+    } while (--n); // eliminate the upper left triangle of the matrix
+
+
+    i = 2;
+
+    do {
+      j = i - 1;
+
+      do {
+        const multiplier = eqns[i + nc * j] / eqns[i + nc * i];
+        np = nc;
+
+        do {
+          p = nc - np;
+          eqns[p + nc * j] = eqns[p + nc * j] - eqns[p + nc * i] * multiplier;
+        } while (--np);
+      } while (j--);
+    } while (--i); // operations on the diagonal
+
+
+    i = 2;
+
+    do {
+      const multiplier = 1 / eqns[i + nc * i];
+      np = nc;
+
+      do {
+        p = nc - np;
+        eqns[p + nc * i] = eqns[p + nc * i] * multiplier;
+      } while (--np);
+    } while (i--);
+
+    i = 2;
+
+    do {
+      j = 2;
+
+      do {
+        p = eqns[nr + j + nc * i];
+
+        if (isNaN(p) || p === Infinity) {
+          throw `Could not reverse! A=[${this.toString()}]`;
+        }
+
+        target.e(i, j, p);
+      } while (j--);
+    } while (i--);
+
+    return target;
+  }
+  /**
+   * Set the matrix from a quaterion
+   */
+
+
+  setRotationFromQuaternion(q) {
+    const x = q.x;
+    const y = q.y;
+    const z = q.z;
+    const w = q.w;
+    const x2 = x + x;
+    const y2 = y + y;
+    const z2 = z + z;
+    const xx = x * x2;
+    const xy = x * y2;
+    const xz = x * z2;
+    const yy = y * y2;
+    const yz = y * z2;
+    const zz = z * z2;
+    const wx = w * x2;
+    const wy = w * y2;
+    const wz = w * z2;
+    const e = this.elements;
+    e[3 * 0 + 0] = 1 - (yy + zz);
+    e[3 * 0 + 1] = xy - wz;
+    e[3 * 0 + 2] = xz + wy;
+    e[3 * 1 + 0] = xy + wz;
+    e[3 * 1 + 1] = 1 - (xx + zz);
+    e[3 * 1 + 2] = yz - wx;
+    e[3 * 2 + 0] = xz - wy;
+    e[3 * 2 + 1] = yz + wx;
+    e[3 * 2 + 2] = 1 - (xx + yy);
+    return this;
+  }
+  /**
+   * Transpose the matrix
+   * @param target Optional. Where to store the result.
+   * @return The target Mat3, or a new Mat3 if target was omitted.
+   */
+
+
+  transpose(target) {
+    if (target === void 0) {
+      target = new Mat3();
+    }
+
+    const M = this.elements;
+    const T = target.elements;
+    let tmp; //Set diagonals
+
+    T[0] = M[0];
+    T[4] = M[4];
+    T[8] = M[8];
+    tmp = M[1];
+    T[1] = M[3];
+    T[3] = tmp;
+    tmp = M[2];
+    T[2] = M[6];
+    T[6] = tmp;
+    tmp = M[5];
+    T[5] = M[7];
+    T[7] = tmp;
+    return target;
+  }
+
+}
+const reverse_eqns = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+/**
+ * 3-dimensional vector
+ * @example
+ *     const v = new Vec3(1, 2, 3)
+ *     console.log('x=' + v.x) // x=1
+ */
+
+class Vec3 {
+  constructor(x, y, z) {
+    if (x === void 0) {
+      x = 0.0;
+    }
+
+    if (y === void 0) {
+      y = 0.0;
+    }
+
+    if (z === void 0) {
+      z = 0.0;
+    }
+
+    this.x = x;
+    this.y = y;
+    this.z = z;
+  }
+  /**
+   * Vector cross product
+   * @param target Optional target to save in.
+   */
+
+
+  cross(vector, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    const vx = vector.x;
+    const vy = vector.y;
+    const vz = vector.z;
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+    target.x = y * vz - z * vy;
+    target.y = z * vx - x * vz;
+    target.z = x * vy - y * vx;
+    return target;
+  }
+  /**
+   * Set the vectors' 3 elements
+   */
+
+
+  set(x, y, z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    return this;
+  }
+  /**
+   * Set all components of the vector to zero.
+   */
+
+
+  setZero() {
+    this.x = this.y = this.z = 0;
+  }
+  /**
+   * Vector addition
+   */
+
+
+  vadd(vector, target) {
+    if (target) {
+      target.x = vector.x + this.x;
+      target.y = vector.y + this.y;
+      target.z = vector.z + this.z;
+    } else {
+      return new Vec3(this.x + vector.x, this.y + vector.y, this.z + vector.z);
+    }
+  }
+  /**
+   * Vector subtraction
+   * @param target Optional target to save in.
+   */
+
+
+  vsub(vector, target) {
+    if (target) {
+      target.x = this.x - vector.x;
+      target.y = this.y - vector.y;
+      target.z = this.z - vector.z;
+    } else {
+      return new Vec3(this.x - vector.x, this.y - vector.y, this.z - vector.z);
+    }
+  }
+  /**
+   * Get the cross product matrix a_cross from a vector, such that a x b = a_cross * b = c
+   *
+   * See {@link https://www8.cs.umu.se/kurser/TDBD24/VT06/lectures/Lecture6.pdf Umeå University Lecture}
+   */
+
+
+  crossmat() {
+    return new Mat3([0, -this.z, this.y, this.z, 0, -this.x, -this.y, this.x, 0]);
+  }
+  /**
+   * Normalize the vector. Note that this changes the values in the vector.
+    * @return Returns the norm of the vector
+   */
+
+
+  normalize() {
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+    const n = Math.sqrt(x * x + y * y + z * z);
+
+    if (n > 0.0) {
+      const invN = 1 / n;
+      this.x *= invN;
+      this.y *= invN;
+      this.z *= invN;
+    } else {
+      // Make something up
+      this.x = 0;
+      this.y = 0;
+      this.z = 0;
+    }
+
+    return n;
+  }
+  /**
+   * Get the version of this vector that is of length 1.
+   * @param target Optional target to save in
+   * @return Returns the unit vector
+   */
+
+
+  unit(target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+    let ninv = Math.sqrt(x * x + y * y + z * z);
+
+    if (ninv > 0.0) {
+      ninv = 1.0 / ninv;
+      target.x = x * ninv;
+      target.y = y * ninv;
+      target.z = z * ninv;
+    } else {
+      target.x = 1;
+      target.y = 0;
+      target.z = 0;
+    }
+
+    return target;
+  }
+  /**
+   * Get the length of the vector
+   */
+
+
+  length() {
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+    return Math.sqrt(x * x + y * y + z * z);
+  }
+  /**
+   * Get the squared length of the vector.
+   */
+
+
+  lengthSquared() {
+    return this.dot(this);
+  }
+  /**
+   * Get distance from this point to another point
+   */
+
+
+  distanceTo(p) {
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+    const px = p.x;
+    const py = p.y;
+    const pz = p.z;
+    return Math.sqrt((px - x) * (px - x) + (py - y) * (py - y) + (pz - z) * (pz - z));
+  }
+  /**
+   * Get squared distance from this point to another point
+   */
+
+
+  distanceSquared(p) {
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+    const px = p.x;
+    const py = p.y;
+    const pz = p.z;
+    return (px - x) * (px - x) + (py - y) * (py - y) + (pz - z) * (pz - z);
+  }
+  /**
+   * Multiply all the components of the vector with a scalar.
+   * @param target The vector to save the result in.
+   */
+
+
+  scale(scalar, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+    target.x = scalar * x;
+    target.y = scalar * y;
+    target.z = scalar * z;
+    return target;
+  }
+  /**
+   * Multiply the vector with an other vector, component-wise.
+   * @param target The vector to save the result in.
+   */
+
+
+  vmul(vector, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    target.x = vector.x * this.x;
+    target.y = vector.y * this.y;
+    target.z = vector.z * this.z;
+    return target;
+  }
+  /**
+   * Scale a vector and add it to this vector. Save the result in "target". (target = this + vector * scalar)
+   * @param target The vector to save the result in.
+   */
+
+
+  addScaledVector(scalar, vector, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    target.x = this.x + scalar * vector.x;
+    target.y = this.y + scalar * vector.y;
+    target.z = this.z + scalar * vector.z;
+    return target;
+  }
+  /**
+   * Calculate dot product
+   * @param vector
+   */
+
+
+  dot(vector) {
+    return this.x * vector.x + this.y * vector.y + this.z * vector.z;
+  }
+
+  isZero() {
+    return this.x === 0 && this.y === 0 && this.z === 0;
+  }
+  /**
+   * Make the vector point in the opposite direction.
+   * @param target Optional target to save in
+   */
+
+
+  negate(target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    target.x = -this.x;
+    target.y = -this.y;
+    target.z = -this.z;
+    return target;
+  }
+  /**
+   * Compute two artificial tangents to the vector
+   * @param t1 Vector object to save the first tangent in
+   * @param t2 Vector object to save the second tangent in
+   */
+
+
+  tangents(t1, t2) {
+    const norm = this.length();
+
+    if (norm > 0.0) {
+      const n = Vec3_tangents_n;
+      const inorm = 1 / norm;
+      n.set(this.x * inorm, this.y * inorm, this.z * inorm);
+      const randVec = Vec3_tangents_randVec;
+
+      if (Math.abs(n.x) < 0.9) {
+        randVec.set(1, 0, 0);
+        n.cross(randVec, t1);
+      } else {
+        randVec.set(0, 1, 0);
+        n.cross(randVec, t1);
+      }
+
+      n.cross(t1, t2);
+    } else {
+      // The normal length is zero, make something up
+      t1.set(1, 0, 0);
+      t2.set(0, 1, 0);
+    }
+  }
+  /**
+   * Converts to a more readable format
+   */
+
+
+  toString() {
+    return `${this.x},${this.y},${this.z}`;
+  }
+  /**
+   * Converts to an array
+   */
+
+
+  toArray() {
+    return [this.x, this.y, this.z];
+  }
+  /**
+   * Copies value of source to this vector.
+   */
+
+
+  copy(vector) {
+    this.x = vector.x;
+    this.y = vector.y;
+    this.z = vector.z;
+    return this;
+  }
+  /**
+   * Do a linear interpolation between two vectors
+   * @param t A number between 0 and 1. 0 will make this function return u, and 1 will make it return v. Numbers in between will generate a vector in between them.
+   */
+
+
+  lerp(vector, t, target) {
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+    target.x = x + (vector.x - x) * t;
+    target.y = y + (vector.y - y) * t;
+    target.z = z + (vector.z - z) * t;
+  }
+  /**
+   * Check if a vector equals is almost equal to another one.
+   */
+
+
+  almostEquals(vector, precision) {
+    if (precision === void 0) {
+      precision = 1e-6;
+    }
+
+    if (Math.abs(this.x - vector.x) > precision || Math.abs(this.y - vector.y) > precision || Math.abs(this.z - vector.z) > precision) {
+      return false;
+    }
+
+    return true;
+  }
+  /**
+   * Check if a vector is almost zero
+   */
+
+
+  almostZero(precision) {
+    if (precision === void 0) {
+      precision = 1e-6;
+    }
+
+    if (Math.abs(this.x) > precision || Math.abs(this.y) > precision || Math.abs(this.z) > precision) {
+      return false;
+    }
+
+    return true;
+  }
+  /**
+   * Check if the vector is anti-parallel to another vector.
+   * @param precision Set to zero for exact comparisons
+   */
+
+
+  isAntiparallelTo(vector, precision) {
+    this.negate(antip_neg);
+    return antip_neg.almostEquals(vector, precision);
+  }
+  /**
+   * Clone the vector
+   */
+
+
+  clone() {
+    return new Vec3(this.x, this.y, this.z);
+  }
+
+}
+Vec3.ZERO = new Vec3(0, 0, 0);
+Vec3.UNIT_X = new Vec3(1, 0, 0);
+Vec3.UNIT_Y = new Vec3(0, 1, 0);
+Vec3.UNIT_Z = new Vec3(0, 0, 1);
+const Vec3_tangents_n = new Vec3();
+const Vec3_tangents_randVec = new Vec3();
+const antip_neg = new Vec3();
+
+/**
+ * Axis aligned bounding box class.
+ */
+class AABB {
+  /**
+   * The lower bound of the bounding box
+   */
+
+  /**
+   * The upper bound of the bounding box
+   */
+  constructor(options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    this.lowerBound = new Vec3();
+    this.upperBound = new Vec3();
+
+    if (options.lowerBound) {
+      this.lowerBound.copy(options.lowerBound);
+    }
+
+    if (options.upperBound) {
+      this.upperBound.copy(options.upperBound);
+    }
+  }
+  /**
+   * Set the AABB bounds from a set of points.
+   * @param points An array of Vec3's.
+   * @return The self object
+   */
+
+
+  setFromPoints(points, position, quaternion, skinSize) {
+    const l = this.lowerBound;
+    const u = this.upperBound;
+    const q = quaternion; // Set to the first point
+
+    l.copy(points[0]);
+
+    if (q) {
+      q.vmult(l, l);
+    }
+
+    u.copy(l);
+
+    for (let i = 1; i < points.length; i++) {
+      let p = points[i];
+
+      if (q) {
+        q.vmult(p, tmp$1);
+        p = tmp$1;
+      }
+
+      if (p.x > u.x) {
+        u.x = p.x;
+      }
+
+      if (p.x < l.x) {
+        l.x = p.x;
+      }
+
+      if (p.y > u.y) {
+        u.y = p.y;
+      }
+
+      if (p.y < l.y) {
+        l.y = p.y;
+      }
+
+      if (p.z > u.z) {
+        u.z = p.z;
+      }
+
+      if (p.z < l.z) {
+        l.z = p.z;
+      }
+    } // Add offset
+
+
+    if (position) {
+      position.vadd(l, l);
+      position.vadd(u, u);
+    }
+
+    if (skinSize) {
+      l.x -= skinSize;
+      l.y -= skinSize;
+      l.z -= skinSize;
+      u.x += skinSize;
+      u.y += skinSize;
+      u.z += skinSize;
+    }
+
+    return this;
+  }
+  /**
+   * Copy bounds from an AABB to this AABB
+   * @param aabb Source to copy from
+   * @return The this object, for chainability
+   */
+
+
+  copy(aabb) {
+    this.lowerBound.copy(aabb.lowerBound);
+    this.upperBound.copy(aabb.upperBound);
+    return this;
+  }
+  /**
+   * Clone an AABB
+   */
+
+
+  clone() {
+    return new AABB().copy(this);
+  }
+  /**
+   * Extend this AABB so that it covers the given AABB too.
+   */
+
+
+  extend(aabb) {
+    this.lowerBound.x = Math.min(this.lowerBound.x, aabb.lowerBound.x);
+    this.upperBound.x = Math.max(this.upperBound.x, aabb.upperBound.x);
+    this.lowerBound.y = Math.min(this.lowerBound.y, aabb.lowerBound.y);
+    this.upperBound.y = Math.max(this.upperBound.y, aabb.upperBound.y);
+    this.lowerBound.z = Math.min(this.lowerBound.z, aabb.lowerBound.z);
+    this.upperBound.z = Math.max(this.upperBound.z, aabb.upperBound.z);
+  }
+  /**
+   * Returns true if the given AABB overlaps this AABB.
+   */
+
+
+  overlaps(aabb) {
+    const l1 = this.lowerBound;
+    const u1 = this.upperBound;
+    const l2 = aabb.lowerBound;
+    const u2 = aabb.upperBound; //      l2        u2
+    //      |---------|
+    // |--------|
+    // l1       u1
+
+    const overlapsX = l2.x <= u1.x && u1.x <= u2.x || l1.x <= u2.x && u2.x <= u1.x;
+    const overlapsY = l2.y <= u1.y && u1.y <= u2.y || l1.y <= u2.y && u2.y <= u1.y;
+    const overlapsZ = l2.z <= u1.z && u1.z <= u2.z || l1.z <= u2.z && u2.z <= u1.z;
+    return overlapsX && overlapsY && overlapsZ;
+  } // Mostly for debugging
+
+
+  volume() {
+    const l = this.lowerBound;
+    const u = this.upperBound;
+    return (u.x - l.x) * (u.y - l.y) * (u.z - l.z);
+  }
+  /**
+   * Returns true if the given AABB is fully contained in this AABB.
+   */
+
+
+  contains(aabb) {
+    const l1 = this.lowerBound;
+    const u1 = this.upperBound;
+    const l2 = aabb.lowerBound;
+    const u2 = aabb.upperBound; //      l2        u2
+    //      |---------|
+    // |---------------|
+    // l1              u1
+
+    return l1.x <= l2.x && u1.x >= u2.x && l1.y <= l2.y && u1.y >= u2.y && l1.z <= l2.z && u1.z >= u2.z;
+  }
+
+  getCorners(a, b, c, d, e, f, g, h) {
+    const l = this.lowerBound;
+    const u = this.upperBound;
+    a.copy(l);
+    b.set(u.x, l.y, l.z);
+    c.set(u.x, u.y, l.z);
+    d.set(l.x, u.y, u.z);
+    e.set(u.x, l.y, u.z);
+    f.set(l.x, u.y, l.z);
+    g.set(l.x, l.y, u.z);
+    h.copy(u);
+  }
+  /**
+   * Get the representation of an AABB in another frame.
+   * @return The "target" AABB object.
+   */
+
+
+  toLocalFrame(frame, target) {
+    const corners = transformIntoFrame_corners;
+    const a = corners[0];
+    const b = corners[1];
+    const c = corners[2];
+    const d = corners[3];
+    const e = corners[4];
+    const f = corners[5];
+    const g = corners[6];
+    const h = corners[7]; // Get corners in current frame
+
+    this.getCorners(a, b, c, d, e, f, g, h); // Transform them to new local frame
+
+    for (let i = 0; i !== 8; i++) {
+      const corner = corners[i];
+      frame.pointToLocal(corner, corner);
+    }
+
+    return target.setFromPoints(corners);
+  }
+  /**
+   * Get the representation of an AABB in the global frame.
+   * @return The "target" AABB object.
+   */
+
+
+  toWorldFrame(frame, target) {
+    const corners = transformIntoFrame_corners;
+    const a = corners[0];
+    const b = corners[1];
+    const c = corners[2];
+    const d = corners[3];
+    const e = corners[4];
+    const f = corners[5];
+    const g = corners[6];
+    const h = corners[7]; // Get corners in current frame
+
+    this.getCorners(a, b, c, d, e, f, g, h); // Transform them to new local frame
+
+    for (let i = 0; i !== 8; i++) {
+      const corner = corners[i];
+      frame.pointToWorld(corner, corner);
+    }
+
+    return target.setFromPoints(corners);
+  }
+  /**
+   * Check if the AABB is hit by a ray.
+   */
+
+
+  overlapsRay(ray) {
+    const {
+      direction,
+      from
+    } = ray; // const t = 0
+    // ray.direction is unit direction vector of ray
+
+    const dirFracX = 1 / direction.x;
+    const dirFracY = 1 / direction.y;
+    const dirFracZ = 1 / direction.z; // this.lowerBound is the corner of AABB with minimal coordinates - left bottom, rt is maximal corner
+
+    const t1 = (this.lowerBound.x - from.x) * dirFracX;
+    const t2 = (this.upperBound.x - from.x) * dirFracX;
+    const t3 = (this.lowerBound.y - from.y) * dirFracY;
+    const t4 = (this.upperBound.y - from.y) * dirFracY;
+    const t5 = (this.lowerBound.z - from.z) * dirFracZ;
+    const t6 = (this.upperBound.z - from.z) * dirFracZ; // const tmin = Math.max(Math.max(Math.min(t1, t2), Math.min(t3, t4)));
+    // const tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)));
+
+    const tmin = Math.max(Math.max(Math.min(t1, t2), Math.min(t3, t4)), Math.min(t5, t6));
+    const tmax = Math.min(Math.min(Math.max(t1, t2), Math.max(t3, t4)), Math.max(t5, t6)); // if tmax < 0, ray (line) is intersecting AABB, but whole AABB is behing us
+
+    if (tmax < 0) {
+      //t = tmax;
+      return false;
+    } // if tmin > tmax, ray doesn't intersect AABB
+
+
+    if (tmin > tmax) {
+      //t = tmax;
+      return false;
+    }
+
+    return true;
+  }
+
+}
+const tmp$1 = new Vec3();
+const transformIntoFrame_corners = [new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3()];
+
+/**
+ * Collision "matrix".
+ * It's actually a triangular-shaped array of whether two bodies are touching this step, for reference next step
+ */
+class ArrayCollisionMatrix {
+  /**
+   * The matrix storage.
+   */
+  constructor() {
+    this.matrix = [];
+  }
+  /**
+   * Get an element
+   */
+
+
+  get(bi, bj) {
+    let {
+      index: i
+    } = bi;
+    let {
+      index: j
+    } = bj;
+
+    if (j > i) {
+      const temp = j;
+      j = i;
+      i = temp;
+    }
+
+    return this.matrix[(i * (i + 1) >> 1) + j - 1];
+  }
+  /**
+   * Set an element
+   */
+
+
+  set(bi, bj, value) {
+    let {
+      index: i
+    } = bi;
+    let {
+      index: j
+    } = bj;
+
+    if (j > i) {
+      const temp = j;
+      j = i;
+      i = temp;
+    }
+
+    this.matrix[(i * (i + 1) >> 1) + j - 1] = value ? 1 : 0;
+  }
+  /**
+   * Sets all elements to zero
+   */
+
+
+  reset() {
+    for (let i = 0, l = this.matrix.length; i !== l; i++) {
+      this.matrix[i] = 0;
+    }
+  }
+  /**
+   * Sets the max number of objects
+   */
+
+
+  setNumObjects(n) {
+    this.matrix.length = n * (n - 1) >> 1;
+  }
+
+}
+
+/**
+ * Base class for objects that dispatches events.
+ */
+class EventTarget {
+  /**
+   * Add an event listener
+   * @return The self object, for chainability.
+   */
+  addEventListener(type, listener) {
+    if (this._listeners === undefined) {
+      this._listeners = {};
+    }
+
+    const listeners = this._listeners;
+
+    if (listeners[type] === undefined) {
+      listeners[type] = [];
+    }
+
+    if (!listeners[type].includes(listener)) {
+      listeners[type].push(listener);
+    }
+
+    return this;
+  }
+  /**
+   * Check if an event listener is added
+   */
+
+
+  hasEventListener(type, listener) {
+    if (this._listeners === undefined) {
+      return false;
+    }
+
+    const listeners = this._listeners;
+
+    if (listeners[type] !== undefined && listeners[type].includes(listener)) {
+      return true;
+    }
+
+    return false;
+  }
+  /**
+   * Check if any event listener of the given type is added
+   */
+
+
+  hasAnyEventListener(type) {
+    if (this._listeners === undefined) {
+      return false;
+    }
+
+    const listeners = this._listeners;
+    return listeners[type] !== undefined;
+  }
+  /**
+   * Remove an event listener
+   * @return The self object, for chainability.
+   */
+
+
+  removeEventListener(type, listener) {
+    if (this._listeners === undefined) {
+      return this;
+    }
+
+    const listeners = this._listeners;
+
+    if (listeners[type] === undefined) {
+      return this;
+    }
+
+    const index = listeners[type].indexOf(listener);
+
+    if (index !== -1) {
+      listeners[type].splice(index, 1);
+    }
+
+    return this;
+  }
+  /**
+   * Emit an event.
+   * @return The self object, for chainability.
+   */
+
+
+  dispatchEvent(event) {
+    if (this._listeners === undefined) {
+      return this;
+    }
+
+    const listeners = this._listeners;
+    const listenerArray = listeners[event.type];
+
+    if (listenerArray !== undefined) {
+      event.target = this;
+
+      for (let i = 0, l = listenerArray.length; i < l; i++) {
+        listenerArray[i].call(this, event);
+      }
+    }
+
+    return this;
+  }
+
+}
+
+/**
+ * A Quaternion describes a rotation in 3D space. The Quaternion is mathematically defined as Q = x*i + y*j + z*k + w, where (i,j,k) are imaginary basis vectors. (x,y,z) can be seen as a vector related to the axis of rotation, while the real multiplier, w, is related to the amount of rotation.
+ * @param x Multiplier of the imaginary basis vector i.
+ * @param y Multiplier of the imaginary basis vector j.
+ * @param z Multiplier of the imaginary basis vector k.
+ * @param w Multiplier of the real part.
+ * @see http://en.wikipedia.org/wiki/Quaternion
+ */
+
+class Quaternion {
+  constructor(x, y, z, w) {
+    if (x === void 0) {
+      x = 0;
+    }
+
+    if (y === void 0) {
+      y = 0;
+    }
+
+    if (z === void 0) {
+      z = 0;
+    }
+
+    if (w === void 0) {
+      w = 1;
+    }
+
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.w = w;
+  }
+  /**
+   * Set the value of the quaternion.
+   */
+
+
+  set(x, y, z, w) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.w = w;
+    return this;
+  }
+  /**
+   * Convert to a readable format
+   * @return "x,y,z,w"
+   */
+
+
+  toString() {
+    return `${this.x},${this.y},${this.z},${this.w}`;
+  }
+  /**
+   * Convert to an Array
+   * @return [x, y, z, w]
+   */
+
+
+  toArray() {
+    return [this.x, this.y, this.z, this.w];
+  }
+  /**
+   * Set the quaternion components given an axis and an angle in radians.
+   */
+
+
+  setFromAxisAngle(vector, angle) {
+    const s = Math.sin(angle * 0.5);
+    this.x = vector.x * s;
+    this.y = vector.y * s;
+    this.z = vector.z * s;
+    this.w = Math.cos(angle * 0.5);
+    return this;
+  }
+  /**
+   * Converts the quaternion to [ axis, angle ] representation.
+   * @param targetAxis A vector object to reuse for storing the axis.
+   * @return An array, first element is the axis and the second is the angle in radians.
+   */
+
+
+  toAxisAngle(targetAxis) {
+    if (targetAxis === void 0) {
+      targetAxis = new Vec3();
+    }
+
+    this.normalize(); // if w>1 acos and sqrt will produce errors, this cant happen if quaternion is normalised
+
+    const angle = 2 * Math.acos(this.w);
+    const s = Math.sqrt(1 - this.w * this.w); // assuming quaternion normalised then w is less than 1, so term always positive.
+
+    if (s < 0.001) {
+      // test to avoid divide by zero, s is always positive due to sqrt
+      // if s close to zero then direction of axis not important
+      targetAxis.x = this.x; // if it is important that axis is normalised then replace with x=1; y=z=0;
+
+      targetAxis.y = this.y;
+      targetAxis.z = this.z;
+    } else {
+      targetAxis.x = this.x / s; // normalise axis
+
+      targetAxis.y = this.y / s;
+      targetAxis.z = this.z / s;
+    }
+
+    return [targetAxis, angle];
+  }
+  /**
+   * Set the quaternion value given two vectors. The resulting rotation will be the needed rotation to rotate u to v.
+   */
+
+
+  setFromVectors(u, v) {
+    if (u.isAntiparallelTo(v)) {
+      const t1 = sfv_t1;
+      const t2 = sfv_t2;
+      u.tangents(t1, t2);
+      this.setFromAxisAngle(t1, Math.PI);
+    } else {
+      const a = u.cross(v);
+      this.x = a.x;
+      this.y = a.y;
+      this.z = a.z;
+      this.w = Math.sqrt(u.length() ** 2 * v.length() ** 2) + u.dot(v);
+      this.normalize();
+    }
+
+    return this;
+  }
+  /**
+   * Multiply the quaternion with an other quaternion.
+   */
+
+
+  mult(quat, target) {
+    if (target === void 0) {
+      target = new Quaternion();
+    }
+
+    const ax = this.x;
+    const ay = this.y;
+    const az = this.z;
+    const aw = this.w;
+    const bx = quat.x;
+    const by = quat.y;
+    const bz = quat.z;
+    const bw = quat.w;
+    target.x = ax * bw + aw * bx + ay * bz - az * by;
+    target.y = ay * bw + aw * by + az * bx - ax * bz;
+    target.z = az * bw + aw * bz + ax * by - ay * bx;
+    target.w = aw * bw - ax * bx - ay * by - az * bz;
+    return target;
+  }
+  /**
+   * Get the inverse quaternion rotation.
+   */
+
+
+  inverse(target) {
+    if (target === void 0) {
+      target = new Quaternion();
+    }
+
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+    const w = this.w;
+    this.conjugate(target);
+    const inorm2 = 1 / (x * x + y * y + z * z + w * w);
+    target.x *= inorm2;
+    target.y *= inorm2;
+    target.z *= inorm2;
+    target.w *= inorm2;
+    return target;
+  }
+  /**
+   * Get the quaternion conjugate
+   */
+
+
+  conjugate(target) {
+    if (target === void 0) {
+      target = new Quaternion();
+    }
+
+    target.x = -this.x;
+    target.y = -this.y;
+    target.z = -this.z;
+    target.w = this.w;
+    return target;
+  }
+  /**
+   * Normalize the quaternion. Note that this changes the values of the quaternion.
+   */
+
+
+  normalize() {
+    let l = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
+
+    if (l === 0) {
+      this.x = 0;
+      this.y = 0;
+      this.z = 0;
+      this.w = 0;
+    } else {
+      l = 1 / l;
+      this.x *= l;
+      this.y *= l;
+      this.z *= l;
+      this.w *= l;
+    }
+
+    return this;
+  }
+  /**
+   * Approximation of quaternion normalization. Works best when quat is already almost-normalized.
+   * @author unphased, https://github.com/unphased
+   */
+
+
+  normalizeFast() {
+    const f = (3.0 - (this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)) / 2.0;
+
+    if (f === 0) {
+      this.x = 0;
+      this.y = 0;
+      this.z = 0;
+      this.w = 0;
+    } else {
+      this.x *= f;
+      this.y *= f;
+      this.z *= f;
+      this.w *= f;
+    }
+
+    return this;
+  }
+  /**
+   * Multiply the quaternion by a vector
+   */
+
+
+  vmult(v, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    const x = v.x;
+    const y = v.y;
+    const z = v.z;
+    const qx = this.x;
+    const qy = this.y;
+    const qz = this.z;
+    const qw = this.w; // q*v
+
+    const ix = qw * x + qy * z - qz * y;
+    const iy = qw * y + qz * x - qx * z;
+    const iz = qw * z + qx * y - qy * x;
+    const iw = -qx * x - qy * y - qz * z;
+    target.x = ix * qw + iw * -qx + iy * -qz - iz * -qy;
+    target.y = iy * qw + iw * -qy + iz * -qx - ix * -qz;
+    target.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
+    return target;
+  }
+  /**
+   * Copies value of source to this quaternion.
+   * @return this
+   */
+
+
+  copy(quat) {
+    this.x = quat.x;
+    this.y = quat.y;
+    this.z = quat.z;
+    this.w = quat.w;
+    return this;
+  }
+  /**
+   * Convert the quaternion to euler angle representation. Order: YZX, as this page describes: https://www.euclideanspace.com/maths/standards/index.htm
+   * @param order Three-character string, defaults to "YZX"
+   */
+
+
+  toEuler(target, order) {
+    if (order === void 0) {
+      order = 'YZX';
+    }
+
+    let heading;
+    let attitude;
+    let bank;
+    const x = this.x;
+    const y = this.y;
+    const z = this.z;
+    const w = this.w;
+
+    switch (order) {
+      case 'YZX':
+        const test = x * y + z * w;
+
+        if (test > 0.499) {
+          // singularity at north pole
+          heading = 2 * Math.atan2(x, w);
+          attitude = Math.PI / 2;
+          bank = 0;
+        }
+
+        if (test < -0.499) {
+          // singularity at south pole
+          heading = -2 * Math.atan2(x, w);
+          attitude = -Math.PI / 2;
+          bank = 0;
+        }
+
+        if (heading === undefined) {
+          const sqx = x * x;
+          const sqy = y * y;
+          const sqz = z * z;
+          heading = Math.atan2(2 * y * w - 2 * x * z, 1 - 2 * sqy - 2 * sqz); // Heading
+
+          attitude = Math.asin(2 * test); // attitude
+
+          bank = Math.atan2(2 * x * w - 2 * y * z, 1 - 2 * sqx - 2 * sqz); // bank
+        }
+
+        break;
+
+      default:
+        throw new Error(`Euler order ${order} not supported yet.`);
+    }
+
+    target.y = heading;
+    target.z = attitude;
+    target.x = bank;
+  }
+  /**
+   * Set the quaternion components given Euler angle representation.
+   *
+   * @param order The order to apply angles: 'XYZ' or 'YXZ' or any other combination.
+   *
+   * See {@link https://www.mathworks.com/matlabcentral/fileexchange/20696-function-to-convert-between-dcm-euler-angles-quaternions-and-euler-vectors MathWorks} reference
+   */
+
+
+  setFromEuler(x, y, z, order) {
+    if (order === void 0) {
+      order = 'XYZ';
+    }
+
+    const c1 = Math.cos(x / 2);
+    const c2 = Math.cos(y / 2);
+    const c3 = Math.cos(z / 2);
+    const s1 = Math.sin(x / 2);
+    const s2 = Math.sin(y / 2);
+    const s3 = Math.sin(z / 2);
+
+    if (order === 'XYZ') {
+      this.x = s1 * c2 * c3 + c1 * s2 * s3;
+      this.y = c1 * s2 * c3 - s1 * c2 * s3;
+      this.z = c1 * c2 * s3 + s1 * s2 * c3;
+      this.w = c1 * c2 * c3 - s1 * s2 * s3;
+    } else if (order === 'YXZ') {
+      this.x = s1 * c2 * c3 + c1 * s2 * s3;
+      this.y = c1 * s2 * c3 - s1 * c2 * s3;
+      this.z = c1 * c2 * s3 - s1 * s2 * c3;
+      this.w = c1 * c2 * c3 + s1 * s2 * s3;
+    } else if (order === 'ZXY') {
+      this.x = s1 * c2 * c3 - c1 * s2 * s3;
+      this.y = c1 * s2 * c3 + s1 * c2 * s3;
+      this.z = c1 * c2 * s3 + s1 * s2 * c3;
+      this.w = c1 * c2 * c3 - s1 * s2 * s3;
+    } else if (order === 'ZYX') {
+      this.x = s1 * c2 * c3 - c1 * s2 * s3;
+      this.y = c1 * s2 * c3 + s1 * c2 * s3;
+      this.z = c1 * c2 * s3 - s1 * s2 * c3;
+      this.w = c1 * c2 * c3 + s1 * s2 * s3;
+    } else if (order === 'YZX') {
+      this.x = s1 * c2 * c3 + c1 * s2 * s3;
+      this.y = c1 * s2 * c3 + s1 * c2 * s3;
+      this.z = c1 * c2 * s3 - s1 * s2 * c3;
+      this.w = c1 * c2 * c3 - s1 * s2 * s3;
+    } else if (order === 'XZY') {
+      this.x = s1 * c2 * c3 - c1 * s2 * s3;
+      this.y = c1 * s2 * c3 - s1 * c2 * s3;
+      this.z = c1 * c2 * s3 + s1 * s2 * c3;
+      this.w = c1 * c2 * c3 + s1 * s2 * s3;
+    }
+
+    return this;
+  }
+
+  clone() {
+    return new Quaternion(this.x, this.y, this.z, this.w);
+  }
+  /**
+   * Performs a spherical linear interpolation between two quat
+   *
+   * @param toQuat second operand
+   * @param t interpolation amount between the self quaternion and toQuat
+   * @param target A quaternion to store the result in. If not provided, a new one will be created.
+   * @returns {Quaternion} The "target" object
+   */
+
+
+  slerp(toQuat, t, target) {
+    if (target === void 0) {
+      target = new Quaternion();
+    }
+
+    const ax = this.x;
+    const ay = this.y;
+    const az = this.z;
+    const aw = this.w;
+    let bx = toQuat.x;
+    let by = toQuat.y;
+    let bz = toQuat.z;
+    let bw = toQuat.w;
+    let omega;
+    let cosom;
+    let sinom;
+    let scale0;
+    let scale1; // calc cosine
+
+    cosom = ax * bx + ay * by + az * bz + aw * bw; // adjust signs (if necessary)
+
+    if (cosom < 0.0) {
+      cosom = -cosom;
+      bx = -bx;
+      by = -by;
+      bz = -bz;
+      bw = -bw;
+    } // calculate coefficients
+
+
+    if (1.0 - cosom > 0.000001) {
+      // standard case (slerp)
+      omega = Math.acos(cosom);
+      sinom = Math.sin(omega);
+      scale0 = Math.sin((1.0 - t) * omega) / sinom;
+      scale1 = Math.sin(t * omega) / sinom;
+    } else {
+      // "from" and "to" quaternions are very close
+      //  ... so we can do a linear interpolation
+      scale0 = 1.0 - t;
+      scale1 = t;
+    } // calculate final values
+
+
+    target.x = scale0 * ax + scale1 * bx;
+    target.y = scale0 * ay + scale1 * by;
+    target.z = scale0 * az + scale1 * bz;
+    target.w = scale0 * aw + scale1 * bw;
+    return target;
+  }
+  /**
+   * Rotate an absolute orientation quaternion given an angular velocity and a time step.
+   */
+
+
+  integrate(angularVelocity, dt, angularFactor, target) {
+    if (target === void 0) {
+      target = new Quaternion();
+    }
+
+    const ax = angularVelocity.x * angularFactor.x,
+          ay = angularVelocity.y * angularFactor.y,
+          az = angularVelocity.z * angularFactor.z,
+          bx = this.x,
+          by = this.y,
+          bz = this.z,
+          bw = this.w;
+    const half_dt = dt * 0.5;
+    target.x += half_dt * (ax * bw + ay * bz - az * by);
+    target.y += half_dt * (ay * bw + az * bx - ax * bz);
+    target.z += half_dt * (az * bw + ax * by - ay * bx);
+    target.w += half_dt * (-ax * bx - ay * by - az * bz);
+    return target;
+  }
+
+}
+const sfv_t1 = new Vec3();
+const sfv_t2 = new Vec3();
+
+/**
+ * The available shape types.
+ */
+const SHAPE_TYPES = {
+  /** SPHERE */
+  SPHERE: 1,
+
+  /** PLANE */
+  PLANE: 2,
+
+  /** BOX */
+  BOX: 4,
+
+  /** COMPOUND */
+  COMPOUND: 8,
+
+  /** CONVEXPOLYHEDRON */
+  CONVEXPOLYHEDRON: 16,
+
+  /** HEIGHTFIELD */
+  HEIGHTFIELD: 32,
+
+  /** PARTICLE */
+  PARTICLE: 64,
+
+  /** CYLINDER */
+  CYLINDER: 128,
+
+  /** TRIMESH */
+  TRIMESH: 256
+};
+/**
+ * ShapeType
+ */
+
+/**
+ * Base class for shapes
+ */
+class Shape {
+  /**
+   * Identifier of the Shape.
+   */
+
+  /**
+   * The type of this shape. Must be set to an int > 0 by subclasses.
+   */
+
+  /**
+   * The local bounding sphere radius of this shape.
+   */
+
+  /**
+   * Whether to produce contact forces when in contact with other bodies. Note that contacts will be generated, but they will be disabled.
+   * @default true
+   */
+
+  /**
+   * @default 1
+   */
+
+  /**
+   * @default -1
+   */
+
+  /**
+   * Optional material of the shape that regulates contact properties.
+   */
+
+  /**
+   * The body to which the shape is added to.
+   */
+
+  /**
+   * All the Shape types.
+   */
+  constructor(options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    this.id = Shape.idCounter++;
+    this.type = options.type || 0;
+    this.boundingSphereRadius = 0;
+    this.collisionResponse = options.collisionResponse ? options.collisionResponse : true;
+    this.collisionFilterGroup = options.collisionFilterGroup !== undefined ? options.collisionFilterGroup : 1;
+    this.collisionFilterMask = options.collisionFilterMask !== undefined ? options.collisionFilterMask : -1;
+    this.material = options.material ? options.material : null;
+    this.body = null;
+  }
+  /**
+   * Computes the bounding sphere radius.
+   * The result is stored in the property `.boundingSphereRadius`
+   */
+
+
+  updateBoundingSphereRadius() {
+    throw `computeBoundingSphereRadius() not implemented for shape type ${this.type}`;
+  }
+  /**
+   * Get the volume of this shape
+   */
+
+
+  volume() {
+    throw `volume() not implemented for shape type ${this.type}`;
+  }
+  /**
+   * Calculates the inertia in the local frame for this shape.
+   * @see http://en.wikipedia.org/wiki/List_of_moments_of_inertia
+   */
+
+
+  calculateLocalInertia(mass, target) {
+    throw `calculateLocalInertia() not implemented for shape type ${this.type}`;
+  }
+  /**
+   * @todo use abstract for these kind of methods
+   */
+
+
+  calculateWorldAABB(pos, quat, min, max) {
+    throw `calculateWorldAABB() not implemented for shape type ${this.type}`;
+  }
+
+}
+Shape.idCounter = 0;
+Shape.types = SHAPE_TYPES;
+
+/**
+ * Transformation utilities.
+ */
+class Transform {
+  /**
+   * position
+   */
+
+  /**
+   * quaternion
+   */
+  constructor(options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    this.position = new Vec3();
+    this.quaternion = new Quaternion();
+
+    if (options.position) {
+      this.position.copy(options.position);
+    }
+
+    if (options.quaternion) {
+      this.quaternion.copy(options.quaternion);
+    }
+  }
+  /**
+   * Get a global point in local transform coordinates.
+   */
+
+
+  pointToLocal(worldPoint, result) {
+    return Transform.pointToLocalFrame(this.position, this.quaternion, worldPoint, result);
+  }
+  /**
+   * Get a local point in global transform coordinates.
+   */
+
+
+  pointToWorld(localPoint, result) {
+    return Transform.pointToWorldFrame(this.position, this.quaternion, localPoint, result);
+  }
+  /**
+   * vectorToWorldFrame
+   */
+
+
+  vectorToWorldFrame(localVector, result) {
+    if (result === void 0) {
+      result = new Vec3();
+    }
+
+    this.quaternion.vmult(localVector, result);
+    return result;
+  }
+  /**
+   * pointToLocalFrame
+   */
+
+
+  static pointToLocalFrame(position, quaternion, worldPoint, result) {
+    if (result === void 0) {
+      result = new Vec3();
+    }
+
+    worldPoint.vsub(position, result);
+    quaternion.conjugate(tmpQuat$1);
+    tmpQuat$1.vmult(result, result);
+    return result;
+  }
+  /**
+   * pointToWorldFrame
+   */
+
+
+  static pointToWorldFrame(position, quaternion, localPoint, result) {
+    if (result === void 0) {
+      result = new Vec3();
+    }
+
+    quaternion.vmult(localPoint, result);
+    result.vadd(position, result);
+    return result;
+  }
+  /**
+   * vectorToWorldFrame
+   */
+
+
+  static vectorToWorldFrame(quaternion, localVector, result) {
+    if (result === void 0) {
+      result = new Vec3();
+    }
+
+    quaternion.vmult(localVector, result);
+    return result;
+  }
+  /**
+   * vectorToLocalFrame
+   */
+
+
+  static vectorToLocalFrame(position, quaternion, worldVector, result) {
+    if (result === void 0) {
+      result = new Vec3();
+    }
+
+    quaternion.w *= -1;
+    quaternion.vmult(worldVector, result);
+    quaternion.w *= -1;
+    return result;
+  }
+
+}
+const tmpQuat$1 = new Quaternion();
+
+/**
+ * A set of polygons describing a convex shape.
+ *
+ * The shape MUST be convex for the code to work properly. No polygons may be coplanar (contained
+ * in the same 3D plane), instead these should be merged into one polygon.
+ *
+ * @author qiao / https://github.com/qiao (original author, see https://github.com/qiao/three.js/commit/85026f0c769e4000148a67d45a9e9b9c5108836f)
+ * @author schteppe / https://github.com/schteppe
+ * @see https://www.altdevblogaday.com/2011/05/13/contact-generation-between-3d-convex-meshes/
+ *
+ * @todo Move the clipping functions to ContactGenerator?
+ * @todo Automatically merge coplanar polygons in constructor.
+ * @example
+ *     const convexShape = new CANNON.ConvexPolyhedron({ vertices, faces })
+ *     const convexBody = new CANNON.Body({ mass: 1, shape: convexShape })
+ *     world.addBody(convexBody)
+ */
+class ConvexPolyhedron extends Shape {
+  /** vertices */
+
+  /**
+   * Array of integer arrays, indicating which vertices each face consists of
+   */
+
+  /** faceNormals */
+
+  /** worldVertices */
+
+  /** worldVerticesNeedsUpdate */
+
+  /** worldFaceNormals */
+
+  /** worldFaceNormalsNeedsUpdate */
+
+  /**
+   * If given, these locally defined, normalized axes are the only ones being checked when doing separating axis check.
+   */
+
+  /** uniqueEdges */
+
+  /**
+   * @param vertices An array of Vec3's
+   * @param faces Array of integer arrays, describing which vertices that is included in each face.
+   */
+  constructor(props) {
+    if (props === void 0) {
+      props = {};
+    }
+
+    const {
+      vertices = [],
+      faces = [],
+      normals = [],
+      axes,
+      boundingSphereRadius
+    } = props;
+    super({
+      type: Shape.types.CONVEXPOLYHEDRON
+    });
+    this.vertices = vertices;
+    this.faces = faces;
+    this.faceNormals = normals;
+
+    if (this.faceNormals.length === 0) {
+      this.computeNormals();
+    }
+
+    if (!boundingSphereRadius) {
+      this.updateBoundingSphereRadius();
+    } else {
+      this.boundingSphereRadius = boundingSphereRadius;
+    }
+
+    this.worldVertices = []; // World transformed version of .vertices
+
+    this.worldVerticesNeedsUpdate = true;
+    this.worldFaceNormals = []; // World transformed version of .faceNormals
+
+    this.worldFaceNormalsNeedsUpdate = true;
+    this.uniqueAxes = axes ? axes.slice() : null;
+    this.uniqueEdges = [];
+    this.computeEdges();
+  }
+  /**
+   * Computes uniqueEdges
+   */
+
+
+  computeEdges() {
+    const faces = this.faces;
+    const vertices = this.vertices;
+    const edges = this.uniqueEdges;
+    edges.length = 0;
+    const edge = new Vec3();
+
+    for (let i = 0; i !== faces.length; i++) {
+      const face = faces[i];
+      const numVertices = face.length;
+
+      for (let j = 0; j !== numVertices; j++) {
+        const k = (j + 1) % numVertices;
+        vertices[face[j]].vsub(vertices[face[k]], edge);
+        edge.normalize();
+        let found = false;
+
+        for (let p = 0; p !== edges.length; p++) {
+          if (edges[p].almostEquals(edge) || edges[p].almostEquals(edge)) {
+            found = true;
+            break;
+          }
+        }
+
+        if (!found) {
+          edges.push(edge.clone());
+        }
+      }
+    }
+  }
+  /**
+   * Compute the normals of the faces.
+   * Will reuse existing Vec3 objects in the `faceNormals` array if they exist.
+   */
+
+
+  computeNormals() {
+    this.faceNormals.length = this.faces.length; // Generate normals
+
+    for (let i = 0; i < this.faces.length; i++) {
+      // Check so all vertices exists for this face
+      for (let j = 0; j < this.faces[i].length; j++) {
+        if (!this.vertices[this.faces[i][j]]) {
+          throw new Error(`Vertex ${this.faces[i][j]} not found!`);
+        }
+      }
+
+      const n = this.faceNormals[i] || new Vec3();
+      this.getFaceNormal(i, n);
+      n.negate(n);
+      this.faceNormals[i] = n;
+      const vertex = this.vertices[this.faces[i][0]];
+
+      if (n.dot(vertex) < 0) {
+        console.error(`.faceNormals[${i}] = Vec3(${n.toString()}) looks like it points into the shape? The vertices follow. Make sure they are ordered CCW around the normal, using the right hand rule.`);
+
+        for (let j = 0; j < this.faces[i].length; j++) {
+          console.warn(`.vertices[${this.faces[i][j]}] = Vec3(${this.vertices[this.faces[i][j]].toString()})`);
+        }
+      }
+    }
+  }
+  /**
+   * Compute the normal of a face from its vertices
+   */
+
+
+  getFaceNormal(i, target) {
+    const f = this.faces[i];
+    const va = this.vertices[f[0]];
+    const vb = this.vertices[f[1]];
+    const vc = this.vertices[f[2]];
+    ConvexPolyhedron.computeNormal(va, vb, vc, target);
+  }
+  /**
+   * Get face normal given 3 vertices
+   */
+
+
+  static computeNormal(va, vb, vc, target) {
+    const cb = new Vec3();
+    const ab = new Vec3();
+    vb.vsub(va, ab);
+    vc.vsub(vb, cb);
+    cb.cross(ab, target);
+
+    if (!target.isZero()) {
+      target.normalize();
+    }
+  }
+  /**
+   * @param minDist Clamp distance
+   * @param result The an array of contact point objects, see clipFaceAgainstHull
+   */
+
+
+  clipAgainstHull(posA, quatA, hullB, posB, quatB, separatingNormal, minDist, maxDist, result) {
+    const WorldNormal = new Vec3();
+    let closestFaceB = -1;
+    let dmax = -Number.MAX_VALUE;
+
+    for (let face = 0; face < hullB.faces.length; face++) {
+      WorldNormal.copy(hullB.faceNormals[face]);
+      quatB.vmult(WorldNormal, WorldNormal);
+      const d = WorldNormal.dot(separatingNormal);
+
+      if (d > dmax) {
+        dmax = d;
+        closestFaceB = face;
+      }
+    }
+
+    const worldVertsB1 = [];
+
+    for (let i = 0; i < hullB.faces[closestFaceB].length; i++) {
+      const b = hullB.vertices[hullB.faces[closestFaceB][i]];
+      const worldb = new Vec3();
+      worldb.copy(b);
+      quatB.vmult(worldb, worldb);
+      posB.vadd(worldb, worldb);
+      worldVertsB1.push(worldb);
+    }
+
+    if (closestFaceB >= 0) {
+      this.clipFaceAgainstHull(separatingNormal, posA, quatA, worldVertsB1, minDist, maxDist, result);
+    }
+  }
+  /**
+   * Find the separating axis between this hull and another
+   * @param target The target vector to save the axis in
+   * @return Returns false if a separation is found, else true
+   */
+
+
+  findSeparatingAxis(hullB, posA, quatA, posB, quatB, target, faceListA, faceListB) {
+    const faceANormalWS3 = new Vec3();
+    const Worldnormal1 = new Vec3();
+    const deltaC = new Vec3();
+    const worldEdge0 = new Vec3();
+    const worldEdge1 = new Vec3();
+    const Cross = new Vec3();
+    let dmin = Number.MAX_VALUE;
+    const hullA = this;
+
+    if (!hullA.uniqueAxes) {
+      const numFacesA = faceListA ? faceListA.length : hullA.faces.length; // Test face normals from hullA
+
+      for (let i = 0; i < numFacesA; i++) {
+        const fi = faceListA ? faceListA[i] : i; // Get world face normal
+
+        faceANormalWS3.copy(hullA.faceNormals[fi]);
+        quatA.vmult(faceANormalWS3, faceANormalWS3);
+        const d = hullA.testSepAxis(faceANormalWS3, hullB, posA, quatA, posB, quatB);
+
+        if (d === false) {
+          return false;
+        }
+
+        if (d < dmin) {
+          dmin = d;
+          target.copy(faceANormalWS3);
+        }
+      }
+    } else {
+      // Test unique axes
+      for (let i = 0; i !== hullA.uniqueAxes.length; i++) {
+        // Get world axis
+        quatA.vmult(hullA.uniqueAxes[i], faceANormalWS3);
+        const d = hullA.testSepAxis(faceANormalWS3, hullB, posA, quatA, posB, quatB);
+
+        if (d === false) {
+          return false;
+        }
+
+        if (d < dmin) {
+          dmin = d;
+          target.copy(faceANormalWS3);
+        }
+      }
+    }
+
+    if (!hullB.uniqueAxes) {
+      // Test face normals from hullB
+      const numFacesB = faceListB ? faceListB.length : hullB.faces.length;
+
+      for (let i = 0; i < numFacesB; i++) {
+        const fi = faceListB ? faceListB[i] : i;
+        Worldnormal1.copy(hullB.faceNormals[fi]);
+        quatB.vmult(Worldnormal1, Worldnormal1);
+        const d = hullA.testSepAxis(Worldnormal1, hullB, posA, quatA, posB, quatB);
+
+        if (d === false) {
+          return false;
+        }
+
+        if (d < dmin) {
+          dmin = d;
+          target.copy(Worldnormal1);
+        }
+      }
+    } else {
+      // Test unique axes in B
+      for (let i = 0; i !== hullB.uniqueAxes.length; i++) {
+        quatB.vmult(hullB.uniqueAxes[i], Worldnormal1);
+        const d = hullA.testSepAxis(Worldnormal1, hullB, posA, quatA, posB, quatB);
+
+        if (d === false) {
+          return false;
+        }
+
+        if (d < dmin) {
+          dmin = d;
+          target.copy(Worldnormal1);
+        }
+      }
+    } // Test edges
+
+
+    for (let e0 = 0; e0 !== hullA.uniqueEdges.length; e0++) {
+      // Get world edge
+      quatA.vmult(hullA.uniqueEdges[e0], worldEdge0);
+
+      for (let e1 = 0; e1 !== hullB.uniqueEdges.length; e1++) {
+        // Get world edge 2
+        quatB.vmult(hullB.uniqueEdges[e1], worldEdge1);
+        worldEdge0.cross(worldEdge1, Cross);
+
+        if (!Cross.almostZero()) {
+          Cross.normalize();
+          const dist = hullA.testSepAxis(Cross, hullB, posA, quatA, posB, quatB);
+
+          if (dist === false) {
+            return false;
+          }
+
+          if (dist < dmin) {
+            dmin = dist;
+            target.copy(Cross);
+          }
+        }
+      }
+    }
+
+    posB.vsub(posA, deltaC);
+
+    if (deltaC.dot(target) > 0.0) {
+      target.negate(target);
+    }
+
+    return true;
+  }
+  /**
+   * Test separating axis against two hulls. Both hulls are projected onto the axis and the overlap size is returned if there is one.
+   * @return The overlap depth, or FALSE if no penetration.
+   */
+
+
+  testSepAxis(axis, hullB, posA, quatA, posB, quatB) {
+    const hullA = this;
+    ConvexPolyhedron.project(hullA, axis, posA, quatA, maxminA);
+    ConvexPolyhedron.project(hullB, axis, posB, quatB, maxminB);
+    const maxA = maxminA[0];
+    const minA = maxminA[1];
+    const maxB = maxminB[0];
+    const minB = maxminB[1];
+
+    if (maxA < minB || maxB < minA) {
+      return false; // Separated
+    }
+
+    const d0 = maxA - minB;
+    const d1 = maxB - minA;
+    const depth = d0 < d1 ? d0 : d1;
+    return depth;
+  }
+  /**
+   * calculateLocalInertia
+   */
+
+
+  calculateLocalInertia(mass, target) {
+    // Approximate with box inertia
+    // Exact inertia calculation is overkill, but see http://geometrictools.com/Documentation/PolyhedralMassProperties.pdf for the correct way to do it
+    const aabbmax = new Vec3();
+    const aabbmin = new Vec3();
+    this.computeLocalAABB(aabbmin, aabbmax);
+    const x = aabbmax.x - aabbmin.x;
+    const y = aabbmax.y - aabbmin.y;
+    const z = aabbmax.z - aabbmin.z;
+    target.x = 1.0 / 12.0 * mass * (2 * y * 2 * y + 2 * z * 2 * z);
+    target.y = 1.0 / 12.0 * mass * (2 * x * 2 * x + 2 * z * 2 * z);
+    target.z = 1.0 / 12.0 * mass * (2 * y * 2 * y + 2 * x * 2 * x);
+  }
+  /**
+   * @param face_i Index of the face
+   */
+
+
+  getPlaneConstantOfFace(face_i) {
+    const f = this.faces[face_i];
+    const n = this.faceNormals[face_i];
+    const v = this.vertices[f[0]];
+    const c = -n.dot(v);
+    return c;
+  }
+  /**
+   * Clip a face against a hull.
+   * @param worldVertsB1 An array of Vec3 with vertices in the world frame.
+   * @param minDist Distance clamping
+   * @param Array result Array to store resulting contact points in. Will be objects with properties: point, depth, normal. These are represented in world coordinates.
+   */
+
+
+  clipFaceAgainstHull(separatingNormal, posA, quatA, worldVertsB1, minDist, maxDist, result) {
+    const faceANormalWS = new Vec3();
+    const edge0 = new Vec3();
+    const WorldEdge0 = new Vec3();
+    const worldPlaneAnormal1 = new Vec3();
+    const planeNormalWS1 = new Vec3();
+    const worldA1 = new Vec3();
+    const localPlaneNormal = new Vec3();
+    const planeNormalWS = new Vec3();
+    const hullA = this;
+    const worldVertsB2 = [];
+    const pVtxIn = worldVertsB1;
+    const pVtxOut = worldVertsB2;
+    let closestFaceA = -1;
+    let dmin = Number.MAX_VALUE; // Find the face with normal closest to the separating axis
+
+    for (let face = 0; face < hullA.faces.length; face++) {
+      faceANormalWS.copy(hullA.faceNormals[face]);
+      quatA.vmult(faceANormalWS, faceANormalWS);
+      const d = faceANormalWS.dot(separatingNormal);
+
+      if (d < dmin) {
+        dmin = d;
+        closestFaceA = face;
+      }
+    }
+
+    if (closestFaceA < 0) {
+      return;
+    } // Get the face and construct connected faces
+
+
+    const polyA = hullA.faces[closestFaceA];
+    polyA.connectedFaces = [];
+
+    for (let i = 0; i < hullA.faces.length; i++) {
+      for (let j = 0; j < hullA.faces[i].length; j++) {
+        if (
+        /* Sharing a vertex*/
+        polyA.indexOf(hullA.faces[i][j]) !== -1 &&
+        /* Not the one we are looking for connections from */
+        i !== closestFaceA &&
+        /* Not already added */
+        polyA.connectedFaces.indexOf(i) === -1) {
+          polyA.connectedFaces.push(i);
+        }
+      }
+    } // Clip the polygon to the back of the planes of all faces of hull A,
+    // that are adjacent to the witness face
+
+
+    const numVerticesA = polyA.length;
+
+    for (let i = 0; i < numVerticesA; i++) {
+      const a = hullA.vertices[polyA[i]];
+      const b = hullA.vertices[polyA[(i + 1) % numVerticesA]];
+      a.vsub(b, edge0);
+      WorldEdge0.copy(edge0);
+      quatA.vmult(WorldEdge0, WorldEdge0);
+      posA.vadd(WorldEdge0, WorldEdge0);
+      worldPlaneAnormal1.copy(this.faceNormals[closestFaceA]);
+      quatA.vmult(worldPlaneAnormal1, worldPlaneAnormal1);
+      posA.vadd(worldPlaneAnormal1, worldPlaneAnormal1);
+      WorldEdge0.cross(worldPlaneAnormal1, planeNormalWS1);
+      planeNormalWS1.negate(planeNormalWS1);
+      worldA1.copy(a);
+      quatA.vmult(worldA1, worldA1);
+      posA.vadd(worldA1, worldA1);
+      const otherFace = polyA.connectedFaces[i];
+      localPlaneNormal.copy(this.faceNormals[otherFace]);
+      const localPlaneEq = this.getPlaneConstantOfFace(otherFace);
+      planeNormalWS.copy(localPlaneNormal);
+      quatA.vmult(planeNormalWS, planeNormalWS);
+      const planeEqWS = localPlaneEq - planeNormalWS.dot(posA); // Clip face against our constructed plane
+
+      this.clipFaceAgainstPlane(pVtxIn, pVtxOut, planeNormalWS, planeEqWS); // Throw away all clipped points, but save the remaining until next clip
+
+      while (pVtxIn.length) {
+        pVtxIn.shift();
+      }
+
+      while (pVtxOut.length) {
+        pVtxIn.push(pVtxOut.shift());
+      }
+    } // only keep contact points that are behind the witness face
+
+
+    localPlaneNormal.copy(this.faceNormals[closestFaceA]);
+    const localPlaneEq = this.getPlaneConstantOfFace(closestFaceA);
+    planeNormalWS.copy(localPlaneNormal);
+    quatA.vmult(planeNormalWS, planeNormalWS);
+    const planeEqWS = localPlaneEq - planeNormalWS.dot(posA);
+
+    for (let i = 0; i < pVtxIn.length; i++) {
+      let depth = planeNormalWS.dot(pVtxIn[i]) + planeEqWS; // ???
+
+      if (depth <= minDist) {
+        console.log(`clamped: depth=${depth} to minDist=${minDist}`);
+        depth = minDist;
+      }
+
+      if (depth <= maxDist) {
+        const point = pVtxIn[i];
+
+        if (depth <= 1e-6) {
+          const p = {
+            point,
+            normal: planeNormalWS,
+            depth
+          };
+          result.push(p);
+        }
+      }
+    }
+  }
+  /**
+   * Clip a face in a hull against the back of a plane.
+   * @param planeConstant The constant in the mathematical plane equation
+   */
+
+
+  clipFaceAgainstPlane(inVertices, outVertices, planeNormal, planeConstant) {
+    let n_dot_first;
+    let n_dot_last;
+    const numVerts = inVertices.length;
+
+    if (numVerts < 2) {
+      return outVertices;
+    }
+
+    let firstVertex = inVertices[inVertices.length - 1];
+    let lastVertex = inVertices[0];
+    n_dot_first = planeNormal.dot(firstVertex) + planeConstant;
+
+    for (let vi = 0; vi < numVerts; vi++) {
+      lastVertex = inVertices[vi];
+      n_dot_last = planeNormal.dot(lastVertex) + planeConstant;
+
+      if (n_dot_first < 0) {
+        if (n_dot_last < 0) {
+          // Start < 0, end < 0, so output lastVertex
+          const newv = new Vec3();
+          newv.copy(lastVertex);
+          outVertices.push(newv);
+        } else {
+          // Start < 0, end >= 0, so output intersection
+          const newv = new Vec3();
+          firstVertex.lerp(lastVertex, n_dot_first / (n_dot_first - n_dot_last), newv);
+          outVertices.push(newv);
+        }
+      } else {
+        if (n_dot_last < 0) {
+          // Start >= 0, end < 0 so output intersection and end
+          const newv = new Vec3();
+          firstVertex.lerp(lastVertex, n_dot_first / (n_dot_first - n_dot_last), newv);
+          outVertices.push(newv);
+          outVertices.push(lastVertex);
+        }
+      }
+
+      firstVertex = lastVertex;
+      n_dot_first = n_dot_last;
+    }
+
+    return outVertices;
+  }
+  /**
+   * Updates `.worldVertices` and sets `.worldVerticesNeedsUpdate` to false.
+   */
+
+
+  computeWorldVertices(position, quat) {
+    while (this.worldVertices.length < this.vertices.length) {
+      this.worldVertices.push(new Vec3());
+    }
+
+    const verts = this.vertices;
+    const worldVerts = this.worldVertices;
+
+    for (let i = 0; i !== this.vertices.length; i++) {
+      quat.vmult(verts[i], worldVerts[i]);
+      position.vadd(worldVerts[i], worldVerts[i]);
+    }
+
+    this.worldVerticesNeedsUpdate = false;
+  }
+
+  computeLocalAABB(aabbmin, aabbmax) {
+    const vertices = this.vertices;
+    aabbmin.set(Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE);
+    aabbmax.set(-Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE);
+
+    for (let i = 0; i < this.vertices.length; i++) {
+      const v = vertices[i];
+
+      if (v.x < aabbmin.x) {
+        aabbmin.x = v.x;
+      } else if (v.x > aabbmax.x) {
+        aabbmax.x = v.x;
+      }
+
+      if (v.y < aabbmin.y) {
+        aabbmin.y = v.y;
+      } else if (v.y > aabbmax.y) {
+        aabbmax.y = v.y;
+      }
+
+      if (v.z < aabbmin.z) {
+        aabbmin.z = v.z;
+      } else if (v.z > aabbmax.z) {
+        aabbmax.z = v.z;
+      }
+    }
+  }
+  /**
+   * Updates `worldVertices` and sets `worldVerticesNeedsUpdate` to false.
+   */
+
+
+  computeWorldFaceNormals(quat) {
+    const N = this.faceNormals.length;
+
+    while (this.worldFaceNormals.length < N) {
+      this.worldFaceNormals.push(new Vec3());
+    }
+
+    const normals = this.faceNormals;
+    const worldNormals = this.worldFaceNormals;
+
+    for (let i = 0; i !== N; i++) {
+      quat.vmult(normals[i], worldNormals[i]);
+    }
+
+    this.worldFaceNormalsNeedsUpdate = false;
+  }
+  /**
+   * updateBoundingSphereRadius
+   */
+
+
+  updateBoundingSphereRadius() {
+    // Assume points are distributed with local (0,0,0) as center
+    let max2 = 0;
+    const verts = this.vertices;
+
+    for (let i = 0; i !== verts.length; i++) {
+      const norm2 = verts[i].lengthSquared();
+
+      if (norm2 > max2) {
+        max2 = norm2;
+      }
+    }
+
+    this.boundingSphereRadius = Math.sqrt(max2);
+  }
+  /**
+   * calculateWorldAABB
+   */
+
+
+  calculateWorldAABB(pos, quat, min, max) {
+    const verts = this.vertices;
+    let minx;
+    let miny;
+    let minz;
+    let maxx;
+    let maxy;
+    let maxz;
+    let tempWorldVertex = new Vec3();
+
+    for (let i = 0; i < verts.length; i++) {
+      tempWorldVertex.copy(verts[i]);
+      quat.vmult(tempWorldVertex, tempWorldVertex);
+      pos.vadd(tempWorldVertex, tempWorldVertex);
+      const v = tempWorldVertex;
+
+      if (minx === undefined || v.x < minx) {
+        minx = v.x;
+      }
+
+      if (maxx === undefined || v.x > maxx) {
+        maxx = v.x;
+      }
+
+      if (miny === undefined || v.y < miny) {
+        miny = v.y;
+      }
+
+      if (maxy === undefined || v.y > maxy) {
+        maxy = v.y;
+      }
+
+      if (minz === undefined || v.z < minz) {
+        minz = v.z;
+      }
+
+      if (maxz === undefined || v.z > maxz) {
+        maxz = v.z;
+      }
+    }
+
+    min.set(minx, miny, minz);
+    max.set(maxx, maxy, maxz);
+  }
+  /**
+   * Get approximate convex volume
+   */
+
+
+  volume() {
+    return 4.0 * Math.PI * this.boundingSphereRadius / 3.0;
+  }
+  /**
+   * Get an average of all the vertices positions
+   */
+
+
+  getAveragePointLocal(target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    const verts = this.vertices;
+
+    for (let i = 0; i < verts.length; i++) {
+      target.vadd(verts[i], target);
+    }
+
+    target.scale(1 / verts.length, target);
+    return target;
+  }
+  /**
+   * Transform all local points. Will change the .vertices
+   */
+
+
+  transformAllPoints(offset, quat) {
+    const n = this.vertices.length;
+    const verts = this.vertices; // Apply rotation
+
+    if (quat) {
+      // Rotate vertices
+      for (let i = 0; i < n; i++) {
+        const v = verts[i];
+        quat.vmult(v, v);
+      } // Rotate face normals
+
+
+      for (let i = 0; i < this.faceNormals.length; i++) {
+        const v = this.faceNormals[i];
+        quat.vmult(v, v);
+      }
+      /*
+            // Rotate edges
+            for(let i=0; i<this.uniqueEdges.length; i++){
+                const v = this.uniqueEdges[i];
+                quat.vmult(v,v);
+            }*/
+
+    } // Apply offset
+
+
+    if (offset) {
+      for (let i = 0; i < n; i++) {
+        const v = verts[i];
+        v.vadd(offset, v);
+      }
+    }
+  }
+  /**
+   * Checks whether p is inside the polyhedra. Must be in local coords.
+   * The point lies outside of the convex hull of the other points if and only if the direction
+   * of all the vectors from it to those other points are on less than one half of a sphere around it.
+   * @param p A point given in local coordinates
+   */
+
+
+  pointIsInside(p) {
+    const verts = this.vertices;
+    const faces = this.faces;
+    const normals = this.faceNormals;
+    const positiveResult = null;
+    const pointInside = new Vec3();
+    this.getAveragePointLocal(pointInside);
+
+    for (let i = 0; i < this.faces.length; i++) {
+      let n = normals[i];
+      const v = verts[faces[i][0]]; // We only need one point in the face
+      // This dot product determines which side of the edge the point is
+
+      const vToP = new Vec3();
+      p.vsub(v, vToP);
+      const r1 = n.dot(vToP);
+      const vToPointInside = new Vec3();
+      pointInside.vsub(v, vToPointInside);
+      const r2 = n.dot(vToPointInside);
+
+      if (r1 < 0 && r2 > 0 || r1 > 0 && r2 < 0) {
+        return false; // Encountered some other sign. Exit.
+      }
+    } // If we got here, all dot products were of the same sign.
+
+
+    return positiveResult ? 1 : -1;
+  }
+  /**
+   * Get max and min dot product of a convex hull at position (pos,quat) projected onto an axis.
+   * Results are saved in the array maxmin.
+   * @param result result[0] and result[1] will be set to maximum and minimum, respectively.
+   */
+
+
+  static project(shape, axis, pos, quat, result) {
+    const n = shape.vertices.length;
+    project_worldVertex;
+    const localAxis = project_localAxis;
+    let max = 0;
+    let min = 0;
+    const localOrigin = project_localOrigin;
+    const vs = shape.vertices;
+    localOrigin.setZero(); // Transform the axis to local
+
+    Transform.vectorToLocalFrame(pos, quat, axis, localAxis);
+    Transform.pointToLocalFrame(pos, quat, localOrigin, localOrigin);
+    const add = localOrigin.dot(localAxis);
+    min = max = vs[0].dot(localAxis);
+
+    for (let i = 1; i < n; i++) {
+      const val = vs[i].dot(localAxis);
+
+      if (val > max) {
+        max = val;
+      }
+
+      if (val < min) {
+        min = val;
+      }
+    }
+
+    min -= add;
+    max -= add;
+
+    if (min > max) {
+      // Inconsistent - swap
+      const temp = min;
+      min = max;
+      max = temp;
+    } // Output
+
+
+    result[0] = max;
+    result[1] = min;
+  }
+
+}
+const maxminA = [];
+const maxminB = [];
+const project_worldVertex = new Vec3();
+const project_localAxis = new Vec3();
+const project_localOrigin = new Vec3();
+
+/**
+ * A 3d box shape.
+ * @example
+ *     const size = 1
+ *     const halfExtents = new CANNON.Vec3(size, size, size)
+ *     const boxShape = new CANNON.Box(halfExtents)
+ *     const boxBody = new CANNON.Body({ mass: 1, shape: boxShape })
+ *     world.addBody(boxBody)
+ */
+class Box extends Shape {
+  /**
+   * The half extents of the box.
+   */
+
+  /**
+   * Used by the contact generator to make contacts with other convex polyhedra for example.
+   */
+  constructor(halfExtents) {
+    super({
+      type: Shape.types.BOX
+    });
+    this.halfExtents = halfExtents;
+    this.convexPolyhedronRepresentation = null;
+    this.updateConvexPolyhedronRepresentation();
+    this.updateBoundingSphereRadius();
+  }
+  /**
+   * Updates the local convex polyhedron representation used for some collisions.
+   */
+
+
+  updateConvexPolyhedronRepresentation() {
+    const sx = this.halfExtents.x;
+    const sy = this.halfExtents.y;
+    const sz = this.halfExtents.z;
+    const V = Vec3;
+    const vertices = [new V(-sx, -sy, -sz), new V(sx, -sy, -sz), new V(sx, sy, -sz), new V(-sx, sy, -sz), new V(-sx, -sy, sz), new V(sx, -sy, sz), new V(sx, sy, sz), new V(-sx, sy, sz)];
+    const faces = [[3, 2, 1, 0], // -z
+    [4, 5, 6, 7], // +z
+    [5, 4, 0, 1], // -y
+    [2, 3, 7, 6], // +y
+    [0, 4, 7, 3], // -x
+    [1, 2, 6, 5] // +x
+    ];
+    const axes = [new V(0, 0, 1), new V(0, 1, 0), new V(1, 0, 0)];
+    const h = new ConvexPolyhedron({
+      vertices,
+      faces,
+      axes
+    });
+    this.convexPolyhedronRepresentation = h;
+    h.material = this.material;
+  }
+  /**
+   * Calculate the inertia of the box.
+   */
+
+
+  calculateLocalInertia(mass, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    Box.calculateInertia(this.halfExtents, mass, target);
+    return target;
+  }
+
+  static calculateInertia(halfExtents, mass, target) {
+    const e = halfExtents;
+    target.x = 1.0 / 12.0 * mass * (2 * e.y * 2 * e.y + 2 * e.z * 2 * e.z);
+    target.y = 1.0 / 12.0 * mass * (2 * e.x * 2 * e.x + 2 * e.z * 2 * e.z);
+    target.z = 1.0 / 12.0 * mass * (2 * e.y * 2 * e.y + 2 * e.x * 2 * e.x);
+  }
+  /**
+   * Get the box 6 side normals
+   * @param sixTargetVectors An array of 6 vectors, to store the resulting side normals in.
+   * @param quat Orientation to apply to the normal vectors. If not provided, the vectors will be in respect to the local frame.
+   */
+
+
+  getSideNormals(sixTargetVectors, quat) {
+    const sides = sixTargetVectors;
+    const ex = this.halfExtents;
+    sides[0].set(ex.x, 0, 0);
+    sides[1].set(0, ex.y, 0);
+    sides[2].set(0, 0, ex.z);
+    sides[3].set(-ex.x, 0, 0);
+    sides[4].set(0, -ex.y, 0);
+    sides[5].set(0, 0, -ex.z);
+
+    if (quat !== undefined) {
+      for (let i = 0; i !== sides.length; i++) {
+        quat.vmult(sides[i], sides[i]);
+      }
+    }
+
+    return sides;
+  }
+  /**
+   * Returns the volume of the box.
+   */
+
+
+  volume() {
+    return 8.0 * this.halfExtents.x * this.halfExtents.y * this.halfExtents.z;
+  }
+  /**
+   * updateBoundingSphereRadius
+   */
+
+
+  updateBoundingSphereRadius() {
+    this.boundingSphereRadius = this.halfExtents.length();
+  }
+  /**
+   * forEachWorldCorner
+   */
+
+
+  forEachWorldCorner(pos, quat, callback) {
+    const e = this.halfExtents;
+    const corners = [[e.x, e.y, e.z], [-e.x, e.y, e.z], [-e.x, -e.y, e.z], [-e.x, -e.y, -e.z], [e.x, -e.y, -e.z], [e.x, e.y, -e.z], [-e.x, e.y, -e.z], [e.x, -e.y, e.z]];
+
+    for (let i = 0; i < corners.length; i++) {
+      worldCornerTempPos.set(corners[i][0], corners[i][1], corners[i][2]);
+      quat.vmult(worldCornerTempPos, worldCornerTempPos);
+      pos.vadd(worldCornerTempPos, worldCornerTempPos);
+      callback(worldCornerTempPos.x, worldCornerTempPos.y, worldCornerTempPos.z);
+    }
+  }
+  /**
+   * calculateWorldAABB
+   */
+
+
+  calculateWorldAABB(pos, quat, min, max) {
+    const e = this.halfExtents;
+    worldCornersTemp[0].set(e.x, e.y, e.z);
+    worldCornersTemp[1].set(-e.x, e.y, e.z);
+    worldCornersTemp[2].set(-e.x, -e.y, e.z);
+    worldCornersTemp[3].set(-e.x, -e.y, -e.z);
+    worldCornersTemp[4].set(e.x, -e.y, -e.z);
+    worldCornersTemp[5].set(e.x, e.y, -e.z);
+    worldCornersTemp[6].set(-e.x, e.y, -e.z);
+    worldCornersTemp[7].set(e.x, -e.y, e.z);
+    const wc = worldCornersTemp[0];
+    quat.vmult(wc, wc);
+    pos.vadd(wc, wc);
+    max.copy(wc);
+    min.copy(wc);
+
+    for (let i = 1; i < 8; i++) {
+      const wc = worldCornersTemp[i];
+      quat.vmult(wc, wc);
+      pos.vadd(wc, wc);
+      const x = wc.x;
+      const y = wc.y;
+      const z = wc.z;
+
+      if (x > max.x) {
+        max.x = x;
+      }
+
+      if (y > max.y) {
+        max.y = y;
+      }
+
+      if (z > max.z) {
+        max.z = z;
+      }
+
+      if (x < min.x) {
+        min.x = x;
+      }
+
+      if (y < min.y) {
+        min.y = y;
+      }
+
+      if (z < min.z) {
+        min.z = z;
+      }
+    } // Get each axis max
+    // min.set(Infinity,Infinity,Infinity);
+    // max.set(-Infinity,-Infinity,-Infinity);
+    // this.forEachWorldCorner(pos,quat,function(x,y,z){
+    //     if(x > max.x){
+    //         max.x = x;
+    //     }
+    //     if(y > max.y){
+    //         max.y = y;
+    //     }
+    //     if(z > max.z){
+    //         max.z = z;
+    //     }
+    //     if(x < min.x){
+    //         min.x = x;
+    //     }
+    //     if(y < min.y){
+    //         min.y = y;
+    //     }
+    //     if(z < min.z){
+    //         min.z = z;
+    //     }
+    // });
+
+  }
+
+}
+const worldCornerTempPos = new Vec3();
+const worldCornersTemp = [new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3()];
+
+/**
+ * BODY_TYPES
+ */
+const BODY_TYPES = {
+  /** DYNAMIC */
+  DYNAMIC: 1,
+
+  /** STATIC */
+  STATIC: 2,
+
+  /** KINEMATIC */
+  KINEMATIC: 4
+};
+/**
+ * BodyType
+ */
+
+/**
+ * BODY_SLEEP_STATES
+ */
+const BODY_SLEEP_STATES = {
+  /** AWAKE */
+  AWAKE: 0,
+
+  /** SLEEPY */
+  SLEEPY: 1,
+
+  /** SLEEPING */
+  SLEEPING: 2
+};
+/**
+ * BodySleepState
+ */
+
+/**
+ * Base class for all body types.
+ * @example
+ *     const shape = new CANNON.Sphere(1)
+ *     const body = new CANNON.Body({
+ *       mass: 1,
+ *       shape,
+ *     })
+ *     world.addBody(body)
+ */
+class Body extends EventTarget {
+  /**
+   * Dispatched after two bodies collide. This event is dispatched on each
+   * of the two bodies involved in the collision.
+   * @event collide
+   * @param body The body that was involved in the collision.
+   * @param contact The details of the collision.
+   */
+
+  /**
+   * A dynamic body is fully simulated. Can be moved manually by the user, but normally they move according to forces. A dynamic body can collide with all body types. A dynamic body always has finite, non-zero mass.
+   */
+
+  /**
+   * A static body does not move during simulation and behaves as if it has infinite mass. Static bodies can be moved manually by setting the position of the body. The velocity of a static body is always zero. Static bodies do not collide with other static or kinematic bodies.
+   */
+
+  /**
+   * A kinematic body moves under simulation according to its velocity. They do not respond to forces. They can be moved manually, but normally a kinematic body is moved by setting its velocity. A kinematic body behaves as if it has infinite mass. Kinematic bodies do not collide with other static or kinematic bodies.
+   */
+
+  /**
+   * AWAKE
+   */
+
+  /**
+   * SLEEPY
+   */
+
+  /**
+   * SLEEPING
+   */
+
+  /**
+   * Dispatched after a sleeping body has woken up.
+   * @event wakeup
+   */
+
+  /**
+   * Dispatched after a body has gone in to the sleepy state.
+   * @event sleepy
+   */
+
+  /**
+   * Dispatched after a body has fallen asleep.
+   * @event sleep
+   */
+  constructor(options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    super();
+    this.id = Body.idCounter++;
+    this.index = -1;
+    this.world = null;
+    this.vlambda = new Vec3();
+    this.collisionFilterGroup = typeof options.collisionFilterGroup === 'number' ? options.collisionFilterGroup : 1;
+    this.collisionFilterMask = typeof options.collisionFilterMask === 'number' ? options.collisionFilterMask : -1;
+    this.collisionResponse = typeof options.collisionResponse === 'boolean' ? options.collisionResponse : true;
+    this.position = new Vec3();
+    this.previousPosition = new Vec3();
+    this.interpolatedPosition = new Vec3();
+    this.initPosition = new Vec3();
+
+    if (options.position) {
+      this.position.copy(options.position);
+      this.previousPosition.copy(options.position);
+      this.interpolatedPosition.copy(options.position);
+      this.initPosition.copy(options.position);
+    }
+
+    this.velocity = new Vec3();
+
+    if (options.velocity) {
+      this.velocity.copy(options.velocity);
+    }
+
+    this.initVelocity = new Vec3();
+    this.force = new Vec3();
+    const mass = typeof options.mass === 'number' ? options.mass : 0;
+    this.mass = mass;
+    this.invMass = mass > 0 ? 1.0 / mass : 0;
+    this.material = options.material || null;
+    this.linearDamping = typeof options.linearDamping === 'number' ? options.linearDamping : 0.01;
+    this.type = mass <= 0.0 ? Body.STATIC : Body.DYNAMIC;
+
+    if (typeof options.type === typeof Body.STATIC) {
+      this.type = options.type;
+    }
+
+    this.allowSleep = typeof options.allowSleep !== 'undefined' ? options.allowSleep : true;
+    this.sleepState = Body.AWAKE;
+    this.sleepSpeedLimit = typeof options.sleepSpeedLimit !== 'undefined' ? options.sleepSpeedLimit : 0.1;
+    this.sleepTimeLimit = typeof options.sleepTimeLimit !== 'undefined' ? options.sleepTimeLimit : 1;
+    this.timeLastSleepy = 0;
+    this.wakeUpAfterNarrowphase = false;
+    this.torque = new Vec3();
+    this.quaternion = new Quaternion();
+    this.initQuaternion = new Quaternion();
+    this.previousQuaternion = new Quaternion();
+    this.interpolatedQuaternion = new Quaternion();
+
+    if (options.quaternion) {
+      this.quaternion.copy(options.quaternion);
+      this.initQuaternion.copy(options.quaternion);
+      this.previousQuaternion.copy(options.quaternion);
+      this.interpolatedQuaternion.copy(options.quaternion);
+    }
+
+    this.angularVelocity = new Vec3();
+
+    if (options.angularVelocity) {
+      this.angularVelocity.copy(options.angularVelocity);
+    }
+
+    this.initAngularVelocity = new Vec3();
+    this.shapes = [];
+    this.shapeOffsets = [];
+    this.shapeOrientations = [];
+    this.inertia = new Vec3();
+    this.invInertia = new Vec3();
+    this.invInertiaWorld = new Mat3();
+    this.invMassSolve = 0;
+    this.invInertiaSolve = new Vec3();
+    this.invInertiaWorldSolve = new Mat3();
+    this.fixedRotation = typeof options.fixedRotation !== 'undefined' ? options.fixedRotation : false;
+    this.angularDamping = typeof options.angularDamping !== 'undefined' ? options.angularDamping : 0.01;
+    this.linearFactor = new Vec3(1, 1, 1);
+
+    if (options.linearFactor) {
+      this.linearFactor.copy(options.linearFactor);
+    }
+
+    this.angularFactor = new Vec3(1, 1, 1);
+
+    if (options.angularFactor) {
+      this.angularFactor.copy(options.angularFactor);
+    }
+
+    this.aabb = new AABB();
+    this.aabbNeedsUpdate = true;
+    this.boundingRadius = 0;
+    this.wlambda = new Vec3();
+    this.isTrigger = Boolean(options.isTrigger);
+
+    if (options.shape) {
+      this.addShape(options.shape);
+    }
+
+    this.updateMassProperties();
+  }
+  /**
+   * Wake the body up.
+   */
+
+
+  wakeUp() {
+    const prevState = this.sleepState;
+    this.sleepState = Body.AWAKE;
+    this.wakeUpAfterNarrowphase = false;
+
+    if (prevState === Body.SLEEPING) {
+      this.dispatchEvent(Body.wakeupEvent);
+    }
+  }
+  /**
+   * Force body sleep
+   */
+
+
+  sleep() {
+    this.sleepState = Body.SLEEPING;
+    this.velocity.set(0, 0, 0);
+    this.angularVelocity.set(0, 0, 0);
+    this.wakeUpAfterNarrowphase = false;
+  }
+  /**
+   * Called every timestep to update internal sleep timer and change sleep state if needed.
+   * @param time The world time in seconds
+   */
+
+
+  sleepTick(time) {
+    if (this.allowSleep) {
+      const sleepState = this.sleepState;
+      const speedSquared = this.velocity.lengthSquared() + this.angularVelocity.lengthSquared();
+      const speedLimitSquared = this.sleepSpeedLimit ** 2;
+
+      if (sleepState === Body.AWAKE && speedSquared < speedLimitSquared) {
+        this.sleepState = Body.SLEEPY; // Sleepy
+
+        this.timeLastSleepy = time;
+        this.dispatchEvent(Body.sleepyEvent);
+      } else if (sleepState === Body.SLEEPY && speedSquared > speedLimitSquared) {
+        this.wakeUp(); // Wake up
+      } else if (sleepState === Body.SLEEPY && time - this.timeLastSleepy > this.sleepTimeLimit) {
+        this.sleep(); // Sleeping
+
+        this.dispatchEvent(Body.sleepEvent);
+      }
+    }
+  }
+  /**
+   * If the body is sleeping, it should be immovable / have infinite mass during solve. We solve it by having a separate "solve mass".
+   */
+
+
+  updateSolveMassProperties() {
+    if (this.sleepState === Body.SLEEPING || this.type === Body.KINEMATIC) {
+      this.invMassSolve = 0;
+      this.invInertiaSolve.setZero();
+      this.invInertiaWorldSolve.setZero();
+    } else {
+      this.invMassSolve = this.invMass;
+      this.invInertiaSolve.copy(this.invInertia);
+      this.invInertiaWorldSolve.copy(this.invInertiaWorld);
+    }
+  }
+  /**
+   * Convert a world point to local body frame.
+   */
+
+
+  pointToLocalFrame(worldPoint, result) {
+    if (result === void 0) {
+      result = new Vec3();
+    }
+
+    worldPoint.vsub(this.position, result);
+    this.quaternion.conjugate().vmult(result, result);
+    return result;
+  }
+  /**
+   * Convert a world vector to local body frame.
+   */
+
+
+  vectorToLocalFrame(worldVector, result) {
+    if (result === void 0) {
+      result = new Vec3();
+    }
+
+    this.quaternion.conjugate().vmult(worldVector, result);
+    return result;
+  }
+  /**
+   * Convert a local body point to world frame.
+   */
+
+
+  pointToWorldFrame(localPoint, result) {
+    if (result === void 0) {
+      result = new Vec3();
+    }
+
+    this.quaternion.vmult(localPoint, result);
+    result.vadd(this.position, result);
+    return result;
+  }
+  /**
+   * Convert a local body point to world frame.
+   */
+
+
+  vectorToWorldFrame(localVector, result) {
+    if (result === void 0) {
+      result = new Vec3();
+    }
+
+    this.quaternion.vmult(localVector, result);
+    return result;
+  }
+  /**
+   * Add a shape to the body with a local offset and orientation.
+   * @return The body object, for chainability.
+   */
+
+
+  addShape(shape, _offset, _orientation) {
+    const offset = new Vec3();
+    const orientation = new Quaternion();
+
+    if (_offset) {
+      offset.copy(_offset);
+    }
+
+    if (_orientation) {
+      orientation.copy(_orientation);
+    }
+
+    this.shapes.push(shape);
+    this.shapeOffsets.push(offset);
+    this.shapeOrientations.push(orientation);
+    this.updateMassProperties();
+    this.updateBoundingRadius();
+    this.aabbNeedsUpdate = true;
+    shape.body = this;
+    return this;
+  }
+  /**
+   * Remove a shape from the body.
+   * @return The body object, for chainability.
+   */
+
+
+  removeShape(shape) {
+    const index = this.shapes.indexOf(shape);
+
+    if (index === -1) {
+      console.warn('Shape does not belong to the body');
+      return this;
+    }
+
+    this.shapes.splice(index, 1);
+    this.shapeOffsets.splice(index, 1);
+    this.shapeOrientations.splice(index, 1);
+    this.updateMassProperties();
+    this.updateBoundingRadius();
+    this.aabbNeedsUpdate = true;
+    shape.body = null;
+    return this;
+  }
+  /**
+   * Update the bounding radius of the body. Should be done if any of the shapes are changed.
+   */
+
+
+  updateBoundingRadius() {
+    const shapes = this.shapes;
+    const shapeOffsets = this.shapeOffsets;
+    const N = shapes.length;
+    let radius = 0;
+
+    for (let i = 0; i !== N; i++) {
+      const shape = shapes[i];
+      shape.updateBoundingSphereRadius();
+      const offset = shapeOffsets[i].length();
+      const r = shape.boundingSphereRadius;
+
+      if (offset + r > radius) {
+        radius = offset + r;
+      }
+    }
+
+    this.boundingRadius = radius;
+  }
+  /**
+   * Updates the .aabb
+   */
+
+
+  updateAABB() {
+    const shapes = this.shapes;
+    const shapeOffsets = this.shapeOffsets;
+    const shapeOrientations = this.shapeOrientations;
+    const N = shapes.length;
+    const offset = tmpVec;
+    const orientation = tmpQuat;
+    const bodyQuat = this.quaternion;
+    const aabb = this.aabb;
+    const shapeAABB = updateAABB_shapeAABB;
+
+    for (let i = 0; i !== N; i++) {
+      const shape = shapes[i]; // Get shape world position
+
+      bodyQuat.vmult(shapeOffsets[i], offset);
+      offset.vadd(this.position, offset); // Get shape world quaternion
+
+      bodyQuat.mult(shapeOrientations[i], orientation); // Get shape AABB
+
+      shape.calculateWorldAABB(offset, orientation, shapeAABB.lowerBound, shapeAABB.upperBound);
+
+      if (i === 0) {
+        aabb.copy(shapeAABB);
+      } else {
+        aabb.extend(shapeAABB);
+      }
+    }
+
+    this.aabbNeedsUpdate = false;
+  }
+  /**
+   * Update `.inertiaWorld` and `.invInertiaWorld`
+   */
+
+
+  updateInertiaWorld(force) {
+    const I = this.invInertia;
+
+    if (I.x === I.y && I.y === I.z && !force) ; else {
+      const m1 = uiw_m1;
+      const m2 = uiw_m2;
+      uiw_m3;
+      m1.setRotationFromQuaternion(this.quaternion);
+      m1.transpose(m2);
+      m1.scale(I, m1);
+      m1.mmult(m2, this.invInertiaWorld);
+    }
+  }
+  /**
+   * Apply force to a point of the body. This could for example be a point on the Body surface.
+   * Applying force this way will add to Body.force and Body.torque.
+   * @param force The amount of force to add.
+   * @param relativePoint A point relative to the center of mass to apply the force on.
+   */
+
+
+  applyForce(force, relativePoint) {
+    if (relativePoint === void 0) {
+      relativePoint = new Vec3();
+    }
+
+    // Needed?
+    if (this.type !== Body.DYNAMIC) {
+      return;
+    }
+
+    if (this.sleepState === Body.SLEEPING) {
+      this.wakeUp();
+    } // Compute produced rotational force
+
+
+    const rotForce = Body_applyForce_rotForce;
+    relativePoint.cross(force, rotForce); // Add linear force
+
+    this.force.vadd(force, this.force); // Add rotational force
+
+    this.torque.vadd(rotForce, this.torque);
+  }
+  /**
+   * Apply force to a local point in the body.
+   * @param force The force vector to apply, defined locally in the body frame.
+   * @param localPoint A local point in the body to apply the force on.
+   */
+
+
+  applyLocalForce(localForce, localPoint) {
+    if (localPoint === void 0) {
+      localPoint = new Vec3();
+    }
+
+    if (this.type !== Body.DYNAMIC) {
+      return;
+    }
+
+    const worldForce = Body_applyLocalForce_worldForce;
+    const relativePointWorld = Body_applyLocalForce_relativePointWorld; // Transform the force vector to world space
+
+    this.vectorToWorldFrame(localForce, worldForce);
+    this.vectorToWorldFrame(localPoint, relativePointWorld);
+    this.applyForce(worldForce, relativePointWorld);
+  }
+  /**
+   * Apply torque to the body.
+   * @param torque The amount of torque to add.
+   */
+
+
+  applyTorque(torque) {
+    if (this.type !== Body.DYNAMIC) {
+      return;
+    }
+
+    if (this.sleepState === Body.SLEEPING) {
+      this.wakeUp();
+    } // Add rotational force
+
+
+    this.torque.vadd(torque, this.torque);
+  }
+  /**
+   * Apply impulse to a point of the body. This could for example be a point on the Body surface.
+   * An impulse is a force added to a body during a short period of time (impulse = force * time).
+   * Impulses will be added to Body.velocity and Body.angularVelocity.
+   * @param impulse The amount of impulse to add.
+   * @param relativePoint A point relative to the center of mass to apply the force on.
+   */
+
+
+  applyImpulse(impulse, relativePoint) {
+    if (relativePoint === void 0) {
+      relativePoint = new Vec3();
+    }
+
+    if (this.type !== Body.DYNAMIC) {
+      return;
+    }
+
+    if (this.sleepState === Body.SLEEPING) {
+      this.wakeUp();
+    } // Compute point position relative to the body center
+
+
+    const r = relativePoint; // Compute produced central impulse velocity
+
+    const velo = Body_applyImpulse_velo;
+    velo.copy(impulse);
+    velo.scale(this.invMass, velo); // Add linear impulse
+
+    this.velocity.vadd(velo, this.velocity); // Compute produced rotational impulse velocity
+
+    const rotVelo = Body_applyImpulse_rotVelo;
+    r.cross(impulse, rotVelo);
+    /*
+     rotVelo.x *= this.invInertia.x;
+     rotVelo.y *= this.invInertia.y;
+     rotVelo.z *= this.invInertia.z;
+     */
+
+    this.invInertiaWorld.vmult(rotVelo, rotVelo); // Add rotational Impulse
+
+    this.angularVelocity.vadd(rotVelo, this.angularVelocity);
+  }
+  /**
+   * Apply locally-defined impulse to a local point in the body.
+   * @param force The force vector to apply, defined locally in the body frame.
+   * @param localPoint A local point in the body to apply the force on.
+   */
+
+
+  applyLocalImpulse(localImpulse, localPoint) {
+    if (localPoint === void 0) {
+      localPoint = new Vec3();
+    }
+
+    if (this.type !== Body.DYNAMIC) {
+      return;
+    }
+
+    const worldImpulse = Body_applyLocalImpulse_worldImpulse;
+    const relativePointWorld = Body_applyLocalImpulse_relativePoint; // Transform the force vector to world space
+
+    this.vectorToWorldFrame(localImpulse, worldImpulse);
+    this.vectorToWorldFrame(localPoint, relativePointWorld);
+    this.applyImpulse(worldImpulse, relativePointWorld);
+  }
+  /**
+   * Should be called whenever you change the body shape or mass.
+   */
+
+
+  updateMassProperties() {
+    const halfExtents = Body_updateMassProperties_halfExtents;
+    this.invMass = this.mass > 0 ? 1.0 / this.mass : 0;
+    const I = this.inertia;
+    const fixed = this.fixedRotation; // Approximate with AABB box
+
+    this.updateAABB();
+    halfExtents.set((this.aabb.upperBound.x - this.aabb.lowerBound.x) / 2, (this.aabb.upperBound.y - this.aabb.lowerBound.y) / 2, (this.aabb.upperBound.z - this.aabb.lowerBound.z) / 2);
+    Box.calculateInertia(halfExtents, this.mass, I);
+    this.invInertia.set(I.x > 0 && !fixed ? 1.0 / I.x : 0, I.y > 0 && !fixed ? 1.0 / I.y : 0, I.z > 0 && !fixed ? 1.0 / I.z : 0);
+    this.updateInertiaWorld(true);
+  }
+  /**
+   * Get world velocity of a point in the body.
+   * @param worldPoint
+   * @param result
+   * @return The result vector.
+   */
+
+
+  getVelocityAtWorldPoint(worldPoint, result) {
+    const r = new Vec3();
+    worldPoint.vsub(this.position, r);
+    this.angularVelocity.cross(r, result);
+    this.velocity.vadd(result, result);
+    return result;
+  }
+  /**
+   * Move the body forward in time.
+   * @param dt Time step
+   * @param quatNormalize Set to true to normalize the body quaternion
+   * @param quatNormalizeFast If the quaternion should be normalized using "fast" quaternion normalization
+   */
+
+
+  integrate(dt, quatNormalize, quatNormalizeFast) {
+    // Save previous position
+    this.previousPosition.copy(this.position);
+    this.previousQuaternion.copy(this.quaternion);
+
+    if (!(this.type === Body.DYNAMIC || this.type === Body.KINEMATIC) || this.sleepState === Body.SLEEPING) {
+      // Only for dynamic
+      return;
+    }
+
+    const velo = this.velocity;
+    const angularVelo = this.angularVelocity;
+    const pos = this.position;
+    const force = this.force;
+    const torque = this.torque;
+    const quat = this.quaternion;
+    const invMass = this.invMass;
+    const invInertia = this.invInertiaWorld;
+    const linearFactor = this.linearFactor;
+    const iMdt = invMass * dt;
+    velo.x += force.x * iMdt * linearFactor.x;
+    velo.y += force.y * iMdt * linearFactor.y;
+    velo.z += force.z * iMdt * linearFactor.z;
+    const e = invInertia.elements;
+    const angularFactor = this.angularFactor;
+    const tx = torque.x * angularFactor.x;
+    const ty = torque.y * angularFactor.y;
+    const tz = torque.z * angularFactor.z;
+    angularVelo.x += dt * (e[0] * tx + e[1] * ty + e[2] * tz);
+    angularVelo.y += dt * (e[3] * tx + e[4] * ty + e[5] * tz);
+    angularVelo.z += dt * (e[6] * tx + e[7] * ty + e[8] * tz); // Use new velocity  - leap frog
+
+    pos.x += velo.x * dt;
+    pos.y += velo.y * dt;
+    pos.z += velo.z * dt;
+    quat.integrate(this.angularVelocity, dt, this.angularFactor, quat);
+
+    if (quatNormalize) {
+      if (quatNormalizeFast) {
+        quat.normalizeFast();
+      } else {
+        quat.normalize();
+      }
+    }
+
+    this.aabbNeedsUpdate = true; // Update world inertia
+
+    this.updateInertiaWorld();
+  }
+
+}
+Body.idCounter = 0;
+Body.COLLIDE_EVENT_NAME = 'collide';
+Body.DYNAMIC = BODY_TYPES.DYNAMIC;
+Body.STATIC = BODY_TYPES.STATIC;
+Body.KINEMATIC = BODY_TYPES.KINEMATIC;
+Body.AWAKE = BODY_SLEEP_STATES.AWAKE;
+Body.SLEEPY = BODY_SLEEP_STATES.SLEEPY;
+Body.SLEEPING = BODY_SLEEP_STATES.SLEEPING;
+Body.wakeupEvent = {
+  type: 'wakeup'
+};
+Body.sleepyEvent = {
+  type: 'sleepy'
+};
+Body.sleepEvent = {
+  type: 'sleep'
+};
+const tmpVec = new Vec3();
+const tmpQuat = new Quaternion();
+const updateAABB_shapeAABB = new AABB();
+const uiw_m1 = new Mat3();
+const uiw_m2 = new Mat3();
+const uiw_m3 = new Mat3();
+const Body_applyForce_rotForce = new Vec3();
+const Body_applyLocalForce_worldForce = new Vec3();
+const Body_applyLocalForce_relativePointWorld = new Vec3();
+const Body_applyImpulse_velo = new Vec3();
+const Body_applyImpulse_rotVelo = new Vec3();
+const Body_applyLocalImpulse_worldImpulse = new Vec3();
+const Body_applyLocalImpulse_relativePoint = new Vec3();
+const Body_updateMassProperties_halfExtents = new Vec3();
+
+/**
+ * Base class for broadphase implementations
+ * @author schteppe
+ */
+class Broadphase {
+  /**
+   * The world to search for collisions in.
+   */
+
+  /**
+   * If set to true, the broadphase uses bounding boxes for intersection tests, else it uses bounding spheres.
+   */
+
+  /**
+   * Set to true if the objects in the world moved.
+   */
+  constructor() {
+    this.world = null;
+    this.useBoundingBoxes = false;
+    this.dirty = true;
+  }
+  /**
+   * Get the collision pairs from the world
+   * @param world The world to search in
+   * @param p1 Empty array to be filled with body objects
+   * @param p2 Empty array to be filled with body objects
+   */
+
+
+  collisionPairs(world, p1, p2) {
+    throw new Error('collisionPairs not implemented for this BroadPhase class!');
+  }
+  /**
+   * Check if a body pair needs to be intersection tested at all.
+   */
+
+
+  needBroadphaseCollision(bodyA, bodyB) {
+    // Check collision filter masks
+    if ((bodyA.collisionFilterGroup & bodyB.collisionFilterMask) === 0 || (bodyB.collisionFilterGroup & bodyA.collisionFilterMask) === 0) {
+      return false;
+    } // Check types
+
+
+    if (((bodyA.type & Body.STATIC) !== 0 || bodyA.sleepState === Body.SLEEPING) && ((bodyB.type & Body.STATIC) !== 0 || bodyB.sleepState === Body.SLEEPING)) {
+      // Both bodies are static or sleeping. Skip.
+      return false;
+    }
+
+    return true;
+  }
+  /**
+   * Check if the bounding volumes of two bodies intersect.
+   */
+
+
+  intersectionTest(bodyA, bodyB, pairs1, pairs2) {
+    if (this.useBoundingBoxes) {
+      this.doBoundingBoxBroadphase(bodyA, bodyB, pairs1, pairs2);
+    } else {
+      this.doBoundingSphereBroadphase(bodyA, bodyB, pairs1, pairs2);
+    }
+  }
+  /**
+   * Check if the bounding spheres of two bodies are intersecting.
+   * @param pairs1 bodyA is appended to this array if intersection
+   * @param pairs2 bodyB is appended to this array if intersection
+   */
+
+
+  doBoundingSphereBroadphase(bodyA, bodyB, pairs1, pairs2) {
+    const r = Broadphase_collisionPairs_r;
+    bodyB.position.vsub(bodyA.position, r);
+    const boundingRadiusSum2 = (bodyA.boundingRadius + bodyB.boundingRadius) ** 2;
+    const norm2 = r.lengthSquared();
+
+    if (norm2 < boundingRadiusSum2) {
+      pairs1.push(bodyA);
+      pairs2.push(bodyB);
+    }
+  }
+  /**
+   * Check if the bounding boxes of two bodies are intersecting.
+   */
+
+
+  doBoundingBoxBroadphase(bodyA, bodyB, pairs1, pairs2) {
+    if (bodyA.aabbNeedsUpdate) {
+      bodyA.updateAABB();
+    }
+
+    if (bodyB.aabbNeedsUpdate) {
+      bodyB.updateAABB();
+    } // Check AABB / AABB
+
+
+    if (bodyA.aabb.overlaps(bodyB.aabb)) {
+      pairs1.push(bodyA);
+      pairs2.push(bodyB);
+    }
+  }
+  /**
+   * Removes duplicate pairs from the pair arrays.
+   */
+
+
+  makePairsUnique(pairs1, pairs2) {
+    const t = Broadphase_makePairsUnique_temp;
+    const p1 = Broadphase_makePairsUnique_p1;
+    const p2 = Broadphase_makePairsUnique_p2;
+    const N = pairs1.length;
+
+    for (let i = 0; i !== N; i++) {
+      p1[i] = pairs1[i];
+      p2[i] = pairs2[i];
+    }
+
+    pairs1.length = 0;
+    pairs2.length = 0;
+
+    for (let i = 0; i !== N; i++) {
+      const id1 = p1[i].id;
+      const id2 = p2[i].id;
+      const key = id1 < id2 ? `${id1},${id2}` : `${id2},${id1}`;
+      t[key] = i;
+      t.keys.push(key);
+    }
+
+    for (let i = 0; i !== t.keys.length; i++) {
+      const key = t.keys.pop();
+      const pairIndex = t[key];
+      pairs1.push(p1[pairIndex]);
+      pairs2.push(p2[pairIndex]);
+      delete t[key];
+    }
+  }
+  /**
+   * To be implemented by subcasses
+   */
+
+
+  setWorld(world) {}
+  /**
+   * Check if the bounding spheres of two bodies overlap.
+   */
+
+
+  static boundingSphereCheck(bodyA, bodyB) {
+    const dist = new Vec3(); // bsc_dist;
+
+    bodyA.position.vsub(bodyB.position, dist);
+    const sa = bodyA.shapes[0];
+    const sb = bodyB.shapes[0];
+    return Math.pow(sa.boundingSphereRadius + sb.boundingSphereRadius, 2) > dist.lengthSquared();
+  }
+  /**
+   * Returns all the bodies within the AABB.
+   */
+
+
+  aabbQuery(world, aabb, result) {
+    console.warn('.aabbQuery is not implemented in this Broadphase subclass.');
+    return [];
+  }
+
+} // Temp objects
+
+const Broadphase_collisionPairs_r = new Vec3();
+new Vec3();
+new Quaternion();
+new Vec3();
+const Broadphase_makePairsUnique_temp = {
+  keys: []
+};
+const Broadphase_makePairsUnique_p1 = [];
+const Broadphase_makePairsUnique_p2 = [];
+new Vec3();
+
+/**
+ * Axis aligned uniform grid broadphase.
+ * @todo Needs support for more than just planes and spheres.
+ */
+class GridBroadphase extends Broadphase {
+  /**
+   * Number of boxes along x
+   */
+
+  /**
+   * Number of boxes along y
+   */
+
+  /**
+   * Number of boxes along z
+   */
+
+  /**
+   * aabbMin
+   */
+
+  /**
+   * aabbMax
+   */
+
+  /**
+   * bins
+   */
+
+  /**
+   * binLengths
+   */
+
+  /**
+   * @param nx Number of boxes along x.
+   * @param ny Number of boxes along y.
+   * @param nz Number of boxes along z.
+   */
+  constructor(aabbMin, aabbMax, nx, ny, nz) {
+    if (aabbMin === void 0) {
+      aabbMin = new Vec3(100, 100, 100);
+    }
+
+    if (aabbMax === void 0) {
+      aabbMax = new Vec3(-100, -100, -100);
+    }
+
+    if (nx === void 0) {
+      nx = 10;
+    }
+
+    if (ny === void 0) {
+      ny = 10;
+    }
+
+    if (nz === void 0) {
+      nz = 10;
+    }
+
+    super();
+    this.nx = nx;
+    this.ny = ny;
+    this.nz = nz;
+    this.aabbMin = aabbMin;
+    this.aabbMax = aabbMax;
+    const nbins = this.nx * this.ny * this.nz;
+
+    if (nbins <= 0) {
+      throw "GridBroadphase: Each dimension's n must be >0";
+    }
+
+    this.bins = [];
+    this.binLengths = []; // Rather than continually resizing arrays (thrashing the memory), just record length and allow them to grow
+
+    this.bins.length = nbins;
+    this.binLengths.length = nbins;
+
+    for (let i = 0; i < nbins; i++) {
+      this.bins[i] = [];
+      this.binLengths[i] = 0;
+    }
+  }
+  /**
+   * Get all the collision pairs in the physics world
+   */
+
+
+  collisionPairs(world, pairs1, pairs2) {
+    const N = world.bodies.length;
+    const bodies = world.bodies;
+    const max = this.aabbMax;
+    const min = this.aabbMin;
+    const nx = this.nx;
+    const ny = this.ny;
+    const nz = this.nz;
+    const xstep = ny * nz;
+    const ystep = nz;
+    const zstep = 1;
+    const xmax = max.x;
+    const ymax = max.y;
+    const zmax = max.z;
+    const xmin = min.x;
+    const ymin = min.y;
+    const zmin = min.z;
+    const xmult = nx / (xmax - xmin);
+    const ymult = ny / (ymax - ymin);
+    const zmult = nz / (zmax - zmin);
+    const binsizeX = (xmax - xmin) / nx;
+    const binsizeY = (ymax - ymin) / ny;
+    const binsizeZ = (zmax - zmin) / nz;
+    const binRadius = Math.sqrt(binsizeX * binsizeX + binsizeY * binsizeY + binsizeZ * binsizeZ) * 0.5;
+    const types = Shape.types;
+    const SPHERE = types.SPHERE;
+    const PLANE = types.PLANE;
+    types.BOX;
+    types.COMPOUND;
+    types.CONVEXPOLYHEDRON;
+    const bins = this.bins;
+    const binLengths = this.binLengths;
+    const Nbins = this.bins.length; // Reset bins
+
+    for (let i = 0; i !== Nbins; i++) {
+      binLengths[i] = 0;
+    }
+
+    const ceil = Math.ceil;
+
+    function addBoxToBins(x0, y0, z0, x1, y1, z1, bi) {
+      let xoff0 = (x0 - xmin) * xmult | 0;
+      let yoff0 = (y0 - ymin) * ymult | 0;
+      let zoff0 = (z0 - zmin) * zmult | 0;
+      let xoff1 = ceil((x1 - xmin) * xmult);
+      let yoff1 = ceil((y1 - ymin) * ymult);
+      let zoff1 = ceil((z1 - zmin) * zmult);
+
+      if (xoff0 < 0) {
+        xoff0 = 0;
+      } else if (xoff0 >= nx) {
+        xoff0 = nx - 1;
+      }
+
+      if (yoff0 < 0) {
+        yoff0 = 0;
+      } else if (yoff0 >= ny) {
+        yoff0 = ny - 1;
+      }
+
+      if (zoff0 < 0) {
+        zoff0 = 0;
+      } else if (zoff0 >= nz) {
+        zoff0 = nz - 1;
+      }
+
+      if (xoff1 < 0) {
+        xoff1 = 0;
+      } else if (xoff1 >= nx) {
+        xoff1 = nx - 1;
+      }
+
+      if (yoff1 < 0) {
+        yoff1 = 0;
+      } else if (yoff1 >= ny) {
+        yoff1 = ny - 1;
+      }
+
+      if (zoff1 < 0) {
+        zoff1 = 0;
+      } else if (zoff1 >= nz) {
+        zoff1 = nz - 1;
+      }
+
+      xoff0 *= xstep;
+      yoff0 *= ystep;
+      zoff0 *= zstep;
+      xoff1 *= xstep;
+      yoff1 *= ystep;
+      zoff1 *= zstep;
+
+      for (let xoff = xoff0; xoff <= xoff1; xoff += xstep) {
+        for (let yoff = yoff0; yoff <= yoff1; yoff += ystep) {
+          for (let zoff = zoff0; zoff <= zoff1; zoff += zstep) {
+            const idx = xoff + yoff + zoff;
+            bins[idx][binLengths[idx]++] = bi;
+          }
+        }
+      }
+    } // Put all bodies into the bins
+
+
+    for (let i = 0; i !== N; i++) {
+      const bi = bodies[i];
+      const si = bi.shapes[0];
+
+      switch (si.type) {
+        case SPHERE:
+          {
+            const shape = si; // Put in bin
+            // check if overlap with other bins
+
+            const x = bi.position.x;
+            const y = bi.position.y;
+            const z = bi.position.z;
+            const r = shape.radius;
+            addBoxToBins(x - r, y - r, z - r, x + r, y + r, z + r, bi);
+            break;
+          }
+
+        case PLANE:
+          {
+            const shape = si;
+
+            if (shape.worldNormalNeedsUpdate) {
+              shape.computeWorldNormal(bi.quaternion);
+            }
+
+            const planeNormal = shape.worldNormal; //Relative position from origin of plane object to the first bin
+            //Incremented as we iterate through the bins
+
+            const xreset = xmin + binsizeX * 0.5 - bi.position.x;
+            const yreset = ymin + binsizeY * 0.5 - bi.position.y;
+            const zreset = zmin + binsizeZ * 0.5 - bi.position.z;
+            const d = GridBroadphase_collisionPairs_d;
+            d.set(xreset, yreset, zreset);
+
+            for (let xi = 0, xoff = 0; xi !== nx; xi++, xoff += xstep, d.y = yreset, d.x += binsizeX) {
+              for (let yi = 0, yoff = 0; yi !== ny; yi++, yoff += ystep, d.z = zreset, d.y += binsizeY) {
+                for (let zi = 0, zoff = 0; zi !== nz; zi++, zoff += zstep, d.z += binsizeZ) {
+                  if (d.dot(planeNormal) < binRadius) {
+                    const idx = xoff + yoff + zoff;
+                    bins[idx][binLengths[idx]++] = bi;
+                  }
+                }
+              }
+            }
+
+            break;
+          }
+
+        default:
+          {
+            if (bi.aabbNeedsUpdate) {
+              bi.updateAABB();
+            }
+
+            addBoxToBins(bi.aabb.lowerBound.x, bi.aabb.lowerBound.y, bi.aabb.lowerBound.z, bi.aabb.upperBound.x, bi.aabb.upperBound.y, bi.aabb.upperBound.z, bi);
+            break;
+          }
+      }
+    } // Check each bin
+
+
+    for (let i = 0; i !== Nbins; i++) {
+      const binLength = binLengths[i]; //Skip bins with no potential collisions
+
+      if (binLength > 1) {
+        const bin = bins[i]; // Do N^2 broadphase inside
+
+        for (let xi = 0; xi !== binLength; xi++) {
+          const bi = bin[xi];
+
+          for (let yi = 0; yi !== xi; yi++) {
+            const bj = bin[yi];
+
+            if (this.needBroadphaseCollision(bi, bj)) {
+              this.intersectionTest(bi, bj, pairs1, pairs2);
+            }
+          }
+        }
+      }
+    } //	for (let zi = 0, zoff=0; zi < nz; zi++, zoff+= zstep) {
+    //		console.log("layer "+zi);
+    //		for (let yi = 0, yoff=0; yi < ny; yi++, yoff += ystep) {
+    //			const row = '';
+    //			for (let xi = 0, xoff=0; xi < nx; xi++, xoff += xstep) {
+    //				const idx = xoff + yoff + zoff;
+    //				row += ' ' + binLengths[idx];
+    //			}
+    //			console.log(row);
+    //		}
+    //	}
+
+
+    this.makePairsUnique(pairs1, pairs2);
+  }
+
+}
+const GridBroadphase_collisionPairs_d = new Vec3();
+new Vec3();
+
+/**
+ * Naive broadphase implementation, used in lack of better ones.
+ *
+ * The naive broadphase looks at all possible pairs without restriction, therefore it has complexity N^2 _(which is bad)_
+ */
+class NaiveBroadphase extends Broadphase {
+  /**
+   * @todo Remove useless constructor
+   */
+  constructor() {
+    super();
+  }
+  /**
+   * Get all the collision pairs in the physics world
+   */
+
+
+  collisionPairs(world, pairs1, pairs2) {
+    const bodies = world.bodies;
+    const n = bodies.length;
+    let bi;
+    let bj; // Naive N^2 ftw!
+
+    for (let i = 0; i !== n; i++) {
+      for (let j = 0; j !== i; j++) {
+        bi = bodies[i];
+        bj = bodies[j];
+
+        if (!this.needBroadphaseCollision(bi, bj)) {
+          continue;
+        }
+
+        this.intersectionTest(bi, bj, pairs1, pairs2);
+      }
+    }
+  }
+  /**
+   * Returns all the bodies within an AABB.
+   * @param result An array to store resulting bodies in.
+   */
+
+
+  aabbQuery(world, aabb, result) {
+    if (result === void 0) {
+      result = [];
+    }
+
+    for (let i = 0; i < world.bodies.length; i++) {
+      const b = world.bodies[i];
+
+      if (b.aabbNeedsUpdate) {
+        b.updateAABB();
+      } // Ugly hack until Body gets aabb
+
+
+      if (b.aabb.overlaps(aabb)) {
+        result.push(b);
+      }
+    }
+
+    return result;
+  }
+
+}
+
+/**
+ * Storage for Ray casting data
+ */
+class RaycastResult {
+  /**
+   * rayFromWorld
+   */
+
+  /**
+   * rayToWorld
+   */
+
+  /**
+   * hitNormalWorld
+   */
+
+  /**
+   * hitPointWorld
+   */
+
+  /**
+   * hasHit
+   */
+
+  /**
+   * shape
+   */
+
+  /**
+   * body
+   */
+
+  /**
+   * The index of the hit triangle, if the hit shape was a trimesh
+   */
+
+  /**
+   * Distance to the hit. Will be set to -1 if there was no hit
+   */
+
+  /**
+   * If the ray should stop traversing the bodies
+   */
+  constructor() {
+    this.rayFromWorld = new Vec3();
+    this.rayToWorld = new Vec3();
+    this.hitNormalWorld = new Vec3();
+    this.hitPointWorld = new Vec3();
+    this.hasHit = false;
+    this.shape = null;
+    this.body = null;
+    this.hitFaceIndex = -1;
+    this.distance = -1;
+    this.shouldStop = false;
+  }
+  /**
+   * Reset all result data.
+   */
+
+
+  reset() {
+    this.rayFromWorld.setZero();
+    this.rayToWorld.setZero();
+    this.hitNormalWorld.setZero();
+    this.hitPointWorld.setZero();
+    this.hasHit = false;
+    this.shape = null;
+    this.body = null;
+    this.hitFaceIndex = -1;
+    this.distance = -1;
+    this.shouldStop = false;
+  }
+  /**
+   * abort
+   */
+
+
+  abort() {
+    this.shouldStop = true;
+  }
+  /**
+   * Set result data.
+   */
+
+
+  set(rayFromWorld, rayToWorld, hitNormalWorld, hitPointWorld, shape, body, distance) {
+    this.rayFromWorld.copy(rayFromWorld);
+    this.rayToWorld.copy(rayToWorld);
+    this.hitNormalWorld.copy(hitNormalWorld);
+    this.hitPointWorld.copy(hitPointWorld);
+    this.shape = shape;
+    this.body = body;
+    this.distance = distance;
+  }
+
+}
+
+let _Shape$types$SPHERE, _Shape$types$PLANE, _Shape$types$BOX, _Shape$types$CYLINDER, _Shape$types$CONVEXPO, _Shape$types$HEIGHTFI, _Shape$types$TRIMESH;
+
+/**
+ * RAY_MODES
+ */
+const RAY_MODES = {
+  /** CLOSEST */
+  CLOSEST: 1,
+
+  /** ANY */
+  ANY: 2,
+
+  /** ALL */
+  ALL: 4
+};
+/**
+ * RayMode
+ */
+
+_Shape$types$SPHERE = Shape.types.SPHERE;
+_Shape$types$PLANE = Shape.types.PLANE;
+_Shape$types$BOX = Shape.types.BOX;
+_Shape$types$CYLINDER = Shape.types.CYLINDER;
+_Shape$types$CONVEXPO = Shape.types.CONVEXPOLYHEDRON;
+_Shape$types$HEIGHTFI = Shape.types.HEIGHTFIELD;
+_Shape$types$TRIMESH = Shape.types.TRIMESH;
+
+/**
+ * A line in 3D space that intersects bodies and return points.
+ */
+class Ray {
+  /**
+   * from
+   */
+
+  /**
+   * to
+   */
+
+  /**
+   * direction
+   */
+
+  /**
+   * The precision of the ray. Used when checking parallelity etc.
+   * @default 0.0001
+   */
+
+  /**
+   * Set to `false` if you don't want the Ray to take `collisionResponse` flags into account on bodies and shapes.
+   * @default true
+   */
+
+  /**
+   * If set to `true`, the ray skips any hits with normal.dot(rayDirection) < 0.
+   * @default false
+   */
+
+  /**
+   * collisionFilterMask
+   * @default -1
+   */
+
+  /**
+   * collisionFilterGroup
+   * @default -1
+   */
+
+  /**
+   * The intersection mode. Should be Ray.ANY, Ray.ALL or Ray.CLOSEST.
+   * @default RAY.ANY
+   */
+
+  /**
+   * Current result object.
+   */
+
+  /**
+   * Will be set to `true` during intersectWorld() if the ray hit anything.
+   */
+
+  /**
+   * User-provided result callback. Will be used if mode is Ray.ALL.
+   */
+
+  /**
+   * CLOSEST
+   */
+
+  /**
+   * ANY
+   */
+
+  /**
+   * ALL
+   */
+  get [_Shape$types$SPHERE]() {
+    return this._intersectSphere;
+  }
+
+  get [_Shape$types$PLANE]() {
+    return this._intersectPlane;
+  }
+
+  get [_Shape$types$BOX]() {
+    return this._intersectBox;
+  }
+
+  get [_Shape$types$CYLINDER]() {
+    return this._intersectConvex;
+  }
+
+  get [_Shape$types$CONVEXPO]() {
+    return this._intersectConvex;
+  }
+
+  get [_Shape$types$HEIGHTFI]() {
+    return this._intersectHeightfield;
+  }
+
+  get [_Shape$types$TRIMESH]() {
+    return this._intersectTrimesh;
+  }
+
+  constructor(from, to) {
+    if (from === void 0) {
+      from = new Vec3();
+    }
+
+    if (to === void 0) {
+      to = new Vec3();
+    }
+
+    this.from = from.clone();
+    this.to = to.clone();
+    this.direction = new Vec3();
+    this.precision = 0.0001;
+    this.checkCollisionResponse = true;
+    this.skipBackfaces = false;
+    this.collisionFilterMask = -1;
+    this.collisionFilterGroup = -1;
+    this.mode = Ray.ANY;
+    this.result = new RaycastResult();
+    this.hasHit = false;
+
+    this.callback = result => {};
+  }
+  /**
+   * Do itersection against all bodies in the given World.
+   * @return True if the ray hit anything, otherwise false.
+   */
+
+
+  intersectWorld(world, options) {
+    this.mode = options.mode || Ray.ANY;
+    this.result = options.result || new RaycastResult();
+    this.skipBackfaces = !!options.skipBackfaces;
+    this.collisionFilterMask = typeof options.collisionFilterMask !== 'undefined' ? options.collisionFilterMask : -1;
+    this.collisionFilterGroup = typeof options.collisionFilterGroup !== 'undefined' ? options.collisionFilterGroup : -1;
+    this.checkCollisionResponse = typeof options.checkCollisionResponse !== 'undefined' ? options.checkCollisionResponse : true;
+
+    if (options.from) {
+      this.from.copy(options.from);
+    }
+
+    if (options.to) {
+      this.to.copy(options.to);
+    }
+
+    this.callback = options.callback || (() => {});
+
+    this.hasHit = false;
+    this.result.reset();
+    this.updateDirection();
+    this.getAABB(tmpAABB$1);
+    tmpArray.length = 0;
+    world.broadphase.aabbQuery(world, tmpAABB$1, tmpArray);
+    this.intersectBodies(tmpArray);
+    return this.hasHit;
+  }
+  /**
+   * Shoot a ray at a body, get back information about the hit.
+   * @deprecated @param result set the result property of the Ray instead.
+   */
+
+
+  intersectBody(body, result) {
+    if (result) {
+      this.result = result;
+      this.updateDirection();
+    }
+
+    const checkCollisionResponse = this.checkCollisionResponse;
+
+    if (checkCollisionResponse && !body.collisionResponse) {
+      return;
+    }
+
+    if ((this.collisionFilterGroup & body.collisionFilterMask) === 0 || (body.collisionFilterGroup & this.collisionFilterMask) === 0) {
+      return;
+    }
+
+    const xi = intersectBody_xi;
+    const qi = intersectBody_qi;
+
+    for (let i = 0, N = body.shapes.length; i < N; i++) {
+      const shape = body.shapes[i];
+
+      if (checkCollisionResponse && !shape.collisionResponse) {
+        continue; // Skip
+      }
+
+      body.quaternion.mult(body.shapeOrientations[i], qi);
+      body.quaternion.vmult(body.shapeOffsets[i], xi);
+      xi.vadd(body.position, xi);
+      this.intersectShape(shape, qi, xi, body);
+
+      if (this.result.shouldStop) {
+        break;
+      }
+    }
+  }
+  /**
+   * Shoot a ray at an array bodies, get back information about the hit.
+   * @param bodies An array of Body objects.
+   * @deprecated @param result set the result property of the Ray instead.
+   *
+   */
+
+
+  intersectBodies(bodies, result) {
+    if (result) {
+      this.result = result;
+      this.updateDirection();
+    }
+
+    for (let i = 0, l = bodies.length; !this.result.shouldStop && i < l; i++) {
+      this.intersectBody(bodies[i]);
+    }
+  }
+  /**
+   * Updates the direction vector.
+   */
+
+
+  updateDirection() {
+    this.to.vsub(this.from, this.direction);
+    this.direction.normalize();
+  }
+
+  intersectShape(shape, quat, position, body) {
+    const from = this.from; // Checking boundingSphere
+
+    const distance = distanceFromIntersection(from, this.direction, position);
+
+    if (distance > shape.boundingSphereRadius) {
+      return;
+    }
+
+    const intersectMethod = this[shape.type];
+
+    if (intersectMethod) {
+      intersectMethod.call(this, shape, quat, position, body, shape);
+    }
+  }
+
+  _intersectBox(box, quat, position, body, reportedShape) {
+    return this._intersectConvex(box.convexPolyhedronRepresentation, quat, position, body, reportedShape);
+  }
+
+  _intersectPlane(shape, quat, position, body, reportedShape) {
+    const from = this.from;
+    const to = this.to;
+    const direction = this.direction; // Get plane normal
+
+    const worldNormal = new Vec3(0, 0, 1);
+    quat.vmult(worldNormal, worldNormal);
+    const len = new Vec3();
+    from.vsub(position, len);
+    const planeToFrom = len.dot(worldNormal);
+    to.vsub(position, len);
+    const planeToTo = len.dot(worldNormal);
+
+    if (planeToFrom * planeToTo > 0) {
+      // "from" and "to" are on the same side of the plane... bail out
+      return;
+    }
+
+    if (from.distanceTo(to) < planeToFrom) {
+      return;
+    }
+
+    const n_dot_dir = worldNormal.dot(direction);
+
+    if (Math.abs(n_dot_dir) < this.precision) {
+      // No intersection
+      return;
+    }
+
+    const planePointToFrom = new Vec3();
+    const dir_scaled_with_t = new Vec3();
+    const hitPointWorld = new Vec3();
+    from.vsub(position, planePointToFrom);
+    const t = -worldNormal.dot(planePointToFrom) / n_dot_dir;
+    direction.scale(t, dir_scaled_with_t);
+    from.vadd(dir_scaled_with_t, hitPointWorld);
+    this.reportIntersection(worldNormal, hitPointWorld, reportedShape, body, -1);
+  }
+  /**
+   * Get the world AABB of the ray.
+   */
+
+
+  getAABB(aabb) {
+    const {
+      lowerBound,
+      upperBound
+    } = aabb;
+    const to = this.to;
+    const from = this.from;
+    lowerBound.x = Math.min(to.x, from.x);
+    lowerBound.y = Math.min(to.y, from.y);
+    lowerBound.z = Math.min(to.z, from.z);
+    upperBound.x = Math.max(to.x, from.x);
+    upperBound.y = Math.max(to.y, from.y);
+    upperBound.z = Math.max(to.z, from.z);
+  }
+
+  _intersectHeightfield(shape, quat, position, body, reportedShape) {
+    shape.data;
+    shape.elementSize; // Convert the ray to local heightfield coordinates
+
+    const localRay = intersectHeightfield_localRay; //new Ray(this.from, this.to);
+
+    localRay.from.copy(this.from);
+    localRay.to.copy(this.to);
+    Transform.pointToLocalFrame(position, quat, localRay.from, localRay.from);
+    Transform.pointToLocalFrame(position, quat, localRay.to, localRay.to);
+    localRay.updateDirection(); // Get the index of the data points to test against
+
+    const index = intersectHeightfield_index;
+    let iMinX;
+    let iMinY;
+    let iMaxX;
+    let iMaxY; // Set to max
+
+    iMinX = iMinY = 0;
+    iMaxX = iMaxY = shape.data.length - 1;
+    const aabb = new AABB();
+    localRay.getAABB(aabb);
+    shape.getIndexOfPosition(aabb.lowerBound.x, aabb.lowerBound.y, index, true);
+    iMinX = Math.max(iMinX, index[0]);
+    iMinY = Math.max(iMinY, index[1]);
+    shape.getIndexOfPosition(aabb.upperBound.x, aabb.upperBound.y, index, true);
+    iMaxX = Math.min(iMaxX, index[0] + 1);
+    iMaxY = Math.min(iMaxY, index[1] + 1);
+
+    for (let i = iMinX; i < iMaxX; i++) {
+      for (let j = iMinY; j < iMaxY; j++) {
+        if (this.result.shouldStop) {
+          return;
+        }
+
+        shape.getAabbAtIndex(i, j, aabb);
+
+        if (!aabb.overlapsRay(localRay)) {
+          continue;
+        } // Lower triangle
+
+
+        shape.getConvexTrianglePillar(i, j, false);
+        Transform.pointToWorldFrame(position, quat, shape.pillarOffset, worldPillarOffset);
+
+        this._intersectConvex(shape.pillarConvex, quat, worldPillarOffset, body, reportedShape, intersectConvexOptions);
+
+        if (this.result.shouldStop) {
+          return;
+        } // Upper triangle
+
+
+        shape.getConvexTrianglePillar(i, j, true);
+        Transform.pointToWorldFrame(position, quat, shape.pillarOffset, worldPillarOffset);
+
+        this._intersectConvex(shape.pillarConvex, quat, worldPillarOffset, body, reportedShape, intersectConvexOptions);
+      }
+    }
+  }
+
+  _intersectSphere(sphere, quat, position, body, reportedShape) {
+    const from = this.from;
+    const to = this.to;
+    const r = sphere.radius;
+    const a = (to.x - from.x) ** 2 + (to.y - from.y) ** 2 + (to.z - from.z) ** 2;
+    const b = 2 * ((to.x - from.x) * (from.x - position.x) + (to.y - from.y) * (from.y - position.y) + (to.z - from.z) * (from.z - position.z));
+    const c = (from.x - position.x) ** 2 + (from.y - position.y) ** 2 + (from.z - position.z) ** 2 - r ** 2;
+    const delta = b ** 2 - 4 * a * c;
+    const intersectionPoint = Ray_intersectSphere_intersectionPoint;
+    const normal = Ray_intersectSphere_normal;
+
+    if (delta < 0) {
+      // No intersection
+      return;
+    } else if (delta === 0) {
+      // single intersection point
+      from.lerp(to, delta, intersectionPoint);
+      intersectionPoint.vsub(position, normal);
+      normal.normalize();
+      this.reportIntersection(normal, intersectionPoint, reportedShape, body, -1);
+    } else {
+      const d1 = (-b - Math.sqrt(delta)) / (2 * a);
+      const d2 = (-b + Math.sqrt(delta)) / (2 * a);
+
+      if (d1 >= 0 && d1 <= 1) {
+        from.lerp(to, d1, intersectionPoint);
+        intersectionPoint.vsub(position, normal);
+        normal.normalize();
+        this.reportIntersection(normal, intersectionPoint, reportedShape, body, -1);
+      }
+
+      if (this.result.shouldStop) {
+        return;
+      }
+
+      if (d2 >= 0 && d2 <= 1) {
+        from.lerp(to, d2, intersectionPoint);
+        intersectionPoint.vsub(position, normal);
+        normal.normalize();
+        this.reportIntersection(normal, intersectionPoint, reportedShape, body, -1);
+      }
+    }
+  }
+
+  _intersectConvex(shape, quat, position, body, reportedShape, options) {
+    intersectConvex_minDistNormal;
+    const normal = intersectConvex_normal;
+    const vector = intersectConvex_vector;
+    intersectConvex_minDistIntersect;
+    const faceList = options && options.faceList || null; // Checking faces
+
+    const faces = shape.faces;
+    const vertices = shape.vertices;
+    const normals = shape.faceNormals;
+    const direction = this.direction;
+    const from = this.from;
+    const to = this.to;
+    const fromToDistance = from.distanceTo(to);
+    const Nfaces = faceList ? faceList.length : faces.length;
+    const result = this.result;
+
+    for (let j = 0; !result.shouldStop && j < Nfaces; j++) {
+      const fi = faceList ? faceList[j] : j;
+      const face = faces[fi];
+      const faceNormal = normals[fi];
+      const q = quat;
+      const x = position; // determine if ray intersects the plane of the face
+      // note: this works regardless of the direction of the face normal
+      // Get plane point in world coordinates...
+
+      vector.copy(vertices[face[0]]);
+      q.vmult(vector, vector);
+      vector.vadd(x, vector); // ...but make it relative to the ray from. We'll fix this later.
+
+      vector.vsub(from, vector); // Get plane normal
+
+      q.vmult(faceNormal, normal); // If this dot product is negative, we have something interesting
+
+      const dot = direction.dot(normal); // Bail out if ray and plane are parallel
+
+      if (Math.abs(dot) < this.precision) {
+        continue;
+      } // calc distance to plane
+
+
+      const scalar = normal.dot(vector) / dot; // if negative distance, then plane is behind ray
+
+      if (scalar < 0) {
+        continue;
+      } // if (dot < 0) {
+      // Intersection point is from + direction * scalar
+
+
+      direction.scale(scalar, intersectPoint);
+      intersectPoint.vadd(from, intersectPoint); // a is the point we compare points b and c with.
+
+      a.copy(vertices[face[0]]);
+      q.vmult(a, a);
+      x.vadd(a, a);
+
+      for (let i = 1; !result.shouldStop && i < face.length - 1; i++) {
+        // Transform 3 vertices to world coords
+        b.copy(vertices[face[i]]);
+        c.copy(vertices[face[i + 1]]);
+        q.vmult(b, b);
+        q.vmult(c, c);
+        x.vadd(b, b);
+        x.vadd(c, c);
+        const distance = intersectPoint.distanceTo(from);
+
+        if (!(Ray.pointInTriangle(intersectPoint, a, b, c) || Ray.pointInTriangle(intersectPoint, b, a, c)) || distance > fromToDistance) {
+          continue;
+        }
+
+        this.reportIntersection(normal, intersectPoint, reportedShape, body, fi);
+      } // }
+
+    }
+  }
+  /**
+   * @todo Optimize by transforming the world to local space first.
+   * @todo Use Octree lookup
+   */
+
+
+  _intersectTrimesh(mesh, quat, position, body, reportedShape, options) {
+    const normal = intersectTrimesh_normal;
+    const triangles = intersectTrimesh_triangles;
+    const treeTransform = intersectTrimesh_treeTransform;
+    const vector = intersectConvex_vector;
+    const localDirection = intersectTrimesh_localDirection;
+    const localFrom = intersectTrimesh_localFrom;
+    const localTo = intersectTrimesh_localTo;
+    const worldIntersectPoint = intersectTrimesh_worldIntersectPoint;
+    const worldNormal = intersectTrimesh_worldNormal; // Checking faces
+
+    const indices = mesh.indices;
+    mesh.vertices; // const normals = mesh.faceNormals
+
+    const from = this.from;
+    const to = this.to;
+    const direction = this.direction;
+    treeTransform.position.copy(position);
+    treeTransform.quaternion.copy(quat); // Transform ray to local space!
+
+    Transform.vectorToLocalFrame(position, quat, direction, localDirection);
+    Transform.pointToLocalFrame(position, quat, from, localFrom);
+    Transform.pointToLocalFrame(position, quat, to, localTo);
+    localTo.x *= mesh.scale.x;
+    localTo.y *= mesh.scale.y;
+    localTo.z *= mesh.scale.z;
+    localFrom.x *= mesh.scale.x;
+    localFrom.y *= mesh.scale.y;
+    localFrom.z *= mesh.scale.z;
+    localTo.vsub(localFrom, localDirection);
+    localDirection.normalize();
+    const fromToDistanceSquared = localFrom.distanceSquared(localTo);
+    mesh.tree.rayQuery(this, treeTransform, triangles);
+
+    for (let i = 0, N = triangles.length; !this.result.shouldStop && i !== N; i++) {
+      const trianglesIndex = triangles[i];
+      mesh.getNormal(trianglesIndex, normal); // determine if ray intersects the plane of the face
+      // note: this works regardless of the direction of the face normal
+      // Get plane point in world coordinates...
+
+      mesh.getVertex(indices[trianglesIndex * 3], a); // ...but make it relative to the ray from. We'll fix this later.
+
+      a.vsub(localFrom, vector); // If this dot product is negative, we have something interesting
+
+      const dot = localDirection.dot(normal); // Bail out if ray and plane are parallel
+      // if (Math.abs( dot ) < this.precision){
+      //     continue;
+      // }
+      // calc distance to plane
+
+      const scalar = normal.dot(vector) / dot; // if negative distance, then plane is behind ray
+
+      if (scalar < 0) {
+        continue;
+      } // Intersection point is from + direction * scalar
+
+
+      localDirection.scale(scalar, intersectPoint);
+      intersectPoint.vadd(localFrom, intersectPoint); // Get triangle vertices
+
+      mesh.getVertex(indices[trianglesIndex * 3 + 1], b);
+      mesh.getVertex(indices[trianglesIndex * 3 + 2], c);
+      const squaredDistance = intersectPoint.distanceSquared(localFrom);
+
+      if (!(Ray.pointInTriangle(intersectPoint, b, a, c) || Ray.pointInTriangle(intersectPoint, a, b, c)) || squaredDistance > fromToDistanceSquared) {
+        continue;
+      } // transform intersectpoint and normal to world
+
+
+      Transform.vectorToWorldFrame(quat, normal, worldNormal);
+      Transform.pointToWorldFrame(position, quat, intersectPoint, worldIntersectPoint);
+      this.reportIntersection(worldNormal, worldIntersectPoint, reportedShape, body, trianglesIndex);
+    }
+
+    triangles.length = 0;
+  }
+  /**
+   * @return True if the intersections should continue
+   */
+
+
+  reportIntersection(normal, hitPointWorld, shape, body, hitFaceIndex) {
+    const from = this.from;
+    const to = this.to;
+    const distance = from.distanceTo(hitPointWorld);
+    const result = this.result; // Skip back faces?
+
+    if (this.skipBackfaces && normal.dot(this.direction) > 0) {
+      return;
+    }
+
+    result.hitFaceIndex = typeof hitFaceIndex !== 'undefined' ? hitFaceIndex : -1;
+
+    switch (this.mode) {
+      case Ray.ALL:
+        this.hasHit = true;
+        result.set(from, to, normal, hitPointWorld, shape, body, distance);
+        result.hasHit = true;
+        this.callback(result);
+        break;
+
+      case Ray.CLOSEST:
+        // Store if closer than current closest
+        if (distance < result.distance || !result.hasHit) {
+          this.hasHit = true;
+          result.hasHit = true;
+          result.set(from, to, normal, hitPointWorld, shape, body, distance);
+        }
+
+        break;
+
+      case Ray.ANY:
+        // Report and stop.
+        this.hasHit = true;
+        result.hasHit = true;
+        result.set(from, to, normal, hitPointWorld, shape, body, distance);
+        result.shouldStop = true;
+        break;
+    }
+  }
+  /**
+   * As per "Barycentric Technique" as named
+   * {@link https://www.blackpawn.com/texts/pointinpoly/default.html here} but without the division
+   */
+
+
+  static pointInTriangle(p, a, b, c) {
+    c.vsub(a, v0);
+    b.vsub(a, v1);
+    p.vsub(a, v2);
+    const dot00 = v0.dot(v0);
+    const dot01 = v0.dot(v1);
+    const dot02 = v0.dot(v2);
+    const dot11 = v1.dot(v1);
+    const dot12 = v1.dot(v2);
+    let u;
+    let v;
+    return (u = dot11 * dot02 - dot01 * dot12) >= 0 && (v = dot00 * dot12 - dot01 * dot02) >= 0 && u + v < dot00 * dot11 - dot01 * dot01;
+  }
+
+}
+Ray.CLOSEST = RAY_MODES.CLOSEST;
+Ray.ANY = RAY_MODES.ANY;
+Ray.ALL = RAY_MODES.ALL;
+const tmpAABB$1 = new AABB();
+const tmpArray = [];
+const v1 = new Vec3();
+const v2 = new Vec3();
+const intersectBody_xi = new Vec3();
+const intersectBody_qi = new Quaternion();
+const intersectPoint = new Vec3();
+const a = new Vec3();
+const b = new Vec3();
+const c = new Vec3();
+new Vec3();
+new RaycastResult();
+const intersectConvexOptions = {
+  faceList: [0]
+};
+const worldPillarOffset = new Vec3();
+const intersectHeightfield_localRay = new Ray();
+const intersectHeightfield_index = [];
+const Ray_intersectSphere_intersectionPoint = new Vec3();
+const Ray_intersectSphere_normal = new Vec3();
+const intersectConvex_normal = new Vec3();
+const intersectConvex_minDistNormal = new Vec3();
+const intersectConvex_minDistIntersect = new Vec3();
+const intersectConvex_vector = new Vec3();
+const intersectTrimesh_normal = new Vec3();
+const intersectTrimesh_localDirection = new Vec3();
+const intersectTrimesh_localFrom = new Vec3();
+const intersectTrimesh_localTo = new Vec3();
+const intersectTrimesh_worldNormal = new Vec3();
+const intersectTrimesh_worldIntersectPoint = new Vec3();
+new AABB();
+const intersectTrimesh_triangles = [];
+const intersectTrimesh_treeTransform = new Transform();
+const v0 = new Vec3();
+const intersect = new Vec3();
+
+function distanceFromIntersection(from, direction, position) {
+  // v0 is vector from from to position
+  position.vsub(from, v0);
+  const dot = v0.dot(direction); // intersect = direction*dot + from
+
+  direction.scale(dot, intersect);
+  intersect.vadd(from, intersect);
+  const distance = position.distanceTo(intersect);
+  return distance;
+}
+
+/**
+ * Sweep and prune broadphase along one axis.
+ */
+class SAPBroadphase extends Broadphase {
+  /**
+   * List of bodies currently in the broadphase.
+   */
+
+  /**
+   * The world to search in.
+   */
+
+  /**
+   * Axis to sort the bodies along.
+   * Set to 0 for x axis, and 1 for y axis.
+   * For best performance, pick the axis where bodies are most distributed.
+   */
+
+  /**
+   * Check if the bounds of two bodies overlap, along the given SAP axis.
+   */
+  static checkBounds(bi, bj, axisIndex) {
+    let biPos;
+    let bjPos;
+
+    if (axisIndex === 0) {
+      biPos = bi.position.x;
+      bjPos = bj.position.x;
+    } else if (axisIndex === 1) {
+      biPos = bi.position.y;
+      bjPos = bj.position.y;
+    } else if (axisIndex === 2) {
+      biPos = bi.position.z;
+      bjPos = bj.position.z;
+    }
+
+    const ri = bi.boundingRadius,
+          rj = bj.boundingRadius,
+          boundA2 = biPos + ri,
+          boundB1 = bjPos - rj;
+    return boundB1 < boundA2;
+  } // Note: these are identical, save for x/y/z lowerbound
+
+  /**
+   * insertionSortX
+   */
+
+
+  static insertionSortX(a) {
+    for (let i = 1, l = a.length; i < l; i++) {
+      const v = a[i];
+      let j;
+
+      for (j = i - 1; j >= 0; j--) {
+        if (a[j].aabb.lowerBound.x <= v.aabb.lowerBound.x) {
+          break;
+        }
+
+        a[j + 1] = a[j];
+      }
+
+      a[j + 1] = v;
+    }
+
+    return a;
+  }
+  /**
+   * insertionSortY
+   */
+
+
+  static insertionSortY(a) {
+    for (let i = 1, l = a.length; i < l; i++) {
+      const v = a[i];
+      let j;
+
+      for (j = i - 1; j >= 0; j--) {
+        if (a[j].aabb.lowerBound.y <= v.aabb.lowerBound.y) {
+          break;
+        }
+
+        a[j + 1] = a[j];
+      }
+
+      a[j + 1] = v;
+    }
+
+    return a;
+  }
+  /**
+   * insertionSortZ
+   */
+
+
+  static insertionSortZ(a) {
+    for (let i = 1, l = a.length; i < l; i++) {
+      const v = a[i];
+      let j;
+
+      for (j = i - 1; j >= 0; j--) {
+        if (a[j].aabb.lowerBound.z <= v.aabb.lowerBound.z) {
+          break;
+        }
+
+        a[j + 1] = a[j];
+      }
+
+      a[j + 1] = v;
+    }
+
+    return a;
+  }
+
+  constructor(world) {
+    super();
+    this.axisList = [];
+    this.world = null;
+    this.axisIndex = 0;
+    const axisList = this.axisList;
+
+    this._addBodyHandler = event => {
+      axisList.push(event.body);
+    };
+
+    this._removeBodyHandler = event => {
+      const idx = axisList.indexOf(event.body);
+
+      if (idx !== -1) {
+        axisList.splice(idx, 1);
+      }
+    };
+
+    if (world) {
+      this.setWorld(world);
+    }
+  }
+  /**
+   * Change the world
+   */
+
+
+  setWorld(world) {
+    // Clear the old axis array
+    this.axisList.length = 0; // Add all bodies from the new world
+
+    for (let i = 0; i < world.bodies.length; i++) {
+      this.axisList.push(world.bodies[i]);
+    } // Remove old handlers, if any
+
+
+    world.removeEventListener('addBody', this._addBodyHandler);
+    world.removeEventListener('removeBody', this._removeBodyHandler); // Add handlers to update the list of bodies.
+
+    world.addEventListener('addBody', this._addBodyHandler);
+    world.addEventListener('removeBody', this._removeBodyHandler);
+    this.world = world;
+    this.dirty = true;
+  }
+  /**
+   * Collect all collision pairs
+   */
+
+
+  collisionPairs(world, p1, p2) {
+    const bodies = this.axisList;
+    const N = bodies.length;
+    const axisIndex = this.axisIndex;
+    let i;
+    let j;
+
+    if (this.dirty) {
+      this.sortList();
+      this.dirty = false;
+    } // Look through the list
+
+
+    for (i = 0; i !== N; i++) {
+      const bi = bodies[i];
+
+      for (j = i + 1; j < N; j++) {
+        const bj = bodies[j];
+
+        if (!this.needBroadphaseCollision(bi, bj)) {
+          continue;
+        }
+
+        if (!SAPBroadphase.checkBounds(bi, bj, axisIndex)) {
+          break;
+        }
+
+        this.intersectionTest(bi, bj, p1, p2);
+      }
+    }
+  }
+
+  sortList() {
+    const axisList = this.axisList;
+    const axisIndex = this.axisIndex;
+    const N = axisList.length; // Update AABBs
+
+    for (let i = 0; i !== N; i++) {
+      const bi = axisList[i];
+
+      if (bi.aabbNeedsUpdate) {
+        bi.updateAABB();
+      }
+    } // Sort the list
+
+
+    if (axisIndex === 0) {
+      SAPBroadphase.insertionSortX(axisList);
+    } else if (axisIndex === 1) {
+      SAPBroadphase.insertionSortY(axisList);
+    } else if (axisIndex === 2) {
+      SAPBroadphase.insertionSortZ(axisList);
+    }
+  }
+  /**
+   * Computes the variance of the body positions and estimates the best axis to use.
+   * Will automatically set property `axisIndex`.
+   */
+
+
+  autoDetectAxis() {
+    let sumX = 0;
+    let sumX2 = 0;
+    let sumY = 0;
+    let sumY2 = 0;
+    let sumZ = 0;
+    let sumZ2 = 0;
+    const bodies = this.axisList;
+    const N = bodies.length;
+    const invN = 1 / N;
+
+    for (let i = 0; i !== N; i++) {
+      const b = bodies[i];
+      const centerX = b.position.x;
+      sumX += centerX;
+      sumX2 += centerX * centerX;
+      const centerY = b.position.y;
+      sumY += centerY;
+      sumY2 += centerY * centerY;
+      const centerZ = b.position.z;
+      sumZ += centerZ;
+      sumZ2 += centerZ * centerZ;
+    }
+
+    const varianceX = sumX2 - sumX * sumX * invN;
+    const varianceY = sumY2 - sumY * sumY * invN;
+    const varianceZ = sumZ2 - sumZ * sumZ * invN;
+
+    if (varianceX > varianceY) {
+      if (varianceX > varianceZ) {
+        this.axisIndex = 0;
+      } else {
+        this.axisIndex = 2;
+      }
+    } else if (varianceY > varianceZ) {
+      this.axisIndex = 1;
+    } else {
+      this.axisIndex = 2;
+    }
+  }
+  /**
+   * Returns all the bodies within an AABB.
+   * @param result An array to store resulting bodies in.
+   */
+
+
+  aabbQuery(world, aabb, result) {
+    if (result === void 0) {
+      result = [];
+    }
+
+    if (this.dirty) {
+      this.sortList();
+      this.dirty = false;
+    }
+
+    const axisIndex = this.axisIndex;
+    let axis = 'x';
+
+    if (axisIndex === 1) {
+      axis = 'y';
+    }
+
+    if (axisIndex === 2) {
+      axis = 'z';
+    }
+
+    const axisList = this.axisList;
+    aabb.lowerBound[axis];
+    aabb.upperBound[axis];
+
+    for (let i = 0; i < axisList.length; i++) {
+      const b = axisList[i];
+
+      if (b.aabbNeedsUpdate) {
+        b.updateAABB();
+      }
+
+      if (b.aabb.overlaps(aabb)) {
+        result.push(b);
+      }
+    }
+
+    return result;
+  }
+
+}
+
+class Utils {
+  /**
+   * Extend an options object with default values.
+   * @param options The options object. May be falsy: in this case, a new object is created and returned.
+   * @param defaults An object containing default values.
+   * @return The modified options object.
+   */
+  static defaults(options, defaults) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    for (let key in defaults) {
+      if (!(key in options)) {
+        options[key] = defaults[key];
+      }
+    }
+
+    return options;
+  }
+
+}
+
+/**
+ * Constraint base class
+ */
+class Constraint {
+  /**
+   * Equations to be solved in this constraint.
+   */
+
+  /**
+   * Body A.
+   */
+
+  /**
+   * Body B.
+   */
+
+  /**
+   * Set to false if you don't want the bodies to collide when they are connected.
+   */
+  constructor(bodyA, bodyB, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    options = Utils.defaults(options, {
+      collideConnected: true,
+      wakeUpBodies: true
+    });
+    this.equations = [];
+    this.bodyA = bodyA;
+    this.bodyB = bodyB;
+    this.id = Constraint.idCounter++;
+    this.collideConnected = options.collideConnected;
+
+    if (options.wakeUpBodies) {
+      if (bodyA) {
+        bodyA.wakeUp();
+      }
+
+      if (bodyB) {
+        bodyB.wakeUp();
+      }
+    }
+  }
+  /**
+   * Update all the equations with data.
+   */
+
+
+  update() {
+    throw new Error('method update() not implmemented in this Constraint subclass!');
+  }
+  /**
+   * Enables all equations in the constraint.
+   */
+
+
+  enable() {
+    const eqs = this.equations;
+
+    for (let i = 0; i < eqs.length; i++) {
+      eqs[i].enabled = true;
+    }
+  }
+  /**
+   * Disables all equations in the constraint.
+   */
+
+
+  disable() {
+    const eqs = this.equations;
+
+    for (let i = 0; i < eqs.length; i++) {
+      eqs[i].enabled = false;
+    }
+  }
+
+}
+Constraint.idCounter = 0;
+
+/**
+ * An element containing 6 entries, 3 spatial and 3 rotational degrees of freedom.
+ */
+
+class JacobianElement {
+  /**
+   * spatial
+   */
+
+  /**
+   * rotational
+   */
+  constructor() {
+    this.spatial = new Vec3();
+    this.rotational = new Vec3();
+  }
+  /**
+   * Multiply with other JacobianElement
+   */
+
+
+  multiplyElement(element) {
+    return element.spatial.dot(this.spatial) + element.rotational.dot(this.rotational);
+  }
+  /**
+   * Multiply with two vectors
+   */
+
+
+  multiplyVectors(spatial, rotational) {
+    return spatial.dot(this.spatial) + rotational.dot(this.rotational);
+  }
+
+}
+
+/**
+ * Equation base class.
+ *
+ * `a`, `b` and `eps` are {@link https://www8.cs.umu.se/kurser/5DV058/VT15/lectures/SPOOKlabnotes.pdf SPOOK} parameters that default to `0.0`. See {@link https://github.com/schteppe/cannon.js/issues/238#issuecomment-147172327 this exchange} for more details on Cannon's physics implementation.
+ */
+class Equation {
+  /**
+   * Minimum (read: negative max) force to be applied by the constraint.
+   */
+
+  /**
+   * Maximum (read: positive max) force to be applied by the constraint.
+   */
+
+  /**
+   * SPOOK parameter
+   */
+
+  /**
+   * SPOOK parameter
+   */
+
+  /**
+   * SPOOK parameter
+   */
+
+  /**
+   * A number, proportional to the force added to the bodies.
+   */
+  constructor(bi, bj, minForce, maxForce) {
+    if (minForce === void 0) {
+      minForce = -1e6;
+    }
+
+    if (maxForce === void 0) {
+      maxForce = 1e6;
+    }
+
+    this.id = Equation.idCounter++;
+    this.minForce = minForce;
+    this.maxForce = maxForce;
+    this.bi = bi;
+    this.bj = bj;
+    this.a = 0.0; // SPOOK parameter
+
+    this.b = 0.0; // SPOOK parameter
+
+    this.eps = 0.0; // SPOOK parameter
+
+    this.jacobianElementA = new JacobianElement();
+    this.jacobianElementB = new JacobianElement();
+    this.enabled = true;
+    this.multiplier = 0;
+    this.setSpookParams(1e7, 4, 1 / 60); // Set typical spook params
+  }
+  /**
+   * Recalculates a, b, and eps.
+   *
+   * The Equation constructor sets typical SPOOK parameters as such:
+   * * `stiffness` = 1e7
+   * * `relaxation` = 4
+   * * `timeStep`= 1 / 60, _note the hardcoded refresh rate._
+   */
+
+
+  setSpookParams(stiffness, relaxation, timeStep) {
+    const d = relaxation;
+    const k = stiffness;
+    const h = timeStep;
+    this.a = 4.0 / (h * (1 + 4 * d));
+    this.b = 4.0 * d / (1 + 4 * d);
+    this.eps = 4.0 / (h * h * k * (1 + 4 * d));
+  }
+  /**
+   * Computes the right hand side of the SPOOK equation
+   */
+
+
+  computeB(a, b, h) {
+    const GW = this.computeGW();
+    const Gq = this.computeGq();
+    const GiMf = this.computeGiMf();
+    return -Gq * a - GW * b - GiMf * h;
+  }
+  /**
+   * Computes G*q, where q are the generalized body coordinates
+   */
+
+
+  computeGq() {
+    const GA = this.jacobianElementA;
+    const GB = this.jacobianElementB;
+    const bi = this.bi;
+    const bj = this.bj;
+    const xi = bi.position;
+    const xj = bj.position;
+    return GA.spatial.dot(xi) + GB.spatial.dot(xj);
+  }
+  /**
+   * Computes G*W, where W are the body velocities
+   */
+
+
+  computeGW() {
+    const GA = this.jacobianElementA;
+    const GB = this.jacobianElementB;
+    const bi = this.bi;
+    const bj = this.bj;
+    const vi = bi.velocity;
+    const vj = bj.velocity;
+    const wi = bi.angularVelocity;
+    const wj = bj.angularVelocity;
+    return GA.multiplyVectors(vi, wi) + GB.multiplyVectors(vj, wj);
+  }
+  /**
+   * Computes G*Wlambda, where W are the body velocities
+   */
+
+
+  computeGWlambda() {
+    const GA = this.jacobianElementA;
+    const GB = this.jacobianElementB;
+    const bi = this.bi;
+    const bj = this.bj;
+    const vi = bi.vlambda;
+    const vj = bj.vlambda;
+    const wi = bi.wlambda;
+    const wj = bj.wlambda;
+    return GA.multiplyVectors(vi, wi) + GB.multiplyVectors(vj, wj);
+  }
+  /**
+   * Computes G*inv(M)*f, where M is the mass matrix with diagonal blocks for each body, and f are the forces on the bodies.
+   */
+
+
+  computeGiMf() {
+    const GA = this.jacobianElementA;
+    const GB = this.jacobianElementB;
+    const bi = this.bi;
+    const bj = this.bj;
+    const fi = bi.force;
+    const ti = bi.torque;
+    const fj = bj.force;
+    const tj = bj.torque;
+    const invMassi = bi.invMassSolve;
+    const invMassj = bj.invMassSolve;
+    fi.scale(invMassi, iMfi);
+    fj.scale(invMassj, iMfj);
+    bi.invInertiaWorldSolve.vmult(ti, invIi_vmult_taui);
+    bj.invInertiaWorldSolve.vmult(tj, invIj_vmult_tauj);
+    return GA.multiplyVectors(iMfi, invIi_vmult_taui) + GB.multiplyVectors(iMfj, invIj_vmult_tauj);
+  }
+  /**
+   * Computes G*inv(M)*G'
+   */
+
+
+  computeGiMGt() {
+    const GA = this.jacobianElementA;
+    const GB = this.jacobianElementB;
+    const bi = this.bi;
+    const bj = this.bj;
+    const invMassi = bi.invMassSolve;
+    const invMassj = bj.invMassSolve;
+    const invIi = bi.invInertiaWorldSolve;
+    const invIj = bj.invInertiaWorldSolve;
+    let result = invMassi + invMassj;
+    invIi.vmult(GA.rotational, tmp);
+    result += tmp.dot(GA.rotational);
+    invIj.vmult(GB.rotational, tmp);
+    result += tmp.dot(GB.rotational);
+    return result;
+  }
+  /**
+   * Add constraint velocity to the bodies.
+   */
+
+
+  addToWlambda(deltalambda) {
+    const GA = this.jacobianElementA;
+    const GB = this.jacobianElementB;
+    const bi = this.bi;
+    const bj = this.bj;
+    const temp = addToWlambda_temp; // Add to linear velocity
+    // v_lambda += inv(M) * delta_lamba * G
+
+    bi.vlambda.addScaledVector(bi.invMassSolve * deltalambda, GA.spatial, bi.vlambda);
+    bj.vlambda.addScaledVector(bj.invMassSolve * deltalambda, GB.spatial, bj.vlambda); // Add to angular velocity
+
+    bi.invInertiaWorldSolve.vmult(GA.rotational, temp);
+    bi.wlambda.addScaledVector(deltalambda, temp, bi.wlambda);
+    bj.invInertiaWorldSolve.vmult(GB.rotational, temp);
+    bj.wlambda.addScaledVector(deltalambda, temp, bj.wlambda);
+  }
+  /**
+   * Compute the denominator part of the SPOOK equation: C = G*inv(M)*G' + eps
+   */
+
+
+  computeC() {
+    return this.computeGiMGt() + this.eps;
+  }
+
+}
+Equation.idCounter = 0;
+const iMfi = new Vec3();
+const iMfj = new Vec3();
+const invIi_vmult_taui = new Vec3();
+const invIj_vmult_tauj = new Vec3();
+const tmp = new Vec3();
+const addToWlambda_temp = new Vec3();
+
+/**
+ * Contact/non-penetration constraint equation
+ */
+class ContactEquation extends Equation {
+  /**
+   * "bounciness": u1 = -e*u0
+   */
+
+  /**
+   * World-oriented vector that goes from the center of bi to the contact point.
+   */
+
+  /**
+   * World-oriented vector that starts in body j position and goes to the contact point.
+   */
+
+  /**
+   * Contact normal, pointing out of body i.
+   */
+  constructor(bodyA, bodyB, maxForce) {
+    if (maxForce === void 0) {
+      maxForce = 1e6;
+    }
+
+    super(bodyA, bodyB, 0, maxForce);
+    this.restitution = 0.0;
+    this.ri = new Vec3();
+    this.rj = new Vec3();
+    this.ni = new Vec3();
+  }
+
+  computeB(h) {
+    const a = this.a;
+    const b = this.b;
+    const bi = this.bi;
+    const bj = this.bj;
+    const ri = this.ri;
+    const rj = this.rj;
+    const rixn = ContactEquation_computeB_temp1;
+    const rjxn = ContactEquation_computeB_temp2;
+    const vi = bi.velocity;
+    const wi = bi.angularVelocity;
+    bi.force;
+    bi.torque;
+    const vj = bj.velocity;
+    const wj = bj.angularVelocity;
+    bj.force;
+    bj.torque;
+    const penetrationVec = ContactEquation_computeB_temp3;
+    const GA = this.jacobianElementA;
+    const GB = this.jacobianElementB;
+    const n = this.ni; // Caluclate cross products
+
+    ri.cross(n, rixn);
+    rj.cross(n, rjxn); // g = xj+rj -(xi+ri)
+    // G = [ -ni  -rixn  ni  rjxn ]
+
+    n.negate(GA.spatial);
+    rixn.negate(GA.rotational);
+    GB.spatial.copy(n);
+    GB.rotational.copy(rjxn); // Calculate the penetration vector
+
+    penetrationVec.copy(bj.position);
+    penetrationVec.vadd(rj, penetrationVec);
+    penetrationVec.vsub(bi.position, penetrationVec);
+    penetrationVec.vsub(ri, penetrationVec);
+    const g = n.dot(penetrationVec); // Compute iteration
+
+    const ePlusOne = this.restitution + 1;
+    const GW = ePlusOne * vj.dot(n) - ePlusOne * vi.dot(n) + wj.dot(rjxn) - wi.dot(rixn);
+    const GiMf = this.computeGiMf();
+    const B = -g * a - GW * b - h * GiMf;
+    return B;
+  }
+  /**
+   * Get the current relative velocity in the contact point.
+   */
+
+
+  getImpactVelocityAlongNormal() {
+    const vi = ContactEquation_getImpactVelocityAlongNormal_vi;
+    const vj = ContactEquation_getImpactVelocityAlongNormal_vj;
+    const xi = ContactEquation_getImpactVelocityAlongNormal_xi;
+    const xj = ContactEquation_getImpactVelocityAlongNormal_xj;
+    const relVel = ContactEquation_getImpactVelocityAlongNormal_relVel;
+    this.bi.position.vadd(this.ri, xi);
+    this.bj.position.vadd(this.rj, xj);
+    this.bi.getVelocityAtWorldPoint(xi, vi);
+    this.bj.getVelocityAtWorldPoint(xj, vj);
+    vi.vsub(vj, relVel);
+    return this.ni.dot(relVel);
+  }
+
+}
+const ContactEquation_computeB_temp1 = new Vec3(); // Temp vectors
+
+const ContactEquation_computeB_temp2 = new Vec3();
+const ContactEquation_computeB_temp3 = new Vec3();
+const ContactEquation_getImpactVelocityAlongNormal_vi = new Vec3();
+const ContactEquation_getImpactVelocityAlongNormal_vj = new Vec3();
+const ContactEquation_getImpactVelocityAlongNormal_xi = new Vec3();
+const ContactEquation_getImpactVelocityAlongNormal_xj = new Vec3();
+const ContactEquation_getImpactVelocityAlongNormal_relVel = new Vec3();
+
+/**
+ * Connects two bodies at given offset points.
+ * @example
+ *     const bodyA = new Body({ mass: 1 })
+ *     const bodyB = new Body({ mass: 1 })
+ *     bodyA.position.set(-1, 0, 0)
+ *     bodyB.position.set(1, 0, 0)
+ *     bodyA.addShape(shapeA)
+ *     bodyB.addShape(shapeB)
+ *     world.addBody(bodyA)
+ *     world.addBody(bodyB)
+ *     const localPivotA = new Vec3(1, 0, 0)
+ *     const localPivotB = new Vec3(-1, 0, 0)
+ *     const constraint = new PointToPointConstraint(bodyA, localPivotA, bodyB, localPivotB)
+ *     world.addConstraint(constraint)
+ */
+class PointToPointConstraint extends Constraint {
+  /**
+   * Pivot, defined locally in bodyA.
+   */
+
+  /**
+   * Pivot, defined locally in bodyB.
+   */
+
+  /**
+   * @param pivotA The point relative to the center of mass of bodyA which bodyA is constrained to.
+   * @param bodyB Body that will be constrained in a similar way to the same point as bodyA. We will therefore get a link between bodyA and bodyB. If not specified, bodyA will be constrained to a static point.
+   * @param pivotB The point relative to the center of mass of bodyB which bodyB is constrained to.
+   * @param maxForce The maximum force that should be applied to constrain the bodies.
+   */
+  constructor(bodyA, pivotA, bodyB, pivotB, maxForce) {
+    if (pivotA === void 0) {
+      pivotA = new Vec3();
+    }
+
+    if (pivotB === void 0) {
+      pivotB = new Vec3();
+    }
+
+    if (maxForce === void 0) {
+      maxForce = 1e6;
+    }
+
+    super(bodyA, bodyB);
+    this.pivotA = pivotA.clone();
+    this.pivotB = pivotB.clone();
+    const x = this.equationX = new ContactEquation(bodyA, bodyB);
+    const y = this.equationY = new ContactEquation(bodyA, bodyB);
+    const z = this.equationZ = new ContactEquation(bodyA, bodyB); // Equations to be fed to the solver
+
+    this.equations.push(x, y, z); // Make the equations bidirectional
+
+    x.minForce = y.minForce = z.minForce = -maxForce;
+    x.maxForce = y.maxForce = z.maxForce = maxForce;
+    x.ni.set(1, 0, 0);
+    y.ni.set(0, 1, 0);
+    z.ni.set(0, 0, 1);
+  }
+
+  update() {
+    const bodyA = this.bodyA;
+    const bodyB = this.bodyB;
+    const x = this.equationX;
+    const y = this.equationY;
+    const z = this.equationZ; // Rotate the pivots to world space
+
+    bodyA.quaternion.vmult(this.pivotA, x.ri);
+    bodyB.quaternion.vmult(this.pivotB, x.rj);
+    y.ri.copy(x.ri);
+    y.rj.copy(x.rj);
+    z.ri.copy(x.ri);
+    z.rj.copy(x.rj);
+  }
+
+}
+
+/**
+ * Cone equation. Works to keep the given body world vectors aligned, or tilted within a given angle from each other.
+ */
+class ConeEquation extends Equation {
+  /**
+   * Local axis in A
+   */
+
+  /**
+   * Local axis in B
+   */
+
+  /**
+   * The "cone angle" to keep
+   */
+  constructor(bodyA, bodyB, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6;
+    super(bodyA, bodyB, -maxForce, maxForce);
+    this.axisA = options.axisA ? options.axisA.clone() : new Vec3(1, 0, 0);
+    this.axisB = options.axisB ? options.axisB.clone() : new Vec3(0, 1, 0);
+    this.angle = typeof options.angle !== 'undefined' ? options.angle : 0;
+  }
+
+  computeB(h) {
+    const a = this.a;
+    const b = this.b;
+    const ni = this.axisA;
+    const nj = this.axisB;
+    const nixnj = tmpVec1$2;
+    const njxni = tmpVec2$2;
+    const GA = this.jacobianElementA;
+    const GB = this.jacobianElementB; // Caluclate cross products
+
+    ni.cross(nj, nixnj);
+    nj.cross(ni, njxni); // The angle between two vector is:
+    // cos(theta) = a * b / (length(a) * length(b) = { len(a) = len(b) = 1 } = a * b
+    // g = a * b
+    // gdot = (b x a) * wi + (a x b) * wj
+    // G = [0 bxa 0 axb]
+    // W = [vi wi vj wj]
+
+    GA.rotational.copy(njxni);
+    GB.rotational.copy(nixnj);
+    const g = Math.cos(this.angle) - ni.dot(nj);
+    const GW = this.computeGW();
+    const GiMf = this.computeGiMf();
+    const B = -g * a - GW * b - h * GiMf;
+    return B;
+  }
+
+}
+const tmpVec1$2 = new Vec3();
+const tmpVec2$2 = new Vec3();
+
+/**
+ * Rotational constraint. Works to keep the local vectors orthogonal to each other in world space.
+ */
+class RotationalEquation extends Equation {
+  /**
+   * World oriented rotational axis.
+   */
+
+  /**
+   * World oriented rotational axis.
+   */
+
+  /**
+   * maxAngle
+   */
+  constructor(bodyA, bodyB, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6;
+    super(bodyA, bodyB, -maxForce, maxForce);
+    this.axisA = options.axisA ? options.axisA.clone() : new Vec3(1, 0, 0);
+    this.axisB = options.axisB ? options.axisB.clone() : new Vec3(0, 1, 0);
+    this.maxAngle = Math.PI / 2;
+  }
+
+  computeB(h) {
+    const a = this.a;
+    const b = this.b;
+    const ni = this.axisA;
+    const nj = this.axisB;
+    const nixnj = tmpVec1$1;
+    const njxni = tmpVec2$1;
+    const GA = this.jacobianElementA;
+    const GB = this.jacobianElementB; // Caluclate cross products
+
+    ni.cross(nj, nixnj);
+    nj.cross(ni, njxni); // g = ni * nj
+    // gdot = (nj x ni) * wi + (ni x nj) * wj
+    // G = [0 njxni 0 nixnj]
+    // W = [vi wi vj wj]
+
+    GA.rotational.copy(njxni);
+    GB.rotational.copy(nixnj);
+    const g = Math.cos(this.maxAngle) - ni.dot(nj);
+    const GW = this.computeGW();
+    const GiMf = this.computeGiMf();
+    const B = -g * a - GW * b - h * GiMf;
+    return B;
+  }
+
+}
+const tmpVec1$1 = new Vec3();
+const tmpVec2$1 = new Vec3();
+
+/**
+ * A Cone Twist constraint, useful for ragdolls.
+ */
+class ConeTwistConstraint extends PointToPointConstraint {
+  /**
+   * The axis direction for the constraint of the body A.
+   */
+
+  /**
+   * The axis direction for the constraint of the body B.
+   */
+
+  /**
+   * The aperture angle of the cone.
+   */
+
+  /**
+   * The twist angle of the joint.
+   */
+  constructor(bodyA, bodyB, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6; // Set pivot point in between
+
+    const pivotA = options.pivotA ? options.pivotA.clone() : new Vec3();
+    const pivotB = options.pivotB ? options.pivotB.clone() : new Vec3();
+    super(bodyA, pivotA, bodyB, pivotB, maxForce);
+    this.axisA = options.axisA ? options.axisA.clone() : new Vec3();
+    this.axisB = options.axisB ? options.axisB.clone() : new Vec3();
+    this.collideConnected = !!options.collideConnected;
+    this.angle = typeof options.angle !== 'undefined' ? options.angle : 0;
+    const c = this.coneEquation = new ConeEquation(bodyA, bodyB, options);
+    const t = this.twistEquation = new RotationalEquation(bodyA, bodyB, options);
+    this.twistAngle = typeof options.twistAngle !== 'undefined' ? options.twistAngle : 0; // Make the cone equation push the bodies toward the cone axis, not outward
+
+    c.maxForce = 0;
+    c.minForce = -maxForce; // Make the twist equation add torque toward the initial position
+
+    t.maxForce = 0;
+    t.minForce = -maxForce;
+    this.equations.push(c, t);
+  }
+
+  update() {
+    const bodyA = this.bodyA;
+    const bodyB = this.bodyB;
+    const cone = this.coneEquation;
+    const twist = this.twistEquation;
+    super.update(); // Update the axes to the cone constraint
+
+    bodyA.vectorToWorldFrame(this.axisA, cone.axisA);
+    bodyB.vectorToWorldFrame(this.axisB, cone.axisB); // Update the world axes in the twist constraint
+
+    this.axisA.tangents(twist.axisA, twist.axisA);
+    bodyA.vectorToWorldFrame(twist.axisA, twist.axisA);
+    this.axisB.tangents(twist.axisB, twist.axisB);
+    bodyB.vectorToWorldFrame(twist.axisB, twist.axisB);
+    cone.angle = this.angle;
+    twist.maxAngle = this.twistAngle;
+  }
+
+}
+new Vec3();
+new Vec3();
+
+/**
+ * Constrains two bodies to be at a constant distance from each others center of mass.
+ */
+class DistanceConstraint extends Constraint {
+  /**
+   * The distance to keep. If undefined, it will be set to the current distance between bodyA and bodyB
+   */
+
+  /**
+   * @param distance The distance to keep. If undefined, it will be set to the current distance between bodyA and bodyB.
+   * @param maxForce The maximum force that should be applied to constrain the bodies.
+   */
+  constructor(bodyA, bodyB, distance, maxForce) {
+    if (maxForce === void 0) {
+      maxForce = 1e6;
+    }
+
+    super(bodyA, bodyB);
+
+    if (typeof distance === 'undefined') {
+      distance = bodyA.position.distanceTo(bodyB.position);
+    }
+
+    this.distance = distance;
+    const eq = this.distanceEquation = new ContactEquation(bodyA, bodyB);
+    this.equations.push(eq); // Make it bidirectional
+
+    eq.minForce = -maxForce;
+    eq.maxForce = maxForce;
+  }
+  /**
+   * update
+   */
+
+
+  update() {
+    const bodyA = this.bodyA;
+    const bodyB = this.bodyB;
+    const eq = this.distanceEquation;
+    const halfDist = this.distance * 0.5;
+    const normal = eq.ni;
+    bodyB.position.vsub(bodyA.position, normal);
+    normal.normalize();
+    normal.scale(halfDist, eq.ri);
+    normal.scale(-halfDist, eq.rj);
+  }
+
+}
+
+/**
+ * Lock constraint. Will remove all degrees of freedom between the bodies.
+ */
+class LockConstraint extends PointToPointConstraint {
+  constructor(bodyA, bodyB, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6; // Set pivot point in between
+
+    const pivotA = new Vec3();
+    const pivotB = new Vec3();
+    const halfWay = new Vec3();
+    bodyA.position.vadd(bodyB.position, halfWay);
+    halfWay.scale(0.5, halfWay);
+    bodyB.pointToLocalFrame(halfWay, pivotB);
+    bodyA.pointToLocalFrame(halfWay, pivotA); // The point-to-point constraint will keep a point shared between the bodies
+
+    super(bodyA, pivotA, bodyB, pivotB, maxForce); // Store initial rotation of the bodies as unit vectors in the local body spaces
+
+    this.xA = bodyA.vectorToLocalFrame(Vec3.UNIT_X);
+    this.xB = bodyB.vectorToLocalFrame(Vec3.UNIT_X);
+    this.yA = bodyA.vectorToLocalFrame(Vec3.UNIT_Y);
+    this.yB = bodyB.vectorToLocalFrame(Vec3.UNIT_Y);
+    this.zA = bodyA.vectorToLocalFrame(Vec3.UNIT_Z);
+    this.zB = bodyB.vectorToLocalFrame(Vec3.UNIT_Z); // ...and the following rotational equations will keep all rotational DOF's in place
+
+    const r1 = this.rotationalEquation1 = new RotationalEquation(bodyA, bodyB, options);
+    const r2 = this.rotationalEquation2 = new RotationalEquation(bodyA, bodyB, options);
+    const r3 = this.rotationalEquation3 = new RotationalEquation(bodyA, bodyB, options);
+    this.equations.push(r1, r2, r3);
+  }
+  /**
+   * update
+   */
+
+
+  update() {
+    const bodyA = this.bodyA;
+    const bodyB = this.bodyB;
+    this.motorEquation;
+    const r1 = this.rotationalEquation1;
+    const r2 = this.rotationalEquation2;
+    const r3 = this.rotationalEquation3;
+    LockConstraint_update_tmpVec1;
+    LockConstraint_update_tmpVec2;
+    super.update(); // These vector pairs must be orthogonal
+
+    bodyA.vectorToWorldFrame(this.xA, r1.axisA);
+    bodyB.vectorToWorldFrame(this.yB, r1.axisB);
+    bodyA.vectorToWorldFrame(this.yA, r2.axisA);
+    bodyB.vectorToWorldFrame(this.zB, r2.axisB);
+    bodyA.vectorToWorldFrame(this.zA, r3.axisA);
+    bodyB.vectorToWorldFrame(this.xB, r3.axisB);
+  }
+
+}
+const LockConstraint_update_tmpVec1 = new Vec3();
+const LockConstraint_update_tmpVec2 = new Vec3();
+
+/**
+ * Rotational motor constraint. Tries to keep the relative angular velocity of the bodies to a given value.
+ */
+class RotationalMotorEquation extends Equation {
+  /**
+   * World oriented rotational axis.
+   */
+
+  /**
+   * World oriented rotational axis.
+   */
+
+  /**
+   * Motor velocity.
+   */
+  constructor(bodyA, bodyB, maxForce) {
+    if (maxForce === void 0) {
+      maxForce = 1e6;
+    }
+
+    super(bodyA, bodyB, -maxForce, maxForce);
+    this.axisA = new Vec3();
+    this.axisB = new Vec3();
+    this.targetVelocity = 0;
+  }
+
+  computeB(h) {
+    this.a;
+    const b = this.b;
+    this.bi;
+    this.bj;
+    const axisA = this.axisA;
+    const axisB = this.axisB;
+    const GA = this.jacobianElementA;
+    const GB = this.jacobianElementB; // g = 0
+    // gdot = axisA * wi - axisB * wj
+    // gdot = G * W = G * [vi wi vj wj]
+    // =>
+    // G = [0 axisA 0 -axisB]
+
+    GA.rotational.copy(axisA);
+    axisB.negate(GB.rotational);
+    const GW = this.computeGW() - this.targetVelocity;
+    const GiMf = this.computeGiMf();
+    const B = -GW * b - h * GiMf;
+    return B;
+  }
+
+}
+
+/**
+ * Hinge constraint. Think of it as a door hinge. It tries to keep the door in the correct place and with the correct orientation.
+ */
+class HingeConstraint extends PointToPointConstraint {
+  /**
+   * Rotation axis, defined locally in bodyA.
+   */
+
+  /**
+   * Rotation axis, defined locally in bodyB.
+   */
+  constructor(bodyA, bodyB, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    const maxForce = typeof options.maxForce !== 'undefined' ? options.maxForce : 1e6;
+    const pivotA = options.pivotA ? options.pivotA.clone() : new Vec3();
+    const pivotB = options.pivotB ? options.pivotB.clone() : new Vec3();
+    super(bodyA, pivotA, bodyB, pivotB, maxForce);
+    const axisA = this.axisA = options.axisA ? options.axisA.clone() : new Vec3(1, 0, 0);
+    axisA.normalize();
+    const axisB = this.axisB = options.axisB ? options.axisB.clone() : new Vec3(1, 0, 0);
+    axisB.normalize();
+    this.collideConnected = !!options.collideConnected;
+    const rotational1 = this.rotationalEquation1 = new RotationalEquation(bodyA, bodyB, options);
+    const rotational2 = this.rotationalEquation2 = new RotationalEquation(bodyA, bodyB, options);
+    const motor = this.motorEquation = new RotationalMotorEquation(bodyA, bodyB, maxForce);
+    motor.enabled = false; // Not enabled by default
+    // Equations to be fed to the solver
+
+    this.equations.push(rotational1, rotational2, motor);
+  }
+  /**
+   * enableMotor
+   */
+
+
+  enableMotor() {
+    this.motorEquation.enabled = true;
+  }
+  /**
+   * disableMotor
+   */
+
+
+  disableMotor() {
+    this.motorEquation.enabled = false;
+  }
+  /**
+   * setMotorSpeed
+   */
+
+
+  setMotorSpeed(speed) {
+    this.motorEquation.targetVelocity = speed;
+  }
+  /**
+   * setMotorMaxForce
+   */
+
+
+  setMotorMaxForce(maxForce) {
+    this.motorEquation.maxForce = maxForce;
+    this.motorEquation.minForce = -maxForce;
+  }
+  /**
+   * update
+   */
+
+
+  update() {
+    const bodyA = this.bodyA;
+    const bodyB = this.bodyB;
+    const motor = this.motorEquation;
+    const r1 = this.rotationalEquation1;
+    const r2 = this.rotationalEquation2;
+    const worldAxisA = HingeConstraint_update_tmpVec1;
+    const worldAxisB = HingeConstraint_update_tmpVec2;
+    const axisA = this.axisA;
+    const axisB = this.axisB;
+    super.update(); // Get world axes
+
+    bodyA.quaternion.vmult(axisA, worldAxisA);
+    bodyB.quaternion.vmult(axisB, worldAxisB);
+    worldAxisA.tangents(r1.axisA, r2.axisA);
+    r1.axisB.copy(worldAxisB);
+    r2.axisB.copy(worldAxisB);
+
+    if (this.motorEquation.enabled) {
+      bodyA.quaternion.vmult(this.axisA, motor.axisA);
+      bodyB.quaternion.vmult(this.axisB, motor.axisB);
+    }
+  }
+
+}
+const HingeConstraint_update_tmpVec1 = new Vec3();
+const HingeConstraint_update_tmpVec2 = new Vec3();
+
+/**
+ * Constrains the slipping in a contact along a tangent
+ */
+class FrictionEquation extends Equation {
+  // Tangent
+
+  /**
+   * @param slipForce should be +-F_friction = +-mu * F_normal = +-mu * m * g
+   */
+  constructor(bodyA, bodyB, slipForce) {
+    super(bodyA, bodyB, -slipForce, slipForce);
+    this.ri = new Vec3();
+    this.rj = new Vec3();
+    this.t = new Vec3();
+  }
+
+  computeB(h) {
+    this.a;
+    const b = this.b;
+    this.bi;
+    this.bj;
+    const ri = this.ri;
+    const rj = this.rj;
+    const rixt = FrictionEquation_computeB_temp1;
+    const rjxt = FrictionEquation_computeB_temp2;
+    const t = this.t; // Caluclate cross products
+
+    ri.cross(t, rixt);
+    rj.cross(t, rjxt); // G = [-t -rixt t rjxt]
+    // And remember, this is a pure velocity constraint, g is always zero!
+
+    const GA = this.jacobianElementA;
+    const GB = this.jacobianElementB;
+    t.negate(GA.spatial);
+    rixt.negate(GA.rotational);
+    GB.spatial.copy(t);
+    GB.rotational.copy(rjxt);
+    const GW = this.computeGW();
+    const GiMf = this.computeGiMf();
+    const B = -GW * b - h * GiMf;
+    return B;
+  }
+
+}
+const FrictionEquation_computeB_temp1 = new Vec3();
+const FrictionEquation_computeB_temp2 = new Vec3();
+
+/**
+ * Defines what happens when two materials meet.
+ * @todo Refactor materials to materialA and materialB
+ */
+class ContactMaterial {
+  /**
+   * Identifier of this material.
+   */
+
+  /**
+   * Participating materials.
+   */
+
+  /**
+   * Friction coefficient.
+   * @default 0.3
+   */
+
+  /**
+   * Restitution coefficient.
+   * @default 0.3
+   */
+
+  /**
+   * Stiffness of the produced contact equations.
+   * @default 1e7
+   */
+
+  /**
+   * Relaxation time of the produced contact equations.
+   * @default 3
+   */
+
+  /**
+   * Stiffness of the produced friction equations.
+   * @default 1e7
+   */
+
+  /**
+   * Relaxation time of the produced friction equations
+   * @default 3
+   */
+  constructor(m1, m2, options) {
+    options = Utils.defaults(options, {
+      friction: 0.3,
+      restitution: 0.3,
+      contactEquationStiffness: 1e7,
+      contactEquationRelaxation: 3,
+      frictionEquationStiffness: 1e7,
+      frictionEquationRelaxation: 3
+    });
+    this.id = ContactMaterial.idCounter++;
+    this.materials = [m1, m2];
+    this.friction = options.friction;
+    this.restitution = options.restitution;
+    this.contactEquationStiffness = options.contactEquationStiffness;
+    this.contactEquationRelaxation = options.contactEquationRelaxation;
+    this.frictionEquationStiffness = options.frictionEquationStiffness;
+    this.frictionEquationRelaxation = options.frictionEquationRelaxation;
+  }
+
+}
+ContactMaterial.idCounter = 0;
+
+/**
+ * Defines a physics material.
+ */
+class Material {
+  /**
+   * Material name.
+   * If options is a string, name will be set to that string.
+   * @todo Deprecate this
+   */
+
+  /** Material id. */
+
+  /**
+   * Friction for this material.
+   * If non-negative, it will be used instead of the friction given by ContactMaterials. If there's no matching ContactMaterial, the value from `defaultContactMaterial` in the World will be used.
+   */
+
+  /**
+   * Restitution for this material.
+   * If non-negative, it will be used instead of the restitution given by ContactMaterials. If there's no matching ContactMaterial, the value from `defaultContactMaterial` in the World will be used.
+   */
+  constructor(options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    let name = ''; // Backwards compatibility fix
+
+    if (typeof options === 'string') {
+      //console.warn(`Passing a string to MaterialOptions is deprecated, and has no effect`)
+      name = options;
+      options = {};
+    }
+
+    this.name = name;
+    this.id = Material.idCounter++;
+    this.friction = typeof options.friction !== 'undefined' ? options.friction : -1;
+    this.restitution = typeof options.restitution !== 'undefined' ? options.restitution : -1;
+  }
+
+}
+Material.idCounter = 0;
+
+/**
+ * A spring, connecting two bodies.
+ * @example
+ *     const spring = new Spring(boxBody, sphereBody, {
+ *       restLength: 0,
+ *       stiffness: 50,
+ *       damping: 1,
+ *     })
+ *
+ *     // Compute the force after each step
+ *     world.addEventListener('postStep', (event) => {
+ *       spring.applyForce()
+ *     })
+ */
+class Spring {
+  /**
+   * Rest length of the spring. A number > 0.
+   * @default 1
+   */
+
+  /**
+   * Stiffness of the spring. A number >= 0.
+   * @default 100
+   */
+
+  /**
+   * Damping of the spring. A number >= 0.
+   * @default 1
+   */
+
+  /**
+   * First connected body.
+   */
+
+  /**
+   * Second connected body.
+   */
+
+  /**
+   * Anchor for bodyA in local bodyA coordinates.
+   * Where to hook the spring to body A, in local body coordinates.
+   * @default new Vec3()
+   */
+
+  /**
+   * Anchor for bodyB in local bodyB coordinates.
+   * Where to hook the spring to body B, in local body coordinates.
+   * @default new Vec3()
+   */
+  constructor(bodyA, bodyB, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    this.restLength = typeof options.restLength === 'number' ? options.restLength : 1;
+    this.stiffness = options.stiffness || 100;
+    this.damping = options.damping || 1;
+    this.bodyA = bodyA;
+    this.bodyB = bodyB;
+    this.localAnchorA = new Vec3();
+    this.localAnchorB = new Vec3();
+
+    if (options.localAnchorA) {
+      this.localAnchorA.copy(options.localAnchorA);
+    }
+
+    if (options.localAnchorB) {
+      this.localAnchorB.copy(options.localAnchorB);
+    }
+
+    if (options.worldAnchorA) {
+      this.setWorldAnchorA(options.worldAnchorA);
+    }
+
+    if (options.worldAnchorB) {
+      this.setWorldAnchorB(options.worldAnchorB);
+    }
+  }
+  /**
+   * Set the anchor point on body A, using world coordinates.
+   */
+
+
+  setWorldAnchorA(worldAnchorA) {
+    this.bodyA.pointToLocalFrame(worldAnchorA, this.localAnchorA);
+  }
+  /**
+   * Set the anchor point on body B, using world coordinates.
+   */
+
+
+  setWorldAnchorB(worldAnchorB) {
+    this.bodyB.pointToLocalFrame(worldAnchorB, this.localAnchorB);
+  }
+  /**
+   * Get the anchor point on body A, in world coordinates.
+   * @param result The vector to store the result in.
+   */
+
+
+  getWorldAnchorA(result) {
+    this.bodyA.pointToWorldFrame(this.localAnchorA, result);
+  }
+  /**
+   * Get the anchor point on body B, in world coordinates.
+   * @param result The vector to store the result in.
+   */
+
+
+  getWorldAnchorB(result) {
+    this.bodyB.pointToWorldFrame(this.localAnchorB, result);
+  }
+  /**
+   * Apply the spring force to the connected bodies.
+   */
+
+
+  applyForce() {
+    const k = this.stiffness;
+    const d = this.damping;
+    const l = this.restLength;
+    const bodyA = this.bodyA;
+    const bodyB = this.bodyB;
+    const r = applyForce_r;
+    const r_unit = applyForce_r_unit;
+    const u = applyForce_u;
+    const f = applyForce_f;
+    const tmp = applyForce_tmp;
+    const worldAnchorA = applyForce_worldAnchorA;
+    const worldAnchorB = applyForce_worldAnchorB;
+    const ri = applyForce_ri;
+    const rj = applyForce_rj;
+    const ri_x_f = applyForce_ri_x_f;
+    const rj_x_f = applyForce_rj_x_f; // Get world anchors
+
+    this.getWorldAnchorA(worldAnchorA);
+    this.getWorldAnchorB(worldAnchorB); // Get offset points
+
+    worldAnchorA.vsub(bodyA.position, ri);
+    worldAnchorB.vsub(bodyB.position, rj); // Compute distance vector between world anchor points
+
+    worldAnchorB.vsub(worldAnchorA, r);
+    const rlen = r.length();
+    r_unit.copy(r);
+    r_unit.normalize(); // Compute relative velocity of the anchor points, u
+
+    bodyB.velocity.vsub(bodyA.velocity, u); // Add rotational velocity
+
+    bodyB.angularVelocity.cross(rj, tmp);
+    u.vadd(tmp, u);
+    bodyA.angularVelocity.cross(ri, tmp);
+    u.vsub(tmp, u); // F = - k * ( x - L ) - D * ( u )
+
+    r_unit.scale(-k * (rlen - l) - d * u.dot(r_unit), f); // Add forces to bodies
+
+    bodyA.force.vsub(f, bodyA.force);
+    bodyB.force.vadd(f, bodyB.force); // Angular force
+
+    ri.cross(f, ri_x_f);
+    rj.cross(f, rj_x_f);
+    bodyA.torque.vsub(ri_x_f, bodyA.torque);
+    bodyB.torque.vadd(rj_x_f, bodyB.torque);
+  }
+
+}
+const applyForce_r = new Vec3();
+const applyForce_r_unit = new Vec3();
+const applyForce_u = new Vec3();
+const applyForce_f = new Vec3();
+const applyForce_worldAnchorA = new Vec3();
+const applyForce_worldAnchorB = new Vec3();
+const applyForce_ri = new Vec3();
+const applyForce_rj = new Vec3();
+const applyForce_ri_x_f = new Vec3();
+const applyForce_rj_x_f = new Vec3();
+const applyForce_tmp = new Vec3();
+
+/**
+ * WheelInfo
+ */
+class WheelInfo {
+  /**
+   * Max travel distance of the suspension, in meters.
+   * @default 1
+   */
+
+  /**
+   * Speed to apply to the wheel rotation when the wheel is sliding.
+   * @default -0.1
+   */
+
+  /**
+   * If the customSlidingRotationalSpeed should be used.
+   * @default false
+   */
+
+  /**
+   * sliding
+   */
+
+  /**
+   * Connection point, defined locally in the chassis body frame.
+   */
+
+  /**
+   * chassisConnectionPointWorld
+   */
+
+  /**
+   * directionLocal
+   */
+
+  /**
+   * directionWorld
+   */
+
+  /**
+   * axleLocal
+   */
+
+  /**
+   * axleWorld
+   */
+
+  /**
+   * suspensionRestLength
+   * @default 1
+   */
+
+  /**
+   * suspensionMaxLength
+   * @default 2
+   */
+
+  /**
+   * radius
+   * @default 1
+   */
+
+  /**
+   * suspensionStiffness
+   * @default 100
+   */
+
+  /**
+   * dampingCompression
+   * @default 10
+   */
+
+  /**
+   * dampingRelaxation
+   * @default 10
+   */
+
+  /**
+   * frictionSlip
+   * @default 10.5
+   */
+
+  /** forwardAcceleration */
+
+  /** sideAcceleration */
+
+  /**
+   * steering
+   * @default 0
+   */
+
+  /**
+   * Rotation value, in radians.
+   * @default 0
+   */
+
+  /**
+   * deltaRotation
+   * @default 0
+   */
+
+  /**
+   * rollInfluence
+   * @default 0.01
+   */
+
+  /**
+   * maxSuspensionForce
+   */
+
+  /**
+   * engineForce
+   */
+
+  /**
+   * brake
+   */
+
+  /**
+   * isFrontWheel
+   * @default true
+   */
+
+  /**
+   * clippedInvContactDotSuspension
+   * @default 1
+   */
+
+  /**
+   * suspensionRelativeVelocity
+   * @default 0
+   */
+
+  /**
+   * suspensionForce
+   * @default 0
+   */
+
+  /**
+   * slipInfo
+   */
+
+  /**
+   * skidInfo
+   * @default 0
+   */
+
+  /**
+   * suspensionLength
+   * @default 0
+   */
+
+  /**
+   * sideImpulse
+   */
+
+  /**
+   * forwardImpulse
+   */
+
+  /**
+   * The result from raycasting.
+   */
+
+  /**
+   * Wheel world transform.
+   */
+
+  /**
+   * isInContact
+   */
+  constructor(options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    options = Utils.defaults(options, {
+      chassisConnectionPointLocal: new Vec3(),
+      chassisConnectionPointWorld: new Vec3(),
+      directionLocal: new Vec3(),
+      directionWorld: new Vec3(),
+      axleLocal: new Vec3(),
+      axleWorld: new Vec3(),
+      suspensionRestLength: 1,
+      suspensionMaxLength: 2,
+      radius: 1,
+      suspensionStiffness: 100,
+      dampingCompression: 10,
+      dampingRelaxation: 10,
+      frictionSlip: 10.5,
+      forwardAcceleration: 1,
+      sideAcceleration: 1,
+      steering: 0,
+      rotation: 0,
+      deltaRotation: 0,
+      rollInfluence: 0.01,
+      maxSuspensionForce: Number.MAX_VALUE,
+      isFrontWheel: true,
+      clippedInvContactDotSuspension: 1,
+      suspensionRelativeVelocity: 0,
+      suspensionForce: 0,
+      slipInfo: 0,
+      skidInfo: 0,
+      suspensionLength: 0,
+      maxSuspensionTravel: 1,
+      useCustomSlidingRotationalSpeed: false,
+      customSlidingRotationalSpeed: -0.1
+    });
+    this.maxSuspensionTravel = options.maxSuspensionTravel;
+    this.customSlidingRotationalSpeed = options.customSlidingRotationalSpeed;
+    this.useCustomSlidingRotationalSpeed = options.useCustomSlidingRotationalSpeed;
+    this.sliding = false;
+    this.chassisConnectionPointLocal = options.chassisConnectionPointLocal.clone();
+    this.chassisConnectionPointWorld = options.chassisConnectionPointWorld.clone();
+    this.directionLocal = options.directionLocal.clone();
+    this.directionWorld = options.directionWorld.clone();
+    this.axleLocal = options.axleLocal.clone();
+    this.axleWorld = options.axleWorld.clone();
+    this.suspensionRestLength = options.suspensionRestLength;
+    this.suspensionMaxLength = options.suspensionMaxLength;
+    this.radius = options.radius;
+    this.suspensionStiffness = options.suspensionStiffness;
+    this.dampingCompression = options.dampingCompression;
+    this.dampingRelaxation = options.dampingRelaxation;
+    this.frictionSlip = options.frictionSlip;
+    this.forwardAcceleration = options.forwardAcceleration;
+    this.sideAcceleration = options.sideAcceleration;
+    this.steering = 0;
+    this.rotation = 0;
+    this.deltaRotation = 0;
+    this.rollInfluence = options.rollInfluence;
+    this.maxSuspensionForce = options.maxSuspensionForce;
+    this.engineForce = 0;
+    this.brake = 0;
+    this.isFrontWheel = options.isFrontWheel;
+    this.clippedInvContactDotSuspension = 1;
+    this.suspensionRelativeVelocity = 0;
+    this.suspensionForce = 0;
+    this.slipInfo = 0;
+    this.skidInfo = 0;
+    this.suspensionLength = 0;
+    this.sideImpulse = 0;
+    this.forwardImpulse = 0;
+    this.raycastResult = new RaycastResult();
+    this.worldTransform = new Transform();
+    this.isInContact = false;
+  }
+
+  updateWheel(chassis) {
+    const raycastResult = this.raycastResult;
+
+    if (this.isInContact) {
+      const project = raycastResult.hitNormalWorld.dot(raycastResult.directionWorld);
+      raycastResult.hitPointWorld.vsub(chassis.position, relpos);
+      chassis.getVelocityAtWorldPoint(relpos, chassis_velocity_at_contactPoint);
+      const projVel = raycastResult.hitNormalWorld.dot(chassis_velocity_at_contactPoint);
+
+      if (project >= -0.1) {
+        this.suspensionRelativeVelocity = 0.0;
+        this.clippedInvContactDotSuspension = 1.0 / 0.1;
+      } else {
+        const inv = -1 / project;
+        this.suspensionRelativeVelocity = projVel * inv;
+        this.clippedInvContactDotSuspension = inv;
+      }
+    } else {
+      // Not in contact : position wheel in a nice (rest length) position
+      raycastResult.suspensionLength = this.suspensionRestLength;
+      this.suspensionRelativeVelocity = 0.0;
+      raycastResult.directionWorld.scale(-1, raycastResult.hitNormalWorld);
+      this.clippedInvContactDotSuspension = 1.0;
+    }
+  }
+
+}
+const chassis_velocity_at_contactPoint = new Vec3();
+const relpos = new Vec3();
+
+/**
+ * Vehicle helper class that casts rays from the wheel positions towards the ground and applies forces.
+ */
+class RaycastVehicle {
+  /** The car chassis body. */
+
+  /** The wheels. */
+
+  /** Will be set to true if the car is sliding. */
+
+  /** Index of the right axis. x=0, y=1, z=2 */
+
+  /** Index of the forward axis. x=0, y=1, z=2 */
+
+  /** Index of the up axis. x=0, y=1, z=2 */
+
+  /** The constraints. */
+
+  /** Optional pre-step callback. */
+
+  /** Number of wheels on the ground. */
+  constructor(options) {
+    this.chassisBody = options.chassisBody;
+    this.wheelInfos = [];
+    this.sliding = false;
+    this.world = null;
+    this.indexRightAxis = typeof options.indexRightAxis !== 'undefined' ? options.indexRightAxis : 2;
+    this.indexForwardAxis = typeof options.indexForwardAxis !== 'undefined' ? options.indexForwardAxis : 0;
+    this.indexUpAxis = typeof options.indexUpAxis !== 'undefined' ? options.indexUpAxis : 1;
+    this.constraints = [];
+
+    this.preStepCallback = () => {};
+
+    this.currentVehicleSpeedKmHour = 0;
+    this.numWheelsOnGround = 0;
+  }
+  /**
+   * Add a wheel. For information about the options, see `WheelInfo`.
+   */
+
+
+  addWheel(options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    const info = new WheelInfo(options);
+    const index = this.wheelInfos.length;
+    this.wheelInfos.push(info);
+    return index;
+  }
+  /**
+   * Set the steering value of a wheel.
+   */
+
+
+  setSteeringValue(value, wheelIndex) {
+    const wheel = this.wheelInfos[wheelIndex];
+    wheel.steering = value;
+  }
+  /**
+   * Set the wheel force to apply on one of the wheels each time step
+   */
+
+
+  applyEngineForce(value, wheelIndex) {
+    this.wheelInfos[wheelIndex].engineForce = value;
+  }
+  /**
+   * Set the braking force of a wheel
+   */
+
+
+  setBrake(brake, wheelIndex) {
+    this.wheelInfos[wheelIndex].brake = brake;
+  }
+  /**
+   * Add the vehicle including its constraints to the world.
+   */
+
+
+  addToWorld(world) {
+    world.addBody(this.chassisBody);
+    const that = this;
+
+    this.preStepCallback = () => {
+      that.updateVehicle(world.dt);
+    };
+
+    world.addEventListener('preStep', this.preStepCallback);
+    this.world = world;
+  }
+  /**
+   * Get one of the wheel axles, world-oriented.
+   */
+
+
+  getVehicleAxisWorld(axisIndex, result) {
+    result.set(axisIndex === 0 ? 1 : 0, axisIndex === 1 ? 1 : 0, axisIndex === 2 ? 1 : 0);
+    this.chassisBody.vectorToWorldFrame(result, result);
+  }
+
+  updateVehicle(timeStep) {
+    const wheelInfos = this.wheelInfos;
+    const numWheels = wheelInfos.length;
+    const chassisBody = this.chassisBody;
+
+    for (let i = 0; i < numWheels; i++) {
+      this.updateWheelTransform(i);
+    }
+
+    this.currentVehicleSpeedKmHour = 3.6 * chassisBody.velocity.length();
+    const forwardWorld = new Vec3();
+    this.getVehicleAxisWorld(this.indexForwardAxis, forwardWorld);
+
+    if (forwardWorld.dot(chassisBody.velocity) < 0) {
+      this.currentVehicleSpeedKmHour *= -1;
+    } // simulate suspension
+
+
+    for (let i = 0; i < numWheels; i++) {
+      this.castRay(wheelInfos[i]);
+    }
+
+    this.updateSuspension(timeStep);
+    const impulse = new Vec3();
+    const relpos = new Vec3();
+
+    for (let i = 0; i < numWheels; i++) {
+      //apply suspension force
+      const wheel = wheelInfos[i];
+      let suspensionForce = wheel.suspensionForce;
+
+      if (suspensionForce > wheel.maxSuspensionForce) {
+        suspensionForce = wheel.maxSuspensionForce;
+      }
+
+      wheel.raycastResult.hitNormalWorld.scale(suspensionForce * timeStep, impulse);
+      wheel.raycastResult.hitPointWorld.vsub(chassisBody.position, relpos);
+      chassisBody.applyImpulse(impulse, relpos);
+    }
+
+    this.updateFriction(timeStep);
+    const hitNormalWorldScaledWithProj = new Vec3();
+    const fwd = new Vec3();
+    const vel = new Vec3();
+
+    for (let i = 0; i < numWheels; i++) {
+      const wheel = wheelInfos[i]; //const relpos = new Vec3();
+      //wheel.chassisConnectionPointWorld.vsub(chassisBody.position, relpos);
+
+      chassisBody.getVelocityAtWorldPoint(wheel.chassisConnectionPointWorld, vel); // Hack to get the rotation in the correct direction
+
+      let m = 1;
+
+      switch (this.indexUpAxis) {
+        case 1:
+          m = -1;
+          break;
+      }
+
+      if (wheel.isInContact) {
+        this.getVehicleAxisWorld(this.indexForwardAxis, fwd);
+        const proj = fwd.dot(wheel.raycastResult.hitNormalWorld);
+        wheel.raycastResult.hitNormalWorld.scale(proj, hitNormalWorldScaledWithProj);
+        fwd.vsub(hitNormalWorldScaledWithProj, fwd);
+        const proj2 = fwd.dot(vel);
+        wheel.deltaRotation = m * proj2 * timeStep / wheel.radius;
+      }
+
+      if ((wheel.sliding || !wheel.isInContact) && wheel.engineForce !== 0 && wheel.useCustomSlidingRotationalSpeed) {
+        // Apply custom rotation when accelerating and sliding
+        wheel.deltaRotation = (wheel.engineForce > 0 ? 1 : -1) * wheel.customSlidingRotationalSpeed * timeStep;
+      } // Lock wheels
+
+
+      if (Math.abs(wheel.brake) > Math.abs(wheel.engineForce)) {
+        wheel.deltaRotation = 0;
+      }
+
+      wheel.rotation += wheel.deltaRotation; // Use the old value
+
+      wheel.deltaRotation *= 0.99; // damping of rotation when not in contact
+    }
+  }
+
+  updateSuspension(deltaTime) {
+    const chassisBody = this.chassisBody;
+    const chassisMass = chassisBody.mass;
+    const wheelInfos = this.wheelInfos;
+    const numWheels = wheelInfos.length;
+
+    for (let w_it = 0; w_it < numWheels; w_it++) {
+      const wheel = wheelInfos[w_it];
+
+      if (wheel.isInContact) {
+        let force; // Spring
+
+        const susp_length = wheel.suspensionRestLength;
+        const current_length = wheel.suspensionLength;
+        const length_diff = susp_length - current_length;
+        force = wheel.suspensionStiffness * length_diff * wheel.clippedInvContactDotSuspension; // Damper
+
+        const projected_rel_vel = wheel.suspensionRelativeVelocity;
+        let susp_damping;
+
+        if (projected_rel_vel < 0) {
+          susp_damping = wheel.dampingCompression;
+        } else {
+          susp_damping = wheel.dampingRelaxation;
+        }
+
+        force -= susp_damping * projected_rel_vel;
+        wheel.suspensionForce = force * chassisMass;
+
+        if (wheel.suspensionForce < 0) {
+          wheel.suspensionForce = 0;
+        }
+      } else {
+        wheel.suspensionForce = 0;
+      }
+    }
+  }
+  /**
+   * Remove the vehicle including its constraints from the world.
+   */
+
+
+  removeFromWorld(world) {
+    this.constraints;
+    world.removeBody(this.chassisBody);
+    world.removeEventListener('preStep', this.preStepCallback);
+    this.world = null;
+  }
+
+  castRay(wheel) {
+    const rayvector = castRay_rayvector;
+    const target = castRay_target;
+    this.updateWheelTransformWorld(wheel);
+    const chassisBody = this.chassisBody;
+    let depth = -1;
+    const raylen = wheel.suspensionRestLength + wheel.radius;
+    wheel.directionWorld.scale(raylen, rayvector);
+    const source = wheel.chassisConnectionPointWorld;
+    source.vadd(rayvector, target);
+    const raycastResult = wheel.raycastResult;
+    raycastResult.reset(); // Turn off ray collision with the chassis temporarily
+
+    const oldState = chassisBody.collisionResponse;
+    chassisBody.collisionResponse = false; // Cast ray against world
+
+    this.world.rayTest(source, target, raycastResult);
+    chassisBody.collisionResponse = oldState;
+    const object = raycastResult.body;
+    wheel.raycastResult.groundObject = 0;
+
+    if (object) {
+      depth = raycastResult.distance;
+      wheel.raycastResult.hitNormalWorld = raycastResult.hitNormalWorld;
+      wheel.isInContact = true;
+      const hitDistance = raycastResult.distance;
+      wheel.suspensionLength = hitDistance - wheel.radius; // clamp on max suspension travel
+
+      const minSuspensionLength = wheel.suspensionRestLength - wheel.maxSuspensionTravel;
+      const maxSuspensionLength = wheel.suspensionRestLength + wheel.maxSuspensionTravel;
+
+      if (wheel.suspensionLength < minSuspensionLength) {
+        wheel.suspensionLength = minSuspensionLength;
+      }
+
+      if (wheel.suspensionLength > maxSuspensionLength) {
+        wheel.suspensionLength = maxSuspensionLength;
+        wheel.raycastResult.reset();
+      }
+
+      const denominator = wheel.raycastResult.hitNormalWorld.dot(wheel.directionWorld);
+      const chassis_velocity_at_contactPoint = new Vec3();
+      chassisBody.getVelocityAtWorldPoint(wheel.raycastResult.hitPointWorld, chassis_velocity_at_contactPoint);
+      const projVel = wheel.raycastResult.hitNormalWorld.dot(chassis_velocity_at_contactPoint);
+
+      if (denominator >= -0.1) {
+        wheel.suspensionRelativeVelocity = 0;
+        wheel.clippedInvContactDotSuspension = 1 / 0.1;
+      } else {
+        const inv = -1 / denominator;
+        wheel.suspensionRelativeVelocity = projVel * inv;
+        wheel.clippedInvContactDotSuspension = inv;
+      }
+    } else {
+      //put wheel info as in rest position
+      wheel.suspensionLength = wheel.suspensionRestLength + 0 * wheel.maxSuspensionTravel;
+      wheel.suspensionRelativeVelocity = 0.0;
+      wheel.directionWorld.scale(-1, wheel.raycastResult.hitNormalWorld);
+      wheel.clippedInvContactDotSuspension = 1.0;
+    }
+
+    return depth;
+  }
+
+  updateWheelTransformWorld(wheel) {
+    wheel.isInContact = false;
+    const chassisBody = this.chassisBody;
+    chassisBody.pointToWorldFrame(wheel.chassisConnectionPointLocal, wheel.chassisConnectionPointWorld);
+    chassisBody.vectorToWorldFrame(wheel.directionLocal, wheel.directionWorld);
+    chassisBody.vectorToWorldFrame(wheel.axleLocal, wheel.axleWorld);
+  }
+  /**
+   * Update one of the wheel transform.
+   * Note when rendering wheels: during each step, wheel transforms are updated BEFORE the chassis; ie. their position becomes invalid after the step. Thus when you render wheels, you must update wheel transforms before rendering them. See raycastVehicle demo for an example.
+   * @param wheelIndex The wheel index to update.
+   */
+
+
+  updateWheelTransform(wheelIndex) {
+    const up = tmpVec4;
+    const right = tmpVec5;
+    const fwd = tmpVec6;
+    const wheel = this.wheelInfos[wheelIndex];
+    this.updateWheelTransformWorld(wheel);
+    wheel.directionLocal.scale(-1, up);
+    right.copy(wheel.axleLocal);
+    up.cross(right, fwd);
+    fwd.normalize();
+    right.normalize(); // Rotate around steering over the wheelAxle
+
+    const steering = wheel.steering;
+    const steeringOrn = new Quaternion();
+    steeringOrn.setFromAxisAngle(up, steering);
+    const rotatingOrn = new Quaternion();
+    rotatingOrn.setFromAxisAngle(right, wheel.rotation); // World rotation of the wheel
+
+    const q = wheel.worldTransform.quaternion;
+    this.chassisBody.quaternion.mult(steeringOrn, q);
+    q.mult(rotatingOrn, q);
+    q.normalize(); // world position of the wheel
+
+    const p = wheel.worldTransform.position;
+    p.copy(wheel.directionWorld);
+    p.scale(wheel.suspensionLength, p);
+    p.vadd(wheel.chassisConnectionPointWorld, p);
+  }
+  /**
+   * Get the world transform of one of the wheels
+   */
+
+
+  getWheelTransformWorld(wheelIndex) {
+    return this.wheelInfos[wheelIndex].worldTransform;
+  }
+
+  updateFriction(timeStep) {
+    const surfNormalWS_scaled_proj = updateFriction_surfNormalWS_scaled_proj; //calculate the impulse, so that the wheels don't move sidewards
+
+    const wheelInfos = this.wheelInfos;
+    const numWheels = wheelInfos.length;
+    const chassisBody = this.chassisBody;
+    const forwardWS = updateFriction_forwardWS;
+    const axle = updateFriction_axle;
+    this.numWheelsOnGround = 0;
+
+    for (let i = 0; i < numWheels; i++) {
+      const wheel = wheelInfos[i];
+      const groundObject = wheel.raycastResult.body;
+
+      if (groundObject) {
+        this.numWheelsOnGround++;
+      }
+
+      wheel.sideImpulse = 0;
+      wheel.forwardImpulse = 0;
+
+      if (!forwardWS[i]) {
+        forwardWS[i] = new Vec3();
+      }
+
+      if (!axle[i]) {
+        axle[i] = new Vec3();
+      }
+    }
+
+    for (let i = 0; i < numWheels; i++) {
+      const wheel = wheelInfos[i];
+      const groundObject = wheel.raycastResult.body;
+
+      if (groundObject) {
+        const axlei = axle[i];
+        const wheelTrans = this.getWheelTransformWorld(i); // Get world axle
+
+        wheelTrans.vectorToWorldFrame(directions[this.indexRightAxis], axlei);
+        const surfNormalWS = wheel.raycastResult.hitNormalWorld;
+        const proj = axlei.dot(surfNormalWS);
+        surfNormalWS.scale(proj, surfNormalWS_scaled_proj);
+        axlei.vsub(surfNormalWS_scaled_proj, axlei);
+        axlei.normalize();
+        surfNormalWS.cross(axlei, forwardWS[i]);
+        forwardWS[i].normalize();
+        wheel.sideImpulse = resolveSingleBilateral(chassisBody, wheel.raycastResult.hitPointWorld, groundObject, wheel.raycastResult.hitPointWorld, axlei);
+        wheel.sideImpulse *= sideFrictionStiffness2;
+      }
+    }
+
+    const sideFactor = 1;
+    const fwdFactor = 0.5;
+    this.sliding = false;
+
+    for (let i = 0; i < numWheels; i++) {
+      const wheel = wheelInfos[i];
+      const groundObject = wheel.raycastResult.body;
+      let rollingFriction = 0;
+      wheel.slipInfo = 1;
+
+      if (groundObject) {
+        const defaultRollingFrictionImpulse = 0;
+        const maxImpulse = wheel.brake ? wheel.brake : defaultRollingFrictionImpulse; // btWheelContactPoint contactPt(chassisBody,groundObject,wheelInfraycastInfo.hitPointWorld,forwardWS[wheel],maxImpulse);
+        // rollingFriction = calcRollingFriction(contactPt);
+
+        rollingFriction = calcRollingFriction(chassisBody, groundObject, wheel.raycastResult.hitPointWorld, forwardWS[i], maxImpulse);
+        rollingFriction += wheel.engineForce * timeStep; // rollingFriction = 0;
+
+        const factor = maxImpulse / rollingFriction;
+        wheel.slipInfo *= factor;
+      } //switch between active rolling (throttle), braking and non-active rolling friction (nthrottle/break)
+
+
+      wheel.forwardImpulse = 0;
+      wheel.skidInfo = 1;
+
+      if (groundObject) {
+        wheel.skidInfo = 1;
+        const maximp = wheel.suspensionForce * timeStep * wheel.frictionSlip;
+        const maximpSide = maximp;
+        const maximpSquared = maximp * maximpSide;
+        wheel.forwardImpulse = rollingFriction; //wheelInfo.engineForce* timeStep;
+
+        const x = wheel.forwardImpulse * fwdFactor / wheel.forwardAcceleration;
+        const y = wheel.sideImpulse * sideFactor / wheel.sideAcceleration;
+        const impulseSquared = x * x + y * y;
+        wheel.sliding = false;
+
+        if (impulseSquared > maximpSquared) {
+          this.sliding = true;
+          wheel.sliding = true;
+          const factor = maximp / Math.sqrt(impulseSquared);
+          wheel.skidInfo *= factor;
+        }
+      }
+    }
+
+    if (this.sliding) {
+      for (let i = 0; i < numWheels; i++) {
+        const wheel = wheelInfos[i];
+
+        if (wheel.sideImpulse !== 0) {
+          if (wheel.skidInfo < 1) {
+            wheel.forwardImpulse *= wheel.skidInfo;
+            wheel.sideImpulse *= wheel.skidInfo;
+          }
+        }
+      }
+    } // apply the impulses
+
+
+    for (let i = 0; i < numWheels; i++) {
+      const wheel = wheelInfos[i];
+      const rel_pos = new Vec3();
+      wheel.raycastResult.hitPointWorld.vsub(chassisBody.position, rel_pos); // cannons applyimpulse is using world coord for the position
+      //rel_pos.copy(wheel.raycastResult.hitPointWorld);
+
+      if (wheel.forwardImpulse !== 0) {
+        const impulse = new Vec3();
+        forwardWS[i].scale(wheel.forwardImpulse, impulse);
+        chassisBody.applyImpulse(impulse, rel_pos);
+      }
+
+      if (wheel.sideImpulse !== 0) {
+        const groundObject = wheel.raycastResult.body;
+        const rel_pos2 = new Vec3();
+        wheel.raycastResult.hitPointWorld.vsub(groundObject.position, rel_pos2); //rel_pos2.copy(wheel.raycastResult.hitPointWorld);
+
+        const sideImp = new Vec3();
+        axle[i].scale(wheel.sideImpulse, sideImp); // Scale the relative position in the up direction with rollInfluence.
+        // If rollInfluence is 1, the impulse will be applied on the hitPoint (easy to roll over), if it is zero it will be applied in the same plane as the center of mass (not easy to roll over).
+
+        chassisBody.vectorToLocalFrame(rel_pos, rel_pos);
+        rel_pos['xyz'[this.indexUpAxis]] *= wheel.rollInfluence;
+        chassisBody.vectorToWorldFrame(rel_pos, rel_pos);
+        chassisBody.applyImpulse(sideImp, rel_pos); //apply friction impulse on the ground
+
+        sideImp.scale(-1, sideImp);
+        groundObject.applyImpulse(sideImp, rel_pos2);
+      }
+    }
+  }
+
+}
+new Vec3();
+new Vec3();
+new Vec3();
+const tmpVec4 = new Vec3();
+const tmpVec5 = new Vec3();
+const tmpVec6 = new Vec3();
+new Ray();
+new Vec3();
+const castRay_rayvector = new Vec3();
+const castRay_target = new Vec3();
+const directions = [new Vec3(1, 0, 0), new Vec3(0, 1, 0), new Vec3(0, 0, 1)];
+const updateFriction_surfNormalWS_scaled_proj = new Vec3();
+const updateFriction_axle = [];
+const updateFriction_forwardWS = [];
+const sideFrictionStiffness2 = 1;
+const calcRollingFriction_vel1 = new Vec3();
+const calcRollingFriction_vel2 = new Vec3();
+const calcRollingFriction_vel = new Vec3();
+
+function calcRollingFriction(body0, body1, frictionPosWorld, frictionDirectionWorld, maxImpulse) {
+  let j1 = 0;
+  const contactPosWorld = frictionPosWorld; // const rel_pos1 = new Vec3();
+  // const rel_pos2 = new Vec3();
+
+  const vel1 = calcRollingFriction_vel1;
+  const vel2 = calcRollingFriction_vel2;
+  const vel = calcRollingFriction_vel; // contactPosWorld.vsub(body0.position, rel_pos1);
+  // contactPosWorld.vsub(body1.position, rel_pos2);
+
+  body0.getVelocityAtWorldPoint(contactPosWorld, vel1);
+  body1.getVelocityAtWorldPoint(contactPosWorld, vel2);
+  vel1.vsub(vel2, vel);
+  const vrel = frictionDirectionWorld.dot(vel);
+  const denom0 = computeImpulseDenominator(body0, frictionPosWorld, frictionDirectionWorld);
+  const denom1 = computeImpulseDenominator(body1, frictionPosWorld, frictionDirectionWorld);
+  const relaxation = 1;
+  const jacDiagABInv = relaxation / (denom0 + denom1); // calculate j that moves us to zero relative velocity
+
+  j1 = -vrel * jacDiagABInv;
+
+  if (maxImpulse < j1) {
+    j1 = maxImpulse;
+  }
+
+  if (j1 < -maxImpulse) {
+    j1 = -maxImpulse;
+  }
+
+  return j1;
+}
+
+const computeImpulseDenominator_r0 = new Vec3();
+const computeImpulseDenominator_c0 = new Vec3();
+const computeImpulseDenominator_vec = new Vec3();
+const computeImpulseDenominator_m = new Vec3();
+
+function computeImpulseDenominator(body, pos, normal) {
+  const r0 = computeImpulseDenominator_r0;
+  const c0 = computeImpulseDenominator_c0;
+  const vec = computeImpulseDenominator_vec;
+  const m = computeImpulseDenominator_m;
+  pos.vsub(body.position, r0);
+  r0.cross(normal, c0);
+  body.invInertiaWorld.vmult(c0, m);
+  m.cross(r0, vec);
+  return body.invMass + normal.dot(vec);
+}
+
+const resolveSingleBilateral_vel1 = new Vec3();
+const resolveSingleBilateral_vel2 = new Vec3();
+const resolveSingleBilateral_vel = new Vec3(); // bilateral constraint between two dynamic objects
+
+function resolveSingleBilateral(body1, pos1, body2, pos2, normal) {
+  const normalLenSqr = normal.lengthSquared();
+
+  if (normalLenSqr > 1.1) {
+    return 0; // no impulse
+  } // const rel_pos1 = new Vec3();
+  // const rel_pos2 = new Vec3();
+  // pos1.vsub(body1.position, rel_pos1);
+  // pos2.vsub(body2.position, rel_pos2);
+
+
+  const vel1 = resolveSingleBilateral_vel1;
+  const vel2 = resolveSingleBilateral_vel2;
+  const vel = resolveSingleBilateral_vel;
+  body1.getVelocityAtWorldPoint(pos1, vel1);
+  body2.getVelocityAtWorldPoint(pos2, vel2);
+  vel1.vsub(vel2, vel);
+  const rel_vel = normal.dot(vel);
+  const contactDamping = 0.2;
+  const massTerm = 1 / (body1.invMass + body2.invMass);
+  const impulse = -contactDamping * rel_vel * massTerm;
+  return impulse;
+}
+
+/**
+ * Spherical shape
+ * @example
+ *     const radius = 1
+ *     const sphereShape = new CANNON.Sphere(radius)
+ *     const sphereBody = new CANNON.Body({ mass: 1, shape: sphereShape })
+ *     world.addBody(sphereBody)
+ */
+class Sphere extends Shape {
+  /**
+   * The radius of the sphere.
+   */
+
+  /**
+   *
+   * @param radius The radius of the sphere, a non-negative number.
+   */
+  constructor(radius) {
+    super({
+      type: Shape.types.SPHERE
+    });
+    this.radius = radius !== undefined ? radius : 1.0;
+
+    if (this.radius < 0) {
+      throw new Error('The sphere radius cannot be negative.');
+    }
+
+    this.updateBoundingSphereRadius();
+  }
+  /** calculateLocalInertia */
+
+
+  calculateLocalInertia(mass, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    const I = 2.0 * mass * this.radius * this.radius / 5.0;
+    target.x = I;
+    target.y = I;
+    target.z = I;
+    return target;
+  }
+  /** volume */
+
+
+  volume() {
+    return 4.0 * Math.PI * Math.pow(this.radius, 3) / 3.0;
+  }
+
+  updateBoundingSphereRadius() {
+    this.boundingSphereRadius = this.radius;
+  }
+
+  calculateWorldAABB(pos, quat, min, max) {
+    const r = this.radius;
+    const axes = ['x', 'y', 'z'];
+
+    for (let i = 0; i < axes.length; i++) {
+      const ax = axes[i];
+      min[ax] = pos[ax] - r;
+      max[ax] = pos[ax] + r;
+    }
+  }
+
+}
+
+/**
+ * Simple vehicle helper class with spherical rigid body wheels.
+ */
+class RigidVehicle {
+  /**
+   * The bodies of the wheels.
+   */
+
+  /**
+   * The chassis body.
+   */
+
+  /**
+   * The constraints.
+   */
+
+  /**
+   * The wheel axes.
+   */
+
+  /**
+   * The wheel forces.
+   */
+  constructor(options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    this.wheelBodies = [];
+    this.coordinateSystem = typeof options.coordinateSystem !== 'undefined' ? options.coordinateSystem.clone() : new Vec3(1, 2, 3);
+
+    if (options.chassisBody) {
+      this.chassisBody = options.chassisBody;
+    } else {
+      // No chassis body given. Create it!
+      this.chassisBody = new Body({
+        mass: 1,
+        shape: new Box(new Vec3(5, 0.5, 2))
+      });
+    }
+
+    this.constraints = [];
+    this.wheelAxes = [];
+    this.wheelForces = [];
+  }
+  /**
+   * Add a wheel
+   */
+
+
+  addWheel(options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    let wheelBody;
+
+    if (options.body) {
+      wheelBody = options.body;
+    } else {
+      // No wheel body given. Create it!
+      wheelBody = new Body({
+        mass: 1,
+        shape: new Sphere(1.2)
+      });
+    }
+
+    this.wheelBodies.push(wheelBody);
+    this.wheelForces.push(0); // Position constrain wheels
+
+    const position = typeof options.position !== 'undefined' ? options.position.clone() : new Vec3(); // Set position locally to the chassis
+
+    const worldPosition = new Vec3();
+    this.chassisBody.pointToWorldFrame(position, worldPosition);
+    wheelBody.position.set(worldPosition.x, worldPosition.y, worldPosition.z); // Constrain wheel
+
+    const axis = typeof options.axis !== 'undefined' ? options.axis.clone() : new Vec3(0, 0, 1);
+    this.wheelAxes.push(axis);
+    const hingeConstraint = new HingeConstraint(this.chassisBody, wheelBody, {
+      pivotA: position,
+      axisA: axis,
+      pivotB: Vec3.ZERO,
+      axisB: axis,
+      collideConnected: false
+    });
+    this.constraints.push(hingeConstraint);
+    return this.wheelBodies.length - 1;
+  }
+  /**
+   * Set the steering value of a wheel.
+   * @todo check coordinateSystem
+   */
+
+
+  setSteeringValue(value, wheelIndex) {
+    // Set angle of the hinge axis
+    const axis = this.wheelAxes[wheelIndex];
+    const c = Math.cos(value);
+    const s = Math.sin(value);
+    const x = axis.x;
+    const z = axis.z;
+    this.constraints[wheelIndex].axisA.set(-c * x + s * z, 0, s * x + c * z);
+  }
+  /**
+   * Set the target rotational speed of the hinge constraint.
+   */
+
+
+  setMotorSpeed(value, wheelIndex) {
+    const hingeConstraint = this.constraints[wheelIndex];
+    hingeConstraint.enableMotor();
+    hingeConstraint.motorTargetVelocity = value;
+  }
+  /**
+   * Set the target rotational speed of the hinge constraint.
+   */
+
+
+  disableMotor(wheelIndex) {
+    const hingeConstraint = this.constraints[wheelIndex];
+    hingeConstraint.disableMotor();
+  }
+  /**
+   * Set the wheel force to apply on one of the wheels each time step
+   */
+
+
+  setWheelForce(value, wheelIndex) {
+    this.wheelForces[wheelIndex] = value;
+  }
+  /**
+   * Apply a torque on one of the wheels.
+   */
+
+
+  applyWheelForce(value, wheelIndex) {
+    const axis = this.wheelAxes[wheelIndex];
+    const wheelBody = this.wheelBodies[wheelIndex];
+    const bodyTorque = wheelBody.torque;
+    axis.scale(value, torque);
+    wheelBody.vectorToWorldFrame(torque, torque);
+    bodyTorque.vadd(torque, bodyTorque);
+  }
+  /**
+   * Add the vehicle including its constraints to the world.
+   */
+
+
+  addToWorld(world) {
+    const constraints = this.constraints;
+    const bodies = this.wheelBodies.concat([this.chassisBody]);
+
+    for (let i = 0; i < bodies.length; i++) {
+      world.addBody(bodies[i]);
+    }
+
+    for (let i = 0; i < constraints.length; i++) {
+      world.addConstraint(constraints[i]);
+    }
+
+    world.addEventListener('preStep', this._update.bind(this));
+  }
+
+  _update() {
+    const wheelForces = this.wheelForces;
+
+    for (let i = 0; i < wheelForces.length; i++) {
+      this.applyWheelForce(wheelForces[i], i);
+    }
+  }
+  /**
+   * Remove the vehicle including its constraints from the world.
+   */
+
+
+  removeFromWorld(world) {
+    const constraints = this.constraints;
+    const bodies = this.wheelBodies.concat([this.chassisBody]);
+
+    for (let i = 0; i < bodies.length; i++) {
+      world.removeBody(bodies[i]);
+    }
+
+    for (let i = 0; i < constraints.length; i++) {
+      world.removeConstraint(constraints[i]);
+    }
+  }
+  /**
+   * Get current rotational velocity of a wheel
+   */
+
+
+  getWheelSpeed(wheelIndex) {
+    const axis = this.wheelAxes[wheelIndex];
+    const wheelBody = this.wheelBodies[wheelIndex];
+    const w = wheelBody.angularVelocity;
+    this.chassisBody.vectorToWorldFrame(axis, worldAxis);
+    return w.dot(worldAxis);
+  }
+
+}
+const torque = new Vec3();
+const worldAxis = new Vec3();
+
+/**
+ * Smoothed-particle hydrodynamics system
+ * @todo Make parameters customizable in the constructor
+ */
+class SPHSystem {
+  /**
+   * The particles array.
+   */
+
+  /**
+   * Density of the system (kg/m3).
+   * @default 1
+   */
+
+  /**
+   * Distance below which two particles are considered to be neighbors.
+   * It should be adjusted so there are about 15-20 neighbor particles within this radius.
+   * @default 1
+   */
+
+  /**
+   * @default 1
+   */
+
+  /**
+   * Viscosity of the system.
+   * @default 0.01
+   */
+
+  /**
+   * @default 0.000001
+   */
+  constructor() {
+    this.particles = [];
+    this.density = 1;
+    this.smoothingRadius = 1;
+    this.speedOfSound = 1;
+    this.viscosity = 0.01;
+    this.eps = 0.000001; // Stuff Computed per particle
+
+    this.pressures = [];
+    this.densities = [];
+    this.neighbors = [];
+  }
+  /**
+   * Add a particle to the system.
+   */
+
+
+  add(particle) {
+    this.particles.push(particle);
+
+    if (this.neighbors.length < this.particles.length) {
+      this.neighbors.push([]);
+    }
+  }
+  /**
+   * Remove a particle from the system.
+   */
+
+
+  remove(particle) {
+    const idx = this.particles.indexOf(particle);
+
+    if (idx !== -1) {
+      this.particles.splice(idx, 1);
+
+      if (this.neighbors.length > this.particles.length) {
+        this.neighbors.pop();
+      }
+    }
+  }
+  /**
+   * Get neighbors within smoothing volume, save in the array neighbors
+   */
+
+
+  getNeighbors(particle, neighbors) {
+    const N = this.particles.length;
+    const id = particle.id;
+    const R2 = this.smoothingRadius * this.smoothingRadius;
+    const dist = SPHSystem_getNeighbors_dist;
+
+    for (let i = 0; i !== N; i++) {
+      const p = this.particles[i];
+      p.position.vsub(particle.position, dist);
+
+      if (id !== p.id && dist.lengthSquared() < R2) {
+        neighbors.push(p);
+      }
+    }
+  }
+
+  update() {
+    const N = this.particles.length;
+    const dist = SPHSystem_update_dist;
+    const cs = this.speedOfSound;
+    const eps = this.eps;
+
+    for (let i = 0; i !== N; i++) {
+      const p = this.particles[i]; // Current particle
+
+      const neighbors = this.neighbors[i]; // Get neighbors
+
+      neighbors.length = 0;
+      this.getNeighbors(p, neighbors);
+      neighbors.push(this.particles[i]); // Add current too
+
+      const numNeighbors = neighbors.length; // Accumulate density for the particle
+
+      let sum = 0.0;
+
+      for (let j = 0; j !== numNeighbors; j++) {
+        //printf("Current particle has position %f %f %f\n",objects[id].pos.x(),objects[id].pos.y(),objects[id].pos.z());
+        p.position.vsub(neighbors[j].position, dist);
+        const len = dist.length();
+        const weight = this.w(len);
+        sum += neighbors[j].mass * weight;
+      } // Save
+
+
+      this.densities[i] = sum;
+      this.pressures[i] = cs * cs * (this.densities[i] - this.density);
+    } // Add forces
+    // Sum to these accelerations
+
+
+    const a_pressure = SPHSystem_update_a_pressure;
+    const a_visc = SPHSystem_update_a_visc;
+    const gradW = SPHSystem_update_gradW;
+    const r_vec = SPHSystem_update_r_vec;
+    const u = SPHSystem_update_u;
+
+    for (let i = 0; i !== N; i++) {
+      const particle = this.particles[i];
+      a_pressure.set(0, 0, 0);
+      a_visc.set(0, 0, 0); // Init vars
+
+      let Pij;
+      let nabla;
+
+      const neighbors = this.neighbors[i];
+      const numNeighbors = neighbors.length; //printf("Neighbors: ");
+
+      for (let j = 0; j !== numNeighbors; j++) {
+        const neighbor = neighbors[j]; //printf("%d ",nj);
+        // Get r once for all..
+
+        particle.position.vsub(neighbor.position, r_vec);
+        const r = r_vec.length(); // Pressure contribution
+
+        Pij = -neighbor.mass * (this.pressures[i] / (this.densities[i] * this.densities[i] + eps) + this.pressures[j] / (this.densities[j] * this.densities[j] + eps));
+        this.gradw(r_vec, gradW); // Add to pressure acceleration
+
+        gradW.scale(Pij, gradW);
+        a_pressure.vadd(gradW, a_pressure); // Viscosity contribution
+
+        neighbor.velocity.vsub(particle.velocity, u);
+        u.scale(1.0 / (0.0001 + this.densities[i] * this.densities[j]) * this.viscosity * neighbor.mass, u);
+        nabla = this.nablaw(r);
+        u.scale(nabla, u); // Add to viscosity acceleration
+
+        a_visc.vadd(u, a_visc);
+      } // Calculate force
+
+
+      a_visc.scale(particle.mass, a_visc);
+      a_pressure.scale(particle.mass, a_pressure); // Add force to particles
+
+      particle.force.vadd(a_visc, particle.force);
+      particle.force.vadd(a_pressure, particle.force);
+    }
+  } // Calculate the weight using the W(r) weightfunction
+
+
+  w(r) {
+    // 315
+    const h = this.smoothingRadius;
+    return 315.0 / (64.0 * Math.PI * h ** 9) * (h * h - r * r) ** 3;
+  } // calculate gradient of the weight function
+
+
+  gradw(rVec, resultVec) {
+    const r = rVec.length();
+    const h = this.smoothingRadius;
+    rVec.scale(945.0 / (32.0 * Math.PI * h ** 9) * (h * h - r * r) ** 2, resultVec);
+  } // Calculate nabla(W)
+
+
+  nablaw(r) {
+    const h = this.smoothingRadius;
+    const nabla = 945.0 / (32.0 * Math.PI * h ** 9) * (h * h - r * r) * (7 * r * r - 3 * h * h);
+    return nabla;
+  }
+
+}
+const SPHSystem_getNeighbors_dist = new Vec3(); // Temp vectors for calculation
+
+const SPHSystem_update_dist = new Vec3(); // Relative velocity
+
+const SPHSystem_update_a_pressure = new Vec3();
+const SPHSystem_update_a_visc = new Vec3();
+const SPHSystem_update_gradW = new Vec3();
+const SPHSystem_update_r_vec = new Vec3();
+const SPHSystem_update_u = new Vec3();
+
+/**
+ * Cylinder class.
+ * @example
+ *     const radiusTop = 0.5
+ *     const radiusBottom = 0.5
+ *     const height = 2
+ *     const numSegments = 12
+ *     const cylinderShape = new CANNON.Cylinder(radiusTop, radiusBottom, height, numSegments)
+ *     const cylinderBody = new CANNON.Body({ mass: 1, shape: cylinderShape })
+ *     world.addBody(cylinderBody)
+ */
+
+class Cylinder extends ConvexPolyhedron {
+  /** The radius of the top of the Cylinder. */
+
+  /** The radius of the bottom of the Cylinder. */
+
+  /** The height of the Cylinder. */
+
+  /** The number of segments to build the cylinder out of. */
+
+  /**
+   * @param radiusTop The radius of the top of the Cylinder.
+   * @param radiusBottom The radius of the bottom of the Cylinder.
+   * @param height The height of the Cylinder.
+   * @param numSegments The number of segments to build the cylinder out of.
+   */
+  constructor(radiusTop, radiusBottom, height, numSegments) {
+    if (radiusTop === void 0) {
+      radiusTop = 1;
+    }
+
+    if (radiusBottom === void 0) {
+      radiusBottom = 1;
+    }
+
+    if (height === void 0) {
+      height = 1;
+    }
+
+    if (numSegments === void 0) {
+      numSegments = 8;
+    }
+
+    if (radiusTop < 0) {
+      throw new Error('The cylinder radiusTop cannot be negative.');
+    }
+
+    if (radiusBottom < 0) {
+      throw new Error('The cylinder radiusBottom cannot be negative.');
+    }
+
+    const N = numSegments;
+    const vertices = [];
+    const axes = [];
+    const faces = [];
+    const bottomface = [];
+    const topface = [];
+    const cos = Math.cos;
+    const sin = Math.sin; // First bottom point
+
+    vertices.push(new Vec3(-radiusBottom * sin(0), -height * 0.5, radiusBottom * cos(0)));
+    bottomface.push(0); // First top point
+
+    vertices.push(new Vec3(-radiusTop * sin(0), height * 0.5, radiusTop * cos(0)));
+    topface.push(1);
+
+    for (let i = 0; i < N; i++) {
+      const theta = 2 * Math.PI / N * (i + 1);
+      const thetaN = 2 * Math.PI / N * (i + 0.5);
+
+      if (i < N - 1) {
+        // Bottom
+        vertices.push(new Vec3(-radiusBottom * sin(theta), -height * 0.5, radiusBottom * cos(theta)));
+        bottomface.push(2 * i + 2); // Top
+
+        vertices.push(new Vec3(-radiusTop * sin(theta), height * 0.5, radiusTop * cos(theta)));
+        topface.push(2 * i + 3); // Face
+
+        faces.push([2 * i, 2 * i + 1, 2 * i + 3, 2 * i + 2]);
+      } else {
+        faces.push([2 * i, 2 * i + 1, 1, 0]); // Connect
+      } // Axis: we can cut off half of them if we have even number of segments
+
+
+      if (N % 2 === 1 || i < N / 2) {
+        axes.push(new Vec3(-sin(thetaN), 0, cos(thetaN)));
+      }
+    }
+
+    faces.push(bottomface);
+    axes.push(new Vec3(0, 1, 0)); // Reorder top face
+
+    const temp = [];
+
+    for (let i = 0; i < topface.length; i++) {
+      temp.push(topface[topface.length - i - 1]);
+    }
+
+    faces.push(temp);
+    super({
+      vertices,
+      faces,
+      axes
+    });
+    this.type = Shape.types.CYLINDER;
+    this.radiusTop = radiusTop;
+    this.radiusBottom = radiusBottom;
+    this.height = height;
+    this.numSegments = numSegments;
+  }
+
+}
+
+/**
+ * Particle shape.
+ * @example
+ *     const particleShape = new CANNON.Particle()
+ *     const particleBody = new CANNON.Body({ mass: 1, shape: particleShape })
+ *     world.addBody(particleBody)
+ */
+class Particle extends Shape {
+  constructor() {
+    super({
+      type: Shape.types.PARTICLE
+    });
+  }
+  /**
+   * calculateLocalInertia
+   */
+
+
+  calculateLocalInertia(mass, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    target.set(0, 0, 0);
+    return target;
+  }
+
+  volume() {
+    return 0;
+  }
+
+  updateBoundingSphereRadius() {
+    this.boundingSphereRadius = 0;
+  }
+
+  calculateWorldAABB(pos, quat, min, max) {
+    // Get each axis max
+    min.copy(pos);
+    max.copy(pos);
+  }
+
+}
+
+/**
+ * A plane, facing in the Z direction. The plane has its surface at z=0 and everything below z=0 is assumed to be solid plane. To make the plane face in some other direction than z, you must put it inside a Body and rotate that body. See the demos.
+ * @example
+ *     const planeShape = new CANNON.Plane()
+ *     const planeBody = new CANNON.Body({ mass: 0, shape:  planeShape })
+ *     planeBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0) // make it face up
+ *     world.addBody(planeBody)
+ */
+class Plane extends Shape {
+  /** worldNormal */
+
+  /** worldNormalNeedsUpdate */
+  constructor() {
+    super({
+      type: Shape.types.PLANE
+    }); // World oriented normal
+
+    this.worldNormal = new Vec3();
+    this.worldNormalNeedsUpdate = true;
+    this.boundingSphereRadius = Number.MAX_VALUE;
+  }
+  /** computeWorldNormal */
+
+
+  computeWorldNormal(quat) {
+    const n = this.worldNormal;
+    n.set(0, 0, 1);
+    quat.vmult(n, n);
+    this.worldNormalNeedsUpdate = false;
+  }
+
+  calculateLocalInertia(mass, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    return target;
+  }
+
+  volume() {
+    return (// The plane is infinite...
+      Number.MAX_VALUE
+    );
+  }
+
+  calculateWorldAABB(pos, quat, min, max) {
+    // The plane AABB is infinite, except if the normal is pointing along any axis
+    tempNormal.set(0, 0, 1); // Default plane normal is z
+
+    quat.vmult(tempNormal, tempNormal);
+    const maxVal = Number.MAX_VALUE;
+    min.set(-maxVal, -maxVal, -maxVal);
+    max.set(maxVal, maxVal, maxVal);
+
+    if (tempNormal.x === 1) {
+      max.x = pos.x;
+    } else if (tempNormal.x === -1) {
+      min.x = pos.x;
+    }
+
+    if (tempNormal.y === 1) {
+      max.y = pos.y;
+    } else if (tempNormal.y === -1) {
+      min.y = pos.y;
+    }
+
+    if (tempNormal.z === 1) {
+      max.z = pos.z;
+    } else if (tempNormal.z === -1) {
+      min.z = pos.z;
+    }
+  }
+
+  updateBoundingSphereRadius() {
+    this.boundingSphereRadius = Number.MAX_VALUE;
+  }
+
+}
+const tempNormal = new Vec3();
+
+/**
+ * Heightfield shape class. Height data is given as an array. These data points are spread out evenly with a given distance.
+ * @todo Should be possible to use along all axes, not just y
+ * @todo should be possible to scale along all axes
+ * @todo Refactor elementSize to elementSizeX and elementSizeY
+ *
+ * @example
+ *     // Generate some height data (y-values).
+ *     const data = []
+ *     for (let i = 0; i < 1000; i++) {
+ *         const y = 0.5 * Math.cos(0.2 * i)
+ *         data.push(y)
+ *     }
+ *
+ *     // Create the heightfield shape
+ *     const heightfieldShape = new CANNON.Heightfield(data, {
+ *         elementSize: 1 // Distance between the data points in X and Y directions
+ *     })
+ *     const heightfieldBody = new CANNON.Body({ shape: heightfieldShape })
+ *     world.addBody(heightfieldBody)
+ */
+class Heightfield extends Shape {
+  /**
+   * An array of numbers, or height values, that are spread out along the x axis.
+   */
+
+  /**
+   * Max value of the data points in the data array.
+   */
+
+  /**
+   * Minimum value of the data points in the data array.
+   */
+
+  /**
+   * World spacing between the data points in X and Y direction.
+   * @todo elementSizeX and Y
+   * @default 1
+   */
+
+  /**
+   * @default true
+   */
+
+  /**
+   * @param data An array of numbers, or height values, that are spread out along the x axis.
+   */
+  constructor(data, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    options = Utils.defaults(options, {
+      maxValue: null,
+      minValue: null,
+      elementSize: 1
+    });
+    super({
+      type: Shape.types.HEIGHTFIELD
+    });
+    this.data = data;
+    this.maxValue = options.maxValue;
+    this.minValue = options.minValue;
+    this.elementSize = options.elementSize;
+
+    if (options.minValue === null) {
+      this.updateMinValue();
+    }
+
+    if (options.maxValue === null) {
+      this.updateMaxValue();
+    }
+
+    this.cacheEnabled = true;
+    this.pillarConvex = new ConvexPolyhedron();
+    this.pillarOffset = new Vec3();
+    this.updateBoundingSphereRadius(); // "i_j_isUpper" => { convex: ..., offset: ... }
+    // for example:
+    // _cachedPillars["0_2_1"]
+
+    this._cachedPillars = {};
+  }
+  /**
+   * Call whenever you change the data array.
+   */
+
+
+  update() {
+    this._cachedPillars = {};
+  }
+  /**
+   * Update the `minValue` property
+   */
+
+
+  updateMinValue() {
+    const data = this.data;
+    let minValue = data[0][0];
+
+    for (let i = 0; i !== data.length; i++) {
+      for (let j = 0; j !== data[i].length; j++) {
+        const v = data[i][j];
+
+        if (v < minValue) {
+          minValue = v;
+        }
+      }
+    }
+
+    this.minValue = minValue;
+  }
+  /**
+   * Update the `maxValue` property
+   */
+
+
+  updateMaxValue() {
+    const data = this.data;
+    let maxValue = data[0][0];
+
+    for (let i = 0; i !== data.length; i++) {
+      for (let j = 0; j !== data[i].length; j++) {
+        const v = data[i][j];
+
+        if (v > maxValue) {
+          maxValue = v;
+        }
+      }
+    }
+
+    this.maxValue = maxValue;
+  }
+  /**
+   * Set the height value at an index. Don't forget to update maxValue and minValue after you're done.
+   */
+
+
+  setHeightValueAtIndex(xi, yi, value) {
+    const data = this.data;
+    data[xi][yi] = value; // Invalidate cache
+
+    this.clearCachedConvexTrianglePillar(xi, yi, false);
+
+    if (xi > 0) {
+      this.clearCachedConvexTrianglePillar(xi - 1, yi, true);
+      this.clearCachedConvexTrianglePillar(xi - 1, yi, false);
+    }
+
+    if (yi > 0) {
+      this.clearCachedConvexTrianglePillar(xi, yi - 1, true);
+      this.clearCachedConvexTrianglePillar(xi, yi - 1, false);
+    }
+
+    if (yi > 0 && xi > 0) {
+      this.clearCachedConvexTrianglePillar(xi - 1, yi - 1, true);
+    }
+  }
+  /**
+   * Get max/min in a rectangle in the matrix data
+   * @param result An array to store the results in.
+   * @return The result array, if it was passed in. Minimum will be at position 0 and max at 1.
+   */
+
+
+  getRectMinMax(iMinX, iMinY, iMaxX, iMaxY, result) {
+    if (result === void 0) {
+      result = [];
+    }
+
+    // Get max and min of the data
+    const data = this.data; // Set first value
+
+    let max = this.minValue;
+
+    for (let i = iMinX; i <= iMaxX; i++) {
+      for (let j = iMinY; j <= iMaxY; j++) {
+        const height = data[i][j];
+
+        if (height > max) {
+          max = height;
+        }
+      }
+    }
+
+    result[0] = this.minValue;
+    result[1] = max;
+  }
+  /**
+   * Get the index of a local position on the heightfield. The indexes indicate the rectangles, so if your terrain is made of N x N height data points, you will have rectangle indexes ranging from 0 to N-1.
+   * @param result Two-element array
+   * @param clamp If the position should be clamped to the heightfield edge.
+   */
+
+
+  getIndexOfPosition(x, y, result, clamp) {
+    // Get the index of the data points to test against
+    const w = this.elementSize;
+    const data = this.data;
+    let xi = Math.floor(x / w);
+    let yi = Math.floor(y / w);
+    result[0] = xi;
+    result[1] = yi;
+
+    if (clamp) {
+      // Clamp index to edges
+      if (xi < 0) {
+        xi = 0;
+      }
+
+      if (yi < 0) {
+        yi = 0;
+      }
+
+      if (xi >= data.length - 1) {
+        xi = data.length - 1;
+      }
+
+      if (yi >= data[0].length - 1) {
+        yi = data[0].length - 1;
+      }
+    } // Bail out if we are out of the terrain
+
+
+    if (xi < 0 || yi < 0 || xi >= data.length - 1 || yi >= data[0].length - 1) {
+      return false;
+    }
+
+    return true;
+  }
+
+  getTriangleAt(x, y, edgeClamp, a, b, c) {
+    const idx = getHeightAt_idx;
+    this.getIndexOfPosition(x, y, idx, edgeClamp);
+    let xi = idx[0];
+    let yi = idx[1];
+    const data = this.data;
+
+    if (edgeClamp) {
+      xi = Math.min(data.length - 2, Math.max(0, xi));
+      yi = Math.min(data[0].length - 2, Math.max(0, yi));
+    }
+
+    const elementSize = this.elementSize;
+    const lowerDist2 = (x / elementSize - xi) ** 2 + (y / elementSize - yi) ** 2;
+    const upperDist2 = (x / elementSize - (xi + 1)) ** 2 + (y / elementSize - (yi + 1)) ** 2;
+    const upper = lowerDist2 > upperDist2;
+    this.getTriangle(xi, yi, upper, a, b, c);
+    return upper;
+  }
+
+  getNormalAt(x, y, edgeClamp, result) {
+    const a = getNormalAt_a;
+    const b = getNormalAt_b;
+    const c = getNormalAt_c;
+    const e0 = getNormalAt_e0;
+    const e1 = getNormalAt_e1;
+    this.getTriangleAt(x, y, edgeClamp, a, b, c);
+    b.vsub(a, e0);
+    c.vsub(a, e1);
+    e0.cross(e1, result);
+    result.normalize();
+  }
+  /**
+   * Get an AABB of a square in the heightfield
+   * @param xi
+   * @param yi
+   * @param result
+   */
+
+
+  getAabbAtIndex(xi, yi, _ref) {
+    let {
+      lowerBound,
+      upperBound
+    } = _ref;
+    const data = this.data;
+    const elementSize = this.elementSize;
+    lowerBound.set(xi * elementSize, yi * elementSize, data[xi][yi]);
+    upperBound.set((xi + 1) * elementSize, (yi + 1) * elementSize, data[xi + 1][yi + 1]);
+  }
+  /**
+   * Get the height in the heightfield at a given position
+   */
+
+
+  getHeightAt(x, y, edgeClamp) {
+    const data = this.data;
+    const a = getHeightAt_a;
+    const b = getHeightAt_b;
+    const c = getHeightAt_c;
+    const idx = getHeightAt_idx;
+    this.getIndexOfPosition(x, y, idx, edgeClamp);
+    let xi = idx[0];
+    let yi = idx[1];
+
+    if (edgeClamp) {
+      xi = Math.min(data.length - 2, Math.max(0, xi));
+      yi = Math.min(data[0].length - 2, Math.max(0, yi));
+    }
+
+    const upper = this.getTriangleAt(x, y, edgeClamp, a, b, c);
+    barycentricWeights(x, y, a.x, a.y, b.x, b.y, c.x, c.y, getHeightAt_weights);
+    const w = getHeightAt_weights;
+
+    if (upper) {
+      // Top triangle verts
+      return data[xi + 1][yi + 1] * w.x + data[xi][yi + 1] * w.y + data[xi + 1][yi] * w.z;
+    } else {
+      // Top triangle verts
+      return data[xi][yi] * w.x + data[xi + 1][yi] * w.y + data[xi][yi + 1] * w.z;
+    }
+  }
+
+  getCacheConvexTrianglePillarKey(xi, yi, getUpperTriangle) {
+    return `${xi}_${yi}_${getUpperTriangle ? 1 : 0}`;
+  }
+
+  getCachedConvexTrianglePillar(xi, yi, getUpperTriangle) {
+    return this._cachedPillars[this.getCacheConvexTrianglePillarKey(xi, yi, getUpperTriangle)];
+  }
+
+  setCachedConvexTrianglePillar(xi, yi, getUpperTriangle, convex, offset) {
+    this._cachedPillars[this.getCacheConvexTrianglePillarKey(xi, yi, getUpperTriangle)] = {
+      convex,
+      offset
+    };
+  }
+
+  clearCachedConvexTrianglePillar(xi, yi, getUpperTriangle) {
+    delete this._cachedPillars[this.getCacheConvexTrianglePillarKey(xi, yi, getUpperTriangle)];
+  }
+  /**
+   * Get a triangle from the heightfield
+   */
+
+
+  getTriangle(xi, yi, upper, a, b, c) {
+    const data = this.data;
+    const elementSize = this.elementSize;
+
+    if (upper) {
+      // Top triangle verts
+      a.set((xi + 1) * elementSize, (yi + 1) * elementSize, data[xi + 1][yi + 1]);
+      b.set(xi * elementSize, (yi + 1) * elementSize, data[xi][yi + 1]);
+      c.set((xi + 1) * elementSize, yi * elementSize, data[xi + 1][yi]);
+    } else {
+      // Top triangle verts
+      a.set(xi * elementSize, yi * elementSize, data[xi][yi]);
+      b.set((xi + 1) * elementSize, yi * elementSize, data[xi + 1][yi]);
+      c.set(xi * elementSize, (yi + 1) * elementSize, data[xi][yi + 1]);
+    }
+  }
+  /**
+   * Get a triangle in the terrain in the form of a triangular convex shape.
+   */
+
+
+  getConvexTrianglePillar(xi, yi, getUpperTriangle) {
+    let result = this.pillarConvex;
+    let offsetResult = this.pillarOffset;
+
+    if (this.cacheEnabled) {
+      const data = this.getCachedConvexTrianglePillar(xi, yi, getUpperTriangle);
+
+      if (data) {
+        this.pillarConvex = data.convex;
+        this.pillarOffset = data.offset;
+        return;
+      }
+
+      result = new ConvexPolyhedron();
+      offsetResult = new Vec3();
+      this.pillarConvex = result;
+      this.pillarOffset = offsetResult;
+    }
+
+    const data = this.data;
+    const elementSize = this.elementSize;
+    const faces = result.faces; // Reuse verts if possible
+
+    result.vertices.length = 6;
+
+    for (let i = 0; i < 6; i++) {
+      if (!result.vertices[i]) {
+        result.vertices[i] = new Vec3();
+      }
+    } // Reuse faces if possible
+
+
+    faces.length = 5;
+
+    for (let i = 0; i < 5; i++) {
+      if (!faces[i]) {
+        faces[i] = [];
+      }
+    }
+
+    const verts = result.vertices;
+    const h = (Math.min(data[xi][yi], data[xi + 1][yi], data[xi][yi + 1], data[xi + 1][yi + 1]) - this.minValue) / 2 + this.minValue;
+
+    if (!getUpperTriangle) {
+      // Center of the triangle pillar - all polygons are given relative to this one
+      offsetResult.set((xi + 0.25) * elementSize, // sort of center of a triangle
+      (yi + 0.25) * elementSize, h // vertical center
+      ); // Top triangle verts
+
+      verts[0].set(-0.25 * elementSize, -0.25 * elementSize, data[xi][yi] - h);
+      verts[1].set(0.75 * elementSize, -0.25 * elementSize, data[xi + 1][yi] - h);
+      verts[2].set(-0.25 * elementSize, 0.75 * elementSize, data[xi][yi + 1] - h); // bottom triangle verts
+
+      verts[3].set(-0.25 * elementSize, -0.25 * elementSize, -Math.abs(h) - 1);
+      verts[4].set(0.75 * elementSize, -0.25 * elementSize, -Math.abs(h) - 1);
+      verts[5].set(-0.25 * elementSize, 0.75 * elementSize, -Math.abs(h) - 1); // top triangle
+
+      faces[0][0] = 0;
+      faces[0][1] = 1;
+      faces[0][2] = 2; // bottom triangle
+
+      faces[1][0] = 5;
+      faces[1][1] = 4;
+      faces[1][2] = 3; // -x facing quad
+
+      faces[2][0] = 0;
+      faces[2][1] = 2;
+      faces[2][2] = 5;
+      faces[2][3] = 3; // -y facing quad
+
+      faces[3][0] = 1;
+      faces[3][1] = 0;
+      faces[3][2] = 3;
+      faces[3][3] = 4; // +xy facing quad
+
+      faces[4][0] = 4;
+      faces[4][1] = 5;
+      faces[4][2] = 2;
+      faces[4][3] = 1;
+    } else {
+      // Center of the triangle pillar - all polygons are given relative to this one
+      offsetResult.set((xi + 0.75) * elementSize, // sort of center of a triangle
+      (yi + 0.75) * elementSize, h // vertical center
+      ); // Top triangle verts
+
+      verts[0].set(0.25 * elementSize, 0.25 * elementSize, data[xi + 1][yi + 1] - h);
+      verts[1].set(-0.75 * elementSize, 0.25 * elementSize, data[xi][yi + 1] - h);
+      verts[2].set(0.25 * elementSize, -0.75 * elementSize, data[xi + 1][yi] - h); // bottom triangle verts
+
+      verts[3].set(0.25 * elementSize, 0.25 * elementSize, -Math.abs(h) - 1);
+      verts[4].set(-0.75 * elementSize, 0.25 * elementSize, -Math.abs(h) - 1);
+      verts[5].set(0.25 * elementSize, -0.75 * elementSize, -Math.abs(h) - 1); // Top triangle
+
+      faces[0][0] = 0;
+      faces[0][1] = 1;
+      faces[0][2] = 2; // bottom triangle
+
+      faces[1][0] = 5;
+      faces[1][1] = 4;
+      faces[1][2] = 3; // +x facing quad
+
+      faces[2][0] = 2;
+      faces[2][1] = 5;
+      faces[2][2] = 3;
+      faces[2][3] = 0; // +y facing quad
+
+      faces[3][0] = 3;
+      faces[3][1] = 4;
+      faces[3][2] = 1;
+      faces[3][3] = 0; // -xy facing quad
+
+      faces[4][0] = 1;
+      faces[4][1] = 4;
+      faces[4][2] = 5;
+      faces[4][3] = 2;
+    }
+
+    result.computeNormals();
+    result.computeEdges();
+    result.updateBoundingSphereRadius();
+    this.setCachedConvexTrianglePillar(xi, yi, getUpperTriangle, result, offsetResult);
+  }
+
+  calculateLocalInertia(mass, target) {
+    if (target === void 0) {
+      target = new Vec3();
+    }
+
+    target.set(0, 0, 0);
+    return target;
+  }
+
+  volume() {
+    return (// The terrain is infinite
+      Number.MAX_VALUE
+    );
+  }
+
+  calculateWorldAABB(pos, quat, min, max) {
+    /** @TODO do it properly */
+    min.set(-Number.MAX_VALUE, -Number.MAX_VALUE, -Number.MAX_VALUE);
+    max.set(Number.MAX_VALUE, Number.MAX_VALUE, Number.MAX_VALUE);
+  }
+
+  updateBoundingSphereRadius() {
+    // Use the bounding box of the min/max values
+    const data = this.data;
+    const s = this.elementSize;
+    this.boundingSphereRadius = new Vec3(data.length * s, data[0].length * s, Math.max(Math.abs(this.maxValue), Math.abs(this.minValue))).length();
+  }
+  /**
+   * Sets the height values from an image. Currently only supported in browser.
+   */
+
+
+  setHeightsFromImage(image, scale) {
+    const {
+      x,
+      z,
+      y
+    } = scale;
+    const canvas = document.createElement('canvas');
+    canvas.width = image.width;
+    canvas.height = image.height;
+    const context = canvas.getContext('2d');
+    context.drawImage(image, 0, 0);
+    const imageData = context.getImageData(0, 0, image.width, image.height);
+    const matrix = this.data;
+    matrix.length = 0;
+    this.elementSize = Math.abs(x) / imageData.width;
+
+    for (let i = 0; i < imageData.height; i++) {
+      const row = [];
+
+      for (let j = 0; j < imageData.width; j++) {
+        const a = imageData.data[(i * imageData.height + j) * 4];
+        const b = imageData.data[(i * imageData.height + j) * 4 + 1];
+        const c = imageData.data[(i * imageData.height + j) * 4 + 2];
+        const height = (a + b + c) / 4 / 255 * z;
+
+        if (x < 0) {
+          row.push(height);
+        } else {
+          row.unshift(height);
+        }
+      }
+
+      if (y < 0) {
+        matrix.unshift(row);
+      } else {
+        matrix.push(row);
+      }
+    }
+
+    this.updateMaxValue();
+    this.updateMinValue();
+    this.update();
+  }
+
+}
+const getHeightAt_idx = [];
+const getHeightAt_weights = new Vec3();
+const getHeightAt_a = new Vec3();
+const getHeightAt_b = new Vec3();
+const getHeightAt_c = new Vec3();
+const getNormalAt_a = new Vec3();
+const getNormalAt_b = new Vec3();
+const getNormalAt_c = new Vec3();
+const getNormalAt_e0 = new Vec3();
+const getNormalAt_e1 = new Vec3(); // from https://en.wikipedia.org/wiki/Barycentric_coordinate_system
+
+function barycentricWeights(x, y, ax, ay, bx, by, cx, cy, result) {
+  result.x = ((by - cy) * (x - cx) + (cx - bx) * (y - cy)) / ((by - cy) * (ax - cx) + (cx - bx) * (ay - cy));
+  result.y = ((cy - ay) * (x - cx) + (ax - cx) * (y - cy)) / ((by - cy) * (ax - cx) + (cx - bx) * (ay - cy));
+  result.z = 1 - result.x - result.y;
+}
+
+/**
+ * OctreeNode
+ */
+class OctreeNode {
+  /** The root node */
+
+  /** Boundary of this node */
+
+  /** Contained data at the current node level */
+
+  /** Children to this node */
+  constructor(options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    this.root = options.root || null;
+    this.aabb = options.aabb ? options.aabb.clone() : new AABB();
+    this.data = [];
+    this.children = [];
+  }
+  /**
+   * reset
+   */
+
+
+  reset() {
+    this.children.length = this.data.length = 0;
+  }
+  /**
+   * Insert data into this node
+   * @return True if successful, otherwise false
+   */
+
+
+  insert(aabb, elementData, level) {
+    if (level === void 0) {
+      level = 0;
+    }
+
+    const nodeData = this.data; // Ignore objects that do not belong in this node
+
+    if (!this.aabb.contains(aabb)) {
+      return false; // object cannot be added
+    }
+
+    const children = this.children;
+    const maxDepth = this.maxDepth || this.root.maxDepth;
+
+    if (level < maxDepth) {
+      // Subdivide if there are no children yet
+      let subdivided = false;
+
+      if (!children.length) {
+        this.subdivide();
+        subdivided = true;
+      } // add to whichever node will accept it
+
+
+      for (let i = 0; i !== 8; i++) {
+        if (children[i].insert(aabb, elementData, level + 1)) {
+          return true;
+        }
+      }
+
+      if (subdivided) {
+        // No children accepted! Might as well just remove em since they contain none
+        children.length = 0;
+      }
+    } // Too deep, or children didnt want it. add it in current node
+
+
+    nodeData.push(elementData);
+    return true;
+  }
+  /**
+   * Create 8 equally sized children nodes and put them in the `children` array.
+   */
+
+
+  subdivide() {
+    const aabb = this.aabb;
+    const l = aabb.lowerBound;
+    const u = aabb.upperBound;
+    const children = this.children;
+    children.push(new OctreeNode({
+      aabb: new AABB({
+        lowerBound: new Vec3(0, 0, 0)
+      })
+    }), new OctreeNode({
+      aabb: new AABB({
+        lowerBound: new Vec3(1, 0, 0)
+      })
+    }), new OctreeNode({
+      aabb: new AABB({
+        lowerBound: new Vec3(1, 1, 0)
+      })
+    }), new OctreeNode({
+      aabb: new AABB({
+        lowerBound: new Vec3(1, 1, 1)
+      })
+    }), new OctreeNode({
+      aabb: new AABB({
+        lowerBound: new Vec3(0, 1, 1)
+      })
+    }), new OctreeNode({
+      aabb: new AABB({
+        lowerBound: new Vec3(0, 0, 1)
+      })
+    }), new OctreeNode({
+      aabb: new AABB({
+        lowerBound: new Vec3(1, 0, 1)
+      })
+    }), new OctreeNode({
+      aabb: new AABB({
+        lowerBound: new Vec3(0, 1, 0)
+      })
+    }));
+    u.vsub(l, halfDiagonal);
+    halfDiagonal.scale(0.5, halfDiagonal);
+    const root = this.root || this;
+
+    for (let i = 0; i !== 8; i++) {
+      const child = children[i]; // Set current node as root
+
+      child.root = root; // Compute bounds
+
+      const lowerBound = child.aabb.lowerBound;
+      lowerBound.x *= halfDiagonal.x;
+      lowerBound.y *= halfDiagonal.y;
+      lowerBound.z *= halfDiagonal.z;
+      lowerBound.vadd(l, lowerBound); // Upper bound is always lower bound + halfDiagonal
+
+      lowerBound.vadd(halfDiagonal, child.aabb.upperBound);
+    }
+  }
+  /**
+   * Get all data, potentially within an AABB
+   * @return The "result" object
+   */
+
+
+  aabbQuery(aabb, result) {
+    this.data; // abort if the range does not intersect this node
+    // if (!this.aabb.overlaps(aabb)){
+    //     return result;
+    // }
+    // Add objects at this level
+    // Array.prototype.push.apply(result, nodeData);
+    // Add child data
+    // @todo unwrap recursion into a queue / loop, that's faster in JS
+
+    this.children; // for (let i = 0, N = this.children.length; i !== N; i++) {
+    //     children[i].aabbQuery(aabb, result);
+    // }
+
+    const queue = [this];
+
+    while (queue.length) {
+      const node = queue.pop();
+
+      if (node.aabb.overlaps(aabb)) {
+        Array.prototype.push.apply(result, node.data);
+      }
+
+      Array.prototype.push.apply(queue, node.children);
+    }
+
+    return result;
+  }
+  /**
+   * Get all data, potentially intersected by a ray.
+   * @return The "result" object
+   */
+
+
+  rayQuery(ray, treeTransform, result) {
+    // Use aabb query for now.
+
+    /** @todo implement real ray query which needs less lookups */
+    ray.getAABB(tmpAABB);
+    tmpAABB.toLocalFrame(treeTransform, tmpAABB);
+    this.aabbQuery(tmpAABB, result);
+    return result;
+  }
+  /**
+   * removeEmptyNodes
+   */
+
+
+  removeEmptyNodes() {
+    for (let i = this.children.length - 1; i >= 0; i--) {
+      this.children[i].removeEmptyNodes();
+
+      if (!this.children[i].children.length && !this.children[i].data.length) {
+        this.children.splice(i, 1);
+      }
+    }
+  }
+
+}
+/**
+ * Octree
+ */
+
+
+class Octree extends OctreeNode {
+  /**
+   * Maximum subdivision depth
+   * @default 8
+   */
+
+  /**
+   * @param aabb The total AABB of the tree
+   */
+  constructor(aabb, options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    super({
+      root: null,
+      aabb
+    });
+    this.maxDepth = typeof options.maxDepth !== 'undefined' ? options.maxDepth : 8;
+  }
+
+}
+const halfDiagonal = new Vec3();
+const tmpAABB = new AABB();
+
+/**
+ * Trimesh.
+ * @example
+ *     // How to make a mesh with a single triangle
+ *     const vertices = [
+ *         0, 0, 0, // vertex 0
+ *         1, 0, 0, // vertex 1
+ *         0, 1, 0  // vertex 2
+ *     ]
+ *     const indices = [
+ *         0, 1, 2  // triangle 0
+ *     ]
+ *     const trimeshShape = new CANNON.Trimesh(vertices, indices)
+ */
+class Trimesh extends Shape {
+  /**
+   * vertices
+   */
+
+  /**
+   * Array of integers, indicating which vertices each triangle consists of. The length of this array is thus 3 times the number of triangles.
+   */
+
+  /**
+   * The normals data.
+   */
+
+  /**
+   * The local AABB of the mesh.
+   */
+
+  /**
+   * References to vertex pairs, making up all unique edges in the trimesh.
+   */
+
+  /**
+   * Local scaling of the mesh. Use .setScale() to set it.
+   */
+
+  /**
+   * The indexed triangles. Use .updateTree() to update it.
+   */
+  constructor(vertices, indices) {
+    super({
+      type: Shape.types.TRIMESH
+    });
+    this.vertices = new Float32Array(vertices);
+    this.indices = new Int16Array(indices);
+    this.normals = new Float32Array(indices.length);
+    this.aabb = new AABB();
+    this.edges = null;
+    this.scale = new Vec3(1, 1, 1);
+    this.tree = new Octree();
+    this.updateEdges();
+    this.updateNormals();
+    this.updateAABB();
+    this.updateBoundingSphereRadius();
+    this.updateTree();
+  }
+  /**
+   * updateTree
+   */
+
+
+  updateTree() {
+    const tree = this.tree;
+    tree.reset();
+    tree.aabb.copy(this.aabb);
+    const scale = this.scale; // The local mesh AABB is scaled, but the octree AABB should be unscaled
+
+    tree.aabb.lowerBound.x *= 1 / scale.x;
+    tree.aabb.lowerBound.y *= 1 / scale.y;
+    tree.aabb.lowerBound.z *= 1 / scale.z;
+    tree.aabb.upperBound.x *= 1 / scale.x;
+    tree.aabb.upperBound.y *= 1 / scale.y;
+    tree.aabb.upperBound.z *= 1 / scale.z; // Insert all triangles
+
+    const triangleAABB = new AABB();
+    const a = new Vec3();
+    const b = new Vec3();
+    const c = new Vec3();
+    const points = [a, b, c];
+
+    for (let i = 0; i < this.indices.length / 3; i++) {
+      //this.getTriangleVertices(i, a, b, c);
+      // Get unscaled triangle verts
+      const i3 = i * 3;
+
+      this._getUnscaledVertex(this.indices[i3], a);
+
+      this._getUnscaledVertex(this.indices[i3 + 1], b);
+
+      this._getUnscaledVertex(this.indices[i3 + 2], c);
+
+      triangleAABB.setFromPoints(points);
+      tree.insert(triangleAABB, i);
+    }
+
+    tree.removeEmptyNodes();
+  }
+  /**
+   * Get triangles in a local AABB from the trimesh.
+   * @param result An array of integers, referencing the queried triangles.
+   */
+
+
+  getTrianglesInAABB(aabb, result) {
+    unscaledAABB.copy(aabb); // Scale it to local
+
+    const scale = this.scale;
+    const isx = scale.x;
+    const isy = scale.y;
+    const isz = scale.z;
+    const l = unscaledAABB.lowerBound;
+    const u = unscaledAABB.upperBound;
+    l.x /= isx;
+    l.y /= isy;
+    l.z /= isz;
+    u.x /= isx;
+    u.y /= isy;
+    u.z /= isz;
+    return this.tree.aabbQuery(unscaledAABB, result);
+  }
+  /**
+   * setScale
+   */
+
+
+  setScale(scale) {
+    const wasUniform = this.scale.x === this.scale.y && this.scale.y === this.scale.z;
+    const isUniform = scale.x === scale.y && scale.y === scale.z;
+
+    if (!(wasUniform && isUniform)) {
+      // Non-uniform scaling. Need to update normals.
+      this.updateNormals();
+    }
+
+    this.scale.copy(scale);
+    this.updateAABB();
+    this.updateBoundingSphereRadius();
+  }
+  /**
+   * Compute the normals of the faces. Will save in the `.normals` array.
+   */
+
+
+  updateNormals() {
+    const n = computeNormals_n; // Generate normals
+
+    const normals = this.normals;
+
+    for (let i = 0; i < this.indices.length / 3; i++) {
+      const i3 = i * 3;
+      const a = this.indices[i3];
+      const b = this.indices[i3 + 1];
+      const c = this.indices[i3 + 2];
+      this.getVertex(a, va);
+      this.getVertex(b, vb);
+      this.getVertex(c, vc);
+      Trimesh.computeNormal(vb, va, vc, n);
+      normals[i3] = n.x;
+      normals[i3 + 1] = n.y;
+      normals[i3 + 2] = n.z;
+    }
+  }
+  /**
+   * Update the `.edges` property
+   */
+
+
+  updateEdges() {
+    const edges = {};
+
+    const add = (a, b) => {
+      const key = a < b ? `${a}_${b}` : `${b}_${a}`;
+      edges[key] = true;
+    };
+
+    for (let i = 0; i < this.indices.length / 3; i++) {
+      const i3 = i * 3;
+      const a = this.indices[i3];
+      const b = this.indices[i3 + 1];
+      const c = this.indices[i3 + 2];
+      add(a, b);
+      add(b, c);
+      add(c, a);
+    }
+
+    const keys = Object.keys(edges);
+    this.edges = new Int16Array(keys.length * 2);
+
+    for (let i = 0; i < keys.length; i++) {
+      const indices = keys[i].split('_');
+      this.edges[2 * i] = parseInt(indices[0], 10);
+      this.edges[2 * i + 1] = parseInt(indices[1], 10);
+    }
+  }
+  /**
+   * Get an edge vertex
+   * @param firstOrSecond 0 or 1, depending on which one of the vertices you need.
+   * @param vertexStore Where to store the result
+   */
+
+
+  getEdgeVertex(edgeIndex, firstOrSecond, vertexStore) {
+    const vertexIndex = this.edges[edgeIndex * 2 + (firstOrSecond ? 1 : 0)];
+    this.getVertex(vertexIndex, vertexStore);
+  }
+  /**
+   * Get a vector along an edge.
+   */
+
+
+  getEdgeVector(edgeIndex, vectorStore) {
+    const va = getEdgeVector_va;
+    const vb = getEdgeVector_vb;
+    this.getEdgeVertex(edgeIndex, 0, va);
+    this.getEdgeVertex(edgeIndex, 1, vb);
+    vb.vsub(va, vectorStore);
+  }
+  /**
+   * Get face normal given 3 vertices
+   */
+
+
+  static computeNormal(va, vb, vc, target) {
+    vb.vsub(va, ab);
+    vc.vsub(vb, cb);
+    cb.cross(ab, target);
+
+    if (!target.isZero()) {
+      target.normalize();
+    }
+  }
+  /**
+   * Get vertex i.
+   * @return The "out" vector object
+   */
+
+
+  getVertex(i, out) {
+    const scale = this.scale;
+
+    this._getUnscaledVertex(i, out);
+
+    out.x *= scale.x;
+    out.y *= scale.y;
+    out.z *= scale.z;
+    return out;
+  }
+  /**
+   * Get raw vertex i
+   * @return The "out" vector object
+   */
+
+
+  _getUnscaledVertex(i, out) {
+    const i3 = i * 3;
+    const vertices = this.vertices;
+    return out.set(vertices[i3], vertices[i3 + 1], vertices[i3 + 2]);
+  }
+  /**
+   * Get a vertex from the trimesh,transformed by the given position and quaternion.
+   * @return The "out" vector object
+   */
+
+
+  getWorldVertex(i, pos, quat, out) {
+    this.getVertex(i, out);
+    Transform.pointToWorldFrame(pos, quat, out, out);
+    return out;
+  }
+  /**
+   * Get the three vertices for triangle i.
+   */
+
+
+  getTriangleVertices(i, a, b, c) {
+    const i3 = i * 3;
+    this.getVertex(this.indices[i3], a);
+    this.getVertex(this.indices[i3 + 1], b);
+    this.getVertex(this.indices[i3 + 2], c);
+  }
+  /**
+   * Compute the normal of triangle i.
+   * @return The "target" vector object
+   */
+
+
+  getNormal(i, target) {
+    const i3 = i * 3;
+    return target.set(this.normals[i3], this.normals[i3 + 1], this.normals[i3 + 2]);
+  }
+  /**
+   * @return The "target" vector object
+   */
+
+
+  calculateLocalInertia(mass, target) {
+    // Approximate with box inertia
+    // Exact inertia calculation is overkill, but see http://geometrictools.com/Documentation/PolyhedralMassProperties.pdf for the correct way to do it
+    this.computeLocalAABB(cli_aabb);
+    const x = cli_aabb.upperBound.x - cli_aabb.lowerBound.x;
+    const y = cli_aabb.upperBound.y - cli_aabb.lowerBound.y;
+    const z = cli_aabb.upperBound.z - cli_aabb.lowerBound.z;
+    return target.set(1.0 / 12.0 * mass * (2 * y * 2 * y + 2 * z * 2 * z), 1.0 / 12.0 * mass * (2 * x * 2 * x + 2 * z * 2 * z), 1.0 / 12.0 * mass * (2 * y * 2 * y + 2 * x * 2 * x));
+  }
+  /**
+   * Compute the local AABB for the trimesh
+   */
+
+
+  computeLocalAABB(aabb) {
+    const l = aabb.lowerBound;
+    const u = aabb.upperBound;
+    const n = this.vertices.length;
+    this.vertices;
+    const v = computeLocalAABB_worldVert;
+    this.getVertex(0, v);
+    l.copy(v);
+    u.copy(v);
+
+    for (let i = 0; i !== n; i++) {
+      this.getVertex(i, v);
+
+      if (v.x < l.x) {
+        l.x = v.x;
+      } else if (v.x > u.x) {
+        u.x = v.x;
+      }
+
+      if (v.y < l.y) {
+        l.y = v.y;
+      } else if (v.y > u.y) {
+        u.y = v.y;
+      }
+
+      if (v.z < l.z) {
+        l.z = v.z;
+      } else if (v.z > u.z) {
+        u.z = v.z;
+      }
+    }
+  }
+  /**
+   * Update the `.aabb` property
+   */
+
+
+  updateAABB() {
+    this.computeLocalAABB(this.aabb);
+  }
+  /**
+   * Will update the `.boundingSphereRadius` property
+   */
+
+
+  updateBoundingSphereRadius() {
+    // Assume points are distributed with local (0,0,0) as center
+    let max2 = 0;
+    const vertices = this.vertices;
+    const v = new Vec3();
+
+    for (let i = 0, N = vertices.length / 3; i !== N; i++) {
+      this.getVertex(i, v);
+      const norm2 = v.lengthSquared();
+
+      if (norm2 > max2) {
+        max2 = norm2;
+      }
+    }
+
+    this.boundingSphereRadius = Math.sqrt(max2);
+  }
+  /**
+   * calculateWorldAABB
+   */
+
+
+  calculateWorldAABB(pos, quat, min, max) {
+    /*
+        const n = this.vertices.length / 3,
+            verts = this.vertices;
+        const minx,miny,minz,maxx,maxy,maxz;
+         const v = tempWorldVertex;
+        for(let i=0; i<n; i++){
+            this.getVertex(i, v);
+            quat.vmult(v, v);
+            pos.vadd(v, v);
+            if (v.x < minx || minx===undefined){
+                minx = v.x;
+            } else if(v.x > maxx || maxx===undefined){
+                maxx = v.x;
+            }
+             if (v.y < miny || miny===undefined){
+                miny = v.y;
+            } else if(v.y > maxy || maxy===undefined){
+                maxy = v.y;
+            }
+             if (v.z < minz || minz===undefined){
+                minz = v.z;
+            } else if(v.z > maxz || maxz===undefined){
+                maxz = v.z;
+            }
+        }
+        min.set(minx,miny,minz);
+        max.set(maxx,maxy,maxz);
+        */
+    // Faster approximation using local AABB
+    const frame = calculateWorldAABB_frame;
+    const result = calculateWorldAABB_aabb;
+    frame.position = pos;
+    frame.quaternion = quat;
+    this.aabb.toWorldFrame(frame, result);
+    min.copy(result.lowerBound);
+    max.copy(result.upperBound);
+  }
+  /**
+   * Get approximate volume
+   */
+
+
+  volume() {
+    return 4.0 * Math.PI * this.boundingSphereRadius / 3.0;
+  }
+  /**
+   * Create a Trimesh instance, shaped as a torus.
+   */
+
+
+  static createTorus(radius, tube, radialSegments, tubularSegments, arc) {
+    if (radius === void 0) {
+      radius = 1;
+    }
+
+    if (tube === void 0) {
+      tube = 0.5;
+    }
+
+    if (radialSegments === void 0) {
+      radialSegments = 8;
+    }
+
+    if (tubularSegments === void 0) {
+      tubularSegments = 6;
+    }
+
+    if (arc === void 0) {
+      arc = Math.PI * 2;
+    }
+
+    const vertices = [];
+    const indices = [];
+
+    for (let j = 0; j <= radialSegments; j++) {
+      for (let i = 0; i <= tubularSegments; i++) {
+        const u = i / tubularSegments * arc;
+        const v = j / radialSegments * Math.PI * 2;
+        const x = (radius + tube * Math.cos(v)) * Math.cos(u);
+        const y = (radius + tube * Math.cos(v)) * Math.sin(u);
+        const z = tube * Math.sin(v);
+        vertices.push(x, y, z);
+      }
+    }
+
+    for (let j = 1; j <= radialSegments; j++) {
+      for (let i = 1; i <= tubularSegments; i++) {
+        const a = (tubularSegments + 1) * j + i - 1;
+        const b = (tubularSegments + 1) * (j - 1) + i - 1;
+        const c = (tubularSegments + 1) * (j - 1) + i;
+        const d = (tubularSegments + 1) * j + i;
+        indices.push(a, b, d);
+        indices.push(b, c, d);
+      }
+    }
+
+    return new Trimesh(vertices, indices);
+  }
+
+}
+const computeNormals_n = new Vec3();
+const unscaledAABB = new AABB();
+const getEdgeVector_va = new Vec3();
+const getEdgeVector_vb = new Vec3();
+const cb = new Vec3();
+const ab = new Vec3();
+const va = new Vec3();
+const vb = new Vec3();
+const vc = new Vec3();
+const cli_aabb = new AABB();
+const computeLocalAABB_worldVert = new Vec3();
+const calculateWorldAABB_frame = new Transform();
+const calculateWorldAABB_aabb = new AABB();
+
+/**
+ * Constraint equation solver base class.
+ */
+class Solver {
+  /**
+   * All equations to be solved
+   */
+
+  /**
+   * @todo remove useless constructor
+   */
+  constructor() {
+    this.equations = [];
+  }
+  /**
+   * Should be implemented in subclasses!
+   * @todo use abstract
+   * @return number of iterations performed
+   */
+
+
+  solve(dt, world) {
+    return (// Should return the number of iterations done!
+      0
+    );
+  }
+  /**
+   * Add an equation
+   */
+
+
+  addEquation(eq) {
+    if (eq.enabled && !eq.bi.isTrigger && !eq.bj.isTrigger) {
+      this.equations.push(eq);
+    }
+  }
+  /**
+   * Remove an equation
+   */
+
+
+  removeEquation(eq) {
+    const eqs = this.equations;
+    const i = eqs.indexOf(eq);
+
+    if (i !== -1) {
+      eqs.splice(i, 1);
+    }
+  }
+  /**
+   * Add all equations
+   */
+
+
+  removeAllEquations() {
+    this.equations.length = 0;
+  }
+
+}
+
+/**
+ * Constraint equation Gauss-Seidel solver.
+ * @todo The spook parameters should be specified for each constraint, not globally.
+ * @see https://www8.cs.umu.se/kurser/5DV058/VT09/lectures/spooknotes.pdf
+ */
+class GSSolver extends Solver {
+  /**
+   * The number of solver iterations determines quality of the constraints in the world.
+   * The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.
+   */
+
+  /**
+   * When tolerance is reached, the system is assumed to be converged.
+   */
+
+  /**
+   * @todo remove useless constructor
+   */
+  constructor() {
+    super();
+    this.iterations = 10;
+    this.tolerance = 1e-7;
+  }
+  /**
+   * Solve
+   * @return number of iterations performed
+   */
+
+
+  solve(dt, world) {
+    let iter = 0;
+    const maxIter = this.iterations;
+    const tolSquared = this.tolerance * this.tolerance;
+    const equations = this.equations;
+    const Neq = equations.length;
+    const bodies = world.bodies;
+    const Nbodies = bodies.length;
+    const h = dt;
+    let B;
+    let invC;
+    let deltalambda;
+    let deltalambdaTot;
+    let GWlambda;
+    let lambdaj; // Update solve mass
+
+    if (Neq !== 0) {
+      for (let i = 0; i !== Nbodies; i++) {
+        bodies[i].updateSolveMassProperties();
+      }
+    } // Things that do not change during iteration can be computed once
+
+
+    const invCs = GSSolver_solve_invCs;
+    const Bs = GSSolver_solve_Bs;
+    const lambda = GSSolver_solve_lambda;
+    invCs.length = Neq;
+    Bs.length = Neq;
+    lambda.length = Neq;
+
+    for (let i = 0; i !== Neq; i++) {
+      const c = equations[i];
+      lambda[i] = 0.0;
+      Bs[i] = c.computeB(h);
+      invCs[i] = 1.0 / c.computeC();
+    }
+
+    if (Neq !== 0) {
+      // Reset vlambda
+      for (let i = 0; i !== Nbodies; i++) {
+        const b = bodies[i];
+        const vlambda = b.vlambda;
+        const wlambda = b.wlambda;
+        vlambda.set(0, 0, 0);
+        wlambda.set(0, 0, 0);
+      } // Iterate over equations
+
+
+      for (iter = 0; iter !== maxIter; iter++) {
+        // Accumulate the total error for each iteration.
+        deltalambdaTot = 0.0;
+
+        for (let j = 0; j !== Neq; j++) {
+          const c = equations[j]; // Compute iteration
+
+          B = Bs[j];
+          invC = invCs[j];
+          lambdaj = lambda[j];
+          GWlambda = c.computeGWlambda();
+          deltalambda = invC * (B - GWlambda - c.eps * lambdaj); // Clamp if we are not within the min/max interval
+
+          if (lambdaj + deltalambda < c.minForce) {
+            deltalambda = c.minForce - lambdaj;
+          } else if (lambdaj + deltalambda > c.maxForce) {
+            deltalambda = c.maxForce - lambdaj;
+          }
+
+          lambda[j] += deltalambda;
+          deltalambdaTot += deltalambda > 0.0 ? deltalambda : -deltalambda; // abs(deltalambda)
+
+          c.addToWlambda(deltalambda);
+        } // If the total error is small enough - stop iterate
+
+
+        if (deltalambdaTot * deltalambdaTot < tolSquared) {
+          break;
+        }
+      } // Add result to velocity
+
+
+      for (let i = 0; i !== Nbodies; i++) {
+        const b = bodies[i];
+        const v = b.velocity;
+        const w = b.angularVelocity;
+        b.vlambda.vmul(b.linearFactor, b.vlambda);
+        v.vadd(b.vlambda, v);
+        b.wlambda.vmul(b.angularFactor, b.wlambda);
+        w.vadd(b.wlambda, w);
+      } // Set the `.multiplier` property of each equation
+
+
+      let l = equations.length;
+      const invDt = 1 / h;
+
+      while (l--) {
+        equations[l].multiplier = lambda[l] * invDt;
+      }
+    }
+
+    return iter;
+  }
+
+} // Just temporary number holders that we want to reuse each iteration.
+
+const GSSolver_solve_lambda = [];
+const GSSolver_solve_invCs = [];
+const GSSolver_solve_Bs = [];
+
+/**
+ * Splits the equations into islands and solves them independently. Can improve performance.
+ */
+class SplitSolver extends Solver {
+  /**
+   * The number of solver iterations determines quality of the constraints in the world. The more iterations, the more correct simulation. More iterations need more computations though. If you have a large gravity force in your world, you will need more iterations.
+   */
+
+  /**
+   * When tolerance is reached, the system is assumed to be converged.
+   */
+
+  /** subsolver */
+  constructor(subsolver) {
+    super();
+    this.iterations = 10;
+    this.tolerance = 1e-7;
+    this.subsolver = subsolver;
+    this.nodes = [];
+    this.nodePool = []; // Create needed nodes, reuse if possible
+
+    while (this.nodePool.length < 128) {
+      this.nodePool.push(this.createNode());
+    }
+  }
+  /**
+   * createNode
+   */
+
+
+  createNode() {
+    return {
+      body: null,
+      children: [],
+      eqs: [],
+      visited: false
+    };
+  }
+  /**
+   * Solve the subsystems
+   * @return number of iterations performed
+   */
+
+
+  solve(dt, world) {
+    const nodes = SplitSolver_solve_nodes;
+    const nodePool = this.nodePool;
+    const bodies = world.bodies;
+    const equations = this.equations;
+    const Neq = equations.length;
+    const Nbodies = bodies.length;
+    const subsolver = this.subsolver; // Create needed nodes, reuse if possible
+
+    while (nodePool.length < Nbodies) {
+      nodePool.push(this.createNode());
+    }
+
+    nodes.length = Nbodies;
+
+    for (let i = 0; i < Nbodies; i++) {
+      nodes[i] = nodePool[i];
+    } // Reset node values
+
+
+    for (let i = 0; i !== Nbodies; i++) {
+      const node = nodes[i];
+      node.body = bodies[i];
+      node.children.length = 0;
+      node.eqs.length = 0;
+      node.visited = false;
+    }
+
+    for (let k = 0; k !== Neq; k++) {
+      const eq = equations[k];
+      const i = bodies.indexOf(eq.bi);
+      const j = bodies.indexOf(eq.bj);
+      const ni = nodes[i];
+      const nj = nodes[j];
+      ni.children.push(nj);
+      ni.eqs.push(eq);
+      nj.children.push(ni);
+      nj.eqs.push(eq);
+    }
+
+    let child;
+    let n = 0;
+    let eqs = SplitSolver_solve_eqs;
+    subsolver.tolerance = this.tolerance;
+    subsolver.iterations = this.iterations;
+    const dummyWorld = SplitSolver_solve_dummyWorld;
+
+    while (child = getUnvisitedNode(nodes)) {
+      eqs.length = 0;
+      dummyWorld.bodies.length = 0;
+      bfs(child, visitFunc, dummyWorld.bodies, eqs);
+      const Neqs = eqs.length;
+      eqs = eqs.sort(sortById);
+
+      for (let i = 0; i !== Neqs; i++) {
+        subsolver.addEquation(eqs[i]);
+      }
+
+      subsolver.solve(dt, dummyWorld);
+      subsolver.removeAllEquations();
+      n++;
+    }
+
+    return n;
+  }
+
+} // Returns the number of subsystems
+
+const SplitSolver_solve_nodes = []; // All allocated node objects
+
+const SplitSolver_solve_eqs = []; // Temp array
+
+const SplitSolver_solve_dummyWorld = {
+  bodies: []
+}; // Temp object
+
+const STATIC = Body.STATIC;
+
+function getUnvisitedNode(nodes) {
+  const Nnodes = nodes.length;
+
+  for (let i = 0; i !== Nnodes; i++) {
+    const node = nodes[i];
+
+    if (!node.visited && !(node.body.type & STATIC)) {
+      return node;
+    }
+  }
+
+  return false;
+}
+
+const queue = [];
+
+function bfs(root, visitFunc, bds, eqs) {
+  queue.push(root);
+  root.visited = true;
+  visitFunc(root, bds, eqs);
+
+  while (queue.length) {
+    const node = queue.pop(); // Loop over unvisited child nodes
+
+    let child;
+
+    while (child = getUnvisitedNode(node.children)) {
+      child.visited = true;
+      visitFunc(child, bds, eqs);
+      queue.push(child);
+    }
+  }
+}
+
+function visitFunc(node, bds, eqs) {
+  bds.push(node.body);
+  const Neqs = node.eqs.length;
+
+  for (let i = 0; i !== Neqs; i++) {
+    const eq = node.eqs[i];
+
+    if (!eqs.includes(eq)) {
+      eqs.push(eq);
+    }
+  }
+}
+
+function sortById(a, b) {
+  return b.id - a.id;
+}
+
+/**
+ * For pooling objects that can be reused.
+ */
+class Pool {
+  constructor() {
+    this.objects = [];
+    this.type = Object;
+  }
+
+  /**
+   * Release an object after use
+   */
+  release() {
+    const Nargs = arguments.length;
+
+    for (let i = 0; i !== Nargs; i++) {
+      this.objects.push(i < 0 || arguments.length <= i ? undefined : arguments[i]);
+    }
+
+    return this;
+  }
+  /**
+   * Get an object
+   */
+
+
+  get() {
+    if (this.objects.length === 0) {
+      return this.constructObject();
+    } else {
+      return this.objects.pop();
+    }
+  }
+  /**
+   * Construct an object. Should be implemented in each subclass.
+   */
+
+
+  constructObject() {
+    throw new Error('constructObject() not implemented in this Pool subclass yet!');
+  }
+  /**
+   * @return Self, for chaining
+   */
+
+
+  resize(size) {
+    const objects = this.objects;
+
+    while (objects.length > size) {
+      objects.pop();
+    }
+
+    while (objects.length < size) {
+      objects.push(this.constructObject());
+    }
+
+    return this;
+  }
+
+}
+
+/**
+ * Vec3Pool
+ */
+
+class Vec3Pool extends Pool {
+  constructor() {
+    super(...arguments);
+    this.type = Vec3;
+  }
+
+  /**
+   * Construct a vector
+   */
+  constructObject() {
+    return new Vec3();
+  }
+
+}
+
+// Naming rule: based of the order in SHAPE_TYPES,
+// the first part of the method is formed by the
+// shape type that comes before, in the second part
+// there is the shape type that comes after in the SHAPE_TYPES list
+const COLLISION_TYPES = {
+  sphereSphere: Shape.types.SPHERE,
+  spherePlane: Shape.types.SPHERE | Shape.types.PLANE,
+  boxBox: Shape.types.BOX | Shape.types.BOX,
+  sphereBox: Shape.types.SPHERE | Shape.types.BOX,
+  planeBox: Shape.types.PLANE | Shape.types.BOX,
+  convexConvex: Shape.types.CONVEXPOLYHEDRON,
+  sphereConvex: Shape.types.SPHERE | Shape.types.CONVEXPOLYHEDRON,
+  planeConvex: Shape.types.PLANE | Shape.types.CONVEXPOLYHEDRON,
+  boxConvex: Shape.types.BOX | Shape.types.CONVEXPOLYHEDRON,
+  sphereHeightfield: Shape.types.SPHERE | Shape.types.HEIGHTFIELD,
+  boxHeightfield: Shape.types.BOX | Shape.types.HEIGHTFIELD,
+  convexHeightfield: Shape.types.CONVEXPOLYHEDRON | Shape.types.HEIGHTFIELD,
+  sphereParticle: Shape.types.PARTICLE | Shape.types.SPHERE,
+  planeParticle: Shape.types.PLANE | Shape.types.PARTICLE,
+  boxParticle: Shape.types.BOX | Shape.types.PARTICLE,
+  convexParticle: Shape.types.PARTICLE | Shape.types.CONVEXPOLYHEDRON,
+  cylinderCylinder: Shape.types.CYLINDER,
+  sphereCylinder: Shape.types.SPHERE | Shape.types.CYLINDER,
+  planeCylinder: Shape.types.PLANE | Shape.types.CYLINDER,
+  boxCylinder: Shape.types.BOX | Shape.types.CYLINDER,
+  convexCylinder: Shape.types.CONVEXPOLYHEDRON | Shape.types.CYLINDER,
+  heightfieldCylinder: Shape.types.HEIGHTFIELD | Shape.types.CYLINDER,
+  particleCylinder: Shape.types.PARTICLE | Shape.types.CYLINDER,
+  sphereTrimesh: Shape.types.SPHERE | Shape.types.TRIMESH,
+  planeTrimesh: Shape.types.PLANE | Shape.types.TRIMESH
+};
+
+/**
+ * Helper class for the World. Generates ContactEquations.
+ * @todo Sphere-ConvexPolyhedron contacts
+ * @todo Contact reduction
+ * @todo should move methods to prototype
+ */
+class Narrowphase {
+  /**
+   * Internal storage of pooled contact points.
+   */
+
+  /**
+   * Pooled vectors.
+   */
+  get [COLLISION_TYPES.sphereSphere]() {
+    return this.sphereSphere;
+  }
+
+  get [COLLISION_TYPES.spherePlane]() {
+    return this.spherePlane;
+  }
+
+  get [COLLISION_TYPES.boxBox]() {
+    return this.boxBox;
+  }
+
+  get [COLLISION_TYPES.sphereBox]() {
+    return this.sphereBox;
+  }
+
+  get [COLLISION_TYPES.planeBox]() {
+    return this.planeBox;
+  }
+
+  get [COLLISION_TYPES.convexConvex]() {
+    return this.convexConvex;
+  }
+
+  get [COLLISION_TYPES.sphereConvex]() {
+    return this.sphereConvex;
+  }
+
+  get [COLLISION_TYPES.planeConvex]() {
+    return this.planeConvex;
+  }
+
+  get [COLLISION_TYPES.boxConvex]() {
+    return this.boxConvex;
+  }
+
+  get [COLLISION_TYPES.sphereHeightfield]() {
+    return this.sphereHeightfield;
+  }
+
+  get [COLLISION_TYPES.boxHeightfield]() {
+    return this.boxHeightfield;
+  }
+
+  get [COLLISION_TYPES.convexHeightfield]() {
+    return this.convexHeightfield;
+  }
+
+  get [COLLISION_TYPES.sphereParticle]() {
+    return this.sphereParticle;
+  }
+
+  get [COLLISION_TYPES.planeParticle]() {
+    return this.planeParticle;
+  }
+
+  get [COLLISION_TYPES.boxParticle]() {
+    return this.boxParticle;
+  }
+
+  get [COLLISION_TYPES.convexParticle]() {
+    return this.convexParticle;
+  }
+
+  get [COLLISION_TYPES.cylinderCylinder]() {
+    return this.convexConvex;
+  }
+
+  get [COLLISION_TYPES.sphereCylinder]() {
+    return this.sphereConvex;
+  }
+
+  get [COLLISION_TYPES.planeCylinder]() {
+    return this.planeConvex;
+  }
+
+  get [COLLISION_TYPES.boxCylinder]() {
+    return this.boxConvex;
+  }
+
+  get [COLLISION_TYPES.convexCylinder]() {
+    return this.convexConvex;
+  }
+
+  get [COLLISION_TYPES.heightfieldCylinder]() {
+    return this.heightfieldCylinder;
+  }
+
+  get [COLLISION_TYPES.particleCylinder]() {
+    return this.particleCylinder;
+  }
+
+  get [COLLISION_TYPES.sphereTrimesh]() {
+    return this.sphereTrimesh;
+  }
+
+  get [COLLISION_TYPES.planeTrimesh]() {
+    return this.planeTrimesh;
+  } // get [COLLISION_TYPES.convexTrimesh]() {
+  //   return this.convexTrimesh
+  // }
+
+
+  constructor(world) {
+    this.contactPointPool = [];
+    this.frictionEquationPool = [];
+    this.result = [];
+    this.frictionResult = [];
+    this.v3pool = new Vec3Pool();
+    this.world = world;
+    this.currentContactMaterial = world.defaultContactMaterial;
+    this.enableFrictionReduction = false;
+  }
+  /**
+   * Make a contact object, by using the internal pool or creating a new one.
+   */
+
+
+  createContactEquation(bi, bj, si, sj, overrideShapeA, overrideShapeB) {
+    let c;
+
+    if (this.contactPointPool.length) {
+      c = this.contactPointPool.pop();
+      c.bi = bi;
+      c.bj = bj;
+    } else {
+      c = new ContactEquation(bi, bj);
+    }
+
+    c.enabled = bi.collisionResponse && bj.collisionResponse && si.collisionResponse && sj.collisionResponse;
+    const cm = this.currentContactMaterial;
+    c.restitution = cm.restitution;
+    c.setSpookParams(cm.contactEquationStiffness, cm.contactEquationRelaxation, this.world.dt);
+    const matA = si.material || bi.material;
+    const matB = sj.material || bj.material;
+
+    if (matA && matB && matA.restitution >= 0 && matB.restitution >= 0) {
+      c.restitution = matA.restitution * matB.restitution;
+    }
+
+    c.si = overrideShapeA || si;
+    c.sj = overrideShapeB || sj;
+    return c;
+  }
+
+  createFrictionEquationsFromContact(contactEquation, outArray) {
+    const bodyA = contactEquation.bi;
+    const bodyB = contactEquation.bj;
+    const shapeA = contactEquation.si;
+    const shapeB = contactEquation.sj;
+    const world = this.world;
+    const cm = this.currentContactMaterial; // If friction or restitution were specified in the material, use them
+
+    let friction = cm.friction;
+    const matA = shapeA.material || bodyA.material;
+    const matB = shapeB.material || bodyB.material;
+
+    if (matA && matB && matA.friction >= 0 && matB.friction >= 0) {
+      friction = matA.friction * matB.friction;
+    }
+
+    if (friction > 0) {
+      // Create 2 tangent equations
+      // Users may provide a force different from global gravity to use when computing contact friction.
+      const mug = friction * (world.frictionGravity || world.gravity).length();
+      let reducedMass = bodyA.invMass + bodyB.invMass;
+
+      if (reducedMass > 0) {
+        reducedMass = 1 / reducedMass;
+      }
+
+      const pool = this.frictionEquationPool;
+      const c1 = pool.length ? pool.pop() : new FrictionEquation(bodyA, bodyB, mug * reducedMass);
+      const c2 = pool.length ? pool.pop() : new FrictionEquation(bodyA, bodyB, mug * reducedMass);
+      c1.bi = c2.bi = bodyA;
+      c1.bj = c2.bj = bodyB;
+      c1.minForce = c2.minForce = -mug * reducedMass;
+      c1.maxForce = c2.maxForce = mug * reducedMass; // Copy over the relative vectors
+
+      c1.ri.copy(contactEquation.ri);
+      c1.rj.copy(contactEquation.rj);
+      c2.ri.copy(contactEquation.ri);
+      c2.rj.copy(contactEquation.rj); // Construct tangents
+
+      contactEquation.ni.tangents(c1.t, c2.t); // Set spook params
+
+      c1.setSpookParams(cm.frictionEquationStiffness, cm.frictionEquationRelaxation, world.dt);
+      c2.setSpookParams(cm.frictionEquationStiffness, cm.frictionEquationRelaxation, world.dt);
+      c1.enabled = c2.enabled = contactEquation.enabled;
+      outArray.push(c1, c2);
+      return true;
+    }
+
+    return false;
+  }
+  /**
+   * Take the average N latest contact point on the plane.
+   */
+
+
+  createFrictionFromAverage(numContacts) {
+    // The last contactEquation
+    let c = this.result[this.result.length - 1]; // Create the result: two "average" friction equations
+
+    if (!this.createFrictionEquationsFromContact(c, this.frictionResult) || numContacts === 1) {
+      return;
+    }
+
+    const f1 = this.frictionResult[this.frictionResult.length - 2];
+    const f2 = this.frictionResult[this.frictionResult.length - 1];
+    averageNormal.setZero();
+    averageContactPointA.setZero();
+    averageContactPointB.setZero();
+    const bodyA = c.bi;
+    c.bj;
+
+    for (let i = 0; i !== numContacts; i++) {
+      c = this.result[this.result.length - 1 - i];
+
+      if (c.bi !== bodyA) {
+        averageNormal.vadd(c.ni, averageNormal);
+        averageContactPointA.vadd(c.ri, averageContactPointA);
+        averageContactPointB.vadd(c.rj, averageContactPointB);
+      } else {
+        averageNormal.vsub(c.ni, averageNormal);
+        averageContactPointA.vadd(c.rj, averageContactPointA);
+        averageContactPointB.vadd(c.ri, averageContactPointB);
+      }
+    }
+
+    const invNumContacts = 1 / numContacts;
+    averageContactPointA.scale(invNumContacts, f1.ri);
+    averageContactPointB.scale(invNumContacts, f1.rj);
+    f2.ri.copy(f1.ri); // Should be the same
+
+    f2.rj.copy(f1.rj);
+    averageNormal.normalize();
+    averageNormal.tangents(f1.t, f2.t); // return eq;
+  }
+  /**
+   * Generate all contacts between a list of body pairs
+   * @param p1 Array of body indices
+   * @param p2 Array of body indices
+   * @param result Array to store generated contacts
+   * @param oldcontacts Optional. Array of reusable contact objects
+   */
+
+
+  getContacts(p1, p2, world, result, oldcontacts, frictionResult, frictionPool) {
+    // Save old contact objects
+    this.contactPointPool = oldcontacts;
+    this.frictionEquationPool = frictionPool;
+    this.result = result;
+    this.frictionResult = frictionResult;
+    const qi = tmpQuat1;
+    const qj = tmpQuat2;
+    const xi = tmpVec1;
+    const xj = tmpVec2;
+
+    for (let k = 0, N = p1.length; k !== N; k++) {
+      // Get current collision bodies
+      const bi = p1[k];
+      const bj = p2[k]; // Get contact material
+
+      let bodyContactMaterial = null;
+
+      if (bi.material && bj.material) {
+        bodyContactMaterial = world.getContactMaterial(bi.material, bj.material) || null;
+      }
+
+      const justTest = bi.type & Body.KINEMATIC && bj.type & Body.STATIC || bi.type & Body.STATIC && bj.type & Body.KINEMATIC || bi.type & Body.KINEMATIC && bj.type & Body.KINEMATIC;
+
+      for (let i = 0; i < bi.shapes.length; i++) {
+        bi.quaternion.mult(bi.shapeOrientations[i], qi);
+        bi.quaternion.vmult(bi.shapeOffsets[i], xi);
+        xi.vadd(bi.position, xi);
+        const si = bi.shapes[i];
+
+        for (let j = 0; j < bj.shapes.length; j++) {
+          // Compute world transform of shapes
+          bj.quaternion.mult(bj.shapeOrientations[j], qj);
+          bj.quaternion.vmult(bj.shapeOffsets[j], xj);
+          xj.vadd(bj.position, xj);
+          const sj = bj.shapes[j];
+
+          if (!(si.collisionFilterMask & sj.collisionFilterGroup && sj.collisionFilterMask & si.collisionFilterGroup)) {
+            continue;
+          }
+
+          if (xi.distanceTo(xj) > si.boundingSphereRadius + sj.boundingSphereRadius) {
+            continue;
+          } // Get collision material
+
+
+          let shapeContactMaterial = null;
+
+          if (si.material && sj.material) {
+            shapeContactMaterial = world.getContactMaterial(si.material, sj.material) || null;
+          }
+
+          this.currentContactMaterial = shapeContactMaterial || bodyContactMaterial || world.defaultContactMaterial; // Get contacts
+
+          const resolverIndex = si.type | sj.type;
+          const resolver = this[resolverIndex];
+
+          if (resolver) {
+            let retval = false; // TO DO: investigate why sphereParticle and convexParticle
+            // resolvers expect si and sj shapes to be in reverse order
+            // (i.e. larger integer value type first instead of smaller first)
+
+            if (si.type < sj.type) {
+              retval = resolver.call(this, si, sj, xi, xj, qi, qj, bi, bj, si, sj, justTest);
+            } else {
+              retval = resolver.call(this, sj, si, xj, xi, qj, qi, bj, bi, si, sj, justTest);
+            }
+
+            if (retval && justTest) {
+              // Register overlap
+              world.shapeOverlapKeeper.set(si.id, sj.id);
+              world.bodyOverlapKeeper.set(bi.id, bj.id);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  sphereSphere(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+    if (justTest) {
+      return xi.distanceSquared(xj) < (si.radius + sj.radius) ** 2;
+    } // We will have only one contact in this case
+
+
+    const contactEq = this.createContactEquation(bi, bj, si, sj, rsi, rsj); // Contact normal
+
+    xj.vsub(xi, contactEq.ni);
+    contactEq.ni.normalize(); // Contact point locations
+
+    contactEq.ri.copy(contactEq.ni);
+    contactEq.rj.copy(contactEq.ni);
+    contactEq.ri.scale(si.radius, contactEq.ri);
+    contactEq.rj.scale(-sj.radius, contactEq.rj);
+    contactEq.ri.vadd(xi, contactEq.ri);
+    contactEq.ri.vsub(bi.position, contactEq.ri);
+    contactEq.rj.vadd(xj, contactEq.rj);
+    contactEq.rj.vsub(bj.position, contactEq.rj);
+    this.result.push(contactEq);
+    this.createFrictionEquationsFromContact(contactEq, this.frictionResult);
+  }
+
+  spherePlane(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+    // We will have one contact in this case
+    const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj); // Contact normal
+
+    r.ni.set(0, 0, 1);
+    qj.vmult(r.ni, r.ni);
+    r.ni.negate(r.ni); // body i is the sphere, flip normal
+
+    r.ni.normalize(); // Needed?
+    // Vector from sphere center to contact point
+
+    r.ni.scale(si.radius, r.ri); // Project down sphere on plane
+
+    xi.vsub(xj, point_on_plane_to_sphere);
+    r.ni.scale(r.ni.dot(point_on_plane_to_sphere), plane_to_sphere_ortho);
+    point_on_plane_to_sphere.vsub(plane_to_sphere_ortho, r.rj); // The sphere position projected to plane
+
+    if (-point_on_plane_to_sphere.dot(r.ni) <= si.radius) {
+      if (justTest) {
+        return true;
+      } // Make it relative to the body
+
+
+      const ri = r.ri;
+      const rj = r.rj;
+      ri.vadd(xi, ri);
+      ri.vsub(bi.position, ri);
+      rj.vadd(xj, rj);
+      rj.vsub(bj.position, rj);
+      this.result.push(r);
+      this.createFrictionEquationsFromContact(r, this.frictionResult);
+    }
+  }
+
+  boxBox(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+    si.convexPolyhedronRepresentation.material = si.material;
+    sj.convexPolyhedronRepresentation.material = sj.material;
+    si.convexPolyhedronRepresentation.collisionResponse = si.collisionResponse;
+    sj.convexPolyhedronRepresentation.collisionResponse = sj.collisionResponse;
+    return this.convexConvex(si.convexPolyhedronRepresentation, sj.convexPolyhedronRepresentation, xi, xj, qi, qj, bi, bj, si, sj, justTest);
+  }
+
+  sphereBox(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+    const v3pool = this.v3pool; // we refer to the box as body j
+
+    const sides = sphereBox_sides;
+    xi.vsub(xj, box_to_sphere);
+    sj.getSideNormals(sides, qj);
+    const R = si.radius;
+
+    let found = false; // Store the resulting side penetration info
+
+    const side_ns = sphereBox_side_ns;
+    const side_ns1 = sphereBox_side_ns1;
+    const side_ns2 = sphereBox_side_ns2;
+    let side_h = null;
+    let side_penetrations = 0;
+    let side_dot1 = 0;
+    let side_dot2 = 0;
+    let side_distance = null;
+
+    for (let idx = 0, nsides = sides.length; idx !== nsides && found === false; idx++) {
+      // Get the plane side normal (ns)
+      const ns = sphereBox_ns;
+      ns.copy(sides[idx]);
+      const h = ns.length();
+      ns.normalize(); // The normal/distance dot product tells which side of the plane we are
+
+      const dot = box_to_sphere.dot(ns);
+
+      if (dot < h + R && dot > 0) {
+        // Intersects plane. Now check the other two dimensions
+        const ns1 = sphereBox_ns1;
+        const ns2 = sphereBox_ns2;
+        ns1.copy(sides[(idx + 1) % 3]);
+        ns2.copy(sides[(idx + 2) % 3]);
+        const h1 = ns1.length();
+        const h2 = ns2.length();
+        ns1.normalize();
+        ns2.normalize();
+        const dot1 = box_to_sphere.dot(ns1);
+        const dot2 = box_to_sphere.dot(ns2);
+
+        if (dot1 < h1 && dot1 > -h1 && dot2 < h2 && dot2 > -h2) {
+          const dist = Math.abs(dot - h - R);
+
+          if (side_distance === null || dist < side_distance) {
+            side_distance = dist;
+            side_dot1 = dot1;
+            side_dot2 = dot2;
+            side_h = h;
+            side_ns.copy(ns);
+            side_ns1.copy(ns1);
+            side_ns2.copy(ns2);
+            side_penetrations++;
+
+            if (justTest) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+
+    if (side_penetrations) {
+      found = true;
+      const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj);
+      side_ns.scale(-R, r.ri); // Sphere r
+
+      r.ni.copy(side_ns);
+      r.ni.negate(r.ni); // Normal should be out of sphere
+
+      side_ns.scale(side_h, side_ns);
+      side_ns1.scale(side_dot1, side_ns1);
+      side_ns.vadd(side_ns1, side_ns);
+      side_ns2.scale(side_dot2, side_ns2);
+      side_ns.vadd(side_ns2, r.rj); // Make relative to bodies
+
+      r.ri.vadd(xi, r.ri);
+      r.ri.vsub(bi.position, r.ri);
+      r.rj.vadd(xj, r.rj);
+      r.rj.vsub(bj.position, r.rj);
+      this.result.push(r);
+      this.createFrictionEquationsFromContact(r, this.frictionResult);
+    } // Check corners
+
+
+    let rj = v3pool.get();
+    const sphere_to_corner = sphereBox_sphere_to_corner;
+
+    for (let j = 0; j !== 2 && !found; j++) {
+      for (let k = 0; k !== 2 && !found; k++) {
+        for (let l = 0; l !== 2 && !found; l++) {
+          rj.set(0, 0, 0);
+
+          if (j) {
+            rj.vadd(sides[0], rj);
+          } else {
+            rj.vsub(sides[0], rj);
+          }
+
+          if (k) {
+            rj.vadd(sides[1], rj);
+          } else {
+            rj.vsub(sides[1], rj);
+          }
+
+          if (l) {
+            rj.vadd(sides[2], rj);
+          } else {
+            rj.vsub(sides[2], rj);
+          } // World position of corner
+
+
+          xj.vadd(rj, sphere_to_corner);
+          sphere_to_corner.vsub(xi, sphere_to_corner);
+
+          if (sphere_to_corner.lengthSquared() < R * R) {
+            if (justTest) {
+              return true;
+            }
+
+            found = true;
+            const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj);
+            r.ri.copy(sphere_to_corner);
+            r.ri.normalize();
+            r.ni.copy(r.ri);
+            r.ri.scale(R, r.ri);
+            r.rj.copy(rj); // Make relative to bodies
+
+            r.ri.vadd(xi, r.ri);
+            r.ri.vsub(bi.position, r.ri);
+            r.rj.vadd(xj, r.rj);
+            r.rj.vsub(bj.position, r.rj);
+            this.result.push(r);
+            this.createFrictionEquationsFromContact(r, this.frictionResult);
+          }
+        }
+      }
+    }
+
+    v3pool.release(rj);
+    rj = null; // Check edges
+
+    const edgeTangent = v3pool.get();
+    const edgeCenter = v3pool.get();
+    const r = v3pool.get(); // r = edge center to sphere center
+
+    const orthogonal = v3pool.get();
+    const dist = v3pool.get();
+    const Nsides = sides.length;
+
+    for (let j = 0; j !== Nsides && !found; j++) {
+      for (let k = 0; k !== Nsides && !found; k++) {
+        if (j % 3 !== k % 3) {
+          // Get edge tangent
+          sides[k].cross(sides[j], edgeTangent);
+          edgeTangent.normalize();
+          sides[j].vadd(sides[k], edgeCenter);
+          r.copy(xi);
+          r.vsub(edgeCenter, r);
+          r.vsub(xj, r);
+          const orthonorm = r.dot(edgeTangent); // distance from edge center to sphere center in the tangent direction
+
+          edgeTangent.scale(orthonorm, orthogonal); // Vector from edge center to sphere center in the tangent direction
+          // Find the third side orthogonal to this one
+
+          let l = 0;
+
+          while (l === j % 3 || l === k % 3) {
+            l++;
+          } // vec from edge center to sphere projected to the plane orthogonal to the edge tangent
+
+
+          dist.copy(xi);
+          dist.vsub(orthogonal, dist);
+          dist.vsub(edgeCenter, dist);
+          dist.vsub(xj, dist); // Distances in tangent direction and distance in the plane orthogonal to it
+
+          const tdist = Math.abs(orthonorm);
+          const ndist = dist.length();
+
+          if (tdist < sides[l].length() && ndist < R) {
+            if (justTest) {
+              return true;
+            }
+
+            found = true;
+            const res = this.createContactEquation(bi, bj, si, sj, rsi, rsj);
+            edgeCenter.vadd(orthogonal, res.rj); // box rj
+
+            res.rj.copy(res.rj);
+            dist.negate(res.ni);
+            res.ni.normalize();
+            res.ri.copy(res.rj);
+            res.ri.vadd(xj, res.ri);
+            res.ri.vsub(xi, res.ri);
+            res.ri.normalize();
+            res.ri.scale(R, res.ri); // Make relative to bodies
+
+            res.ri.vadd(xi, res.ri);
+            res.ri.vsub(bi.position, res.ri);
+            res.rj.vadd(xj, res.rj);
+            res.rj.vsub(bj.position, res.rj);
+            this.result.push(res);
+            this.createFrictionEquationsFromContact(res, this.frictionResult);
+          }
+        }
+      }
+    }
+
+    v3pool.release(edgeTangent, edgeCenter, r, orthogonal, dist);
+  }
+
+  planeBox(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+    sj.convexPolyhedronRepresentation.material = sj.material;
+    sj.convexPolyhedronRepresentation.collisionResponse = sj.collisionResponse;
+    sj.convexPolyhedronRepresentation.id = sj.id;
+    return this.planeConvex(si, sj.convexPolyhedronRepresentation, xi, xj, qi, qj, bi, bj, si, sj, justTest);
+  }
+
+  convexConvex(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest, faceListA, faceListB) {
+    const sepAxis = convexConvex_sepAxis;
+
+    if (xi.distanceTo(xj) > si.boundingSphereRadius + sj.boundingSphereRadius) {
+      return;
+    }
+
+    if (si.findSeparatingAxis(sj, xi, qi, xj, qj, sepAxis, faceListA, faceListB)) {
+      const res = [];
+      const q = convexConvex_q;
+      si.clipAgainstHull(xi, qi, sj, xj, qj, sepAxis, -100, 100, res);
+      let numContacts = 0;
+
+      for (let j = 0; j !== res.length; j++) {
+        if (justTest) {
+          return true;
+        }
+
+        const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj);
+        const ri = r.ri;
+        const rj = r.rj;
+        sepAxis.negate(r.ni);
+        res[j].normal.negate(q);
+        q.scale(res[j].depth, q);
+        res[j].point.vadd(q, ri);
+        rj.copy(res[j].point); // Contact points are in world coordinates. Transform back to relative
+
+        ri.vsub(xi, ri);
+        rj.vsub(xj, rj); // Make relative to bodies
+
+        ri.vadd(xi, ri);
+        ri.vsub(bi.position, ri);
+        rj.vadd(xj, rj);
+        rj.vsub(bj.position, rj);
+        this.result.push(r);
+        numContacts++;
+
+        if (!this.enableFrictionReduction) {
+          this.createFrictionEquationsFromContact(r, this.frictionResult);
+        }
+      }
+
+      if (this.enableFrictionReduction && numContacts) {
+        this.createFrictionFromAverage(numContacts);
+      }
+    }
+  }
+
+  sphereConvex(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+    const v3pool = this.v3pool;
+    xi.vsub(xj, convex_to_sphere);
+    const normals = sj.faceNormals;
+    const faces = sj.faces;
+    const verts = sj.vertices;
+    const R = si.radius;
+    //     return;
+    // }
+
+    let found = false; // Check corners
+
+    for (let i = 0; i !== verts.length; i++) {
+      const v = verts[i]; // World position of corner
+
+      const worldCorner = sphereConvex_worldCorner;
+      qj.vmult(v, worldCorner);
+      xj.vadd(worldCorner, worldCorner);
+      const sphere_to_corner = sphereConvex_sphereToCorner;
+      worldCorner.vsub(xi, sphere_to_corner);
+
+      if (sphere_to_corner.lengthSquared() < R * R) {
+        if (justTest) {
+          return true;
+        }
+
+        found = true;
+        const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj);
+        r.ri.copy(sphere_to_corner);
+        r.ri.normalize();
+        r.ni.copy(r.ri);
+        r.ri.scale(R, r.ri);
+        worldCorner.vsub(xj, r.rj); // Should be relative to the body.
+
+        r.ri.vadd(xi, r.ri);
+        r.ri.vsub(bi.position, r.ri); // Should be relative to the body.
+
+        r.rj.vadd(xj, r.rj);
+        r.rj.vsub(bj.position, r.rj);
+        this.result.push(r);
+        this.createFrictionEquationsFromContact(r, this.frictionResult);
+        return;
+      }
+    } // Check side (plane) intersections
+
+
+    for (let i = 0, nfaces = faces.length; i !== nfaces && found === false; i++) {
+      const normal = normals[i];
+      const face = faces[i]; // Get world-transformed normal of the face
+
+      const worldNormal = sphereConvex_worldNormal;
+      qj.vmult(normal, worldNormal); // Get a world vertex from the face
+
+      const worldPoint = sphereConvex_worldPoint;
+      qj.vmult(verts[face[0]], worldPoint);
+      worldPoint.vadd(xj, worldPoint); // Get a point on the sphere, closest to the face normal
+
+      const worldSpherePointClosestToPlane = sphereConvex_worldSpherePointClosestToPlane;
+      worldNormal.scale(-R, worldSpherePointClosestToPlane);
+      xi.vadd(worldSpherePointClosestToPlane, worldSpherePointClosestToPlane); // Vector from a face point to the closest point on the sphere
+
+      const penetrationVec = sphereConvex_penetrationVec;
+      worldSpherePointClosestToPlane.vsub(worldPoint, penetrationVec); // The penetration. Negative value means overlap.
+
+      const penetration = penetrationVec.dot(worldNormal);
+      const worldPointToSphere = sphereConvex_sphereToWorldPoint;
+      xi.vsub(worldPoint, worldPointToSphere);
+
+      if (penetration < 0 && worldPointToSphere.dot(worldNormal) > 0) {
+        // Intersects plane. Now check if the sphere is inside the face polygon
+        const faceVerts = []; // Face vertices, in world coords
+
+        for (let j = 0, Nverts = face.length; j !== Nverts; j++) {
+          const worldVertex = v3pool.get();
+          qj.vmult(verts[face[j]], worldVertex);
+          xj.vadd(worldVertex, worldVertex);
+          faceVerts.push(worldVertex);
+        }
+
+        if (pointInPolygon(faceVerts, worldNormal, xi)) {
+          // Is the sphere center in the face polygon?
+          if (justTest) {
+            return true;
+          }
+
+          found = true;
+          const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj);
+          worldNormal.scale(-R, r.ri); // Contact offset, from sphere center to contact
+
+          worldNormal.negate(r.ni); // Normal pointing out of sphere
+
+          const penetrationVec2 = v3pool.get();
+          worldNormal.scale(-penetration, penetrationVec2);
+          const penetrationSpherePoint = v3pool.get();
+          worldNormal.scale(-R, penetrationSpherePoint); //xi.vsub(xj).vadd(penetrationSpherePoint).vadd(penetrationVec2 , r.rj);
+
+          xi.vsub(xj, r.rj);
+          r.rj.vadd(penetrationSpherePoint, r.rj);
+          r.rj.vadd(penetrationVec2, r.rj); // Should be relative to the body.
+
+          r.rj.vadd(xj, r.rj);
+          r.rj.vsub(bj.position, r.rj); // Should be relative to the body.
+
+          r.ri.vadd(xi, r.ri);
+          r.ri.vsub(bi.position, r.ri);
+          v3pool.release(penetrationVec2);
+          v3pool.release(penetrationSpherePoint);
+          this.result.push(r);
+          this.createFrictionEquationsFromContact(r, this.frictionResult); // Release world vertices
+
+          for (let j = 0, Nfaceverts = faceVerts.length; j !== Nfaceverts; j++) {
+            v3pool.release(faceVerts[j]);
+          }
+
+          return; // We only expect *one* face contact
+        } else {
+          // Edge?
+          for (let j = 0; j !== face.length; j++) {
+            // Get two world transformed vertices
+            const v1 = v3pool.get();
+            const v2 = v3pool.get();
+            qj.vmult(verts[face[(j + 1) % face.length]], v1);
+            qj.vmult(verts[face[(j + 2) % face.length]], v2);
+            xj.vadd(v1, v1);
+            xj.vadd(v2, v2); // Construct edge vector
+
+            const edge = sphereConvex_edge;
+            v2.vsub(v1, edge); // Construct the same vector, but normalized
+
+            const edgeUnit = sphereConvex_edgeUnit;
+            edge.unit(edgeUnit); // p is xi projected onto the edge
+
+            const p = v3pool.get();
+            const v1_to_xi = v3pool.get();
+            xi.vsub(v1, v1_to_xi);
+            const dot = v1_to_xi.dot(edgeUnit);
+            edgeUnit.scale(dot, p);
+            p.vadd(v1, p); // Compute a vector from p to the center of the sphere
+
+            const xi_to_p = v3pool.get();
+            p.vsub(xi, xi_to_p); // Collision if the edge-sphere distance is less than the radius
+            // AND if p is in between v1 and v2
+
+            if (dot > 0 && dot * dot < edge.lengthSquared() && xi_to_p.lengthSquared() < R * R) {
+              // Collision if the edge-sphere distance is less than the radius
+              // Edge contact!
+              if (justTest) {
+                return true;
+              }
+
+              const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj);
+              p.vsub(xj, r.rj);
+              p.vsub(xi, r.ni);
+              r.ni.normalize();
+              r.ni.scale(R, r.ri); // Should be relative to the body.
+
+              r.rj.vadd(xj, r.rj);
+              r.rj.vsub(bj.position, r.rj); // Should be relative to the body.
+
+              r.ri.vadd(xi, r.ri);
+              r.ri.vsub(bi.position, r.ri);
+              this.result.push(r);
+              this.createFrictionEquationsFromContact(r, this.frictionResult); // Release world vertices
+
+              for (let j = 0, Nfaceverts = faceVerts.length; j !== Nfaceverts; j++) {
+                v3pool.release(faceVerts[j]);
+              }
+
+              v3pool.release(v1);
+              v3pool.release(v2);
+              v3pool.release(p);
+              v3pool.release(xi_to_p);
+              v3pool.release(v1_to_xi);
+              return;
+            }
+
+            v3pool.release(v1);
+            v3pool.release(v2);
+            v3pool.release(p);
+            v3pool.release(xi_to_p);
+            v3pool.release(v1_to_xi);
+          }
+        } // Release world vertices
+
+
+        for (let j = 0, Nfaceverts = faceVerts.length; j !== Nfaceverts; j++) {
+          v3pool.release(faceVerts[j]);
+        }
+      }
+    }
+  }
+
+  planeConvex(planeShape, convexShape, planePosition, convexPosition, planeQuat, convexQuat, planeBody, convexBody, si, sj, justTest) {
+    // Simply return the points behind the plane.
+    const worldVertex = planeConvex_v;
+    const worldNormal = planeConvex_normal;
+    worldNormal.set(0, 0, 1);
+    planeQuat.vmult(worldNormal, worldNormal); // Turn normal according to plane orientation
+
+    let numContacts = 0;
+    const relpos = planeConvex_relpos;
+
+    for (let i = 0; i !== convexShape.vertices.length; i++) {
+      // Get world convex vertex
+      worldVertex.copy(convexShape.vertices[i]);
+      convexQuat.vmult(worldVertex, worldVertex);
+      convexPosition.vadd(worldVertex, worldVertex);
+      worldVertex.vsub(planePosition, relpos);
+      const dot = worldNormal.dot(relpos);
+
+      if (dot <= 0.0) {
+        if (justTest) {
+          return true;
+        }
+
+        const r = this.createContactEquation(planeBody, convexBody, planeShape, convexShape, si, sj); // Get vertex position projected on plane
+
+        const projected = planeConvex_projected;
+        worldNormal.scale(worldNormal.dot(relpos), projected);
+        worldVertex.vsub(projected, projected);
+        projected.vsub(planePosition, r.ri); // From plane to vertex projected on plane
+
+        r.ni.copy(worldNormal); // Contact normal is the plane normal out from plane
+        // rj is now just the vector from the convex center to the vertex
+
+        worldVertex.vsub(convexPosition, r.rj); // Make it relative to the body
+
+        r.ri.vadd(planePosition, r.ri);
+        r.ri.vsub(planeBody.position, r.ri);
+        r.rj.vadd(convexPosition, r.rj);
+        r.rj.vsub(convexBody.position, r.rj);
+        this.result.push(r);
+        numContacts++;
+
+        if (!this.enableFrictionReduction) {
+          this.createFrictionEquationsFromContact(r, this.frictionResult);
+        }
+      }
+    }
+
+    if (this.enableFrictionReduction && numContacts) {
+      this.createFrictionFromAverage(numContacts);
+    }
+  }
+
+  boxConvex(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+    si.convexPolyhedronRepresentation.material = si.material;
+    si.convexPolyhedronRepresentation.collisionResponse = si.collisionResponse;
+    return this.convexConvex(si.convexPolyhedronRepresentation, sj, xi, xj, qi, qj, bi, bj, si, sj, justTest);
+  }
+
+  sphereHeightfield(sphereShape, hfShape, spherePos, hfPos, sphereQuat, hfQuat, sphereBody, hfBody, rsi, rsj, justTest) {
+    const data = hfShape.data;
+    const radius = sphereShape.radius;
+    const w = hfShape.elementSize;
+    const worldPillarOffset = sphereHeightfield_tmp2; // Get sphere position to heightfield local!
+
+    const localSpherePos = sphereHeightfield_tmp1;
+    Transform.pointToLocalFrame(hfPos, hfQuat, spherePos, localSpherePos); // Get the index of the data points to test against
+
+    let iMinX = Math.floor((localSpherePos.x - radius) / w) - 1;
+    let iMaxX = Math.ceil((localSpherePos.x + radius) / w) + 1;
+    let iMinY = Math.floor((localSpherePos.y - radius) / w) - 1;
+    let iMaxY = Math.ceil((localSpherePos.y + radius) / w) + 1; // Bail out if we are out of the terrain
+
+    if (iMaxX < 0 || iMaxY < 0 || iMinX > data.length || iMinY > data[0].length) {
+      return;
+    } // Clamp index to edges
+
+
+    if (iMinX < 0) {
+      iMinX = 0;
+    }
+
+    if (iMaxX < 0) {
+      iMaxX = 0;
+    }
+
+    if (iMinY < 0) {
+      iMinY = 0;
+    }
+
+    if (iMaxY < 0) {
+      iMaxY = 0;
+    }
+
+    if (iMinX >= data.length) {
+      iMinX = data.length - 1;
+    }
+
+    if (iMaxX >= data.length) {
+      iMaxX = data.length - 1;
+    }
+
+    if (iMaxY >= data[0].length) {
+      iMaxY = data[0].length - 1;
+    }
+
+    if (iMinY >= data[0].length) {
+      iMinY = data[0].length - 1;
+    }
+
+    const minMax = [];
+    hfShape.getRectMinMax(iMinX, iMinY, iMaxX, iMaxY, minMax);
+    const min = minMax[0];
+    const max = minMax[1]; // Bail out if we can't touch the bounding height box
+
+    if (localSpherePos.z - radius > max || localSpherePos.z + radius < min) {
+      return;
+    }
+
+    const result = this.result;
+
+    for (let i = iMinX; i < iMaxX; i++) {
+      for (let j = iMinY; j < iMaxY; j++) {
+        const numContactsBefore = result.length;
+        let intersecting = false; // Lower triangle
+
+        hfShape.getConvexTrianglePillar(i, j, false);
+        Transform.pointToWorldFrame(hfPos, hfQuat, hfShape.pillarOffset, worldPillarOffset);
+
+        if (spherePos.distanceTo(worldPillarOffset) < hfShape.pillarConvex.boundingSphereRadius + sphereShape.boundingSphereRadius) {
+          intersecting = this.sphereConvex(sphereShape, hfShape.pillarConvex, spherePos, worldPillarOffset, sphereQuat, hfQuat, sphereBody, hfBody, sphereShape, hfShape, justTest);
+        }
+
+        if (justTest && intersecting) {
+          return true;
+        } // Upper triangle
+
+
+        hfShape.getConvexTrianglePillar(i, j, true);
+        Transform.pointToWorldFrame(hfPos, hfQuat, hfShape.pillarOffset, worldPillarOffset);
+
+        if (spherePos.distanceTo(worldPillarOffset) < hfShape.pillarConvex.boundingSphereRadius + sphereShape.boundingSphereRadius) {
+          intersecting = this.sphereConvex(sphereShape, hfShape.pillarConvex, spherePos, worldPillarOffset, sphereQuat, hfQuat, sphereBody, hfBody, sphereShape, hfShape, justTest);
+        }
+
+        if (justTest && intersecting) {
+          return true;
+        }
+
+        const numContacts = result.length - numContactsBefore;
+
+        if (numContacts > 2) {
+          return;
+        }
+        /*
+          // Skip all but 1
+          for (let k = 0; k < numContacts - 1; k++) {
+              result.pop();
+          }
+        */
+
+      }
+    }
+  }
+
+  boxHeightfield(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+    si.convexPolyhedronRepresentation.material = si.material;
+    si.convexPolyhedronRepresentation.collisionResponse = si.collisionResponse;
+    return this.convexHeightfield(si.convexPolyhedronRepresentation, sj, xi, xj, qi, qj, bi, bj, si, sj, justTest);
+  }
+
+  convexHeightfield(convexShape, hfShape, convexPos, hfPos, convexQuat, hfQuat, convexBody, hfBody, rsi, rsj, justTest) {
+    const data = hfShape.data;
+    const w = hfShape.elementSize;
+    const radius = convexShape.boundingSphereRadius;
+    const worldPillarOffset = convexHeightfield_tmp2;
+    const faceList = convexHeightfield_faceList; // Get sphere position to heightfield local!
+
+    const localConvexPos = convexHeightfield_tmp1;
+    Transform.pointToLocalFrame(hfPos, hfQuat, convexPos, localConvexPos); // Get the index of the data points to test against
+
+    let iMinX = Math.floor((localConvexPos.x - radius) / w) - 1;
+    let iMaxX = Math.ceil((localConvexPos.x + radius) / w) + 1;
+    let iMinY = Math.floor((localConvexPos.y - radius) / w) - 1;
+    let iMaxY = Math.ceil((localConvexPos.y + radius) / w) + 1; // Bail out if we are out of the terrain
+
+    if (iMaxX < 0 || iMaxY < 0 || iMinX > data.length || iMinY > data[0].length) {
+      return;
+    } // Clamp index to edges
+
+
+    if (iMinX < 0) {
+      iMinX = 0;
+    }
+
+    if (iMaxX < 0) {
+      iMaxX = 0;
+    }
+
+    if (iMinY < 0) {
+      iMinY = 0;
+    }
+
+    if (iMaxY < 0) {
+      iMaxY = 0;
+    }
+
+    if (iMinX >= data.length) {
+      iMinX = data.length - 1;
+    }
+
+    if (iMaxX >= data.length) {
+      iMaxX = data.length - 1;
+    }
+
+    if (iMaxY >= data[0].length) {
+      iMaxY = data[0].length - 1;
+    }
+
+    if (iMinY >= data[0].length) {
+      iMinY = data[0].length - 1;
+    }
+
+    const minMax = [];
+    hfShape.getRectMinMax(iMinX, iMinY, iMaxX, iMaxY, minMax);
+    const min = minMax[0];
+    const max = minMax[1]; // Bail out if we're cant touch the bounding height box
+
+    if (localConvexPos.z - radius > max || localConvexPos.z + radius < min) {
+      return;
+    }
+
+    for (let i = iMinX; i < iMaxX; i++) {
+      for (let j = iMinY; j < iMaxY; j++) {
+        let intersecting = false; // Lower triangle
+
+        hfShape.getConvexTrianglePillar(i, j, false);
+        Transform.pointToWorldFrame(hfPos, hfQuat, hfShape.pillarOffset, worldPillarOffset);
+
+        if (convexPos.distanceTo(worldPillarOffset) < hfShape.pillarConvex.boundingSphereRadius + convexShape.boundingSphereRadius) {
+          intersecting = this.convexConvex(convexShape, hfShape.pillarConvex, convexPos, worldPillarOffset, convexQuat, hfQuat, convexBody, hfBody, null, null, justTest, faceList, null);
+        }
+
+        if (justTest && intersecting) {
+          return true;
+        } // Upper triangle
+
+
+        hfShape.getConvexTrianglePillar(i, j, true);
+        Transform.pointToWorldFrame(hfPos, hfQuat, hfShape.pillarOffset, worldPillarOffset);
+
+        if (convexPos.distanceTo(worldPillarOffset) < hfShape.pillarConvex.boundingSphereRadius + convexShape.boundingSphereRadius) {
+          intersecting = this.convexConvex(convexShape, hfShape.pillarConvex, convexPos, worldPillarOffset, convexQuat, hfQuat, convexBody, hfBody, null, null, justTest, faceList, null);
+        }
+
+        if (justTest && intersecting) {
+          return true;
+        }
+      }
+    }
+  }
+
+  sphereParticle(sj, si, xj, xi, qj, qi, bj, bi, rsi, rsj, justTest) {
+    // The normal is the unit vector from sphere center to particle center
+    const normal = particleSphere_normal;
+    normal.set(0, 0, 1);
+    xi.vsub(xj, normal);
+    const lengthSquared = normal.lengthSquared();
+
+    if (lengthSquared <= sj.radius * sj.radius) {
+      if (justTest) {
+        return true;
+      }
+
+      const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj);
+      normal.normalize();
+      r.rj.copy(normal);
+      r.rj.scale(sj.radius, r.rj);
+      r.ni.copy(normal); // Contact normal
+
+      r.ni.negate(r.ni);
+      r.ri.set(0, 0, 0); // Center of particle
+
+      this.result.push(r);
+      this.createFrictionEquationsFromContact(r, this.frictionResult);
+    }
+  }
+
+  planeParticle(sj, si, xj, xi, qj, qi, bj, bi, rsi, rsj, justTest) {
+    const normal = particlePlane_normal;
+    normal.set(0, 0, 1);
+    bj.quaternion.vmult(normal, normal); // Turn normal according to plane orientation
+
+    const relpos = particlePlane_relpos;
+    xi.vsub(bj.position, relpos);
+    const dot = normal.dot(relpos);
+
+    if (dot <= 0.0) {
+      if (justTest) {
+        return true;
+      }
+
+      const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj);
+      r.ni.copy(normal); // Contact normal is the plane normal
+
+      r.ni.negate(r.ni);
+      r.ri.set(0, 0, 0); // Center of particle
+      // Get particle position projected on plane
+
+      const projected = particlePlane_projected;
+      normal.scale(normal.dot(xi), projected);
+      xi.vsub(projected, projected); //projected.vadd(bj.position,projected);
+      // rj is now the projected world position minus plane position
+
+      r.rj.copy(projected);
+      this.result.push(r);
+      this.createFrictionEquationsFromContact(r, this.frictionResult);
+    }
+  }
+
+  boxParticle(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+    si.convexPolyhedronRepresentation.material = si.material;
+    si.convexPolyhedronRepresentation.collisionResponse = si.collisionResponse;
+    return this.convexParticle(si.convexPolyhedronRepresentation, sj, xi, xj, qi, qj, bi, bj, si, sj, justTest);
+  }
+
+  convexParticle(sj, si, xj, xi, qj, qi, bj, bi, rsi, rsj, justTest) {
+    let penetratedFaceIndex = -1;
+    const penetratedFaceNormal = convexParticle_penetratedFaceNormal;
+    const worldPenetrationVec = convexParticle_worldPenetrationVec;
+    let minPenetration = null;
+
+    const local = convexParticle_local;
+    local.copy(xi);
+    local.vsub(xj, local); // Convert position to relative the convex origin
+
+    qj.conjugate(cqj);
+    cqj.vmult(local, local);
+
+    if (sj.pointIsInside(local)) {
+      if (sj.worldVerticesNeedsUpdate) {
+        sj.computeWorldVertices(xj, qj);
+      }
+
+      if (sj.worldFaceNormalsNeedsUpdate) {
+        sj.computeWorldFaceNormals(qj);
+      } // For each world polygon in the polyhedra
+
+
+      for (let i = 0, nfaces = sj.faces.length; i !== nfaces; i++) {
+        // Construct world face vertices
+        const verts = [sj.worldVertices[sj.faces[i][0]]];
+        const normal = sj.worldFaceNormals[i]; // Check how much the particle penetrates the polygon plane.
+
+        xi.vsub(verts[0], convexParticle_vertexToParticle);
+        const penetration = -normal.dot(convexParticle_vertexToParticle);
+
+        if (minPenetration === null || Math.abs(penetration) < Math.abs(minPenetration)) {
+          if (justTest) {
+            return true;
+          }
+
+          minPenetration = penetration;
+          penetratedFaceIndex = i;
+          penetratedFaceNormal.copy(normal);
+        }
+      }
+
+      if (penetratedFaceIndex !== -1) {
+        // Setup contact
+        const r = this.createContactEquation(bi, bj, si, sj, rsi, rsj);
+        penetratedFaceNormal.scale(minPenetration, worldPenetrationVec); // rj is the particle position projected to the face
+
+        worldPenetrationVec.vadd(xi, worldPenetrationVec);
+        worldPenetrationVec.vsub(xj, worldPenetrationVec);
+        r.rj.copy(worldPenetrationVec); //const projectedToFace = xi.vsub(xj).vadd(worldPenetrationVec);
+        //projectedToFace.copy(r.rj);
+        //qj.vmult(r.rj,r.rj);
+
+        penetratedFaceNormal.negate(r.ni); // Contact normal
+
+        r.ri.set(0, 0, 0); // Center of particle
+
+        const ri = r.ri;
+        const rj = r.rj; // Make relative to bodies
+
+        ri.vadd(xi, ri);
+        ri.vsub(bi.position, ri);
+        rj.vadd(xj, rj);
+        rj.vsub(bj.position, rj);
+        this.result.push(r);
+        this.createFrictionEquationsFromContact(r, this.frictionResult);
+      } else {
+        console.warn('Point found inside convex, but did not find penetrating face!');
+      }
+    }
+  }
+
+  heightfieldCylinder(hfShape, convexShape, hfPos, convexPos, hfQuat, convexQuat, hfBody, convexBody, rsi, rsj, justTest) {
+    return this.convexHeightfield(convexShape, hfShape, convexPos, hfPos, convexQuat, hfQuat, convexBody, hfBody, rsi, rsj, justTest);
+  }
+
+  particleCylinder(si, sj, xi, xj, qi, qj, bi, bj, rsi, rsj, justTest) {
+    return this.convexParticle(sj, si, xj, xi, qj, qi, bj, bi, rsi, rsj, justTest);
+  }
+
+  sphereTrimesh(sphereShape, trimeshShape, spherePos, trimeshPos, sphereQuat, trimeshQuat, sphereBody, trimeshBody, rsi, rsj, justTest) {
+    const edgeVertexA = sphereTrimesh_edgeVertexA;
+    const edgeVertexB = sphereTrimesh_edgeVertexB;
+    const edgeVector = sphereTrimesh_edgeVector;
+    const edgeVectorUnit = sphereTrimesh_edgeVectorUnit;
+    const localSpherePos = sphereTrimesh_localSpherePos;
+    const tmp = sphereTrimesh_tmp;
+    const localSphereAABB = sphereTrimesh_localSphereAABB;
+    const v2 = sphereTrimesh_v2;
+    const relpos = sphereTrimesh_relpos;
+    const triangles = sphereTrimesh_triangles; // Convert sphere position to local in the trimesh
+
+    Transform.pointToLocalFrame(trimeshPos, trimeshQuat, spherePos, localSpherePos); // Get the aabb of the sphere locally in the trimesh
+
+    const sphereRadius = sphereShape.radius;
+    localSphereAABB.lowerBound.set(localSpherePos.x - sphereRadius, localSpherePos.y - sphereRadius, localSpherePos.z - sphereRadius);
+    localSphereAABB.upperBound.set(localSpherePos.x + sphereRadius, localSpherePos.y + sphereRadius, localSpherePos.z + sphereRadius);
+    trimeshShape.getTrianglesInAABB(localSphereAABB, triangles); //for (let i = 0; i < trimeshShape.indices.length / 3; i++) triangles.push(i); // All
+    // Vertices
+
+    const v = sphereTrimesh_v;
+    const radiusSquared = sphereShape.radius * sphereShape.radius;
+
+    for (let i = 0; i < triangles.length; i++) {
+      for (let j = 0; j < 3; j++) {
+        trimeshShape.getVertex(trimeshShape.indices[triangles[i] * 3 + j], v); // Check vertex overlap in sphere
+
+        v.vsub(localSpherePos, relpos);
+
+        if (relpos.lengthSquared() <= radiusSquared) {
+          // Safe up
+          v2.copy(v);
+          Transform.pointToWorldFrame(trimeshPos, trimeshQuat, v2, v);
+          v.vsub(spherePos, relpos);
+
+          if (justTest) {
+            return true;
+          }
+
+          let r = this.createContactEquation(sphereBody, trimeshBody, sphereShape, trimeshShape, rsi, rsj);
+          r.ni.copy(relpos);
+          r.ni.normalize(); // ri is the vector from sphere center to the sphere surface
+
+          r.ri.copy(r.ni);
+          r.ri.scale(sphereShape.radius, r.ri);
+          r.ri.vadd(spherePos, r.ri);
+          r.ri.vsub(sphereBody.position, r.ri);
+          r.rj.copy(v);
+          r.rj.vsub(trimeshBody.position, r.rj); // Store result
+
+          this.result.push(r);
+          this.createFrictionEquationsFromContact(r, this.frictionResult);
+        }
+      }
+    } // Check all edges
+
+
+    for (let i = 0; i < triangles.length; i++) {
+      for (let j = 0; j < 3; j++) {
+        trimeshShape.getVertex(trimeshShape.indices[triangles[i] * 3 + j], edgeVertexA);
+        trimeshShape.getVertex(trimeshShape.indices[triangles[i] * 3 + (j + 1) % 3], edgeVertexB);
+        edgeVertexB.vsub(edgeVertexA, edgeVector); // Project sphere position to the edge
+
+        localSpherePos.vsub(edgeVertexB, tmp);
+        const positionAlongEdgeB = tmp.dot(edgeVector);
+        localSpherePos.vsub(edgeVertexA, tmp);
+        let positionAlongEdgeA = tmp.dot(edgeVector);
+
+        if (positionAlongEdgeA > 0 && positionAlongEdgeB < 0) {
+          // Now check the orthogonal distance from edge to sphere center
+          localSpherePos.vsub(edgeVertexA, tmp);
+          edgeVectorUnit.copy(edgeVector);
+          edgeVectorUnit.normalize();
+          positionAlongEdgeA = tmp.dot(edgeVectorUnit);
+          edgeVectorUnit.scale(positionAlongEdgeA, tmp);
+          tmp.vadd(edgeVertexA, tmp); // tmp is now the sphere center position projected to the edge, defined locally in the trimesh frame
+
+          const dist = tmp.distanceTo(localSpherePos);
+
+          if (dist < sphereShape.radius) {
+            if (justTest) {
+              return true;
+            }
+
+            const r = this.createContactEquation(sphereBody, trimeshBody, sphereShape, trimeshShape, rsi, rsj);
+            tmp.vsub(localSpherePos, r.ni);
+            r.ni.normalize();
+            r.ni.scale(sphereShape.radius, r.ri);
+            r.ri.vadd(spherePos, r.ri);
+            r.ri.vsub(sphereBody.position, r.ri);
+            Transform.pointToWorldFrame(trimeshPos, trimeshQuat, tmp, tmp);
+            tmp.vsub(trimeshBody.position, r.rj);
+            Transform.vectorToWorldFrame(trimeshQuat, r.ni, r.ni);
+            Transform.vectorToWorldFrame(trimeshQuat, r.ri, r.ri);
+            this.result.push(r);
+            this.createFrictionEquationsFromContact(r, this.frictionResult);
+          }
+        }
+      }
+    } // Triangle faces
+
+
+    const va = sphereTrimesh_va;
+    const vb = sphereTrimesh_vb;
+    const vc = sphereTrimesh_vc;
+    const normal = sphereTrimesh_normal;
+
+    for (let i = 0, N = triangles.length; i !== N; i++) {
+      trimeshShape.getTriangleVertices(triangles[i], va, vb, vc);
+      trimeshShape.getNormal(triangles[i], normal);
+      localSpherePos.vsub(va, tmp);
+      let dist = tmp.dot(normal);
+      normal.scale(dist, tmp);
+      localSpherePos.vsub(tmp, tmp); // tmp is now the sphere position projected to the triangle plane
+
+      dist = tmp.distanceTo(localSpherePos);
+
+      if (Ray.pointInTriangle(tmp, va, vb, vc) && dist < sphereShape.radius) {
+        if (justTest) {
+          return true;
+        }
+
+        let r = this.createContactEquation(sphereBody, trimeshBody, sphereShape, trimeshShape, rsi, rsj);
+        tmp.vsub(localSpherePos, r.ni);
+        r.ni.normalize();
+        r.ni.scale(sphereShape.radius, r.ri);
+        r.ri.vadd(spherePos, r.ri);
+        r.ri.vsub(sphereBody.position, r.ri);
+        Transform.pointToWorldFrame(trimeshPos, trimeshQuat, tmp, tmp);
+        tmp.vsub(trimeshBody.position, r.rj);
+        Transform.vectorToWorldFrame(trimeshQuat, r.ni, r.ni);
+        Transform.vectorToWorldFrame(trimeshQuat, r.ri, r.ri);
+        this.result.push(r);
+        this.createFrictionEquationsFromContact(r, this.frictionResult);
+      }
+    }
+
+    triangles.length = 0;
+  }
+
+  planeTrimesh(planeShape, trimeshShape, planePos, trimeshPos, planeQuat, trimeshQuat, planeBody, trimeshBody, rsi, rsj, justTest) {
+    // Make contacts!
+    const v = new Vec3();
+    const normal = planeTrimesh_normal;
+    normal.set(0, 0, 1);
+    planeQuat.vmult(normal, normal); // Turn normal according to plane
+
+    for (let i = 0; i < trimeshShape.vertices.length / 3; i++) {
+      // Get world vertex from trimesh
+      trimeshShape.getVertex(i, v); // Safe up
+
+      const v2 = new Vec3();
+      v2.copy(v);
+      Transform.pointToWorldFrame(trimeshPos, trimeshQuat, v2, v); // Check plane side
+
+      const relpos = planeTrimesh_relpos;
+      v.vsub(planePos, relpos);
+      const dot = normal.dot(relpos);
+
+      if (dot <= 0.0) {
+        if (justTest) {
+          return true;
+        }
+
+        const r = this.createContactEquation(planeBody, trimeshBody, planeShape, trimeshShape, rsi, rsj);
+        r.ni.copy(normal); // Contact normal is the plane normal
+        // Get vertex position projected on plane
+
+        const projected = planeTrimesh_projected;
+        normal.scale(relpos.dot(normal), projected);
+        v.vsub(projected, projected); // ri is the projected world position minus plane position
+
+        r.ri.copy(projected);
+        r.ri.vsub(planeBody.position, r.ri);
+        r.rj.copy(v);
+        r.rj.vsub(trimeshBody.position, r.rj); // Store result
+
+        this.result.push(r);
+        this.createFrictionEquationsFromContact(r, this.frictionResult);
+      }
+    }
+  } // convexTrimesh(
+  //   si: ConvexPolyhedron, sj: Trimesh, xi: Vec3, xj: Vec3, qi: Quaternion, qj: Quaternion,
+  //   bi: Body, bj: Body, rsi?: Shape | null, rsj?: Shape | null,
+  //   faceListA?: number[] | null, faceListB?: number[] | null,
+  // ) {
+  //   const sepAxis = convexConvex_sepAxis;
+  //   if(xi.distanceTo(xj) > si.boundingSphereRadius + sj.boundingSphereRadius){
+  //       return;
+  //   }
+  //   // Construct a temp hull for each triangle
+  //   const hullB = new ConvexPolyhedron();
+  //   hullB.faces = [[0,1,2]];
+  //   const va = new Vec3();
+  //   const vb = new Vec3();
+  //   const vc = new Vec3();
+  //   hullB.vertices = [
+  //       va,
+  //       vb,
+  //       vc
+  //   ];
+  //   for (let i = 0; i < sj.indices.length / 3; i++) {
+  //       const triangleNormal = new Vec3();
+  //       sj.getNormal(i, triangleNormal);
+  //       hullB.faceNormals = [triangleNormal];
+  //       sj.getTriangleVertices(i, va, vb, vc);
+  //       let d = si.testSepAxis(triangleNormal, hullB, xi, qi, xj, qj);
+  //       if(!d){
+  //           triangleNormal.scale(-1, triangleNormal);
+  //           d = si.testSepAxis(triangleNormal, hullB, xi, qi, xj, qj);
+  //           if(!d){
+  //               continue;
+  //           }
+  //       }
+  //       const res: ConvexPolyhedronContactPoint[] = [];
+  //       const q = convexConvex_q;
+  //       si.clipAgainstHull(xi,qi,hullB,xj,qj,triangleNormal,-100,100,res);
+  //       for(let j = 0; j !== res.length; j++){
+  //           const r = this.createContactEquation(bi,bj,si,sj,rsi,rsj),
+  //               ri = r.ri,
+  //               rj = r.rj;
+  //           r.ni.copy(triangleNormal);
+  //           r.ni.negate(r.ni);
+  //           res[j].normal.negate(q);
+  //           q.mult(res[j].depth, q);
+  //           res[j].point.vadd(q, ri);
+  //           rj.copy(res[j].point);
+  //           // Contact points are in world coordinates. Transform back to relative
+  //           ri.vsub(xi,ri);
+  //           rj.vsub(xj,rj);
+  //           // Make relative to bodies
+  //           ri.vadd(xi, ri);
+  //           ri.vsub(bi.position, ri);
+  //           rj.vadd(xj, rj);
+  //           rj.vsub(bj.position, rj);
+  //           result.push(r);
+  //       }
+  //   }
+  // }
+
+
+}
+const averageNormal = new Vec3();
+const averageContactPointA = new Vec3();
+const averageContactPointB = new Vec3();
+const tmpVec1 = new Vec3();
+const tmpVec2 = new Vec3();
+const tmpQuat1 = new Quaternion();
+const tmpQuat2 = new Quaternion();
+
+const planeTrimesh_normal = new Vec3();
+const planeTrimesh_relpos = new Vec3();
+const planeTrimesh_projected = new Vec3();
+const sphereTrimesh_normal = new Vec3();
+const sphereTrimesh_relpos = new Vec3();
+new Vec3();
+const sphereTrimesh_v = new Vec3();
+const sphereTrimesh_v2 = new Vec3();
+const sphereTrimesh_edgeVertexA = new Vec3();
+const sphereTrimesh_edgeVertexB = new Vec3();
+const sphereTrimesh_edgeVector = new Vec3();
+const sphereTrimesh_edgeVectorUnit = new Vec3();
+const sphereTrimesh_localSpherePos = new Vec3();
+const sphereTrimesh_tmp = new Vec3();
+const sphereTrimesh_va = new Vec3();
+const sphereTrimesh_vb = new Vec3();
+const sphereTrimesh_vc = new Vec3();
+const sphereTrimesh_localSphereAABB = new AABB();
+const sphereTrimesh_triangles = [];
+const point_on_plane_to_sphere = new Vec3();
+const plane_to_sphere_ortho = new Vec3(); // See http://bulletphysics.com/Bullet/BulletFull/SphereTriangleDetector_8cpp_source.html
+
+const pointInPolygon_edge = new Vec3();
+const pointInPolygon_edge_x_normal = new Vec3();
+const pointInPolygon_vtp = new Vec3();
+
+function pointInPolygon(verts, normal, p) {
+  let positiveResult = null;
+  const N = verts.length;
+
+  for (let i = 0; i !== N; i++) {
+    const v = verts[i]; // Get edge to the next vertex
+
+    const edge = pointInPolygon_edge;
+    verts[(i + 1) % N].vsub(v, edge); // Get cross product between polygon normal and the edge
+
+    const edge_x_normal = pointInPolygon_edge_x_normal; //const edge_x_normal = new Vec3();
+
+    edge.cross(normal, edge_x_normal); // Get vector between point and current vertex
+
+    const vertex_to_p = pointInPolygon_vtp;
+    p.vsub(v, vertex_to_p); // This dot product determines which side of the edge the point is
+
+    const r = edge_x_normal.dot(vertex_to_p); // If all such dot products have same sign, we are inside the polygon.
+
+    if (positiveResult === null || r > 0 && positiveResult === true || r <= 0 && positiveResult === false) {
+      if (positiveResult === null) {
+        positiveResult = r > 0;
+      }
+
+      continue;
+    } else {
+      return false; // Encountered some other sign. Exit.
+    }
+  } // If we got here, all dot products were of the same sign.
+
+
+  return true;
+}
+
+const box_to_sphere = new Vec3();
+const sphereBox_ns = new Vec3();
+const sphereBox_ns1 = new Vec3();
+const sphereBox_ns2 = new Vec3();
+const sphereBox_sides = [new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3(), new Vec3()];
+const sphereBox_sphere_to_corner = new Vec3();
+const sphereBox_side_ns = new Vec3();
+const sphereBox_side_ns1 = new Vec3();
+const sphereBox_side_ns2 = new Vec3();
+const convex_to_sphere = new Vec3();
+const sphereConvex_edge = new Vec3();
+const sphereConvex_edgeUnit = new Vec3();
+const sphereConvex_sphereToCorner = new Vec3();
+const sphereConvex_worldCorner = new Vec3();
+const sphereConvex_worldNormal = new Vec3();
+const sphereConvex_worldPoint = new Vec3();
+const sphereConvex_worldSpherePointClosestToPlane = new Vec3();
+const sphereConvex_penetrationVec = new Vec3();
+const sphereConvex_sphereToWorldPoint = new Vec3();
+new Vec3();
+new Vec3();
+const planeConvex_v = new Vec3();
+const planeConvex_normal = new Vec3();
+const planeConvex_relpos = new Vec3();
+const planeConvex_projected = new Vec3();
+const convexConvex_sepAxis = new Vec3();
+const convexConvex_q = new Vec3();
+const particlePlane_normal = new Vec3();
+const particlePlane_relpos = new Vec3();
+const particlePlane_projected = new Vec3();
+const particleSphere_normal = new Vec3(); // WIP
+
+const cqj = new Quaternion();
+const convexParticle_local = new Vec3();
+new Vec3();
+const convexParticle_penetratedFaceNormal = new Vec3();
+const convexParticle_vertexToParticle = new Vec3();
+const convexParticle_worldPenetrationVec = new Vec3();
+const convexHeightfield_tmp1 = new Vec3();
+const convexHeightfield_tmp2 = new Vec3();
+const convexHeightfield_faceList = [0];
+const sphereHeightfield_tmp1 = new Vec3();
+const sphereHeightfield_tmp2 = new Vec3();
+
+class OverlapKeeper {
+  /**
+   * @todo Remove useless constructor
+   */
+  constructor() {
+    this.current = [];
+    this.previous = [];
+  }
+  /**
+   * getKey
+   */
+
+
+  getKey(i, j) {
+    if (j < i) {
+      const temp = j;
+      j = i;
+      i = temp;
+    }
+
+    return i << 16 | j;
+  }
+  /**
+   * set
+   */
+
+
+  set(i, j) {
+    // Insertion sort. This way the diff will have linear complexity.
+    const key = this.getKey(i, j);
+    const current = this.current;
+    let index = 0;
+
+    while (key > current[index]) {
+      index++;
+    }
+
+    if (key === current[index]) {
+      return; // Pair was already added
+    }
+
+    for (let j = current.length - 1; j >= index; j--) {
+      current[j + 1] = current[j];
+    }
+
+    current[index] = key;
+  }
+  /**
+   * tick
+   */
+
+
+  tick() {
+    const tmp = this.current;
+    this.current = this.previous;
+    this.previous = tmp;
+    this.current.length = 0;
+  }
+  /**
+   * getDiff
+   */
+
+
+  getDiff(additions, removals) {
+    const a = this.current;
+    const b = this.previous;
+    const al = a.length;
+    const bl = b.length;
+    let j = 0;
+
+    for (let i = 0; i < al; i++) {
+      let found = false;
+      const keyA = a[i];
+
+      while (keyA > b[j]) {
+        j++;
+      }
+
+      found = keyA === b[j];
+
+      if (!found) {
+        unpackAndPush(additions, keyA);
+      }
+    }
+
+    j = 0;
+
+    for (let i = 0; i < bl; i++) {
+      let found = false;
+      const keyB = b[i];
+
+      while (keyB > a[j]) {
+        j++;
+      }
+
+      found = a[j] === keyB;
+
+      if (!found) {
+        unpackAndPush(removals, keyB);
+      }
+    }
+  }
+
+}
+
+function unpackAndPush(array, key) {
+  array.push((key & 0xffff0000) >> 16, key & 0x0000ffff);
+}
+
+const getKey = (i, j) => i < j ? `${i}-${j}` : `${j}-${i}`;
+/**
+ * TupleDictionary
+ */
+
+
+class TupleDictionary {
+  constructor() {
+    this.data = {
+      keys: []
+    };
+  }
+
+  /** get */
+  get(i, j) {
+    const key = getKey(i, j);
+    return this.data[key];
+  }
+  /** set */
+
+
+  set(i, j, value) {
+    const key = getKey(i, j); // Check if key already exists
+
+    if (!this.get(i, j)) {
+      this.data.keys.push(key);
+    }
+
+    this.data[key] = value;
+  }
+  /** delete */
+
+
+  delete(i, j) {
+    const key = getKey(i, j);
+    const index = this.data.keys.indexOf(key);
+
+    if (index !== -1) {
+      this.data.keys.splice(index, 1);
+    }
+
+    delete this.data[key];
+  }
+  /** reset */
+
+
+  reset() {
+    const data = this.data;
+    const keys = data.keys;
+
+    while (keys.length > 0) {
+      const key = keys.pop();
+      delete data[key];
+    }
+  }
+
+}
+
+/**
+ * The physics world
+ */
+class World extends EventTarget {
+  /**
+   * Currently / last used timestep. Is set to -1 if not available. This value is updated before each internal step, which means that it is "fresh" inside event callbacks.
+   */
+
+  /**
+   * Makes bodies go to sleep when they've been inactive.
+   * @default false
+   */
+
+  /**
+   * All the current contacts (instances of ContactEquation) in the world.
+   */
+
+  /**
+   * How often to normalize quaternions. Set to 0 for every step, 1 for every second etc.. A larger value increases performance. If bodies tend to explode, set to a smaller value (zero to be sure nothing can go wrong).
+   * @default 0
+   */
+
+  /**
+   * Set to true to use fast quaternion normalization. It is often enough accurate to use.
+   * If bodies tend to explode, set to false.
+   * @default false
+   */
+
+  /**
+   * The wall-clock time since simulation start.
+   */
+
+  /**
+   * Number of timesteps taken since start.
+   */
+
+  /**
+   * Default and last timestep sizes.
+   */
+
+  /**
+   * The gravity of the world.
+   */
+
+  /**
+   * Gravity to use when approximating the friction max force (mu*mass*gravity).
+   * If undefined, global gravity will be used.
+   * Use to enable friction in a World with a null gravity vector (no gravity).
+   */
+
+  /**
+   * The broadphase algorithm to use.
+   * @default NaiveBroadphase
+   */
+
+  /**
+   * All bodies in this world
+   */
+
+  /**
+   * True if any bodies are not sleeping, false if every body is sleeping.
+   */
+
+  /**
+   * The solver algorithm to use.
+   * @default GSSolver
+   */
+
+  /**
+   * collisionMatrix
+   */
+
+  /**
+   * CollisionMatrix from the previous step.
+   */
+
+  /**
+   * All added contactmaterials.
+   */
+
+  /**
+   * Used to look up a ContactMaterial given two instances of Material.
+   */
+
+  /**
+   * The default material of the bodies.
+   */
+
+  /**
+   * This contact material is used if no suitable contactmaterial is found for a contact.
+   */
+
+  /**
+   * Time accumulator for interpolation.
+   * @see https://gafferongames.com/game-physics/fix-your-timestep/
+   */
+
+  /**
+   * Dispatched after a body has been added to the world.
+   */
+
+  /**
+   * Dispatched after a body has been removed from the world.
+   */
+  constructor(options) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    super();
+    this.dt = -1;
+    this.allowSleep = !!options.allowSleep;
+    this.contacts = [];
+    this.frictionEquations = [];
+    this.quatNormalizeSkip = options.quatNormalizeSkip !== undefined ? options.quatNormalizeSkip : 0;
+    this.quatNormalizeFast = options.quatNormalizeFast !== undefined ? options.quatNormalizeFast : false;
+    this.time = 0.0;
+    this.stepnumber = 0;
+    this.default_dt = 1 / 60;
+    this.nextId = 0;
+    this.gravity = new Vec3();
+
+    if (options.gravity) {
+      this.gravity.copy(options.gravity);
+    }
+
+    if (options.frictionGravity) {
+      this.frictionGravity = new Vec3();
+      this.frictionGravity.copy(options.frictionGravity);
+    }
+
+    this.broadphase = options.broadphase !== undefined ? options.broadphase : new NaiveBroadphase();
+    this.bodies = [];
+    this.hasActiveBodies = false;
+    this.solver = options.solver !== undefined ? options.solver : new GSSolver();
+    this.constraints = [];
+    this.narrowphase = new Narrowphase(this);
+    this.collisionMatrix = new ArrayCollisionMatrix();
+    this.collisionMatrixPrevious = new ArrayCollisionMatrix();
+    this.bodyOverlapKeeper = new OverlapKeeper();
+    this.shapeOverlapKeeper = new OverlapKeeper();
+    this.contactmaterials = [];
+    this.contactMaterialTable = new TupleDictionary();
+    this.defaultMaterial = new Material('default');
+    this.defaultContactMaterial = new ContactMaterial(this.defaultMaterial, this.defaultMaterial, {
+      friction: 0.3,
+      restitution: 0.0
+    });
+    this.doProfiling = false;
+    this.profile = {
+      solve: 0,
+      makeContactConstraints: 0,
+      broadphase: 0,
+      integrate: 0,
+      narrowphase: 0
+    };
+    this.accumulator = 0;
+    this.subsystems = [];
+    this.addBodyEvent = {
+      type: 'addBody',
+      body: null
+    };
+    this.removeBodyEvent = {
+      type: 'removeBody',
+      body: null
+    };
+    this.idToBodyMap = {};
+    this.broadphase.setWorld(this);
+  }
+  /**
+   * Get the contact material between materials m1 and m2
+   * @return The contact material if it was found.
+   */
+
+
+  getContactMaterial(m1, m2) {
+    return this.contactMaterialTable.get(m1.id, m2.id);
+  }
+  /**
+   * Store old collision state info
+   */
+
+
+  collisionMatrixTick() {
+    const temp = this.collisionMatrixPrevious;
+    this.collisionMatrixPrevious = this.collisionMatrix;
+    this.collisionMatrix = temp;
+    this.collisionMatrix.reset();
+    this.bodyOverlapKeeper.tick();
+    this.shapeOverlapKeeper.tick();
+  }
+  /**
+   * Add a constraint to the simulation.
+   */
+
+
+  addConstraint(c) {
+    this.constraints.push(c);
+  }
+  /**
+   * Removes a constraint
+   */
+
+
+  removeConstraint(c) {
+    const idx = this.constraints.indexOf(c);
+
+    if (idx !== -1) {
+      this.constraints.splice(idx, 1);
+    }
+  }
+  /**
+   * Raycast test
+   * @deprecated Use .raycastAll, .raycastClosest or .raycastAny instead.
+   */
+
+
+  rayTest(from, to, result) {
+    if (result instanceof RaycastResult) {
+      // Do raycastClosest
+      this.raycastClosest(from, to, {
+        skipBackfaces: true
+      }, result);
+    } else {
+      // Do raycastAll
+      this.raycastAll(from, to, {
+        skipBackfaces: true
+      }, result);
+    }
+  }
+  /**
+   * Ray cast against all bodies. The provided callback will be executed for each hit with a RaycastResult as single argument.
+   * @return True if any body was hit.
+   */
+
+
+  raycastAll(from, to, options, callback) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    options.mode = Ray.ALL;
+    options.from = from;
+    options.to = to;
+    options.callback = callback;
+    return tmpRay.intersectWorld(this, options);
+  }
+  /**
+   * Ray cast, and stop at the first result. Note that the order is random - but the method is fast.
+   * @return True if any body was hit.
+   */
+
+
+  raycastAny(from, to, options, result) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    options.mode = Ray.ANY;
+    options.from = from;
+    options.to = to;
+    options.result = result;
+    return tmpRay.intersectWorld(this, options);
+  }
+  /**
+   * Ray cast, and return information of the closest hit.
+   * @return True if any body was hit.
+   */
+
+
+  raycastClosest(from, to, options, result) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    options.mode = Ray.CLOSEST;
+    options.from = from;
+    options.to = to;
+    options.result = result;
+    return tmpRay.intersectWorld(this, options);
+  }
+  /**
+   * Add a rigid body to the simulation.
+   * @todo If the simulation has not yet started, why recrete and copy arrays for each body? Accumulate in dynamic arrays in this case.
+   * @todo Adding an array of bodies should be possible. This would save some loops too
+   */
+
+
+  addBody(body) {
+    if (this.bodies.includes(body)) {
+      return;
+    }
+
+    body.index = this.bodies.length;
+    this.bodies.push(body);
+    body.world = this;
+    body.initPosition.copy(body.position);
+    body.initVelocity.copy(body.velocity);
+    body.timeLastSleepy = this.time;
+
+    if (body instanceof Body) {
+      body.initAngularVelocity.copy(body.angularVelocity);
+      body.initQuaternion.copy(body.quaternion);
+    }
+
+    this.collisionMatrix.setNumObjects(this.bodies.length);
+    this.addBodyEvent.body = body;
+    this.idToBodyMap[body.id] = body;
+    this.dispatchEvent(this.addBodyEvent);
+  }
+  /**
+   * Remove a rigid body from the simulation.
+   */
+
+
+  removeBody(body) {
+    body.world = null;
+    const n = this.bodies.length - 1;
+    const bodies = this.bodies;
+    const idx = bodies.indexOf(body);
+
+    if (idx !== -1) {
+      bodies.splice(idx, 1); // Todo: should use a garbage free method
+      // Recompute index
+
+      for (let i = 0; i !== bodies.length; i++) {
+        bodies[i].index = i;
+      }
+
+      this.collisionMatrix.setNumObjects(n);
+      this.removeBodyEvent.body = body;
+      delete this.idToBodyMap[body.id];
+      this.dispatchEvent(this.removeBodyEvent);
+    }
+  }
+
+  getBodyById(id) {
+    return this.idToBodyMap[id];
+  }
+  /**
+   * @todo Make a faster map
+   */
+
+
+  getShapeById(id) {
+    const bodies = this.bodies;
+
+    for (let i = 0; i < bodies.length; i++) {
+      const shapes = bodies[i].shapes;
+
+      for (let j = 0; j < shapes.length; j++) {
+        const shape = shapes[j];
+
+        if (shape.id === id) {
+          return shape;
+        }
+      }
+    }
+
+    return null;
+  }
+  /**
+   * Adds a contact material to the World
+   */
+
+
+  addContactMaterial(cmat) {
+    // Add contact material
+    this.contactmaterials.push(cmat); // Add current contact material to the material table
+
+    this.contactMaterialTable.set(cmat.materials[0].id, cmat.materials[1].id, cmat);
+  }
+  /**
+   * Removes a contact material from the World.
+   */
+
+
+  removeContactMaterial(cmat) {
+    const idx = this.contactmaterials.indexOf(cmat);
+
+    if (idx === -1) {
+      return;
+    }
+
+    this.contactmaterials.splice(idx, 1);
+    this.contactMaterialTable.delete(cmat.materials[0].id, cmat.materials[1].id);
+  }
+  /**
+   * Step the simulation forward keeping track of last called time
+   * to be able to step the world at a fixed rate, independently of framerate.
+   *
+   * @param dt The fixed time step size to use (default: 1 / 60).
+   * @param maxSubSteps Maximum number of fixed steps to take per function call (default: 10).
+   * @see https://gafferongames.com/post/fix_your_timestep/
+   * @example
+   *     // Run the simulation independently of framerate every 1 / 60 ms
+   *     world.fixedStep()
+   */
+
+
+  fixedStep(dt, maxSubSteps) {
+    if (dt === void 0) {
+      dt = 1 / 60;
+    }
+
+    if (maxSubSteps === void 0) {
+      maxSubSteps = 10;
+    }
+
+    const time = performance.now() / 1000; // seconds
+
+    if (!this.lastCallTime) {
+      this.step(dt, undefined, maxSubSteps);
+    } else {
+      const timeSinceLastCalled = time - this.lastCallTime;
+      this.step(dt, timeSinceLastCalled, maxSubSteps);
+    }
+
+    this.lastCallTime = time;
+  }
+  /**
+   * Step the physics world forward in time.
+   *
+   * There are two modes. The simple mode is fixed timestepping without interpolation. In this case you only use the first argument. The second case uses interpolation. In that you also provide the time since the function was last used, as well as the maximum fixed timesteps to take.
+   *
+   * @param dt The fixed time step size to use.
+   * @param timeSinceLastCalled The time elapsed since the function was last called.
+   * @param maxSubSteps Maximum number of fixed steps to take per function call (default: 10).
+   * @see https://web.archive.org/web/20180426154531/http://bulletphysics.org/mediawiki-1.5.8/index.php/Stepping_The_World#What_do_the_parameters_to_btDynamicsWorld::stepSimulation_mean.3F
+   * @example
+   *     // fixed timestepping without interpolation
+   *     world.step(1 / 60)
+   */
+
+
+  step(dt, timeSinceLastCalled, maxSubSteps) {
+    if (maxSubSteps === void 0) {
+      maxSubSteps = 10;
+    }
+
+    if (timeSinceLastCalled === undefined) {
+      // Fixed, simple stepping
+      this.internalStep(dt); // Increment time
+
+      this.time += dt;
+    } else {
+      this.accumulator += timeSinceLastCalled;
+      const t0 = performance.now();
+      let substeps = 0;
+
+      while (this.accumulator >= dt && substeps < maxSubSteps) {
+        // Do fixed steps to catch up
+        this.internalStep(dt);
+        this.accumulator -= dt;
+        substeps++;
+
+        if (performance.now() - t0 > dt * 1000) {
+          // The framerate is not interactive anymore.
+          // We are below the target framerate.
+          // Better bail out.
+          break;
+        }
+      } // Remove the excess accumulator, since we may not
+      // have had enough substeps available to catch up
+
+
+      this.accumulator = this.accumulator % dt;
+      const t = this.accumulator / dt;
+
+      for (let j = 0; j !== this.bodies.length; j++) {
+        const b = this.bodies[j];
+        b.previousPosition.lerp(b.position, t, b.interpolatedPosition);
+        b.previousQuaternion.slerp(b.quaternion, t, b.interpolatedQuaternion);
+        b.previousQuaternion.normalize();
+      }
+
+      this.time += timeSinceLastCalled;
+    }
+  }
+
+  internalStep(dt) {
+    this.dt = dt;
+    const contacts = this.contacts;
+    const p1 = World_step_p1;
+    const p2 = World_step_p2;
+    const N = this.bodies.length;
+    const bodies = this.bodies;
+    const solver = this.solver;
+    const gravity = this.gravity;
+    const doProfiling = this.doProfiling;
+    const profile = this.profile;
+    const DYNAMIC = Body.DYNAMIC;
+    let profilingStart = -Infinity;
+    const constraints = this.constraints;
+    const frictionEquationPool = World_step_frictionEquationPool;
+    gravity.length();
+    const gx = gravity.x;
+    const gy = gravity.y;
+    const gz = gravity.z;
+    let i = 0;
+
+    if (doProfiling) {
+      profilingStart = performance.now();
+    } // Add gravity to all objects
+
+
+    for (i = 0; i !== N; i++) {
+      const bi = bodies[i];
+
+      if (bi.type === DYNAMIC) {
+        // Only for dynamic bodies
+        const f = bi.force;
+        const m = bi.mass;
+        f.x += m * gx;
+        f.y += m * gy;
+        f.z += m * gz;
+      }
+    } // Update subsystems
+
+
+    for (let i = 0, Nsubsystems = this.subsystems.length; i !== Nsubsystems; i++) {
+      this.subsystems[i].update();
+    } // Collision detection
+
+
+    if (doProfiling) {
+      profilingStart = performance.now();
+    }
+
+    p1.length = 0; // Clean up pair arrays from last step
+
+    p2.length = 0;
+    this.broadphase.collisionPairs(this, p1, p2);
+
+    if (doProfiling) {
+      profile.broadphase = performance.now() - profilingStart;
+    } // Remove constrained pairs with collideConnected == false
+
+
+    let Nconstraints = constraints.length;
+
+    for (i = 0; i !== Nconstraints; i++) {
+      const c = constraints[i];
+
+      if (!c.collideConnected) {
+        for (let j = p1.length - 1; j >= 0; j -= 1) {
+          if (c.bodyA === p1[j] && c.bodyB === p2[j] || c.bodyB === p1[j] && c.bodyA === p2[j]) {
+            p1.splice(j, 1);
+            p2.splice(j, 1);
+          }
+        }
+      }
+    }
+
+    this.collisionMatrixTick(); // Generate contacts
+
+    if (doProfiling) {
+      profilingStart = performance.now();
+    }
+
+    const oldcontacts = World_step_oldContacts;
+    const NoldContacts = contacts.length;
+
+    for (i = 0; i !== NoldContacts; i++) {
+      oldcontacts.push(contacts[i]);
+    }
+
+    contacts.length = 0; // Transfer FrictionEquation from current list to the pool for reuse
+
+    const NoldFrictionEquations = this.frictionEquations.length;
+
+    for (i = 0; i !== NoldFrictionEquations; i++) {
+      frictionEquationPool.push(this.frictionEquations[i]);
+    }
+
+    this.frictionEquations.length = 0;
+    this.narrowphase.getContacts(p1, p2, this, contacts, oldcontacts, // To be reused
+    this.frictionEquations, frictionEquationPool);
+
+    if (doProfiling) {
+      profile.narrowphase = performance.now() - profilingStart;
+    } // Loop over all collisions
+
+
+    if (doProfiling) {
+      profilingStart = performance.now();
+    } // Add all friction eqs
+
+
+    for (i = 0; i < this.frictionEquations.length; i++) {
+      solver.addEquation(this.frictionEquations[i]);
+    }
+
+    const ncontacts = contacts.length;
+
+    for (let k = 0; k !== ncontacts; k++) {
+      // Current contact
+      const c = contacts[k]; // Get current collision indeces
+
+      const bi = c.bi;
+      const bj = c.bj;
+      const si = c.si;
+      const sj = c.sj; // Get collision properties
+
+      let cm;
+
+      if (bi.material && bj.material) {
+        cm = this.getContactMaterial(bi.material, bj.material) || this.defaultContactMaterial;
+      } else {
+        cm = this.defaultContactMaterial;
+      } // c.enabled = bi.collisionResponse && bj.collisionResponse && si.collisionResponse && sj.collisionResponse;
+
+
+      cm.friction; // c.restitution = cm.restitution;
+      // If friction or restitution were specified in the material, use them
+
+      if (bi.material && bj.material) {
+        if (bi.material.friction >= 0 && bj.material.friction >= 0) {
+          bi.material.friction * bj.material.friction;
+        }
+
+        if (bi.material.restitution >= 0 && bj.material.restitution >= 0) {
+          c.restitution = bi.material.restitution * bj.material.restitution;
+        }
+      } // c.setSpookParams(
+      //           cm.contactEquationStiffness,
+      //           cm.contactEquationRelaxation,
+      //           dt
+      //       );
+
+
+      solver.addEquation(c); // // Add friction constraint equation
+      // if(mu > 0){
+      // 	// Create 2 tangent equations
+      // 	const mug = mu * gnorm;
+      // 	const reducedMass = (bi.invMass + bj.invMass);
+      // 	if(reducedMass > 0){
+      // 		reducedMass = 1/reducedMass;
+      // 	}
+      // 	const pool = frictionEquationPool;
+      // 	const c1 = pool.length ? pool.pop() : new FrictionEquation(bi,bj,mug*reducedMass);
+      // 	const c2 = pool.length ? pool.pop() : new FrictionEquation(bi,bj,mug*reducedMass);
+      // 	this.frictionEquations.push(c1, c2);
+      // 	c1.bi = c2.bi = bi;
+      // 	c1.bj = c2.bj = bj;
+      // 	c1.minForce = c2.minForce = -mug*reducedMass;
+      // 	c1.maxForce = c2.maxForce = mug*reducedMass;
+      // 	// Copy over the relative vectors
+      // 	c1.ri.copy(c.ri);
+      // 	c1.rj.copy(c.rj);
+      // 	c2.ri.copy(c.ri);
+      // 	c2.rj.copy(c.rj);
+      // 	// Construct tangents
+      // 	c.ni.tangents(c1.t, c2.t);
+      //           // Set spook params
+      //           c1.setSpookParams(cm.frictionEquationStiffness, cm.frictionEquationRelaxation, dt);
+      //           c2.setSpookParams(cm.frictionEquationStiffness, cm.frictionEquationRelaxation, dt);
+      //           c1.enabled = c2.enabled = c.enabled;
+      // 	// Add equations to solver
+      // 	solver.addEquation(c1);
+      // 	solver.addEquation(c2);
+      // }
+
+      if (bi.allowSleep && bi.type === Body.DYNAMIC && bi.sleepState === Body.SLEEPING && bj.sleepState === Body.AWAKE && bj.type !== Body.STATIC) {
+        const speedSquaredB = bj.velocity.lengthSquared() + bj.angularVelocity.lengthSquared();
+        const speedLimitSquaredB = bj.sleepSpeedLimit ** 2;
+
+        if (speedSquaredB >= speedLimitSquaredB * 2) {
+          bi.wakeUpAfterNarrowphase = true;
+        }
+      }
+
+      if (bj.allowSleep && bj.type === Body.DYNAMIC && bj.sleepState === Body.SLEEPING && bi.sleepState === Body.AWAKE && bi.type !== Body.STATIC) {
+        const speedSquaredA = bi.velocity.lengthSquared() + bi.angularVelocity.lengthSquared();
+        const speedLimitSquaredA = bi.sleepSpeedLimit ** 2;
+
+        if (speedSquaredA >= speedLimitSquaredA * 2) {
+          bj.wakeUpAfterNarrowphase = true;
+        }
+      } // Now we know that i and j are in contact. Set collision matrix state
+
+
+      this.collisionMatrix.set(bi, bj, true);
+
+      if (!this.collisionMatrixPrevious.get(bi, bj)) {
+        // First contact!
+        // We reuse the collideEvent object, otherwise we will end up creating new objects for each new contact, even if there's no event listener attached.
+        World_step_collideEvent.body = bj;
+        World_step_collideEvent.contact = c;
+        bi.dispatchEvent(World_step_collideEvent);
+        World_step_collideEvent.body = bi;
+        bj.dispatchEvent(World_step_collideEvent);
+      }
+
+      this.bodyOverlapKeeper.set(bi.id, bj.id);
+      this.shapeOverlapKeeper.set(si.id, sj.id);
+    }
+
+    this.emitContactEvents();
+
+    if (doProfiling) {
+      profile.makeContactConstraints = performance.now() - profilingStart;
+      profilingStart = performance.now();
+    } // Wake up bodies
+
+
+    for (i = 0; i !== N; i++) {
+      const bi = bodies[i];
+
+      if (bi.wakeUpAfterNarrowphase) {
+        bi.wakeUp();
+        bi.wakeUpAfterNarrowphase = false;
+      }
+    } // Add user-added constraints
+
+
+    Nconstraints = constraints.length;
+
+    for (i = 0; i !== Nconstraints; i++) {
+      const c = constraints[i];
+      c.update();
+
+      for (let j = 0, Neq = c.equations.length; j !== Neq; j++) {
+        const eq = c.equations[j];
+        solver.addEquation(eq);
+      }
+    } // Solve the constrained system
+
+
+    solver.solve(dt, this);
+
+    if (doProfiling) {
+      profile.solve = performance.now() - profilingStart;
+    } // Remove all contacts from solver
+
+
+    solver.removeAllEquations(); // Apply damping, see http://code.google.com/p/bullet/issues/detail?id=74 for details
+
+    const pow = Math.pow;
+
+    for (i = 0; i !== N; i++) {
+      const bi = bodies[i];
+
+      if (bi.type & DYNAMIC) {
+        // Only for dynamic bodies
+        const ld = pow(1.0 - bi.linearDamping, dt);
+        const v = bi.velocity;
+        v.scale(ld, v);
+        const av = bi.angularVelocity;
+
+        if (av) {
+          const ad = pow(1.0 - bi.angularDamping, dt);
+          av.scale(ad, av);
+        }
+      }
+    }
+
+    this.dispatchEvent(World_step_preStepEvent); // Leap frog
+    // vnew = v + h*f/m
+    // xnew = x + h*vnew
+
+    if (doProfiling) {
+      profilingStart = performance.now();
+    }
+
+    const stepnumber = this.stepnumber;
+    const quatNormalize = stepnumber % (this.quatNormalizeSkip + 1) === 0;
+    const quatNormalizeFast = this.quatNormalizeFast;
+
+    for (i = 0; i !== N; i++) {
+      bodies[i].integrate(dt, quatNormalize, quatNormalizeFast);
+    }
+
+    this.clearForces();
+    this.broadphase.dirty = true;
+
+    if (doProfiling) {
+      profile.integrate = performance.now() - profilingStart;
+    } // Update step number
+
+
+    this.stepnumber += 1;
+    this.dispatchEvent(World_step_postStepEvent); // Sleeping update
+
+    let hasActiveBodies = true;
+
+    if (this.allowSleep) {
+      hasActiveBodies = false;
+
+      for (i = 0; i !== N; i++) {
+        const bi = bodies[i];
+        bi.sleepTick(this.time);
+
+        if (bi.sleepState !== Body.SLEEPING) {
+          hasActiveBodies = true;
+        }
+      }
+    }
+
+    this.hasActiveBodies = hasActiveBodies;
+  }
+
+  emitContactEvents() {
+    const hasBeginContact = this.hasAnyEventListener('beginContact');
+    const hasEndContact = this.hasAnyEventListener('endContact');
+
+    if (hasBeginContact || hasEndContact) {
+      this.bodyOverlapKeeper.getDiff(additions, removals);
+    }
+
+    if (hasBeginContact) {
+      for (let i = 0, l = additions.length; i < l; i += 2) {
+        beginContactEvent.bodyA = this.getBodyById(additions[i]);
+        beginContactEvent.bodyB = this.getBodyById(additions[i + 1]);
+        this.dispatchEvent(beginContactEvent);
+      }
+
+      beginContactEvent.bodyA = beginContactEvent.bodyB = null;
+    }
+
+    if (hasEndContact) {
+      for (let i = 0, l = removals.length; i < l; i += 2) {
+        endContactEvent.bodyA = this.getBodyById(removals[i]);
+        endContactEvent.bodyB = this.getBodyById(removals[i + 1]);
+        this.dispatchEvent(endContactEvent);
+      }
+
+      endContactEvent.bodyA = endContactEvent.bodyB = null;
+    }
+
+    additions.length = removals.length = 0;
+    const hasBeginShapeContact = this.hasAnyEventListener('beginShapeContact');
+    const hasEndShapeContact = this.hasAnyEventListener('endShapeContact');
+
+    if (hasBeginShapeContact || hasEndShapeContact) {
+      this.shapeOverlapKeeper.getDiff(additions, removals);
+    }
+
+    if (hasBeginShapeContact) {
+      for (let i = 0, l = additions.length; i < l; i += 2) {
+        const shapeA = this.getShapeById(additions[i]);
+        const shapeB = this.getShapeById(additions[i + 1]);
+        beginShapeContactEvent.shapeA = shapeA;
+        beginShapeContactEvent.shapeB = shapeB;
+        if (shapeA) beginShapeContactEvent.bodyA = shapeA.body;
+        if (shapeB) beginShapeContactEvent.bodyB = shapeB.body;
+        this.dispatchEvent(beginShapeContactEvent);
+      }
+
+      beginShapeContactEvent.bodyA = beginShapeContactEvent.bodyB = beginShapeContactEvent.shapeA = beginShapeContactEvent.shapeB = null;
+    }
+
+    if (hasEndShapeContact) {
+      for (let i = 0, l = removals.length; i < l; i += 2) {
+        const shapeA = this.getShapeById(removals[i]);
+        const shapeB = this.getShapeById(removals[i + 1]);
+        endShapeContactEvent.shapeA = shapeA;
+        endShapeContactEvent.shapeB = shapeB;
+        if (shapeA) endShapeContactEvent.bodyA = shapeA.body;
+        if (shapeB) endShapeContactEvent.bodyB = shapeB.body;
+        this.dispatchEvent(endShapeContactEvent);
+      }
+
+      endShapeContactEvent.bodyA = endShapeContactEvent.bodyB = endShapeContactEvent.shapeA = endShapeContactEvent.shapeB = null;
+    }
+  }
+  /**
+   * Sets all body forces in the world to zero.
+   */
+
+
+  clearForces() {
+    const bodies = this.bodies;
+    const N = bodies.length;
+
+    for (let i = 0; i !== N; i++) {
+      const b = bodies[i];
+      b.force;
+      b.torque;
+      b.force.set(0, 0, 0);
+      b.torque.set(0, 0, 0);
+    }
+  }
+
+} // Temp stuff
+
+new AABB();
+const tmpRay = new Ray(); // performance.now() fallback on Date.now()
+
+const performance = globalThis.performance || {};
+
+if (!performance.now) {
+  let nowOffset = Date.now();
+
+  if (performance.timing && performance.timing.navigationStart) {
+    nowOffset = performance.timing.navigationStart;
+  }
+
+  performance.now = () => Date.now() - nowOffset;
+}
+
+new Vec3(); // Dispatched after the world has stepped forward in time.
+// Reusable event objects to save memory.
+
+const World_step_postStepEvent = {
+  type: 'postStep'
+}; // Dispatched before the world steps forward in time.
+
+const World_step_preStepEvent = {
+  type: 'preStep'
+};
+const World_step_collideEvent = {
+  type: Body.COLLIDE_EVENT_NAME,
+  body: null,
+  contact: null
+}; // Pools for unused objects
+
+const World_step_oldContacts = [];
+const World_step_frictionEquationPool = []; // Reusable arrays for collision pairs
+
+const World_step_p1 = [];
+const World_step_p2 = []; // Stuff for emitContactEvents
+
+const additions = [];
+const removals = [];
+const beginContactEvent = {
+  type: 'beginContact',
+  bodyA: null,
+  bodyB: null
+};
+const endContactEvent = {
+  type: 'endContact',
+  bodyA: null,
+  bodyB: null
+};
+const beginShapeContactEvent = {
+  type: 'beginShapeContact',
+  bodyA: null,
+  bodyB: null,
+  shapeA: null,
+  shapeB: null
+};
+const endShapeContactEvent = {
+  type: 'endShapeContact',
+  bodyA: null,
+  bodyB: null,
+  shapeA: null,
+  shapeB: null
+};
+
+export { AABB, ArrayCollisionMatrix, BODY_SLEEP_STATES, BODY_TYPES, Body, Box, Broadphase, COLLISION_TYPES, ConeTwistConstraint, Constraint, ContactEquation, ContactMaterial, ConvexPolyhedron, Cylinder, DistanceConstraint, Equation, EventTarget, FrictionEquation, GSSolver, GridBroadphase, Heightfield, HingeConstraint, JacobianElement, LockConstraint, Mat3, Material, NaiveBroadphase, Narrowphase, ObjectCollisionMatrix, Particle, Plane, PointToPointConstraint, Pool, Quaternion, RAY_MODES, Ray, RaycastResult, RaycastVehicle, RigidVehicle, RotationalEquation, RotationalMotorEquation, SAPBroadphase, SHAPE_TYPES, SPHSystem, Shape, Solver, Sphere, SplitSolver, Spring, Transform, Trimesh, Vec3, Vec3Pool, WheelInfo, World };

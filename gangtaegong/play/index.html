@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
     <meta name="theme-color" content="#16233f" />
     <title>강태공: 한 줄의 승부</title>
-    <script type="module" crossorigin src="./assets/index-Bev59hSX.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-COMo21a9.css">
+    <script type="module" crossorigin src="./assets/index-CXXISE5z.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Bf0HEMw1.css">
   </head>
   <body>
     <div id="app">
@@ -22,6 +22,7 @@
             <div class="chip"><i class="coin"></i><span id="lb-gold">0</span></div>
             <button id="lb-pearl" class="chip pearl-chip"><i class="pearl"></i><span id="lb-pearl-n">0</span><b class="plus">+</b></button>
           </div>
+          <button id="lb-menu" class="icon-btn menu-btn" data-i18n-attr="aria-label:menu"><i class="ti ti-menu"></i><i id="lb-menu-dot" class="dot" hidden></i></button>
           <button id="lb-settings" class="icon-btn top-right" data-i18n-attr="aria-label:settings">
             <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
               <path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.3 7.3 0 0 0-1.7-1L15 3.5h-4L10.7 6a7.3 7.3 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.3 7.3 0 0 0 1.7 1l.3 2.5h4l.3-2.5a7.3 7.3 0 0 0 1.7 1l2.4 1 2-3.4-2-1.6ZM13 15.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Z" transform="translate(-1 0)" />
@@ -29,14 +30,18 @@
           </button>
         </header>
         <div class="port-offer">
+          <button id="lb-event" class="lobby-card event" hidden><span id="lb-event-t" class="t"></span><span id="lb-event-s" class="s"></span></button>
+          <button id="lb-merchant" class="lobby-card merchant" hidden><span class="t" data-i18n="merchant"></span><span id="lb-merchant-s" class="s"></span></button>
           <button id="lb-offer" class="lobby-card offer" hidden><span class="t" data-i18n="memo"></span><span id="lb-offer-s" class="s"></span></button>
         </div>
-        <!-- 그림 속 장소: 게시판(의뢰) · 기록실 · 선구점(낚싯대·줄) · 조선소(배) · 어시장(상점) -->
+        <!-- 그림 속 장소: 게시판(의뢰) · 기록실 · 선구점(낚싯대·줄) · 조선소(배) · 어시장(상점) · 탐사소(파견·연구) · 수족관 -->
         <div class="port-places">
           <button class="place" data-place="board" style="--x: 4%; --y: 2%"><i class="ti ti-board"></i><span class="p-t" data-i18n="place_board"></span><span id="pl-board-s" class="p-s"></span><i id="pl-board-dot" class="dot" hidden></i></button>
           <button class="place r" data-place="records" style="--x: 4%; --y: 2%"><i class="ti ti-records"></i><span class="p-t" data-i18n="records"></span><span id="pl-records-s" class="p-s"></span></button>
           <button class="place" data-place="tackle" style="--x: 4%; --y: 44%"><i class="ti ti-gear"></i><span class="p-t" data-i18n="place_tackle"></span><span id="pl-tackle-s" class="p-s"></span><i id="pl-tackle-dot" class="dot" hidden></i></button>
           <button class="place r" data-place="yard" style="--x: 4%; --y: 30%"><i class="ti ti-boat"></i><span class="p-t" data-i18n="place_yard"></span><span id="pl-yard-s" class="p-s"></span><i id="pl-yard-dot" class="dot" hidden></i></button>
+          <button class="place" data-place="lab" style="--x: 4%; --y: 23%"><i class="ti ti-lab"></i><span class="p-t" data-i18n="place_lab"></span><span id="pl-lab-s" class="p-s"></span><i id="pl-lab-dot" class="dot" hidden></i></button>
+          <button class="place r" data-place="aqua" style="--x: 4%; --y: 52%"><i class="ti ti-aqua"></i><span class="p-t" data-i18n="place_aqua"></span><span id="pl-aqua-s" class="p-s"></span><i id="pl-aqua-dot" class="dot" hidden></i></button>
           <button class="place" data-place="market" style="--x: 30%; --y: 72%"><i class="ti ti-shop"></i><span class="p-t" data-i18n="place_market"></span><span id="pl-market-s" class="p-s"></span></button>
         </div>
         <div class="port-go">
@@ -76,21 +81,27 @@
           <button id="st-intu" class="pill" hidden><span id="st-intu-text"></span></button>
           <button id="st-cur" class="pill rainbow" hidden><span id="st-cur-text"></span></button>
           <div id="st-bait" class="pill" hidden><span id="st-bait-text"></span></div>
+          <button id="st-deep" class="pill deep" hidden><span id="st-deep-text"></span></button>
         </div>
-        <!-- 왼쪽 열: 도감 · 의뢰 · 낚시 패스 -->
-        <div class="side-col left">
+        <!-- 왼쪽 열: 채비 (2026-11-18, 낚시의 신의 낚시터 준비 화면처럼 장착한 장비를 바다에서 보고 그 자리에서 바꿔요): 낚싯대 · 낚싯줄 · 준비(부스터·깊은 물) -->
+        <div class="side-col left kit">
+          <button id="kit-rod" class="kit-slot"></button>
+          <button id="kit-line" class="kit-slot"></button>
+          <button id="sd-prep" class="kit-slot"></button>
+        </div>
+        <!-- 오른쪽 열 (작은 지도 아래): 항구 · 도감 · 의뢰 · 패스 · 전체 메뉴 -->
+        <div class="side-col right">
+          <button id="sd-port" class="side-icon"><i class="ti ti-harbor"></i><span class="t" data-i18n="harbor"></span><i id="sd-port-dot" class="dot" hidden></i></button>
           <button id="sd-dex" class="side-icon"><i class="ti ti-dex"></i><span class="t" data-i18n="dex"></span><span id="sd-dex-s" class="s"></span></button>
           <button id="sd-quest" class="side-icon"><i class="ti ti-board"></i><span class="t" data-i18n="quests"></span><span id="sd-quest-s" class="s"></span><i id="sd-quest-dot" class="dot" hidden></i></button>
           <button id="sd-pass" class="side-icon"><i class="ti ti-pass"></i><span class="t" data-i18n="pass_short"></span><span id="sd-pass-s" class="s"></span><i id="sd-pass-dot" class="dot" hidden></i></button>
-        </div>
-        <!-- 오른쪽 열 (작은 지도 아래): 항구 · 설정 -->
-        <div class="side-col right">
-          <button id="sd-port" class="side-icon"><i class="ti ti-harbor"></i><span class="t" data-i18n="harbor"></span><i id="sd-port-dot" class="dot" hidden></i></button>
-          <button id="btn-settings" class="side-icon"><i class="ti ti-settings"></i><span class="t" data-i18n="settings"></span></button>
+          <button id="btn-menu" class="side-icon"><i class="ti ti-menu"></i><span class="t" data-i18n="menu"></span><i id="sd-menu-dot" class="dot" hidden></i></button>
         </div>
         <div class="grow"></div>
         <!-- 배가 물고기 자리 안에 있으면 그 자리의 이름과 자리를 옮기기까지 남은 시간 -->
         <p id="spot-tag" class="spot-tag" hidden><i id="spot-tag-dot" class="spot-dot"></i><span id="spot-tag-text"></span></p>
+        <!-- 안내 문구 (처음 몇 판): 배 모는 법, 물고기 자리 -->
+        <p id="sea-guide" class="sea-guide" hidden></p>
         <nav class="bottom">
           <button id="btn-cast" class="main-btn" data-ncq-main="던지기 버튼" data-i18n="cast"></button>
         </nav>
@@ -101,12 +112,17 @@
       <section id="play" class="layer" data-ncq-no-main hidden></section>
 
       <!-- 한 판 결과 -->
-      <section id="result" class="modal" hidden>
-        <div class="card">
+      <!-- 결과 (2026-11-18, 낚시의 신처럼): 낚은 물고기가 장면 위에 매달려 보이고, 아래 판에 이름·크기·등급·보상과 버튼. 위에 재화 (동전이 날아가 모여요) -->
+      <section id="result" class="result-layer" hidden>
+        <div class="res-top">
+          <div id="res-gold-chip" class="chip"><i class="coin" data-ncq-collect-icon></i><span id="res-gold">0</span></div>
+          <div class="chip"><i class="pearl"></i><span id="res-pearl">0</span></div>
+        </div>
+        <div id="result-art" class="res-fish"><i class="res-line"></i><canvas id="result-fish"></canvas><div id="result-grade" class="stamp"></div></div>
+        <div class="card res-card">
           <button id="result-close" class="x" data-i18n-attr="aria-label:close">×</button>
           <p id="result-kicker" class="kicker"></p>
           <div id="result-catch">
-            <div class="fish-frame"><canvas id="result-fish"></canvas><div id="result-grade" class="stamp"></div></div>
             <div class="name-row"><div id="result-stars" class="stars"></div><h2 id="result-name"></h2></div>
             <div id="result-size" class="size"></div>
             <div id="result-badges" class="badges"></div>
@@ -114,6 +130,7 @@
             <p id="result-cur" class="intu-line cur" hidden></p>
             <p id="result-clue" class="intu-line clue" hidden></p>
             <div class="reward"><i class="coin"></i><span id="result-gold"></span></div>
+            <div id="result-pass" class="res-pass" hidden><span id="result-pass-t"></span><i class="bar"><b id="result-pass-b"></b></i></div>
           </div>
           <p id="result-tip" class="tip"></p>
           <p id="result-quest" class="intu-line quest" hidden></p>
@@ -125,6 +142,7 @@
             <button id="result-upgrade" class="main-btn alt" data-i18n="upgrade" hidden></button>
           </div>
           <button id="result-bait" class="sub-btn" hidden></button>
+          <button id="result-tank" class="sub-btn" hidden></button>
           <button id="result-share" class="share-btn" data-i18n-attr="aria-label:share" hidden>
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M18 16a3 3 0 0 0-2.2.9l-6.9-4a3 3 0 0 0 0-1.8l6.9-4A3 3 0 1 0 15 5a3 3 0 0 0 .1.9l-6.9 4a3 3 0 1 0 0 4.2l6.9 4A3 3 0 1 0 18 16Z" /></svg>
           </button>
@@ -134,14 +152,80 @@
       <!-- 창은 아래에서 올라와요. 뒤는 어둡게 비치고, 누르면 닫혀요 -->
       <div id="sheet-dim" class="sheet-dim" hidden></div>
 
-      <!-- 장비: 항구의 선구점(낚싯대·줄)과 조선소(배), 결과 화면의 '강화'(모두) -->
-      <section id="sheet-gear" class="sheet" data-ncq-no-main hidden>
+      <!-- 장비: 낚싯대·낚싯줄(아이템: 장착·강화·진화·각인·사기)과 배(단계). 항구의 선구점·조선소, 결과 화면의 '강화' -->
+      <section id="sheet-gear" class="sheet tall" data-ncq-no-main hidden>
         <header class="sheet-head">
           <h2 id="gear-title"></h2>
           <div class="chip sheet-sub"><i class="coin"></i><span id="gear-gold">0</span></div>
           <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
         </header>
         <div id="gear-list" class="sheet-body"></div>
+      </section>
+
+      <!-- 수족관: 키우는 물고기(남은 시간·팔기·진주로 끝내기·광고로 줄이기), 칸 늘리기 -->
+      <section id="sheet-aqua" class="sheet tall" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="place_aqua"></h2>
+          <div class="chip sheet-sub"><i class="pearl"></i><span id="aqua-pearl">0</span></div>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div id="aqua-body" class="sheet-body"></div>
+      </section>
+
+      <!-- 탐사소: 파견(항해 보내기·받기)과 연구(해도·골드로 영구 능력치) -->
+      <section id="sheet-lab" class="sheet tall" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="place_lab"></h2>
+          <div class="chip sheet-sub"><i class="coin"></i><span id="lab-gold">0</span></div>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div id="lab-body" class="sheet-body"></div>
+      </section>
+
+      <!-- 준비: 깊은 물(하루 무료·입장권·진주)과 부스터(켜고 끄기, 골드로 하나·진주로 묶음 사기) -->
+      <section id="sheet-prep" class="sheet tall" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="prep"></h2>
+          <div class="chip sheet-sub"><i class="pearl"></i><span id="prep-pearl">0</span></div>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div id="prep-body" class="sheet-body"></div>
+      </section>
+
+      <!-- 상자·상인에게서 받은 장비 (2026-11-18): 상자가 열리고 장비 칸이 하나씩 나와요 -->
+      <section id="got" class="modal got-layer" hidden>
+        <div class="got-box">
+          <img id="got-chest" class="got-chest" alt="" />
+          <div id="got-grid" class="got-grid"></div>
+          <button id="got-ok" class="main-btn" data-ncq-main="확인 버튼" data-i18n="got_ok"></button>
+        </div>
+      </section>
+
+      <!-- 새소식 (2026-11-18, 낚시의 신의 접속 화면처럼): 하루 한 번, 이벤트·상인·팩·패스를 타일로 -->
+      <section id="sheet-news" class="sheet" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="news"></h2>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div id="news-body" class="sheet-body"></div>
+      </section>
+
+      <!-- 전체 메뉴 (2026-11-18, 낚시의 신의 전체 메뉴처럼 모든 기능을 아이콘 격자로) -->
+      <section id="sheet-menu" class="sheet" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="menu"></h2>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div id="menu-body" class="sheet-body"></div>
+      </section>
+
+      <!-- 채비 바꾸기: 바다의 낚싯대·낚싯줄 칸을 누르면 가방의 같은 종류를 격자로 보여 주고 누르면 바로 장착 -->
+      <section id="sheet-swap" class="sheet" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 id="swap-title"></h2>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div id="swap-body" class="sheet-body"></div>
       </section>
 
       <!-- 바다 상황: 구역, 날씨와 예보, 직감, 무지개 물길 (보상형 광고 버튼이 여기 있어요) -->
@@ -246,6 +330,7 @@
               <button id="test-gold" data-i18n="test_gold"></button>
               <button id="test-pearl" data-i18n="test_pearl"></button>
               <button id="test-scale" data-i18n="test_scale"></button>
+              <button id="test-gear" data-i18n="test_gear"></button>
               <button id="test-pass" data-i18n="test_pass"></button>
               <button id="test-fill" data-i18n="test_fill"></button>
               <button id="test-bot" data-i18n="test_bot"></button>

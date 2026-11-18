@@ -5,15 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
     <meta name="theme-color" content="#16233f" />
     <title>강태공: 한 줄의 승부</title>
-    <script type="module" crossorigin src="./assets/index-DlaT8BPZ.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-ChMM_WM3.css">
+    <script type="module" crossorigin src="./assets/index-Bev59hSX.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-COMo21a9.css">
   </head>
   <body>
     <div id="app">
       <canvas id="scene"></canvas>
 
-      <!-- 로비(항구): 앱을 열면 여기서 시작해요. '출항'으로 바다에 나가고, 아래 탭으로 상점·장비·도감·기록실을 열어요 -->
-      <section id="lobby" class="layer lobby">
+      <!-- 항구 그림: 항구 화면 뒤에 깔려요 (창이 올라와도 그대로 보여요) -->
+      <div id="port-bg" class="port-bg" hidden></div>
+
+      <!-- 항구: 돌아오는 곳. 그림 속 장소를 누르면 창이 올라오고, '출항'으로 떠났던 바다 자리로 돌아가요 -->
+      <section id="port" class="layer port" hidden>
         <header class="topbar">
           <div class="top-left">
             <div class="chip"><i class="coin"></i><span id="lb-gold">0</span></div>
@@ -25,55 +28,23 @@
             </svg>
           </button>
         </header>
-        <div class="lobby-main">
-          <!-- 항구: 의뢰·낚시 패스·기념 팩 칸, 다음 목표, 출항 -->
-          <div id="pane-harbor" class="pane harbor">
-            <div class="lobby-cards">
-              <div class="lobby-col">
-                <button id="lb-quest" class="lobby-card"><span id="lb-quest-t" class="t"></span><span id="lb-quest-s" class="s"></span><i id="lb-quest-dot" class="dot" hidden></i></button>
-                <button id="lb-pass" class="lobby-card"><span class="t" data-i18n="pass"></span><span id="lb-pass-s" class="s"></span><i id="lb-pass-dot" class="dot" hidden></i></button>
-              </div>
-              <div class="lobby-col right">
-                <button id="lb-offer" class="lobby-card offer" hidden><span class="t" data-i18n="memo"></span><span id="lb-offer-s" class="s"></span></button>
-              </div>
-            </div>
-            <div class="grow"></div>
-            <p id="lb-goal" class="goal-line" hidden></p>
-            <div class="lobby-go">
-              <button id="btn-depart" class="main-btn" data-ncq-main="출항 버튼" data-i18n="depart"></button>
-            </div>
-          </div>
-          <!-- 탭: 상점·장비·도감·기록실 (메인 버튼 없음) -->
-          <div id="pane-shop" class="pane sheetlike" data-ncq-no-main hidden>
-            <h2 class="pane-title" data-i18n="shop"></h2>
-            <div id="shop-body" class="pane-body"></div>
-          </div>
-          <div id="pane-gear" class="pane sheetlike" data-ncq-no-main hidden>
-            <h2 class="pane-title" data-i18n="gear"></h2>
-            <div id="pane-gear-list" class="pane-body"></div>
-          </div>
-          <div id="pane-dex" class="pane sheetlike" data-ncq-no-main hidden>
-            <h2 class="pane-title"><span data-i18n="dex"></span><span id="dex-count" class="pane-sub"></span></h2>
-            <div class="pane-body">
-              <div id="dex-reward" class="reward-bar"><span id="dex-reward-t"></span><i><b id="dex-reward-fill"></b></i></div>
-              <div id="dex-list" class="grid"></div>
-            </div>
-          </div>
-          <div id="pane-records" class="pane sheetlike" data-ncq-no-main hidden>
-            <h2 class="pane-title" data-i18n="records"></h2>
-            <div id="records-body" class="pane-body"></div>
-          </div>
+        <div class="port-offer">
+          <button id="lb-offer" class="lobby-card offer" hidden><span class="t" data-i18n="memo"></span><span id="lb-offer-s" class="s"></span></button>
         </div>
-        <nav class="tabbar">
-          <button class="tab" data-tab="shop"><i class="ti ti-shop"></i><span data-i18n="shop"></span></button>
-          <button class="tab" data-tab="gear"><i class="ti ti-gear"></i><span data-i18n="gear"></span><i id="tab-gear-dot" class="dot" hidden></i></button>
-          <button class="tab home" data-tab="harbor"><i class="ti ti-harbor"></i><span data-i18n="harbor"></span></button>
-          <button class="tab" data-tab="dex"><i class="ti ti-dex"></i><span data-i18n="dex"></span></button>
-          <button class="tab" data-tab="records"><i class="ti ti-records"></i><span data-i18n="records"></span></button>
-        </nav>
+        <!-- 그림 속 장소: 게시판(의뢰) · 기록실 · 선구점(낚싯대·줄) · 조선소(배) · 어시장(상점) -->
+        <div class="port-places">
+          <button class="place" data-place="board" style="--x: 4%; --y: 2%"><i class="ti ti-board"></i><span class="p-t" data-i18n="place_board"></span><span id="pl-board-s" class="p-s"></span><i id="pl-board-dot" class="dot" hidden></i></button>
+          <button class="place r" data-place="records" style="--x: 4%; --y: 2%"><i class="ti ti-records"></i><span class="p-t" data-i18n="records"></span><span id="pl-records-s" class="p-s"></span></button>
+          <button class="place" data-place="tackle" style="--x: 4%; --y: 44%"><i class="ti ti-gear"></i><span class="p-t" data-i18n="place_tackle"></span><span id="pl-tackle-s" class="p-s"></span><i id="pl-tackle-dot" class="dot" hidden></i></button>
+          <button class="place r" data-place="yard" style="--x: 4%; --y: 30%"><i class="ti ti-boat"></i><span class="p-t" data-i18n="place_yard"></span><span id="pl-yard-s" class="p-s"></span><i id="pl-yard-dot" class="dot" hidden></i></button>
+          <button class="place" data-place="market" style="--x: 30%; --y: 72%"><i class="ti ti-shop"></i><span class="p-t" data-i18n="place_market"></span><span id="pl-market-s" class="p-s"></span></button>
+        </div>
+        <div class="port-go">
+          <button id="btn-depart" class="main-btn" data-ncq-main="출항 버튼" data-i18n="depart"></button>
+        </div>
       </section>
 
-      <!-- 지역 지도: 지역을 눌러 들어가요 (메인 버튼 없음) -->
+      <!-- 지역 지도: 바다의 작은 지도를 누르면 열려요. 지역을 눌러 그곳으로 가요 (메인 버튼 없음) -->
       <section id="map" class="layer map" data-ncq-no-main hidden>
         <header class="topbar">
           <button id="btn-map-close" class="chip map-btn" data-i18n="close"></button>
@@ -89,33 +60,39 @@
         </div>
       </section>
 
-      <!-- 배 위: 낚시 상태와 이동 상태 (뒤로가기로 로비에 돌아가요) -->
-      <section id="home" class="layer">
+      <!-- 바다: 앱을 열면 여기예요. 물을 누르고 있으면 배가 가고, 배가 서 있으면 '던지기' (뒤로가기로 항구에 돌아가요) -->
+      <section id="home" class="layer sea">
         <header class="topbar">
           <div class="top-left">
             <div class="chip"><i class="coin"></i><span id="gold">0</span></div>
-            <div class="chip"><i class="pearl"></i><span id="pearl">0</span></div>
+            <button id="sea-pearl" class="chip pearl-chip"><i class="pearl"></i><span id="pearl">0</span><b class="plus">+</b></button>
           </div>
-          <button id="btn-settings" class="icon-btn top-right lobby-only" data-i18n-attr="aria-label:settings">
-            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-              <path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.3 7.3 0 0 0-1.7-1L15 3.5h-4L10.7 6a7.3 7.3 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.3 7.3 0 0 0 1.7 1l.3 2.5h4l.3-2.5a7.3 7.3 0 0 0 1.7 1l2.4 1 2-3.4-2-1.6ZM13 15.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Z" transform="translate(-1 0)" />
-            </svg>
-          </button>
         </header>
+        <!-- 오른쪽 위 작은 지도는 캔버스에 그리고, 그 위에 지역 지도를 여는 버튼을 겹쳐요 -->
+        <button id="btn-map" class="map-hit" data-i18n-attr="aria-label:map"></button>
+        <!-- 상태: 지역·구역과 날씨 예보 한 줄, 켜져 있을 때만 직감·물길·생미끼. 누르면 '바다 상황' 창 -->
         <div id="status" class="status">
-          <div id="st-zone" class="pill"><i id="st-zone-dot" class="zone-dot"></i><span id="st-zone-text"></span></div>
-          <div id="st-wx" class="pill"><i id="st-wx-icon" class="wx"></i><span id="st-wx-text"></span><button id="ad-wx" class="ad-btn" hidden></button></div>
-          <div id="st-cur" class="pill rainbow" hidden><span id="st-cur-text"></span><button id="ad-cur" class="ad-btn" hidden></button></div>
-          <div id="st-intu" class="pill" hidden><span id="st-intu-text"></span><button id="ad-intu" class="ad-btn" hidden></button></div>
+          <button id="st-line" class="pill st-line"><i id="st-zone-dot" class="zone-dot"></i><span id="st-zone-text"></span><i id="st-wx-icon" class="wx"></i><span id="st-wx-text"></span></button>
+          <button id="st-intu" class="pill" hidden><span id="st-intu-text"></span></button>
+          <button id="st-cur" class="pill rainbow" hidden><span id="st-cur-text"></span></button>
           <div id="st-bait" class="pill" hidden><span id="st-bait-text"></span></div>
         </div>
+        <!-- 왼쪽 열: 도감 · 의뢰 · 낚시 패스 -->
+        <div class="side-col left">
+          <button id="sd-dex" class="side-icon"><i class="ti ti-dex"></i><span class="t" data-i18n="dex"></span><span id="sd-dex-s" class="s"></span></button>
+          <button id="sd-quest" class="side-icon"><i class="ti ti-board"></i><span class="t" data-i18n="quests"></span><span id="sd-quest-s" class="s"></span><i id="sd-quest-dot" class="dot" hidden></i></button>
+          <button id="sd-pass" class="side-icon"><i class="ti ti-pass"></i><span class="t" data-i18n="pass_short"></span><span id="sd-pass-s" class="s"></span><i id="sd-pass-dot" class="dot" hidden></i></button>
+        </div>
+        <!-- 오른쪽 열 (작은 지도 아래): 항구 · 설정 -->
+        <div class="side-col right">
+          <button id="sd-port" class="side-icon"><i class="ti ti-harbor"></i><span class="t" data-i18n="harbor"></span><i id="sd-port-dot" class="dot" hidden></i></button>
+          <button id="btn-settings" class="side-icon"><i class="ti ti-settings"></i><span class="t" data-i18n="settings"></span></button>
+        </div>
         <div class="grow"></div>
-        <p class="spot"><span id="spot-name"></span><span class="sep">·</span><span id="dex-progress"></span></p>
+        <!-- 배가 물고기 자리 안에 있으면 그 자리의 이름과 자리를 옮기기까지 남은 시간 -->
+        <p id="spot-tag" class="spot-tag" hidden><i id="spot-tag-dot" class="spot-dot"></i><span id="spot-tag-text"></span></p>
         <nav class="bottom">
-          <!-- 낚시 상태: 항구(로비) · 던지기 · 이동(배 이동)이 같은 높이로 나란히, 던지기가 가운데. 이동 상태: 낚시 하나 -->
-          <button id="btn-harbor" class="main-btn alt lobby-only" data-i18n="harbor"></button>
-          <button id="btn-cast" class="main-btn" data-ncq-main="던지기 버튼"></button>
-          <button id="btn-to-sail" class="main-btn alt lobby-only" data-i18n="to_sail"></button>
+          <button id="btn-cast" class="main-btn" data-ncq-main="던지기 버튼" data-i18n="cast"></button>
         </nav>
         <span id="app-version" class="version"></span>
       </section>
@@ -135,11 +112,11 @@
             <div id="result-badges" class="badges"></div>
             <p id="result-intu" class="intu-line" hidden></p>
             <p id="result-cur" class="intu-line cur" hidden></p>
+            <p id="result-clue" class="intu-line clue" hidden></p>
             <div class="reward"><i class="coin"></i><span id="result-gold"></span></div>
           </div>
           <p id="result-tip" class="tip"></p>
           <p id="result-quest" class="intu-line quest" hidden></p>
-          <p id="result-goal" class="goal-line inline" hidden></p>
           <!-- 줄이 끊어졌을 때: 광고나 진주로 그 자리에서 이어서 해요 (한 판에 한 번) -->
           <button id="result-revive" class="main-btn" hidden></button>
           <button id="result-revive-pearl" class="sub-btn" hidden></button>
@@ -154,17 +131,65 @@
         </div>
       </section>
 
-      <!-- 장비 (낚시 중 결과 화면의 '강화'로 열어요. 로비에서는 장비 탭) -->
+      <!-- 창은 아래에서 올라와요. 뒤는 어둡게 비치고, 누르면 닫혀요 -->
+      <div id="sheet-dim" class="sheet-dim" hidden></div>
+
+      <!-- 장비: 항구의 선구점(낚싯대·줄)과 조선소(배), 결과 화면의 '강화'(모두) -->
       <section id="sheet-gear" class="sheet" data-ncq-no-main hidden>
         <header class="sheet-head">
-          <h2 data-i18n="gear"></h2>
+          <h2 id="gear-title"></h2>
           <div class="chip sheet-sub"><i class="coin"></i><span id="gear-gold">0</span></div>
           <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
         </header>
         <div id="gear-list" class="sheet-body"></div>
       </section>
 
-      <!-- 의뢰 -->
+      <!-- 바다 상황: 구역, 날씨와 예보, 직감, 무지개 물길 (보상형 광고 버튼이 여기 있어요) -->
+      <section id="sheet-sea" class="sheet" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="sea_title"></h2>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div class="sheet-body">
+          <div class="sea-row"><i id="sea-zone-dot" class="zone-dot"></i><div class="sea-t"><b id="sea-zone"></b></div></div>
+          <div class="sea-row"><i id="sea-wx-icon" class="wx"></i><div class="sea-t"><b id="sea-wx"></b><span id="sea-wx-s"></span></div><button id="ad-wx" class="ad-btn" hidden></button></div>
+          <div id="sea-intu" class="sea-row" hidden><i class="sea-ico intu"></i><div class="sea-t"><b data-i18n="intu_name"></b><span id="sea-intu-s"></span></div><button id="ad-intu" class="ad-btn" hidden></button></div>
+          <div id="sea-cur" class="sea-row" hidden><i class="sea-ico cur"></i><div class="sea-t"><b data-i18n="cur_name"></b><span id="sea-cur-s"></span></div><button id="ad-cur" class="ad-btn" hidden></button></div>
+        </div>
+      </section>
+
+      <!-- 도감 -->
+      <section id="sheet-dex" class="sheet tall" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="dex"></h2>
+          <span id="dex-count" class="sheet-sub"></span>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div class="sheet-body">
+          <div id="dex-reward" class="reward-bar"><span id="dex-reward-t"></span><i><b id="dex-reward-fill"></b></i></div>
+          <div id="dex-list" class="grid"></div>
+        </div>
+      </section>
+
+      <!-- 상점 (항구의 어시장, 진주의 +) -->
+      <section id="sheet-shop" class="sheet tall" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="place_market"></h2>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div id="shop-body" class="sheet-body"></div>
+      </section>
+
+      <!-- 기록실 -->
+      <section id="sheet-records" class="sheet tall" data-ncq-no-main hidden>
+        <header class="sheet-head">
+          <h2 data-i18n="records"></h2>
+          <button class="x sheet-close top-right" data-i18n-attr="aria-label:close">×</button>
+        </header>
+        <div id="records-body" class="sheet-body"></div>
+      </section>
+
+      <!-- 의뢰 (항구의 게시판, 바다의 왼쪽 열) -->
       <section id="sheet-quest" class="sheet" data-ncq-no-main hidden>
         <header class="sheet-head">
           <h2 data-i18n="quests"></h2>
@@ -175,7 +200,7 @@
       </section>
 
       <!-- 낚시 패스 -->
-      <section id="sheet-pass" class="sheet" data-ncq-no-main hidden>
+      <section id="sheet-pass" class="sheet tall" data-ncq-no-main hidden>
         <header class="sheet-head">
           <h2 data-i18n="pass"></h2>
           <span id="pass-left" class="sheet-sub"></span>

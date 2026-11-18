@@ -1,6 +1,7 @@
 #lobby-stage { grid-template-rows: minmax(0,40fr) 80px minmax(0,29fr) 130px minmax(0,82fr) 457px minmax(0,82fr) 210px minmax(0,48fr) 155px minmax(0,104fr) 132px minmax(0,55fr); }
 #lobby-stage #lobby-championship-slot { height: 210px; }
-#lobby-stage #lobby-mode-actions { position:absolute; left:50px; top:98px; width:924px; height:112px; display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+/* The championship slot already supplies the lobby's horizontal margins. */
+#lobby-stage #lobby-mode-actions { position:absolute; left:0; top:98px; width:100%; height:112px; display:grid; grid-template-columns:1fr 1fr; gap:18px; }
 #lobby-stage #lobby-mode-actions button { font:800 38px/1.2 "Omok Noto Sans KR",sans-serif; border-radius:22px; background:linear-gradient(#fffcf2,#e5d7b7); color:#244420; border:2px solid #d5c497; box-shadow:inset 0 2px #fff,0 5px 0 #a6966e,0 9px 9px #00190b66; }
 .mode-dialog { box-sizing:border-box; width:min(420px,calc(100vw - var(--ncq-left) - var(--ncq-right) - 24px)); max-height:calc(100dvh - var(--ncq-top) - var(--ncq-bottom) - 24px); overflow:auto; }
 .mode-dialog form { display:grid; gap:12px; }

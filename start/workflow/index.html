@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>대화로 개발·출시 · 엔크로키 킥오프</title>
+<meta name="description" content="대화창에 입력할 문장을 따라 개발 시작, 첫 출시, 업데이트를 진행해요. 세 장의 고정 도식으로 내 행동과 AI의 처리 결과를 확인해요.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="대화로 개발하고, 출시하고, 업데이트해요">
+<meta property="og:description" content="어디서 무슨 말을 해야 하는지, 세 장의 도식으로 따라가요.">
+<meta property="og:url" content="https://ncroquis.github.io/start/workflow/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&family=Nanum+Pen+Script&display=swap">
+<style>
+:root {
+  --mat: #2f5d50;
+  --mat-line: rgba(236, 214, 120, 0.13);
+  --mat-line-major: rgba(236, 214, 120, 0.28);
+  --paper: #fdfdfb;
+  --ink: #1f2623;
+  --graphite: #57605b;
+  --on-mat: #f3f7f4;
+  --on-mat-soft: #c4dace;
+  --tape-dev: #f1c94f;
+  --tape-test: #93c4ec;
+  --tape-live: #e9664c;
+  --mat-deep: #264d42;
+  --store-googleplay: #8fd3a6;
+  --store-toss: #9cc6f2;
+  --store-appstore: #c9b6ee;
+  --store-web: #f7e3a1;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mat: #213f36;
+    --mat-deep: #1b342d;
+    --paper: #eceee9;
+    --mat-line: rgba(236, 214, 120, 0.1);
+    --mat-line-major: rgba(236, 214, 120, 0.2);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--on-mat);
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  background-color: var(--mat);
+  background-image:
+    linear-gradient(var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(var(--mat-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: -1px -1px;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 64px 20px 72px; }
+
+.masthead h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(48px, 10vw, 96px);
+  line-height: 1;
+}
+
+.masthead p { margin: 16px 0 0; max-width: 34em; color: var(--on-mat-soft); font-size: 18px; }
+
+/* 목록 위 숫자판 = 플랫폼 필터 (hub.js). 고른 칸은 카드처럼 종이로 */
+.tally {
+  margin: 56px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 22px 16px 14px;
+  border: 2px solid rgba(243, 247, 244, 0.34);
+  background: var(--mat-deep);
+  color: var(--on-mat);
+  text-decoration: none;
+}
+.tile:hover { border-color: rgba(243, 247, 244, 0.7); }
+.tile:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.tile .strip {
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  width: 46px;
+  height: 16px;
+  background: var(--on-mat);
+  transform: rotate(-3deg);
+}
+.tile-googleplay .strip { background: var(--store-googleplay); }
+.tile-toss .strip { background: var(--store-toss); }
+.tile-appstore .strip { background: var(--store-appstore); }
+.tile-web .strip { background: var(--tape-dev); }
+.tile-before .strip { background: transparent; border: 2px dashed var(--on-mat-soft); }
+.tile .num {
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-size: 52px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.tile-all .num { font-size: 64px; }
+.tile .label { font-size: 16px; font-weight: 600; line-height: 1.3; }
+.tile .sub { font-size: 14px; color: var(--on-mat-soft); line-height: 1.3; }
+.tile[aria-current="true"] {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 12px 20px -12px rgba(0, 0, 0, 0.55);
+  transform: rotate(-0.6deg);
+}
+.tile[aria-current="true"] .sub { color: var(--graphite); }
+
+.shown { margin: 28px 0 0; color: var(--on-mat-soft); }
+.shown strong { color: var(--on-mat); font-weight: 600; }
+
+@media (max-width: 520px) {
+  .tally { margin-top: 40px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+  .tile-all { grid-column: 1 / -1; }
+  .tile .num { font-size: 40px; }
+  .tile-all .num { font-size: 52px; }
+}
+
+/* 카드의 '나와 있는 곳' 표시 */
+.marks { margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.mark { padding: 2px 9px 3px; color: var(--ink); font-size: 13px; font-weight: 600; line-height: 1.4; }
+.mark-googleplay { background: var(--store-googleplay); }
+.mark-toss { background: var(--store-toss); }
+.mark-appstore { background: var(--store-appstore); }
+.mark-web { background: var(--store-web); }
+
+.board {
+  list-style: none;
+  margin: 36px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 44px 28px;
+}
+
+.sheet {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 34px 22px 18px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 12px 20px -12px rgba(0, 0, 0, 0.55);
+}
+
+.board > li[hidden] { display: none; }
+.board li:nth-child(3n + 1) .sheet { transform: rotate(-0.7deg); }
+.board li:nth-child(3n + 2) .sheet { transform: rotate(0.5deg); }
+.board li:nth-child(3n) .sheet { transform: rotate(-0.25deg); }
+
+.board .sheet h2 a { color: inherit; text-decoration: none; }
+.board .sheet h2 a::after { content: ""; position: absolute; inset: 0; }
+.board .sheet h2 a:focus-visible { outline: none; }
+.board .sheet:focus-within { outline: 3px solid var(--tape-dev); outline-offset: 5px; }
+
+.tape {
+  position: absolute;
+  top: -12px;
+  left: 18px;
+  padding: 3px 12px 4px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  transform: rotate(-2.5deg);
+  opacity: 0.95;
+}
+
+.tape[data-status="테스트 중"] { background: var(--tape-test); }
+.tape[data-status="출시"] { background: var(--tape-live); color: #fff; }
+
+.sheet h2 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.summary { margin: 10px 0 0; }
+
+/* 앱 아이콘·카테고리 (출시 서버가 프로젝트 레포의 스토어 정보로 채워요). 아이콘이 없으면 이름 첫 글자 자리표시 */
+.head { display: flex; align-items: center; gap: 14px; }
+.head .title { min-width: 0; }
+.app-icon {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 22%;
+  object-fit: cover;
+  background: #e9ece7;
+  box-shadow: 0 0 0 1px rgba(31, 38, 35, 0.14);
+}
+.app-icon.none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  box-shadow: none;
+  border: 2px dashed rgba(31, 38, 35, 0.28);
+  color: var(--graphite);
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-size: 28px;
+  line-height: 1;
+}
+.page .app-icon { width: 88px; height: 88px; }
+.page .app-icon.none { font-size: 40px; }
+.cat { margin: 6px 0 0; color: var(--graphite); font-size: 14px; font-weight: 600; line-height: 1.3; }
+
+.quick { margin: 16px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+.quick .ver { margin-left: -4px; }
+
+.quick-play {
+  position: relative;
+  z-index: 1; /* 카드 전체가 소개 페이지 링크(h2 a::after)라 그 위에서 따로 눌려요 */
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 18px 10px 15px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.quick-play::before {
+  content: "";
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent currentColor;
+}
+
+.quick-play:hover { background: #34433c; }
+
+/* 피드백 게시판 링크 (카드·소개 페이지) */
+/* 구글플레이 스토어 버튼 (스토어 페이지가 열리는 앱만) */
+.quick-store,
+.store {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding: 9px 16px 10px;
+  background: var(--mat);
+  color: var(--on-mat);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.quick-store:hover,
+.store:hover { background: #3a6e60; }
+.quick-store:focus-visible,
+.store:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin: 24px 0 0; }
+.actions .play { margin-top: 0; }
+.actions .store { padding: 12px 22px; }
+.actions .ver { margin-left: -6px; }
+
+.quick-board {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding: 7px 14px 8px;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.quick-board:hover { background: rgba(31, 38, 35, 0.08); }
+.quick-board:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.board-link { margin: 14px 0 0; }
+.board-link a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
+.ver {
+  margin-left: 10px;
+  color: var(--graphite);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.note {
+  margin: 18px 0 0;
+  color: var(--graphite);
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+/* 만든 사람: 개발자 GitHub 아이디 (카드 전체 링크 위에서 따로 눌려요) */
+.by { margin: 4px 0 0; color: var(--graphite); font-size: 14px; }
+.dev {
+  position: relative;
+  z-index: 1;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.dev:hover { color: #34433c; }
+.dev:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+
+.empty {
+  margin: 64px 0 0;
+  max-width: 30em;
+  padding: 24px;
+  border: 2px dashed var(--on-mat-soft);
+  color: var(--on-mat-soft);
+}
+
+.back {
+  color: var(--on-mat);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.page { max-width: 760px; margin: 0 auto; padding: 32px 20px 72px; }
+
+.page .sheet {
+  margin-top: 44px;
+  padding: 52px clamp(22px, 6vw, 60px) 40px;
+  transform: rotate(-0.35deg);
+}
+
+.page .sheet h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(40px, 8vw, 64px);
+  line-height: 1.05;
+}
+
+.lead { margin: 16px 0 0; font-size: 20px; line-height: 1.5; }
+
+.pitch { margin: 24px 0 0; max-width: 34em; }
+
+.play {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 22px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pending { margin: 24px 0 0; color: var(--graphite); }
+
+.back:focus-visible,
+.play:focus-visible,
+.quick-play:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+
+footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
+
+.masthead .start-link { margin: 28px 0 0; }
+
+.start-link a {
+  display: inline-block;
+  padding: 8px 16px 9px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-weight: 600;
+  text-decoration: none;
+  transform: rotate(-1.5deg);
+}
+
+.start-link a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+
+.guide { max-width: 760px; margin: 0 auto; padding: 32px 20px 72px; }
+
+.guide-head { margin-top: 44px; }
+
+.guide-head h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(46px, 10vw, 84px);
+  line-height: 1.02;
+}
+
+.guide-lead { margin: 20px 0 0; max-width: 31em; color: var(--on-mat-soft); font-size: 18px; }
+
+.idea {
+  margin: 44px 0 0;
+  max-width: 540px;
+  padding: 30px 28px 20px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  transform: rotate(-1.4deg);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 16px 22px -14px rgba(0, 0, 0, 0.6);
+}
+
+.idea-text {
+  margin: 0;
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: clamp(32px, 6.4vw, 42px);
+  line-height: 1.12;
+}
+
+.idea figcaption {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  font-size: 15px;
+}
+
+.guide .sheet { margin-top: 60px; padding: 46px clamp(22px, 6vw, 52px) 34px; }
+
+.steps { list-style: none; margin: 0; padding: 0; }
+.steps > li:nth-child(odd) { transform: rotate(-0.35deg); }
+.steps > li:nth-child(even) { transform: rotate(0.3deg); }
+
+.guide .sheet h2 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(28px, 5.4vw, 38px);
+  line-height: 1.15;
+}
+
+.guide .tape { font-size: 15px; padding: 3px 14px 4px; }
+.tape.help-tape { background: var(--tape-test); }
+
+.when { margin: 6px 0 0; color: var(--graphite); }
+
+.guide .sheet p { margin: 16px 0 0; max-width: 36em; }
+
+.kit { margin: 18px 0 0; padding: 0; list-style: none; }
+.kit li { position: relative; padding-left: 34px; max-width: 36em; }
+.kit li + li { margin-top: 14px; }
+.kit li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--ink);
+}
+.kit b { display: block; }
+
+.do { margin: 18px 0 0; padding-left: 1.4em; max-width: 36em; }
+.do li { padding-left: 4px; }
+.do li + li { margin-top: 10px; }
+.do li::marker { font-weight: 600; }
+
+.button {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 12px 20px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.slip {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border: 2px dashed var(--graphite);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+.slip span { font-weight: 600; overflow-wrap: anywhere; }
+
+/* Codex로 시작하기: 적어 넣을 글(이름·설정 한 줄·명령)과 키보드 단축키 */
+.guide code, .guide kbd { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 0.9em; }
+.guide code { padding: 1px 5px; background: rgba(31, 38, 35, 0.08); overflow-wrap: anywhere; }
+.guide kbd {
+  padding: 0 6px;
+  border: 1.5px solid currentColor;
+  border-bottom-width: 3px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.slip code { padding: 0; background: none; font-weight: 600; }
+.do .copy { margin-left: 6px; vertical-align: 1px; }
+.do .slip { margin-top: 8px; }
+
+.copy {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+}
+
+.pencil {
+  color: var(--graphite);
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: 24px;
+  line-height: 1.25;
+}
+.guide .sheet p.pencil { margin-top: 22px; }
+
+.say {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 18px;
+}
+.say li {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 16px 14px;
+  background: #f8e8a6;
+  color: #2b2a20;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 12px -10px rgba(0, 0, 0, 0.45);
+}
+.say li:nth-child(odd) { transform: rotate(-1deg); }
+.say li:nth-child(even) { transform: rotate(0.8deg); }
+.say p { margin: 0; font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif; font-size: 27px; line-height: 1.15; }
+.guide .sheet .say p { margin: 0; }
+.say .copy { align-self: flex-start; }
+
+.caution { margin: 20px 0 0; padding: 12px 16px; border-left: 6px solid var(--tape-live); background: #fbeae6; max-width: 36em; }
+.guide .sheet p.caution { margin-top: 20px; }
+
+.made { margin: 18px 0 0; max-width: 36em; }
+.made dt { font-weight: 600; }
+.made dd { margin: 2px 0 0; }
+.made dd + dt { margin-top: 14px; }
+
+.faq { margin-top: 18px; }
+.faq details { border-top: 1px solid rgba(31, 38, 35, 0.18); padding: 12px 0; max-width: 36em; }
+.faq details:last-child { border-bottom: 1px solid rgba(31, 38, 35, 0.18); }
+.faq summary { cursor: pointer; font-weight: 600; }
+.faq details p { margin: 8px 0 0; }
+.guide .sheet .faq details p { margin-top: 8px; }
+
+.guide .sheet a:not(.button) { color: inherit; text-underline-offset: 3px; }
+
+.copy:focus-visible,
+.button:focus-visible,
+.guide .sheet a:focus-visible,
+.faq summary:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.idea .copy:focus-visible { outline-color: var(--ink); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* 시작하기 | 출시하기 탭 (페이지 사이) */
+.guide-tabs { margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.guide-tabs a {
+  padding: 7px 18px 8px;
+  border: 2px solid var(--on-mat-soft);
+  color: var(--on-mat);
+  font-weight: 600;
+  text-decoration: none;
+}
+.guide-tabs a[aria-current="page"] {
+  background: var(--tape-dev);
+  border-color: var(--tape-dev);
+  color: #2b2a20;
+  transform: rotate(-1.5deg);
+}
+.guide-tabs a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+
+/* 출시하기: 게임 이름 칸과 하고 싶은 일마다 한 마디 */
+.name-box { margin: 22px 0 0; padding: 14px 16px 12px; border: 2px dashed var(--graphite); max-width: 30em; }
+.name-box label { display: block; font-weight: 600; }
+.name-box input {
+  margin-top: 8px;
+  width: 100%;
+  font: inherit;
+  font-size: 18px;
+  padding: 8px 10px;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+}
+.name-box input:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+.guide .sheet .name-box p { margin: 6px 0 0; color: var(--graphite); font-size: 14px; }
+
+.game-name { padding: 0 3px; border-bottom: 2px dashed currentColor; }
+.game-name.filled { padding: 0; border-bottom: 0; }
+
+.wants { list-style: none; margin: 30px 0 0; padding: 0; }
+.wants > li + li { margin-top: 30px; padding-top: 28px; border-top: 1px solid rgba(31, 38, 35, 0.18); }
+.guide .sheet .wants h3 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 1.2;
+}
+.note-label { display: block; margin: 16px 0 0; color: var(--graphite); font-size: 15px; font-weight: 600; }
+.cmd-note {
+  margin: 12px 0 0;
+  max-width: 24em;
+  padding: 13px 14px 11px;
+  background: #f8e8a6;
+  color: #2b2a20;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 12px -10px rgba(0, 0, 0, 0.45);
+  transform: rotate(-0.8deg);
+}
+.note-label + .cmd-note { margin-top: 6px; }
+.wants > li:nth-child(even) .cmd-note { transform: rotate(0.7deg); }
+.guide .sheet .cmd-note p {
+  margin: 0;
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: 26px;
+  line-height: 1.12;
+}
+.cmd-note .copy { margin-top: 10px; }
+.guide .sheet .wants .does { margin: 14px 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* 기울임은 :nth-child 규칙이 더 구체적이라 !important로 끈다 */
+  .idea, .steps > li, .say li, .cmd-note, .guide-tabs a { transform: none !important; }
+}
+
+.workflow { max-width: 1240px; }
+.workflow .guide-head h1 { font-size: clamp(44px, 7vw, 68px); line-height: 1.12; }
+.workflow .guide-lead { max-width: 48em; }
+.workflow .route-links { display: flex; flex-wrap: wrap; gap: 12px 24px; padding: 0; margin: 28px 0 0; list-style: none; }
+.workflow .route-links a { color: var(--on-mat); text-underline-offset: 5px; }
+.workflow .route-meta { margin: 14px 0 0; color: var(--on-mat-soft); }
+.workflow .workflow-section { margin-top: 56px; scroll-margin-top: 20px; }
+.workflow .workflow-heading { display: flex; gap: 12px 24px; flex-wrap: wrap; align-items: baseline; margin-bottom: 18px; }
+.workflow .workflow-heading h2 { margin: 0; font-family: "Black Han Sans", sans-serif; font-size: 36px; font-weight: 400; }
+.workflow .workflow-heading p { margin: 0; color: var(--on-mat-soft); }
+.workflow .diagram-window { overflow-x: auto; padding: 4px 4px 12px; }
+.workflow .diagram-window:focus-visible { outline: 2px solid var(--tape-test); outline-offset: 4px; }
+.workflow .flow-canvas { width: 1120px; padding: 24px; background: var(--paper); color: var(--ink); }
+.workflow .flow { position: relative; display: grid; grid-template-columns: 1fr 38px 1fr 38px 1fr; grid-template-rows: auto 42px auto; margin: 0; padding: 0; list-style: none; }
+.workflow .flow-step { min-width: 0; padding: 18px; border: 1.5px solid var(--graphite); display: flex; flex-direction: column; align-items: flex-start; }
+.workflow .flow-step:nth-child(1) { grid-area: 1 / 1; }
+.workflow .flow-step:nth-child(2) { grid-area: 1 / 3; }
+.workflow .flow-step:nth-child(3) { grid-area: 1 / 5; }
+.workflow .flow-step:nth-child(4) { grid-area: 3 / 5; }
+.workflow .flow-step:nth-child(5) { grid-area: 3 / 3; }
+.workflow .flow-step:nth-child(6) { grid-area: 3 / 1; }
+.workflow .flow-kicker { margin: 0 0 8px; color: var(--graphite); font-size: 14px; }
+.workflow .flow-step h3 { margin: 0 0 12px; font-size: 20px; line-height: 1.4; }
+.workflow .prompt { margin: 0; font-weight: 600; font-size: 18px; line-height: 1.65; overflow-wrap: anywhere; }
+.workflow .flow-step .copy { margin: 10px 0 14px; }
+.workflow .flow-result { width: 100%; margin: auto 0 0; padding-top: 12px; border-top: 1px solid rgba(31, 38, 35, .2); font-size: 16px; }
+.workflow .flow-result b { display: block; margin-bottom: 3px; }
+.workflow .handoff { background: rgba(241, 201, 79, .13); }
+.workflow .flow-arrow { align-self: center; justify-self: stretch; width: 38px; height: 24px; fill: none; stroke: var(--graphite); stroke-width: 1.5; }
+.workflow .arrow-12 { grid-area: 1 / 2; }
+.workflow .arrow-23 { grid-area: 1 / 4; }
+.workflow .arrow-34 { grid-area: 2 / 5; width: 24px; height: 42px; justify-self: center; }
+.workflow .arrow-45 { grid-area: 3 / 4; }
+.workflow .arrow-56 { grid-area: 3 / 2; }
+.workflow .route-end { margin: 20px 0 0; padding-top: 14px; border-top: 1px solid rgba(31, 38, 35, .2); font-size: 16px; }
+.workflow .platform-routes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 26px; margin: 18px 0 0; padding-top: 16px; border-top: 1px solid rgba(31, 38, 35, .2); }
+.workflow .platform-routes div { min-width: 0; }
+.workflow .platform-routes dt { font-weight: 600; margin-bottom: 2px; }
+.workflow .platform-routes dd { margin: 0; font-size: 16px; }
+.workflow .status-note { margin: 14px 0 0; font-size: 14px; color: var(--graphite); }
+.workflow .workflow-footer { margin-top: 38px; }
+.workflow .workflow-footer a { color: var(--on-mat); }
+/* 도식은 항상 같은 3열·2행. 작은 화면에서는 그림 안에서 좌우로 이동한다. */
+@media print {
+  @page { size: A4 landscape; margin: 8mm; }
+  body { background: #fff; color: #111; }
+  .workflow { max-width: none; padding: 0; }
+  .workflow > .back, .workflow > .guide-tabs, .workflow > .guide-head,
+  .workflow > .route-links, .workflow > .route-meta, .workflow-footer,
+  .workflow .copy, #copy-status { display: none !important; }
+  .workflow .workflow-section { margin: 0; break-after: page; }
+  .workflow .workflow-section:last-of-type { break-after: auto; }
+  .workflow .workflow-heading { margin-bottom: 3mm; color: #111; }
+  .workflow .workflow-heading h2 { font-family: sans-serif; font-size: 19pt; }
+  .workflow .workflow-heading p { color: #333; font-size: 10pt; }
+  .workflow .diagram-window { padding: 0; overflow: visible; }
+  .workflow .flow-canvas { width: 100%; padding: 0; background: #fff; }
+  .workflow .flow { grid-template-columns: 1fr 24px 1fr 24px 1fr; grid-template-rows: auto 24px auto; }
+  .workflow .flow-step { padding: 10px; break-inside: avoid; }
+  .workflow .flow-kicker { font-size: 9pt; margin-bottom: 3px; }
+  .workflow .flow-step h3 { font-size: 12pt; margin-bottom: 5px; }
+  .workflow .prompt { font-size: 11pt; line-height: 1.45; }
+  .workflow .flow-result { padding-top: 6px; margin-top: 8px; font-size: 10pt; line-height: 1.45; }
+  .workflow .flow-arrow { width: 24px; }
+  .workflow .arrow-34 { height: 24px; }
+  .workflow .route-end { font-size: 10pt; margin-top: 10px; padding-top: 7px; }
+  .workflow .platform-routes { gap: 6px 18px; margin-top: 10px; padding-top: 8px; font-size: 10pt; }
+  .workflow .platform-routes dd { font-size: 9pt; line-height: 1.4; }
+  .workflow .status-note { margin-top: 8px; font-size: 9pt; }
+}
+</style>
+</head>
+<body>
+<main class="guide workflow">
+  <a class="back" href="../../">전체 프로젝트 보기</a>
+  <nav class="guide-tabs" aria-label="시작 가이드"><a href="../">시작하기</a><a href="../codex/">Codex로 시작하기</a><a href="../release/">출시하기</a><a href="./" aria-current="page">대화로 개발·출시</a></nav>
+  <header class="guide-head">
+    <h1>대화로 개발하고,<br>출시하고, 업데이트해요</h1>
+    <p class="guide-lead">하고 싶은 일을 대화창에 말하면 킥오프가 준비·점검·빌드를 진행해요. 아래 문장의 ‘〈게임명〉’을 내 게임 이름으로 바꿔 말해요. 코드를 만들거나 고칠 때는 그 게임 프로젝트가 열린 Claude Code·Codex 대화창을 써요.</p>
+    <p class="route-meta">처음에는 <a href="../">Claude 연결</a> 또는 <a href="../codex/">Codex 연결</a>을 마쳐요. 버전 번호는 예시이며, 실제 변경 내용과 제안을 보고 골라요.</p>
+  </header>
+  <nav aria-label="세 장의 진행 도식">
+    <ol class="route-links">
+      <li><a href="#development">1장 · 개발 시작</a></li>
+      <li><a href="#first-release">2장 · 첫 출시</a></li>
+      <li><a href="#update">3장 · 업데이트</a></li>
+    </ol>
+  </nav>
+  <p class="route-meta">각 장은 1부터 6까지 화살표 순서로 읽어요. 도식은 같은 배치를 유지하며 작은 화면에서는 도식 안을 좌우로 이동해요. ‘문장 복사’는 요청 문장만 복사해요.</p>
+
+  <section id="development" class="workflow-section" aria-labelledby="development-title">
+    <header class="workflow-heading">
+      <h2 id="development-title">1장 · 개발 시작</h2>
+      <p>아이디어를 말하고, 직접 플레이할 링크를 받아요.</p>
+    </header>
+    <div class="diagram-window" tabindex="0" role="region" aria-label="개발 시작 고정 도식, 좌우로 이동 가능">
+      <div class="flow-canvas">
+        <div class="flow" role="list" aria-label="개발 시작 여섯 행동">
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">1 · 킥오프가 연결된 AI 대화</p>
+            <h3>만들 게임을 말해요</h3>
+            <p class="prompt" id="dev-idea">새 퍼즐 게임을 만들고 싶어. 킥오프해 줘.</p>
+            <button class="copy" type="button" data-copy="dev-idea">문장 복사</button>
+            <p class="flow-result"><b>AI가 처리해요</b>기획을 정리하고 이름·코드네임 후보를 보여 줘요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">2 · 같은 대화에서 답하기</p>
+            <h3>프로젝트 생성을 승인해요</h3>
+            <p class="prompt" id="dev-approve">이 기획과 코드네임으로 프로젝트 만들어 줘.</p>
+            <button class="copy" type="button" data-copy="dev-approve">문장 복사</button>
+            <p class="flow-result"><b>받는 결과</b>게임 저장소·기획 문서·드라이브 폴더와 개발 링크가 생겨요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">3 · 받은 개발 링크로 게임 프로젝트 열기</p>
+            <h3>플레이할 첫 버전을 만들어요</h3>
+            <p class="prompt" id="dev-build">기획서를 읽고 플레이 가능한 첫 버전을 만들어 줘.</p>
+            <button class="copy" type="button" data-copy="dev-build">문장 복사</button>
+            <p class="flow-result"><b>AI가 처리해요</b>해당 게임의 코드를 작성하고 시험해요. Codex에서는 생성된 게임 저장소를 열고 요청해요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">4 · 같은 게임의 개발 대화</p>
+            <h3>테스트 링크를 요청해요</h3>
+            <p class="prompt" id="dev-preview">〈게임명〉 테스트 링크 만들어 줘.</p>
+            <button class="copy" type="button" data-copy="dev-preview">문장 복사</button>
+            <p class="flow-result"><b>AI가 물어요</b>지난번 이후 바뀐 점과 버전 제안을 보여 줘요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">5 · 제안 내용을 읽고 답하기</p>
+            <h3>빌드 버전을 골라요</h3>
+            <p class="prompt" id="dev-version">0.1.0으로 진행해 줘.</p>
+            <button class="copy" type="button" data-copy="dev-version">문장 복사</button>
+            <p class="flow-result"><b>받는 결과</b>AI가 빌드를 시작하고, 완료되면 브라우저에서 여는 플레이 링크를 알려 줘요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">6 · 링크를 직접 열어 플레이하기</p>
+            <h3>문제를 같은 대화에 말해요</h3>
+            <p class="prompt" id="dev-fix">시작 버튼이 잘 안 눌려. 원인을 확인해서 고쳐 줘.</p>
+            <button class="copy" type="button" data-copy="dev-fix">문장 복사</button>
+            <p class="flow-result"><b>문제가 있을 때의 예시예요</b>수정·테스트를 반복해요. 플레이가 잘 되고 출시할 준비가 되면 2장으로 가요.</p>
+          </article>
+          <svg class="flow-arrow arrow-12" viewBox="0 0 38 24" aria-hidden="true"><path d="M4 12H32M25 5L32 12 25 19"/></svg>
+          <svg class="flow-arrow arrow-23" viewBox="0 0 38 24" aria-hidden="true"><path d="M4 12H32M25 5L32 12 25 19"/></svg>
+          <svg class="flow-arrow arrow-34" viewBox="0 0 24 42" aria-hidden="true"><path d="M12 3V37M5 30L12 37 19 30"/></svg>
+          <svg class="flow-arrow arrow-45" viewBox="0 0 38 24" aria-hidden="true"><path d="M34 12H6M13 5L6 12 13 19"/></svg>
+          <svg class="flow-arrow arrow-56" viewBox="0 0 38 24" aria-hidden="true"><path d="M34 12H6M13 5L6 12 13 19"/></svg>
+        </div>
+        <p class="route-end"><b>반복하는 구간:</b> 3 개발 요청 → 4 테스트 요청 → 5 버전 선택 → 6 직접 플레이. 기획이나 기능을 바꿀 때도 같은 게임의 개발 대화에서 이어서 말해요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="first-release" class="workflow-section" aria-labelledby="first-release-title">
+    <header class="workflow-heading">
+      <h2 id="first-release-title">2장 · 첫 출시</h2>
+      <p>플랫폼을 말하고, 자료와 실제 동작을 확인해요.</p>
+    </header>
+    <div class="diagram-window" tabindex="0" role="region" aria-label="첫 출시 고정 도식, 좌우로 이동 가능">
+      <div class="flow-canvas">
+        <div class="flow" role="list" aria-label="첫 출시 여섯 행동">
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">1 · 게임의 대화창에서 플랫폼 지정</p>
+            <h3>첫 출시 준비를 요청해요</h3>
+            <p class="prompt" id="launch-prepare">〈게임명〉 구글플레이 첫 출시 준비해 줘.</p>
+            <button class="copy" type="button" data-copy="launch-prepare">문장 복사</button>
+            <p class="flow-result"><b>AI가 처리해요</b>준비된 것과 빠진 것을 확인해요. 토스·App Store·웹·카카오는 플랫폼 이름을 바꿔 말해요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">2 · AI가 제시한 자료·질문 읽기</p>
+            <h3>내용을 확인하고 답해요</h3>
+            <p class="prompt" id="launch-materials">앱 소개와 이미지, 광고·상품 설정, 개인정보 신고 내용을 함께 확인하자.</p>
+            <button class="copy" type="button" data-copy="launch-materials">문장 복사</button>
+            <p class="flow-result"><b>내가 확인해요</b>타깃 연령·회원 연동·심사 연락처 등 필요한 답을 전달해요. 빠진 자료는 AI에게 보완을 요청해요.</p>
+          </article>
+          <article class="flow-step handoff" role="listitem">
+            <p class="flow-kicker">3 · 스토어에 처음 내는 앱만</p>
+            <h3>마켓 등록을 요청해요</h3>
+            <p class="prompt" id="launch-register">첫 마켓 등록을 관리자에게 요청해 줘. 처리 상태도 알려 줘.</p>
+            <button class="copy" type="button" data-copy="launch-register">문장 복사</button>
+            <p class="flow-result"><b>관리자 확인 구간</b>관리자가 첫 등록을 처리해요. 등록 완료 후 다음으로 가요. 웹 공개·카카오 ZIP은 이 단계를 건너뛰어요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">4 · 버전을 정해 같은 대화에 요청</p>
+            <h3>배포용 빌드를 만들어요</h3>
+            <p class="prompt" id="launch-build">〈게임명〉 1.0.0 배포용으로 빌드해 줘. 테스트 확인 전에는 공개하지 마.</p>
+            <button class="copy" type="button" data-copy="launch-build">문장 복사</button>
+            <p class="flow-result"><b>AI가 처리해요</b>플랫폼 기준으로 점검·빌드해요. 테스트할 경로를 안내하고, 필요한 서명·업로드는 관리자 처리로 이어져요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">5 · 설치 링크로 실제 기기 확인</p>
+            <h3>직접 실행하고 결과를 말해요</h3>
+            <p class="prompt" id="launch-test">테스트할 설치 링크와 확인할 항목을 알려 줘.</p>
+            <button class="copy" type="button" data-copy="launch-test">문장 복사</button>
+            <p class="flow-result"><b>내가 확인해요</b>플레이·저장·광고·구매·복원을 확인해요. App Store는 실제 아이폰, 카카오 실기기 QA는 퍼블리셔와 진행해요.</p>
+          </article>
+          <article class="flow-step handoff" role="listitem">
+            <p class="flow-kicker">6 · 확인한 결과를 대화로 전달</p>
+            <h3>심사·공개 진행을 요청해요</h3>
+            <p class="prompt" id="launch-submit">테스트 끝났어. 필요한 심사·출시 절차를 진행해 줘. 공개되면 상태도 확인해 줘.</p>
+            <button class="copy" type="button" data-copy="launch-submit">문장 복사</button>
+            <p class="flow-result"><b>첫 출시의 관리자 처리</b>스토어는 관리자 확인과 심사를 거쳐 공개돼요. 웹과 카카오는 아래의 최종 행동으로 이어져요.</p>
+          </article>
+          <svg class="flow-arrow arrow-12" viewBox="0 0 38 24" aria-hidden="true"><path d="M4 12H32M25 5L32 12 25 19"/></svg>
+          <svg class="flow-arrow arrow-23" viewBox="0 0 38 24" aria-hidden="true"><path d="M4 12H32M25 5L32 12 25 19"/></svg>
+          <svg class="flow-arrow arrow-34" viewBox="0 0 24 42" aria-hidden="true"><path d="M12 3V37M5 30L12 37 19 30"/></svg>
+          <svg class="flow-arrow arrow-45" viewBox="0 0 38 24" aria-hidden="true"><path d="M34 12H6M13 5L6 12 13 19"/></svg>
+          <svg class="flow-arrow arrow-56" viewBox="0 0 38 24" aria-hidden="true"><path d="M34 12H6M13 5L6 12 13 19"/></svg>
+        </div>
+        <dl class="platform-routes" aria-label="플랫폼별 마지막 행동과 선행 조건">
+          <div><dt>구글플레이·토스</dt><dd>첫 등록·첫 공개는 관리자와 진행해요. 토스 게임은 구글플레이 출시·GRAC 등급 조회 준비가 먼저예요.</dd></div>
+          <div><dt>App Store</dt><dd>관리자가 Apple 연결·서명·TestFlight 업로드·심사·공개를 처리해요. 개발자는 실제 아이폰 테스트를 마쳐요.</dd></div>
+          <div><dt>웹 공개</dt><dd>“〈게임명〉 웹에 공개해 줘.” → 발급된 플레이 주소를 직접 확인해요. 스토어 등록·심사는 없어요.</dd></div>
+          <div><dt>카카오페이·카카오톡</dt><dd>회원·저장·탈퇴 연동과 배너·인앱 끔을 확인해요. “〈게임명〉 카카오페이 전달용 ZIP 만들어 줘.” → 퍼블리셔에게 전달해요. 등록·배포·출시는 퍼블리셔가 맡아요.</dd></div>
+        </dl>
+        <p class="status-note">대화로 요청해도 실제 테스트와 관리자 확인이 필요한 단계는 기다려요. Steam 파이프라인은 현재 구현 전이에요.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="update" class="workflow-section" aria-labelledby="update-title">
+    <header class="workflow-heading">
+      <h2 id="update-title">3장 · 업데이트</h2>
+      <p>같은 게임을 고치고, 같은 앱의 새 버전으로 내요.</p>
+    </header>
+    <div class="diagram-window" tabindex="0" role="region" aria-label="업데이트 고정 도식, 좌우로 이동 가능">
+      <div class="flow-canvas">
+        <div class="flow" role="list" aria-label="업데이트 여섯 행동">
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">1 · 기존 게임 프로젝트의 개발 대화</p>
+            <h3>바꿀 내용을 말해요</h3>
+            <p class="prompt" id="update-code">상점 버튼 오류를 고치고 초반 난이도를 낮춰 줘.</p>
+            <button class="copy" type="button" data-copy="update-code">문장 복사</button>
+            <p class="flow-result"><b>AI가 처리해요</b>기존 코드와 설정을 이어서 수정하고 시험해요. 새 프로젝트를 만들지 않아요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">2 · 같은 대화에서 미리 보기 요청</p>
+            <h3>수정한 게임을 플레이해요</h3>
+            <p class="prompt" id="update-preview">〈게임명〉 수정한 내용으로 테스트 링크 만들어 줘.</p>
+            <button class="copy" type="button" data-copy="update-preview">문장 복사</button>
+            <p class="flow-result"><b>내가 확인해요</b>제안된 버전을 고르고 플레이 링크에서 수정 결과를 봐요. 문제가 있으면 1로 돌아가요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">3 · 새 배포 버전을 정해 요청</p>
+            <h3>배포용 업데이트를 올려요</h3>
+            <p class="prompt" id="update-build">〈게임명〉 1.0.1로 구글플레이 배포용 업데이트 올려 줘. 공개는 테스트 확인 후 진행할게.</p>
+            <button class="copy" type="button" data-copy="update-build">문장 복사</button>
+            <p class="flow-result"><b>AI가 처리해요</b>같은 앱의 새 버전을 빌드·업로드해요. 토스·App Store 등은 플랫폼 이름을 바꿔요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">4 · 새 배포용 빌드의 실제 기기 테스트</p>
+            <h3>바뀐 점과 기존 기능을 봐요</h3>
+            <p class="prompt" id="update-test">이번 배포용 빌드의 테스트 경로와 확인할 항목을 알려 줘.</p>
+            <button class="copy" type="button" data-copy="update-test">문장 복사</button>
+            <p class="flow-result"><b>내가 확인해요</b>수정 사항·기존 저장·광고·구매가 동작하는지 봐요. 토스는 QR, App Store는 아이폰 TestFlight로 확인해요.</p>
+          </article>
+          <article class="flow-step handoff" role="listitem">
+            <p class="flow-kicker">5 · 검수가 끝난 뒤 같은 대화에 요청</p>
+            <h3>새 버전 공개를 진행해요</h3>
+            <p class="prompt" id="update-publish">새 버전 테스트 끝났어. 업데이트 공개 진행해 줘.</p>
+            <button class="copy" type="button" data-copy="update-publish">문장 복사</button>
+            <p class="flow-result"><b>플랫폼별로 처리해요</b>출시를 마친 구글·토스 앱은 개발자도 진행할 수 있어요. App Store는 관리자가 심사·공개를 처리해요.</p>
+          </article>
+          <article class="flow-step" role="listitem">
+            <p class="flow-kicker">6 · 같은 대화에서 결과 확인</p>
+            <h3>현재 공개 버전을 확인해요</h3>
+            <p class="prompt" id="update-status">〈게임명〉 지금 출시된 버전과 업데이트 상태 알려 줘.</p>
+            <button class="copy" type="button" data-copy="update-status">문장 복사</button>
+            <p class="flow-result"><b>받는 결과</b>심사·공개 상태를 확인해요. 다음 개선도 같은 게임의 대화에서 1부터 이어서 요청해요.</p>
+          </article>
+          <svg class="flow-arrow arrow-12" viewBox="0 0 38 24" aria-hidden="true"><path d="M4 12H32M25 5L32 12 25 19"/></svg>
+          <svg class="flow-arrow arrow-23" viewBox="0 0 38 24" aria-hidden="true"><path d="M4 12H32M25 5L32 12 25 19"/></svg>
+          <svg class="flow-arrow arrow-34" viewBox="0 0 24 42" aria-hidden="true"><path d="M12 3V37M5 30L12 37 19 30"/></svg>
+          <svg class="flow-arrow arrow-45" viewBox="0 0 38 24" aria-hidden="true"><path d="M34 12H6M13 5L6 12 13 19"/></svg>
+          <svg class="flow-arrow arrow-56" viewBox="0 0 38 24" aria-hidden="true"><path d="M34 12H6M13 5L6 12 13 19"/></svg>
+        </div>
+        <p class="route-end"><b>웹·카카오의 마지막 행동:</b> 웹은 같은 플레이 주소에 업데이트해요. 카카오는 새 버전 ZIP 다운로드 링크를 퍼블리셔에게 전달하고 QA·출시 결과를 회신받아요.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="workflow-footer">
+    <p>연결부터 다시 보려면 <a href="../">시작하기</a>, 플랫폼별 자세한 요청 문장은 <a href="../release/">출시하기</a>를 봐요.</p>
+    <p>© 2026 엔크로키</p>
+  </footer>
+  <p id="copy-status" class="sr-only" role="status" aria-live="polite"></p>
+</main>
+<script>
+(function () {
+  var status = document.getElementById("copy-status");
+  function selectText(node) {
+    var range = document.createRange();
+    range.selectNodeContents(node);
+    var selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+  }
+  function announce(button, message) {
+    var label = button.getAttribute("data-label") || button.textContent;
+    button.setAttribute("data-label", label);
+    button.textContent = message;
+    status.textContent = message;
+    window.setTimeout(function () { button.textContent = label; }, 1600);
+  }
+  document.querySelectorAll("[data-copy]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var source = document.getElementById(button.getAttribute("data-copy"));
+      if (!source) { return; }
+      var text = source.textContent.replace(/\s+/g, " ").trim();
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(function () {
+          announce(button, "복사했어요");
+        }, function () {
+          selectText(source);
+          announce(button, "선택했어요. 복사해서 쓰세요");
+        });
+      } else {
+        selectText(source);
+        announce(button, "선택했어요. 복사해서 쓰세요");
+      }
+    });
+  });
+})();
+
+// '게임 이름' 자리: 출시하기의 이름 칸에 적으면 페이지의 모든 말에 그 이름이 들어가요 (이 브라우저에만 기억)
+(function () {
+  var slots = Array.prototype.slice.call(document.querySelectorAll(".game-name"));
+  if (!slots.length) { return; }
+  var KEY = "ncq-guide-game-name";
+  var input = document.getElementById("game-name");
+  function fill(name) {
+    slots.forEach(function (slot) {
+      slot.textContent = name || "게임 이름";
+      if (name) { slot.classList.add("filled"); } else { slot.classList.remove("filled"); }
+    });
+  }
+  var saved = "";
+  try { saved = window.localStorage.getItem(KEY) || ""; } catch (e) { saved = ""; }
+  saved = saved.replace(/\s+/g, " ").trim().slice(0, 40);
+  if (input) { input.value = saved; }
+  fill(saved);
+  if (!input) { return; }
+  input.addEventListener("input", function () {
+    var name = input.value.replace(/\s+/g, " ").trim().slice(0, 40);
+    fill(name);
+    try {
+      if (name) { window.localStorage.setItem(KEY, name); } else { window.localStorage.removeItem(KEY); }
+    } catch (e) { /* 저장소를 못 쓰면 이번에만 */ }
+  });
+})();
+</script>
+</body>
+</html>

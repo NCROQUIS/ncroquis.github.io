@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>검증 사이클 한눈에 · 엔크로키 킥오프</title>
+<meta name="description" content="검증 사이클의 여섯 단계와 담당자를 한눈에 보고, 단계를 골라 대화에 붙일 요청 문장을 복사해요.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="검증 사이클 한눈에 · 엔크로키">
+<meta property="og:description" content="가설·관측 준비부터 모객·측정·판정과 다음 사이클까지, 단계별로 확인해요.">
+<meta property="og:url" content="https://ncroquis.github.io/start/cycle/">
+<style>
+#ncq-cycle-guide {
+  --ncq-page: #f5f7f4;
+  --ncq-paper: #ffffff;
+  --ncq-ink: #1b3329;
+  --ncq-muted: #63756a;
+  --ncq-line: #dbe3db;
+  --ncq-brand: #245a42;
+  --ncq-soft: #edf4ec;
+  --ncq-ai: #e7f1ee;
+  --ncq-ai-ink: #24634e;
+  --ncq-admin: #fff0bf;
+  --ncq-admin-ink: #70510b;
+  --ncq-auto: #eaf0f9;
+  --ncq-auto-ink: #345a82;
+  --ncq-on-brand: #ffffff;
+  --ncq-gap: 10px;
+  color: var(--ncq-ink);
+  font-family: "Inter", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
+  color-scheme: inherit;
+}
+#ncq-cycle-guide * { box-sizing: border-box; }
+#ncq-cycle-guide button, #ncq-cycle-guide textarea { font: inherit; }
+#ncq-cycle-guide h2, #ncq-cycle-guide h3, #ncq-cycle-guide p { margin: 0; }
+#ncq-cycle-guide button { color: inherit; cursor: pointer; }
+#ncq-cycle-guide .ncq-window { background: var(--ncq-page); border: 1px solid var(--ncq-line); border-radius: 16px; overflow: hidden; }
+#ncq-cycle-guide .ncq-chrome { background: var(--ncq-paper); padding: 15px 24px; border-bottom: 1px solid var(--ncq-line); display: flex; flex-wrap: wrap; align-items: center; gap: 14px 32px; }
+#ncq-cycle-guide .ncq-brand { font-size: 16px; font-weight: 700; letter-spacing: -.5px; }
+#ncq-cycle-guide .ncq-brand span { color: var(--ncq-brand); margin-right: 10px; }
+#ncq-cycle-guide .ncq-main { padding: 26px; }
+#ncq-cycle-guide .ncq-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 22px; }
+#ncq-cycle-guide .ncq-eyebrow { font-size: 11px; letter-spacing: 1.1px; color: var(--ncq-muted); font-weight: 700; margin-bottom: 6px; }
+#ncq-cycle-guide h2 { font-size: 26px; letter-spacing: -1px; line-height: 1.3; font-weight: 700; }
+#ncq-cycle-guide .ncq-platform { display: flex; gap: 7px; font-size: 11px; color: var(--ncq-muted); }
+#ncq-cycle-guide .ncq-platform span { padding: 4px 10px; border: 1px solid var(--ncq-line); border-radius: 20px; }
+#ncq-cycle-guide .ncq-layout { display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+#ncq-cycle-guide .ncq-section-label { font-size: 12px; color: var(--ncq-muted); display: flex; justify-content: space-between; margin-bottom: 12px; }
+#ncq-cycle-guide .ncq-section-label strong { color: var(--ncq-ink); font-weight: 600; }
+#ncq-cycle-guide .ncq-flow { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--ncq-gap); }
+#ncq-cycle-guide .ncq-flow li { position: relative; min-width: 0; }
+#ncq-cycle-guide .ncq-flow li:not(:last-child)::after { content: ""; position: absolute; height: var(--ncq-gap); width: 1px; background: var(--ncq-line); left: 24px; top: 100%; }
+#ncq-cycle-guide .ncq-step { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 10px; width: 100%; padding: 12px 10px; background: var(--ncq-paper); border: 1px solid var(--ncq-line); border-radius: 10px; text-align: left; }
+#ncq-cycle-guide .ncq-step[aria-pressed="true"] { border-color: var(--ncq-brand); box-shadow: 0 0 0 1px var(--ncq-brand); background: var(--ncq-soft); }
+#ncq-cycle-guide .ncq-number { display: flex; justify-content: center; align-items: center; width: 28px; height: 28px; color: var(--ncq-muted); border: 1px solid var(--ncq-line); background: var(--ncq-page); border-radius: 50%; font-size: 12px; font-variant-numeric: tabular-nums; }
+#ncq-cycle-guide .ncq-step[aria-pressed="true"] .ncq-number { background: var(--ncq-brand); color: var(--ncq-on-brand); border-color: var(--ncq-brand); }
+#ncq-cycle-guide .ncq-step-title { display: block; font-size: 15px; font-weight: 700; letter-spacing: -.3px; }
+#ncq-cycle-guide .ncq-step-note { display: block; color: var(--ncq-muted); font-size: 11px; margin-top: 2px; }
+#ncq-cycle-guide .ncq-role { font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; white-space: nowrap; }
+#ncq-cycle-guide .ncq-role.ai { background: var(--ncq-ai); color: var(--ncq-ai-ink); }
+#ncq-cycle-guide .ncq-role.person { background: var(--ncq-soft); color: var(--ncq-brand); }
+#ncq-cycle-guide .ncq-role.admin { background: var(--ncq-admin); color: var(--ncq-admin-ink); }
+#ncq-cycle-guide .ncq-role.auto { background: var(--ncq-auto); color: var(--ncq-auto-ink); }
+#ncq-cycle-guide .ncq-detail { background: var(--ncq-paper); border: 1px solid var(--ncq-line); border-radius: 12px; padding: 22px; }
+#ncq-cycle-guide .ncq-detail-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 14px; }
+#ncq-cycle-guide .ncq-detail-count { color: var(--ncq-muted); font-size: 11px; font-weight: 600; }
+#ncq-cycle-guide h3 { font-size: 22px; line-height: 1.4; font-weight: 700; letter-spacing: -.6px; }
+#ncq-cycle-guide .ncq-context { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; margin: 18px 0; font-size: 12px; }
+#ncq-cycle-guide .ncq-context dt { color: var(--ncq-muted); }
+#ncq-cycle-guide .ncq-context dd { margin: 0; font-weight: 600; }
+#ncq-cycle-guide .ncq-prompt-label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 7px; }
+#ncq-cycle-guide .ncq-prompt { resize: none; width: 100%; min-height: 106px; padding: 14px; border: 1px solid var(--ncq-line); background: var(--ncq-page); border-radius: 8px; color: var(--ncq-ink); font-size: 14px; line-height: 1.8; overflow: hidden; }
+#ncq-cycle-guide .ncq-copy { border: 0; border-radius: 7px; padding: 10px 14px; display: inline-flex; gap: 8px; align-items: center; background: var(--ncq-brand); color: var(--ncq-on-brand); font-size: 12px; font-weight: 600; }
+#ncq-cycle-guide .ncq-prompt-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 10px 0 20px; }
+#ncq-cycle-guide .ncq-copy-status { font-size: 11px; color: var(--ncq-muted); }
+#ncq-cycle-guide .ncq-result { border-top: 1px solid var(--ncq-line); padding-top: 15px; }
+#ncq-cycle-guide .ncq-result small { display: block; color: var(--ncq-muted); font-size: 11px; margin-bottom: 5px; }
+#ncq-cycle-guide .ncq-result p { font-size: 12px; }
+#ncq-cycle-guide .ncq-decisions { margin-top: 24px; }
+#ncq-cycle-guide .ncq-outcomes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+#ncq-cycle-guide .ncq-outcome { min-width: 0; background: var(--ncq-paper); border: 1px solid var(--ncq-line); border-radius: 9px; text-align: left; padding: 11px 13px; }
+#ncq-cycle-guide .ncq-outcome[aria-pressed="true"] { background: var(--ncq-soft); border-color: var(--ncq-brand); }
+#ncq-cycle-guide .ncq-outcome strong { font-size: 13px; font-weight: 700; }
+#ncq-cycle-guide .ncq-outcome span { display: block; color: var(--ncq-muted); font-size: 11px; margin-top: 3px; }
+#ncq-cycle-guide .ncq-loop { padding-top: 12px; display: flex; gap: 10px; align-items: center; color: var(--ncq-brand); font-size: 12px; font-weight: 600; }
+#ncq-cycle-guide .ncq-loop svg { flex-shrink: 0; }
+@media (max-width: 650px) {
+  #ncq-cycle-guide .ncq-main { padding: 18px 14px; }
+  #ncq-cycle-guide .ncq-chrome { padding: 14px; }
+  #ncq-cycle-guide .ncq-layout { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  #ncq-cycle-guide .ncq-detail { padding: 18px; }
+  #ncq-cycle-guide .ncq-outcomes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #ncq-cycle-guide .ncq-step { grid-template-columns: 28px minmax(0, 1fr) auto; gap: 7px; }
+}
+@media (pointer: coarse) { #ncq-cycle-guide button { min-height: 44px; } }
+@media (prefers-color-scheme: dark) {
+  #ncq-cycle-guide {
+  --ncq-page: #101b17;
+  --ncq-paper: #18251f;
+  --ncq-ink: #edf4ef;
+  --ncq-muted: #a9bbb0;
+  --ncq-line: #34483c;
+  --ncq-brand: #a7d8ba;
+  --ncq-soft: #263c2c;
+  --ncq-ai: #233e36;
+  --ncq-ai-ink: #b2e4ce;
+  --ncq-admin: #504120;
+  --ncq-admin-ink: #f8d77f;
+  --ncq-auto: #25384d;
+  --ncq-auto-ink: #b3cee9;
+  --ncq-on-brand: #163025;
+  }
+}
+
+html { color-scheme: light dark; }
+body { margin: 0; }
+#ncq-cycle-guide { font-size: 16px; padding: 28px 20px; background: var(--ncq-page); min-height: 100vh; }
+#ncq-cycle-guide .ncq-window { max-width: 1160px; margin: 0 auto; }
+#ncq-cycle-guide .ncq-brand { text-decoration: none; color: var(--ncq-ink); }
+#ncq-cycle-guide .guide-tabs { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 14px; }
+#ncq-cycle-guide .guide-tabs a { color: var(--ncq-muted); text-decoration: none; padding: 5px 0; }
+#ncq-cycle-guide .guide-tabs a[aria-current] { color: var(--ncq-brand); font-weight: 700; border-bottom: 2px solid var(--ncq-brand); }
+#ncq-cycle-guide .ncq-platform { font-size: 13px; }
+#ncq-cycle-guide .ncq-eyebrow { font-size: 12px; }
+#ncq-cycle-guide .ncq-section-label { font-size: 14px; gap: 10px; flex-wrap: wrap; }
+#ncq-cycle-guide .ncq-step-title { font-size: 17px; }
+#ncq-cycle-guide .ncq-step-note { font-size: 14px; }
+#ncq-cycle-guide .ncq-role { font-size: 14px; }
+#ncq-cycle-guide .ncq-context { font-size: 16px; }
+#ncq-cycle-guide .ncq-prompt-label { font-size: 14px; }
+#ncq-cycle-guide .ncq-prompt { font-size: 16px; }
+#ncq-cycle-guide .ncq-copy { font-size: 14px; }
+#ncq-cycle-guide .ncq-copy-status { font-size: 13px; }
+#ncq-cycle-guide .ncq-result small { font-size: 14px; }
+#ncq-cycle-guide .ncq-result p { font-size: 16px; }
+#ncq-cycle-guide .ncq-outcome strong { font-size: 16px; }
+#ncq-cycle-guide .ncq-outcome span { font-size: 14px; }
+#ncq-cycle-guide .ncq-loop { font-size: 14px; align-items: flex-start; }
+#ncq-cycle-guide .ncq-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 18px 26px; border-top: 1px solid var(--ncq-line); color: var(--ncq-muted); font-size: 14px; }
+#ncq-cycle-guide .ncq-footer a { color: var(--ncq-brand); text-underline-offset: 3px; }
+#ncq-cycle-guide .ncq-platform-note { margin: 12px 0 0; font-size: 14px; color: var(--ncq-muted); }
+#ncq-cycle-guide .ncq-loop a { color: inherit; text-underline-offset: 3px; }
+@media (max-width: 760px) { #ncq-cycle-guide .ncq-layout { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 450px) {
+  #ncq-cycle-guide { padding: 10px; }
+  #ncq-cycle-guide .ncq-step { grid-template-columns: 28px minmax(0, 1fr); grid-template-areas: 'number text' '. role'; }
+  #ncq-cycle-guide .ncq-step > .ncq-number { grid-area: number; }
+  #ncq-cycle-guide .ncq-step > span:nth-child(2) { grid-area: text; }
+  #ncq-cycle-guide .ncq-step > .ncq-role { grid-area: role; justify-self: start; }
+  #ncq-cycle-guide .ncq-prompt-actions { flex-wrap: wrap; }
+}
+@media print {
+  #ncq-cycle-guide { padding: 0; min-height: 0; }
+  #ncq-cycle-guide .ncq-window { border: 0; }
+  #ncq-cycle-guide .guide-tabs, #ncq-cycle-guide .ncq-copy { display: none; }
+  #ncq-cycle-guide .ncq-detail, #ncq-cycle-guide .ncq-step { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div id="ncq-cycle-guide" lang="ko">
+<div class="ncq-window">
+    <header class="ncq-chrome">
+      <a class="ncq-brand" href="../../"><span>엔크로키</span>시작 가이드</a>
+      <nav class="guide-tabs" aria-label="시작 가이드"><a href="../">시작하기</a><a href="../codex/">Codex로 시작하기</a><a href="../release/">출시하기</a><a href="../workflow/">대화로 개발·출시</a><a href="./" aria-current="page">검증 사이클 한눈에</a></nav>
+    </header>
+    <main class="ncq-main">
+      <header class="ncq-heading">
+        <div><p class="ncq-eyebrow">4장 · 프로젝트 검증 사이클</p><h2>출시한 뒤, 이렇게 검증해요</h2><p class="ncq-platform-note">출시 완료된 구글플레이·토스의 검증 사이클</p></div>
+        <div class="ncq-platform" aria-label="지원 대상"><span>구글플레이</span><span>토스</span></div>
+      </header>
+      <div class="ncq-layout">
+        <section class="ncq-overview" aria-label="검증 사이클 진행 도식">
+          <div class="ncq-section-label"><strong>전체 흐름</strong><span>단계 선택 → 요청 문장</span></div>
+          <ol class="ncq-flow">
+            <li><button class="ncq-step" type="button" data-step="0" aria-pressed="false" aria-controls="ncq-cycle-detail"><span class="ncq-number">01</span><span><span class="ncq-step-title">가설 정하기</span><span class="ncq-step-note">무엇을 확인할지 1~3개</span></span><span class="ncq-role ai">나 + AI</span></button></li>
+            <li><button class="ncq-step" type="button" data-step="1" aria-pressed="false" aria-controls="ncq-cycle-detail"><span class="ncq-number">02</span><span><span class="ncq-step-title">지표 확인하기</span><span class="ncq-step-note">초기 5일 · 약 100개 관측 지점</span></span><span class="ncq-role ai">나 + AI</span></button></li>
+            <li><button class="ncq-step" type="button" data-step="2" aria-pressed="false" aria-controls="ncq-cycle-detail"><span class="ncq-number">03</span><span><span class="ncq-step-title">사이클 만들기</span><span class="ncq-step-note">목표 신규 · 예산 · 기간</span></span><span class="ncq-role person">내가 화면에서</span></button></li>
+            <li><button class="ncq-step" type="button" data-step="3" aria-pressed="true" aria-controls="ncq-cycle-detail"><span class="ncq-number">04</span><span><span class="ncq-step-title">모객·집계 시작하기</span><span class="ncq-step-note">관리자가 준비 상태·예산 확인</span></span><span class="ncq-role admin">관리자 승인</span></button></li>
+            <li><button class="ncq-step" type="button" data-step="4" aria-pressed="false" aria-controls="ncq-cycle-detail"><span class="ncq-number">05</span><span><span class="ncq-step-title">측정하고 결과 해석하기</span><span class="ncq-step-note">마지막 신규의 D7까지 관찰</span></span><span class="ncq-role auto">자동 + 나</span></button></li>
+            <li><button class="ncq-step" type="button" data-step="5" aria-pressed="false" aria-controls="ncq-cycle-detail"><span class="ncq-number">06</span><span><span class="ncq-step-title">판정·이유 남기기</span><span class="ncq-step-note">결과에 맞춰 다음 행동 선택</span></span><span class="ncq-role person">내가 화면에서</span></button></li>
+          </ol>
+        </section>
+        <section id="ncq-cycle-detail" class="ncq-detail" aria-label="선택한 단계의 요청 문장" aria-live="polite">
+          <div class="ncq-detail-top"><span class="ncq-detail-count">04 / 06 · 모객</span><span class="ncq-role admin" data-detail-role>관리자 승인</span></div>
+          <h3 data-detail-title>관리자에게 집계 시작을 요청해요</h3>
+          <dl class="ncq-context"><dt>어디서</dt><dd data-detail-where>사이클 검증 화면</dd><dt>누가</dt><dd data-detail-owner>관리자 · 모객 준비와 예산 확인</dd></dl>
+          <label class="ncq-prompt-label" for="ncq-cycle-prompt">대화에 붙여 넣을 말</label>
+          <textarea id="ncq-cycle-prompt" class="ncq-prompt" readonly rows="3">〈게임명〉 모객 계획과 예산·기간을 확인할 관리자 승인 요청문을 정리해 줘.</textarea>
+          <div class="ncq-prompt-actions"><button class="ncq-copy" type="button" data-copy="ncq-cycle-prompt"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3"/></svg><span>요청 문장 복사</span></button><span class="ncq-copy-status" aria-live="polite"></span></div>
+          <div class="ncq-result"><small>이 단계가 끝나면</small><p data-detail-result>관리자가 ‘사이클 집계 시작’을 승인한 시점부터 신규와 모객 비용을 세요.</p></div>
+        </section>
+      </div>
+      <section class="ncq-decisions" aria-label="판정별 다음 행동">
+        <div class="ncq-section-label"><strong>판정 후 다음 행동</strong><span>확장은 관리자 결정</span></div>
+        <div class="ncq-outcomes">
+          <button class="ncq-outcome" type="button" aria-controls="ncq-next-action" data-outcome="scale" aria-pressed="false"><strong>확장</strong><span>예산을 늘려 본격 모객</span></button>
+          <button class="ncq-outcome" type="button" aria-controls="ncq-next-action" data-outcome="improve" aria-pressed="true"><strong>개선</strong><span>고쳐서 다음 사이클</span></button>
+          <button class="ncq-outcome" type="button" aria-controls="ncq-next-action" data-outcome="park" aria-pressed="false"><strong>방치</strong><span>모객 중지 · 스토어 유지</span></button>
+          <button class="ncq-outcome" type="button" aria-controls="ncq-next-action" data-outcome="stop" aria-pressed="false"><strong>중단</strong><span>모객·업데이트 중지</span></button>
+        </div>
+        <div class="ncq-loop" aria-live="polite"><svg width="16" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M9 4L4 9l5 5M4 9h11a5 5 0 0 1 5 5v6"/></svg><span id="ncq-next-action" data-next-action><a href="../workflow/#update">3장 업데이트</a> → 새 버전 출시 → 다음 검증 사이클</span></div>
+      </section>
+    </main>
+    <footer class="ncq-footer"><a href="../workflow/#validation">기존 네 장 설명에서 자세히 보기</a><span>© 2026 엔크로키</span></footer>
+  </div>
+</div>
+<script>
+(function () {
+  "use strict";
+  const root = document.getElementById("ncq-cycle-guide");
+  if (!root) return;
+const entries = [
+  {phase:'준비', title:'검증할 가설을 정해요', role:'나 + AI', kind:'ai', where:'게임 프로젝트의 개발 대화', owner:'개발자 · AI와 검증 질문 정리', prompt:'〈게임명〉 구글플레이 출시 버전으로 검증 사이클을 준비해 줘. 확인할 가설과 지표를 정리해 줘.', result:'플랫폼과 출시 버전을 확인하고, 이번 사이클에서 확인할 가설 1~3개를 정해요.'},
+  {phase:'준비', title:'실제로 수집되는지 확인해요', role:'나 + AI', kind:'ai', where:'개발 대화 · 지표 화면', owner:'개발자 · AI와 계측 확인', prompt:'〈게임명〉 초기 5일의 약 100개 관측 지점과 판·광고·구매 지표가 출시 빌드에서 수집되는지 확인해 줘.', result:'빠진 기록이 있으면 게임을 고쳐 3장 순서로 출시한 뒤 검증을 시작해요.'},
+  {phase:'설정', title:'검증 화면에서 사이클을 만들어요', role:'내가 화면에서', kind:'person', where:'대시보드 → 지표 → 사이클 검증 열기', owner:'개발자 · 프로젝트와 플랫폼 선택', prompt:'〈게임명〉 사이클의 목표 신규 수·예산·기간과 준비 체크리스트를 정리해 줘.', result:'출시 완료된 프로젝트·플랫폼을 고르고 목표와 준비 체크리스트를 확인해요.'},
+  {phase:'모객', title:'관리자에게 집계 시작을 요청해요', role:'관리자 승인', kind:'admin', where:'사이클 검증 화면', owner:'관리자 · 모객 준비와 예산 확인', prompt:'〈게임명〉 모객 계획과 예산·기간을 확인할 관리자 승인 요청문을 정리해 줘.', result:'관리자가 ‘사이클 집계 시작’을 승인한 시점부터 신규와 모객 비용을 세요.'},
+  {phase:'측정', title:'D7까지 관찰하고 결과를 해석해요', role:'자동 + 나', kind:'auto', where:'검증 화면의 결과 → 개발 대화', owner:'자동 집계 · 개발자가 AI와 해석', prompt:'〈게임명〉 이 사이클 결과의 D1·D3·D7, 이탈 지점과 모객 비용을 보고 개선 가설 1~3개를 정리해 줘.', result:'목표·예산·기간 중 먼저 닿으면 모객을 마쳐요. 마지막 신규의 7일 뒤 재방문까지 측정하고, 결과를 대화에 함께 보내요.'},
+  {phase:'판정', title:'판정과 이유를 화면에 남겨요', role:'내가 화면에서', kind:'person', where:'사이클 검증 화면', owner:'개발자 · 확장 결정은 관리자', prompt:'〈게임명〉 이번 결과에 맞춰 확장·개선·방치·중단을 선택할 근거와 다음 작업을 정리해 줘.', result:'선택과 이유를 기록해요. 개선이면 새 버전을 출시하고 다음 사이클을 만들어요. 표본이 적으면 판단을 미뤄요.'}
+];
+const nextActions = {scale:'관리자와 확대 예산 확정 → 본격 모객', improve:'3장 업데이트 → 새 버전 출시 → 다음 검증 사이클', park:'모객 중지 → 스토어의 게임은 유지', stop:'모객과 업데이트 중지'};
+  const state = {step: 3, outcome: "improve"};
+  const promptBox = root.querySelector(".ncq-prompt");
+  const copyButton = root.querySelector(".ncq-copy");
+  const status = root.querySelector(".ncq-copy-status");
+
+  function fitPrompt() {
+    promptBox.style.height = "auto";
+    promptBox.style.height = Math.max(106, promptBox.scrollHeight + 2) + "px";
+  }
+
+  function render() {
+    const selected = entries[state.step];
+    root.querySelectorAll("[data-step]").forEach(function (button) {
+      button.setAttribute("aria-pressed", String(Number(button.dataset.step) === state.step));
+    });
+    root.querySelector(".ncq-detail-count").textContent = String(state.step + 1).padStart(2, "0") + " / 06 · " + selected.phase;
+    root.querySelector("[data-detail-title]").textContent = selected.title;
+    const role = root.querySelector("[data-detail-role]");
+    role.textContent = selected.role;
+    role.className = "ncq-role " + selected.kind;
+    root.querySelector("[data-detail-where]").textContent = selected.where;
+    root.querySelector("[data-detail-owner]").textContent = selected.owner;
+    promptBox.value = selected.prompt;
+    fitPrompt();
+    root.querySelector("[data-detail-result]").textContent = selected.result;
+    root.querySelectorAll("[data-outcome]").forEach(function (button) {
+      button.setAttribute("aria-pressed", String(button.dataset.outcome === state.outcome));
+    });
+    const next = root.querySelector("[data-next-action]");
+    next.textContent = nextActions[state.outcome];
+    if (state.outcome === "improve") {
+      next.textContent = "";
+      const link = document.createElement("a");
+      link.href = "../workflow/#update";
+      link.textContent = "3장 업데이트";
+      next.appendChild(link);
+      next.appendChild(document.createTextNode(" → 새 버전 출시 → 다음 검증 사이클"));
+    }
+  }
+
+  root.querySelectorAll("[data-step]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      state.step = Number(button.dataset.step);
+      status.textContent = "";
+      render();
+    });
+  });
+  root.querySelectorAll("[data-outcome]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      state.outcome = button.dataset.outcome;
+      state.step = 5;
+      status.textContent = "";
+      render();
+    });
+  });
+  copyButton.addEventListener("click", async function () {
+    const text = promptBox.value;
+    const selectedStep = state.step;
+    copyButton.disabled = true;
+    let copied = false;
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        copied = true;
+      }
+    } catch (error) { /* 선택해서 복사하는 방법으로 이어가요. */ }
+    if (state.step === selectedStep) {
+      if (!copied) {
+        promptBox.focus();
+        promptBox.select();
+        try { copied = document.execCommand("copy"); } catch (error) { /* 아래 안내를 보여 줘요. */ }
+      }
+      status.textContent = copied ? "복사했어요" : "문장을 선택했어요. 직접 복사해 주세요.";
+    }
+    copyButton.disabled = false;
+  });
+  window.addEventListener("resize", fitPrompt);
+  render();
+})();
+</script>
+</body>
+</html>

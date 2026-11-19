@@ -30,14 +30,24 @@
 
   <!-- 게임: 판의 대포를 직접 누르는 화면이라 메인 버튼이 없어요 -->
   <section id="game" class="screen" data-ncq-no-main hidden>
-    <header id="hud">
-      <div class="hud-stage"><span id="hud-stage"></span><small id="hud-test" data-i18n="test_level"></small></div>
-      <div class="hud-left"><span data-i18n="armor_left"></span> <b id="hud-armor">0</b></div>
-      <button id="btn-pause" class="icon-btn" data-i18n-attr="aria-label:pause"><span class="pause-ico"></span></button>
-    </header>
     <div id="board-wrap">
       <canvas id="board"></canvas>
+      <div id="hud">
+        <div class="hud-tl">
+          <button id="btn-pause" class="gold round" data-i18n-attr="aria-label:pause"><span class="ico gear"></span></button>
+          <div class="hud-stage"><span id="hud-stage"></span><small id="hud-test" data-i18n="test_level"></small></div>
+        </div>
+        <button id="btn-speed" class="gold pill" data-i18n-attr="aria-label:speed"><span class="ico ff"></span><b id="hud-speed">x1</b></button>
+      </div>
+      <div id="hud-progress" data-i18n-attr="aria-label:progress"><span class="ico tower"></span><b id="hud-pct">0%</b></div>
+      <div id="shelf-extra"></div>
       <div id="toast" role="status"></div>
+    </div>
+    <div id="boosters">
+      <button class="booster gold" data-i18n-attr="aria-label:b_slot"><span class="b-ico" style="background-image:url(assets/img/ico_slot.webp)"></span><i class="plus"></i></button>
+      <button class="booster gold" data-i18n-attr="aria-label:b_aim"><span class="b-ico" style="background-image:url(assets/img/ico_aim.webp)"></span><i class="plus"></i></button>
+      <button class="booster gold" data-i18n-attr="aria-label:b_shuffle"><span class="b-ico" style="background-image:url(assets/img/ico_shuffle.webp)"></span><i class="plus"></i></button>
+      <button class="booster gold" data-i18n-attr="aria-label:b_fan"><span class="b-ico" style="background-image:url(assets/img/ico_fan.webp)"></span><i class="plus"></i></button>
     </div>
   </section>
 </div>
@@ -63,7 +73,7 @@
   <label class="row"><span data-i18n="music"></span><input type="checkbox" id="set-bgm" class="switch"></label>
   <label class="row"><span data-i18n="sound"></span><input type="checkbox" id="set-sfx" class="switch"></label>
   <label class="row" id="row-vib"><span data-i18n="vibration"></span><input type="checkbox" id="set-vib" class="switch"></label>
-  <div class="row"><span id="lang-label"></span><span class="lang-list" id="lang-list"></span></div>
+  <div class="row lang-row"><span id="lang-label"></span><span class="lang-list" id="lang-list"></span></div>
   <button class="btn" id="set-feedback" data-i18n="feedback" hidden></button>
   <button class="btn primary" id="set-close" data-ncq-main="닫기" data-i18n="close"></button>
   <small id="app-version"></small>

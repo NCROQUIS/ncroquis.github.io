@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="ko">
-<head>
-<meta charset="utf-8"><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
+<meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#f6f7f2">
 <title>날씨냥</title>
-  <script type="module" crossorigin src="./assets/index-D7gxgBJg.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-C5OgN8Rt.css">
+  <script type="module" crossorigin src="./assets/index-C5nj1mbj.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-COFaQSTr.css">
 </head>
 <body>
 <!-- 화면마다 메인 버튼에 data-ncq-main, 메인 버튼이 없는 화면에는 data-ncq-no-main (ncq/safe.js, 출시 빌드의 화면 확인) -->
@@ -45,7 +45,7 @@
     <div class="hero-body">
       <div class="hero-text">
         <div class="now-temp" id="nTemp">--°</div>
-        <div class="now-label" id="nLabel">-</div>
+        <div class="now-row"><span class="now-label" id="nLabel">-</span><span class="now-cmp" id="nCmp" hidden></span></div>
         <div class="now-sub" id="nSub"></div>
       </div>
       <div class="hero-art">
@@ -59,6 +59,19 @@
       <p class="say" id="say" aria-live="polite"><span class="say-track" id="joke">잠깐만 기다리라냥.</span></p>
     </div>
   </section>
+
+  <section class="card outfit" id="outfit" aria-label="옷차림" hidden>
+    <div class="card-head"><h2 id="oTitle">오늘 옷차림</h2><span class="o-adv" id="oAdv"></span></div>
+    <div class="o-rows">
+      <div class="o-row is-now"><span class="o-ico" id="oIco"></span><span class="o-txt"><b class="o-when" id="oWhen">오늘</b><span class="o-wear" id="oWear"></span></span><span class="o-range" id="oRange"></span></div>
+      <div class="o-row is-prev"><span class="o-ico" id="oPrevIco"></span><span class="o-txt"><b class="o-when" id="oPrevWhen">어제</b><span class="o-wear" id="oPrevWear"></span></span><span class="o-range" id="oPrevRange"></span></div>
+    </div>
+  </section>
+
+  <div class="notify-card" id="notifyCard" hidden>
+    <p><b>아침 7시 30분, 날씨 알림 받을까요?</b><span>오늘 날씨랑 어제보다 어떻게 입으면 좋을지 알려 준다냥.</span></p>
+    <div class="notify-actions"><button class="btn-sub" id="notifyNo">괜찮아요</button><button class="btn-main" id="notifyYes">알림 받기</button></div>
+  </div>
 
   <div class="notice" id="notice" hidden></div>
 
@@ -92,6 +105,8 @@
       </div>
     </div>
   </div>
+  <button class="text-btn notify-toggle" id="notifyToggle" hidden></button>
+  <button class="text-btn notify-toggle" id="feedbackBtn" hidden>피드백 보내기</button>
   <p class="app-version" id="appVersion"></p>
 </main>
 

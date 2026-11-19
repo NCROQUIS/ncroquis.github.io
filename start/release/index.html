@@ -695,7 +695,17 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
         <div class="cmd-note"><p id="say-release"><span class="game-name">게임 이름</span> 정식 출시하자</p><button class="copy" type="button" data-copy="say-release">복사</button></div>
         <span class="note-label">확인했으면</span>
         <div class="cmd-note"><p id="say-production"><span class="game-name">게임 이름</span> 프로덕션에 올려 줘</p><button class="copy" type="button" data-copy="say-production">복사</button></div>
-        <p class="does">먼저 비공개 테스트에 올라가요. 확인한 뒤 두 번째 말을 하면 실제 사용자에게 나가요. 두 번째는 관리자만 할 수 있어요.</p>
+        <p class="does">먼저 비공개 테스트에 올라가요. 확인한 뒤 두 번째 말을 하면 실제 사용자에게 나가요. 첫 출시는 관리자, 출시를 마친 앱의 업데이트는 프로젝트 개발자가 진행할 수 있어요.</p>
+      </li>
+      <li>
+        <h3>App Store에 업데이트하기</h3>
+        <span class="note-label">배포용 빌드와 TestFlight</span>
+        <div class="cmd-note"><p id="say-appstore-build"><span class="game-name">게임 이름</span> App Store 배포용 업데이트를 빌드해서 TestFlight에 올려 줘</p><button class="copy" type="button" data-copy="say-appstore-build">복사</button></div>
+        <span class="note-label">실제 아이폰 확인 후</span>
+        <div class="cmd-note"><p id="say-appstore-submit"><span class="game-name">게임 이름</span> 아이폰 테스트 끝났어. 업데이트 빌드를 App Store 심사에 제출해 줘</p><button class="copy" type="button" data-copy="say-appstore-submit">복사</button></div>
+        <span class="note-label">Apple 승인 후</span>
+        <div class="cmd-note"><p id="say-appstore-release"><span class="game-name">게임 이름</span> 심사를 통과한 업데이트 버전을 App Store에 공개해 줘</p><button class="copy" type="button" data-copy="say-appstore-release">복사</button></div>
+        <p class="does">회사 Apple 연결·첫 등록·첫 출시는 관리자가 해요. Apple에서 공개 버전이 확인된 앱의 업데이트는 이 프로젝트에 접근 권한이 있는 개발자가 광고·상품 준비, TestFlight, 심사 제출·공개까지 진행해요. 키와 인증서는 서버에 두고, 실제 아이폰 확인과 Apple 심사 승인은 계속 필요해요.</p>
       </li>
     </ol>
     <p class="pencil">중간에 Claude가 바뀐 점을 보여 주고 버전을 물으면 "추천대로 해 줘"라고 답하면 돼요.</p>
@@ -709,6 +719,8 @@ footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
       <dd>Play Console에서 앱을 만드는 일이 한 번 있어요. Claude가 할 일을 순서대로 알려 줘요. 스토어 이미지는 웹 게임이면 Claude가 게임을 돌려 만들어 줘요.</dd>
       <dt>토스</dt>
       <dd>웹 게임이면 "<span class="game-name">게임 이름</span> 토스에 올려 줘"라고 하면 토스 앱에서 열어 볼 QR까지 만들어 줘요. 처음 한 번은 앱인토스 콘솔에 앱을 등록해야 해서, "<span class="game-name">게임 이름</span> 토스에 처음 내려고 해"라고 하면 등록 자료와 등급분류 자료를 모아 줘요. 검토 요청과 출시는 콘솔에서 해요.</dd>
+      <dt>App Store에 처음 올릴 때</dt>
+      <dd>"<span class="game-name">게임 이름</span> App Store 마켓 등록 요청해 줘"라고 말해요. 관리자가 첫 등록과 첫 출시를 진행하고, 개발자는 TestFlight에서 실제 아이폰 검수를 해요. 이후 공개된 앱의 업데이트는 같은 대화에서 끝까지 요청할 수 있어요.</dd>
       <dt>막힐 때</dt>
       <dd>Claude가 이유와 고치는 방법을 알려 줘요. 코드를 고쳐야 하면 그 내용을 Claude Code에 붙여 "이거 고쳐 줘"라고 해요.</dd>
     </dl>

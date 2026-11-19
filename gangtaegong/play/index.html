@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
     <meta name="theme-color" content="#16233f" />
     <title>강태공: 한 줄의 승부</title>
-    <script type="module" crossorigin src="./assets/index-C57tFtff.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Iir6Ba-T.css">
+    <script type="module" crossorigin src="./assets/index-DXp3nsTo.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BGdgKe9D.css">
   </head>
   <body>
     <div id="app">
@@ -37,7 +37,7 @@
         <!-- 그림 속 장소: 게시판(의뢰) · 기록실 · 선구점(낚싯대·줄) · 조선소(배) · 어시장(상점) · 탐사소(파견·연구) · 수족관 -->
         <div class="port-places">
           <button class="place" data-place="board" style="--x: 4%; --y: 2%"><i class="ti ti-board"></i><span class="p-t" data-i18n="place_board"></span><span id="pl-board-s" class="p-s"></span><i id="pl-board-dot" class="dot" hidden></i></button>
-          <button class="place r" data-place="records" style="--x: 4%; --y: 2%"><i class="ti ti-records"></i><span class="p-t" data-i18n="records"></span><span id="pl-records-s" class="p-s"></span></button>
+          <button class="place r" data-place="records" style="--x: 4%; --y: 2%"><i class="ti ti-records"></i><span class="p-t" data-i18n="records"></span><span id="pl-records-s" class="p-s"></span><i id="pl-records-dot" class="dot" hidden></i></button>
           <button class="place" data-place="tackle" style="--x: 4%; --y: 44%"><i class="ti ti-gear"></i><span class="p-t" data-i18n="place_tackle"></span><span id="pl-tackle-s" class="p-s"></span><i id="pl-tackle-dot" class="dot" hidden></i></button>
           <button class="place r" data-place="yard" style="--x: 4%; --y: 30%"><i class="ti ti-boat"></i><span class="p-t" data-i18n="place_yard"></span><span id="pl-yard-s" class="p-s"></span><i id="pl-yard-dot" class="dot" hidden></i></button>
           <button class="place" data-place="lab" style="--x: 4%; --y: 23%"><i class="ti ti-lab"></i><span class="p-t" data-i18n="place_lab"></span><span id="pl-lab-s" class="p-s"></span><i id="pl-lab-dot" class="dot" hidden></i></button>
@@ -109,7 +109,10 @@
       </section>
 
       <!-- 낚시 중: 화면 어디든 누르면 감아요 (메인 버튼 없음) -->
-      <section id="play" class="layer" data-ncq-no-main hidden></section>
+      <section id="play" class="layer" data-ncq-no-main hidden>
+        <!-- 낚시 그만두기 (2026-11-19): 어느 단계에서든 바다(던지기 버튼)로 돌아가요 -->
+        <button id="play-cancel" class="play-cancel" data-i18n="fish_cancel"></button>
+      </section>
 
       <!-- 한 판 결과 -->
       <!-- 결과 (2026-11-18, 낚시의 신처럼): 낚은 물고기가 장면 위에 매달려 보이고, 아래 판에 이름·크기·등급·보상과 버튼. 위에 재화 (동전이 날아가 모여요) -->

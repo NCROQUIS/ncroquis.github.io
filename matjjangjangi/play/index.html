@@ -1,11 +1,11 @@
 <!doctype html>
 <html>
 <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
-  <script src="./ncq/safe.js?v=9ead710a021d"></script>
-  <script src="./ncq/motion.js?v=9ead710a021d"></script>
-  <script src="./ncq/device.js?v=9ead710a021d"></script>
-  <script src="./ncq/sound.js?v=9ead710a021d"></script>
-  <script src="./ncq/save.js?v=9ead710a021d"></script>
+  <script src="./ncq/safe.js?v=3f45918e2109"></script>
+  <script src="./ncq/motion.js?v=3f45918e2109"></script>
+  <script src="./ncq/device.js?v=3f45918e2109"></script>
+  <script src="./ncq/sound.js?v=3f45918e2109"></script>
+  <script src="./ncq/save.js?v=3f45918e2109"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -14,21 +14,21 @@
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
-  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./style.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./forest-ui.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./lobby-layout.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./list-dialog.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./shop-layout.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./ranking-layout.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./mission-layout.css?v=9ead710a021d">
-  <script type="module" src="./app.js?v=9ead710a021d"></script>
-<link rel="stylesheet" href="./jangi.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./daily-puzzle.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./together.css?v=9ead710a021d">
-  <link rel="stylesheet" href="./ai-match.css?v=9ead710a021d">
+  <link rel="stylesheet" href="./assets/match-ui/chrome.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./style.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./assets/theme-skins/board-thumbnails.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./forest-ui.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./lobby-layout.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./list-dialog.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./shop-layout.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./ranking-layout.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./mission-layout.css?v=3f45918e2109">
+  <script type="module" src="./app.js?v=3f45918e2109"></script>
+<link rel="stylesheet" href="./jangi.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./daily-puzzle.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./together.css?v=3f45918e2109">
+  <link rel="stylesheet" href="./ai-match.css?v=3f45918e2109">
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -448,7 +448,7 @@
             <button type="button" class="match-art-action" data-opening="offerFive" data-i18n="offerFifthMoves"></button>
           </div>
         </div>
-        <div id="ai-match-actions" hidden><button id="ai-undo" type="button" aria-haspopup="dialog" aria-controls="ai-undo-confirm"><span aria-hidden="true">↶ </span><span data-i18n="aiUndo"></span></button><button id="ai-retry" type="button" data-i18n="aiRetry" hidden></button><span id="ai-action-status" class="sr-only" role="status"></span></div>
+        <div id="ai-match-actions" hidden><button id="ai-undo" type="button" aria-haspopup="dialog" aria-controls="ai-undo-confirm"><span aria-hidden="true">↶ </span><span></span></button><button id="ai-retry" type="button" data-i18n="aiRetry" hidden></button><span id="ai-action-status" class="sr-only" role="status"></span></div>
         <div id="review" class="review" hidden>
           <div class="review-controls" role="group" data-i18n-attr="aria-label:review">
             <button class="review-button" type="button" data-step="first" data-i18n-attr="aria-label:firstMove">
@@ -730,58 +730,36 @@
     <dialog id="missions" class="mission-dialog" aria-labelledby="missions-title">
       <form method="dialog">
         <header class="mission-heading">
-          <h2 id="missions-title" tabindex="-1" autofocus>
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v5m10-5v5m-9 6 3 3 5-5"/>
-            </svg>
-            <span data-i18n="dailyMissions"></span>
-          </h2>
-          <div class="shop-wallet"><span class="shop-coin" aria-hidden="true"></span>
-            <span data-i18n="shopBalance"></span><strong id="mission-balance"></strong>
-          </div>
+          <h2 id="missions-title" tabindex="-1" data-i18n="missions" autofocus></h2>
+          <div class="shop-wallet"><span class="shop-coin" aria-hidden="true"></span><strong id="mission-balance"></strong></div>
+          <button id="mission-close" type="button" data-close-dialog="missions" data-ncq-main="Close missions" data-i18n-attr="aria-label:done">×</button>
         </header>
-        <button id="mission-close" class="forest-close mission-x" data-ncq-main="Close daily missions" type="button" data-close-dialog="missions" data-i18n-attr="aria-label:done">×</button>
         <div id="mission-content">
-          <p class="mission-guide" data-i18n="missionGuide"></p>
-          <section class="mission-overview" aria-labelledby="mission-overview-title">
-            <div class="mission-overview-heading">
-              <h3 id="mission-overview-title">
-                <svg viewBox="0 0 52 52" aria-hidden="true">
-                  <circle cx="26" cy="26" r="24" fill="#fcf6e9" stroke="#e0cba5" stroke-width="1.2"/>
-                  <g fill="none" stroke="#2c641c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="12" y="13" width="28" height="30" rx="4"/><path d="M20 9v10m12-10v10m-13 11 6 6 10-13"/>
-                  </g>
-                </svg>
-                <span data-i18n="missionOverview"></span>
-              </h3>
-              <strong id="mission-total"></strong>
-            </div>
-            <div id="mission-overview-progress" role="progressbar" aria-labelledby="mission-overview-title"
-                 aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
-              <div id="mission-markers" aria-hidden="true"><span></span><span></span><span></span></div>
-            </div>
+          <section aria-labelledby="mission-daily-title">
+            <div class="mission-section-heading"><h3 id="mission-daily-title" data-i18n="missionDailyTitle"></h3><span data-i18n="missionReset"></span></div>
+            <ul id="daily-mission-list"></ul>
           </section>
-          <ul id="daily-mission-list"></ul>
-          <template id="daily-mission-row">
-            <li class="mission-row">
-              <span class="mission-stones" aria-hidden="true"><i></i><i></i></span>
-              <div class="mission-detail">
-                <div class="mission-label"><strong class="mission-goal"></strong></div>
-                <div class="mission-track" role="progressbar" aria-valuemin="0"><span aria-hidden="true"></span></div>
-              </div>
-              <div class="mission-reward">
-                <span class="mission-amount"><span class="shop-coin" aria-hidden="true"></span><strong class="mission-coins"></strong></span>
-                <button class="mission-claim" type="button" hidden></button>
-                <span class="mission-status"></span>
-              </div>
-            </li>
-          </template>
-          <p id="mission-repeat-note" class="mission-note"></p>
-          <details class="mission-eligibility"><summary data-i18n="forestMissionRules"></summary>
-            <p class="mission-note" data-i18n="missionEligibility"></p></details>
+          <section aria-labelledby="mission-lifetime-title">
+            <div class="mission-section-heading"><h3 id="mission-lifetime-title" data-i18n="missionLifetimeTitle"></h3><span data-i18n="missionLifetimeNote"></span></div>
+            <ul id="lifetime-mission-list"></ul>
+          </section>
+          <details class="mission-eligibility"><summary data-i18n="missionRules"></summary><p data-i18n="missionRulesDetail"></p></details>
         </div>
-        <p id="mission-feedback" role="status" hidden></p>
-        <button id="mission-close-footer" class="secondary" type="submit" data-i18n="shopClose"></button>
+        <footer class="mission-footer">
+          <p id="mission-feedback" role="status" aria-live="polite"></p>
+          <button id="mission-claim-all" type="button" disabled><span data-i18n="missionClaimAll"></span><strong id="mission-all-amount" hidden><i class="shop-coin" aria-hidden="true"></i><span id="mission-all-coins"></span></strong></button>
+        </footer>
+        <template id="mission-row-template">
+          <li class="mission-row">
+            <span class="mission-stones" aria-hidden="true"></span>
+            <div class="mission-detail">
+              <div class="mission-label"><strong class="mission-goal"></strong><span class="mission-amount"><span class="shop-coin" aria-hidden="true"></span><strong class="mission-coins"></strong></span></div>
+              <div class="mission-row-note"></div>
+              <div class="mission-track" role="progressbar" aria-valuemin="0" aria-valuemax="100"><span aria-hidden="true"></span></div>
+            </div>
+            <button class="mission-claim" type="button" hidden></button><span class="mission-status"></span>
+          </li>
+        </template>
       </form>
     </dialog>
 
@@ -1399,7 +1377,7 @@
   <div id="ai-rank-grid" role="tabpanel" aria-labelledby="ai-rank-tab-0"></div>
   <button id="ai-start" class="ai-primary" type="button" data-ncq-main="Start AI match"></button>
 </dialog>
-<dialog id="ai-undo-confirm" class="ai-dialog ai-confirm" aria-labelledby="ai-undo-heading" aria-describedby="ai-undo-description"><h2 id="ai-undo-heading" data-i18n="aiUndoHeading"></h2><p id="ai-undo-description"></p><form method="dialog"><button type="submit" value="cancel" data-i18n="cancel"></button><button type="submit" class="ai-primary" value="undo" data-i18n="aiUndo" data-ncq-main="Confirm AI undo"></button></form></dialog>
+<dialog id="ai-undo-confirm" class="ai-dialog ai-confirm" aria-labelledby="ai-undo-heading" aria-describedby="ai-undo-description ai-undo-price"><h2 id="ai-undo-heading" data-i18n="aiUndoHeading"></h2><p id="ai-undo-description"></p><p id="ai-undo-price"></p><p id="ai-undo-error" role="alert" hidden></p><form method="dialog"><button type="submit" value="cancel" data-i18n="cancel"></button><button type="submit" class="ai-primary" value="undo" data-ncq-main="Confirm AI undo"></button></form></dialog>
 <dialog id="together-formation" class="tg-dialog" aria-labelledby="tg-title">
   <div class="tg-formation-shell">
     <section class="tg-side tg-upper" data-seat="2"><header><span class="tg-king stone white" data-kind="1"><span class="jangi-glyph">漢</span></span><div><h3 data-i18n="togetherChoose"></h3></div><span class="tg-ready-state"></span></header><div class="tg-choices" role="group"></div><button class="tg-confirm" type="button" data-ready="2" data-ncq-main="Han ready"></button></section>

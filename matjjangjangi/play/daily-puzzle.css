@@ -58,6 +58,8 @@
 #daily-puzzle #puzzle-board {width:min(100%,calc(var(--puzzle-height,300px) * .9));aspect-ratio:9/10;margin:0}
 #puzzle-grid {container-type:inline-size}
 #puzzle-grid .cell {display:grid;place-items:center;border-radius:0;box-shadow:none}
+/* Input locks during moves, hints and completion must keep the pieces legible. */
+#puzzle-grid .cell:disabled {opacity:1}
 #puzzle-grid .stone {top:50%;left:50%;transform:translate(-50%,-50%);z-index:2}
 #puzzle-grid .stone-shadow {position:absolute;left:50%;top:53%;transform:translate(-50%,-50%);aspect-ratio:1;background:radial-gradient(closest-side,#291d0b80,transparent)}
 #puzzle-grid .cell.puzzle-hint::before {content:'';position:absolute;inset:0;border:2px solid #ffe169;border-radius:8px;box-shadow:0 0 10px #e3b739}

@@ -1,4 +1,5 @@
-/* Generated from catalog.json by scripts/prepare-jangi-skins.py. */
+/* Generated from catalog.json by scripts/prepare-jangi-skins.py.
+   Keep beside jangi.css: CSS URL variables must share their consumer's folder. */
 [data-stone-style="reference"][data-stone-style],
 [data-stone-style="classic"][data-stone-style],
 [data-stone-style="glossy"][data-stone-style],

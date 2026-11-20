@@ -33,7 +33,7 @@
   "use strict";
   if (w.NcqAds && w.NcqAds.version) return; // 두 번 들어와도 하나만
 
-  var VERSION = 8;
+  var VERSION = 9;
   var GAP = 60000; // 전면 광고 사이 최소 간격 (보상형 광고를 본 뒤에도)
   var START_GAP = 30000; // 앱을 열고 이 시간 안에는 전면 광고를 띄우지 않아요
   var WAIT = 10000; // 보상형 광고를 불러오며 기다리는 최대 시간
@@ -252,6 +252,7 @@
 
   // ------------------------------------------------------------ 준비 (안드로이드·토스)
   function init() {
+    if (kakaoAds()) return kakaoAds().ready();
     if (st.init) return st.init;
     st.init = (async function () {
       if (env().toss) { // 토스: 동의는 토스 앱이 맡아요. 켠 지면의 전면·보상형 광고를 미리 불러 둬요 (한 번에 하나씩)
@@ -1008,10 +1009,22 @@
     ready: ready, privacyRequired: privacyRequired, showPrivacyOptions: showPrivacyOptions, bannerSpace: bannerSpace,
     status: status
   };
+  // 카카오 전용 ADX 도구는 같은 공개 API를 사용한다. 다른 플랫폼의 경로는 그대로 둔다.
+  function kakaoAds() {
+    return env().platform === "kakaopay" && w.NcqKakaoAds ? w.NcqKakaoAds : null;
+  }
+  Object.keys(api).forEach(function (name) {
+    if (typeof api[name] !== "function") return;
+    var original = api[name];
+    api[name] = function () {
+      var kakao = kakaoAds();
+      return kakao ? kakao[name].apply(kakao, arguments) : original.apply(null, arguments);
+    };
+  });
   try { Object.freeze(api); } catch (e) { /* 얼리지 못해도 괜찮아요 */ }
   w.NcqAds = api;
   function boot() { // 앱을 열 때 동의를 묻고(안드로이드) 광고를 미리 불러 둬요
-    if (env().native || env().toss) init();
+    if (env().native || env().toss || kakaoAds()) init();
   }
   if (d.readyState === "loading") d.addEventListener("DOMContentLoaded", boot);
   else setTimeout(boot, 0);

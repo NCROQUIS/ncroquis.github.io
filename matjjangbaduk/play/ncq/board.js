@@ -4589,7 +4589,7 @@ function create({ apiUrl, getToken, region, profiles }) {
       seconds(cooldown),
       () => send("/spectate/" + encodeURIComponent(code), void 0, void 0, 3500)
     ),
-    match: (input = {}) => request("/matchmaking", input),
+    match: (input = {}) => request("/matchmaking", { skipFinished: true, replaceIncompatible: true, ...input }),
     cancel: (ticket) => request("/matchmaking/cancel", { ticket }),
     state: (code, cooldown = -1) => request(room(code, "state"), void 0, cooldown),
     subscribeRoom: (code, options = {}) => watchRoom({

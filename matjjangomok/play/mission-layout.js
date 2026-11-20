@@ -1,1 +1,50 @@
-function qe_0x803e(_0x3d0a5c,_0x3c0f7e){_0x3d0a5c=_0x3d0a5c-0xac;const _0x2816dc=qe_0x2816();let _0x803e3=_0x2816dc[_0x3d0a5c];if(qe_0x803e['IkmBhu']===undefined){var _0x205772=function(_0x5b52b8){const _0x28e42c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x274ac6='',_0x2ba5a1='';for(let _0x1957c5=0x0,_0x37fbe8,_0x589fa9,_0x517234=0x0;_0x589fa9=_0x5b52b8['charAt'](_0x517234++);~_0x589fa9&&(_0x37fbe8=_0x1957c5%0x4?_0x37fbe8*0x40+_0x589fa9:_0x589fa9,_0x1957c5++%0x4)?_0x274ac6+=String['fromCharCode'](0xff&_0x37fbe8>>(-0x2*_0x1957c5&0x6)):0x0){_0x589fa9=_0x28e42c['indexOf'](_0x589fa9);}for(let _0x296cc0=0x0,_0x19bda9=_0x274ac6['length'];_0x296cc0<_0x19bda9;_0x296cc0++){_0x2ba5a1+='%'+('00'+_0x274ac6['charCodeAt'](_0x296cc0)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x2ba5a1);};qe_0x803e['ZDiaFb']=_0x205772,qe_0x803e['LdyksU']={},qe_0x803e['IkmBhu']=!![];}const _0x41917d=_0x2816dc[0x0];qe_0x803e['kEDoyP']!==_0x41917d&&(qe_0x803e['LdyksU']={},qe_0x803e['kEDoyP']=_0x41917d);const _0x3f86dc=qe_0x803e['LdyksU'][_0x3d0a5c];return _0x3f86dc===undefined?(_0x803e3=qe_0x803e['ZDiaFb'](_0x803e3),qe_0x803e['LdyksU'][_0x3d0a5c]=_0x803e3):_0x803e3=_0x3f86dc,_0x803e3;}(function(_0x1fbb31,_0x246cfa){const _0x5ee502=qe_0x803e,_0x1247f3=_0x1fbb31();while(!![]){try{const _0xac0aa4=-parseInt(_0x5ee502(0xaf))/0x1+parseInt(_0x5ee502(0xd1))/0x2*(parseInt(_0x5ee502(0xd9))/0x3)+-parseInt(_0x5ee502(0xbd))/0x4+parseInt(_0x5ee502(0xbb))/0x5*(-parseInt(_0x5ee502(0xd8))/0x6)+parseInt(_0x5ee502(0xe7))/0x7+parseInt(_0x5ee502(0xc9))/0x8+parseInt(_0x5ee502(0xb8))/0x9;if(_0xac0aa4===_0x246cfa)break;else _0x1247f3['push'](_0x1247f3['shift']());}catch(_0x2045d5){_0x1247f3['push'](_0x1247f3['shift']());}}}(qe_0x2816,0x5e85e));export const missionReference={'screen':[0x29e,0x42b],'panel':[0x278,0x30a],'centerOffset':46.5,'overview':[0x17,0x96,0x24a,0x7d],'list':[0x17,0x120,0x24a,0x169],'rows':[0x0,0x5d,0xba,0x115],'eligibility':[0x1b,0x2b9,0x242,0x30]};export function installMeasuredMissions(){const _0x93febf=qe_0x803e,_0x2ba5a1=document['getElementById'](_0x93febf(0xb1)),_0x1957c5=document[_0x93febf(0xb9)](_0x93febf(0xe9)),_0x37fbe8=()=>{const _0x3b7a9d=_0x93febf,_0x1b5b28=window[_0x3b7a9d(0xc6)][_0x3b7a9d(0xe1)](),_0x254959=document[_0x3b7a9d(0xe0)][_0x3b7a9d(0xe6)]-_0x1b5b28[_0x3b7a9d(0xc7)]-_0x1b5b28['right'],_0x43b43c=window[_0x3b7a9d(0xcd)]-_0x1b5b28[_0x3b7a9d(0xc0)]-_0x1b5b28[_0x3b7a9d(0xc3)],_0x107619=parseFloat(getComputedStyle(_0x2ba5a1)['getPropertyValue'](_0x3b7a9d(0xdf)))||0x230,_0x27ca70=Math['min'](0x1,_0x107619/missionReference[_0x3b7a9d(0xca)][0x0],_0x254959/missionReference[_0x3b7a9d(0xdb)][0x0],_0x43b43c/missionReference[_0x3b7a9d(0xdb)][0x1]);_0x2ba5a1[_0x3b7a9d(0xe5)][_0x3b7a9d(0xc8)](_0x3b7a9d(0xcb),_0x27ca70),_0x2ba5a1['style'][_0x3b7a9d(0xac)]=missionReference[_0x3b7a9d(0xca)][0x0]*_0x27ca70+'px',_0x2ba5a1['style'][_0x3b7a9d(0xb6)]=missionReference[_0x3b7a9d(0xca)][0x1]*_0x27ca70+'px',_0x2ba5a1[_0x3b7a9d(0xe5)][_0x3b7a9d(0xc7)]=_0x1b5b28['left']+(_0x254959-missionReference[_0x3b7a9d(0xca)][0x0]*_0x27ca70)/0x2+'px',_0x2ba5a1['style'][_0x3b7a9d(0xc0)]=_0x1b5b28[_0x3b7a9d(0xc0)]+(_0x43b43c-missionReference['panel'][0x1]*_0x27ca70)/0x2+missionReference[_0x3b7a9d(0xcf)]*_0x27ca70+'px';};new ResizeObserver(_0x37fbe8)['observe'](document['documentElement']),window[_0x93febf(0xc6)]['onChange'](_0x37fbe8),_0x37fbe8();const _0x589fa9=()=>_0x2ba5a1[_0x93febf(0xe5)][_0x93febf(0xc8)](_0x93febf(0xd6),Math[_0x93febf(0xc5)](0x1,_0x1957c5[_0x93febf(0xc2)][_0x93febf(0xbf)]));new MutationObserver(_0x589fa9)[_0x93febf(0xce)](_0x1957c5,{'childList':!![],'characterData':!![],'subtree':!![]}),_0x589fa9();const _0x517234=document['getElementById'](_0x93febf(0xcc));_0x517234[_0x93febf(0xc2)]='';const _0x296cc0=document[_0x93febf(0xba)](_0x93febf(0xb2));_0x296cc0[_0x93febf(0xd5)]=_0x93febf(0xd3),_0x296cc0[_0x93febf(0xd7)](_0x93febf(0xad),_0x93febf(0xae)),_0x517234[_0x93febf(0xdc)](_0x296cc0);const _0x19bda9='http://www.w3.org/2000/svg',_0x172aca=document[_0x93febf(0xde)](_0x19bda9,_0x93febf(0xbe));_0x172aca[_0x93febf(0xd7)](_0x93febf(0xda),_0x93febf(0xdd)),_0x172aca[_0x93febf(0xd7)]('preserveAspectRatio','none'),_0x172aca[_0x93febf(0xd7)]('aria-hidden',_0x93febf(0xae)),_0x172aca[_0x93febf(0xb0)][_0x93febf(0xe2)](_0x93febf(0xd2));const _0x1dde9a=document[_0x93febf(0xde)](_0x19bda9,_0x93febf(0xb7));_0x1dde9a['setAttribute']('d',_0x93febf(0xc4)),_0x1dde9a[_0x93febf(0xd7)](_0x93febf(0xbc),_0x93febf(0xe3)),_0x172aca['append'](_0x1dde9a),document[_0x93febf(0xb9)](_0x93febf(0xc1))[_0x93febf(0xdc)](_0x172aca),_0x2ba5a1[_0x93febf(0xe8)](_0x93febf(0xd0))[_0x93febf(0xb5)](_0x93febf(0xb4),_0xa8ac21=>{const _0x1648ad=_0x93febf;if(_0xa8ac21[_0x1648ad(0xb3)]['open'])requestAnimationFrame(()=>_0xa8ac21[_0x1648ad(0xb3)][_0x1648ad(0xe4)]({'block':_0x1648ad(0xd4)}));});}function qe_0x2816(){const _0x126e3a=['B2jZzxj2zq','y2vUDgvYt2zMC2v0','lM1PC3nPB24TzwXPz2LIAwXPDhK','mZm1nZaYvLLyDKDd','BwLZC2LVBI10AxrSzs13yxzL','BwLZC2LVBI1JBg9Zzs1OAxq','BMvHCMvZDa','y2XHC3noyw1L','ls1TAxnZAw9UlwnVAw4Ty2HHCNm','C2v0qxr0CMLIDxrL','mJq0ntK2B0rLs0Dn','m2HdCK1oBa','DMLLD0jVEa','C2nYzwvU','yxbWzw5K','mcaWide2nsaXnG','y3jLyxrLrwXLBwvUDe5t','ls1WB3b1Cc1TyxGTD2LKDgG','zg9JDw1LBNrfBgvTzw50','C3bHy2u','ywrK','iZHJytuZmG','C2nYB2XSsw50B1zPzxC','C3r5Bgu','y2XPzw50v2LKDgG','mZC2ntq2muDszhPgAG','CxvLCNLtzwXLy3rVCG','BwLZC2LVBI1IywXHBMnL','D2LKDgG','yxjPys1OAwrKzw4','Dhj1zq','ndC0odq2yMHKyvnR','y2XHC3nmAxn0','BwLZC2LVBNm','C3bHBG','DgfYz2v0','Dg9Nz2XL','ywrKrxzLBNrmAxn0zw5LCG','AgvPz2H0','Cgf0Aa','mZqZmZi4neDtz1P6zW','z2v0rwXLBwvUDej5swq','y3jLyxrLrwXLBwvUDa','mZb4throEee','zMLSBa','mJK3mdeYwLvdCMXe','C3zN','BgvUz3rO','Dg9W','BwLZC2LVBNmTDgL0Bgu','Dgv4DenVBNrLBNq','yM90Dg9T','ttaGnum1ocaXnYaXmdeTncaXnJuGmtbdmta0idaGnJCGmJmGmca1wG','Bwf4','tMnXu2fMzq','BgvMDa','C2v0uhjVCgvYDhK','nZq4odG4D3Dqv0jP','CgfUzwW','ls1TAxnZAw9UlxnJywXL','BwLZC2LVBI1JBg9Zzq','Aw5UzxjizwLNAhq'];qe_0x2816=function(){return _0x126e3a;};return qe_0x2816();}
+// Measured from the left panel of the supplied 1448×1086 mission reference.
+export const missionReference = {
+  screen: [670, 1067], panel: [632, 778], centerOffset: 46.5,
+  overview: [23, 150, 586, 125], list: [23, 288, 586, 361],
+  rows: [0, 93, 186, 277], eligibility: [27, 697, 578, 48],
+};
+
+export function installMeasuredMissions() {
+  const dialog = document.getElementById("missions");
+  const balance = document.getElementById("mission-balance");
+  const layout = () => {
+    const space = window.NcqSafe.space();
+    const width = document.documentElement.clientWidth - space.left - space.right;
+    const height = window.innerHeight - space.top - space.bottom;
+    const maximumWidth = parseFloat(getComputedStyle(dialog).getPropertyValue("--popup-max-width")) || 560;
+    const scale = Math.min(1, maximumWidth / missionReference.panel[0],
+      width / missionReference.screen[0], height / missionReference.screen[1]);
+    dialog.style.setProperty("--mission-scale", scale);
+    dialog.style.width = missionReference.panel[0] * scale + "px";
+    dialog.style.height = missionReference.panel[1] * scale + "px";
+    dialog.style.left = space.left + (width - missionReference.panel[0] * scale) / 2 + "px";
+    dialog.style.top = space.top + (height - missionReference.panel[1] * scale) / 2 + missionReference.centerOffset * scale + "px";
+  };
+  new ResizeObserver(layout).observe(document.documentElement);
+  window.NcqSafe.onChange(layout);
+  layout();
+  const fitBalance = () => dialog.style.setProperty("--mission-coin-chars", Math.max(1, balance.textContent.length));
+  new MutationObserver(fitBalance).observe(balance, { childList: true, characterData: true, subtree: true });
+  fitBalance();
+  const close = document.getElementById("mission-close");
+  close.textContent = "";
+  const hit = document.createElement("span");
+  hit.className = "mission-close-hit";
+  hit.setAttribute("aria-hidden", "true");
+  close.append(hit);
+  const ns = "http://www.w3.org/2000/svg";
+  const wave = document.createElementNS(ns, "svg");
+  wave.setAttribute("viewBox", "0 0 165 16");
+  wave.setAttribute("preserveAspectRatio", "none");
+  wave.setAttribute("aria-hidden", "true");
+  wave.classList.add("mission-title-wave");
+  const path = document.createElementNS(ns, "path");
+  path.setAttribute("d", "M0 5C58 17 101-4 165 10C104 0 67 23 0 5Z");
+  path.setAttribute("fill", "#8ca532");
+  wave.append(path);
+  document.getElementById("missions-title").append(wave);
+  dialog.querySelector(".mission-eligibility").addEventListener("toggle", event => {
+    if (event.target.open) requestAnimationFrame(() => event.target.scrollIntoView({ block: "nearest" }));
+  });
+}

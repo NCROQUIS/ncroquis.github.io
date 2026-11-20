@@ -1,1 +1,4807 @@
-const q1_0x49f7ea=q1_0x284e;(function(_0x30cb6c,_0x5dcb24){const _0x20ff56=q1_0x284e,_0x496a72=_0x30cb6c();while(!![]){try{const _0x57fbfd=parseInt(_0x20ff56(0x357))/0x1*(parseInt(_0x20ff56(0x45b))/0x2)+parseInt(_0x20ff56(0x4c0))/0x3+parseInt(_0x20ff56(0x162))/0x4*(parseInt(_0x20ff56(0x5ff))/0x5)+parseInt(_0x20ff56(0x2fe))/0x6+parseInt(_0x20ff56(0x301))/0x7*(parseInt(_0x20ff56(0x52d))/0x8)+-parseInt(_0x20ff56(0x320))/0x9+parseInt(_0x20ff56(0x4ca))/0xa*(-parseInt(_0x20ff56(0x2e6))/0xb);if(_0x57fbfd===_0x5dcb24)break;else _0x496a72['push'](_0x496a72['shift']());}catch(_0x2eafb4){_0x496a72['push'](_0x496a72['shift']());}}}(q1_0x348e,0xdf293));import{NcqLang}from'./ncq/lang.js';import{reportJourney}from'./journey.js?v=390eb41a0de0';import{NcqBoard}from'./ncq/board.js?v=390eb41a0de0';import{TEXTS}from'./texts.js?v=390eb41a0de0';import{displayNickname,profileNickname}from'./nickname.js?v=390eb41a0de0';import{loadAccountProfile}from'./account-profile.js?v=390eb41a0de0';import{createForestUI}from'./forest-ui.js?v=390eb41a0de0';import{createMatchingAudio,freshMatchingEntry}from'./matching-audio.js?v=390eb41a0de0';import{createResultAudio}from'./result-audio.js?v=390eb41a0de0';import{migrateEffectsSettings}from'./audio-settings.js?v=390eb41a0de0';import{installPopupAudio}from'./popup-audio.js?v=390eb41a0de0';import{RankingPages,rankingPageTarget}from'./ranking-pages.js?v=390eb41a0de0';import{animateStonePlacement}from'./placement-motion.js?v=390eb41a0de0';import{previewPlacement,confirmsPlacement}from'./placement-preview.js?v=390eb41a0de0';import{createRewardedCoins}from'./rewarded-coins.js?v=390eb41a0de0';import{createTossPromotion}from'./toss-promotion.js?v=390eb41a0de0';import{createCoinCollection}from'./coin-collection.js?v=390eb41a0de0';import{prepareKakaopay,backupKakaopay}from'./kakaopay.js?v=390eb41a0de0';import{createGameHaptics}from'./haptics.js?v=390eb41a0de0';import{createGameModes}from'./game-modes-ui.js?v=390eb41a0de0';import{createRecordHistory,recordSnapshot,restoreResult,mergeFinishedRoom}from'./record-storage.js?v=390eb41a0de0';import{forbiddenAt,hasForbiddenMoves}from'./ncq/position.js?v=390eb41a0de0';import{mayOffer,maySwap,offerCount,openingError,openingRadius}from'./ncq/taraguchi.js?v=390eb41a0de0';const kakaopay=await prepareKakaopay(window);NcqLang[q1_0x49f7ea(0x510)]({'id':q1_0x49f7ea(0x539),'texts':TEXTS}),document['body'][q1_0x49f7ea(0x575)][q1_0x49f7ea(0x1fa)]='true';const t=NcqLang['t'],el=_0x28cf13=>document[q1_0x49f7ea(0x484)](_0x28cf13),size=0xf,columns=q1_0x49f7ea(0x3c3),recordsKey=q1_0x49f7ea(0x470),appearanceKey=q1_0x49f7ea(0x1f4),legacyAppearanceKey='matjjangomok.appearance',placementStyleKey='matjjangomok.placementStyle',matchAdsKey='matjjangomok.matchAds',matchAdCooldown=0x15f90,adFreeRounds=0x3,NcqAds=window[q1_0x49f7ea(0x553)],NcqIap=window['NcqIap'];let coinPacks={},adsRemoved=![],adPurchaseBusy=![],matchAds={'freeRounds':[],'lastShownAt':0x0,'lastAttemptedRound':null},pendingMatchAdRound=null;const placementEffects={'plain':{'price':0x0},'golden':{'price':0x78,'expiry':'goldenPlacementUntil','purchased':q1_0x49f7ea(0x50a)},'sakura':{'price':0x96,'expiry':q1_0x49f7ea(0x5a8),'purchased':q1_0x49f7ea(0x5f5)},'ripple':{'price':0x96,'expiry':q1_0x49f7ea(0x4d3),'purchased':q1_0x49f7ea(0x58c)},'mystic':{'price':0x96,'expiry':q1_0x49f7ea(0x201),'purchased':q1_0x49f7ea(0x2ad)}},placementStyles=Object['keys'](placementEffects),placementTiming={'landing':0x50,'effectRatio':0x140/0xb4};let replayPlacementDuration=placementTiming[q1_0x49f7ea(0x333)],placementStyle=loadPlacementStyle();const dayMs=0x18*0x3c*0xea60,koreaOffset=0x9*0x3c*0xea60,dailyMissions=[{'target':0x1,'coins':0x1e},{'target':0x3,'coins':0x32},{'target':0x6,'coins':0x50}],repeatMission={'after':dailyMissions['at'](-0x1)['target'],'limit':0xa,'coins':0x5},dailyMissionLimit=repeatMission[q1_0x49f7ea(0x20b)]+repeatMission['limit'],missionRewards=new Map(dailyMissions[q1_0x49f7ea(0x222)](({target:_0x957b1a,coins:_0x5ae1bd})=>[_0x957b1a,_0x5ae1bd]));for(let target=repeatMission[q1_0x49f7ea(0x20b)]+0x1;target<=dailyMissionLimit;target+=0x1){missionRewards[q1_0x49f7ea(0x3ba)](target,repeatMission[q1_0x49f7ea(0x5c0)]);}const missionTargets=[...missionRewards[q1_0x49f7ea(0x225)]()];let missionClaiming=![];const pairedSkinPrices={'reference':0x0,'classic':0x0,'vintage':0x12c,'porcelain':0x320,'jade':0x3e8,'lacquer':0x190,'ocean':0x2bc,'soda':0x258,'gilded':0x1f4,'quartz':0x15e,'marble':0xfa,'sapphire':0x190,'sakura':0x1c2,'aurora':0x1f4},skinPrices={'stones':{...pairedSkinPrices,'glossy':0xc8},'board':{...pairedSkinPrices,'wood':0xc8}},skinKinds=Object[q1_0x49f7ea(0x225)](skinPrices);let shopState=loadShopState(),serverWallet,canClaimTestCoins=![],testCoinRequestId,testCoinClaiming=![];const rewardedCoins=createRewardedCoins({'player':()=>authSession?.[q1_0x49f7ea(0x43c)],'request':(_0x4348a0,_0x11ef60)=>remoteRequest(_0x185591=>_0x185591[q1_0x49f7ea(0x179)](q1_0x49f7ea(0x504)+(_0x4348a0?'/'+_0x4348a0:''),_0x4348a0?{'requestId':_0x11ef60}:undefined,-0x1)),'watch':()=>NcqAds['rewarded'](q1_0x49f7ea(0x290)),'changed':()=>{const _0x10152c=q1_0x49f7ea;if(shop[_0x10152c(0x5e1)])renderRewardAd();},'credited':_0x5b4b01=>{const _0x53df7f=q1_0x49f7ea;if(!applyWallet(_0x5b4b01))return;render();if(_0x5b4b01[_0x53df7f(0x48b)])showCoinReward(_0x5b4b01[_0x53df7f(0x48b)]['coins'],'ad:'+_0x5b4b01[_0x53df7f(0x48b)]['id'],_0x53df7f(0x192));}}),effectPurchaseIds={},tossPromotion=createTossPromotion({'promo':()=>window['NcqPromo'],'player':()=>authSession?.[q1_0x49f7ea(0x43c)],'request':_0x1a6dac=>remoteRequest(_0x5ba28e=>_0x5ba28e[q1_0x49f7ea(0x179)](q1_0x49f7ea(0x483),_0x1a6dac,-0x1)),'reward':()=>window[q1_0x49f7ea(0x58d)]?.['reward'](q1_0x49f7ea(0x43d)),'history':()=>recordHistory?.['player']===authSession?.[q1_0x49f7ea(0x43c)]?recordHistory[q1_0x49f7ea(0x2af)]():[],'currentRound':()=>{const _0x5178b4=q1_0x49f7ea,_0x233079=sessionStorage[_0x5178b4(0x520)](_0x5178b4(0x399)),_0x3ad24f=/^([\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}):(\d+)$/i[_0x5178b4(0x393)](_0x233079??'');return _0x3ad24f?{'room':_0x3ad24f[0x1],'round':Number(_0x3ad24f[0x2])}:null;},'canReward':()=>!awaitingResultDismissal&&!document[q1_0x49f7ea(0x3e1)](q1_0x49f7ea(0x495))});let shopPreview={...shopState[q1_0x49f7ea(0x3f2)]},shopTab=q1_0x49f7ea(0x35b),shopEffectPreview,shopEffectTimer,shopSaving=![];const board=el(q1_0x49f7ea(0x3a3)),boardGrid=el(q1_0x49f7ea(0x20d)),lastMoveMarker=el(q1_0x49f7ea(0x60e)),reviewMoveNumbers=el(q1_0x49f7ea(0x269)),ownClock=el(q1_0x49f7ea(0x370)),opponentClock=el('opponent-clock'),ownProgress=el('own-progress'),opponentProgress=el(q1_0x49f7ea(0x359)),cells=[];let focused=0x70,selected=null,pendingPlacement=null,room=null,gameModes,aiStarting=![],stream=null,connected=![],busy=![],nextMatchPending=![],reviewPly=0x0,awaitingResultDismissal=![],promotionCloseTimer,showMoveNumbers=![],archive=null,spectator=null,lobbyView='lobby',recordsReturnView=q1_0x49f7ea(0x3eb),recordsScope=recordsKey,recordHistory=null;const recordReceipts=new Set();let records=loadRecords(),recordPreviewObserver,recordPreviewJobs=new WeakMap(),recordFilter=q1_0x49f7ea(0x382),favoritesScope,favorites=new Set(),recordDialogTarget=null,liveGames=null,lobbyUnavailable=![],lobbyLoading=![],playerStats=null,playerPhoto=null,playerNickname='',nicknameOverride='',accountProfile=null,profileSubscription=null,nicknameSaving=![],profileLoading=![],profileRequest=0x0,profileTarget=null,matchmaking=null;const tournamentCatchUpDialog=el('tournament-catch-up');let tournamentCatchUpQuote;const ruleNames={'renju':'ruleRenju','free':q1_0x49f7ea(0x5b5),'taraguchi':'ruleTaraguchi'},foulMarkers={'renjuDoubleThree':'33','renjuDoubleFour':'44','renjuOverline':'6+'},defaultRule=q1_0x49f7ea(0x583),ruleDialog=el(q1_0x49f7ea(0x25b));let availableRules=Object[q1_0x49f7ea(0x225)](ruleNames),preferredRule=defaultRule;try{preferredRule=localStorage['getItem'](q1_0x49f7ea(0x4f4))??defaultRule;}catch{}const placementLimits=new WeakMap();let matchIntro=null,authConfig,authSession,authenticating,backend,boardApiUrl,rankingTab=q1_0x49f7ea(0x3f8),rankingResults={};const weeklyRewardButtons=[...document[q1_0x49f7ea(0x3da)]('[data-weekly-reward]')];let weeklyRewards,weeklyRewardsRequest=0x0,weeklyRewardsTimer,weeklyRewardClaiming=![],turnDeadline=null,turnFrame=0x0;const reducedMotion=matchMedia(q1_0x49f7ea(0x5e6));let placementAudio,placementBuffer,activePlacementSound,placementSoundCue=0x0,activePlacement,activePlacementEffect,cancelLandingHaptic,cancelPromotionHaptic,cancelPromotionSound,platformAudioPaused=![];const audioBlocked=()=>platformAudioPaused||adPurchaseBusy||document[q1_0x49f7ea(0x3e1)](q1_0x49f7ea(0x4a7))[q1_0x49f7ea(0x3b3)]||Boolean(NcqAds?.['status']?.()['busy']);migrateEffectsSettings();const matchingAudio=createMatchingAudio({'blocked':audioBlocked}),resultAudio=createResultAudio({'blocked':audioBlocked});let purchaseNotice=0x0;function q1_0x348e(){const _0x728cba=['y29UDgvUDa','lxbYB2zPBgu','CMvKDwnL','lNjLy29Yzc1WCMv2Awv3ihn2zW','l3zPC2LIAwXPDhK','BM9uB3vYBMfTzw50uMvJB3jKCW','y2fUvMLICMf0zq','zw5LCMD5lxbSywnLBwvUDc1IDxjZDa','AgfZt3DU','zgf0ys1JB21WBgv0zwq','BgL2zs1Nyw1LCW','lNnOzwXS','BMnXlwTHA2fVlxjLC3vTzq','y2fUy2vSu291BMq','CgXHy2vTzw50lwr1CMf0Aw9U','ChjLDMLLDY0','CMvMzxjLBMnL','BM93','B3v0y29Tzq','CgX5','CgfYDgLJAxbHDgLVBI1YzxDHCMqTC3rLChm','y29Kzq','zM9YBq','C3vJy2vZCW','C29Tzq','zgvN','CgXHEvvYBa','BgfZDa','BMfTzq','DhjHBNnSyxrLwsGTnxb4ksbZy2fSzsGXlJu1kq','Bg9IyNKTCgXHEwvYlxjHBMS','CgfZCW','C2HVCc1Hy3rPB24','DhvYBG','BM8TC3rVCMu','zMLUAxnOzwrbDa','mty2mtm2n3n4tLj6uG','vvrd','z2v0vvrdrgf5','zgf5','CMfUzg9T','CMvTB3zL','DhvYBKvUzhnbDa','zgv2AwnLuMvJB3jK','D2LUqMfKz2u','zgf0ys1LBxb0Eq','nda0otmWD0rvEMTw','Aw4TCMv2Awv3','CMvHzhK','CgfYDgLJAxbHDgLVBG','Dg9W','ywn0Aw9U','BwLZC2LVBKLUuhjVz3jLC3m','CM9VBs1SywjLBa','y3jLyxrL','CMLWCgXLugXHy2vTzw50vw50AwW','C2HVCc1Yzw1VDMuTywrZ','CgXHEwvYCW','BgLNAhq','CMvJB3jKlwXPBMSTCgfUzwW','C2vHCMnOugfYyw1Z','Bwf0y2GTCgXHEwvYlxbOB3rV','zMfSC2u','CMvTB3zLsxrLBq','zxHWAxj5','CgXHEwvYlwnHCMqTzgv0ywLS','zgf0ys1WCM9TB3rPB24TCMv2zwfSzwq','l2fWAs9ZAgfYzwqTCMvJB3jKCY8','CMvZDwX0lwXVC3mTAwnVBG','AgfZqxr0CMLIDxrL','y2HVB3nLt2zMzxjLza','Aw5KzxHpzG','CMvTywLUAw5N','ChjVzMLSzs1YyxrPBMCTC3rHBMrPBMCTBgfIzwW','zgfPBhKTBwLZC2LVBI10B3rHBa','D3jPDgvuzxH0','BgvMDa','C2XPy2u','tNvTyMvYrM9YBwf0','tKnrx1rfu1rFueXbq0vnru5ux1rjtuLorW','y3vIAwmTyMv6AwvYkc4XnIWGmsWGlJmSideP','zgv2AwnL','y2HHBxbPB25ZAgLWrw5KC0rHExm','BwLZC2LVBK1PBgvZDg9UzvrVDgfS','C2HVCc1JB2LUlxbHy2STyNv0Dg9UCW','CM9Szq','C2vSzwn0ywjSzq','BwvKywW','Bwf0AMPHBMDVBw9RlNj1Bgu','CMvUzxDbDa','zgf0ys11CMDLBNq','C2HHCMLUzW','BMLJA25HBwu','ugXHy2vTzw50ihnVDw5KihvUyxzHAwXHyMXL','CgXHy2uTC3rHDgu','zw50CNKTCM93','zhjHD3m','AxnjBNrLz2vY','CgXHEwvYlwnHCMvLCG','Bg9IyNKTD2fSBgv0','ChjVzMLSzuLUAxrPywXPEMvK','zMf2B3jPDgvZ','ls1IB2fYzc1NCMLKlxnPEMu','BMv2zxi','l3DHBgXLDc9YzxDHCMqTywq','Dg91CM5HBwvUDc1JyxrJAc11Cc1TAxnZzwq','B3jPz2LU','ChjVzMLSzs1YzwnVCMrZ','zhjHDW','BMv1DhjHBa','C2HVCevMzMvJDfb1CMnOyxnLza','zNjLzq','zMLMDgHdyw5KAwrHDgu','B3bWB25LBNqTChjVzMLSzq','z29Vz2XLCgXHEq','Ahr0Chm6lY9Uy3jVCxvPCY5NAxrODwiUAw8VBwf0AMPHBMDVBw9Rl3bSyxKV','Aw5PDa','CgvYy2vUDa','Bg9UzW','C2HVCfrLC3rdB2LUrMfPBgvK','y2f0y2G','lMnLBgW','zxnJyxbL','yxv0AgvUDgLJyxrLza','y29UzMLYBs10B3vYBMfTzw50lwnHDgnOlxvW','yw5PBwf0Aw9Uzw5K','CMvJB3jK','DgHLAxjuDxjU','CMvMCMvZAef0','Bwf0y2G6','ls1WCM9TB3rPB24Ty2HHBMDLlwXLzNq','zM9Yzxn0sg91CNnmzwz0','z2v0sxrLBq','DhjHBNnSyxrLwsGWksbZy2fSzsGXkq','mtuWChGGmhb4','D2f0y2HeAwfSB2C','yw5KCM9Pza','ChjLDG','zgf0ys1SB2nRzwq','BMv4DfjHBMS','yxbPvxjS','BMLJA25HBwvtyxzLrMfPBgvK','CMvS','yxjPys1WCMvZC2vK','C2HVCefWCgXPzwq','mJG2ntCZnNvYEfrOCa','ls1TAxnZAw9UlwzPBgW','BM9syxrPBMDtDgfUzgLUz3m','CMvJB3jKv2LU','CgHHC2u','zxzLCNK','CMvTyxrJAfjLywr5','Dg91CM5HBwvUDenHDgnOvxa','yM90tgv2zwW','C2HVCfnHDMvgywLSzwq','CMvJB3jKrgLZy29UBMvJDfDPBG','C2HVCc1ZA2LUlxn0yxr1CW','Bwf0AMPHBMDVBw9R','D2vLA2X5uMv3yxjKq2XHAw1Lza','CgXHy2vOB2XKzxi','DhjPBq','C2vHDa','zgf0ys1OAw50','lNjLy29Yzc1VCgvU','B2zMzxjZ','y2f0ywXVzW','CMvZDwX0lwnVBMzPCM0','CMv2Awv3lxnOyxjL','y2HHBMDL','zwzMzwn0CW','CMvJB25Uzwn0Aw5N','lNDLzwTSEs1YzxDHCMqTy29PBNmGC3rYB25N','y2HHBxbPB25ZAgLWlwnVDw50zg93BG','C3rYAw5NAwz5','y2HVB3nLlxj1Bgu','BwLZC2LVBI1VDMvYDMLLDY1WCM9NCMvZCW','Dg91CM5HBwvUDc1LBNrYEq','C2HVDY10B3vYBMfTzw50','zgf0ys1YzxDHCMqTCMvHzhK','C2HVCc0','ls1WBgfJzw1LBNqTzwzMzwn0lwr1CMf0Aw9U','ChjVzMLSzs1WAg90BW','CMv2Awv3lxbSEq','tMnXqwrZ','Cg9PBNrLCMrVD24','Bwf0y2HfCNjVCG','y2XPCgjVyxjK','zgf0yq','C3rVBMuG','y2XVC2vK','l3DHBgXLDc9WBgf5lwnVAw5Z','CMvWBgfJzvn0yxrL','Bg9ZC0jHzgDL','yxjPys1KAxnHyMXLza','CMv2Awv3lwHLywrPBMC','l3DHBgXLDa','zw5KC0f0','CMv2Awv3lwv4Axq','BNvTzxjPyW','uevoreLorW','CMvMCMvZAc1SB2jIEq','C2HVCc1WDxjJAgfZzs1JB21WBgv0zq','DhvYBLnLy29Uzhm','BgvUz3rO','CgHVDg9vCMW','BwLZC2LVBKnSywLTu3vJy2vZCW','BwLZC2LVBI1IywXHBMnL','CgXHEs1MB290zxi','C2HVCc10ywiTy3vYCMvUy3K','D2f0y2GTyMfJAW','BwLZC2LVBI1JB3vUDc1ZBgfZAa','y2XHC3noyw1L','C29YDa','zgf0ys1KCMfNz2LUzW','C2HVCefWCgX5','lNbYB2zPBguTy2XVC2u','CMvJB3jKugvYC29UywXmB3nZ','zgf0yxnLDa','y29PBI1ZAg9YDgfNzq','Bw91C2u','CgXHy2vTzw50u3r5BgvZ','DxjS','y3jLyxrLrwXLBwvUDa','CgXHy2vtDg9Uzq','zw5KC1DPDgG','B3zLCMfSBfjLy29Yza','CMvZDwX0lxn0B25LlwnVBg9Y','y2XPy2S','CMvZDwX0lxjHBMS','C2HVCfnLBgvJDgvKtg9JA2vK','Bg9IyNKTCgXHEwvYlw5HBwu','CMvUANu','Cg9SAxrL','z3vLC3rdB2rL','Dg91CM5HBwvUDfjLy29Yzhm','q0Hfq0TjtKC','C2v0sxrLBq','zgfPBhKTBwLZC2LVBI1YB3C','C2fRDxjH','ChjVzMLSzs1WCM9TB3rPB24TBwv0zxi','C2HVCfjPChbSzvb1CMnOyxnLza','tMnXuhjVBw8','CMvJB3jKtgLZDa','lM1PC3nPB24TDhjHy2S','CMfUA2LUzY13zwvRBhKTDgfI','zgf0ys10yxjHz3vJAgK','DMfSDwu','C3rHBMrPBMDZ','CMvJB3jKvgLTzvDPBG','CMvJB3jKu2HHCMvnzxnZywDL','y2fUy2vSlw1HDgnO','yM9YzgvYqM94u2L6zq','BM9VCgvUzxiGBM9YzwzLCNjLCG','ywrKrxzLBNrmAxn0zw5LCG','C3vTBwfYEu9UBhK','CNvSzq','CMvXDwvZDgvK','CgXHEwvYlwjHCG','BNvT','Dw5RBM93BG','ChvYy2HHC2vszxDHCMq','ChjPDMfJEvjLCxvPCMvK','BgL2zuXVywrPBMC','y2XVy2S','lNjLy29Yzc1JB250zxH0','Bwf0y2HPBMC','zgf0ys1MB3vS','lJqY','C2fRDxjHugXHy2vTzw50vw50AwW','CMv2Awv3lwjHy2S','CMvWBgf5','BwLZC2LVBI1TyxjRzxjZ','yw5PBwf0zq','CMvJB3jKpq','CMv3yxjKqwrxyxrJAgLUzW','C2vSzwn0u3rVBMu','BM9szwnVCMrZ','y29WAwvK','x2jSyw5R','lNDLzwTSEs1YzxDHCMqTywn0Aw9U','EwvZ','CNvSzuzYzwu','Bg9HzgLUzW','C2z4','BwLZC2LVBLjLCgvHDeDVywW','DMLICMf0Aw9U','C2v0qxr0CMLIDxrL','ls1IB2fYzc1PBNnLDa','C2HVCfjLBw92zufKC1bLBMrPBMC','yxjPys1SAxzL','ChjLCgfYzvnOyxjL','CMvJB3jKlxzPC2LIAwXPDhKTy2XVC2u','y29PBNm','Dgv4DenVBNrLBNq','lM1PC3nPB24Ty29PBNm','ls1TyxrJAc1PBNrYBY1JB250ywn0','C2nYB2XSvg9W','CMv2Awv3','Aw5WDxq','D2LKDgG','CMvZAwDU','yxjPys1KzxnJCMLIzwrIEq','ls1WCM9TB3rPB24TyMfUzc1LBMq','iokaKYa','CgfZC2vZ','AgvHza','Dg9gAxHLza','AhjLzG','B3b0Aw9UC1bSyxLLCKLKq29WAwvK','w2rHDgeTB3bLBMLUz10','CM9VBs1Iyxi','yNv0Dg9UCW','lI9Uy3eVyM9HCMqTy29UzMLNlMPZB24','C2HVCfnLBgvJDgvK','Dg91CM5HBwvUDezPBMfSAxPPBMC','zgf0ys1HChbSAwvK','lI9HCgK','zgLZCg9Zzq','lMXPDMuTz2fTzs1TB3zLCW','CMvJB3jKuhjPDMf0zq','z2fTzq','ChjPy2u','DMLICMf0Aw9Ulw9WDgLVBG','CMvZDw1L','y2fUq2XHAw1uzxn0q29PBNm','B3bLBG','tKnrx1bmqvrgt1jn','y2XVC2vZDa','B3bLBLDHDgnO','CMvJB3jKuMvZAwDUv2LU','khbYzwzLCNmTCMvKDwnLzc1TB3rPB246ihjLzhvJzsK','B25Jzq','CMv2Awv3lw1Vzgu','yM9YzgvYtgvMDfDPzhrO','CMfUA2LUzY1WCMv2','Cg9PBNrLCKLK','y2XVBMvoB2rL','CgfNzq','DgLLCG','lxbHBMvS','lNjLy29Yzc1VDxrJB21L','C2HVCfb1CMnOyxnLza','Aw5Hy3rPDMu','C2HVCfjLBw92zufKC0fJDgL2yxrLza','D2LUBMvY','C2HVCfnHA3vYyvb1CMnOyxnLza','C2HHCMu','C3rHCNq','y29UBMvJDgvK','Cg9PBNq','C3rVBMvtDhLSzq','C3LUy1bYB2zPBgu','Bw92zxndB3vUDa','D2vLA2X5vg91CM5HBwvUDa','B3bWB25LBNqTDgLTzxi','nuLutMfeCq','zgf0zq','y2XHC3nmAxn0','zNjVBq','lwXVD2vYlwXHyMvS','BwLZC2LVBKnSywLTzwq','zgfPBhLmAw1PDa','Bwf0y2G','CNvU','ieGG','C2HVDY13yxrJAa','BgvHDMuTzgLHBg9N','Dg91CM5HBwvUDenHDgnOvxbgDw5KCW','Cg9ZAxrPB24','yxjPys1OyxnWB3b1Ca','BgfZDc1TB3zLlw1HCMTLCG','z2v0vgLTzq','CMvJB3jKrgv0ywLS','Dw5VyNnLCNzL','CMfUA2LUz1jLD2fYzfbSywnL','ChjLDMLVDxmTC3rHBMrPBMDZ','y2HLy2TLza','w2rHDgeTC3rLCd0IChjLDMLVDxmIxq','zgv2','z2v0vvrdtw9UDgG','ndy1otzfB0nNsNq','yw5PBwf0Aw9Uy2fUy2vS','CMfUA0rHBG','w2rHDgeTC3rLCf0','lNbSyxLLCI1JyxjKlwjHzgDL','CgXHEwvYqwXPyxm','y2fYzwvYuMvJB3jK','lI9HCgKVyxv0Ac9JB25MAwC','B3bWB25LBNrsyxrPBMC','zNjHBwu','AM9PBLrVDxjUyw1LBNrbDhrLBxb0CW','y3vYCMvUDfrVDxjUyw1LBNq','z2v0uhjVCgvYDhLwywX1zq','zw5HyMXLza','C2HHCMvKlxjLDMLLDW','CMvJB3jKswq','BMf2lxjHBMTPBMC','lNnOB3aTzwzMzwn0lxrPBwu','zgvTB3rPB24','AM9PBG','zgf0ys1Uy3eTBwfPBG','Aw52ywXPzdO','CMv3yxjKqwrszw1HAw5PBMC','z2fTzvjLCxvLC3q','CMf0Aw5N','lM1PC3nPB24Tz29HBa','ChjVzMLSzs1Yyw5RAw5NCW','C2nYB2XSv2LKDgG','BwLZC2LVBI1JBg9Zzq','B3DUzwrtA2LUCW','lxbSyxLLCI1SywjLBa','CMvJB3jKtwfRzvbYAxzHDgu','BwLZC2LVBI1NB2fSlq','zgfPBhKTBwLZC2LVBI1SAxn0','zMLSBa','CMvJB3jKu2HHCMvKvw5HDMfPBgfIBgu','lNnOB3aTzwzMzwn0lw9WDgLVBG','y2HPBgrYzw4','ChjVzMLSzvzLCNnPB24','Bw92zu51BwjLCG','C2nHBgu','C3rVCMfNzq','C2HVCc13yxrJAc1Hzc1JB2LUCW','w2rHDgeTD2vLA2X5lxjLD2fYzd0I','l3DHBgXLDc9IDxKTCgXHy2vTzw50','y2f0y2HvCenVC3q','D2vLAW','B3bLBMLUzW','C2HVCa','BwLZC2LVBLjLCgvHDfbYB2DYzxnZ','DgfIsw5KzxG','B2zMzxjgAxzL','BM8TCMvMzxjYzxi','Cg9PBNrLCM1VDMu','yNv0Dg9Uw2fYAweTy29UDhjVBhnD','AxngAw5PDgu','D2vLA2X5uMv3yxjKq2XHAw0','yMfJAW','yNvMzMvY','yNv0Dg9U','tKnr','zxHJzxb0wMvYBW','CM91BMq','zM9Yzxn0rgf5C0XLzNq','C3rVBMu','D2f0y2HuDxjU','CMfUAY1WBgfXDwuTAw4','lxn1Bw1HCNK','C3vIC2nYAwjLuM9VBq','C2HVCc1Hzc1JB2LUCY1JB3vUDa','D2LUCW','zgf0ys1VD24TCMfUA2LUzW','CgXHy2u','y3jLyxrLqNvMzMvYu291CMnL','Bwf0y2GTAw50CM8TBg9ZCW','CMf0Aw5Nlxn0yw5KAw5NCW','C2HPzNq','Bg9Hza','CgLJA0zPzNrO','C2fRDxjHlxbHCNrPy2XL','z29SzgvU','CMvUzgvY','y3jLyxrLrg9JDw1LBNrgCMfNBwvUDa','C3bHBG','C3LUyW','CMv2Awv3lq','DhvYBI1HBM5VDw5Jzw1LBNq','zgvSzxrL','CgXHy2uTDgv4Da','C2HVCc1MzwvKyMfJAW','CMfUA2LUz3m','D2f0y2HxAw5Uzxi','C2HVCc1IywXHBMnL','zMLUAxnOAw5N','CgXHEwvYlwLKlwzLzwrIywnR','ChjVzMLSzs1UAwnRBMfTzs1LzgL0','CMvXDwvZDa','y3jLyxrLvgv4De5Vzgu','ls1WBgfJzw1LBNqTy29UDgfJDc1KzwXHEq','ChjLCgfYzwq','Ew91CLr1CM4','CMvJB3jKlwXPC3q','C3rHCNrPBMC','C2HVCc1Yzxn0B3jLlwfKCW','C3bSAxq','B3bWB25LBNqTzgL2AwrLCG','tMnXqxv0Aa','CMvJB3jKu2HHCMvtyxzPBMC','CMf0Aw5NlxjHBMDL','CM93','AxnbCNjHEq','CMvTB3zLrxzLBNrmAxn0zw5LCG','B3DUzwq','BgfUz3vHz2u','l3DHBgXLDc90zxn0lwnVAw5Z','D2HPDgu','CM93r2fW','CMv2Awv3lxbSyxK','CMvZDwX0lwrYyxCTAwnVBG','BgfZDef0DgvTChrLzfjVDw5K','CgLJA1nOB3j0','zgvMyxvSDe5Py2TUyw1L','CMvJB3jKlwzPBhrLCNm','Bgv2zwXfBMq','CgXHy2vTzw50lwvMzMvJDca','tKnrx1zfuLnjt04','l2v2zw50CW','CMfUA2LUz1bVC2L0Aw9U','CgvUzgLUzW','ChjLDMLVDxnhyw1L','y29UBMvJDa','CMvJB3jKugvYC29UywXeAxnJB25Uzwn0tg9ZCW','l2f1DgGVy2XHAw0','D2vLA2X5uMv3yxjK','lNnOB3aTzwzMzwn0lwfYDa','B3bWB25LBNrqCM9MAwXLtg9HzgLUzW','Bw92zq','Cg9PBNrLCMnHBMnLBa','CMfUA2LUz1bVC2L0Aw9Urw1WDhK','zgf0ys1VzMzLCG','CMLWCgXL','y2XHAw1Lza','l3rVDxjUyw1LBNqVCMv3yxjKCW','l3DHBgXLDc9IDxKTC2TPBNm','BgvHDMu','DMfSDwvZ','Bwf0AMPHBMDVBw9RlMfWCgvHCMfUy2uUC2v0DgLUz3m','ls1LBMvYz3KTD2f2zs10DxjU','Aw5Zzxj0qMvMB3jL','C2HVCfbYzxzPzxDhDwLKzq','DM9SDw1L','lM1PC3nPB24TC3rHDhvZ','B21VA1jLywr5','ChjVzMLSzvjHDgLUz1zHBhvL','CM9VBq','DhLWzq','CgXHy2vTzw50','y3vYCMvUy3K','BM9qCMv2Aw91C1n0yw5KAw5NCW','BxLZDgLJugXHy2vTzw50vw50AwW','C2HVDY1TAxnZAw9UCW','BwLZC2LVBI1YzxbLyxqTBM90zq','CMvZDg9Yzq','CMfUA2LUzY10ywjZ','CgfNzvnPEMu','C2HVCc1WCMv2Awv3lwD1AwrL','zgf0ys1WCMLJzwq','zMLUywXPEMvK','lMXPDMuTz2fTzs1Yyw5R','ywz0zxi','Aw5WDxq6y2HLy2TLza','yM9HCMqTz3jPza','ywXPyxm6','AgvPz2H0','B3bLBMLUz0LUqxjLyq','zw50CMLLCW','CMv3yxjKqwrcDxn5','CMvJB3jKugvYC29UywXuAw1Lv2LU','C3rHDgu','z2v0vgLTAw5N','CgvUzgLUz1bYzxnLBMnL','Ahr0CdOVl3D3DY53mY5VCMCVmJaWmc9ZDMC','AgLNAgvZDfjHBMS','BgvHDMuTBwf0y2G','BM9tDgfUzgLUz3m','yw5PBwf0Aw9U','CxvPzxq','l2fWAs9HDxrOl3nLC3nPB24','CgfYzw50rwXLBwvUDa','C2HVDY1Yyw5RAw5NCW','DgLTzw91Da','BM9mAxzLr2fTzxm','BwfW','C2HVCenVAw5qywnRuhjPy2u','mI1KAwDPDa','A2v5CW','C2vUzc1MzwvKyMfJAW','C3bHy2u','zgLYzwn0Aw9U','CMv2Awv3lxbHC3nLCW','CgXHAw4','y29SB3i','Ew91','zgf0ys1JyxrJAc11Ca','CMvJB3jKCY1LBxb0Eq','yMXHy2S','C2HVCfbYAwnL','zhjHD0jHzgDL','CMfUA2LUzY1WywDPBMf0Aw9U','y29UzMLYBq','CMv3yxjKqwrgywLSzwq','DMLLD2vY','ls1JB3vUDgrVD24Ty2HHCMfJDgvYCW','zhjHD01LzgfS','ywn0AxzLrwXLBwvUDa','yw5PBwf0Aw9UtMfTzq','B2jZzxj2zq','CMfUA2LUz3nmB2fKAw5N','yM90Dg9T','Cg9PBNrZq291BNq','BgLUzq','CgXHEwvYlwnHCMq','Bg9ZC2vZ','tMnXtwv0CMLJCW','CMvJB3jKuhvIBgLJ','CMv3yxjKqwrdAgvJA2LUzW','C2HVDY1ZAg9W','CMvJB3jKlxnOyxjLlwrPywXVzW','BgfUzW','Bwf4','zgf0ys1Uy3eTBM8TBwfPBG','z2v0','ls1LBMvYz3KTD2f2zs1VzMzZzxq','CMv2Awv3lxjVB20Tywn0Aw9UlwXHyMvS','zMLYC3q','CMfUA2LUzW','zgf0ys10DxjU','Bw92zxm','AM91CM5LEvn0yxrL','yxv0BW','BMv4DevSzw1LBNrtAwjSAw5N','ls1ZywT1CMeT','CMvTB3zLqxr0CMLIDxrL','CMfUAY1JzwXLyNjHDgLVBI1IzwzVCMu','CgLJA0zPDMu','ChjVzMLSzs1YyxrPBMCTC3rHBMrPBMCTCM93','igvUzxjNEs1ZDgfY','C2fTzq','B3bWB25LBNqTz2f1z2u','CNvSzs1KAwfSB2C','y291BNq','BMv4Da','DMvYC2LVBG','ls1WCM9TB3rPB24TCg9ZAxrPB24','CMvZDwX0oG','ic8G','D2fSBgv0','l3bYzxnLBMnL','zgf0ys1WDwjSAwm','B3DU','y29UDgv4Da','y3vYCMvUDfrHCMDLDa','z29SzgvUlxDHDMuTC3bYzwfK','CMv2Awv3lw1VDMuTBNvTyMvYCW','DhjHBNnSyxrLwsGUm3b4ksbZy2fSzsGUotKP','y29PBI1YzxDHCMqTzgLHBg9N','Bw9Kzq','C2HVCfjLBw92zufKC0zHAwXLza','ywn0Aw9UCW','CMv2Awv3lwHLywrLCG','CMv2Awv3lxrVDgfS','yxjYyxLcDwzMzxi','CMvZB2X2zq','DgLJA2v0','DhjHBNnSyxrLwsGYChGPihnJywXLkc44ocK','zgfPBhKTBwLZC2LVBI1ZDgvWCW','zgf0ys1KB25L','Dg91CM5HBwvUDa','CMfUA2LUzY1YzxDHCMqTCMfUAW','z3jPzgnLBgW','B3DUlxjHBMS','y29PBLjLD2fYzenVAw5Z','Cg9PBNrLCLr5Cgu','CgfNzxm','y2XHC3m','AxnjBNrLCNnLy3rPBMC','ChjVzMLSzs1UzxH0lxjHBMS','Cgf0Aa','CMvZDwX0lxjHDgLUzY1JAgfUz2u','yxjPys1LEhbHBMrLza','BwLZC2LVBI1MzwvKyMfJAW','B3b0Aw9UC1bSyxLLCKLKq29WEu1HBNvHBgX5','C2HVCevMzMvJDe1PBNv0zxnmzwz0','CMf0Aw5NuMfUAW','yM9KEq','qxnPys9tzw91Ba','ChvZAa','y2vPBa','zxHWAxjLC0f0','DgfI','idaGmcaXia','C2vSzG','q09jtLm','z3jPzfn0EwXL','zgL2','lNnOB3aTD2fSBgv0','Dg91CM5HBwvUDfDHAxrPBMC','Bg9IyNKTzw50CNK','BxLZDgLJ','C3DHCa','CgXHy2vTzw50u3rHDgu','DgfW','lNnOB3aTzwzMzwn0lxbYzxzPzxC','BwLZC2LVBKnSywLTrMfPBgvK','CMvJB3jKlxzPC2LIAwXPDhKTDg9Nz2XL','AgLKzujHBM5LCG','CMvJB3jKugvYC29UywXszxnPz25xAw4','B3bWB25LBNrqCM9MAwXLt2zMBgLUzq','Cg9PBNrLCMXLyxzL','yM90','z2v0vvrdrgf0zq','DgHLBG','C2v0ug9PBNrLCKnHChr1CMu','Dg9vChbLCKnHC2u','C2HVCe93BMvK','C2HVCfjLBw92zufKC0j1Eq','C3f1yxjL','zgvHzgXPBMu','AM9PBI10B3vYBMfTzw50','zM9Yzxn0uMfUA2LUz1bVAw50CW','Dg91CM5HBwvUDezPBMfSAxPLza','C2HVCe15C3rPy1b1CMnOyxnLza','CMvJzwLWDa','BgLZDa','zMLUAxnOzwq','yNv5t25Jzq','CMvJB3jKCW','C2HVD1bYAxzHy3LpChrPB25Z','BMv0D29YAW','Aw52AxrL','y2XVC2u','BwLZC2LVBI1YzxbLyxq','C3r5Bgu','C3rVCa','lxrHyG','CMv0DxjUvMfSDwu','CMvJB3jKlxnLBMqTBgLUAW','zwzMzwn0CY12B2X1Bwu','ChvYy2HHC2u6','CMfUA2LUzY1WCMv2Aw91CY10ywi','BgfIzwW','ywLnyxrJAa','ChjVzMLSzq','ANnVBG','l3jLy29YzhmV','ls1TAxnZAw9UlxjHAwWTzMLSBa','CgXHDgzVCM0','yxv0AezHAwXLza','ChjVzMLSzs13Aw4TCMf0zq','AgfZ','D2f0y2HfBMrLza','yMfUBMvY','Bwf0y2GTzxjYB3i','zM9Yzxn0lwnOyw1WAw9UC2HPCc1WzxjPB2q','CgfYC2u','Bwf0y2HTywTPBMC','zw5KuMvHC29U','Bg9JA3m','ChvYy2HHC2vszxn0B3jLrMfPBgvK','Bg9IyNKTy2HHBxbPB25ZAgLW','y29ZDa','ChjVzMLSzs1Yyw5RlxjLy29Yza','DgvZDa','w2rHDgeTC2TPBI1Zy3jVBgXD','DMLZAwjPBgL0EwnOyw5Nzq','ChjVzMLSzvDPBLjHDgu','B3v0C2LKzu9Wzw5PBMC','CMfUAY1JzwXLyNjHDgLVBI1HzNrLCG','C2vYDMvYtM93','yMfJA1rVuMvJB3jKCW','ChjVzMLSzv9JB25MBgLJDa','zM91BMq','y29Z','zMLYC3rfBgvTzw50q2HPBgq','ChjLDMLVDxnuB3vYBMfTzw50uMvJB3jK','C3bLy3rHDgu','lI9Uy3eVyxv0Ac1JB25MAwCUANnVBG','C2HVDY1HAq','mZqXCfLvC1v6','CgXHEwvYlxbYB2zPBguTDgL0Bgu','zgf0ys1MAwXSzwq','DhjHBNnSyxrLka','Dg90ywW','zw5Kv3jPDgu','lNnOB3aTy29UDgvUDa','yxbWzwfYyw5Jzs1WCMv2Awv3','CMf0Aw5NlwrLBhrH','C2vSzwn0Aw5N','CMvMDw5KrgvIDa','CMfUA2LUzY1UzxH0','ChGSia','ChjVzMLSzvnHDMvK','y2f0y2HvCfjLBwfPBMLUzW','Axnby3rPDMu','DMLJDg9YEvn0B25L','BwLU','BNvTyMvY','CMvZDg9Yzs1MzwvKyMfJAW','zM9YyMLKzgvU','C2vSzwn0zwq','C3rHDhvZ','C2vHCMnO','nJu0ntG1mgfNzfjuzW','zgf0ys1VDxrZAwrLlw9Wzw5PBMC','Bw92ztO','n3PnDxL1rW','A2v5','Dg91CM5HBwvUDenSB3nLza','Aw4TywKTBwf0y2G','D2f0y2HszxbSyxK','BgfZDe1VDMu','CxvLDwuTC3rHDhvZ','Bwf0y2GTAw50CM8T','Ahr0Chm6lY9HCgLZlMD1z2fRlMDVlMTYl2rPz2L0ywXLDw0VzNjVBNqVBw9UB3rVBMuVBgLZDc5KBW','Bwf0y2HjBNrYB1jHDgLUzW','BMLJA25HBwvtyxzPBMC','BgfZDfnOB3DUqxq','tMnXu291BMq','zMLUAxnO','AM9PBLrVDxjUyw1LBNrfEgHHDxn0zwq','C2HHCMvjza','yxjPys1OAwrKzw4','C2HVCc1IDxKTCMvTB3zLlwfKCW','ChvYy2HHC2vszxn0B3jLza','C291CMnL','zw5LCMD5lxDPC3a','tMnXrMvLzgjHy2S','C2nYAxb0','zgf0ys1LCNjVCG','BMv4De1HDgnO','lMfWCgvHCMfUy2uTy2HVAwnLCW','yxbWzw5K','C2HVCNq','C2nYB2XS','CMvZEw5J','CMfUA2LUz1nJB3jLrw1WDhK','mtq0mdm5ntfTyvf4AwW','D2f0y2HdB2rL','C2HVCc1Yzwz1BMqTzgvIDa','zMLUza','ls1IB2fYzc1MCMfTzs1ZAxPL','CMv3yxjKqxzHAwXHyMXLtgfIzwW','CMv2Awv3lw93BI1WCM9MAwXL','CMvJB3jKtgLUA0nVCgLLza','CgXHEwvYlxbYB2zPBgu','yMfJA01VzgfS','C2HVDY1SB2jIEq','ChjVzMLSzvvUyxzHAwXHyMXL','y2XPzw50v2LKDgG','zgLHBg9N','B3bLBMLUzY1Hy3rPB25Z','Dg9ZCW','l21HDgnOBwfRAw5Nl2nHBMnLBa','CMvZDg9Yzs1WDxjJAgfZzxm','AgfZug9PBNrLCKnHChr1CMu','BgfUzgLUzW','CMfUA1vW','lxjHBMS','zNjVBuvUDhjPzxm','C2HVCe5VDevUB3vNAa','zMXVB3i','ChjLDMLVDxnuB3vYBMfTzw50','ChjVzMLSzs1VChbVBMvUDc13Aw4TCMf0zs1YB3C','l3jVB21ZlW','C2HVD01VzgfS','Bg93zxn0uMfUAW','ChjVzMLSzs1UAwnRBMfTzs1LzgL0B3i','yxbW','zMLUzgLUz09WCg9Uzw50','y2LYy2XL','BwLZC2LVBJO','AgLKzgvU','CMfUA0T5Dq','CMvJB3jKtwfKzvbYAxzHDgu','qKfotKvs','yxjPys1JB250CM9SCW','CMvJB3jKugvYC29UywXeAxnJB25Uzwn0v2LU','BMLJA25HBwvpDMvYCMLKzq','ls1TyxrJAc1HCNqTChjVz3jLC3m','Bwf0y2GTAw50CM8TB3bWB25LBNqTCgHVDg8','Dg91CM5HBwvUDc10AxrSzq','CMvZDwX0','CMvJB3jKu2HHCMvgywLSzwq','CMvJB3jKvMvYC3vZ','C3rYAw5N','ChjVzMLSzs1YzwnVCMq','lM1PC3nPB24TBgfIzwW','AM9PBLrVDxjUyw1LBNq','C2HVCevMzMvJDefWCgXPzwq','ChGPihjVDgf0zsG','C2vSzwn0','odm1nZLVyxrKDuS','CMvJB3jKugfZC2vZ','B3bWB25LBNqTChjVz3jLC3m','CgXHy2uTz2f1z2u','C2TPBNm','DxnLCKfJDgL2yxrPB24','ChjVzMLSzs1YzwnVCMqTBgfIzwW','BMLJA25HBwvtEw5JrMfPBgvK','CgfYDgLJAxbHDgLVBI1YzxDHCMqTChjVz3jLC3m','y2fU','CgXHy2vTzw50vgLTAw5NvMfSDwu','ChjLCgvUza','C2HVCevMzMvJDezYzwu','CMfUAW','C3bLy3rHDgLUzW','AxnpCgvU','y2HHBxbPB25ZAgLWrw5KC0HVDxjZ','zM9Yzxn0lwnOyw1WAw9UC2HPCc1JB3vUDgrVD24','Aw1N','z3jPza','CMvZDwX0lxbYB21VDgLVBI1TzxrLCG','CMvJB3jKlxnOyxjLlwzLzwrIywnR','imk3ia','lI9HCgKVBg9IyNK','CMvJB3jKtM9xAw5Z','B3DUlwnSB2nR','zMLSDgvY','lxbYzxzPB3vZ','zM9JDxm','B2zMzxjtAg9YDa','yNv5','CMf0Aw5Nq2HHBMDL','Bg9IyNLsyw5RuMvJB3jK','DhjHBNnSyxrLwsGTmxb4ksbZy2fSzsGXlJa4kq','Bg9IyNKTy29PBI1JB3vUDa','C2HHCMvKvMLLDW','y3vYCMvUDfj1Bgu','B3bWB25LBNq','zgf0ys1WCM9TB3rLza','A2v5zg93BG','yNvZEq','C2HVDY1VChrPB25Z','BwvKAxvT','ywXS','zM9Yzxn0v2vLA0vUzgvK','zM9YrwfJAa','Dhj1zq','C2HVCenVAw5qDxjJAgfZzuzHAwXLza','BMnXqMfJAW','zgf0ys1JBgfPBwvK','y29UC3vTywjSzq','CgfNzxnOB3C','C2HVCc10ywiT','DgLTzxi','C2LU','y29PBK5VDevUB3vNAa','y2fUy2vS','Dg91CM5HBwvUDc1YzwnVCMrZ','ls1WCM9TB3rPB24TC3rHCNq','ChjLDMvUDerLzMf1Bhq','zxHLyW','Bg9IyNKTzxjYB3i','lxjLD2fYzc1MzwvKyMfJAW','C2HVDY1YzwnVCMrZ','CgXHy2vszwfKEuHPBNq','BMLJA25HBwvdB25MBgLJDa','Bwf0AMPHBMDVBw9RlNjVDw5K','BwLZC2LVBK92zxj2Awv3q291BNq','C2HVCc1LzMzLy3qTywn0Aw9U','zgf0ys13zwvRBhKTCMv3yxjKlxjLywr5','Dg9ju09tDhjPBMC','lM1PC3nPB24Ty2XHAw0','ywjZ','BgL2zvDHDgnOzxjZ','tMnXu2fMzq','CMv2Awv3lxjLC3vSDa','yM9HCMq','CMvJB3jKlxjVDW','B3bWB25LBNqTCgfUzwW','w2rHDgeTzMLSDgvYpsjMyxzVCML0zxmIxq','zgLZywjSzwq','B25SB2fK','Dg91CM5HBwvUDc1HDhrLBxb0CW','yM9YzgvYuMLNAhrxAwr0Aa','yxjPys1JDxjYzw50','BwLZC2LVBKzPCNn0r29HBa','zw5NCMf2zwq','C3rHBgu','BwLZC2LVBKnSywLT','oNDLzwTSEtO','D2HPDguTChjVzMLSzq','CMfUA2LUz1bHz2vpzG','Aw5LCNq','vvnfuL9dqu5druXfra','D2fPDgLUzW','z2v0qxr0CMLIDxrL','CgfKu3rHCNq','CMvJB3jKlwnVChKTBgLUAW','yxbWBgLJyxrPB24VANnVBG','C2v0','CMv3yxjKqwrmAw1PDa','AgfZAa','l3jLC3vSDhmV','y3vYCMvUDfrPBwu','ChjVzMLSzs1YyxrPBMC','Aw4TCMvJB3jKCW','y29UzMLYBvjLC2LNBG','CMv3yxjKoG','qujdrevgr0Hks0XntK9q','CgXHEwvYlxbOB3rV','Aw9Z','uMvSyxrPDMvuAw1LrM9YBwf0','CMvMCMvZAa','zgf0ys1JB21Wywn0lwjVyxjK','ChjVzMLSzu9MzMXPBMu','CgXHEwLUzW','zgLZy29UBMvJDa','B21PDa','DhjHBNnSyxrLwsGTmNb4ksbZy2fSzsGXlJiYkq','zwzMzwn0','y2fUy2vSzwq','zgf0ys1WDxjJAgfZzq','DgL0Bgu','lNjLy29Yzc1VChbVBMvUDa','BwLZC2LVBLrYywnRq291BNq','CNvSzvrHCMfNDwnOAvnOB3j0','ChjVzMLSzs1Yyw5RlxjLy29Yzc1YB3C','DxbKyxrLuhjVzMLSzq','tKnrx0fvveG','B3bWB25LBNrqCM9MAwXLvw5HDMfPBgfIBgu','y29UBMvJDgLVBG','CxvLCNLtzwXLy3rVCKfSBa','ls1WCM9TB3rPB24Ty2HHBMDLlxjPz2H0','ChjVzhvJDhm','w2rHDgeTCMfUA2LUzY1WBgf5zxi9iG','zw5LCMD5lxbHCNrPy2XL','y2XPzw50wa','ChjVBw90Aw9U','CxvLCNLtzwXLy3rVCG','C3rHDgvJAgfUz2u','CMvJB3jKCY1IywnR','C2f2zwroyw1L','CMfUA2LUzY1WywDL','C2HVCenVAw5qDxjJAgfZzurVBMu','zNjLzvjVDw5KCW','l2fPl3vUzg8','z2v0qM91BMrPBMDdBgLLBNrszwn0','CMfUzg9Tvvvjra','Bg9IyNK','y2fUuMvTyxrJAa','ChjVzMLSzvjHDgLUz1n0yw5KAw5NvMfSDwu','lMXPDMuTz2fTzs1WBgf5zxi','ChjVzMLSzs1WCM9TB3rPB24','ue9tva','C3rVCfDHAxrPBMC','yxbWzwfYyw5Jzq','C2HVCenVAw5szwz1BMrezwj0','zw5LCMD5lwj1CNn0','lNbSyxLLCI1JyxjKlxjHBMS','zgfPBhKTBwLZC2LVBI1JB3vUDa','Dg9Nz2XL','D2vLA2X5','C2HVCc1LzMzLy3qTChjLDMLLDW','D29U','C2nYB2XStgvMDa','CgfYDgLJAxbHDgLVBLjLD2fYzfbYB2DYzxnZ','CMvJB3jKlwXPBMS','B25dAgfUz2u','C3rVBMvZ','Aw5JBhvKzxm','lNjHBMSTy2vSzwjYyxrPB24TCgXHCxvL','y2vSBa','l2fWAs9YDwXLCW','zw5Kzwq','ls1LBMvYz3KT','AM9PBI10B3vYBMfTzw50lwnVC3q','C2v0uhjVCgvYDhK','DgfYywD1y2HP','lNjHBMTPBMCTCgXHy2u','zgf0ys1WBgf5Aw5N','yMfZzvvssq','ChjVzMLSzvjHDgLUz1n0yw5KAw5NugvUzgLUzW','CgXHy2vTzw50lxrPBwLUzW','BM90rM91BMq','l29WCg9Uzw50lxbYB2zPBgu/CM91BMq9','AgfZtw9Yzq','y29WEs1WBgf5zxiTAwq','Dw5KzwzPBMvK','B25SAw5L','CMvTyxrJAa','ChGP','C2HHCMuTDxjS','tMnXrgv2AwnL','AM9PBLrVDxjUyw1LBNrdyxrJAfvWq29ZDa','lMXPDMuTz2fTzs13yxrJAgvYCW','C2HVCc1Yzw1VDMuTywrZlxbYAwnL','Aw4TBwf0y2G','BgL2zu1VDMvZ','ChjVzMLSzuXVywrPBMC','BwvZC2fNzq','CMvJB3jKugvYC29UywXvBMTUB3DUtg9ZCW','lNjLy29Yzc12AxnPyMLSAxr5','CMvWBgfJzunOAwXKCMvU','DxbKyxrPBMC','yxjPys1ZzwXLy3rLza','B3DUlxbHBMvS','CMv2Awv3lw9WCg9Uzw50lxbYB2zPBgu','z2v0vg9Rzw4','lM1PC3nPB24Tyw1VDw50','BgL2zs1TzxnZywDL','C2vSzwn0zwqTCNvSzq','CMfUA2LUz1bHz2u','y2fUy2vSsgfWDgLJ','B3DUlxbYB2zPBgu','zgvJB2rLqxvKAw9eyxrH','Bg9IyNKTAgvHzgLUzW','ChjVzMLSzs1Yyw5RlxDPBI1YyxrL','CMvJB3jKu2HHCMvmB2fKAw5N','y29PBI1YzxDHCMqTy29PBNm','y29UDgfPBNm','y2fUy2vSAw5N','C2HVCc1JB2LUlxbHy2STy2fYza','DhvYBKfJDgL2zq','CgXHEwvYlxjHDgLUzY12ywX1zq','BgL2zs1JB3vUDa','Aw5KzxG','BwLZC2LVBI1ZDgvW','yxjPys1SywjLBa','lMzHDM9YAxrLCW','CgXHEwvY','ueXbwv8Zx01bvenirvm','z2v0qw5PBwf0Aw9UCW','C2HVCej1EvbYAwnL','yMXHy2TtCxvHCMu','zM9YBwf0','C3bLy3rHDg9YCW','Cg9PBNrZ','zMLUywXSEq','zMfPBgvK','BMLJA25HBwuTzMvLzgjHy2S','ywn0AxzL','CMvJB3jKlxzPC2LIAwXPDhKTzMvLzgjHy2S','lwrHDgvZ','BwLZC2LVBI1YzxbLyxqTy291BNq','yxjPys12ywX1zw5VDW','Aw5WDxrBDhLWzt0ICMfKAw8Ixq','Dg9Nz2XLqxr0CMLIDxrL','CMvJB3jKCY1OzwfKAw5N','lxjLDhj5','C3rHDhm','lNn0B25L','BwLZC2LVBNm','zMXHDe1HCa','CMvZDwX0lxrPDgXL','y2fZDwfStwf0y2G','uKvnt1zfx0feuW','ChvYy2HHC2vszxn0B3jLrw1WDhK','ywXPyxm','ChjVBw90Aw9UlxrOCMvZAg9Szc1YAxbWBgu','AgvHDNK','ndjQtwnkAui','B2zMzxi','CMvJB3jKq29WEu1HBNvHBgX5','B3b0Aw9UCW','tK9ux0Dsqu5uruq','y2fZDwfS','C3rLCa','C2HVCev4DgvUzevMzMvJDa','CMfUAY1JzwXLyNjHDgLVBG','lxjLD2fYza','lNnOB3aTzwzMzwn0lxn0yxr1CW','CgXHy2uTzgL2AwrLCG','C3jJ','cIaGicaGicbbia','zxjYB3i','l2fPl3n0yxj0','C3rHCNrZqxq','ChvYy2HHC2vuB2TLBG','C2HVCc1JBgfPBs10zxn0lwnVAw5Z','zMLYzwjHC2u','B2zMzxjqCM9NCMvZCW','Bwf0AMPHBMDVBw9RlNjLy29Yzhm','B3b0Aw9UCY1WBgf5zxiTAwq','D2vLA2X5uMv3yxjKq2XHAw1mywjLBa','zMLYC3rFDhvYBG','BwLZC2LVBLzPzxC','zM9Yzxn0twLUDxrLC0XLzNq','B2zMC2v0v2LKDgG','yxzHAwXHyMXL','y29UzMLYBuXLyxzL','BgL2zunVDw50','DgfYz2v0','D2HPDgvtCxvHCMu','l3jLy29Yzc1YzwnLAxb0CY8','B3bLBMLUz1n0B25L','Dw5KB0jSB2nRzwq','B25hCMfUDa','CMv3yxjKqwrszxrYEu1LC3nHz2u','ywrK','z3vLC3roAwnRBMfTzq','l3bYB21VDgLVBI9WBgf5ltmTBwf0y2HLCW','z2v0rwXLBwvUDej5swq','CMfUA2LUzY1JyxjKlxrLBxbSyxrL','D2LU','CMvHDxrO','y29PBI1YzxDHCMqTDgL0Bgu','Bwf0y2GTAw50CM8TD2LU','CgXHy2LUzW','ywrszxDHCMq','CMfUA2LUzY0','BMnXlwTHA2fVlxbHDxnL','DhvYBLDHAxrPBMC','lNbSyxLLCI1JyxjKlxjLy29Yza','tMnXu2HHCMu','Bwf0y2GTAw50CM8TCgHVDg8','zgf0ys1TB3zLlw51BwjLCNm','CMfUA0rVD24','lNj1BguTB3b0Aw9U','zgLHBg9Nw29Wzw5D','C2HVCfrLC3rdB2LUrg9Uzq','Bwf0y2HLCW','CgXHEwvYlxjLy29Yza','ChjLDMLVDxm','CMfUAY1JzwXLyNjHDgLVBI1OzwfKAw5N','lxvWCgvY'];q1_0x348e=function(){return _0x728cba;};return q1_0x348e();}const haptics=createGameHaptics({'blocked':()=>document[q1_0x49f7ea(0x343)]||adPurchaseBusy||document[q1_0x49f7ea(0x3e1)](q1_0x49f7ea(0x4a7))['inert']||Boolean(NcqAds?.[q1_0x49f7ea(0x2fc)]?.()[q1_0x49f7ea(0x37f)])||Boolean(window['NcqFeedback']?.['isOpen']())}),roundHapticKey=_0x20cacc=>_0x20cacc[q1_0x49f7ea(0x4b1)]+':'+_0x20cacc[q1_0x49f7ea(0x1a0)],gaugeObserver=new ResizeObserver(_0x432a8b=>{const _0x7f6d07=q1_0x49f7ea,_0x1939f6=0x4;for(const {target:_0xec9537,contentRect:{width:_0x27fefb,height:_0x3bf7db}}of _0x432a8b){if(_0x3bf7db<=0x2*_0x1939f6||_0x27fefb<_0x3bf7db)continue;const _0x2b1910=_0x27fefb-_0x1939f6,_0x23815c=_0x3bf7db-_0x1939f6,_0x93679a=_0x3bf7db/0x2-_0x1939f6;_0xec9537['querySelector'](_0x7f6d07(0x281))[_0x7f6d07(0x5ba)]('d','M\x20'+_0x27fefb/0x2+'\x20'+_0x1939f6+_0x7f6d07(0x608)+(_0x2b1910-_0x93679a)+_0x7f6d07(0x468)+_0x93679a+'\x20'+_0x93679a+_0x7f6d07(0x28e)+(_0x2b1910-_0x93679a)+'\x20'+_0x23815c+'\x20H\x20'+(_0x1939f6+_0x93679a)+_0x7f6d07(0x468)+_0x93679a+'\x20'+_0x93679a+_0x7f6d07(0x28e)+(_0x1939f6+_0x93679a)+'\x20'+_0x1939f6+'\x20Z');}});for(const id of['place-gauge',q1_0x49f7ea(0x25a)])gaugeObserver[q1_0x49f7ea(0x23a)](el(id));let boardLayoutFrame;function fitBoardFrame(_0x306d85,_0x1da855,_0x51d543,_0x512da5=0x0){const _0x1e9832=q1_0x49f7ea,_0x2aadd3=_0x51d543[_0x1e9832(0x53c)]()[_0x1e9832(0x57c)]('%'),_0x1993cf=parseFloat(_0x51d543)||0x0,_0x50491e=_0x2aadd3?_0x1993cf/0x64:0x0,_0x32a8de=_0x2aadd3?_0x512da5:0x2*_0x1993cf+_0x512da5,_0x2667c2=Math[_0x1e9832(0x247)](0x0,Math['min']((_0x306d85+_0x32a8de)/(0x1-0x2*_0x50491e),_0x1da855));return{'frame':_0x2667c2,'grid':Math[_0x1e9832(0x247)](0x0,_0x2667c2*(0x1-0x2*_0x50491e)-_0x32a8de)};}function scheduleBoardLayout(){cancelAnimationFrame(boardLayoutFrame),boardLayoutFrame=requestAnimationFrame(()=>{const _0x1cd96b=q1_0x284e,_0x352594=el(_0x1cd96b(0x606));if(_0x352594[_0x1cd96b(0x343)]||!document['body']['classList'][_0x1cd96b(0x432)]('in-match'))return;const _0x5f3fd3=window[_0x1cd96b(0x3a1)]?.[_0x1cd96b(0x227)]()??{'top':0x0,'right':0x0,'bottom':0x0,'left':0x0},_0xc95db2=Math[_0x1cd96b(0x247)](0x0,innerHeight-_0x5f3fd3[_0x1cd96b(0x4ce)]-_0x5f3fd3[_0x1cd96b(0x23c)]),_0x480515=board[_0x1cd96b(0x21e)],_0x59bf19=_0x480515['getBoundingClientRect']()[_0x1cd96b(0x5c7)],_0x1c688f=getComputedStyle(board),_0xb609f0=_0x1c688f[_0x1cd96b(0x16e)](_0x1cd96b(0x5bb)),_0x27f89a=parseFloat(_0x1c688f[_0x1cd96b(0x5e9)])+parseFloat(_0x1c688f[_0x1cd96b(0x3aa)]),_0x1bdd20=fitBoardFrame(_0x59bf19,Infinity,_0xb609f0,_0x27f89a)['frame'];_0x352594[_0x1cd96b(0x254)](_0x1cd96b(0x3c8));const _0x1c8dbb=()=>_0x352594[_0x1cd96b(0x3e9)]()[_0x1cd96b(0x20f)]-_0x480515[_0x1cd96b(0x3e9)]()[_0x1cd96b(0x20f)];if(_0x1bdd20+_0x1c8dbb()>_0xc95db2)_0x352594['setAttribute'](_0x1cd96b(0x3c8),'');const _0xd1de88=fitBoardFrame(_0x59bf19,_0xc95db2-Math[_0x1cd96b(0x247)](0xf0,_0x1c8dbb()),_0xb609f0,_0x27f89a);board[_0x1cd96b(0x2b8)][_0x1cd96b(0x407)](_0x1cd96b(0x324),_0xd1de88[_0x1cd96b(0x16b)]['toFixed'](0x2)+'px'),board[_0x1cd96b(0x2b8)][_0x1cd96b(0x407)](_0x1cd96b(0x502),_0xd1de88[_0x1cd96b(0x36a)][_0x1cd96b(0x5ce)](0x2)+'px');});}new ResizeObserver(scheduleBoardLayout)[q1_0x49f7ea(0x23a)](el('match')),window[q1_0x49f7ea(0x599)]('resize',scheduleBoardLayout),window[q1_0x49f7ea(0x3a1)]?.[q1_0x49f7ea(0x3fe)](scheduleBoardLayout),applyAppearance();const shop=el(q1_0x49f7ea(0x192)),shopMainActions=[...shop[q1_0x49f7ea(0x3da)]('[data-ncq-main]')],shopPurchaseDialog=el(q1_0x49f7ea(0x565)),coinShortageDialog=el(q1_0x49f7ea(0x576)),leaveDialog=el(q1_0x49f7ea(0x60a));let leaveDialogRoom;const resultDialog=el(q1_0x49f7ea(0x34d)),rankCelebration=el(q1_0x49f7ea(0x463)),shopAction=el(q1_0x49f7ea(0x4bc)),shopEffectAction=el(q1_0x49f7ea(0x39b)),shopEffectOptions=[...shop[q1_0x49f7ea(0x3da)](q1_0x49f7ea(0x186))][q1_0x49f7ea(0x222)](_0x390b2e=>({'button':_0x390b2e,'effect':_0x390b2e[q1_0x49f7ea(0x575)]['effect'],'status':_0x390b2e['querySelector'](q1_0x49f7ea(0x465)),'time':_0x390b2e['querySelector'](q1_0x49f7ea(0x173))})),missionDialog=el('missions'),coinRewardDialog=el(q1_0x49f7ea(0x26b)),coinRewardQueue=[],coinRewardReceipts=new Set(),coinCollection=createCoinCollection();let activeCoinReward;const optionsDialog=el(q1_0x49f7ea(0x45e));let optionsFromMatch=![];const feedbackButton=el(q1_0x49f7ea(0x226)),profileDialog=el(q1_0x49f7ea(0x328)),nicknameEdit=el(q1_0x49f7ea(0x1c1)),nicknameEditor=el(q1_0x49f7ea(0x33e)),nicknameInput=el('nickname'),matchIntroDialog=el('match-intro'),playerPhotos=[q1_0x49f7ea(0x3c4),q1_0x49f7ea(0x4d9),q1_0x49f7ea(0x491)][q1_0x49f7ea(0x222)](el),forest=createForestUI({'closeView':showLobby,'getView':()=>lobbyView,'hasGame':()=>Boolean(room??archive??spectator),'translate':t,'onRankingCapacity':resizeRankingPage}),popupAudio=installPopupAudio({'blocked':audioBlocked});matchIntroDialog[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>matchIntroDialog[q1_0x49f7ea(0x2b6)]()),matchIntroDialog[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),()=>{const _0xb9826=q1_0x49f7ea;if(matchIntroDialog[_0xb9826(0x5e1)])return;matchIntro?.['cancelHaptic']?.(),matchIntro?.[_0xb9826(0x4a9)]?.(),clearTimeout(matchIntro?.['timer']),matchIntro=null,render();}),el(q1_0x49f7ea(0x23f))['addEventListener']('click',()=>openPlayerProfile()),el(q1_0x49f7ea(0x42c))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>openPlayerProfile(room['you'])),el('opponent-profile')[q1_0x49f7ea(0x599)]('click',()=>openPlayerProfile(0x3-room[q1_0x49f7ea(0x22c)])),el('black-profile')['addEventListener'](q1_0x49f7ea(0x57f),()=>openPlayerProfile(0x1)),el(q1_0x49f7ea(0x3b1))['addEventListener']('click',()=>openPlayerProfile(0x2)),el(q1_0x49f7ea(0x425))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>openPlayerProfile(0x3-(room??archive)[q1_0x49f7ea(0x22c)])),el(q1_0x49f7ea(0x326))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>openPlayerProfile((room??archive)[q1_0x49f7ea(0x22c)])),profileDialog[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),()=>{const _0x3eff8e=q1_0x49f7ea;if(profileDialog[_0x3eff8e(0x5e1)])return;const _0x584613=profileTarget?.[_0x3eff8e(0x24d)];profileTarget=null,nicknameEditor[_0x3eff8e(0x343)]=!![],nicknameEdit[_0x3eff8e(0x5ba)](_0x3eff8e(0x283),_0x3eff8e(0x4da)),render();if(_0x584613&&lobbyView==='tournament'&&rankingTab===_0x584613[_0x3eff8e(0x28d)]){const _0x397e0a=el('ranking-'+_0x584613[_0x3eff8e(0x28d)]+'-list')['querySelector'](_0x3eff8e(0x3dd)+CSS[_0x3eff8e(0x516)](_0x584613[_0x3eff8e(0x302)])+'\x22]');(_0x397e0a??el(_0x3eff8e(0x48c)+_0x584613[_0x3eff8e(0x28d)]+_0x3eff8e(0x2ba)))[_0x3eff8e(0x373)]();}}),profileDialog[q1_0x49f7ea(0x3e1)](q1_0x49f7ea(0x573))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>profileDialog['close']()),nicknameEdit[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0x354a5b=q1_0x49f7ea,_0x39131d=nicknameEditor[_0x354a5b(0x343)];nicknameEditor[_0x354a5b(0x343)]=!_0x39131d,nicknameEdit['setAttribute'](_0x354a5b(0x283),String(_0x39131d));if(!_0x39131d)return;feedback(_0x354a5b(0x446)),nicknameInput[_0x354a5b(0x592)]=displayNickname(nicknameOverride),nicknameInput['focus'](),nicknameInput['select']();}),profileDialog['querySelector'](q1_0x49f7ea(0x4b2))['addEventListener']('submit',async _0x4489f3=>{const _0x8f99f1=q1_0x49f7ea;if(!profileTarget?.['own']||nicknameEditor[_0x8f99f1(0x343)])return;_0x4489f3[_0x8f99f1(0x392)]();if(nicknameSaving)return;nicknameSaving=!![],nicknameInput[_0x8f99f1(0x3a7)]=!![],feedback(_0x8f99f1(0x446),_0x8f99f1(0x30b));const _0x31cec5=authSession?.[_0x8f99f1(0x43c)];try{const _0x2c48e3=nicknameInput[_0x8f99f1(0x592)][_0x8f99f1(0x53c)](),_0x82c463=await window[_0x8f99f1(0x1cc)][_0x8f99f1(0x3d6)]({'nickname':_0x2c48e3},{'expectedPlayer':_0x31cec5,'expectedVersion':accountProfile?.[_0x8f99f1(0x188)]});if(authSession?.[_0x8f99f1(0x43c)]!==_0x31cec5||_0x82c463[_0x8f99f1(0x43c)]!==_0x31cec5)return;applyAuthProfile(_0x82c463);if(backend)await backend[_0x8f99f1(0x5fb)](_0x82c463);profileRequest++,profileLoading=![],render(),profileDialog[_0x8f99f1(0x2b6)]();}catch(_0x3a87f9){if(authSession?.['player']!==_0x31cec5)return;_0x3a87f9[_0x8f99f1(0x4b1)]===_0x8f99f1(0x2de)&&await refreshAuthProfile({'forceRefresh':!![]}),render(),feedback('nickname-feedback',_0x3a87f9[_0x8f99f1(0x2f3)]?_0x8f99f1(0x35e):_0x3a87f9[_0x8f99f1(0x4b1)]===_0x8f99f1(0x2de)?_0x8f99f1(0x398):_0x8f99f1(0x529),!![]);}finally{nicknameSaving=![],nicknameInput[_0x8f99f1(0x3a7)]=![];}}),el(q1_0x49f7ea(0x17c))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0x7bfea4=q1_0x49f7ea;profileDialog[_0x7bfea4(0x2b6)](),showRankings();});function showOptions(){const _0x249084=q1_0x49f7ea;void refreshAuthProfile({'forceRefresh':!![]}),feedback(_0x249084(0x2f9)),feedback('player-id-feedback'),optionsFromMatch=Boolean(room??archive??spectator),feedbackButton[_0x249084(0x343)]=optionsFromMatch||!window['NcqFeedback']?.[_0x249084(0x360)](),optionsDialog[_0x249084(0x33c)](),render();}el(q1_0x49f7ea(0x380))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),showOptions),el('match-options')[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),showOptions),optionsDialog[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),_0x3ad613=>{if(optionsFromMatch)render();else closeLobbyMenu(_0x3ad613);}),el(q1_0x49f7ea(0x5b9))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x544),_0x27a7b9=>{const _0x1ee6b0=q1_0x49f7ea;window[_0x1ee6b0(0x417)]?.['vibration'](_0x27a7b9[_0x1ee6b0(0x47a)][_0x1ee6b0(0x15e)]);if(_0x27a7b9[_0x1ee6b0(0x47a)]['checked'])haptics['tap']();}),el('options-player-id')[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),_0x16d034=>_0x16d034['currentTarget'][q1_0x49f7ea(0x356)]()),el(q1_0x49f7ea(0x411))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),async()=>{const _0x57823f=q1_0x49f7ea,_0x24b394=el(_0x57823f(0x471)),_0x16b0b6=_0x24b394['value'];if(!_0x16b0b6)return;try{await navigator['clipboard'][_0x57823f(0x4e7)](_0x16b0b6);if(optionsDialog[_0x57823f(0x5e1)]&&_0x24b394[_0x57823f(0x592)]===_0x16b0b6)feedback(_0x57823f(0x1c0),_0x57823f(0x5d0));}catch{if(!optionsDialog[_0x57823f(0x5e1)]||_0x24b394[_0x57823f(0x592)]!==_0x16b0b6)return;_0x24b394[_0x57823f(0x373)](),_0x24b394['select'](),feedback('player-id-feedback',_0x57823f(0x285),!![]);}}),feedbackButton['addEventListener'](q1_0x49f7ea(0x57f),()=>{const _0x2927da=q1_0x49f7ea;optionsDialog[_0x2927da(0x2b6)](),window[_0x2927da(0x316)][_0x2927da(0x5e1)]();}),window[q1_0x49f7ea(0x387)]=()=>{const _0x2078d9=q1_0x49f7ea;if(gameModes?.[_0x2078d9(0x329)]())return!![];if(window[_0x2078d9(0x316)]?.[_0x2078d9(0x366)]())return window[_0x2078d9(0x316)][_0x2078d9(0x2b6)](),!![];const _0x4dede4=document[_0x2078d9(0x3e1)]('.record-dialog[open]');if(_0x4dede4)return _0x4dede4[_0x2078d9(0x2b6)](),!![];if(coinRewardDialog[_0x2078d9(0x5e1)])return coinRewardDialog[_0x2078d9(0x2b6)](),!![];if(leaveDialog[_0x2078d9(0x5e1)])return leaveDialog[_0x2078d9(0x2b6)](_0x2078d9(0x38f)),!![];if(coinShortageDialog['open'])return coinShortageDialog[_0x2078d9(0x2b6)](),!![];if(rankCelebration[_0x2078d9(0x5e1)])return rankCelebration['close'](),!![];if(resultDialog[_0x2078d9(0x5e1)])return resultDialog[_0x2078d9(0x2b6)](),!![];if(shopPurchaseDialog[_0x2078d9(0x5e1)])return shopPurchaseDialog['close'](),!![];if(optionsDialog['open'])return optionsDialog[_0x2078d9(0x2b6)](),!![];if(missionDialog[_0x2078d9(0x5e1)])return missionDialog[_0x2078d9(0x2b6)](),!![];if(shop[_0x2078d9(0x5e1)])return shop[_0x2078d9(0x2b6)](),!![];if(profileDialog[_0x2078d9(0x5e1)])return profileDialog[_0x2078d9(0x2b6)](),!![];if(tournamentCatchUpDialog[_0x2078d9(0x5e1)])return tournamentCatchUpDialog[_0x2078d9(0x2b6)](_0x2078d9(0x38f)),!![];if(el(_0x2078d9(0x2cf))[_0x2078d9(0x5e1)])return requestCancel(),!![];if(gameModes?.[_0x2078d9(0x19b)]())return!![];if(forest['back']())return!![];if((room||archive||spectator)&&!document['querySelector'](_0x2078d9(0x495)))return leaveMatch(),!![];return![];};const stoneSoundToggle=el('stone-sound'),effectsVolume=el(q1_0x49f7ea(0x2bd)),adPrivacy=el('ad-privacy');NcqAds?.[q1_0x49f7ea(0x4cc)]()['then'](()=>{const _0x4b35f6=q1_0x49f7ea;adPrivacy[_0x4b35f6(0x343)]=!NcqAds[_0x4b35f6(0x5a1)]();})[q1_0x49f7ea(0x514)](()=>{}),adPrivacy['addEventListener'](q1_0x49f7ea(0x57f),()=>NcqAds?.[q1_0x49f7ea(0x2b3)]());function syncEffectsOptions(){const _0x27c6e6=q1_0x49f7ea;stoneSoundToggle[_0x27c6e6(0x15e)]=window[_0x27c6e6(0x30d)]?.[_0x27c6e6(0x16f)](_0x27c6e6(0x5b7))??!![];const _0x19c0de=Math[_0x27c6e6(0x1a0)]((window[_0x27c6e6(0x30d)]?.[_0x27c6e6(0x1f8)](_0x27c6e6(0x5b7))??0x1)*0x64);effectsVolume[_0x27c6e6(0x592)]=String(_0x19c0de),el('effects-volume-value')['textContent']=_0x19c0de+'%';}syncEffectsOptions(),stoneSoundToggle[q1_0x49f7ea(0x599)]('change',()=>{const _0x2f77a2=q1_0x49f7ea;window[_0x2f77a2(0x30d)]?.[_0x2f77a2(0x16f)](_0x2f77a2(0x5b7),stoneSoundToggle[_0x2f77a2(0x15e)]);if(stoneSoundToggle[_0x2f77a2(0x15e)])unlockPlacementAudio();backupKakaopay(window);}),effectsVolume['addEventListener'](q1_0x49f7ea(0x5c6),()=>{const _0x57be39=q1_0x49f7ea;window[_0x57be39(0x30d)]?.[_0x57be39(0x1f8)](_0x57be39(0x5b7),Number(effectsVolume['value'])/0x64);}),effectsVolume[q1_0x49f7ea(0x599)]('change',()=>backupKakaopay(window)),window['NcqSound']?.[q1_0x49f7ea(0x3fe)](()=>{const _0x1c4079=q1_0x49f7ea;syncEffectsOptions();if(!window[_0x1c4079(0x30d)][_0x1c4079(0x16f)](_0x1c4079(0x5b7))||window[_0x1c4079(0x30d)][_0x1c4079(0x1f8)]('sfx')===0x0)stopPlacementSound();matchingAudio['sync'](),resultAudio[_0x1c4079(0x1b6)]();});const audioSourceLink=el('audio-source-link');window['NCQ']?.[q1_0x49f7ea(0x5e2)]!==q1_0x49f7ea(0x32f)&&(audioSourceLink[q1_0x49f7ea(0x5cf)]=q1_0x49f7ea(0x309),audioSourceLink[q1_0x49f7ea(0x47a)]=q1_0x49f7ea(0x5b2),audioSourceLink[q1_0x49f7ea(0x52a)]=q1_0x49f7ea(0x598));document['addEventListener'](q1_0x49f7ea(0x57f),unlockPlacementAudio,{'capture':!![]}),document[q1_0x49f7ea(0x599)]('keydown',unlockPlacementAudio,{'capture':!![]}),document[q1_0x49f7ea(0x599)]('visibilitychange',()=>{const _0x14c31c=q1_0x49f7ea;if(document[_0x14c31c(0x343)])stopPlacementSound(),haptics[_0x14c31c(0x2b9)](),coinCollection['stop'](),resultAudio[_0x14c31c(0x2b9)]();else{if(placementAudio)unlockPlacementAudio();}matchingAudio['sync']();}),window[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x48d),()=>{const _0x4ba24a=q1_0x49f7ea;platformAudioPaused=!![],cancelPlacement(),haptics[_0x4ba24a(0x2b9)](),coinCollection[_0x4ba24a(0x2b9)](),matchingAudio['sync'](),resultAudio[_0x4ba24a(0x2b9)]();}),window['addEventListener'](q1_0x49f7ea(0x4a8),()=>{const _0x4fe502=q1_0x49f7ea;platformAudioPaused=![],matchingAudio[_0x4fe502(0x1b6)]();if(placementAudio)unlockPlacementAudio();}),window['addEventListener']('pagehide',()=>{const _0x5d31df=q1_0x49f7ea;matchingAudio[_0x5d31df(0x1b6)](),resultAudio[_0x5d31df(0x2b9)](),stopPlacementSound();}),window[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x38a),()=>matchingAudio[q1_0x49f7ea(0x1b6)]());function q1_0x284e(_0x5cb4a8,_0x56d0a2){_0x5cb4a8=_0x5cb4a8-0x15a;const _0x348eec=q1_0x348e();let _0x284e5a=_0x348eec[_0x5cb4a8];if(q1_0x284e['UFFDro']===undefined){var _0x3cbc3b=function(_0x4aa031){const _0x3d6f26='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x519d43='',_0x28cf13='';for(let _0x957b1a=0x0,_0x5ae1bd,_0x4348a0,_0x11ef60=0x0;_0x4348a0=_0x4aa031['charAt'](_0x11ef60++);~_0x4348a0&&(_0x5ae1bd=_0x957b1a%0x4?_0x5ae1bd*0x40+_0x4348a0:_0x4348a0,_0x957b1a++%0x4)?_0x519d43+=String['fromCharCode'](0xff&_0x5ae1bd>>(-0x2*_0x957b1a&0x6)):0x0){_0x4348a0=_0x3d6f26['indexOf'](_0x4348a0);}for(let _0x185591=0x0,_0x5b4b01=_0x519d43['length'];_0x185591<_0x5b4b01;_0x185591++){_0x28cf13+='%'+('00'+_0x519d43['charCodeAt'](_0x185591)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x28cf13);};q1_0x284e['hToFSK']=_0x3cbc3b,q1_0x284e['nGBdeI']={},q1_0x284e['UFFDro']=!![];}const _0x4c9928=_0x348eec[0x0];q1_0x284e['xKEspq']!==_0x4c9928&&(q1_0x284e['nGBdeI']={},q1_0x284e['xKEspq']=_0x4c9928);const _0x1e5570=q1_0x284e['nGBdeI'][_0x5cb4a8];return _0x1e5570===undefined?(_0x284e5a=q1_0x284e['hToFSK'](_0x284e5a),q1_0x284e['nGBdeI'][_0x5cb4a8]=_0x284e5a):_0x284e5a=_0x1e5570,_0x284e5a;}for(const event of['pause','freeze'])document['addEventListener'](event,()=>{const _0x10ba5c=q1_0x49f7ea;matchingAudio[_0x10ba5c(0x1b6)](),resultAudio[_0x10ba5c(0x2b9)](),stopPlacementSound();});document[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x5df),()=>matchingAudio['sync']());const shopRows=Array[q1_0x49f7ea(0x602)](shop[q1_0x49f7ea(0x3da)](q1_0x49f7ea(0x31a)));for(const row of shopRows){const inputs=Array['from'](row[q1_0x49f7ea(0x3da)](q1_0x49f7ea(0x5c6)));inputs[q1_0x49f7ea(0x570)]((_0x33f069,_0x1df090)=>skinPrices[_0x33f069[q1_0x49f7ea(0x4b8)]][_0x33f069[q1_0x49f7ea(0x592)]]-skinPrices[_0x1df090[q1_0x49f7ea(0x4b8)]][_0x1df090[q1_0x49f7ea(0x592)]]),row[q1_0x49f7ea(0x31b)](...inputs['map'](_0x9cd267=>_0x9cd267['closest']('label')));const [previous,next]=row[q1_0x49f7ea(0x21e)][q1_0x49f7ea(0x3da)](q1_0x49f7ea(0x2d7)),updateArrows=()=>{const _0xd2033f=q1_0x49f7ea;previous[_0xd2033f(0x3a7)]=row[_0xd2033f(0x3fb)]<=0x1,next['disabled']=row['scrollLeft']+row['clientWidth']>=row[_0xd2033f(0x17d)]-0x1;};for(const button of[previous,next]){button[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0x4ce6df=q1_0x49f7ea,_0xda4eac=parseFloat(getComputedStyle(row)['columnGap']),_0x2da320=row[_0x4ce6df(0x2e1)][_0x4ce6df(0x3e9)]()[_0x4ce6df(0x5c7)]+_0xda4eac;row['scrollBy']({'left':Number(button[_0x4ce6df(0x575)]['skinScroll'])*_0x2da320,'behavior':reducedMotion[_0x4ce6df(0x497)]?'auto':'smooth'});});}row[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x31d),updateArrows,{'passive':!![]}),new ResizeObserver(updateArrows)[q1_0x49f7ea(0x23a)](row);let drag;row[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x554),_0x91122b=>{const _0xe95463=q1_0x49f7ea;_0x91122b[_0xe95463(0x27c)]===_0xe95463(0x577)&&_0x91122b['button']===0x0&&row[_0xe95463(0x17d)]>row['clientWidth']&&(drag={'id':_0x91122b[_0xe95463(0x5eb)],'x':_0x91122b[_0xe95463(0x3df)],'scroll':row['scrollLeft'],'scale':row[_0xe95463(0x3e9)]()[_0xe95463(0x5c7)]/row[_0xe95463(0x476)]||0x1});}),row[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x197),_0xc045d2=>{const _0x3af518=q1_0x49f7ea;if(!drag||_0xc045d2[_0x3af518(0x5eb)]!==drag['id']||!_0xc045d2[_0x3af518(0x5d3)])return;const _0x18a37b=_0xc045d2[_0x3af518(0x3df)]-drag['x'];if(!row[_0x3af518(0x332)](_0xc045d2[_0x3af518(0x5eb)])){if(Math[_0x3af518(0x39f)](_0x18a37b)<0x6)return;row[_0x3af518(0x2a4)](_0xc045d2[_0x3af518(0x5eb)]),row[_0x3af518(0x5ba)]('data-dragging','');}row[_0x3af518(0x3fb)]=drag[_0x3af518(0x31d)]-_0x18a37b/drag[_0x3af518(0x18a)];});const endDrag=_0x3a68f5=>{const _0x3e4ecc=q1_0x49f7ea;if(_0x3a68f5[_0x3e4ecc(0x5eb)]!==drag?.['id'])return;drag=null,row[_0x3e4ecc(0x254)](_0x3e4ecc(0x571));};for(const type of['pointerup',q1_0x49f7ea(0x1eb),'lostpointercapture'])row[q1_0x49f7ea(0x599)](type,endDrag);row['addEventListener'](q1_0x49f7ea(0x2a0),_0x216758=>{const _0x185896=q1_0x49f7ea;if(!row[_0x185896(0x332)](_0x216758[_0x185896(0x5eb)]))endDrag(_0x216758);});}const shopRadios=Array[q1_0x49f7ea(0x602)](shop[q1_0x49f7ea(0x3da)](q1_0x49f7ea(0x44c))),skinCards=shopRadios[q1_0x49f7ea(0x371)](_0x565401=>_0x565401['name']!==q1_0x49f7ea(0x36a))[q1_0x49f7ea(0x222)](_0x438d48=>{const _0x1c1b0f=q1_0x49f7ea,_0x2ec6b6=_0x438d48[_0x1c1b0f(0x5e3)]('label'),_0x5df087=_0x2ec6b6['querySelector']('.board-sample'),_0x226e7c=document[_0x1c1b0f(0x57a)](_0x1c1b0f(0x1b5)),_0x1231cc=document[_0x1c1b0f(0x57a)](_0x1c1b0f(0x1b5));return _0x226e7c[_0x1c1b0f(0x56f)]=_0x1c1b0f(0x538),_0x1231cc[_0x1c1b0f(0x56f)]='shop-skin-price',_0x2ec6b6[_0x1c1b0f(0x31b)](_0x226e7c,_0x1231cc),{'input':_0x438d48,'label':_0x2ec6b6,'boardSample':_0x5df087,'status':_0x226e7c,'price':_0x1231cc};});function openShop(){const _0x191e32=q1_0x49f7ea;lobbyView=_0x191e32(0x3eb),forest[_0x191e32(0x1b3)](room??archive??spectator?.['game'],lobbyView),shopPreview={...shopState[_0x191e32(0x3f2)]},shopEffectPreview=null,shopTab=_0x191e32(0x35b),canClaimTestCoins=![],feedback('shop-feedback'),shop[_0x191e32(0x33c)](),render(),void refreshCoinCheckout(),shop['querySelector'](_0x191e32(0x2ec))[_0x191e32(0x5c4)]=0x0;for(const _0x4930cb of shopRows){const _0x3f117d=_0x4930cb[_0x191e32(0x3e1)](_0x191e32(0x20c))?.[_0x191e32(0x5e3)](_0x191e32(0x2c0));if(!_0x3f117d)continue;const _0x31df2f=_0x3f117d['getBoundingClientRect'](),_0x1ffeb3=_0x4930cb[_0x191e32(0x3e9)](),_0x12553e=_0x1ffeb3[_0x191e32(0x5c7)]/_0x4930cb['offsetWidth']||0x1;_0x4930cb[_0x191e32(0x3fb)]+=(_0x31df2f[_0x191e32(0x4e8)]-_0x1ffeb3['left']+(_0x31df2f[_0x191e32(0x5c7)]-_0x1ffeb3[_0x191e32(0x5c7)])/0x2)/_0x12553e;}void refreshWallet();}const shopTabs=[q1_0x49f7ea(0x1ff),q1_0x49f7ea(0x545),'skins'],missionRows=[...dailyMissions,repeatMission][q1_0x49f7ea(0x222)]((_0x19b5f1,_0x2d1768)=>{const _0x4768b9=q1_0x49f7ea,_0x4558ff=el(_0x4768b9(0x589))['content']['firstElementChild'][_0x4768b9(0x5ec)](!![]);return _0x4558ff[_0x4768b9(0x3e1)](_0x4768b9(0x17b))['id']=_0x4768b9(0x182)+_0x2d1768,_0x4558ff[_0x4768b9(0x3e1)](_0x4768b9(0x39e))[_0x4768b9(0x5ba)](_0x4768b9(0x5c9),_0x4768b9(0x182)+_0x2d1768),el(_0x4768b9(0x183))[_0x4768b9(0x31b)](_0x4558ff),_0x4558ff;}),missionSteps=dailyMissions['map'](()=>{const _0x210f3a=q1_0x49f7ea,_0x221d13=document[_0x210f3a(0x57a)](_0x210f3a(0x1b5));return _0x221d13['className']=_0x210f3a(0x439),el(_0x210f3a(0x275))['append'](_0x221d13),_0x221d13;}),repeatMissionRow=missionRows['at'](-0x1),repeatCount=document[q1_0x49f7ea(0x57a)](q1_0x49f7ea(0x1b5));repeatCount['id']=q1_0x49f7ea(0x44a),repeatMissionRow[q1_0x49f7ea(0x3e1)](q1_0x49f7ea(0x352))[q1_0x49f7ea(0x31b)](repeatCount),repeatMissionRow['classList'][q1_0x49f7ea(0x481)](q1_0x49f7ea(0x2b7));const missionMarkers=[...el(q1_0x49f7ea(0x5ab))['children']];el('show-shop')[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),openShop),el(q1_0x49f7ea(0x202))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0x3086a1=q1_0x49f7ea;feedback(_0x3086a1(0x284)),missionDialog[_0x3086a1(0x33c)](),el('mission-content')[_0x3086a1(0x5c4)]=0x0,render(),void refreshWallet();}),missionDialog[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),_0x13a39a=>{const _0x2b0e16=q1_0x49f7ea;if(!missionDialog[_0x2b0e16(0x5e1)]&&activeCoinReward?.['source']===_0x2b0e16(0x452))coinRewardDialog['close']();closeLobbyMenu(_0x13a39a);}),coinRewardDialog[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),()=>{const _0x14b5cf=q1_0x49f7ea;if(coinRewardDialog['open'])return;const _0x114692=activeCoinReward;activeCoinReward=null,render();if(_0x114692&&_0x114692[_0x14b5cf(0x43c)]===authSession?.['player'])collectRewardCoins(_0x114692);presentCoinReward();if(coinRewardDialog['open'])return;if(missionDialog[_0x14b5cf(0x5e1)]){const _0x4d727e=missionDialog['querySelector']('.mission-claim:not([hidden]):not(:disabled)');(_0x4d727e??el('mission-close'))['focus']({'preventScroll':!![]});}else shop[_0x14b5cf(0x5e1)]&&el(_0x14b5cf(0x38b)+shopTab)[_0x14b5cf(0x373)]({'preventScroll':!![]});}),missionDialog[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),_0x4dd747=>{const _0x18a44a=q1_0x49f7ea,_0x40b9b9=_0x4dd747[_0x18a44a(0x47a)][_0x18a44a(0x5e3)](_0x18a44a(0x39e));if(_0x40b9b9)void claimMission(_0x40b9b9);}),shop['addEventListener'](q1_0x49f7ea(0x2b6),_0x2043b1=>{const _0x3190c6=q1_0x49f7ea;if(!shop[_0x3190c6(0x5e1)])clearTimeout(shopEffectTimer);closeLobbyMenu(_0x2043b1);}),shopPurchaseDialog[q1_0x49f7ea(0x599)]('close',()=>{const _0x1d746c=q1_0x49f7ea;render(),shop[_0x1d746c(0x5e1)]&&!shop[_0x1d746c(0x432)](document[_0x1d746c(0x238)])&&el(_0x1d746c(0x38b)+shopTab)[_0x1d746c(0x373)]({'preventScroll':!![]}),presentCoinReward();}),coinShortageDialog[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),()=>{const _0x3d955f=q1_0x49f7ea;if(coinShortageDialog[_0x3d955f(0x2bb)]===_0x3d955f(0x5b4)){if(!shop[_0x3d955f(0x5e1)])openShop();shopTab=_0x3d955f(0x1ff),feedback(_0x3d955f(0x1bb)),renderShop(),shop['querySelector'](_0x3d955f(0x2ec))['scrollTop']=0x0,el(_0x3d955f(0x56c))['focus']({'preventScroll':!![]});}render();});for(const tab of shopTabs){el('shop-tab-'+tab)[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0x95fcb7=q1_0x49f7ea;if(shopTab!==tab)haptics[_0x95fcb7(0x299)]();shopTab=tab,feedback(_0x95fcb7(0x1bb)),renderShop(),shop[_0x95fcb7(0x3e1)](_0x95fcb7(0x2ec))[_0x95fcb7(0x5c4)]=0x0;});}for(const input of shopRadios){input[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x544),()=>{const _0x17b0c8=q1_0x49f7ea;if(!input[_0x17b0c8(0x15e)])return;if(shopPreview[input['name']]!==input['value'])haptics[_0x17b0c8(0x299)]();shopPreview[input[_0x17b0c8(0x4b8)]]=input[_0x17b0c8(0x592)],feedback(_0x17b0c8(0x1bb)),renderShop();});}shopAction[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>saveShopSelection(shopAction['hasAttribute'](q1_0x49f7ea(0x3d0)))),el(q1_0x49f7ea(0x46d))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),claimTestCoins),el(q1_0x49f7ea(0x18c))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),async()=>{const _0x21cc4f=q1_0x49f7ea;feedback(_0x21cc4f(0x1bb));const _0x1b9247=await rewardedCoins[_0x21cc4f(0x607)]();if(_0x1b9247[_0x21cc4f(0x469)]){const _0x4c379f=[_0x21cc4f(0x3bb),_0x21cc4f(0x212),'rewardAdExpired']['includes'](_0x1b9247[_0x21cc4f(0x469)])?_0x1b9247[_0x21cc4f(0x469)]:rewardedCoins[_0x21cc4f(0x214)]['retry']?_0x21cc4f(0x480):_0x21cc4f(0x234);feedback(_0x21cc4f(0x1bb),_0x4c379f,!![]);}if(backend)void rewardedCoins[_0x21cc4f(0x3c7)]();});for(const {button,effect}of shopEffectOptions){button[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0x22ec20=q1_0x49f7ea;if((shopEffectPreview??placementStyle)!==effect)haptics['tap']();shopEffectPreview=effect,feedback(_0x22ec20(0x1bb)),renderPlacementCards(),previewPlacementEffect(button,effect);});}shopEffectAction[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0x44c547=q1_0x49f7ea;shopEffectAction[_0x44c547(0x4e1)]('data-purchase')?void buyPlacementEffect(shopEffectPreview??placementStyle):(setPlacementStyle(shopEffectPreview),shopEffectPreview=null,feedback(_0x44c547(0x1bb),_0x44c547(0x354)),renderShop());}),el('shop-buy-remove-ads')[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),buyRemoveAds),el(q1_0x49f7ea(0x1c9))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>restoreAdPurchase('shop-feedback')),el('restore-purchases')[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>restoreAdPurchase(q1_0x49f7ea(0x2f9))),window[q1_0x49f7ea(0x599)]('ncq-iap',refreshAdPurchase),window[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x18b),_0x586d40=>{const _0x1a4c79=q1_0x49f7ea;if(_0x586d40[_0x1a4c79(0x302)]===placementStyleKey||_0x586d40[_0x1a4c79(0x302)]===null){placementStyle=loadPlacementStyle();if(shop[_0x1a4c79(0x5e1)])renderPlacementCards();}if(_0x586d40[_0x1a4c79(0x302)]!==appearanceKey&&_0x586d40[_0x1a4c79(0x302)]!==null)return;shopState=loadShopState(),applyAppearance(),renderCoinBalance(),renderDailyMissions();if(shop['open'])renderShop();});for(let row=0x0;row<size;row+=0x1){const rowEl=document[q1_0x49f7ea(0x57a)](q1_0x49f7ea(0x292));rowEl['className']='board-row',rowEl[q1_0x49f7ea(0x5ba)](q1_0x49f7ea(0x4f1),q1_0x49f7ea(0x1cf));for(let col=0x0;col<size;col+=0x1){const index=row*size+col,cell=document[q1_0x49f7ea(0x57a)](q1_0x49f7ea(0x19d));cell[q1_0x49f7ea(0x1fd)]=q1_0x49f7ea(0x19d),cell[q1_0x49f7ea(0x56f)]=q1_0x49f7ea(0x402),cell[q1_0x49f7ea(0x194)]=index===focused?0x0:-0x1,cell['dataset'][q1_0x49f7ea(0x438)]=index,cell[q1_0x49f7ea(0x5ba)]('role',q1_0x49f7ea(0x279));if([0x30,0x38,0x70,0xa8,0xb0][q1_0x49f7ea(0x400)](index))cell[q1_0x49f7ea(0x601)][q1_0x49f7ea(0x481)]('star');const stone=document[q1_0x49f7ea(0x57a)](q1_0x49f7ea(0x1b5));stone[q1_0x49f7ea(0x56f)]='stone',stone[q1_0x49f7ea(0x5ba)](q1_0x49f7ea(0x311),q1_0x49f7ea(0x385)),cell[q1_0x49f7ea(0x31b)](stone);const shadow=document[q1_0x49f7ea(0x57a)]('span');shadow[q1_0x49f7ea(0x56f)]='stone-shadow',shadow[q1_0x49f7ea(0x5ba)](q1_0x49f7ea(0x311),q1_0x49f7ea(0x385)),cell[q1_0x49f7ea(0x31b)](shadow),rowEl['append'](cell),cells[q1_0x49f7ea(0x28a)](cell);}boardGrid['append'](rowEl);}for(const language of NcqLang[q1_0x49f7ea(0x2af)]()){el(q1_0x49f7ea(0x1d3))[q1_0x49f7ea(0x481)](new Option(language[q1_0x49f7ea(0x4b8)],language[q1_0x49f7ea(0x4b1)]));}el('language')[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x544),_0x5eb67b=>{const _0x26a394=q1_0x49f7ea;if(NcqLang[_0x26a394(0x246)]!==_0x5eb67b[_0x26a394(0x47a)][_0x26a394(0x592)])haptics[_0x26a394(0x299)]();NcqLang[_0x26a394(0x3ba)](_0x5eb67b[_0x26a394(0x47a)]['value']);}),NcqLang[q1_0x49f7ea(0x3fe)](render);function loadShopState(_0x1d2f8d){const _0x4227d8=q1_0x49f7ea;let _0xc78d13;try{_0xc78d13=JSON[_0x4227d8(0x2ce)](localStorage[_0x4227d8(0x520)](appearanceKey)??localStorage[_0x4227d8(0x520)](legacyAppearanceKey));}catch{}if(!_0xc78d13&&_0x1d2f8d)return _0x1d2f8d;const _0x302224={'stones':Object['hasOwn'](skinPrices['stones'],_0xc78d13?.[_0x4227d8(0x3ff)])?_0xc78d13[_0x4227d8(0x3ff)]:'reference','board':Object[_0x4227d8(0x4a4)](skinPrices[_0x4227d8(0x3a3)],_0xc78d13?.[_0x4227d8(0x3a3)])?_0xc78d13[_0x4227d8(0x3a3)]:_0x4227d8(0x4ac),'grid':_0xc78d13?.[_0x4227d8(0x36a)]==='soft'?'soft':_0x4227d8(0x3ad)},_0x245f3f=new Set(Array[_0x4227d8(0x1d0)](_0xc78d13?.[_0x4227d8(0x17f)])?_0xc78d13[_0x4227d8(0x17f)]:[]);for(const _0x329d6f of skinKinds){if(skinPrices[_0x329d6f][_0x302224[_0x329d6f]]>0x0)_0x245f3f['add'](_0x329d6f+':'+_0x302224[_0x329d6f]);}return{'appearance':_0x302224,'ownedSkins':[..._0x245f3f]};}function persistShopState({appearance:_0x307382,ownedSkins:_0x5d5887}){const _0x1cf4c8=q1_0x49f7ea;localStorage[_0x1cf4c8(0x588)](appearanceKey,JSON[_0x1cf4c8(0x549)]({'stones':_0x307382[_0x1cf4c8(0x3ff)],'board':_0x307382[_0x1cf4c8(0x3a3)],'grid':_0x307382[_0x1cf4c8(0x36a)],'ownedSkins':_0x5d5887})),backupKakaopay(window);}async function updateShop(_0x15486b){const _0x65dd22=q1_0x49f7ea;if(navigator[_0x65dd22(0x2d1)])return navigator[_0x65dd22(0x2d1)][_0x65dd22(0x1c2)](appearanceKey,_0x15486b);return _0x15486b();}function setAppearanceTheme(_0x552546,_0x496009){const _0x45dfe9=q1_0x49f7ea;_0x552546[_0x45dfe9(0x575)][_0x45dfe9(0x5fa)]=_0x496009[_0x45dfe9(0x3ff)],_0x552546['dataset']['boardStyle']=_0x496009[_0x45dfe9(0x3a3)],_0x552546[_0x45dfe9(0x575)][_0x45dfe9(0x291)]=_0x496009['grid'];}function applyAppearance(){setAppearanceTheme(document['documentElement'],shopState['appearance']);}function ownsSkin(_0x1aa17d,_0x4443fe,_0x5b0c70){const _0x306b9b=q1_0x49f7ea,_0xbbc2d2=_0x4443fe+':'+_0x5b0c70;return skinPrices[_0x4443fe][_0x5b0c70]===0x0||_0x1aa17d['ownedSkins'][_0x306b9b(0x400)](_0xbbc2d2)||serverWallet?.[_0x306b9b(0x17f)][_0x306b9b(0x400)](_0xbbc2d2);}function shopPurchase(_0x44ca40,_0x3c5de5){const _0x569702=q1_0x49f7ea,_0x50def1=skinKinds[_0x569702(0x371)](_0x2e4d75=>!ownsSkin(_0x3c5de5,_0x2e4d75,_0x44ca40[_0x2e4d75]));return{'skins':_0x50def1['map'](_0x3b4228=>_0x3b4228+':'+_0x44ca40[_0x3b4228]),'price':_0x50def1[_0x569702(0x49e)]((_0x43ecae,_0x16b88f)=>_0x43ecae+skinPrices[_0x16b88f][_0x44ca40[_0x16b88f]],0x0)};}function koreaDay(_0x1793bf){const _0x376988=q1_0x49f7ea;return new Date(_0x1793bf+koreaOffset)[_0x376988(0x39d)]()[_0x376988(0x4e9)](0x0,0xa);}function missionProgress(_0x8abf4d,_0x488d17){const _0x2f832c=q1_0x49f7ea;return{'count':NcqLang[_0x2f832c(0x59e)](Math['min'](_0x8abf4d,_0x488d17)),'target':NcqLang[_0x2f832c(0x59e)](_0x488d17)};}function coinBalance(){return serverWallet?.['coins']??0x0;}function canAffordShop(_0x523f88){return _0x523f88<=coinBalance();}function loadPlacementStyle(){const _0x4950d9=q1_0x49f7ea;try{const _0x17c894=localStorage[_0x4950d9(0x520)](placementStyleKey);if(placementStyles[_0x4950d9(0x400)](_0x17c894))return _0x17c894;}catch{}return _0x4950d9(0x1b2);}function setPlacementStyle(_0xf4878){if(!placementStyles['includes'](_0xf4878))return;placementStyle=_0xf4878;try{localStorage['setItem'](placementStyleKey,_0xf4878);}catch{}backupKakaopay(window);}function placementUntil(_0x519d73){const _0x119747=q1_0x49f7ea,_0x5de558=placementEffects[_0x519d73]?.[_0x119747(0x4dc)];return serverWallet?.[_0x5de558]??0x0;}function ownsPlacement(_0x5d5efc){const _0x72ceac=q1_0x49f7ea;if(_0x5d5efc===_0x72ceac(0x22a))return!![];return placementUntil(_0x5d5efc)>Date[_0x72ceac(0x4ad)]();}function placementRequest(){const _0x8a87e7=q1_0x49f7ea;if(!backend&&!ownsPlacement(placementStyle))return{'placementStyle':_0x8a87e7(0x22a)};return{'placementStyle':placementStyle,...!backend?{'placementUntil':placementUntil(placementStyle)}:{}};}function applyWallet(_0x1a7198){const _0x178aeb=q1_0x49f7ea;if(_0x1a7198[_0x178aeb(0x469)]||!Number[_0x178aeb(0x4fd)](_0x1a7198[_0x178aeb(0x5c0)]))return![];return(!serverWallet||_0x1a7198['version']>=serverWallet['version']&&_0x1a7198['day']>=serverWallet[_0x178aeb(0x4c3)]&&(_0x1a7198[_0x178aeb(0x4c3)]!==serverWallet[_0x178aeb(0x4c3)]||_0x1a7198[_0x178aeb(0x25c)]>=serverWallet['count']))&&(serverWallet=_0x1a7198),!![];}async function refreshWallet(_0x29a127=0x3){const _0x2687b1=q1_0x49f7ea;if(!backend)return;const _0x48c84b=await remoteRequest(_0x3a255f=>_0x3a255f[_0x2687b1(0x179)](_0x2687b1(0x55f),undefined,_0x29a127));if(applyWallet(_0x48c84b)){if(shop[_0x2687b1(0x5e1)])void rewardedCoins[_0x2687b1(0x3c7)]();canClaimTestCoins=_0x48c84b[_0x2687b1(0x5e0)]===!![],render();}void tossPromotion[_0x2687b1(0x3c7)]();}async function claimTestCoins(){const _0x347801=q1_0x49f7ea;if(!canClaimTestCoins||testCoinClaiming)return;testCoinRequestId??=crypto[_0x347801(0x3ea)]();const _0x3bc637=testCoinRequestId,_0x3fb0f8=coinBalance();testCoinClaiming=!![],feedback(_0x347801(0x1bb)),renderShop();try{const _0x40880f=await remoteRequest(_0x367d00=>_0x367d00[_0x347801(0x179)](_0x347801(0x1d4),{'requestId':testCoinRequestId}));if(_0x40880f['error']==='forbidden')canClaimTestCoins=![];if(_0x40880f[_0x347801(0x469)]!==_0x347801(0x2b4))testCoinRequestId=undefined;const _0x17bdb8=applyWallet(_0x40880f);if(_0x17bdb8&&coinBalance()>_0x3fb0f8)collectRewardCoins({'receipt':authSession?.[_0x347801(0x43c)]+':test:'+_0x3bc637,'coins':coinBalance()-_0x3fb0f8});shop[_0x347801(0x5e1)]&&shopTab===_0x347801(0x1ff)&&feedback(_0x347801(0x1bb),_0x17bdb8?_0x347801(0x496):_0x347801(0x513),!_0x17bdb8);}finally{testCoinClaiming=![],render();}}function applyWeeklyRewards(_0x4d81e5){const _0x12c70f=q1_0x49f7ea;if(_0x4d81e5[_0x12c70f(0x469)]||!_0x4d81e5[_0x12c70f(0x4cd)])return![];weeklyRewards=_0x4d81e5,clearTimeout(weeklyRewardsTimer);const _0x483028=Date[_0x12c70f(0x2ce)](_0x4d81e5[_0x12c70f(0x51c)])-Date[_0x12c70f(0x2ce)](_0x4d81e5['serverNow']);return Number['isFinite'](_0x483028)&&(weeklyRewardsTimer=setTimeout(()=>{weeklyRewards=undefined,render(),void refreshWeeklyRewards();},Math[_0x12c70f(0x247)](0x3e8,_0x483028+0x64))),!![];}async function refreshWeeklyRewards(_0x4da8b1=0x3){const _0x2c7ada=q1_0x49f7ea;if(!backend||weeklyRewardClaiming)return;const _0x4aeba6=++weeklyRewardsRequest,_0x1d3254=await remoteRequest(_0x1e3c26=>_0x1e3c26[_0x2c7ada(0x179)](_0x2c7ada(0x1f0),undefined,_0x4da8b1));if(_0x4aeba6===weeklyRewardsRequest&&applyWeeklyRewards(_0x1d3254))render();}async function claimWeeklyReward(_0x3bc5cf){const _0x213e58=q1_0x49f7ea,_0x46f8c3=weeklyRewards?.[_0x3bc5cf];if(weeklyRewardClaiming||!_0x46f8c3?.[_0x213e58(0x477)])return;weeklyRewardClaiming=!![],++weeklyRewardsRequest;const _0xec430=_0x3bc5cf+_0x213e58(0x395);feedback(_0xec430),render();const _0x326df1=await remoteRequest(_0x296237=>_0x296237[_0x213e58(0x179)](_0x213e58(0x1f0),{'kind':_0x3bc5cf,'week':_0x46f8c3[_0x213e58(0x190)]}));weeklyRewardClaiming=![];if(applyWeeklyRewards(_0x326df1)){if(applyWallet(_0x326df1['wallet'])&&_0x326df1[_0x3bc5cf]?.['claimed'])collectRewardCoins({'receipt':authSession?.['player']+_0x213e58(0x3b0)+_0x3bc5cf+':'+_0x46f8c3[_0x213e58(0x190)],'coins':_0x46f8c3[_0x213e58(0x5c0)],'origin':coinCollection[_0x213e58(0x5f9)](document[_0x213e58(0x3e1)](_0x213e58(0x18d)+_0x3bc5cf+'\x22]'))});}else feedback(_0xec430,_0x326df1[_0x213e58(0x469)]??'network',!![]),void refreshWeeklyRewards();render();}function renderRewardBadge(_0x922070,_0x4e35bb,_0xaaabb9,_0x1b97d9=q1_0x49f7ea(0x54e)){const _0x1e218f=q1_0x49f7ea,_0x15e024=el(_0x922070);_0x15e024[_0x1e218f(0x44d)](_0x1b97d9,_0x4e35bb);if(_0x4e35bb)_0x15e024[_0x1e218f(0x5ba)](_0x1e218f(0x43a),t(_0x1e218f(0x325),{'label':_0xaaabb9}));else _0x15e024['removeAttribute'](_0x1e218f(0x43a));}function renderWeeklyRewards(_0x2172f7){const _0x3efa61=q1_0x49f7ea,_0x438425=Boolean(weeklyRewards?.[_0x3efa61(0x4cd)]?.['available']),_0x3f179a=Boolean(weeklyRewards?.[_0x3efa61(0x24d)]?.['available']),_0x3fc1c2=_0x438425||_0x3f179a;renderRewardBadge(_0x3efa61(0x21f),_0x3fc1c2,t(_0x3efa61(0x1bc)));const _0x434ee0=[el('lobby-championship')[_0x3efa61(0x5c1)],el(_0x3efa61(0x548))[_0x3efa61(0x5c1)]][_0x3efa61(0x371)](Boolean)['join'](_0x3efa61(0x36d));for(const [_0x228e6f,_0x371b17,_0x4a00ab]of[[_0x3efa61(0x54d),_0x3fc1c2,_0x434ee0],[_0x3efa61(0x590),_0x438425,t('currentTournament')],[_0x3efa61(0x2bf),_0x3f179a,t('previousTournament')]]){renderRewardBadge(_0x228e6f,_0x371b17,_0x4a00ab,'data-weekly-reward-ready');}for(const _0xc9abe8 of weeklyRewardButtons){const _0xc3b85e=_0xc9abe8[_0x3efa61(0x575)][_0x3efa61(0x1e7)],_0x99ee57=weeklyRewards?.[_0xc3b85e],_0x3a0793=el(_0xc3b85e+_0x3efa61(0x464));_0x3a0793['hidden']=!_0x99ee57;const _0x3e333a=_0xc3b85e===_0x3efa61(0x4cd)?_0x3efa61(0x3f8):_0x3efa61(0x499),_0xc3d9d5=Boolean(_0x99ee57?.['available']);_0xc9abe8[_0x3efa61(0x44d)](_0x3efa61(0x39c),_0xc3d9d5),_0xc9abe8['toggleAttribute'](_0x3efa61(0x176),_0xc3d9d5&&!weeklyRewardClaiming&&_0x2172f7&&lobbyView===_0x3efa61(0x277)&&rankingTab===_0x3e333a);if(!_0x99ee57)continue;_0xc3b85e===_0x3efa61(0x4cd)?(el(_0x3efa61(0x35f))[_0x3efa61(0x5c1)]=t(_0x3efa61(0x3fc),{'target':NcqLang[_0x3efa61(0x59e)](_0x99ee57[_0x3efa61(0x47a)]),'count':NcqLang[_0x3efa61(0x59e)](_0x99ee57[_0x3efa61(0x25c)])}),Array['from'](el(_0x3efa61(0x4b0))[_0x3efa61(0x187)])[_0x3efa61(0x384)]((_0x5e65ce,_0x30a02c)=>{const _0x307914=_0x3efa61;_0x5e65ce[_0x307914(0x44d)]('data-completed',_0x30a02c<_0x99ee57[_0x307914(0x25c)]);})):el(_0x3efa61(0x278))[_0x3efa61(0x5c1)]=t(_0x3efa61(0x15c),{'rank':NcqLang[_0x3efa61(0x59e)](_0x99ee57[_0x3efa61(0x364)])});const _0x19e968=t(_0x99ee57['claimed']?_0x3efa61(0x53a):_0x3efa61(0x19a)),_0x178b8a=NcqLang[_0x3efa61(0x59e)](_0x99ee57[_0x3efa61(0x5c0)]);_0xc9abe8[_0x3efa61(0x3e1)](_0x3efa61(0x547))[_0x3efa61(0x5c1)]=_0x178b8a,_0xc9abe8[_0x3efa61(0x3e1)](_0x3efa61(0x5b3))[_0x3efa61(0x5c1)]=_0x19e968,_0xc9abe8['setAttribute'](_0x3efa61(0x43a),t(_0x3efa61(0x472),{'reward':t(_0xc3b85e+'Reward'),'coins':_0x178b8a,'action':_0x19e968})),_0xc9abe8[_0x3efa61(0x5ba)](_0x3efa61(0x55d),String(weeklyRewardClaiming||!_0xc3d9d5)),_0xc9abe8[_0x3efa61(0x44d)](_0x3efa61(0x388),_0x99ee57[_0x3efa61(0x1ef)]);if(_0x99ee57['claimed'])feedback(_0xc3b85e+_0x3efa61(0x395));}}function renderCoinBalance(){const _0x58999b=q1_0x49f7ea,_0xe13699=NcqLang[_0x58999b(0x59e)](coinBalance());el('lobby-coin-count')[_0x58999b(0x5c1)]=_0xe13699,el(_0x58999b(0x379))['style'][_0x58999b(0x407)]('--coin-characters',_0xe13699[_0x58999b(0x567)]),el(_0x58999b(0x1be))['textContent']=_0xe13699;}function renderDailyMissions(){const _0x427381=q1_0x49f7ea,_0x1697f0=koreaDay(Date[_0x427381(0x4ad)]()),_0x2e8195=_0x1697f0===serverWallet?.['day']?serverWallet:{'count':0x0,'claimed':[]},{count:_0x5565ba,claimed:_0x1ba48f}=_0x2e8195,_0x53ea24=missionTargets[_0x427381(0x371)](_0x2f558e=>_0x2f558e<=_0x5565ba&&!_0x1ba48f[_0x427381(0x400)](_0x2f558e)),_0x39b818=_0x53ea24[_0x427381(0x567)]>0x0,_0x55b0aa=dailyMissions[_0x427381(0x371)](({target:_0x285c48})=>_0x5565ba>=_0x285c48)[_0x427381(0x567)],_0x438e64=missionProgress(_0x55b0aa,dailyMissions[_0x427381(0x567)]);el(_0x427381(0x3f6))['textContent']=_0x438e64[_0x427381(0x25c)],el(_0x427381(0x4e6))[_0x427381(0x5c1)]=t(_0x427381(0x4ef),_0x438e64);const _0x4eeff6=Math[_0x427381(0x247)](0x0,_0x55b0aa-0x1);el(_0x427381(0x275))[_0x427381(0x2b8)][_0x427381(0x407)](_0x427381(0x2c5),_0x4eeff6/(dailyMissions[_0x427381(0x567)]-0x1)*0x64+'%'),missionSteps['forEach']((_0x3eef7d,_0x47fdcc)=>_0x3eef7d[_0x427381(0x44d)](_0x427381(0x4a5),_0x47fdcc<_0x55b0aa)),el(_0x427381(0x202))[_0x427381(0x44d)]('data-ready',_0x39b818),renderRewardBadge(_0x427381(0x32a),_0x39b818,t('playTab')),el('daily-mission-action')[_0x427381(0x5c1)]=t(_0x39b818?_0x427381(0x3af):_0x427381(0x474));if(!missionDialog[_0x427381(0x5e1)])return;el('mission-close')[_0x427381(0x44d)](_0x427381(0x176),!coinRewardDialog[_0x427381(0x5e1)]),el(_0x427381(0x56a))['textContent']=NcqLang['num'](coinBalance());const _0x479b0a=el(_0x427381(0x54b));_0x479b0a['setAttribute'](_0x427381(0x44b),_0x55b0aa),_0x479b0a[_0x427381(0x2b8)]['setProperty'](_0x427381(0x52e),_0x55b0aa/dailyMissions['length']*0x64+'%');const _0x36f4ad=el('mission-total'),_0x2308c1=document['createElement']('span');_0x2308c1[_0x427381(0x56f)]=_0x427381(0x56e),_0x2308c1[_0x427381(0x5c1)]='/',_0x36f4ad[_0x427381(0x421)](document[_0x427381(0x1c3)](_0x438e64[_0x427381(0x25c)]),_0x2308c1,document['createTextNode'](_0x438e64[_0x427381(0x47a)])),_0x36f4ad['setAttribute']('aria-label',t(_0x427381(0x39a),_0x438e64)),missionMarkers[_0x427381(0x384)]((_0x241eee,_0x587930)=>{const _0x2a9e8d=_0x427381,_0x3fe271=_0x587930<_0x55b0aa;_0x241eee['toggleAttribute'](_0x2a9e8d(0x276),_0x3fe271),_0x241eee[_0x2a9e8d(0x5c1)]=_0x3fe271?'✓':'';}),dailyMissions[_0x427381(0x384)](({target:_0x29daea,coins:_0x34d384},_0x13490f)=>{const _0x53336e=_0x427381,_0x3028b9=t(_0x29daea===0x1?_0x53336e(0x3ac):'missionGoal',{'n':NcqLang[_0x53336e(0x59e)](_0x29daea)});renderMissionRow(missionRows[_0x13490f],{'goal':_0x3028b9,'coins':_0x34d384,'progress':Math[_0x53336e(0x2f7)](_0x5565ba,_0x29daea),'max':_0x29daea,'claim':_0x53ea24[_0x53336e(0x400)](_0x29daea)?_0x29daea:null,'done':_0x1ba48f[_0x53336e(0x400)](_0x29daea)});});const {after:_0x520fa3,limit:_0x123dd3,coins:_0x154379}=repeatMission,_0x360a43=_0x1ba48f['filter'](_0x135e18=>_0x135e18>_0x520fa3)[_0x427381(0x567)];renderMissionRow(repeatMissionRow,{'goal':t(_0x427381(0x5b8)),'coins':_0x154379,'progress':Math[_0x427381(0x2f7)](Math[_0x427381(0x247)](0x0,_0x5565ba-_0x520fa3),_0x123dd3),'max':_0x123dd3,'claim':_0x53ea24[_0x427381(0x323)](_0xdeb93e=>_0xdeb93e>_0x520fa3),'done':_0x360a43>=_0x123dd3}),el(_0x427381(0x44a))[_0x427381(0x5c1)]=t(_0x427381(0x193),missionProgress(_0x360a43,_0x123dd3)),el(_0x427381(0x203))[_0x427381(0x5c1)]=t('missionRepeatNote',{'after':NcqLang[_0x427381(0x59e)](_0x520fa3),'n':NcqLang[_0x427381(0x59e)](_0x123dd3),'coins':NcqLang['num'](_0x154379)});const _0x1637c6=el(_0x427381(0x284));if(!_0x1637c6[_0x427381(0x343)])_0x1637c6['textContent']=t(_0x1637c6[_0x427381(0x575)]['message']);}function renderMissionRow(_0x17f802,{goal:_0x85f25b,coins:_0xdc6436,progress:_0xd311a2,max:_0x1997e2,claim:_0x5b1d9e,done:_0x5f59dd}){const _0x425813=q1_0x49f7ea;_0x17f802[_0x425813(0x575)][_0x425813(0x214)]=_0x5b1d9e?_0x425813(0x4cc):_0x5f59dd?'done':_0x425813(0x1e2),_0x17f802[_0x425813(0x3e1)](_0x425813(0x17b))[_0x425813(0x5c1)]=_0x85f25b,_0x17f802['querySelector'](_0x425813(0x5c2))[_0x425813(0x5c1)]=NcqLang[_0x425813(0x59e)](_0xdc6436),_0x17f802[_0x425813(0x3e1)](_0x425813(0x427))[_0x425813(0x5ba)]('aria-label',t('shopPrice',{'n':NcqLang[_0x425813(0x59e)](_0xdc6436)}));const _0x1e7373=_0x17f802[_0x425813(0x3e1)](_0x425813(0x58f));_0x1e7373[_0x425813(0x5ba)]('aria-label',_0x85f25b),_0x1e7373['setAttribute']('aria-valuemax',_0x1997e2),_0x1e7373[_0x425813(0x5ba)]('aria-valuenow',_0xd311a2),_0x1e7373['style'][_0x425813(0x407)](_0x425813(0x52e),_0xd311a2/_0x1997e2*0x64+'%'),_0x1e7373['toggleAttribute'](_0x425813(0x2e8),_0xd311a2*0x2>=_0x1997e2),_0x1e7373[_0x425813(0x3e1)]('span')[_0x425813(0x5c1)]=t(_0x425813(0x3d3),missionProgress(_0xd311a2,_0x1997e2));const _0xa8ec17=_0x17f802['querySelector']('.mission-claim');_0xa8ec17['textContent']=t(_0x425813(0x3af)),_0xa8ec17[_0x425813(0x343)]=!_0x5b1d9e,_0xa8ec17[_0x425813(0x44d)](_0x425813(0x176),Boolean(_0x5b1d9e)&&!coinRewardDialog[_0x425813(0x5e1)]),_0xa8ec17[_0x425813(0x3a7)]=missionClaiming,_0xa8ec17['value']=_0x5b1d9e??'';const _0x3b0bec=_0x17f802[_0x425813(0x3e1)](_0x425813(0x1f9));_0x3b0bec[_0x425813(0x343)]=Boolean(_0x5b1d9e),_0x3b0bec[_0x425813(0x5c1)]=t(_0x5f59dd?_0x425813(0x604):_0x425813(0x4d0));}async function claimMission(_0x40f79c){const _0x22fec2=q1_0x49f7ea;if(missionClaiming||!missionDialog['open']||!backend)return;const _0x29352d=Number(_0x40f79c[_0x22fec2(0x592)]),_0x122cce=missionRewards[_0x22fec2(0x249)](_0x29352d);if(!_0x122cce||serverWallet?.[_0x22fec2(0x1ef)]?.[_0x22fec2(0x400)](_0x29352d))return;const _0x4bffde=koreaDay(Date[_0x22fec2(0x4ad)]()),_0x418188=document[_0x22fec2(0x238)]===_0x40f79c;missionClaiming=!![],renderDailyMissions();try{const _0x11bb1e=await remoteRequest(_0x2d2a5f=>_0x2d2a5f[_0x22fec2(0x179)]('/wallet/claim-mission',{'day':_0x4bffde,'target':_0x29352d}));if(!applyWallet(_0x11bb1e)||_0x11bb1e[_0x22fec2(0x4c3)]!==_0x4bffde||!_0x11bb1e['claimed']?.[_0x22fec2(0x400)](_0x29352d)){feedback(_0x22fec2(0x284),_0x11bb1e[_0x22fec2(0x469)]??_0x22fec2(0x29b),!![]),void refreshWallet();return;}feedback(_0x22fec2(0x284),_0x22fec2(0x569)),missionDialog[_0x22fec2(0x5e1)]&&showCoinReward(_0x122cce,_0x22fec2(0x342)+_0x4bffde+':'+_0x29352d,_0x22fec2(0x452));}catch{feedback('mission-feedback',_0x22fec2(0x29b),!![]);}finally{missionClaiming=![],renderCoinBalance(),renderDailyMissions();if(shop[_0x22fec2(0x5e1)])renderShop();_0x418188&&missionDialog['open']&&!coinRewardDialog['open']&&(_0x40f79c[_0x22fec2(0x343)]?el(_0x22fec2(0x17e)):_0x40f79c)[_0x22fec2(0x373)]({'preventScroll':!![]});}}function renderCoinReward(){const _0x3606b7=q1_0x49f7ea;el(_0x3606b7(0x431))['textContent']=t(_0x3606b7(0x27b),{'n':NcqLang[_0x3606b7(0x59e)](activeCoinReward[_0x3606b7(0x5c0)])}),el('coin-reward-balance')[_0x3606b7(0x5c1)]=NcqLang[_0x3606b7(0x59e)](coinBalance());}function collectRewardCoins(_0x50a06a){const _0x534398=q1_0x49f7ea;if(room||archive||spectator)return;const _0x1c4d10=missionDialog[_0x534398(0x5e1)]?el(_0x534398(0x56a))['closest'](_0x534398(0x293)):shop['open']?el(_0x534398(0x1be))[_0x534398(0x5e3)](_0x534398(0x293)):el(_0x534398(0x4ff));coinCollection['play']({'receipt':_0x50a06a[_0x534398(0x2ae)],'amount':_0x50a06a[_0x534398(0x5c0)],'balance':NcqLang[_0x534398(0x59e)](coinBalance()),'target':_0x1c4d10,'origin':_0x50a06a['origin']});}function showCoinReward(_0xd50c05,_0x5d1060,_0x1186ec){const _0x1e3289=q1_0x49f7ea,_0x4aa48a=(authSession?.[_0x1e3289(0x43c)]??'')+':'+_0x5d1060;if(!Number['isSafeInteger'](_0xd50c05)||_0xd50c05<=0x0||coinRewardReceipts[_0x1e3289(0x2c9)](_0x4aa48a))return;coinRewardReceipts[_0x1e3289(0x481)](_0x4aa48a),coinRewardQueue[_0x1e3289(0x28a)]({'coins':_0xd50c05,'source':_0x1186ec,'player':authSession?.[_0x1e3289(0x43c)],'receipt':_0x4aa48a}),presentCoinReward();}function presentCoinReward(){const _0x433c2c=q1_0x49f7ea;if(coinRewardDialog['open']||!coinRewardQueue[_0x433c2c(0x567)]||adPurchaseBusy||document[_0x433c2c(0x343)]||room||archive||spectator)return;if([...document[_0x433c2c(0x3da)]('dialog[open]')]['some'](_0x552ac3=>_0x552ac3!==shop&&_0x552ac3!==missionDialog))return;while(coinRewardQueue['length']){const _0x307c15=coinRewardQueue[_0x433c2c(0x1ae)]();if(_0x307c15['player']!==authSession?.['player']||_0x307c15[_0x433c2c(0x314)]==='missions'&&!missionDialog[_0x433c2c(0x5e1)])continue;activeCoinReward=_0x307c15,renderCoinReward(),coinRewardDialog[_0x433c2c(0x33c)](),_0x307c15[_0x433c2c(0x506)]=coinCollection[_0x433c2c(0x5f9)](el(_0x433c2c(0x431))),haptics[_0x433c2c(0x5e7)](_0x433c2c(0x3c2)+_0x307c15[_0x433c2c(0x2ae)],'success'),render(),el(_0x433c2c(0x488))['focus']();return;}}function scheduleMissionReset(){const _0x871303=q1_0x49f7ea;setTimeout(()=>{renderDailyMissions(),void refreshWallet(),scheduleMissionReset();},dayMs-(Date[_0x871303(0x4ad)]()+koreaOffset)%dayMs);}function renderShop(){const _0x219c76=q1_0x49f7ea;for(const _0x25d8b7 of shopMainActions)_0x25d8b7[_0x219c76(0x44d)](_0x219c76(0x176),!coinShortageDialog[_0x219c76(0x5e1)]&&!coinRewardDialog[_0x219c76(0x5e1)]&&!shopPurchaseDialog[_0x219c76(0x5e1)]);renderAdPurchase(),renderCoinPacks();const _0x1073c1=shopTab==='skins';for(const _0x27b6f9 of shopTabs){const _0x32c8d1=shopTab===_0x27b6f9;el(_0x219c76(0x38b)+_0x27b6f9)[_0x219c76(0x5ba)]('aria-pressed',String(_0x32c8d1)),el(_0x219c76(0x54f)+_0x27b6f9)[_0x219c76(0x343)]=!_0x32c8d1;}shopAction[_0x219c76(0x343)]=!_0x1073c1,renderPlacementCards(),setAppearanceTheme(el(_0x219c76(0x2ed)),shopPreview);for(const _0x4ba911 of shopRadios){_0x4ba911['checked']=shopPreview[_0x4ba911[_0x219c76(0x4b8)]]===_0x4ba911[_0x219c76(0x592)],_0x4ba911['disabled']=shopSaving;}for(const {input:_0x5ab51c,label:_0x5d8359,boardSample:_0x22ad21,status:_0x467fba,price:_0x13ea87}of skinCards){const {name:_0x323ab6,value:_0x522887,checked:_0x566edf}=_0x5ab51c;_0x5d8359[_0x219c76(0x3d1)]=_0x5ab51c[_0x219c76(0x252)][_0x219c76(0x5c1)];const _0x5dadbb=shopState[_0x219c76(0x3f2)][_0x323ab6]===_0x522887,_0x1c1c4f=ownsSkin(shopState,_0x323ab6,_0x522887);_0x5d8359[_0x219c76(0x44d)](_0x219c76(0x526),!_0x1c1c4f),_0x5d8359[_0x219c76(0x44d)](_0x219c76(0x5d7),_0x5dadbb);if(_0x22ad21)_0x22ad21[_0x219c76(0x575)][_0x219c76(0x291)]=shopPreview[_0x219c76(0x36a)];_0x467fba['textContent']=t(!_0x1c1c4f?_0x566edf?_0x219c76(0x581):'shopLocked':_0x5dadbb?_0x219c76(0x52c):_0x566edf?_0x219c76(0x5d5):_0x219c76(0x2a6)),_0x13ea87[_0x219c76(0x343)]=_0x1c1c4f,_0x13ea87[_0x219c76(0x5c1)]=_0x1c1c4f?'':t(_0x219c76(0x230),{'n':NcqLang[_0x219c76(0x59e)](skinPrices[_0x323ab6][_0x522887])});}const {price:_0x2b39ac}=shopPurchase(shopPreview,shopState),_0x28a7dd=Object[_0x219c76(0x225)](shopPreview)['some'](_0x32fcff=>shopPreview[_0x32fcff]!==shopState['appearance'][_0x32fcff]),_0x36eda5=_0x2b39ac>0x0,_0x514dd6=canAffordShop(_0x2b39ac);shopAction['toggleAttribute'](_0x219c76(0x3d0),_0x36eda5),shopAction[_0x219c76(0x3a7)]=shopSaving||adPurchaseBusy||!_0x36eda5&&!_0x28a7dd,shopAction[_0x219c76(0x5c1)]=_0x36eda5?t(_0x219c76(0x43f),{'n':NcqLang[_0x219c76(0x59e)](_0x2b39ac)}):t(_0x219c76(0x572));const _0x27d41e=el('shop-feedback');_0x27d41e['classList'][_0x219c76(0x3f7)]('sr-only',_0x1073c1);if(!_0x27d41e['hidden'])_0x27d41e[_0x219c76(0x5c1)]=t(_0x27d41e[_0x219c76(0x575)][_0x219c76(0x41e)]);const _0x19efef=el(_0x219c76(0x207));_0x19efef['textContent']=!_0x27d41e[_0x219c76(0x343)]?_0x27d41e['textContent']:t(_0x36eda5?_0x514dd6?'shopLockedPreview':_0x219c76(0x337):_0x219c76(0x1f7)),_0x19efef[_0x219c76(0x44d)](_0x219c76(0x53e),_0x27d41e[_0x219c76(0x343)]&&!_0x36eda5),_0x19efef['toggleAttribute'](_0x219c76(0x318),!_0x27d41e[_0x219c76(0x343)]&&_0x27d41e[_0x219c76(0x4e1)](_0x219c76(0x318)));}function renderPlacementCards(){const _0x3d7343=q1_0x49f7ea;clearTimeout(shopEffectTimer),shopEffectAction[_0x3d7343(0x343)]=shopTab!=='effects';if(shopEffectAction[_0x3d7343(0x343)])return;const _0x9b6889=Date[_0x3d7343(0x4ad)](),_0x1119bb=Object[_0x3d7343(0x336)](placementStyles[_0x3d7343(0x222)](_0x30cce0=>[_0x30cce0,ownsPlacement(_0x30cce0)])),_0xe33289=_0x1119bb[placementStyle]?placementStyle:'plain',_0x2e0e01=shopEffectPreview??_0xe33289,_0x5baa7e=Boolean(placementEffects[_0x2e0e01][_0x3d7343(0x4dc)]),_0x24a1d5=!_0x1119bb[_0x2e0e01]||_0x5baa7e&&_0xe33289===_0x2e0e01,_0x2d0e81=placementEffects[_0x2e0e01][_0x3d7343(0x5dd)];let _0x7fdc14=Infinity;for(const {button:_0x33faf0,effect:_0xe36e30,status:_0x3c18d3,time:_0x582abd}of shopEffectOptions){const _0xe846cc=_0xe36e30===_0x2e0e01,_0x5d3d63=_0xe36e30===_0xe33289,_0x5234e9=!_0x1119bb[_0xe36e30];_0x33faf0['setAttribute'](_0x3d7343(0x52b),String(_0xe846cc)),_0x33faf0[_0x3d7343(0x44d)](_0x3d7343(0x5d7),_0x5d3d63),_0x33faf0[_0x3d7343(0x3a7)]=shopSaving,_0x3c18d3[_0x3d7343(0x44d)](_0x3d7343(0x208),_0x5234e9),_0x3c18d3['textContent']=_0x5234e9?t(_0x3d7343(0x230),{'n':NcqLang['num'](placementEffects[_0xe36e30][_0x3d7343(0x5dd)])}):t(_0x5d3d63?_0x3d7343(0x52c):_0xe846cc?_0x3d7343(0x5d5):_0xe36e30===_0x3d7343(0x22a)?_0x3d7343(0x363):_0x3d7343(0x2a6));if(_0x582abd){const _0x50e2a0=placementUntil(_0xe36e30)-_0x9b6889;_0x582abd[_0x3d7343(0x343)]=_0x50e2a0<=0x0;if(_0x50e2a0>0x0){const _0x44092c=Math[_0x3d7343(0x28b)](_0x50e2a0/0xea60);_0x582abd[_0x3d7343(0x5c1)]=_0x44092c<0x3c?t(_0x3d7343(0x286),{'m':NcqLang[_0x3d7343(0x59e)](_0x44092c)}):t('shopEffectHoursLeft',{'h':NcqLang[_0x3d7343(0x59e)](Math[_0x3d7343(0x338)](_0x44092c/0x3c)),'m':NcqLang[_0x3d7343(0x59e)](_0x44092c%0x3c)}),_0x7fdc14=Math[_0x3d7343(0x2f7)](_0x7fdc14,_0x50e2a0%0xea60||0xea60);}}}if(shop[_0x3d7343(0x5e1)]&&Number[_0x3d7343(0x199)](_0x7fdc14))shopEffectTimer=setTimeout(renderPlacementCards,_0x7fdc14);shopEffectAction[_0x3d7343(0x44d)](_0x3d7343(0x3d0),_0x24a1d5),shopEffectAction['disabled']=shopSaving||adPurchaseBusy||!_0x24a1d5&&_0x2e0e01===_0xe33289;const _0x27da39=_0x5baa7e?_0x1119bb[_0x2e0e01]?_0x3d7343(0x462):'shopBuyEffect':'shopBuyPrice';shopEffectAction[_0x3d7343(0x5c1)]=_0x24a1d5?t(_0x27da39,{'n':NcqLang[_0x3d7343(0x59e)](_0x2d0e81)}):t(_0x3d7343(0x572));}function playCoinBilling(){const _0x4bbe0b=q1_0x49f7ea;return Boolean(backend&&NcqIap?.[_0x4bbe0b(0x25e)]>=0x4&&NcqIap[_0x4bbe0b(0x2fc)]()['mode']===_0x4bbe0b(0x50e));}async function refreshCoinCheckout(){const _0x43712a=q1_0x49f7ea;if(!playCoinBilling())return;const _0x20c04a=await remoteRequest(_0xfbbe53=>_0xfbbe53[_0x43712a(0x179)](_0x43712a(0x55a)));coinPacks=_0x20c04a[_0x43712a(0x3dc)]??{};if(shop[_0x43712a(0x5e1)])renderCoinPacks();}function renderCoinPacks(){const _0x29b72a=q1_0x49f7ea;renderRewardAd();const _0x4db1b0=el(_0x29b72a(0x4f0)),_0x5d5b2c=playCoinBilling()?Object[_0x29b72a(0x211)](NcqIap[_0x29b72a(0x2fc)]()[_0x29b72a(0x3dc)]):[],_0x13d028=_0x5d5b2c[_0x29b72a(0x453)](([_0xedfbe6,_0x2f5d14])=>{const _0x185ab8=_0x29b72a,_0x2af296=coinPacks[_0x2f5d14['id']];if(_0x2f5d14[_0x185ab8(0x1fd)]!==_0x185ab8(0x389)||!Number['isInteger'](_0x2af296)||!NcqIap[_0x185ab8(0x360)](_0xedfbe6))return[];const _0x6f58c3=NcqIap[_0x185ab8(0x5dd)](_0xedfbe6);return _0x6f58c3?[{'id':_0xedfbe6,'productId':_0x2f5d14['id'],'coins':_0x2af296,'price':_0x6f58c3}]:[];})[_0x29b72a(0x570)]((_0x499b33,_0x42b540)=>_0x499b33[_0x29b72a(0x5c0)]-_0x42b540['coins']),_0x7cb292=JSON['stringify']([NcqLang[_0x29b72a(0x246)],_0x13d028]);if(_0x4db1b0['dataset'][_0x29b72a(0x541)]!==_0x7cb292){const _0x191e8d=_0x13d028[_0x29b72a(0x222)](({id:_0x1dbe75,productId:_0xf58d32,coins:_0x215543,price:_0x548245},_0x32e746)=>{const _0x3ac15f=_0x29b72a,_0x4fdc72=el(_0x3ac15f(0x434))[_0x3ac15f(0x49c)][_0x3ac15f(0x2e1)][_0x3ac15f(0x5ec)](!![]),_0x776728=NcqLang['num'](_0x215543);_0x4fdc72['dataset'][_0x3ac15f(0x5ee)]=Math[_0x3ac15f(0x2f7)](_0x32e746,0x2),_0x4fdc72[_0x3ac15f(0x3e1)]('.shop-coin-quantity')[_0x3ac15f(0x5c1)]=t(_0x3ac15f(0x230),{'n':_0x776728});const _0x3826c1=_0x4fdc72[_0x3ac15f(0x3e1)](_0x3ac15f(0x19d));return _0x3826c1[_0x3ac15f(0x5c1)]=_0x548245,_0x3826c1[_0x3ac15f(0x5ba)]('aria-label',t(_0x3ac15f(0x223),{'n':_0x776728,'price':_0x548245})),_0x3826c1[_0x3ac15f(0x599)](_0x3ac15f(0x57f),()=>buyCoinPack(_0x1dbe75,_0xf58d32,_0x215543)),_0x4fdc72;});_0x4db1b0[_0x29b72a(0x421)](..._0x191e8d),_0x4db1b0['dataset']['catalog']=_0x7cb292;}for(const _0xbed6f3 of _0x4db1b0['querySelectorAll'](_0x29b72a(0x19d)))_0xbed6f3[_0x29b72a(0x3a7)]=adPurchaseBusy||shopSaving;const _0x831e86=el(_0x29b72a(0x46d));_0x831e86[_0x29b72a(0x343)]=!canClaimTestCoins,_0x831e86[_0x29b72a(0x3a7)]=testCoinClaiming,el('shop-no-coin-packs')[_0x29b72a(0x343)]=_0x13d028[_0x29b72a(0x567)]>0x0;const _0x4c89ae=serverWallet?.[_0x29b72a(0x2f0)]??0x0;el(_0x29b72a(0x322))[_0x29b72a(0x343)]=_0x4c89ae<=0x0;if(_0x4c89ae>0x0)el(_0x29b72a(0x322))[_0x29b72a(0x5c1)]=t(_0x29b72a(0x3f3),{'n':NcqLang[_0x29b72a(0x59e)](_0x4c89ae)});}function renderRewardAd(){const _0xc5dae7=q1_0x49f7ea,{status:_0x2c9af5,busy:_0x3b7a8b,retry:_0x3075fb}=rewardedCoins['state'],_0x1f42be=el('shop-ad-coins');_0x1f42be[_0xc5dae7(0x343)]=!backend||!NcqAds?.['can'](_0xc5dae7(0x290));if(_0x1f42be['hidden'])return;el(_0xc5dae7(0x1a7))[_0xc5dae7(0x5c1)]=_0x2c9af5?t(_0xc5dae7(0x178),{'n':NcqLang[_0xc5dae7(0x59e)](_0x2c9af5[_0xc5dae7(0x4e4)]),'max':NcqLang[_0xc5dae7(0x59e)](_0x2c9af5['limit'])}):t(_0xc5dae7(0x243));const _0xda408d=el('shop-watch-ad-coins');_0xda408d[_0xc5dae7(0x3a7)]=_0x3b7a8b||adPurchaseBusy||shopSaving||!_0x2c9af5||!_0x3075fb&&_0x2c9af5['remaining']<=0x0,_0xda408d[_0xc5dae7(0x5c1)]=t(_0x3b7a8b?_0xc5dae7(0x5ae):_0x3075fb?'rewardAdRetry':_0x2c9af5?.[_0xc5dae7(0x4e4)]===0x0?'rewardAdDone':'rewardAdWatch');}function renderAdPurchase(){const _0x2b6d83=q1_0x49f7ea,_0x3feaeb=NcqIap?.[_0x2b6d83(0x2fc)](),_0x31f0dd=_0x3feaeb?.[_0x2b6d83(0x4cc)]&&NcqIap[_0x2b6d83(0x360)](_0x2b6d83(0x456)),_0x177444=_0x31f0dd?NcqIap[_0x2b6d83(0x5dd)](_0x2b6d83(0x456)):'',_0xb6623=adsRemoved||_0x3feaeb&&(_0x3feaeb[_0x2b6d83(0x26c)]==='simulate'||_0x3feaeb['mode']!=='off'&&_0x3feaeb[_0x2b6d83(0x3dc)]['REMOVE_ADS']?.['on']),_0x1fdf4b=el(_0x2b6d83(0x4d4)),_0x167676=adsRemoved||!_0x177444;_0x167676&&_0x1fdf4b[_0x2b6d83(0x432)](document[_0x2b6d83(0x238)])&&el(_0x2b6d83(0x38b)+shopTab)[_0x2b6d83(0x373)]({'preventScroll':!![]});_0x1fdf4b[_0x2b6d83(0x343)]=_0x167676;const _0x49177c=el(_0x2b6d83(0x312));_0x49177c['disabled']=adPurchaseBusy||shopSaving,_0x49177c['setAttribute'](_0x2b6d83(0x43a),t(_0x2b6d83(0x2a7),{'price':_0x177444})),el(_0x2b6d83(0x41a))['textContent']=_0x177444,el('shop-restore-ads')[_0x2b6d83(0x343)]=!_0xb6623,el(_0x2b6d83(0x331))[_0x2b6d83(0x343)]=!_0xb6623,el(_0x2b6d83(0x1c9))['disabled']=el(_0x2b6d83(0x331))[_0x2b6d83(0x3a7)]=adPurchaseBusy||shopSaving;const _0x38447d=el('restore-feedback');if(!_0x38447d[_0x2b6d83(0x343)])_0x38447d['textContent']=t(_0x38447d[_0x2b6d83(0x575)][_0x2b6d83(0x41e)]);}function refreshAdPurchase(){if(shop['open'])renderShop();else renderAdPurchase();}function showGameBanner(){const _0x1dbcd7=q1_0x49f7ea;if(adsRemoved||!NcqAds?.[_0x1dbcd7(0x360)](_0x1dbcd7(0x346)))return;void NcqAds[_0x1dbcd7(0x2cb)](_0x1dbcd7(0x346),{'position':_0x1dbcd7(0x4ce)})[_0x1dbcd7(0x514)](()=>{});}function enableAdRemoval(){const _0x321877=q1_0x49f7ea;if(adsRemoved)return;adsRemoved=!![],NcqAds?.[_0x321877(0x29d)]()[_0x321877(0x514)](()=>{}),refreshAdPurchase();}async function initializeAdPurchase(){const _0x3bba85=q1_0x49f7ea;if(NcqIap){NcqIap[_0x3bba85(0x47f)](async(_0x2b7595,_0x5b63c0)=>{const _0x36a727=_0x3bba85;if(_0x2b7595==='REMOVE_ADS')return enableAdRemoval(),!![];const _0x46c0ed=NcqIap[_0x36a727(0x2fc)]()[_0x36a727(0x3dc)][_0x2b7595];if(_0x46c0ed?.['type']!==_0x36a727(0x389)||!playCoinBilling()||_0x5b63c0?.[_0x36a727(0x2d6)]||!_0x5b63c0?.[_0x36a727(0x46c)])return![];const _0xab0665=await remoteRequest(_0x477459=>_0x477459[_0x36a727(0x179)](_0x36a727(0x55a),{'productId':_0x46c0ed['id'],'purchaseToken':_0x5b63c0[_0x36a727(0x46c)]}));if(!applyWallet(_0xab0665))return![];render();const _0x46924a=_0xab0665[_0x36a727(0x5a0)];return/^[a-f0-9]{64}$/['test'](_0x46924a?.['id']??'')&&showCoinReward(_0x46924a[_0x36a727(0x5c0)],_0x36a727(0x2be)+_0x46924a['id'],_0x36a727(0x192)),!![];}),void NcqIap[_0x3bba85(0x4cc)]()[_0x3bba85(0x2a3)](refreshAdPurchase,refreshAdPurchase);try{if(await NcqIap['owned']('REMOVE_ADS'))enableAdRemoval();}catch{}}showGameBanner(),refreshAdPurchase();}function showShopPurchase(_0xa9b94d,_0x4e1b1c){const _0x527a94=q1_0x49f7ea;el('shop-purchase-message')['textContent']=t(_0xa9b94d,_0x4e1b1c),shopPurchaseDialog[_0x527a94(0x33c)](),haptics[_0x527a94(0x5e7)](_0x527a94(0x2be)+ ++purchaseNotice,'success'),render();}function showCoinShortage(){const _0x199397=q1_0x49f7ea;if(coinShortageDialog['open'])return;coinShortageDialog[_0x199397(0x2bb)]='',coinShortageDialog[_0x199397(0x33c)](),render();}async function withShopCheckout(_0x3f9595){const _0x100fa0=q1_0x49f7ea;if(adPurchaseBusy||shopSaving)return;adPurchaseBusy=!![],feedback(_0x100fa0(0x1bb));const _0x804f2b=shop[_0x100fa0(0x3e1)](_0x100fa0(0x2ec)),_0x368269=_0x804f2b[_0x100fa0(0x5c4)],_0xfdb774=document['querySelector']('.shell');popupAudio[_0x100fa0(0x21c)](()=>shop['close']()),haptics[_0x100fa0(0x2b9)](),matchingAudio[_0x100fa0(0x1b6)](),resultAudio[_0x100fa0(0x2b9)](),coinCollection[_0x100fa0(0x2b9)](),_0xfdb774[_0x100fa0(0x3b3)]=!![];let _0x395fbe;try{await adOwnershipReady,_0x395fbe=await _0x3f9595();}finally{_0xfdb774['inert']=![],adPurchaseBusy=![],popupAudio[_0x100fa0(0x21c)](()=>shop[_0x100fa0(0x33c)]()),render(),_0x804f2b[_0x100fa0(0x5c4)]=_0x368269;}if(_0x395fbe==='shopCoinPurchaseDone'&&(coinRewardDialog['open']||coinRewardQueue['length']))presentCoinReward();else{if(_0x395fbe)showShopPurchase(_0x395fbe);else presentCoinReward();}}async function buyRemoveAds(){const _0x43ae48=q1_0x49f7ea;if(adsRemoved||!NcqIap?.[_0x43ae48(0x360)](_0x43ae48(0x456)))return;await withShopCheckout(async()=>{const _0x3cf4b7=_0x43ae48;if(adsRemoved)return;try{const _0x286fc9=await NcqIap[_0x3cf4b7(0x2b1)]('REMOVE_ADS');if(_0x286fc9['ok'])return _0x3cf4b7(0x5f3);if([_0x3cf4b7(0x563),_0x3cf4b7(0x587)][_0x3cf4b7(0x400)](_0x286fc9[_0x3cf4b7(0x4b1)]))feedback(_0x3cf4b7(0x1bb),_0x3cf4b7(0x5bc));else{if(_0x286fc9[_0x3cf4b7(0x4b1)]!==_0x3cf4b7(0x3b4))feedback('shop-feedback',_0x3cf4b7(0x26d),!![]);}}catch{feedback(_0x3cf4b7(0x1bb),'shopRemoveAdsFailed',!![]);}});}async function buyCoinPack(_0xf9aabf,_0x56c3f8,_0x4b245f){const _0x3f5b78=q1_0x49f7ea;if(!playCoinBilling()||!NcqIap[_0x3f5b78(0x360)](_0xf9aabf))return;await withShopCheckout(async()=>{const _0x24289f=_0x3f5b78;try{const _0xdf8d3c=await remoteRequest(_0x298a58=>_0x298a58['gameRequest'](_0x24289f(0x55a))),{accountTag:_0x27df58}=_0xdf8d3c;coinPacks=_0xdf8d3c['products']??{};if(!/^[a-f0-9]{64}$/[_0x24289f(0x2d6)](_0x27df58??'')||coinPacks[_0x56c3f8]!==_0x4b245f){feedback('shop-feedback',_0x24289f(0x386),!![]);return;}const _0x2cd41b=await NcqIap[_0x24289f(0x375)](_0xf9aabf,{'appAccountToken':_0x27df58});if(_0x2cd41b['ok'])return _0x24289f(0x3e6);if([_0x24289f(0x563),_0x24289f(0x587),_0x24289f(0x45f)][_0x24289f(0x400)](_0x2cd41b[_0x24289f(0x4b1)]))feedback('shop-feedback','shopCoinPurchasePending');else{if(_0x2cd41b['code']!==_0x24289f(0x3b4))feedback(_0x24289f(0x1bb),'shopCoinPurchaseFailed',!![]);}}catch{feedback('shop-feedback',_0x24289f(0x386),!![]);}});}async function restoreAdPurchase(_0x2c9754){const _0x2d85c7=q1_0x49f7ea;if(adPurchaseBusy||!NcqIap)return;adPurchaseBusy=!![],feedback(_0x2c9754),refreshAdPurchase();try{await adOwnershipReady;const _0x17b80b=await NcqIap[_0x2d85c7(0x204)]();if(!_0x17b80b['ok'])feedback(_0x2c9754,_0x2d85c7(0x2d2),!![]);else _0x17b80b['restored'][_0x2d85c7(0x400)]('REMOVE_ADS')?feedback(_0x2c9754,_0x2d85c7(0x313)):(adsRemoved&&!await NcqIap[_0x2d85c7(0x1d2)](_0x2d85c7(0x456))&&(adsRemoved=![],showGameBanner()),feedback(_0x2c9754,adsRemoved?_0x2d85c7(0x313):_0x2d85c7(0x457)));}catch{feedback(_0x2c9754,_0x2d85c7(0x2d2),!![]);}finally{adPurchaseBusy=![],refreshAdPurchase();}}async function saveShopSelection(_0x26853f){const _0x344438=q1_0x49f7ea;if(shopSaving||adPurchaseBusy)return;const _0x331e33={...shopPreview};shopSaving=!![],feedback('shop-feedback'),renderShop();const _0x58caac=async()=>{const _0x3cabb2=q1_0x284e,_0x145897=loadShopState(shopState);shopState=_0x145897;const {skins:_0x76dfce,price:_0x1b9442}=shopPurchase(_0x331e33,_0x145897);if(_0x26853f&&(!backend||!serverWallet)){feedback('shop-feedback','network',!![]);return;}if(_0x26853f&&_0x1b9442>0x0&&!canAffordShop(_0x1b9442)){showCoinShortage();return;}if(_0x26853f&&_0x1b9442>0x0){const _0x2be89d=await remoteRequest(_0x13097c=>_0x13097c[_0x3cabb2(0x179)](_0x3cabb2(0x1f1),{'skins':_0x76dfce}));if(applyWallet(_0x2be89d))return _0x76dfce;if(_0x2be89d['error']==='coinNotEnough')showCoinShortage(),void refreshWallet();else feedback('shop-feedback',_0x2be89d['error']??_0x3cabb2(0x536),!![]);return;}if(_0x1b9442){shopState=_0x145897;return;}const _0x1a7ef4={..._0x145897,'appearance':_0x331e33};try{persistShopState(_0x1a7ef4);if(!_0x26853f)feedback(_0x3cabb2(0x1bb),_0x3cabb2(0x52c));}catch{if(_0x26853f){feedback('shop-feedback',_0x3cabb2(0x536),!![]);return;}feedback(_0x3cabb2(0x1bb),'shopAppliedTemporarily');}shopState=_0x1a7ef4;if(_0x26853f)return _0x76dfce;};try{const _0x20d15a=await updateShop(_0x58caac);if(_0x20d15a?.[_0x344438(0x567)]){const _0x591873=skinCards[_0x344438(0x371)](({input:_0x10ea86})=>_0x20d15a[_0x344438(0x400)](_0x10ea86[_0x344438(0x4b8)]+':'+_0x10ea86[_0x344438(0x592)]))[_0x344438(0x222)](({input:_0x43d9be})=>_0x43d9be[_0x344438(0x252)][_0x344438(0x5c1)])['join'](_0x344438(0x36d));showShopPurchase(_0x344438(0x5f1),{'items':_0x591873});}}catch{feedback(_0x344438(0x1bb),_0x344438(0x536),!![]);}finally{shopSaving=![],applyAppearance(),renderCoinBalance();if(shop['open'])renderShop();}}async function buyPlacementEffect(_0x4ed6c9){const _0x499103=q1_0x49f7ea;if(shopSaving||adPurchaseBusy||!placementEffects[_0x4ed6c9]?.[_0x499103(0x5dd)])return;if(!backend||!serverWallet){feedback('shop-feedback',_0x499103(0x2b4),!![]);return;}const {price:_0x2a947d,purchased:_0x5cb173}=placementEffects[_0x4ed6c9];shopSaving=!![],feedback(_0x499103(0x1bb)),renderShop();try{const _0x4add10=await updateShop(async()=>{const _0x4c6969=_0x499103;if(coinBalance()<_0x2a947d){showCoinShortage();return;}effectPurchaseIds[_0x4ed6c9]??=crypto['randomUUID']();const _0x5db725=_0x4ed6c9===_0x4c6969(0x1b2)?'/wallet/buy-effect':_0x4c6969(0x18e),_0x4440d8={'requestId':effectPurchaseIds[_0x4ed6c9],'effect':_0x4ed6c9},_0x385dd8=await remoteRequest(_0x11d80c=>_0x11d80c[_0x4c6969(0x179)](_0x5db725,_0x4440d8));if(!applyWallet(_0x385dd8)){if(_0x385dd8[_0x4c6969(0x469)]!==_0x4c6969(0x2b4))delete effectPurchaseIds[_0x4ed6c9];if(_0x385dd8[_0x4c6969(0x469)]==='coinNotEnough')showCoinShortage(),void refreshWallet();else feedback(_0x4c6969(0x1bb),_0x385dd8[_0x4c6969(0x469)]??_0x4c6969(0x536),!![]);return;}return delete effectPurchaseIds[_0x4ed6c9],setPlacementStyle(_0x4ed6c9),!![];});if(_0x4add10)showShopPurchase(_0x5cb173);}catch{feedback(_0x499103(0x1bb),_0x499103(0x536),!![]);}finally{shopSaving=![],renderCoinBalance();if(shop[_0x499103(0x5e1)])renderShop();}}async function recordMissionRound(_0x2608ff){const _0x422e17=q1_0x49f7ea;void tossPromotion[_0x422e17(0x30e)](_0x2608ff);if(!_0x2608ff[_0x422e17(0x24f)][_0x422e17(0x567)]||[_0x422e17(0x5c8),'disconnect',_0x422e17(0x220)][_0x422e17(0x400)](_0x2608ff[_0x422e17(0x2d0)])&&_0x2608ff[_0x422e17(0x24f)][_0x422e17(0x567)]<0x6)return;if(_0x2608ff[_0x422e17(0x26c)]===_0x422e17(0x277))void refreshWeeklyRewards(-0x1);return refreshWallet(-0x1);}function unlockPlacementAudio(){const _0x226485=q1_0x49f7ea;if(!stoneSoundToggle['checked']||document[_0x226485(0x343)]||audioBlocked()||window[_0x226485(0x30d)]?.[_0x226485(0x1f8)](_0x226485(0x5b7))===0x0)return;if(!window[_0x226485(0x30d)])return;try{!placementAudio&&(placementAudio=window['NcqSound'][_0x226485(0x266)](),placementAudio?.[_0x226485(0x599)](_0x226485(0x3e2),()=>{const _0x44d965=_0x226485;if(window[_0x44d965(0x30d)][_0x44d965(0x214)]()[_0x44d965(0x447)]===![])stopPlacementSound();}));if(!placementAudio)return;if(placementAudio['state']!=='running')placementAudio['resume']()[_0x226485(0x514)](()=>{});placementBuffer??=fetch(new URL('./assets/match-ui/stone-on-wood.wav',import.meta.url))[_0x226485(0x2a3)](_0x2cf6db=>{const _0x56cca3=_0x226485;if(!_0x2cf6db['ok'])throw new Error(_0x56cca3(0x4f9));return _0x2cf6db[_0x56cca3(0x271)]();})[_0x226485(0x2a3)](_0x34eb49=>placementAudio[_0x226485(0x42d)](_0x34eb49))[_0x226485(0x514)](()=>{return placementBuffer=null,null;});}catch{}}function stopPlacementSound(){const _0x1a5690=q1_0x49f7ea;placementSoundCue+=0x1;if(!activePlacementSound)return;activePlacementSound[_0x1a5690(0x2b9)](),activePlacementSound=null;}async function playPlacementSound(_0x2f3616){const _0xdf6e3d=q1_0x49f7ea;if(!stoneSoundToggle[_0xdf6e3d(0x15e)]||document[_0xdf6e3d(0x343)]||audioBlocked()||!placementBuffer)return;const _0x114fe7=placementAudio,_0x3e5308=placementSoundCue,_0x5ddee2=_0x114fe7[_0xdf6e3d(0x3be)]+_0x2f3616,_0x4c094e=await placementBuffer;if(!_0x4c094e||_0x3e5308!==placementSoundCue||!stoneSoundToggle[_0xdf6e3d(0x15e)]||document[_0xdf6e3d(0x343)]||audioBlocked()||window['NcqSound'][_0xdf6e3d(0x16f)](_0xdf6e3d(0x5b7))===![]||window[_0xdf6e3d(0x30d)][_0xdf6e3d(0x1f8)](_0xdf6e3d(0x5b7))===0x0||_0x114fe7['state']!=='running')return;if(_0x114fe7[_0xdf6e3d(0x3be)]>_0x5ddee2+0.1)return;const _0x55de48=_0x114fe7[_0xdf6e3d(0x1ab)]();_0x55de48[_0xdf6e3d(0x19c)]=_0x4c094e,_0x55de48[_0xdf6e3d(0x1e4)](window['NcqSound']['output'](_0xdf6e3d(0x5b7))),_0x55de48[_0xdf6e3d(0x599)](_0xdf6e3d(0x404),()=>{const _0x3732d4=_0xdf6e3d;_0x55de48[_0x3732d4(0x3cb)]();if(activePlacementSound===_0x55de48)activePlacementSound=null;},{'once':!![]}),_0x55de48['start'](Math[_0xdf6e3d(0x247)](_0x5ddee2,_0x114fe7['currentTime'])),activePlacementSound=_0x55de48;}function cancelPlacement(){const _0x563258=q1_0x49f7ea;stopPlacementSound(),cancelLandingHaptic?.(),cancelLandingHaptic=undefined,activePlacementEffect?.[_0x563258(0x4c5)](),activePlacementEffect=null;if(!activePlacement)return;const {cell:_0x5f49e0,animation:_0x27b304}=activePlacement;activePlacement=null,_0x27b304[_0x563258(0x38f)](),_0x5f49e0[_0x563258(0x601)]['remove'](_0x563258(0x48a));}function addSakuraParticles(_0x4bda5a,_0x4d400b){const _0x1b884e=q1_0x49f7ea,_0x3f5f85=(_0x5a88e4,_0xd8d4cc)=>_0x5a88e4+Math[_0x1b884e(0x4c4)]()*(_0xd8d4cc-_0x5a88e4),_0xb8ea2e=_0x3f5f85(0x0,0x2*Math['PI']),_0xd94f6d=0x3,_0x6d335a=0xc;for(let _0x14e867=0x0;_0x14e867<_0xd94f6d+_0x6d335a;_0x14e867+=0x1){const _0x1bf339=_0x14e867<_0xd94f6d,_0x59c175=_0x1bf339?_0x14e867:_0x14e867-_0xd94f6d,_0x54618b=_0x1bf339?_0xd94f6d:_0x6d335a,_0x356c61=_0xb8ea2e+(_0x59c175+_0x3f5f85(0.08,0.92))*0x2*Math['PI']/_0x54618b,_0x11080e=_0x4d400b*(_0x1bf339?_0x3f5f85(0.97,1.42):_0x3f5f85(1.55,2.65)),_0x41d34e=Math[_0x1b884e(0x2e0)](_0x356c61)*_0x11080e,_0x15dd11=Math['sin'](_0x356c61)*_0x11080e,_0x6e17f4=_0x3f5f85(-0.33,0.33)*_0x4d400b,_0x1d7b4d=_0x3f5f85(-0xc3,0xc3),_0x42acb8=_0x3f5f85(0x0,0x168),_0x1a05e1=document[_0x1b884e(0x57a)](_0x1b884e(0x1b5));_0x1a05e1['className']=_0x1bf339?'sakura-particle\x20sakura-flower':_0x1b884e(0x1b1);const _0x28b685={'size':(_0x4d400b*(_0x1bf339?_0x3f5f85(0.68,0.89):_0x3f5f85(0.27,0.56)))[_0x1b884e(0x5ce)](0x1)+'px','start':_0x42acb8[_0x1b884e(0x5ce)](0x0)+_0x1b884e(0x4b5),'middle':_0x1b884e(0x2e9)+(_0x41d34e*0.69+_0x6e17f4)[_0x1b884e(0x5ce)](0x1)+_0x1b884e(0x2f2)+(_0x15dd11*0.69)[_0x1b884e(0x5ce)](0x1)+_0x1b884e(0x355)+(_0x42acb8+_0x1d7b4d*0.45)[_0x1b884e(0x5ce)](0x0)+'deg)','end':_0x1b884e(0x2e9)+_0x41d34e[_0x1b884e(0x5ce)](0x1)+_0x1b884e(0x2f2)+(_0x15dd11+_0x4d400b*_0x3f5f85(0.14,0.47))['toFixed'](0x1)+_0x1b884e(0x355)+(_0x42acb8+_0x1d7b4d)['toFixed'](0x0)+'deg)'};for(const [_0x2490d5,_0x535a04]of Object[_0x1b884e(0x211)](_0x28b685))_0x1a05e1[_0x1b884e(0x2b8)][_0x1b884e(0x407)](_0x1b884e(0x253)+_0x2490d5,_0x535a04);_0x4bda5a['append'](_0x1a05e1);}}function addEnergyParticles(_0x317e73,_0x2de40f,_0x237576){const _0x306a0d=q1_0x49f7ea,_0xdc2dc5=(_0x22fed9,_0x141a1e)=>_0x22fed9+Math[_0x306a0d(0x4c4)]()*(_0x141a1e-_0x22fed9),_0x1be82a=_0x237576==='ripple',_0x4398be=_0xdc2dc5(0x0,0x2*Math['PI']),_0x39e3e1=_0x1be82a?0x12:0x14;for(let _0x3f9bf0=0x0;_0x3f9bf0<_0x39e3e1;_0x3f9bf0+=0x1){const _0x11c7fc=_0x4398be+(_0x3f9bf0+_0xdc2dc5(0.1,0.9))*0x2*Math['PI']/_0x39e3e1,_0x49a3ef=_0x2de40f*_0xdc2dc5(1.3,2.5),_0x2e9b12=Math[_0x306a0d(0x2e0)](_0x11c7fc)*_0x49a3ef,_0x4cd85f=Math[_0x306a0d(0x38d)](_0x11c7fc)*_0x49a3ef*0.58,_0x3607f6=_0x2de40f*_0xdc2dc5(-0.7,0.7),_0x1462eb=_0x2de40f*_0xdc2dc5(0.25,_0x1be82a?0.9:1.5),_0x411385=document[_0x306a0d(0x57a)](_0x306a0d(0x1b5));_0x411385[_0x306a0d(0x56f)]=_0x306a0d(0x3de)+(!_0x1be82a&&_0x3f9bf0%0x4===0x0?_0x306a0d(0x258):'');const _0x3771a6={'size':(_0x2de40f*_0xdc2dc5(_0x1be82a?0.09:0.07,_0x1be82a?0.2:0.19))[_0x306a0d(0x5ce)](0x1)+'px','start':_0x306a0d(0x2e9)+(Math[_0x306a0d(0x2e0)](_0x11c7fc)*_0x2de40f*0.38)['toFixed'](0x1)+_0x306a0d(0x2f2)+(Math['sin'](_0x11c7fc)*_0x2de40f*0.2)[_0x306a0d(0x5ce)](0x1)+_0x306a0d(0x415),'middle':_0x306a0d(0x2e9)+(_0x2e9b12*0.6+_0x3607f6)[_0x306a0d(0x5ce)](0x1)+_0x306a0d(0x2f2)+(_0x4cd85f*0.55-_0x1462eb)[_0x306a0d(0x5ce)](0x1)+_0x306a0d(0x415),'end':_0x306a0d(0x2e9)+_0x2e9b12['toFixed'](0x1)+_0x306a0d(0x2f2)+(_0x4cd85f+(_0x1be82a?_0x2de40f*0.3:-_0x1462eb))[_0x306a0d(0x5ce)](0x1)+'px)','rotation':Math[_0x306a0d(0x1a0)](_0xdc2dc5(0x0,0x168))+'deg'};for(const [_0xf0834f,_0x1d272e]of Object[_0x306a0d(0x211)](_0x3771a6))_0x411385['style'][_0x306a0d(0x407)](_0x306a0d(0x405)+_0xf0834f,_0x1d272e);_0x317e73[_0x306a0d(0x31b)](_0x411385);}const _0x2659c0=_0x1be82a?0x3:0x2;for(let _0xa2cc76=0x0;_0xa2cc76<_0x2659c0;_0xa2cc76+=0x1){const _0xc2c6=document[_0x306a0d(0x57a)](_0x306a0d(0x1b5));_0xc2c6[_0x306a0d(0x56f)]=_0x1be82a?'energy-ring':_0x306a0d(0x315),_0xc2c6[_0x306a0d(0x2b8)][_0x306a0d(0x407)](_0x306a0d(0x24a),String(_0xa2cc76*0.14)),_0xc2c6[_0x306a0d(0x2b8)][_0x306a0d(0x407)](_0x306a0d(0x1f5),_0xa2cc76*0x60+_0xdc2dc5(-0xf,0xf)+'deg'),_0x317e73[_0x306a0d(0x31b)](_0xc2c6);}}function trackPlacementAnimation(_0x5947b5,_0x1b7f17,_0x52e02a){const _0x184620=q1_0x49f7ea;let _0x58d73d;const _0x176410=new Promise(_0x4c09c4=>{_0x58d73d=_0x4c09c4;}),_0x2f0b82=()=>{const _0x39eba=q1_0x284e;clearTimeout(_0x3d48d9),_0x5947b5[_0x39eba(0x1d1)]('animationend',_0x1c2fed),_0x5947b5[_0x39eba(0x1d1)](_0x39eba(0x163),_0x1c2fed),_0x58d73d();},_0x1c2fed=_0x2588c1=>{if(_0x2588c1['target']===_0x5947b5&&_0x2588c1['animationName']===_0x1b7f17)_0x2f0b82();},_0x3d48d9=setTimeout(_0x2f0b82,_0x52e02a+0x64);return _0x5947b5[_0x184620(0x599)](_0x184620(0x519),_0x1c2fed),_0x5947b5[_0x184620(0x599)](_0x184620(0x163),_0x1c2fed),{'finished':_0x176410,'cancel':_0x2f0b82};}function playPlacementEffect(_0x65440e,_0x58a08e,_0x2da49f,_0x28fcd6=placementTiming['landing']){const _0xe77d6a=q1_0x49f7ea,_0x567589=document[_0xe77d6a(0x57a)](_0xe77d6a(0x1b5)),_0x352709=_0x58a08e===_0xe77d6a(0x58a),_0x58bf6d=_0x58a08e===_0xe77d6a(0x1ee)||_0x58a08e===_0xe77d6a(0x296),_0x2dd408=_0x352709?'sakura-placement-burst':_0x58bf6d?_0xe77d6a(0x4a3):'golden-placement-wave',_0x213ad3=_0x352709?'sakura-burst':_0x58bf6d?_0xe77d6a(0x3f4):_0xe77d6a(0x268);_0x567589['className']=_0xe77d6a(0x1de)+_0x2dd408,_0x567589[_0xe77d6a(0x575)][_0xe77d6a(0x3ce)]=_0x58a08e,_0x567589[_0xe77d6a(0x5ba)]('aria-hidden',_0xe77d6a(0x385)),_0x567589['style'][_0xe77d6a(0x407)](_0xe77d6a(0x1c4),_0x2da49f+'ms'),_0x567589[_0xe77d6a(0x2b8)][_0xe77d6a(0x407)](_0xe77d6a(0x550),_0x28fcd6*placementTiming['effectRatio']+'ms');if(_0x352709)addSakuraParticles(_0x567589,_0x65440e['clientWidth']);if(_0x58bf6d)addEnergyParticles(_0x567589,_0x65440e[_0xe77d6a(0x32c)],_0x58a08e);_0x65440e[_0xe77d6a(0x31b)](_0x567589);const _0x4e5ca6=trackPlacementAnimation(_0x567589,_0x213ad3,_0x2da49f+_0x28fcd6*placementTiming['effectRatio']);return activePlacementEffect=_0x567589,_0x4e5ca6[_0xe77d6a(0x2b0)][_0xe77d6a(0x514)](()=>{})['finally'](()=>{const _0x63b40c=_0xe77d6a;_0x567589[_0x63b40c(0x4c5)]();if(activePlacementEffect===_0x567589)activePlacementEffect=null;});}function previewPlacementEffect(_0x1973b3,_0xe60708){const _0x1450fb=q1_0x49f7ea;for(const _0x3fcce2 of shop[_0x1450fb(0x3da)](_0x1450fb(0x29a)))_0x3fcce2['remove']();if(_0xe60708===_0x1450fb(0x22a)||reducedMotion[_0x1450fb(0x497)])return;const _0x4f54c1=document[_0x1450fb(0x57a)](_0x1450fb(0x1b5));_0x4f54c1[_0x1450fb(0x56f)]=_0x1450fb(0x3f9),_0x1973b3['querySelector'](_0x1450fb(0x1e8))[_0x1450fb(0x31b)](_0x4f54c1),void Promise[_0x1450fb(0x272)](playPlacementEffect(_0x4f54c1,_0xe60708,0x0))[_0x1450fb(0x444)](()=>_0x4f54c1[_0x1450fb(0x4c5)]());}function presentPlacement(_0x5bbd94,_0x24649c,_0x267289){const _0x3b4e24=q1_0x49f7ea;if(_0x5bbd94==null||document['hidden'])return;const _0x5012a4=cells[_0x5bbd94];if(!_0x5012a4||!['1','2'][_0x3b4e24(0x400)](_0x5012a4[_0x3b4e24(0x575)][_0x3b4e24(0x1a2)])||_0x5012a4['classList'][_0x3b4e24(0x432)]('selected'))return;cancelPlacement();if(reducedMotion['matches']){playPlacementSound(0x0),_0x267289?.(0x0);return;}const _0x261755=!el(_0x3b4e24(0x40d))[_0x3b4e24(0x343)]&&placementTimingAvailable()?replayPlacementDuration:placementTiming['landing'];_0x5012a4[_0x3b4e24(0x601)][_0x3b4e24(0x481)](_0x3b4e24(0x48a));const _0x30ad1a=_0x261755*0.4,_0x5671a2=animateStonePlacement(_0x5012a4,lastMoveMarker,{'duration':_0x261755,'shouldContinue':()=>!document[_0x3b4e24(0x343)]&&!_0x5012a4[_0x3b4e24(0x601)][_0x3b4e24(0x432)](_0x3b4e24(0x2fb))&&_0x5012a4[_0x3b4e24(0x575)][_0x3b4e24(0x1a2)]!=='0','onStart'(){const _0x548347=_0x3b4e24;playPlacementSound(_0x30ad1a/0x3e8),cancelLandingHaptic=_0x267289?.(_0x30ad1a);if(placementEffects[_0x24649c]?.[_0x548347(0x5dd)])void playPlacementEffect(_0x5012a4,_0x24649c,_0x30ad1a,_0x261755);}});return activePlacement={'cell':_0x5012a4,'animation':_0x5671a2},_0x5671a2[_0x3b4e24(0x2b0)]['catch'](()=>{})['finally'](()=>{const _0x2acb78=_0x3b4e24;if(activePlacement?.[_0x2acb78(0x21b)]!==_0x5671a2)return;activePlacement=null,_0x5012a4[_0x2acb78(0x601)][_0x2acb78(0x4c5)](_0x2acb78(0x48a));});}function presentRoundPlacement(_0x54677d,_0x26895d,_0x6e6916){const _0x45b9fb=q1_0x49f7ea,_0x513080=_0x6e6916==null?undefined:_0x5e7d44=>haptics[_0x45b9fb(0x5e7)](_0x45b9fb(0x300)+roundHapticKey(_0x54677d)+':'+_0x26895d,_0x6e6916===_0x54677d['you']?_0x45b9fb(0x381):_0x45b9fb(0x4d6),{'delay':_0x5e7d44,'valid':()=>room?.[_0x45b9fb(0x4b1)]===_0x54677d[_0x45b9fb(0x4b1)]&&room[_0x45b9fb(0x1a0)]===_0x54677d[_0x45b9fb(0x1a0)]&&!archive&&!spectator});return presentPlacement(_0x54677d[_0x45b9fb(0x24f)][_0x26895d],_0x54677d[_0x45b9fb(0x578)]?.[_0x54677d['moveSeats']?.[_0x26895d]-0x1],_0x513080);}function coordinate(_0x433503){return columns[_0x433503%size]+(Math['floor'](_0x433503/size)+0x1);}function canAct(){const _0x3500cd=q1_0x49f7ea;return room?.[_0x3500cd(0x531)]===_0x3500cd(0x3ca)&&room[_0x3500cd(0x4bd)]===room['you']&&connected&&!busy&&!gameModes?.[_0x3500cd(0x47e)]()&&!pendingPlacement&&!matchIntroDialog[_0x3500cd(0x5e1)]&&!leaveDialog['open']&&(turnDeadline===null||performance[_0x3500cd(0x4ad)]()<turnDeadline);}function activeRule(){const _0x9cc614=q1_0x49f7ea;if(!el(_0x9cc614(0x54a)))return defaultRule;if(availableRules[_0x9cc614(0x400)](preferredRule))return preferredRule;return availableRules[_0x9cc614(0x400)](defaultRule)?defaultRule:'free';}function renderRulePicker(_0x2ab98a){const _0x43bc5c=q1_0x49f7ea,_0x221bdd=el(_0x43bc5c(0x54a));if(!_0x221bdd||!ruleDialog)return;_0x221bdd[_0x43bc5c(0x3a7)]=busy||Boolean(matchmaking)||availableRules[_0x43bc5c(0x567)]<0x2,_0x221bdd[_0x43bc5c(0x44d)](_0x43bc5c(0x176),_0x2ab98a&&lobbyView===_0x43bc5c(0x3eb)&&availableRules['length']>0x1);const _0x2e9a65=activeRule();el(_0x43bc5c(0x429))[_0x43bc5c(0x5c1)]=t(_0x2e9a65==='taraguchi'?_0x43bc5c(0x3d4):ruleNames[_0x2e9a65]),_0x221bdd[_0x43bc5c(0x5ba)](_0x43bc5c(0x43a),t(_0x43bc5c(0x37b),{'rule':t(ruleNames[_0x2e9a65])}));for(const _0x2846ea of ruleDialog[_0x43bc5c(0x3da)](_0x43bc5c(0x494))){_0x2846ea[_0x43bc5c(0x343)]=!availableRules[_0x43bc5c(0x400)](_0x2846ea[_0x43bc5c(0x592)]),_0x2846ea[_0x43bc5c(0x5ba)](_0x43bc5c(0x52b),String(_0x2846ea[_0x43bc5c(0x592)]===_0x2e9a65));}}function moveLimits(_0x539b0b){const _0x43d677=q1_0x49f7ea;if(!placementLimits[_0x43d677(0x2c9)](_0x539b0b)){const _0x463995=_0x539b0b[_0x43d677(0x191)]?_0x177c0f=>openingError(_0x539b0b,_0x177c0f):hasForbiddenMoves(_0x539b0b['rule'])&&seatColor(_0x539b0b,_0x539b0b[_0x43d677(0x22c)])===0x1?_0x1f1166=>forbiddenAt(_0x539b0b[_0x43d677(0x3a3)],_0x1f1166,_0x539b0b[_0x43d677(0x59b)]):()=>undefined;placementLimits[_0x43d677(0x3ba)](_0x539b0b,_0x539b0b[_0x43d677(0x3a3)]['map']((_0x80d77a,_0x3227e4)=>_0x80d77a?undefined:_0x463995(_0x3227e4)));}return placementLimits[_0x43d677(0x249)](_0x539b0b);}function openingStatus(_0x2a0573){const _0x1a7992=q1_0x49f7ea;if(_0x2a0573[_0x1a7992(0x191)]===_0x1a7992(0x195))return t(_0x1a7992(0x46f),{'n':_0x2a0573['offers']['length'],'total':offerCount});if(_0x2a0573['opening']===_0x1a7992(0x256))return t(_0x1a7992(0x1b0));const _0xa2c0fb=openingRadius(_0x2a0573),_0x308d0e=t(colorName(_0x2a0573[_0x1a7992(0x1a2)]));return _0xa2c0fb===null?t(_0x1a7992(0x47d),{'color':_0x308d0e,'n':_0x2a0573[_0x1a7992(0x24f)][_0x1a7992(0x567)]+0x1}):t(_0x1a7992(0x210),{'color':_0x308d0e,'n':_0x2a0573[_0x1a7992(0x24f)][_0x1a7992(0x567)]+0x1,'size':_0xa2c0fb*0x2+0x1});}function seatColor(_0x293db2,_0x5c997e){const _0x2a21e8=q1_0x49f7ea;return _0x5c997e===(_0x293db2?.[_0x2a21e8(0x22f)]??0x1)?0x1:0x2;}function colorName(_0x48bdf1){const _0x232bcb=q1_0x49f7ea;return _0x48bdf1===0x1?_0x232bcb(0x22f):_0x232bcb(0x1d5);}function sideName(_0x463e3f,_0x25f79d){return t(colorName(seatColor(_0x463e3f,_0x25f79d)));}function matchMode(_0x4a49d1){const _0x3edccc=q1_0x49f7ea;return _0x4a49d1[_0x3edccc(0x26c)]==='ai'?_0x3edccc(0x2c1):_0x4a49d1[_0x3edccc(0x26c)]==='tournament'?_0x3edccc(0x5fd):_0x3edccc(0x455);}function recordModeLabel(_0x324725){return t(matchMode(_0x324725));}function moveColor(_0x1e4f0b,_0x4bb671){return _0x1e4f0b['moveColors']?.[_0x4bb671]??_0x4bb671%0x2+0x1;}function clockDeadline(_0x16c503){const _0x2c1dc8=q1_0x49f7ea;return _0x16c503[_0x2c1dc8(0x531)]===_0x2c1dc8(0x3ca)&&_0x16c503[_0x2c1dc8(0x566)]>0x0&&Number[_0x2c1dc8(0x199)](_0x16c503[_0x2c1dc8(0x4c6)])&&Number[_0x2c1dc8(0x199)](_0x16c503[_0x2c1dc8(0x2dc)])?performance['now']()+Math[_0x2c1dc8(0x247)](0x0,_0x16c503[_0x2c1dc8(0x4c6)]-_0x16c503[_0x2c1dc8(0x2dc)]):null;}function updateTurnClock(_0x6cbed7,_0xce2cfd,_0x2c5db7,_0x1c89ac,_0x120d5c){const _0x37a697=q1_0x49f7ea,_0x5e5093=Math[_0x37a697(0x247)](0x0,_0xce2cfd-_0x6cbed7);!_0x120d5c&&_0x1c89ac&&room?.[_0x37a697(0x531)]==='playing'&&haptics[_0x37a697(0x5a3)](roundHapticKey(room)+':'+room['moves']['length']+':'+room[_0x37a697(0x4bd)],_0x5e5093,connected&&!matchIntroDialog[_0x37a697(0x5e1)]&&!leaveDialog['open']&&!profileDialog[_0x37a697(0x5e1)]);const _0x591358=_0x1c89ac?ownClock:opponentClock,_0x2efff0=_0x1c89ac?ownProgress:opponentProgress,_0x1a8c47=Math[_0x37a697(0x28b)](_0x5e5093/0x3e8),_0x3d8778=String(_0x1a8c47)[_0x37a697(0x3b7)](0x2,'0');_0x591358[_0x37a697(0x44d)](_0x37a697(0x4f6),_0x1a8c47<=0xa);if(_0x591358[_0x37a697(0x5c1)]!==_0x3d8778){_0x591358[_0x37a697(0x43e)]()[_0x37a697(0x384)](_0x17bb33=>_0x17bb33[_0x37a697(0x38f)]()),_0x591358[_0x37a697(0x5c1)]=_0x3d8778;if(!reducedMotion[_0x37a697(0x497)]){const _0xabb804=_0x1a8c47>0x14;_0x591358[_0x37a697(0x5ac)]([{'offset':0x0,'transform':_0xabb804?'translateY(.5px)\x20scale(.98)':_0x37a697(0x274),'easing':_0x37a697(0x4ec)},{'offset':0.22,'transform':_0xabb804?_0x37a697(0x378):_0x37a697(0x4b9),'easing':'cubic-bezier(.45,\x200,\x20.75,\x201)'},{'offset':0.48,'transform':_0xabb804?_0x37a697(0x26a):'translateY(1.5px)\x20scale(.92)','easing':_0x37a697(0x4ec)},{'offset':0.7,'transform':_0xabb804?'translateY(-.4px)\x20scale(1.03)':_0x37a697(0x3cd),'easing':'ease-in-out'},{'offset':0x1,'transform':_0x37a697(0x521)}],{'duration':0x2bc});}}const _0x13c4fc=Math[_0x37a697(0x2f7)](0x64,_0x5e5093/(_0x2c5db7*0x3e8)*0x64);_0x2efff0[_0x37a697(0x2b8)][_0x37a697(0x407)](_0x37a697(0x34a),_0x13c4fc[_0x37a697(0x5ce)](0x2)),_0x2efff0[_0x37a697(0x44d)]('data-empty',_0x5e5093===0x0);if(_0x5e5093>0x0)turnFrame=requestAnimationFrame(_0x2edf99=>updateTurnClock(_0x2edf99,_0xce2cfd,_0x2c5db7,_0x1c89ac,_0x120d5c));else{if(!_0x120d5c){const _0x5cc577=el('place');_0x5cc577[_0x37a697(0x3a7)]=!![],_0x5cc577[_0x37a697(0x575)][_0x37a697(0x298)]=_0x37a697(0x5f2),el(_0x37a697(0x4fa))['hidden']=!![],board['classList']['remove'](_0x37a697(0x4f2));for(const _0x202a54 of cells)_0x202a54[_0x37a697(0x5ba)](_0x37a697(0x55d),_0x37a697(0x385));}}}function resetTurnGauge(_0x516fcd,_0xe00195,_0x3248ae){const _0x1e1c76=q1_0x49f7ea;_0x516fcd[_0x1e1c76(0x43e)]()['forEach'](_0x46b4d9=>_0x46b4d9['cancel']()),_0x516fcd[_0x1e1c76(0x5c1)]=_0x3248ae,_0x516fcd[_0x1e1c76(0x254)](_0x1e1c76(0x4f6)),_0xe00195[_0x1e1c76(0x2b8)]['removeProperty'](_0x1e1c76(0x34a)),_0xe00195['removeAttribute'](_0x1e1c76(0x4c9));}function ownNickname(_0x4dd5bb=room?.[q1_0x49f7ea(0x4d5)]?.[q1_0x49f7ea(0x323)](_0x1d8d61=>_0x1d8d61[q1_0x49f7ea(0x53d)]===room['you'])){const _0x5d237f=q1_0x49f7ea;if(accountProfile&&accountProfile[_0x5d237f(0x43c)]===authSession?.[_0x5d237f(0x43c)])return profileNickname(accountProfile,t,t('guestNickname'));return profileNickname({'nickname':nicknameOverride||playerNickname||_0x4dd5bb?.[_0x5d237f(0x4f8)],'guestCode':_0x4dd5bb?.[_0x5d237f(0x585)]||playerStats?.[_0x5d237f(0x585)]},t,t(_0x5d237f(0x482)));}function renderPlayers(_0x57591e,_0x5c4b14,_0x2cb353=![]){const _0x20bb0a=q1_0x49f7ea;cancelAnimationFrame(turnFrame);for(const _0x198f28 of[_0x20bb0a(0x3a5),_0x20bb0a(0x424)])el(_0x198f28)['hidden']=!_0x5c4b14;el('live-actions')['hidden']=!_0x5c4b14||_0x2cb353||el(_0x20bb0a(0x32e))['hidden']&&_0x57591e['rule']!==_0x20bb0a(0x408);for(const _0x1e5079 of[_0x20bb0a(0x50d),'own-profile'])el(_0x1e5079)['disabled']=_0x2cb353||_0x57591e[_0x20bb0a(0x531)]===_0x20bb0a(0x2b0);if(_0x57591e[_0x20bb0a(0x26c)]==='ai')el('opponent-profile')['disabled']=!![];const _0x4675e5=!_0x5c4b14&&_0x57591e[_0x20bb0a(0x531)]==='finished';el(_0x20bb0a(0x59d))['hidden']=_0x5c4b14||_0x4675e5;if(_0x4675e5)return;if(!_0x5c4b14){for(const [_0x389afd,_0x18ce24]of[[_0x20bb0a(0x22f),0x1],[_0x20bb0a(0x1d5),0x2]]){const _0x9cddf9=recordPlayer(_0x57591e,_0x18ce24);el(_0x389afd+_0x20bb0a(0x180))[_0x20bb0a(0x5c1)]=_0x57591e[_0x20bb0a(0x22c)]===_0x18ce24?ownNickname(_0x9cddf9):_0x9cddf9['name'],el(_0x389afd+_0x20bb0a(0x49d))[_0x20bb0a(0x3a7)]=_0x57591e[_0x20bb0a(0x531)]===_0x20bb0a(0x3b5)&&_0x57591e[_0x20bb0a(0x22c)]!==_0x18ce24;}return;}const _0x3c75cc=_0x2cb353?_0x57591e[_0x20bb0a(0x22f)]??0x1:_0x57591e['you'],_0x2f8fea=_0x2cb353?spectator['deadline']:turnDeadline,_0x84bbf2=_0x57591e[_0x20bb0a(0x531)]==='playing'&&(!_0x2cb353||!spectator[_0x20bb0a(0x559)]&&!spectator[_0x20bb0a(0x546)]),_0x46941b=_0x84bbf2&&_0x57591e[_0x20bb0a(0x4bd)]===_0x3c75cc,_0x314f45=_0x84bbf2&&!_0x46941b;el(_0x20bb0a(0x424))[_0x20bb0a(0x575)][_0x20bb0a(0x447)]=el(_0x20bb0a(0x1aa))['dataset'][_0x20bb0a(0x447)]=String(_0x46941b),el(_0x20bb0a(0x3a5))['dataset'][_0x20bb0a(0x447)]=el(_0x20bb0a(0x5fe))['dataset'][_0x20bb0a(0x447)]=String(_0x314f45),el('opponent-turn')[_0x20bb0a(0x5c1)]=t(_0x314f45?_0x20bb0a(0x435):_0x20bb0a(0x48e));for(const [_0x418a86,_0x369b8b]of[[_0x20bb0a(0x265),_0x3c75cc],[_0x20bb0a(0x37c),0x3-_0x3c75cc]]){const _0x3ad680=colorName(seatColor(_0x57591e,_0x369b8b)),_0xe87d79=recordPlayer(_0x57591e,_0x369b8b),_0x4ef59a=_0x57591e[_0x20bb0a(0x26c)]==='ai'&&_0x418a86==='opponent'?t(_0x20bb0a(0x2c1))+_0x20bb0a(0x36d)+rankName(_0x57591e[_0x20bb0a(0x535)]):_0x2cb353?_0xe87d79[_0x20bb0a(0x3e4)]||t(_0x3ad680):_0x418a86===_0x20bb0a(0x265)?ownNickname(_0xe87d79):_0xe87d79[_0x20bb0a(0x4b8)];el(_0x418a86+'-nickname')['textContent']=_0x4ef59a,el(_0x418a86+'-nickname')[_0x20bb0a(0x3d1)]=_0x4ef59a;if(!_0x2cb353&&_0x418a86===_0x20bb0a(0x265))renderOwnRank();else{const _0x15276f=recordRank(_0xe87d79)||(!_0x2cb353&&_0x57591e[_0x20bb0a(0x535)]!=null?rankName(_0x57591e['botLevel']):'');el(_0x418a86+_0x20bb0a(0x335))['hidden']=!_0x15276f,el(_0x418a86+_0x20bb0a(0x335))[_0x20bb0a(0x5c1)]=_0x15276f;}const _0x5a7afc=el(_0x418a86+'-stone');_0x5a7afc[_0x20bb0a(0x56f)]=_0x20bb0a(0x558)+_0x3ad680,_0x5a7afc[_0x20bb0a(0x5ba)]('aria-label',t(_0x3ad680));}for(const _0x4fdf09 of[_0x20bb0a(0x35a),_0x20bb0a(0x25a),_0x20bb0a(0x466),_0x20bb0a(0x1cb),'own-clock','opponent-clock']){el(_0x4fdf09)[_0x20bb0a(0x44d)](_0x20bb0a(0x343),!_0x2cb353&&_0x2f8fea===null);}if(!_0x84bbf2||_0x2f8fea===null){_0x2cb353&&(resetTurnGauge(ownClock,ownProgress,'—'),resetTurnGauge(opponentClock,opponentProgress,'—'));return;}const _0x3555ec=_0x46941b?opponentClock:ownClock,_0xee847b=_0x46941b?opponentProgress:ownProgress;resetTurnGauge(_0x3555ec,_0xee847b,String(Math[_0x20bb0a(0x28b)](_0x57591e['turnSeconds']))['padStart'](0x2,'0')),updateTurnClock(performance['now'](),_0x2f8fea,_0x57591e[_0x20bb0a(0x566)],_0x46941b,_0x2cb353);}function feedback(_0x1d225b,_0x404dda='',_0x49bc83=![]){const _0x3f6719=q1_0x49f7ea,_0x5a08eb=el(_0x1d225b);_0x5a08eb[_0x3f6719(0x575)]['message']=_0x404dda,_0x5a08eb[_0x3f6719(0x44d)]('data-error',_0x49bc83),_0x5a08eb[_0x3f6719(0x343)]=!_0x404dda,_0x5a08eb[_0x3f6719(0x5c1)]=_0x404dda?t(_0x404dda):'';}function loadRecords(_0x1ef6e2=recordsScope){const _0x4b24ad=q1_0x49f7ea;if(_0x1ef6e2===recordsScope&&recordHistory)return recordHistory[_0x4b24ad(0x2af)]();return legacyRecords(_0x1ef6e2);}function legacyRecords(_0x21a253){const _0x39c22b=q1_0x49f7ea;try{const _0xd53f53=JSON[_0x39c22b(0x2ce)](localStorage['getItem'](_0x21a253));return Array[_0x39c22b(0x1d0)](_0xd53f53)?_0xd53f53:[];}catch{return[];}}function bindRecordHistory(_0x4a6f7f,_0x598ff9){const _0x1aa090=q1_0x49f7ea;if(recordHistory?.[_0x1aa090(0x43c)]===_0x4a6f7f)return;recordHistory?.[_0x1aa090(0x5d9)](),recordHistory=createRecordHistory(window['NcqSave'],{'player':_0x4a6f7f,'cloud':_0x598ff9,'legacy':legacyRecords(recordsScope),'changed':()=>{const _0x95f7e2=_0x1aa090;records=loadRecords();if(lobbyView===_0x95f7e2(0x2b2))renderRecords();void tossPromotion[_0x95f7e2(0x3c7)]();}}),records=loadRecords(),void recordHistory?.[_0x1aa090(0x4cc)]();}function saveRecord(_0x529712,_0x314178=!![]){const _0x8f2bf7=q1_0x49f7ea,_0xd94dc6=recordSnapshot(_0x529712,Boolean(backend));if(!_0xd94dc6)return![];if(recordHistory){const _0x2e7743=recordHistory[_0x8f2bf7(0x481)](_0xd94dc6);if(_0x2e7743)backupKakaopay(window);if(_0x314178)records=loadRecords();return _0x2e7743;}const _0x1dcb10=new Map([...records,...loadRecords()][_0x8f2bf7(0x222)](_0x294c48=>[_0x294c48['id'],_0x294c48]));_0x1dcb10[_0x8f2bf7(0x3ba)](_0xd94dc6['id'],_0xd94dc6),records=[..._0x1dcb10[_0x8f2bf7(0x1f3)]()][_0x8f2bf7(0x570)]((_0x495d3a,_0x43926f)=>new Date(_0x43926f[_0x8f2bf7(0x4bf)])-new Date(_0x495d3a[_0x8f2bf7(0x4bf)]));try{return localStorage['setItem'](recordsScope,JSON['stringify'](records)),backupKakaopay(window),!![];}catch{}return![];}function acknowledgeRecord(_0x436aff){const _0x32dcd4=q1_0x49f7ea;if(!backend||!_0x436aff[_0x32dcd4(0x15a)]||!authSession?.[_0x32dcd4(0x43c)])return;const _0x2573f7=authSession[_0x32dcd4(0x43c)]+':'+_0x436aff[_0x32dcd4(0x4b1)]+':'+_0x436aff[_0x32dcd4(0x1a0)];if(recordReceipts[_0x32dcd4(0x2c9)](_0x2573f7))return;recordReceipts[_0x32dcd4(0x481)](_0x2573f7),void remoteRequest(_0x2cf613=>_0x2cf613[_0x32dcd4(0x179)](_0x32dcd4(0x47c)+_0x436aff['code']+'/'+_0x436aff['round'],{}))['then'](_0x443bc3=>{const _0x1796c3=_0x32dcd4;if(_0x443bc3[_0x1796c3(0x469)])recordReceipts[_0x1796c3(0x1b9)](_0x2573f7);})[_0x32dcd4(0x514)](()=>recordReceipts[_0x32dcd4(0x1b9)](_0x2573f7));}function describeOutcome(_0x8f0fd7){const _0x23b4af=q1_0x49f7ea;return!_0x8f0fd7[_0x23b4af(0x5f4)]?'draw':_0x8f0fd7[_0x23b4af(0x5f4)]===_0x8f0fd7['you']?_0x23b4af(0x3fa):'lost';}const recordResultTexts={'win':{'neutral':q1_0x49f7ea(0x530),'won':'recordPersonalWin','lost':q1_0x49f7ea(0x574)},'timeout':{'neutral':q1_0x49f7ea(0x594),'won':q1_0x49f7ea(0x213),'lost':'recordPersonalTimeLoss'},'resign':{'neutral':q1_0x49f7ea(0x5e5),'won':q1_0x49f7ea(0x29e),'lost':'recordPersonalResignLoss'},'disconnect':{'neutral':q1_0x49f7ea(0x537),'won':q1_0x49f7ea(0x348),'lost':q1_0x49f7ea(0x1e5)},'unknown':{'neutral':'recordUnknownWin','won':'recordPersonalUnknownWin','lost':q1_0x49f7ea(0x41f)}};function recordResult(_0xcab2,{personal:personal=![]}={}){const _0x387a3b=q1_0x49f7ea;if(!_0xcab2['winner'])return t('draw');const _0x4b0752=_0xcab2[_0x387a3b(0x2d0)],_0x40e90f=_0x4b0752===_0x387a3b(0x3cb)||_0x4b0752===_0x387a3b(0x220)?_0x4b0752:_0x4b0752===_0x387a3b(0x5c8)||_0xcab2['actions']?.[_0x387a3b(0x4b4)](_0x7d06b0=>_0x7d06b0[_0x387a3b(0x1fd)]===_0x387a3b(0x5c8))?_0x387a3b(0x5c8):_0x4b0752===_0x387a3b(0x486)||_0xcab2[_0x387a3b(0x23e)]?.[_0x387a3b(0x567)]>=0x5?_0x387a3b(0x486):_0x387a3b(0x59f),_0x3c3425=recordResultTexts[_0x40e90f];if(personal&&!_0xcab2[_0x387a3b(0x37a)]&&(_0xcab2[_0x387a3b(0x22c)]===0x1||_0xcab2['you']===0x2))return t(_0x3c3425[describeOutcome(_0xcab2)]);return t(_0x3c3425[_0x387a3b(0x509)],{'color':sideName(_0xcab2,_0xcab2[_0x387a3b(0x5f4)])});}function recordPlayer(_0x36064e,_0x2f10ca){const _0x270abe=q1_0x49f7ea,_0x2e9b98=_0x36064e[_0x270abe(0x4d5)]?.[_0x270abe(0x323)](_0x2c339e=>_0x2c339e[_0x270abe(0x53d)]===_0x2f10ca),_0x40ee9c=profileNickname(_0x2e9b98,t);return{..._0x2e9b98,'savedName':_0x40ee9c,'name':_0x40ee9c||t(_0x2f10ca===_0x36064e[_0x270abe(0x22c)]?_0x270abe(0x22c):_0x270abe(0x37c))};}function recordPhoto(_0x599b7c){const _0x3113ec=q1_0x49f7ea;return typeof _0x599b7c?.[_0x3113ec(0x568)]===_0x3113ec(0x350)&&/^https:\/\//i[_0x3113ec(0x2d6)](_0x599b7c['photoUrl'])?_0x599b7c[_0x3113ec(0x568)]:'';}function recordRank(_0x8f7de0){const _0x36c4eb=q1_0x49f7ea;return Number[_0x36c4eb(0x4fd)](_0x8f7de0[_0x36c4eb(0x17a)])?rankName(rankLevel(_0x8f7de0['rating'])):'';}function setRecordPhoto(_0x2cf3bc,_0xdcd9e){const _0x454e05=q1_0x49f7ea,_0x47361f=recordPhoto(_0xdcd9e);if(_0x2cf3bc[_0x454e05(0x3b6)](_0x454e05(0x467))===(_0x47361f||null))return;_0x2cf3bc[_0x454e05(0x343)]=!_0x47361f;if(_0x47361f)_0x2cf3bc['src']=_0x47361f;else _0x2cf3bc[_0x454e05(0x254)]('src');}function recordFavorites(){const _0x52f684=q1_0x49f7ea,_0x3ac115=recordsScope+_0x52f684(0x43b);if(favoritesScope!==_0x3ac115){favoritesScope=_0x3ac115,favorites=new Set();try{const _0x498db5=JSON['parse'](localStorage[_0x52f684(0x520)](_0x3ac115));if(Array[_0x52f684(0x1d0)](_0x498db5))favorites=new Set(_0x498db5);}catch{}}return favorites;}function toggleFavorite(_0x3a19dc){const _0x188aff=q1_0x49f7ea,_0x493073=recordFavorites(),_0x3194ba=!_0x493073[_0x188aff(0x2c9)](_0x3a19dc);if(_0x3194ba)_0x493073[_0x188aff(0x481)](_0x3a19dc);else _0x493073[_0x188aff(0x1b9)](_0x3a19dc);try{localStorage[_0x188aff(0x588)](favoritesScope,JSON[_0x188aff(0x549)]([..._0x493073]));}catch{}return backupKakaopay(window),_0x3194ba;}function markFavorite(_0x748e62,_0x4281c8){const _0xa1515e=q1_0x49f7ea;_0x748e62[_0xa1515e(0x5ba)](_0xa1515e(0x52b),String(_0x4281c8)),_0x748e62[_0xa1515e(0x5ba)]('aria-label',t('recordFavorite'));}const recordTokenPattern=/^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/,recordShareDialog=el(q1_0x49f7ea(0x245)),recordVisibilityDialog=el('record-visibility-dialog'),publicPlayUrl=q1_0x49f7ea(0x50f),reviewPlay=el(q1_0x49f7ea(0x1d7)),reviewRoomAction=el('review-room-action'),reviewShare=el(q1_0x49f7ea(0x543)),reviewExit=el(q1_0x49f7ea(0x561));reviewPlay[q1_0x49f7ea(0x5cf)]=window[q1_0x49f7ea(0x490)]?.[q1_0x49f7ea(0x4b6)]?.()||publicPlayUrl;function recordVisibilityPath(_0x18195d){const _0x501fa7=q1_0x49f7ea,_0x7d521=_0x18195d['code']??_0x18195d['id']?.['split'](':')[0x0];if(!backend||_0x18195d[_0x501fa7(0x4ed)]||_0x18195d['summaryOnly']||!recordTokenPattern[_0x501fa7(0x2d6)](_0x7d521)||!Number[_0x501fa7(0x4fd)](_0x18195d['round']))return null;return _0x501fa7(0x2c4)+_0x7d521+'/'+_0x18195d[_0x501fa7(0x1a0)]+_0x501fa7(0x4a0);}function recordShareUrl(_0x30010c){const _0x25658b=q1_0x49f7ea,_0x4f050f=new URL(publicPlayUrl);return _0x4f050f[_0x25658b(0x3bc)]=_0x25658b(0x5ad)+_0x30010c,_0x4f050f[_0x25658b(0x5cf)];}function renderRecordDialog(){const _0xde27ff=q1_0x49f7ea;if(!recordDialogTarget?.[_0xde27ff(0x32d)]['open'])return;const {dialog:_0x440553,feedbackId:_0xb2b2a3,shareId:_0x1b7897,updating:_0x173b1a,ready:_0x500d8a,prepared:_0x3d6a60,sharing:_0x487d56}=recordDialogTarget;if(_0x440553===recordVisibilityDialog){const _0x2d4a6e=el(_0xde27ff(0x29c));_0x2d4a6e[_0xde27ff(0x343)]=!_0x500d8a,_0x2d4a6e[_0xde27ff(0x3a7)]=_0x173b1a,_0x2d4a6e[_0xde27ff(0x5c1)]=t(_0x1b7897?_0xde27ff(0x181):'recordMakePublic'),el(_0xde27ff(0x5bf))[_0xde27ff(0x3a7)]=![];}else{el(_0xde27ff(0x4d7))[_0xde27ff(0x343)]=!_0x1b7897;const _0x2a6dac=el(_0xde27ff(0x3fd)),_0x215020=_0x1b7897?recordShareUrl(_0x1b7897):'';if(_0x2a6dac[_0xde27ff(0x592)]!==_0x215020)_0x2a6dac[_0xde27ff(0x592)]=_0x215020;el(_0xde27ff(0x2bc))[_0xde27ff(0x343)]=!_0x3d6a60,el('record-send-link')[_0xde27ff(0x3a7)]=_0x487d56,el(_0xde27ff(0x3b8))[_0xde27ff(0x3a7)]=![],el('record-share-close')[_0xde27ff(0x3a7)]=![];}const _0x54034b=el(_0xb2b2a3);if(!_0x54034b['hidden'])_0x54034b[_0xde27ff(0x5c1)]=t(_0x54034b[_0xde27ff(0x575)][_0xde27ff(0x41e)]);}async function openRecordDialog(_0x2c656d,_0x4842fe){const _0x42f5d=q1_0x49f7ea;if(!_0x2c656d||recordDialogTarget?.[_0x42f5d(0x32d)]['open'])return;const _0x1725f8=_0x4842fe===recordVisibilityDialog,_0x35423a=_0x2c656d['sharedView']?null:recordVisibilityPath(_0x2c656d);if(!_0x35423a&&(_0x1725f8||!_0x2c656d[_0x42f5d(0x37a)]||!_0x2c656d[_0x42f5d(0x310)]))return;const _0x59aa13=_0x1725f8?_0x42f5d(0x448):'record-share-feedback',_0x3cde8e={'game':_0x2c656d,'dialog':_0x4842fe,'feedbackId':_0x59aa13,'path':_0x35423a,'shareId':_0x35423a?null:_0x2c656d['shareId'],'ready':![]};recordDialogTarget=_0x3cde8e,feedback(_0x59aa13,!_0x35423a?'':_0x1725f8?_0x42f5d(0x430):'recordSharePreparing'),_0x4842fe[_0x42f5d(0x33c)](),render();if(_0x35423a){const _0x295e73=await remoteRequest(_0x3fb5fd=>_0x3fb5fd[_0x42f5d(0x179)](_0x35423a,_0x1725f8?undefined:{'public':!![],'record':_0x2c656d['recordDetail']})),_0x5c7877=!_0x295e73[_0x42f5d(0x469)]&&(_0x1725f8||Boolean(_0x295e73[_0x42f5d(0x310)])),_0x4436c9=recordDialogTarget===_0x3cde8e&&_0x4842fe[_0x42f5d(0x5e1)];if(_0x5c7877&&(_0x4436c9||!_0x1725f8))updateRecordShareId(_0x3cde8e,_0x295e73[_0x42f5d(0x310)]);if(!_0x4436c9)return;_0x3cde8e['ready']=_0x5c7877,feedback(_0x59aa13,_0x5c7877?'':_0x42f5d(0x34e),!_0x5c7877),render();}if(_0x1725f8||!_0x3cde8e['shareId'])return;await prepareRecordShare(_0x3cde8e);const _0x3c8bfe=['android',_0x42f5d(0x3c5),_0x42f5d(0x32f)]['includes'](window[_0x42f5d(0x19e)]?.[_0x42f5d(0x5e2)]);if(_0x3c8bfe||navigator[_0x42f5d(0x35c)]?.[_0x42f5d(0x2f5)]!==![])await sendRecordLink(_0x3cde8e);}function updateRecordShareId(_0x5a753e,_0x4d33ea){const _0x18d80=q1_0x49f7ea;_0x5a753e[_0x18d80(0x310)]=_0x5a753e[_0x18d80(0x5dc)]['shareId']=_0x4d33ea;const _0x3dab6d=_0x5a753e[_0x18d80(0x5dc)]['code']?_0x5a753e[_0x18d80(0x5dc)][_0x18d80(0x4b1)]+':'+_0x5a753e[_0x18d80(0x5dc)][_0x18d80(0x1a0)]:_0x5a753e['game']['id'],_0x5a1199=records['find'](_0x11178a=>_0x11178a['id']===_0x3dab6d);if(_0x5a1199)_0x5a1199[_0x18d80(0x310)]=_0x4d33ea;}async function prepareRecordShare(_0x1238e0){const _0x5d8363=q1_0x49f7ea,{shareId:_0x102337}=_0x1238e0;if(!_0x102337||!window['NcqShare']?.[_0x5d8363(0x360)]())return;const _0x2c5b58=recordShareUrl(_0x102337);try{const _0x4b38a3=await window[_0x5d8363(0x490)][_0x5d8363(0x5be)]({'url':_0x2c5b58,'title':t(_0x5d8363(0x3d1)),'message':t(_0x5d8363(0x595))});if(recordDialogTarget!==_0x1238e0||!_0x1238e0[_0x5d8363(0x32d)]['open']||_0x4b38a3['url']!==_0x2c5b58)return;_0x1238e0[_0x5d8363(0x1c5)]=_0x4b38a3,renderRecordDialog();}catch{}}async function toggleRecordVisibility(){const _0x3159f1=q1_0x49f7ea,_0x1ff659=recordDialogTarget;if(_0x1ff659?.['dialog']!==recordVisibilityDialog||!_0x1ff659['ready']||_0x1ff659['updating'])return;_0x1ff659[_0x3159f1(0x422)]=!![],feedback(_0x1ff659['feedbackId'],_0x3159f1(0x1cd)),renderRecordDialog();const _0x327dd5=await remoteRequest(_0x36f603=>_0x36f603[_0x3159f1(0x179)](_0x1ff659[_0x3159f1(0x281)],{'public':!_0x1ff659[_0x3159f1(0x310)],...!_0x1ff659[_0x3159f1(0x310)]?{'record':_0x1ff659[_0x3159f1(0x5dc)][_0x3159f1(0x15a)]}:{}}));_0x1ff659[_0x3159f1(0x422)]=![];if(!_0x327dd5[_0x3159f1(0x469)])updateRecordShareId(_0x1ff659,_0x327dd5[_0x3159f1(0x310)]);if(recordDialogTarget!==_0x1ff659||!_0x1ff659[_0x3159f1(0x32d)][_0x3159f1(0x5e1)])return;_0x327dd5[_0x3159f1(0x469)]?feedback(_0x1ff659['feedbackId'],_0x3159f1(0x34e),!![]):feedback(_0x1ff659['feedbackId'],_0x327dd5[_0x3159f1(0x310)]?'':_0x3159f1(0x345)),render(),el(_0x3159f1(0x29c))[_0x3159f1(0x373)]();}el(q1_0x49f7ea(0x29c))['addEventListener'](q1_0x49f7ea(0x57f),toggleRecordVisibility),reviewShare[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>openRecordDialog(room??archive,recordShareDialog)),reviewPlay['addEventListener'](q1_0x49f7ea(0x57f),_0x1c2adf=>{const _0x3b1945=q1_0x49f7ea;archive?.[_0x3b1945(0x37a)]&&[_0x3b1945(0x524),_0x3b1945(0x3c5),_0x3b1945(0x32f)][_0x3b1945(0x400)](window[_0x3b1945(0x19e)]?.[_0x3b1945(0x5e2)])&&(_0x1c2adf[_0x3b1945(0x392)](),leaveMatch());});function selectPublicRecordLink(){const _0x6fe699=q1_0x49f7ea,_0x1d8eb2=el(_0x6fe699(0x3fd));_0x1d8eb2[_0x6fe699(0x373)](),_0x1d8eb2[_0x6fe699(0x356)](),feedback(_0x6fe699(0x36c),_0x6fe699(0x45d));}async function sendRecordLink(_0x31989d){const _0x441e4a=q1_0x49f7ea;if(!_0x31989d?.['prepared']||recordDialogTarget!==_0x31989d||!recordShareDialog[_0x441e4a(0x5e1)]||_0x31989d[_0x441e4a(0x4f7)])return;_0x31989d[_0x441e4a(0x4f7)]=!![],feedback(_0x441e4a(0x36c)),renderRecordDialog();let _0x1180f5='failed';try{({status:_0x1180f5}=await window[_0x441e4a(0x490)]['share'](_0x31989d[_0x441e4a(0x1c5)]));}catch{}_0x31989d[_0x441e4a(0x4f7)]=![];if(!recordShareDialog[_0x441e4a(0x5e1)]||recordDialogTarget!==_0x31989d)return;renderRecordDialog();if(_0x1180f5===_0x441e4a(0x5b1))feedback(_0x441e4a(0x36c),_0x441e4a(0x327));if(_0x1180f5===_0x441e4a(0x445))selectPublicRecordLink();else{if(!recordShareDialog[_0x441e4a(0x432)](document[_0x441e4a(0x238)]))el(_0x441e4a(0x2bc))[_0x441e4a(0x373)]({'preventScroll':!![]});}}el(q1_0x49f7ea(0x2bc))[q1_0x49f7ea(0x599)]('click',()=>sendRecordLink(recordDialogTarget)),el(q1_0x49f7ea(0x3b8))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),async()=>{const _0x5b4d6c=q1_0x49f7ea,_0x27b9cd=el('record-link'),_0x4f5d85=recordDialogTarget;try{await navigator['clipboard'][_0x5b4d6c(0x4e7)](_0x27b9cd[_0x5b4d6c(0x592)]);if(recordShareDialog[_0x5b4d6c(0x5e1)]&&recordDialogTarget===_0x4f5d85)feedback(_0x5b4d6c(0x36c),_0x5b4d6c(0x327));}catch{if(!recordShareDialog[_0x5b4d6c(0x5e1)]||recordDialogTarget!==_0x4f5d85)return;selectPublicRecordLink();}});for(const dialog of[recordShareDialog,recordVisibilityDialog]){dialog['addEventListener'](q1_0x49f7ea(0x2b6),()=>{const _0x15ce7e=q1_0x49f7ea;if(dialog['open']||recordDialogTarget?.[_0x15ce7e(0x32d)]!==dialog)return;const {game:_0x787d4b}=recordDialogTarget;recordDialogTarget=null,render();if(!el(_0x15ce7e(0x5c5))[_0x15ce7e(0x343)]&&!reviewShare[_0x15ce7e(0x343)])reviewShare['focus']();else{if(!el(_0x15ce7e(0x2b2))['hidden']){const _0x397857=Array[_0x15ce7e(0x602)](el(_0x15ce7e(0x1c7))[_0x15ce7e(0x187)])[_0x15ce7e(0x323)](_0x26ad4c=>_0x26ad4c[_0x15ce7e(0x575)]['recordId']===_0x787d4b['id']);(_0x397857?.[_0x15ce7e(0x3e1)](_0x15ce7e(0x420))??el(_0x15ce7e(0x44e)))[_0x15ce7e(0x373)]();}}});}function renderReview(_0x8e34cf){const _0x2669ac=q1_0x49f7ea;reviewMoveNumbers[_0x2669ac(0x5ba)](_0x2669ac(0x52b),String(showMoveNumbers));const _0x54b0bf=reviewPly<_0x8e34cf[_0x2669ac(0x24f)]['length']?moveColor(_0x8e34cf,reviewPly):null;for(const [_0x4af7d4,_0x1ae489]of[['opponent',0x3-_0x8e34cf[_0x2669ac(0x22c)]],[_0x2669ac(0x265),_0x8e34cf[_0x2669ac(0x22c)]]]){const _0x2e4def=seatColor(_0x8e34cf,_0x1ae489),_0x141e23=colorName(_0x2e4def),_0x311908=recordPlayer(_0x8e34cf,_0x1ae489),_0x47643d=_0x2669ac(0x1b7)+_0x4af7d4+'-',_0x516cc5=el(_0x47643d+'name');_0x516cc5[_0x2669ac(0x5c1)]=_0x516cc5[_0x2669ac(0x3d1)]=_0x8e34cf[_0x2669ac(0x37a)]?t(_0x141e23):_0x311908[_0x2669ac(0x4b8)];const _0x2a6fb8=el(_0x47643d+'seat');_0x2a6fb8[_0x2669ac(0x343)]=Boolean(_0x8e34cf['sharedView']),_0x2a6fb8[_0x2669ac(0x5c1)]=[t(_0x4af7d4===_0x2669ac(0x265)?_0x2669ac(0x22c):'opponent'),t(_0x141e23),recordRank(_0x311908)][_0x2669ac(0x371)](Boolean)[_0x2669ac(0x175)](_0x2669ac(0x36d)),el(_0x47643d+_0x2669ac(0x1a2))[_0x2669ac(0x56f)]='stone\x20'+_0x141e23,setRecordPhoto(el(_0x47643d+'photo'),_0x311908);const _0x5a1a77=_0x54b0bf===_0x2e4def,_0x168f03=el(_0x47643d+_0x2669ac(0x2c2));_0x168f03['disabled']=Boolean(_0x8e34cf[_0x2669ac(0x37a)]),_0x168f03[_0x2669ac(0x44d)](_0x2669ac(0x24e),_0x5a1a77);const _0x575bdc=el(_0x47643d+_0x2669ac(0x4bd));_0x575bdc[_0x2669ac(0x343)]=![],_0x575bdc[_0x2669ac(0x5ba)](_0x2669ac(0x311),String(!_0x5a1a77)),_0x575bdc[_0x2669ac(0x5c1)]=t(_0x2669ac(0x1a3),{'color':t(_0x141e23)});}const _0x58364c=archive?_0x8e34cf['id']:_0x8e34cf['id']+':'+_0x8e34cf[_0x2669ac(0x1a0)],_0x1006fe=el('review-favorite');_0x1006fe[_0x2669ac(0x343)]=Boolean(_0x8e34cf[_0x2669ac(0x37a)]),_0x1006fe['dataset'][_0x2669ac(0x171)]=_0x58364c,markFavorite(_0x1006fe,recordFavorites()[_0x2669ac(0x2c9)](_0x58364c)),el(_0x2669ac(0x3a2))[_0x2669ac(0x5c1)]=recordResult(_0x8e34cf,{'personal':!![]}),el(_0x2669ac(0x5e8))[_0x2669ac(0x5c1)]=recordModeLabel(_0x8e34cf);const _0xe4e28b=_0x8e34cf[_0x2669ac(0x26e)]?[0x0,0x0]:_0x8e34cf[_0x2669ac(0x5cc)]??[0x0,0x0];if(_0x8e34cf[_0x2669ac(0x26e)])for(const _0x5f87eb of _0x8e34cf[_0x2669ac(0x26e)]){if(_0x5f87eb[_0x2669ac(0x1fd)]===_0x2669ac(0x4bb)&&(_0x5f87eb[_0x2669ac(0x53d)]===0x1||_0x5f87eb[_0x2669ac(0x53d)]===0x2))_0xe4e28b[_0x5f87eb[_0x2669ac(0x53d)]-0x1]++;}const _0x587fc9=_0x8e34cf[_0x2669ac(0x22f)]??0x1;el(_0x2669ac(0x229))['hidden']=!_0xe4e28b['some'](Boolean),el('review-passes')['textContent']=t(_0x2669ac(0x358),{'black':_0xe4e28b[_0x587fc9-0x1],'white':_0xe4e28b[0x2-_0x587fc9]});}function entryRow(_0x323552,_0x2e07fb,_0x3d35e2){const _0x3741ae=q1_0x49f7ea,_0x4cbb69=document[_0x3741ae(0x57a)]('li');_0x4cbb69[_0x3741ae(0x56f)]=_0x3741ae(0x4fb);const _0x2b7833=document[_0x3741ae(0x57a)](_0x3d35e2?'button':_0x3741ae(0x292));_0x2b7833[_0x3741ae(0x56f)]='entry-body';const _0x1713e6=document[_0x3741ae(0x57a)]('strong');_0x1713e6['textContent']=_0x323552;const _0x2728e9=document['createElement'](_0x3741ae(0x1b5));return _0x2728e9['textContent']=_0x2e07fb,_0x2b7833[_0x3741ae(0x31b)](_0x1713e6,_0x2728e9),_0x3d35e2&&(_0x2b7833[_0x3741ae(0x1fd)]='button',_0x2b7833[_0x3741ae(0x599)](_0x3741ae(0x57f),_0x3d35e2)),_0x4cbb69['append'](_0x2b7833),_0x4cbb69;}function liveGameRow(_0x4f07dd,_0xaa008b){const _0x5f7ee2=q1_0x49f7ea,_0x5ab3c1=el('live-game-row')[_0x5f7ee2(0x49c)][_0x5f7ee2(0x2e1)][_0x5f7ee2(0x5ec)](!![]),_0x26f582=_0x5ab3c1[_0x5f7ee2(0x2e1)];_0x26f582[_0x5f7ee2(0x3d1)]=_0xaa008b;const _0x30d355=_0x4f07dd[_0x5f7ee2(0x22f)]??0x1;_0x5ab3c1[_0x5f7ee2(0x3da)](_0x5f7ee2(0x3ee))[_0x5f7ee2(0x384)]((_0x494180,_0x45b141)=>{const _0x57deb3=_0x5f7ee2,_0x2bdfb4=recordPlayer(_0x4f07dd,_0x45b141===0x0?_0x30d355:0x3-_0x30d355);_0x494180['querySelector'](_0x57deb3(0x451))[_0x57deb3(0x5ba)]('aria-label',t(colorName(_0x45b141+0x1))),_0x494180[_0x57deb3(0x3e1)](_0x57deb3(0x20a))[_0x57deb3(0x5c1)]=recordRank(_0x2bdfb4);const _0x4a37ca=_0x2bdfb4[_0x57deb3(0x3e4)]||t(_0x57deb3(0x482)),_0x58af14=_0x494180[_0x57deb3(0x3e1)]('.live-game-name');_0x58af14[_0x57deb3(0x5c1)]=_0x4a37ca,_0x58af14[_0x57deb3(0x3d1)]=_0x4a37ca;});const _0xdc6b75=_0x5ab3c1['querySelector'](_0x5f7ee2(0x419));return _0xdc6b75[_0x5f7ee2(0x343)]=!Number[_0x5f7ee2(0x4fd)](_0x4f07dd[_0x5f7ee2(0x442)]),_0xdc6b75[_0x5f7ee2(0x5c1)]=_0xdc6b75['hidden']?'':t(_0x5f7ee2(0x3a0),{'n':_0x4f07dd[_0x5f7ee2(0x442)]}),_0x5ab3c1['querySelector'](_0x5f7ee2(0x5da))[_0x5f7ee2(0x5c1)]=t(_0x5f7ee2(0x41c),{'n':_0x4f07dd['moves']}),_0x26f582[_0x5f7ee2(0x599)](_0x5f7ee2(0x57f),()=>openSpectator(_0x4f07dd[_0x5f7ee2(0x4b1)])),_0x5ab3c1;}function championshipPeriod(_0x1ab5f8,_0x475f24){const _0x37ee34=_0x26ab19=>{const _0x90c79d=q1_0x284e,_0x312469=new Date(_0x26ab19+koreaOffset);return String(_0x312469[_0x90c79d(0x161)]()+0x1)[_0x90c79d(0x3b7)](0x2,'0')+'.'+String(_0x312469[_0x90c79d(0x2a2)]())[_0x90c79d(0x3b7)](0x2,'0');};return _0x37ee34(_0x1ab5f8)+'~'+_0x37ee34(_0x475f24-0x1);}function renderChampionship(_0x2c23bb=Date['now']()){const _0x5a690c=q1_0x49f7ea,_0x3b20f3=_0x2c23bb+koreaOffset,_0x171477=(new Date(_0x3b20f3)[_0x5a690c(0x4c2)]()+0x6)%0x7,_0x12ee12=new Date((Math[_0x5a690c(0x338)](_0x3b20f3/dayMs)-_0x171477)*dayMs),_0x3bca3c=_0x12ee12[_0x5a690c(0x60f)]()+0x7*dayMs-koreaOffset,_0x50f74f=NcqLang['date'](_0x12ee12,{'month':_0x5a690c(0x512),'timeZone':_0x5a690c(0x4c1)}),_0x340e75=NcqLang[_0x5a690c(0x59e)](Math[_0x5a690c(0x28b)](_0x12ee12[_0x5a690c(0x2a2)]()/0x7));el(_0x5a690c(0x2d3))[_0x5a690c(0x5c1)]=t('championshipName',{'month':_0x50f74f,'week':_0x340e75});const _0xe97148=Math[_0x5a690c(0x28b)]((_0x3bca3c-_0x2c23bb)/0xea60),_0x429e73=Math['floor'](_0xe97148/0x3c),_0x6ccf57=el(_0x5a690c(0x548));_0x6ccf57['dateTime']=new Date(_0x3bca3c)['toISOString'](),_0x6ccf57['textContent']=t(_0x429e73>=0x18?_0x5a690c(0x4ee):_0x429e73?_0x5a690c(0x367):'championshipEndsMinutes',{'days':NcqLang[_0x5a690c(0x59e)](Math['floor'](_0x429e73/0x18)),'hours':NcqLang['num'](_0x429e73%0x18),'minutes':NcqLang[_0x5a690c(0x59e)](_0xe97148%0x3c)});const _0x4d2621=_0x6ccf57['textContent'];_0x6ccf57[_0x5a690c(0x5c1)]=t(_0x429e73>=0x18?_0x5a690c(0x1a1):_0x429e73?_0x5a690c(0x51f):_0x5a690c(0x475),{'n':NcqLang[_0x5a690c(0x59e)](_0x429e73>=0x18?Math[_0x5a690c(0x338)](_0x429e73/0x18):_0x429e73||_0xe97148)}),_0x6ccf57['title']=_0x4d2621,_0x6ccf57[_0x5a690c(0x2b8)][_0x5a690c(0x407)](_0x5a690c(0x236),_0x6ccf57[_0x5a690c(0x5c1)][_0x5a690c(0x567)]),el(_0x5a690c(0x2d3))[_0x5a690c(0x3d1)]=el(_0x5a690c(0x2d3))['textContent'],el('lobby-championship')['textContent']=t('forestChampionship'),el(_0x5a690c(0x368))[_0x5a690c(0x5c1)]=rankingTab==='previous'?t(_0x5a690c(0x383)):_0x6ccf57[_0x5a690c(0x5c1)],(rankingTab!==_0x5a690c(0x499)||!el('forest-championship-period')[_0x5a690c(0x5c1)])&&(el(_0x5a690c(0x2cd))['textContent']=championshipPeriod(_0x3bca3c-0x7*dayMs,_0x3bca3c));}function renderLobby(){const _0x29fb00=q1_0x49f7ea;if(backend)renderChampionship();const _0x9174ed=el(_0x29fb00(0x437));_0x9174ed[_0x29fb00(0x343)]=lobbyUnavailable||!liveGames,_0x9174ed['textContent']=t(_0x29fb00(0x479),{'n':liveGames?.['length']??0x0});const _0x295aae=lobbyUnavailable?'liveUnavailable':liveGames?_0x29fb00(0x221):_0x29fb00(0x5a2);el(_0x29fb00(0x428))[_0x29fb00(0x5c1)]=t(_0x295aae),el('live-message')['hidden']=!lobbyUnavailable&&Boolean(liveGames?.[_0x29fb00(0x567)]);const _0x35d8f3=document[_0x29fb00(0x238)]?.[_0x29fb00(0x575)][_0x29fb00(0x321)],_0x39f887=el(_0x29fb00(0x4a6));_0x39f887[_0x29fb00(0x421)](...(lobbyUnavailable?[]:liveGames??[])['map'](_0x153ee3=>{const _0x4a1e8d=_0x29fb00,_0x4a6172=t(_0x4a1e8d(0x5fc),{'n':_0x153ee3['moves']}),_0x5807bd=t(matchMode(_0x153ee3)),_0x2eae16=_0x5807bd+'\x20#'+_0x153ee3['number'];if(!_0x153ee3[_0x4a1e8d(0x4b1)])return entryRow(_0x2eae16,_0x4a6172);const _0x1334be=_0x153ee3['players']?.[_0x4a1e8d(0x567)]===0x2?liveGameRow(_0x153ee3,_0x2eae16):entryRow(_0x2eae16,_0x4a6172+_0x4a1e8d(0x36d)+t(_0x4a1e8d(0x2e3)),()=>openSpectator(_0x153ee3[_0x4a1e8d(0x4b1)]));return _0x1334be['firstElementChild'][_0x4a1e8d(0x575)]['watchCode']=_0x153ee3[_0x4a1e8d(0x4b1)],_0x1334be[_0x4a1e8d(0x2e1)]['disabled']=busy,_0x1334be;}));if(_0x35d8f3&&!busy){const _0x1b387d=[..._0x39f887['querySelectorAll'](_0x29fb00(0x19d))][_0x29fb00(0x323)](_0xc92848=>_0xc92848['dataset']['watchCode']===_0x35d8f3);(_0x1b387d??el('lobby-heading'))[_0x29fb00(0x373)]({'preventScroll':!![]});}}function ratingNumber(_0x2b5fd7){const _0x4f2e21=q1_0x49f7ea;return new Intl[(_0x4f2e21(0x4ea))](NcqLang[_0x4f2e21(0x246)])[_0x4f2e21(0x441)](_0x2b5fd7);}const danMinimums=[0x898,0x8d4,0x924,0x988,0xa00,0xa8c,0xb2c,0xbe0,0xca8];function rankLevel(_0x4cbfa1){const _0x24bb61=q1_0x49f7ea;if(_0x4cbfa1<0x5f0)return 0x0;if(_0x4cbfa1<danMinimums[0x0])return 0x1+Math[_0x24bb61(0x338)]((_0x4cbfa1-0x5f0)/0x28);const _0x5bb2f1=danMinimums['findIndex'](_0x340d70=>_0x4cbfa1<_0x340d70);return _0x5bb2f1===-0x1?0x1a:0x11+_0x5bb2f1;}function rankMinimum(_0x19a438){return _0x19a438<0x12?0x5f0+0x28*(_0x19a438-0x1):danMinimums[_0x19a438-0x12];}function rankName(_0x54cab9){const _0x13ad88=q1_0x49f7ea;return _0x54cab9<0x12?t(_0x13ad88(0x344),{'n':0x12-_0x54cab9}):t(_0x13ad88(0x164),{'n':_0x54cab9-0x11});}function renderOwnRank(){const _0x2bc7ea=q1_0x49f7ea;if(spectator)return;const _0x4f405a=backend?playerStats?.[_0x2bc7ea(0x17a)]:0x5dc,_0x4b96b2=el(_0x2bc7ea(0x27a));_0x4b96b2[_0x2bc7ea(0x343)]=!Number['isFinite'](_0x4f405a);if(!_0x4b96b2['hidden'])_0x4b96b2[_0x2bc7ea(0x5c1)]=rankName(rankLevel(_0x4f405a));}function renderPlayerCard(){const _0x1fe567=q1_0x49f7ea,_0x5e0e0b=lobbyView===_0x1fe567(0x277)?rankingTab:null,_0x580632=_0x5e0e0b===_0x1fe567(0x3f8)||_0x5e0e0b===_0x1fe567(0x499)?rankingResults[_0x5e0e0b]?.['result']?.[_0x1fe567(0x265)]:null,_0x3a124=_0x5e0e0b===_0x1fe567(0x499)||Boolean(_0x580632),_0x313f54=_0x5e0e0b===_0x1fe567(0x17a),_0x5c2acb=_0x313f54?playerStats?.['ratingRank']?.[_0x1fe567(0x60c)]:_0x580632?.[_0x1fe567(0x364)],_0x218d84=el('player-ranking-place');_0x218d84[_0x1fe567(0x343)]=!_0x5e0e0b,renderRankingPlace(_0x218d84,_0x5c2acb);const _0x322e51=playerStats?.[_0x1fe567(0x17a)]??_0x580632?.[_0x1fe567(0x17a)]??0x5dc,_0x1b402d=Number[_0x1fe567(0x199)](_0x322e51)?rankLevel(_0x322e51):null,_0x20ae9a=ownNickname();el(_0x1fe567(0x582))[_0x1fe567(0x5c1)]=_0x20ae9a,el(_0x1fe567(0x582))[_0x1fe567(0x3d1)]=_0x20ae9a;const _0x2626fd=el(_0x1fe567(0x4ba));_0x2626fd['hidden']=_0x1b402d===null;if(!_0x2626fd[_0x1fe567(0x343)])_0x2626fd['textContent']=rankName(_0x1b402d);const _0x515610=el(_0x1fe567(0x498)),_0xefc05e=_0x3a124?_0x580632:_0x313f54?playerStats:playerStats?.['rankRecord'];_0x515610[_0x1fe567(0x343)]=!_0xefc05e||![_0xefc05e[_0x1fe567(0x1a8)],_0xefc05e['draws'],_0xefc05e[_0x1fe567(0x240)]]['every'](Number[_0x1fe567(0x4fd)]);if(!_0x515610['hidden']){const _0x4ac337=t('careerRecord',_0xefc05e);_0x515610['textContent']=_0x515610[_0x1fe567(0x3d1)]=_0x3a124||_0x313f54?_0x4ac337+'\x20·\x20'+t(_0x1fe567(0x2d9),{'rate':winRate(_0xefc05e)}):t(_0x1fe567(0x377),{'record':_0x4ac337});}const _0xc4fb41=el(_0x1fe567(0x4fe));_0xc4fb41[_0x1fe567(0x343)]=!_0x3a124&&!_0x313f54&&_0x1b402d===null;if(!_0xc4fb41[_0x1fe567(0x343)]){el('player-rating-label')[_0x1fe567(0x343)]=_0x3a124;const _0x52fa19=el(_0x1fe567(0x436));_0x3a124?_0x52fa19[_0x1fe567(0x5c1)]=Number[_0x1fe567(0x4fd)](_0x580632?.['points'])?t(_0x1fe567(0x23d),{'n':_0x580632['points']}):t(_0x1fe567(0x31f)):_0x52fa19['textContent']=_0x1b402d===null?'-':t(_0x1fe567(0x1fb),{'rating':ratingNumber(_0x322e51)});const _0x136c3a=el(_0x1fe567(0x4dd));_0x3a124||_0x313f54?_0x136c3a[_0x1fe567(0x5c1)]=Number['isInteger'](_0x5c2acb)&&_0x5c2acb>0x0?t(_0x1fe567(0x1e1),{'rank':ratingNumber(_0x5c2acb)}):t(_0x1fe567(0x1ec)):_0x136c3a[_0x1fe567(0x5c1)]=nextRankText(_0x1b402d,_0x322e51),_0x136c3a[_0x1fe567(0x343)]=Boolean(_0x5e0e0b)||!_0x136c3a['textContent'];}const _0x41a461=rankLevel(_0x322e51);forest[_0x1fe567(0x2c2)](_0x322e51,rankMinimum(_0x41a461),_0x41a461<0x1a?rankMinimum(_0x41a461+0x1):rankMinimum(_0x41a461)+0x64);}function nextRankText(_0x16634e,_0x255074){const _0x45dbf7=q1_0x49f7ea;if(_0x16634e===0x1a)return'';return t(_0x45dbf7(0x527),{'rank':rankName(_0x16634e+0x1),'points':ratingNumber(rankMinimum(_0x16634e+0x1)-_0x255074)});}function winRate({wins:_0x1f21c3,draws:_0x5d0f83,losses:_0x41c484}){const _0x290bc9=q1_0x49f7ea,_0x32d5b5=_0x1f21c3+_0x5d0f83+_0x41c484;return _0x32d5b5>0x0?new Intl[(_0x290bc9(0x4ea))](NcqLang[_0x290bc9(0x246)],{'style':_0x290bc9(0x511),'maximumFractionDigits':0x1})[_0x290bc9(0x441)](_0x1f21c3/_0x32d5b5):'—';}function renderPromotionMeter(_0x291500,_0x2d024b,_0x6941fe,{previousRating:_0x5120b4}={}){const _0x4ee4c3=q1_0x49f7ea,_0x5604c0=rankLevel(_0x6941fe),_0x565d86=_0x5604c0>0x0,_0x44243f=_0x5604c0<0x1a,_0xf83469=_0x565d86?rankMinimum(_0x5604c0):0x5dc-(rankMinimum(0x1)-0x5dc),_0x2b1874=_0x44243f?rankMinimum(_0x5604c0+0x1):_0xf83469+(_0xf83469-rankMinimum(_0x5604c0-0x1)),_0x3ab3df=(_0xf83469+_0x2b1874)/0x2,_0x56a2ca=_0x5120b4!==undefined,_0x901baf=_0x56a2ca?Math[_0x4ee4c3(0x2f7)](_0xf83469,_0x5120b4,_0x6941fe):_0xf83469,_0x33c963=_0x56a2ca?Math[_0x4ee4c3(0x247)](_0x2b1874,_0x5120b4,_0x6941fe):_0x2b1874,_0x85f24e=_0x46e97d=>Math[_0x4ee4c3(0x247)](0x0,Math[_0x4ee4c3(0x2f7)](0x64,0x64*(_0x46e97d-_0x901baf)/(_0x33c963-_0x901baf))),_0x15f58f=new Intl[(_0x4ee4c3(0x4ea))](NcqLang[_0x4ee4c3(0x246)],{'signDisplay':_0x4ee4c3(0x19f)}),_0x1a65c5=_0x56a2ca?new Intl[(_0x4ee4c3(0x4ea))](NcqLang[_0x4ee4c3(0x246)],{'signDisplay':_0x4ee4c3(0x503)}):_0x15f58f,_0x13d7c3=_0x6941fe-_0x3ab3df,_0x33cff5=_0xf83469-_0x3ab3df,_0x473256=_0x2b1874-_0x3ab3df,_0x309eaa=_0x565d86?t(_0x4ee4c3(0x174)):t(_0x4ee4c3(0x33d)),_0xbbec3e=_0x44243f?t(_0x4ee4c3(0x3e0)):t(_0x4ee4c3(0x218)),_0x1dbcd9=el(_0x291500),_0x25e193=_0x85f24e(_0x6941fe);_0x1dbcd9[_0x4ee4c3(0x2b8)]['setProperty'](_0x4ee4c3(0x25f),_0x25e193+'%');const _0x41b1f2={'value':_0x15f58f[_0x4ee4c3(0x441)](_0x13d7c3),'lowLabel':_0x309eaa,'lowTick':_0x565d86?_0x15f58f[_0x4ee4c3(0x441)](_0x33cff5):'—','highLabel':_0xbbec3e,'highTick':_0x44243f?_0x15f58f[_0x4ee4c3(0x441)](_0x473256):'—'};if(_0x56a2ca){const _0x5bdfaa=_0x85f24e(_0x5120b4);_0x1dbcd9[_0x4ee4c3(0x2b8)]['setProperty'](_0x4ee4c3(0x391),_0x5bdfaa+'%'),_0x1dbcd9[_0x4ee4c3(0x2b8)][_0x4ee4c3(0x407)](_0x4ee4c3(0x51e),Math[_0x4ee4c3(0x2f7)](_0x5bdfaa,_0x25e193)+'%'),_0x1dbcd9[_0x4ee4c3(0x2b8)][_0x4ee4c3(0x407)](_0x4ee4c3(0x3db),Math[_0x4ee4c3(0x247)](_0x5bdfaa,_0x25e193)+'%'),_0x1dbcd9[_0x4ee4c3(0x2b8)][_0x4ee4c3(0x407)]('--promotion-band-start',_0x85f24e(_0xf83469)+'%'),_0x1dbcd9[_0x4ee4c3(0x2b8)][_0x4ee4c3(0x407)](_0x4ee4c3(0x5ca),_0x85f24e(_0x2b1874)+'%'),_0x41b1f2[_0x4ee4c3(0x499)]=_0x15f58f[_0x4ee4c3(0x441)](_0x5120b4-_0x3ab3df),el(_0x2d024b+_0x4ee4c3(0x372))['textContent']=_0x41b1f2['previous'];}_0x1dbcd9[_0x4ee4c3(0x5ba)]('aria-label',t(_0x56a2ca?'resultPromotionMeter':'promotionMeter',_0x41b1f2)),el(_0x2d024b+'-value')[_0x4ee4c3(0x5c1)]=_0x41b1f2[_0x4ee4c3(0x592)],el(_0x2d024b+_0x4ee4c3(0x603))[_0x4ee4c3(0x5c1)]=_0x309eaa,el(_0x2d024b+'-upper-label')[_0x4ee4c3(0x5c1)]=_0xbbec3e,el(_0x2d024b+'-lower')['textContent']=_0x565d86?_0x1a65c5[_0x4ee4c3(0x441)](_0x33cff5):'—',el(_0x2d024b+_0x4ee4c3(0x49b))['textContent']=_0x44243f?_0x1a65c5['format'](_0x473256):'—';}async function openPlayerProfile(_0x542067,_0x5f1d07=null){const _0x1c407b=q1_0x49f7ea,_0x4c4e2d=room??archive,_0x487403=_0x5f1d07?Boolean(_0x5f1d07[_0x1c407b(0x1cf)]['you']):_0x542067===undefined||_0x542067===_0x4c4e2d?.[_0x1c407b(0x22c)],_0x4f920c=_0x4c4e2d?.['code']??_0x4c4e2d?.['id']?.[_0x1c407b(0x1ca)](':')[0x0],_0xf2c293=Boolean(backend&&!_0x4c4e2d?.['device']&&/^[\da-f-]{36}$/[_0x1c407b(0x2d6)](_0x4f920c??'')),_0x15371a={'own':_0x487403,'seat':_0x542067,'online':_0xf2c293,'ranking':_0x5f1d07,'stats':_0x5f1d07?.[_0x1c407b(0x1cf)]??null,'loading':!_0x5f1d07&&!_0x487403&&_0xf2c293};profileTarget=_0x15371a,renderPlayerProfile(),profileDialog[_0x1c407b(0x33c)](),render();if(_0x487403){await refreshAuthProfile({'forceRefresh':!![]});if(profileTarget!==_0x15371a||!profileDialog[_0x1c407b(0x5e1)])return;await refreshPlayerCard();}else{if(_0x15371a[_0x1c407b(0x5b6)]){const _0x160a7f=await getOpponentProfile(_0x4f920c,_0x4c4e2d[_0x1c407b(0x1a0)]);if(profileTarget!==_0x15371a||!profileDialog[_0x1c407b(0x5e1)])return;_0x15371a['loading']=![];if(!_0x160a7f[_0x1c407b(0x469)])_0x15371a[_0x1c407b(0x450)]=_0x160a7f;renderPlayerProfile();}}}function getOpponentProfile(_0x4561dc,_0xb3f71f){const _0x230286=q1_0x49f7ea;return remoteRequest(_0x395c3e=>_0x395c3e[_0x230286(0x179)](_0x230286(0x33b)+_0x4561dc+_0x230286(0x40f)+_0xb3f71f));}function renderMatchIntro(){const _0x29b0a2=q1_0x49f7ea,{game:_0x2615d9,opponentLevel:_0x4fec67}=matchIntro,_0x3e5ff9=room?.['code']===_0x2615d9['code']?room:_0x2615d9,_0x9d36e5=recordPlayer(_0x3e5ff9,0x3-_0x2615d9[_0x29b0a2(0x22c)]),_0x16b370=matchIntro[_0x29b0a2(0x16a)]??_0x9d36e5[_0x29b0a2(0x17a)],_0x254593=playerStats?.[_0x29b0a2(0x17a)]??recordPlayer(_0x3e5ff9,_0x2615d9[_0x29b0a2(0x22c)])[_0x29b0a2(0x17a)];setRecordPhoto(el(_0x29b0a2(0x34b)),_0x9d36e5);for(const [_0x3d3470,_0x4c1efb,_0x13633a,_0x229485]of[[_0x29b0a2(0x265),ownNickname(recordPlayer(_0x3e5ff9,_0x2615d9[_0x29b0a2(0x22c)])),_0x254593,null],[_0x29b0a2(0x37c),_0x9d36e5[_0x29b0a2(0x4b8)],_0x16b370,_0x4fec67]]){const _0x195037=_0x29b0a2(0x308)+_0x3d3470+'-',_0x2555a3=el(_0x195037+_0x29b0a2(0x4b8));_0x2555a3[_0x29b0a2(0x5c1)]=_0x2555a3[_0x29b0a2(0x3d1)]=_0x4c1efb;const _0x1e1025=Number[_0x29b0a2(0x199)](_0x13633a)?rankLevel(_0x13633a):_0x229485,_0x31ddaa=el(_0x195037+_0x29b0a2(0x364));_0x31ddaa[_0x29b0a2(0x343)]=_0x1e1025==null;if(!_0x31ddaa[_0x29b0a2(0x343)])_0x31ddaa[_0x29b0a2(0x5c1)]=rankName(_0x1e1025);const _0x1c4237=el(_0x195037+_0x29b0a2(0x17a));_0x1c4237[_0x29b0a2(0x343)]=!Number[_0x29b0a2(0x199)](_0x13633a);if(!_0x1c4237['hidden'])_0x1c4237[_0x29b0a2(0x5c1)]=t(_0x29b0a2(0x30a),{'rating':ratingNumber(_0x13633a)});}const _0x1d52cc=el('match-intro-points');_0x1d52cc['hidden']=!Number[_0x29b0a2(0x199)](_0x254593)||!Number[_0x29b0a2(0x199)](_0x16b370);if(_0x1d52cc[_0x29b0a2(0x343)])return;const _0x338275=0x1/(0x1+0xa**((_0x16b370-_0x254593)/0x190)),_0x888422=new Intl['NumberFormat'](NcqLang[_0x29b0a2(0x246)],{'signDisplay':_0x29b0a2(0x19f)});el(_0x29b0a2(0x489))[_0x29b0a2(0x5c1)]=t('matchIntroWin',{'points':_0x888422[_0x29b0a2(0x441)](Math['round'](0x20*(0x1-_0x338275)))}),el(_0x29b0a2(0x1ac))[_0x29b0a2(0x5c1)]=t('matchIntroLoss',{'points':_0x888422[_0x29b0a2(0x441)](-Math[_0x29b0a2(0x1a0)](0x20*_0x338275))});}async function openMatchIntro(_0x1e5fc2,_0x3f15ed=![]){const _0x1f038e=q1_0x49f7ea;if(_0x1e5fc2[_0x1f038e(0x531)]!==_0x1f038e(0x3ca))return;const _0x42e052={'game':_0x1e5fc2,'opponentRating':null,'opponentLevel':_0x1e5fc2[_0x1f038e(0x535)]};matchIntro=_0x42e052,renderMatchIntro(),matchIntroDialog[_0x1f038e(0x33c)](),_0x42e052[_0x1f038e(0x42b)]=haptics[_0x1f038e(0x5e7)](_0x1f038e(0x51d)+roundHapticKey(_0x1e5fc2),_0x1f038e(0x45a),{'delay':reducedMotion[_0x1f038e(0x497)]?0x0:0x12c,'valid':()=>matchIntro===_0x42e052&&matchIntroDialog[_0x1f038e(0x5e1)]});if(_0x3f15ed){const _0x419728=parseFloat(getComputedStyle(matchIntroDialog)[_0x1f038e(0x16e)](_0x1f038e(0x5c3)))||0x12c;_0x42e052[_0x1f038e(0x4a9)]=matchingAudio[_0x1f038e(0x2df)](roundHapticKey(_0x1e5fc2),{'delay':_0x419728,'valid':()=>matchIntro===_0x42e052&&matchIntroDialog[_0x1f038e(0x5e1)]});}_0x42e052[_0x1f038e(0x38c)]=setTimeout(()=>{const _0x2de10e=_0x1f038e;if(matchIntro===_0x42e052&&matchIntroDialog[_0x2de10e(0x5e1)])matchIntroDialog['close']();},0x1388),render();if(!backend)return;if(!playerStats)refreshPlayerCard();const _0x1352ed=await getOpponentProfile(_0x1e5fc2['code'],_0x1e5fc2['round']);if(matchIntro!==_0x42e052||!matchIntroDialog['open']||!Number[_0x1f038e(0x199)](_0x1352ed?.[_0x1f038e(0x17a)]))return;_0x42e052[_0x1f038e(0x16a)]=_0x1352ed[_0x1f038e(0x17a)],renderMatchIntro();}function renderPlayerProfile(){const _0x5bebf4=q1_0x49f7ea,{own:_0xed4155,seat:_0x2fea40,online:_0x582a6f,loading:_0x3585ac,ranking:_0x49074e,stats:_0x47ca31}=profileTarget,_0x1e5dc3=_0xed4155?null:_0x49074e,_0x4921a3=_0x1e5dc3&&_0x1e5dc3['tab']!==_0x5bebf4(0x17a),_0x3c72d6=_0x4921a3&&_0x1e5dc3[_0x5bebf4(0x28d)]==='previous',_0x1e61b6=_0xed4155?playerStats:_0x47ca31,_0x154677=room??archive,_0x197c31=_0x1e5dc3?.[_0x5bebf4(0x1cf)]??(_0x2fea40&&_0x154677&&(!_0xed4155||_0x154677['phase']===_0x5bebf4(0x2b0))?recordPlayer(_0x154677,_0x2fea40):null),_0x4c3fd5=_0x1e5dc3?rankingPlayerName(_0x1e5dc3[_0x5bebf4(0x1cf)]):_0x197c31?.[_0x5bebf4(0x3e4)]||(_0xed4155?ownNickname():t(_0x5bebf4(0x37c))),_0x5ded3d=el(_0x5bebf4(0x2e7)),_0x47990f=el('profile-status'),_0x327ac5=el(_0x5bebf4(0x551)),_0x4fc9ab=recordPhoto(_0x197c31)||(_0xed4155?playerPhoto:null);if(_0x327ac5[_0x5bebf4(0x3b6)](_0x5bebf4(0x467))!==_0x4fc9ab){_0x327ac5[_0x5bebf4(0x343)]=!![];if(_0x4fc9ab)_0x327ac5['src']=_0x4fc9ab;else _0x327ac5['removeAttribute']('src');}const _0x56151a=el('profile-stone');_0x56151a[_0x5bebf4(0x343)]=Boolean(_0x49074e),_0x56151a[_0x5bebf4(0x56f)]=_0x5bebf4(0x558)+colorName(seatColor(_0x154677,_0x2fea40)),nicknameEdit[_0x5bebf4(0x343)]=!_0xed4155,nicknameEdit['disabled']=nicknameSaving||!accountProfile||accountProfile[_0x5bebf4(0x43c)]!==authSession?.['player'];const _0x5ddbb0=Number['isFinite'](_0x1e61b6?.['rating']),_0x40b9c=_0x1e61b6&&[_0x1e61b6[_0x5bebf4(0x1a8)],_0x1e61b6['draws'],_0x1e61b6[_0x5bebf4(0x240)]][_0x5bebf4(0x532)](Number[_0x5bebf4(0x4fd)]),_0x39af8d=_0x1e5dc3?Number[_0x5bebf4(0x4fd)](_0x1e5dc3[_0x5bebf4(0x1cf)][_0x5bebf4(0x364)]):_0xed4155&&_0x1e61b6&&Object[_0x5bebf4(0x4a4)](_0x1e61b6,_0x5bebf4(0x287));el('profile-rating-section')[_0x5bebf4(0x343)]=!_0x5ddbb0&&!_0x39af8d,el('profile-rating-line')[_0x5bebf4(0x343)]=!_0x5ddbb0,el(_0x5bebf4(0x507))['hidden']=!_0x40b9c,el(_0x5bebf4(0x257))[_0x5bebf4(0x343)]=!_0x39af8d,el(_0x5bebf4(0x17c))['hidden']=!_0xed4155||!backend||Boolean(room??archive),el(_0x5bebf4(0x3ef))['hidden']=!_0xed4155||!_0x1e61b6,_0x47990f[_0x5bebf4(0x343)]=Boolean(_0x1e61b6);if(!_0x1e61b6){_0x5ded3d[_0x5bebf4(0x5c1)]=_0x4c3fd5,_0x47990f[_0x5bebf4(0x5c1)]=t(_0xed4155?!backend?_0x5bebf4(0x3c9):profileLoading?_0x5bebf4(0x41d):_0x5bebf4(0x32b):!_0x582a6f?_0x5bebf4(0x29f):_0x3585ac?_0x5bebf4(0x1e9):_0x5bebf4(0x3d8));return;}const {rating:_0x41eb02,rankRecord:_0x12757e}=_0x1e61b6,_0x528255=_0x5ddbb0?rankLevel(_0x41eb02):null;_0x5ded3d[_0x5bebf4(0x5c1)]=_0x5ddbb0?rankName(_0x528255)+'\x20'+_0x4c3fd5:_0x4c3fd5;if(_0x5ddbb0)el(_0x5bebf4(0x3bf))[_0x5bebf4(0x5c1)]=t(_0x5bebf4(0x1fb),{'rating':ratingNumber(_0x41eb02)});if(_0x39af8d){el(_0x5bebf4(0x4e5))['textContent']=t(_0x4921a3?_0x3c72d6?_0x5bebf4(0x339):_0x5bebf4(0x16d):'profileRatingStanding');const _0x317441=el('profile-rating-standing');if(_0x1e5dc3){_0x317441[_0x5bebf4(0x5c1)]=t(_0x5bebf4(0x1e1),{'rank':ratingNumber(_0x1e5dc3[_0x5bebf4(0x1cf)][_0x5bebf4(0x364)])});if(_0x4921a3&&Number[_0x5bebf4(0x4fd)](_0x1e5dc3['row'][_0x5bebf4(0x443)]))_0x317441[_0x5bebf4(0x5c1)]+=_0x5bebf4(0x36d)+t('pointsCount',{'n':_0x1e5dc3['row'][_0x5bebf4(0x443)]});}else{const {ratingRank:_0x4ccd38}=_0x1e61b6;_0x317441[_0x5bebf4(0x5c1)]=_0x4ccd38?t(_0x5bebf4(0x3ed),{'position':ratingNumber(_0x4ccd38[_0x5bebf4(0x60c)]),'players':ratingNumber(_0x4ccd38['players'])}):t(_0x5bebf4(0x40c));}}const _0xa0b470=_0x5ddbb0&&!_0x1e5dc3?nextRankText(_0x528255,_0x41eb02):'';el('profile-next-rank')[_0x5bebf4(0x5c1)]=_0xa0b470,el(_0x5bebf4(0x280))[_0x5bebf4(0x343)]=!_0xa0b470;if(_0x40b9c){el(_0x5bebf4(0x35d))[_0x5bebf4(0x5c1)]=t(_0x4921a3?_0x3c72d6?_0x5bebf4(0x2e2):'currentTournamentRecord':_0x5bebf4(0x57d)),el(_0x5bebf4(0x351))[_0x5bebf4(0x5c1)]=t(_0x5bebf4(0x168),_0x1e61b6);const _0x5f50e5=winRate(_0x1e61b6);el('profile-win-rate')[_0x5bebf4(0x343)]=!_0xed4155,el(_0x5bebf4(0x33a))['hidden']=_0xed4155;if(_0xed4155)el(_0x5bebf4(0x2c8))['textContent']=t(_0x5bebf4(0x2d9),{'rate':_0x5f50e5});else el('profile-opponent-win-rate')['textContent']=_0x5f50e5;}el(_0x5bebf4(0x3d5))[_0x5bebf4(0x343)]=!_0x12757e;_0x12757e&&(el(_0x5bebf4(0x2d5))[_0x5bebf4(0x5c1)]=t(_0x5bebf4(0x168),_0x12757e),el(_0x5bebf4(0x42f))[_0x5bebf4(0x5c1)]=t('profileWinRate',{'rate':winRate(_0x12757e)}));if(_0xed4155)renderPromotionMeter(_0x5bebf4(0x58b),_0x5bebf4(0x3e0),_0x41eb02);}async function refreshPlayerCard(_0x103787=0x3){const _0x4f722d=q1_0x49f7ea;if(!backend||profileLoading&&_0x103787!==-0x1)return;const _0x199227=++profileRequest;profileLoading=!![];if(profileDialog[_0x4f722d(0x5e1)])renderPlayerProfile();try{const _0x1b0ff9=await remoteRequest(_0x2d19b3=>_0x2d19b3[_0x4f722d(0x2c2)](_0x103787));if(_0x199227===profileRequest&&!_0x1b0ff9[_0x4f722d(0x469)]){const _0x387b81=playerStats?.[_0x4f722d(0x585)];playerStats=_0x1b0ff9,renderPlayerCard(),renderOwnRank();if(_0x387b81!==_0x1b0ff9[_0x4f722d(0x585)])render();}await refreshAuthProfile();}finally{if(_0x199227===profileRequest){profileLoading=![];if(profileDialog['open'])renderPlayerProfile();if(matchIntroDialog['open'])renderMatchIntro();}}}function applyAuthProfile(_0x4aaf45){const _0x4d3f85=q1_0x49f7ea;if(!_0x4aaf45||_0x4aaf45[_0x4d3f85(0x43c)]!==authSession?.[_0x4d3f85(0x43c)])return![];if(accountProfile?.['player']===_0x4aaf45[_0x4d3f85(0x43c)]&&accountProfile['profileVersion']>_0x4aaf45['profileVersion'])return![];const _0xdd31e1=JSON[_0x4d3f85(0x549)](accountProfile)!==JSON['stringify'](_0x4aaf45);accountProfile=_0x4aaf45,nicknameOverride=_0x4aaf45[_0x4d3f85(0x349)]||'',playerNickname=_0x4aaf45[_0x4d3f85(0x1db)]||'';const _0x45105e=_0x4aaf45['photoUrl']??null;if(_0x45105e!==playerPhoto){playerPhoto=_0x45105e;for(const _0x436462 of playerPhotos){_0x436462[_0x4d3f85(0x343)]=!![];if(_0x45105e)_0x436462['src']=_0x45105e;else _0x436462[_0x4d3f85(0x254)](_0x4d3f85(0x467));}}return _0xdd31e1;}async function refreshAuthProfile(_0xa6ed96={}){const _0x26cf76=q1_0x49f7ea,_0x206738=authSession?.[_0x26cf76(0x43c)];if(!_0x206738||!window[_0x26cf76(0x1cc)])return;const _0x10863b=await loadAccountProfile(window[_0x26cf76(0x1cc)],_0x206738,_0xa6ed96)[_0x26cf76(0x514)](()=>null);if(applyAuthProfile(_0x10863b))render();}function recordDate(_0x419bb9){const _0xbbd8d=q1_0x49f7ea,_0xd12b82=Math[_0xbbd8d(0x247)](0x0,Math[_0xbbd8d(0x338)]((Date[_0xbbd8d(0x4ad)]()-new Date(_0x419bb9))/0xea60));if(_0xd12b82<0x7*0x18*0x3c&&typeof Intl['RelativeTimeFormat']==='function'){const _0x457b41=new Intl[(_0xbbd8d(0x3c6))](NcqLang[_0xbbd8d(0x246)],{'numeric':_0xbbd8d(0x251)});if(_0xd12b82<0x3c)return _0x457b41[_0xbbd8d(0x441)](-_0xd12b82,'minute');if(_0xd12b82<0x18*0x3c)return _0x457b41['format'](-Math[_0xbbd8d(0x338)](_0xd12b82/0x3c),'hour');return _0x457b41[_0xbbd8d(0x441)](-Math[_0xbbd8d(0x338)](_0xd12b82/(0x18*0x3c)),_0xbbd8d(0x4c3));}return NcqLang[_0xbbd8d(0x600)](_0x419bb9,{'month':_0xbbd8d(0x31c),'day':'numeric','hour':'numeric','minute':_0xbbd8d(0x224)});}function drawRecordPreview(_0x43fc67,_0x36b8c9){const _0x3c4f3f=q1_0x49f7ea,{moves:_0x1040ad}=_0x36b8c9,_0x13910e=document[_0x3c4f3f(0x1b4)]();for(const [_0x4c3f6b,_0x42ad14]of _0x1040ad[_0x3c4f3f(0x211)]()){if(!Number[_0x3c4f3f(0x4fd)](_0x42ad14)||_0x42ad14<0x0||_0x42ad14>=size*size)continue;const _0x28e91c=document['createElementNS'](_0x3c4f3f(0x217),_0x3c4f3f(0x341));_0x28e91c['setAttribute']('cx',_0x42ad14%size+0.5),_0x28e91c['setAttribute']('cy',Math[_0x3c4f3f(0x338)](_0x42ad14/size)+0.5),_0x28e91c[_0x3c4f3f(0x5ba)]('r',_0x3c4f3f(0x5a7)),_0x28e91c[_0x3c4f3f(0x5ba)](_0x3c4f3f(0x27e),_0x3c4f3f(0x4ab)+colorName(moveColor(_0x36b8c9,_0x4c3f6b))),_0x13910e[_0x3c4f3f(0x31b)](_0x28e91c);}_0x43fc67[_0x3c4f3f(0x31b)](_0x13910e);}function queueRecordPreview(_0x4f4947,_0x53d674){const _0x2f57ec=q1_0x49f7ea;if(typeof IntersectionObserver===_0x2f57ec(0x412)){drawRecordPreview(_0x4f4947,_0x53d674);return;}recordPreviewObserver??=new IntersectionObserver(_0x24575b=>{const _0xe6a5fc=_0x2f57ec;for(const _0x58e76a of _0x24575b){if(!_0x58e76a[_0xe6a5fc(0x27f)])continue;const _0xaa8fa5=recordPreviewJobs[_0xe6a5fc(0x249)](_0x58e76a[_0xe6a5fc(0x47a)]);if(_0xaa8fa5)drawRecordPreview(_0x58e76a[_0xe6a5fc(0x47a)],_0xaa8fa5);recordPreviewJobs[_0xe6a5fc(0x1b9)](_0x58e76a[_0xe6a5fc(0x47a)]),recordPreviewObserver[_0xe6a5fc(0x15b)](_0x58e76a[_0xe6a5fc(0x47a)]);}},{'root':el('record-list')[_0x2f57ec(0x21e)],'rootMargin':_0x2f57ec(0x522)}),recordPreviewJobs['set'](_0x4f4947,_0x53d674),recordPreviewObserver[_0x2f57ec(0x23a)](_0x4f4947);}function recordCard(_0x18bf19,_0x4fa516){const _0x9fd320=q1_0x49f7ea,_0x1bfd6b=el(_0x9fd320(0x3a4))[_0x9fd320(0x49c)][_0x9fd320(0x2e1)]['cloneNode'](!![]);_0x1bfd6b['dataset']['recordId']=_0x18bf19['id'];const _0x1032dd=recordPlayer(_0x18bf19,0x3-_0x18bf19[_0x9fd320(0x22c)]),_0x4b616a=recordPlayer(_0x18bf19,_0x18bf19[_0x9fd320(0x22c)]),_0x5eef1d=describeOutcome(_0x18bf19),_0x3961d1=_0x1bfd6b[_0x9fd320(0x3e1)](_0x9fd320(0x369));_0x3961d1['addEventListener'](_0x9fd320(0x469),()=>{const _0x42992d=_0x9fd320;_0x3961d1[_0x42992d(0x343)]=!![];}),setRecordPhoto(_0x3961d1,_0x1032dd),_0x1bfd6b[_0x9fd320(0x3e1)](_0x9fd320(0x3d2))[_0x9fd320(0x5c1)]=t(_0x9fd320(0x34f),{'name':[recordRank(_0x1032dd),_0x1032dd[_0x9fd320(0x4b8)]][_0x9fd320(0x371)](Boolean)['join']('\x20')});const _0x19c8ed=_0x1bfd6b[_0x9fd320(0x3e1)](_0x9fd320(0x5f0));_0x19c8ed[_0x9fd320(0x575)][_0x9fd320(0x4ae)]=_0x5eef1d,_0x19c8ed[_0x9fd320(0x5c1)]=t({'won':_0x9fd320(0x4c8),'lost':_0x9fd320(0x55c),'draw':_0x9fd320(0x231)}[_0x5eef1d]),_0x1bfd6b[_0x9fd320(0x3e1)]('.record-summary')[_0x9fd320(0x5c1)]=recordDate(_0x18bf19[_0x9fd320(0x4bf)])+'\x20·\x20'+recordResult(_0x18bf19,{'personal':!![]});const _0x13ee0c=[recordRank(_0x4b616a),_0x4b616a[_0x9fd320(0x4b8)]][_0x9fd320(0x371)](Boolean)[_0x9fd320(0x175)]('\x20'),_0x2e3922=t(_0x18bf19['device']?_0x9fd320(0x4c7):matchMode(_0x18bf19));_0x1bfd6b[_0x9fd320(0x3e1)](_0x9fd320(0x5a4))['textContent']=_0x2e3922+'\x20·\x20'+_0x13ee0c,queueRecordPreview(_0x1bfd6b[_0x9fd320(0x3e1)](_0x9fd320(0x49f)),_0x18bf19),_0x1bfd6b['querySelector'](_0x9fd320(0x53f))[_0x9fd320(0x599)](_0x9fd320(0x57f),()=>openArchive(_0x18bf19));const _0x29d783=_0x1bfd6b[_0x9fd320(0x3e1)]('.record-favorite');markFavorite(_0x29d783,_0x4fa516),_0x29d783[_0x9fd320(0x599)](_0x9fd320(0x57f),()=>{const _0x3588d8=_0x9fd320,_0x5aca13=toggleFavorite(_0x18bf19['id']);recordFilter===_0x3588d8(0x501)?(renderRecords(),el(_0x3588d8(0x1dc))['querySelector'](_0x3588d8(0x3a6))['focus']()):markFavorite(_0x29d783,_0x5aca13);});const _0x5805b0=_0x1bfd6b['querySelector']('.record-visibility');return _0x5805b0['hidden']=!recordVisibilityPath(_0x18bf19),_0x5805b0['textContent']=t(_0x18bf19[_0x9fd320(0x310)]?_0x9fd320(0x242):_0x9fd320(0x5db)),_0x5805b0['toggleAttribute'](_0x9fd320(0x264),Boolean(_0x18bf19[_0x9fd320(0x310)])),_0x5805b0['addEventListener'](_0x9fd320(0x57f),()=>openRecordDialog(_0x18bf19,recordVisibilityDialog)),_0x1bfd6b;}function renderRecords(){const _0x4e1483=q1_0x49f7ea;recordPreviewObserver?.[_0x4e1483(0x3cb)](),recordPreviewJobs=new WeakMap();const _0xd81956=recordFavorites(),_0x5ee76a=recordsReturnView===_0x4e1483(0x277);el(_0x4e1483(0x44e))['textContent']=t(_0x5ee76a?_0x4e1483(0x586):_0x4e1483(0x58e));const _0x5de434=records[_0x4e1483(0x371)](_0x41a01b=>(!_0x5ee76a||_0x41a01b['mode']===_0x4e1483(0x277))&&(recordFilter==='all'||(recordFilter===_0x4e1483(0x501)?_0xd81956[_0x4e1483(0x2c9)](_0x41a01b['id']):describeOutcome(_0x41a01b)===_0x4e1483(0x3fa))));for(const _0x3d1f3e of el(_0x4e1483(0x1dc))[_0x4e1483(0x3da)]('button')){_0x3d1f3e[_0x4e1483(0x5ba)](_0x4e1483(0x52b),String(_0x3d1f3e['dataset'][_0x4e1483(0x371)]===recordFilter));}const _0x274bce=el(_0x4e1483(0x22e));_0x274bce[_0x4e1483(0x343)]=_0x5de434[_0x4e1483(0x567)]>0x0,_0x274bce[_0x4e1483(0x5c1)]=t({'all':_0x5ee76a?_0x4e1483(0x4a1):_0x4e1483(0x5b0),'favorites':'recordNoFavorites','wins':_0x4e1483(0x36f)}[recordFilter]),el(_0x4e1483(0x1c7))[_0x4e1483(0x421)](..._0x5de434['map'](_0x9761d6=>recordCard(_0x9761d6,_0xd81956[_0x4e1483(0x2c9)](_0x9761d6['id']))));}async function refreshLobby(){const _0x26d215=q1_0x49f7ea;if(room||archive||spectator||gameModes?.['isOpen']()||lobbyView!=='lobby'||lobbyLoading||document['hidden'])return;lobbyLoading=!![];try{if(backend)liveGames=await backend['lobby']();else{const _0x391e57=await fetch(_0x26d215(0x36e),{'signal':AbortSignal[_0x26d215(0x220)](0xdac)});if(!_0x391e57['ok'])throw new Error();liveGames=await _0x391e57['json']();}lobbyUnavailable=![];}catch{lobbyUnavailable=!![];}finally{lobbyLoading=![];if(!el(_0x26d215(0x3eb))[_0x26d215(0x343)])renderLobby();}}function renderResult(_0x2b9c7f){const _0x4cb8c0=q1_0x49f7ea,_0x27704e=describeOutcome(_0x2b9c7f),_0x4e8fbd={'won':['victoryMedal',_0x4cb8c0(0x172)],'lost':['defeatMedal',_0x4cb8c0(0x4e0)],'draw':[_0x4cb8c0(0x237),_0x4cb8c0(0x1d8)]},[_0x16c018,_0xcd5f3]=_0x4e8fbd[_0x27704e],_0x5d2d19=_0x27704e===_0x4cb8c0(0x3fa)?colorName(seatColor(_0x2b9c7f,_0x2b9c7f[_0x4cb8c0(0x22c)])):'';resultDialog[_0x4cb8c0(0x575)][_0x4cb8c0(0x4ae)]=_0x27704e,resultDialog['dataset'][_0x4cb8c0(0x2f6)]=_0x5d2d19,el(_0x4cb8c0(0x57e))[_0x4cb8c0(0x5c1)]=_0x5d2d19?t(_0x5d2d19):'',el(_0x4cb8c0(0x454))[_0x4cb8c0(0x5c1)]=t(_0x16c018),el('result-symbol')[_0x4cb8c0(0x5ba)](_0x4cb8c0(0x5cf),'#'+_0xcd5f3);const _0x597870=_0x2b9c7f[_0x4cb8c0(0x376)];el('result-rating')['hidden']=el(_0x4cb8c0(0x282))[_0x4cb8c0(0x343)]=!_0x597870;if(!_0x597870){resultDialog[_0x4cb8c0(0x254)]('data-promoted');return;}const {before:_0x23eec4,after:_0x4e23d7,delta:_0x5b6bd2}=_0x597870,_0x4f0b15=rankLevel(_0x23eec4),_0x180aca=rankLevel(_0x4e23d7),_0x5ad24b=rankName(_0x180aca),_0x3f82f6=_0x180aca>_0x4f0b15;resultDialog[_0x4cb8c0(0x44d)](_0x4cb8c0(0x37d),_0x3f82f6);let _0x33a956=_0x5ad24b;if(_0x3f82f6){const _0x275e57=rankName(_0x4f0b15);_0x33a956=resultDialog[_0x4cb8c0(0x4e1)](_0x4cb8c0(0x4de))?t(_0x4cb8c0(0x334),{'rank':_0x5ad24b}):_0x275e57,el(_0x4cb8c0(0x255))[_0x4cb8c0(0x5c1)]=_0x275e57,el(_0x4cb8c0(0x2db))['textContent']=_0x5ad24b,el(_0x4cb8c0(0x49a))[_0x4cb8c0(0x5c1)]=t('rankCelebration',{'rank':_0x5ad24b});}else _0x180aca<_0x4f0b15&&(_0x33a956=t(_0x4cb8c0(0x493),{'rank':_0x5ad24b}));el(_0x4cb8c0(0x580))[_0x4cb8c0(0x5c1)]=_0x33a956,el(_0x4cb8c0(0x1ce))['textContent']=ratingNumber(_0x23eec4)+'\x20→\x20'+ratingNumber(_0x4e23d7);const _0x262fc7=new Intl[(_0x4cb8c0(0x4ea))](NcqLang['lang'],{'signDisplay':'exceptZero'}),_0x18acfd=el(_0x4cb8c0(0x2ee));_0x18acfd[_0x4cb8c0(0x5c1)]=t(_0x4cb8c0(0x1fb),{'rating':_0x262fc7[_0x4cb8c0(0x441)](_0x5b6bd2)});const _0x58c6b1=_0x5b6bd2>0x0?'up':_0x5b6bd2<0x0?'down':_0x4cb8c0(0x259);_0x18acfd[_0x4cb8c0(0x575)][_0x4cb8c0(0x228)]=el(_0x4cb8c0(0x36b))['dataset'][_0x4cb8c0(0x228)]=_0x58c6b1,renderPromotionMeter('result-promotion-meter','result-promotion',_0x4e23d7,{'previousRating':_0x23eec4});}async function playRankPromotion({code:_0x4b796a,round:_0x421b7d},_0x531a82=![]){const _0x4aa44f=q1_0x49f7ea;if(!resultDialog[_0x4aa44f(0x4e1)](_0x4aa44f(0x37d)))return;const _0x28f11f=el('result-promotion-ripple')[_0x4aa44f(0x43e)]()[_0x4aa44f(0x323)](_0x5dccb4=>_0x5dccb4[_0x4aa44f(0x239)]===_0x4aa44f(0x459));await _0x28f11f?.[_0x4aa44f(0x2b0)][_0x4aa44f(0x514)](()=>{});if(!resultDialog[_0x4aa44f(0x5e1)]||room?.['code']!==_0x4b796a||room[_0x4aa44f(0x1a0)]!==_0x421b7d||room[_0x4aa44f(0x531)]!==_0x4aa44f(0x2b0))return;if(!resultDialog['hasAttribute'](_0x4aa44f(0x37d)))return;resultDialog['setAttribute'](_0x4aa44f(0x4de),''),renderResult(room),rankCelebration[_0x4aa44f(0x33c)]();if(_0x531a82){const _0x4cad2c=rankCelebration[_0x4aa44f(0x3e1)](_0x4aa44f(0x401)),_0x13becc=_0x4cad2c[_0x4aa44f(0x43e)]()[_0x4aa44f(0x323)](_0x4a1877=>_0x4a1877[_0x4aa44f(0x239)]===_0x4aa44f(0x1a4))?.[_0x4aa44f(0x3ce)][_0x4aa44f(0x215)]()['delay']??0x0;cancelPromotionHaptic=haptics[_0x4aa44f(0x5e7)](_0x4aa44f(0x260)+_0x4b796a+':'+_0x421b7d,_0x4aa44f(0x3e0),{'delay':_0x13becc,'valid':()=>rankCelebration[_0x4aa44f(0x5e1)]&&room?.[_0x4aa44f(0x4b1)]===_0x4b796a&&room[_0x4aa44f(0x1a0)]===_0x421b7d}),cancelPromotionSound=resultAudio[_0x4aa44f(0x3e0)](_0x4b796a+':'+_0x421b7d,{'delay':_0x13becc,'valid':()=>rankCelebration[_0x4aa44f(0x5e1)]&&room?.[_0x4aa44f(0x4b1)]===_0x4b796a&&room[_0x4aa44f(0x1a0)]===_0x421b7d});}clearTimeout(promotionCloseTimer),promotionCloseTimer=setTimeout(()=>rankCelebration['close'](),0x1388);}function reportCurrentJourney(){const _0x3d818f=q1_0x49f7ea,_0x3fffc4=gameModes?.[_0x3d818f(0x250)](),_0x444db9=_0x3fffc4?.[_0x3d818f(0x26c)]??room?.[_0x3d818f(0x26c)]??matchmaking?.[_0x3d818f(0x26c)]??(room||matchmaking?_0x3d818f(0x460):aiStarting?'ai':_0x3d818f(0x33f));if(optionsDialog[_0x3d818f(0x5e1)])return reportJourney(_0x444db9,'options');if(profileDialog['open'])return reportJourney(_0x444db9,_0x3d818f(0x2c2));if(_0x3fffc4)return reportJourney(_0x3fffc4[_0x3d818f(0x26c)],_0x3fffc4['state']);if(spectator)return reportJourney(_0x3d818f(0x33f),'spectating');if(archive)return reportJourney(_0x3d818f(0x33f),_0x3d818f(0x5aa));if(room){if(room[_0x3d818f(0x531)]==='finished')return reportJourney(_0x444db9,resultDialog[_0x3d818f(0x5e1)]?'result':awaitingResultDismissal?_0x3d818f(0x1bf):'replay');if(room['phase']==='waiting')return reportJourney(_0x444db9,_0x3d818f(0x3b5));if(!connected)return reportJourney(_0x444db9,_0x3d818f(0x546));if(matchIntroDialog[_0x3d818f(0x5e1)])return reportJourney(_0x444db9,'intro');const _0x5648d9=room['moves'][_0x3d818f(0x4b4)]((_0x135714,_0x51b5aa)=>_0x135714!==null&&(room['moveSeats']?.[_0x51b5aa]??(_0x51b5aa%0x2?0x3-room[_0x3d818f(0x22f)]:room[_0x3d818f(0x22f)]))===room[_0x3d818f(0x22c)]);return reportJourney(_0x444db9,_0x5648d9?_0x3d818f(0x3ca):_0x3d818f(0x473));}if(matchmaking)return reportJourney(_0x444db9,matchmaking[_0x3d818f(0x3cf)]?_0x3d818f(0x433):_0x3d818f(0x5a5));if(aiStarting)return reportJourney('ai',_0x3d818f(0x1c8));if(shop[_0x3d818f(0x5e1)])return reportJourney(_0x3d818f(0x33f),_0x3d818f(0x192));if(missionDialog['open'])return reportJourney(_0x3d818f(0x33f),_0x3d818f(0x452));if(tournamentCatchUpDialog['open'])return reportJourney(_0x3d818f(0x277),'entry_confirm');reportJourney(_0x3d818f(0x33f),lobbyView===_0x3d818f(0x277)?'rankings':lobbyView);}function render(){const _0x5c1eaa=q1_0x49f7ea;gameModes?.[_0x5c1eaa(0x1b3)]();if(room||archive||spectator)coinCollection[_0x5c1eaa(0x2b9)]();el('placement-timing')[_0x5c1eaa(0x343)]=!![];if(coinRewardDialog['open'])renderCoinReward();queueMicrotask(presentCoinReward);if(leaveDialog[_0x5c1eaa(0x5e1)])renderLeaveConfirmation();if(profileDialog[_0x5c1eaa(0x5e1)])renderPlayerProfile();renderRecordDialog();if(matchIntroDialog[_0x5c1eaa(0x5e1)])renderMatchIntro();const _0x15ef2a=room??archive??spectator?.[_0x5c1eaa(0x5dc)],_0x2e70b6=!spectator&&_0x15ef2a?.[_0x5c1eaa(0x531)]===_0x5c1eaa(0x3ca),_0x1b9daa=!spectator&&_0x15ef2a?.['phase']===_0x5c1eaa(0x2b0),_0x37b801=_0x1b9daa&&_0x15ef2a===room&&awaitingResultDismissal,_0x2bf477=_0x1b9daa&&!_0x37b801,_0x3f239c=Boolean(_0x2bf477&&_0x15ef2a[_0x5c1eaa(0x37a)]),_0x81b25f=_0x2e70b6||_0x37b801||Boolean(spectator);nicknameInput[_0x5c1eaa(0x53b)]=displayNickname(playerNickname||t('guestNickname')),el(_0x5c1eaa(0x1d3))[_0x5c1eaa(0x592)]=NcqLang['lang'];if(optionsDialog[_0x5c1eaa(0x5e1)]){el(_0x5c1eaa(0x5de))[_0x5c1eaa(0x343)]=!window['NcqDevice']?.[_0x5c1eaa(0x4a2)](),el(_0x5c1eaa(0x5b9))[_0x5c1eaa(0x15e)]=window[_0x5c1eaa(0x417)]?.[_0x5c1eaa(0x5b9)]()??!![];const _0x5ba0ca=backend&&authSession?.['player']||'';el('options-player')[_0x5c1eaa(0x343)]=!_0x5ba0ca;const _0x2c79ae=el(_0x5c1eaa(0x471));_0x2c79ae[_0x5c1eaa(0x592)]!==_0x5ba0ca&&(_0x2c79ae[_0x5c1eaa(0x592)]=_0x5ba0ca,feedback('player-id-feedback'));const _0x1e60e6=el('player-id-feedback');if(!_0x1e60e6[_0x5c1eaa(0x343)])_0x1e60e6[_0x5c1eaa(0x5c1)]=t(_0x1e60e6['dataset'][_0x5c1eaa(0x41e)]);}document['title']=t('title'),document[_0x5c1eaa(0x288)][_0x5c1eaa(0x601)]['toggle'](_0x5c1eaa(0x41b),Boolean(_0x15ef2a)),document['body']['classList'][_0x5c1eaa(0x3f7)](_0x5c1eaa(0x304),_0x15ef2a?.[_0x5c1eaa(0x26c)]==='ai'),document[_0x5c1eaa(0x288)]['classList'][_0x5c1eaa(0x3f7)]('match-art-backdrop',_0x81b25f),document[_0x5c1eaa(0x288)][_0x5c1eaa(0x601)]['toggle'](_0x5c1eaa(0x365),Boolean(spectator)),document['body'][_0x5c1eaa(0x601)]['toggle'](_0x5c1eaa(0x4cb),_0x2bf477);const _0x4e5b15=_0x2bf477&&Boolean(room),_0x5852cd=_0x4e5b15&&_0x15ef2a[_0x5c1eaa(0x26c)]==='tournament';document['body'][_0x5c1eaa(0x601)][_0x5c1eaa(0x3f7)]('post-match-review',_0x4e5b15),document[_0x5c1eaa(0x288)][_0x5c1eaa(0x601)]['toggle'](_0x5c1eaa(0x170),_0x3f239c),document[_0x5c1eaa(0x288)][_0x5c1eaa(0x601)]['toggle'](_0x5c1eaa(0x3c0),!_0x15ef2a&&lobbyView===_0x5c1eaa(0x2b2)),el(_0x5c1eaa(0x606))['toggleAttribute'](_0x5c1eaa(0x40a),_0x81b25f),el('match')[_0x5c1eaa(0x44d)](_0x5c1eaa(0x591),_0x15ef2a?.[_0x5c1eaa(0x59b)]===_0x5c1eaa(0x408)),el(_0x5c1eaa(0x606))[_0x5c1eaa(0x44d)](_0x5c1eaa(0x248),_0x37b801);for(const _0x5bcf3f of[_0x5c1eaa(0x3eb),_0x5c1eaa(0x2b2),_0x5c1eaa(0x277)]){el(_0x5bcf3f)[_0x5c1eaa(0x343)]=Boolean(_0x15ef2a)||lobbyView!==_0x5bcf3f;}el(_0x5c1eaa(0x606))[_0x5c1eaa(0x343)]=!_0x15ef2a,el(_0x5c1eaa(0x56d))[_0x5c1eaa(0x343)]=!spectator,el(_0x5c1eaa(0x56d))[_0x5c1eaa(0x44d)](_0x5c1eaa(0x176),Boolean(spectator)),el(_0x5c1eaa(0x219))[_0x5c1eaa(0x343)]=!_0x81b25f||Boolean(spectator),el('match-options')['hidden']=!_0x81b25f,el(_0x5c1eaa(0x26f))[_0x5c1eaa(0x343)]=!_0x2bf477,el('review-opponent-profile')['hidden']=!_0x2bf477;const _0x5a773b=_0x2bf477&&!profileDialog[_0x5c1eaa(0x5e1)]&&!recordShareDialog['open']&&!tournamentCatchUpDialog[_0x5c1eaa(0x5e1)]&&!coinShortageDialog[_0x5c1eaa(0x5e1)]&&!matchmaking;reviewExit[_0x5c1eaa(0x343)]=!_0x4e5b15,reviewExit['disabled']=busy||nextMatchPending,reviewExit[_0x5c1eaa(0x44d)](_0x5c1eaa(0x176),_0x4e5b15&&_0x5a773b),reviewShare[_0x5c1eaa(0x343)]=!_0x2bf477||!_0x3f239c&&!recordVisibilityPath(_0x15ef2a),reviewShare[_0x5c1eaa(0x3a7)]=_0x4e5b15&&(busy||nextMatchPending),reviewShare[_0x5c1eaa(0x44d)]('data-ncq-main',_0x5a773b&&!reviewShare[_0x5c1eaa(0x343)]),reviewPlay['hidden']=!_0x3f239c,reviewPlay[_0x5c1eaa(0x44d)](_0x5c1eaa(0x176),_0x5a773b&&_0x3f239c),el(_0x5c1eaa(0x244))[_0x5c1eaa(0x343)]=Boolean(_0x15ef2a),el(_0x5c1eaa(0x4ff))[_0x5c1eaa(0x343)]=Boolean(_0x15ef2a),renderCoinBalance();if(!_0x15ef2a)renderDailyMissions();if(shop[_0x5c1eaa(0x5e1)])renderShop();const _0x5ed2c1=el('lobby-nav');_0x5ed2c1['hidden']=Boolean(_0x15ef2a);for(const _0x425b47 of _0x5ed2c1['querySelectorAll'](_0x5c1eaa(0x198))){if(_0x425b47[_0x5c1eaa(0x3b6)](_0x5c1eaa(0x347))===lobbyView)_0x425b47[_0x5c1eaa(0x5ba)]('aria-current',_0x5c1eaa(0x5ed));else _0x425b47[_0x5c1eaa(0x254)](_0x5c1eaa(0x3ab));_0x425b47['disabled']=busy;}const _0x32ab23=!_0x15ef2a&&!gameModes?.[_0x5c1eaa(0x366)]()&&!matchmaking&&!shop[_0x5c1eaa(0x5e1)]&&!missionDialog[_0x5c1eaa(0x5e1)]&&!optionsDialog[_0x5c1eaa(0x5e1)]&&!forest[_0x5c1eaa(0x523)][_0x5c1eaa(0x5e1)]&&!ruleDialog?.[_0x5c1eaa(0x5e1)]&&!profileDialog[_0x5c1eaa(0x5e1)]&&!recordDialogTarget?.[_0x5c1eaa(0x32d)][_0x5c1eaa(0x5e1)]&&!tournamentCatchUpDialog[_0x5c1eaa(0x5e1)]&&!coinShortageDialog['open']&&!coinRewardDialog[_0x5c1eaa(0x5e1)];el(_0x5c1eaa(0x5f7))['disabled']=busy||nextMatchPending||Boolean(matchmaking);for(const _0x253c6d of[_0x5c1eaa(0x2e5),'show-together']){el(_0x253c6d)[_0x5c1eaa(0x3a7)]=busy||nextMatchPending||Boolean(matchmaking)||_0x253c6d===_0x5c1eaa(0x2e5)&&!backend,el(_0x253c6d)[_0x5c1eaa(0x44d)](_0x5c1eaa(0x176),_0x32ab23&&lobbyView===_0x5c1eaa(0x3eb));}el('show-records')['disabled']=busy||Boolean(matchmaking),renderRulePicker(_0x32ab23),el(_0x5c1eaa(0x23f))[_0x5c1eaa(0x3a7)]=busy,el(_0x5c1eaa(0x5f7))[_0x5c1eaa(0x44d)](_0x5c1eaa(0x176),_0x32ab23&&lobbyView===_0x5c1eaa(0x3eb)),el('show-tournament')[_0x5c1eaa(0x343)]=!backend,el(_0x5c1eaa(0x54d))['disabled']=busy;const _0x1d4fba=!el(_0x5c1eaa(0x3eb))[_0x5c1eaa(0x343)],_0x1db979=!el(_0x5c1eaa(0x277))['hidden'];el(_0x5c1eaa(0x56b))[_0x5c1eaa(0x343)]=!_0x1d4fba&&!_0x1db979,el(_0x5c1eaa(0x295))['hidden']=!_0x1d4fba;const _0x9c73c8=el(_0x5c1eaa(0x2aa)),_0x49d2e2=el(_0x5c1eaa(0x54c)),_0x11899e=_0x5852cd?reviewShare[_0x5c1eaa(0x21e)]:_0x49d2e2;if(_0x9c73c8[_0x5c1eaa(0x21e)]!==_0x11899e){if(_0x5852cd)_0x11899e[_0x5c1eaa(0x1f6)](_0x9c73c8,reviewShare);else _0x11899e[_0x5c1eaa(0x362)](_0x9c73c8);}const _0x150c75=_0x1db979&&Boolean(backend)&&rankingTab===_0x5c1eaa(0x3f8),_0x51425e=_0x150c75||_0x5852cd,_0x357faa=rankingResults['weekly'],_0x4628a5=_0x357faa?.[_0x5c1eaa(0x34d)],_0x27dc74=_0x4628a5?.[_0x5c1eaa(0x4e4)],_0x400487=_0x27dc74===0x0&&_0x4628a5[_0x5c1eaa(0x2f4)]>0x0,_0x323aef=!_0x357faa?.[_0x5c1eaa(0x5b6)]&&!_0x4628a5?.['error']&&_0x27dc74===0x0&&_0x4628a5[_0x5c1eaa(0x2f4)]===0x0,_0x3412a0=_0x400487&&tournamentCoinBalance(_0x4628a5)>=_0x4628a5[_0x5c1eaa(0x18f)],_0x58697e=el(_0x5c1eaa(0x3a9));_0x49d2e2[_0x5c1eaa(0x343)]=!_0x150c75,_0x9c73c8[_0x5c1eaa(0x343)]=!_0x51425e,_0x58697e[_0x5c1eaa(0x343)]=_0x27dc74!==0x0,_0x58697e[_0x5c1eaa(0x5c1)]=_0x400487?t(_0x3412a0?_0x5c1eaa(0x534):_0x5c1eaa(0x60b),{'n':NcqLang['num'](_0x4628a5['catchUpRemaining'])}):t('tournamentLimit'),el('join-tournament-label')['textContent']=_0x323aef?t(_0x5c1eaa(0x30f)):_0x400487?t('joinTournamentCatchUp'):Number[_0x5c1eaa(0x4fd)](_0x27dc74)?t(_0x5c1eaa(0x16c),{'remaining':_0x27dc74,'limit':_0x4628a5[_0x5c1eaa(0x605)]}):t(_0x5c1eaa(0x353)),el(_0x5c1eaa(0x406))[_0x5c1eaa(0x343)]=!_0x400487,_0x9c73c8[_0x5c1eaa(0x44d)](_0x5c1eaa(0x22d),_0x400487);if(_0x400487){const _0x3d7fe2=NcqLang[_0x5c1eaa(0x59e)](_0x4628a5[_0x5c1eaa(0x18f)]);el('join-tournament-coins')[_0x5c1eaa(0x5c1)]=_0x3d7fe2,_0x9c73c8['setAttribute']('aria-label',t(_0x5c1eaa(0x418),{'n':_0x3d7fe2})),_0x9c73c8[_0x5c1eaa(0x5ba)](_0x5c1eaa(0x60d),_0x5c1eaa(0x32d));}else _0x9c73c8['removeAttribute'](_0x5c1eaa(0x43a)),_0x9c73c8[_0x5c1eaa(0x254)](_0x5c1eaa(0x60d));if(tournamentCatchUpDialog[_0x5c1eaa(0x5e1)]){const {missed:_0x34a350,cost:_0x5c0850}=tournamentCatchUpQuote,_0x1e9d6a=NcqLang[_0x5c1eaa(0x59e)](_0x5c0850);el(_0x5c1eaa(0x505))[_0x5c1eaa(0x5c1)]=t('tournamentMissedCount',{'n':NcqLang['num'](_0x34a350)}),el('tournament-catch-up-coins')[_0x5c1eaa(0x5c1)]=_0x1e9d6a,el(_0x5c1eaa(0x518))[_0x5c1eaa(0x5ba)](_0x5c1eaa(0x43a),t(_0x5c1eaa(0x418),{'n':_0x1e9d6a}));}el('tournament-records')[_0x5c1eaa(0x3a7)]=busy||Boolean(matchmaking),_0x9c73c8[_0x5c1eaa(0x3a7)]=busy||nextMatchPending||Boolean(matchmaking)||_0x357faa?.[_0x5c1eaa(0x5b6)]===!![]||Boolean(_0x4628a5?.[_0x5c1eaa(0x469)])||!(_0x27dc74>0x0||_0x400487);const _0x59106f=_0x51425e&&!_0x9c73c8[_0x5c1eaa(0x3a7)];_0x9c73c8[_0x5c1eaa(0x44d)]('data-ncq-main',_0x59106f&&(_0x32ab23||_0x5852cd&&_0x5a773b)),el(_0x5c1eaa(0x32a))[_0x5c1eaa(0x44d)](_0x5c1eaa(0x176),_0x32ab23&&_0x1db979&&!_0x59106f),el(_0x5c1eaa(0x3e3))[_0x5c1eaa(0x44d)]('data-ncq-main',_0x32ab23&&lobbyView===_0x5c1eaa(0x2b2));if(_0x1d4fba)renderLobby();renderWeeklyRewards(_0x32ab23);if(!el(_0x5c1eaa(0x2b2))[_0x5c1eaa(0x343)])renderRecords();if(_0x1db979)renderRankings();if(_0x1d4fba||_0x1db979)renderPlayerCard();if(_0x15ef2a)popupAudio['quiet'](()=>forest[_0x5c1eaa(0x1b3)](_0x15ef2a,lobbyView));else forest[_0x5c1eaa(0x1b3)](_0x15ef2a,lobbyView);reportCurrentJourney();if(matchmaking){const {canceled:_0x168f58,mode:_0x233443}=matchmaking;el(_0x5c1eaa(0x307))[_0x5c1eaa(0x5c1)]=t(_0x168f58?_0x5c1eaa(0x433):_0x233443==='tournament'?_0x5c1eaa(0x294):_0x5c1eaa(0x340)),el('cancel-match')['disabled']=_0x168f58;}for(const _0x46ab9f of[el('lobby-error'),el(_0x5c1eaa(0x2cc))]){if(!_0x46ab9f[_0x5c1eaa(0x343)])_0x46ab9f[_0x5c1eaa(0x5c1)]=t(_0x46ab9f[_0x5c1eaa(0x575)][_0x5c1eaa(0x41e)]);}if(!_0x15ef2a)return;if(spectator){renderSpectator(spectator);return;}for(const _0x51ba34 of['place','invite']){el(_0x51ba34)['toggleAttribute']('data-ncq-main',!_0x37b801&&!profileDialog[_0x5c1eaa(0x5e1)]&&!matchIntroDialog['open']&&!leaveDialog[_0x5c1eaa(0x5e1)]);}const _0x451e00=el(_0x5c1eaa(0x32e));_0x451e00[_0x5c1eaa(0x343)]=!canAct()||!maySwap(_0x15ef2a)&&!mayOffer(_0x15ef2a);for(const _0x3c59cc of _0x451e00['querySelectorAll'](_0x5c1eaa(0x19d))){_0x3c59cc[_0x5c1eaa(0x343)]=_0x3c59cc[_0x5c1eaa(0x575)][_0x5c1eaa(0x191)]===_0x5c1eaa(0x297)?!maySwap(_0x15ef2a):!mayOffer(_0x15ef2a),_0x3c59cc['toggleAttribute'](_0x5c1eaa(0x176),!_0x451e00[_0x5c1eaa(0x343)]&&!_0x3c59cc['hidden']);}let _0x7053b1='waiting';if(_0x1b9daa)_0x7053b1=describeOutcome(_0x15ef2a);else{if(room&&!connected)_0x7053b1=_0x5c1eaa(0x546);else{if(_0x2e70b6)_0x7053b1=_0x15ef2a['turn']===_0x15ef2a[_0x5c1eaa(0x22c)]?_0x5c1eaa(0x1c6):_0x5c1eaa(0x51b);}}el(_0x5c1eaa(0x4d1))[_0x5c1eaa(0x5c1)]=t(archive?_0x5c1eaa(0x2b2):_0x5c1eaa(0x1fc)),el('room-id')[_0x5c1eaa(0x5c1)]='#'+_0x15ef2a[_0x5c1eaa(0x2f8)];const _0x4da03d=matchMode(_0x15ef2a),_0x1ec904=_0x2e70b6&&connected?_0x15ef2a['opening']?openingStatus(_0x15ef2a):t(_0x4da03d)+_0x5c1eaa(0x36d)+t(_0x5c1eaa(0x5fc),{'n':_0x15ef2a[_0x5c1eaa(0x24f)][_0x5c1eaa(0x567)]}):t(_0x7053b1);if(el('status')['textContent']!==_0x1ec904)el(_0x5c1eaa(0x2fc))[_0x5c1eaa(0x5c1)]=_0x1ec904;el('status')[_0x5c1eaa(0x5ba)](_0x5c1eaa(0x5bd),_0x2e70b6?'off':'polite');const _0x3d2ed5=_0x15ef2a[_0x5c1eaa(0x191)]?_0x1ec904:t(_0x7053b1);if(_0x2e70b6&&el('turn-announcement')[_0x5c1eaa(0x5c1)]!==_0x3d2ed5)el(_0x5c1eaa(0x1b8))[_0x5c1eaa(0x5c1)]=_0x3d2ed5;el(_0x5c1eaa(0x1a0))[_0x5c1eaa(0x5c1)]=t(_0x5c1eaa(0x1a0),{'n':_0x15ef2a[_0x5c1eaa(0x1a0)]}),el(_0x5c1eaa(0x26c))[_0x5c1eaa(0x5c1)]=t(_0x2bf477?_0x5c1eaa(0x5c5):_0x37b801?'result':_0x4da03d),el(_0x5c1eaa(0x5d2))['hidden']=_0x2e70b6||_0x1b9daa,el(_0x5c1eaa(0x2b5))['hidden']=_0x2e70b6||_0x1b9daa||el('share')[_0x5c1eaa(0x5e1)],el(_0x5c1eaa(0x1f2))[_0x5c1eaa(0x3a7)]=busy,el(_0x5c1eaa(0x219))[_0x5c1eaa(0x3a7)]=busy||_0x37b801,el('leave')['textContent']=t(archive?_0x5c1eaa(0x2dd):_0x5c1eaa(0x1f2)),el(_0x5c1eaa(0x1f2))['removeAttribute'](_0x5c1eaa(0x176)),el(_0x5c1eaa(0x5a9))[_0x5c1eaa(0x3a7)]=busy;const _0x30e096=el(_0x5c1eaa(0x1aa)),_0x98a9a=canAct();_0x30e096[_0x5c1eaa(0x3a7)]=!_0x98a9a||selected===null;const _0x4f445e=!_0x98a9a?_0x5c1eaa(0x5f2):selected===null?'selecting':_0x5c1eaa(0x4cc);_0x30e096[_0x5c1eaa(0x575)][_0x5c1eaa(0x298)]=_0x4f445e;const _0x2af0a4=el(_0x5c1eaa(0x4fa));_0x2af0a4[_0x5c1eaa(0x343)]=_0x4f445e===_0x5c1eaa(0x5f2);if(!_0x2af0a4['hidden'])_0x2af0a4[_0x5c1eaa(0x5c1)]=t(_0x4f445e===_0x5c1eaa(0x2ef)?'placeSelectHint':_0x5c1eaa(0x397));el('place-text')['textContent']=t(_0x15ef2a[_0x5c1eaa(0x191)]===_0x5c1eaa(0x195)?_0x5c1eaa(0x374):_0x15ef2a[_0x5c1eaa(0x191)]===_0x5c1eaa(0x256)?_0x5c1eaa(0x1da):_0x5c1eaa(0x57b));const _0x3b6179=_0x15ef2a[_0x5c1eaa(0x4bd)]!==_0x15ef2a['you']?t(_0x5c1eaa(0x51b)):selected===null?t(_0x5c1eaa(0x5af)):t('place',{'cell':coordinate(selected)});_0x30e096[_0x5c1eaa(0x5ba)]('aria-label',_0x3b6179),_0x30e096[_0x5c1eaa(0x3d1)]=_0x3b6179,renderPlayers(_0x15ef2a,_0x81b25f),el(_0x5c1eaa(0x5c5))[_0x5c1eaa(0x343)]=!_0x2bf477;const _0x249daf=Boolean(room)&&!_0x15ef2a[_0x5c1eaa(0x2a1)]&&_0x15ef2a[_0x5c1eaa(0x26c)]!==_0x5c1eaa(0x277)&&_0x15ef2a[_0x5c1eaa(0x3ec)]!==![]&&_0x15ef2a[_0x5c1eaa(0x2d0)]!==_0x5c1eaa(0x5c8)&&_0x15ef2a['endReason']!==_0x5c1eaa(0x3cb),_0x3391b2=Boolean(room)&&_0x15ef2a[_0x5c1eaa(0x26c)]!==_0x5c1eaa(0x277)&&!_0x249daf;reviewRoomAction[_0x5c1eaa(0x343)]=!_0x2bf477||_0x5852cd,reviewRoomAction[_0x5c1eaa(0x44d)](_0x5c1eaa(0x176),_0x5a773b&&!_0x5852cd),reviewRoomAction['dataset']['action']=_0x15ef2a[_0x5c1eaa(0x26c)]==='ai'&&room?'ai':_0x249daf?'rematch':_0x3391b2?'next':_0x5c1eaa(0x1f2),reviewRoomAction[_0x5c1eaa(0x3a7)]=busy||nextMatchPending||_0x249daf&&(!connected||_0x15ef2a[_0x5c1eaa(0x59c)]),el(_0x5c1eaa(0x24b))['textContent']=t(_0x15ef2a[_0x5c1eaa(0x26c)]==='ai'&&room?_0x5c1eaa(0x414):_0x3391b2?_0x5c1eaa(0x319):!_0x249daf?_0x5c1eaa(0x1f2):_0x15ef2a[_0x5c1eaa(0x59c)]?'rematchWaiting':_0x15ef2a[_0x5c1eaa(0x414)]?_0x5c1eaa(0x533):_0x5c1eaa(0x414));if(_0x1b9daa)renderResult(_0x15ef2a);_0x2bf477&&(renderReview(_0x15ef2a),renderReplayControls(reviewPly,_0x15ef2a[_0x5c1eaa(0x24f)][_0x5c1eaa(0x567)])),board['toggleAttribute']('inert',!_0x2e70b6&&!_0x2bf477),drawGamePosition(_0x15ef2a,_0x2bf477?reviewPly:_0x15ef2a[_0x5c1eaa(0x24f)]['length'],_0x2bf477);}function renderReplayControls(_0x924df6,_0x293371,_0x1fa5bb=![]){const _0x24d027=q1_0x49f7ea;el(_0x24d027(0x552))['textContent']=_0x924df6,el(_0x24d027(0x270))[_0x24d027(0x5c1)]=_0x24d027(0x261)+_0x293371;for(const _0x31ebbc of el(_0x24d027(0x5c5))[_0x24d027(0x3da)]('[data-step]')){const _0x250def=_0x31ebbc[_0x24d027(0x575)][_0x24d027(0x461)];_0x31ebbc[_0x24d027(0x3a7)]=[_0x24d027(0x24c),_0x24d027(0x499)][_0x24d027(0x400)](_0x250def)?_0x924df6===0x0:_0x924df6===_0x293371,_0x31ebbc['toggleAttribute']('data-ncq-main',_0x1fa5bb&&!_0x31ebbc['disabled']);if(_0x250def===_0x24d027(0x4b7))_0x31ebbc[_0x24d027(0x5ba)](_0x24d027(0x43a),t(_0x1fa5bb?'watchLatestMove':_0x24d027(0x306)));}el(_0x24d027(0x40d))[_0x24d027(0x343)]=!placementTimingAvailable()||_0x1fa5bb&&spectator?.[_0x24d027(0x4af)]===null,renderPlacementTiming();}function placementTimingAvailable(){const _0x1e53e9=q1_0x49f7ea;return window[_0x1e53e9(0x4eb)]===!![]||canClaimTestCoins;}function renderPlacementTiming(){const _0x3e4b7c=q1_0x49f7ea,_0x2dfccb=el(_0x3e4b7c(0x4aa));_0x2dfccb[_0x3e4b7c(0x592)]=replayPlacementDuration,el('placement-duration-value')[_0x3e4b7c(0x5c1)]=t(_0x3e4b7c(0x361),{'duration':replayPlacementDuration,'contact':Math['round'](replayPlacementDuration*0.4)});}new ResizeObserver(([_0xc3e7e0])=>{const _0x216cca=q1_0x49f7ea,_0x1ea7b5=_0xc3e7e0[_0x216cca(0x597)]?.[0x0]?.['blockSize']??_0xc3e7e0[_0x216cca(0x47a)][_0x216cca(0x3e9)]()[_0x216cca(0x20f)],_0x4f3b5e=parseFloat(getComputedStyle(el(_0x216cca(0x606)))[_0x216cca(0x1d6)])||0x0;el(_0x216cca(0x606))[_0x216cca(0x2b8)][_0x216cca(0x407)]('--placement-timing-height',(_0x1ea7b5?_0x1ea7b5+_0x4f3b5e:0x0)+'px');})[q1_0x49f7ea(0x23a)](el('placement-timing')),el('placement-duration')[q1_0x49f7ea(0x599)]('input',_0x307727=>{const _0x583538=q1_0x49f7ea,_0x2fb5b5=Number(_0x307727[_0x583538(0x47a)]['value']);if(!placementTimingAvailable()||!Number[_0x583538(0x199)](_0x2fb5b5))return;replayPlacementDuration=Math[_0x583538(0x247)](0x32,Math[_0x583538(0x2f7)](0x258,_0x2fb5b5)),renderPlacementTiming();}),el('placement-duration')[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x544),()=>{const _0x12aa5e=q1_0x49f7ea;if(el(_0x12aa5e(0x40d))['hidden']||!placementTimingAvailable())return;const _0x160aa3=room??archive??spectator?.[_0x12aa5e(0x5dc)],_0x2ff875=spectator?spectator[_0x12aa5e(0x4af)]??_0x160aa3?.[_0x12aa5e(0x24f)][_0x12aa5e(0x567)]:reviewPly;if(_0x160aa3&&_0x2ff875>0x0)presentRoundPlacement(_0x160aa3,_0x2ff875-0x1);});function drawGamePosition(_0x1f1650,_0x564816,_0x453939=![]){const _0x31967d=q1_0x49f7ea,_0x1ac220=_0x564816===_0x1f1650[_0x31967d(0x24f)]['length'];let _0x20a22e=_0x1f1650[_0x31967d(0x3a3)];if(!_0x1ac220||_0x1f1650===archive||!_0x20a22e){_0x20a22e=Array(cells['length'])[_0x31967d(0x184)](0x0);for(let _0x21f8f0=0x0;_0x21f8f0<_0x564816;_0x21f8f0+=0x1)_0x20a22e[_0x1f1650['moves'][_0x21f8f0]]=moveColor(_0x1f1650,_0x21f8f0);}const _0x78d807=_0x453939&&showMoveNumbers?Array(cells[_0x31967d(0x567)]):null;if(_0x78d807){for(let _0x2bdb83=0x0;_0x2bdb83<_0x564816;_0x2bdb83+=0x1)_0x78d807[_0x1f1650[_0x31967d(0x24f)][_0x2bdb83]]=_0x2bdb83+0x1;}const _0x368b47=_0x453939&&!_0x1ac220&&hasForbiddenMoves(_0x1f1650[_0x31967d(0x59b)])&&moveColor(_0x1f1650,_0x564816)===0x1&&(_0x1f1650['rule']!==_0x31967d(0x408)||_0x564816>=0x6);drawBoard(_0x1f1650,_0x20a22e,_0x1f1650[_0x31967d(0x24f)][_0x564816-0x1],_0x1ac220?_0x1f1650[_0x31967d(0x23e)]??[]:[],{'latest':_0x1ac220,'moveNumbers':_0x78d807,'showReplayFouls':_0x368b47});}function drawBoard(_0x23eb97,_0x30167a,_0x22f812,_0x6cab83,{latest:_0x3d54f3,moveNumbers:_0x59390f,showReplayFouls:_0xd03127}){const _0x51f103=q1_0x49f7ea,_0x25569c=canAct(),_0x268090=_0x23eb97===room&&_0x23eb97['phase']===_0x51f103(0x3ca)&&_0x23eb97[_0x51f103(0x4bd)]===_0x23eb97[_0x51f103(0x22c)],_0x4aa699=_0x268090?moveLimits(_0x23eb97):[],_0x39371f=_0x3d54f3&&_0x23eb97['phase']==='playing'?_0x23eb97[_0x51f103(0x540)]??[]:[];board[_0x51f103(0x601)][_0x51f103(0x3f7)](_0x51f103(0x4f2),_0x25569c),board[_0x51f103(0x44d)](_0x51f103(0x492),Boolean(_0x59390f));const _0x1a7fac=cells[_0x22f812];lastMoveMarker['toggleAttribute'](_0x51f103(0x343),!_0x1a7fac);if(_0x1a7fac&&lastMoveMarker['parentElement']!==_0x1a7fac)_0x1a7fac[_0x51f103(0x31b)](lastMoveMarker);for(const [_0x399e42,_0x562dbb]of cells[_0x51f103(0x211)]()){const _0x4abcad=_0x23eb97===room&&pendingPlacement?.[_0x51f103(0x4b1)]===_0x23eb97[_0x51f103(0x4b1)]&&pendingPlacement['round']===_0x23eb97[_0x51f103(0x1a0)]&&pendingPlacement[_0x51f103(0x438)]===_0x399e42,_0x355586=_0x4abcad?pendingPlacement[_0x51f103(0x22b)]:_0x30167a[_0x399e42],_0x41a451=selected===_0x399e42,_0x495851=_0x41a451?_0x23eb97[_0x51f103(0x1a2)]??seatColor(_0x23eb97,_0x23eb97[_0x51f103(0x22c)]):_0x355586,_0x42e561=_0xd03127?forbiddenAt(_0x30167a,_0x399e42,_0x23eb97['rule']):_0x4aa699[_0x399e42],_0x1a7007=foulMarkers[_0x42e561],_0x4fa606=_0x39371f[_0x51f103(0x4e3)](_0x399e42)+0x1;_0x562dbb[_0x51f103(0x575)][_0x51f103(0x1a2)]=_0x355586;if(_0x1a7007)_0x562dbb[_0x51f103(0x575)]['foul']=_0x1a7007;else _0x562dbb[_0x51f103(0x254)](_0x51f103(0x5a6));_0x562dbb[_0x51f103(0x44d)](_0x51f103(0x2ff),_0x42e561===_0x51f103(0x2da)||_0x42e561===_0x51f103(0x4e2));if(_0x4fa606)_0x562dbb[_0x51f103(0x575)][_0x51f103(0x45c)]=_0x4fa606;else _0x562dbb[_0x51f103(0x254)](_0x51f103(0x1ed));_0x562dbb['classList'][_0x51f103(0x3f7)](_0x51f103(0x2fb),_0x41a451),_0x562dbb[_0x51f103(0x601)][_0x51f103(0x3f7)](_0x51f103(0x486),_0x6cab83[_0x51f103(0x400)](_0x399e42));const _0x38ec30=_0x562dbb[_0x51f103(0x2e1)],_0xe9e4bb=_0x59390f?.[_0x399e42],_0x1c089b=_0xe9e4bb?String(_0xe9e4bb):'';_0x38ec30['hidden']=!_0x495851,_0x38ec30[_0x51f103(0x56f)]='stone\x20'+(_0x495851===0x1?'black':_0x51f103(0x1d5));if(_0x38ec30[_0x51f103(0x5c1)]!==_0x1c089b)_0x38ec30['textContent']=_0x1c089b;const _0x33699e=t([_0x51f103(0x2a8),_0x51f103(0x440),_0x51f103(0x47b)][_0x355586],{'cell':coordinate(_0x399e42)}),_0x59b248=_0x42e561?t(_0x42e561):_0x4fa606?t(_0x51f103(0x50c),{'n':_0x4fa606}):_0xe9e4bb?t(_0x51f103(0x189),{'n':_0xe9e4bb}):'';_0x562dbb['setAttribute'](_0x51f103(0x43a),_0x59b248?_0x33699e+'.\x20'+_0x59b248:_0x33699e),_0x562dbb[_0x51f103(0x3d1)]=_0x59b248,_0x562dbb[_0x51f103(0x5ba)](_0x51f103(0x423),String(_0x41a451)),_0x562dbb[_0x51f103(0x5ba)](_0x51f103(0x55d),String(!_0x25569c||Boolean(_0x355586)||Boolean(_0x42e561)));}}function renderSpectator({game:_0x50fa04,closed:_0x38c290,reconnecting:_0x548e7c,ply:_0x288b71}){const _0x5947f6=q1_0x49f7ea;let _0x859595;if(_0x38c290)_0x859595=t(_0x5947f6(0x2ca));else{if(_0x548e7c)_0x859595=t(_0x5947f6(0x546));else{if(_0x50fa04[_0x5947f6(0x531)]==='finished')_0x859595=_0x50fa04['winner']?t(_0x5947f6(0x1bd),{'color':sideName(_0x50fa04,_0x50fa04['winner'])}):t(_0x5947f6(0x508));else{if(_0x50fa04[_0x5947f6(0x191)])_0x859595=openingStatus(_0x50fa04);else _0x859595=t('watchTurn',{'color':sideName(_0x50fa04,_0x50fa04[_0x5947f6(0x4bd)])});}}}const _0x1a7c1c=_0x288b71??_0x50fa04[_0x5947f6(0x24f)][_0x5947f6(0x567)],_0x23324e=!_0x38c290&&!_0x548e7c&&_0x50fa04[_0x5947f6(0x531)]===_0x5947f6(0x3ca),_0x19db6e=_0x288b71!==null?t(_0x5947f6(0x305),{'n':_0x1a7c1c}):_0x23324e&&!_0x50fa04[_0x5947f6(0x191)]?t(matchMode(_0x50fa04))+'\x20·\x20'+t(_0x5947f6(0x5fc),{'n':_0x1a7c1c}):_0x859595,_0x586423=el(_0x5947f6(0x2fc));_0x586423[_0x5947f6(0x5ba)]('aria-live',_0x23324e?'off':_0x5947f6(0x584));if(_0x586423[_0x5947f6(0x5c1)]!==_0x19db6e)_0x586423[_0x5947f6(0x5c1)]=_0x19db6e;if(el(_0x5947f6(0x1b8))['textContent']!==_0x859595)el(_0x5947f6(0x1b8))[_0x5947f6(0x5c1)]=_0x859595;el('room-bar')[_0x5947f6(0x343)]=reviewRoomAction['hidden']=el('invite')[_0x5947f6(0x343)]=!![],el(_0x5947f6(0x5c5))[_0x5947f6(0x343)]=![];const _0x1f02d6=el(_0x5947f6(0x1aa));_0x1f02d6[_0x5947f6(0x3a7)]=!![],_0x1f02d6['dataset'][_0x5947f6(0x298)]=_0x5947f6(0x5f2),el('place-state')[_0x5947f6(0x343)]=!![],_0x1f02d6[_0x5947f6(0x254)](_0x5947f6(0x176));const _0xe559c5=t(_0x23324e&&_0x50fa04[_0x5947f6(0x4bd)]===(_0x50fa04[_0x5947f6(0x22f)]??0x1)?_0x5947f6(0x435):_0x5947f6(0x48e));el(_0x5947f6(0x1ba))[_0x5947f6(0x5c1)]=_0xe559c5,_0x1f02d6[_0x5947f6(0x5ba)](_0x5947f6(0x43a),_0xe559c5),_0x1f02d6[_0x5947f6(0x3d1)]=_0xe559c5,renderPlayers(_0x50fa04,!![],!![]),renderReplayControls(_0x1a7c1c,_0x50fa04[_0x5947f6(0x24f)][_0x5947f6(0x567)],!![]),board['removeAttribute'](_0x5947f6(0x3b3)),drawGamePosition(_0x50fa04,_0x1a7c1c);}const version=window[q1_0x49f7ea(0x19e)]?.[q1_0x49f7ea(0x1df)];el('app-version')[q1_0x49f7ea(0x5c1)]=version?'v'+version:q1_0x49f7ea(0x160);function loadMatchAds(){const _0x557598=q1_0x49f7ea;try{const _0x163ace=JSON[_0x557598(0x2ce)](localStorage[_0x557598(0x520)](matchAdsKey));if(Array[_0x557598(0x1d0)](_0x163ace?.[_0x557598(0x3e7)])&&Number['isFinite'](_0x163ace[_0x557598(0x30c)]))return _0x163ace;}catch{}return matchAds;}function saveMatchAds(_0x30c9b1){const _0x5ebcd5=q1_0x49f7ea;matchAds=_0x30c9b1;try{localStorage[_0x5ebcd5(0x588)](matchAdsKey,JSON['stringify'](_0x30c9b1));}catch{}}function recordCompletedRound(_0x362ffc){const _0x528f2a=q1_0x49f7ea,_0x17c1e1=loadMatchAds();if(_0x17c1e1['freeRounds']['includes'](_0x362ffc))return;if(_0x17c1e1[_0x528f2a(0x3e7)][_0x528f2a(0x567)]<adFreeRounds){saveMatchAds({..._0x17c1e1,'freeRounds':[..._0x17c1e1['freeRounds'],_0x362ffc]});return;}pendingMatchAdRound=_0x362ffc;}async function showReturnAd(_0x3053ad=null){const _0x3dad59=q1_0x49f7ea,_0x57fa11=document['querySelector'](_0x3dad59(0x4a7)),_0x410379=()=>{const _0x256b72=_0x3dad59;if(lobbyView!==_0x256b72(0x3eb)||adsRemoved||adPurchaseBusy||document['hidden']||room||archive||spectator||matchmaking||gameModes?.[_0x256b72(0x366)]()||document[_0x256b72(0x3e1)]('dialog[open]')||window[_0x256b72(0x316)]?.['isOpen']())return null;const _0x3d82de=loadMatchAds();if(_0x3d82de[_0x256b72(0x3e7)]['length']<adFreeRounds||_0x3053ad&&_0x3d82de[_0x256b72(0x1d9)]===_0x3053ad||Date[_0x256b72(0x4ad)]()-_0x3d82de[_0x256b72(0x30c)]<matchAdCooldown)return null;return _0x3d82de;};if(_0x57fa11['inert']||!NcqAds?.[_0x3dad59(0x360)]('MATCH_END')||!_0x410379())return;const _0x3b613f=document[_0x3dad59(0x238)],_0x2af721=async()=>{const _0xf6e20c=_0x3dad59,_0x510a77=_0x410379();if(!_0x510a77)return;if(_0x3053ad)saveMatchAds({..._0x510a77,'lastAttemptedRound':_0x3053ad});stopPlacementSound(),haptics[_0xf6e20c(0x2b9)](),coinCollection['stop']();if(await NcqAds['interstitial']('MATCH_END'))saveMatchAds({...loadMatchAds(),'lastShownAt':Date[_0xf6e20c(0x4ad)]()});};_0x57fa11[_0x3dad59(0x3b3)]=!![];try{await adOwnershipReady,navigator['locks']?await navigator['locks']['request'](matchAdsKey,{'ifAvailable':!![]},_0x386c72=>_0x386c72&&_0x2af721()):await _0x2af721();}catch{}finally{_0x57fa11[_0x3dad59(0x3b3)]=![];if(_0x3b613f instanceof HTMLElement&&document[_0x3dad59(0x238)]===document[_0x3dad59(0x288)])_0x3b613f[_0x3dad59(0x373)]({'preventScroll':!![]});}}function applyState(_0x549c5e){const _0x222e0a=q1_0x49f7ea;if(_0x549c5e[_0x222e0a(0x59a)])_0x549c5e=mergeFinishedRoom(room,_0x549c5e,loadRecords());if(room?.[_0x222e0a(0x4b1)]===_0x549c5e['code']&&_0x549c5e[_0x222e0a(0x25e)]<=room[_0x222e0a(0x25e)]&&!(room[_0x222e0a(0x59a)]&&!_0x549c5e['summaryOnly'])){_0x549c5e[_0x222e0a(0x25e)]===room[_0x222e0a(0x25e)]&&(room={...room,..._0x549c5e[_0x222e0a(0x4d5)]?{'players':_0x549c5e['players']}:{},'serverNow':_0x549c5e[_0x222e0a(0x2dc)],'turnEndsAt':_0x549c5e[_0x222e0a(0x4c6)],'turnSeconds':_0x549c5e[_0x222e0a(0x566)]},turnDeadline=clockDeadline(_0x549c5e));const _0x3d1b31=authSession?.[_0x222e0a(0x43c)]+':'+_0x549c5e[_0x222e0a(0x4b1)]+':'+_0x549c5e[_0x222e0a(0x1a0)];if(_0x549c5e['phase']===_0x222e0a(0x2b0)&&!recordReceipts[_0x222e0a(0x2c9)](_0x3d1b31)&&saveRecord(_0x549c5e))acknowledgeRecord(_0x549c5e);return;}const _0x328e6f=room?.['code']===_0x549c5e['code']&&room[_0x222e0a(0x1a0)]===_0x549c5e[_0x222e0a(0x1a0)],_0x1864a6=confirmsPlacement(pendingPlacement,_0x549c5e);if(pendingPlacement&&pendingPlacement[_0x222e0a(0x4b1)]===_0x549c5e[_0x222e0a(0x4b1)])pendingPlacement=null;const _0x52f0e4=_0x328e6f?room['turn']:undefined,_0x452e7d=_0x328e6f&&room[_0x222e0a(0x531)]===_0x222e0a(0x3ca)&&_0x549c5e[_0x222e0a(0x531)]===_0x222e0a(0x2b0),_0x2a1db3=_0x549c5e[_0x222e0a(0x531)]===_0x222e0a(0x2b0)&&(!_0x328e6f||room['phase']!==_0x222e0a(0x2b0)),_0x594b36=_0x328e6f&&room[_0x222e0a(0x531)]===_0x222e0a(0x3ca)?_0x549c5e[_0x222e0a(0x24f)][_0x222e0a(0x567)]-room[_0x222e0a(0x24f)][_0x222e0a(0x567)]:0x0;room=_0x549c5e;if(leaveDialog[_0x222e0a(0x5e1)]&&(!_0x328e6f||room[_0x222e0a(0x531)]===_0x222e0a(0x2b0)))popupAudio[_0x222e0a(0x21c)](()=>leaveDialog[_0x222e0a(0x2b6)](_0x222e0a(0x38f)));turnDeadline=clockDeadline(_0x549c5e),selected=null;if(_0x2a1db3){awaitingResultDismissal=!![],reviewPly=room[_0x222e0a(0x24f)][_0x222e0a(0x567)];if(room[_0x222e0a(0x26c)]===_0x222e0a(0x277))void loadRankings(_0x222e0a(0x3f8),0x1,undefined,![],-0x1);}room[_0x222e0a(0x531)]!==_0x222e0a(0x2b0)&&(resultAudio[_0x222e0a(0x2b9)](),awaitingResultDismissal=![],rankCelebration['close'](),resultDialog[_0x222e0a(0x2b6)]());if(room['phase']!=='finished')popupAudio['quiet'](()=>recordShareDialog[_0x222e0a(0x2b6)]());if(room[_0x222e0a(0x531)]!=='waiting')popupAudio[_0x222e0a(0x21c)](()=>el(_0x222e0a(0x5f6))[_0x222e0a(0x2b6)]());if(room[_0x222e0a(0x531)]!==_0x222e0a(0x3ca))matchIntroDialog[_0x222e0a(0x2b6)]();const _0x389c46=room[_0x222e0a(0x4b1)]+':'+room[_0x222e0a(0x1a0)],_0x19f735=_0x222e0a(0x399),_0x420c47=sessionStorage[_0x222e0a(0x520)](_0x19f735);if(room['phase']===_0x222e0a(0x3ca)&&_0x420c47!==_0x389c46){sessionStorage[_0x222e0a(0x588)](_0x19f735,_0x389c46);if(room[_0x222e0a(0x26c)]==='ai')window[_0x222e0a(0x241)]?.['levelStart']('ai',{'round':_0x389c46});else window[_0x222e0a(0x241)]?.['levelStart'](_0x222e0a(0x413),{'round':_0x389c46});}if(room[_0x222e0a(0x531)]===_0x222e0a(0x2b0)&&_0x420c47===_0x389c46){sessionStorage['removeItem'](_0x19f735);if(room['mode']==='ai')window['NcqMetrics']?.[_0x222e0a(0x1dd)]('ai',room[_0x222e0a(0x5f4)]?room[_0x222e0a(0x5f4)]===room['you']:undefined);else window[_0x222e0a(0x241)]?.[_0x222e0a(0x1dd)]('online',room[_0x222e0a(0x5f4)]?room[_0x222e0a(0x5f4)]===room['you']:undefined);if(room[_0x222e0a(0x24f)][_0x222e0a(0x567)])recordCompletedRound(_0x389c46);void recordMissionRound(room);}if(room[_0x222e0a(0x531)]===_0x222e0a(0x2b0)&&saveRecord(room))acknowledgeRecord(room);render();const _0x5615f5=_0x594b36===0x1&&!_0x1864a6?presentRoundPlacement(_0x549c5e,_0x549c5e[_0x222e0a(0x24f)][_0x222e0a(0x567)]-0x1,_0x52f0e4):undefined;_0x328e6f&&_0x52f0e4!==_0x549c5e[_0x222e0a(0x22c)]&&_0x549c5e[_0x222e0a(0x4bd)]===_0x549c5e[_0x222e0a(0x22c)]&&_0x549c5e[_0x222e0a(0x531)]===_0x222e0a(0x3ca)&&(_0x594b36===0x0||_0x549c5e['moves']['at'](-0x1)==null)&&haptics['once']('turn:'+roundHapticKey(_0x549c5e)+':'+_0x549c5e[_0x222e0a(0x24f)][_0x222e0a(0x567)]+':'+_0x549c5e[_0x222e0a(0x4bd)],_0x222e0a(0x4d6));if(_0x2a1db3){const _0x16afb0=()=>{const _0x23d805=_0x222e0a;if(room?.[_0x23d805(0x4b1)]!==_0x549c5e['code']||room['round']!==_0x549c5e[_0x23d805(0x1a0)]||room['phase']!==_0x23d805(0x2b0)||resultDialog[_0x23d805(0x5e1)])return;popupAudio['quiet'](()=>{const _0x18e303=_0x23d805;if(profileDialog['open'])profileDialog[_0x18e303(0x2b6)]();if(optionsDialog[_0x18e303(0x5e1)])optionsDialog['close']();}),resultDialog['removeAttribute'](_0x23d805(0x4de)),resultDialog[_0x23d805(0x33c)](),render();if(_0x452e7d)resultAudio[_0x23d805(0x34d)](roundHapticKey(_0x549c5e),describeOutcome(_0x549c5e),{'valid':()=>resultDialog['open']&&room?.['code']===_0x549c5e['code']&&room[_0x23d805(0x1a0)]===_0x549c5e[_0x23d805(0x1a0)]});_0x452e7d&&!resultDialog['hasAttribute'](_0x23d805(0x37d))&&haptics[_0x23d805(0x5e7)](_0x23d805(0x260)+roundHapticKey(_0x549c5e),describeOutcome(_0x549c5e)===_0x23d805(0x3fa)?_0x23d805(0x4b3):_0x23d805(0x4d6)),void playRankPromotion(_0x549c5e,_0x452e7d),refreshPlayerCard(-0x1);};_0x594b36>0x0?void Promise[_0x222e0a(0x272)](_0x5615f5)['then'](()=>setTimeout(_0x16afb0,0x3e8)):_0x16afb0();}}async function exitRoom(_0x51a3d0='',{showAd:showAd=![],openRankings:openRankings=!![]}={}){const _0x212e18=q1_0x49f7ea;matchingAudio[_0x212e18(0x2b9)](),resultAudio[_0x212e18(0x2b9)]();const _0x474d70=room?.[_0x212e18(0x26c)]===_0x212e18(0x277),_0x546f48=showAd&&room?.[_0x212e18(0x531)]===_0x212e18(0x2b0)?pendingMatchAdRound:null;stream?.['close'](),stream=null,connected=![],pendingMatchAdRound=null,awaitingResultDismissal=![],cancelPlacement(),rankCelebration[_0x212e18(0x2b6)](),resultDialog['close'](),popupAudio[_0x212e18(0x21c)](()=>{const _0x565d52=_0x212e18;leaveDialog[_0x565d52(0x2b6)](_0x565d52(0x38f)),optionsDialog['close'](),el(_0x565d52(0x5f6))['close'](),recordShareDialog[_0x565d52(0x2b6)]();}),matchIntroDialog[_0x212e18(0x2b6)](),room=null,pendingPlacement=null,turnDeadline=null,cancelAnimationFrame(turnFrame),selected=null,sessionStorage[_0x212e18(0x4db)](_0x212e18(0x399));const _0x4285c7=new URL(location[_0x212e18(0x5cf)]);_0x4285c7[_0x212e18(0x4d8)][_0x212e18(0x1b9)](_0x212e18(0x1fc)),history[_0x212e18(0x55b)](null,'',_0x4285c7);if(_0x474d70)lobbyView=_0x212e18(0x3eb);feedback(_0x212e18(0x394),_0x51a3d0,Boolean(_0x51a3d0)),render(),refreshLobby(),refreshPlayerCard(),void refreshWallet();if(_0x546f48)await showReturnAd(_0x546f48);if(_0x474d70&&openRankings)showRankings();el(_0x474d70&&openRankings?_0x212e18(0x34c):'start')[_0x212e18(0x373)]();}async function send(_0x2200bf,_0x4d51f3={}){const _0x39e651=q1_0x49f7ea;try{const _0x4c1a59=await fetch(_0x39e651(0x5d8)+_0x2200bf,{'method':_0x39e651(0x3f0),'headers':{'Content-Type':_0x39e651(0x3b9)},'body':JSON[_0x39e651(0x549)](_0x4d51f3),'signal':AbortSignal[_0x39e651(0x220)](0x1f40)}),_0x1c67b6=await _0x4c1a59[_0x39e651(0x2c3)]();if(_0x4c1a59['ok'])return _0x1c67b6;if(Object[_0x39e651(0x4a4)](TEXTS['en'],_0x1c67b6[_0x39e651(0x469)]))return{'error':_0x1c67b6['error']};}catch{}return{'error':_0x39e651(0x2b4)};}async function getAuthConfig(){const _0x2f474f=q1_0x49f7ea;if(authConfig)return authConfig;const _0xed45e8=await fetch(backend?_0x2f474f(0x2e4):_0x2f474f(0x169),{'signal':AbortSignal['timeout'](0xfa0)});if(!_0xed45e8['ok'])throw new Error();authConfig=await _0xed45e8[_0x2f474f(0x2c3)]();const _0x257cc8=window[_0x2f474f(0x19e)]?.[_0x2f474f(0x5e2)];return(_0x257cc8===_0x2f474f(0x524)||_0x257cc8===_0x2f474f(0x32f)||_0x257cc8==='kakaopay')&&(authConfig={...authConfig,'platform':_0x257cc8===_0x2f474f(0x524)?_0x2f474f(0x50e):_0x257cc8}),authConfig;}async function openPlayerSession(_0x1c984c){const _0x305f9a=q1_0x49f7ea,_0x31c8f1=await getAuthConfig();if(backend&&!_0x31c8f1[_0x305f9a(0x16f)])throw new Error();if(!_0x31c8f1[_0x305f9a(0x16f)]||!_0x1c984c&&authSession?.[_0x305f9a(0x28c)]>Date[_0x305f9a(0x4ad)]()+0x7530)return;!window[_0x305f9a(0x1cc)]&&(window['NCQ']={...window['NCQ'],'NCQ_AUTH':window[_0x305f9a(0x19e)]?.[_0x305f9a(0x3d7)]??{'url':_0x31c8f1[_0x305f9a(0x579)]??location[_0x305f9a(0x506)],'game':_0x31c8f1[_0x305f9a(0x5dc)],'platform':_0x31c8f1[_0x305f9a(0x2c6)],'environment':_0x31c8f1['environment'],'firebase':_0x31c8f1[_0x305f9a(0x46e)]}},await new Promise((_0x4d178a,_0x53babf)=>{const _0x4a5c22=_0x305f9a,_0x8d66db=document[_0x4a5c22(0x57a)](_0x4a5c22(0x317));_0x8d66db[_0x4a5c22(0x467)]=backend?'./ncq/auth-sdk.js':'./api/auth/sdk',_0x8d66db[_0x4a5c22(0x3a8)]=_0x4d178a,_0x8d66db['onerror']=_0x53babf,document[_0x4a5c22(0x5cd)][_0x4a5c22(0x31b)](_0x8d66db);}));if(backend){const {player:_0xbfa864}=await window[_0x305f9a(0x1cc)][_0x305f9a(0x4cc)](),_0x5adac9=await loadAccountProfile(window[_0x305f9a(0x1cc)],_0xbfa864,{'forceRefresh':!![]});await window[_0x305f9a(0x1cc)][_0x305f9a(0x426)]({'role':_0x305f9a(0x517),'expectedPlayer':_0xbfa864}),authSession={'player':_0xbfa864,'expiresAt':Infinity},applyAuthProfile(_0x5adac9),profileSubscription??=window[_0x305f9a(0x1cc)][_0x305f9a(0x3fe)](_0x499bde=>{const _0x3a4cc3=_0x305f9a;if(!applyAuthProfile(_0x499bde))return;render();if(_0x499bde[_0x3a4cc3(0x500)])void backend[_0x3a4cc3(0x5fb)](_0x499bde)['catch'](()=>{});}),recordsScope=recordsKey+':'+_0xbfa864,bindRecordHistory(_0xbfa864,!![]);return;}const {ticket:_0xa8a770}=await window[_0x305f9a(0x1cc)][_0x305f9a(0x1c2)](_0x305f9a(0x21d),'POST',{}),_0x193792=await send(_0x305f9a(0x1e6),{'ticket':_0xa8a770});if(!_0x193792[_0x305f9a(0x43c)])throw new Error();authSession=_0x193792;const _0x2f8eae=recordsKey+':'+_0x193792[_0x305f9a(0x43c)];recordsScope!==_0x2f8eae&&(recordsScope=_0x2f8eae,records=loadRecords()),bindRecordHistory(_0x193792[_0x305f9a(0x43c)],![]),await refreshAuthProfile();}async function ensureIdentity(_0x522e28=![]){return authenticating??=openPlayerSession(_0x522e28)['finally'](()=>{authenticating=null;}),authenticating;}async function post(_0x2c0901,_0x57f901={},_0x280ee8){const _0x439d23=q1_0x49f7ea;if(backend)return remoteRequest(_0x280ee8);try{await ensureIdentity();const _0x4debd6=await send(_0x2c0901,_0x57f901);if(_0x4debd6[_0x439d23(0x469)]!==_0x439d23(0x2c7)||!authConfig?.[_0x439d23(0x16f)])return _0x4debd6;return await ensureIdentity(!![]),send(_0x2c0901,_0x57f901);}catch{return{'error':_0x439d23(0x2c7)};}}async function remoteRequest(_0x9da713){const _0x53fa3e=q1_0x49f7ea;try{return await _0x9da713(backend);}catch(_0x580583){const _0x29251f=_0x580583[_0x53fa3e(0x2fc)]===0x191?_0x53fa3e(0x2c7):_0x580583['code'];return{'error':Object[_0x53fa3e(0x4a4)](TEXTS['en'],_0x29251f)?_0x29251f:_0x53fa3e(0x2b4)};}}async function run(_0x5e303a,_0x1b26b8){const _0x5ec044=q1_0x49f7ea;if(busy)return;busy=!![];const _0x7e6690=room?_0x5ec044(0x2cc):_0x5ec044(0x394);feedback(_0x7e6690),render();try{const _0x1089b0=await _0x5e303a();if(_0x1089b0[_0x5ec044(0x469)])feedback(_0x7e6690,_0x1089b0[_0x5ec044(0x469)],!![]);else _0x1b26b8(_0x1089b0);}finally{busy=![],render();}}function spectatorUrl(_0x18eef0,_0xa15cd){const _0x11a45b=q1_0x49f7ea,_0x59d5be=boardApiUrl?boardApiUrl+'/':document[_0x11a45b(0x40b)],_0x43b6de=new URL('api/spectate/'+encodeURIComponent(_0x18eef0),_0x59d5be);if(_0xa15cd)_0x43b6de['searchParams']['set'](_0x11a45b(0x235),_0xa15cd);return _0x43b6de;}async function fetchSpectator(_0x5d6e17,_0xfca41){const _0x404a6b=q1_0x49f7ea;try{const _0x167e09=await fetch(spectatorUrl(_0x5d6e17,_0xfca41),{'credentials':'omit','cache':'no-store','redirect':_0x404a6b(0x469),'signal':AbortSignal[_0x404a6b(0x220)](0xdac)});if(!_0x167e09['ok'])return{'error':_0x167e09[_0x404a6b(0x2fc)]===0x194?_0x404a6b(0x40e):_0x404a6b(0x2b4)};return await _0x167e09['json']();}catch{return{'error':_0x404a6b(0x2b4)};}}function scheduleSpectator(_0x3fb57d){const _0x209515=q1_0x49f7ea;if(_0x3fb57d[_0x209515(0x559)]||_0x3fb57d[_0x209515(0x5dc)][_0x209515(0x531)]===_0x209515(0x2b0))return;if(backend){_0x3fb57d[_0x209515(0x3d9)]=backend['subscribeRoom'](_0x3fb57d['game'][_0x209515(0x4b1)],{'mode':'watch','initialState':_0x3fb57d['game'],'load':()=>fetchSpectator(_0x3fb57d[_0x209515(0x5dc)][_0x209515(0x4b1)]),'presence':_0x3fb57d[_0x209515(0x235)]?()=>{const _0x3318f4=_0x209515,_0x4d95d4=backend['gameRequest']('/spectate/'+_0x3fb57d[_0x3318f4(0x5dc)]['code']+_0x3318f4(0x263),{'viewer':_0x3fb57d[_0x3318f4(0x235)]});return _0x3fb57d[_0x3318f4(0x216)]=_0x4d95d4,_0x4d95d4[_0x3318f4(0x444)](()=>{const _0xc53517=_0x3318f4;if(_0x3fb57d[_0xc53517(0x216)]===_0x4d95d4)_0x3fb57d[_0xc53517(0x216)]=null;});}:![],'onState':_0x26a444=>updateSpectator(_0x3fb57d,_0x26a444),'onStatus':_0xb5d772=>{const _0xd367f0=_0x209515;if(spectator!==_0x3fb57d)return;_0x3fb57d[_0xd367f0(0x546)]=_0xb5d772!==_0xd367f0(0x5f8),render();},'onError':_0x27e2b2=>{const _0x375e96=_0x209515;if(spectator!==_0x3fb57d)return;_0x3fb57d[_0x375e96(0x559)]=(_0x27e2b2[_0x375e96(0x469)]??_0x27e2b2[_0x375e96(0x4b1)])===_0x375e96(0x40e),_0x3fb57d[_0x375e96(0x546)]=!_0x3fb57d[_0x375e96(0x559)];if(_0x3fb57d[_0x375e96(0x559)])_0x3fb57d['connection']?.[_0x375e96(0x2b6)]();render();}});return;}_0x3fb57d['timer']=setTimeout(()=>pollSpectator(_0x3fb57d),0x3e8);}function updateSpectator(_0x5cf229,_0x21179d){const _0x38a119=q1_0x49f7ea;if(spectator!==_0x5cf229||_0x21179d[_0x38a119(0x469)])return;const _0x5bd543=_0x5cf229[_0x38a119(0x5dc)];_0x5cf229['game']=_0x21179d,_0x5cf229[_0x38a119(0x2a9)]=clockDeadline(_0x21179d);if(_0x5bd543[_0x38a119(0x1a0)]!==_0x21179d[_0x38a119(0x1a0)])_0x5cf229[_0x38a119(0x4af)]=null;_0x5cf229[_0x38a119(0x546)]=![],render(),_0x5cf229[_0x38a119(0x4af)]===null&&_0x5bd543[_0x38a119(0x1a0)]===_0x21179d[_0x38a119(0x1a0)]&&_0x21179d[_0x38a119(0x24f)][_0x38a119(0x567)]===_0x5bd543['moves'][_0x38a119(0x567)]+0x1&&presentRoundPlacement(_0x21179d,_0x21179d[_0x38a119(0x24f)]['length']-0x1);}async function pollSpectator(_0xe35738){const _0x3108c0=q1_0x49f7ea;if(!document['hidden']){const _0x33df02=_0xe35738[_0x3108c0(0x235)]&&performance['now']()>=_0xe35738[_0x3108c0(0x4f5)],_0x3360a3=fetchSpectator(_0xe35738['game'][_0x3108c0(0x4b1)],_0x33df02?_0xe35738[_0x3108c0(0x235)]:null);if(_0x33df02)_0xe35738[_0x3108c0(0x216)]=_0x3360a3;const _0x17158f=await _0x3360a3;if(_0x33df02){_0xe35738['pendingPresence']=null;if(!_0x17158f[_0x3108c0(0x469)])_0xe35738[_0x3108c0(0x4f5)]=performance[_0x3108c0(0x4ad)]()+0x1388;}if(spectator!==_0xe35738)return;if(_0x17158f[_0x3108c0(0x469)]){const _0x35341a=_0x17158f['error']===_0x3108c0(0x40e);(!_0xe35738['reconnecting']||_0x35341a)&&(_0xe35738[_0x3108c0(0x559)]=_0x35341a,_0xe35738[_0x3108c0(0x546)]=!_0x35341a,render());}else{if(_0xe35738[_0x3108c0(0x546)]||_0x17158f['version']!==_0xe35738[_0x3108c0(0x5dc)][_0x3108c0(0x25e)]||_0x17158f[_0x3108c0(0x531)]!==_0xe35738[_0x3108c0(0x5dc)]['phase']){const _0xc7ae9a=_0xe35738[_0x3108c0(0x5dc)];_0xe35738['game']=_0x17158f,_0xe35738[_0x3108c0(0x2a9)]=clockDeadline(_0x17158f);if(_0xc7ae9a[_0x3108c0(0x1a0)]!==_0x17158f[_0x3108c0(0x1a0)])_0xe35738[_0x3108c0(0x4af)]=null;_0xe35738[_0x3108c0(0x546)]=![],render(),_0xe35738[_0x3108c0(0x4af)]===null&&_0xc7ae9a[_0x3108c0(0x1a0)]===_0x17158f['round']&&_0x17158f[_0x3108c0(0x24f)][_0x3108c0(0x567)]===_0xc7ae9a[_0x3108c0(0x24f)]['length']+0x1&&presentRoundPlacement(_0x17158f,_0x17158f[_0x3108c0(0x24f)][_0x3108c0(0x567)]-0x1);}}}scheduleSpectator(_0xe35738);}async function openSpectator(_0x54aa4e){const _0x44225b=q1_0x49f7ea;if(room||archive||spectator||matchmaking||busy)return;const _0x271791=crypto[_0x44225b(0x3ea)]?.();await run(async()=>{const _0x30392c=_0x44225b;if(backend)try{await ensureIdentity();}catch{return{'error':_0x30392c(0x2c7)};}const _0x2652ff=await fetchSpectator(_0x54aa4e,_0x271791);if(_0x2652ff[_0x30392c(0x469)]!==_0x30392c(0x40e))return _0x2652ff;return refreshLobby(),{'error':'watchEnded'};},_0x14c628=>{const _0x2b53d8=_0x44225b;selected=null,feedback(_0x2b53d8(0x2cc)),spectator={'game':_0x14c628,'viewer':_0x271791,'renewAt':performance[_0x2b53d8(0x4ad)]()+0x1388,'pendingPresence':null,'ply':null,'deadline':clockDeadline(_0x14c628),'closed':![],'reconnecting':![],'timer':null},scheduleSpectator(spectator);}),(spectator?el(_0x44225b(0x2fc)):el(_0x44225b(0x42e)))[_0x44225b(0x373)]();}async function releaseSpectator(_0x36f1b5){const _0x5d3e76=q1_0x49f7ea;_0x36f1b5[_0x5d3e76(0x3d9)]?.[_0x5d3e76(0x2b6)]();try{await _0x36f1b5[_0x5d3e76(0x216)];}catch{}try{await fetch(spectatorUrl(_0x36f1b5[_0x5d3e76(0x5dc)]['code'],_0x36f1b5[_0x5d3e76(0x235)]),{'method':_0x5d3e76(0x3f0),'credentials':_0x5d3e76(0x3cc),'keepalive':!![],'redirect':_0x5d3e76(0x469),'signal':AbortSignal[_0x5d3e76(0x220)](0xdac)});}catch{}refreshLobby();}function openRoom(_0x12e299){const _0x3def60=q1_0x49f7ea;lobbyView=_0x3def60(0x3eb),archive=null;const _0x2cda5a=new URL(location['href']);_0x2cda5a[_0x3def60(0x4d8)][_0x3def60(0x3ba)]('room',_0x12e299[_0x3def60(0x4b1)]),history[_0x3def60(0x55b)](null,'',_0x2cda5a),feedback(_0x3def60(0x2cc)),connected=!![],applyState(_0x12e299),el(_0x3def60(0x2fc))[_0x3def60(0x373)](),connectRoom(_0x12e299[_0x3def60(0x4b1)]);}function connectRoom(_0x12500a){const _0x3caa5b=q1_0x49f7ea;if(backend){let _0x35d15e;async function _0x18b8ab(_0x557bb2){const _0xaf85f9=q1_0x284e;if(stream!==_0x35d15e)return;const _0x2e7a3e={'error':_0x557bb2[_0xaf85f9(0x469)]??_0x557bb2[_0xaf85f9(0x4b1)]??'network'};if([_0xaf85f9(0x40e),_0xaf85f9(0x2fa),'authFailed',_0xaf85f9(0x303)][_0xaf85f9(0x400)](_0x2e7a3e[_0xaf85f9(0x469)])){if(_0x2e7a3e[_0xaf85f9(0x469)]===_0xaf85f9(0x40e)){if(room?.[_0xaf85f9(0x531)]===_0xaf85f9(0x3ca)){const _0x387162=await remoteRequest(_0x23bf6e=>_0x23bf6e['gameRequest'](_0xaf85f9(0x3bd)+_0x12500a+'/'+room['round'],undefined,-0x1));if(stream!==_0x35d15e)return;if(room[_0xaf85f9(0x531)]===_0xaf85f9(0x3ca)){if(!_0x387162[_0xaf85f9(0x469)]&&_0x387162[_0xaf85f9(0x214)]){_0x35d15e[_0xaf85f9(0x2b6)](),connected=![],applyState(restoreResult(room,_0x387162,loadRecords()));return;}}}if(room?.[_0xaf85f9(0x531)]===_0xaf85f9(0x2b0)){_0x35d15e[_0xaf85f9(0x2b6)](),connected=![],room[_0xaf85f9(0x3ec)]=![],render();return;}}exitRoom([_0xaf85f9(0x2c7),_0xaf85f9(0x303)][_0xaf85f9(0x400)](_0x2e7a3e[_0xaf85f9(0x469)])?_0x2e7a3e[_0xaf85f9(0x469)]:_0xaf85f9(0x559));return;}connected=![],render();}_0x35d15e=backend[_0x3caa5b(0x1a6)](_0x12500a,{'initialState':room,'onState':_0x1be21e=>{if(stream!==_0x35d15e)return;connected=!![],applyState(_0x1be21e),render();},'onStatus':_0x3a352a=>{const _0x3d393d=_0x3caa5b;if(stream!==_0x35d15e)return;connected=_0x3a352a===_0x3d393d(0x5f8),render();},'onError':_0x432791=>{void _0x18b8ab(_0x432791);}}),stream=_0x35d15e;return;}const _0x50a78b=new EventSource('./api/rooms/'+_0x12500a+_0x3caa5b(0x1e0));stream=_0x50a78b,_0x50a78b[_0x3caa5b(0x599)](_0x3caa5b(0x214),_0x5c01bd=>{const _0x38f0d4=_0x3caa5b;if(stream!==_0x50a78b)return;connected=!![],applyState(JSON['parse'](_0x5c01bd[_0x38f0d4(0x557)])),render();}),_0x50a78b[_0x3caa5b(0x599)](_0x3caa5b(0x559),()=>{const _0x141a13=_0x3caa5b;if(stream===_0x50a78b)exitRoom(_0x141a13(0x559));}),_0x50a78b['addEventListener'](_0x3caa5b(0x487),async()=>{const _0x73b1cb=_0x3caa5b;if(stream!==_0x50a78b)return;_0x50a78b[_0x73b1cb(0x2b6)](),connected=![],render();try{await ensureIdentity(!![]);if(stream===_0x50a78b)connectRoom(_0x12500a);}catch{if(stream===_0x50a78b)exitRoom(_0x73b1cb(0x2c7));}}),_0x50a78b['onerror']=()=>{if(stream!==_0x50a78b)return;connected=![],selected=null,render();};}function roomAction(_0x8527b,_0x1459ea,_0x12d2a6=applyState){if(!room)return;const {code:_0x4b99d2,round:_0x3a613f}=room,_0x17fadf={'round':_0x3a613f,..._0x1459ea};return run(async()=>{const _0x27f9c3=q1_0x284e,_0x3fed2b=stream;_0x3fed2b?.['beginWrite']?.();let _0x1f68fa;try{_0x1f68fa=await post(_0x27f9c3(0x33b)+_0x4b99d2+'/'+_0x8527b,_0x17fadf,_0x2e0da1=>_0x2e0da1[_0x8527b](_0x4b99d2,_0x17fadf));if(_0x8527b===_0x27f9c3(0x1f2)&&_0x1f68fa['error']===_0x27f9c3(0x40e))return{};return _0x1f68fa;}finally{if((!_0x1f68fa||_0x1f68fa['error'])&&pendingPlacement){const _0x729cd=pendingPlacement;pendingPlacement=null,cancelPlacement();if(room?.[_0x27f9c3(0x4b1)]===_0x729cd[_0x27f9c3(0x4b1)]&&room[_0x27f9c3(0x1a0)]===_0x729cd[_0x27f9c3(0x1a0)]&&room[_0x27f9c3(0x25e)]===_0x729cd[_0x27f9c3(0x25e)])selected=_0x729cd['index'];}_0x3fed2b?.[_0x27f9c3(0x2eb)]?.(_0x1f68fa);if(!_0x1f68fa||_0x1f68fa[_0x27f9c3(0x469)])void _0x3fed2b?.[_0x27f9c3(0x1b6)]?.();}},_0x180c67=>{const _0x4f4504=q1_0x284e;if(room?.[_0x4f4504(0x4b1)]===_0x4b99d2)_0x12d2a6(_0x180c67);});}function join(_0x9f7201){run(()=>post('/rooms/'+_0x9f7201+'/join',{'nickname':ownNickname(),...placementRequest()},async _0x1dc85d=>{const _0x45bc44=q1_0x284e;return await ensureIdentity(),await tossPromotion['refresh'](),await _0x1dc85d[_0x45bc44(0x5fb)](accountProfile),_0x1dc85d['join'](_0x9f7201);}),openRoom);}function closeMatching(_0x605d7e=''){const _0x3cc1f7=q1_0x49f7ea;matchingAudio[_0x3cc1f7(0x3f1)]();const _0x40e512=matchmaking?.[_0x3cc1f7(0x26c)]===_0x3cc1f7(0x277);matchmaking=null,el(_0x3cc1f7(0x2cf))[_0x3cc1f7(0x2b6)](),feedback(_0x3cc1f7(0x394),_0x605d7e,Boolean(_0x605d7e)),render(),(_0x40e512?el(_0x3cc1f7(0x590)):el(_0x3cc1f7(0x5f7)))[_0x3cc1f7(0x373)]();if(_0x40e512&&lobbyView===_0x3cc1f7(0x277))loadRankings(_0x3cc1f7(0x3f8));if(_0x40e512)void refreshWallet();}async function cancelMatching(_0x526662){const _0x40273b=q1_0x49f7ea;if(_0x526662['ticket'])await post(_0x40273b(0x330),{'ticket':_0x526662['ticket']},_0x443eff=>_0x443eff['cancel'](_0x526662['ticket']));closeMatching();}async function findMatch(_0x1d9070){const _0x2438fe=q1_0x49f7ea;_0x1d9070[_0x2438fe(0x1e2)]=!![];const _0xd927d7={'ticket':_0x1d9070[_0x2438fe(0x273)],'mode':_0x1d9070[_0x2438fe(0x26c)],'rule':_0x1d9070[_0x2438fe(0x59b)],'catchUpCost':_0x1d9070[_0x2438fe(0x18f)],..._0x1d9070[_0x2438fe(0x1fe)],'skipFinished':!![]},_0x3b3219=await post('/matchmaking',{..._0xd927d7,'nickname':ownNickname()},async _0x3dcd46=>{const _0x495a27=_0x2438fe;await ensureIdentity();if(!_0x1d9070[_0x495a27(0x273)])await tossPromotion[_0x495a27(0x3c7)]();return await _0x3dcd46[_0x495a27(0x5fb)](accountProfile),_0x3dcd46[_0x495a27(0x606)](_0xd927d7);});_0x1d9070['pending']=![];if(_0x3b3219[_0x2438fe(0x1e3)]&&saveRecord(_0x3b3219['previousGame']))acknowledgeRecord(_0x3b3219[_0x2438fe(0x1e3)]);if(_0x3b3219[_0x2438fe(0x555)])_0x3b3219['error']=_0x3b3219[_0x2438fe(0x555)];_0x1d9070[_0x2438fe(0x273)]=_0x3b3219[_0x2438fe(0x273)]??_0x1d9070[_0x2438fe(0x273)];if(_0x1d9070['canceled'])return cancelMatching(_0x1d9070);if(_0x3b3219[_0x2438fe(0x469)]){closeMatching(_0x3b3219['error']===_0x2438fe(0x38e)?'':_0x3b3219['error']);if(_0x3b3219[_0x2438fe(0x469)]===_0x2438fe(0x38e))showCoinShortage();}else{if(_0x3b3219[_0x2438fe(0x5dc)]){const _0x18ab70=freshMatchingEntry(_0x3b3219[_0x2438fe(0x5dc)],sessionStorage['getItem'](_0x2438fe(0x399)));closeMatching(),openRoom(_0x3b3219[_0x2438fe(0x5dc)]),openMatchIntro(_0x3b3219[_0x2438fe(0x5dc)],_0x18ab70);}else _0x1d9070[_0x2438fe(0x38c)]=setTimeout(()=>findMatch(_0x1d9070),_0x1d9070['mode']===_0x2438fe(0x277)?0x4e2:0x28a);}}function requestCancel(){const _0x2935d4=q1_0x49f7ea,_0x2eef2a=matchmaking;if(!_0x2eef2a||_0x2eef2a[_0x2935d4(0x3cf)])return;_0x2eef2a[_0x2935d4(0x3cf)]=!![],matchingAudio[_0x2935d4(0x3f1)](),clearTimeout(_0x2eef2a[_0x2935d4(0x38c)]),render();if(!_0x2eef2a[_0x2935d4(0x1e2)])cancelMatching(_0x2eef2a);}function tournamentCoinBalance(_0x16e0b2){const _0x5ca930=q1_0x49f7ea;return serverWallet&&serverWallet['version']>=_0x16e0b2['coinVersion']?serverWallet[_0x5ca930(0x5c0)]:_0x16e0b2[_0x5ca930(0x5c0)];}function startMatching(_0x57dae3,_0x47b273){const _0x4ecc48=q1_0x49f7ea;if(matchmaking||busy||tournamentCatchUpDialog[_0x4ecc48(0x5e1)]||document[_0x4ecc48(0x3e1)]('.shell')[_0x4ecc48(0x3b3)])return;if(_0x57dae3==='tournament'&&_0x47b273===undefined){const _0x309e2a=rankingResults['weekly'],_0x475357=_0x309e2a?.[_0x4ecc48(0x34d)];if(_0x309e2a?.['loading']||_0x475357?.[_0x4ecc48(0x469)]||!Number[_0x4ecc48(0x4fd)](_0x475357?.[_0x4ecc48(0x4e4)]))return;if(_0x475357[_0x4ecc48(0x4e4)]===0x0){if(!(_0x475357['catchUpRemaining']>0x0))return;if(tournamentCoinBalance(_0x475357)<_0x475357[_0x4ecc48(0x18f)]){showCoinShortage();return;}tournamentCatchUpQuote={'cost':_0x475357[_0x4ecc48(0x18f)],'missed':_0x475357[_0x4ecc48(0x2f4)],'room':room?{'code':room[_0x4ecc48(0x4b1)],'round':room[_0x4ecc48(0x1a0)]}:null},tournamentCatchUpDialog[_0x4ecc48(0x2bb)]='',tournamentCatchUpDialog['showModal'](),render();return;}}if(room){if(_0x57dae3===_0x4ecc48(0x277)&&room[_0x4ecc48(0x26c)]==='tournament'&&room['phase']===_0x4ecc48(0x2b0))return startNextMatch('tournament',_0x47b273);return;}const _0x21e0eb={'canceled':![],'mode':_0x57dae3,'catchUpCost':_0x47b273,'rule':_0x57dae3===_0x4ecc48(0x277)?_0x4ecc48(0x583):activeRule(),'placement':placementRequest()};matchmaking=_0x21e0eb,feedback(_0x4ecc48(0x394)),render(),el(_0x4ecc48(0x2cf))['showModal'](),matchingAudio[_0x4ecc48(0x3b5)](_0x21e0eb,{'valid':()=>matchmaking===_0x21e0eb&&!_0x21e0eb[_0x4ecc48(0x3cf)]&&el(_0x4ecc48(0x2cf))[_0x4ecc48(0x5e1)]}),findMatch(_0x21e0eb);}el(q1_0x49f7ea(0x2cf))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),()=>{const _0x13c749=q1_0x49f7ea;if(!el('matchmaking')[_0x13c749(0x5e1)])matchingAudio[_0x13c749(0x3f1)]();}),tournamentCatchUpDialog['addEventListener'](q1_0x49f7ea(0x2b6),()=>{const _0x231356=q1_0x49f7ea,_0x28e65=tournamentCatchUpQuote;tournamentCatchUpQuote=undefined;const _0x86de0e=_0x28e65?.[_0x231356(0x1fc)]&&room?.[_0x231356(0x4b1)]===_0x28e65[_0x231356(0x1fc)][_0x231356(0x4b1)]&&room[_0x231356(0x1a0)]===_0x28e65[_0x231356(0x1fc)][_0x231356(0x1a0)]&&room['phase']==='finished'&&room[_0x231356(0x26c)]===_0x231356(0x277),_0x455271=!_0x28e65?.[_0x231356(0x1fc)]&&!room&&lobbyView===_0x231356(0x277)&&rankingTab===_0x231356(0x3f8);tournamentCatchUpDialog[_0x231356(0x2bb)]===_0x231356(0x233)&&_0x28e65&&(_0x86de0e||_0x455271)&&startMatching('tournament',_0x28e65[_0x231356(0x2d4)]);if(!matchmaking)render();}),el(q1_0x49f7ea(0x5f7))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>startMatching(q1_0x49f7ea(0x460))),el(q1_0x49f7ea(0x54a))?.[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0x456237=q1_0x49f7ea;ruleDialog[_0x456237(0x2bb)]='',ruleDialog[_0x456237(0x33c)](),render();}),ruleDialog?.[q1_0x49f7ea(0x599)]('close',()=>{const _0x2bbe99=q1_0x49f7ea;if(availableRules[_0x2bbe99(0x400)](ruleDialog[_0x2bbe99(0x2bb)])){preferredRule=ruleDialog[_0x2bbe99(0x2bb)];try{localStorage[_0x2bbe99(0x588)](_0x2bbe99(0x4f4),preferredRule);}catch{}backupKakaopay(window);}render(),el('choose-rule')?.['focus']();}),el(q1_0x49f7ea(0x564))['addEventListener'](q1_0x49f7ea(0x57f),refreshLobby),el(q1_0x49f7ea(0x609))[q1_0x49f7ea(0x599)]('click',()=>{const _0x3521c9=q1_0x49f7ea;forest[_0x3521c9(0x5e4)](),render(),refreshLobby();}),forest[q1_0x49f7ea(0x523)][q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),render),el(q1_0x49f7ea(0x596))['addEventListener'](q1_0x49f7ea(0x57f),requestCancel),el(q1_0x49f7ea(0x2cf))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x38f),_0x1ab8b7=>{_0x1ab8b7['preventDefault'](),requestCancel();});function openArchive(_0x59f279){const _0x2524a5=q1_0x49f7ea;archive={..._0x59f279,'phase':_0x2524a5(0x2b0)},reviewPly=_0x59f279[_0x2524a5(0x24f)][_0x2524a5(0x567)],feedback(_0x2524a5(0x2cc)),render(),el(_0x2524a5(0x55e))[_0x2524a5(0x373)]();}function showRecords(){const _0x24dae1=lobbyView;run(async()=>{const _0x613076=q1_0x284e;if(backend)return await ensureIdentity(),await recordHistory?.[_0x613076(0x4cc)](),records=loadRecords(),{};try{return await ensureIdentity(),{};}catch{return{'error':'authFailed'};}},()=>{const _0x4ec08e=q1_0x284e;if(recordsReturnView!==_0x24dae1)recordFilter=_0x4ec08e(0x382);recordsReturnView=_0x24dae1,lobbyView=_0x4ec08e(0x2b2),render(),el(_0x4ec08e(0x44e))[_0x4ec08e(0x373)]();});}el(q1_0x49f7ea(0x396))[q1_0x49f7ea(0x599)]('click',showRecords),el(q1_0x49f7ea(0x390))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),showRecords);function showRankings(_0x4435da=q1_0x49f7ea(0x3f8)){const _0x55d27b=q1_0x49f7ea;lobbyView=_0x55d27b(0x277),rankingTab=_0x4435da;for(const _0x55790d of Object[_0x55d27b(0x1f3)](rankingResults))clearTimeout(_0x55790d[_0x55d27b(0x3c7)]);rankingResults={},feedback(_0x55d27b(0x394)),render(),el('tournament-title')[_0x55d27b(0x373)](),loadRankings(_0x4435da),void refreshWeeklyRewards();}el(q1_0x49f7ea(0x54d))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0x1e5cba=q1_0x49f7ea,_0x5c30b2=!weeklyRewards?.[_0x1e5cba(0x4cd)]?.[_0x1e5cba(0x477)]&&weeklyRewards?.[_0x1e5cba(0x24d)]?.[_0x1e5cba(0x477)];showRankings(_0x5c30b2?_0x1e5cba(0x499):'weekly');}),el(q1_0x49f7ea(0x21f))['addEventListener'](q1_0x49f7ea(0x57f),()=>showRankings()),el(q1_0x49f7ea(0x2aa))['addEventListener'](q1_0x49f7ea(0x57f),()=>startMatching(q1_0x49f7ea(0x277)));for(const button of weeklyRewardButtons){button[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>claimWeeklyReward(button[q1_0x49f7ea(0x575)][q1_0x49f7ea(0x1e7)]));}const rankingTabs=[...el(q1_0x49f7ea(0x205))[q1_0x49f7ea(0x3da)](q1_0x49f7ea(0x19d))];for(const button of rankingTabs){const tab=button[q1_0x49f7ea(0x575)][q1_0x49f7ea(0x24d)];button['addEventListener']('click',()=>{const _0x55d836=q1_0x49f7ea;if(rankingTab!==tab)haptics[_0x55d836(0x299)]();rankingTab=tab,render();if(!rankingResults[tab])loadRankings(tab);if(tab===_0x55d836(0x17a))void refreshPlayerCard();}),el(q1_0x49f7ea(0x48c)+tab+q1_0x49f7ea(0x44f))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0x5c23af=q1_0x49f7ea;el(_0x5c23af(0x48c)+tab+_0x5c23af(0x5ef))[_0x5c23af(0x373)](),loadRankings(tab,rankingResults[tab]?.['page']);});}el(q1_0x49f7ea(0x205))['addEventListener'](q1_0x49f7ea(0x37e),_0x36c504=>{const _0x5e8a9b=q1_0x49f7ea,_0x3c4ad2=rankingTabs['indexOf'](_0x36c504['target']),_0x4b296b=rankingTabs['length'],_0x2faf54={'ArrowLeft':(_0x3c4ad2+_0x4b296b-0x1)%_0x4b296b,'ArrowRight':(_0x3c4ad2+0x1)%_0x4b296b,'Home':0x0,'End':_0x4b296b-0x1},_0x5da674=rankingTabs[_0x2faf54[_0x36c504[_0x5e8a9b(0x302)]]];if(!_0x5da674)return;_0x36c504[_0x5e8a9b(0x392)](),_0x5da674[_0x5e8a9b(0x373)](),_0x5da674['click']();});for(const [direction,step]of[[q1_0x49f7ea(0x525),-0x1],[q1_0x49f7ea(0x25d),0x1]]){el(q1_0x49f7ea(0x48c)+direction)[q1_0x49f7ea(0x599)]('click',_0x2493eb=>{const _0x59a901=q1_0x49f7ea;if(_0x2493eb[_0x59a901(0x267)]['getAttribute'](_0x59a901(0x55d))===_0x59a901(0x385))return;const _0x39049f=rankingResults[rankingTab];if(_0x39049f)loadRankings(rankingTab,_0x39049f[_0x59a901(0x5ed)]+step,_0x39049f[_0x59a901(0x206)],!![]);});}function resizeRankingPage(_0x2cece0){const _0x5ad681=q1_0x49f7ea;if(lobbyView!=='tournament')return;const _0x599e5a=rankingResults[rankingTab];if(!_0x599e5a?.[_0x5ad681(0x34d)]||_0x599e5a['result'][_0x5ad681(0x469)]||_0x599e5a['pageSize']===_0x2cece0)return;const _0x1b542d=(_0x599e5a[_0x5ad681(0x5ed)]-0x1)*_0x599e5a[_0x5ad681(0x206)];loadRankings(rankingTab,Math[_0x5ad681(0x338)](_0x1b542d/_0x2cece0)+0x1,_0x2cece0,!![]);}async function loadRankings(_0x564e71,_0xb863a2=0x1,_0x7889a5=rankingResults[_0x564e71]?.[q1_0x49f7ea(0x206)]??rankingPageTarget,_0x3555e9=![],_0x2d41bc=0x3){const _0x49e5bf=q1_0x49f7ea,_0xd3c942=rankingResults[_0x564e71];if(!backend||_0x2d41bc>=0x0&&_0xd3c942?.[_0x49e5bf(0x5b6)]&&_0xd3c942[_0x49e5bf(0x5ed)]===_0xb863a2&&_0xd3c942[_0x49e5bf(0x206)]===_0x7889a5)return;clearTimeout(_0xd3c942?.[_0x49e5bf(0x3c7)]);const _0x5810ec=_0x3555e9&&_0xd3c942?.[_0x49e5bf(0x314)]||new RankingPages(_0x564e71,_0x4729c8=>remoteRequest(_0x227168=>_0x227168[_0x49e5bf(0x179)](_0x4729c8,undefined,_0x2d41bc))),_0x2ee355={'page':_0xb863a2,'pageSize':_0x7889a5,'source':_0x5810ec,'result':_0xd3c942?.[_0x49e5bf(0x34d)],'loading':!![]};rankingResults[_0x564e71]=_0x2ee355;const _0x173b86=()=>rankingResults[_0x564e71]===_0x2ee355&&(lobbyView==='tournament'&&rankingTab===_0x564e71||_0x564e71===_0x49e5bf(0x3f8)&&room?.[_0x49e5bf(0x26c)]===_0x49e5bf(0x277)&&room[_0x49e5bf(0x531)]===_0x49e5bf(0x2b0));if(_0x173b86())render();_0x2ee355[_0x49e5bf(0x34d)]=await _0x5810ec[_0x49e5bf(0x5ed)](_0xb863a2,_0x7889a5),_0x2ee355[_0x49e5bf(0x5b6)]=![];if(rankingResults[_0x564e71]!==_0x2ee355)return;_0x2ee355[_0x49e5bf(0x5ed)]=_0x2ee355[_0x49e5bf(0x34d)][_0x49e5bf(0x5ed)];const {resetsAt:_0x4b9532,serverNow:_0x5231ce,finalized:_0x490c5a,finalizesAt:_0x3541e8}=_0x2ee355[_0x49e5bf(0x34d)],_0x391a86=_0x564e71==='previous'&&_0x490c5a===![]?_0x3541e8:_0x4b9532,_0x19a66a=Date['parse'](_0x391a86)-Date[_0x49e5bf(0x2ce)](_0x5231ce);Number['isFinite'](_0x19a66a)&&(_0x2ee355['refresh']=setTimeout(()=>{const _0x66e7a8=_0x49e5bf;if(rankingResults[_0x564e71]!==_0x2ee355)return;delete rankingResults[_0x564e71],(lobbyView===_0x66e7a8(0x277)&&rankingTab===_0x564e71||_0x564e71===_0x66e7a8(0x3f8)&&room?.[_0x66e7a8(0x26c)]===_0x66e7a8(0x277)&&room[_0x66e7a8(0x531)]===_0x66e7a8(0x2b0))&&loadRankings(_0x564e71,_0x2ee355['page'],_0x2ee355['pageSize'],![],-0x1);},Math[_0x49e5bf(0x247)](0x3e8,_0x19a66a+0x64))),_0x173b86()&&render();}function rankingPlayerName(_0x322646){const _0x2164dd=q1_0x49f7ea;return _0x322646[_0x2164dd(0x22c)]?ownNickname(_0x322646):profileNickname(_0x322646,t,t(_0x2164dd(0x167),{'alias':_0x322646[_0x2164dd(0x458)]}));}function renderRankingPlace(_0x1d86b5,_0x40cbc6){const _0x418a90=q1_0x49f7ea,_0x184e29=Number[_0x418a90(0x4fd)](_0x40cbc6)&&_0x40cbc6>0x0;_0x1d86b5[_0x418a90(0x5c1)]=_0x184e29?ratingNumber(_0x40cbc6):'-',_0x1d86b5[_0x418a90(0x3d1)]=_0x184e29?t(_0x418a90(0x1e1),{'rank':ratingNumber(_0x40cbc6)}):t('rankingPositionEmpty'),_0x1d86b5[_0x418a90(0x5ba)](_0x418a90(0x43a),_0x1d86b5[_0x418a90(0x3d1)]);if(_0x184e29&&_0x40cbc6<=0x3)_0x1d86b5[_0x418a90(0x575)]['medal']=_0x40cbc6;else delete _0x1d86b5[_0x418a90(0x575)][_0x418a90(0x4f3)];}function rankingCard(_0x32b2f0,_0x14c221,_0x4afc8f){const _0x26848c=q1_0x49f7ea,_0x33137f=el(_0x26848c(0x485))[_0x26848c(0x49c)][_0x26848c(0x2e1)][_0x26848c(0x5ec)](!![]),_0x19dbab=_0x32b2f0[_0x26848c(0x22c)],_0x119037=_0x19dbab?_0x26848c(0x28f):_0x32b2f0[_0x26848c(0x458)]?_0x26848c(0x20e)+_0x32b2f0[_0x26848c(0x458)]:'entry:'+_0x4afc8f;_0x33137f['dataset']['rankingPlayer']=_0x119037,_0x33137f[_0x26848c(0x599)](_0x26848c(0x57f),()=>openPlayerProfile(undefined,{'row':_0x32b2f0,'tab':_0x14c221,'key':_0x119037})),_0x33137f[_0x26848c(0x44d)](_0x26848c(0x1a9),Boolean(_0x19dbab));const _0x5b0cd3=_0x33137f[_0x26848c(0x3e1)](_0x26848c(0x409));renderRankingPlace(_0x5b0cd3,_0x32b2f0[_0x26848c(0x364)]);const _0x509f72=_0x33137f['querySelector'](_0x26848c(0x166));_0x509f72[_0x26848c(0x343)]=!_0x19dbab;if(_0x19dbab)_0x509f72[_0x26848c(0x5c1)]=t('playerInfo');const _0x8b187c=_0x33137f[_0x26848c(0x3e1)](_0x26848c(0x369));_0x8b187c['addEventListener'](_0x26848c(0x469),()=>{const _0x10173c=_0x26848c;_0x8b187c[_0x10173c(0x343)]=!![];},{'once':!![]}),setRecordPhoto(_0x8b187c,_0x19dbab?{'photoUrl':playerPhoto}:_0x32b2f0);const _0x2a84c4=_0x33137f[_0x26848c(0x3e1)](_0x26848c(0x3f5)),_0x56bcc4=recordRank({'rating':_0x19dbab?playerStats?.['rating']??_0x32b2f0[_0x26848c(0x17a)]:_0x32b2f0['rating']});_0x2a84c4['textContent']=_0x56bcc4,_0x2a84c4[_0x26848c(0x343)]=!_0x56bcc4;const _0x32d048=_0x33137f[_0x26848c(0x3e1)]('.player-card-name');_0x32d048[_0x26848c(0x5c1)]=_0x32d048['title']=rankingPlayerName(_0x32b2f0);const _0x5ac0ff=_0x33137f[_0x26848c(0x3e1)](_0x26848c(0x48f));_0x5ac0ff['hidden']=![_0x32b2f0[_0x26848c(0x1a8)],_0x32b2f0[_0x26848c(0x4fc)],_0x32b2f0[_0x26848c(0x240)]][_0x26848c(0x532)](Number['isInteger']);if(!_0x5ac0ff[_0x26848c(0x343)])_0x5ac0ff['textContent']=t(_0x26848c(0x168),_0x32b2f0)+_0x26848c(0x36d)+t(_0x26848c(0x2d9),{'rate':winRate(_0x32b2f0)});return _0x33137f[_0x26848c(0x3e1)]('.ranking-card-score\x20strong')[_0x26848c(0x5c1)]=_0x14c221===_0x26848c(0x17a)?t('profileRatingValue',{'rating':ratingNumber(_0x32b2f0[_0x26848c(0x17a)])}):t(_0x26848c(0x2ab),{'n':_0x32b2f0[_0x26848c(0x443)]}),_0x33137f;}function renderRankings(){const _0xe8c1dd=q1_0x49f7ea;renderChampionship();for(const _0x26c186 of rankingTabs){const _0x5b5177=_0x26c186[_0xe8c1dd(0x575)][_0xe8c1dd(0x24d)]===rankingTab;_0x26c186['setAttribute'](_0xe8c1dd(0x423),String(_0x5b5177)),_0x26c186['tabIndex']=_0x5b5177?0x0:-0x1,el(_0x26c186['getAttribute']('aria-controls'))[_0xe8c1dd(0x343)]=!_0x5b5177;}const _0x17864b=rankingTab===_0xe8c1dd(0x17a),_0x309b8a=rankingTab===_0xe8c1dd(0x499),_0x375bf9=rankingResults[rankingTab],_0xdfe1b6=_0x375bf9?.[_0xe8c1dd(0x34d)],_0x5c376d=_0xdfe1b6?.[_0xe8c1dd(0x593)]??[],_0x4d616d=el(_0xe8c1dd(0x48c)+rankingTab+_0xe8c1dd(0x1a5));_0x4d616d[_0xe8c1dd(0x343)]=!_0xdfe1b6||Boolean(_0xdfe1b6[_0xe8c1dd(0x469)]);if(!_0x4d616d[_0xe8c1dd(0x343)]){const _0x22a5e8=_0xdfe1b6[_0xe8c1dd(0x2ea)]??_0x5c376d['length'];_0x4d616d[_0xe8c1dd(0x3e1)](_0xe8c1dd(0x1b5))[_0xe8c1dd(0x5c1)]=t('rankingPlayerCount',{'n':_0x22a5e8,'count':ratingNumber(_0x22a5e8)});}const _0x61ecf=el('ranking-'+rankingTab+'-message'),_0x50b296=_0x17864b?_0xe8c1dd(0x52f):_0x309b8a?_0xdfe1b6?.[_0xe8c1dd(0x209)]===![]?_0xe8c1dd(0x5d6):_0xe8c1dd(0x200):_0xe8c1dd(0x21a);_0x61ecf[_0xe8c1dd(0x5c1)]=t(!backend?'rankingsUnavailable':_0xdfe1b6?.[_0xe8c1dd(0x469)]?'rankingsLoadFailed':_0xdfe1b6?_0x50b296:_0xe8c1dd(0x23b)),_0x61ecf[_0xe8c1dd(0x343)]=_0x5c376d['length']>0x0,el('ranking-'+rankingTab+_0xe8c1dd(0x44f))[_0xe8c1dd(0x343)]=!_0xdfe1b6?.[_0xe8c1dd(0x469)];const _0x33b97d=_0x17864b?_0xe8c1dd(0x1ad):_0x309b8a?_0xe8c1dd(0x15d):_0xe8c1dd(0x593);el(_0x33b97d)[_0xe8c1dd(0x421)](..._0x5c376d['map']((_0x242e5b,_0x315db6)=>{const _0x49ddad=_0xe8c1dd,_0x357abf=document[_0x49ddad(0x57a)]('li');return _0x357abf[_0x49ddad(0x31b)](rankingCard(_0x242e5b,rankingTab,_0x315db6)),_0x357abf;}));if(!_0x17864b){const _0x2c2e1c=el(_0xe8c1dd(0x48c)+rankingTab+_0xe8c1dd(0x449));_0x2c2e1c['hidden']=!_0xdfe1b6?.['startsAt'];if(!_0x2c2e1c[_0xe8c1dd(0x343)]){const _0x39571c=_0x400f63=>NcqLang[_0xe8c1dd(0x600)](_0x400f63,{'month':_0xe8c1dd(0x31c),'day':_0xe8c1dd(0x562),'timeZone':_0xe8c1dd(0x289)});_0x2c2e1c['textContent']=_0x39571c(Date[_0xe8c1dd(0x2ce)](_0xdfe1b6['startsAt']))+_0xe8c1dd(0x5cb)+_0x39571c(Date[_0xe8c1dd(0x2ce)](_0xdfe1b6[_0xe8c1dd(0x560)])-0x1),el('forest-championship-period')[_0xe8c1dd(0x5c1)]=championshipPeriod(Date['parse'](_0xdfe1b6[_0xe8c1dd(0x46b)]),Date['parse'](_0xdfe1b6[_0xe8c1dd(0x560)]));if(_0x309b8a)_0x2c2e1c[_0xe8c1dd(0x5c1)]+=_0xe8c1dd(0x36d)+t(_0xdfe1b6['finalized']?_0xe8c1dd(0x2ac):_0xe8c1dd(0x5d6));}}const _0x134b33=_0x375bf9?.[_0xe8c1dd(0x5ed)]??0x1,_0x14bd9e=_0xdfe1b6?.[_0xe8c1dd(0x27d)]??0x1,_0x3cc927=el(_0xe8c1dd(0x232));_0x3cc927[_0xe8c1dd(0x343)]=!_0xdfe1b6||_0x134b33===0x1&&_0x14bd9e===0x1,el(_0xe8c1dd(0x3e5))[_0xe8c1dd(0x5c1)]=t(_0xe8c1dd(0x3b2),{'page':ratingNumber(_0x134b33),'pages':ratingNumber(_0x14bd9e)}),el(_0xe8c1dd(0x3e5))[_0xe8c1dd(0x5ba)](_0xe8c1dd(0x43a),t(_0xe8c1dd(0x42a),{'page':ratingNumber(_0x134b33)})),el(_0xe8c1dd(0x5ea))[_0xe8c1dd(0x5ba)]('aria-disabled',String(_0x134b33===0x1||_0x375bf9?.['loading']===!![])),el(_0xe8c1dd(0x2f1))[_0xe8c1dd(0x5ba)]('aria-disabled',String(Boolean(_0xdfe1b6?.['error'])||!_0xdfe1b6?.[_0xe8c1dd(0x410)]||_0x375bf9?.[_0xe8c1dd(0x5b6)]===!![]));}function closeLobbyMenu(_0x237eda){const _0x1f08c3=q1_0x49f7ea;render();if(lobbyView==='lobby'&&!_0x237eda['currentTarget'][_0x1f08c3(0x5e1)])void showReturnAd();}async function showLobby(){const _0x3ace99=q1_0x49f7ea;if(lobbyView===_0x3ace99(0x3eb))return;const _0x275bd6=lobbyView===_0x3ace99(0x2b2);lobbyView=_0x3ace99(0x3eb),feedback('lobby-error'),render(),refreshLobby(),void refreshWeeklyRewards(),await showReturnAd(),el(_0x275bd6?'show-records':'start')['focus']();}el(q1_0x49f7ea(0x32a))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),showLobby),el('records-back')[q1_0x49f7ea(0x599)]('click',showLobby),el(q1_0x49f7ea(0x1dc))[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),_0x529c3b=>{const _0x14ab48=q1_0x49f7ea,_0x19a4c4=_0x529c3b[_0x14ab48(0x47a)][_0x14ab48(0x5e3)]('[data-filter]');if(!_0x19a4c4)return;if(recordFilter!==_0x19a4c4[_0x14ab48(0x575)]['filter'])haptics[_0x14ab48(0x299)]();recordFilter=_0x19a4c4[_0x14ab48(0x575)][_0x14ab48(0x371)],renderRecords(),el(_0x14ab48(0x1c7))['parentElement']['scrollTop']=0x0;});function leaveMatch(){const _0x1a141f=q1_0x49f7ea;if(room?.[_0x1a141f(0x26c)]==='ai'&&gameModes?.[_0x1a141f(0x47e)]())return;if(spectator){const _0x507076=spectator;_0x507076[_0x1a141f(0x3d9)]?.[_0x1a141f(0x2b6)](),clearTimeout(_0x507076[_0x1a141f(0x38c)]),cancelAnimationFrame(turnFrame),spectator=null,cancelPlacement(),render(),forest[_0x1a141f(0x5e4)](),render(),refreshLobby();if(_0x507076['viewer'])releaseSpectator(_0x507076);el(_0x1a141f(0x42e))['focus']();return;}if(archive){cancelPlacement();const _0xcee62=archive[_0x1a141f(0x37a)],_0x137558=archive['id'];archive=null;if(_0xcee62){const _0x2e4eda=new URL(location[_0x1a141f(0x5cf)]);_0x2e4eda[_0x1a141f(0x3bc)]='',history[_0x1a141f(0x55b)](null,'',_0x2e4eda),render(),refreshLobby(),refreshPlayerCard(),el(_0x1a141f(0x5f7))[_0x1a141f(0x373)]();return;}render();const _0x596183=Array['from'](el('record-list')[_0x1a141f(0x187)])[_0x1a141f(0x323)](_0x46f3de=>_0x46f3de[_0x1a141f(0x575)][_0x1a141f(0x171)]===_0x137558);(_0x596183?.[_0x1a141f(0x3e1)]('.record-open')??el(_0x1a141f(0x44e)))['focus']();return;}if(!room||busy||leaveDialog['open'])return;if(room[_0x1a141f(0x531)]===_0x1a141f(0x2b0))return leaveCurrentRoom();leaveDialogRoom={'code':room['code'],'round':room[_0x1a141f(0x1a0)]},leaveDialog[_0x1a141f(0x2bb)]='',renderLeaveConfirmation(),leaveDialog[_0x1a141f(0x33c)](),render(),el('leave-dialog-title')[_0x1a141f(0x373)]();}function isResigning(_0x3ab36c){const _0xbaa54f=q1_0x49f7ea;return _0x3ab36c?.[_0xbaa54f(0x531)]===_0xbaa54f(0x3ca)&&(_0x3ab36c['moves'][_0xbaa54f(0x567)]>0x0||_0x3ab36c['passed']||_0x3ab36c[_0xbaa54f(0x26c)]===_0xbaa54f(0x277));}function renderLeaveConfirmation(){const _0x2b33ed=q1_0x49f7ea;el('leave-dialog-message')['textContent']=t(isResigning(room)?_0x2b33ed(0x3c1):_0x2b33ed(0x478));}function leaveCurrentRoom(){const _0xd5706f=q1_0x49f7ea,_0x3e8ffd=room?.[_0xd5706f(0x531)]===_0xd5706f(0x2b0);if(_0x3e8ffd&&!connected)return exitRoom('',{'showAd':!![]});const _0x972126=isResigning(room);roomAction('leave',room?.[_0xd5706f(0x26c)]==='ai'?{'returnResult':!![]}:{},_0x4031d6=>{const _0x2691b8=_0xd5706f;if(_0x4031d6[_0x2691b8(0x531)]==='finished'){if(_0x972126)void recordMissionRound(_0x4031d6);if(!backend)saveRecord(_0x4031d6);else{if(_0x4031d6['mode']==='ai'&&saveRecord(_0x4031d6))acknowledgeRecord(_0x4031d6);}}void exitRoom('',{'showAd':_0x3e8ffd});});}async function startNextMatch(_0x406f6e=q1_0x49f7ea(0x460),_0x304d96){const _0x55c4bb=q1_0x49f7ea;if(busy||nextMatchPending||!room||room[_0x55c4bb(0x531)]!=='finished'||room[_0x55c4bb(0x26c)]===_0x55c4bb(0x277)!==(_0x406f6e===_0x55c4bb(0x277))||document['querySelector']('.shell')[_0x55c4bb(0x3b3)])return;nextMatchPending=!![],render();try{if(connected){let _0x1f8aaf=![];await roomAction(_0x55c4bb(0x1f2),{},_0x563a17=>{const _0x5412ad=_0x55c4bb;if(!backend&&_0x563a17[_0x5412ad(0x531)]===_0x5412ad(0x2b0))saveRecord(_0x563a17);_0x1f8aaf=!![];});if(!_0x1f8aaf)return;}await exitRoom('',{'showAd':!![],'openRankings':_0x406f6e!==_0x55c4bb(0x277)}),_0x406f6e==='tournament'&&(lobbyView='tournament',rankingTab=_0x55c4bb(0x3f8),render()),startMatching(_0x406f6e,_0x304d96);}finally{nextMatchPending=![],render();}}leaveDialog[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),()=>{const _0x34e1e0=q1_0x49f7ea;if(leaveDialog[_0x34e1e0(0x5e1)])return;const _0x245360=leaveDialogRoom;leaveDialogRoom=null,render();if(leaveDialog[_0x34e1e0(0x2bb)]!==_0x34e1e0(0x1f2)||busy||!_0x245360||room?.['code']!==_0x245360[_0x34e1e0(0x4b1)]||room[_0x34e1e0(0x1a0)]!==_0x245360['round'])return;leaveCurrentRoom();}),el(q1_0x49f7ea(0x1f2))['addEventListener'](q1_0x49f7ea(0x57f),leaveMatch),el('watch-back')[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),leaveMatch),el(q1_0x49f7ea(0x219))[q1_0x49f7ea(0x599)]('click',leaveMatch),el('review-back')['addEventListener'](q1_0x49f7ea(0x57f),leaveMatch),reviewExit[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),leaveMatch),reviewMoveNumbers[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{showMoveNumbers=!showMoveNumbers,render();}),el('review-favorite')['addEventListener'](q1_0x49f7ea(0x57f),_0xd49cc6=>{const _0x289832=q1_0x49f7ea,_0x45ab1f=_0xd49cc6[_0x289832(0x267)];markFavorite(_0x45ab1f,toggleFavorite(_0x45ab1f['dataset'][_0x289832(0x171)]));});for(const side of[q1_0x49f7ea(0x37c),q1_0x49f7ea(0x265)]){const image=el(q1_0x49f7ea(0x1b7)+side+'-photo');image['addEventListener'](q1_0x49f7ea(0x469),()=>{const _0x2b1f88=q1_0x49f7ea;image[_0x2b1f88(0x343)]=!![];});}el('place')[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0xa31235=q1_0x49f7ea;if(!canAct()||selected===null)return;const _0x2921ec=previewPlacement(room,selected);if(!_0x2921ec)return roomAction(_0xa31235(0x1ea),{'index':selected,'version':room['version']});pendingPlacement=_0x2921ec,selected=null,render(),void presentPlacement(_0x2921ec['index'],room[_0xa31235(0x578)]?.[room[_0xa31235(0x22c)]-0x1],_0x180f09=>haptics[_0xa31235(0x5e7)]('move:'+roundHapticKey(room)+':'+_0x2921ec['ply'],_0xa31235(0x381),{'delay':_0x180f09,'valid':()=>room?.[_0xa31235(0x4b1)]===_0x2921ec[_0xa31235(0x4b1)]&&room[_0xa31235(0x1a0)]===_0x2921ec[_0xa31235(0x1a0)]&&!archive&&!spectator})),roomAction(_0xa31235(0x1ea),{'index':_0x2921ec[_0xa31235(0x438)],'version':_0x2921ec['version']});}),el('opening-actions')[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),_0x1921d6=>{const _0x41ab70=q1_0x49f7ea,_0x510e22=_0x1921d6[_0x41ab70(0x47a)][_0x41ab70(0x5e3)](_0x41ab70(0x5d1));if(!_0x510e22||_0x510e22[_0x41ab70(0x343)]||!canAct())return;roomAction(_0x41ab70(0x1ea),{'action':{'type':_0x510e22['dataset']['opening']},'version':room['version']});}),reviewRoomAction[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>{const _0x51445a=q1_0x49f7ea;if(reviewRoomAction['dataset']['action']==='ai'){const _0x48fc00=room[_0x51445a(0x535)];void roomAction(_0x51445a(0x1f2),{},async()=>{await exitRoom('',{'openRankings':![]}),void startAiGame(_0x48fc00);});}else{if(reviewRoomAction['dataset'][_0x51445a(0x4cf)]==='leave')leaveMatch();else{if(reviewRoomAction[_0x51445a(0x575)][_0x51445a(0x4cf)]===_0x51445a(0x25d))void startNextMatch();else roomAction(_0x51445a(0x414),placementRequest());}}}),el(q1_0x49f7ea(0x5c5))['addEventListener'](q1_0x49f7ea(0x57f),_0x74a565=>{const _0x527424=q1_0x49f7ea,_0x392718=_0x74a565[_0x527424(0x47a)]['closest'](_0x527424(0x165)),_0xa768ef=room??archive??spectator?.[_0x527424(0x5dc)];if(!_0x392718||_0x392718[_0x527424(0x3a7)]||!spectator&&_0xa768ef?.[_0x527424(0x531)]!==_0x527424(0x2b0))return;const _0x144857=_0x392718[_0x527424(0x575)][_0x527424(0x461)],_0x595db6=_0xa768ef[_0x527424(0x24f)][_0x527424(0x567)],_0x27d427=spectator?spectator[_0x527424(0x4af)]??_0x595db6:reviewPly,_0x42a70e={'first':0x0,'previous':_0x27d427-0x1,'next':_0x27d427+0x1,'last':_0x595db6},_0x2e593f=Math[_0x527424(0x247)](0x0,Math[_0x527424(0x2f7)](_0x595db6,_0x42a70e[_0x144857]));if(spectator)spectator[_0x527424(0x4af)]=_0x2e593f===_0x595db6?null:_0x2e593f;else reviewPly=_0x2e593f;render();if(_0x144857===_0x527424(0x25d)&&_0x2e593f>_0x27d427)presentRoundPlacement(_0xa768ef,_0x27d427);else cancelPlacement();_0x392718[_0x527424(0x3a7)]&&el(_0x527424(0x5c5))[_0x527424(0x3e1)](_0x2e593f?_0x527424(0x15f):'[data-step=\x22next\x22]')[_0x527424(0x373)]();}),rankCelebration[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),()=>rankCelebration[q1_0x49f7ea(0x2b6)]()),rankCelebration[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),()=>{const _0x45dc04=q1_0x49f7ea;if(rankCelebration[_0x45dc04(0x5e1)])return;cancelPromotionHaptic?.(),cancelPromotionHaptic=undefined,cancelPromotionSound?.(),cancelPromotionSound=undefined,clearTimeout(promotionCloseTimer);if(resultDialog[_0x45dc04(0x5e1)])el(_0x45dc04(0x542))[_0x45dc04(0x373)]({'preventScroll':!![]});}),resultDialog[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),()=>{const _0x245ebe=q1_0x49f7ea;if(resultDialog['open'])return;resultAudio[_0x245ebe(0x2b9)](),rankCelebration[_0x245ebe(0x2b6)](),awaitingResultDismissal=![],render();if(room?.[_0x245ebe(0x531)]===_0x245ebe(0x2b0))el('review-heading')[_0x245ebe(0x373)]();}),el('share')[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),render),el(q1_0x49f7ea(0x2b5))[q1_0x49f7ea(0x599)]('click',async()=>{const _0x237937=q1_0x49f7ea,_0x4c9b4f=new URL(location[_0x237937(0x5cf)]);_0x4c9b4f[_0x237937(0x2fd)]='',_0x4c9b4f[_0x237937(0x4d8)]['set'](_0x237937(0x1fc),room[_0x237937(0x4b1)]);try{await navigator[_0x237937(0x556)]['writeText'](_0x4c9b4f[_0x237937(0x5cf)]),feedback(_0x237937(0x2cc),'copied');}catch{el(_0x237937(0x416))[_0x237937(0x592)]=_0x4c9b4f[_0x237937(0x5cf)],el('share')[_0x237937(0x33c)](),render(),el('share-url')[_0x237937(0x356)]();}});function focusCell(_0x1a8dd7){const _0x55ce26=q1_0x49f7ea;cells[focused][_0x55ce26(0x194)]=-0x1,focused=_0x1a8dd7,cells[focused][_0x55ce26(0x194)]=0x0,cells[focused][_0x55ce26(0x373)]({'preventScroll':!![]});}board[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x57f),_0x360fe9=>{const _0x415323=q1_0x49f7ea,_0x1d546e=_0x360fe9[_0x415323(0x47a)][_0x415323(0x5e3)](_0x415323(0x515));if(!_0x1d546e||!canAct())return;const _0xcb87fd=Number(_0x1d546e[_0x415323(0x575)][_0x415323(0x438)]);if(room[_0x415323(0x3a3)][_0xcb87fd])return;const _0x3adb98=moveLimits(room)[_0xcb87fd];cancelPlacement();if(_0x3adb98)haptics['once'](_0x415323(0x177)+roundHapticKey(room)+':'+room[_0x415323(0x24f)][_0x415323(0x567)]+':'+_0xcb87fd,'error');else{if(selected!==_0xcb87fd)haptics[_0x415323(0x299)]();}selected=_0x3adb98?null:_0xcb87fd,focusCell(_0xcb87fd),feedback('match-error',_0x3adb98,Boolean(_0x3adb98)),render();}),board[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x37e),_0x1cc426=>{const _0x280a04=q1_0x49f7ea,_0x2ed92c={'ArrowLeft':-0x1,'ArrowRight':0x1,'ArrowUp':-size,'ArrowDown':size},_0x1d684b=_0x2ed92c[_0x1cc426[_0x280a04(0x302)]];if(!_0x1d684b)return;_0x1cc426['preventDefault']();const _0x5cb5d7=focused+_0x1d684b;if(_0x5cb5d7<0x0||_0x5cb5d7>=cells['length'])return;if(Math[_0x280a04(0x39f)](_0x1d684b)===0x1&&Math[_0x280a04(0x338)](_0x5cb5d7/size)!==Math[_0x280a04(0x338)](focused/size))return;focusCell(_0x5cb5d7);});async function startAiGame(_0x247e23){const _0x1579dd=q1_0x49f7ea;if(room||archive||spectator||matchmaking||busy||gameModes?.[_0x1579dd(0x366)]())return;busy=!![],aiStarting=!![],feedback('lobby-error'),render();try{const _0x5e3f9f=await post(_0x1579dd(0x46a),{'level':_0x247e23,...placementRequest(),'nickname':ownNickname()},async _0x3ba051=>{const _0x2724f8=_0x1579dd;return await ensureIdentity(),await tossPromotion[_0x2724f8(0x3c7)](),await _0x3ba051[_0x2724f8(0x5fb)](accountProfile),_0x3ba051[_0x2724f8(0x179)](_0x2724f8(0x46a),{'level':_0x247e23,...placementRequest()});});if(_0x5e3f9f['previousGame']&&saveRecord(_0x5e3f9f[_0x1579dd(0x1e3)]))acknowledgeRecord(_0x5e3f9f[_0x1579dd(0x1e3)]);if(_0x5e3f9f[_0x1579dd(0x469)])feedback(_0x1579dd(0x394),_0x5e3f9f['error'],!![]);else{if(_0x5e3f9f[_0x1579dd(0x5dc)])openRoom(_0x5e3f9f[_0x1579dd(0x5dc)]);}}finally{busy=![],aiStarting=![],render();}}gameModes=createGameModes({'t':t,'rankName':rankName,'startAi':startAiGame,'journeyChanged':reportCurrentJourney,'canOpen':_0x4187c0=>!room&&!archive&&!spectator&&!matchmaking&&!busy&&!nextMatchPending&&!document[q1_0x49f7ea(0x3e1)](q1_0x49f7ea(0x4a7))[q1_0x49f7ea(0x3b3)]&&!gameModes?.[q1_0x49f7ea(0x366)]()&&(_0x4187c0||!document[q1_0x49f7ea(0x3e1)](q1_0x49f7ea(0x495))),'current':()=>room,'appearance':_0x503dee=>setAppearanceTheme(_0x503dee,shopState['appearance']),'changed':()=>render(),'settings':showOptions,'sound':()=>playPlacementSound(0.032),'haptics':haptics,'completedRound':recordCompletedRound,'returnToLobby':()=>{const _0xa1a7e8=pendingMatchAdRound;pendingMatchAdRound=null;if(_0xa1a7e8)void showReturnAd(_0xa1a7e8);},'undoAi':async _0x5bd5cf=>{const _0x561245=q1_0x49f7ea;if(!room||room['mode']!=='ai'||room[_0x561245(0x4b1)]!==_0x5bd5cf?.['code']||busy)return{'error':_0x561245(0x3ae)};busy=!![],cancelPlacement(),pendingPlacement=null,selected=null,render();try{const _0x186cfe=await post('/ai/undo',_0x5bd5cf,_0x488a25=>_0x488a25[_0x561245(0x179)](_0x561245(0x3e8),_0x5bd5cf));if(_0x186cfe[_0x561245(0x262)])applyWallet(_0x186cfe['wallet']);if(_0x186cfe[_0x561245(0x5dc)]&&room?.[_0x561245(0x4b1)]===_0x5bd5cf[_0x561245(0x4b1)])applyState(_0x186cfe[_0x561245(0x5dc)]);if(_0x186cfe[_0x561245(0x469)]===_0x561245(0x3ae)&&stream?.[_0x561245(0x31e)])void stream[_0x561245(0x31e)]();return _0x186cfe;}finally{busy=![],render();}}});try{const config=await(await fetch(q1_0x49f7ea(0x5d4),{'signal':AbortSignal[q1_0x49f7ea(0x220)](0xdac)}))['json']();if(config[q1_0x49f7ea(0x16f)]!==![]&&/^https:\/\/[a-z0-9]{20}\.supabase\.co\/functions\/v1\/(?:ncq-board\/)?matjjangomok$/[q1_0x49f7ea(0x2d6)](config[q1_0x49f7ea(0x528)])){backend=NcqBoard[q1_0x49f7ea(0x4d2)]({'apiUrl':config[q1_0x49f7ea(0x528)],'region':config['region'],async 'getToken'(_0x4be193){const _0x440e19=q1_0x49f7ea;return await ensureIdentity(),window[_0x440e19(0x1cc)][_0x440e19(0x426)]({..._0x4be193,'expectedPlayer':authSession[_0x440e19(0x43c)]});}}),boardApiUrl=config[q1_0x49f7ea(0x528)],availableRules=[q1_0x49f7ea(0x50b)];const response=await fetch(boardApiUrl+q1_0x49f7ea(0x403),{'credentials':q1_0x49f7ea(0x3cc),'redirect':'error','cache':'no-store','signal':AbortSignal[q1_0x49f7ea(0x220)](0x708)});if(response['ok']){const rules=await response['json']();if(Array[q1_0x49f7ea(0x1d0)](rules))availableRules=Object[q1_0x49f7ea(0x225)](ruleNames)[q1_0x49f7ea(0x371)](_0x5d8403=>_0x5d8403==='free'||rules[q1_0x49f7ea(0x400)](_0x5d8403));}}}catch{}function sharedRecordToken(){const _0x199376=q1_0x49f7ea;return new URLSearchParams(location[_0x199376(0x3bc)][_0x199376(0x4e9)](0x1))[_0x199376(0x249)](_0x199376(0x51a));}async function loadSharedRecord(_0x2a4cbc){const _0x569e52=q1_0x49f7ea;if(!boardApiUrl||!recordTokenPattern['test'](_0x2a4cbc)){feedback(_0x569e52(0x394),_0x569e52(0x185),!![]);return;}try{const _0x105990=await fetch(boardApiUrl+_0x569e52(0x4df)+_0x2a4cbc,{'credentials':'omit','cache':_0x569e52(0x4be),'redirect':_0x569e52(0x469),'referrerPolicy':_0x569e52(0x196),'signal':AbortSignal[_0x569e52(0x220)](0x1f40)});if(_0x105990[_0x569e52(0x2fc)]===0x194){feedback('lobby-error','recordSharedUnavailable',!![]);return;}if(!_0x105990['ok'])throw new Error();const _0x26fe09=await _0x105990['json']();openArchive({..._0x26fe09,'id':_0x2a4cbc,'shareId':_0x2a4cbc,'sharedView':!![],'you':_0x26fe09[_0x569e52(0x22f)]===0x2?0x1:0x2});}catch{feedback(_0x569e52(0x394),_0x569e52(0x2b4),!![]);}}const adOwnershipReady=initializeAdPurchase(),shareId=sharedRecordToken();if(shareId!==null)await loadSharedRecord(shareId);else{const inviteCode=new URL(location['href'])[q1_0x49f7ea(0x4d8)][q1_0x49f7ea(0x249)]('room')??'';(backend?recordTokenPattern[q1_0x49f7ea(0x2d6)](inviteCode):/^[A-Z2-9]{6}$/i['test'](inviteCode))&&join(backend?inviteCode:inviteCode[q1_0x49f7ea(0x2a5)]());}window['addEventListener']('hashchange',()=>{const _0x5903e5=q1_0x49f7ea;if(sharedRecordToken()!==null||archive?.[_0x5903e5(0x37a)])location['reload']();});if(!backend)bindRecordHistory(q1_0x49f7ea(0x4ed),![]);render(),scheduleMissionReset();if(kakaopay)void window['NcqKakao'][q1_0x49f7ea(0x5f7)]();if(lobbyView===q1_0x49f7ea(0x277)&&!rankingResults[rankingTab])loadRankings(rankingTab);refreshLobby();for(const image of[...playerPhotos,el('profile-photo'),el(q1_0x49f7ea(0x34b))]){image[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x1af),()=>{const _0x29017d=q1_0x49f7ea;image[_0x29017d(0x343)]=!image['hasAttribute'](_0x29017d(0x467));}),image[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x469),()=>{image['hidden']=!![];});}shareId===null&&(refreshPlayerCard(),void refreshWallet(),void refreshWeeklyRewards());document['addEventListener'](q1_0x49f7ea(0x2d8),()=>{!document['hidden']&&(void refreshAuthProfile({'forceRefresh':!![]}),renderDailyMissions(),presentCoinReward(),void refreshWallet(),void refreshWeeklyRewards()),refreshLobby();}),document[q1_0x49f7ea(0x599)](q1_0x49f7ea(0x2b6),()=>{const _0x4d85a0=q1_0x49f7ea;void tossPromotion[_0x4d85a0(0x3c7)]();},!![]),setInterval(refreshLobby,0x9c4);
+import { NcqLang } from "./ncq/lang.js";
+import { reportJourney } from "./journey.js?v=689216405a77";
+import { NcqBoard } from "./ncq/board.js?v=689216405a77";
+import { TEXTS } from "./texts.js?v=689216405a77";
+import { displayNickname, profileNickname } from "./nickname.js?v=689216405a77";
+import { loadAccountProfile } from "./account-profile.js?v=689216405a77";
+import { createForestUI } from "./forest-ui.js?v=689216405a77";
+import { createMatchingAudio, freshMatchingEntry } from "./matching-audio.js?v=689216405a77";
+import { createResultAudio } from "./result-audio.js?v=689216405a77";
+import { migrateEffectsSettings } from "./audio-settings.js?v=689216405a77";
+import { installPopupAudio } from "./popup-audio.js?v=689216405a77";
+import { RankingPages, rankingPageTarget } from "./ranking-pages.js?v=689216405a77";
+import { animateStonePlacement } from "./placement-motion.js?v=689216405a77";
+import { previewPlacement, confirmsPlacement } from "./placement-preview.js?v=689216405a77";
+import { createRewardedCoins } from "./rewarded-coins.js?v=689216405a77";
+import { createTossPromotion } from "./toss-promotion.js?v=689216405a77";
+import { createCoinCollection } from "./coin-collection.js?v=689216405a77";
+import { prepareKakaopay, backupKakaopay } from "./kakaopay.js?v=689216405a77";
+import { createGameHaptics } from "./haptics.js?v=689216405a77";
+import { createGameModes } from "./game-modes-ui.js?v=689216405a77";
+import { createRecordHistory, recordSnapshot, restoreResult, mergeFinishedRoom } from "./record-storage.js?v=689216405a77";
+import { forbiddenAt, hasForbiddenMoves } from "./ncq/position.js?v=689216405a77";
+import { mayOffer, maySwap, offerCount, openingError, openingRadius } from "./ncq/taraguchi.js?v=689216405a77";
+
+const kakaopay = await prepareKakaopay(window);
+NcqLang.init({ id: "matjjangomok", texts: TEXTS });
+document.body.dataset.omokReady = "true";
+const t = NcqLang.t;
+const el = id => document.getElementById(id);
+const size = 15;
+const columns = "ABCDEFGHJKLMNOP";
+const recordsKey = "matjjangomok.records";
+const appearanceKey = "matjjangomok.appearance.settings";
+const legacyAppearanceKey = "matjjangomok.appearance";
+const placementStyleKey = "matjjangomok.placementStyle";
+const matchAdsKey = "matjjangomok.matchAds";
+const matchAdCooldown = 90_000;
+const adFreeRounds = 3;
+const NcqAds = window.NcqAds;
+const NcqIap = window.NcqIap;
+let coinPacks = {};
+let adsRemoved = false;
+let adPurchaseBusy = false;
+let matchAds = { freeRounds: [], lastShownAt: 0, lastAttemptedRound: null };
+let pendingMatchAdRound = null;
+const placementEffects = {
+  plain: { price: 0 },
+  golden: { price: 120, expiry: "goldenPlacementUntil", purchased: "shopEffectPurchased" },
+  sakura: { price: 150, expiry: "sakuraPlacementUntil", purchased: "shopSakuraPurchased" },
+  ripple: { price: 150, expiry: "ripplePlacementUntil", purchased: "shopRipplePurchased" },
+  mystic: { price: 150, expiry: "mysticPlacementUntil", purchased: "shopMysticPurchased" },
+};
+const placementStyles = Object.keys(placementEffects);
+const placementTiming = { landing: 80, effectRatio: 320 / 180 };
+let replayPlacementDuration = placementTiming.landing;
+let placementStyle = loadPlacementStyle();
+const dayMs = 24 * 60 * 60_000;
+const koreaOffset = 9 * 60 * 60_000;
+const dailyMissions = [
+  { target: 1, coins: 30 },
+  { target: 3, coins: 50 },
+  { target: 6, coins: 80 },
+];
+const repeatMission = { after: dailyMissions.at(-1).target, limit: 10, coins: 5 };
+const dailyMissionLimit = repeatMission.after + repeatMission.limit;
+const missionRewards = new Map(dailyMissions.map(({ target, coins }) => [target, coins]));
+for (let target = repeatMission.after + 1; target <= dailyMissionLimit; target += 1) {
+  missionRewards.set(target, repeatMission.coins);
+}
+const missionTargets = [...missionRewards.keys()];
+let missionClaiming = false;
+const pairedSkinPrices = {
+  reference: 0, classic: 0, vintage: 300, porcelain: 800, jade: 1000,
+  lacquer: 400, ocean: 700, soda: 600, gilded: 500,
+  quartz: 350, marble: 250, sapphire: 400, sakura: 450, aurora: 500,
+};
+const skinPrices = {
+  stones: { ...pairedSkinPrices, glossy: 200 },
+  board: { ...pairedSkinPrices, wood: 200 },
+};
+const skinKinds = Object.keys(skinPrices);
+let shopState = loadShopState();
+let serverWallet;
+let canClaimTestCoins = false;
+let testCoinRequestId;
+let testCoinClaiming = false;
+const rewardedCoins = createRewardedCoins({
+  player: () => authSession?.player,
+  request: (op, requestId) => remoteRequest(client => client.gameRequest("/wallet/reward-ad" + (op ? "/" + op : ""),
+    op ? { requestId } : undefined, -1)),
+  // NCQ_ADS_COINS: 코인 20개 보상형 광고
+  watch: () => NcqAds.rewarded("COINS"),
+  changed: () => { if (shop.open) renderRewardAd(); },
+  credited: next => {
+    if (!applyWallet(next)) return;
+    render();
+    if (next.adReward) showCoinReward(next.adReward.coins, "ad:" + next.adReward.id, "shop");
+  },
+});
+const effectPurchaseIds = {};
+const tossPromotion = createTossPromotion({
+  promo: () => window.NcqPromo,
+  player: () => authSession?.player,
+  request: data => remoteRequest(client => client.gameRequest("/promotion/play-3-matches", data, -1)),
+  reward: () => window.NcqPromo?.reward("PLAY_3_MATCHES"),
+  history: () => recordHistory?.player === authSession?.player ? recordHistory.list() : [],
+  currentRound: () => {
+    const tracked = sessionStorage.getItem("matjjangomok.round");
+    const match = /^([\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}):(\d+)$/i.exec(tracked ?? "");
+    return match ? { room: match[1], round: Number(match[2]) } : null;
+  },
+  canReward: () => !awaitingResultDismissal && !document.querySelector("dialog[open]"),
+});
+let shopPreview = { ...shopState.appearance };
+let shopTab = "skins";
+let shopEffectPreview;
+let shopEffectTimer;
+let shopSaving = false;
+const board = el("board");
+const boardGrid = el("board-grid");
+const lastMoveMarker = el("last-move-marker");
+const reviewMoveNumbers = el("review-move-numbers");
+const ownClock = el("own-clock");
+const opponentClock = el("opponent-clock");
+const ownProgress = el("own-progress");
+const opponentProgress = el("opponent-progress");
+const cells = [];
+let focused = 112;
+let selected = null;
+let pendingPlacement = null;
+let room = null;
+let gameModes;
+let aiStarting = false;
+let stream = null;
+let connected = false;
+let busy = false;
+let nextMatchPending = false;
+let reviewPly = 0;
+let awaitingResultDismissal = false;
+let promotionCloseTimer;
+let showMoveNumbers = false;
+let archive = null;
+let spectator = null;
+let lobbyView = "lobby";
+let recordsReturnView = "lobby";
+let recordsScope = recordsKey;
+let recordHistory = null;
+const recordReceipts = new Set();
+let records = loadRecords();
+let recordPreviewObserver;
+let recordPreviewJobs = new WeakMap();
+let recordFilter = "all";
+let favoritesScope;
+let favorites = new Set();
+let recordDialogTarget = null;
+let liveGames = null;
+let lobbyUnavailable = false;
+let lobbyLoading = false;
+let playerStats = null;
+let playerPhoto = null;
+let playerNickname = "";
+let nicknameOverride = "";
+let accountProfile = null;
+let profileSubscription = null;
+let nicknameSaving = false;
+let profileLoading = false;
+let profileRequest = 0;
+let profileTarget = null;
+let matchmaking = null;
+const tournamentCatchUpDialog = el("tournament-catch-up");
+let tournamentCatchUpQuote;
+const ruleNames = { renju: "ruleRenju", free: "ruleFree", taraguchi: "ruleTaraguchi" };
+const foulMarkers = { renjuDoubleThree: "33", renjuDoubleFour: "44", renjuOverline: "6+" };
+const defaultRule = "renju";
+// Rule engines and the dormant picker remain available for a future mode.
+const ruleDialog = el("rule-dialog");
+let availableRules = Object.keys(ruleNames);
+let preferredRule = defaultRule;
+try { preferredRule = localStorage.getItem("matjjangomok.rule") ?? defaultRule; } catch {}
+const placementLimits = new WeakMap();
+let matchIntro = null;
+let authConfig;
+let authSession;
+let authenticating;
+let backend;
+let boardApiUrl;
+let rankingTab = "weekly";
+let rankingResults = {};
+const weeklyRewardButtons = [...document.querySelectorAll("[data-weekly-reward]")];
+let weeklyRewards;
+let weeklyRewardsRequest = 0;
+let weeklyRewardsTimer;
+let weeklyRewardClaiming = false;
+let turnDeadline = null;
+let turnFrame = 0;
+const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+let placementAudio;
+let placementBuffer;
+let activePlacementSound;
+let placementSoundCue = 0;
+let activePlacement;
+let activePlacementEffect;
+let cancelLandingHaptic;
+let cancelPromotionHaptic;
+let cancelPromotionSound;
+let platformAudioPaused = false;
+const audioBlocked = () => platformAudioPaused || adPurchaseBusy || document.querySelector(".shell").inert
+  || Boolean(NcqAds?.status?.().busy);
+migrateEffectsSettings();
+const matchingAudio = createMatchingAudio({ blocked: audioBlocked });
+const resultAudio = createResultAudio({ blocked: audioBlocked });
+let purchaseNotice = 0;
+const haptics = createGameHaptics({
+  blocked: () => document.hidden || adPurchaseBusy || document.querySelector(".shell").inert
+    || Boolean(NcqAds?.status?.().busy) || Boolean(window.NcqFeedback?.isOpen()),
+});
+const roundHapticKey = game => `${game.code}:${game.round}`;
+
+const gaugeObserver = new ResizeObserver(entries => {
+  const inset = 4;
+  for (const { target, contentRect: { width, height } } of entries) {
+    if (height <= 2 * inset || width < height) continue;
+    const right = width - inset;
+    const bottom = height - inset;
+    const radius = height / 2 - inset;
+    target.querySelector("path").setAttribute("d",
+      `M ${width / 2} ${inset} H ${right - radius}
+       A ${radius} ${radius} 0 0 1 ${right - radius} ${bottom} H ${inset + radius}
+       A ${radius} ${radius} 0 0 1 ${inset + radius} ${inset} Z`);
+  }
+});
+for (const id of ["place-gauge", "opponent-gauge"]) gaugeObserver.observe(el(id));
+
+let boardLayoutFrame;
+function fitBoardFrame(playWidth, availableHeight, inset, border = 0) {
+  const proportional = inset.trim().endsWith("%");
+  const value = parseFloat(inset) || 0;
+  const ratio = proportional ? value / 100 : 0;
+  const fixed = proportional ? border : 2 * value + border;
+  const frame = Math.max(0, Math.min((playWidth + fixed) / (1 - 2 * ratio), availableHeight));
+  return { frame, grid: Math.max(0, frame * (1 - 2 * ratio) - fixed) };
+}
+
+function scheduleBoardLayout() {
+  cancelAnimationFrame(boardLayoutFrame);
+  boardLayoutFrame = requestAnimationFrame(() => {
+    const match = el("match");
+    if (match.hidden || !document.body.classList.contains("in-match")) return;
+    const safe = window.NcqSafe?.space() ?? { top: 0, right: 0, bottom: 0, left: 0 };
+    const height = Math.max(0, innerHeight - safe.top - safe.bottom);
+    const slot = board.parentElement;
+    // Use the actual containing area, including its safe gutters, rather than the WebView width.
+    const width = slot.getBoundingClientRect().width;
+    const style = getComputedStyle(board);
+    const inset = style.getPropertyValue("--board-inset");
+    const border = parseFloat(style.borderLeftWidth) + parseFloat(style.borderRightWidth);
+    const desired = fitBoardFrame(width, Infinity, inset, border).frame;
+    // Measure controls instead of estimating the space consumed by Toss's menu and ad.
+    match.removeAttribute("data-compact-board");
+    const controlsHeight = () => match.getBoundingClientRect().height - slot.getBoundingClientRect().height;
+    if (desired + controlsHeight() > height) match.setAttribute("data-compact-board", "");
+    // Reserve replay metadata and the larger primary action in every mode.
+    const fitted = fitBoardFrame(width, height - Math.max(240, controlsHeight()), inset, border);
+    board.style.setProperty("--board-frame-size", `${fitted.frame.toFixed(2)}px`);
+    board.style.setProperty("--board-grid-size", `${fitted.grid.toFixed(2)}px`);
+  });
+}
+new ResizeObserver(scheduleBoardLayout).observe(el("match"));
+window.addEventListener("resize", scheduleBoardLayout);
+window.NcqSafe?.onChange(scheduleBoardLayout);
+
+applyAppearance();
+const shop = el("shop");
+const shopMainActions = [...shop.querySelectorAll("[data-ncq-main]")];
+const shopPurchaseDialog = el("shop-purchase-complete");
+const coinShortageDialog = el("coin-shortage");
+const leaveDialog = el("leave-dialog");
+let leaveDialogRoom;
+const resultDialog = el("result");
+const rankCelebration = el("rank-celebration");
+const shopAction = el("shop-action");
+const shopEffectAction = el("shop-effect-action");
+const shopEffectOptions = [...shop.querySelectorAll(".shop-effect-option")].map(button => ({
+  button, effect: button.dataset.effect, status: button.querySelector(".shop-effect-status"),
+  time: button.querySelector(".shop-effect-time"),
+}));
+const missionDialog = el("missions");
+const coinRewardDialog = el("coin-reward-dialog");
+const coinRewardQueue = [];
+const coinRewardReceipts = new Set();
+const coinCollection = createCoinCollection();
+let activeCoinReward;
+const optionsDialog = el("options");
+let optionsFromMatch = false;
+const feedbackButton = el("send-feedback");
+const profileDialog = el("player-profile");
+const nicknameEdit = el("profile-nickname-edit");
+const nicknameEditor = el("profile-nickname-editor");
+const nicknameInput = el("nickname");
+const matchIntroDialog = el("match-intro");
+const playerPhotos = ["player-photo", "match-player-photo", "match-intro-photo"].map(el);
+const forest = createForestUI({
+  closeView: showLobby, getView: () => lobbyView,
+  hasGame: () => Boolean(room ?? archive ?? spectator), translate: t,
+  onRankingCapacity: resizeRankingPage,
+});
+const popupAudio = installPopupAudio({ blocked: audioBlocked });
+matchIntroDialog.addEventListener("click", () => matchIntroDialog.close());
+matchIntroDialog.addEventListener("close", () => {
+  if (matchIntroDialog.open) return;
+  matchIntro?.cancelHaptic?.();
+  matchIntro?.cancelSound?.();
+  clearTimeout(matchIntro?.timer);
+  matchIntro = null;
+  render();
+});
+el("player-card").addEventListener("click", () => openPlayerProfile());
+el("own-profile").addEventListener("click", () => openPlayerProfile(room.you));
+el("opponent-profile").addEventListener("click", () => openPlayerProfile(3 - room.you));
+el("black-profile").addEventListener("click", () => openPlayerProfile(1));
+el("white-profile").addEventListener("click", () => openPlayerProfile(2));
+el("review-opponent-profile").addEventListener("click", () => openPlayerProfile(3 - (room ?? archive).you));
+el("review-own-profile").addEventListener("click", () => openPlayerProfile((room ?? archive).you));
+profileDialog.addEventListener("close", () => {
+  if (profileDialog.open) return;
+  const ranking = profileTarget?.ranking;
+  profileTarget = null;
+  nicknameEditor.hidden = true;
+  nicknameEdit.setAttribute("aria-expanded", "false");
+  render();
+  if (ranking && lobbyView === "tournament" && rankingTab === ranking.tab) {
+    const card = el("ranking-" + ranking.tab + "-list")
+      .querySelector(`[data-ranking-player="${CSS.escape(ranking.key)}"]`);
+    (card ?? el("ranking-" + ranking.tab + "-tab")).focus();
+  }
+});
+profileDialog.querySelector(".profile-close").addEventListener("click", () => profileDialog.close());
+nicknameEdit.addEventListener("click", () => {
+  const opening = nicknameEditor.hidden;
+  nicknameEditor.hidden = !opening;
+  nicknameEdit.setAttribute("aria-expanded", String(opening));
+  if (!opening) return;
+  feedback("nickname-feedback");
+  nicknameInput.value = displayNickname(nicknameOverride);
+  nicknameInput.focus();
+  nicknameInput.select();
+});
+profileDialog.querySelector("form").addEventListener("submit", async event => {
+  if (!profileTarget?.own || nicknameEditor.hidden) return;
+  event.preventDefault();
+  if (nicknameSaving) return;
+  nicknameSaving = true;
+  nicknameInput.disabled = true;
+  feedback("nickname-feedback", "nicknameSaving");
+  const owner = authSession?.player;
+  try {
+    const nickname = nicknameInput.value.trim();
+    const saved = await window.NcqAuth.updateProfile({ nickname }, {
+      expectedPlayer: owner, expectedVersion: accountProfile?.profileVersion,
+    });
+    if (authSession?.player !== owner || saved.player !== owner) return;
+    applyAuthProfile(saved);
+    // The Board name is a display projection, never another editable source.
+    if (backend) await backend.syncProfile(saved);
+    profileRequest++; // Do not let an older stats request redraw a just-saved profile.
+    profileLoading = false;
+    render();
+    profileDialog.close();
+  } catch (error) {
+    if (authSession?.player !== owner) return;
+    if (error.code === "profile_conflict") {
+      await refreshAuthProfile({ forceRefresh: true });
+    }
+    render();
+    feedback("nickname-feedback", error.profileSaved ? "nicknameSyncFailed"
+      : error.code === "profile_conflict" ? "nicknameConflict" : "nicknameSaveFailed", true);
+  } finally {
+    nicknameSaving = false;
+    nicknameInput.disabled = false;
+  }
+
+});
+el("profile-rankings").addEventListener("click", () => {
+  profileDialog.close();
+  showRankings();
+});
+function showOptions() {
+  void refreshAuthProfile({ forceRefresh: true });
+  feedback("restore-feedback");
+  feedback("player-id-feedback");
+  optionsFromMatch = Boolean(room ?? archive ?? spectator);
+  feedbackButton.hidden = optionsFromMatch || !window.NcqFeedback?.can();
+  optionsDialog.showModal();
+  render();
+}
+el("show-options").addEventListener("click", showOptions);
+el("match-options").addEventListener("click", showOptions);
+optionsDialog.addEventListener("close", event => {
+  if (optionsFromMatch) render();
+  else closeLobbyMenu(event);
+});
+el("vibration").addEventListener("change", event => {
+  window.NcqDevice?.vibration(event.target.checked);
+  if (event.target.checked) haptics.tap();
+});
+el("options-player-id").addEventListener("click", event => event.currentTarget.select());
+el("copy-player-id").addEventListener("click", async () => {
+  const input = el("options-player-id");
+  const player = input.value;
+  if (!player) return;
+  try {
+    await navigator.clipboard.writeText(player);
+    if (optionsDialog.open && input.value === player) feedback("player-id-feedback", "optionsPlayerIdCopied");
+  } catch {
+    if (!optionsDialog.open || input.value !== player) return;
+    input.focus();
+    input.select();
+    feedback("player-id-feedback", "optionsPlayerIdCopyManually", true);
+  }
+});
+feedbackButton.addEventListener("click", () => {
+  optionsDialog.close();
+  window.NcqFeedback.open();
+});
+window.ncqBack = () => {
+  if (gameModes?.backModal()) return true;
+  if (window.NcqFeedback?.isOpen()) {
+    window.NcqFeedback.close();
+    return true;
+  }
+  const recordPopup = document.querySelector(".record-dialog[open]");
+  if (recordPopup) {
+    recordPopup.close();
+    return true;
+  }
+  if (coinRewardDialog.open) {
+    coinRewardDialog.close();
+    return true;
+  }
+  if (leaveDialog.open) {
+    leaveDialog.close("cancel");
+    return true;
+  }
+  if (coinShortageDialog.open) {
+    coinShortageDialog.close();
+    return true;
+  }
+  if (rankCelebration.open) {
+    rankCelebration.close();
+    return true;
+  }
+  if (resultDialog.open) {
+    resultDialog.close();
+    return true;
+  }
+  if (shopPurchaseDialog.open) {
+    shopPurchaseDialog.close();
+    return true;
+  }
+  if (optionsDialog.open) {
+    optionsDialog.close();
+    return true;
+  }
+  if (missionDialog.open) { missionDialog.close(); return true; }
+  if (shop.open) { shop.close(); return true; }
+  if (profileDialog.open) { profileDialog.close(); return true; }
+  if (tournamentCatchUpDialog.open) { tournamentCatchUpDialog.close("cancel"); return true; }
+  if (el("matchmaking").open) { requestCancel(); return true; }
+  if (gameModes?.back()) return true;
+  if (forest.back()) return true;
+  if ((room || archive || spectator) && !document.querySelector("dialog[open]")) {
+    leaveMatch();
+    return true;
+  }
+  return false;
+};
+const stoneSoundToggle = el("stone-sound");
+const effectsVolume = el("effects-volume");
+const adPrivacy = el("ad-privacy");
+NcqAds?.ready().then(() => { adPrivacy.hidden = !NcqAds.privacyRequired(); }).catch(() => {});
+adPrivacy.addEventListener("click", () => NcqAds?.showPrivacyOptions());
+function syncEffectsOptions() {
+  stoneSoundToggle.checked = window.NcqSound?.enabled("sfx") ?? true;
+  const volume = Math.round((window.NcqSound?.volume("sfx") ?? 1) * 100);
+  effectsVolume.value = String(volume);
+  el("effects-volume-value").textContent = volume + "%";
+}
+syncEffectsOptions();
+stoneSoundToggle.addEventListener("change", () => {
+  window.NcqSound?.enabled("sfx", stoneSoundToggle.checked);
+  if (stoneSoundToggle.checked) unlockPlacementAudio();
+  backupKakaopay(window);
+});
+effectsVolume.addEventListener("input", () => {
+  window.NcqSound?.volume("sfx", Number(effectsVolume.value) / 100);
+});
+effectsVolume.addEventListener("change", () => backupKakaopay(window));
+window.NcqSound?.onChange(() => {
+  syncEffectsOptions();
+  if (!window.NcqSound.enabled("sfx") || window.NcqSound.volume("sfx") === 0) stopPlacementSound();
+  matchingAudio.sync();
+  resultAudio.sync();
+});
+const audioSourceLink = el("audio-source-link");
+if (window.NCQ?.NCQ_PLATFORM !== "toss") {
+  audioSourceLink.href = "https://apis.gugak.go.kr/digitaleum/front/monotone/list.do";
+  audioSourceLink.target = "_blank";
+  audioSourceLink.rel = "noopener noreferrer";
+}
+document.addEventListener("click", unlockPlacementAudio, { capture: true });
+document.addEventListener("keydown", unlockPlacementAudio, { capture: true });
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    stopPlacementSound();
+    haptics.stop();
+    coinCollection.stop();
+    resultAudio.stop();
+  }
+  else if (placementAudio) unlockPlacementAudio();
+  matchingAudio.sync();
+});
+window.addEventListener("ncq-kakao-pause", () => {
+  platformAudioPaused = true; cancelPlacement(); haptics.stop(); coinCollection.stop();
+  matchingAudio.sync(); resultAudio.stop();
+});
+window.addEventListener("ncq-kakao-resume", () => {
+  platformAudioPaused = false; matchingAudio.sync(); if (placementAudio) unlockPlacementAudio();
+});
+window.addEventListener("pagehide", () => { matchingAudio.sync(); resultAudio.stop(); stopPlacementSound(); });
+window.addEventListener("pageshow", () => matchingAudio.sync());
+for (const event of ["pause", "freeze"]) document.addEventListener(event, () => {
+  matchingAudio.sync(); resultAudio.stop(); stopPlacementSound();
+});
+document.addEventListener("resume", () => matchingAudio.sync());
+const shopRows = Array.from(shop.querySelectorAll(".appearance-choices"));
+for (const row of shopRows) {
+  const inputs = Array.from(row.querySelectorAll("input"));
+  inputs.sort((a, b) => skinPrices[a.name][a.value] - skinPrices[b.name][b.value]);
+  row.append(...inputs.map(input => input.closest("label")));
+  const [previous, next] = row.parentElement.querySelectorAll("[data-skin-scroll]");
+  const updateArrows = () => {
+    previous.disabled = row.scrollLeft <= 1;
+    next.disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 1;
+  };
+  for (const button of [previous, next]) {
+    button.addEventListener("click", () => {
+      const gap = parseFloat(getComputedStyle(row).columnGap);
+      const distance = row.firstElementChild.getBoundingClientRect().width + gap;
+      row.scrollBy({ left: Number(button.dataset.skinScroll) * distance, behavior: reducedMotion.matches ? "auto" : "smooth" });
+    });
+  }
+  row.addEventListener("scroll", updateArrows, { passive: true });
+  new ResizeObserver(updateArrows).observe(row);
+
+  // Touch uses native scrolling. On a mouse, keep taps and horizontal drags separate.
+  let drag;
+  row.addEventListener("pointerdown", event => {
+    if (event.pointerType === "mouse" && event.button === 0 && row.scrollWidth > row.clientWidth) {
+      drag = { id: event.pointerId, x: event.clientX, scroll: row.scrollLeft,
+        scale: row.getBoundingClientRect().width / row.offsetWidth || 1 };
+    }
+  });
+  row.addEventListener("pointermove", event => {
+    if (!drag || event.pointerId !== drag.id || !event.buttons) return;
+    const distance = event.clientX - drag.x;
+    if (!row.hasPointerCapture(event.pointerId)) {
+      if (Math.abs(distance) < 6) return;
+      row.setPointerCapture(event.pointerId);
+      row.setAttribute("data-dragging", "");
+    }
+    row.scrollLeft = drag.scroll - distance / drag.scale;
+  });
+  const endDrag = event => {
+    if (event.pointerId !== drag?.id) return;
+    drag = null;
+    row.removeAttribute("data-dragging");
+  };
+  for (const type of ["pointerup", "pointercancel", "lostpointercapture"]) row.addEventListener(type, endDrag);
+  row.addEventListener("pointerleave", event => {
+    if (!row.hasPointerCapture(event.pointerId)) endDrag(event);
+  });
+}
+const shopRadios = Array.from(shop.querySelectorAll('input[type="radio"]'));
+const skinCards = shopRadios.filter(input => input.name !== "grid").map(input => {
+  const label = input.closest("label");
+  const boardSample = label.querySelector(".board-sample");
+  const status = document.createElement("span");
+  const price = document.createElement("span");
+  status.className = "shop-skin-status";
+  price.className = "shop-skin-price";
+  label.append(status, price);
+  return { input, label, boardSample, status, price };
+});
+function openShop() {
+  // A shop opened from a coin shortage also returns to the lobby when closed.
+  lobbyView = "lobby";
+  forest.render(room ?? archive ?? spectator?.game, lobbyView);
+  shopPreview = { ...shopState.appearance };
+  shopEffectPreview = null;
+  shopTab = "skins";
+  canClaimTestCoins = false;
+  feedback("shop-feedback");
+  shop.showModal();
+  render();
+  void refreshCoinCheckout();
+  shop.querySelector(".shop-content").scrollTop = 0;
+  for (const row of shopRows) {
+    const card = row.querySelector("input:checked")?.closest("label");
+    if (!card) continue;
+    const cardBounds = card.getBoundingClientRect();
+    const rowBounds = row.getBoundingClientRect();
+    const scale = rowBounds.width / row.offsetWidth || 1;
+    row.scrollLeft += (cardBounds.left - rowBounds.left + (cardBounds.width - rowBounds.width) / 2) / scale;
+  }
+  void refreshWallet();
+}
+const shopTabs = ["currency", "effects", "skins"];
+const missionRows = [...dailyMissions, repeatMission].map((_, index) => {
+  const row = el("daily-mission-row").content.firstElementChild.cloneNode(true);
+  row.querySelector(".mission-goal").id = "mission-goal-" + index;
+  row.querySelector(".mission-claim").setAttribute("aria-describedby", "mission-goal-" + index);
+  el("daily-mission-list").append(row);
+  return row;
+});
+const missionSteps = dailyMissions.map(() => {
+  const step = document.createElement("span");
+  step.className = "mission-step";
+  el("daily-mission-steps").append(step);
+  return step;
+});
+const repeatMissionRow = missionRows.at(-1);
+const repeatCount = document.createElement("span");
+repeatCount.id = "mission-repeat-count";
+repeatMissionRow.querySelector(".mission-label").append(repeatCount);
+repeatMissionRow.classList.add("mission-repeat");
+const missionMarkers = [...el("mission-markers").children];
+el("show-shop").addEventListener("click", openShop);
+el("show-missions").addEventListener("click", () => {
+  feedback("mission-feedback");
+  missionDialog.showModal();
+  el("mission-content").scrollTop = 0;
+  render();
+  void refreshWallet();
+});
+missionDialog.addEventListener("close", event => {
+  if (!missionDialog.open && activeCoinReward?.source === "missions") coinRewardDialog.close();
+  closeLobbyMenu(event);
+});
+coinRewardDialog.addEventListener("close", () => {
+  if (coinRewardDialog.open) return;
+  const reward = activeCoinReward;
+  activeCoinReward = null;
+  render();
+  if (reward && reward.player === authSession?.player) collectRewardCoins(reward);
+  presentCoinReward();
+  if (coinRewardDialog.open) return;
+  if (missionDialog.open) {
+    const next = missionDialog.querySelector(".mission-claim:not([hidden]):not(:disabled)");
+    (next ?? el("mission-close")).focus({ preventScroll: true });
+  } else if (shop.open) {
+    el("shop-tab-" + shopTab).focus({ preventScroll: true });
+  }
+});
+missionDialog.addEventListener("click", event => {
+  const button = event.target.closest(".mission-claim");
+  if (button) void claimMission(button);
+});
+shop.addEventListener("close", event => {
+  if (!shop.open) clearTimeout(shopEffectTimer);
+  closeLobbyMenu(event);
+});
+shopPurchaseDialog.addEventListener("close", () => {
+  render();
+  if (shop.open && !shop.contains(document.activeElement)) {
+    el("shop-tab-" + shopTab).focus({ preventScroll: true });
+  }
+  presentCoinReward();
+});
+coinShortageDialog.addEventListener("close", () => {
+  if (coinShortageDialog.returnValue === "yes") {
+    if (!shop.open) openShop();
+    shopTab = "currency";
+    feedback("shop-feedback");
+    renderShop();
+    shop.querySelector(".shop-content").scrollTop = 0;
+    el("shop-tab-currency").focus({ preventScroll: true });
+  }
+  render();
+});
+for (const tab of shopTabs) {
+  el("shop-tab-" + tab).addEventListener("click", () => {
+    if (shopTab !== tab) haptics.tap();
+    shopTab = tab;
+    feedback("shop-feedback");
+    renderShop();
+    shop.querySelector(".shop-content").scrollTop = 0;
+  });
+}
+for (const input of shopRadios) {
+  input.addEventListener("change", () => {
+    if (!input.checked) return;
+    if (shopPreview[input.name] !== input.value) haptics.tap();
+    shopPreview[input.name] = input.value;
+    feedback("shop-feedback");
+    renderShop();
+  });
+}
+shopAction.addEventListener("click", () => saveShopSelection(shopAction.hasAttribute("data-purchase")));
+el("shop-claim-test-coins").addEventListener("click", claimTestCoins);
+el("shop-watch-ad-coins").addEventListener("click", async () => {
+  feedback("shop-feedback");
+  const result = await rewardedCoins.run();
+  if (result.error) {
+    const message = ["rewardAdLimit", "rewardAdBusy", "rewardAdExpired"].includes(result.error)
+      ? result.error : rewardedCoins.state.retry ? "rewardAdRetryMessage" : "rewardAdFailed";
+    feedback("shop-feedback", message, true);
+  }
+  if (backend) void rewardedCoins.refresh();
+});
+for (const { button, effect } of shopEffectOptions) {
+  button.addEventListener("click", () => {
+    if ((shopEffectPreview ?? placementStyle) !== effect) haptics.tap();
+    shopEffectPreview = effect;
+    feedback("shop-feedback");
+    renderPlacementCards();
+    previewPlacementEffect(button, effect);
+  });
+}
+shopEffectAction.addEventListener("click", () => {
+  if (shopEffectAction.hasAttribute("data-purchase")) {
+    void buyPlacementEffect(shopEffectPreview ?? placementStyle);
+  } else {
+    setPlacementStyle(shopEffectPreview);
+    shopEffectPreview = null;
+    feedback("shop-feedback", "shopEffectApplied");
+    renderShop();
+  }
+});
+el("shop-buy-remove-ads").addEventListener("click", buyRemoveAds);
+el("shop-restore-ads").addEventListener("click", () => restoreAdPurchase("shop-feedback"));
+el("restore-purchases").addEventListener("click", () => restoreAdPurchase("restore-feedback"));
+window.addEventListener("ncq-iap", refreshAdPurchase);
+window.addEventListener("storage", event => {
+  if (event.key === placementStyleKey || event.key === null) {
+    placementStyle = loadPlacementStyle();
+    if (shop.open) renderPlacementCards();
+  }
+  if (event.key !== appearanceKey && event.key !== null) return;
+  shopState = loadShopState();
+  applyAppearance();
+  renderCoinBalance();
+  renderDailyMissions();
+  if (shop.open) renderShop();
+});
+
+for (let row = 0; row < size; row += 1) {
+  const rowEl = document.createElement("div");
+  rowEl.className = "board-row";
+  rowEl.setAttribute("role", "row");
+  for (let col = 0; col < size; col += 1) {
+    const index = row * size + col;
+    const cell = document.createElement("button");
+    cell.type = "button";
+    cell.className = "cell";
+    cell.tabIndex = index === focused ? 0 : -1;
+    cell.dataset.index = index;
+    cell.setAttribute("role", "gridcell");
+    if ([48, 56, 112, 168, 176].includes(index)) cell.classList.add("star");
+    const stone = document.createElement("span");
+    stone.className = "stone";
+    stone.setAttribute("aria-hidden", "true");
+    cell.append(stone);
+    const shadow = document.createElement("span");
+    shadow.className = "stone-shadow";
+    shadow.setAttribute("aria-hidden", "true");
+    cell.append(shadow);
+    rowEl.append(cell);
+    cells.push(cell);
+  }
+  boardGrid.append(rowEl);
+}
+
+for (const language of NcqLang.list()) {
+  el("language").add(new Option(language.name, language.code));
+}
+el("language").addEventListener("change", event => {
+  if (NcqLang.lang !== event.target.value) haptics.tap();
+  NcqLang.set(event.target.value);
+});
+NcqLang.onChange(render);
+
+function loadShopState(fallback) {
+  let saved;
+  try {
+    saved = JSON.parse(localStorage.getItem(appearanceKey) ?? localStorage.getItem(legacyAppearanceKey));
+  } catch {}
+  if (!saved && fallback) return fallback;
+  const appearance = {
+    stones: Object.hasOwn(skinPrices.stones, saved?.stones) ? saved.stones : "reference",
+    board: Object.hasOwn(skinPrices.board, saved?.board) ? saved.board : "reference",
+    grid: saved?.grid === "soft" ? "soft" : "engraved",
+  };
+  const ownedSkins = new Set(Array.isArray(saved?.ownedSkins) ? saved.ownedSkins : []);
+  // An equipped skin may have been free in an earlier version.
+  for (const kind of skinKinds) {
+    if (skinPrices[kind][appearance[kind]] > 0) ownedSkins.add(kind + ":" + appearance[kind]);
+  }
+  return {
+    appearance,
+    ownedSkins: [...ownedSkins],
+  };
+}
+
+function persistShopState({ appearance, ownedSkins }) {
+  localStorage.setItem(appearanceKey, JSON.stringify({
+    stones: appearance.stones, board: appearance.board, grid: appearance.grid, ownedSkins,
+  }));
+  backupKakaopay(window);
+}
+
+async function updateShop(action) {
+  if (navigator.locks) return navigator.locks.request(appearanceKey, action);
+  return action();
+}
+
+function setAppearanceTheme(element, appearance) {
+  element.dataset.stoneStyle = appearance.stones;
+  element.dataset.boardStyle = appearance.board;
+  element.dataset.gridStyle = appearance.grid;
+}
+
+function applyAppearance() {
+  setAppearanceTheme(document.documentElement, shopState.appearance);
+}
+
+function ownsSkin(state, kind, style) {
+  const id = kind + ":" + style;
+  return skinPrices[kind][style] === 0 || state.ownedSkins.includes(id) || serverWallet?.ownedSkins.includes(id);
+}
+
+function shopPurchase(selection, state) {
+  const locked = skinKinds.filter(kind => !ownsSkin(state, kind, selection[kind]));
+  return {
+    skins: locked.map(kind => kind + ":" + selection[kind]),
+    price: locked.reduce((sum, kind) => sum + skinPrices[kind][selection[kind]], 0),
+  };
+}
+
+function koreaDay(timestamp) {
+  return new Date(timestamp + koreaOffset).toISOString().slice(0, 10);
+}
+
+function missionProgress(count, target) {
+  return { count: NcqLang.num(Math.min(count, target)), target: NcqLang.num(target) };
+}
+
+function coinBalance() {
+  return serverWallet?.coins ?? 0;
+}
+
+function canAffordShop(price) {
+  return price <= coinBalance();
+}
+
+function loadPlacementStyle() {
+  try {
+    const style = localStorage.getItem(placementStyleKey);
+    if (placementStyles.includes(style)) return style;
+  } catch {}
+  return "golden";
+}
+
+function setPlacementStyle(style) {
+  if (!placementStyles.includes(style)) return;
+  placementStyle = style;
+  try { localStorage.setItem(placementStyleKey, style); } catch {}
+  backupKakaopay(window);
+}
+
+function placementUntil(effect) {
+  const key = placementEffects[effect]?.expiry;
+  return serverWallet?.[key] ?? 0;
+}
+
+function ownsPlacement(effect) {
+  if (effect === "plain") return true;
+  return placementUntil(effect) > Date.now();
+}
+
+function placementRequest() {
+  if (!backend && !ownsPlacement(placementStyle)) return { placementStyle: "plain" };
+  return { placementStyle, ...(!backend ? { placementUntil: placementUntil(placementStyle) } : {}) };
+}
+
+function applyWallet(next) {
+  if (next.error || !Number.isInteger(next.coins)) return false;
+  if (!serverWallet || (next.version >= serverWallet.version && next.day >= serverWallet.day
+      && (next.day !== serverWallet.day || next.count >= serverWallet.count))) {
+    serverWallet = next;
+  }
+  return true;
+}
+
+async function refreshWallet(cooldown = 3) {
+  if (!backend) return;
+  const next = await remoteRequest(client => client.gameRequest("/wallet", undefined, cooldown));
+  if (applyWallet(next)) {
+    if (shop.open) void rewardedCoins.refresh();
+    canClaimTestCoins = next.canClaimTestCoins === true;
+    render();
+  }
+  void tossPromotion.refresh();
+}
+
+async function claimTestCoins() {
+  if (!canClaimTestCoins || testCoinClaiming) return;
+  testCoinRequestId ??= crypto.randomUUID();
+  const receipt = testCoinRequestId, before = coinBalance();
+  testCoinClaiming = true;
+  feedback("shop-feedback");
+  renderShop();
+  try {
+    const next = await remoteRequest(client => client.gameRequest("/wallet/test-coins", {
+      requestId: testCoinRequestId,
+    }));
+    if (next.error === "forbidden") canClaimTestCoins = false;
+    if (next.error !== "network") testCoinRequestId = undefined;
+    const credited = applyWallet(next);
+    if (credited && coinBalance() > before) collectRewardCoins({
+      receipt: `${authSession?.player}:test:${receipt}`, coins: coinBalance() - before,
+    });
+    if (shop.open && shopTab === "currency") {
+      feedback("shop-feedback", credited ? "shopTestCoinDone" : "shopTestCoinFailed", !credited);
+    }
+  } finally {
+    testCoinClaiming = false;
+    render();
+  }
+}
+
+function applyWeeklyRewards(result) {
+  if (result.error || !result.participation) return false;
+  weeklyRewards = result;
+  clearTimeout(weeklyRewardsTimer);
+  const refreshIn = Date.parse(result.refreshAt) - Date.parse(result.serverNow);
+  if (Number.isFinite(refreshIn)) {
+    weeklyRewardsTimer = setTimeout(() => {
+      weeklyRewards = undefined;
+      render();
+      void refreshWeeklyRewards();
+    }, Math.max(1000, refreshIn + 100));
+  }
+  return true;
+}
+
+async function refreshWeeklyRewards(cooldown = 3) {
+  if (!backend || weeklyRewardClaiming) return;
+  const request = ++weeklyRewardsRequest;
+  const result = await remoteRequest(client => client.gameRequest("/tournament/rewards", undefined, cooldown));
+  if (request === weeklyRewardsRequest && applyWeeklyRewards(result)) render();
+}
+
+async function claimWeeklyReward(type) {
+  const reward = weeklyRewards?.[type];
+  if (weeklyRewardClaiming || !reward?.available) return;
+  weeklyRewardClaiming = true;
+  ++weeklyRewardsRequest;
+  const message = type + "-reward-feedback";
+  feedback(message);
+  render();
+  const result = await remoteRequest(client => client.gameRequest("/tournament/rewards", { kind: type, week: reward.week }));
+  weeklyRewardClaiming = false;
+  if (applyWeeklyRewards(result)) {
+    if (applyWallet(result.wallet) && result[type]?.claimed) collectRewardCoins({
+      receipt: `${authSession?.player}:weekly:${type}:${reward.week}`, coins: reward.coins,
+      origin: coinCollection.point(document.querySelector(`[data-weekly-reward="${type}"]`)),
+    });
+  } else {
+    feedback(message, result.error ?? "network", true);
+    void refreshWeeklyRewards();
+  }
+  render();
+}
+
+function renderRewardBadge(id, ready, label, attribute = "data-reward-ready") {
+  const entry = el(id);
+  entry.toggleAttribute(attribute, ready);
+  if (ready) entry.setAttribute("aria-label", t("rewardAvailableLabel", { label }));
+  else entry.removeAttribute("aria-label");
+}
+
+function renderWeeklyRewards(mainAction) {
+  const participationReady = Boolean(weeklyRewards?.participation?.available);
+  const rankingReady = Boolean(weeklyRewards?.ranking?.available);
+  const hasReward = participationReady || rankingReady;
+  renderRewardBadge("show-rankings", hasReward, t("rankings"));
+  const lobbyLabel = [el("lobby-championship").textContent, el("championship-countdown").textContent].filter(Boolean).join(" · ");
+  for (const [id, ready, label] of [
+    ["show-tournament", hasReward, lobbyLabel],
+    ["ranking-weekly-tab", participationReady, t("currentTournament")],
+    ["ranking-previous-tab", rankingReady, t("previousTournament")],
+  ]) {
+    renderRewardBadge(id, ready, label, "data-weekly-reward-ready");
+  }
+  for (const button of weeklyRewardButtons) {
+    const type = button.dataset.weeklyReward;
+    const reward = weeklyRewards?.[type];
+    const card = el(type + "-reward");
+    card.hidden = !reward;
+    const tab = type === "participation" ? "weekly" : "previous";
+    const ready = Boolean(reward?.available);
+    button.toggleAttribute("data-weekly-reward-ready", ready);
+    button.toggleAttribute("data-ncq-main", ready && !weeklyRewardClaiming && mainAction
+      && lobbyView === "tournament" && rankingTab === tab);
+    if (!reward) continue;
+    if (type === "participation") {
+      el("participation-reward-progress").textContent = t("participationRewardProgress", {
+        target: NcqLang.num(reward.target), count: NcqLang.num(reward.count),
+      });
+      Array.from(el("participation-reward-steps").children).forEach((step, index) => {
+        step.toggleAttribute("data-completed", index < reward.count);
+      });
+    } else {
+      el("ranking-reward-rank").textContent = t("rankingRewardPlace", { rank: NcqLang.num(reward.rank) });
+    }
+    const action = t(reward.claimed ? "weeklyRewardClaimed" : "weeklyRewardClaim");
+    const coins = NcqLang.num(reward.coins);
+    button.querySelector(".weekly-reward-coins strong").textContent = coins;
+    button.querySelector(".weekly-reward-action").textContent = action;
+    button.setAttribute("aria-label", t("weeklyRewardClaimLabel", { reward: t(type + "Reward"), coins, action }));
+    button.setAttribute("aria-disabled", String(weeklyRewardClaiming || !ready));
+    button.toggleAttribute("data-claimed", reward.claimed);
+    if (reward.claimed) feedback(type + "-reward-feedback");
+  }
+}
+
+function renderCoinBalance() {
+  const coins = NcqLang.num(coinBalance());
+  el("lobby-coin-count").textContent = coins;
+  el("lobby-coin-count").style.setProperty("--coin-characters", coins.length);
+  el("shop-balance").textContent = coins;
+}
+
+function renderDailyMissions() {
+  const today = koreaDay(Date.now());
+  const missions = today === serverWallet?.day ? serverWallet : { count: 0, claimed: [] };
+  const { count, claimed } = missions;
+  const ready = missionTargets.filter(target => target <= count && !claimed.includes(target));
+  const hasReward = ready.length > 0;
+  const completed = dailyMissions.filter(({ target }) => count >= target).length;
+  const progress = missionProgress(completed, dailyMissions.length);
+  el("daily-mission-count").textContent = progress.count;
+  el("daily-mission-total").textContent = t("missionMilestoneTotal", progress);
+  const filledSegments = Math.max(0, completed - 1);
+  el("daily-mission-steps").style.setProperty("--mission-rail-fill", filledSegments / (dailyMissions.length - 1) * 100 + "%");
+  missionSteps.forEach((step, index) => step.toggleAttribute("data-completed", index < completed));
+  el("show-missions").toggleAttribute("data-ready", hasReward);
+  renderRewardBadge("show-lobby", hasReward, t("playTab"));
+  el("daily-mission-action").textContent = t(hasReward ? "missionClaim" : "missionView");
+  if (!missionDialog.open) return;
+
+  el("mission-close").toggleAttribute("data-ncq-main", !coinRewardDialog.open);
+  el("mission-balance").textContent = NcqLang.num(coinBalance());
+  const overview = el("mission-overview-progress");
+  overview.setAttribute("aria-valuenow", completed);
+  overview.style.setProperty("--mission-fill", completed / dailyMissions.length * 100 + "%");
+  const total = el("mission-total");
+  const slash = document.createElement("span");
+  slash.className = "mission-count-slash";
+  slash.textContent = "/";
+  total.replaceChildren(document.createTextNode(progress.count), slash, document.createTextNode(progress.target));
+  total.setAttribute("aria-label", t("missionOverviewCount", progress));
+  missionMarkers.forEach((marker, index) => {
+    const done = index < completed;
+    marker.toggleAttribute("data-done", done);
+    marker.textContent = done ? "✓" : "";
+  });
+  dailyMissions.forEach(({ target, coins }, index) => {
+    const goal = t(target === 1 ? "missionFirstGoal" : "missionGoal", { n: NcqLang.num(target) });
+    renderMissionRow(missionRows[index], {
+      goal, coins, progress: Math.min(count, target), max: target,
+      claim: ready.includes(target) ? target : null, done: claimed.includes(target),
+    });
+  });
+  const { after, limit, coins } = repeatMission;
+  const repeats = claimed.filter(target => target > after).length;
+  renderMissionRow(repeatMissionRow, {
+    goal: t("missionRepeatGoal"), coins,
+    progress: Math.min(Math.max(0, count - after), limit), max: limit,
+    claim: ready.find(target => target > after), done: repeats >= limit,
+  });
+  el("mission-repeat-count").textContent = t("missionRepeatProgress", missionProgress(repeats, limit));
+  el("mission-repeat-note").textContent = t("missionRepeatNote", { after: NcqLang.num(after), n: NcqLang.num(limit), coins: NcqLang.num(coins) });
+  const status = el("mission-feedback");
+  if (!status.hidden) status.textContent = t(status.dataset.message);
+}
+
+function renderMissionRow(row, { goal, coins, progress, max, claim, done }) {
+  row.dataset.state = claim ? "ready" : done ? "done" : "pending";
+  row.querySelector(".mission-goal").textContent = goal;
+  row.querySelector(".mission-coins").textContent = NcqLang.num(coins);
+  row.querySelector(".mission-amount").setAttribute("aria-label", t("shopPrice", { n: NcqLang.num(coins) }));
+  const track = row.querySelector(".mission-track");
+  track.setAttribute("aria-label", goal);
+  track.setAttribute("aria-valuemax", max);
+  track.setAttribute("aria-valuenow", progress);
+  track.style.setProperty("--mission-fill", progress / max * 100 + "%");
+  track.toggleAttribute("data-filled", progress * 2 >= max);
+  track.querySelector("span").textContent = t("missionTrackCount", missionProgress(progress, max));
+  const button = row.querySelector(".mission-claim");
+  button.textContent = t("missionClaim");
+  button.hidden = !claim;
+  button.toggleAttribute("data-ncq-main", Boolean(claim) && !coinRewardDialog.open);
+  button.disabled = missionClaiming;
+  button.value = claim ?? "";
+  const status = row.querySelector(".mission-status");
+  status.hidden = Boolean(claim);
+  status.textContent = t(done ? "missionClaimed" : "missionInProgress");
+}
+
+async function claimMission(button) {
+  if (missionClaiming || !missionDialog.open || !backend) return;
+  const target = Number(button.value);
+  const reward = missionRewards.get(target);
+  if (!reward || serverWallet?.claimed?.includes(target)) return;
+  const day = koreaDay(Date.now());
+  const restoreFocus = document.activeElement === button;
+  missionClaiming = true;
+  renderDailyMissions();
+  try {
+    const result = await remoteRequest(client => client.gameRequest("/wallet/claim-mission", { day, target }));
+    if (!applyWallet(result) || result.day !== day || !result.claimed?.includes(target)) {
+      feedback("mission-feedback", result.error ?? "missionClaimFailed", true);
+      void refreshWallet();
+      return;
+    }
+    feedback("mission-feedback", "missionClaimSuccess");
+    if (missionDialog.open) {
+      showCoinReward(reward, `mission:${day}:${target}`, "missions");
+    }
+  } catch {
+    feedback("mission-feedback", "missionClaimFailed", true);
+  } finally {
+    missionClaiming = false;
+    renderCoinBalance();
+    renderDailyMissions();
+    if (shop.open) renderShop();
+    if (restoreFocus && missionDialog.open && !coinRewardDialog.open) {
+      (button.hidden ? el("mission-close") : button).focus({ preventScroll: true });
+    }
+  }
+}
+
+function renderCoinReward() {
+  el("coin-reward-coins").textContent = t("coinRewardCoins", { n: NcqLang.num(activeCoinReward.coins) });
+  el("coin-reward-balance").textContent = NcqLang.num(coinBalance());
+}
+
+function collectRewardCoins(reward) {
+  if (room || archive || spectator) return;
+  const target = missionDialog.open ? el("mission-balance").closest(".shop-wallet")
+    : shop.open ? el("shop-balance").closest(".shop-wallet") : el("lobby-wallet");
+  coinCollection.play({ receipt: reward.receipt, amount: reward.coins,
+    balance: NcqLang.num(coinBalance()), target, origin: reward.origin });
+}
+
+function showCoinReward(coins, receipt, source) {
+  const id = (authSession?.player ?? "") + ":" + receipt;
+  if (!Number.isSafeInteger(coins) || coins <= 0 || coinRewardReceipts.has(id)) return;
+  coinRewardReceipts.add(id);
+  coinRewardQueue.push({ coins, source, player: authSession?.player, receipt: id });
+  presentCoinReward();
+}
+
+function presentCoinReward() {
+  if (coinRewardDialog.open || !coinRewardQueue.length || adPurchaseBusy || document.hidden
+      || room || archive || spectator) return;
+  if ([...document.querySelectorAll("dialog[open]")].some(dialog => dialog !== shop && dialog !== missionDialog)) return;
+  while (coinRewardQueue.length) {
+    const reward = coinRewardQueue.shift();
+    if (reward.player !== authSession?.player || (reward.source === "missions" && !missionDialog.open)) continue;
+    activeCoinReward = reward;
+    renderCoinReward();
+    coinRewardDialog.showModal();
+    reward.origin = coinCollection.point(el("coin-reward-coins"));
+    haptics.once("reward:" + reward.receipt, "success");
+    render();
+    el("coin-reward-title").focus();
+    return;
+  }
+}
+
+function scheduleMissionReset() {
+  setTimeout(() => {
+    renderDailyMissions();
+    void refreshWallet();
+    scheduleMissionReset();
+  }, dayMs - (Date.now() + koreaOffset) % dayMs);
+}
+
+function renderShop() {
+  for (const button of shopMainActions) button.toggleAttribute("data-ncq-main", !coinShortageDialog.open
+    && !coinRewardDialog.open && !shopPurchaseDialog.open);
+  renderAdPurchase();
+  renderCoinPacks();
+  const skins = shopTab === "skins";
+  for (const tab of shopTabs) {
+    const active = shopTab === tab;
+    el("shop-tab-" + tab).setAttribute("aria-pressed", String(active));
+    el("shop-" + tab).hidden = !active;
+  }
+  shopAction.hidden = !skins;
+  renderPlacementCards();
+  setAppearanceTheme(el("appearance-preview"), shopPreview);
+  for (const input of shopRadios) {
+    input.checked = shopPreview[input.name] === input.value;
+    input.disabled = shopSaving;
+  }
+  for (const { input, label, boardSample, status, price } of skinCards) {
+    const { name, value, checked } = input;
+    label.title = input.nextElementSibling.textContent;
+    const applied = shopState.appearance[name] === value;
+    const owned = ownsSkin(shopState, name, value);
+    label.toggleAttribute("data-locked", !owned);
+    label.toggleAttribute("data-applied", applied);
+    if (boardSample) boardSample.dataset.gridStyle = shopPreview.grid;
+    status.textContent = t(!owned ? (checked ? "shopSelectedLocked" : "shopLocked")
+      : applied ? "shopApplied" : checked ? "shopSelected" : "shopOwned");
+    price.hidden = owned;
+    price.textContent = owned ? "" : t("shopPrice", { n: NcqLang.num(skinPrices[name][value]) });
+  }
+  const { price } = shopPurchase(shopPreview, shopState);
+  const changed = Object.keys(shopPreview).some(kind => shopPreview[kind] !== shopState.appearance[kind]);
+  const buying = price > 0;
+  const enough = canAffordShop(price);
+  shopAction.toggleAttribute("data-purchase", buying);
+  shopAction.disabled = shopSaving || adPurchaseBusy || (!buying && !changed);
+  shopAction.textContent = buying ? t("shopBuyPrice", { n: NcqLang.num(price) }) : t("shopApply");
+  const status = el("shop-feedback");
+  status.classList.toggle("sr-only", skins);
+  if (!status.hidden) status.textContent = t(status.dataset.message);
+  const guide = el("shop-preview-guide");
+  guide.textContent = !status.hidden ? status.textContent
+    : t(buying ? (enough ? "shopLockedPreview" : "shopNotEnough") : "shopPreviewGuide");
+  guide.toggleAttribute("data-hint", status.hidden && !buying);
+  guide.toggleAttribute("data-error", !status.hidden && status.hasAttribute("data-error"));
+}
+
+function renderPlacementCards() {
+  clearTimeout(shopEffectTimer);
+  shopEffectAction.hidden = shopTab !== "effects";
+  if (shopEffectAction.hidden) return;
+
+  const now = Date.now();
+  const owned = Object.fromEntries(placementStyles.map(effect => [effect, ownsPlacement(effect)]));
+  const applied = owned[placementStyle] ? placementStyle : "plain";
+  const selection = shopEffectPreview ?? applied;
+  const timed = Boolean(placementEffects[selection].expiry);
+  const buying = !owned[selection] || (timed && applied === selection);
+  const price = placementEffects[selection].price;
+  let refreshIn = Infinity;
+  for (const { button, effect, status, time } of shopEffectOptions) {
+    const selected = effect === selection;
+    const isApplied = effect === applied;
+    const locked = !owned[effect];
+    button.setAttribute("aria-pressed", String(selected));
+    button.toggleAttribute("data-applied", isApplied);
+    button.disabled = shopSaving;
+    status.toggleAttribute("data-priced", locked);
+    status.textContent = locked ? t("shopPrice", { n: NcqLang.num(placementEffects[effect].price) })
+      : t(isApplied ? "shopApplied" : selected ? "shopSelected" : effect === "plain" ? "shopEffectFree" : "shopOwned");
+    if (time) {
+      const remaining = placementUntil(effect) - now;
+      time.hidden = remaining <= 0;
+      if (remaining > 0) {
+        const minutes = Math.ceil(remaining / 60_000);
+        time.textContent = minutes < 60 ? t("shopEffectMinutesLeft", { m: NcqLang.num(minutes) })
+          : t("shopEffectHoursLeft", { h: NcqLang.num(Math.floor(minutes / 60)), m: NcqLang.num(minutes % 60) });
+        refreshIn = Math.min(refreshIn, remaining % 60_000 || 60_000);
+      }
+    }
+  }
+  if (shop.open && Number.isFinite(refreshIn)) shopEffectTimer = setTimeout(renderPlacementCards, refreshIn);
+  shopEffectAction.toggleAttribute("data-purchase", buying);
+  shopEffectAction.disabled = shopSaving || adPurchaseBusy || (!buying && selection === applied);
+  const purchaseLabel = timed ? (owned[selection] ? "shopExtendEffect" : "shopBuyEffect") : "shopBuyPrice";
+  shopEffectAction.textContent = buying ? t(purchaseLabel, { n: NcqLang.num(price) }) : t("shopApply");
+}
+
+function playCoinBilling() {
+  return Boolean(backend && NcqIap?.version >= 4 && NcqIap.status().mode === "googleplay");
+}
+
+async function refreshCoinCheckout() {
+  if (!playCoinBilling()) return;
+  const checkout = await remoteRequest(client => client.gameRequest("/wallet/play-coins"));
+  coinPacks = checkout.products ?? {};
+  if (shop.open) renderCoinPacks();
+}
+
+function renderCoinPacks() {
+  renderRewardAd();
+  const list = el("shop-coin-pack-buttons");
+  const products = playCoinBilling() ? Object.entries(NcqIap.status().products) : [];
+  const available = products.flatMap(([id, product]) => {
+    const coins = coinPacks[product.id];
+    if (product.type !== "consumable" || !Number.isInteger(coins) || !NcqIap.can(id)) return [];
+    const price = NcqIap.price(id);
+    return price ? [{ id, productId: product.id, coins, price }] : [];
+  }).sort((a, b) => a.coins - b.coins);
+  const catalog = JSON.stringify([NcqLang.lang, available]);
+  if (list.dataset.catalog !== catalog) {
+    const cards = available.map(({ id, productId, coins, price }, index) => {
+      const card = el("shop-coin-pack-card").content.firstElementChild.cloneNode(true);
+      const n = NcqLang.num(coins);
+      card.dataset.tier = Math.min(index, 2);
+      card.querySelector(".shop-coin-quantity").textContent = t("shopPrice", { n });
+      const buy = card.querySelector("button");
+      buy.textContent = price;
+      buy.setAttribute("aria-label", t("shopCoinPackPrice", { n, price }));
+      buy.addEventListener("click", () => buyCoinPack(id, productId, coins));
+      return card;
+    });
+    list.replaceChildren(...cards);
+    list.dataset.catalog = catalog;
+  }
+  for (const button of list.querySelectorAll("button")) button.disabled = adPurchaseBusy || shopSaving;
+  const claim = el("shop-claim-test-coins");
+  claim.hidden = !canClaimTestCoins;
+  claim.disabled = testCoinClaiming;
+  el("shop-no-coin-packs").hidden = available.length > 0;
+  const debt = serverWallet?.refundDebt ?? 0;
+  el("shop-refund-debt").hidden = debt <= 0;
+  if (debt > 0) el("shop-refund-debt").textContent = t("shopCoinRefundDebt", { n: NcqLang.num(debt) });
+}
+
+function renderRewardAd() {
+  const { status, busy, retry } = rewardedCoins.state;
+  const card = el("shop-ad-coins");
+  card.hidden = !backend || !NcqAds?.can("COINS");
+  if (card.hidden) return;
+  el("shop-ad-coins-count").textContent = status
+    ? t("rewardAdRemaining", { n: NcqLang.num(status.remaining), max: NcqLang.num(status.limit) })
+    : t("rewardAdChecking");
+  const button = el("shop-watch-ad-coins");
+  button.disabled = busy || adPurchaseBusy || shopSaving || !status || (!retry && status.remaining <= 0);
+  button.textContent = t(busy ? "rewardAdWatching" : retry ? "rewardAdRetry"
+    : status?.remaining === 0 ? "rewardAdDone" : "rewardAdWatch");
+}
+
+function renderAdPurchase() {
+  const store = NcqIap?.status();
+  const sellable = store?.ready && NcqIap.can("REMOVE_ADS");
+  const price = sellable ? NcqIap.price("REMOVE_ADS") : "";
+  const canRestore = adsRemoved || (store && (store.mode === "simulate"
+    || (store.mode !== "off" && store.products.REMOVE_ADS?.on)));
+  const offer = el("shop-remove-ads");
+  const hideOffer = adsRemoved || !price;
+  if (hideOffer && offer.contains(document.activeElement)) {
+    el("shop-tab-" + shopTab).focus({ preventScroll: true });
+  }
+  offer.hidden = hideOffer;
+  const buy = el("shop-buy-remove-ads");
+  buy.disabled = adPurchaseBusy || shopSaving;
+  buy.setAttribute("aria-label", t("shopRemoveAdsBuy", { price }));
+  el("shop-remove-ads-price").textContent = price;
+  el("shop-restore-ads").hidden = !canRestore;
+  el("restore-purchases").hidden = !canRestore;
+  el("shop-restore-ads").disabled = el("restore-purchases").disabled = adPurchaseBusy || shopSaving;
+  const status = el("restore-feedback");
+  if (!status.hidden) status.textContent = t(status.dataset.message);
+}
+
+function refreshAdPurchase() {
+  if (shop.open) renderShop();
+  else renderAdPurchase();
+}
+
+function showGameBanner() {
+  if (adsRemoved || !NcqAds?.can("BANNER")) return;
+  // NCQ_ADS_BANNER: 상단 배너 광고
+  void NcqAds.banner("BANNER", { position: "top" }).catch(() => {});
+}
+
+function enableAdRemoval() {
+  if (adsRemoved) return;
+  adsRemoved = true;
+  NcqAds?.hideBanner().catch(() => {});
+  refreshAdPurchase();
+}
+
+async function initializeAdPurchase() {
+  if (NcqIap) {
+    // NCQ_IAP_REMOVE_ADS: 영구 광고 제거
+    NcqIap.onGrant(async (id, info) => {
+      if (id === "REMOVE_ADS") {
+        enableAdRemoval();
+        return true;
+      }
+      const product = NcqIap.status().products[id];
+      if (product?.type !== "consumable" || !playCoinBilling() || info?.test || !info?.purchaseToken) return false;
+      const next = await remoteRequest(client => client.gameRequest("/wallet/play-coins", {
+        productId: product.id, purchaseToken: info.purchaseToken,
+      }));
+      if (!applyWallet(next)) return false;
+      render();
+      const reward = next.purchaseReward;
+      if (/^[a-f0-9]{64}$/.test(reward?.id ?? "")) {
+        showCoinReward(reward.coins, "purchase:" + reward.id, "shop");
+      }
+      return true;
+    });
+    void NcqIap.ready().then(refreshAdPurchase, refreshAdPurchase);
+    try {
+      if (await NcqIap.owned("REMOVE_ADS")) enableAdRemoval();
+    } catch {
+      // The store can retry purchase recovery when the app returns to the foreground.
+    }
+  }
+  showGameBanner();
+  refreshAdPurchase();
+}
+
+function showShopPurchase(message, values) {
+  el("shop-purchase-message").textContent = t(message, values);
+  shopPurchaseDialog.showModal();
+  haptics.once("purchase:" + ++purchaseNotice, "success");
+  render();
+}
+
+function showCoinShortage() {
+  if (coinShortageDialog.open) return;
+  coinShortageDialog.returnValue = "";
+  coinShortageDialog.showModal();
+  render();
+}
+
+async function withShopCheckout(checkout) {
+  if (adPurchaseBusy || shopSaving) return;
+  adPurchaseBusy = true;
+  feedback("shop-feedback");
+  const content = shop.querySelector(".shop-content");
+  const scrollTop = content.scrollTop;
+  const shell = document.querySelector(".shell");
+  // The shared build's checkout is attached to the page, below native dialogs.
+  popupAudio.quiet(() => shop.close());
+  haptics.stop();
+  matchingAudio.sync();
+  resultAudio.stop();
+  coinCollection.stop();
+  shell.inert = true;
+  let purchaseMessage;
+  try {
+    await adOwnershipReady;
+    purchaseMessage = await checkout();
+  } finally {
+    shell.inert = false;
+    adPurchaseBusy = false;
+    popupAudio.quiet(() => shop.showModal());
+    render();
+    content.scrollTop = scrollTop;
+  }
+  if (purchaseMessage === "shopCoinPurchaseDone" && (coinRewardDialog.open || coinRewardQueue.length)) presentCoinReward();
+  else if (purchaseMessage) showShopPurchase(purchaseMessage);
+  else presentCoinReward();
+}
+
+async function buyRemoveAds() {
+  if (adsRemoved || !NcqIap?.can("REMOVE_ADS")) return;
+  await withShopCheckout(async () => {
+    if (adsRemoved) return;
+    try {
+      const result = await NcqIap.buyOnce("REMOVE_ADS");
+      if (result.ok) return "shopRemoveAdsActivated";
+      if (["PENDING", "CHECKING"].includes(result.code)) feedback("shop-feedback", "shopRemoveAdsPending");
+      else if (result.code !== "USER_CANCELED") feedback("shop-feedback", "shopRemoveAdsFailed", true);
+    } catch {
+      feedback("shop-feedback", "shopRemoveAdsFailed", true);
+    }
+  });
+}
+
+async function buyCoinPack(id, productId, displayedCoins) {
+  if (!playCoinBilling() || !NcqIap.can(id)) return;
+  await withShopCheckout(async () => {
+    try {
+      const checkout = await remoteRequest(client => client.gameRequest("/wallet/play-coins"));
+      const { accountTag } = checkout;
+      coinPacks = checkout.products ?? {};
+      if (!/^[a-f0-9]{64}$/.test(accountTag ?? "") || coinPacks[productId] !== displayedCoins) {
+        feedback("shop-feedback", "shopCoinPurchaseFailed", true);
+        return;
+      }
+      const result = await NcqIap.buy(id, { appAccountToken: accountTag });
+      if (result.ok) return "shopCoinPurchaseDone";
+      if (["PENDING", "CHECKING", "NOT_GRANTED"].includes(result.code)) feedback("shop-feedback", "shopCoinPurchasePending");
+      else if (result.code !== "USER_CANCELED") feedback("shop-feedback", "shopCoinPurchaseFailed", true);
+    } catch {
+      feedback("shop-feedback", "shopCoinPurchaseFailed", true);
+    }
+  });
+}
+
+async function restoreAdPurchase(statusId) {
+  if (adPurchaseBusy || !NcqIap) return;
+  adPurchaseBusy = true;
+  feedback(statusId);
+  refreshAdPurchase();
+  try {
+    await adOwnershipReady;
+    const result = await NcqIap.restore();
+    if (!result.ok) {
+      feedback(statusId, "purchaseRestoreFailed", true);
+    } else if (result.restored.includes("REMOVE_ADS")) {
+      feedback(statusId, "purchaseRestored");
+    } else {
+      if (adsRemoved && !(await NcqIap.owned("REMOVE_ADS"))) {
+        adsRemoved = false;
+        showGameBanner();
+      }
+      feedback(statusId, adsRemoved ? "purchaseRestored" : "purchaseRestoreEmpty");
+    }
+  } catch {
+    feedback(statusId, "purchaseRestoreFailed", true);
+  } finally {
+    adPurchaseBusy = false;
+    refreshAdPurchase();
+  }
+}
+
+async function saveShopSelection(buy) {
+  if (shopSaving || adPurchaseBusy) return;
+  const selection = { ...shopPreview };
+  shopSaving = true;
+  feedback("shop-feedback");
+  renderShop();
+  const save = async () => {
+    const state = loadShopState(shopState);
+    shopState = state;
+    const { skins, price } = shopPurchase(selection, state);
+    if (buy && (!backend || !serverWallet)) {
+      feedback("shop-feedback", "network", true);
+      return;
+    }
+    if (buy && price > 0 && !canAffordShop(price)) {
+      showCoinShortage();
+      return;
+    }
+    if (buy && price > 0) {
+      const result = await remoteRequest(client => client.gameRequest("/wallet/buy-skins", { skins }));
+      if (applyWallet(result)) return skins;
+      if (result.error === "coinNotEnough") {
+        showCoinShortage();
+        void refreshWallet();
+      } else feedback("shop-feedback", result.error ?? "shopSaveFailed", true);
+      return;
+    }
+    if (price) {
+      shopState = state;
+      return;
+    }
+    const next = { ...state, appearance: selection };
+    try {
+      persistShopState(next);
+      if (!buy) feedback("shop-feedback", "shopApplied");
+    } catch {
+      if (buy) {
+        feedback("shop-feedback", "shopSaveFailed", true);
+        return;
+      }
+      feedback("shop-feedback", "shopAppliedTemporarily");
+    }
+    shopState = next;
+    if (buy) return skins;
+  };
+  try {
+    const purchased = await updateShop(save);
+    if (purchased?.length) {
+      const items = skinCards.filter(({ input }) => purchased.includes(`${input.name}:${input.value}`))
+        .map(({ input }) => input.nextElementSibling.textContent).join(" · ");
+      showShopPurchase("shopPurchased", { items });
+    }
+  } catch {
+    feedback("shop-feedback", "shopSaveFailed", true);
+  } finally {
+    shopSaving = false;
+    applyAppearance();
+    renderCoinBalance();
+    if (shop.open) renderShop();
+  }
+}
+
+async function buyPlacementEffect(effect) {
+  if (shopSaving || adPurchaseBusy || !placementEffects[effect]?.price) return;
+  if (!backend || !serverWallet) {
+    feedback("shop-feedback", "network", true);
+    return;
+  }
+  const { price, purchased: message } = placementEffects[effect];
+  shopSaving = true;
+  feedback("shop-feedback");
+  renderShop();
+  try {
+    const purchased = await updateShop(async () => {
+      if (coinBalance() < price) {
+        showCoinShortage();
+        return;
+      }
+      effectPurchaseIds[effect] ??= crypto.randomUUID();
+      const path = effect === "golden" ? "/wallet/buy-effect" : "/wallet/buy-placement";
+      const data = { requestId: effectPurchaseIds[effect], effect };
+      const result = await remoteRequest(client => client.gameRequest(path, data));
+      if (!applyWallet(result)) {
+        if (result.error !== "network") delete effectPurchaseIds[effect];
+        if (result.error === "coinNotEnough") {
+          showCoinShortage();
+          void refreshWallet();
+        } else feedback("shop-feedback", result.error ?? "shopSaveFailed", true);
+        return;
+      }
+      delete effectPurchaseIds[effect];
+      setPlacementStyle(effect);
+      return true;
+    });
+    if (purchased) showShopPurchase(message);
+  } catch {
+    feedback("shop-feedback", "shopSaveFailed", true);
+  } finally {
+    shopSaving = false;
+    renderCoinBalance();
+    if (shop.open) renderShop();
+  }
+}
+
+async function recordMissionRound(game) {
+  void tossPromotion.finish(game);
+  if (!game.moves.length || (["resign", "disconnect", "timeout"].includes(game.endReason) && game.moves.length < 6)) return;
+  if (game.mode === "tournament") void refreshWeeklyRewards(-1);
+  return refreshWallet(-1);
+}
+
+function unlockPlacementAudio() {
+  if (!stoneSoundToggle.checked || document.hidden || audioBlocked() || window.NcqSound?.volume("sfx") === 0) return;
+  if (!window.NcqSound) return;
+  try {
+    if (!placementAudio) {
+      placementAudio = window.NcqSound.context();
+      placementAudio?.addEventListener("statechange", () => {
+        if (window.NcqSound.state().active === false) stopPlacementSound();
+      });
+    }
+    if (!placementAudio) return;
+    if (placementAudio.state !== "running") placementAudio.resume().catch(() => {});
+    placementBuffer ??= fetch(new URL("./assets/match-ui/stone-on-wood.wav", import.meta.url))
+      .then(response => {
+        if (!response.ok) throw new Error("Placement sound unavailable");
+        return response.arrayBuffer();
+      })
+      .then(data => placementAudio.decodeAudioData(data))
+      .catch(() => {
+        placementBuffer = null;
+        return null;
+      });
+  } catch {
+    // The board remains playable on browsers that disable sound.
+  }
+}
+
+function stopPlacementSound() {
+  placementSoundCue += 1;
+  if (!activePlacementSound) return;
+  activePlacementSound.stop();
+  activePlacementSound = null;
+}
+
+async function playPlacementSound(delay) {
+  if (!stoneSoundToggle.checked || document.hidden || audioBlocked() || !placementBuffer) return;
+  const audio = placementAudio;
+  const cue = placementSoundCue;
+  const contact = audio.currentTime + delay;
+  const buffer = await placementBuffer;
+  if (!buffer || cue !== placementSoundCue || !stoneSoundToggle.checked || document.hidden || audioBlocked()
+      || window.NcqSound.enabled("sfx") === false || window.NcqSound.volume("sfx") === 0 || audio.state !== "running") return;
+  if (audio.currentTime > contact + .1) return;
+  const source = audio.createBufferSource();
+  source.buffer = buffer;
+  source.connect(window.NcqSound.output("sfx"));
+  source.addEventListener("ended", () => {
+    source.disconnect();
+    if (activePlacementSound === source) activePlacementSound = null;
+  }, { once: true });
+  source.start(Math.max(contact, audio.currentTime));
+  activePlacementSound = source;
+}
+
+function cancelPlacement() {
+  stopPlacementSound();
+  cancelLandingHaptic?.();
+  cancelLandingHaptic = undefined;
+  activePlacementEffect?.remove();
+  activePlacementEffect = null;
+  if (!activePlacement) return;
+  const { cell, animation } = activePlacement;
+  activePlacement = null;
+  animation.cancel();
+  cell.classList.remove("placing");
+}
+
+function addSakuraParticles(burst, unit) {
+  const random = (min, max) => min + Math.random() * (max - min);
+  const phase = random(0, 2 * Math.PI);
+  const flowers = 3;
+  const petals = 12;
+  for (let i = 0; i < flowers + petals; i += 1) {
+    const flower = i < flowers;
+    const slot = flower ? i : i - flowers;
+    const count = flower ? flowers : petals;
+    const angle = phase + (slot + random(.08, .92)) * 2 * Math.PI / count;
+    const distance = unit * (flower ? random(.97, 1.42) : random(1.55, 2.65));
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance;
+    const drift = random(-.33, .33) * unit;
+    const spin = random(-195, 195);
+    const rotation = random(0, 360);
+    const particle = document.createElement("span");
+    particle.className = flower ? "sakura-particle sakura-flower" : "sakura-particle";
+    const properties = {
+      "size": `${(unit * (flower ? random(.68, .89) : random(.27, .56))).toFixed(1)}px`,
+      "start": `${rotation.toFixed(0)}deg`,
+      "middle": `translate(${(x * .69 + drift).toFixed(1)}px, ${(y * .69).toFixed(1)}px) rotate(${(rotation + spin * .45).toFixed(0)}deg)`,
+      "end": `translate(${x.toFixed(1)}px, ${(y + unit * random(.14, .47)).toFixed(1)}px) rotate(${(rotation + spin).toFixed(0)}deg)`,
+    };
+    for (const [name, value] of Object.entries(properties)) particle.style.setProperty(`--sakura-${name}`, value);
+    burst.append(particle);
+  }
+}
+
+function addEnergyParticles(burst, unit, style) {
+  const random = (min, max) => min + Math.random() * (max - min);
+  const water = style === "ripple";
+  const phase = random(0, 2 * Math.PI);
+  const count = water ? 18 : 20;
+  for (let i = 0; i < count; i += 1) {
+    const angle = phase + (i + random(.1, .9)) * 2 * Math.PI / count;
+    const distance = unit * random(1.3, 2.5);
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance * .58;
+    const curl = unit * random(-.7, .7);
+    const rise = unit * random(.25, water ? .9 : 1.5);
+    const particle = document.createElement("span");
+    particle.className = "energy-particle" + (!water && i % 4 === 0 ? " energy-star" : "");
+    const properties = {
+      size: `${(unit * random(water ? .09 : .07, water ? .2 : .19)).toFixed(1)}px`,
+      start: `translate(${(Math.cos(angle) * unit * .38).toFixed(1)}px, ${(Math.sin(angle) * unit * .2).toFixed(1)}px)`,
+      middle: `translate(${(x * .6 + curl).toFixed(1)}px, ${(y * .55 - rise).toFixed(1)}px)`,
+      end: `translate(${x.toFixed(1)}px, ${(y + (water ? unit * .3 : -rise)).toFixed(1)}px)`,
+      rotation: `${Math.round(random(0, 360))}deg`,
+    };
+    for (const [name, value] of Object.entries(properties)) particle.style.setProperty(`--energy-${name}`, value);
+    burst.append(particle);
+  }
+  const waves = water ? 3 : 2;
+  for (let i = 0; i < waves; i += 1) {
+    const wave = document.createElement("span");
+    wave.className = water ? "energy-ring" : "energy-wisp";
+    wave.style.setProperty("--energy-wave-offset", String(i * .14));
+    wave.style.setProperty("--energy-wave-turn", `${i * 96 + random(-15, 15)}deg`);
+    burst.append(wave);
+  }
+}
+
+function trackPlacementAnimation(element, name, duration) {
+  // Some WebViews do not expose a newly started CSS animation through getAnimations().
+  // Keep it visible until the CSS event, with a bounded fallback for interrupted frames.
+  let finish;
+  const finished = new Promise(resolve => { finish = resolve; });
+  const done = () => {
+    clearTimeout(timer);
+    element.removeEventListener("animationend", ended);
+    element.removeEventListener("animationcancel", ended);
+    finish();
+  };
+  const ended = event => {
+    if (event.target === element && event.animationName === name) done();
+  };
+  const timer = setTimeout(done, duration + 100);
+  element.addEventListener("animationend", ended);
+  element.addEventListener("animationcancel", ended);
+  return { finished, cancel: done };
+}
+
+function playPlacementEffect(cell, style, contactTime, landingTime = placementTiming.landing) {
+  const effect = document.createElement("span");
+  const sakura = style === "sakura";
+  const energy = style === "ripple" || style === "mystic";
+  const effectClass = sakura ? "sakura-placement-burst" : energy ? "energy-placement-burst" : "golden-placement-wave";
+  const animationName = sakura ? "sakura-burst" : energy ? "energy-burst" : "golden-wave-spread";
+  effect.className = "placement-effect " + effectClass;
+  effect.dataset.effect = style;
+  effect.setAttribute("aria-hidden", "true");
+  effect.style.setProperty("--placement-contact-delay", `${contactTime}ms`);
+  effect.style.setProperty("--placement-effect-duration", `${landingTime * placementTiming.effectRatio}ms`);
+  if (sakura) addSakuraParticles(effect, cell.clientWidth);
+  if (energy) addEnergyParticles(effect, cell.clientWidth, style);
+  cell.append(effect);
+  const animation = trackPlacementAnimation(effect, animationName, contactTime + landingTime * placementTiming.effectRatio);
+  activePlacementEffect = effect;
+  return animation.finished.catch(() => {}).finally(() => {
+    effect.remove();
+    if (activePlacementEffect === effect) activePlacementEffect = null;
+  });
+}
+
+function previewPlacementEffect(button, style) {
+  for (const preview of shop.querySelectorAll(".shop-effect-preview")) preview.remove();
+  if (style === "plain" || reducedMotion.matches) return;
+  const preview = document.createElement("span");
+  preview.className = "shop-effect-preview";
+  button.querySelector(".shop-effect-art").append(preview);
+  void Promise.resolve(playPlacementEffect(preview, style, 0)).finally(() => preview.remove());
+}
+
+function presentPlacement(index, style, landingHaptic) {
+  if (index == null || document.hidden) return;
+  const cell = cells[index];
+  // A selected square is only a static preview; animate confirmed stones only.
+  if (!cell || !["1", "2"].includes(cell.dataset.stone) || cell.classList.contains("selected")) return;
+  cancelPlacement();
+  if (reducedMotion.matches) {
+    playPlacementSound(0);
+    landingHaptic?.(0);
+    return;
+  }
+  const landingTime = !el("placement-timing").hidden && placementTimingAvailable()
+    ? replayPlacementDuration : placementTiming.landing;
+  cell.classList.add("placing");
+  const contactTime = landingTime * .4;
+  const animation = animateStonePlacement(cell, lastMoveMarker, {
+    duration: landingTime,
+    shouldContinue: () => !document.hidden && !cell.classList.contains("selected") && cell.dataset.stone !== "0",
+    onStart() {
+      playPlacementSound(contactTime / 1000);
+      cancelLandingHaptic = landingHaptic?.(contactTime);
+      if (placementEffects[style]?.price) void playPlacementEffect(cell, style, contactTime, landingTime);
+    },
+  });
+  activePlacement = { cell, animation };
+  return animation.finished.catch(() => {}).finally(() => {
+    if (activePlacement?.animation !== animation) return;
+    activePlacement = null;
+    cell.classList.remove("placing");
+  });
+}
+
+function presentRoundPlacement(game, ply, movingSeat) {
+  const landingHaptic = movingSeat == null ? undefined : delay => haptics.once(
+    `move:${roundHapticKey(game)}:${ply}`, movingSeat === game.you ? "medium" : "light",
+    { delay, valid: () => room?.code === game.code && room.round === game.round && !archive && !spectator },
+  );
+  return presentPlacement(game.moves[ply], game.placementStyles?.[game.moveSeats?.[ply] - 1], landingHaptic);
+}
+
+function coordinate(index) {
+  return columns[index % size] + (Math.floor(index / size) + 1);
+}
+
+function canAct() {
+  return room?.phase === "playing" && room.turn === room.you && connected && !busy && !gameModes?.undoBlocked() && !pendingPlacement
+    && !matchIntroDialog.open && !leaveDialog.open && (turnDeadline === null || performance.now() < turnDeadline);
+}
+
+function activeRule() {
+  if (!el("choose-rule")) return defaultRule;
+  if (availableRules.includes(preferredRule)) return preferredRule;
+  return availableRules.includes(defaultRule) ? defaultRule : "free";
+}
+
+// The picker controller is retained, but its template is not mounted in this UI.
+function renderRulePicker(mainAction) {
+  const button = el("choose-rule");
+  if (!button || !ruleDialog) return;
+  button.disabled = busy || Boolean(matchmaking) || availableRules.length < 2;
+  button.toggleAttribute("data-ncq-main", mainAction && lobbyView === "lobby" && availableRules.length > 1);
+  const rule = activeRule();
+  el("selected-rule").textContent = t(rule === "taraguchi" ? "ruleTaraguchiShort" : ruleNames[rule]);
+  button.setAttribute("aria-label", t("currentRule", { rule: t(ruleNames[rule]) }));
+  for (const option of ruleDialog.querySelectorAll(".rule-option")) {
+    option.hidden = !availableRules.includes(option.value);
+    option.setAttribute("aria-pressed", String(option.value === rule));
+  }
+}
+
+function moveLimits(game) {
+  if (!placementLimits.has(game)) {
+    const check = game.opening ? index => openingError(game, index)
+      : hasForbiddenMoves(game.rule) && seatColor(game, game.you) === 1
+        ? index => forbiddenAt(game.board, index, game.rule) : () => undefined;
+    placementLimits.set(game, game.board.map((stone, index) => stone ? undefined : check(index)));
+  }
+  return placementLimits.get(game);
+}
+
+function openingStatus(game) {
+  if (game.opening === "offerFive") return t("offerProgress", { n: game.offers.length, total: offerCount });
+  if (game.opening === "pickFive") return t("pickFifth");
+  const radius = openingRadius(game);
+  const color = t(colorName(game.stone));
+  return radius === null ? t("openingStone", { color, n: game.moves.length + 1 })
+    : t("openingInArea", { color, n: game.moves.length + 1, size: radius * 2 + 1 });
+}
+
+function seatColor(game, seat) {
+  return seat === (game?.black ?? 1) ? 1 : 2;
+}
+
+function colorName(color) {
+  return color === 1 ? "black" : "white";
+}
+
+function sideName(game, seat) {
+  return t(colorName(seatColor(game, seat)));
+}
+
+function matchMode(game) {
+  return game.mode === "ai" ? "aiMatch" : game.mode === "tournament" ? "weeklyTournament" : "casualMatch";
+}
+
+function recordModeLabel(game) {
+  return t(matchMode(game));
+}
+
+function moveColor(game, ply) {
+  return game.moveColors?.[ply] ?? ply % 2 + 1;
+}
+
+function clockDeadline(game) {
+  return game.phase === "playing" && game.turnSeconds > 0
+    && Number.isFinite(game.turnEndsAt) && Number.isFinite(game.serverNow)
+    ? performance.now() + Math.max(0, game.turnEndsAt - game.serverNow) : null;
+}
+
+function updateTurnClock(now, deadline, secondsPerTurn, ownTurn, watching) {
+  const remaining = Math.max(0, deadline - now);
+  if (!watching && ownTurn && room?.phase === "playing") {
+    haptics.clock(`${roundHapticKey(room)}:${room.moves.length}:${room.turn}`, remaining,
+      connected && !matchIntroDialog.open && !leaveDialog.open && !profileDialog.open);
+  }
+  const activeClock = ownTurn ? ownClock : opponentClock;
+  const progress = ownTurn ? ownProgress : opponentProgress;
+  const secondsLeft = Math.ceil(remaining / 1000);
+  const seconds = String(secondsLeft).padStart(2, "0");
+  activeClock.toggleAttribute("data-urgent", secondsLeft <= 10);
+  if (activeClock.textContent !== seconds) {
+    activeClock.getAnimations().forEach(animation => animation.cancel());
+    activeClock.textContent = seconds;
+    if (!reducedMotion.matches) {
+      const gentle = secondsLeft > 20;
+      activeClock.animate([
+        { offset: 0, transform: gentle ? "translateY(.5px) scale(.98)" : "translateY(2px) scale(.88)", easing: "cubic-bezier(.16, 1, .3, 1)" },
+        { offset: .22, transform: gentle ? "translateY(-1px) scale(1.08)" : "translateY(-5px) scale(1.55)", easing: "cubic-bezier(.45, 0, .75, 1)" },
+        { offset: .48, transform: gentle ? "translateY(.3px) scale(.99)" : "translateY(1.5px) scale(.92)", easing: "cubic-bezier(.16, 1, .3, 1)" },
+        { offset: .7, transform: gentle ? "translateY(-.4px) scale(1.03)" : "translateY(-2px) scale(1.22)", easing: "ease-in-out" },
+        { offset: 1, transform: "translateY(0) scale(1)" },
+      ], { duration: 700 });
+    }
+  }
+  const percent = Math.min(100, remaining / (secondsPerTurn * 1000) * 100);
+  progress.style.setProperty("--match-art-progress", percent.toFixed(2));
+  progress.toggleAttribute("data-empty", remaining === 0);
+  if (remaining > 0) {
+    turnFrame = requestAnimationFrame(time => updateTurnClock(time, deadline, secondsPerTurn, ownTurn, watching));
+  } else if (!watching) {
+    const place = el("place");
+    place.disabled = true;
+    place.dataset.placementState = "inactive";
+    el("place-state").hidden = true;
+    board.classList.remove("selectable");
+    for (const cell of cells) cell.setAttribute("aria-disabled", "true");
+  }
+}
+
+function resetTurnGauge(clock, progress, text) {
+  clock.getAnimations().forEach(animation => animation.cancel());
+  clock.textContent = text;
+  clock.removeAttribute("data-urgent");
+  progress.style.removeProperty("--match-art-progress");
+  progress.removeAttribute("data-empty");
+}
+
+function ownNickname(own = room?.players?.find(player => player.seat === room.you)) {
+  if (accountProfile && accountProfile.player === authSession?.player) return profileNickname(accountProfile, t, t("guestNickname"));
+  return profileNickname({ nickname: nicknameOverride || playerNickname || own?.nickname,
+    guestCode: own?.guestCode || playerStats?.guestCode }, t, t("guestNickname"));
+}
+
+function renderPlayers(game, showPanels, watching = false) {
+  cancelAnimationFrame(turnFrame);
+  for (const id of ["opponent-panel", "own-panel"]) el(id).hidden = !showPanels;
+  el("live-actions").hidden = !showPanels || watching || (el("opening-actions").hidden && game.rule !== "taraguchi");
+  for (const id of ["opponent-profile", "own-profile"]) el(id).disabled = watching || game.phase === "finished";
+  if (game.mode === "ai") el("opponent-profile").disabled = true;
+  const reviewing = !showPanels && game.phase === "finished";
+  el("player-bar").hidden = showPanels || reviewing;
+  if (reviewing) return;
+  if (!showPanels) {
+    for (const [color, seat] of [["black", 1], ["white", 2]]) {
+      const profile = recordPlayer(game, seat);
+      el(color + "-player-label").textContent = game.you === seat ? ownNickname(profile) : profile.name;
+      el(color + "-profile").disabled = game.phase === "waiting" && game.you !== seat;
+    }
+    return;
+  }
+
+  const lowerSeat = watching ? game.black ?? 1 : game.you;
+  const deadline = watching ? spectator.deadline : turnDeadline;
+  const live = game.phase === "playing" && (!watching || (!spectator.closed && !spectator.reconnecting));
+  const ownTurn = live && game.turn === lowerSeat;
+  const opponentTurn = live && !ownTurn;
+  el("own-panel").dataset.active = el("place").dataset.active = String(ownTurn);
+  el("opponent-panel").dataset.active = el("opponent-timer").dataset.active = String(opponentTurn);
+  el("opponent-turn").textContent = t(opponentTurn ? "turnActive" : "turnWaiting");
+  for (const [side, seat] of [["own", lowerSeat], ["opponent", 3 - lowerSeat]]) {
+    const color = colorName(seatColor(game, seat));
+    const profile = recordPlayer(game, seat);
+    const nickname = game.mode === "ai" && side === "opponent" ? t("aiMatch") + " · " + rankName(game.botLevel)
+      : watching ? profile.savedName || t(color) : side === "own" ? ownNickname(profile) : profile.name;
+    el(side + "-nickname").textContent = nickname;
+    el(side + "-nickname").title = nickname;
+    if (!watching && side === "own") renderOwnRank();
+    else {
+      const rank = recordRank(profile) || (!watching && game.botLevel != null ? rankName(game.botLevel) : "");
+      el(side + "-rank").hidden = !rank;
+      el(side + "-rank").textContent = rank;
+    }
+    const stone = el(side + "-stone");
+    stone.className = "stone " + color;
+    stone.setAttribute("aria-label", t(color));
+  }
+  for (const id of ["place-gauge", "opponent-gauge", "place-divider", "opponent-divider", "own-clock", "opponent-clock"]) {
+    el(id).toggleAttribute("hidden", !watching && deadline === null);
+  }
+  if (!live || deadline === null) {
+    if (watching) {
+      resetTurnGauge(ownClock, ownProgress, "—");
+      resetTurnGauge(opponentClock, opponentProgress, "—");
+    }
+    return;
+  }
+
+  const idleClock = ownTurn ? opponentClock : ownClock;
+  const idleProgress = ownTurn ? opponentProgress : ownProgress;
+  resetTurnGauge(idleClock, idleProgress, String(Math.ceil(game.turnSeconds)).padStart(2, "0"));
+  updateTurnClock(performance.now(), deadline, game.turnSeconds, ownTurn, watching);
+}
+
+function feedback(id, message = "", error = false) {
+  const node = el(id);
+  node.dataset.message = message;
+  node.toggleAttribute("data-error", error);
+  node.hidden = !message;
+  node.textContent = message ? t(message) : "";
+}
+
+function loadRecords(key = recordsScope) {
+  if (key === recordsScope && recordHistory) return recordHistory.list();
+  return legacyRecords(key);
+}
+
+function legacyRecords(key) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(key));
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
+}
+
+function bindRecordHistory(player, cloud) {
+  if (recordHistory?.player === player) return;
+  recordHistory?.dispose();
+  recordHistory = createRecordHistory(window.NcqSave, {
+    player, cloud, legacy: legacyRecords(recordsScope),
+    changed: () => {
+      records = loadRecords();
+      if (lobbyView === "records") renderRecords();
+      void tossPromotion.refresh();
+    },
+  });
+  records = loadRecords();
+  void recordHistory?.ready();
+}
+
+function saveRecord(game, refresh = true) {
+  const snapshot = recordSnapshot(game, Boolean(backend));
+  if (!snapshot) return false;
+  if (recordHistory) {
+    const saved = recordHistory.add(snapshot);
+    if (saved) backupKakaopay(window);
+    if (refresh) records = loadRecords();
+    return saved;
+  }
+  const existing = new Map([...records, ...loadRecords()].map(record => [record.id, record]));
+  existing.set(snapshot.id, snapshot);
+  records = [...existing.values()].sort((a, b) => new Date(b.finishedAt) - new Date(a.finishedAt));
+  try {
+    localStorage.setItem(recordsScope, JSON.stringify(records));
+    backupKakaopay(window);
+    return true;
+  } catch {
+    // The record stays available for this visit if the browser blocks storage.
+  }
+  return false;
+}
+
+function acknowledgeRecord(game) {
+  if (!backend || !game.recordDetail || !authSession?.player) return;
+  const key = authSession.player + ":" + game.code + ":" + game.round;
+  if (recordReceipts.has(key)) return;
+  recordReceipts.add(key);
+  void remoteRequest(client => client.gameRequest("/record-receipts/" + game.code + "/" + game.round, {}))
+    .then(result => { if (result.error) recordReceipts.delete(key); })
+    .catch(() => recordReceipts.delete(key));
+}
+
+function describeOutcome(game) {
+  return !game.winner ? "draw" : game.winner === game.you ? "won" : "lost";
+}
+
+const recordResultTexts = {
+  win: { neutral: "recordWin", won: "recordPersonalWin", lost: "recordPersonalLoss" },
+  timeout: { neutral: "recordTimeWin", won: "recordPersonalTimeWin", lost: "recordPersonalTimeLoss" },
+  resign: { neutral: "recordResignWin", won: "recordPersonalResignWin", lost: "recordPersonalResignLoss" },
+  disconnect: { neutral: "recordDisconnectWin", won: "recordPersonalDisconnectWin", lost: "recordPersonalDisconnectLoss" },
+  unknown: { neutral: "recordUnknownWin", won: "recordPersonalUnknownWin", lost: "recordPersonalUnknownLoss" },
+};
+
+function recordResult(game, { personal = false } = {}) {
+  if (!game.winner) return t("draw");
+  const reason = game.endReason;
+  const ending = reason === "disconnect" || reason === "timeout" ? reason
+    : reason === "resign" || game.actions?.some(action => action.type === "resign") ? "resign"
+    : reason === "win" || game.line?.length >= 5 ? "win" : "unknown";
+  const labels = recordResultTexts[ending];
+  if (personal && !game.sharedView && (game.you === 1 || game.you === 2)) {
+    return t(labels[describeOutcome(game)]);
+  }
+  return t(labels.neutral, { color: sideName(game, game.winner) });
+}
+
+function recordPlayer(game, seat) {
+  const profile = game.players?.find(player => player.seat === seat);
+  const savedName = profileNickname(profile, t);
+  return { ...profile, savedName, name: savedName || t(seat === game.you ? "you" : "opponent") };
+}
+
+function recordPhoto(profile) {
+  return typeof profile?.photoUrl === "string" && /^https:\/\//i.test(profile.photoUrl) ? profile.photoUrl : "";
+}
+
+function recordRank(profile) {
+  return Number.isInteger(profile.rating) ? rankName(rankLevel(profile.rating)) : "";
+}
+
+function setRecordPhoto(image, profile) {
+  const url = recordPhoto(profile);
+  if (image.getAttribute("src") === (url || null)) return;
+  image.hidden = !url;
+  if (url) image.src = url;
+  else image.removeAttribute("src");
+}
+
+function recordFavorites() {
+  const key = recordsScope + ".favorites";
+  if (favoritesScope !== key) {
+    favoritesScope = key;
+    favorites = new Set();
+    try {
+      const ids = JSON.parse(localStorage.getItem(key));
+      if (Array.isArray(ids)) favorites = new Set(ids);
+    } catch {
+      // Favorites can still be used for this visit.
+    }
+  }
+  return favorites;
+}
+
+function toggleFavorite(id) {
+  const saved = recordFavorites();
+  const active = !saved.has(id);
+  if (active) saved.add(id);
+  else saved.delete(id);
+  try { localStorage.setItem(favoritesScope, JSON.stringify([...saved])); } catch {}
+  backupKakaopay(window);
+  return active;
+}
+
+function markFavorite(button, active) {
+  button.setAttribute("aria-pressed", String(active));
+  button.setAttribute("aria-label", t("recordFavorite"));
+}
+
+const recordTokenPattern = /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/;
+const recordShareDialog = el("record-share-dialog");
+const recordVisibilityDialog = el("record-visibility-dialog");
+const publicPlayUrl = "https://ncroquis.github.io/matjjangomok/play/";
+const reviewPlay = el("review-play");
+const reviewRoomAction = el("review-room-action");
+const reviewShare = el("review-share");
+const reviewExit = el("review-exit");
+reviewPlay.href = window.NcqShare?.playUrl?.() || publicPlayUrl;
+
+function recordVisibilityPath(game) {
+  const code = game.code ?? game.id?.split(":")[0];
+  if (!backend || game.device || game.summaryOnly || !recordTokenPattern.test(code) || !Number.isInteger(game.round)) return null;
+  return "/records/" + code + "/" + game.round + "/visibility";
+}
+
+function recordShareUrl(shareId) {
+  const url = new URL(publicPlayUrl);
+  url.hash = "record=" + shareId;
+  return url.href;
+}
+
+function renderRecordDialog() {
+  if (!recordDialogTarget?.dialog.open) return;
+  const { dialog, feedbackId, shareId, updating, ready, prepared, sharing } = recordDialogTarget;
+  if (dialog === recordVisibilityDialog) {
+    const toggle = el("record-visibility-toggle");
+    toggle.hidden = !ready;
+    toggle.disabled = updating;
+    toggle.textContent = t(shareId ? "recordMakePrivate" : "recordMakePublic");
+    el("record-visibility-close").disabled = false;
+  } else {
+    el("record-link-panel").hidden = !shareId;
+    const link = el("record-link");
+    const url = shareId ? recordShareUrl(shareId) : "";
+    if (link.value !== url) link.value = url;
+    el("record-send-link").hidden = !prepared;
+    el("record-send-link").disabled = sharing;
+    el("record-copy-link").disabled = false;
+    el("record-share-close").disabled = false;
+  }
+  const status = el(feedbackId);
+  if (!status.hidden) status.textContent = t(status.dataset.message);
+}
+
+async function openRecordDialog(game, dialog) {
+  if (!game || recordDialogTarget?.dialog.open) return;
+  const manageVisibility = dialog === recordVisibilityDialog;
+  const path = game.sharedView ? null : recordVisibilityPath(game);
+  if (!path && (manageVisibility || !game.sharedView || !game.shareId)) return;
+  const feedbackId = manageVisibility ? "record-visibility-feedback" : "record-share-feedback";
+  const target = { game, dialog, feedbackId, path, shareId: path ? null : game.shareId, ready: false };
+  recordDialogTarget = target;
+  feedback(feedbackId, !path ? "" : manageVisibility ? "recordShareLoading" : "recordSharePreparing");
+  dialog.showModal();
+  render();
+
+  if (path) {
+    const result = await remoteRequest(client => client.gameRequest(path, manageVisibility ? undefined
+      : { public: true, record: game.recordDetail }));
+    const success = !result.error && (manageVisibility || Boolean(result.shareId));
+    const active = recordDialogTarget === target && dialog.open;
+    if (success && (active || !manageVisibility)) updateRecordShareId(target, result.shareId);
+    if (!active) return;
+    target.ready = success;
+    feedback(feedbackId, success ? "" : "recordShareFailed", !success);
+    render();
+  }
+
+  if (manageVisibility || !target.shareId) return;
+  await prepareRecordShare(target);
+  // Browser sharing requires the tap to still be active when the link is ready.
+  const nativeShare = ["android", "ios", "toss"].includes(window.NCQ?.NCQ_PLATFORM);
+  if (nativeShare || navigator.userActivation?.isActive !== false) await sendRecordLink(target);
+}
+
+function updateRecordShareId(target, shareId) {
+  target.shareId = target.game.shareId = shareId;
+  const id = target.game.code ? target.game.code + ":" + target.game.round : target.game.id;
+  const record = records.find(item => item.id === id);
+  if (record) record.shareId = shareId;
+}
+
+async function prepareRecordShare(target) {
+  const { shareId } = target;
+  if (!shareId || !window.NcqShare?.can()) return;
+  const url = recordShareUrl(shareId);
+  try {
+    const prepared = await window.NcqShare.prepareShare({ url, title: t("title"), message: t("recordShareMessage") });
+    if (recordDialogTarget !== target || !target.dialog.open || prepared.url !== url) return;
+    target.prepared = prepared;
+    renderRecordDialog();
+  } catch {
+    // The public link can still be copied.
+  }
+}
+
+async function toggleRecordVisibility() {
+  const target = recordDialogTarget;
+  if (target?.dialog !== recordVisibilityDialog || !target.ready || target.updating) return;
+  target.updating = true;
+  feedback(target.feedbackId, "recordShareSaving");
+  renderRecordDialog();
+  const result = await remoteRequest(client => client.gameRequest(target.path,
+    { public: !target.shareId, ...(!target.shareId ? { record: target.game.recordDetail } : {}) }));
+  target.updating = false;
+  if (!result.error) updateRecordShareId(target, result.shareId);
+  if (recordDialogTarget !== target || !target.dialog.open) return;
+  if (result.error) {
+    feedback(target.feedbackId, "recordShareFailed", true);
+  } else {
+    feedback(target.feedbackId, result.shareId ? "" : "recordMadePrivate");
+  }
+  render();
+  el("record-visibility-toggle").focus();
+}
+
+el("record-visibility-toggle").addEventListener("click", toggleRecordVisibility);
+reviewShare.addEventListener("click", () => openRecordDialog(room ?? archive, recordShareDialog));
+reviewPlay.addEventListener("click", event => {
+  if (archive?.sharedView && ["android", "ios", "toss"].includes(window.NCQ?.NCQ_PLATFORM)) {
+    event.preventDefault();
+    leaveMatch();
+  }
+});
+
+function selectPublicRecordLink() {
+  const input = el("record-link");
+  input.focus();
+  input.select();
+  feedback("record-share-feedback", "recordCopyManually");
+}
+
+async function sendRecordLink(target) {
+  if (!target?.prepared || recordDialogTarget !== target || !recordShareDialog.open || target.sharing) return;
+  target.sharing = true;
+  feedback("record-share-feedback");
+  renderRecordDialog();
+  let status = "failed";
+  try { ({ status } = await window.NcqShare.share(target.prepared)); } catch {}
+  target.sharing = false;
+  if (!recordShareDialog.open || recordDialogTarget !== target) return;
+  renderRecordDialog();
+  if (status === "copied") feedback("record-share-feedback", "recordLinkCopied");
+  if (status === "failed") selectPublicRecordLink();
+  else if (!recordShareDialog.contains(document.activeElement)) el("record-send-link").focus({ preventScroll: true });
+}
+
+el("record-send-link").addEventListener("click", () => sendRecordLink(recordDialogTarget));
+el("record-copy-link").addEventListener("click", async () => {
+  const input = el("record-link");
+  const target = recordDialogTarget;
+  try {
+    await navigator.clipboard.writeText(input.value);
+    if (recordShareDialog.open && recordDialogTarget === target) feedback("record-share-feedback", "recordLinkCopied");
+  } catch {
+    if (!recordShareDialog.open || recordDialogTarget !== target) return;
+    selectPublicRecordLink();
+  }
+});
+for (const dialog of [recordShareDialog, recordVisibilityDialog]) {
+  dialog.addEventListener("close", () => {
+    if (dialog.open || recordDialogTarget?.dialog !== dialog) return;
+    const { game } = recordDialogTarget;
+    recordDialogTarget = null;
+    render();
+    if (!el("review").hidden && !reviewShare.hidden) reviewShare.focus();
+    else if (!el("records").hidden) {
+      const row = Array.from(el("record-list").children).find(item => item.dataset.recordId === game.id);
+      (row?.querySelector(".record-visibility") ?? el("records-heading")).focus();
+    }
+  });
+}
+
+function renderReview(game) {
+  reviewMoveNumbers.setAttribute("aria-pressed", String(showMoveNumbers));
+  const nextColor = reviewPly < game.moves.length ? moveColor(game, reviewPly) : null;
+  for (const [side, seat] of [["opponent", 3 - game.you], ["own", game.you]]) {
+    const stone = seatColor(game, seat);
+    const color = colorName(stone);
+    const profile = recordPlayer(game, seat);
+    const prefix = "review-" + side + "-";
+    const label = el(prefix + "name");
+    label.textContent = label.title = game.sharedView ? t(color) : profile.name;
+    const seatLabel = el(prefix + "seat");
+    seatLabel.hidden = Boolean(game.sharedView);
+    seatLabel.textContent = [t(side === "own" ? "you" : "opponent"), t(color), recordRank(profile)].filter(Boolean).join(" · ");
+    el(prefix + "stone").className = "stone " + color;
+    setRecordPhoto(el(prefix + "photo"), profile);
+    const active = nextColor === stone;
+    const card = el(prefix + "profile");
+    card.disabled = Boolean(game.sharedView);
+    card.toggleAttribute("data-turn", active);
+    const turn = el(prefix + "turn");
+    turn.hidden = false;
+    turn.setAttribute("aria-hidden", String(!active));
+    turn.textContent = t("watchTurn", { color: t(color) });
+  }
+  const id = archive ? game.id : game.id + ":" + game.round;
+  const favorite = el("review-favorite");
+  favorite.hidden = Boolean(game.sharedView);
+  favorite.dataset.recordId = id;
+  markFavorite(favorite, recordFavorites().has(id));
+  el("review-result").textContent = recordResult(game, { personal: true });
+  el("review-mode").textContent = recordModeLabel(game);
+  const passes = game.actions ? [0, 0] : game.passes ?? [0, 0];
+  if (game.actions) {
+    for (const action of game.actions) {
+      if (action.type === "pass" && (action.seat === 1 || action.seat === 2)) passes[action.seat - 1]++;
+    }
+  }
+  const black = game.black ?? 1;
+  el("review-passes").hidden = !passes.some(Boolean);
+  el("review-passes").textContent = t("recordPasses", { black: passes[black - 1], white: passes[2 - black] });
+}
+
+function entryRow(label, note, onOpen) {
+  const row = document.createElement("li");
+  row.className = "entry-row";
+  const body = document.createElement(onOpen ? "button" : "div");
+  body.className = "entry-body";
+  const name = document.createElement("strong");
+  name.textContent = label;
+  const detail = document.createElement("span");
+  detail.textContent = note;
+  body.append(name, detail);
+  if (onOpen) {
+    body.type = "button";
+    body.addEventListener("click", onOpen);
+  }
+  row.append(body);
+  return row;
+}
+
+function liveGameRow(game, label) {
+  const row = el("live-game-row").content.firstElementChild.cloneNode(true);
+  const button = row.firstElementChild;
+  button.title = label;
+  const black = game.black ?? 1;
+  row.querySelectorAll(".live-game-player").forEach((playerRow, index) => {
+    const profile = recordPlayer(game, index === 0 ? black : 3 - black);
+    playerRow.querySelector(".stone").setAttribute("aria-label", t(colorName(index + 1)));
+    playerRow.querySelector(".live-game-rank").textContent = recordRank(profile);
+    const name = profile.savedName || t("guestNickname");
+    const nickname = playerRow.querySelector(".live-game-name");
+    nickname.textContent = name;
+    nickname.title = name;
+  });
+  const watchers = row.querySelector(".live-game-watchers");
+  watchers.hidden = !Number.isInteger(game.spectators);
+  watchers.textContent = watchers.hidden ? "" : t("liveWatchers", { n: game.spectators });
+  row.querySelector(".live-game-moves").textContent = t("liveMoves", { n: game.moves });
+  button.addEventListener("click", () => openSpectator(game.code));
+  return row;
+}
+
+function championshipPeriod(startsAt, endsAt) {
+  const date = value => {
+    const korea = new Date(value + koreaOffset);
+    return String(korea.getUTCMonth() + 1).padStart(2, "0") + "." + String(korea.getUTCDate()).padStart(2, "0");
+  };
+  return date(startsAt) + "~" + date(endsAt - 1);
+}
+
+function renderChampionship(now = Date.now()) {
+  const koreaNow = now + koreaOffset;
+  const daysSinceMonday = (new Date(koreaNow).getUTCDay() + 6) % 7;
+  const monday = new Date((Math.floor(koreaNow / dayMs) - daysSinceMonday) * dayMs);
+  const end = monday.getTime() + 7 * dayMs - koreaOffset;
+  const month = NcqLang.date(monday, { month: "long", timeZone: "UTC" });
+  const week = NcqLang.num(Math.ceil(monday.getUTCDate() / 7));
+  el("lobby-championship").textContent = t("championshipName", { month, week });
+
+  const minutesLeft = Math.ceil((end - now) / 60_000);
+  const hoursLeft = Math.floor(minutesLeft / 60);
+  const countdown = el("championship-countdown");
+  countdown.dateTime = new Date(end).toISOString();
+  countdown.textContent = t(hoursLeft >= 24 ? "championshipEndsDays"
+    : hoursLeft ? "championshipEndsHours" : "championshipEndsMinutes", {
+    days: NcqLang.num(Math.floor(hoursLeft / 24)),
+    hours: NcqLang.num(hoursLeft % 24),
+    minutes: NcqLang.num(minutesLeft % 60),
+  });
+  const fullCountdown = countdown.textContent;
+  countdown.textContent = t(hoursLeft >= 24 ? "forestDaysLeft" : hoursLeft ? "forestHoursLeft" : "forestMinutesLeft", {
+    n: NcqLang.num(hoursLeft >= 24 ? Math.floor(hoursLeft / 24) : hoursLeft || minutesLeft),
+  });
+  countdown.title = fullCountdown;
+  countdown.style.setProperty("--countdown-characters", countdown.textContent.length);
+  el("lobby-championship").title = el("lobby-championship").textContent;
+  el("lobby-championship").textContent = t("forestChampionship");
+  el("forest-championship-countdown").textContent = rankingTab === "previous"
+    ? t("forestWeekEnded") : countdown.textContent;
+  if (rankingTab !== "previous" || !el("forest-championship-period").textContent) {
+    el("forest-championship-period").textContent = championshipPeriod(end - 7 * dayMs, end);
+  }
+}
+
+function renderLobby() {
+  if (backend) renderChampionship();
+  const count = el("live-count");
+  count.hidden = lobbyUnavailable || !liveGames;
+  count.textContent = t("liveCount", { n: liveGames?.length ?? 0 });
+  const message = lobbyUnavailable ? "liveUnavailable" : liveGames ? "noLiveGames" : "liveLoading";
+  el("live-message").textContent = t(message);
+  el("live-message").hidden = !lobbyUnavailable && Boolean(liveGames?.length);
+  const activeCode = document.activeElement?.dataset.watchCode;
+  const entries = el("live-games");
+  entries.replaceChildren(...(lobbyUnavailable ? [] : liveGames ?? []).map(game => {
+    const moves = t("movesCount", { n: game.moves });
+    const mode = t(matchMode(game));
+    const label = mode + " #" + game.number;
+    if (!game.code) return entryRow(label, moves);
+    const row = game.players?.length === 2 ? liveGameRow(game, label)
+      : entryRow(label, moves + " · " + t("spectate"), () => openSpectator(game.code));
+    row.firstElementChild.dataset.watchCode = game.code;
+    row.firstElementChild.disabled = busy;
+    return row;
+  }));
+  if (activeCode && !busy) {
+    const active = [...entries.querySelectorAll("button")].find(button => button.dataset.watchCode === activeCode);
+    (active ?? el("lobby-heading")).focus({ preventScroll: true });
+  }
+}
+
+function ratingNumber(value) {
+  return new Intl.NumberFormat(NcqLang.lang).format(value);
+}
+
+// Match the thresholds used by the NcqBoard Omok bot rank migration.
+const danMinimums = [2200, 2260, 2340, 2440, 2560, 2700, 2860, 3040, 3240];
+
+function rankLevel(rating) {
+  if (rating < 1520) return 0;
+  if (rating < danMinimums[0]) return 1 + Math.floor((rating - 1520) / 40);
+  const nextDan = danMinimums.findIndex(minimum => rating < minimum);
+  return nextDan === -1 ? 26 : 17 + nextDan;
+}
+
+function rankMinimum(level) {
+  return level < 18 ? 1520 + 40 * (level - 1) : danMinimums[level - 18];
+}
+
+function rankName(level) {
+  return level < 18 ? t("rankKyu", { n: 18 - level }) : t("rankDan", { n: level - 17 });
+}
+
+function renderOwnRank() {
+  if (spectator) return;
+  const rating = backend ? playerStats?.rating : 1500;
+  const rank = el("own-rank");
+  rank.hidden = !Number.isFinite(rating);
+  if (!rank.hidden) rank.textContent = rankName(rankLevel(rating));
+}
+
+function renderPlayerCard() {
+  const tab = lobbyView === "tournament" ? rankingTab : null;
+  const standing = tab === "weekly" || tab === "previous" ? rankingResults[tab]?.result?.own : null;
+  const tournamentScore = tab === "previous" || Boolean(standing);
+  const overall = tab === "rating";
+  const position = overall ? playerStats?.ratingRank?.position : standing?.rank;
+  const place = el("player-ranking-place");
+  place.hidden = !tab;
+  renderRankingPlace(place, position);
+  const rating = playerStats?.rating ?? standing?.rating ?? 1500;
+  const level = Number.isFinite(rating) ? rankLevel(rating) : null;
+  const name = ownNickname();
+  el("lobby-player-name").textContent = name;
+  el("lobby-player-name").title = name;
+  const rank = el("lobby-player-rank");
+  rank.hidden = level === null;
+  if (!rank.hidden) rank.textContent = rankName(level);
+
+  const record = el("player-record");
+  const stats = tournamentScore ? standing : overall ? playerStats : playerStats?.rankRecord;
+  record.hidden = !stats || ![stats.wins, stats.draws, stats.losses].every(Number.isInteger);
+  if (!record.hidden) {
+    const career = t("careerRecord", stats);
+    record.textContent = record.title = tournamentScore || overall ? career + " · " + t("profileWinRate", { rate: winRate(stats) })
+      : t("lobbyRankRecord", { record: career });
+  }
+
+  const score = el("player-career");
+  score.hidden = !tournamentScore && !overall && level === null;
+  if (!score.hidden) {
+    el("player-rating-label").hidden = tournamentScore;
+    const value = el("player-rating-value");
+    if (tournamentScore) {
+      value.textContent = Number.isInteger(standing?.points) ? t("pointsCount", { n: standing.points }) : t("rankingScoreEmpty");
+    } else {
+      value.textContent = level === null ? "-" : t("profileRatingValue", { rating: ratingNumber(rating) });
+    }
+    const detail = el("player-card-detail");
+    if (tournamentScore || overall) {
+      detail.textContent = Number.isInteger(position) && position > 0
+        ? t("rankingPosition", { rank: ratingNumber(position) }) : t("rankingPositionEmpty");
+    } else {
+      detail.textContent = nextRankText(level, rating);
+    }
+    detail.hidden = Boolean(tab) || !detail.textContent;
+  }
+  const progressLevel = rankLevel(rating);
+  forest.profile(rating, rankMinimum(progressLevel), progressLevel < 26
+    ? rankMinimum(progressLevel + 1) : rankMinimum(progressLevel) + 100);
+}
+
+function nextRankText(level, rating) {
+  if (level === 26) return "";
+  return t("nextRank", {
+    rank: rankName(level + 1), points: ratingNumber(rankMinimum(level + 1) - rating),
+  });
+}
+
+function winRate({ wins, draws, losses }) {
+  const total = wins + draws + losses;
+  return total > 0
+    ? new Intl.NumberFormat(NcqLang.lang, { style: "percent", maximumFractionDigits: 1 }).format(wins / total)
+    : "—";
+}
+
+function renderPromotionMeter(meterId, prefix, rating, { previousRating } = {}) {
+  const level = rankLevel(rating);
+  const canDemote = level > 0;
+  const canPromote = level < 26;
+  const lower = canDemote ? rankMinimum(level) : 1500 - (rankMinimum(1) - 1500);
+  const upper = canPromote ? rankMinimum(level + 1) : lower + (lower - rankMinimum(level - 1));
+  const center = (lower + upper) / 2;
+  const comparing = previousRating !== undefined;
+  const start = comparing ? Math.min(lower, previousRating, rating) : lower;
+  const end = comparing ? Math.max(upper, previousRating, rating) : upper;
+  const position = score => Math.max(0, Math.min(100, 100 * (score - start) / (end - start)));
+  const signed = new Intl.NumberFormat(NcqLang.lang, { signDisplay: "exceptZero" });
+  const tickNumber = comparing ? new Intl.NumberFormat(NcqLang.lang, { signDisplay: "never" }) : signed;
+  const currentOffset = rating - center;
+  const lowerOffset = lower - center;
+  const upperOffset = upper - center;
+  const lowLabel = canDemote ? t("demotion") : t("lowestRank");
+  const highLabel = canPromote ? t("promotion") : t("highestRank");
+  const meter = el(meterId);
+  const to = position(rating);
+  meter.style.setProperty("--promotion-position", `${to}%`);
+  const announcement = {
+    value: signed.format(currentOffset),
+    lowLabel,
+    lowTick: canDemote ? signed.format(lowerOffset) : "—",
+    highLabel,
+    highTick: canPromote ? signed.format(upperOffset) : "—",
+  };
+  if (comparing) {
+    const from = position(previousRating);
+    meter.style.setProperty("--promotion-start", `${from}%`);
+    meter.style.setProperty("--promotion-change-left", `${Math.min(from, to)}%`);
+    meter.style.setProperty("--promotion-change-right", `${Math.max(from, to)}%`);
+    meter.style.setProperty("--promotion-band-start", `${position(lower)}%`);
+    meter.style.setProperty("--promotion-band-end", `${position(upper)}%`);
+    announcement.previous = signed.format(previousRating - center);
+    el(`${prefix}-previous`).textContent = announcement.previous;
+  }
+  meter.setAttribute("aria-label", t(comparing ? "resultPromotionMeter" : "promotionMeter", announcement));
+  el(`${prefix}-value`).textContent = announcement.value;
+  el(`${prefix}-lower-label`).textContent = lowLabel;
+  el(`${prefix}-upper-label`).textContent = highLabel;
+  el(`${prefix}-lower`).textContent = canDemote ? tickNumber.format(lowerOffset) : "—";
+  el(`${prefix}-upper`).textContent = canPromote ? tickNumber.format(upperOffset) : "—";
+}
+
+async function openPlayerProfile(seat, ranking = null) {
+  const game = room ?? archive;
+  const own = ranking ? Boolean(ranking.row.you) : seat === undefined || seat === game?.you;
+  const code = game?.code ?? game?.id?.split(":")[0];
+  const online = Boolean(backend && !game?.device && /^[\da-f-]{36}$/.test(code ?? ""));
+  const target = { own, seat, online, ranking, stats: ranking?.row ?? null, loading: !ranking && !own && online };
+  profileTarget = target;
+  renderPlayerProfile();
+  profileDialog.showModal();
+  render();
+  if (own) {
+    await refreshAuthProfile({ forceRefresh: true });
+    if (profileTarget !== target || !profileDialog.open) return;
+    await refreshPlayerCard();
+  } else if (target.loading) {
+    const stats = await getOpponentProfile(code, game.round);
+    if (profileTarget !== target || !profileDialog.open) return;
+    target.loading = false;
+    if (!stats.error) target.stats = stats;
+    renderPlayerProfile();
+  }
+}
+
+function getOpponentProfile(code, round) {
+  return remoteRequest(client => client.gameRequest(`/rooms/${code}/opponent-profile?round=${round}`));
+}
+
+function renderMatchIntro() {
+  const { game, opponentLevel } = matchIntro;
+  const currentGame = room?.code === game.code ? room : game;
+  const opponent = recordPlayer(currentGame, 3 - game.you);
+  const opponentRating = matchIntro.opponentRating ?? opponent.rating;
+  const ownRating = playerStats?.rating ?? recordPlayer(currentGame, game.you).rating;
+  setRecordPhoto(el("match-intro-opponent-photo"), opponent);
+  for (const [side, name, rating, fallbackLevel] of [
+    ["own", ownNickname(recordPlayer(currentGame, game.you)), ownRating, null],
+    ["opponent", opponent.name, opponentRating, opponentLevel],
+  ]) {
+    const prefix = `match-intro-${side}-`;
+    const nameLabel = el(prefix + "name");
+    nameLabel.textContent = nameLabel.title = name;
+    const level = Number.isFinite(rating) ? rankLevel(rating) : fallbackLevel;
+    const rankLabel = el(prefix + "rank");
+    rankLabel.hidden = level == null;
+    if (!rankLabel.hidden) rankLabel.textContent = rankName(level);
+    const ratingLabel = el(prefix + "rating");
+    ratingLabel.hidden = !Number.isFinite(rating);
+    if (!ratingLabel.hidden) ratingLabel.textContent = t("matchIntroRating", { rating: ratingNumber(rating) });
+  }
+
+  const points = el("match-intro-points");
+  points.hidden = !Number.isFinite(ownRating) || !Number.isFinite(opponentRating);
+  if (points.hidden) return;
+  const expected = 1 / (1 + 10 ** ((opponentRating - ownRating) / 400));
+  const signed = new Intl.NumberFormat(NcqLang.lang, { signDisplay: "exceptZero" });
+  el("match-intro-win").textContent = t("matchIntroWin", { points: signed.format(Math.round(32 * (1 - expected))) });
+  el("match-intro-loss").textContent = t("matchIntroLoss", { points: signed.format(-Math.round(32 * expected)) });
+}
+
+async function openMatchIntro(game, playSound = false) {
+  if (game.phase !== "playing") return;
+  const intro = { game, opponentRating: null, opponentLevel: game.botLevel };
+  matchIntro = intro;
+  renderMatchIntro();
+  matchIntroDialog.showModal();
+  intro.cancelHaptic = haptics.once("match:" + roundHapticKey(game), "heavy", {
+    delay: reducedMotion.matches ? 0 : 300,
+    valid: () => matchIntro === intro && matchIntroDialog.open,
+  });
+  if (playSound) {
+    const contact = parseFloat(getComputedStyle(matchIntroDialog).getPropertyValue("--match-intro-contact")) || 300;
+    intro.cancelSound = matchingAudio.found(roundHapticKey(game), {
+      delay: contact, valid: () => matchIntro === intro && matchIntroDialog.open,
+    });
+  }
+  intro.timer = setTimeout(() => {
+    if (matchIntro === intro && matchIntroDialog.open) matchIntroDialog.close();
+  }, 5000);
+  render();
+  if (!backend) return;
+  if (!playerStats) refreshPlayerCard();
+  const stats = await getOpponentProfile(game.code, game.round);
+  if (matchIntro !== intro || !matchIntroDialog.open || !Number.isFinite(stats?.rating)) return;
+  intro.opponentRating = stats.rating;
+  renderMatchIntro();
+}
+
+function renderPlayerProfile() {
+  const { own, seat, online, loading, ranking, stats: opponentStats } = profileTarget;
+  const ranked = own ? null : ranking;
+  const tournament = ranked && ranked.tab !== "rating";
+  const previous = tournament && ranked.tab === "previous";
+  const stats = own ? playerStats : opponentStats;
+  const game = room ?? archive;
+  const saved = ranked?.row ?? (seat && game && (!own || game.phase === "finished") ? recordPlayer(game, seat) : null);
+  const name = ranked ? rankingPlayerName(ranked.row) : saved?.savedName || (own ? ownNickname() : t("opponent"));
+  const title = el("player-profile-title");
+  const status = el("profile-status");
+  const photo = el("profile-photo");
+  const source = recordPhoto(saved) || (own ? playerPhoto : null);
+  if (photo.getAttribute("src") !== source) {
+    photo.hidden = true;
+    if (source) photo.src = source;
+    else photo.removeAttribute("src");
+  }
+  const stone = el("profile-stone");
+  stone.hidden = Boolean(ranking);
+  stone.className = "stone " + colorName(seatColor(game, seat));
+  nicknameEdit.hidden = !own;
+  nicknameEdit.disabled = nicknameSaving || !accountProfile || accountProfile.player !== authSession?.player;
+  const hasRating = Number.isFinite(stats?.rating);
+  const hasRecord = stats && [stats.wins, stats.draws, stats.losses].every(Number.isInteger);
+  const showStanding = ranked ? Number.isInteger(ranked.row.rank) : own && stats && Object.hasOwn(stats, "ratingRank");
+  el("profile-rating-section").hidden = !hasRating && !showStanding;
+  el("profile-rating-line").hidden = !hasRating;
+  el("profile-records").hidden = !hasRecord;
+  el("profile-rating-standing-row").hidden = !showStanding;
+  el("profile-rankings").hidden = !own || !backend || Boolean(room ?? archive);
+  el("profile-promotion").hidden = !own || !stats;
+  status.hidden = Boolean(stats);
+  if (!stats) {
+    title.textContent = name;
+    status.textContent = t(own
+      ? (!backend ? "profileOffline" : profileLoading ? "profileLoading" : "profileUnavailable")
+      : (!online ? "opponentProfileOffline" : loading ? "opponentProfileLoading" : "opponentProfileUnavailable"));
+    return;
+  }
+
+  const { rating, rankRecord } = stats;
+  const level = hasRating ? rankLevel(rating) : null;
+  title.textContent = hasRating ? rankName(level) + " " + name : name;
+  if (hasRating) el("profile-rating").textContent = t("profileRatingValue", { rating: ratingNumber(rating) });
+  if (showStanding) {
+    el("profile-rating-standing-label").textContent = t(tournament
+      ? (previous ? "previousTournament" : "currentTournament") : "profileRatingStanding");
+    const standing = el("profile-rating-standing");
+    if (ranked) {
+      standing.textContent = t("rankingPosition", { rank: ratingNumber(ranked.row.rank) });
+      if (tournament && Number.isInteger(ranked.row.points)) standing.textContent += " · " + t("pointsCount", { n: ranked.row.points });
+    } else {
+      const { ratingRank } = stats;
+      standing.textContent = ratingRank
+        ? t("profileRatingStandingValue", {
+          position: ratingNumber(ratingRank.position), players: ratingNumber(ratingRank.players),
+        })
+        : t("profileRatingStandingPending");
+    }
+  }
+  const nextRank = hasRating && !ranked ? nextRankText(level, rating) : "";
+  el("profile-next-rank").textContent = nextRank;
+  el("profile-next-rank").hidden = !nextRank;
+  if (hasRecord) {
+    el("profile-record-label").textContent = t(tournament
+      ? (previous ? "previousTournamentRecord" : "currentTournamentRecord") : "overallRecord");
+    el("profile-record").textContent = t("careerRecord", stats);
+    const rate = winRate(stats);
+    el("profile-win-rate").hidden = !own;
+    el("profile-opponent-win-rate-row").hidden = own;
+    if (own) el("profile-win-rate").textContent = t("profileWinRate", { rate });
+    else el("profile-opponent-win-rate").textContent = rate;
+  }
+  el("profile-rank-record-row").hidden = !rankRecord;
+  if (rankRecord) {
+    el("profile-rank-record").textContent = t("careerRecord", rankRecord);
+    el("profile-rank-win-rate").textContent = t("profileWinRate", { rate: winRate(rankRecord) });
+  }
+  if (own) renderPromotionMeter("profile-promotion-meter", "promotion", rating);
+}
+
+async function refreshPlayerCard(cooldown = 3) {
+  if (!backend || (profileLoading && cooldown !== -1)) return;
+  const request = ++profileRequest;
+  profileLoading = true;
+  if (profileDialog.open) renderPlayerProfile();
+  try {
+    const stats = await remoteRequest(client => client.profile(cooldown));
+    if (request === profileRequest && !stats.error) {
+      const previousGuestCode = playerStats?.guestCode;
+      playerStats = stats;
+      renderPlayerCard();
+      renderOwnRank();
+      if (previousGuestCode !== stats.guestCode) render();
+    }
+    await refreshAuthProfile();
+  } finally {
+    if (request === profileRequest) {
+      profileLoading = false;
+      if (profileDialog.open) renderPlayerProfile();
+      if (matchIntroDialog.open) renderMatchIntro();
+    }
+  }
+}
+
+function applyAuthProfile(profile) {
+  if (!profile || profile.player !== authSession?.player) return false;
+  if (accountProfile?.player === profile.player && accountProfile.profileVersion > profile.profileVersion) return false;
+  const changed = JSON.stringify(accountProfile) !== JSON.stringify(profile);
+  accountProfile = profile;
+  nicknameOverride = profile.nicknameOverride || "";
+  playerNickname = profile.defaultNickname || "";
+  const photo = profile.photoUrl ?? null;
+  if (photo !== playerPhoto) {
+    playerPhoto = photo;
+    for (const image of playerPhotos) {
+      image.hidden = true;
+      if (photo) image.src = photo;
+      else image.removeAttribute("src");
+    }
+  }
+  return changed;
+}
+
+async function refreshAuthProfile(options = {}) {
+  const player = authSession?.player;
+  if (!player || !window.NcqAuth) return;
+  const profile = await loadAccountProfile(window.NcqAuth, player, options).catch(() => null);
+  if (applyAuthProfile(profile)) render();
+}
+
+function recordDate(value) {
+  const minutes = Math.max(0, Math.floor((Date.now() - new Date(value)) / 60_000));
+  if (minutes < 7 * 24 * 60 && typeof Intl.RelativeTimeFormat === "function") {
+    const format = new Intl.RelativeTimeFormat(NcqLang.lang, { numeric: "auto" });
+    if (minutes < 60) return format.format(-minutes, "minute");
+    if (minutes < 24 * 60) return format.format(-Math.floor(minutes / 60), "hour");
+    return format.format(-Math.floor(minutes / (24 * 60)), "day");
+  }
+  return NcqLang.date(value, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+
+function drawRecordPreview(svg, game) {
+  const { moves } = game;
+  const stones = document.createDocumentFragment();
+  for (const [ply, cell] of moves.entries()) {
+    if (!Number.isInteger(cell) || cell < 0 || cell >= size * size) continue;
+    const stone = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    stone.setAttribute("cx", cell % size + .5);
+    stone.setAttribute("cy", Math.floor(cell / size) + .5);
+    stone.setAttribute("r", ".42");
+    stone.setAttribute("class", "preview-" + colorName(moveColor(game, ply)));
+    stones.append(stone);
+  }
+  svg.append(stones);
+}
+
+function queueRecordPreview(svg, game) {
+  if (typeof IntersectionObserver === "undefined") {
+    drawRecordPreview(svg, game);
+    return;
+  }
+  recordPreviewObserver ??= new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const pending = recordPreviewJobs.get(entry.target);
+      if (pending) drawRecordPreview(entry.target, pending);
+      recordPreviewJobs.delete(entry.target);
+      recordPreviewObserver.unobserve(entry.target);
+    }
+  }, { root: el("record-list").parentElement, rootMargin: "150px 0px" });
+  recordPreviewJobs.set(svg, game);
+  recordPreviewObserver.observe(svg);
+}
+
+function recordCard(game, saved) {
+  const row = el("record-row").content.firstElementChild.cloneNode(true);
+  row.dataset.recordId = game.id;
+  const opponent = recordPlayer(game, 3 - game.you);
+  const own = recordPlayer(game, game.you);
+  const outcome = describeOutcome(game);
+  const avatar = row.querySelector("img");
+  avatar.addEventListener("error", () => { avatar.hidden = true; });
+  setRecordPhoto(avatar, opponent);
+  row.querySelector(".record-opponent").textContent = t("recordVersus", {
+    name: [recordRank(opponent), opponent.name].filter(Boolean).join(" "),
+  });
+  const badge = row.querySelector(".record-outcome");
+  badge.dataset.outcome = outcome;
+  badge.textContent = t({ won: "winBadge", lost: "lossBadge", draw: "drawBadge" }[outcome]);
+  row.querySelector(".record-summary").textContent = recordDate(game.finishedAt) + " · " + recordResult(game, { personal: true });
+  const context = [recordRank(own), own.name].filter(Boolean).join(" ");
+  const mode = t(game.device ? "deviceRecord" : matchMode(game));
+  row.querySelector(".record-context").textContent = mode + " · " + context;
+  queueRecordPreview(row.querySelector(".record-preview svg"), game);
+  row.querySelector(".record-open").addEventListener("click", () => openArchive(game));
+  const button = row.querySelector(".record-favorite");
+  markFavorite(button, saved);
+  button.addEventListener("click", () => {
+    const active = toggleFavorite(game.id);
+    if (recordFilter === "favorites") {
+      renderRecords();
+      el("record-filters").querySelector('[data-filter="favorites"]').focus();
+    } else {
+      markFavorite(button, active);
+    }
+  });
+  const visibility = row.querySelector(".record-visibility");
+  visibility.hidden = !recordVisibilityPath(game);
+  visibility.textContent = t(game.shareId ? "recordPublic" : "recordPrivate");
+  visibility.toggleAttribute("data-public", Boolean(game.shareId));
+  visibility.addEventListener("click", () => openRecordDialog(game, recordVisibilityDialog));
+  return row;
+}
+
+function renderRecords() {
+  recordPreviewObserver?.disconnect();
+  recordPreviewJobs = new WeakMap();
+  const saved = recordFavorites();
+  const tournamentOnly = recordsReturnView === "tournament";
+  el("records-heading").textContent = t(tournamentOnly ? "tournamentRecords" : "recordList");
+  const visible = records.filter(game => (!tournamentOnly || game.mode === "tournament") && (recordFilter === "all" ||
+    (recordFilter === "favorites" ? saved.has(game.id) : describeOutcome(game) === "won")));
+  for (const button of el("record-filters").querySelectorAll("button")) {
+    button.setAttribute("aria-pressed", String(button.dataset.filter === recordFilter));
+  }
+  const empty = el("records-empty");
+  empty.hidden = visible.length > 0;
+  empty.textContent = t({ all: tournamentOnly ? "noTournamentRecords" : "noRecords",
+    favorites: "recordNoFavorites", wins: "recordNoWins" }[recordFilter]);
+  el("record-list").replaceChildren(...visible.map(game => recordCard(game, saved.has(game.id))));
+}
+
+async function refreshLobby() {
+  if (room || archive || spectator || gameModes?.isOpen() || lobbyView !== "lobby" || lobbyLoading || document.hidden) return;
+  lobbyLoading = true;
+  try {
+    if (backend) {
+      liveGames = await backend.lobby();
+    } else {
+      const response = await fetch("./api/lobby", { signal: AbortSignal.timeout(3500) });
+      if (!response.ok) throw new Error();
+      liveGames = await response.json();
+    }
+    lobbyUnavailable = false;
+  } catch {
+    lobbyUnavailable = true;
+  } finally {
+    lobbyLoading = false;
+    if (!el("lobby").hidden) renderLobby();
+  }
+}
+
+function renderResult(game) {
+  const outcome = describeOutcome(game);
+  const medals = { won: ["victoryMedal", "nav-ranking"], lost: ["defeatMedal", "result-loss-icon"],
+    draw: ["drawMedal", "result-draw-icon"] };
+  const [label, icon] = medals[outcome];
+  const victoryStone = outcome === "won" ? colorName(seatColor(game, game.you)) : "";
+  resultDialog.dataset.outcome = outcome;
+  resultDialog.dataset.victoryStone = victoryStone;
+  el("result-stone-color").textContent = victoryStone ? t(victoryStone) : "";
+  el("result-title").textContent = t(label);
+  el("result-symbol").setAttribute("href", `#${icon}`);
+  const change = game.ratingChange;
+  el("result-rating").hidden = el("result-rating-change").hidden = !change;
+  if (!change) {
+    resultDialog.removeAttribute("data-promoted");
+    return;
+  }
+
+  const { before, after, delta } = change;
+  const beforeLevel = rankLevel(before);
+  const afterLevel = rankLevel(after);
+  const rank = rankName(afterLevel);
+  const promoted = afterLevel > beforeLevel;
+  resultDialog.toggleAttribute("data-promoted", promoted);
+  let rankLabel = rank;
+  if (promoted) {
+    const previousRank = rankName(beforeLevel);
+    rankLabel = resultDialog.hasAttribute("data-promotion-revealed") ? t("rankUp", { rank }) : previousRank;
+    el("rank-celebration-before").textContent = previousRank;
+    el("rank-celebration-after").textContent = rank;
+    el("rank-celebration-heading").textContent = t("rankCelebration", { rank });
+  } else if (afterLevel < beforeLevel) {
+    rankLabel = t("rankDown", { rank });
+  }
+  el("result-rank").textContent = rankLabel;
+  el("rating-range").textContent = `${ratingNumber(before)} → ${ratingNumber(after)}`;
+  const signed = new Intl.NumberFormat(NcqLang.lang, { signDisplay: "exceptZero" });
+  const deltaText = el("rating-delta");
+  deltaText.textContent = t("profileRatingValue", { rating: signed.format(delta) });
+  const direction = delta > 0 ? "up" : delta < 0 ? "down" : "same";
+  deltaText.dataset.direction = el("result-promotion-meter").dataset.direction = direction;
+  renderPromotionMeter("result-promotion-meter", "result-promotion", after, { previousRating: before });
+}
+
+async function playRankPromotion({ code, round }, notify = false) {
+  if (!resultDialog.hasAttribute("data-promoted")) return;
+  const ripple = el("result-promotion-ripple").getAnimations().find(animation =>
+    animation.animationName === "promotion-threshold-ripple");
+  await ripple?.finished.catch(() => {});
+  if (!resultDialog.open || room?.code !== code || room.round !== round || room.phase !== "finished") return;
+  if (!resultDialog.hasAttribute("data-promoted")) return;
+  resultDialog.setAttribute("data-promotion-revealed", "");
+  renderResult(room);
+  rankCelebration.showModal();
+  if (notify) {
+    const plaque = rankCelebration.querySelector(".rank-celebration-plaque");
+    const delay = plaque.getAnimations().find(animation => animation.animationName === "rank-plaque-in")
+      ?.effect.getTiming().delay ?? 0;
+    cancelPromotionHaptic = haptics.once(`result:${code}:${round}`, "promotion", {
+      delay, valid: () => rankCelebration.open && room?.code === code && room.round === round,
+    });
+    cancelPromotionSound = resultAudio.promotion(`${code}:${round}`, {
+      delay, valid: () => rankCelebration.open && room?.code === code && room.round === round,
+    });
+  }
+  clearTimeout(promotionCloseTimer);
+  promotionCloseTimer = setTimeout(() => rankCelebration.close(), 5000);
+}
+
+function reportCurrentJourney() {
+  const local = gameModes?.journeyState();
+  const mode = local?.mode ?? room?.mode ?? matchmaking?.mode ?? (room || matchmaking ? "casual" : aiStarting ? "ai" : "app");
+  if (optionsDialog.open) return reportJourney(mode, "options");
+  if (profileDialog.open) return reportJourney(mode, "profile");
+  if (local) return reportJourney(local.mode, local.state);
+  if (spectator) return reportJourney("app", "spectating");
+  if (archive) return reportJourney("app", "replay");
+  if (room) {
+    if (room.phase === "finished") return reportJourney(mode, resultDialog.open ? "result" : awaitingResultDismissal ? "finishing" : "replay");
+    if (room.phase === "waiting") return reportJourney(mode, "waiting");
+    if (!connected) return reportJourney(mode, "reconnecting");
+    if (matchIntroDialog.open) return reportJourney(mode, "intro");
+    const played = room.moves.some((move, i) => move !== null &&
+      (room.moveSeats?.[i] ?? (i % 2 ? 3 - room.black : room.black)) === room.you);
+    return reportJourney(mode, played ? "playing" : "first_turn");
+  }
+  if (matchmaking) return reportJourney(mode, matchmaking.canceled ? "canceling" : "matching");
+  if (aiStarting) return reportJourney("ai", "starting");
+  if (shop.open) return reportJourney("app", "shop");
+  if (missionDialog.open) return reportJourney("app", "missions");
+  if (tournamentCatchUpDialog.open) return reportJourney("tournament", "entry_confirm");
+  reportJourney("app", lobbyView === "tournament" ? "rankings" : lobbyView);
+}
+
+function render() {
+  gameModes?.render();
+  if (room || archive || spectator) coinCollection.stop();
+  el("placement-timing").hidden = true;
+  if (coinRewardDialog.open) renderCoinReward();
+  queueMicrotask(presentCoinReward);
+  if (leaveDialog.open) renderLeaveConfirmation();
+  if (profileDialog.open) renderPlayerProfile();
+  renderRecordDialog();
+  if (matchIntroDialog.open) renderMatchIntro();
+  const game = room ?? archive ?? spectator?.game;
+  const playing = !spectator && game?.phase === "playing";
+  const finished = !spectator && game?.phase === "finished";
+  const awaitingReview = finished && game === room && awaitingResultDismissal;
+  const reviewing = finished && !awaitingReview;
+  const sharedReview = Boolean(reviewing && game.sharedView);
+  const liveLayout = playing || awaitingReview || Boolean(spectator);
+  nicknameInput.placeholder = displayNickname(playerNickname || t("guestNickname"));
+  el("language").value = NcqLang.lang;
+  if (optionsDialog.open) {
+    el("vibration-option").hidden = !window.NcqDevice?.canVibrate();
+    el("vibration").checked = window.NcqDevice?.vibration() ?? true;
+    const player = (backend && authSession?.player) || "";
+    el("options-player").hidden = !player;
+    const input = el("options-player-id");
+    if (input.value !== player) {
+      input.value = player;
+      feedback("player-id-feedback");
+    }
+    const status = el("player-id-feedback");
+    if (!status.hidden) status.textContent = t(status.dataset.message);
+  }
+  document.title = t("title");
+  document.body.classList.toggle("in-match", Boolean(game));
+  document.body.classList.toggle("in-ai-match", game?.mode === "ai");
+  document.body.classList.toggle("match-art-backdrop", liveLayout);
+  document.body.classList.toggle("spectating", Boolean(spectator));
+  document.body.classList.toggle("in-review", reviewing);
+  const postMatchReview = reviewing && Boolean(room);
+  const tournamentReview = postMatchReview && game.mode === "tournament";
+  document.body.classList.toggle("post-match-review", postMatchReview);
+  document.body.classList.toggle("shared-review", sharedReview);
+  document.body.classList.toggle("in-records", !game && lobbyView === "records");
+  el("match").toggleAttribute("data-playing", liveLayout);
+  el("match").toggleAttribute("data-taraguchi", game?.rule === "taraguchi");
+  el("match").toggleAttribute("data-ncq-no-main", awaitingReview);
+  for (const view of ["lobby", "records", "tournament"]) {
+    el(view).hidden = Boolean(game) || lobbyView !== view;
+  }
+  el("match").hidden = !game;
+  el("watch-back").hidden = !spectator;
+  el("watch-back").toggleAttribute("data-ncq-main", Boolean(spectator));
+  el("leave-match").hidden = !liveLayout || Boolean(spectator);
+  el("match-options").hidden = !liveLayout;
+  el("review-header").hidden = !reviewing;
+  el("review-opponent-profile").hidden = !reviewing;
+  const reviewActionsVisible = reviewing && !profileDialog.open && !recordShareDialog.open
+    && !tournamentCatchUpDialog.open && !coinShortageDialog.open && !matchmaking;
+  reviewExit.hidden = !postMatchReview;
+  reviewExit.disabled = busy || nextMatchPending;
+  reviewExit.toggleAttribute("data-ncq-main", postMatchReview && reviewActionsVisible);
+  reviewShare.hidden = !reviewing || (!sharedReview && !recordVisibilityPath(game));
+  reviewShare.disabled = postMatchReview && (busy || nextMatchPending);
+  reviewShare.toggleAttribute("data-ncq-main", reviewActionsVisible && !reviewShare.hidden);
+  reviewPlay.hidden = !sharedReview;
+  reviewPlay.toggleAttribute("data-ncq-main", reviewActionsVisible && sharedReview);
+  el("show-shop").hidden = Boolean(game);
+  el("lobby-wallet").hidden = Boolean(game);
+  renderCoinBalance();
+  if (!game) renderDailyMissions();
+  if (shop.open) renderShop();
+  const nav = el("lobby-nav");
+  nav.hidden = Boolean(game);
+  for (const button of nav.querySelectorAll("button[aria-controls]")) {
+    if (button.getAttribute("aria-controls") === lobbyView) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
+    button.disabled = busy;
+  }
+  const mainAction = !game && !gameModes?.isOpen() && !matchmaking && !shop.open && !missionDialog.open && !optionsDialog.open
+    && !forest.watchDialog.open && !ruleDialog?.open && !profileDialog.open && !recordDialogTarget?.dialog.open
+    && !tournamentCatchUpDialog.open && !coinShortageDialog.open && !coinRewardDialog.open;
+  el("start").disabled = busy || nextMatchPending || Boolean(matchmaking);
+  for (const id of ["show-ai", "show-together"]) {
+    el(id).disabled = busy || nextMatchPending || Boolean(matchmaking) || (id === "show-ai" && !backend);
+    el(id).toggleAttribute("data-ncq-main", mainAction && lobbyView === "lobby");
+  }
+  el("show-records").disabled = busy || Boolean(matchmaking);
+  renderRulePicker(mainAction);
+  el("player-card").disabled = busy;
+  el("start").toggleAttribute("data-ncq-main", mainAction && lobbyView === "lobby");
+  el("show-tournament").hidden = !backend;
+  el("show-tournament").disabled = busy;
+  const inLobby = !el("lobby").hidden;
+  const inRankings = !el("tournament").hidden;
+  el("play-footer").hidden = !inLobby && !inRankings;
+  el("lobby-entry").hidden = !inLobby;
+  const joinTournament = el("join-tournament");
+  // Use the very same entry button, price, handler and disabled states in both
+  // places. Moving it back also preserves rankings' pagination and tab behavior.
+  const tournamentEntry = el("tournament-entry");
+  const joinParent = tournamentReview ? reviewShare.parentElement : tournamentEntry;
+  if (joinTournament.parentElement !== joinParent) {
+    if (tournamentReview) joinParent.insertBefore(joinTournament, reviewShare);
+    else joinParent.prepend(joinTournament);
+  }
+  const showRankingEntry = inRankings && Boolean(backend) && rankingTab === "weekly";
+  const showTournamentEntry = showRankingEntry || tournamentReview;
+  const tournamentState = rankingResults.weekly;
+  const tournamentStatus = tournamentState?.result;
+  const attempts = tournamentStatus?.remaining;
+  const catchUp = attempts === 0 && tournamentStatus.catchUpRemaining > 0;
+  const attemptsExhausted = !tournamentState?.loading && !tournamentStatus?.error
+    && attempts === 0 && tournamentStatus.catchUpRemaining === 0;
+  const enoughCoins = catchUp && tournamentCoinBalance(tournamentStatus) >= tournamentStatus.catchUpCost;
+  const attemptsLabel = el("tournament-attempts");
+  tournamentEntry.hidden = !showRankingEntry;
+  joinTournament.hidden = !showTournamentEntry;
+  attemptsLabel.hidden = attempts !== 0;
+  attemptsLabel.textContent = catchUp
+    ? t(enoughCoins ? "tournamentCatchUp" : "tournamentCatchUpFunds", { n: NcqLang.num(tournamentStatus.catchUpRemaining) })
+    : t("tournamentLimit");
+  el("join-tournament-label").textContent = attemptsExhausted ? t("joinTournamentExhausted")
+    : catchUp ? t("joinTournamentCatchUp")
+    : Number.isInteger(attempts)
+    ? t("joinTournamentAttempts", { remaining: attempts, limit: tournamentStatus.dailyLimit })
+    : t("joinTournament");
+  el("join-tournament-cost").hidden = !catchUp;
+  joinTournament.toggleAttribute("data-catch-up", catchUp);
+  if (catchUp) {
+    const n = NcqLang.num(tournamentStatus.catchUpCost);
+    el("join-tournament-coins").textContent = n;
+    joinTournament.setAttribute("aria-label", t("joinTournamentCatchUpCost", { n }));
+    joinTournament.setAttribute("aria-haspopup", "dialog");
+  } else {
+    joinTournament.removeAttribute("aria-label");
+    joinTournament.removeAttribute("aria-haspopup");
+  }
+  if (tournamentCatchUpDialog.open) {
+    const { missed, cost } = tournamentCatchUpQuote;
+    const n = NcqLang.num(cost);
+    el("tournament-catch-up-missed").textContent = t("tournamentMissedCount", { n: NcqLang.num(missed) });
+    el("tournament-catch-up-coins").textContent = n;
+    el("confirm-tournament-catch-up").setAttribute("aria-label", t("joinTournamentCatchUpCost", { n }));
+  }
+  el("tournament-records").disabled = busy || Boolean(matchmaking);
+  joinTournament.disabled = busy || nextMatchPending || Boolean(matchmaking) || tournamentState?.loading === true
+    || Boolean(tournamentStatus?.error) || !(attempts > 0 || catchUp);
+  const joinVisible = showTournamentEntry && !joinTournament.disabled;
+  joinTournament.toggleAttribute("data-ncq-main", joinVisible && (mainAction || (tournamentReview && reviewActionsVisible)));
+  el("show-lobby").toggleAttribute("data-ncq-main", mainAction && inRankings && !joinVisible);
+  el("records-back").toggleAttribute("data-ncq-main", mainAction && lobbyView === "records");
+  if (inLobby) renderLobby();
+  renderWeeklyRewards(mainAction);
+  if (!el("records").hidden) renderRecords();
+  if (inRankings) renderRankings();
+  if (inLobby || inRankings) renderPlayerCard();
+  if (game) popupAudio.quiet(() => forest.render(game, lobbyView));
+  else forest.render(game, lobbyView);
+  reportCurrentJourney();
+  if (matchmaking) {
+    const { canceled, mode } = matchmaking;
+    el("queue-status").textContent = t(canceled ? "canceling" : mode === "tournament" ? "tournamentWaiting" : "findingOpponent");
+    el("cancel-match").disabled = canceled;
+  }
+  for (const node of [el("lobby-error"), el("match-error")]) {
+    if (!node.hidden) node.textContent = t(node.dataset.message);
+  }
+  if (!game) return;
+  if (spectator) {
+    renderSpectator(spectator);
+    return;
+  }
+
+  for (const id of ["place", "invite"]) {
+    el(id).toggleAttribute("data-ncq-main", !awaitingReview && !profileDialog.open && !matchIntroDialog.open && !leaveDialog.open);
+  }
+  const openingActions = el("opening-actions");
+  openingActions.hidden = !canAct() || (!maySwap(game) && !mayOffer(game));
+  for (const button of openingActions.querySelectorAll("button")) {
+    button.hidden = button.dataset.opening === "swap" ? !maySwap(game) : !mayOffer(game);
+    button.toggleAttribute("data-ncq-main", !openingActions.hidden && !button.hidden);
+  }
+  let status = "waiting";
+  if (finished) status = describeOutcome(game);
+  else if (room && !connected) status = "reconnecting";
+  else if (playing) status = game.turn === game.you ? "yourTurn" : "theirTurn";
+
+  el("room-label").textContent = t(archive ? "records" : "room");
+  el("room-id").textContent = "#" + game.number;
+  const mode = matchMode(game);
+  const heading = playing && connected
+    ? (game.opening ? openingStatus(game) : t(mode) + " · " + t("movesCount", { n: game.moves.length })) : t(status);
+  if (el("status").textContent !== heading) el("status").textContent = heading;
+  el("status").setAttribute("aria-live", playing ? "off" : "polite");
+  const announcement = game.opening ? heading : t(status);
+  if (playing && el("turn-announcement").textContent !== announcement) el("turn-announcement").textContent = announcement;
+  el("round").textContent = t("round", { n: game.round });
+  el("mode").textContent = t(reviewing ? "review" : awaitingReview ? "result" : mode);
+  el("room-bar").hidden = playing || finished;
+  el("invite").hidden = playing || finished || el("share").open;
+  el("leave").disabled = busy;
+  el("leave-match").disabled = busy || awaitingReview;
+  el("leave").textContent = t(archive ? "backToRecords" : "leave");
+  el("leave").removeAttribute("data-ncq-main");
+  el("review-back").disabled = busy;
+
+  const place = el("place");
+  const actionable = canAct();
+  place.disabled = !actionable || selected === null;
+  const placementState = !actionable ? "inactive" : selected === null ? "selecting" : "ready";
+  place.dataset.placementState = placementState;
+  const placeState = el("place-state");
+  placeState.hidden = placementState === "inactive";
+  if (!placeState.hidden) placeState.textContent = t(placementState === "selecting" ? "placeSelectHint" : "placeReadyHint");
+  el("place-text").textContent = t(game.opening === "offerFive" ? "offerShort" : game.opening === "pickFive" ? "pickShort" : "placeStone");
+  const placeLabel = game.turn !== game.you ? t("theirTurn")
+    : selected === null ? t("selectStone") : t("place", { cell: coordinate(selected) });
+  place.setAttribute("aria-label", placeLabel);
+  place.title = placeLabel;
+  renderPlayers(game, liveLayout);
+  el("review").hidden = !reviewing;
+  const canRematch = Boolean(room) && !game.bot && game.mode !== "tournament" && game.canRematch !== false
+    && game.endReason !== "resign" && game.endReason !== "disconnect";
+  const canMatchNext = Boolean(room) && game.mode !== "tournament" && !canRematch;
+  reviewRoomAction.hidden = !reviewing || tournamentReview;
+  reviewRoomAction.toggleAttribute("data-ncq-main", reviewActionsVisible && !tournamentReview);
+  reviewRoomAction.dataset.action = game.mode === "ai" && room ? "ai" : canRematch ? "rematch" : canMatchNext ? "next" : "leave";
+  reviewRoomAction.disabled = busy || nextMatchPending || (canRematch && (!connected || game.requested));
+  el("review-room-action-label").textContent = t(game.mode === "ai" && room ? "rematch" : canMatchNext ? "nextMatch" : !canRematch ? "leave" : game.requested ? "rematchWaiting" : game.rematch ? "rematchReady" : "rematch");
+
+  if (finished) renderResult(game);
+  if (reviewing) {
+    renderReview(game);
+    renderReplayControls(reviewPly, game.moves.length);
+  }
+
+  board.toggleAttribute("inert", !playing && !reviewing);
+  drawGamePosition(game, reviewing ? reviewPly : game.moves.length, reviewing);
+}
+
+function renderReplayControls(ply, total, watching = false) {
+  el("review-ply").textContent = ply;
+  el("review-total").textContent = " / " + total;
+  for (const button of el("review").querySelectorAll("[data-step]")) {
+    const step = button.dataset.step;
+    button.disabled = ["first", "previous"].includes(step) ? ply === 0 : ply === total;
+    button.toggleAttribute("data-ncq-main", watching && !button.disabled);
+    if (step === "last") button.setAttribute("aria-label", t(watching ? "watchLatestMove" : "lastMove"));
+  }
+  el("placement-timing").hidden = !placementTimingAvailable() || (watching && spectator?.ply === null);
+  renderPlacementTiming();
+}
+
+function placementTimingAvailable() {
+  // NCQ_TEST_PLACEMENT_TIMING: 기보 착수 타이밍 조절
+  return window.NCQ_TEST_PLACEMENT_TIMING === true || canClaimTestCoins;
+}
+
+function renderPlacementTiming() {
+  const slider = el("placement-duration");
+  slider.value = replayPlacementDuration;
+  el("placement-duration-value").textContent = t("placementTimingValue", {
+    duration: replayPlacementDuration, contact: Math.round(replayPlacementDuration * .4),
+  });
+}
+
+new ResizeObserver(([entry]) => {
+  const height = entry.borderBoxSize?.[0]?.blockSize ?? entry.target.getBoundingClientRect().height;
+  const gap = parseFloat(getComputedStyle(el("match")).rowGap) || 0;
+  el("match").style.setProperty("--placement-timing-height", `${height ? height + gap : 0}px`);
+}).observe(el("placement-timing"));
+
+el("placement-duration").addEventListener("input", event => {
+  const duration = Number(event.target.value);
+  if (!placementTimingAvailable() || !Number.isFinite(duration)) return;
+  replayPlacementDuration = Math.max(50, Math.min(600, duration));
+  renderPlacementTiming();
+});
+el("placement-duration").addEventListener("change", () => {
+  if (el("placement-timing").hidden || !placementTimingAvailable()) return;
+  const game = room ?? archive ?? spectator?.game;
+  const ply = spectator ? spectator.ply ?? game?.moves.length : reviewPly;
+  if (game && ply > 0) presentRoundPlacement(game, ply - 1);
+});
+
+function drawGamePosition(game, ply, reviewing = false) {
+  const latest = ply === game.moves.length;
+  let displayedBoard = game.board;
+  if (!latest || game === archive || !displayedBoard) {
+    displayedBoard = Array(cells.length).fill(0);
+    for (let i = 0; i < ply; i += 1) displayedBoard[game.moves[i]] = moveColor(game, i);
+  }
+  const moveNumbers = reviewing && showMoveNumbers ? Array(cells.length) : null;
+  if (moveNumbers) {
+    for (let i = 0; i < ply; i += 1) moveNumbers[game.moves[i]] = i + 1;
+  }
+  const showReplayFouls = reviewing && !latest && hasForbiddenMoves(game.rule)
+    && moveColor(game, ply) === 1 && (game.rule !== "taraguchi" || ply >= 6);
+  drawBoard(game, displayedBoard, game.moves[ply - 1], latest ? game.line ?? [] : [], {
+    latest, moveNumbers, showReplayFouls,
+  });
+}
+
+function drawBoard(game, displayedBoard, last, winning, { latest, moveNumbers, showReplayFouls }) {
+  const selectable = canAct();
+  const ownTurn = game === room && game.phase === "playing" && game.turn === game.you;
+  const limits = ownTurn ? moveLimits(game) : [];
+  const offers = latest && game.phase === "playing" ? game.offers ?? [] : [];
+  board.classList.toggle("selectable", selectable);
+  board.toggleAttribute("data-move-numbers", Boolean(moveNumbers));
+  const lastCell = cells[last];
+  lastMoveMarker.toggleAttribute("hidden", !lastCell);
+  if (lastCell && lastMoveMarker.parentElement !== lastCell) lastCell.append(lastMoveMarker);
+  for (const [index, cell] of cells.entries()) {
+    const pending = game === room && pendingPlacement?.code === game.code
+      && pendingPlacement.round === game.round && pendingPlacement.index === index;
+    const stone = pending ? pendingPlacement.color : displayedBoard[index];
+    const isSelected = selected === index;
+    const displayed = isSelected ? game.stone ?? seatColor(game, game.you) : stone;
+    const restriction = showReplayFouls ? forbiddenAt(displayedBoard, index, game.rule) : limits[index];
+    const foul = foulMarkers[restriction];
+    const offer = offers.indexOf(index) + 1;
+    cell.dataset.stone = stone;
+    if (foul) cell.dataset.foul = foul;
+    else cell.removeAttribute("data-foul");
+    cell.toggleAttribute("data-outside-opening", restriction === "outsideOpening" || restriction === "chooseOffered");
+    if (offer) cell.dataset.offer = offer;
+    else cell.removeAttribute("data-offer");
+    cell.classList.toggle("selected", isSelected);
+    cell.classList.toggle("win", winning.includes(index));
+    const stoneElement = cell.firstElementChild;
+    const moveNumber = moveNumbers?.[index];
+    const numberText = moveNumber ? String(moveNumber) : "";
+    stoneElement.hidden = !displayed;
+    stoneElement.className = "stone " + (displayed === 1 ? "black" : "white");
+    if (stoneElement.textContent !== numberText) stoneElement.textContent = numberText;
+    const cellLabel = t(["square", "blackSquare", "whiteSquare"][stone], { cell: coordinate(index) });
+    const detail = restriction ? t(restriction) : offer ? t("fifthCandidate", { n: offer })
+      : moveNumber ? t("moveNumber", { n: moveNumber }) : "";
+    cell.setAttribute("aria-label", detail ? cellLabel + ". " + detail : cellLabel);
+    cell.title = detail;
+    cell.setAttribute("aria-selected", String(isSelected));
+    cell.setAttribute("aria-disabled", String(!selectable || Boolean(stone) || Boolean(restriction)));
+  }
+}
+
+function renderSpectator({ game, closed, reconnecting, ply }) {
+  let announcement;
+  if (closed) announcement = t("watchEnded");
+  else if (reconnecting) announcement = t("reconnecting");
+  else if (game.phase === "finished") {
+    announcement = game.winner ? t("watchWinner", { color: sideName(game, game.winner) }) : t("draw");
+  } else if (game.opening) {
+    announcement = openingStatus(game);
+  } else announcement = t("watchTurn", { color: sideName(game, game.turn) });
+  const current = ply ?? game.moves.length;
+  const live = !closed && !reconnecting && game.phase === "playing";
+  const heading = ply !== null ? t("watchReplay", { n: current })
+    : live && !game.opening ? t(matchMode(game)) + " · " + t("movesCount", { n: current }) : announcement;
+  const status = el("status");
+  status.setAttribute("aria-live", live ? "off" : "polite");
+  if (status.textContent !== heading) status.textContent = heading;
+  if (el("turn-announcement").textContent !== announcement) el("turn-announcement").textContent = announcement;
+  el("room-bar").hidden = reviewRoomAction.hidden = el("invite").hidden = true;
+  el("review").hidden = false;
+  const place = el("place");
+  place.disabled = true;
+  place.dataset.placementState = "inactive";
+  el("place-state").hidden = true;
+  place.removeAttribute("data-ncq-main");
+  const lowerLabel = t(live && game.turn === (game.black ?? 1) ? "turnActive" : "turnWaiting");
+  el("place-text").textContent = lowerLabel;
+  place.setAttribute("aria-label", lowerLabel);
+  place.title = lowerLabel;
+  renderPlayers(game, true, true);
+  renderReplayControls(current, game.moves.length, true);
+  board.removeAttribute("inert");
+  drawGamePosition(game, current);
+}
+
+const version = window.NCQ?.NCQ_VERSION;
+el("app-version").textContent = version ? "v" + version : "dev";
+
+function loadMatchAds() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(matchAdsKey));
+    if (Array.isArray(saved?.freeRounds) && Number.isFinite(saved.lastShownAt)) return saved;
+  } catch {}
+  return matchAds;
+}
+
+function saveMatchAds(next) {
+  matchAds = next;
+  try { localStorage.setItem(matchAdsKey, JSON.stringify(next)); } catch {}
+}
+
+function recordCompletedRound(roundKey) {
+  const progress = loadMatchAds();
+  if (progress.freeRounds.includes(roundKey)) return;
+  if (progress.freeRounds.length < adFreeRounds) {
+    saveMatchAds({ ...progress, freeRounds: [...progress.freeRounds, roundKey] });
+    return;
+  }
+  pendingMatchAdRound = roundKey;
+}
+
+async function showReturnAd(roundKey = null) {
+  const shell = document.querySelector(".shell");
+  const eligibleProgress = () => {
+    if (lobbyView !== "lobby" || adsRemoved || adPurchaseBusy || document.hidden || room || archive || spectator || matchmaking || gameModes?.isOpen()
+      || document.querySelector("dialog[open]") || window.NcqFeedback?.isOpen()) return null;
+    const progress = loadMatchAds();
+    if (progress.freeRounds.length < adFreeRounds || (roundKey && progress.lastAttemptedRound === roundKey)
+      || Date.now() - progress.lastShownAt < matchAdCooldown) return null;
+    return progress;
+  };
+  if (shell.inert || !NcqAds?.can("MATCH_END") || !eligibleProgress()) return;
+
+  const focused = document.activeElement;
+  const show = async () => {
+    const progress = eligibleProgress();
+    if (!progress) return;
+    if (roundKey) saveMatchAds({ ...progress, lastAttemptedRound: roundKey });
+    stopPlacementSound();
+    haptics.stop();
+    coinCollection.stop();
+    // NCQ_ADS_MATCH_END: 대국·메뉴 복귀 전면 광고
+    if (await NcqAds.interstitial("MATCH_END")) saveMatchAds({ ...loadMatchAds(), lastShownAt: Date.now() });
+  };
+  shell.inert = true;
+  try {
+    await adOwnershipReady;
+    if (navigator.locks) {
+      await navigator.locks.request(matchAdsKey, { ifAvailable: true }, lock => lock && show());
+    } else {
+      await show();
+    }
+  } catch {
+    // Keep the lobby available if the ad cannot be displayed.
+  } finally {
+    shell.inert = false;
+    if (focused instanceof HTMLElement && document.activeElement === document.body) focused.focus({ preventScroll: true });
+  }
+}
+
+function applyState(next) {
+  if (next.summaryOnly) next = mergeFinishedRoom(room, next, loadRecords());
+  if (room?.code === next.code && next.version <= room.version && !(room.summaryOnly && !next.summaryOnly)) {
+    if (next.version === room.version) {
+      room = { ...room, ...(next.players ? { players: next.players } : {}),
+        serverNow: next.serverNow, turnEndsAt: next.turnEndsAt, turnSeconds: next.turnSeconds };
+      turnDeadline = clockDeadline(next); // A sleeping device's local clock can drift without a new move.
+    }
+    const receipt = authSession?.player + ":" + next.code + ":" + next.round;
+    if (next.phase === "finished" && !recordReceipts.has(receipt) && saveRecord(next)) acknowledgeRecord(next);
+    return;
+  }
+  const sameRound = room?.code === next.code && room.round === next.round;
+  const previewConfirmed = confirmsPlacement(pendingPlacement, next);
+  if (pendingPlacement && pendingPlacement.code === next.code) pendingPlacement = null;
+  const movingSeat = sameRound ? room.turn : undefined;
+  const freshResult = sameRound && room.phase === "playing" && next.phase === "finished";
+  const showResult = next.phase === "finished" && (!sameRound || room.phase !== "finished");
+  const newMoveCount = sameRound && room.phase === "playing"
+    ? next.moves.length - room.moves.length : 0;
+  room = next;
+  if (leaveDialog.open && (!sameRound || room.phase === "finished")) popupAudio.quiet(() => leaveDialog.close("cancel"));
+  turnDeadline = clockDeadline(next);
+  selected = null;
+  if (showResult) {
+    awaitingResultDismissal = true;
+    reviewPly = room.moves.length;
+    if (room.mode === "tournament") void loadRankings("weekly", 1, undefined, false, -1);
+  }
+  if (room.phase !== "finished") {
+    resultAudio.stop();
+    awaitingResultDismissal = false;
+    rankCelebration.close();
+    resultDialog.close();
+  }
+  if (room.phase !== "finished") popupAudio.quiet(() => recordShareDialog.close());
+  if (room.phase !== "waiting") popupAudio.quiet(() => el("share").close());
+  if (room.phase !== "playing") matchIntroDialog.close();
+  const roundKey = room.code + ":" + room.round;
+  const metricKey = "matjjangomok.round";
+  const tracked = sessionStorage.getItem(metricKey);
+  if (room.phase === "playing" && tracked !== roundKey) {
+    sessionStorage.setItem(metricKey, roundKey);
+    if (room.mode === "ai") window.NcqMetrics?.levelStart("ai", { round: roundKey });
+    else window.NcqMetrics?.levelStart("online", { round: roundKey });
+  }
+  if (room.phase === "finished" && tracked === roundKey) {
+    sessionStorage.removeItem(metricKey);
+    if (room.mode === "ai") window.NcqMetrics?.levelEnd("ai", room.winner ? room.winner === room.you : undefined);
+    else window.NcqMetrics?.levelEnd("online", room.winner ? room.winner === room.you : undefined);
+    if (room.moves.length) recordCompletedRound(roundKey);
+    void recordMissionRound(room);
+  }
+  if (room.phase === "finished" && saveRecord(room)) acknowledgeRecord(room);
+  render();
+  const placement = newMoveCount === 1 && !previewConfirmed
+    ? presentRoundPlacement(next, next.moves.length - 1, movingSeat) : undefined;
+  if (sameRound && movingSeat !== next.you && next.turn === next.you && next.phase === "playing"
+      && (newMoveCount === 0 || next.moves.at(-1) == null)) {
+    haptics.once(`turn:${roundHapticKey(next)}:${next.moves.length}:${next.turn}`, "light");
+  }
+  if (showResult) {
+    const openResult = () => {
+      if (room?.code !== next.code || room.round !== next.round || room.phase !== "finished" || resultDialog.open) return;
+      popupAudio.quiet(() => {
+        if (profileDialog.open) profileDialog.close();
+        if (optionsDialog.open) optionsDialog.close();
+      });
+      resultDialog.removeAttribute("data-promotion-revealed");
+      resultDialog.showModal();
+      render();
+      if (freshResult) resultAudio.result(roundHapticKey(next), describeOutcome(next), {
+        valid: () => resultDialog.open && room?.code === next.code && room.round === next.round,
+      });
+      if (freshResult && !resultDialog.hasAttribute("data-promoted")) {
+        haptics.once("result:" + roundHapticKey(next), describeOutcome(next) === "won" ? "success" : "light");
+      }
+      void playRankPromotion(next, freshResult);
+      refreshPlayerCard(-1);
+    };
+    if (newMoveCount > 0) {
+      void Promise.resolve(placement).then(() => setTimeout(openResult, 1000));
+    } else {
+      openResult();
+    }
+  }
+}
+
+async function exitRoom(message = "", { showAd = false, openRankings = true } = {}) {
+  matchingAudio.stop();
+  resultAudio.stop();
+  const tournamentMatch = room?.mode === "tournament";
+  const adRound = showAd && room?.phase === "finished" ? pendingMatchAdRound : null;
+  stream?.close();
+  stream = null;
+  connected = false;
+  pendingMatchAdRound = null;
+  awaitingResultDismissal = false;
+  cancelPlacement();
+  rankCelebration.close();
+  resultDialog.close();
+  popupAudio.quiet(() => {
+    leaveDialog.close("cancel");
+    optionsDialog.close();
+    el("share").close();
+    recordShareDialog.close();
+  });
+  matchIntroDialog.close();
+  room = null;
+  pendingPlacement = null;
+  turnDeadline = null;
+  cancelAnimationFrame(turnFrame);
+  selected = null;
+  sessionStorage.removeItem("matjjangomok.round");
+  const url = new URL(location.href);
+  url.searchParams.delete("room");
+  history.replaceState(null, "", url);
+  if (tournamentMatch) lobbyView = "lobby";
+  feedback("lobby-error", message, Boolean(message));
+  render();
+  refreshLobby();
+  refreshPlayerCard();
+  void refreshWallet();
+  if (adRound) await showReturnAd(adRound);
+  if (tournamentMatch && openRankings) showRankings();
+  el(tournamentMatch && openRankings ? "tournament-title" : "start").focus();
+}
+
+async function send(path, data = {}) {
+  try {
+    const response = await fetch("./api" + path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+      signal: AbortSignal.timeout(8000),
+    });
+    const result = await response.json();
+    if (response.ok) return result;
+    if (Object.hasOwn(TEXTS.en, result.error)) return { error: result.error };
+  } catch {
+    // Keep the room open if a temporary outage interrupts an action.
+  }
+  return { error: "network" };
+}
+
+async function getAuthConfig() {
+  if (authConfig) return authConfig;
+  const response = await fetch(backend ? "./ncq/auth-config.json" : "./api/auth/config",
+    { signal: AbortSignal.timeout(4000) });
+  if (!response.ok) throw new Error();
+  authConfig = await response.json();
+  // The standalone game server uses the repository's public auth config.
+  // Native releases must not inherit its web scope.
+  const platform = window.NCQ?.NCQ_PLATFORM;
+  if (platform === "android" || platform === "toss" || platform === "kakaopay") {
+    authConfig = { ...authConfig, platform: platform === "android" ? "googleplay" : platform };
+  }
+  return authConfig;
+}
+
+async function openPlayerSession(force) {
+  const config = await getAuthConfig();
+  if (backend && !config.enabled) throw new Error();
+  if (!config.enabled || (!force && authSession?.expiresAt > Date.now() + 30_000)) return;
+  if (!window.NcqAuth) {
+    window.NCQ = { ...window.NCQ, NCQ_AUTH: window.NCQ?.NCQ_AUTH ?? {
+      url: config.url ?? location.origin, game: config.game, platform: config.platform,
+      environment: config.environment, firebase: config.firebase,
+    } };
+    await new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = backend ? "./ncq/auth-sdk.js" : "./api/auth/sdk";
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.append(script);
+    });
+  }
+  if (backend) {
+    const { player } = await window.NcqAuth.ready();
+    const profile = await loadAccountProfile(window.NcqAuth, player, { forceRefresh: true });
+    // Finish legacy token renewal before profile, matching or watch requests run together.
+    await window.NcqAuth.getToken({ role: "authenticated", expectedPlayer: player });
+    authSession = { player, expiresAt: Infinity };
+    applyAuthProfile(profile);
+    profileSubscription ??= window.NcqAuth.onChange(next => {
+      if (!applyAuthProfile(next)) return;
+      render();
+      if (next.profileInitialized) void backend.syncProfile(next).catch(() => {});
+    });
+    recordsScope = recordsKey + ":" + player;
+    bindRecordHistory(player, true);
+    return;
+  }
+  const { ticket } = await window.NcqAuth.request("/api/auth/session", "POST", {});
+  const session = await send("/auth/claim", { ticket });
+  if (!session.player) throw new Error();
+  authSession = session;
+  const scope = recordsKey + ":" + session.player;
+  if (recordsScope !== scope) {
+    recordsScope = scope;
+    records = loadRecords();
+  }
+  bindRecordHistory(session.player, false);
+  await refreshAuthProfile();
+}
+
+async function ensureIdentity(force = false) {
+  authenticating ??= openPlayerSession(force).finally(() => { authenticating = null; });
+  return authenticating;
+}
+
+async function post(path, data = {}, online) {
+  if (backend) return remoteRequest(online);
+  try {
+    await ensureIdentity();
+    const result = await send(path, data);
+    if (result.error !== "authFailed" || !authConfig?.enabled) return result;
+    await ensureIdentity(true);
+    return send(path, data);
+  } catch {
+    return { error: "authFailed" };
+  }
+}
+
+async function remoteRequest(action) {
+  try {
+    return await action(backend);
+  } catch (error) {
+    const code = error.status === 401 ? "authFailed" : error.code;
+    return { error: Object.hasOwn(TEXTS.en, code) ? code : "network" };
+  }
+}
+
+async function run(action, success) {
+  if (busy) return;
+  busy = true;
+  const messageId = room ? "match-error" : "lobby-error";
+  feedback(messageId);
+  render();
+  try {
+    const result = await action();
+    if (result.error) feedback(messageId, result.error, true);
+    else success(result);
+  } finally {
+    busy = false;
+    render();
+  }
+}
+
+function spectatorUrl(code, viewer) {
+  const base = boardApiUrl ? boardApiUrl + "/" : document.baseURI;
+  const url = new URL("api/spectate/" + encodeURIComponent(code), base);
+  if (viewer) url.searchParams.set("viewer", viewer);
+  return url;
+}
+
+async function fetchSpectator(code, viewer) {
+  try {
+    const response = await fetch(spectatorUrl(code, viewer), {
+      credentials: "omit", cache: "no-store", redirect: "error", signal: AbortSignal.timeout(3500),
+    });
+    if (!response.ok) return { error: response.status === 404 ? "notFound" : "network" };
+    return await response.json();
+  } catch {
+    return { error: "network" };
+  }
+}
+
+function scheduleSpectator(session) {
+  if (session.closed || session.game.phase === "finished") return;
+  if (backend) {
+    session.connection = backend.subscribeRoom(session.game.code, {
+      mode: "watch", initialState: session.game,
+      load: () => fetchSpectator(session.game.code),
+      presence: session.viewer ? () => {
+        const request = backend.gameRequest(`/spectate/${session.game.code}/presence`, { viewer: session.viewer });
+        session.pendingPresence = request;
+        return request.finally(() => { if (session.pendingPresence === request) session.pendingPresence = null; });
+      } : false,
+      onState: next => updateSpectator(session, next),
+      onStatus: status => {
+        if (spectator !== session) return;
+        session.reconnecting = status !== "connected";
+        render();
+      },
+      onError: error => {
+        if (spectator !== session) return;
+        session.closed = (error.error ?? error.code) === "notFound";
+        session.reconnecting = !session.closed;
+        if (session.closed) session.connection?.close();
+        render();
+      },
+    });
+    return;
+  }
+  session.timer = setTimeout(() => pollSpectator(session), 1000);
+}
+
+function updateSpectator(session, next) {
+  if (spectator !== session || next.error) return;
+  const previous = session.game;
+  session.game = next;
+  session.deadline = clockDeadline(next);
+  if (previous.round !== next.round) session.ply = null;
+  session.reconnecting = false;
+  render();
+  if (session.ply === null && previous.round === next.round && next.moves.length === previous.moves.length + 1) {
+    presentRoundPlacement(next, next.moves.length - 1);
+  }
+}
+
+async function pollSpectator(session) {
+  if (!document.hidden) {
+    const renew = session.viewer && performance.now() >= session.renewAt;
+    const request = fetchSpectator(session.game.code, renew ? session.viewer : null);
+    if (renew) session.pendingPresence = request;
+    const next = await request;
+    if (renew) {
+      session.pendingPresence = null;
+      if (!next.error) session.renewAt = performance.now() + 5000;
+    }
+    if (spectator !== session) return;
+    if (next.error) {
+      const closed = next.error === "notFound";
+      if (!session.reconnecting || closed) {
+        session.closed = closed;
+        session.reconnecting = !closed;
+        render();
+      }
+    } else if (session.reconnecting || next.version !== session.game.version || next.phase !== session.game.phase) {
+      const previous = session.game;
+      session.game = next;
+      session.deadline = clockDeadline(next);
+      if (previous.round !== next.round) session.ply = null;
+      session.reconnecting = false;
+      render();
+      if (session.ply === null && previous.round === next.round && next.moves.length === previous.moves.length + 1) {
+        presentRoundPlacement(next, next.moves.length - 1);
+      }
+    }
+  }
+  scheduleSpectator(session);
+}
+
+async function openSpectator(code) {
+  if (room || archive || spectator || matchmaking || busy) return;
+  const viewer = crypto.randomUUID?.();
+  await run(async () => {
+    if (backend) {
+      try { await ensureIdentity(); }
+      catch { return { error: "authFailed" }; }
+    }
+    const game = await fetchSpectator(code, viewer);
+    if (game.error !== "notFound") return game;
+    refreshLobby();
+    return { error: "watchEnded" };
+  }, game => {
+    selected = null;
+    feedback("match-error");
+    spectator = {
+      game, viewer, renewAt: performance.now() + 5000, pendingPresence: null,
+      ply: null, deadline: clockDeadline(game), closed: false, reconnecting: false, timer: null,
+    };
+    scheduleSpectator(spectator);
+  });
+  (spectator ? el("status") : el("lobby-heading")).focus();
+}
+
+async function releaseSpectator(session) {
+  session.connection?.close();
+  // An in-flight renewal must reach the server before the leave request.
+  try { await session.pendingPresence; } catch { /* A failed heartbeat must not trap navigation. */ }
+  try {
+    await fetch(spectatorUrl(session.game.code, session.viewer), {
+      method: "POST", credentials: "omit", keepalive: true, redirect: "error", signal: AbortSignal.timeout(3500),
+    });
+  } catch {
+    // If the connection is lost, presence expires on the server.
+  }
+  refreshLobby();
+}
+
+function openRoom(next) {
+  lobbyView = "lobby";
+  archive = null;
+  const url = new URL(location.href);
+  url.searchParams.set("room", next.code);
+  history.replaceState(null, "", url);
+  feedback("match-error");
+  connected = true;
+  applyState(next);
+  el("status").focus();
+  connectRoom(next.code);
+}
+
+function connectRoom(code) {
+  if (backend) {
+    let subscription;
+    async function failed(error) {
+      if (stream !== subscription) return;
+      const next = { error: error.error ?? error.code ?? "network" };
+      if (["notFound", "forbidden", "authFailed", "tournamentClosed"].includes(next.error)) {
+        if (next.error === "notFound") {
+          if (room?.phase === "playing") {
+            // The other player can leave before the finished-state notification is read.
+            const result = await remoteRequest(client => client.gameRequest("/results/" + code + "/" + room.round, undefined, -1));
+            if (stream !== subscription) return;
+            if (room.phase === "playing") {
+              if (!result.error && result.state) {
+                subscription.close();
+                connected = false;
+                applyState(restoreResult(room, result, loadRecords()));
+                return;
+              }
+            }
+          }
+          if (room?.phase === "finished") {
+            subscription.close();
+            connected = false;
+            room.canRematch = false;
+            render();
+            return;
+          }
+        }
+        exitRoom(["authFailed", "tournamentClosed"].includes(next.error) ? next.error : "closed");
+        return;
+      }
+      connected = false;
+      render();
+    }
+    subscription = backend.subscribeRoom(code, {
+      initialState: room,
+      onState: next => {
+        if (stream !== subscription) return;
+        connected = true;
+        applyState(next);
+        render();
+      },
+      onStatus: status => {
+        if (stream !== subscription) return;
+        connected = status === "connected";
+        render();
+      },
+      onError: error => { void failed(error); },
+    });
+    stream = subscription;
+    return;
+  }
+  const events = new EventSource("./api/rooms/" + code + "/events");
+  stream = events;
+  events.addEventListener("state", event => {
+    if (stream !== events) return;
+    connected = true;
+    applyState(JSON.parse(event.data));
+    render();
+  });
+  events.addEventListener("closed", () => {
+    if (stream === events) exitRoom("closed");
+  });
+  events.addEventListener("reauth", async () => {
+    if (stream !== events) return;
+    events.close();
+    connected = false;
+    render();
+    try {
+      await ensureIdentity(true);
+      if (stream === events) connectRoom(code);
+    } catch {
+      if (stream === events) exitRoom("authFailed");
+    }
+  });
+  events.onerror = () => {
+    if (stream !== events) return;
+    connected = false;
+    selected = null;
+    render();
+  };
+}
+
+function roomAction(action, details, success = applyState) {
+  if (!room) return;
+  const { code, round } = room;
+  const input = { round, ...details };
+  return run(async () => {
+    const connection = stream;
+    connection?.beginWrite?.();
+    let next;
+    try {
+      next = await post("/rooms/" + code + "/" + action, input, client => client[action](code, input));
+      if (action === "leave" && next.error === "notFound") return {};
+      return next;
+    } finally {
+      if ((!next || next.error) && pendingPlacement) {
+        const preview = pendingPlacement;
+        pendingPlacement = null;
+        cancelPlacement();
+        if (room?.code === preview.code && room.round === preview.round && room.version === preview.version) selected = preview.index;
+      }
+      connection?.endWrite?.(next);
+      if (!next || next.error) void connection?.sync?.();
+    }
+  }, next => {
+    if (room?.code === code) success(next);
+  });
+}
+
+function join(code) {
+  run(() => post("/rooms/" + code + "/join", { nickname: ownNickname(), ...placementRequest() },
+    async client => { await ensureIdentity(); await tossPromotion.refresh(); await client.syncProfile(accountProfile); return client.join(code); }), openRoom);
+}
+
+function closeMatching(message = "") {
+  matchingAudio.stopWaiting();
+  const tournamentMatch = matchmaking?.mode === "tournament";
+  matchmaking = null;
+  el("matchmaking").close();
+  feedback("lobby-error", message, Boolean(message));
+  render();
+  (tournamentMatch ? el("ranking-weekly-tab") : el("start")).focus();
+  if (tournamentMatch && lobbyView === "tournament") loadRankings("weekly");
+  if (tournamentMatch) void refreshWallet();
+}
+
+async function cancelMatching(job) {
+  if (job.ticket) await post("/matchmaking/cancel", { ticket: job.ticket }, client => client.cancel(job.ticket));
+  closeMatching();
+}
+
+async function findMatch(job) {
+  job.pending = true;
+  const input = { ticket: job.ticket, mode: job.mode, rule: job.rule, catchUpCost: job.catchUpCost,
+    ...job.placement, skipFinished: true, replaceIncompatible: true };
+  const result = await post("/matchmaking", { ...input, nickname: ownNickname() }, async client => {
+    await ensureIdentity();
+    if (!job.ticket) await tossPromotion.refresh();
+    await client.syncProfile(accountProfile);
+    return client.match(input);
+  });
+  job.pending = false;
+  if (result.previousGame && saveRecord(result.previousGame)) acknowledgeRecord(result.previousGame);
+  if (result.matchError) result.error = result.matchError;
+  job.ticket = result.ticket ?? job.ticket;
+  if (job.canceled) return cancelMatching(job);
+  if (result.error) {
+    closeMatching(result.error === "coinNotEnough" ? "" : result.error);
+    if (result.error === "coinNotEnough") showCoinShortage();
+  } else if (result.game) {
+    const freshEntry = freshMatchingEntry(result.game, sessionStorage.getItem("matjjangomok.round"));
+    closeMatching();
+    openRoom(result.game);
+    openMatchIntro(result.game, freshEntry);
+  } else {
+    job.timer = setTimeout(() => findMatch(job), job.mode === "tournament" ? 1250 : 650);
+  }
+}
+
+function requestCancel() {
+  const job = matchmaking;
+  if (!job || job.canceled) return;
+  job.canceled = true;
+  matchingAudio.stopWaiting();
+  clearTimeout(job.timer);
+  render();
+  if (!job.pending) cancelMatching(job);
+}
+
+function tournamentCoinBalance(status) {
+  return serverWallet && serverWallet.version >= status.coinVersion ? serverWallet.coins : status.coins;
+}
+
+function startMatching(mode, catchUpCost) {
+  if (matchmaking || busy || tournamentCatchUpDialog.open || document.querySelector(".shell").inert) return;
+  if (mode === "tournament" && catchUpCost === undefined) {
+    const state = rankingResults.weekly;
+    const status = state?.result;
+    if (state?.loading || status?.error || !Number.isInteger(status?.remaining)) return;
+    if (status.remaining === 0) {
+      if (!(status.catchUpRemaining > 0)) return;
+      if (tournamentCoinBalance(status) < status.catchUpCost) {
+        showCoinShortage();
+        return;
+      }
+      tournamentCatchUpQuote = { cost: status.catchUpCost, missed: status.catchUpRemaining,
+        room: room ? { code: room.code, round: room.round } : null };
+      tournamentCatchUpDialog.returnValue = "";
+      tournamentCatchUpDialog.showModal();
+      render();
+      return;
+    }
+  }
+  if (room) {
+    if (mode === "tournament" && room.mode === "tournament" && room.phase === "finished") {
+      return startNextMatch("tournament", catchUpCost);
+    }
+    return;
+  }
+  const job = { canceled: false, mode, catchUpCost, rule: mode === "tournament" ? "renju" : activeRule(), placement: placementRequest() };
+  matchmaking = job;
+  feedback("lobby-error");
+  render();
+  el("matchmaking").showModal();
+  matchingAudio.waiting(job, { valid: () => matchmaking === job && !job.canceled && el("matchmaking").open });
+  findMatch(job);
+}
+el("matchmaking").addEventListener("close", () => {
+  if (!el("matchmaking").open) matchingAudio.stopWaiting();
+});
+
+tournamentCatchUpDialog.addEventListener("close", () => {
+  const quote = tournamentCatchUpQuote;
+  tournamentCatchUpQuote = undefined;
+  const sameRoom = quote?.room && room?.code === quote.room.code && room.round === quote.room.round
+    && room.phase === "finished" && room.mode === "tournament";
+  const rankingsEntry = !quote?.room && !room && lobbyView === "tournament" && rankingTab === "weekly";
+  if (tournamentCatchUpDialog.returnValue === "confirm" && quote && (sameRoom || rankingsEntry)) {
+    startMatching("tournament", quote.cost);
+  }
+  if (!matchmaking) render();
+});
+
+el("start").addEventListener("click", () => startMatching("casual"));
+el("choose-rule")?.addEventListener("click", () => {
+  ruleDialog.returnValue = "";
+  ruleDialog.showModal();
+  render();
+});
+ruleDialog?.addEventListener("close", () => {
+  if (availableRules.includes(ruleDialog.returnValue)) {
+    preferredRule = ruleDialog.returnValue;
+    try { localStorage.setItem("matjjangomok.rule", preferredRule); } catch {}
+    backupKakaopay(window);
+  }
+  render();
+  el("choose-rule")?.focus();
+});
+el("refresh-lobby").addEventListener("click", refreshLobby);
+el("show-watch").addEventListener("click", () => { forest.openWatch(); render(); refreshLobby(); });
+forest.watchDialog.addEventListener("close", render);
+el("cancel-match").addEventListener("click", requestCancel);
+el("matchmaking").addEventListener("cancel", event => {
+  event.preventDefault();
+  requestCancel();
+});
+
+function openArchive(record) {
+  archive = { ...record, phase: "finished" };
+  reviewPly = record.moves.length;
+  feedback("match-error");
+  render();
+  el("review-heading").focus();
+}
+
+function showRecords() {
+  const source = lobbyView;
+  run(async () => {
+    if (backend) {
+      await ensureIdentity();
+      await recordHistory?.ready();
+      records = loadRecords();
+      return {};
+    }
+    try {
+      await ensureIdentity();
+      return {};
+    } catch {
+      return { error: "authFailed" };
+    }
+  }, () => {
+    if (recordsReturnView !== source) recordFilter = "all";
+    recordsReturnView = source;
+    lobbyView = "records";
+    render();
+    el("records-heading").focus();
+  });
+}
+el("show-records").addEventListener("click", showRecords);
+el("tournament-records").addEventListener("click", showRecords);
+function showRankings(tab = "weekly") {
+  lobbyView = "tournament";
+  rankingTab = tab;
+  for (const state of Object.values(rankingResults)) clearTimeout(state.refresh);
+  rankingResults = {};
+  feedback("lobby-error");
+  render();
+  el("tournament-title").focus();
+  loadRankings(tab);
+  void refreshWeeklyRewards();
+}
+el("show-tournament").addEventListener("click", () => {
+  const previous = !weeklyRewards?.participation?.available && weeklyRewards?.ranking?.available;
+  showRankings(previous ? "previous" : "weekly");
+});
+el("show-rankings").addEventListener("click", () => showRankings());
+el("join-tournament").addEventListener("click", () => startMatching("tournament"));
+for (const button of weeklyRewardButtons) {
+  button.addEventListener("click", () => claimWeeklyReward(button.dataset.weeklyReward));
+}
+
+const rankingTabs = [...el("ranking-tabs").querySelectorAll("button")];
+for (const button of rankingTabs) {
+  const tab = button.dataset.ranking;
+  button.addEventListener("click", () => {
+    if (rankingTab !== tab) haptics.tap();
+    rankingTab = tab;
+    render();
+    if (!rankingResults[tab]) loadRankings(tab);
+    if (tab === "rating") void refreshPlayerCard();
+  });
+  el("ranking-" + tab + "-retry").addEventListener("click", () => {
+    el("ranking-" + tab + "-panel").focus();
+    loadRankings(tab, rankingResults[tab]?.page);
+  });
+}
+el("ranking-tabs").addEventListener("keydown", event => {
+  const index = rankingTabs.indexOf(event.target);
+  const length = rankingTabs.length;
+  const destinations = {
+    ArrowLeft: (index + length - 1) % length,
+    ArrowRight: (index + 1) % length,
+    Home: 0,
+    End: length - 1,
+  };
+  const button = rankingTabs[destinations[event.key]];
+  if (!button) return;
+  event.preventDefault();
+  button.focus();
+  button.click();
+});
+for (const [direction, step] of [["prev", -1], ["next", 1]]) {
+  el("ranking-" + direction).addEventListener("click", event => {
+    if (event.currentTarget.getAttribute("aria-disabled") === "true") return;
+    const state = rankingResults[rankingTab];
+    if (state) loadRankings(rankingTab, state.page + step, state.pageSize, true);
+  });
+}
+
+function resizeRankingPage(size) {
+  if (lobbyView !== "tournament") return;
+  const state = rankingResults[rankingTab];
+  if (!state?.result || state.result.error || state.pageSize === size) return;
+  const first = (state.page - 1) * state.pageSize;
+  loadRankings(rankingTab, Math.floor(first / size) + 1, size, true);
+}
+
+async function loadRankings(tab, page = 1, pageSize = rankingResults[tab]?.pageSize ?? rankingPageTarget, reusePages = false, cooldown = 3) {
+  const previous = rankingResults[tab];
+  if (!backend || (cooldown >= 0 && previous?.loading && previous.page === page && previous.pageSize === pageSize)) return;
+  clearTimeout(previous?.refresh);
+  const source = reusePages && previous?.source || new RankingPages(tab,
+    path => remoteRequest(client => client.gameRequest(path, undefined, cooldown)));
+  const state = { page, pageSize, source, result: previous?.result, loading: true };
+  rankingResults[tab] = state;
+  const visible = () => rankingResults[tab] === state && ((lobbyView === "tournament" && rankingTab === tab)
+    || (tab === "weekly" && room?.mode === "tournament" && room.phase === "finished"));
+  if (visible()) render();
+  state.result = await source.page(page, pageSize);
+  state.loading = false;
+  if (rankingResults[tab] !== state) return;
+  state.page = state.result.page;
+  const { resetsAt, serverNow, finalized, finalizesAt } = state.result;
+  const refreshAt = tab === "previous" && finalized === false ? finalizesAt : resetsAt;
+  const refreshAfter = Date.parse(refreshAt) - Date.parse(serverNow);
+  if (Number.isFinite(refreshAfter)) {
+    state.refresh = setTimeout(() => {
+      if (rankingResults[tab] !== state) return;
+      delete rankingResults[tab];
+      if ((lobbyView === "tournament" && rankingTab === tab)
+        || (tab === "weekly" && room?.mode === "tournament" && room.phase === "finished")) {
+        loadRankings(tab, state.page, state.pageSize, false, -1);
+      }
+    }, Math.max(1000, refreshAfter + 100));
+  }
+  if (visible()) {
+    render();
+  }
+}
+
+function rankingPlayerName(row) {
+  return row.you ? ownNickname(row) : profileNickname(row, t, t("playerAlias", { alias: row.alias }));
+}
+
+function renderRankingPlace(place, position) {
+  const ranked = Number.isInteger(position) && position > 0;
+  place.textContent = ranked ? ratingNumber(position) : "-";
+  place.title = ranked ? t("rankingPosition", { rank: ratingNumber(position) }) : t("rankingPositionEmpty");
+  place.setAttribute("aria-label", place.title);
+  if (ranked && position <= 3) place.dataset.medal = position;
+  else delete place.dataset.medal;
+}
+
+function rankingCard(row, tab, index) {
+  const card = el("ranking-card-template").content.firstElementChild.cloneNode(true);
+  const own = row.you;
+  const key = own ? "self" : row.alias ? "alias:" + row.alias : "entry:" + index;
+  card.dataset.rankingPlayer = key;
+  card.addEventListener("click", () => openPlayerProfile(undefined, { row, tab, key }));
+  card.toggleAttribute("data-own-ranking", Boolean(own));
+  const place = card.querySelector(".ranking-place");
+  renderRankingPlace(place, row.rank);
+
+  const badge = card.querySelector(".player-card-badge");
+  badge.hidden = !own;
+  if (own) badge.textContent = t("playerInfo");
+  const photo = card.querySelector("img");
+  photo.addEventListener("error", () => { photo.hidden = true; }, { once: true });
+  setRecordPhoto(photo, own ? { photoUrl: playerPhoto } : row);
+  const rank = card.querySelector(".player-card-rank");
+  const label = recordRank({ rating: own ? playerStats?.rating ?? row.rating : row.rating });
+  rank.textContent = label;
+  rank.hidden = !label;
+  const name = card.querySelector(".player-card-name");
+  name.textContent = name.title = rankingPlayerName(row);
+
+  const record = card.querySelector(".player-card-record");
+  record.hidden = ![row.wins, row.draws, row.losses].every(Number.isInteger);
+  if (!record.hidden) record.textContent = t("careerRecord", row) + " · " + t("profileWinRate", { rate: winRate(row) });
+  card.querySelector(".ranking-card-score strong").textContent = tab === "rating"
+    ? t("profileRatingValue", { rating: ratingNumber(row.rating) })
+    : t("forestRankingPoints", { n: row.points });
+  return card;
+}
+
+function renderRankings() {
+  renderChampionship();
+  for (const button of rankingTabs) {
+    const selected = button.dataset.ranking === rankingTab;
+    button.setAttribute("aria-selected", String(selected));
+    button.tabIndex = selected ? 0 : -1;
+    el(button.getAttribute("aria-controls")).hidden = !selected;
+  }
+  const rating = rankingTab === "rating";
+  const previous = rankingTab === "previous";
+  const state = rankingResults[rankingTab];
+  const result = state?.result;
+  const rows = result?.standings ?? [];
+  const summary = el("ranking-" + rankingTab + "-summary");
+  summary.hidden = !result || Boolean(result.error);
+  if (!summary.hidden) {
+    const total = result.total ?? rows.length;
+    summary.querySelector("span").textContent = t("rankingPlayerCount", { n: total, count: ratingNumber(total) });
+  }
+  const message = el("ranking-" + rankingTab + "-message");
+  const empty = rating ? "noRatingStandings" : previous
+    ? result?.finalized === false ? "tournamentFinalizing" : "noPreviousStandings"
+    : "noStandings";
+  message.textContent = t(!backend ? "rankingsUnavailable" : result?.error ? "rankingsLoadFailed" : result ? empty : "rankingsLoading");
+  message.hidden = rows.length > 0;
+  el("ranking-" + rankingTab + "-retry").hidden = !result?.error;
+  const standings = rating ? "rating-standings" : previous ? "previous-standings" : "standings";
+  el(standings).replaceChildren(...rows.map((row, index) => {
+    const entry = document.createElement("li");
+    entry.append(rankingCard(row, rankingTab, index));
+    return entry;
+  }));
+  if (!rating) {
+    const dates = el("ranking-" + rankingTab + "-dates");
+    dates.hidden = !result?.startsAt;
+    if (!dates.hidden) {
+      const date = value => NcqLang.date(value, { month: "short", day: "numeric", timeZone: "Asia/Seoul" });
+      dates.textContent = date(Date.parse(result.startsAt)) + " – " + date(Date.parse(result.endsAt) - 1);
+      el("forest-championship-period").textContent = championshipPeriod(Date.parse(result.startsAt), Date.parse(result.endsAt));
+      if (previous) dates.textContent += " · " + t(result.finalized ? "tournamentFinalized" : "tournamentFinalizing");
+    }
+  }
+  const page = state?.page ?? 1;
+  const pages = result?.pages ?? 1;
+  const pagination = el("ranking-pagination");
+  pagination.hidden = !result || (page === 1 && pages === 1);
+  el("ranking-page").textContent = t("rankingPageOf", { page: ratingNumber(page), pages: ratingNumber(pages) });
+  el("ranking-page").setAttribute("aria-label", t("rankingPage", { page: ratingNumber(page) }));
+  el("ranking-prev").setAttribute("aria-disabled", String(page === 1 || state?.loading === true));
+  el("ranking-next").setAttribute("aria-disabled", String(Boolean(result?.error) || !result?.hasMore || state?.loading === true));
+}
+function closeLobbyMenu(event) {
+  render();
+  if (lobbyView === "lobby" && !event.currentTarget.open) void showReturnAd();
+}
+
+async function showLobby() {
+  if (lobbyView === "lobby") return;
+  const fromRecords = lobbyView === "records";
+  lobbyView = "lobby";
+  feedback("lobby-error");
+  render();
+  refreshLobby();
+  void refreshWeeklyRewards();
+  await showReturnAd();
+  el(fromRecords ? "show-records" : "start").focus();
+}
+el("show-lobby").addEventListener("click", showLobby);
+el("records-back").addEventListener("click", showLobby);
+el("record-filters").addEventListener("click", event => {
+  const button = event.target.closest("[data-filter]");
+  if (!button) return;
+  if (recordFilter !== button.dataset.filter) haptics.tap();
+  recordFilter = button.dataset.filter;
+  renderRecords();
+  el("record-list").parentElement.scrollTop = 0;
+});
+function leaveMatch() {
+  if (room?.mode === "ai" && gameModes?.undoBlocked()) return;
+  if (spectator) {
+    const session = spectator;
+    session.connection?.close();
+    clearTimeout(session.timer);
+    cancelAnimationFrame(turnFrame);
+    spectator = null;
+    cancelPlacement();
+    render();
+    forest.openWatch();
+    render();
+    refreshLobby();
+    if (session.viewer) releaseSpectator(session);
+    el("lobby-heading").focus();
+    return;
+  }
+  if (archive) {
+    cancelPlacement();
+    const sharedView = archive.sharedView;
+    const id = archive.id;
+    archive = null;
+    if (sharedView) {
+      const url = new URL(location.href);
+      url.hash = "";
+      history.replaceState(null, "", url);
+      render();
+      refreshLobby();
+      refreshPlayerCard();
+      el("start").focus();
+      return;
+    }
+    render();
+    const row = Array.from(el("record-list").children).find(item => item.dataset.recordId === id);
+    (row?.querySelector(".record-open") ?? el("records-heading")).focus();
+    return;
+  }
+  if (!room || busy || leaveDialog.open) return;
+  if (room.phase === "finished") return leaveCurrentRoom();
+  leaveDialogRoom = { code: room.code, round: room.round };
+  leaveDialog.returnValue = "";
+  renderLeaveConfirmation();
+  leaveDialog.showModal();
+  render();
+  el("leave-dialog-title").focus();
+}
+
+function isResigning(game) {
+  return game?.phase === "playing" && (game.moves.length > 0 || game.passed || game.mode === "tournament");
+}
+
+function renderLeaveConfirmation() {
+  el("leave-dialog-message").textContent = t(isResigning(room) ? "confirmResign" : "confirmLeave");
+}
+
+function leaveCurrentRoom() {
+  const finished = room?.phase === "finished";
+  if (finished && !connected) return exitRoom("", { showAd: true });
+  const resigning = isResigning(room);
+  roomAction("leave", room?.mode === "ai" ? { returnResult: true } : {}, next => {
+    if (next.phase === "finished") {
+      if (resigning) void recordMissionRound(next);
+      if (!backend) saveRecord(next);
+      else if (next.mode === "ai" && saveRecord(next)) acknowledgeRecord(next);
+    }
+    void exitRoom("", { showAd: finished });
+  });
+}
+
+async function startNextMatch(mode = "casual", catchUpCost) {
+  if (busy || nextMatchPending || !room || room.phase !== "finished" || (room.mode === "tournament") !== (mode === "tournament")
+    || document.querySelector(".shell").inert) return;
+  nextMatchPending = true;
+  render();
+  try {
+    if (connected) {
+      let left = false;
+      await roomAction("leave", {}, next => {
+        if (!backend && next.phase === "finished") saveRecord(next);
+        left = true;
+      });
+      if (!left) return;
+    }
+    // The old room is gone and any eligible return ad is closed before queueing.
+    await exitRoom("", { showAd: true, openRankings: mode !== "tournament" });
+    if (mode === "tournament") {
+      lobbyView = "tournament";
+      rankingTab = "weekly";
+      render();
+    }
+    startMatching(mode, catchUpCost);
+  } finally {
+    nextMatchPending = false;
+    render();
+  }
+}
+leaveDialog.addEventListener("close", () => {
+  if (leaveDialog.open) return;
+  const target = leaveDialogRoom;
+  leaveDialogRoom = null;
+  render();
+  if (leaveDialog.returnValue !== "leave" || busy || !target
+      || room?.code !== target.code || room.round !== target.round) return;
+  leaveCurrentRoom();
+});
+el("leave").addEventListener("click", leaveMatch);
+el("watch-back").addEventListener("click", leaveMatch);
+el("leave-match").addEventListener("click", leaveMatch);
+el("review-back").addEventListener("click", leaveMatch);
+reviewExit.addEventListener("click", leaveMatch);
+reviewMoveNumbers.addEventListener("click", () => {
+  showMoveNumbers = !showMoveNumbers;
+  render();
+});
+el("review-favorite").addEventListener("click", event => {
+  const button = event.currentTarget;
+  markFavorite(button, toggleFavorite(button.dataset.recordId));
+});
+for (const side of ["opponent", "own"]) {
+  const image = el("review-" + side + "-photo");
+  image.addEventListener("error", () => { image.hidden = true; });
+}
+el("place").addEventListener("click", () => {
+  if (!canAct() || selected === null) return;
+  const preview = previewPlacement(room, selected);
+  if (!preview) return roomAction("move", { index: selected, version: room.version });
+  pendingPlacement = preview;
+  selected = null;
+  render();
+  void presentPlacement(preview.index, room.placementStyles?.[room.you - 1], delay => haptics.once(
+    `move:${roundHapticKey(room)}:${preview.ply}`, "medium", { delay,
+      valid: () => room?.code === preview.code && room.round === preview.round && !archive && !spectator }));
+  roomAction("move", { index: preview.index, version: preview.version });
+});
+el("opening-actions").addEventListener("click", event => {
+  const button = event.target.closest("[data-opening]");
+  if (!button || button.hidden || !canAct()) return;
+  roomAction("move", { action: { type: button.dataset.opening }, version: room.version });
+});
+reviewRoomAction.addEventListener("click", () => {
+  if (reviewRoomAction.dataset.action === "ai") {
+    const level = room.botLevel;
+    void roomAction("leave", {}, async () => { await exitRoom("", { openRankings: false }); void startAiGame(level); });
+  } else if (reviewRoomAction.dataset.action === "leave") leaveMatch();
+  else if (reviewRoomAction.dataset.action === "next") void startNextMatch();
+  else roomAction("rematch", placementRequest());
+});
+el("review").addEventListener("click", event => {
+  const button = event.target.closest("[data-step]");
+  const game = room ?? archive ?? spectator?.game;
+  if (!button || button.disabled || (!spectator && game?.phase !== "finished")) return;
+  const step = button.dataset.step;
+  const last = game.moves.length;
+  const before = spectator ? spectator.ply ?? last : reviewPly;
+  const destination = { first: 0, previous: before - 1, next: before + 1, last };
+  const ply = Math.max(0, Math.min(last, destination[step]));
+  if (spectator) spectator.ply = ply === last ? null : ply;
+  else reviewPly = ply;
+  render();
+  if (step === "next" && ply > before) presentRoundPlacement(game, before);
+  else cancelPlacement();
+  if (button.disabled) {
+    el("review").querySelector(ply ? '[data-step="previous"]' : '[data-step="next"]').focus();
+  }
+});
+rankCelebration.addEventListener("click", () => rankCelebration.close());
+rankCelebration.addEventListener("close", () => {
+  if (rankCelebration.open) return;
+  cancelPromotionHaptic?.();
+  cancelPromotionHaptic = undefined;
+  cancelPromotionSound?.();
+  cancelPromotionSound = undefined;
+  clearTimeout(promotionCloseTimer);
+  if (resultDialog.open) el("result-confirm").focus({ preventScroll: true });
+});
+resultDialog.addEventListener("close", () => {
+  if (resultDialog.open) return;
+  resultAudio.stop();
+  rankCelebration.close();
+  awaitingResultDismissal = false;
+  render();
+  if (room?.phase === "finished") el("review-heading").focus();
+});
+el("share").addEventListener("close", render);
+el("invite").addEventListener("click", async () => {
+  const url = new URL(location.href);
+  url.search = "";
+  url.searchParams.set("room", room.code);
+  try {
+    await navigator.clipboard.writeText(url.href);
+    feedback("match-error", "copied");
+  } catch {
+    el("share-url").value = url.href;
+    el("share").showModal();
+    render();
+    el("share-url").select();
+  }
+});
+
+function focusCell(index) {
+  cells[focused].tabIndex = -1;
+  focused = index;
+  cells[focused].tabIndex = 0;
+  cells[focused].focus({ preventScroll: true });
+}
+
+board.addEventListener("click", event => {
+  const cell = event.target.closest(".cell");
+  if (!cell || !canAct()) return;
+  const index = Number(cell.dataset.index);
+  if (room.board[index]) return;
+  const restriction = moveLimits(room)[index];
+  cancelPlacement();
+  if (restriction) haptics.once(`invalid:${roundHapticKey(room)}:${room.moves.length}:${index}`, "error");
+  else if (selected !== index) haptics.tap();
+  selected = restriction ? null : index;
+  focusCell(index);
+  feedback("match-error", restriction, Boolean(restriction));
+  render();
+});
+
+board.addEventListener("keydown", event => {
+  const offsets = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -size, ArrowDown: size };
+  const offset = offsets[event.key];
+  if (!offset) return;
+  event.preventDefault();
+  const next = focused + offset;
+  if (next < 0 || next >= cells.length) return;
+  if (Math.abs(offset) === 1 && Math.floor(next / size) !== Math.floor(focused / size)) return;
+  focusCell(next);
+});
+
+async function startAiGame(level) {
+  if (room || archive || spectator || matchmaking || busy || gameModes?.isOpen()) return;
+  busy = true; aiStarting = true; feedback("lobby-error"); render();
+  try {
+    const response = await post("/ai/start", { level, ...placementRequest(), nickname: ownNickname() }, async client => {
+      await ensureIdentity(); await tossPromotion.refresh(); await client.syncProfile(accountProfile);
+      return client.gameRequest("/ai/start", { level, ...placementRequest() });
+    });
+    if (response.previousGame && saveRecord(response.previousGame)) acknowledgeRecord(response.previousGame);
+    if (response.error) feedback("lobby-error", response.error, true);
+    else if (response.game) openRoom(response.game);
+  } finally { busy = false; aiStarting = false; render(); }
+}
+gameModes = createGameModes({ t, rankName, startAi: startAiGame,
+  journeyChanged: reportCurrentJourney,
+  canOpen: starting => !room && !archive && !spectator && !matchmaking && !busy && !nextMatchPending
+    && !document.querySelector(".shell").inert && !gameModes?.isOpen() && (starting || !document.querySelector("dialog[open]")),
+  current: () => room, appearance: surface => setAppearanceTheme(surface, shopState.appearance),
+  changed: () => render(), settings: showOptions, sound: () => playPlacementSound(.032), haptics,
+  completedRound: recordCompletedRound,
+  returnToLobby: () => {
+    const adRound = pendingMatchAdRound;
+    pendingMatchAdRound = null;
+    if (adRound) void showReturnAd(adRound);
+  },
+  undoAi: async input => {
+    if (!room || room.mode !== "ai" || room.code !== input?.code || busy) return { error: "stale" };
+    busy = true; cancelPlacement(); pendingPlacement = null; selected = null; render();
+    try {
+      const result = await post("/ai/undo", input, client => client.gameRequest("/ai/undo", input));
+      if (result.wallet) applyWallet(result.wallet);
+      if (result.game && room?.code === input.code) applyState(result.game);
+      if (result.error === "stale" && stream?.resync) void stream.resync();
+      return result;
+    } finally { busy = false; render(); }
+  },
+});
+
+try {
+  const config = await (await fetch("./ncq/board-config.json", { signal: AbortSignal.timeout(3500) })).json();
+  if (config.enabled !== false &&
+      /^https:\/\/[a-z0-9]{20}\.supabase\.co\/functions\/v1\/(?:ncq-board\/)?matjjangomok$/.test(config.apiUrl)) {
+    backend = NcqBoard.create({
+      apiUrl: config.apiUrl,
+      region: config.region,
+      async getToken(options) {
+        await ensureIdentity();
+        return window.NcqAuth.getToken({ ...options, expectedPlayer: authSession.player });
+      },
+    });
+    boardApiUrl = config.apiUrl;
+    availableRules = ["free"];
+    const response = await fetch(boardApiUrl + "/api/rules", {
+      credentials: "omit", redirect: "error", cache: "no-store", signal: AbortSignal.timeout(1800),
+    });
+    if (response.ok) {
+      const rules = await response.json();
+      if (Array.isArray(rules)) availableRules = Object.keys(ruleNames).filter(rule => rule === "free" || rules.includes(rule));
+    }
+  }
+} catch {
+  // Local copies can run without a kickoff profile.
+}
+function sharedRecordToken() {
+  return new URLSearchParams(location.hash.slice(1)).get("record");
+}
+
+async function loadSharedRecord(shareId) {
+  if (!boardApiUrl || !recordTokenPattern.test(shareId)) {
+    feedback("lobby-error", "recordSharedUnavailable", true);
+    return;
+  }
+  try {
+    const response = await fetch(boardApiUrl + "/api/shared-records/" + shareId, {
+      credentials: "omit", cache: "no-store", redirect: "error", referrerPolicy: "no-referrer",
+      signal: AbortSignal.timeout(8000),
+    });
+    if (response.status === 404) {
+      feedback("lobby-error", "recordSharedUnavailable", true);
+      return;
+    }
+    if (!response.ok) throw new Error();
+    const record = await response.json();
+    openArchive({ ...record, id: shareId, shareId, sharedView: true, you: record.black === 2 ? 1 : 2 });
+  } catch {
+    feedback("lobby-error", "network", true);
+  }
+}
+
+const adOwnershipReady = initializeAdPurchase();
+const shareId = sharedRecordToken();
+if (shareId !== null) {
+  await loadSharedRecord(shareId);
+} else {
+  const inviteCode = new URL(location.href).searchParams.get("room") ?? "";
+  if (backend ? recordTokenPattern.test(inviteCode) : /^[A-Z2-9]{6}$/i.test(inviteCode)) {
+    join(backend ? inviteCode : inviteCode.toUpperCase());
+  }
+}
+window.addEventListener("hashchange", () => {
+  if (sharedRecordToken() !== null || archive?.sharedView) location.reload();
+});
+if (!backend) bindRecordHistory("device", false);
+render();
+scheduleMissionReset();
+if (kakaopay) void window.NcqKakao.start();
+if (lobbyView === "tournament" && !rankingResults[rankingTab]) loadRankings(rankingTab);
+refreshLobby();
+for (const image of [...playerPhotos, el("profile-photo"), el("match-intro-opponent-photo")]) {
+  image.addEventListener("load", () => { image.hidden = !image.hasAttribute("src"); });
+  image.addEventListener("error", () => { image.hidden = true; });
+}
+if (shareId === null) {
+  refreshPlayerCard();
+  void refreshWallet();
+  void refreshWeeklyRewards();
+}
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) {
+    void refreshAuthProfile({ forceRefresh: true });
+    renderDailyMissions();
+    presentCoinReward();
+    void refreshWallet();
+    void refreshWeeklyRewards();
+  }
+  refreshLobby();
+});
+document.addEventListener("close", () => { void tossPromotion.refresh(); }, true);
+setInterval(refreshLobby, 2500);

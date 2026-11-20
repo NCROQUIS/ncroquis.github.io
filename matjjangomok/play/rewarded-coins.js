@@ -1,1 +1,54 @@
-function qn_0x1fec(_0x586b2e,_0x539f82){_0x586b2e=_0x586b2e-0x147;const _0x2a7095=qn_0x2a70();let _0x1fecbb=_0x2a7095[_0x586b2e];if(qn_0x1fec['kDFvlh']===undefined){var _0x26b8cd=function(_0x38cf56){const _0x3a5364='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x5e399b='',_0x6d4d5f='';for(let _0xfe8fb8=0x0,_0x5ac7e2,_0x271114,_0x1d52aa=0x0;_0x271114=_0x38cf56['charAt'](_0x1d52aa++);~_0x271114&&(_0x5ac7e2=_0xfe8fb8%0x4?_0x5ac7e2*0x40+_0x271114:_0x271114,_0xfe8fb8++%0x4)?_0x5e399b+=String['fromCharCode'](0xff&_0x5ac7e2>>(-0x2*_0xfe8fb8&0x6)):0x0){_0x271114=_0x3a5364['indexOf'](_0x271114);}for(let _0x4897c7=0x0,_0x5bf41e=_0x5e399b['length'];_0x4897c7<_0x5bf41e;_0x4897c7++){_0x6d4d5f+='%'+('00'+_0x5e399b['charCodeAt'](_0x4897c7)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x6d4d5f);};qn_0x1fec['gygppK']=_0x26b8cd,qn_0x1fec['SUWHhu']={},qn_0x1fec['kDFvlh']=!![];}const _0x42dbfd=_0x2a7095[0x0];qn_0x1fec['itstMA']!==_0x42dbfd&&(qn_0x1fec['SUWHhu']={},qn_0x1fec['itstMA']=_0x42dbfd);const _0x586117=qn_0x1fec['SUWHhu'][_0x586b2e];return _0x586117===undefined?(_0x1fecbb=qn_0x1fec['gygppK'](_0x1fecbb),qn_0x1fec['SUWHhu'][_0x586b2e]=_0x1fecbb):_0x1fecbb=_0x586117,_0x1fecbb;}const qn_0x5c557b=qn_0x1fec;function qn_0x2a70(){const _0x51501b=['zxjYB3i','odG1ntq5v3nzwLDP','ndyXrfbsrfDM','ndHgzxLiA0C','mtG5ndq4oevQs2T5rq','ntuZmM5OvvHlzq','CMfUzg9Tvvvjra','zwfYBMvK','BMv0D29YAW','mtiWnwrirgj1Ba','mJfdtvrUsKC','odbLAMvMB3i','nZyYndqZzLfNrMTp','mZeWoda2D1buyuvI','CMv3yxjKqwrcDxn5','y2fUy2vS','CMv3yxjKqwq','nZrSBuT4wg4','y2XHAw0','nZe3nJH6vgnbz3i'];qn_0x2a70=function(){return _0x51501b;};return qn_0x2a70();}(function(_0x20f72f,_0x4879e0){const _0x5341af=qn_0x1fec,_0x44166b=_0x20f72f();while(!![]){try{const _0x1d7c09=-parseInt(_0x5341af(0x149))/0x1*(parseInt(_0x5341af(0x158))/0x2)+parseInt(_0x5341af(0x148))/0x3+parseInt(_0x5341af(0x14c))/0x4*(-parseInt(_0x5341af(0x150))/0x5)+-parseInt(_0x5341af(0x14b))/0x6+parseInt(_0x5341af(0x151))/0x7*(parseInt(_0x5341af(0x15a))/0x8)+parseInt(_0x5341af(0x154))/0x9*(parseInt(_0x5341af(0x152))/0xa)+-parseInt(_0x5341af(0x153))/0xb*(-parseInt(_0x5341af(0x14a))/0xc);if(_0x1d7c09===_0x4879e0)break;else _0x44166b['push'](_0x44166b['shift']());}catch(_0x599f53){_0x44166b['push'](_0x44166b['shift']());}}}(qn_0x2a70,0x33268));export function createRewardedCoins({request:_0x6d4d5f,watch:_0xfe8fb8,player:_0x5ac7e2,changed:_0x271114,credited:_0x1d52aa,uuid:uuid=()=>crypto[qn_0x5c557b(0x14d)]()}){let _0x4897c7=null,_0x5bf41e=![],_0x227f08=null,_0x1c8332=null;function _0x156da0(){_0x1c8332!==_0x5ac7e2()&&(_0x1c8332=_0x5ac7e2(),_0x4897c7=null,_0x227f08=null);}return{get 'state'(){const _0x282d64=qn_0x1fec;return _0x156da0(),{'status':_0x4897c7,'busy':_0x5bf41e,'retry':!!_0x227f08?.[_0x282d64(0x14e)]};},async 'refresh'(){const _0x9124d5=qn_0x1fec;_0x156da0();const _0x3d6980=_0x1c8332,_0x52c707=await _0x6d4d5f('');return _0x3d6980===_0x5ac7e2()&&!_0x52c707[_0x9124d5(0x147)]&&(_0x4897c7=_0x52c707['rewardAd'],_0x271114()),_0x52c707;},async 'run'(){const _0x387854=qn_0x1fec;_0x156da0();if(_0x5bf41e||!_0x1c8332)return{'error':_0x387854(0x155)};const _0x3df9c2=_0x1c8332;_0x5bf41e=!![],_0x271114();try{_0x227f08??={'id':uuid(),'earned':![]};const _0x3d7750=_0x227f08['id'];if(!_0x227f08['earned']){const _0x3af2ac=await _0x6d4d5f('start',_0x3d7750);if(_0x3df9c2!==_0x5ac7e2())return{};if(_0x3af2ac[_0x387854(0x147)]){if(_0x3af2ac[_0x387854(0x147)]!==_0x387854(0x14f))_0x227f08=null;return _0x3af2ac;}_0x4897c7=_0x3af2ac[_0x387854(0x157)];let _0x2f78fd=![];try{_0x2f78fd=await _0xfe8fb8();}catch{}if(_0x3df9c2!==_0x5ac7e2())return{};if(!_0x2f78fd){const _0x52b3ce=await _0x6d4d5f(_0x387854(0x156),_0x3d7750);if(_0x52b3ce[_0x387854(0x147)]!=='network')_0x227f08=null;return{'canceled':!![]};}_0x227f08['earned']=!![];}const _0x397616=await _0x6d4d5f(_0x387854(0x159),_0x3d7750);if(_0x3df9c2!==_0x5ac7e2())return{};if(!_0x397616['error'])_0x4897c7=_0x397616[_0x387854(0x157)],_0x227f08=null,_0x1d52aa(_0x397616);else{if(_0x397616[_0x387854(0x147)]!=='network')_0x227f08=null;}return _0x397616;}finally{_0x5bf41e=![],_0x156da0(),_0x271114();}}};}
+// The ad SDK completion callback is the reward signal. The server owns quota and crediting.
+export function createRewardedCoins({ request, watch, player, changed, credited, uuid = () => crypto.randomUUID() }) {
+  let status = null;
+  let busy = false;
+  let pending = null;
+  let owner = null;
+  function sync() {
+    if (owner !== player()) { owner = player(); status = null; pending = null; }
+  }
+  return {
+    get state() { sync(); return { status, busy, retry: !!pending?.earned }; },
+    async refresh() {
+      sync();
+      const account = owner;
+      const result = await request("");
+      if (account === player() && !result.error) { status = result.rewardAd; changed(); }
+      return result;
+    },
+    async run() {
+      sync();
+      if (busy || !owner) return { error: "rewardAdBusy" };
+      const account = owner;
+      busy = true;
+      changed();
+      try {
+        pending ??= { id: uuid(), earned: false };
+        const id = pending.id;
+        if (!pending.earned) {
+          const start = await request("start", id);
+          if (account !== player()) return {};
+          if (start.error) { if (start.error !== "network") pending = null; return start; }
+          status = start.rewardAd;
+          let complete = false;
+          try { complete = await watch(); } catch { /* Canceled or unavailable ads never grant. */ }
+          if (account !== player()) return {};
+          if (!complete) {
+            const canceled = await request("cancel", id);
+            if (canceled.error !== "network") pending = null;
+            return { canceled: true };
+          }
+          pending.earned = true;
+        }
+        const result = await request("claim", id);
+        if (account !== player()) return {};
+        if (!result.error) {
+          status = result.rewardAd;
+          pending = null;
+          credited(result);
+        } else if (result.error !== "network") pending = null;
+        return result;
+      } finally { busy = false; sync(); changed(); }
+    },
+  };
+}

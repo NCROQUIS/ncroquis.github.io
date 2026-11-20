@@ -1,1 +1,52 @@
-const qq_0x1aec3a=qq_0x3c03;function qq_0x5297(){const _0x387711=['BMvWDhvUzq','Cgf0Aa','A2fRyw9WyxK','y3jLyxrLrwXLBwvUDa','otbmq2LOAhq','Aw5WDxqSDgv4DgfYzweSC2vSzwn0lfTJB250zw50zwrPDgfIBgvDoM5VDcHBy29UDgvUDgvKAxrHyMXLpsDMywXZzsDDksXBzgf0ys1JB3b5ywjSzv0','ChjLDMvUDerLzMf1Bhq','r09prY1trY0YnJeXmteTmZGYma','BM90zq','tKnr','zgf0zq','BwfW','nJu4odK2wxzjC3bZ','y2XVC2vZDa','ywDLuMf0Aw5NqwXS','Dhj1zq','C2nYB2XStgvMDa','ChjVDMLKzxi','Dg91y2HLBMq','CM9Szq','AhjLzG','ywjZ','mtuZDKLtsMj0','C2vHCMnOugfYyw1Z','mZGXoxLPvhjLBq','y2fUy2vSywjSzq','Bg9JyxrPB24','ywDL','ntu3odm2nvLIANrMyW','Dg91y2HJyw5JzwW','y29TCg9ZzwrqyxrO','rwXLBwvUDa','CMf0Aw5Nrgf0zq','zg9JDw1LBNrfBgvTzw50','zMLUza','mtuZnJmYmZbqufjpufq','AgfZt3DU','C2nYB2XSvg9W','DgfYz2v0','ywXS','C3bHBG','CMf0Aw5NtNvTyMvY','C2v0qxr0CMLIDxrL','yM9KEq','nNDkvu95Ca','Dgv4DenVBNrLBNq','mtaYotG2me1HC0H4vG','nJqWnJC5mMT4BgLcBq','BNvTyMvY','y2XPzw50wq','zNjVBq','ywrKrxzLBNrmAxn0zw5LCG','Ate4BG','zgf0yxnLDa','zgf0ys1VBw9RlxDLyNzPzxCTDwK','Dg91y2HLCW','AwrLBNrPzMLLCG','C2nYB2XSv2LKDgG','AgfZqxr0CMLIDxrL','y2XPzw50sgvPz2H0','CMf0Aw5N','BgvUz3rO','quXm','mJaYnI0Xms0Xmq','DgvZDa','Ate4BKf0Dhi','BgfUzW','mti2mdK4og9XDhrZqW','B3zLCMzSB3Dz','y2XPzw50wa','BgfUz3vHz2u','y2XPzw50v2LKDgG'];qq_0x5297=function(){return _0x387711;};return qq_0x5297();}function qq_0x3c03(_0x6b96ab,_0x55faf3){_0x6b96ab=_0x6b96ab-0x154;const _0x529722=qq_0x5297();let _0x3c0333=_0x529722[_0x6b96ab];if(qq_0x3c03['SZeBJK']===undefined){var _0x566ca6=function(_0x161be3){const _0x246cd2='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x5f5b8d='',_0x50c703='';for(let _0x2577d7=0x0,_0x374b41,_0x43642a,_0x154b59=0x0;_0x43642a=_0x161be3['charAt'](_0x154b59++);~_0x43642a&&(_0x374b41=_0x2577d7%0x4?_0x374b41*0x40+_0x43642a:_0x43642a,_0x2577d7++%0x4)?_0x5f5b8d+=String['fromCharCode'](0xff&_0x374b41>>(-0x2*_0x2577d7&0x6)):0x0){_0x43642a=_0x246cd2['indexOf'](_0x43642a);}for(let _0x29c7a6=0x0,_0x3b75a3=_0x5f5b8d['length'];_0x29c7a6<_0x3b75a3;_0x29c7a6++){_0x50c703+='%'+('00'+_0x5f5b8d['charCodeAt'](_0x29c7a6)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x50c703);};qq_0x3c03['nMRoiJ']=_0x566ca6,qq_0x3c03['SBmEXb']={},qq_0x3c03['SZeBJK']=!![];}const _0x1f69fd=_0x529722[0x0];qq_0x3c03['RpCPJs']!==_0x1f69fd&&(qq_0x3c03['SBmEXb']={},qq_0x3c03['RpCPJs']=_0x1f69fd);const _0x1130a6=qq_0x3c03['SBmEXb'][_0x6b96ab];return _0x1130a6===undefined?(_0x3c0333=qq_0x3c03['nMRoiJ'](_0x3c0333),qq_0x3c03['SBmEXb'][_0x6b96ab]=_0x3c0333):_0x3c0333=_0x1130a6,_0x3c0333;}(function(_0x2fc5e6,_0x11ba1a){const _0x1dce9a=qq_0x3c03,_0x53c4f3=_0x2fc5e6();while(!![]){try{const _0x29e85c=parseInt(_0x1dce9a(0x15a))/0x1+parseInt(_0x1dce9a(0x178))/0x2*(parseInt(_0x1dce9a(0x18c))/0x3)+-parseInt(_0x1dce9a(0x16f))/0x4+parseInt(_0x1dce9a(0x190))/0x5+parseInt(_0x1dce9a(0x158))/0x6*(-parseInt(_0x1dce9a(0x15b))/0x7)+-parseInt(_0x1dce9a(0x180))/0x8*(-parseInt(_0x1dce9a(0x18a))/0x9)+-parseInt(_0x1dce9a(0x197))/0xa;if(_0x29e85c===_0x11ba1a)break;else _0x53c4f3['push'](_0x53c4f3['shift']());}catch(_0x31ebe4){_0x53c4f3['push'](_0x53c4f3['shift']());}}}(qq_0x5297,0xcc232));import{TEXTS}from'./texts.js?v=390eb41a0de0';export const KAKAO_RATING=Object['freeze']({'age':qq_0x1aec3a(0x16a),'number':qq_0x1aec3a(0x17b),'date':qq_0x1aec3a(0x16b)});export function installWebviewUI(_0x50c703,_0x2577d7){const _0x5a29e7=qq_0x1aec3a;if(_0x2577d7[_0x5a29e7(0x195)][_0x5a29e7(0x166)](_0x5a29e7(0x162)))return;_0x2577d7[_0x5a29e7(0x195)][_0x5a29e7(0x156)]('data-omok-webview-ui','');const _0x374b41=_0x5a29e7(0x179);let _0x43642a=null;_0x2577d7[_0x5a29e7(0x15f)]('touchstart',_0x55b834=>{const _0x509726=_0x5a29e7;if(_0x55b834['touches'][_0x509726(0x169)]!==0x1){_0x43642a=null;return;}const _0x11a989=_0x55b834[_0x509726(0x163)][0x0];_0x43642a={'id':_0x11a989[_0x509726(0x164)],'x':_0x11a989[_0x509726(0x171)],'y':_0x11a989[_0x509726(0x15d)],'path':_0x55b834[_0x509726(0x192)]()['filter'](_0x846c9f=>_0x846c9f instanceof _0x50c703[_0x509726(0x193)]),'editing':!!_0x55b834[_0x509726(0x19a)][_0x509726(0x181)]?.(_0x374b41)};},{'passive':!![]}),_0x2577d7[_0x5a29e7(0x15f)]('touchmove',_0x2ddfa9=>{const _0x120ffb=_0x5a29e7;if(!_0x43642a||_0x2ddfa9[_0x120ffb(0x163)]['length']!==0x1)return;const _0x51039c=Array[_0x120ffb(0x15e)](_0x2ddfa9[_0x120ffb(0x163)])[_0x120ffb(0x196)](_0x2c402e=>_0x2c402e[_0x120ffb(0x164)]===_0x43642a['id']);if(!_0x51039c)return;const _0x3de09e=_0x43642a['x']-_0x51039c[_0x120ffb(0x171)],_0x339eea=_0x43642a['y']-_0x51039c[_0x120ffb(0x15d)];_0x43642a['x']=_0x51039c[_0x120ffb(0x171)],_0x43642a['y']=_0x51039c['clientY'];if(_0x43642a['editing']||!_0x3de09e&&!_0x339eea)return;const _0x144442=Math[_0x120ffb(0x189)](_0x339eea)>=Math[_0x120ffb(0x189)](_0x3de09e),_0x5b5010=_0x144442?_0x339eea:_0x3de09e;for(const _0xcff434 of _0x43642a[_0x120ffb(0x175)]){if(_0xcff434===_0x2577d7[_0x120ffb(0x157)]||_0xcff434===_0x2577d7[_0x120ffb(0x195)])break;const _0x330ee7=_0x50c703['getComputedStyle'](_0xcff434),_0x2875aa=_0x144442?_0x330ee7[_0x120ffb(0x170)]:_0x330ee7['overflowX'];if(!/^(auto|scroll)$/[_0x120ffb(0x16c)](_0x2875aa))continue;const _0x158c72=_0x144442?_0xcff434[_0x120ffb(0x199)]:_0xcff434[_0x120ffb(0x184)],_0x28860b=_0x144442?_0xcff434['scrollHeight']-_0xcff434[_0x120ffb(0x167)]:_0xcff434[_0x120ffb(0x165)]-_0xcff434[_0x120ffb(0x173)];if(_0x28860b>0x1&&(_0x5b5010<0x0?_0x158c72>0x0:_0x158c72<_0x28860b-0x1))return;}if(_0x2ddfa9[_0x120ffb(0x18d)])_0x2ddfa9[_0x120ffb(0x17a)]();},{'passive':![]});for(const _0xd75ea7 of[_0x5a29e7(0x186),_0x5a29e7(0x191)])_0x2577d7[_0x5a29e7(0x15f)](_0xd75ea7,()=>{_0x43642a=null;},{'passive':!![]});if(_0x50c703[_0x5a29e7(0x17d)]?.['NCQ_PLATFORM']!==_0x5a29e7(0x176)||_0x50c703[_0x5a29e7(0x17d)]?.['NCQ_KAKAO']?.[_0x5a29e7(0x185)]!==_0x5a29e7(0x174))return;const _0x154b59=new URL(_0x50c703[_0x5a29e7(0x18e)][_0x5a29e7(0x188)])[_0x5a29e7(0x18b)]['get'](_0x5a29e7(0x16e)),_0x29c7a6=(_0x50c703['navigator']['languages']||[_0x50c703['navigator'][_0x5a29e7(0x172)]])[_0x5a29e7(0x17f)](_0x3db30b=>_0x3db30b?.['split']('-')[0x0]),_0x3b75a3=Object['hasOwn'](TEXTS,_0x154b59)?_0x154b59:_0x29c7a6['find'](_0x2085d1=>Object[_0x5a29e7(0x198)](TEXTS,_0x2085d1))||'en',_0x48333a=_0x2577d7[_0x5a29e7(0x177)]('aside');_0x48333a['id']='kakao-age-rating',_0x48333a[_0x5a29e7(0x156)](_0x5a29e7(0x187),_0x5a29e7(0x17c)),_0x48333a[_0x5a29e7(0x161)][_0x5a29e7(0x168)]=KAKAO_RATING[_0x5a29e7(0x18f)],_0x48333a['dataset'][_0x5a29e7(0x155)]=KAKAO_RATING[_0x5a29e7(0x15c)],_0x48333a[_0x5a29e7(0x161)][_0x5a29e7(0x194)]=KAKAO_RATING[_0x5a29e7(0x17e)],_0x48333a[_0x5a29e7(0x161)][_0x5a29e7(0x16d)]='aria-label:ageRatingLabel',_0x48333a[_0x5a29e7(0x156)]('aria-label',TEXTS[_0x3b75a3]['ageRatingLabel']);const _0x295f74=_0x2577d7[_0x5a29e7(0x177)]('b');_0x295f74[_0x5a29e7(0x159)]=KAKAO_RATING[_0x5a29e7(0x18f)],_0x295f74[_0x5a29e7(0x156)]('aria-hidden',_0x5a29e7(0x183));const _0x3067af=_0x2577d7['createElement'](_0x5a29e7(0x154));_0x3067af[_0x5a29e7(0x161)][_0x5a29e7(0x160)]=_0x5a29e7(0x182),_0x3067af[_0x5a29e7(0x159)]=TEXTS[_0x3b75a3][_0x5a29e7(0x182)],_0x48333a['append'](_0x295f74,_0x3067af),_0x2577d7[_0x5a29e7(0x157)]['prepend'](_0x48333a),_0x2577d7['body'][_0x5a29e7(0x161)]['kakaoRating']=_0x5a29e7(0x19b);}if(typeof window!=='undefined')installWebviewUI(window,document);
+import { TEXTS } from "./texts.js?v=689216405a77";
+
+// Confirmed in the project's existing rating submission; this is not a runtime age check.
+export const KAKAO_RATING = Object.freeze({ age: "ALL", number: "GOOG-SG-261111-3820", date: "2026-11-11" });
+
+export function installWebviewUI(win, doc) {
+  if (doc.documentElement.hasAttribute("data-omok-webview-ui")) return;
+  doc.documentElement.setAttribute("data-omok-webview-ui", "");
+  const editable = "input,textarea,select,[contenteditable]:not([contenteditable='false']),[data-copyable]";
+  let gesture = null;
+  doc.addEventListener("touchstart", event => {
+    if (event.touches.length !== 1) { gesture = null; return; }
+    const point = event.touches[0];
+    gesture = { id: point.identifier, x: point.clientX, y: point.clientY,
+      path: event.composedPath().filter(node => node instanceof win.Element),
+      editing: !!event.target.closest?.(editable) };
+  }, { passive: true });
+  doc.addEventListener("touchmove", event => {
+    if (!gesture || event.touches.length !== 1) return;
+    const point = Array.from(event.touches).find(touch => touch.identifier === gesture.id);
+    if (!point) return;
+    const dx = gesture.x - point.clientX, dy = gesture.y - point.clientY;
+    gesture.x = point.clientX; gesture.y = point.clientY;
+    if (gesture.editing || (!dx && !dy)) return;
+    const vertical = Math.abs(dy) >= Math.abs(dx), delta = vertical ? dy : dx;
+    for (const node of gesture.path) {
+      if (node === doc.body || node === doc.documentElement) break;
+      const style = win.getComputedStyle(node), overflow = vertical ? style.overflowY : style.overflowX;
+      if (!/^(auto|scroll)$/.test(overflow)) continue;
+      const position = vertical ? node.scrollTop : node.scrollLeft;
+      const limit = vertical ? node.scrollHeight - node.clientHeight : node.scrollWidth - node.clientWidth;
+      if (limit > 1 && (delta < 0 ? position > 0 : position < limit - 1)) return;
+    }
+    // Stop the page's native pan/rubber band only when no inner scroller can consume it.
+    if (event.cancelable) event.preventDefault();
+  }, { passive: false });
+  for (const type of ["touchend", "touchcancel"]) doc.addEventListener(type, () => { gesture = null; }, { passive: true });
+
+  if (win.NCQ?.NCQ_PLATFORM !== "kakaopay" || win.NCQ?.NCQ_KAKAO?.provider !== "neptune") return;
+  const requested = new URL(win.location.href).searchParams.get("lang");
+  const preferred = (win.navigator.languages || [win.navigator.language]).map(code => code?.split("-")[0]);
+  const language = Object.hasOwn(TEXTS, requested) ? requested : preferred.find(code => Object.hasOwn(TEXTS, code)) || "en";
+  const panel = doc.createElement("aside"); panel.id = "kakao-age-rating"; panel.setAttribute("role", "note");
+  panel.dataset.rating = KAKAO_RATING.age; panel.dataset.ratingNumber = KAKAO_RATING.number;
+  panel.dataset.ratingDate = KAKAO_RATING.date;
+  panel.dataset.i18nAttr = "aria-label:ageRatingLabel"; panel.setAttribute("aria-label", TEXTS[language].ageRatingLabel);
+  const badge = doc.createElement("b"); badge.textContent = KAKAO_RATING.age; badge.setAttribute("aria-hidden", "true");
+  const label = doc.createElement("span"); label.dataset.i18n = "ageRatingAll"; label.textContent = TEXTS[language].ageRatingAll;
+  panel.append(badge, label); doc.body.prepend(panel); doc.body.dataset.kakaoRating = "all";
+}
+
+if (typeof window !== "undefined") installWebviewUI(window, document);

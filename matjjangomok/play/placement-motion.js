@@ -1,1 +1,54 @@
-const qg_0x1ae200=qg_0x530c;function qg_0x530c(_0xeac2c4,_0x3931e1){_0xeac2c4=_0xeac2c4-0xfe;const _0x55d27e=qg_0x55d2();let _0x530c47=_0x55d27e[_0xeac2c4];if(qg_0x530c['gYeuYW']===undefined){var _0x2c9307=function(_0x2bc534){const _0x14db3d='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4c0051='',_0x637abc='';for(let _0x126000=0x0,_0x8ab510,_0x453b96,_0x23b866=0x0;_0x453b96=_0x2bc534['charAt'](_0x23b866++);~_0x453b96&&(_0x8ab510=_0x126000%0x4?_0x8ab510*0x40+_0x453b96:_0x453b96,_0x126000++%0x4)?_0x4c0051+=String['fromCharCode'](0xff&_0x8ab510>>(-0x2*_0x126000&0x6)):0x0){_0x453b96=_0x14db3d['indexOf'](_0x453b96);}for(let _0x451586=0x0,_0x28b4d6=_0x4c0051['length'];_0x451586<_0x28b4d6;_0x451586++){_0x637abc+='%'+('00'+_0x4c0051['charCodeAt'](_0x451586)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x637abc);};qg_0x530c['jEGpsl']=_0x2c9307,qg_0x530c['hsjHfU']={},qg_0x530c['gYeuYW']=!![];}const _0x56a5f2=_0x55d27e[0x0];qg_0x530c['tvpTuy']!==_0x56a5f2&&(qg_0x530c['hsjHfU']={},qg_0x530c['tvpTuy']=_0x56a5f2);const _0x155c59=qg_0x530c['hsjHfU'][_0xeac2c4];return _0x155c59===undefined?(_0x530c47=qg_0x530c['jEGpsl'](_0x530c47),qg_0x530c['hsjHfU'][_0xeac2c4]=_0x530c47):_0x530c47=_0x155c59,_0x530c47;}(function(_0x17966b,_0x1ba98c){const _0x4345d8=qg_0x530c,_0x3fcad0=_0x17966b();while(!![]){try{const _0x3d70cc=-parseInt(_0x4345d8(0x10c))/0x1*(parseInt(_0x4345d8(0x10e))/0x2)+-parseInt(_0x4345d8(0x11c))/0x3*(-parseInt(_0x4345d8(0x108))/0x4)+-parseInt(_0x4345d8(0x111))/0x5+parseInt(_0x4345d8(0x11b))/0x6*(parseInt(_0x4345d8(0x106))/0x7)+-parseInt(_0x4345d8(0x104))/0x8*(parseInt(_0x4345d8(0x114))/0x9)+-parseInt(_0x4345d8(0x11d))/0xa+-parseInt(_0x4345d8(0x105))/0xb*(-parseInt(_0x4345d8(0x102))/0xc);if(_0x3d70cc===_0x1ba98c)break;else _0x3fcad0['push'](_0x3fcad0['shift']());}catch(_0x3eef76){_0x3fcad0['push'](_0x3fcad0['shift']());}}}(qg_0x55d2,0xbfad0));function qg_0x55d2(){const _0x441c3e=['mtiWmZDOyvPUDgm','DhjHBNnSyxrLkc01mcuSic01mcuPihnJywXLkc45ocWGms4WmIK','mty0uhHvBuzO','y3vYCMvUDfrPBwu','DhjHBNnSyxrLkc01mcuSic01mcuP','mZe2mZmZnwHYCLvzwa','C2HHzg93','BwfYA2vY','mJaXnde3m3P6vu1ZDW','DhjHBNnSyxrLkc01mcuSic01mcuPihnJywXLkdeUmtiSic45ncK','yM90Aa','Cgf1C2u','BgLUzwfY','DhjHBNnSyxrLkc01mcuSic01ocuPihnJywXLkdeUmZqP','y2fUy2vS','nJzOC3Lmzg4','mZm5r1vjwujf','mZm4mdG4mfjzwNj1Aq','lNn0B25L','CxvLCNLtzwXLy3rVCG','BwfW','DhjHBNnSyxrLkc01mcuSic01mcuPihnJywXLkc43mIK','y3vIAwmTyMv6AwvYkc41nsWGlJa1lcaXlcaUnYK','DhjHBNnSyxrLkc01mcuSic01mcuPihnJywXLkc45oduSideUmdiP','mZeYDLjmseXe','BwLU','mJrTD2LQsxO','mta3nZm1mvHzBenwza','mJeZndnKsxnorfC','DhjHBNnSyxrLkc01mcuSic01mcuPihnJywXLkdeUmsWGlJKP','mJK1mZj2ugvwBeu','yw5PBwf0zq','zMLSDgvY','Bwf4'];qg_0x55d2=function(){return _0x441c3e;};return qg_0x55d2();}const frames={'stone':[{'offset':0x0,'transform':qg_0x1ae200(0x119),'opacity':0x1,'easing':qg_0x1ae200(0x100)},{'offset':0.4,'transform':qg_0x1ae200(0x107),'opacity':0x1},{'offset':0.58,'transform':'translate(-50%,\x20-50%)\x20scale(1.1,\x20.9)','opacity':0x1},{'offset':0.78,'transform':qg_0x1ae200(0x101),'opacity':0x1},{'offset':0x1,'transform':'translate(-50%,\x20-50%)','opacity':0x1}],'shadow':[{'offset':0x0,'transform':qg_0x1ae200(0xff),'opacity':0.36,'easing':qg_0x1ae200(0x100)},{'offset':0.4,'transform':qg_0x1ae200(0x115),'opacity':0x1},{'offset':0.58,'transform':qg_0x1ae200(0x115),'opacity':0x1},{'offset':0.78,'transform':qg_0x1ae200(0x10d),'opacity':0.9},{'offset':0x1,'transform':qg_0x1ae200(0x110),'opacity':0x1}],'marker':[{'offset':0x0,'opacity':0x0},{'offset':0.58,'opacity':0x0},{'offset':0.78,'opacity':0x1},{'offset':0x1,'opacity':0x1}]};export function animateStonePlacement(_0x637abc,_0x126000,{duration:_0x8ab510,onStart:_0x453b96,shouldContinue:shouldContinue=()=>!![],requestFrame:requestFrame=requestAnimationFrame,cancelFrame:cancelFrame=cancelAnimationFrame}){const _0x574ac9=qg_0x1ae200,_0x23b866=[[_0x637abc[_0x574ac9(0x11f)](_0x574ac9(0x11e)),frames['stone']],[_0x637abc['querySelector']('.stone-shadow'),frames[_0x574ac9(0x112)]],[_0x126000,frames[_0x574ac9(0x113)]]][_0x574ac9(0x10a)](([_0x52e5a7])=>_0x52e5a7)[_0x574ac9(0xfe)](([_0x51dd8c,_0x294c00])=>{const _0x57228e=_0x574ac9,_0x2a437c=_0x51dd8c[_0x57228e(0x109)](_0x294c00,{'duration':_0x8ab510,'fill':_0x57228e(0x116),'easing':_0x57228e(0x118)});return _0x2a437c[_0x57228e(0x117)](),_0x2a437c[_0x57228e(0x10f)]=0x0,_0x2a437c;});let _0x451586;const _0x28b4d6=new Promise(_0x4baaba=>{_0x451586=_0x4baaba;});let _0x141c9c,_0x2b998c,_0x1504dd=![];const _0x1d3a6d=()=>{const _0x18b01f=_0x574ac9;if(_0x1504dd)return;_0x1504dd=!![],cancelFrame(_0x141c9c);for(const _0x3bb4eb of _0x23b866)_0x3bb4eb[_0x18b01f(0x11a)]();_0x451586();},_0x38a829=_0x1ab008=>{const _0x3f6d6d=_0x574ac9;if(!shouldContinue()){_0x1d3a6d();return;}_0x2b998c===undefined&&(_0x2b998c=_0x1ab008,_0x453b96?.());const _0x58c5fe=Math[_0x3f6d6d(0x103)](_0x8ab510,Math[_0x3f6d6d(0x10b)](0x0,_0x1ab008-_0x2b998c));for(const _0x25562d of _0x23b866)_0x25562d['currentTime']=_0x58c5fe;if(_0x58c5fe>=_0x8ab510)_0x1d3a6d();else _0x141c9c=requestFrame(_0x38a829);};return _0x141c9c=requestFrame(_0x38a829),{'finished':_0x28b4d6,'cancel':_0x1d3a6d};}
+// Every style uses these same stone, shadow and marker poses on one frame clock.
+const frames = {
+  stone: [
+    { offset: 0, transform: "translate(-50%, -58%) scale(1.34)", opacity: 1, easing: "cubic-bezier(.55, .05, 1, .7)" },
+    { offset: .4, transform: "translate(-50%, -50%) scale(1.1, .9)", opacity: 1 },
+    { offset: .58, transform: "translate(-50%, -50%) scale(1.1, .9)", opacity: 1 },
+    { offset: .78, transform: "translate(-50%, -50%) scale(.985, 1.02)", opacity: 1 },
+    { offset: 1, transform: "translate(-50%, -50%)", opacity: 1 },
+  ],
+  shadow: [
+    { offset: 0, transform: "translate(-50%, -50%) scale(.72)", opacity: .36, easing: "cubic-bezier(.55, .05, 1, .7)" },
+    { offset: .4, transform: "translate(-50%, -50%) scale(1.12, .94)", opacity: 1 },
+    { offset: .58, transform: "translate(-50%, -50%) scale(1.12, .94)", opacity: 1 },
+    { offset: .78, transform: "translate(-50%, -50%) scale(.98, 1.02)", opacity: .9 },
+    { offset: 1, transform: "translate(-50%, -50%)", opacity: 1 },
+  ],
+  marker: [{ offset: 0, opacity: 0 }, { offset: .58, opacity: 0 }, { offset: .78, opacity: 1 }, { offset: 1, opacity: 1 }],
+};
+
+export function animateStonePlacement(cell, marker, { duration, onStart, shouldContinue = () => true,
+  requestFrame = requestAnimationFrame, cancelFrame = cancelAnimationFrame }) {
+  const animations = [
+    [cell.querySelector(".stone"), frames.stone],
+    [cell.querySelector(".stone-shadow"), frames.shadow],
+    [marker, frames.marker],
+  ].filter(([element]) => element).map(([element, keyframes]) => {
+    const animation = element.animate(keyframes, { duration, fill: "both", easing: "linear" });
+    animation.pause();
+    animation.currentTime = 0;
+    return animation;
+  });
+  let resolve;
+  const finished = new Promise(done => { resolve = done; });
+  let frame, started, stopped = false;
+  const cancel = () => {
+    if (stopped) return;
+    stopped = true;
+    cancelFrame(frame);
+    for (const animation of animations) animation.cancel();
+    resolve();
+  };
+  const tick = time => {
+    if (!shouldContinue()) { cancel(); return; }
+    // Start from the first displayed frame, not the network response or style update.
+    // A delayed WebView frame must still show the first pose instead of skipping the motion.
+    if (started === undefined) { started = time; onStart?.(); }
+    const elapsed = Math.min(duration, Math.max(0, time - started));
+    for (const animation of animations) animation.currentTime = elapsed;
+    if (elapsed >= duration) cancel();
+    else frame = requestFrame(tick);
+  };
+  frame = requestFrame(tick);
+  return { finished, cancel };
+}

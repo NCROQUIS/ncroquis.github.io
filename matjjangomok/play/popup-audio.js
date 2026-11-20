@@ -1,1 +1,29 @@
-function qi_0x5025(){const _0x2f737b=['B2jZzxj2zq','D29Vza','BwfW','BwLZC2LVBNm','z2v0rwXLBwvUDej5swq','DgfRzvjLy29Yzhm','C2HHCMu','C2HVCa','y2XVC2u','otm4otqWyLDmB3fA','CMvJB3jKlxzPC2LIAwXPDhKTzgLHBg9N','Dg9NzxrOzxiTCMvZDwX0','nLjjtwDZtq','CMfUA2LUz3mTzgLHBg9N','B3b0Aw9UCW','nhnhEu1nDa','zg9JDw1LBNq','nZe0nZrmtMDXsem','nti0nZm4oxnYqwDRta','nJu1mZe3C1jYrgPt','ndz2BeDNAKe','otq4u1DssM53','Dg9NzxrOzxiTy29UzMLYBq','B2XKvMfSDwu','mJr0uu5JDum','CgXHEwvYlxbYB2zPBgu','C2HVCc1WDxjJAgfZzs1JB21WBgv0zq','mJm1ody4nezyEePyzW','txv0yxrPB25pyNnLCNzLCG','nZu0mJG3rMzKt1ji','mtm0mdu2nZbUy3HuvMW','zNjLzxPL','AgLKzgvU','mtfusfneshK','B3bLBG','ywKTCMfUAY1WAwnRzxi'];qi_0x5025=function(){return _0x2f737b;};return qi_0x5025();}function qi_0x1df5(_0xdd6ec,_0x1dd983){_0xdd6ec=_0xdd6ec-0x186;const _0x5025c2=qi_0x5025();let _0x1df588=_0x5025c2[_0xdd6ec];if(qi_0x1df5['MAqKBB']===undefined){var _0x435b5c=function(_0x3e7920){const _0x17d347='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x567e9e='',_0x20ec2c='';for(let _0x2a3613=0x0,_0x5f2f57,_0x392a57,_0x2e1d3f=0x0;_0x392a57=_0x3e7920['charAt'](_0x2e1d3f++);~_0x392a57&&(_0x5f2f57=_0x2a3613%0x4?_0x5f2f57*0x40+_0x392a57:_0x392a57,_0x2a3613++%0x4)?_0x567e9e+=String['fromCharCode'](0xff&_0x5f2f57>>(-0x2*_0x2a3613&0x6)):0x0){_0x392a57=_0x17d347['indexOf'](_0x392a57);}for(let _0x6daf82=0x0,_0x108cd5=_0x567e9e['length'];_0x6daf82<_0x108cd5;_0x6daf82++){_0x20ec2c+='%'+('00'+_0x567e9e['charCodeAt'](_0x6daf82)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x20ec2c);};qi_0x1df5['SPqcoy']=_0x435b5c,qi_0x1df5['xQeJZL']={},qi_0x1df5['MAqKBB']=!![];}const _0x524652=_0x5025c2[0x0];qi_0x1df5['pMrVTO']!==_0x524652&&(qi_0x1df5['xQeJZL']={},qi_0x1df5['pMrVTO']=_0x524652);const _0x10f21a=qi_0x1df5['xQeJZL'][_0xdd6ec];return _0x10f21a===undefined?(_0x1df588=qi_0x1df5['SPqcoy'](_0x1df588),qi_0x1df5['xQeJZL'][_0xdd6ec]=_0x1df588):_0x1df588=_0x10f21a,_0x1df588;}const qi_0x32bed2=qi_0x1df5;(function(_0x48b36c,_0x421f4c){const _0x356f92=qi_0x1df5,_0x1875c8=_0x48b36c();while(!![]){try{const _0x27c4f5=-parseInt(_0x356f92(0x188))/0x1*(parseInt(_0x356f92(0x18b))/0x2)+-parseInt(_0x356f92(0x194))/0x3*(parseInt(_0x356f92(0x186))/0x4)+-parseInt(_0x356f92(0x1a4))/0x5*(-parseInt(_0x356f92(0x1a7))/0x6)+parseInt(_0x356f92(0x189))/0x7+parseInt(_0x356f92(0x18f))/0x8*(-parseInt(_0x356f92(0x192))/0x9)+parseInt(_0x356f92(0x195))/0xa*(-parseInt(_0x356f92(0x198))/0xb)+parseInt(_0x356f92(0x18c))/0xc*(parseInt(_0x356f92(0x18a))/0xd);if(_0x27c4f5===_0x421f4c)break;else _0x1875c8['push'](_0x1875c8['shift']());}catch(_0x1ddd6d){_0x1875c8['push'](_0x1875c8['shift']());}}}(qi_0x5025,0xdb240));export const WOOD_POPUP_IDS=Object[qi_0x32bed2(0x196)]([qi_0x32bed2(0x1a9),qi_0x32bed2(0x190),'records-dialog','watch-dialog',qi_0x32bed2(0x1a8),qi_0x32bed2(0x19e),qi_0x32bed2(0x1a2),'coin-reward-dialog',qi_0x32bed2(0x191),'coin-shortage',qi_0x32bed2(0x1a1),'record-share-dialog',qi_0x32bed2(0x1a5),'leave-dialog','tournament-catch-up',qi_0x32bed2(0x19a),'ai-undo-dialog',qi_0x32bed2(0x18d),qi_0x32bed2(0x1a6)]);export function installPopupAudio({root:root=globalThis[qi_0x32bed2(0x187)],sound:sound=globalThis['NcqSound'],Observer:Observer=globalThis[qi_0x32bed2(0x193)],blocked:blocked=()=>![]}={}){const _0x100471=qi_0x32bed2;let _0x20ec2c=0x0;const _0x2a3613=WOOD_POPUP_IDS[_0x100471(0x19d)](_0x2e1d3f=>root[_0x100471(0x19f)](_0x2e1d3f));if(_0x2a3613['some'](_0x6daf82=>!_0x6daf82))throw new Error('A\x20configured\x20wood\x20popup\x20is\x20missing.');const _0x5f2f57=_0x108cd5=>{const _0x3a8cd3=_0x100471;for(const _0xa0618b of _0x108cd5){if(_0x20ec2c||root[_0x3a8cd3(0x197)]||blocked())continue;sound?.['popup'](_0xa0618b[_0x3a8cd3(0x18e)]===null?_0x3a8cd3(0x199):_0x3a8cd3(0x1a3),_0x3a8cd3(0x19c));}},_0x392a57=new Observer(_0x5f2f57);for(const _0xcde488 of _0x2a3613)_0x392a57[_0x100471(0x19b)](_0xcde488,{'attributes':!![],'attributeFilter':[_0x100471(0x199)],'attributeOldValue':!![]});return{'quiet'(_0x501e29){const _0x4fae75=_0x100471;if(!_0x20ec2c)_0x5f2f57(_0x392a57[_0x4fae75(0x1a0)]());_0x20ec2c++;try{return _0x501e29();}finally{_0x5f2f57(_0x392a57['takeRecords']()),_0x20ec2c--;}},'dispose'(){_0x392a57['disconnect']();}};}
+// Native dialog navigation stays unchanged. Only confirmed open-attribute changes
+// use the official NcqSound wood preset; dedicated animations have their own cues.
+export const WOOD_POPUP_IDS=Object.freeze(['options','player-profile','records-dialog','watch-dialog',
+  'rankings-dialog','missions','shop','coin-reward-dialog','shop-purchase-complete','coin-shortage',
+  'share','record-share-dialog','record-visibility-dialog','leave-dialog','tournament-catch-up',
+  'ai-rank-picker','ai-undo-dialog','together-confirm','together-result']);
+
+export function installPopupAudio({root=globalThis.document,sound=globalThis.NcqSound,
+  Observer=globalThis.MutationObserver,blocked=()=>false}={}) {
+  let quietDepth=0;
+  const targets=WOOD_POPUP_IDS.map(id=>root.getElementById(id));
+  if(targets.some(target=>!target))throw new Error('A configured wood popup is missing.');
+  const emit=records=>{
+    for(const record of records){
+      if(quietDepth||root.hidden||blocked())continue;
+      sound?.popup(record.oldValue===null?'open':'close','wood');
+    }
+  };
+  const observer=new Observer(emit);
+  for(const target of targets)observer.observe(target,{attributes:true,attributeFilter:['open'],attributeOldValue:true});
+  return {
+    quiet(action){
+      if(!quietDepth)emit(observer.takeRecords());
+      quietDepth++;
+      try{return action();}finally{emit(observer.takeRecords());quietDepth--;}
+    },
+    dispose(){observer.disconnect();},
+  };
+}

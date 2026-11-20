@@ -1,1 +1,60 @@
-const qb_0x4b9a81=qb_0x5abd;(function(_0x5c1328,_0x58743c){const _0x3898cd=qb_0x5abd,_0x13cb08=_0x5c1328();while(!![]){try{const _0x244526=-parseInt(_0x3898cd(0x17b))/0x1+parseInt(_0x3898cd(0x182))/0x2*(-parseInt(_0x3898cd(0x188))/0x3)+-parseInt(_0x3898cd(0x17d))/0x4*(-parseInt(_0x3898cd(0x189))/0x5)+-parseInt(_0x3898cd(0x16e))/0x6+-parseInt(_0x3898cd(0x18a))/0x7+parseInt(_0x3898cd(0x171))/0x8+-parseInt(_0x3898cd(0x172))/0x9*(-parseInt(_0x3898cd(0x177))/0xa);if(_0x244526===_0x58743c)break;else _0x13cb08['push'](_0x13cb08['shift']());}catch(_0x297605){_0x13cb08['push'](_0x13cb08['shift']());}}}(qb_0x6fe8,0x1d033));function qb_0x5abd(_0x259fb9,_0x50c783){_0x259fb9=_0x259fb9-0x16e;const _0x6fe872=qb_0x6fe8();let _0x5abd79=_0x6fe872[_0x259fb9];if(qb_0x5abd['ePnnAG']===undefined){var _0x5f2c6d=function(_0xefc297){const _0xad1a5b='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1f0dad='',_0x2719aa='';for(let _0x1afb1a=0x0,_0xf691e1,_0x1f3285,_0x3b8d9d=0x0;_0x1f3285=_0xefc297['charAt'](_0x3b8d9d++);~_0x1f3285&&(_0xf691e1=_0x1afb1a%0x4?_0xf691e1*0x40+_0x1f3285:_0x1f3285,_0x1afb1a++%0x4)?_0x1f0dad+=String['fromCharCode'](0xff&_0xf691e1>>(-0x2*_0x1afb1a&0x6)):0x0){_0x1f3285=_0xad1a5b['indexOf'](_0x1f3285);}for(let _0x8dc801=0x0,_0x4d6fa2=_0x1f0dad['length'];_0x8dc801<_0x4d6fa2;_0x8dc801++){_0x2719aa+='%'+('00'+_0x1f0dad['charCodeAt'](_0x8dc801)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x2719aa);};qb_0x5abd['PkhrEL']=_0x5f2c6d,qb_0x5abd['KtZtYV']={},qb_0x5abd['ePnnAG']=!![];}const _0x1b1e7a=_0x6fe872[0x0];qb_0x5abd['DmEoXr']!==_0x1b1e7a&&(qb_0x5abd['KtZtYV']={},qb_0x5abd['DmEoXr']=_0x1b1e7a);const _0x13c19d=qb_0x5abd['KtZtYV'][_0x259fb9];return _0x13c19d===undefined?(_0x5abd79=qb_0x5abd['PkhrEL'](_0x5abd79),qb_0x5abd['KtZtYV'][_0x259fb9]=_0x5abd79):_0x5abd79=_0x13c19d,_0x5abd79;}function qb_0x6fe8(){const _0x25cd79=['Dg9W','yM90Dg9T','yxbWzw5K','ndeYzhnJt3H0','B2jZzxj2zq','CMvZAxPL','zMLYC3rfBgvTzw50q2HPBgq','C2nHBguO','CM91BMq','mty3n3nfs2Hcza','nty1ntv5EfbVyKu','mtq3ntGXn29zyNHtCW','ywrK','BgLZDc1KAwfSB2CTCMvZB3vYy2uGBgLZDc1KAwfSB2CTAwnVBG','ls1SAxn0lwrPywXVzY1OzwLNAhq','y2XPzw50v2LKDgG','ywrKrxzLBNrmAxn0zw5LCG','DhjHBNnMB3jT','BwLU','y2XVC2vZDa','Dhj1zq','AgvPz2H0','BgLZDc1KAwfSB2CTAgvHzgLUzW','BgLZDc1KAwfSB2CTDgL0Bgu','BgLZDc1KAwfSB2CTy2XVC2u','ChjLCgvUza','BwLUu3rHz2vizwLNAhq','y2XHC3nmAxn0','ndK1mdyWB0jMA0XU','lMXPC3qTAgvHzgLUzYWGlNjLDMLLDY1OzwfKzxi','BgLZDc1KAwfSB2CTDgfICW','mtu1ntC2t2v5Bfng','ndaYntmXm1LerKPkta','C2L6zwq','C3r5Bgu','Dgv4DenVBNrLBNq','zM9Yzxn0lwXPC3qTzgLHBg9N','mtbjsuHPzwW','zgf0yxnLDa','C2v0uhjVCgvYDhK','Bwf4sgvPz2H0','mtmXnJyXBNDSvezl','BgLZDc1KAwfSB2CTDw5KzxjSAw5L','nJHNuwjQuem','BgLZDc1KAwfSB2CTC3rHz2u'];qb_0x6fe8=function(){return _0x25cd79;};return qb_0x6fe8();}import{resource,titleUnderline}from'./lobby-layout.js?v=390eb41a0de0';export const listDialogReference={'width':0x2a6,'height':0x596,'minStageHeight':0x424,'border':0x2};export function listDialogFrameHeight(_0x2719aa,_0x1afb1a){const _0x166d94=qb_0x5abd,{height:_0xf691e1,border:_0x1f3285}=listDialogReference;return Math[_0x166d94(0x191)](_0x2719aa,(_0xf691e1-0x2*_0x1f3285)*_0x1afb1a+0x2*_0x1f3285);}export function installListDialog(_0x3b8d9d,{title:_0x8dc801,close:_0x4d6fa2,icon:_0xa601be,tabs:_0x27206d,minStageHeight:minStageHeight=listDialogReference[qb_0x4b9a81(0x199)],onResize:onResize=()=>{}}){const _0x141e7b=qb_0x4b9a81;_0x3b8d9d[_0x141e7b(0x19a)][_0x141e7b(0x18b)](_0x141e7b(0x176));const _0x3a45f0=_0x3b8d9d[_0x141e7b(0x185)];_0x3a45f0['classList'][_0x141e7b(0x18b)](_0x141e7b(0x17e));const _0x230a8e=_0x8dc801[_0x141e7b(0x192)](_0x141e7b(0x16f));_0x230a8e['classList'][_0x141e7b(0x18b)](_0x141e7b(0x195)),_0x8dc801[_0x141e7b(0x19a)][_0x141e7b(0x18b)](_0x141e7b(0x196)),_0x4d6fa2['classList']['add'](_0x141e7b(0x197)),_0x4d6fa2[_0x141e7b(0x175)]='',_0x230a8e[_0x141e7b(0x198)](_0x8dc801),_0x230a8e[_0x141e7b(0x181)](_0x4d6fa2),resource(_0x230a8e,_0xa601be,_0x141e7b(0x18c)),_0x230a8e[_0x141e7b(0x181)](titleUnderline(_0x141e7b(0x17c))),resource(_0x4d6fa2,_0x141e7b(0x187),'list-dialog-resource\x20list-dialog-close-surface'),_0x27206d?.['classList'][_0x141e7b(0x18b)](_0x141e7b(0x170));const _0x16de0b=()=>{const _0x1157f5=_0x141e7b;if(!_0x3b8d9d['open']||!_0x3b8d9d[_0x1157f5(0x18e)])return;const {width:_0x919132,border:_0x35e76b}=listDialogReference,_0x260312=_0x919132-0x2*_0x35e76b,_0x793384=getComputedStyle(_0x3b8d9d),_0x46b04d=parseFloat(_0x793384[_0x1157f5(0x17a)])||innerHeight-(parseFloat(_0x793384[_0x1157f5(0x17f)])||0x0)-(parseFloat(_0x793384[_0x1157f5(0x180)])||0x0)-0x14;if(minStageHeight>0x0){const _0x57462a=0x2*_0x35e76b+Math['max'](0x0,_0x46b04d-0x2*_0x35e76b)*_0x260312/minStageHeight;_0x3b8d9d[_0x1157f5(0x174)][_0x1157f5(0x179)]('--list-dialog-height-width',_0x57462a+'px');}const _0x53cb5c=_0x3b8d9d[_0x1157f5(0x18e)]/_0x260312,_0x2ee869=listDialogFrameHeight(_0x46b04d,_0x53cb5c);_0x3b8d9d[_0x1157f5(0x174)][_0x1157f5(0x179)]('--list-dialog-scale',_0x53cb5c),_0x3b8d9d[_0x1157f5(0x174)][_0x1157f5(0x179)](_0x1157f5(0x18d),_0x2ee869+'px'),_0x3a45f0[_0x1157f5(0x174)]['width']=_0x260312+'px',_0x3a45f0[_0x1157f5(0x174)][_0x1157f5(0x194)]=(_0x2ee869-0x2*_0x35e76b)/_0x53cb5c+'px',_0x3a45f0[_0x1157f5(0x174)][_0x1157f5(0x190)]=_0x1157f5(0x186)+_0x53cb5c+')',_0x3a45f0[_0x1157f5(0x178)][_0x1157f5(0x173)]=_0x1157f5(0x193),onResize(_0x53cb5c);},_0x5d8407=new ResizeObserver(_0x16de0b);return _0x5d8407[_0x141e7b(0x183)](_0x3b8d9d),_0x5d8407[_0x141e7b(0x183)](_0x3a45f0),window['addEventListener'](_0x141e7b(0x184),_0x16de0b),window[_0x141e7b(0x18f)]('ncq-banner',_0x16de0b),_0x16de0b;}
+import { resource, titleUnderline } from "./lobby-layout.js?v=689216405a77";
+
+// The minimum height fits fixed championship controls, reward feedback and four rows.
+export const listDialogReference = { width: 678, height: 1430, minStageHeight: 1060, border: 2 };
+
+// Tabs, page counts and empty results never participate in frame sizing.
+export function listDialogFrameHeight(available, scale) {
+  const { height, border } = listDialogReference;
+  return Math.min(available, (height - 2 * border) * scale + 2 * border);
+}
+
+export function installListDialog(dialog, {
+  title, close, icon, tabs, minStageHeight = listDialogReference.minStageHeight, onResize = () => {},
+}) {
+  dialog.classList.add("forest-list-dialog");
+  const stage = dialog.firstElementChild;
+  stage.classList.add("list-dialog-stage");
+  const heading = title.closest(".list-heading, .review-header");
+  heading.classList.add("list-dialog-heading");
+  title.classList.add("list-dialog-title");
+  close.classList.add("list-dialog-close");
+  close.textContent = "";
+  heading.prepend(title);
+  heading.append(close);
+  resource(heading, icon, "list-dialog-resource list-dialog-icon");
+  heading.append(titleUnderline("list-dialog-underline"));
+  resource(close, "round", "list-dialog-resource list-dialog-close-surface");
+  tabs?.classList.add("list-dialog-tabs");
+
+  const resize = () => {
+    if (!dialog.open || !dialog.clientWidth) return;
+    const { width, border } = listDialogReference;
+    const designWidth = width - 2 * border;
+    const style = getComputedStyle(dialog);
+    const available = parseFloat(style.maxHeight) ||
+      innerHeight - (parseFloat(style.top) || 0) - (parseFloat(style.bottom) || 0) - 20;
+    // A wide, short viewport must reduce width as well as height; otherwise fixed
+    // headers and footers can consume the entire flexible list. Use only viewport
+    // space, never the active tab's content, so pagination cannot resize the frame.
+    if (minStageHeight > 0) {
+      const widthForHeight = 2 * border + Math.max(0, available - 2 * border) * designWidth / minStageHeight;
+      dialog.style.setProperty("--list-dialog-height-width", widthForHeight + "px");
+    }
+    const scale = dialog.clientWidth / designWidth;
+    const height = listDialogFrameHeight(available, scale);
+    dialog.style.setProperty("--list-dialog-scale", scale);
+    dialog.style.setProperty("--list-dialog-height", height + "px");
+    stage.style.width = designWidth + "px";
+    stage.style.height = (height - 2 * border) / scale + "px";
+    stage.style.transform = `scale(${scale})`;
+    stage.dataset.sized = "true";
+    onResize(scale);
+  };
+  const observer = new ResizeObserver(resize);
+  observer.observe(dialog);
+  observer.observe(stage);
+  window.addEventListener("resize", resize);
+  window.addEventListener("ncq-banner", resize);
+  return resize;
+}

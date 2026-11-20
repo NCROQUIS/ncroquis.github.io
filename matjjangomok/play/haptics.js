@@ -1,1 +1,77 @@
-const q8_0x173e8a=q8_0x1155;function q8_0x1155(_0x3c5b95,_0x42718a){_0x3c5b95=_0x3c5b95-0x83;const _0x1d13a7=q8_0x1d13();let _0x115531=_0x1d13a7[_0x3c5b95];if(q8_0x1155['WCpvyh']===undefined){var _0x603a8a=function(_0x4d82ae){const _0x2b31a4='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x174a51='',_0x33f152='';for(let _0x44483b=0x0,_0x54f637,_0xaf99cf,_0x2b1cf8=0x0;_0xaf99cf=_0x4d82ae['charAt'](_0x2b1cf8++);~_0xaf99cf&&(_0x54f637=_0x44483b%0x4?_0x54f637*0x40+_0xaf99cf:_0xaf99cf,_0x44483b++%0x4)?_0x174a51+=String['fromCharCode'](0xff&_0x54f637>>(-0x2*_0x44483b&0x6)):0x0){_0xaf99cf=_0x2b31a4['indexOf'](_0xaf99cf);}for(let _0x34e00c=0x0,_0x33e0ea=_0x174a51['length'];_0x34e00c<_0x33e0ea;_0x34e00c++){_0x33f152+='%'+('00'+_0x174a51['charCodeAt'](_0x34e00c)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x33f152);};q8_0x1155['SesRVc']=_0x603a8a,q8_0x1155['glIxWX']={},q8_0x1155['WCpvyh']=!![];}const _0x2ff9c7=_0x1d13a7[0x0];q8_0x1155['HNTGON']!==_0x2ff9c7&&(q8_0x1155['glIxWX']={},q8_0x1155['HNTGON']=_0x2ff9c7);const _0x2738ce=q8_0x1155['glIxWX'][_0x3c5b95];return _0x2738ce===undefined?(_0x115531=q8_0x1155['SesRVc'](_0x115531),q8_0x1155['glIxWX'][_0x3c5b95]=_0x115531):_0x115531=_0x2738ce,_0x115531;}(function(_0x2727b3,_0x33f91a){const _0x59abd3=q8_0x1155,_0x3dc8be=_0x2727b3();while(!![]){try{const _0x47e342=parseInt(_0x59abd3(0x90))/0x1*(-parseInt(_0x59abd3(0x94))/0x2)+parseInt(_0x59abd3(0x9b))/0x3+parseInt(_0x59abd3(0x8a))/0x4*(-parseInt(_0x59abd3(0x95))/0x5)+parseInt(_0x59abd3(0x87))/0x6*(parseInt(_0x59abd3(0x99))/0x7)+parseInt(_0x59abd3(0x93))/0x8*(-parseInt(_0x59abd3(0x91))/0x9)+parseInt(_0x59abd3(0x97))/0xa+parseInt(_0x59abd3(0x84))/0xb;if(_0x47e342===_0x33f91a)break;else _0x3dc8be['push'](_0x3dc8be['shift']());}catch(_0x4149fb){_0x3dc8be['push'](_0x3dc8be['shift']());}}}(q8_0x1d13,0x9a817));function q8_0x1d13(){const _0x2f7425=['mLjlwLDjtq','ndbksfLesfq','D2fYBMLUzW','odG5mta2mhborKnPvG','BM93','mJC1mtG0n0XWB2Xmra','zgvSzxrL','odG5nJm1AeDWzwLR','z2v0','y2XLyxi','otKZodK0mfL2ExLwra','AgfZ','ywrK','mtjTqvPPvMO','BgLNAhq','y2fUvMLICMf0zq','ndy5nty0svnVDNjt','DMfSDwu','y2XVy2S6','A2v5CW','tMnXrgv2AwnL','DMLICMf0Aw9U','mteZntCZyvjLD0Py','ouTjCMrdAq','DMLICMf0zq','otuXotaXnNHrr2n1tq'];q8_0x1d13=function(){return _0x2f7425;};return q8_0x1d13();}export function createGameHaptics({device:device=()=>globalThis[q8_0x173e8a(0x8e)],blocked:blocked=()=>![],now:now=()=>performance[q8_0x173e8a(0x98)](),schedule:schedule=(_0x4c9cc1,_0x26b78a)=>setTimeout(_0x4c9cc1,_0x26b78a),clear:clear=_0xa0e953=>clearTimeout(_0xa0e953)}={}){const _0x33f152=new Set(),_0x44483b=new Map(),_0x54f637=new Set();let _0xaf99cf=-Infinity;const _0x2b1cf8=_0x2fd51d=>{const _0x5521a2=q8_0x1155;if(_0x2fd51d['size']>0x400)_0x2fd51d[_0x5521a2(0x9a)](_0x2fd51d[_0x5521a2(0x8d)]()['next']()[_0x5521a2(0x8b)]);},_0x34e00c=()=>{const _0x2cddd2=q8_0x1155;try{const _0x592142=device();return!blocked()&&_0x592142?.[_0x2cddd2(0x89)]()&&_0x592142[_0x2cddd2(0x8f)]();}catch{return![];}},_0x33e0ea=_0x1be67=>{const _0x4e0bc2=q8_0x1155;if(!_0x34e00c())return;try{device()[_0x4e0bc2(0x92)](_0x1be67);}catch{}},_0x341ed5=(_0x1877bc,_0x450e58,{delay:delay=0x0,valid:valid=()=>!![]}={})=>{const _0x52e9bd=q8_0x1155;if(_0x33f152[_0x52e9bd(0x85)](_0x1877bc))return()=>{};_0x33f152[_0x52e9bd(0x86)](_0x1877bc),_0x2b1cf8(_0x33f152);if(!_0x34e00c())return()=>{};const _0xbda46c=new Set();let _0x2bffe2=![];const _0x2dff67=()=>{const _0x321ac7=_0x52e9bd;_0x2bffe2=!![];for(const _0x1f744d of _0xbda46c)clear(_0x1f744d);_0xbda46c[_0x321ac7(0x83)](),_0x54f637['delete'](_0x2dff67);},_0xb401f=_0x450e58==='promotion'?[[0x0,'light'],[0x5a,'medium'],[0xdc,'success']]:[[0x0,_0x450e58]];for(const [_0x3fdd43,_0x169130]of _0xb401f){const _0x4ecd3b=()=>{if(!_0x2bffe2&&valid())_0x33e0ea(_0x169130);};if(delay+_0x3fdd43>0x0){_0x54f637[_0x52e9bd(0x86)](_0x2dff67);const _0x3bce52=schedule(()=>{const _0x53738d=_0x52e9bd;_0xbda46c[_0x53738d(0x9a)](_0x3bce52);if(!_0xbda46c['size'])_0x54f637['delete'](_0x2dff67);_0x4ecd3b();},delay+_0x3fdd43);_0xbda46c['add'](_0x3bce52);}else _0x4ecd3b();}return _0x2dff67;};return{'once':_0x341ed5,'tap'(){const _0xf42c9f=q8_0x1155;if(now()-_0xaf99cf<0x78)return;_0xaf99cf=now(),_0x33e0ea(_0xf42c9f(0x88));},'clock'(_0x16bfed,_0x182dd4,_0xf0cef3=!![]){const _0x2af6d3=q8_0x1155,_0x45bf42=_0x44483b[_0x2af6d3(0x9c)](_0x16bfed);_0x44483b['set'](_0x16bfed,_0x182dd4),_0x2b1cf8(_0x44483b),_0x45bf42>0x1388&&_0x182dd4<=0x1388&&_0x182dd4>0x0&&_0x341ed5(_0x2af6d3(0x8c)+_0x16bfed,_0x2af6d3(0x96),{'valid':()=>_0xf0cef3});},'stop'(){for(const _0x632fa2 of _0x54f637)_0x632fa2();try{device()?.['vibrate'](0x0);}catch{}}};}
+// Game feedback stays separate from sound and delegates device support/settings
+// to NcqDevice. Keys are consumed even when muted: old events never play later.
+export function createGameHaptics({
+  device = () => globalThis.NcqDevice,
+  blocked = () => false,
+  now = () => performance.now(),
+  schedule = (callback, delay) => setTimeout(callback, delay),
+  clear = timer => clearTimeout(timer),
+} = {}) {
+  const seen = new Set();
+  const clocks = new Map();
+  const pending = new Set();
+  let lastTap = -Infinity;
+  const trim = collection => {
+    if (collection.size > 1024) collection.delete(collection.keys().next().value);
+  };
+  const available = () => {
+    try {
+      const api = device();
+      return !blocked() && api?.canVibrate() && api.vibration();
+    } catch { return false; }
+  };
+  const play = kind => {
+    if (!available()) return;
+    try { device().vibrate(kind); } catch { /* Feedback must never block play. */ }
+  };
+  const once = (key, kind, { delay = 0, valid = () => true } = {}) => {
+    if (seen.has(key)) return () => {};
+    seen.add(key);
+    trim(seen);
+    if (!available()) return () => {};
+    const timers = new Set();
+    let canceled = false;
+    const cancel = () => {
+      canceled = true;
+      for (const timer of timers) clear(timer);
+      timers.clear();
+      pending.delete(cancel);
+    };
+    // Native apps map confetti to ordinary success, so use distinct impacts
+    // followed by success to keep promotion special on every supported platform.
+    const beats = kind === "promotion" ? [[0, "light"], [90, "medium"], [220, "success"]] : [[0, kind]];
+    for (const [offset, feedback] of beats) {
+      const run = () => { if (!canceled && valid()) play(feedback); };
+      if (delay + offset > 0) {
+        pending.add(cancel);
+        const timer = schedule(() => {
+          timers.delete(timer);
+          if (!timers.size) pending.delete(cancel);
+          run();
+        }, delay + offset);
+        timers.add(timer);
+      } else run();
+    }
+    return cancel;
+  };
+  return {
+    once,
+    tap() {
+      if (now() - lastTap < 120) return;
+      lastTap = now();
+      play("light");
+    },
+    clock(key, remaining, allowed = true) {
+      const previous = clocks.get(key);
+      clocks.set(key, remaining);
+      trim(clocks);
+      if (previous > 5000 && remaining <= 5000 && remaining > 0) {
+        once("clock:" + key, "warning", { valid: () => allowed });
+      }
+    },
+    stop() {
+      for (const cancel of pending) cancel();
+      try { device()?.vibrate(0); } catch { /* Unsupported device. */ }
+    },
+  };
+}

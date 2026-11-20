@@ -1,1 +1,178 @@
-const qc_0x110e14=qc_0x2b54;(function(_0x22ecdf,_0x56ef68){const _0x402f22=qc_0x2b54,_0x550c06=_0x22ecdf();while(!![]){try{const _0x22bf34=-parseInt(_0x402f22(0x184))/0x1+-parseInt(_0x402f22(0x160))/0x2*(-parseInt(_0x402f22(0x14b))/0x3)+parseInt(_0x402f22(0x18f))/0x4+-parseInt(_0x402f22(0x197))/0x5+parseInt(_0x402f22(0x134))/0x6*(-parseInt(_0x402f22(0x143))/0x7)+parseInt(_0x402f22(0x195))/0x8+parseInt(_0x402f22(0x122))/0x9*(parseInt(_0x402f22(0x18d))/0xa);if(_0x22bf34===_0x56ef68)break;else _0x550c06['push'](_0x550c06['shift']());}catch(_0x2eab13){_0x550c06['push'](_0x550c06['shift']());}}}(qc_0x24cd,0x9b746));function qc_0x24cd(){const _0x519422=['CgXHEwvYlwnHCMq','AgvPz2H0','ywX0','yM9HCMqVC3rVBMvZx3bHAxi','C2nVCMu','yxbWzw5K','Aw1Hz2u','Ahr0CdOVl3D3DY53mY5VCMCVmJaWmc9ZDMC','y3vYCMvUy3K','Aw1N','nJzAqKDMqMO','lM1PC3nPB24TC2HVCNrJDxqTAwnVBG','Bwv0zxiTzMLSBa','y2HHBxbPB25ZAgLW','CgfUzwXZl3nJB3jLx2jHzgDL','CMvTB3zL','yxnZAwDU','C3zN','B2jZzxj2zq','C3rHCNqTC3rVBMvZ','zMfSC2u','Bg9IyNKTy2HHBxbPB25ZAgLWlxnSB3q','y3jLyxrLrwXLBwvUDe5t','ChjVzMLSzq','yxjPys1OAwrKzw4','ndiWotCZv3nwBM5v','lI9HC3nLDhmVzM9Yzxn0lxvPl2jYyw5KAw5Nl3rPDgXLlxvUzgvYBgLUzs5ZDMC','AwnVBNmVC2HVCa','C3jJ','zgL2','lM1HCMS','AwnVBNmVDhjVCgH5','D2LKDgG','m1P3A3r4va','y2XHC3noyw1L','BMf2AwDHDgLVBI1HCNq','C3rHCNq','ChjPBwfYEq','C2L6zwq','CgfUzwXZl3bYAw1HCNLFyNv0Dg9U','w2rHDgeTAte4BL0','BwLU','CgfUzwXZl3jVDw5Kx2j1DhrVBG','mcaWia','lNnOB3aTy29PBG','ls1SB2jIEs1Zy2fSzq','C2v0uhjVCgvYDhK','Bg9IyNLbC3nLDa','lNnOzwXS','y2HLDNjVBG','DxnL','mtaWjq','C2HVDY1VChrPB25Z','BwLZC2LVBI1NAwz0lwfYDa','mtm1oty0v0n5D0Pd','BMf2AwDHDgLVBI1ZDxjMywnL','y2HHBxbPB25ZAgLWlwnOzxzYB24','Bg9NBY1ZDg9Uzxm','AwnVBNmVChjVzMLSzq','BM9Uzq','AgLKzgvU','C2HVDY1ZAg9W','C2v0qxr0CMLIDxrL','C2v0DgLUz3mTC3vYzMfJzq','lNbSyxLLCI1HDMf0yxi','Bg9IyNKTBw9Kzs1Hy3rPB25Z','CgfUzwXZl3bYB2DYzxnZx2zPBgW','yxzHDgfYlxn5BwjVBa','AwnVBNmVC2v0DgLUz3m','C2HVDY13yxrJAa','zw50CMLLCW','Bg9IyNK','BwLZC2LVBI1UB3rPy2u','y2HHBxbPB25ZAgLWlxrYB3bOEq','Bg9IyNKTD2fSBgv0','CgfUzwXZl2n1CNjLBMn5x2nHChn1Bgu','BwfPBG','zgf0yxnLDa','AwnVBNmVD2f0y2G','CxvLCNLtzwXLy3rVCG','y3jLyxrLrwXLBwvUDa','zMXVB3i','Bg9IyNKTBMf2','C2v0DgLUz3m','lMjYyw5K','yMXVy2S','CgvYC29U','BMf2AwDHDgLVBG','Bg9IyNKTCMvZB3vYy2uGBwLZC2LVBI1ZDxjMywnL','CgfUzwXZl3bYB2DYzxnZx3rYywnR','otiYmtnsvfvZBu8','CgfUzwXZl2nOyw1WAw9UC2HPCf9Iyw5Uzxi','D2f0y2G','DMLZAwjSzq','ChjVzMLSzs1ZDxjMywnL','Bg9IyNKTC3rHz2uTAg9ZDa','C2HVDY1TAxnZAw9UCW','C2HVCa','Bwv0zxiTDhjHy2S','odi2mtbmrvDAs1m','C2HVDY10B3vYBMfTzw50','nda0nJu2s013C1j6','mIaYidiWidiW','Dhj1zq','lMXVyMj5lw5HDI1Py29U','CgfUzwXZl2f2yxrHCL9MCMfTzq','C3bHBG','mtyYmJmWngPTv0LjrW','lI9HC3nLDhmVzM9Yzxn0lxvPl3bHBMvSCY9TAxnZAw9Ulwj1DhrVBI5ZDMC','mtCYmJu3nur2Bhvtwq','lI9HC3nLDhmVzM9Yzxn0lxvPlW','y3vYCMvUy3KTy29PBG','Bg9IyNKTBMf2lwLJB24','DhjHy2S','DhjVCgH5','CM91BMq','AwnVBNmVBM90AwzPy2f0Aw9U','mtq4nvr2C1vnDG','z2LMDa','yxzHDgfYlxn1CMzHy2u','C2nVCMuTC3vYzMfJzq','C3r5Bgu','CgfPCG','y3vYCMvUy3KTC3vYzMfJzq','C3rHCNqTy29UDgvUDa'];qc_0x24cd=function(){return _0x519422;};return qc_0x24cd();}export const lobbyReference={'width':0x400,'height':0x600,'adHeight':0x38,'contentHeight':0x5c8,'boxes':{'header':[0x24,0x60,0x3b8,0x50],'profile':[0x24,0xcd,0x3b8,0x82],'board':[0xa5,0x1a1,0x2b4,0x1c9],'missions':[0x347,0x197,0x72,0x84],'championship':[0x32,0x3bc,0x39c,0x56],'start':[0x2d,0x442,0x3a6,0x9b],'navigation':[0x24,0x545,0x3b8,0x84]}};const art={'pair':[qc_0x110e14(0x12d),0x17f,0x16a,[0x9,0x9,0x16e,0x158]],'profile':['panels/profile_panel',0x1dc,0xb1,[0xb,0xa,0x1c8,0x9b]],'avatar':[qc_0x110e14(0x193),0xf3,0xea,[0xb,0x8,0xdc,0xe2]],'person':[qc_0x110e14(0x164),0xd2,0xea,[0x8,0x9,0xc2,0xd9]],'score':[qc_0x110e14(0x138),0x136,0x7e,[0xb,0x9,0x121,0x6a]],'track':[qc_0x110e14(0x183),0x1b7,0xb3,[0xa,0x69,0x1a1,0x3e]],'fill':[qc_0x110e14(0x16c),0x1b1,0xb3,[0xa,0x6a,0x19d,0x3c]],'currency':[qc_0x110e14(0x175),0x15b,0x7f,[0xa,0x8,0x146,0x6c]],'coin':['icons/coin',0xe5,0xe9,[0x9,0x9,0xd3,0xd8]],'round':[qc_0x110e14(0x154),0xe7,0xe4,[0xb,0xa,0xd1,0xd8]],'settings':[qc_0x110e14(0x16e),0xef,0xf3,[0x8,0x8,0xde,0xe2]],'gift':['icons/gift',0xf4,0x102,[0x9,0x8,0xe3,0xf1]],'notice':[qc_0x110e14(0x121),0xbc,0xc0,[0x8,0x8,0xac,0xb0]],'championship':[qc_0x110e14(0x185),0x1db,0xb2,[0xb,0x9,0x1c5,0x9d]],'trophy':[qc_0x110e14(0x149),0x146,0xd3,[0x8,0x9,0x136,0xc1]],'chevron':['icons/chevron_right',0x91,0xd6,[0x8,0x9,0x81,0xc5]],'primary':[qc_0x110e14(0x151),0x1e3,0x93,[0xb,0xa,0x1ce,0x7d]],'navigation':['panels/bottom_navigation',0x1dd,0x8b,[0xb,0x8,0x1c8,0x77]],'book':['icons/book',0x104,0xc5,[0x9,0x9,0xf2,0xb4]],'watch':[qc_0x110e14(0x178),0x106,0xb8,[0x8,0x9,0xf6,0xa7]],'shop':[qc_0x110e14(0x145),0xf2,0xe7,[0x9,0x8,0xe1,0xd6]],'shopBag':['shop/bag-stones',0xe6,0xf0,[0x0,0x0,0xe6,0xf0]]},ns=qc_0x110e14(0x131),svgNode=(_0x33c361,_0x4613bd)=>{const _0x174ec6=qc_0x110e14,_0x17689e=document[_0x174ec6(0x140)](ns,_0x33c361);for(const [_0x5d8fe2,_0x4353b8]of Object[_0x174ec6(0x170)](_0x4613bd))_0x17689e[_0x174ec6(0x168)](_0x5d8fe2,_0x4353b8);return _0x17689e;};export function resource(_0x5c9574,_0x172765,_0x493999,_0x44b8bd,_0x3215fb=![]){const _0x554f2e=qc_0x110e14,[_0x5b9b5a,_0x1da398,_0x525132,[_0x369796,_0x34f990,_0x23a6bd,_0x47554a]]=art[_0x172765],_0x4d1a19=document[_0x554f2e(0x17a)](_0x554f2e(0x194));_0x4d1a19[_0x554f2e(0x14c)]='lobby-resource\x20'+_0x493999,_0x4d1a19[_0x554f2e(0x168)]('aria-hidden',_0x554f2e(0x191)),_0x4d1a19[_0x554f2e(0x177)][_0x554f2e(0x159)]=_0x5b9b5a;const _0x15162d=()=>svgNode(_0x554f2e(0x130),{'href':_0x554f2e(0x198)+_0x5b9b5a+'.webp','width':_0x1da398,'height':_0x525132,'preserveAspectRatio':'none'}),_0x3b72a7=svgNode('svg',{'viewBox':_0x44b8bd?_0x554f2e(0x155)+_0x44b8bd[0x0]+'\x20'+_0x44b8bd[0x1]:_0x369796+'\x20'+_0x34f990+'\x20'+_0x23a6bd+'\x20'+_0x47554a,'preserveAspectRatio':_0x554f2e(0x165),'focusable':_0x554f2e(0x13e)});Object[_0x554f2e(0x13a)](_0x3b72a7[_0x554f2e(0x126)],{'width':'100%','height':_0x554f2e(0x15d),'display':_0x554f2e(0x17f),'overflow':_0x3215fb?_0x554f2e(0x166):'visible'});if(_0x44b8bd){const [_0x599b35,_0x5e29ae,_0x496196,_0x42155c]=_0x44b8bd,_0x10a6bb=[_0x369796,_0x369796+_0x496196,_0x369796+_0x23a6bd-_0x496196,_0x369796+_0x23a6bd],_0x1baffb=[_0x34f990,_0x34f990+_0x496196,_0x34f990+_0x47554a-_0x496196,_0x34f990+_0x47554a],_0x576683=[0x0,_0x42155c,_0x599b35-_0x42155c,_0x599b35],_0x2625af=[0x0,_0x42155c,_0x5e29ae-_0x42155c,_0x5e29ae];for(let _0x242dc9=0x0;_0x242dc9<0x3;_0x242dc9++)for(let _0x37d233=0x0;_0x37d233<0x3;_0x37d233++){const _0x50d3e0=(_0x57808b,_0x42787c,_0x31ff2d,_0x1d40eb)=>{const _0x574ba3=(_0x57808b[_0x31ff2d+0x1]-_0x57808b[_0x31ff2d])/(_0x42787c[_0x31ff2d+0x1]-_0x42787c[_0x31ff2d]),_0x4ca5fd=_0x31ff2d?_0x42787c[_0x31ff2d]-0.5:_0x42787c[_0x31ff2d]-_0x57808b[0x0]/_0x574ba3,_0x5c248b=_0x31ff2d<0x2?_0x42787c[_0x31ff2d+0x1]+0.5:_0x42787c[_0x31ff2d+0x1]+(_0x1d40eb-_0x57808b[0x3])/_0x574ba3;return[_0x4ca5fd,_0x5c248b-_0x4ca5fd,_0x57808b[_0x31ff2d]+(_0x4ca5fd-_0x42787c[_0x31ff2d])*_0x574ba3,(_0x5c248b-_0x4ca5fd)*_0x574ba3];};if(_0x576683[_0x37d233]===_0x576683[_0x37d233+0x1]||_0x2625af[_0x242dc9]===_0x2625af[_0x242dc9+0x1])continue;const [_0x3835de,_0x13bc64,_0xe745e,_0x91ad4f]=_0x50d3e0(_0x10a6bb,_0x576683,_0x37d233,_0x1da398),[_0x15989b,_0x2862fe,_0x5d6d37,_0x35a3c3]=_0x50d3e0(_0x1baffb,_0x2625af,_0x242dc9,_0x525132),_0x2716ce=svgNode('svg',{'x':_0x3835de,'y':_0x15989b,'width':_0x13bc64,'height':_0x2862fe,'viewBox':_0xe745e+'\x20'+_0x5d6d37+'\x20'+_0x91ad4f+'\x20'+_0x35a3c3,'preserveAspectRatio':_0x554f2e(0x165),'overflow':'hidden'});Object[_0x554f2e(0x13a)](_0x2716ce[_0x554f2e(0x126)],{'width':_0x13bc64+'px','height':_0x2862fe+'px'}),_0x2716ce['append'](_0x15162d()),_0x3b72a7[_0x554f2e(0x12f)](_0x2716ce);}}else _0x3b72a7[_0x554f2e(0x12f)](_0x15162d());return _0x4d1a19[_0x554f2e(0x12f)](_0x3b72a7),_0x5c9574[_0x554f2e(0x12f)](_0x4d1a19),_0x4d1a19;}export function titleUnderline(_0x111f6f){const _0x30849e=qc_0x110e14,_0x382029=document[_0x30849e(0x17a)](_0x30849e(0x133));return _0x382029[_0x30849e(0x14c)]=_0x111f6f,_0x382029[_0x30849e(0x146)]=_0x30849e(0x144),_0x382029[_0x30849e(0x12c)]='',_0x382029[_0x30849e(0x168)](_0x30849e(0x142),_0x30849e(0x191)),_0x382029;}export function primaryButtonSurface(_0x476b29,_0x55b984,_0x2980cc,_0x5dd528,{sourceCap:sourceCap=0x3e,capRatio:_0x35c305}={}){const _0x20bfbd=qc_0x110e14,_0xb57067=_0x35c305==null?Math[_0x20bfbd(0x17b)](_0x5dd528/0x2):_0x5dd528*_0x35c305;return resource(_0x476b29,_0x20bfbd(0x14f),_0x55b984,[_0x2980cc,_0x5dd528,sourceCap,_0xb57067]);}function qc_0x2b54(_0x245f47,_0x19ebfd){_0x245f47=_0x245f47-0x120;const _0x24cd9e=qc_0x24cd();let _0x2b5410=_0x24cd9e[_0x245f47];if(qc_0x2b54['TGIcEq']===undefined){var _0x37eb16=function(_0x32176f){const _0x3b98d7='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4a62e1='',_0x33c361='';for(let _0x4613bd=0x0,_0x17689e,_0x5d8fe2,_0x4353b8=0x0;_0x5d8fe2=_0x32176f['charAt'](_0x4353b8++);~_0x5d8fe2&&(_0x17689e=_0x4613bd%0x4?_0x17689e*0x40+_0x5d8fe2:_0x5d8fe2,_0x4613bd++%0x4)?_0x4a62e1+=String['fromCharCode'](0xff&_0x17689e>>(-0x2*_0x4613bd&0x6)):0x0){_0x5d8fe2=_0x3b98d7['indexOf'](_0x5d8fe2);}for(let _0x5c9574=0x0,_0x172765=_0x4a62e1['length'];_0x5c9574<_0x172765;_0x5c9574++){_0x33c361+='%'+('00'+_0x4a62e1['charCodeAt'](_0x5c9574)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x33c361);};qc_0x2b54['yKlQlM']=_0x37eb16,qc_0x2b54['nLUQAp']={},qc_0x2b54['TGIcEq']=!![];}const _0x216f0d=_0x24cd9e[0x0];qc_0x2b54['NBKkgX']!==_0x216f0d&&(qc_0x2b54['nLUQAp']={},qc_0x2b54['NBKkgX']=_0x216f0d);const _0xa21e5e=qc_0x2b54['nLUQAp'][_0x245f47];return _0xa21e5e===undefined?(_0x2b5410=qc_0x2b54['yKlQlM'](_0x2b5410),qc_0x2b54['nLUQAp'][_0x245f47]=_0x2b5410):_0x2b5410=_0xa21e5e,_0x2b5410;}export function installMeasuredLobby(){const _0x5d3ecb=qc_0x110e14,_0x3fc2f0=_0x1df384=>document['getElementById'](_0x1df384),_0x12d4db=document[_0x5d3ecb(0x179)](_0x5d3ecb(0x15a)),_0x1a4e0a=document[_0x5d3ecb(0x17a)]('div');_0x1a4e0a['id']=_0x5d3ecb(0x189);const _0x12fd36=document[_0x5d3ecb(0x17a)](_0x5d3ecb(0x147));_0x12fd36['id']='lobby-stage',_0x12fd36['append'](document['querySelector']('.topbar'),_0x3fc2f0(_0x5d3ecb(0x171)),_0x3fc2f0(_0x5d3ecb(0x17c)),_0x3fc2f0('lobby-error')),_0x1a4e0a[_0x5d3ecb(0x12f)](_0x12fd36),_0x12d4db[_0x5d3ecb(0x179)](_0x5d3ecb(0x176))[_0x5d3ecb(0x12f)](_0x1a4e0a),_0x3fc2f0(_0x5d3ecb(0x13f))['append'](_0x3fc2f0(_0x5d3ecb(0x16b))),new ResizeObserver(([{contentRect:{width:_0x57f135,height:_0x2c5807}}])=>{const _0x17052c=_0x5d3ecb;if(!_0x57f135||!_0x2c5807)return;const {width:_0x2b28d7,adHeight:_0x2e5b94,boxes:{navigation:_0x1c75fc}}=lobbyReference,_0x1898b6=_0x1c75fc[0x1]+_0x1c75fc[0x3]-_0x2e5b94,_0x57422e=Math[_0x17052c(0x153)](_0x57f135/_0x2b28d7,_0x2c5807/_0x1898b6);_0x12fd36['style'][_0x17052c(0x158)](_0x17052c(0x157),_0x57422e),_0x12fd36[_0x17052c(0x126)][_0x17052c(0x14a)]=_0x2b28d7+'px',_0x12fd36[_0x17052c(0x126)][_0x17052c(0x12b)]=_0x2c5807/_0x57422e+'px',_0x12fd36['style']['transform']='scale('+_0x57422e+')\x20translateX(-50%)',_0x12fd36[_0x17052c(0x177)][_0x17052c(0x150)]=_0x17052c(0x191);})[_0x5d3ecb(0x13c)](_0x1a4e0a),resource(document[_0x5d3ecb(0x179)](_0x5d3ecb(0x148)),'pair',_0x5d3ecb(0x163)),document['querySelector'](_0x5d3ecb(0x17e))[_0x5d3ecb(0x12f)](titleUnderline('lobby-logo-underline')),resource(_0x3fc2f0(_0x5d3ecb(0x174)),_0x5d3ecb(0x132),_0x5d3ecb(0x128),[0xa4,0x3b,0x34,0x1d]),resource(_0x3fc2f0('lobby-wallet')[_0x5d3ecb(0x179)](_0x5d3ecb(0x156)),'coin',_0x5d3ecb(0x199)),resource(_0x3fc2f0(_0x5d3ecb(0x15e)),_0x5d3ecb(0x120),_0x5d3ecb(0x169)),resource(_0x3fc2f0(_0x5d3ecb(0x15e)),_0x5d3ecb(0x17d),'settings-art'),resource(_0x3fc2f0(_0x5d3ecb(0x12a)),_0x5d3ecb(0x141),_0x5d3ecb(0x188),[0x3b8,0x82,0x2d,0x22]);const _0x1a60bf=_0x3fc2f0('player-card')[_0x5d3ecb(0x179)](_0x5d3ecb(0x16a));resource(_0x1a60bf,'avatar',_0x5d3ecb(0x124)),resource(_0x1a60bf,_0x5d3ecb(0x180),_0x5d3ecb(0x16d)),resource(_0x3fc2f0('player-career'),_0x5d3ecb(0x12e),_0x5d3ecb(0x125),[0x9a,0x36,0x2a,0x13]);const _0x4550c3=document[_0x5d3ecb(0x179)]('.lobby-rank-meter');resource(_0x4550c3,_0x5d3ecb(0x19b),_0x5d3ecb(0x18c),undefined,!![]),resource(_0x4550c3['firstElementChild'],'fill',_0x5d3ecb(0x136),undefined,!![]);const _0xe68bb4=document['createElement']('img');_0xe68bb4[_0x5d3ecb(0x146)]=_0x5d3ecb(0x196),_0xe68bb4[_0x5d3ecb(0x12c)]='',_0xe68bb4[_0x5d3ecb(0x14c)]=_0x5d3ecb(0x182),_0x3fc2f0('show-missions')['append'](_0xe68bb4),resource(_0x3fc2f0(_0x5d3ecb(0x18a))[_0x5d3ecb(0x179)](_0x5d3ecb(0x135)),_0x5d3ecb(0x123),_0x5d3ecb(0x15f)),resource(_0x3fc2f0(_0x5d3ecb(0x18a)),'notice',_0x5d3ecb(0x172)),resource(_0x3fc2f0(_0x5d3ecb(0x18e)),_0x5d3ecb(0x137),'championship-surface',[0x39c,0x56,0x2d,0x1c]),_0x3fc2f0(_0x5d3ecb(0x18e))['querySelector']('.tournament-icon')[_0x5d3ecb(0x139)](),resource(_0x3fc2f0(_0x5d3ecb(0x18e)),_0x5d3ecb(0x19c),_0x5d3ecb(0x173)),resource(_0x3fc2f0('show-tournament'),_0x5d3ecb(0x15b),_0x5d3ecb(0x162)),_0x3fc2f0(_0x5d3ecb(0x18e))[_0x5d3ecb(0x12f)](Object[_0x5d3ecb(0x13a)](document['createElement'](_0x5d3ecb(0x194)),{'className':'championship-divider'})),primaryButtonSurface(_0x3fc2f0(_0x5d3ecb(0x14e)),'start-surface',0x3a6,0x9b),_0x3fc2f0('start')[_0x5d3ecb(0x179)]('img')[_0x5d3ecb(0x139)]();const _0x20b077=document[_0x5d3ecb(0x17a)]('span');_0x20b077[_0x5d3ecb(0x14c)]=_0x5d3ecb(0x129),_0x20b077[_0x5d3ecb(0x12f)](_0x3fc2f0(_0x5d3ecb(0x14e))[_0x5d3ecb(0x179)](_0x5d3ecb(0x152))),resource(_0x20b077,_0x5d3ecb(0x127),_0x5d3ecb(0x13d)),_0x3fc2f0('start')['append'](_0x20b077),resource(_0x3fc2f0('lobby-nav'),_0x5d3ecb(0x181),_0x5d3ecb(0x161),[0x3b8,0x84,0x2a,0x21]);for(const [_0x444215,_0x4e6e7f]of[['show-records','book'],[_0x5d3ecb(0x16f),_0x5d3ecb(0x186)],['show-rankings',null],[_0x5d3ecb(0x167),_0x5d3ecb(0x18b)]]){const _0x2c6770=_0x3fc2f0(_0x444215);_0x2c6770[_0x5d3ecb(0x179)](_0x5d3ecb(0x133))[_0x5d3ecb(0x139)]();let _0x308a80=_0x2c6770['querySelector'](_0x5d3ecb(0x192));!_0x308a80&&(_0x308a80=document[_0x5d3ecb(0x17a)](_0x5d3ecb(0x194)),_0x308a80[_0x5d3ecb(0x14c)]=_0x5d3ecb(0x19a),_0x2c6770['prepend'](_0x308a80));if(_0x4e6e7f)resource(_0x308a80,_0x4e6e7f,_0x5d3ecb(0x14d));else{const _0x43ca4e=document['createElement'](_0x5d3ecb(0x194));_0x43ca4e['className']='lobby-resource\x20navigation-art',_0x43ca4e[_0x5d3ecb(0x168)](_0x5d3ecb(0x142),_0x5d3ecb(0x191));const _0x14d27a=svgNode(_0x5d3ecb(0x13b),{'viewBox':_0x5d3ecb(0x190),'preserveAspectRatio':'none','focusable':'false'});Object['assign'](_0x14d27a[_0x5d3ecb(0x126)],{'width':_0x5d3ecb(0x15d),'height':_0x5d3ecb(0x15d),'display':'block','overflow':_0x5d3ecb(0x187)}),_0x14d27a[_0x5d3ecb(0x12f)](svgNode(_0x5d3ecb(0x15c),{'href':'#nav-ranking','width':0x18,'height':0x18})),_0x43ca4e[_0x5d3ecb(0x12f)](_0x14d27a),_0x308a80[_0x5d3ecb(0x12f)](_0x43ca4e);}}return{'render'(_0x323600){const _0xd716d8=_0x5d3ecb;_0x1a4e0a[_0xd716d8(0x166)]=Boolean(_0x323600);}};}
+// Coordinates measured from 1-lobby.png (1024×1536). The top 56px belong to ads.
+export const lobbyReference = {
+  width: 1024, height: 1536, adHeight: 56, contentHeight: 1480,
+  boxes: {
+    header: [36, 96, 952, 80], profile: [36, 205, 952, 130],
+    board: [165, 417, 692, 457], missions: [839, 407, 114, 132],
+    championship: [50, 956, 924, 86], start: [45, 1090, 934, 155],
+    navigation: [36, 1349, 952, 132],
+  },
+};
+
+const art = {
+  pair: ["board/stones_pair", 383, 362, [9, 9, 366, 344]],
+  profile: ["panels/profile_panel", 476, 177, [11, 10, 456, 155]],
+  avatar: ["panels/avatar_frame", 243, 234, [11, 8, 220, 226]],
+  person: ["icons/profile", 210, 234, [8, 9, 194, 217]],
+  score: ["panels/score_badge", 310, 126, [11, 9, 289, 106]],
+  track: ["panels/progress_track", 439, 179, [10, 105, 417, 62]],
+  fill: ["panels/progress_fill", 433, 179, [10, 106, 413, 60]],
+  currency: ["panels/currency_capsule", 347, 127, [10, 8, 326, 108]],
+  coin: ["icons/coin", 229, 233, [9, 9, 211, 216]],
+  round: ["panels/round_button", 231, 228, [11, 10, 209, 216]],
+  settings: ["icons/settings", 239, 243, [8, 8, 222, 226]],
+  gift: ["icons/gift", 244, 258, [9, 8, 227, 241]],
+  notice: ["icons/notification", 188, 192, [8, 8, 172, 176]],
+  championship: ["panels/championship_banner", 475, 178, [11, 9, 453, 157]],
+  trophy: ["icons/trophy", 326, 211, [8, 9, 310, 193]],
+  chevron: ["icons/chevron_right", 145, 214, [8, 9, 129, 197]],
+  primary: ["panels/primary_button", 483, 147, [11, 10, 462, 125]],
+  navigation: ["panels/bottom_navigation", 477, 139, [11, 8, 456, 119]],
+  book: ["icons/book", 260, 197, [9, 9, 242, 180]],
+  watch: ["icons/watch", 262, 184, [8, 9, 246, 167]],
+  shop: ["icons/shop", 242, 231, [9, 8, 225, 214]],
+  shopBag: ["shop/bag-stones", 230, 240, [0, 0, 230, 240]],
+};
+
+const ns = "http://www.w3.org/2000/svg";
+const svgNode = (tag, attributes) => {
+  const node = document.createElementNS(ns, tag);
+  for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, value);
+  return node;
+};
+
+// SVG viewports remove the resource's transparent padding without altering it.
+// Nine slices retain corners and rims when a panel has a different aspect ratio.
+export function resource(parent, name, className, panel, clip = false) {
+  const [path, width, height, [x, y, w, h]] = art[name];
+  const span = document.createElement("span");
+  span.className = "lobby-resource " + className;
+  span.setAttribute("aria-hidden", "true");
+  span.dataset.lobbyAsset = path;
+  // These are logical source coordinates; texture resolution can be reduced
+  // independently without changing the crop or the rendered layout.
+  const image = () => svgNode("image", { href: `./assets/forest-ui/${path}.webp`, width, height, preserveAspectRatio: "none" });
+  const root = svgNode("svg", { viewBox: panel ? `0 0 ${panel[0]} ${panel[1]}` : `${x} ${y} ${w} ${h}`, preserveAspectRatio: "none", focusable: "false" });
+  // Shared menu styles size SVG icons; these SVGs are full resource viewports.
+  Object.assign(root.style, { width: "100%", height: "100%", display: "block", overflow: clip ? "hidden" : "visible" });
+  if (panel) {
+    const [dw, dh, sourceCap, targetCap] = panel;
+    const sx = [x, x + sourceCap, x + w - sourceCap, x + w];
+    const sy = [y, y + sourceCap, y + h - sourceCap, y + h];
+    const dx = [0, targetCap, dw - targetCap, dw];
+    const dy = [0, targetCap, dh - targetCap, dh];
+    for (let row = 0; row < 3; row++) for (let col = 0; col < 3; col++) {
+      const tile = (source, destination, index, fullSize) => {
+        const scale = (source[index + 1] - source[index]) / (destination[index + 1] - destination[index]);
+        // Overlap interior edges by half a design pixel to avoid hairline gaps
+        // after mobile scaling. Outer tiles keep the original soft shadows.
+        const from = index ? destination[index] - .5 : destination[index] - source[0] / scale;
+        const to = index < 2 ? destination[index + 1] + .5 : destination[index + 1] + (fullSize - source[3]) / scale;
+        return [from, to - from, source[index] + (from - destination[index]) * scale, (to - from) * scale];
+      };
+      if (dx[col] === dx[col + 1] || dy[row] === dy[row + 1]) continue;
+      const [tx, tw, vx, vw] = tile(sx, dx, col, width);
+      const [ty, th, vy, vh] = tile(sy, dy, row, height);
+      const piece = svgNode("svg", {
+        x: tx, y: ty, width: tw, height: th,
+        viewBox: `${vx} ${vy} ${vw} ${vh}`,
+        preserveAspectRatio: "none", overflow: "hidden",
+      });
+      Object.assign(piece.style, { width: tw + "px", height: th + "px" });
+      piece.append(image()); root.append(piece);
+    }
+  } else root.append(image());
+  span.append(root); parent.append(span);
+  return span;
+}
+
+export function titleUnderline(className) {
+  const image = document.createElement("img");
+  image.className = className;
+  image.src = "./assets/forest-ui/branding/title-underline.svg";
+  image.alt = "";
+  image.setAttribute("aria-hidden", "true");
+  return image;
+}
+
+// Use the lobby's gold image and round end caps at each button's own size.
+export function primaryButtonSurface(button, className, width, height, { sourceCap = 62, capRatio } = {}) {
+  const cap = capRatio == null ? Math.floor(height / 2) : height * capRatio;
+  return resource(button, "primary", className, [width, height, sourceCap, cap]);
+}
+
+export function installMeasuredLobby() {
+  const el = id => document.getElementById(id);
+  const shell = document.querySelector(".shell");
+  const host = document.createElement("div"); host.id = "lobby-stage-host";
+  const stage = document.createElement("div"); stage.id = "lobby-stage";
+  stage.append(document.querySelector(".topbar"), el("lobby"), el("lobby-nav"), el("lobby-error"));
+  host.append(stage); shell.querySelector("main").append(host);
+  el("lobby-championship-slot").append(el("lobby-mode-actions"));
+  new ResizeObserver(([{ contentRect: { width, height } }]) => {
+    if (!width || !height) return;
+    // Keep the footer in the grid flow. Gaps absorb height changes before the
+    // whole design scales down on unusually short screens.
+    const { width: referenceWidth, adHeight, boxes: { navigation } } = lobbyReference;
+    const minimumHeight = navigation[1] + navigation[3] - adHeight;
+    const scale = Math.min(width / referenceWidth, height / minimumHeight);
+    stage.style.setProperty("--lobby-scale", scale);
+    stage.style.width = referenceWidth + "px";
+    stage.style.height = height / scale + "px";
+    stage.style.transform = `scale(${scale}) translateX(-50%)`;
+    stage.dataset.sized = "true";
+  }).observe(host);
+
+  resource(document.querySelector(".mark"), "pair", "logo-stones");
+  document.querySelector(".brand").append(titleUnderline("lobby-logo-underline"));
+  resource(el("lobby-wallet"), "currency", "currency-surface", [164, 59, 52, 29]);
+  resource(el("lobby-wallet").querySelector(".shop-coin"), "coin", "currency-coin");
+  resource(el("show-options"), "round", "settings-surface");
+  resource(el("show-options"), "settings", "settings-art");
+  resource(el("player-card"), "profile", "profile-surface", [952, 130, 45, 34]);
+  const avatar = el("player-card").querySelector(".player-avatar");
+  resource(avatar, "avatar", "avatar-surface");
+  resource(avatar, "person", "avatar-symbol");
+  resource(el("player-career"), "score", "score-surface", [154, 54, 42, 19]);
+  const meter = document.querySelector(".lobby-rank-meter");
+  // The thin gauge cannot use the panel's nine-slice caps: both vertical
+  // caps meet, and the original transparent padding bleeds past the rim.
+  resource(meter, "track", "meter-track", undefined, true);
+  resource(meter.firstElementChild, "fill", "meter-fill", undefined, true);
+  const missionSurface = document.createElement("img");
+  missionSurface.src = "./assets/forest-ui/panels/mission-button.svg";
+  missionSurface.alt = "";
+  missionSurface.className = "lobby-resource mission-surface";
+  el("show-missions").append(missionSurface);
+  resource(el("show-missions").querySelector(".mission-shortcut-icon"), "gift", "mission-gift-art");
+  resource(el("show-missions"), "notice", "mission-notice");
+  resource(el("show-tournament"), "championship", "championship-surface", [924, 86, 45, 28]);
+  el("show-tournament").querySelector(".tournament-icon").remove();
+  resource(el("show-tournament"), "trophy", "championship-trophy");
+  resource(el("show-tournament"), "chevron", "championship-chevron");
+  el("show-tournament").append(Object.assign(document.createElement("span"), { className: "championship-divider" }));
+  primaryButtonSurface(el("start"), "start-surface", 934, 155);
+  el("start").querySelector("img").remove();
+  const startContent = document.createElement("span");
+  startContent.className = "start-content";
+  startContent.append(el("start").querySelector("[data-i18n]"));
+  resource(startContent, "pair", "start-stones");
+  el("start").append(startContent);
+  resource(el("lobby-nav"), "navigation", "navigation-surface", [952, 132, 42, 33]);
+  for (const [id, artName] of [["show-records", "book"], ["show-watch", "watch"], ["show-rankings", null], ["show-shop", "shop"]]) {
+    const button = el(id); button.querySelector("img").remove();
+    let wrapper = button.querySelector(".lobby-nav-icon");
+    if (!wrapper) { wrapper = document.createElement("span"); wrapper.className = "lobby-nav-icon"; button.prepend(wrapper); }
+    if (artName) resource(wrapper, artName, "navigation-art");
+    else {
+      const art = document.createElement("span");
+      art.className = "lobby-resource navigation-art";
+      art.setAttribute("aria-hidden", "true");
+      const trophy = svgNode("svg", { viewBox: "2 2 20 20", preserveAspectRatio: "none", focusable: "false" });
+      Object.assign(trophy.style, { width: "100%", height: "100%", display: "block", overflow: "visible" });
+      trophy.append(svgNode("use", { href: "#nav-ranking", width: 24, height: 24 }));
+      art.append(trophy); wrapper.append(art);
+    }
+  }
+  return { render(game) { host.hidden = Boolean(game); } };
+}

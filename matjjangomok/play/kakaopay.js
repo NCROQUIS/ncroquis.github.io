@@ -1,1 +1,21 @@
-(function(_0x1e2f82,_0x484b22){const _0x3e0ccc=qa_0x4c20,_0x515949=_0x1e2f82();while(!![]){try{const _0x5888b0=-parseInt(_0x3e0ccc(0x136))/0x1+-parseInt(_0x3e0ccc(0x14a))/0x2+parseInt(_0x3e0ccc(0x149))/0x3*(-parseInt(_0x3e0ccc(0x14d))/0x4)+-parseInt(_0x3e0ccc(0x14b))/0x5*(parseInt(_0x3e0ccc(0x13c))/0x6)+-parseInt(_0x3e0ccc(0x13f))/0x7*(-parseInt(_0x3e0ccc(0x150))/0x8)+-parseInt(_0x3e0ccc(0x146))/0x9*(-parseInt(_0x3e0ccc(0x13a))/0xa)+parseInt(_0x3e0ccc(0x144))/0xb;if(_0x5888b0===_0x484b22)break;else _0x515949['push'](_0x515949['shift']());}catch(_0x11b1fa){_0x515949['push'](_0x515949['shift']());}}}(qa_0x2a93,0x6a13a));function qa_0x4c20(_0x5b0d29,_0x229f16){_0x5b0d29=_0x5b0d29-0x136;const _0x2a93e8=qa_0x2a93();let _0x4c20e4=_0x2a93e8[_0x5b0d29];if(qa_0x4c20['Taijql']===undefined){var _0x19d6b0=function(_0xfe01d3){const _0x49db8e='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x29ae7b='',_0x3553ab='';for(let _0x2dd8f7=0x0,_0x1ddb63,_0x23732b,_0x36fc9=0x0;_0x23732b=_0xfe01d3['charAt'](_0x36fc9++);~_0x23732b&&(_0x1ddb63=_0x2dd8f7%0x4?_0x1ddb63*0x40+_0x23732b:_0x23732b,_0x2dd8f7++%0x4)?_0x29ae7b+=String['fromCharCode'](0xff&_0x1ddb63>>(-0x2*_0x2dd8f7&0x6)):0x0){_0x23732b=_0x49db8e['indexOf'](_0x23732b);}for(let _0x1abb9a=0x0,_0x237c13=_0x29ae7b['length'];_0x1abb9a<_0x237c13;_0x1abb9a++){_0x3553ab+='%'+('00'+_0x29ae7b['charCodeAt'](_0x1abb9a)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x3553ab);};qa_0x4c20['AIkxXs']=_0x19d6b0,qa_0x4c20['WnBxbP']={},qa_0x4c20['Taijql']=!![];}const _0x457024=_0x2a93e8[0x0];qa_0x4c20['vMbELm']!==_0x457024&&(qa_0x4c20['WnBxbP']={},qa_0x4c20['vMbELm']=_0x457024);const _0x4701ad=qa_0x4c20['WnBxbP'][_0x5b0d29];return _0x4701ad===undefined?(_0x4c20e4=qa_0x4c20['AIkxXs'](_0x4c20e4),qa_0x4c20['WnBxbP'][_0x5b0d29]=_0x4c20e4):_0x4c20e4=_0x4701ad,_0x4c20e4;}export async function prepareKakaopay(_0x3553ab){const _0x11d0e1=qa_0x4c20;if(_0x3553ab[_0x11d0e1(0x138)]?.['NCQ_KAKAO']?.[_0x11d0e1(0x145)]!==_0x11d0e1(0x140))return![];if(_0x3553ab[_0x11d0e1(0x138)][_0x11d0e1(0x148)]!==_0x11d0e1(0x14e)||!_0x3553ab[_0x11d0e1(0x143)]||!_0x3553ab[_0x11d0e1(0x14c)])throw new Error('Neptune\x20build\x20bridge\x20is\x20missing');const _0x2dd8f7=await _0x3553ab['NcqKakao'][_0x11d0e1(0x13e)]();if(!_0x2dd8f7[_0x11d0e1(0x142)]||!_0x2dd8f7[_0x11d0e1(0x147)]||!_0x3553ab[_0x11d0e1(0x14c)][_0x11d0e1(0x13d)]()['ready'])throw new Error('Neptune\x20account\x20and\x20save\x20are\x20not\x20ready');return!![];}let backupTimer;function qa_0x2a93(){const _0x433277=['BwvTyMvYC2HPCfjLywr5','tKnrx1bmqvrgt1jn','m3LIywjgwa','nZyZodyYueDtwuzP','mJe2mZvwrMzuBfu','tMnXtMvWDhvUzq','odG5nJKYDKzsBNvP','A2fRyw9WyxK','zMX1C2G','mtu2nJCYshjku3bN','ody1mJqWyvvTDuvM','y2f0y2G','tKnr','y2XLyxjuAw1LB3v0','mtqXnJu5meXbwvHtza','C2v0vgLTzw91Da','odK0wfrszxvl','C3rHDhvZ','CMvHzhK','otfcr0nYu2S','BMvWDhvUzq','tKnrx0Tbs0fp','yxzHAwXHyMXL','tMnXs2fRyw8','mtu4ody4nZfJswnzDwK','ChjVDMLKzxi','ntr3rLPPwwy'];qa_0x2a93=function(){return _0x433277;};return qa_0x2a93();}export function backupKakaopay(_0x1ddb63){const _0x1fa1f6=qa_0x4c20;if(_0x1ddb63[_0x1fa1f6(0x138)]?.[_0x1fa1f6(0x141)]?.[_0x1fa1f6(0x145)]!==_0x1fa1f6(0x140)||!_0x1ddb63[_0x1fa1f6(0x14c)]?.[_0x1fa1f6(0x13d)]()[_0x1fa1f6(0x13e)])return;_0x1ddb63[_0x1fa1f6(0x139)](backupTimer),backupTimer=_0x1ddb63[_0x1fa1f6(0x13b)](()=>{const _0x5ab0f9=_0x1fa1f6;void _0x1ddb63['NcqNeptune'][_0x5ab0f9(0x14f)]()[_0x5ab0f9(0x137)](()=>{});},0x1f4);}
+// The release pipeline supplies the partner SDK and server-verified account.
+// Wait before reading any device save; failed login/save fetch must never create a guest game.
+export async function prepareKakaopay(win) {
+  if (win.NCQ?.NCQ_KAKAO?.provider !== "neptune") return false;
+  if (win.NCQ.NCQ_PLATFORM !== "kakaopay" || !win.NcqKakao || !win.NcqNeptune) {
+    throw new Error("Neptune build bridge is missing");
+  }
+  const state = await win.NcqKakao.ready();
+  if (!state.available || !state.membershipReady || !win.NcqNeptune.status().ready) {
+    throw new Error("Neptune account and save are not ready");
+  }
+  return true;
+}
+
+// Settings/replay writes are already local. Back up important writes without spamming each field update.
+let backupTimer;
+export function backupKakaopay(win) {
+  if (win.NCQ?.NCQ_KAKAO?.provider !== "neptune" || !win.NcqNeptune?.status().ready) return;
+  win.clearTimeout(backupTimer);
+  backupTimer = win.setTimeout(() => { void win.NcqNeptune.flush().catch(() => {}); }, 500);
+}

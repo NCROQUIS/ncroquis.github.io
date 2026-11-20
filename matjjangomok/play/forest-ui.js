@@ -1,1 +1,134 @@
-(function(_0x29d233,_0x36cc01){const _0x470a67=q5_0x2e6b,_0x182c58=_0x29d233();while(!![]){try{const _0x5b7254=parseInt(_0x470a67(0x250))/0x1+parseInt(_0x470a67(0x23d))/0x2*(parseInt(_0x470a67(0x249))/0x3)+-parseInt(_0x470a67(0x210))/0x4+-parseInt(_0x470a67(0x1fa))/0x5+parseInt(_0x470a67(0x254))/0x6*(-parseInt(_0x470a67(0x209))/0x7)+-parseInt(_0x470a67(0x245))/0x8+parseInt(_0x470a67(0x1f8))/0x9;if(_0x5b7254===_0x36cc01)break;else _0x182c58['push'](_0x182c58['shift']());}catch(_0x54c2ae){_0x182c58['push'](_0x182c58['shift']());}}}(q5_0x4f27,0xb116a));import{installMeasuredLobby,primaryButtonSurface,resource}from'./lobby-layout.js?v=390eb41a0de0';import{installMeasuredRankings}from'./ranking-layout.js?v=390eb41a0de0';function q5_0x2e6b(_0x5881ea,_0x2250b8){_0x5881ea=_0x5881ea-0x1f4;const _0x4f275a=q5_0x4f27();let _0x2e6bae=_0x4f275a[_0x5881ea];if(q5_0x2e6b['zpgSTU']===undefined){var _0x163a3d=function(_0x443609){const _0x21c038='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x5c2c03='',_0x18ada8='';for(let _0x5e52d2=0x0,_0x45bbe5,_0x289a4b,_0x4f37bf=0x0;_0x289a4b=_0x443609['charAt'](_0x4f37bf++);~_0x289a4b&&(_0x45bbe5=_0x5e52d2%0x4?_0x45bbe5*0x40+_0x289a4b:_0x289a4b,_0x5e52d2++%0x4)?_0x5c2c03+=String['fromCharCode'](0xff&_0x45bbe5>>(-0x2*_0x5e52d2&0x6)):0x0){_0x289a4b=_0x21c038['indexOf'](_0x289a4b);}for(let _0x15ae18=0x0,_0x2614db=_0x5c2c03['length'];_0x15ae18<_0x2614db;_0x15ae18++){_0x18ada8+='%'+('00'+_0x5c2c03['charCodeAt'](_0x15ae18)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x18ada8);};q5_0x2e6b['IkPsUY']=_0x163a3d,q5_0x2e6b['QpvFZg']={},q5_0x2e6b['zpgSTU']=!![];}const _0x13f95a=_0x4f275a[0x0];q5_0x2e6b['IezyiG']!==_0x13f95a&&(q5_0x2e6b['QpvFZg']={},q5_0x2e6b['IezyiG']=_0x13f95a);const _0x55188b=q5_0x2e6b['QpvFZg'][_0x5881ea];return _0x55188b===undefined?(_0x2e6bae=q5_0x2e6b['IkPsUY'](_0x2e6bae),q5_0x2e6b['QpvFZg'][_0x5881ea]=_0x2e6bae):_0x2e6bae=_0x55188b,_0x2e6bae;}import{installMeasuredMissions}from'./mission-layout.js?v=390eb41a0de0';function q5_0x4f27(){const _0x1a283f=['zgL2','Bg9IyNKTy3rHlxnSB3q','lMXVyMj5lwzLzwq','Aw1N','y2XHC3noyw1L','yxjPys1SywjLBa','y2XVC2u','CMvJB3jKCY1IywnR','CMvTB3zL','CMvMCMvZAc1SB2jIEq','zMLYC3rfBgvTzw50q2HPBgq','CMvJB3jKlwzPBhrLCNm','CM9Szq','zM9Yzxn0lwnOyw1WAw9UC2HPCc1ZzxbHCMf0B3i','BwLU','C2v0qxr0CMLIDxrL','AgLKzgvU','C2HHCMvKvMLLDW','ofzTBunyrG','ywrK','zgLHBg9N','lMXPC3qTAgvHzgLUzY10AxrSzq','CMfUA2LUz3mTzgLHBg9N','y2XHC3nmAxn0','CMv2Awv3','yxbWzw5K','nJa5mtq4me9jzxjSAa','ChjLCgvUza','D2f0y2GTy2XVC2u','lNnOzwXS','ndy5mJzeCwjmyvm','BgfZDevSzw1LBNrdAgLSza','ywz0zxi','CMv2Awv3lw93BI1ZDgf0Dxm','zM9Yzxn0lwnOyw1WAw9UC2HPCc1WzxjPB2q','zM9Yzxn0lxDPBMrVDW','Bg9IyNKTAgvHzgLUzW','odKXmZK0t0T5yxvW','Bg9IyNKTChjVzMLSzs1ZBg90','Bg9IyNKTzw50CNK','lMXVyMj5lwHPz2HSAwDODhm','mZCWmZjizxnUuLq','zM9Yzxn0lwnOyw1WAw9UC2HPCc1JB3vUDgrVD24','yxjPys12ywX1zw5VDW','CMv2Awv3lxbYAw1HCNKTC3vYzMfJzq','C3r5Bgu','mJe5mdCYmdz1C2XPvvm','CMvJB3jKCY1OzwfKAw5N','nJuYmJG4nwvRrxzbBG','lNnOB3aTDgfICW','C2HVCa','CgXHEwvYlwnHCMq','Dg91CM5HBwvUDa','B2jZzxj2zq','Dg91CM5HBwvUDc10AxrSzq','z2v0rwXLBwvUDej5swq','CgfYzw50rwXLBwvUDa','D2f0y2G','C3bHBG','C2HVDY10B3vYBMfTzw50','Aw5Zzxj0qMvMB3jL','Bg9IyNKTCMfUAY1TzxrLCG','zMLUza','ntGXB29xrwTt','CMvJB3jKCY1KAwfSB2C','zM9Yzxn0lwnOyw1WAw9UC2HPCc1TzxrH','C2HVDY1TAxnZAw9UCW','CxvLCNLtzwXLy3rVCG','Bg9IyNK','CMv2Awv3lwfJDgLVBI1ZDg9Uzxm','mZm3ode2CvbqCLLz','CxvLCNLtzwXLy3rVCKfSBa','yxjPys1OAwrKzw4','yM9VAW','zM9Yzxn0lxbHz2uTzgLHBg9N','zM9Yzxn0uhjVBw90Aw9UuhjVz3jLC3m','CMvUzgvY','CgXHEs1MB290zxi','CMvJB3jKCW','B3bLBG','lNrVDxjUyw1LBNqTAwnVBG','C2v0uhjVCgvYDhK','lMXPC3qTAgvHzgLUzW','lNnOB3aTAgvHzgLUzYaUzM9Yzxn0lwnSB3nL','yxnZAwDU','yxjPys12ywX1zw1PBG','y3jLyxrLrwXLBwvUDa','yM9KEq','y2XVC2veAwfSB2C','Bwf4','zgf0yxnLDa','w2rHDgeTy2XVC2uTzgLHBg9Nxq','D2f0y2GTBgLZDc10B29SyMfY','Dhj1zq','lI9HC3nLDhmVzM9Yzxn0lxvPl2LJB25Zl3rYB3bOEs53zwjW','C2HVD01VzgfS','ywrKrxzLBNrmAxn0zw5LCG'];q5_0x4f27=function(){return _0x1a283f;};return q5_0x4f27();}import{installListDialog}from'./list-dialog.js?v=390eb41a0de0';export function createForestUI({closeView:_0x18ada8,getView:_0x5e52d2,hasGame:_0x45bbe5,translate:_0x289a4b,onRankingCapacity:_0x4f37bf}){const _0x4a98e5=q5_0x2e6b,_0x15ae18=_0x321785=>document[_0x4a98e5(0x201)](_0x321785),_0x2614db=(_0xa4abaa,_0x136942,_0x128764)=>{const _0x4c8cc0=_0x4a98e5,_0x37fee1=document[_0x4c8cc0(0x220)](_0x4c8cc0(0x23f));_0x37fee1['id']=_0xa4abaa,_0x37fee1[_0x4c8cc0(0x22f)]=_0x4c8cc0(0x214),_0x37fee1[_0x4c8cc0(0x23a)]('aria-labelledby',_0x136942);const _0xa94d60=document[_0x4c8cc0(0x220)]('div');return _0xa94d60[_0x4c8cc0(0x22f)]=_0x4c8cc0(0x24e),_0xa94d60[_0x4c8cc0(0x244)](_0x128764),_0x37fee1[_0x4c8cc0(0x244)](_0xa94d60),document[_0x4c8cc0(0x221)][_0x4c8cc0(0x244)](_0x37fee1),_0x37fee1;},_0x4271d8=_0x2614db(_0x4a98e5(0x20a),_0x4a98e5(0x1f9),_0x15ae18(_0x4a98e5(0x218))),_0x5299ea=_0x2614db(_0x4a98e5(0x241),_0x4a98e5(0x200),_0x15ae18(_0x4a98e5(0x1fe))),_0x282bdb=document[_0x4a98e5(0x220)](_0x4a98e5(0x22b));_0x282bdb[_0x4a98e5(0x22f)]=_0x4a98e5(0x20b);for(const _0x54d6d1 of[_0x4a98e5(0x24d),_0x4a98e5(0x1f4)]){const _0x33843b=document[_0x4a98e5(0x220)](_0x4a98e5(0x204));_0x33843b['id']=_0x54d6d1,_0x282bdb[_0x4a98e5(0x244)](_0x33843b);}const _0x3ca812=document['createElement'](_0x4a98e5(0x204));_0x3ca812[_0x4a98e5(0x22f)]=_0x4a98e5(0x238),_0x3ca812['textContent']='|',_0x3ca812['setAttribute'](_0x4a98e5(0x212),_0x4a98e5(0x227)),_0x282bdb[_0x4a98e5(0x206)](_0x3ca812,_0x282bdb[_0x4a98e5(0x24a)]),_0x15ae18(_0x4a98e5(0x1fe))[_0x4a98e5(0x20d)](_0x4a98e5(0x21c))[_0x4a98e5(0x24b)](_0x282bdb);const _0x11d6ac=_0x2614db('watch-dialog','lobby-heading',document[_0x4a98e5(0x20d)](_0x4a98e5(0x22d))),_0x4480ff=_0x11d6ac[_0x4a98e5(0x20d)]('.list-heading'),_0x217374=document[_0x4a98e5(0x220)](_0x4a98e5(0x22b));_0x217374[_0x4a98e5(0x22f)]=_0x4a98e5(0x226),_0x217374['append'](_0x15ae18('live-count'),_0x15ae18(_0x4a98e5(0x234))),_0x4480ff[_0x4a98e5(0x24b)](_0x217374),_0x4480ff[_0x4a98e5(0x246)](_0x15ae18(_0x4a98e5(0x24f))),_0x4480ff['querySelector'](_0x4a98e5(0x240))[_0x4a98e5(0x233)](),_0x4480ff[_0x4a98e5(0x244)](_0x15ae18(_0x4a98e5(0x247))),_0x15ae18(_0x4a98e5(0x205))[_0x4a98e5(0x20d)](_0x4a98e5(0x21a))['replaceWith'](Object[_0x4a98e5(0x21e)](document[_0x4a98e5(0x220)](_0x4a98e5(0x22e)),{'src':_0x4a98e5(0x228),'alt':'','className':'tournament-icon'})),_0x15ae18('lobby-mission-slot')[_0x4a98e5(0x244)](_0x15ae18(_0x4a98e5(0x20c))),_0x15ae18('lobby-championship-slot')[_0x4a98e5(0x244)](_0x15ae18(_0x4a98e5(0x205))),_0x15ae18(_0x4a98e5(0x22c))[_0x4a98e5(0x244)](_0x15ae18(_0x4a98e5(0x252))),document[_0x4a98e5(0x20d)](_0x4a98e5(0x253))['remove'](),_0x15ae18(_0x4a98e5(0x1fc))[_0x4a98e5(0x242)][_0x4a98e5(0x23e)](_0x4a98e5(0x214),'forest-shop');for(const [_0x48d8e1,_0x34a614]of[[_0x4271d8,_0x4a98e5(0x218)],[_0x5299ea,_0x4a98e5(0x1fe)]]){_0x48d8e1[_0x4a98e5(0x22a)](_0x4a98e5(0x231),()=>{const _0x4f34b2=_0x4a98e5;if(!_0x48d8e1[_0x4f34b2(0x219)]&&!_0x45bbe5()&&_0x5e52d2()===_0x34a614)_0x18ada8();});}for(const _0x1d311f of document[_0x4a98e5(0x211)](_0x4a98e5(0x225))){_0x1d311f[_0x4a98e5(0x22a)]('click',()=>_0x15ae18(_0x1d311f[_0x4a98e5(0x224)][_0x4a98e5(0x222)])['close']());}const _0x45ff19=document['createElement'](_0x4a98e5(0x204));_0x45ff19[_0x4a98e5(0x22f)]=_0x4a98e5(0x207),_0x45ff19[_0x4a98e5(0x23a)](_0x4a98e5(0x237),'progressbar'),_0x45ff19[_0x4a98e5(0x244)](document[_0x4a98e5(0x220)]('span')),_0x15ae18(_0x4a98e5(0x1fd))[_0x4a98e5(0x244)](_0x45ff19);const _0x22a18f=installMeasuredLobby(),_0x2d1ff1=installMeasuredRankings(_0x5299ea,_0x4f37bf),_0x49662f=installListDialog(_0x4271d8,{'title':_0x15ae18(_0x4a98e5(0x1f9)),'close':_0x15ae18(_0x4a98e5(0x232)),'icon':_0x4a98e5(0x213),'tabs':_0x15ae18(_0x4a98e5(0x236))}),_0x5c11d3=installListDialog(_0x11d6ac,{'title':_0x15ae18(_0x4a98e5(0x24f)),'close':_0x15ae18(_0x4a98e5(0x247)),'icon':_0x4a98e5(0x203)}),_0x1d2519=installListDialog(_0x15ae18(_0x4a98e5(0x1fc)),{'title':_0x15ae18('shop-title'),'close':_0x15ae18('shop')[_0x4a98e5(0x20d)](_0x4a98e5(0x21d)),'icon':'shopBag','tabs':_0x15ae18('shop')[_0x4a98e5(0x20d)](_0x4a98e5(0x1fb))}),_0x432f9c=_0x15ae18('review-room-action'),_0x23dfda=document[_0x4a98e5(0x20d)]('.review-result');resource(_0x432f9c[_0x4a98e5(0x235)],'pair',_0x4a98e5(0x20f));let _0x4b4d37;new ResizeObserver(([{contentRect:{width:_0x212a2e,height:_0x2f4f2c}}])=>{const _0x11d2d3=_0x4a98e5;if(!_0x212a2e||!_0x2f4f2c)return;_0x4b4d37?.[_0x11d2d3(0x233)](),_0x4b4d37=primaryButtonSurface(_0x432f9c,_0x11d2d3(0x1f6),_0x212a2e,_0x2f4f2c);})[_0x4a98e5(0x1ff)](_0x432f9c),installMeasuredMissions();const _0x18c570=(_0x418267,_0xdaef8)=>{const _0x254a2b=_0x4a98e5;if(_0xdaef8&&!_0x418267[_0x254a2b(0x219)])_0x418267[_0x254a2b(0x229)]();else{if(!_0xdaef8&&_0x418267[_0x254a2b(0x219)])_0x418267['close']();}};return{'watchDialog':_0x11d6ac,'openWatch'(){const _0x2c95a8=_0x4a98e5;if(_0x45bbe5())return;_0x11d6ac['showModal'](),_0x5c11d3(),_0x15ae18(_0x2c95a8(0x24f))['focus']();},'back'(){const _0x3ee7c0=_0x4a98e5,_0x679025=[_0x11d6ac,_0x4271d8,_0x5299ea][_0x3ee7c0(0x208)](_0x3d0969=>_0x3d0969[_0x3ee7c0(0x219)]);if(!_0x679025)return![];return _0x679025[_0x3ee7c0(0x231)](),!![];},'render'(_0x1c903a,_0x2b399e){const _0x3f99f9=_0x4a98e5;_0x22a18f[_0x3f99f9(0x216)](_0x1c903a);if(_0x1c903a&&!_0x1c903a[_0x3f99f9(0x23c)]){if(_0x23dfda[_0x3f99f9(0x202)]!==_0x15ae18(_0x3f99f9(0x24c)))_0x15ae18(_0x3f99f9(0x24c))[_0x3f99f9(0x244)](_0x23dfda);}else _0x23dfda['parentElement']!==_0x15ae18(_0x3f99f9(0x243))&&_0x15ae18(_0x3f99f9(0x243))[_0x3f99f9(0x206)](_0x23dfda,document['querySelector']('.review-footer'));const _0x4ded22=!_0x1c903a&&_0x2b399e==='tournament',_0x52b121=_0x4ded22?_0x15ae18(_0x3f99f9(0x217)):_0x15ae18(_0x3f99f9(0x251));if(_0x15ae18('player-card')[_0x3f99f9(0x202)]!==_0x52b121)_0x52b121[_0x3f99f9(0x246)](_0x15ae18(_0x3f99f9(0x1fd)));const _0x5b4f29=_0x4ded22?_0x5299ea[_0x3f99f9(0x235)]:document[_0x3f99f9(0x20d)](_0x3f99f9(0x248));if(_0x15ae18(_0x3f99f9(0x217))[_0x3f99f9(0x202)]!==_0x5b4f29)_0x5b4f29[_0x3f99f9(0x244)](_0x15ae18(_0x3f99f9(0x217)));_0x15ae18('play-footer')[_0x3f99f9(0x23b)]=!_0x4ded22;if(_0x1c903a||_0x2b399e!==_0x3f99f9(0x20e))_0x11d6ac[_0x3f99f9(0x231)]();_0x18c570(_0x4271d8,!_0x1c903a&&_0x2b399e===_0x3f99f9(0x218)),_0x18c570(_0x5299ea,_0x4ded22);if(_0x4ded22)_0x2d1ff1();if(!_0x1c903a&&_0x2b399e===_0x3f99f9(0x218))_0x49662f();if(_0x15ae18(_0x3f99f9(0x1fc))['open'])_0x1d2519();},'profile'(_0x3056db,_0x8cfa0d,_0x5aeb5d){const _0x1c2baa=_0x4a98e5;_0x45ff19[_0x1c2baa(0x23a)](_0x1c2baa(0x230),_0x289a4b(_0x1c2baa(0x215))),_0x45ff19[_0x1c2baa(0x23a)](_0x1c2baa(0x21f),_0x8cfa0d),_0x45ff19[_0x1c2baa(0x23a)]('aria-valuemax',_0x5aeb5d),_0x45ff19[_0x1c2baa(0x23a)](_0x1c2baa(0x1f5),Math[_0x1c2baa(0x223)](_0x8cfa0d,Math[_0x1c2baa(0x239)](_0x5aeb5d,_0x3056db))),_0x45ff19[_0x1c2baa(0x1f7)][_0x1c2baa(0x21b)]('--rank-fill',Math[_0x1c2baa(0x223)](0x0,Math[_0x1c2baa(0x239)](0x64,(_0x3056db-_0x8cfa0d)/(_0x5aeb5d-_0x8cfa0d)*0x64))+'%');}};}
+import { installMeasuredLobby, primaryButtonSurface, resource } from "./lobby-layout.js?v=689216405a77";
+import { installMeasuredRankings } from "./ranking-layout.js?v=689216405a77";
+import { installMeasuredMissions } from "./mission-layout.js?v=689216405a77";
+import { installListDialog } from "./list-dialog.js?v=689216405a77";
+
+// Reuse the existing records, rankings, wallet and shop views inside modal layers.
+export function createForestUI({ closeView, getView, hasGame, translate, onRankingCapacity }) {
+  const el = id => document.getElementById(id);
+  const wrap = (id, title, content) => {
+    const dialog = document.createElement("dialog");
+    dialog.id = id;
+    dialog.className = "forest-page-dialog";
+    dialog.setAttribute("aria-labelledby", title);
+    const window = document.createElement("div");
+    window.className = "forest-window";
+    window.append(content);
+    dialog.append(window);
+    document.body.append(dialog);
+    return dialog;
+  };
+  const recordsDialog = wrap("records-dialog", "records-heading", el("records"));
+  const rankingsDialog = wrap("rankings-dialog", "tournament-title", el("tournament"));
+  const meta = document.createElement("div");
+  meta.className = "forest-championship-meta";
+  for (const id of ["forest-championship-period", "forest-championship-countdown"]) {
+    const chip = document.createElement("span");
+    chip.id = id;
+    meta.append(chip);
+  }
+  const separator = document.createElement("span");
+  separator.className = "forest-championship-separator";
+  separator.textContent = "|";
+  separator.setAttribute("aria-hidden", "true");
+  meta.insertBefore(separator, meta.lastElementChild);
+  el("tournament").querySelector(".list-heading").after(meta);
+  const watchDialog = wrap("watch-dialog", "lobby-heading", document.querySelector(".lobby-feed"));
+  const watchHeading = watchDialog.querySelector(".list-heading");
+  const toolbar = document.createElement("div");
+  toolbar.className = "watch-list-toolbar";
+  toolbar.append(el("live-count"), el("refresh-lobby"));
+  watchHeading.after(toolbar);
+  watchHeading.prepend(el("lobby-heading"));
+  watchHeading.querySelector(".list-heading-title").remove();
+  watchHeading.append(el("watch-close"));
+  el("show-tournament").querySelector(".tournament-icon").replaceWith(Object.assign(document.createElement("img"), {
+    src: "./assets/forest-ui/icons/trophy.webp", alt: "", className: "tournament-icon",
+  }));
+  el("lobby-mission-slot").append(el("show-missions"));
+  el("lobby-championship-slot").append(el("show-tournament"));
+  el("lobby-cta-slot").append(el("lobby-entry"));
+  document.querySelector(".lobby-highlights").remove();
+  el("shop").classList.add("forest-page-dialog", "forest-shop");
+  for (const [dialog, view] of [[recordsDialog, "records"], [rankingsDialog, "tournament"]]) {
+    dialog.addEventListener("close", () => {
+      if (!dialog.open && !hasGame() && getView() === view) closeView();
+    });
+  }
+  for (const button of document.querySelectorAll("[data-close-dialog]")) {
+    button.addEventListener("click", () => el(button.dataset.closeDialog).close());
+  }
+  const meter = document.createElement("span");
+  meter.className = "lobby-rank-meter";
+  meter.setAttribute("role", "progressbar");
+  meter.append(document.createElement("span"));
+  el("player-card").append(meter);
+  const measuredLobby = installMeasuredLobby();
+  const measuredRankings = installMeasuredRankings(rankingsDialog, onRankingCapacity);
+  const measuredRecords = installListDialog(recordsDialog, {
+    title: el("records-heading"), close: el("records-back"), icon: "book", tabs: el("record-filters"),
+  });
+  const measuredWatch = installListDialog(watchDialog, {
+    title: el("lobby-heading"), close: el("watch-close"), icon: "watch",
+  });
+  const measuredShop = installListDialog(el("shop"), {
+    title: el("shop-title"), close: el("shop").querySelector(".shop-heading .forest-close"),
+    icon: "shopBag", tabs: el("shop").querySelector(".shop-tabs"),
+  });
+  const reviewAction = el("review-room-action");
+  const reviewSummary = document.querySelector(".review-result");
+  resource(reviewAction.firstElementChild, "pair", "review-action-stones");
+  let reviewSurface;
+  new ResizeObserver(([{ contentRect: { width, height } }]) => {
+    if (!width || !height) return;
+    reviewSurface?.remove();
+    reviewSurface = primaryButtonSurface(reviewAction, "review-primary-surface", width, height);
+  }).observe(reviewAction);
+  installMeasuredMissions();
+  const setLayer = (dialog, visible) => {
+    if (visible && !dialog.open) dialog.showModal();
+    else if (!visible && dialog.open) dialog.close();
+  };
+  return {
+    watchDialog,
+    openWatch() {
+      if (hasGame()) return;
+      watchDialog.showModal();
+      measuredWatch();
+      el("lobby-heading").focus();
+    },
+    back() {
+      const dialog = [watchDialog, recordsDialog, rankingsDialog].find(layer => layer.open);
+      if (!dialog) return false;
+      dialog.close();
+      return true;
+    },
+    render(game, view) {
+      measuredLobby.render(game);
+      if (game && !game.sharedView) {
+        if (reviewSummary.parentElement !== el("review-own-status")) el("review-own-status").append(reviewSummary);
+      } else if (reviewSummary.parentElement !== el("review")) {
+        el("review").insertBefore(reviewSummary, document.querySelector(".review-footer"));
+      }
+      const ranking = !game && view === "tournament";
+      const cardParent = ranking ? el("play-footer") : el("lobby-profile-slot");
+      if (el("player-card").parentElement !== cardParent) cardParent.prepend(el("player-card"));
+      const footerParent = ranking ? rankingsDialog.firstElementChild : document.querySelector(".shell");
+      if (el("play-footer").parentElement !== footerParent) footerParent.append(el("play-footer"));
+      el("play-footer").hidden = !ranking;
+      if (game || view !== "lobby") watchDialog.close();
+      setLayer(recordsDialog, !game && view === "records");
+      setLayer(rankingsDialog, ranking);
+      if (ranking) measuredRankings();
+      if (!game && view === "records") measuredRecords();
+      if (el("shop").open) measuredShop();
+    },
+    profile(rating, lower, upper) {
+      meter.setAttribute("aria-label", translate("forestPromotionProgress"));
+      meter.setAttribute("aria-valuemin", lower);
+      meter.setAttribute("aria-valuemax", upper);
+      meter.setAttribute("aria-valuenow", Math.max(lower, Math.min(upper, rating)));
+      meter.style.setProperty("--rank-fill", Math.max(0, Math.min(100, (rating - lower) / (upper - lower) * 100)) + "%");
+    },
+  };
+}

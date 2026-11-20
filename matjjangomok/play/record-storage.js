@@ -1,1 +1,75 @@
-function ql_0x5840(){const _0x51bd2b=['otLbsMTkCLC','CMf0Aw5Nq2HHBMDL','Bw92zvnLyxrZ','CM91BMq','DMvYC2LVBG','CMvJB3jKCW','yM9HCMq','B2jQzwn0','mta2nZC1nLjvCxvkrq','CgfZCW','Bw92zxm','y29Kzq','C2vHDa','zMLSBa','zw5KuMvHC29U','mJKXmdq4neHXqMfkzG','y2XVDwq','ywLvBMrVq291BNq','AxnbCNjHEq','C3rHDgu','Bw9Kzq','zgv2AwnL','zMLUza','Bwf0AMPHBMDVBw9R','CMvHzhK','CMvJB3jKrgv0ywLS','CgfYC2u','CgXHy2vTzw50u3r5BgvZ','B3rOzxiTDgfI','zMLUAxnOzwq','m2zUvNjQsG','ywLwzxjZAw9U','Ew91','yM90tgv2zwW','yMXHy2S','mJe5me5ZAvfTva','Bw92zunVBg9YCW','ndKYntKYuhHet1Lz','AxnjBNrLz2vY','B25dAgfUz2u','DhLWzq','zMLUAxnOzwrbDa','yM90','zMLSDgvY','C291CMnL','mZa5ndK3nJbyv2v5z2u','C3vTBwfYEu9UBhK','C3bSAxq','C3rYAw5NAwz5','BgLZDa','ywn0Aw9UCW','C29YDa','zgf0yq','C3rHDhvZ','nJm5nJq4ohbYALfSuW','BNvTyMvY','BgLUzq','mJq3nvfyCuXoAa','zgLZCg9Zzq','ywrK','CgXHEwvYCW','CgfZC2vZ','nJmWnJaWvhbsvKDv','D2LUBMvY','Bwf4'];ql_0x5840=function(){return _0x51bd2b;};return ql_0x5840();}(function(_0x10eee2,_0x580773){const _0x55bde4=ql_0x1dc1,_0x34004f=_0x10eee2();while(!![]){try{const _0x4121ce=-parseInt(_0x55bde4(0x1d1))/0x1+parseInt(_0x55bde4(0x1dc))/0x2+parseInt(_0x55bde4(0x1b1))/0x3*(-parseInt(_0x55bde4(0x1e3))/0x4)+-parseInt(_0x55bde4(0x1cc))/0x5*(parseInt(_0x55bde4(0x1b6))/0x6)+-parseInt(_0x55bde4(0x1c9))/0x7+-parseInt(_0x55bde4(0x1b8))/0x8*(parseInt(_0x55bde4(0x1d4))/0x9)+parseInt(_0x55bde4(0x1c0))/0xa;if(_0x4121ce===_0x580773)break;else _0x34004f['push'](_0x34004f['shift']());}catch(_0x4191f){_0x34004f['push'](_0x34004f['shift']());}}}(ql_0x5840,0x79cac));function ql_0x1dc1(_0x2f3c42,_0x516f51){_0x2f3c42=_0x2f3c42-0x1a6;const _0x58407a=ql_0x5840();let _0x1dc154=_0x58407a[_0x2f3c42];if(ql_0x1dc1['uOkIwZ']===undefined){var _0x26809e=function(_0x7d1791){const _0x2c2dbd='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x23aefa='',_0x3a99fc='';for(let _0x122a7f=0x0,_0x210168,_0x46f9bd,_0xc76ceb=0x0;_0x46f9bd=_0x7d1791['charAt'](_0xc76ceb++);~_0x46f9bd&&(_0x210168=_0x122a7f%0x4?_0x210168*0x40+_0x46f9bd:_0x46f9bd,_0x122a7f++%0x4)?_0x23aefa+=String['fromCharCode'](0xff&_0x210168>>(-0x2*_0x122a7f&0x6)):0x0){_0x46f9bd=_0x2c2dbd['indexOf'](_0x46f9bd);}for(let _0x300fd0=0x0,_0x48b460=_0x23aefa['length'];_0x300fd0<_0x48b460;_0x300fd0++){_0x3a99fc+='%'+('00'+_0x23aefa['charCodeAt'](_0x300fd0)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x3a99fc);};ql_0x1dc1['UlwKLK']=_0x26809e,ql_0x1dc1['GKvMKh']={},ql_0x1dc1['uOkIwZ']=!![];}const _0xa30845=_0x58407a[0x0];ql_0x1dc1['OWNLEq']!==_0xa30845&&(ql_0x1dc1['GKvMKh']={},ql_0x1dc1['OWNLEq']=_0xa30845);const _0x5e74bc=ql_0x1dc1['GKvMKh'][_0x2f3c42];return _0x5e74bc===undefined?(_0x1dc154=ql_0x1dc1['UlwKLK'](_0x1dc154),ql_0x1dc1['GKvMKh'][_0x2f3c42]=_0x1dc154):_0x1dc154=_0x5e74bc,_0x1dc154;}export function recordSnapshot(_0x3a99fc,_0x122a7f){const _0x4101c1=ql_0x1dc1;if(!_0x3a99fc||typeof _0x3a99fc!==_0x4101c1(0x1db)||_0x3a99fc[_0x4101c1(0x1c1)])return null;const _0x210168=_0x3a99fc['code']??_0x3a99fc['id']?.[_0x4101c1(0x1c2)](':')[0x0];if(!_0x210168||!Number['isInteger'](_0x3a99fc[_0x4101c1(0x1d7)])||!Array[_0x4101c1(0x1e6)](_0x3a99fc[_0x4101c1(0x1de)]))return null;const _0x46f9bd={'id':_0x210168+':'+_0x3a99fc[_0x4101c1(0x1d7)],'code':_0x210168,'device':_0x3a99fc[_0x4101c1(0x1a8)]===!![]||!_0x122a7f};for(const _0x300fd0 of[_0x4101c1(0x1ca),'round',_0x4101c1(0x1de),_0x4101c1(0x1d2),_0x4101c1(0x1cb),_0x4101c1(0x1b3),_0x4101c1(0x1bc),_0x4101c1(0x1e2),_0x4101c1(0x1cf),_0x4101c1(0x1bd),_0x4101c1(0x1a7),'rule',_0x4101c1(0x1b5),_0x4101c1(0x1b7),_0x4101c1(0x1d0),_0x4101c1(0x1d6),_0x4101c1(0x1ae),_0x4101c1(0x1d5),_0x4101c1(0x1ac),_0x4101c1(0x1b4),_0x4101c1(0x1b2),_0x4101c1(0x1e5)]){if(_0x3a99fc[_0x300fd0]!==undefined)_0x46f9bd[_0x300fd0]=_0x3a99fc[_0x300fd0];}const _0xc76ceb=_0x3a99fc[_0x4101c1(0x1ac)]?.['actions']??_0x3a99fc[_0x4101c1(0x1c5)];return Array[_0x4101c1(0x1e6)](_0xc76ceb)&&(_0x46f9bd[_0x4101c1(0x1d0)]=[0x1,0x2]['map'](_0x48b460=>_0xc76ceb[_0x4101c1(0x1be)](_0x7610e9=>_0x7610e9[_0x4101c1(0x1bb)]===_0x4101c1(0x1dd)&&_0x7610e9[_0x4101c1(0x1e0)]===_0x48b460)['length'])),JSON[_0x4101c1(0x1ad)](JSON[_0x4101c1(0x1c3)](_0x46f9bd));}export function createRecordHistory(_0x358601,{player:_0x49f496,cloud:_0xc3314c,legacy:legacy=[],changed:_0x5d4a67}){const _0x30500f=ql_0x1dc1;if(!_0x358601?.[_0x30500f(0x1d9)])return null;const _0x4b4a42=_0x358601[_0x30500f(0x1d9)]({'id':_0x30500f(0x1aa),'collection':'games','player':_0x49f496,'cloud':_0xc3314c});for(const _0x56a0e2 of legacy){const _0x390bdc=recordSnapshot(_0x56a0e2,_0xc3314c&&_0x56a0e2['device']!==!![]);if(_0x390bdc)_0x4b4a42[_0x30500f(0x1ce)](_0x390bdc['id'],_0x390bdc);}const _0x5de8b5=_0x4b4a42[_0x30500f(0x1ba)](_0x5e3a3c=>{const _0x234077=_0x30500f;if(_0x5e3a3c[_0x234077(0x1bf)]===_0x234077(0x1e4)||_0x5e3a3c[_0x234077(0x1bf)]===_0x234077(0x1af))_0x5d4a67?.();});return{'player':_0x49f496,'list':()=>_0x4b4a42[_0x30500f(0x1c4)]()['map'](_0x5acc74=>recordSnapshot(_0x5acc74[_0x30500f(0x1c7)],_0xc3314c))[_0x30500f(0x1be)](Boolean)[_0x30500f(0x1c6)]((_0x4f46d5,_0x432da8)=>new Date(_0x432da8[_0x30500f(0x1bc)])-new Date(_0x4f46d5['finishedAt'])),'add':_0x55508c=>{const _0x15c40b=_0x30500f,_0x1e0dad=recordSnapshot(_0x55508c,_0xc3314c);return _0x1e0dad?_0x4b4a42[_0x15c40b(0x1ce)](_0x1e0dad['id'],_0x1e0dad):![];},'ready':()=>_0x4b4a42[_0x30500f(0x1ab)](),'status':()=>_0x4b4a42[_0x30500f(0x1c8)](),'dispose':()=>{const _0x1e6bba=_0x30500f;_0x5de8b5(),_0x4b4a42[_0x1e6bba(0x1cd)]();}};}export function restoreResult(_0x51fe45,_0x2b25a6,_0x4edabc){const _0x2cec37=ql_0x1dc1,_0x513d2b=_0x2b25a6['id']?.[_0x2cec37(0x1c2)](':')[0x0]??_0x51fe45['code'],_0x2e32d6=_0x4edabc?.[_0x2cec37(0x1a9)](_0x35517b=>_0x35517b['id']===_0x513d2b+':'+_0x2b25a6[_0x2cec37(0x1d7)]);return{..._0x51fe45,..._0x2e32d6,..._0x2b25a6['state'],'code':_0x513d2b,'round':_0x2b25a6[_0x2cec37(0x1d7)],'you':_0x2b25a6[_0x2cec37(0x1b3)],'ratingChange':_0x2b25a6[_0x2cec37(0x1d5)],'winner':_0x2b25a6[_0x2cec37(0x1a6)][_0x2cec37(0x1d2)],'finishedAt':_0x2b25a6[_0x2cec37(0x1bc)],'phase':_0x2cec37(0x1b0),'canRematch':![],'version':Math[_0x2cec37(0x1d3)](_0x51fe45[_0x2cec37(0x1d8)]+0x1,_0x2b25a6[_0x2cec37(0x1d8)]??0x0),'summaryOnly':!_0x2e32d6,..._0x2e32d6?{'recordDetail':_0x2e32d6[_0x2cec37(0x1ac)]}:{},..._0x2e32d6?{'board':replayBoard(_0x2e32d6),'actions':_0x2e32d6[_0x2cec37(0x1ac)]?.[_0x2cec37(0x1c5)]}:{}};}function replayBoard(_0x393e43){const _0x54ae5e=ql_0x1dc1,_0x3db3f9=Array(0xe1)[_0x54ae5e(0x1e1)](0x0);for(const [_0x44b698,_0x1f7575]of _0x393e43[_0x54ae5e(0x1de)]['entries']()){if(Number[_0x54ae5e(0x1b9)](_0x1f7575)&&_0x1f7575>=0x0&&_0x1f7575<0xe1)_0x3db3f9[_0x1f7575]=_0x393e43['moveColors']?.[_0x44b698]??_0x44b698%0x2+0x1;}return _0x3db3f9;}export function mergeFinishedRoom(_0x5e6006,_0x31343d,_0x5c94fe){const _0x2f4a72=ql_0x1dc1;if(!_0x31343d[_0x2f4a72(0x1c1)])return _0x31343d;const _0x88ac9a=_0x5c94fe[_0x2f4a72(0x1a9)](_0x447195=>_0x447195['id']===_0x31343d[_0x2f4a72(0x1df)]+':'+_0x31343d[_0x2f4a72(0x1d7)]),_0x5d0bbd=_0x5e6006?.[_0x2f4a72(0x1df)]===_0x31343d[_0x2f4a72(0x1df)]&&_0x5e6006[_0x2f4a72(0x1d7)]===_0x31343d['round']?_0x5e6006:{};return{..._0x5d0bbd,..._0x88ac9a,..._0x31343d,'moves':_0x88ac9a?.[_0x2f4a72(0x1de)]??_0x5d0bbd['moves']??[],'moveColors':_0x88ac9a?.['moveColors']??_0x5d0bbd['moveColors'],'moveSeats':_0x88ac9a?.[_0x2f4a72(0x1d6)]??_0x5d0bbd[_0x2f4a72(0x1d6)],'line':_0x88ac9a?.[_0x2f4a72(0x1cb)]??_0x5d0bbd[_0x2f4a72(0x1cb)]??[],'placementStyles':_0x88ac9a?.[_0x2f4a72(0x1ae)]??_0x5d0bbd[_0x2f4a72(0x1ae)],'board':_0x88ac9a?replayBoard(_0x88ac9a):_0x5d0bbd[_0x2f4a72(0x1da)]??_0x31343d[_0x2f4a72(0x1da)],'recordDetail':_0x88ac9a?.['recordDetail']??_0x5d0bbd[_0x2f4a72(0x1ac)],'summaryOnly':!_0x88ac9a,'actions':_0x88ac9a?.[_0x2f4a72(0x1ac)]?.['actions']??_0x5d0bbd['recordDetail']?.[_0x2f4a72(0x1c5)]??_0x31343d[_0x2f4a72(0x1c5)]};}
+// A replay snapshot excludes transient room state and mutable public-link settings.
+export function recordSnapshot(game, online) {
+  if (!game || typeof game !== "object" || game.summaryOnly) return null;
+  const code = game.code ?? game.id?.split(":")[0];
+  if (!code || !Number.isInteger(game.round) || !Array.isArray(game.moves)) return null;
+  const snapshot = { id: code + ":" + game.round, code, device: game.device === true || !online };
+  for (const key of ["number", "round", "moves", "winner", "line", "you", "finishedAt", "endReason", "players", "bot", "mode", "rule",
+    "black", "moveColors", "passes", "moveSeats", "placementStyles", "ratingChange", "recordDetail", "botLevel", "aiVersion", "aiUndoCount"]) {
+    if (game[key] !== undefined) snapshot[key] = game[key];
+  }
+  const actions = game.recordDetail?.actions ?? game.actions;
+  if (Array.isArray(actions)) {
+    snapshot.passes = [1, 2].map(seat => actions.filter(action => action.type === "pass" && action.seat === seat).length);
+  }
+  return JSON.parse(JSON.stringify(snapshot));
+}
+
+export function createRecordHistory(NcqSave, { player, cloud, legacy = [], changed }) {
+  // NcqSave 3 arrives through kickoff guide sync; previous builds keep their local fallback.
+  if (!NcqSave?.records) return null;
+  const archive = NcqSave.records({ id: "matjjangomok", collection: "games", player, cloud });
+  for (const game of legacy) {
+    const record = recordSnapshot(game, cloud && game.device !== true);
+    if (record) archive.add(record.id, record);
+  }
+  const unsubscribe = archive.onChange(info => {
+    if (info.source === "cloud" || info.source === "other-tab") changed?.();
+  });
+  return {
+    player,
+    list: () => archive.list().map(item => recordSnapshot(item.data, cloud)).filter(Boolean)
+      .sort((a, b) => new Date(b.finishedAt) - new Date(a.finishedAt)),
+    add: game => {
+      const record = recordSnapshot(game, cloud);
+      return record ? archive.add(record.id, record) : false;
+    },
+    ready: () => archive.ready(),
+    status: () => archive.status(),
+    dispose: () => { unsubscribe(); archive.dispose(); },
+  };
+}
+
+export function restoreResult(previous, result, saved) {
+  const code = result.id?.split(":")[0] ?? previous.code;
+  const local = saved?.find(game => game.id === code + ":" + result.round);
+  return { ...previous, ...local, ...result.state, code, round: result.round,
+    you: result.you, ratingChange: result.ratingChange, winner: result.state.winner,
+    finishedAt: result.finishedAt, phase: "finished", canRematch: false,
+    version: Math.max(previous.version + 1, result.version ?? 0),
+    summaryOnly: !local, ...(local ? { recordDetail: local.recordDetail } : {}),
+    ...(local ? { board: replayBoard(local), actions: local.recordDetail?.actions } : {}),
+  };
+}
+
+function replayBoard(game) {
+  const board = Array(225).fill(0);
+  for (const [i, index] of game.moves.entries()) {
+    if (Number.isInteger(index) && index >= 0 && index < 225) board[index] = game.moveColors?.[i] ?? i % 2 + 1;
+  }
+  return board;
+}
+
+export function mergeFinishedRoom(previous, next, records) {
+  if (!next.summaryOnly) return next;
+  const local = records.find(game => game.id === next.code + ":" + next.round);
+  const current = previous?.code === next.code && previous.round === next.round ? previous : {};
+  return { ...current, ...local, ...next,
+    moves: local?.moves ?? current.moves ?? [],
+    moveColors: local?.moveColors ?? current.moveColors, moveSeats: local?.moveSeats ?? current.moveSeats,
+    line: local?.line ?? current.line ?? [], placementStyles: local?.placementStyles ?? current.placementStyles,
+    board: local ? replayBoard(local) : current.board ?? next.board,
+    recordDetail: local?.recordDetail ?? current.recordDetail, summaryOnly: !local,
+    actions: local?.recordDetail?.actions ?? current.recordDetail?.actions ?? next.actions,
+  };
+}

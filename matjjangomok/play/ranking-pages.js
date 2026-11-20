@@ -1,1 +1,57 @@
-function qk_0x62e1(_0x34b75c,_0x2b87aa){_0x34b75c=_0x34b75c-0x92;const _0x4e14fe=qk_0x4e14();let _0x62e1d4=_0x4e14fe[_0x34b75c];if(qk_0x62e1['osqxgj']===undefined){var _0x2675be=function(_0x1bf715){const _0xacf7a4='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0xeb3baf='',_0x5e7191='';for(let _0x3e06bc=0x0,_0x4f705d,_0x39b5fb,_0x1172f3=0x0;_0x39b5fb=_0x1bf715['charAt'](_0x1172f3++);~_0x39b5fb&&(_0x4f705d=_0x3e06bc%0x4?_0x4f705d*0x40+_0x39b5fb:_0x39b5fb,_0x3e06bc++%0x4)?_0xeb3baf+=String['fromCharCode'](0xff&_0x4f705d>>(-0x2*_0x3e06bc&0x6)):0x0){_0x39b5fb=_0xacf7a4['indexOf'](_0x39b5fb);}for(let _0x1b3234=0x0,_0x393412=_0xeb3baf['length'];_0x1b3234<_0x393412;_0x1b3234++){_0x5e7191+='%'+('00'+_0xeb3baf['charCodeAt'](_0x1b3234)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x5e7191);};qk_0x62e1['hWhbIE']=_0x2675be,qk_0x62e1['Veabrb']={},qk_0x62e1['osqxgj']=!![];}const _0x1e3865=_0x4e14fe[0x0];qk_0x62e1['FHwvdK']!==_0x1e3865&&(qk_0x62e1['Veabrb']={},qk_0x62e1['FHwvdK']=_0x1e3865);const _0x351896=qk_0x62e1['Veabrb'][_0x34b75c];return _0x351896===undefined?(_0x62e1d4=qk_0x62e1['hWhbIE'](_0x62e1d4),qk_0x62e1['Veabrb'][_0x34b75c]=_0x62e1d4):_0x62e1d4=_0x351896,_0x62e1d4;}const qk_0x22f445=qk_0x62e1;(function(_0x474e46,_0x333782){const _0x61c1be=qk_0x62e1,_0x15abf0=_0x474e46();while(!![]){try{const _0x11c8fb=-parseInt(_0x61c1be(0xa1))/0x1*(-parseInt(_0x61c1be(0x96))/0x2)+parseInt(_0x61c1be(0xab))/0x3+parseInt(_0x61c1be(0xb1))/0x4+-parseInt(_0x61c1be(0xa9))/0x5*(parseInt(_0x61c1be(0x92))/0x6)+parseInt(_0x61c1be(0xa3))/0x7*(-parseInt(_0x61c1be(0x99))/0x8)+parseInt(_0x61c1be(0xa5))/0x9*(-parseInt(_0x61c1be(0x94))/0xa)+parseInt(_0x61c1be(0xb2))/0xb;if(_0x11c8fb===_0x333782)break;else _0x15abf0['push'](_0x15abf0['shift']());}catch(_0x59e49e){_0x15abf0['push'](_0x15abf0['shift']());}}}(qk_0x4e14,0x64942));const serverPageSize=0x1e;export const rankingPageTarget=0xa;export const rankingPageLimit=0x14;function qk_0x4e14(){const _0x2e072b=['yMf0y2HLCW','mtm5ntGYnuLAC3nuwq','Bwf4','yMf0y2G','DgHLBG','l3rVDxjUyw1LBNq','CMvXDwvZDa','mJuWnJiWohrRywniDa','mtaWotG0mdDmsgPHCwG','mtjdDgrszgW','BgvUz3rO','otbZzfDSthm','z2v0','nZe2nJzXAu1WvKC','zgvSzxrL','y2vPBa','oeHKv0LfrG','CMf0Aw5N','AgfZ','zMXVB3i','Dg90ywW','l3jHBMTPBMDZl3jHDgLUzZ9WywDLpq','AxnjBNrLz2vY','C3rHBMrPBMDZ','mtHPrMvOENy','zxjYB3i','ndy3nZKXmuf5q1rNuG','CgfNzq','ode3mZe3EfPVCfLc','uMfUA2LUz3mGCMvXDwLYzsbHihbVC2L0AxzLihbHz2uGyw5KidhIGjmYmcbLBNrYAwvZihbLCIbWywDL','DgfI','C2XPy2u','mtG5mZi0nwfLqur3tq'];qk_0x4e14=function(){return _0x2e072b;};return qk_0x4e14();}export class RankingPages{constructor(_0x5e7191,_0x3e06bc){const _0x36b4cc=qk_0x62e1;this[_0x36b4cc(0xa7)]=_0x5e7191,this[_0x36b4cc(0xb0)]=_0x3e06bc,this[_0x36b4cc(0xaa)]=new Map(),this[_0x36b4cc(0x9d)]=null;}async[qk_0x22f445(0xad)](_0x4f705d){const _0x2eb03b=qk_0x22f445;if(!this[_0x2eb03b(0xaa)][_0x2eb03b(0x9b)](_0x4f705d)){const _0x39b5fb=this['tab']===_0x2eb03b(0x9a)?_0x2eb03b(0x9e)+_0x4f705d:this[_0x2eb03b(0xa7)]==='previous'?'/tournament?view=previous':_0x2eb03b(0xaf),_0x1172f3=Promise['resolve']()[_0x2eb03b(0xae)](()=>this['request'](_0x39b5fb))['then'](_0x1b3234=>{const _0x5f5589=_0x2eb03b;if(_0x1b3234[_0x5f5589(0xa2)])this[_0x5f5589(0xaa)]['delete'](_0x4f705d);return _0x1b3234;},_0x393412=>{const _0x2f35ad=_0x2eb03b;this[_0x2f35ad(0xaa)][_0x2f35ad(0x97)](_0x4f705d);throw _0x393412;});this[_0x2eb03b(0xaa)]['set'](_0x4f705d,_0x1172f3);}return this[_0x2eb03b(0xaa)][_0x2eb03b(0x95)](_0x4f705d);}async[qk_0x22f445(0xa4)](_0x1a19b5,_0xb03038){const _0x12fa9f=qk_0x22f445;if(!Number['isInteger'](_0x1a19b5)||_0x1a19b5<0x1||!Number[_0x12fa9f(0x9f)](_0xb03038)||_0xb03038<0x1||_0xb03038>rankingPageLimit)throw new TypeError(_0x12fa9f(0xa6));const _0x1addb3=(_0x1a19b5-0x1)*_0xb03038,_0x25dd43=this[_0x12fa9f(0xa7)]==='rating'?Math[_0x12fa9f(0x9c)](_0x1addb3/serverPageSize)+0x1:0x1,_0x1a80dc=await this['batch'](_0x25dd43);if(_0x1a80dc[_0x12fa9f(0xa2)])return{..._0x1a80dc,'page':_0x1a19b5,'pages':Math[_0x12fa9f(0xac)](0x1,Math[_0x12fa9f(0x98)]((this[_0x12fa9f(0x9d)]??0x0)/_0xb03038))};const _0x40a2dc=_0x1a80dc[_0x12fa9f(0xa0)]??[];this[_0x12fa9f(0x9d)]=this[_0x12fa9f(0xa7)]===_0x12fa9f(0x9a)?_0x1a80dc['total']:_0x40a2dc[_0x12fa9f(0x93)];const _0x1ceebd=Math[_0x12fa9f(0xac)](0x1,Math[_0x12fa9f(0x98)](this['total']/_0xb03038));if(_0x1a19b5>_0x1ceebd)return this[_0x12fa9f(0xa4)](_0x1ceebd,_0xb03038);let _0x2b3095=_0x40a2dc,_0x400166=_0x1addb3;if(this[_0x12fa9f(0xa7)]===_0x12fa9f(0x9a)){_0x400166=_0x1addb3%serverPageSize;if(_0x400166+_0xb03038>serverPageSize&&_0x1a80dc['hasMore']){const _0x374ad2=await this[_0x12fa9f(0xad)](_0x25dd43+0x1);if(_0x374ad2[_0x12fa9f(0xa2)])return{..._0x374ad2,'page':_0x1a19b5,'pages':_0x1ceebd};_0x2b3095=[..._0x40a2dc,..._0x374ad2[_0x12fa9f(0xa0)]??[]];}}return{..._0x1a80dc,'standings':_0x2b3095[_0x12fa9f(0xa8)](_0x400166,_0x400166+_0xb03038),'page':_0x1a19b5,'pages':_0x1ceebd,'pageSize':_0xb03038,'hasMore':_0x1a19b5<_0x1ceebd};}}
+const serverPageSize = 30;
+export const rankingPageTarget = 10;
+export const rankingPageLimit = 20;
+
+// Keep the server's ranking/tie order while showing a smaller, scroll-free page.
+export class RankingPages {
+  constructor(tab, request) {
+    this.tab = tab;
+    this.request = request;
+    this.batches = new Map();
+    this.total = null;
+  }
+
+  async batch(page) {
+    if (!this.batches.has(page)) {
+      const path = this.tab === "rating" ? "/rankings/rating?page=" + page
+        : this.tab === "previous" ? "/tournament?view=previous" : "/tournament";
+      const pending = Promise.resolve().then(() => this.request(path)).then(result => {
+        if (result.error) this.batches.delete(page);
+        return result;
+      }, error => {
+        this.batches.delete(page);
+        throw error;
+      });
+      this.batches.set(page, pending);
+    }
+    return this.batches.get(page);
+  }
+
+  async page(number, size) {
+    if (!Number.isInteger(number) || number < 1 || !Number.isInteger(size) || size < 1 || size > rankingPageLimit) {
+      throw new TypeError("Rankings require a positive page and 1–20 entries per page");
+    }
+    const first = (number - 1) * size;
+    const batchNumber = this.tab === "rating" ? Math.floor(first / serverPageSize) + 1 : 1;
+    const result = await this.batch(batchNumber);
+    if (result.error) return { ...result, page: number, pages: Math.max(1, Math.ceil((this.total ?? 0) / size)) };
+
+    const rows = result.standings ?? [];
+    this.total = this.tab === "rating" ? result.total : rows.length;
+    const pages = Math.max(1, Math.ceil(this.total / size));
+    if (number > pages) return this.page(pages, size);
+
+    let entries = rows;
+    let offset = first;
+    if (this.tab === "rating") {
+      offset = first % serverPageSize;
+      if (offset + size > serverPageSize && result.hasMore) {
+        const next = await this.batch(batchNumber + 1);
+        if (next.error) return { ...next, page: number, pages };
+        entries = [...rows, ...(next.standings ?? [])];
+      }
+    }
+    return { ...result, standings: entries.slice(offset, offset + size), page: number,
+      pages, pageSize: size, hasMore: number < pages };
+  }
+}

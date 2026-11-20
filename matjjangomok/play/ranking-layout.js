@@ -1,1 +1,48 @@
-(function(_0x501a30,_0x578f24){const _0x49372b=qj_0xfd58,_0x250fba=_0x501a30();while(!![]){try{const _0x4601e5=parseInt(_0x49372b(0xf0))/0x1+parseInt(_0x49372b(0xfa))/0x2+-parseInt(_0x49372b(0xf3))/0x3*(-parseInt(_0x49372b(0xf8))/0x4)+parseInt(_0x49372b(0xeb))/0x5*(parseInt(_0x49372b(0x101))/0x6)+-parseInt(_0x49372b(0xf7))/0x7+parseInt(_0x49372b(0xf2))/0x8*(parseInt(_0x49372b(0x103))/0x9)+-parseInt(_0x49372b(0xec))/0xa*(parseInt(_0x49372b(0xe8))/0xb);if(_0x4601e5===_0x578f24)break;else _0x250fba['push'](_0x250fba['shift']());}catch(_0x3cc0c9){_0x250fba['push'](_0x250fba['shift']());}}}(qj_0x2d14,0x76dc1));import{primaryButtonSurface,resource}from'./lobby-layout.js?v=390eb41a0de0';function qj_0x2d14(){const _0x1e0eec=['CMvTB3zL','AgvPz2H0','CMfUA2LUzY1YzxnVDxjJzsa','ntq5mtu1nLHkCKHvuG','ndeZntq4DxPOswD1','lNjHBMTPBMCTy2fYza','mtaZnZC4EuTZyLDN','yM90Dg9T','Bwf4','z2v0qM91BMrPBMDdBgLLBNrszwn0','lNDLzwTSEs1YzxDHCMq','Dg91CM5HBwvUDc10AxrSzq','lMXPC3qTyM9KEq','mJq3mZjLvhDPv1u','CxvLCNLtzwXLy3rVCG','mta5ndGWnvnnrLnYAG','lNDLzwTSEs1YzxDHCMq6BM90kfTOAwrKzw5Dkq','AM9PBI10B3vYBMfTzw50','CM91BMq','zMXVB3i','mJq5n0rrENzgBa','z2v0rwXLBwvUDej5swq','B2zMC2v0sgvPz2H0','mtmWuhDWsgfL','oty2mhvKreXrEq','lNjHBMTPBMCTCgfUzwW6BM90kfTOAwrKzw5Dkq','C2HVDY1SB2jIEq','CMfUA2LUzY1YzxDHCMqTAwnVBI1ZDxjMywnL','ndq5nZa4wvnyCM50','CM93r2fW','mJrZyxvNCeq','mtvJuhzgA1G'];qj_0x2d14=function(){return _0x1e0eec;};return qj_0x2d14();}import{installListDialog}from'./list-dialog.js?v=390eb41a0de0';function qj_0xfd58(_0x49bbfc,_0x3996bd){_0x49bbfc=_0x49bbfc-0xe4;const _0x2d1477=qj_0x2d14();let _0xfd5832=_0x2d1477[_0x49bbfc];if(qj_0xfd58['ghUyep']===undefined){var _0x3c60ad=function(_0x409fd0){const _0x329b03='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x21df0a='',_0x42730c='';for(let _0x209fdc=0x0,_0x39eee0,_0x51c393,_0x191044=0x0;_0x51c393=_0x409fd0['charAt'](_0x191044++);~_0x51c393&&(_0x39eee0=_0x209fdc%0x4?_0x39eee0*0x40+_0x51c393:_0x51c393,_0x209fdc++%0x4)?_0x21df0a+=String['fromCharCode'](0xff&_0x39eee0>>(-0x2*_0x209fdc&0x6)):0x0){_0x51c393=_0x329b03['indexOf'](_0x51c393);}for(let _0x213b01=0x0,_0x162f30=_0x21df0a['length'];_0x213b01<_0x162f30;_0x213b01++){_0x42730c+='%'+('00'+_0x21df0a['charCodeAt'](_0x213b01)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x42730c);};qj_0xfd58['zvIrpV']=_0x3c60ad,qj_0xfd58['FuoFCm']={},qj_0xfd58['ghUyep']=!![];}const _0x511dc8=_0x2d1477[0x0];qj_0xfd58['vGuSpy']!==_0x511dc8&&(qj_0xfd58['FuoFCm']={},qj_0xfd58['vGuSpy']=_0x511dc8);const _0x3edfd6=qj_0xfd58['FuoFCm'][_0x49bbfc];return _0x3edfd6===undefined?(_0xfd5832=qj_0xfd58['zvIrpV'](_0xfd5832),qj_0xfd58['FuoFCm'][_0x49bbfc]=_0xfd5832):_0xfd5832=_0x3edfd6,_0xfd5832;}import{rankingPageLimit,rankingPageTarget}from'./ranking-pages.js?v=390eb41a0de0';export function installMeasuredRankings(_0x42730c,_0x209fdc=()=>{}){const _0x192ff7=qj_0xfd58,_0x39eee0=_0x10700e=>document[_0x192ff7(0xe9)](_0x10700e),_0x51c393=(_0x399264,_0x5561ea,_0x8fdb6b,_0x216db1)=>resource(_0x399264,_0x5561ea,_0x192ff7(0xf6)+_0x8fdb6b,_0x216db1),_0x191044=_0x39eee0(_0x192ff7(0xe5));let _0x213b01;new ResizeObserver(([_0x4f6ff0])=>{const _0x206d86=_0x192ff7,_0x49ff6=_0x4f6ff0['borderBoxSize']?.[0x0],_0x19d99d=_0x49ff6?.['inlineSize']??_0x191044['offsetWidth'],_0x573b0e=_0x49ff6?.['blockSize']??_0x191044[_0x206d86(0xea)];if(!_0x19d99d||!_0x573b0e)return;_0x213b01?.[_0x206d86(0xf4)](),_0x213b01=primaryButtonSurface(_0x191044,'ranking-resource\x20ranking-primary-surface',_0x19d99d,_0x573b0e,{'sourceCap':0x37,'capRatio':0x2e/0x60});})['observe'](_0x191044);for(const _0x58b129 of document['querySelectorAll'](_0x192ff7(0xfe))){_0x51c393(_0x58b129['querySelector']('.weekly-reward-icon'),_0x192ff7(0xe6),_0x192ff7(0xef));}let _0x162f30=![],_0x488655=rankingPageTarget;return installListDialog(_0x42730c,{'title':_0x39eee0(_0x192ff7(0xff)),'close':_0x39eee0(_0x192ff7(0xee)),'icon':'trophy','tabs':_0x39eee0('ranking-tabs'),'onResize'(_0x1d258a){const _0xe36c55=_0x192ff7,_0x1f9571=_0x39eee0('tournament')[_0xe36c55(0x102)](_0xe36c55(0xed));if(!_0x1f9571)return;const _0x4b7efc=_0x1f9571[_0xe36c55(0x102)]('.ranking-cards'),_0x4b8cbc=_0x4b7efc[_0xe36c55(0x102)](_0xe36c55(0xf9)),_0x131389=_0x4b8cbc?parseFloat(getComputedStyle(_0x4b8cbc)[_0xe36c55(0xf5)])||0x40:0x40,_0x327787=parseFloat(getComputedStyle(_0x4b7efc)[_0xe36c55(0xf1)])||0x0,_0x3cd4ac=_0x1f9571[_0xe36c55(0x102)](_0xe36c55(0x100))[_0xe36c55(0xfd)](),_0x3b0c0e=_0x1f9571[_0xe36c55(0x102)](_0xe36c55(0xe4)),_0x2ea153=_0x3b0c0e?_0x3b0c0e[_0xe36c55(0xfd)]()['bottom']+0x12*_0x1d258a:_0x3cd4ac['top'],_0x4ef9da=Math[_0xe36c55(0xfc)](0x0,(_0x3cd4ac[_0xe36c55(0xfb)]-_0x2ea153)/_0x1d258a-0x5);_0x488655=Math[_0xe36c55(0xfc)](0x1,Math['min'](rankingPageLimit,Math[_0xe36c55(0xe7)]((_0x4ef9da+_0x327787)/(_0x131389+_0x327787)))),!_0x162f30&&(_0x162f30=!![],queueMicrotask(()=>{_0x162f30=![],_0x209fdc(_0x488655);}));}});}
+import { primaryButtonSurface, resource } from "./lobby-layout.js?v=689216405a77";
+import { installListDialog } from "./list-dialog.js?v=689216405a77";
+import { rankingPageLimit, rankingPageTarget } from "./ranking-pages.js?v=689216405a77";
+
+export function installMeasuredRankings(dialog, onCapacity = () => {}) {
+  const el = id => document.getElementById(id);
+  const art = (parent, name, className, panel) =>
+    resource(parent, name, "ranking-resource " + className, panel);
+
+  const join = el("join-tournament");
+  let joinSurface;
+  new ResizeObserver(([entry]) => {
+    const box = entry.borderBoxSize?.[0];
+    const width = box?.inlineSize ?? join.offsetWidth;
+    const height = box?.blockSize ?? join.offsetHeight;
+    if (!width || !height) return;
+    joinSurface?.remove();
+    joinSurface = primaryButtonSurface(join, "ranking-resource ranking-primary-surface", width, height,
+      { sourceCap: 55, capRatio: 46 / 96 });
+  }).observe(join);
+  for (const reward of document.querySelectorAll(".weekly-reward")) {
+    art(reward.querySelector(".weekly-reward-icon"), "round", "ranking-reward-icon-surface");
+  }
+
+  let capacityQueued = false;
+  let capacity = rankingPageTarget;
+  return installListDialog(dialog, {
+    title: el("tournament-title"), close: el("show-lobby"), icon: "trophy", tabs: el("ranking-tabs"),
+    onResize(scale) {
+      const panel = el("tournament").querySelector(".ranking-panel:not([hidden])");
+      if (!panel) return;
+      const list = panel.querySelector(".ranking-cards");
+      const row = list.querySelector(".ranking-card");
+      const rowHeight = row ? parseFloat(getComputedStyle(row).height) || 64 : 64;
+      const gap = parseFloat(getComputedStyle(list).rowGap) || 0;
+      const body = panel.querySelector(".list-body").getBoundingClientRect();
+      const reward = panel.querySelector(".weekly-reward:not([hidden])");
+      const top = reward ? reward.getBoundingClientRect().bottom + 18 * scale : body.top;
+      const room = Math.max(0, (body.bottom - top) / scale - 5);
+      capacity = Math.max(1, Math.min(rankingPageLimit,
+        Math.floor((room + gap) / (rowHeight + gap))));
+      if (!capacityQueued) {
+        capacityQueued = true;
+        queueMicrotask(() => { capacityQueued = false; onCapacity(capacity); });
+      }
+    },
+  });
+}

@@ -1,1 +1,99 @@
-const qd_0x713573=qd_0xf57c;function qd_0x2466(){const _0x3d37e4=['mJKYotuYn1HZwuvAra','CgXHEwvK','nJbuzufprLa','D2fPDgLUzW','C2v0','Bwf4','Aw1Wywn0','zg9JDw1LBNq','zM91BMq','CgXHEwLUzW','CM91BMq','CgHHC2u','ndqZmdGWogrzwwDmEa','y29Kzq','AgLNAa','zNvUy3rPB24','nw1jD2POBG','mZmYotLxCwDRB1G','mJu2ndu1mvLhCgjLBq','zMLYC3q','ntK3z1npuw1T','zhvL','odqXnhvNyLbsqq','CgvYAw9K','C2L6zq','Bw92zxm','ndm4mteWogLiv2HXBq','mJb3sKDZC0y','A2v5CW','Bg93','DMfSDwu','mtuXmZq4n3nothD6EG','DMfSDwvZ','A2LUza','ywrK','AgLKzgvU','ywn0AxzL','A2v5','AxnbCNjHEq','B3jPz2LU','C3rVCa','Bg9Hza','tMnXu291BMq','mte2mhPTCM9lrq','C2z4','zgvSzxrL','BM90zq','BMv4Da','zNjLzxPL','AgfZ'];qd_0x2466=function(){return _0x3d37e4;};return qd_0x2466();}(function(_0x495d3b,_0x271034){const _0x41f267=qd_0xf57c,_0x32052a=_0x495d3b();while(!![]){try{const _0x55b1c7=parseInt(_0x41f267(0x9e))/0x1+-parseInt(_0x41f267(0x95))/0x2*(parseInt(_0x41f267(0x93))/0x3)+parseInt(_0x41f267(0x99))/0x4*(parseInt(_0x41f267(0x8f))/0x5)+-parseInt(_0x41f267(0x8b))/0x6+parseInt(_0x41f267(0x90))/0x7*(-parseInt(_0x41f267(0xaa))/0x8)+parseInt(_0x41f267(0xb1))/0x9*(-parseInt(_0x41f267(0x9a))/0xa)+parseInt(_0x41f267(0x91))/0xb*(parseInt(_0x41f267(0xb3))/0xc);if(_0x55b1c7===_0x271034)break;else _0x32052a['push'](_0x32052a['shift']());}catch(_0x4caf74){_0x32052a['push'](_0x32052a['shift']());}}}(qd_0x2466,0xd17b5));import{MATCHING_AUDIO}from'./audio-assets.js?v=390eb41a0de0';export const MATCHING_SOUND_TIMING=Object[qd_0x713573(0xaf)]({'first':0x438,'response':0x21c,'period':0x10e0,'impact':0x12c});function qd_0xf57c(_0x2df781,_0x52193f){_0x2df781=_0x2df781-0x89;const _0x246635=qd_0x2466();let _0xf57ce6=_0x246635[_0x2df781];if(qd_0xf57c['IYnYgl']===undefined){var _0x31b39e=function(_0x563059){const _0x5a696f='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1929b0='',_0x4dbbc2='';for(let _0x5dd227=0x0,_0x388812,_0x4c0ca9,_0x345d85=0x0;_0x4c0ca9=_0x563059['charAt'](_0x345d85++);~_0x4c0ca9&&(_0x388812=_0x5dd227%0x4?_0x388812*0x40+_0x4c0ca9:_0x4c0ca9,_0x5dd227++%0x4)?_0x1929b0+=String['fromCharCode'](0xff&_0x388812>>(-0x2*_0x5dd227&0x6)):0x0){_0x4c0ca9=_0x5a696f['indexOf'](_0x4c0ca9);}for(let _0x2b6d86=0x0,_0x309672=_0x1929b0['length'];_0x2b6d86<_0x309672;_0x2b6d86++){_0x4dbbc2+='%'+('00'+_0x1929b0['charCodeAt'](_0x2b6d86)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x4dbbc2);};qd_0xf57c['kDXPQy']=_0x31b39e,qd_0xf57c['sVQwbN']={},qd_0xf57c['IYnYgl']=!![];}const _0x1835d0=_0x246635[0x0];qd_0xf57c['NZCTCQ']!==_0x1835d0&&(qd_0xf57c['sVQwbN']={},qd_0xf57c['NZCTCQ']=_0x1835d0);const _0x33b783=qd_0xf57c['sVQwbN'][_0x2df781];return _0x33b783===undefined?(_0xf57ce6=qd_0xf57c['kDXPQy'](_0xf57ce6),qd_0xf57c['sVQwbN'][_0x2df781]=_0xf57ce6):_0xf57ce6=_0x33b783,_0xf57ce6;}export function freshMatchingEntry(_0x4dbbc2,_0x5dd227){const _0x52bce4=qd_0x713573;return _0x4dbbc2?.[_0x52bce4(0x8a)]===_0x52bce4(0xba)&&Array[_0x52bce4(0xa5)](_0x4dbbc2[_0x52bce4(0x98)])&&_0x4dbbc2[_0x52bce4(0x98)]['length']===0x0&&_0x5dd227!==_0x4dbbc2[_0x52bce4(0x8c)]+':'+_0x4dbbc2[_0x52bce4(0x89)];}export function createMatchingAudio({sound:sound=globalThis[qd_0x713573(0xa9)],hidden:hidden=()=>globalThis[qd_0x713573(0xb8)]?.[qd_0x713573(0xa2)],blocked:blocked=()=>![],now:now=()=>performance['now'](),setTimer:setTimer=setTimeout,clearTimer:clearTimer=clearTimeout}={}){const _0x53c30f=qd_0x713573,_0x388812=new Set(),_0x4c0ca9=new Map(),_0x345d85=MATCHING_SOUND_TIMING;let _0x2b6d86=null,_0x309672=null;sound?.[_0x53c30f(0xa8)](Object[_0x53c30f(0x9f)](MATCHING_AUDIO));function _0x57ac06(){const _0x564e55=_0x53c30f;try{return typeof sound?.[_0x564e55(0xab)]===_0x564e55(0x8e)&&!hidden()&&!blocked()&&sound['enabled'](_0x564e55(0xab))!==![]&&sound['volume']?.(_0x564e55(0xab))!==0x0&&sound['state']?.()[_0x564e55(0xa3)]!==![];}catch{return![];}}function _0x37514c(_0x230613=0.05){const _0x3ec8d0=_0x53c30f;for(const _0x507beb of _0x4c0ca9[_0x3ec8d0(0x9b)]())_0x507beb[_0x3ec8d0(0xa7)](_0x230613);_0x4c0ca9['clear']();}function _0x9e6c51(){if(_0x309672!==null)clearTimer(_0x309672);_0x309672=null,_0x2b6d86=null,_0x37514c();}function _0x27eaf0(_0x27a2c4,_0x368e30){const _0xdda4ec=_0x53c30f,_0x5e8f94=sound[_0xdda4ec(0xab)](MATCHING_AUDIO[_0x27a2c4],{'volume':0.85});if(_0x5e8f94)_0x4c0ca9[_0xdda4ec(0xb5)](_0x5e8f94,_0x368e30+(_0x27a2c4===_0xdda4ec(0xb9)?0x708:0x384));}function _0x31501e(_0x5f351b,_0x46143a){const _0xc26a9f=_0x53c30f,_0x48304c=_0x5f351b[_0xc26a9f(0xa6)]+_0x345d85['first'];return _0x48304c+Math[_0xc26a9f(0xb6)](0x0,Math['ceil']((_0x46143a-_0x48304c)/_0x345d85[_0xc26a9f(0x96)]))*_0x345d85[_0xc26a9f(0x96)];}function _0x59a793(){const _0x590852=_0x53c30f;if(_0x309672!==null)clearTimer(_0x309672);_0x309672=null;const _0x44368d=_0x2b6d86;if(!_0x44368d)return;if(!_0x44368d['valid']()){_0x9e6c51();return;}const _0x3cfb98=now();for(const [_0x7a662b,_0x4a1596]of _0x4c0ca9)if(_0x4a1596<=_0x3cfb98)_0x4c0ca9[_0x590852(0xac)](_0x7a662b);if(!_0x57ac06()){_0x37514c(0x0);if(_0x44368d[_0x590852(0xa0)]===_0x590852(0xb9)){_0x2b6d86=null;return;}_0x44368d[_0x590852(0x94)]=null,_0x44368d[_0x590852(0xad)]=0x0;}else{if(_0x44368d[_0x590852(0xa0)]==='waiting'){if(_0x44368d['due']===null)_0x44368d[_0x590852(0x94)]=_0x31501e(_0x44368d,_0x3cfb98+_0x345d85[_0x590852(0x92)]);_0x3cfb98>=_0x44368d[_0x590852(0x94)]&&(_0x3cfb98-_0x44368d[_0x590852(0x94)]<=0x78?(_0x27eaf0(_0x44368d[_0x590852(0xad)]?_0x590852(0x8d):_0x590852(0x9c),_0x3cfb98),_0x44368d[_0x590852(0x94)]+=_0x44368d[_0x590852(0xad)]?_0x345d85['period']-_0x345d85['response']:_0x345d85['response'],_0x44368d[_0x590852(0xad)]=0x1-_0x44368d[_0x590852(0xad)]):(_0x44368d[_0x590852(0xad)]=0x0,_0x44368d[_0x590852(0x94)]=_0x31501e(_0x44368d,_0x3cfb98+0x1)));}else{if(!_0x44368d[_0x590852(0xb2)]&&_0x3cfb98>=_0x44368d[_0x590852(0x94)]){_0x44368d[_0x590852(0xb2)]=!![];if(_0x3cfb98-_0x44368d[_0x590852(0x94)]<=0x78)_0x27eaf0(_0x590852(0xb9),_0x3cfb98);else{_0x2b6d86=null;return;}_0x44368d[_0x590852(0x94)]=_0x3cfb98+0x708;}else{if(_0x44368d[_0x590852(0xb2)]&&_0x3cfb98>=_0x44368d[_0x590852(0x94)]){_0x2b6d86=null;return;}}}}const _0x4e3667=_0x44368d[_0x590852(0x94)]===null?0x64:Math[_0x590852(0xb6)](0x1,Math['min'](0x64,_0x44368d[_0x590852(0x94)]-now()));_0x309672=setTimer(_0x59a793,_0x4e3667);}return{'waiting'(_0x277175,{valid:valid=()=>!![]}={}){const _0x251e7c=_0x53c30f;if(_0x2b6d86?.['kind']===_0x251e7c(0xb4)&&_0x2b6d86[_0x251e7c(0xa4)]===_0x277175)return;_0x9e6c51();const _0x2ffe2a=now();_0x2b6d86={'kind':_0x251e7c(0xb4),'key':_0x277175,'valid':valid,'origin':_0x2ffe2a,'due':_0x2ffe2a+_0x345d85[_0x251e7c(0x92)],'note':0x0},_0x59a793();},'found'(_0x59e436,{valid:valid=()=>!![],delay:delay=_0x345d85[_0x53c30f(0xb7)]}={}){const _0x1e4267=_0x53c30f;if(_0x388812[_0x1e4267(0xb0)](_0x59e436))return()=>{};_0x9e6c51(),_0x388812[_0x1e4267(0xa1)](_0x59e436);if(_0x388812[_0x1e4267(0x97)]>0x100)_0x388812[_0x1e4267(0xac)](_0x388812[_0x1e4267(0x9f)]()[_0x1e4267(0xae)]()[_0x1e4267(0x9d)]);const _0x1c6ccf={'kind':_0x1e4267(0xb9),'key':_0x59e436,'valid':valid,'due':now()+delay,'played':![]};return _0x2b6d86=_0x1c6ccf,_0x59a793(),()=>{if(_0x2b6d86===_0x1c6ccf)_0x9e6c51();};},'stopWaiting'(){const _0x36cb80=_0x53c30f;if(_0x2b6d86?.[_0x36cb80(0xa0)]===_0x36cb80(0xb4))_0x9e6c51();},'stop':_0x9e6c51,'sync':_0x59a793};}
+import { MATCHING_AUDIO } from './audio-assets.js?v=689216405a77';
+
+export const MATCHING_SOUND_TIMING = Object.freeze({ first:1080, response:540, period:4320, impact:300 });
+
+// Existing games and already-tracked rounds enter quietly. No server rules change.
+export function freshMatchingEntry(game, trackedRound) {
+  return game?.phase === 'playing' && Array.isArray(game.moves) && game.moves.length === 0
+    && trackedRound !== `${game.code}:${game.round}`;
+}
+
+// Matching owns its own reservations/voices; move and result audio stay separate.
+export function createMatchingAudio({ sound=globalThis.NcqSound, hidden=()=>globalThis.document?.hidden,
+  blocked=()=>false, now=()=>performance.now(), setTimer=setTimeout, clearTimer=clearTimeout }={}) {
+  const seen=new Set(), voices=new Map(), timing=MATCHING_SOUND_TIMING;
+  let current=null, timer=null;
+  sound?.load(Object.values(MATCHING_AUDIO));
+  function available() {
+    try {
+      return typeof sound?.sfx === 'function' && !hidden() && !blocked()
+        && sound.enabled('sfx') !== false && sound.volume?.('sfx') !== 0
+        && sound.state?.().active !== false;
+    } catch { return false; }
+  }
+  function silence(fade=.05) {
+    for(const voice of voices.keys())voice.stop(fade);
+    voices.clear();
+  }
+  function stop() {
+    if(timer!==null)clearTimer(timer);
+    timer=null;current=null;silence();
+  }
+  function play(kind, time) {
+    const voice=sound.sfx(MATCHING_AUDIO[kind],{volume:.85});
+    // Keep pending SDK voices too (up to 400ms loading/unlock grace).
+    if(voice)voices.set(voice,time+(kind==='found'?1800:900));
+  }
+  function nextPair(session, earliest) {
+    const first=session.origin+timing.first;
+    return first+Math.max(0,Math.ceil((earliest-first)/timing.period))*timing.period;
+  }
+  function pump() {
+    if(timer!==null)clearTimer(timer);
+    timer=null;
+    const session=current;
+    if(!session)return;
+    if(!session.valid()){stop();return;}
+    const time=now();
+    for(const[voice,until]of voices)if(until<=time)voices.delete(voice);
+    if(!available()) {
+      // Stop the voice gain immediately even if the shared context is suspended.
+      silence(0);
+      if(session.kind==='found'){current=null;return;}
+      session.due=null;session.note=0;
+    } else if(session.kind==='waiting') {
+      if(session.due===null)session.due=nextPair(session,time+timing.first);
+      if(time>=session.due) {
+        if(time-session.due<=120) {
+          play(session.note?'high':'low',time);
+          session.due+=session.note?timing.period-timing.response:timing.response;
+          session.note=1-session.note;
+        } else {
+          // A throttled tab skips missed beats rather than replaying a burst.
+          session.note=0;session.due=nextPair(session,time+1);
+        }
+      }
+    } else if(!session.played && time>=session.due) {
+      session.played=true;
+      if(time-session.due<=120)play('found',time);
+      else {current=null;return;}
+      session.due=time+1800;
+    } else if(session.played && time>=session.due) {
+      current=null;return;
+    }
+    const delay=session.due===null?100:Math.max(1,Math.min(100,session.due-now()));
+    timer=setTimer(pump,delay);
+  }
+  return {
+    waiting(key,{valid=()=>true}={}) {
+      if(current?.kind==='waiting'&&current.key===key)return;
+      stop();
+      const origin=now();
+      current={kind:'waiting',key,valid,origin,due:origin+timing.first,note:0};
+      pump();
+    },
+    found(key,{valid=()=>true,delay=timing.impact}={}) {
+      if(seen.has(key))return ()=>{};
+      stop();
+      // Consume the event while muted/hidden too: it must never play on return.
+      seen.add(key);
+      if(seen.size>256)seen.delete(seen.values().next().value);
+      const session={kind:'found',key,valid,due:now()+delay,played:false};
+      current=session;pump();
+      return ()=>{if(current===session)stop();};
+    },
+    stopWaiting(){if(current?.kind==='waiting')stop();},
+    stop,
+    sync:pump,
+  };
+}

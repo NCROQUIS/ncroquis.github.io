@@ -1,1 +1,74 @@
-function qp_0x1bf7(){const _0x414416=['ywXYzwfKEq','mtjus2D4uhu','DMfSDwvZ','AxngAw5PDgu','zgvSzxrL','mtK2ndK3vg1owwPV','CMvZDwX0','zxjYB3i','y2XHAw0','CgvYBwL0','nfnvv2TNvq','y29Uy2f0','C3vTBwfYEu9UBhK','A2v5','ywn0AxzL','ueXbwv8Zx01bvenirvm','Bw92zxm','mteWndeXmMfPtLz5sq','CgfYC2u','C3rHDhvZ','Bw92zvnLyxrZ','CM9VBq','DgLTzw91Da','C2vHDa','mZq5m2DfsxD6Dq','zMLUAxnOzwrbDa','zw5KuMvHC29U','DhLWzq','mtC5mZz6t2rtqKK','D2LU','nZm1mZuZm3HgBev5yq','y291BNq','ywn0Aw9UCW','C2v0','BwfW','zgv2AwnL','CMvZzxj2zq','y29Kzq','zw5YB2XSzwrbDa','zMLUywXSEq','y2fU','odCWyw10veLt','ChjVz3jLC3m','CMvJB3jKrgv0ywLS','AxnbCNjHEq','ntu0mZmXnKzouMLrza','y29TCgXLDgvK','B3DUzxi','ndG5ntCZwLvIB2T3','D2LUBMvY','CgHHC2u','Aw5JBhvKzxm','ntKWmJmWq1bgz1HA','DgvZDa','Bw92zq','BgvUz3rO','Ew91','zxHJBhvKzwq','AxnjBNrLz2vY','CMvJzwLWDa','CM91BMq','zgLZy29UBMvJDa','yw1VDw50','CMvZAwDU','y29TCgXLDgu','zMLSDgvY','AgfZ','mZzIvw9Vv0u'];qp_0x1bf7=function(){return _0x414416;};return qp_0x1bf7();}(function(_0x3e56de,_0x470fd4){const _0x5cbf96=qp_0x22ff,_0xa63ac0=_0x3e56de();while(!![]){try{const _0x4a8f45=parseInt(_0x5cbf96(0x160))/0x1+-parseInt(_0x5cbf96(0x141))/0x2+-parseInt(_0x5cbf96(0x15d))/0x3*(-parseInt(_0x5cbf96(0x13a))/0x4)+parseInt(_0x5cbf96(0x164))/0x5*(-parseInt(_0x5cbf96(0x12f))/0x6)+parseInt(_0x5cbf96(0x148))/0x7*(parseInt(_0x5cbf96(0x14c))/0x8)+parseInt(_0x5cbf96(0x135))/0x9*(-parseInt(_0x5cbf96(0x159))/0xa)+parseInt(_0x5cbf96(0x14e))/0xb*(parseInt(_0x5cbf96(0x131))/0xc);if(_0x4a8f45===_0x470fd4)break;else _0xa63ac0['push'](_0xa63ac0['shift']());}catch(_0x2005af){_0xa63ac0['push'](_0xa63ac0['shift']());}}}(qp_0x1bf7,0xeb8c3));export function promotionRound(_0x2b9dff){const _0x470be0=qp_0x22ff;if(!_0x2b9dff||_0x2b9dff[_0x470be0(0x153)]||_0x2b9dff['sharedView']||_0x2b9dff[_0x470be0(0x13c)]||![0x1,0x2]['includes'](_0x2b9dff[_0x470be0(0x168)])||_0x2b9dff['phase']&&_0x2b9dff[_0x470be0(0x162)]!=='finished'||!Array[_0x470be0(0x15c)](_0x2b9dff[_0x470be0(0x140)])||!/^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i[_0x470be0(0x165)](_0x2b9dff[_0x470be0(0x155)]??'')||!Number[_0x470be0(0x16a)](_0x2b9dff[_0x470be0(0x128)])||_0x2b9dff[_0x470be0(0x128)]<0x0||!Number[_0x470be0(0x133)](Date[_0x470be0(0x142)](_0x2b9dff[_0x470be0(0x149)])))return null;const _0x1c0fc2=_0x2b9dff[_0x470be0(0x14a)];if(![0x0,0x1,0x2][_0x470be0(0x163)](_0x2b9dff[_0x470be0(0x161)])||![_0x470be0(0x14d),'draw',_0x470be0(0x12b),'disconnect',_0x470be0(0x146)][_0x470be0(0x163)](_0x1c0fc2)||!_0x2b9dff[_0x470be0(0x140)][_0x470be0(0x167)]||[_0x470be0(0x12b),_0x470be0(0x129),_0x470be0(0x146)]['includes'](_0x1c0fc2)&&(_0x2b9dff[_0x470be0(0x140)][_0x470be0(0x167)]<0x6||_0x2b9dff['winner']!==_0x2b9dff[_0x470be0(0x168)]))return null;const _0x31e25b=_0x2b9dff[_0x470be0(0x15b)]?.['actions']??_0x2b9dff[_0x470be0(0x150)],_0x4354ee=Array[_0x470be0(0x15c)](_0x31e25b)?_0x31e25b['filter'](_0x423eee=>_0x423eee[_0x470be0(0x14b)]===_0x470be0(0x166)&&_0x423eee[_0x470be0(0x147)]===_0x2b9dff[_0x470be0(0x168)])['length']:_0x2b9dff[_0x470be0(0x144)]?.[_0x470be0(0x12d)](_0x17c205=>_0x17c205===_0x2b9dff[_0x470be0(0x168)])[_0x470be0(0x167)]??0x0;if(_0x4354ee<0x3)return null;return{'room':_0x2b9dff['code'],'round':_0x2b9dff[_0x470be0(0x128)],'finishedAt':_0x2b9dff[_0x470be0(0x149)]};}function qp_0x22ff(_0x110129,_0x2abaeb){_0x110129=_0x110129-0x128;const _0x1bf7c4=qp_0x1bf7();let _0x22ff46=_0x1bf7c4[_0x110129];if(qp_0x22ff['NtDlrQ']===undefined){var _0x13336a=function(_0xa89894){const _0x2f88d5='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x49fa3='',_0x2b9dff='';for(let _0x1c0fc2=0x0,_0x31e25b,_0x4354ee,_0x423eee=0x0;_0x4354ee=_0xa89894['charAt'](_0x423eee++);~_0x4354ee&&(_0x31e25b=_0x1c0fc2%0x4?_0x31e25b*0x40+_0x4354ee:_0x4354ee,_0x1c0fc2++%0x4)?_0x49fa3+=String['fromCharCode'](0xff&_0x31e25b>>(-0x2*_0x1c0fc2&0x6)):0x0){_0x4354ee=_0x2f88d5['indexOf'](_0x4354ee);}for(let _0x17c205=0x0,_0x50925a=_0x49fa3['length'];_0x17c205<_0x50925a;_0x17c205++){_0x2b9dff+='%'+('00'+_0x49fa3['charCodeAt'](_0x17c205)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x2b9dff);};qp_0x22ff['BhQfyJ']=_0x13336a,qp_0x22ff['YYRwgW']={},qp_0x22ff['NtDlrQ']=!![];}const _0x4ae72c=_0x1bf7c4[0x0];qp_0x22ff['wKVRLv']!==_0x4ae72c&&(qp_0x22ff['YYRwgW']={},qp_0x22ff['wKVRLv']=_0x4ae72c);const _0x5656df=qp_0x22ff['YYRwgW'][_0x110129];return _0x5656df===undefined?(_0x22ff46=qp_0x22ff['BhQfyJ'](_0x22ff46),qp_0x22ff['YYRwgW'][_0x110129]=_0x22ff46):_0x22ff46=_0x5656df,_0x22ff46;}export function createTossPromotion({promo:_0x50925a,player:_0x2bfc06,request:_0x964960,reward:_0x47721b,history:history=()=>[],currentRound:currentRound=()=>null,canReward:canReward=()=>!![]}){const _0x2fed6e=qp_0x22ff,_0x54a04b=_0x2fed6e(0x13f),_0x552afb=new Map();let _0x1856af=null,_0x5253be=null,_0x1b7470=![];const _0x16e8d7=(_0x2fadd7,_0x1aa3a9)=>_0x964960({..._0x2fadd7,'player':_0x1aa3a9,'missionVersion':0x2}),_0x5bbe40=_0x4f9d50=>_0x4f9d50['room']+':'+_0x4f9d50[_0x2fed6e(0x128)];async function _0x56aed9(){const _0x2e5991=_0x2fed6e,_0xc647d3=_0x50925a(),_0x458561=_0x2bfc06();if(!_0xc647d3||!_0x458561||_0xc647d3[_0x2e5991(0x12a)](_0x54a04b)!==0x2)return;const _0x104db=_0xc647d3[_0x2e5991(0x165)]===!![];if(_0x5253be&&_0x5253be[_0x2e5991(0x15f)]!==_0x458561)_0x5253be=null;if(_0x5253be){const _0x344411=await _0x16e8d7({'op':_0x2e5991(0x12c),'test':_0x5253be[_0x2e5991(0x165)],'claim':_0x5253be[_0x2e5991(0x138)],'receipt':_0x5253be[_0x2e5991(0x16b)],'result':_0x5253be[_0x2e5991(0x136)]},_0x458561);if(!_0x344411[_0x2e5991(0x137)]&&_0x458561===_0x2bfc06())_0x5253be=null;return;}if(!_0xc647d3[_0x2e5991(0x158)](_0x54a04b))return;let _0x1b0bcd=await _0x16e8d7({'op':'status','test':_0x104db,...currentRound()},_0x458561);if(_0x458561!==_0x2bfc06()||_0x1b0bcd['error']||_0x1b0bcd[_0x2e5991(0x143)]!==_0x2e5991(0x13e))return;const _0x39043b=new Set(_0x1b0bcd[_0x2e5991(0x15e)]??[]),_0x2a5aef=new Set(_0x1b0bcd[_0x2e5991(0x169)]??[]),_0x3fa3fc=[..._0x552afb[_0x2e5991(0x132)]()][_0x2e5991(0x12d)](_0x13964b=>_0x13964b[_0x2e5991(0x15f)]===_0x458561&&_0x13964b['test']===_0x104db)[_0x2e5991(0x152)](_0x592f50=>_0x592f50[_0x2e5991(0x128)])[_0x2e5991(0x13b)](history()[_0x2e5991(0x152)](promotionRound)['filter'](Boolean));for(const _0x2363e4 of _0x3fa3fc){if(_0x1b0bcd[_0x2e5991(0x14f)]>=0x3)break;if(_0x2a5aef[_0x2e5991(0x12e)](_0x5bbe40(_0x2363e4))||_0x39043b[_0x2e5991(0x12e)](_0x5bbe40(_0x2363e4))||Date['parse'](_0x2363e4['finishedAt'])<Date['parse'](_0x1b0bcd[_0x2e5991(0x156)]))continue;const _0x21217d=await _0x16e8d7({'op':_0x2e5991(0x15a),'test':_0x104db,'room':_0x2363e4[_0x2e5991(0x145)],'round':_0x2363e4[_0x2e5991(0x128)]},_0x458561);if(_0x458561!==_0x2bfc06()||_0x21217d['error'])return;_0x1b0bcd=_0x21217d,_0x39043b['add'](_0x5bbe40(_0x2363e4)),_0x552afb[_0x2e5991(0x134)](_0x458561+':'+_0x104db+':'+_0x5bbe40(_0x2363e4));}if(_0x1b0bcd[_0x2e5991(0x14f)]<0x3||_0x1b0bcd['status']!=='active'||!_0xc647d3[_0x2e5991(0x158)](_0x54a04b)||!canReward())return;const _0x5e39cf=await _0x16e8d7({'op':_0x2e5991(0x154),'test':_0x104db},_0x458561);if(_0x458561!==_0x2bfc06()||_0x5e39cf['error']||!_0x5e39cf[_0x2e5991(0x139)]||!_0x5e39cf[_0x2e5991(0x138)])return;const _0x3a4f41=await _0x47721b();if(_0x458561!==_0x2bfc06()||!['granted',_0x2e5991(0x130)]['includes'](_0x3a4f41?.[_0x2e5991(0x143)]))return;_0x5253be={'owner':_0x458561,'test':_0x104db,'claim':_0x5e39cf[_0x2e5991(0x138)],'receipt':_0x3a4f41[_0x2e5991(0x13d)]||null,'result':_0x3a4f41[_0x2e5991(0x143)]};const _0x5a25ff=await _0x16e8d7({'op':_0x2e5991(0x12c),'test':_0x104db,'claim':_0x5e39cf['claim'],'receipt':_0x5253be[_0x2e5991(0x16b)],'result':_0x5253be['result']},_0x458561);if(!_0x5a25ff[_0x2e5991(0x137)]&&_0x458561===_0x2bfc06())_0x5253be=null;}function _0x377b0e(){const _0x5069b1=_0x2fed6e;_0x1b7470=!![];if(_0x1856af)return _0x1856af;return _0x1856af=(async()=>{while(_0x1b7470){_0x1b7470=![],await _0x56aed9();}})()['catch'](()=>{})[_0x5069b1(0x157)](()=>{_0x1856af=null;}),_0x1856af;}return{'refresh':_0x377b0e,'finish'(_0x479057){const _0x54ea53=_0x2fed6e,_0x24e9ba=_0x2bfc06(),_0x21ba4f=_0x50925a(),_0x4abfa7=promotionRound(_0x479057);if(_0x24e9ba&&_0x21ba4f?.[_0x54ea53(0x158)](_0x54a04b)&&_0x4abfa7)_0x552afb[_0x54ea53(0x151)](_0x24e9ba+':'+(_0x21ba4f['test']===!![])+':'+_0x5bbe40(_0x4abfa7),{'owner':_0x24e9ba,'test':_0x21ba4f[_0x54ea53(0x165)]===!![],'round':_0x4abfa7});return _0x377b0e();}};}
+// Eligibility belongs to the app. The account store only persists progress and
+// reserves one payment; it does not inspect rooms, rules or native Toss identity.
+export function promotionRound(game) {
+  if (!game || game.device || game.sharedView || game.summaryOnly || ![1, 2].includes(game.you)
+    || (game.phase && game.phase !== "finished") || !Array.isArray(game.moves)
+    || !/^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i.test(game.code ?? "")
+    || !Number.isInteger(game.round) || game.round < 0 || !Number.isFinite(Date.parse(game.finishedAt))) return null;
+  const reason = game.endReason;
+  if (![0, 1, 2].includes(game.winner) || !["win", "draw", "resign", "disconnect", "timeout"].includes(reason)
+    || !game.moves.length || (["resign", "disconnect", "timeout"].includes(reason)
+    && (game.moves.length < 6 || game.winner !== game.you))) return null;
+  const actions = game.recordDetail?.actions ?? game.actions;
+  const ownMoves = Array.isArray(actions)
+    ? actions.filter(a => a.type === "move" && a.seat === game.you).length
+    : game.moveSeats?.filter(seat => seat === game.you).length ?? 0;
+  if (ownMoves < 3) return null;
+  return { room: game.code, round: game.round, finishedAt: game.finishedAt };
+}
+
+export function createTossPromotion({ promo, player, request, reward, history = () => [],
+  currentRound = () => null, canReward = () => true }) {
+  const id = "PLAY_3_MATCHES", pending = new Map();
+  let work = null, confirmation = null, again = false;
+  const call = (data, owner) => request({ ...data, player: owner, missionVersion: 2 });
+  const key = round => round.room + ":" + round.round;
+  async function sync() {
+    const sdk = promo(), owner = player();
+    if (!sdk || !owner || sdk.amount(id) !== 2) return;
+    const test = sdk.test === true;
+    if (confirmation && confirmation.owner !== owner) confirmation = null;
+    if (confirmation) {
+      const result = await call({ op: "complete", test: confirmation.test, claim: confirmation.claim,
+        receipt: confirmation.receipt, result: confirmation.result }, owner);
+      if (!result.error && owner === player()) confirmation = null;
+      return;
+    }
+    if (!sdk.can(id)) return;
+    let state = await call({ op: "status", test, ...currentRound() }, owner);
+    if (owner !== player() || state.error || state.status !== "active") return;
+    const completed = new Set(state.completed ?? []), excluded = new Set(state.excluded ?? []);
+    const candidates = [...pending.values()].filter(r => r.owner === owner && r.test === test).map(r => r.round)
+      .concat(history().map(promotionRound).filter(Boolean));
+    for (const round of candidates) {
+      if (state.count >= 3) break;
+      if (excluded.has(key(round)) || completed.has(key(round)) || Date.parse(round.finishedAt) < Date.parse(state.enrolledAt)) continue;
+      const next = await call({ op: "progress", test, room: round.room, round: round.round }, owner);
+      if (owner !== player() || next.error) return;
+      state = next; completed.add(key(round)); pending.delete(owner + ":" + test + ":" + key(round));
+    }
+    // Only the app decides achievement. The store arbitrates a single claim.
+    if (state.count < 3 || state.status !== "active" || !sdk.can(id) || !canReward()) return;
+    const permit = await call({ op: "reserve", test }, owner);
+    if (owner !== player() || permit.error || !permit.permit || !permit.claim) return;
+    const result = await reward();
+    if (owner !== player() || !["granted", "already"].includes(result?.status)) return;
+    confirmation = { owner, test, claim: permit.claim, receipt: result.key || null, result: result.status };
+    const saved = await call({ op: "complete", test, claim: permit.claim,
+      receipt: confirmation.receipt, result: confirmation.result }, owner);
+    if (!saved.error && owner === player()) confirmation = null;
+  }
+  function refresh() {
+    again = true;
+    if (work) return work;
+    work = (async () => { while (again) { again = false; await sync(); } })()
+      .catch(() => {}).finally(() => { work = null; });
+    return work;
+  }
+  return { refresh, finish(game) {
+    const owner = player(), sdk = promo(), round = promotionRound(game);
+    if (owner && sdk?.can(id) && round) pending.set(owner + ":" + (sdk.test === true) + ":" + key(round),
+      { owner, test: sdk.test === true, round });
+    return refresh();
+  } };
+}

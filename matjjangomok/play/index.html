@@ -2,10 +2,10 @@
 <html>
 <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
   <script src="./ncq/safe.js"></script>
-  <script src="./ncq/motion.js?v=689216405a77"></script>
-  <script src="./ncq/device.js?v=689216405a77"></script>
-  <script src="./ncq/sound.js?v=689216405a77"></script>
-  <script src="./ncq/save.js?v=689216405a77"></script>
+  <script src="./ncq/motion.js?v=98ab54688f9d"></script>
+  <script src="./ncq/device.js?v=98ab54688f9d"></script>
+  <script src="./ncq/sound.js?v=98ab54688f9d"></script>
+  <script src="./ncq/save.js?v=98ab54688f9d"></script>
   <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
@@ -15,19 +15,20 @@
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=689216405a77">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=689216405a77">
-  <link rel="stylesheet" href="./board-thumbnails.css?v=689216405a77">
-  <link rel="stylesheet" href="./forest-ui.css?v=689216405a77">
-  <link rel="stylesheet" href="./lobby-layout.css?v=689216405a77">
-  <link rel="stylesheet" href="./list-dialog.css?v=689216405a77">
-  <link rel="stylesheet" href="./shop-layout.css?v=689216405a77">
-  <link rel="stylesheet" href="./ranking-layout.css?v=689216405a77">
-  <link rel="stylesheet" href="./mission-layout.css?v=689216405a77">
-  <link rel="stylesheet" href="./game-modes.css?v=689216405a77">
-  <link rel="stylesheet" href="./webview-ui.css?v=689216405a77">
-  <script type="module" src="./webview-ui.js?v=689216405a77"></script>
-  <script type="module" src="./app.js?v=689216405a77"></script>
+  <link rel="stylesheet" href="./style.css?v=98ab54688f9d">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=98ab54688f9d">
+  <link rel="stylesheet" href="./board-thumbnails.css?v=98ab54688f9d">
+  <link rel="stylesheet" href="./forest-ui.css?v=98ab54688f9d">
+  <link rel="stylesheet" href="./lobby-layout.css?v=98ab54688f9d">
+  <link rel="stylesheet" href="./list-dialog.css?v=98ab54688f9d">
+  <link rel="stylesheet" href="./shop-layout.css?v=98ab54688f9d">
+  <link rel="stylesheet" href="./ranking-layout.css?v=98ab54688f9d">
+  <link rel="stylesheet" href="./mission-layout.css?v=98ab54688f9d">
+  <link rel="stylesheet" href="./game-modes.css?v=98ab54688f9d">
+  <link rel="stylesheet" href="./webview-ui.css?v=98ab54688f9d">
+  <link rel="stylesheet" href="./review-layout.css?v=98ab54688f9d">
+  <script type="module" src="./webview-ui.js?v=98ab54688f9d"></script>
+  <script type="module" src="./app.js?v=98ab54688f9d"></script>
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -347,6 +348,10 @@
           </button>
           <h1 id="review-heading" tabindex="-1" data-i18n="recordView"></h1>
           <div class="review-actions">
+            <button id="review-share" type="button" class="review-button" aria-haspopup="dialog"
+                    aria-controls="record-share-dialog" data-i18n-attr="aria-label:recordShareAction; title:recordShareAction" hidden>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-share-icon"/></svg>
+            </button>
             <button id="review-favorite" type="button" class="record-favorite review-button">
               <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-star"/></svg>
             </button>
@@ -413,6 +418,7 @@
             <strong id="review-opponent-name" dir="auto"></strong>
           </span>
           <span id="review-opponent-turn" class="review-turn" hidden></span>
+          <span id="review-opponent-win" class="review-win" data-i18n="reviewWinner" hidden></span>
         </button>
         <div class="board-slot">
           <div id="board" class="board" role="grid" data-i18n-attr="aria-label:board">
@@ -463,6 +469,7 @@
           <button id="ai-undo" type="button" class="secondary"></button>
         </div>
         <div id="review" class="review" hidden>
+          <div class="review-playback">
           <div class="review-controls" role="group" data-i18n-attr="aria-label:review">
             <button class="review-button" type="button" data-step="first" data-i18n-attr="aria-label:firstMove">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5v14m9-14-7 7 7 7m7-14-7 7 7 7"/></svg>
@@ -478,12 +485,20 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5v14M4 5l7 7-7 7m7-14 7 7-7 7"/></svg>
             </button>
           </div>
+          <input id="review-position" type="range" min="0" max="0" value="0" step="1"
+                 data-i18n-attr="aria-label:reviewPosition">
           <div id="placement-timing" class="placement-timing" hidden>
             <label for="placement-duration" data-i18n="placementTimingTest"></label>
             <output id="placement-duration-value" for="placement-duration"></output>
             <input id="placement-duration" type="range" min="50" max="600" step="10" value="80"
                    aria-describedby="placement-timing-help">
             <small id="placement-timing-help" data-i18n="placementTimingHelp"></small>
+          </div>
+          <span class="review-result">
+            <strong id="review-result"></strong>
+            <span id="review-mode"></span>
+            <span id="review-passes" hidden></span>
+          </span>
           </div>
           <button id="review-own-profile" class="review-player" type="button" aria-haspopup="dialog" aria-controls="player-profile">
             <span class="review-avatar match-avatar" aria-hidden="true">
@@ -498,23 +513,9 @@
             <span id="review-own-status" class="review-own-status">
               <span id="review-own-turn" class="review-turn" hidden></span>
             </span>
+            <span id="review-own-win" class="review-win" data-i18n="reviewWinner" hidden></span>
           </button>
-          <span class="review-result">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm2 5h8m-8 4h8m-8 4h4"/></svg>
-            <strong id="review-result"></strong>
-            <span id="review-mode"></span>
-            <span id="review-passes" hidden></span>
-          </span>
           <div class="review-footer">
-            <button id="review-exit" type="button" class="secondary review-edge-action" hidden>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v16h5m5-12 4 4-4 4M8 12h12"/></svg>
-              <span data-i18n="leave"></span>
-            </button>
-            <button id="review-share" type="button" class="secondary" aria-haspopup="dialog"
-                    aria-controls="record-share-dialog" data-i18n-attr="title:recordShareAction" hidden>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#records-share-icon"/></svg>
-              <span data-i18n="recordShareAction"></span>
-            </button>
             <button id="review-room-action" class="primary" type="button">
               <span class="review-action-content"><span id="review-room-action-label"></span></span>
             </button>
@@ -676,6 +677,15 @@
           <div class="option-row">
             <label for="language" data-i18n="language"></label>
             <select id="language"></select>
+          </div>
+          <label class="option-row sound-option">
+            <span data-i18n="backgroundMusic"></span>
+            <input id="background-music" type="checkbox" checked>
+          </label>
+          <div class="option-row effects-volume-option">
+            <label for="music-volume" data-i18n="musicVolume"></label>
+            <output id="music-volume-value" for="music-volume">100%</output>
+            <input id="music-volume" type="range" min="0" max="100" step="1" value="100">
           </div>
           <label class="option-row sound-option">
             <span data-i18n="soundEffects"></span>

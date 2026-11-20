@@ -966,7 +966,6 @@ html:has(body.in-match) { overflow-x: clip; }
   --board-controls-height: calc(
     max(224px, 2 * var(--player-height) + 98px + 4 * var(--match-gap))
     + max(0px, var(--opening-status-height, 30px) - 30px)
-    + var(--placement-timing-height, 0px)
   );
   /* Extend the grid towards both edges only as far as the narrower safe gutter. */
   --board-bleed: min(

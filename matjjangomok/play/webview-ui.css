@@ -13,18 +13,18 @@ img { -webkit-user-drag: none; }
 }
 
 /* Publisher-specific disclosure, outside the scaled artwork so its label stays readable. */
-body[data-kakao-rating] { --kakao-rating-space: 28px; }
+body[data-kakao-rating] { --kakao-rating-space: 54px; }
 body:is(.in-match, .in-together) { --kakao-rating-space: 0px; }
 #lobby-stage-host { top: calc(var(--ncq-top) + var(--kakao-rating-space, 0px)); }
 #kakao-age-rating {
   position: fixed; z-index: 10;
   top: var(--ncq-top); right: var(--ncq-right); left: var(--ncq-left);
-  height: 28px; display: flex; align-items: center; justify-content: center; gap: 7px;
+  height: 54px; display: flex; align-items: center; justify-content: center; gap: 9px;
   padding-inline: 6px; background: #f8f0df; border-bottom: 1px solid #bba66d;
   color: #173c24; font: 700 12px/1.2 "Omok Noto Sans KR", sans-serif;
   pointer-events: none;
 }
 body:not([data-omok-ready]) #kakao-age-rating { z-index: 2147483647; }
-#kakao-age-rating b { padding: 2px 5px; border-radius: 4px; background: #24813d; color: #fff; font: 800 12px/1.2 "Omok Noto Sans KR", sans-serif; }
+#kakao-age-rating img { display: block; width: auto; height: 48px; object-fit: contain; }
 #kakao-age-rating [data-i18n] { visibility: visible; }
 body:is(.in-match, .in-together) #kakao-age-rating { display: none; }

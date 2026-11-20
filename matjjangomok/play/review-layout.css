@@ -1,0 +1,75 @@
+/* One playback surface; player rows and metadata no longer create separate cards. */
+.forest-ui.in-review .match { grid-template-rows: auto auto [board-start] auto [board-end] auto auto auto; }
+.forest-ui.in-review #review-header {
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: 6px;
+  padding-bottom: 0;
+  min-height: 36px;
+}
+.forest-ui.in-review #review-header h1 { font-size: clamp(16px, 4.3vw, 23px); }
+.forest-ui.in-review #review-header .review-button { width: 32px; height: 32px; min-height: 32px; }
+.forest-ui.in-review #review-header #review-share { padding: 0; }
+.forest-ui.in-review .review-actions { gap: 4px; }
+.forest-ui.in-review .review-player,
+.forest-ui.in-review .match[data-compact-board] .review-player {
+  display: flex; align-items: center; gap: 6px;
+  min-height: 30px; padding: 0 4px;
+  border: 0; border-radius: 0; background: none;
+  color: #fff6de; box-shadow: none;
+}
+.forest-ui.in-review .review-player:not(:disabled):hover { background: #ffffff0c; }
+.forest-ui.in-review .review-player:disabled { opacity: 1; }
+.forest-ui.in-review .review-player[data-turn] { background: none; box-shadow: none; }
+.forest-ui.in-review .review-player .review-avatar { width: 26px; height: 26px; flex: none; }
+.forest-ui.in-review .review-identity {
+  display: flex; flex: 1; flex-direction: row; align-items: center; gap: 5px; min-width: 0;
+}
+.forest-ui.in-review .review-identity strong { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.forest-ui.in-review .review-seat { color: #e4e2c9; font-size: 12px; white-space: nowrap; }
+.forest-ui.in-review .review-turn { display: none; }
+.forest-ui.in-review .review-win {
+  flex: none; padding: 2px 8px; border: 1px solid #e8c35c; border-radius: 99px;
+  background: #f2d676; color: #3f320c; font-size: 11px; font-weight: 800;
+}
+.forest-ui.in-review .review-playback {
+  grid-area: 5 / 1 / 6 / -1;
+  min-width: 0; padding: 4px 10px; border: 1px solid #cdb990;
+  border-radius: 12px; background: linear-gradient(#fff8eb, #eee3cc);
+  color: #193e25; box-shadow: inset 0 1px #fffdf580, 0 2px 4px #001a0c40;
+}
+:is(.forest-ui.in-review, .forest-ui.spectating) #review .review-controls {
+  padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none;
+}
+.forest-ui.in-review #review .review-controls .review-button { width: 30px; height: 30px; }
+.forest-ui.in-review #review .review-controls #move-count { border: 0; background: none; box-shadow: none; }
+#review-position, #music-volume {
+  display: block; width: 100%; min-width: 0; min-height: 24px;
+  margin: 0; padding: 0; accent-color: #568638; touch-action: pan-x;
+}
+#music-volume { grid-column: 1 / -1; }
+.forest-ui.in-review #review .placement-timing {
+  padding: 4px 0 2px; margin-top: 2px;
+  border: 0; border-top: 1px solid #d1c8ae; border-radius: 0;
+  background: none; box-shadow: none; color: #193e25;
+}
+.forest-ui.in-review #review .review-result {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  min-height: 0; padding: 0; gap: 2px 8px; border: 0; border-radius: 0;
+  background: none; box-shadow: none; color: #426044; font-size: 10px;
+}
+.forest-ui.in-review #review #review-mode { padding: 0; border: 0; border-radius: 0; background: none; color: inherit; font-size: inherit; }
+.forest-ui.in-review #review .review-footer {
+  grid-area: 6 / 1 / 7 / -1;
+  display: flex; justify-content: center; gap: 0; padding-top: 4px;
+}
+.forest-ui.in-review #review .review-footer > button { flex: none; width: min(100%, 320px); margin: 0; }
+.forest-ui.in-review #review #review-play { grid-area: 6 / 1 / 7 / -1; width: min(100%, 320px); justify-self: center; }
+.forest-ui.in-review.shared-review .review-footer { display: none; }
+.forest-ui.spectating #review > .review-playback { display: block; }
+.forest-ui.spectating #review .review-playback > :is(.placement-timing, .review-result) { display: none; }
+.forest-ui.spectating .review-playback { border: 1px solid #c9b080; border-radius: 12px; padding: 4px 10px; background: #f4ecd8; color: #193e25; }
+@media (max-height: 700px) {
+  .forest-ui.in-review #review-header, .forest-ui.in-review #review-header .review-button { min-height: 30px; }
+  .forest-ui.in-review #review .review-controls .review-button { width: 28px; height: 28px; }
+  .forest-ui.in-review .review-playback { padding-block: 2px; }
+}

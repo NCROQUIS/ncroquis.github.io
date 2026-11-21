@@ -1,0 +1,6 @@
+Model: g170-b6c96-s175395328-d26788732.bin.gz
+Source: https://github.com/lightvector/KataGo/tree/v1.16.4/cpp/tests/models
+License: CC0-1.0 (g170 run).
+The original model author identifies g170 networks as CC0/public domain:
+https://katagotraining.org/network_license/
+CC0 legal text: https://creativecommons.org/publicdomain/zero/1.0/legalcode

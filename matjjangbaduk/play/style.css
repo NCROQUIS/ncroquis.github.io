@@ -1,4 +1,53 @@
 /* Original Omok UI + Jangi's player cards. Only Baduk-specific states live here. */
+/* Approved broadcast header: three calm rows, slightly smaller than player names. */
+.forest-ui .match[data-playing] .match-status { grid-template-rows:auto auto;min-height:104px;height:auto;gap:10px 8px;margin:0 0 8px;padding:4px 0; }
+.forest-ui .match[data-playing] .match-status-copy { grid-column:2;grid-row:1;display:grid;gap:12px;align-content:center;min-height:58px;color:#fff4d9;text-align:center; }
+.forest-ui .match[data-playing] .match-status h1 { margin:0;font-size:13px;font-weight:400;line-height:1.4;letter-spacing:0; }
+.forest-ui .match[data-playing] .match-status>.jangi-header-button { grid-row:1;align-self:start; }
+.forest-ui .match[data-playing] :is(#leave-match,#watch-back) { grid-column:1; }
+.forest-ui .match[data-playing] #match-options { grid-column:3; }
+.match-captures { display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:400;line-height:1.4;font-variant-numeric:tabular-nums; }
+.capture-side { display:flex;align-items:center;justify-content:center;gap:8px;min-width:42px; }
+.match-captures .stone { position:static;flex:none;width:18px;height:18px;transform:none; }
+.forest-ui .match[data-playing] .match-evaluation { position:relative;grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;min-height:30px;min-width:0;padding:2px 10px;border:1px solid #a8ab94;border-radius:3px;background:#f5ecd5;overflow:hidden;isolation:isolate;font-size:13px;font-weight:400;line-height:1.4;font-variant-numeric:tabular-nums; }
+.evaluation-fill { position:absolute;inset:0 auto 0 0;width:var(--black-winrate,0%);background:linear-gradient(#242625,#101211);z-index:-1; }
+.winrate-black { color:#fff4d9;justify-self:start; }
+.winrate-white { color:#193d2d;justify-self:end; }
+/* Endpoint labels stay legible even when a 0%/100% fill passes underneath them. */
+.match-evaluation[data-state="ready"] :is(.winrate-black,.winrate-white) { color:#fff;mix-blend-mode:difference; }
+.position-lead { justify-self:center;max-width:100%;padding:1px 7px;border-radius:2px;background:#fff4dc;color:#193d2d;text-align:center;overflow-wrap:anywhere; }
+.match-evaluation:not([data-state="ready"]) { background:#ffffff12!important; }
+.match-evaluation:not([data-state="ready"]) .evaluation-fill { display:none; }
+.match-evaluation:not([data-state="ready"]) :is(.winrate-black,.winrate-white) { color:#e4e6d4; }
+.match-evaluation:not([data-state="ready"]) .position-lead { background:transparent;color:#e4e6d4; }
+.forest-ui .match[data-playing] .match-player .captures { display:none; }
+.in-review :is(.match-captures,.match-evaluation) { display:none; }
+@media (max-height:520px) {
+  .forest-ui .match[data-playing] { --match-gap:4px; }
+  .forest-ui .match[data-playing] .match-status { min-height:58px;grid-template-rows:16px 18px 20px;gap:2px 8px;padding:0;margin:0; }
+  .forest-ui .match[data-playing] .match-status-copy { display:contents; }
+  .forest-ui .match[data-playing] .match-status h1 { grid-column:2;grid-row:1;line-height:16px;text-align:center; }
+  .forest-ui .match[data-playing] .match-captures { grid-column:2;grid-row:2;justify-content:center;gap:20px; }
+  .forest-ui .match[data-playing] .match-status>.jangi-header-button { grid-row:1/4;align-self:center; }
+  .forest-ui .match[data-playing] .match-evaluation { grid-column:2;grid-row:3;min-height:20px;padding-block:0;line-height:18px; }
+  .forest-ui .match[data-playing] .position-lead { padding-block:0; }
+  .forest-ui .match[data-together][data-compact-board] .together-controls { gap:4px; }
+  .forest-ui .match[data-together] .together-info { min-height:22px; }
+  .forest-ui .match[data-together] .together-actions .match-art-action { min-height:44px;padding-block:4px; }
+}
+/* Lobby mode row from matjjangjangi@9a2088f5226e54bd30c2a53c216ed55b552c41fa:ai-match.css. */
+#lobby-stage { grid-template-rows: minmax(0, 40fr) 80px minmax(0, 29fr) 130px minmax(0, 82fr) 457px minmax(0, 82fr) 238px minmax(0, 48fr) 155px minmax(0, 104fr) 132px minmax(0, 55fr); }
+#lobby-stage #lobby-championship-slot { height:238px;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:86px 130px;gap:22px; }
+#lobby-stage #show-tournament { grid-column:1;grid-row:1; }
+#lobby-mode-slot { display:grid;grid-row:2;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;min-width:0; }
+#lobby-stage #lobby-mode-slot>button { position:relative;grid-column:auto;display:flex;align-items:center;justify-content:center;gap:19px;width:451px;height:130px;min-width:0;min-height:0;padding:16px 32px 16px 15px;border:3px solid #c6b176;border-radius:26px;background:linear-gradient(#fff7dc,#e9dcb7);box-shadow:inset 0 3px #fff8,0 5px 8px #00160799;color:#285130;text-align:left; }
+#lobby-stage #lobby-mode-slot strong { min-width:0;font-size:38px;line-height:1.2;white-space:normal;overflow-wrap:anywhere;font-weight:850; }
+#lobby-stage #lobby-mode-slot:lang(en) strong { font-size:34px; }
+#lobby-stage #lobby-mode-slot .together-entry-chevron { position:absolute;right:12px;top:34px;font-size:53px;line-height:1;color:#7d8a59; }
+#lobby-stage .ai-entry-mark { display:grid;place-items:center;flex:none;width:83px;height:83px;background:url('./assets/forest-ui/board/stone_white.webp') center/contain no-repeat;color:#295e39;font-size:38px;font-weight:850;letter-spacing:-1px;text-shadow:0 1px #fff8; }
+#lobby-stage .together-entry-pair { display:block;flex:none;width:83px;height:87px; }
+#lobby-stage .together-entry-pair img { width:100%;height:100%;object-fit:contain; }
+#lobby-stage #lobby-mode-slot>button::after { content:"";position:absolute;left:50%;top:50%;width:max(100%,calc(44px / var(--lobby-scale)));height:max(100%,calc(44px / var(--lobby-scale)));transform:translate(-50%,-50%); }
 #options input[type="range"] {width:120px;max-width:45%;min-width:80px;accent-color:#386d3d;}
 #options .audio-credits {font-size:12px;line-height:1.5;color:#66705b;}
 #options .audio-credits p {white-space:normal;overflow-wrap:anywhere;}
@@ -73,11 +122,6 @@
   border-color: #7e6d53;
 }
 
-#board .cell[data-atari] .stone {
-  outline: 2px solid #e79e42;
-  outline-offset: -1px;
-}
-
 #board.scoring .cell[data-stone="1"],
 #board.scoring .cell[data-stone="2"] {
   cursor: pointer;
@@ -116,6 +160,31 @@
 .forest-ui #live-actions :is(#pass-turn, #resume-play) { flex: none; min-height: 44px; }
 .jangi-pass-notice { font-family: inherit; }
 .live-actions #pass-turn { width: auto; padding-inline: 16px; }
+/* Same-device play: the existing board and actions, facing each player. */
+.forest-ui .together-controls { display:grid;gap:8px;min-width:0;width:100%; }
+.forest-ui .together-controls[hidden] { display:none; }
+.forest-ui #together-top { transform:rotate(180deg); }
+.forest-ui .together-info { display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:24px;padding-inline:3px; }
+.forest-ui .together-color { display:flex;align-items:center;gap:6px;min-width:0;color:#d8ddc4;font-size:12px;line-height:1.3; }
+.forest-ui .together-color .stone { flex:none;width:19px;height:19px; }
+.forest-ui .together-turn { font-size:12px;font-weight:750; }
+.forest-ui .together-color .captures { margin-left:3px;font-size:11px;white-space:nowrap;color:#d2d7be; }
+.forest-ui .together-controls[data-active="true"] .together-color { color:#fff0b6; }
+.forest-ui .together-time { display:flex;align-items:center;gap:6px;flex:none;color:#cbd6bd; }
+.forest-ui .together-time .player-clock { font-size:20px;line-height:1;font-weight:800;letter-spacing:-.4px;font-variant-numeric:tabular-nums;color:inherit; }
+.forest-ui .together-controls[data-active="true"] .together-time { color:#ffe5a0; }
+.forest-ui .together-time .player-clock[data-urgent] { color:#ffaf9e; }
+.forest-ui .together-time .jangi-refills { color:#dbc27d; }
+.forest-ui .match[data-together] .together-time .jangi-refills svg { width:6px;height:8px; }
+.forest-ui .together-actions { display:flex;gap:8px;min-width:0; }
+.forest-ui .together-actions .match-art-action { flex:1;min-width:0;min-height:46px;padding:8px 4px;font-size:14px;font-weight:750;line-height:1.2;white-space:normal;overflow-wrap:anywhere; }
+.forest-ui .together-actions .together-place { flex:1.32;border-radius:999px; }
+.forest-ui .together-actions .together-place[data-placement-state="ready"]:not(:disabled) { color:#22472a;border-color:#edcf7c;background:linear-gradient(#ffe9a0,#e4be5f); }
+.forest-ui .together-actions .together-place:not(:disabled):is([data-placement-state="inactive"]) { color:#22472a;border-color:#edcf7c;background:linear-gradient(#ffe9a0,#e4be5f); }
+.forest-ui .together-actions .match-art-action:disabled { opacity:.46; }
+.forest-ui .match[data-together] { grid-template-rows:auto auto [board-start] auto [board-end] auto auto; }
+.forest-ui .match[data-together][data-compact-board] .together-controls { gap:6px; }
+body.in-match:has(#match[data-together][data-together-turn="top"]) :is(#confirm-dialog,#score-request-dialog) { rotate:180deg; }
 .in-review #review-room-action { min-width: 0; }
 .in-review .review-own-status .review-result { text-align: end; }
 
@@ -168,6 +237,20 @@
 #practice-dialog > .primary,
 #tutorial-dialog > .primary {
   margin-top: 12px;
+}
+
+#practice-dialog {
+  inset: var(--ncq-top) var(--ncq-right) var(--ncq-bottom) var(--ncq-left);
+  max-width: min(560px, calc(100% - var(--ncq-left) - var(--ncq-right) - 16px));
+  max-height: calc(100dvh - var(--ncq-top) - var(--ncq-bottom) - 16px);
+}
+@media (max-height: 720px) {
+  #practice-dialog { padding: 12px; }
+  #practice-dialog .dialog-heading { margin-bottom: 4px; }
+  #practice-dialog h2 { margin: 0; }
+  #practice-dialog .option-row { min-height: 44px; padding: 2px 8px; }
+  #practice-dialog .ai-engine-info { margin: 4px; }
+  #practice-dialog > .primary { margin-top: 6px; }
 }
 
 .dialog-actions {
@@ -346,3 +429,6 @@
 .forest-ui .match-player[data-active="true"] .jangi-time-fill { background:linear-gradient(90deg,#58944d,#2e6837); }
 .forest-ui .match-player[data-active="true"][data-low] .jangi-time-fill { background:#cf5946; }
 .forest-ui .match[data-playing] .match-player .jangi-refills svg { width:6px;height:8px; }
+
+/* Practice engine guidance shares the existing popup frame and safe area. */
+.ai-engine-info { margin:6px 4px 10px;font-size:12px;line-height:1.4;color:#52654e; }

@@ -141,8 +141,8 @@ export function createRenderer(canvas, options) {
   function draw(){
     ctx.clearRect(0,0,width,height);ctx.save();let shake=0;
     for(let i=0;i<4;i++){const d=(elapsed-landingAt(i))/160;if(busy&&d>0&&d<1)shake+=Math.sin(d*TAU*2)*(1-d)*1.4*settings.impact;}
-    ctx.translate(shake,shake*.55);background();tray();boardRoutes();
-    ctx.save();ctx.globalAlpha=opacity;const poses=[0,1,2,3].map(pose);poses.forEach(stickShadow);motionEffects(poses);const faces=poses.flatMap((p,i)=>buildFaces(i,p));faces.sort((a,b)=>a.depth-b.depth).forEach(drawFace);ctx.restore();decorations();ctx.restore();
+    background();tray();boardRoutes();
+    ctx.save();ctx.translate(shake,shake*.55);ctx.globalAlpha=opacity;const poses=[0,1,2,3].map(pose);poses.forEach(stickShadow);motionEffects(poses);const faces=poses.flatMap((p,i)=>buildFaces(i,p));faces.sort((a,b)=>a.depth-b.depth).forEach(drawFace);ctx.restore();decorations();ctx.restore();
     canvas.dataset.phase=phase;canvas.dataset.thrower=thrower;canvas.dataset.result=result;
   }
   function size(){
@@ -177,7 +177,8 @@ export function createRenderer(canvas, options) {
     cancel();const generation=run,points=[POINTS[plan.from],...plan.path.map(node=>POINTS[node])],duration=window.NCQ_TEST_DICE&&window.__yutFast?30:140;
     opacity=.05;moving={ids:plan.stackIds,player:plan.player,x:points[0][0],y:points[0][1]};const start=performance.now();let lastStep=-1;
     return new Promise(resolve=>{resolvePending=resolve;function frame(now){
-      if(generation!==run)return;const progress=Math.min(points.length-1,(now-start)/duration),index=Math.min(points.length-2,Math.floor(progress)),u=smooth(clamp(progress-index));
+      // The first frame timestamp can precede the input event's start time.
+      if(generation!==run)return;const progress=clamp((now-start)/duration,0,points.length-1),index=Math.min(points.length-2,Math.floor(progress)),u=smooth(clamp(progress-index));
       moving.x=lerp(points[index][0],points[index+1][0],u);moving.y=lerp(points[index][1],points[index+1][1],u);
       if(index!==lastStep){lastStep=index;playStep();}draw();if(progress<points.length-1)raf=requestAnimationFrame(frame);else{moving=null;resolvePending=null;resolve(true);}
     }raf=requestAnimationFrame(frame);});

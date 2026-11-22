@@ -18,24 +18,28 @@
 </head>
 <body>
   <main class="game-shell" id="app">
-    <header class="game-header">
-      <div class="brand"><h1 data-i18n="title"></h1><span class="mode" data-i18n="mode"></span></div>
-      <div class="header-actions"><button class="icon-button" id="sound-button" data-i18n-attr="aria-label:sound" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg></button><button class="icon-button" id="settings-button" data-i18n-attr="aria-label:settings" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m9 3-1 3-3 1-2 3 2 2-1 3 2 3 3-1 2 3h3l1-3 3-1 2-3-2-2 1-3-2-3-3 1-2-3H9Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
-    </header>
-    <section class="player-card opponent" id="opponent-card" data-player="1">
-      <span class="avatar" aria-hidden="true"><span class="hair"></span><span class="face"></span><span class="robe"></span></span>
-      <h2 data-i18n="opponent"></h2><div class="piece-rack" id="opponent-pieces"></div>
-    </section>
-    <section class="play-area" id="play-area" aria-label="Yutnori board">
-      <canvas id="board" role="img"></canvas>
-      <div class="throw-result" id="throw-result" aria-hidden="true"><span class="result-eyebrow"></span><strong class="result-name"></strong><span class="result-detail"></span></div>
-    </section>
-    <section class="player-card me is-active" id="my-card" data-player="0" aria-current="true">
-      <span class="avatar" aria-hidden="true"><span class="hair"></span><span class="face"></span><span class="robe"></span></span>
-      <h2 data-i18n="you"></h2><div class="piece-rack" id="my-pieces"></div>
-    </section>
-    <footer class="game-controls">
+    <div class="game-top">
+      <header class="game-header">
+        <div class="brand"><h1 data-i18n="title"></h1><span class="mode" data-i18n="mode"></span></div>
+        <div class="header-actions"><button class="icon-button" id="sound-button" data-i18n-attr="aria-label:sound" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg></button><button class="icon-button" id="settings-button" data-i18n-attr="aria-label:settings" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m9 3-1 3-3 1-2 3 2 2-1 3 2 3 3-1 2 3h3l1-3 3-1 2-3-2-2 1-3-2-3-3 1-2-3H9Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+      </header>
       <div class="pending-results" id="pending-results" role="group" data-i18n-attr="aria-label:chooseResult"></div>
+    </div>
+    <div class="game-stage">
+      <section class="player-card opponent" id="opponent-card" data-player="1">
+        <span class="avatar" aria-hidden="true"><span class="hair"></span><span class="face"></span><span class="robe"></span></span>
+        <h2 data-i18n="opponent"></h2><div class="piece-rack" id="opponent-pieces"></div>
+      </section>
+      <section class="play-area" id="play-area" aria-label="Yutnori board">
+        <canvas id="board" role="img"></canvas>
+        <div class="throw-result" id="throw-result" aria-hidden="true"><span class="result-eyebrow"></span><strong class="result-name"></strong><span class="result-detail"></span></div>
+      </section>
+      <section class="player-card me is-active" id="my-card" data-player="0" aria-current="true">
+        <span class="avatar" aria-hidden="true"><span class="hair"></span><span class="face"></span><span class="robe"></span></span>
+        <h2 data-i18n="you"></h2><div class="piece-rack" id="my-pieces"></div>
+      </section>
+    </div>
+    <footer class="game-controls">
       <p class="game-status" id="game-status" aria-live="polite"></p>
       <button type="button" class="main-button" id="main-button" data-ncq-main="game action"><span class="button-sticks" aria-hidden="true"><i></i><i></i></span><span id="main-label" data-i18n="throw"></span></button>
     </footer>

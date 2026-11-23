@@ -3066,7 +3066,7 @@ dialog input { width: 100%; }
 #shop-feedback[data-error], #restore-feedback[data-error] { color: #a03529; }
 .appearance-preview-panel {
   display: grid;
-  grid-template-columns: clamp(96px, 28vw, 128px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   align-items: center;
   padding: 8px 10px;
@@ -3080,9 +3080,6 @@ dialog input { width: 100%; }
   --board-line-width: .65px;
   --board-highlight-bleed: .2px;
 }
-.appearance-preview-controls h3 { margin: 0 0 4px; font-size: 1rem; }
-#shop-preview-guide { margin-bottom: 6px; color: var(--muted); font-size: .75rem; line-height: 1.32; }
-#shop-preview-guide[data-error] { color: #a03529; }
 .grid-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
 .grid-choices legend { color: var(--muted); font-size: .8rem; }
 .grid-choice {
@@ -3216,9 +3213,7 @@ dialog input { width: 100%; }
 }
 @container shop-skins (max-height: 370px) {
   #shop-skins, .shop-settings { gap: 5px; }
-  .appearance-preview-panel { grid-template-columns: clamp(52px, 22cqh, 80px) minmax(0, 1fr); gap: 8px; padding: 5px 6px; }
-  .appearance-preview-controls h3 { margin-bottom: 2px; line-height: 1.2; }
-  #shop-preview-guide { margin-bottom: 2px; font-size: .7rem; }
+  .appearance-preview-panel { gap: 8px; padding: 5px 6px; }
   .grid-choices legend { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; }
   .grid-choice { min-height: 28px; gap: 4px; padding-inline: 4px; font-size: .69rem; line-height: 1.15; }
   .grid-choice input { width: 12px; height: 12px; }
@@ -3243,9 +3238,6 @@ dialog input { width: 100%; }
 }
 @container shop-skins (max-height: 270px) {
   .appearance-preview-panel { padding-block: 3px; }
-  .appearance-preview-controls h3 { font-size: .86rem; }
-  #shop-preview-guide { line-height: 1.15; }
-  #shop-preview-guide[data-hint] { display: none; }
   .grid-choice { min-height: 24px; padding-block: 1px; }
   .appearance-group-heading { margin-bottom: 1px; }
   .appearance-nav button { height: 24px; }

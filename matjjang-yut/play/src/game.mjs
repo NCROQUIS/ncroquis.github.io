@@ -1,1 +1,200 @@
-const q2_0xfb0e69=q2_0x4e7b;(function(_0x125e1d,_0x9dcea){const _0x3e07fd=q2_0x4e7b,_0x3c7278=_0x125e1d();while(!![]){try{const _0x5f1b22=-parseInt(_0x3e07fd(0x84))/0x1*(parseInt(_0x3e07fd(0x9c))/0x2)+-parseInt(_0x3e07fd(0x7e))/0x3+parseInt(_0x3e07fd(0xca))/0x4*(parseInt(_0x3e07fd(0xad))/0x5)+parseInt(_0x3e07fd(0xba))/0x6*(-parseInt(_0x3e07fd(0xb7))/0x7)+parseInt(_0x3e07fd(0x87))/0x8+-parseInt(_0x3e07fd(0x89))/0x9+parseInt(_0x3e07fd(0x8d))/0xa*(-parseInt(_0x3e07fd(0x97))/0xb);if(_0x5f1b22===_0x9dcea)break;else _0x3c7278['push'](_0x3c7278['shift']());}catch(_0x4a32ae){_0x3c7278['push'](_0x3c7278['shift']());}}}(q2_0x2b2b,0xeb1e1));export const SCHEMA=0x1;export const OUTCOMES=Object[q2_0xfb0e69(0xbd)]({'do':{'steps':0x1,'extra':![]},'gae':{'steps':0x2,'extra':![]},'geol':{'steps':0x3,'extra':![]},'yut':{'steps':0x4,'extra':!![]},'mo':{'steps':0x5,'extra':!![]},'backdo':{'steps':-0x1,'extra':![]}});export const ROUTES=Object[q2_0xfb0e69(0xbd)]({'outer':[q2_0xfb0e69(0xb2),...Array[q2_0xfb0e69(0xa5)]({'length':0x13},(_0x3a2fe6,_0x42a35b)=>'o'+(_0x42a35b+0x1)),q2_0xfb0e69(0xa4)],'ne':['o5',q2_0xfb0e69(0xcb),q2_0xfb0e69(0x9e),q2_0xfb0e69(0xcd),q2_0xfb0e69(0x95),q2_0xfb0e69(0x90),q2_0xfb0e69(0xa8),q2_0xfb0e69(0xbf),q2_0xfb0e69(0xab),q2_0xfb0e69(0x9b),q2_0xfb0e69(0x93),q2_0xfb0e69(0xa4)],'nw':[q2_0xfb0e69(0xcc),q2_0xfb0e69(0xc5),q2_0xfb0e69(0x91),q2_0xfb0e69(0xcd),q2_0xfb0e69(0xc6),q2_0xfb0e69(0x7f),'finish'],'center':['center','se2','se1',q2_0xfb0e69(0xa4)]});export const POINTS=((()=>{const _0x22517e=q2_0xfb0e69,_0x142c5a=3.08,_0x5760cc={'base':[_0x142c5a,_0x142c5a],'finish':[_0x142c5a,_0x142c5a],'center':[0x0,0x0]};for(let _0x2787d8=0x1;_0x2787d8<=0x13;_0x2787d8++){if(_0x2787d8<=0x5)_0x5760cc['o'+_0x2787d8]=[_0x142c5a,_0x142c5a-_0x2787d8*0x2*_0x142c5a/0x5];else{if(_0x2787d8<=0xa)_0x5760cc['o'+_0x2787d8]=[_0x142c5a-(_0x2787d8-0x5)*0x2*_0x142c5a/0x5,-_0x142c5a];else{if(_0x2787d8<=0xf)_0x5760cc['o'+_0x2787d8]=[-_0x142c5a,-_0x142c5a+(_0x2787d8-0xa)*0x2*_0x142c5a/0x5];else _0x5760cc['o'+_0x2787d8]=[-_0x142c5a+(_0x2787d8-0xf)*0x2*_0x142c5a/0x5,_0x142c5a];}}}for(const [_0x4ada8c,_0x8db457,_0x59d5a4]of[['ne',_0x142c5a,-_0x142c5a],['nw',-_0x142c5a,-_0x142c5a],['sw',-_0x142c5a,_0x142c5a],['se',_0x142c5a,_0x142c5a]]){_0x5760cc[_0x4ada8c+'1']=[_0x8db457*0x2/0x3,_0x59d5a4*0x2/0x3],_0x5760cc[_0x4ada8c+'2']=[_0x8db457/0x3,_0x59d5a4/0x3];}return Object[_0x22517e(0xbd)](_0x5760cc);})());function q2_0x4e7b(_0x42aca4,_0x28ae21){_0x42aca4=_0x42aca4-0x7c;const _0x2b2bff=q2_0x2b2b();let _0x4e7baa=_0x2b2bff[_0x42aca4];if(q2_0x4e7b['AnwWNq']===undefined){var _0x4007bd=function(_0xba4116){const _0x4546c6='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1f44f5='',_0x3a2fe6='';for(let _0x42a35b=0x0,_0x142c5a,_0x5760cc,_0x2787d8=0x0;_0x5760cc=_0xba4116['charAt'](_0x2787d8++);~_0x5760cc&&(_0x142c5a=_0x42a35b%0x4?_0x142c5a*0x40+_0x5760cc:_0x5760cc,_0x42a35b++%0x4)?_0x1f44f5+=String['fromCharCode'](0xff&_0x142c5a>>(-0x2*_0x42a35b&0x6)):0x0){_0x5760cc=_0x4546c6['indexOf'](_0x5760cc);}for(let _0x4ada8c=0x0,_0x8db457=_0x1f44f5['length'];_0x4ada8c<_0x8db457;_0x4ada8c++){_0x3a2fe6+='%'+('00'+_0x1f44f5['charCodeAt'](_0x4ada8c)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x3a2fe6);};q2_0x4e7b['DLrdKZ']=_0x4007bd,q2_0x4e7b['fMTxoJ']={},q2_0x4e7b['AnwWNq']=!![];}const _0x4838ce=_0x2b2bff[0x0];q2_0x4e7b['zjxoAg']!==_0x4838ce&&(q2_0x4e7b['fMTxoJ']={},q2_0x4e7b['zjxoAg']=_0x4838ce);const _0x5227f8=q2_0x4e7b['fMTxoJ'][_0x42aca4];return _0x5227f8===undefined?(_0x4e7baa=q2_0x4e7b['DLrdKZ'](_0x4e7baa),q2_0x4e7b['fMTxoJ'][_0x42aca4]=_0x4e7baa):_0x4e7baa=_0x5227f8,_0x4e7baa;}const copy=_0x2efecc=>structuredClone(_0x2efecc);export const position=_0x4518dc=>_0x4518dc[q2_0xfb0e69(0x96)]['at'](-0x1)[q2_0xfb0e69(0xa7)];export function createGame(){const _0x19503d=q2_0xfb0e69;return{'schema':SCHEMA,'id':globalThis[_0x19503d(0xa6)]?.['randomUUID']?.()||_0x19503d(0xa1)+Date[_0x19503d(0xb5)](),'active':0x0,'winner':null,'throws':0x1,'pending':[],'nextResult':0x1,'turn':0x1,'action':0x0,'pieces':Array[_0x19503d(0xa5)]({'length':0x8},(_0x4f62bb,_0x4be876)=>({'id':_0x4be876,'player':_0x4be876<0x4?0x0:0x1,'history':[{'node':_0x19503d(0xb2),'route':_0x19503d(0xaf)}]})),'lastThrow':null,'lastMove':null,'lastPass':![]};}export function classify(_0x5db35d){const _0x5d2575=q2_0xfb0e69;if(!Array[_0x5d2575(0xc1)](_0x5db35d)||_0x5db35d[_0x5d2575(0x92)]!==0x4||_0x5db35d[_0x5d2575(0x8c)](_0xeadbfe=>_0xeadbfe!==0x0&&_0xeadbfe!==0x1))throw new TypeError(_0x5d2575(0x81));const _0x306008=_0x5db35d[_0x5d2575(0xbc)]((_0x218d2c,_0x2eabf0)=>_0x218d2c+_0x2eabf0,0x0);return _0x306008===0x0?'mo':_0x306008===0x4?_0x5d2575(0x83):_0x306008===0x3?'geol':_0x306008===0x2?_0x5d2575(0x80):_0x5db35d[0x0]?_0x5d2575(0xb0):'do';}export function randomThrow(_0x36f199=globalThis['crypto']){const _0x3ce85d=q2_0xfb0e69,_0x39c82b=new Uint8Array(0x4);return _0x36f199[_0x3ce85d(0xc9)](_0x39c82b),Array['from'](_0x39c82b,_0x3a41d7=>_0x3a41d7&0x1);}function q2_0x2b2b(){const _0x37e3ac=['BZeW','y2vUDgvY','BwLU','zMLSDgvY','nJG1otmYz2XTyxr0','C2uX','z2fL','rM91CIbIAw5HCNKGC3rPy2SGzMfJzxmGCMvXDwLYzwq','zxH0CMe','Exv0','mtDOBxnVuge','Aw5JBhvKzxm','BgfZDfrOCM93','mtuZnJm1ntjyEvn2zxy','AgfZ','nZGYodm4BxH0r3jK','zMLUza','ywn0Aw9U','C29Tzq','nZG0mZKZmgfgCMHOsG','C2nOzw1H','ywn0AxzL','C3CX','BNCY','BgvUz3rO','BZe5','BgfZDfbHC3m','C3CY','AgLZDg9YEq','mtfJzwLXq2O','DgfYz2v0','sw52ywXPzcbYB3v0zq','AxntywzLsw50zwDLCG','BZe4','oda4ntrQsKjVCu8','zMXHDe1HCa','BMuY','ChvZAa','D2LUBMvY','Bg9JywWT','DgHYB3DZ','CgLLy2vZ','zMLUAxnO','zNjVBq','y3j5ChrV','BM9Kzq','BZe1','BwfW','C3rLChm','BZe3','CgXHEwvY','mJa1vgTdv21U','y2fWDhvYzwq','B3v0zxi','yMfJA2rV','C3rHy2Tjzhm','yMfZzq','CgvUzgLUzW','DhvYBG','BM93','C2XPy2u','mtiYnZi1nhL5A0zTrW','B3v0y29Tzq','C2v0','nNn0A1nLrG','zxzLCNK','CMvKDwnL','zNjLzxPL','z2v0','BZe2','CM91Dgu','AxnbCNjHEq','C3rYAw5N','Aw5KzxHpzG','BMv4DfjLC3vSDa','BNCX','C2uY','ywrK','BgfZDe1VDMu','z2v0uMfUzg9TvMfSDwvZ','otGWnJHAAhnzCvu','BMuX'];q2_0x2b2b=function(){return _0x37e3ac;};return q2_0x2b2b();}export function throwSticks(_0x16a7f8,_0xbee99b){const _0x1465b5=q2_0xfb0e69;if(_0x16a7f8[_0x1465b5(0xa0)]!==null||_0x16a7f8['throws']<0x1)throw new Error('Cannot\x20throw\x20now');const _0x3ecaa5=classify(_0xbee99b),_0x459deb=copy(_0x16a7f8);_0x459deb['throws']-=0x1;if(OUTCOMES[_0x3ecaa5][_0x1465b5(0x82)])_0x459deb[_0x1465b5(0xa2)]+=0x1;const _0x562eef={'id':_0x459deb[_0x1465b5(0xc4)]++,'outcome':_0x3ecaa5,'steps':OUTCOMES[_0x3ecaa5][_0x1465b5(0xaa)]};return _0x459deb[_0x1465b5(0xb3)]['push'](_0x562eef),_0x459deb[_0x1465b5(0x86)]={..._0x562eef,'player':_0x459deb[_0x1465b5(0x8f)],'bits':_0xbee99b[_0x1465b5(0xb6)]()},_0x459deb['lastMove']=null,_0x459deb[_0x1465b5(0x94)]=![],_0x459deb['action']+=0x1,_0x459deb;}export function advance(_0x3b2700,_0x1c8e89){const _0x185d9c=q2_0xfb0e69,_0x37163a=position(_0x3b2700);if(_0x37163a===_0x185d9c(0xa4)||_0x37163a===_0x185d9c(0xb2)&&_0x1c8e89<0x0)return null;const _0x278106=copy(_0x3b2700[_0x185d9c(0x96)]),_0x8d033=[];if(_0x1c8e89<0x0)return _0x278106['pop'](),_0x8d033[_0x185d9c(0x9f)](_0x278106['at'](-0x1)[_0x185d9c(0xa7)]),{'history':_0x278106,'path':_0x8d033,'target':_0x278106['at'](-0x1)['node']};let _0x556b21=_0x278106['at'](-0x1)['route'];if(_0x37163a==='o5')_0x556b21='ne';if(_0x37163a===_0x185d9c(0xcc))_0x556b21='nw';if(_0x37163a==='center')_0x556b21='center';const _0x5d8159=ROUTES[_0x556b21],_0x2777b8=_0x5d8159[_0x185d9c(0xc3)](_0x37163a);if(_0x2777b8<0x0)throw new Error(_0x185d9c(0x99));for(let _0x472876=0x1;_0x472876<=_0x1c8e89;_0x472876++){const _0x15b646=_0x5d8159[Math[_0x185d9c(0x7c)](_0x2777b8+_0x472876,_0x5d8159['length']-0x1)];_0x278106[_0x185d9c(0x9f)]({'node':_0x15b646,'route':_0x556b21}),_0x8d033[_0x185d9c(0x9f)](_0x15b646);if(_0x15b646==='finish')break;}return{'history':_0x278106,'path':_0x8d033,'target':_0x278106['at'](-0x1)['node']};}export function planMove(_0x5cff69,_0x1748f9,_0x2685de){const _0x576f8b=q2_0xfb0e69;if(_0x5cff69[_0x576f8b(0xa0)]!==null)return null;const _0x2327e0=_0x5cff69['pieces']['find'](_0x549863=>_0x549863['id']===_0x1748f9),_0x2b5d08=_0x5cff69[_0x576f8b(0xb3)][_0x576f8b(0x8a)](_0x4c7150=>_0x4c7150['id']===_0x2685de);if(!_0x2327e0||_0x2327e0[_0x576f8b(0xac)]!==_0x5cff69['active']||!_0x2b5d08)return null;const _0x34bba6=advance(_0x2327e0,_0x2b5d08[_0x576f8b(0xaa)]);if(!_0x34bba6)return null;const _0x49194c=position(_0x2327e0),_0x76a1c5=_0x49194c===_0x576f8b(0xb2)?[_0x2327e0['id']]:_0x5cff69[_0x576f8b(0xa3)][_0x576f8b(0x7d)](_0x34b611=>_0x34b611[_0x576f8b(0xac)]===_0x2327e0[_0x576f8b(0xac)]&&position(_0x34b611)===_0x49194c)[_0x576f8b(0xa9)](_0x2f4690=>_0x2f4690['id']),_0x2fb10d=_0x34bba6[_0x576f8b(0x98)]===_0x576f8b(0xb2)||_0x34bba6[_0x576f8b(0x98)]===_0x576f8b(0xa4)?[]:_0x5cff69['pieces'][_0x576f8b(0x7d)](_0x93f1b7=>_0x93f1b7[_0x576f8b(0xac)]!==_0x2327e0[_0x576f8b(0xac)]&&position(_0x93f1b7)===_0x34bba6[_0x576f8b(0x98)])[_0x576f8b(0xa9)](_0x25c57f=>_0x25c57f['id']);return{..._0x34bba6,'from':_0x49194c,'player':_0x2327e0[_0x576f8b(0xac)],'pieceId':_0x1748f9,'resultId':_0x2685de,'stackIds':_0x76a1c5,'captured':_0x2fb10d};}export function legalMoves(_0x5175eb,_0x98d848){const _0x5ed6d4=q2_0xfb0e69,_0x52dde9=_0x98d848===undefined?_0x5175eb[_0x5ed6d4(0xb3)]:_0x5175eb[_0x5ed6d4(0xb3)][_0x5ed6d4(0x7d)](_0x324333=>_0x324333['id']===_0x98d848);return _0x52dde9[_0x5ed6d4(0x9d)](_0x318454=>_0x5175eb[_0x5ed6d4(0xa3)]['map'](_0x3e1e48=>planMove(_0x5175eb,_0x3e1e48['id'],_0x318454['id']))[_0x5ed6d4(0x7d)](Boolean));}export function settleTurn(_0x36a592){const _0x13f32f=q2_0xfb0e69;if(_0x36a592[_0x13f32f(0xa0)]!==null||_0x36a592['throws']>0x0||legalMoves(_0x36a592)['length']>0x0)return _0x36a592;const _0x335a71=copy(_0x36a592);return _0x335a71[_0x13f32f(0x94)]=_0x335a71['pending']['length']>0x0,_0x335a71[_0x13f32f(0xb3)]=[],_0x335a71[_0x13f32f(0x8f)]=0x1-_0x335a71[_0x13f32f(0x8f)],_0x335a71[_0x13f32f(0xb4)]+=0x1,_0x335a71[_0x13f32f(0xa2)]=0x1,_0x335a71;}export function movePiece(_0x183895,_0x3ee14e,_0x13775b){const _0x197bed=q2_0xfb0e69,_0x16c9ef=planMove(_0x183895,_0x3ee14e,_0x13775b);if(!_0x16c9ef)throw new Error('Illegal\x20move');const _0x4503bd=copy(_0x183895);for(const _0x40428a of _0x16c9ef[_0x197bed(0xb1)])_0x4503bd[_0x197bed(0xa3)][_0x40428a][_0x197bed(0x96)]=copy(_0x16c9ef['history']);for(const _0x38cb00 of _0x16c9ef[_0x197bed(0xae)])_0x4503bd[_0x197bed(0xa3)][_0x38cb00][_0x197bed(0x96)]=[{'node':_0x197bed(0xb2),'route':_0x197bed(0xaf)}];if(![_0x197bed(0xb2),_0x197bed(0xa4)][_0x197bed(0x85)](_0x16c9ef[_0x197bed(0x98)])){for(const _0x582755 of _0x4503bd[_0x197bed(0xa3)])if(_0x582755[_0x197bed(0xac)]===_0x4503bd[_0x197bed(0x8f)]&&position(_0x582755)===_0x16c9ef[_0x197bed(0x98)])_0x582755['history']=copy(_0x16c9ef['history']);}_0x4503bd[_0x197bed(0xb3)]=_0x4503bd[_0x197bed(0xb3)][_0x197bed(0x7d)](_0x4eebeb=>_0x4eebeb['id']!==_0x13775b);if(_0x16c9ef[_0x197bed(0xae)]['length']>0x0)_0x4503bd[_0x197bed(0xa2)]+=0x1;_0x4503bd[_0x197bed(0x8b)]+=0x1,_0x4503bd[_0x197bed(0xc8)]={'player':_0x4503bd[_0x197bed(0x8f)],'from':_0x16c9ef[_0x197bed(0xa5)],'target':_0x16c9ef['target'],'ids':_0x16c9ef[_0x197bed(0xb1)],'captured':_0x16c9ef[_0x197bed(0xae)],'path':_0x16c9ef['path']},_0x4503bd[_0x197bed(0x94)]=![];if(_0x4503bd[_0x197bed(0xa3)]['filter'](_0x3a202d=>_0x3a202d[_0x197bed(0xac)]===_0x4503bd[_0x197bed(0x8f)])[_0x197bed(0xbb)](_0x14a6f4=>position(_0x14a6f4)===_0x197bed(0xa4)))return _0x4503bd['winner']=_0x4503bd[_0x197bed(0x8f)],_0x4503bd[_0x197bed(0xb3)]=[],_0x4503bd['throws']=0x0,_0x4503bd;return settleTurn(_0x4503bd);}export function restoreGame(_0x14720c){const _0xdc9a9e=q2_0xfb0e69;try{if(!_0x14720c||_0x14720c[_0xdc9a9e(0x8e)]!==SCHEMA||typeof _0x14720c['id']!==_0xdc9a9e(0xc2)||![0x0,0x1]['includes'](_0x14720c[_0xdc9a9e(0x8f)])||![null,0x0,0x1]['includes'](_0x14720c['winner']))return null;if(!Number[_0xdc9a9e(0x9a)](_0x14720c[_0xdc9a9e(0xa2)])||_0x14720c['throws']<0x0||_0x14720c[_0xdc9a9e(0xa2)]>0x80||!Number[_0xdc9a9e(0x9a)](_0x14720c[_0xdc9a9e(0xb4)])||_0x14720c[_0xdc9a9e(0xb4)]<0x1)return null;if(!Number[_0xdc9a9e(0x9a)](_0x14720c['nextResult'])||_0x14720c['nextResult']<0x1||!Array['isArray'](_0x14720c['pending'])||_0x14720c[_0xdc9a9e(0xb3)]['length']>0x80||!Array[_0xdc9a9e(0xc1)](_0x14720c[_0xdc9a9e(0xa3)])||_0x14720c['pieces']['length']!==0x8)return null;const _0x526775=new Set();for(const _0x52f65 of _0x14720c['pending']){if(!Number['isSafeInteger'](_0x52f65['id'])||_0x52f65['id']<0x1||_0x52f65['id']>=_0x14720c[_0xdc9a9e(0xc4)]||_0x526775[_0xdc9a9e(0x88)](_0x52f65['id'])||!OUTCOMES[_0x52f65[_0xdc9a9e(0xb8)]]||OUTCOMES[_0x52f65[_0xdc9a9e(0xb8)]][_0xdc9a9e(0xaa)]!==_0x52f65['steps'])return null;_0x526775[_0xdc9a9e(0xc7)](_0x52f65['id']);}for(let _0x27dfec=0x0;_0x27dfec<0x8;_0x27dfec++){const _0x514bcb=_0x14720c[_0xdc9a9e(0xa3)][_0x27dfec];if(_0x514bcb['id']!==_0x27dfec||_0x514bcb[_0xdc9a9e(0xac)]!==(_0x27dfec<0x4?0x0:0x1)||!Array[_0xdc9a9e(0xc1)](_0x514bcb[_0xdc9a9e(0x96)])||_0x514bcb[_0xdc9a9e(0x96)]['length']<0x1||_0x514bcb[_0xdc9a9e(0x96)][_0xdc9a9e(0x92)]>0x28)return null;if(_0x514bcb[_0xdc9a9e(0x96)][0x0]['node']!==_0xdc9a9e(0xb2))return null;for(const _0x3d74c2 of _0x514bcb[_0xdc9a9e(0x96)])if(!ROUTES[_0x3d74c2[_0xdc9a9e(0xc0)]]?.[_0xdc9a9e(0x85)](_0x3d74c2[_0xdc9a9e(0xa7)]))return null;}if(_0x14720c['winner']!==null&&!_0x14720c[_0xdc9a9e(0xa3)]['filter'](_0x5d499c=>_0x5d499c[_0xdc9a9e(0xac)]===_0x14720c[_0xdc9a9e(0xa0)])[_0xdc9a9e(0xbb)](_0xad5c93=>position(_0xad5c93)===_0xdc9a9e(0xa4)))return null;const _0x8b71ee=new Map();for(const _0x49cbb5 of _0x14720c[_0xdc9a9e(0xa3)]){const _0x11933f=position(_0x49cbb5);if(_0x11933f===_0xdc9a9e(0xb2)||_0x11933f==='finish')continue;if(_0x8b71ee[_0xdc9a9e(0x88)](_0x11933f)&&_0x8b71ee[_0xdc9a9e(0xbe)](_0x11933f)!==_0x49cbb5[_0xdc9a9e(0xac)])return null;_0x8b71ee[_0xdc9a9e(0xb9)](_0x11933f,_0x49cbb5[_0xdc9a9e(0xac)]);}return settleTurn(copy(_0x14720c));}catch{return null;}}
+export const SCHEMA = 1;
+export const OUTCOMES = Object.freeze({
+  do: { steps: 1, extra: false }, gae: { steps: 2, extra: false },
+  geol: { steps: 3, extra: false }, yut: { steps: 4, extra: true },
+  mo: { steps: 5, extra: true }, backdo: { steps: -1, extra: false },
+});
+export const ROUTES = Object.freeze({
+  outer: ['base', ...Array.from({ length: 19 }, (_, i) => `o${i + 1}`), 'finish'],
+  ne: ['o5', 'ne1', 'ne2', 'center', 'sw2', 'sw1', 'o15', 'o16', 'o17', 'o18', 'o19', 'finish'],
+  nw: ['o10', 'nw1', 'nw2', 'center', 'se2', 'se1', 'finish'],
+  center: ['center', 'se2', 'se1', 'finish'],
+});
+export const POINTS = (() => {
+  const a = 3.08, points = { base: [a, a], finish: [a, a], center: [0, 0] };
+  for (let i = 1; i <= 19; i++) {
+    if (i <= 5) points[`o${i}`] = [a, a - i * 2 * a / 5];
+    else if (i <= 10) points[`o${i}`] = [a - (i - 5) * 2 * a / 5, -a];
+    else if (i <= 15) points[`o${i}`] = [-a, -a + (i - 10) * 2 * a / 5];
+    else points[`o${i}`] = [-a + (i - 15) * 2 * a / 5, a];
+  }
+  for (const [arm, x, y] of [['ne', a, -a], ['nw', -a, -a], ['sw', -a, a], ['se', a, a]]) {
+    points[`${arm}1`] = [x * 2 / 3, y * 2 / 3];
+    points[`${arm}2`] = [x / 3, y / 3];
+  }
+  return Object.freeze(points);
+})();
+const copy = value => structuredClone(value);
+export const position = piece => piece.history.at(-1).node;
+export function createGame() {
+  return {
+    schema: SCHEMA, id: globalThis.crypto?.randomUUID?.() || `local-${Date.now()}`,
+    active: 0, winner: null, throws: 1, pending: [], nextResult: 1, turn: 1, action: 0,
+    pieces: Array.from({ length: 8 }, (_, id) => ({ id, player: id < 4 ? 0 : 1, history: [{ node: 'base', route: 'outer' }] })),
+    lastThrow: null, lastMove: null, lastPass: false,
+    opening: { round: 1, rolls: [null, null], winner: null },
+  };
+}
+export function classify(bits) {
+  if (!Array.isArray(bits) || bits.length !== 4 || bits.some(bit => bit !== 0 && bit !== 1)) throw new TypeError('Four binary stick faces required');
+  const flat = bits.reduce((sum, bit) => sum + bit, 0);
+  return flat === 0 ? 'mo' : flat === 4 ? 'yut' : flat === 3 ? 'geol' : flat === 2 ? 'gae' : bits[0] ? 'backdo' : 'do';
+}
+export function randomThrow(random = globalThis.crypto) {
+  const bytes = new Uint8Array(4);
+  random.getRandomValues(bytes);
+  return Array.from(bytes, value => value & 1);
+}
+// Back-do is a one-face Do when choosing the first player; no piece moves yet.
+const openingRank = roll => Math.max(1, OUTCOMES[roll.outcome].steps);
+function openingWinner(rolls) {
+  if (rolls.some(roll => roll === null)) return null;
+  const difference = openingRank(rolls[0]) - openingRank(rolls[1]);
+  return difference === 0 ? null : difference > 0 ? 0 : 1;
+}
+export function throwForFirst(game, bits) {
+  if (!game.opening || game.opening.winner !== null) throw new Error('Cannot roll for first player now');
+  const outcome = classify(bits), state = copy(game), opening = state.opening;
+  if (opening.rolls.every(roll => roll !== null)) {
+    opening.round += 1; opening.rolls = [null, null];
+  }
+  const player = opening.rolls[0] === null ? 0 : 1;
+  opening.rolls[player] = { outcome, bits: bits.slice() };
+  opening.winner = openingWinner(opening.rolls);
+  state.active = player === 0 ? 1 : opening.winner ?? 0;
+  return state;
+}
+export function beginGame(game) {
+  if (!game.opening || game.opening.winner === null) throw new Error('First player is not decided');
+  const state = copy(game);
+  state.active = state.opening.winner;
+  state.opening = null;
+  return state;
+}
+export function throwSticks(game, bits) {
+  if (game.opening || game.winner !== null || game.throws < 1) throw new Error('Cannot throw now');
+  const outcome = classify(bits), state = copy(game);
+  state.throws -= 1;
+  if (OUTCOMES[outcome].extra) state.throws += 1;
+  const result = { id: state.nextResult++, outcome, steps: OUTCOMES[outcome].steps };
+  state.pending.push(result);
+  state.lastThrow = { ...result, player: state.active, bits: bits.slice() };
+  state.lastMove = null;
+  state.lastPass = false;
+  state.action += 1;
+  return state;
+}
+export function advance(piece, steps) {
+  const start = position(piece);
+  if (start === 'finish' || start === 'base' && steps < 0) return null;
+  const history = copy(piece.history), path = [];
+  if (steps < 0) {
+    history.pop();
+    path.push(history.at(-1).node);
+    return { history, path, target: history.at(-1).node };
+  }
+  let route = history.at(-1).route;
+  if (start === 'o5') route = 'ne';
+  if (start === 'o10') route = 'nw';
+  if (start === 'center') route = 'center';
+  const track = ROUTES[route];
+  const index = track.indexOf(start);
+  if (index < 0) throw new Error('Invalid route');
+  for (let n = 1; n <= steps; n++) {
+    const node = track[Math.min(index + n, track.length - 1)];
+    history.push({ node, route });
+    path.push(node);
+    if (node === 'finish') break;
+  }
+  return { history, path, target: history.at(-1).node };
+}
+export function planMove(game, pieceId, resultId) {
+  if (game.opening || game.winner !== null) return null;
+  const piece = game.pieces.find(p => p.id === pieceId);
+  const result = game.pending.find(r => r.id === resultId);
+  if (!piece || piece.player !== game.active || !result) return null;
+  const plan = advance(piece, result.steps);
+  if (!plan) return null;
+  const start = position(piece);
+  const stackIds = start === 'base' ? [piece.id] : game.pieces.filter(p => p.player === piece.player && position(p) === start).map(p => p.id);
+  const captured = plan.target === 'base' || plan.target === 'finish' ? [] : game.pieces.filter(p => p.player !== piece.player && position(p) === plan.target).map(p => p.id);
+  return { ...plan, from: start, player: piece.player, pieceId, resultId, stackIds, captured };
+}
+export function legalMoves(game, resultId) {
+  const results = resultId === undefined ? game.pending : game.pending.filter(r => r.id === resultId);
+  return results.flatMap(result => game.pieces.map(piece => planMove(game, piece.id, result.id)).filter(Boolean));
+}
+export function settleTurn(game) {
+  if (game.opening || game.winner !== null || game.throws > 0 || legalMoves(game).length > 0) return game;
+  const state = copy(game);
+  state.lastPass = state.pending.length > 0;
+  state.pending = [];
+  state.active = 1 - state.active;
+  state.turn += 1;
+  state.throws = 1;
+  return state;
+}
+export function movePiece(game, pieceId, resultId) {
+  const plan = planMove(game, pieceId, resultId);
+  if (!plan) throw new Error('Illegal move');
+  const state = copy(game);
+  for (const id of plan.stackIds) state.pieces[id].history = copy(plan.history);
+  for (const id of plan.captured) state.pieces[id].history = [{ node: 'base', route: 'outer' }];
+  // A stack shares the arriving path, including the history used for Back-do.
+  if (!['base', 'finish'].includes(plan.target)) {
+    for (const piece of state.pieces) if (piece.player === state.active && position(piece) === plan.target) piece.history = copy(plan.history);
+  }
+  state.pending = state.pending.filter(result => result.id !== resultId);
+  if (plan.captured.length > 0) state.throws += 1;
+  state.action += 1;
+  state.lastMove = { player: state.active, from: plan.from, target: plan.target, ids: plan.stackIds, captured: plan.captured, path: plan.path };
+  state.lastPass = false;
+  if (state.pieces.filter(p => p.player === state.active).every(p => position(p) === 'finish')) {
+    state.winner = state.active;
+    state.pending = [];
+    state.throws = 0;
+    return state;
+  }
+  return settleTurn(state);
+}
+export function restoreGame(value) {
+  try {
+    if (!value || value.schema !== SCHEMA || typeof value.id !== 'string' || ![0, 1].includes(value.active) || ![null, 0, 1].includes(value.winner)) return null;
+    if (!Number.isSafeInteger(value.throws) || value.throws < 0 || value.throws > 128 || !Number.isSafeInteger(value.turn) || value.turn < 1) return null;
+    if (!Number.isSafeInteger(value.action) || value.action < 0) return null;
+    if (!Number.isSafeInteger(value.nextResult) || value.nextResult < 1 || !Array.isArray(value.pending) || value.pending.length > 128 || !Array.isArray(value.pieces) || value.pieces.length !== 8) return null;
+    const ids = new Set();
+    for (const result of value.pending) {
+      if (!Number.isSafeInteger(result.id) || result.id < 1 || result.id >= value.nextResult || ids.has(result.id) || !OUTCOMES[result.outcome] || OUTCOMES[result.outcome].steps !== result.steps) return null;
+      ids.add(result.id);
+    }
+    for (let id = 0; id < 8; id++) {
+      const piece = value.pieces[id];
+      if (piece.id !== id || piece.player !== (id < 4 ? 0 : 1) || !Array.isArray(piece.history) || piece.history.length < 1 || piece.history.length > 40) return null;
+      if (piece.history[0].node !== 'base') return null;
+      for (const point of piece.history) if (!ROUTES[point.route]?.includes(point.node)) return null;
+    }
+    if (value.winner !== null && !value.pieces.filter(p => p.player === value.winner).every(p => position(p) === 'finish')) return null;
+    const occupied = new Map();
+    for (const piece of value.pieces) {
+      const node = position(piece);
+      if (node === 'base' || node === 'finish') continue;
+      if (occupied.has(node) && occupied.get(node) !== piece.player) return null;
+      occupied.set(node, piece.player);
+    }
+    const state = copy(value);
+    // Saves from before this feature keep their turn. Older clients may also
+    // have started playing while retaining an unknown opening field.
+    if (state.opening === undefined || state.opening === null || state.action > 0) state.opening = null;
+    else {
+      const opening = state.opening;
+      if (!Number.isSafeInteger(opening.round) || opening.round < 1 || !Array.isArray(opening.rolls) || opening.rolls.length !== 2 || ![null, 0, 1].includes(opening.winner)) return null;
+      if (state.winner !== null || state.throws !== 1 || state.pending.length || state.turn !== 1 || state.nextResult !== 1 || state.lastThrow !== null || state.lastMove !== null || state.lastPass !== false || state.pieces.some(piece => piece.history.length !== 1)) return null;
+      for (const roll of opening.rolls) if (roll !== null && classify(roll.bits) !== roll.outcome) return null;
+      if (opening.rolls[0] === null && opening.rolls[1] !== null || openingWinner(opening.rolls) !== opening.winner) return null;
+      const active = opening.rolls[0] === null ? 0 : opening.rolls[1] === null ? 1 : opening.winner ?? 0;
+      if (state.active !== active) return null;
+    }
+    return settleTurn(state);
+  } catch { return null; }
+}

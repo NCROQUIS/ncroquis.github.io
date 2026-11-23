@@ -1,36 +1,39 @@
-/* Original Omok UI + Jangi's player cards. Only Baduk-specific states live here. */
-/* Approved broadcast header: three calm rows, slightly smaller than player names. */
-.forest-ui .match[data-playing] .match-status { grid-template-rows:auto auto;min-height:104px;height:auto;gap:10px 8px;margin:0 0 8px;padding:4px 0; }
-.forest-ui .match[data-playing] .match-status-copy { grid-column:2;grid-row:1;display:grid;gap:12px;align-content:center;min-height:58px;color:#fff4d9;text-align:center; }
-.forest-ui .match[data-playing] .match-status h1 { margin:0;font-size:13px;font-weight:400;line-height:1.4;letter-spacing:0; }
-.forest-ui .match[data-playing] .match-status>.jangi-header-button { grid-row:1;align-self:start; }
+/* Original Omok UI + Jangi cards, with the approved compact Baduk header. */
+.forest-ui .match[data-playing] .match-status { grid-template-rows:minmax(44px,auto) 20px;min-height:0;height:auto;gap:6px 8px;margin:0 0 8px;padding:4px 0; }
+.forest-ui .match[data-playing] .match-status-copy { grid-column:2;grid-row:1;display:block;min-height:0;align-self:center;color:#fff4d9;text-align:center; }
+.forest-ui .match[data-playing] .match-status h1 { margin:0;font-size:16px;font-weight:400;line-height:1.4;letter-spacing:0;white-space:nowrap; }
+.forest-ui .match[data-playing] .match-status>.jangi-header-button { grid-row:1;align-self:center; }
 .forest-ui .match[data-playing] :is(#leave-match,#watch-back) { grid-column:1; }
 .forest-ui .match[data-playing] #match-options { grid-column:3; }
-.match-captures { display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:400;line-height:1.4;font-variant-numeric:tabular-nums; }
-.capture-side { display:flex;align-items:center;justify-content:center;gap:8px;min-width:42px; }
-.match-captures .stone { position:static;flex:none;width:18px;height:18px;transform:none; }
-.forest-ui .match[data-playing] .match-evaluation { position:relative;grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;min-height:30px;min-width:0;padding:2px 10px;border:1px solid #a8ab94;border-radius:3px;background:#f5ecd5;overflow:hidden;isolation:isolate;font-size:13px;font-weight:400;line-height:1.4;font-variant-numeric:tabular-nums; }
-.evaluation-fill { position:absolute;inset:0 auto 0 0;width:var(--black-winrate,0%);background:linear-gradient(#242625,#101211);z-index:-1; }
-.winrate-black { color:#fff4d9;justify-self:start; }
-.winrate-white { color:#193d2d;justify-self:end; }
-/* Endpoint labels stay legible even when a 0%/100% fill passes underneath them. */
-.match-evaluation[data-state="ready"] :is(.winrate-black,.winrate-white) { color:#fff;mix-blend-mode:difference; }
-.position-lead { justify-self:center;max-width:100%;padding:1px 7px;border-radius:2px;background:#fff4dc;color:#193d2d;text-align:center;overflow-wrap:anywhere; }
+.forest-ui .match[data-playing] .match-evaluation { position:relative;grid-column:1/-1;grid-row:2;display:flex;justify-content:space-between;align-items:center;height:20px;min-height:20px;min-width:0;padding:0 7px;border:1px solid #a8ab94;border-radius:3px;background:linear-gradient(#242625,#101211);overflow:hidden;isolation:isolate;font-size:13px;font-weight:400;line-height:18px;font-variant-numeric:tabular-nums; }
+.match-evaluation[hidden] { display:none!important; }
+.evaluation-fill { position:absolute;inset:0 auto 0 0;width:var(--white-winrate,0%);background:#f5ecd5;z-index:-1; }
+.evaluation-midline { position:absolute;left:50%;top:1px;bottom:1px;width:3px;transform:translateX(-50%);background:#d84b42;pointer-events:none; }
+.evaluation-side { display:flex;align-items:center;gap:8px;min-width:0;max-width:calc(50% - 8px);color:#fff;mix-blend-mode:difference; }
+#evaluation-white { justify-content:start; }
+#evaluation-black { justify-content:end;margin-left:auto; }
+.winrate-black,.winrate-white { flex:none; }
+.position-lead { min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+#evaluation-white .position-lead { text-align:left; }
+#evaluation-black .position-lead { text-align:right; }
 .match-evaluation:not([data-state="ready"]) { background:#ffffff12!important; }
 .match-evaluation:not([data-state="ready"]) .evaluation-fill { display:none; }
-.match-evaluation:not([data-state="ready"]) :is(.winrate-black,.winrate-white) { color:#e4e6d4; }
-.match-evaluation:not([data-state="ready"]) .position-lead { background:transparent;color:#e4e6d4; }
-.forest-ui .match[data-playing] .match-player .captures { display:none; }
-.in-review :is(.match-captures,.match-evaluation) { display:none; }
+.match-evaluation:not([data-state="ready"]) .evaluation-side { color:#e4e6d4;mix-blend-mode:normal; }
+.forest-ui .match-player .match-avatar { position:relative;overflow:visible; }
+.forest-ui .match-player .match-avatar img { border-radius:50%; }
+.forest-ui .match-player .match-avatar>:is(#own-stone,#opponent-stone) { position:absolute;left:auto!important;top:auto!important;right:-2px;bottom:-2px;width:17px;height:17px;transform:none;z-index:5;box-shadow:0 1px 3px #0008; }
+.forest-ui .match-player .match-identity .seat { display:none; }
+.forest-ui .match-player .match-identity { gap:3px;align-content:center; }
+.forest-ui .match-player { grid-template-rows:minmax(44px,auto) 6px; }
+.captured-stones { display:flex;align-items:center;gap:8px;min-height:22px;max-width:100%;justify-self:start;pointer-events:none; }
+.captured-pile { position:relative;display:block;flex:none;width:calc(16px + (var(--pile-count) - 1)*4px);height:16px; }
+.forest-ui .match-player .captured-pile .stone { position:absolute;left:calc(var(--pile-index)*4px);top:auto;bottom:0;width:16px;height:16px;transform:none;z-index:calc(var(--pile-index) + 1);box-shadow:0 1px 2px #0006; }
+.captured-count { flex:none;font-size:13px;font-weight:400;line-height:16px;font-variant-numeric:tabular-nums; }
+.captured-pile[hidden],.captured-count[hidden] { display:none; }
+.in-review .match-evaluation { display:none; }
 @media (max-height:520px) {
   .forest-ui .match[data-playing] { --match-gap:4px; }
-  .forest-ui .match[data-playing] .match-status { min-height:58px;grid-template-rows:16px 18px 20px;gap:2px 8px;padding:0;margin:0; }
-  .forest-ui .match[data-playing] .match-status-copy { display:contents; }
-  .forest-ui .match[data-playing] .match-status h1 { grid-column:2;grid-row:1;line-height:16px;text-align:center; }
-  .forest-ui .match[data-playing] .match-captures { grid-column:2;grid-row:2;justify-content:center;gap:20px; }
-  .forest-ui .match[data-playing] .match-status>.jangi-header-button { grid-row:1/4;align-self:center; }
-  .forest-ui .match[data-playing] .match-evaluation { grid-column:2;grid-row:3;min-height:20px;padding-block:0;line-height:18px; }
-  .forest-ui .match[data-playing] .position-lead { padding-block:0; }
+  .forest-ui .match[data-playing] .match-status { gap:2px 8px;padding:0;margin:0; }
   .forest-ui .match[data-together][data-compact-board] .together-controls { gap:4px; }
   .forest-ui .match[data-together] .together-info { min-height:22px; }
   .forest-ui .match[data-together] .together-actions .match-art-action { min-height:44px;padding-block:4px; }

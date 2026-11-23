@@ -16,13 +16,13 @@
 //   NcqDevice.vibration(false)       끄기·켜기 (설정 화면의 '진동' 칸)
 //
 // 어디서 울리나: 토스 빌드는 앱인토스 햅틱(Device.triggerHaptic), 구글플레이·iOS 앱은 출시 빌드가 넣는 Capacitor
-// Haptics 플러그인(세기를 고른 진동), 휴대폰 브라우저(웹 공개)는 navigator.vibrate. 아이폰 브라우저는 진동이 없어요
+// Haptics 플러그인(세기를 고른 진동), 카카오페이·톡페이는 NcqKakao.vibrate, 휴대폰 브라우저(웹 공개)는 navigator.vibrate. 아이폰 브라우저는 진동이 없어요
 // (canVibrate() false). 진동을 껐거나, 화면이 가려졌거나, 짧은 진동이 45ms 안에 또 오면 울리지 않고 false를 돌려줘요.
 (function () {
   "use strict";
   var w = typeof window !== "undefined" ? window : null;
   if (!w) return;
-  var VERSION = 1;
+  var VERSION = 2;
   if (w.NcqDevice && w.NcqDevice.version >= VERSION) return; // 두 번 불러도 한 번만
   var d = w.document;
   var KEY = "ncq:vibration";
@@ -93,6 +93,18 @@
     return nav && typeof nav.vibrate === "function" ? nav : null;
   }
 
+  function kakaoHaptic() {
+    var kakao = w.NcqKakao;
+    if (!kakao || typeof kakao.vibrate !== "function" || typeof kakao.status !== "function") return null;
+    try {
+      var state = kakao.status();
+      return state && state.available === true &&
+        (state.platform === "kakaopay" || state.platform === "kakaotalk") ? kakao : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   function stored() {
     if (on === null) {
       on = true;
@@ -116,7 +128,7 @@
   }
 
   function canVibrate() {
-    if (tossHaptic() || appHaptic()) return true;
+    if (tossHaptic() || appHaptic() || kakaoHaptic()) return true;
     if (!webVibrate()) return false;
     try { // 브라우저 진동은 휴대폰에서만 (컴퓨터 브라우저에도 navigator.vibrate는 있지만 울릴 모터가 없어요)
       return (w.navigator.maxTouchPoints || 0) > 0 || "ontouchstart" in w;
@@ -128,7 +140,7 @@
   function stop() {
     while (timers.length) clearTimeout(timers.pop());
     var nav = webVibrate();
-    if (nav && !tossHaptic() && !appHaptic()) {
+    if (nav && !tossHaptic() && !appHaptic() && !kakaoHaptic()) {
       try { nav.vibrate(0); } catch (e) { /* 멈출 진동이 없어요 */ }
     }
   }
@@ -190,8 +202,9 @@
       if (!stored() || hidden()) return false;
       var toss = tossHaptic();
       var app = toss ? null : appHaptic();
-      var nav = toss || app ? null : webVibrate();
-      if (!toss && !app && !nav) return false;
+      var kakao = toss || app ? null : kakaoHaptic();
+      var nav = toss || app || kakao ? null : webVibrate();
+      if (!toss && !app && !kakao && !nav) return false;
       var kind = null;
       var steps = null;
       if (Array.isArray(value)) {
@@ -216,6 +229,12 @@
         if (kind && NOTICE[kind[1]]) quiet(app.notification({type: kind[1]}));
         else if (kind) quiet(app.impact({style: kind[1]}));
         else each(steps, function (v) { quiet(app.vibrate({duration: v})); });
+      } else if (kakao) {
+        // Send one duration per pulse on both iOS and Android. Keep pattern
+        // pauses in JS so mute/hide/stop can cancel the remaining pulses.
+        var duration = kind ? kind[2] : steps;
+        if (Array.isArray(duration)) each(duration, function (v) { quiet(kakao.vibrate(v)); });
+        else quiet(kakao.vibrate(duration));
       } else {
         return nav.vibrate(kind ? kind[2] : (steps.length === 1 ? steps[0] : steps)) !== false;
       }

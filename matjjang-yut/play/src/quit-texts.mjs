@@ -1,0 +1,20 @@
+const rows = {
+  en: ['Quit this game?', 'Leaving will end the current game.', 'Keep playing', 'Leave'],
+  ko: ['게임을 그만두시겠어요?', '나가면 진행 중인 판이 종료됩니다.', '계속하기', '나가기'],
+  id: ['Keluar dari permainan?', 'Keluar akan mengakhiri permainan ini.', 'Lanjut bermain', 'Keluar'],
+  'pt-BR': ['Sair desta partida?', 'Ao sair, a partida atual será encerrada.', 'Continuar jogando', 'Sair'],
+  'es-MX': ['¿Salir de esta partida?', 'Al salir, terminará la partida actual.', 'Seguir jugando', 'Salir'],
+  th: ['ออกจากเกมนี้หรือไม่?', 'หากออก เกมปัจจุบันจะสิ้นสุดลง', 'เล่นต่อ', 'ออก'],
+  vi: ['Thoát ván này?', 'Thoát sẽ kết thúc ván hiện tại.', 'Chơi tiếp', 'Thoát'],
+  pl: ['Opuścić tę grę?', 'Wyjście zakończy bieżącą grę.', 'Graj dalej', 'Wyjdź'],
+  tr: ['Bu oyundan çıkılsın mı?', 'Çıkarsan mevcut oyun sona erecek.', 'Oynamaya devam et', 'Çık'],
+  ms: ['Keluar daripada permainan?', 'Keluar akan menamatkan permainan semasa.', 'Terus bermain', 'Keluar'],
+  fr: ['Quitter cette partie ?', 'Quitter mettra fin à la partie en cours.', 'Continuer à jouer', 'Quitter'],
+  de: ['Dieses Spiel verlassen?', 'Beim Verlassen endet das laufende Spiel.', 'Weiterspielen', 'Verlassen'],
+  es: ['¿Salir de esta partida?', 'Al salir, terminará la partida actual.', 'Seguir jugando', 'Salir'],
+  it: ['Uscire dalla partita?', 'Uscendo, la partita in corso terminerà.', 'Continua a giocare', 'Esci'],
+  ja: ['この対局をやめますか？', '退出すると現在の対局は終了します。', '続ける', '退出する'],
+  'zh-Hans': ['要结束这局游戏吗？', '退出将结束当前对局。', '继续游戏', '退出'],
+  'zh-Hant': ['要結束這局遊戲嗎？', '退出將結束目前的對局。', '繼續遊戲', '退出'],
+};
+export const QUIT_TEXTS = Object.fromEntries(Object.entries(rows).map(([language, [quitTitle, quitDetail, keepPlaying, quitGame]]) => [language, { quitTitle, quitDetail, keepPlaying, quitGame }]));

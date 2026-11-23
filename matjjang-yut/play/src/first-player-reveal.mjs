@@ -1,1 +1,46 @@
-function q2_0x191e(){const _0x5937da=['CMvTB3zLrxzLBNrmAxn0zw5LCG','oda4ntu5nvzoEu1hqW','nJaZotqZmenxqNrUBq','zg9Uzq','y3vYCMvUDfrPBwu','zwfZzs1VDxq','y2fUy2vS','yxjPys1OAwrKzw4','zMLUAxnOzwq','ndm5odqYm0LUAefOwq','C2v0qxr0CMLIDxrL','ndq3nJGYnhHWwvLytq','mtq1ntuWmhD6y0foqW','mJyWoda3nMDyDu5kEa','B3DUzxjeB2n1BwvUDa','ywrKrxzLBNrmAxn0zw5LCG','Ag9Sza','yw5PBwf0zq','CgHHC2u','BMfTzq','DhjHBNnSyxrLwsGTmNb4ksbZy2fSzsGXlJa0nsKGCM90yxrLkc44zgvNkq','nNrbr2zJDq','Cgf1C2u','Dhj1zq','yM90Aa','AwrSzq','DhjHBNnSyxrLwsGYnhb4ksbZy2fSzsGUnZiPihjVDgf0zsGTngrLzYK','DMLZAwjPBgL0EwnOyw5Nzq','DhjHBNnSyxrLwsGTmtvWEcKGC2nHBguOlJKZksbYB3rHDguOmcK','CgXHEq','DhjHBNnSyxrLwsGWksbZy2fSzsGXksbYB3rHDguOmcK','AgLKzgvU','y3vIAwmTyMv6AwvYkc40ldaSlJGSlJuP','zxHPDa','lMzPCNn0lxbSyxLLCI1JyxjK','zw50zxi','ndaXmZeZmNDMtwzIBq','zgf0yxnLDa'];q2_0x191e=function(){return _0x5937da;};return q2_0x191e();}(function(_0x53921a,_0x101b92){const _0x4d49b9=q2_0x1a0a,_0x535ea1=_0x53921a();while(!![]){try{const _0x3c1350=parseInt(_0x4d49b9(0x1d7))/0x1+-parseInt(_0x4d49b9(0x1d8))/0x2+parseInt(_0x4d49b9(0x1d4))/0x3+parseInt(_0x4d49b9(0x1c9))/0x4+-parseInt(_0x4d49b9(0x1cd))/0x5+-parseInt(_0x4d49b9(0x1e0))/0x6*(parseInt(_0x4d49b9(0x1cc))/0x7)+parseInt(_0x4d49b9(0x1d6))/0x8;if(_0x3c1350===_0x101b92)break;else _0x535ea1['push'](_0x535ea1['shift']());}catch(_0x1bb62e){_0x535ea1['push'](_0x535ea1['shift']());}}}(q2_0x191e,0xc796e));export const FIRST_PLAYER_MOTION=Object['freeze']({'enter':0x1b8,'hold':0x2bc,'exit':0x154});function q2_0x1a0a(_0x33218e,_0x3a1e72){_0x33218e=_0x33218e-0x1c2;const _0x191e29=q2_0x191e();let _0x1a0a46=_0x191e29[_0x33218e];if(q2_0x1a0a['QWMwVF']===undefined){var _0x4dab86=function(_0x5ca64c){const _0x271e3a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4f6dd6='',_0x21fe2d='';for(let _0x32fedd=0x0,_0x496b82,_0x4d4180,_0x40acc1=0x0;_0x4d4180=_0x5ca64c['charAt'](_0x40acc1++);~_0x4d4180&&(_0x496b82=_0x32fedd%0x4?_0x496b82*0x40+_0x4d4180:_0x4d4180,_0x32fedd++%0x4)?_0x4f6dd6+=String['fromCharCode'](0xff&_0x496b82>>(-0x2*_0x32fedd&0x6)):0x0){_0x4d4180=_0x271e3a['indexOf'](_0x4d4180);}for(let _0x530152=0x0,_0x927ab9=_0x4f6dd6['length'];_0x530152<_0x927ab9;_0x530152++){_0x21fe2d+='%'+('00'+_0x4f6dd6['charCodeAt'](_0x530152)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x21fe2d);};q2_0x1a0a['Bubdvq']=_0x4dab86,q2_0x1a0a['AyIKDq']={},q2_0x1a0a['QWMwVF']=!![];}const _0xe3916=_0x191e29[0x0];q2_0x1a0a['OfELiN']!==_0xe3916&&(q2_0x1a0a['AyIKDq']={},q2_0x1a0a['OfELiN']=_0xe3916);const _0x551432=q2_0x1a0a['AyIKDq'][_0x33218e];return _0x551432===undefined?(_0x1a0a46=q2_0x1a0a['Bubdvq'](_0x1a0a46),q2_0x1a0a['AyIKDq'][_0x33218e]=_0x1a0a46):_0x1a0a46=_0x551432,_0x1a0a46;}export function createFirstPlayerReveal(_0x21fe2d){const _0x39e63=q2_0x1a0a,_0x32fedd=_0x21fe2d['querySelector'](_0x39e63(0x1c7)),_0x496b82=_0x21fe2d[_0x39e63(0x1d9)];let _0x4d4180=null,_0x40acc1=0x0,_0x530152=0x0;function _0x927ab9(){const _0x58f6c9=_0x39e63;_0x530152++,cancelAnimationFrame(_0x40acc1),_0x4d4180?.[_0x58f6c9(0x1d1)](),_0x4d4180=null,_0x21fe2d[_0x58f6c9(0x1c4)]=!![],_0x21fe2d[_0x58f6c9(0x1d5)](_0x58f6c9(0x1d2),_0x58f6c9(0x1e2)),_0x21fe2d['dataset'][_0x58f6c9(0x1dd)]=_0x58f6c9(0x1e4);}async function _0x47c068(){const _0x32b112=_0x39e63;_0x927ab9();const _0x5d6d96=_0x530152,{enter:_0x465e5a,hold:_0x8286e0,exit:_0x293be5}=FIRST_PLAYER_MOTION,_0x56a4a3=_0x465e5a+_0x8286e0+_0x293be5;_0x21fe2d[_0x32b112(0x1c4)]=![],_0x21fe2d[_0x32b112(0x1d5)]('aria-hidden','false'),_0x21fe2d[_0x32b112(0x1ca)]['phase']=_0x32b112(0x1c8);const _0x5bf90f=_0x32fedd[_0x32b112(0x1dc)]([{'offset':0x0,'opacity':0x0,'transform':_0x32b112(0x1e5),'easing':'cubic-bezier(.15,.9,.28,1)'},{'offset':_0x465e5a*0.68/_0x56a4a3,'opacity':0x1,'transform':_0x32b112(0x1df),'easing':_0x32b112(0x1d0)},{'offset':_0x465e5a/_0x56a4a3,'opacity':0x1,'transform':_0x32b112(0x1c3)},{'offset':(_0x465e5a+_0x8286e0)/_0x56a4a3,'opacity':0x1,'transform':_0x32b112(0x1c3),'easing':_0x32b112(0x1c5)},{'offset':0x1,'opacity':0x0,'transform':_0x32b112(0x1e7)}],{'duration':_0x56a4a3,'fill':_0x32b112(0x1e3)});_0x4d4180=_0x5bf90f;const _0x34e1a0=()=>{const _0x11d9c2=_0x32b112;if(_0x496b82[_0x11d9c2(0x1c4)])_0x5bf90f[_0x11d9c2(0x1e1)]();else _0x5bf90f[_0x11d9c2(0x1c2)]();};_0x496b82[_0x32b112(0x1da)]('visibilitychange',_0x34e1a0),_0x34e1a0();function _0x286003(){const _0x4247ef=_0x32b112;if(_0x5d6d96!==_0x530152)return;const _0x5b50fc=_0x5bf90f[_0x4247ef(0x1cf)]??0x0;_0x21fe2d[_0x4247ef(0x1ca)][_0x4247ef(0x1dd)]=_0x5b50fc<_0x465e5a?_0x4247ef(0x1c8):_0x5b50fc<_0x465e5a+_0x8286e0?_0x4247ef(0x1db):_0x4247ef(0x1c6),_0x40acc1=requestAnimationFrame(_0x286003);}_0x40acc1=requestAnimationFrame(_0x286003);try{await _0x5bf90f[_0x32b112(0x1d3)];if(_0x5d6d96!==_0x530152)return![];return cancelAnimationFrame(_0x40acc1),_0x4d4180=null,_0x21fe2d['hidden']=!![],_0x21fe2d[_0x32b112(0x1d5)](_0x32b112(0x1d2),'true'),_0x21fe2d[_0x32b112(0x1ca)]['phase']=_0x32b112(0x1ce),_0x5bf90f[_0x32b112(0x1d1)](),!![];}catch(_0x1f8038){if(_0x1f8038[_0x32b112(0x1de)]!=='AbortError')throw _0x1f8038;return![];}finally{_0x496b82[_0x32b112(0x1cb)](_0x32b112(0x1e6),_0x34e1a0);}}return{'play':_0x47c068,'cancel':_0x927ab9};}
+export const FIRST_PLAYER_MOTION = Object.freeze({ enter: 440, hold: 700, exit: 340 });
+
+export function createFirstPlayerReveal(root) {
+  const card = root.querySelector('.first-player-card'), doc = root.ownerDocument;
+  let animation = null, frame = 0, generation = 0;
+  function cancel() {
+    generation++;
+    cancelAnimationFrame(frame);
+    animation?.cancel(); animation = null;
+    root.hidden = true; root.setAttribute('aria-hidden', 'true'); root.dataset.phase = 'idle';
+  }
+  async function play() {
+    cancel();
+    const token = generation, { enter, hold, exit } = FIRST_PLAYER_MOTION, duration = enter + hold + exit;
+    root.hidden = false; root.setAttribute('aria-hidden', 'false'); root.dataset.phase = 'enter';
+    const current = card.animate([
+      { offset: 0, opacity: 0, transform: 'translateY(24px) scale(.72) rotate(-4deg)', easing: 'cubic-bezier(.15,.9,.28,1)' },
+      { offset: enter * .68 / duration, opacity: 1, transform: 'translateY(-2px) scale(1.045) rotate(.8deg)', easing: 'ease-out' },
+      { offset: enter / duration, opacity: 1, transform: 'translateY(0) scale(1) rotate(0)' },
+      { offset: (enter + hold) / duration, opacity: 1, transform: 'translateY(0) scale(1) rotate(0)', easing: 'cubic-bezier(.4,0,.8,.5)' },
+      { offset: 1, opacity: 0, transform: 'translateY(-15px) scale(.93) rotate(0)' },
+    ], { duration, fill: 'both' });
+    animation = current;
+    const visibility = () => { if (doc.hidden) current.pause(); else current.play(); };
+    doc.addEventListener('visibilitychange', visibility); visibility();
+    function phase() {
+      if (token !== generation) return;
+      const elapsed = current.currentTime ?? 0;
+      root.dataset.phase = elapsed < enter ? 'enter' : elapsed < enter + hold ? 'hold' : 'exit';
+      frame = requestAnimationFrame(phase);
+    }
+    frame = requestAnimationFrame(phase);
+    try {
+      await current.finished;
+      if (token !== generation) return false;
+      cancelAnimationFrame(frame); animation = null;
+      root.hidden = true; root.setAttribute('aria-hidden', 'true'); root.dataset.phase = 'done';
+      current.cancel();
+      return true;
+    } catch (error) {
+      if (error.name !== 'AbortError') throw error;
+      return false;
+    } finally { doc.removeEventListener('visibilitychange', visibility); }
+  }
+  return { play, cancel };
+}

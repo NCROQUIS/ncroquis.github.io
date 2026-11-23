@@ -1,1 +1,286 @@
-const q0_0x14f37a=q0_0x55c2;(function(_0x489414,_0x1ab720){const _0x216203=q0_0x55c2,_0x45cd51=_0x489414();while(!![]){try{const _0x46206f=-parseInt(_0x216203(0x18b))/0x1*(-parseInt(_0x216203(0x107))/0x2)+-parseInt(_0x216203(0x106))/0x3*(-parseInt(_0x216203(0xf2))/0x4)+parseInt(_0x216203(0x173))/0x5*(parseInt(_0x216203(0x177))/0x6)+parseInt(_0x216203(0x164))/0x7*(-parseInt(_0x216203(0x109))/0x8)+parseInt(_0x216203(0xfb))/0x9+parseInt(_0x216203(0x128))/0xa+parseInt(_0x216203(0x1b0))/0xb*(-parseInt(_0x216203(0x136))/0xc);if(_0x46206f===_0x1ab720)break;else _0x45cd51['push'](_0x45cd51['shift']());}catch(_0x1d9c6b){_0x45cd51['push'](_0x45cd51['shift']());}}}(q0_0x2365,0xe0fd0));import{createGame,restoreGame,position,throwForFirst,beginGame,throwSticks,randomThrow,settleTurn,movePiece,OUTCOMES}from'./game.mjs';import{availableDestinations,defaultPieceId}from'./move-selection.mjs';import{t,NcqLang}from'./i18n.mjs';import{createRenderer}from'./renderer.mjs';import{playCapture}from'./audio.mjs';import{mountThrowSettings}from'./throw-settings.mjs';function q0_0x2365(){const _0x315c51=['y2XVC2u','BMfTzq','zMLUza','C2f2zwrFz2fTzv9Yzxn0B3jLza','BgfUzW','zMXVDW','zMLYC3rFy2fWDhvYzq','zMXPz2H0','CgLLy2vZ','imk3ia','zM9JDxm','Bg9IyNLFCMv0DxjUzwq','BgfUz3vHz2vFy2HHBMDLza','DgHYB3DFCMvZDwX0','i2jHy2STDg8TBg9IyNK','i2XVyMj5','i3jLC3rHCNqTzgLHBg9N','Dg9Nz2XL','B3bLBG','ywrKrxzLBNrmAxn0zw5LCG','CMvTB3zL','i2fWCc12zxjZAw9U','CMvWBgfJzunOAwXKCMvU','i29WCg9Uzw50lw9Wzw5PBMCTCMvZDwX0','DgL0Bgu','yMfJA3DHCMq','Bw92zuHPBNq','D2f0y2G','y2HHCMDL','C2z4','i3nVDw5Klwj1DhrVBG','i3nLDhrPBMDZlwrPywXVzW','y2fWDhvYzwq','i25LDY1Nyw1Llwj1DhrVBG','Bgv2zwXtDgfYDa','zgLHBg9Nw29Wzw5D','Bgv2zwXfBMq','B3bLBMLUz1bYB21WDa','zMLYC3rFCgLLy2vFAg9Tzq','i3bLBMrPBMCTCMvZDwX0CW','zMLYC3rFBw92zq','mJHyCK1LAM8','zMLYC3rFCgXHEwvYx2rLy2LKzwq','y2HVB3nLugLLy2u','i3nVDw5KlxnLDhrPBMC','yMfZzq','Aw5LCNq','Bg9JywW','tMnXrMvLzgjHy2S','BgfZDfbHC3m','AxmTywn0AxzL','zgv2','B3bLBMLUz1rPzq','y2HHBMDL','yw5PBwf0zu1VDMu','Dg9NzxrOzxjFC2vSzwn0zwq','nuLTvfblyG','CMvTB3zLqxr0CMLIDxrL','AxmTCgXHEwfIBgu','C2v0','mZe5ody3ohvZBgDMDG','B3bWB25LBNq','Bg9IyNK','DgHYB3C','Bwf0y2G','z2f0AgvY','i2DHBwuTC3rHDhvZ','y2XVC2vZDa','C291BMq','AgLKzgvU','CgXHEq','ywn0Aw9U','C2vSzwn0zwq','tKnr','mdaWx2XVywrPBMDFzg9Uzq','B3v0xW','B2jZzxj2zq','CgLLy2u','zgf0ys1Uy3eTBwfPBG','Dhj1zq','mtGWmZC3mgTQvNjStq','i2XHBMD1ywDLlxnLBgvJDa','lNjLC3vSDc1Uyw1L','DxbKyxrL','CgLLy2vjza','tMnXtwv0CMLJCW','C2v0DgLUz3nFB3bLBG','i3rVz2v0AgvYlwj1DhrVBG','C3rHy2TFBw92zwq','i215lw9Wzw5PBMCTCMvZDwX0','z2fTzq','zMLYC3rFz2fTzv9JB21WBgv0zq','CgLLy2vFC2vSzwn0zwq','C2v0DgXL','AxmTzMLUAxnOzwq','CMv2zwfSzwq','zgf0yxnLDa','i2jVyxjK','CMvHzhK','imk3ieXHBMD1ywDL','ywrK','mdaXx2zPCNn0x2DHBwvFC3rHCNq','DMfSDwu','DhLWzq','i2zPCNn0lxbSyxLLCI1YzxzLywWGlMzPCNn0lxbSyxLLCI1JyxjK','i3DPBM5LCI10AxrSzq','AxnpCgvU','CMvZDwX0lwnOAxa','ywn0AxzL','i2nVBMzPCM0TBMv3lwDHBwu','i2XHBMD1ywDLlwXHyMvS','D2LUBMvY','zgLZywjSzwq','i3bSyxKTyxjLyq','CgLLy2uTyNv0Dg9U','i2zLzwrIywnRlwj1DhrVBG','BMv3x2DHBwu','mtmYmZC0s2voz2ze','zxzLCNK','CMvZDwX0','Aw5JBhvKzxm','i2zPCNn0lxbSyxLLCI1Uyw1L','Aw5PDa','i2zPCNn0lxbSyxLLCI1YzxzLywW','DgHYB3DZ','ofDSuKTPwa','y29Kzq','B3bLBMLUzW','CxvLCNLtzwXLy3rVCKfSBa','DgHYB3DLCG','CMvZDg9Yzwq','B3bLBMLUz19YzxzLywW','yxjPys1SywjLBa','zgLHBg9N','ntiZmdaYnM9SAhPirq','lNjLC3vSDc1LEwvICM93','z2v0','i29WCg9Uzw50lwnHCMq','yMfJAW','i2fWCcaUBw9Kzq','BwfW','y3jLyxrLrwXLBwvUDa','y2XHC3nmAxn0','i21HAw4TBgfIzwW','i2fWCa','odCZoti0teDVwMXw','mMLrq3LzBq','CNvSzxm','mtK2ntq2ng5ZCenuzG','C3rHy2Tjzhm','yw5PBwf0zvrOCM93','C3rLChm','Bw92zq','y2fUy2vS','yxjPys1OAwrKzw4','BgvUz3rO','Bw92Aw5N','i29Wzw5PBMCTC2nVCMvZ','CMvZDwX0swq','yxbWzw5K','tMnXug9WDxa','CxvLCNLtzwXLy3rVCG','yM9KEq','D29Vza','zMLUAxnO','AxmTC2vSzwn0zwq','zMLYC3rFCgXHEwvYx3rPzq','AxmTDMLZAwjSzq','BgfZDfrOCM93','DgfYz2v0','y2XPy2S','w2rHDgeTy2XVC2vD','CgfZCW','tMnXu291BMq','i215lwnHCMq','zxH0CMe','C3rHCNrhyw1L','C3rLCa','B3v0y29Tzq','mte1otq1nZbkBKrUr3G','tMnXu2f2zq','y2XHC3noyw1L','C2v0qxr0CMLIDxrL','BMv3r2fTzq','i29Wzw5PBMCTDgL0Bgu','y2HLy2TLza','tKnrx1zfuLnjt04','Dgv4DenVBNrLBNq','CgvUzgLUzW','B3bLBMLUz190AhjVD2LUzW','i2XVyMj5lxnVDw5Klwj1DhrVBG','y2fU','y2HVB3nLx3bPzwnL','mJC0ofn2Eg9ttW','i3nLDhrPBMDZlwj1DhrVBG','zw5HyMXLza','BgLZDa','CM9SBhm'];q0_0x2365=function(){return _0x315c51;};return q0_0x2365();}import{createFirstPlayerReveal}from'./first-player-reveal.mjs';const $=_0x113daf=>document['querySelector'](_0x113daf),NcqMetrics=window[q0_0x14f37a(0x190)]||{'levelStart'(){},'levelEnd'(){},'step'(){}},NcqFeedback=window[q0_0x14f37a(0x16b)]||{'can':()=>![],'open':async()=>![],'isOpen':()=>![],'close'(){}};window[q0_0x14f37a(0x129)][q0_0x14f37a(0x1b5)]({'id':'matjjang-yut','data':{'match':null}});const restored=restoreGame(window[q0_0x14f37a(0x129)][q0_0x14f37a(0xfd)](q0_0x14f37a(0x17b)));let game=restored||createGame(),busy=![],selectedPiece=null,movingSteps=null,notice=restored?q0_0x14f37a(0xf7):null,phase='',generation=0x0,nextTestThrow=null,screen=q0_0x14f37a(0x179),resumeLevel=restored?.[q0_0x14f37a(0x182)]>0x0&&game[q0_0x14f37a(0x1aa)]===null,openingThrower=null,openingRevealed=![],revealingFirst=![];const cards=[$(q0_0x14f37a(0x123)),$(q0_0x14f37a(0xfe))],racks=[$('#my-pieces'),$('#opponent-pieces')],status=$(q0_0x14f37a(0x17d)),action=$('#main-button'),label=$(q0_0x14f37a(0x104)),results=$(q0_0x14f37a(0x162)),resultBox=$('#throw-result'),firstReveal=createFirstPlayerReveal($(q0_0x14f37a(0xf0))),throwSettings=mountThrowSettings(),renderer=createRenderer($(q0_0x14f37a(0x19c)),{'game':game,'getThrowSettings':throwSettings[q0_0x14f37a(0xfd)],'getPieceElement':_0x3beb18=>pieceButtons[_0x3beb18],'onSelect':selectPiece,'onMove':performMove,'onPhase':_0x19facd=>{phase=_0x19facd,render();},'onReveal':showThrowResult}),pieceButtons=game[q0_0x14f37a(0x143)][q0_0x14f37a(0x101)](_0x2e2691=>{const _0x1b6c86=q0_0x14f37a,_0xb7b0e3=document[_0x1b6c86(0x102)]('button');return _0xb7b0e3[_0x1b6c86(0x1a2)]='button',_0xb7b0e3['className']=_0x1b6c86(0x1ad),_0xb7b0e3[_0x1b6c86(0x19b)]['piece']=String(_0x2e2691['id']),_0xb7b0e3['addEventListener']('click',()=>selectPiece(_0x2e2691['id'])),racks[_0x2e2691['player']][_0x1b6c86(0x114)](_0xb7b0e3),_0xb7b0e3;});window[q0_0x14f37a(0x115)][q0_0x14f37a(0x156)](document),window['NcqPopup'][q0_0x14f37a(0x17f)](q0_0x14f37a(0x118));function syncModalScreen(){const _0x54ee16=q0_0x14f37a,_0x5bc97b=!!document[_0x54ee16(0x116)](_0x54ee16(0x15e));$(_0x54ee16(0x105))[_0x54ee16(0x169)]=_0x5bc97b,$(_0x54ee16(0x14a))[_0x54ee16(0x169)]=_0x5bc97b,action[_0x54ee16(0x174)]('data-ncq-main'),$(_0x54ee16(0x192))[_0x54ee16(0x174)]('data-ncq-main');if(!_0x5bc97b){if(screen==='game')action[_0x54ee16(0x12b)](_0x54ee16(0x189),'game\x20action');else $(_0x54ee16(0x192))[_0x54ee16(0x12b)](_0x54ee16(0x189),'play\x20together');}}new MutationObserver(syncModalScreen)[q0_0x14f37a(0x187)](document[q0_0x14f37a(0x117)],{'subtree':!![],'attributes':!![],'attributeFilter':[q0_0x14f37a(0x14d)]});function save(){const _0x3b71cd=q0_0x14f37a;window[_0x3b71cd(0x129)][_0x3b71cd(0x18e)](_0x15b245=>{_0x15b245['match']=structuredClone(game);});}function flow(_0x208e58){const _0x32c6d7=q0_0x14f37a;window[_0x32c6d7(0x190)]?.[_0x32c6d7(0x140)]?.(_0x208e58,{'mode':'local'});}function currentFlow(){const _0x4d18ea=q0_0x14f37a;return screen==='lobby'?_0x4d18ea(0x179):revealingFirst?_0x4d18ea(0xf8):game[_0x4d18ea(0xf4)]?'opening':game[_0x4d18ea(0x1aa)]!==null?_0x4d18ea(0x1b2):game[_0x4d18ea(0x131)][_0x4d18ea(0x110)]?_0x4d18ea(0x135):_0x4d18ea(0x19d);}function showGame(){const _0x5c484a=q0_0x14f37a;if(screen===_0x5c484a(0x195))return;screen=_0x5c484a(0x195),$(_0x5c484a(0x14a))[_0x5c484a(0x180)]=!![],$(_0x5c484a(0x105))['hidden']=![],$(_0x5c484a(0x15c))[_0x5c484a(0x180)]=![],syncModalScreen(),render(),NcqMetrics[_0x5c484a(0x126)](_0x5c484a(0x172));resumeLevel&&(NcqMetrics[_0x5c484a(0x15d)](_0x5c484a(0x16a),{'round':game['id']}),resumeLevel=![]);flow(currentFlow()),(action[_0x5c484a(0x1ab)]?$(_0x5c484a(0x149)):action)['focus']({'preventScroll':!![]});if(game[_0x5c484a(0xf4)]?.[_0x5c484a(0x1aa)]!=null&&!game[_0x5c484a(0xf4)]['revealed'])void revealFirstPlayer();}function showLobby(){const _0xb20364=q0_0x14f37a;if(busy||screen===_0xb20364(0x179))return;screen=_0xb20364(0x179),hideThrowResult(),$(_0xb20364(0x105))['hidden']=!![],$('#lobby')[_0xb20364(0x180)]=![],$('#new-game-button')[_0xb20364(0x180)]=!![],syncModalScreen(),NcqMetrics[_0xb20364(0x126)](_0xb20364(0x146)),flow(_0xb20364(0x179)),$(_0xb20364(0x192))[_0xb20364(0x145)]({'preventScroll':!![]});}function destinations(){return availableDestinations(game,selectedPiece);}function selection(_0x43bc74=null){const _0x57358e=q0_0x14f37a,_0xcbea85=destinations();return _0x43bc74===null?_0xcbea85[_0x57358e(0x110)]===0x1?_0xcbea85[0x0]:null:_0xcbea85[_0x57358e(0x13d)](_0x39f2cd=>_0x39f2cd[_0x57358e(0x113)]===_0x43bc74)??null;}function playerName(_0x66d1cf){return t(_0x66d1cf===0x0?'you':'opponent');}function normalizeSelection(){if(busy)return;if(!destinations()['length'])selectedPiece=defaultPieceId(game);}function selectPiece(_0x1f8638){const _0xf2431f=q0_0x14f37a;if(busy||game[_0xf2431f(0x1aa)]!==null||!availableDestinations(game,_0x1f8638)[_0xf2431f(0x110)])return;selectedPiece=_0x1f8638,notice=null,NcqMetrics[_0xf2431f(0x126)](_0xf2431f(0x197)),flow('destination'),render();}function showThrowResult(){const _0x50b3d9=q0_0x14f37a,_0xc4e83=openingThrower===null?null:game[_0x50b3d9(0xf4)]?.[_0x50b3d9(0x13a)][openingThrower];if(_0xc4e83){openingRevealed=!![],render();return;}const _0x3f1846=game[_0x50b3d9(0x11d)];if(!_0x3f1846)return;const _0x14f634=OUTCOMES[_0x3f1846['outcome']][_0x50b3d9(0x124)];resultBox['querySelector'](_0x50b3d9(0x18d))['textContent']=t('out_'+_0x3f1846[_0x50b3d9(0x127)])+'!',resultBox['querySelector'](_0x50b3d9(0xfc))[_0x50b3d9(0x130)]=_0x14f634?t(_0x50b3d9(0x124)):playerName(_0x3f1846['player']),resultBox[_0x50b3d9(0x116)]('.result-detail')[_0x50b3d9(0x130)]=_0x3f1846['steps']<0x0?t('backward'):t(_0x50b3d9(0x10d),{'n':_0x3f1846[_0x50b3d9(0x10c)]}),resultBox[_0x50b3d9(0x103)][_0x50b3d9(0x19f)](_0x50b3d9(0x11c)),resultBox[_0x50b3d9(0x12b)](_0x50b3d9(0x10f),'false');}function hideThrowResult(){const _0x3c0658=q0_0x14f37a;resultBox[_0x3c0658(0x103)][_0x3c0658(0x14f)](_0x3c0658(0x11c)),resultBox[_0x3c0658(0x12b)](_0x3c0658(0x10f),'true');}function setLanguageMenu(){const _0x18900f=q0_0x14f37a,_0x5c4704=$(_0x18900f(0x18c));_0x5c4704[_0x18900f(0x151)]();for(const _0x2c65a7 of NcqLang[_0x18900f(0x139)]()){const _0x1f6090=document[_0x18900f(0x102)]('option');_0x1f6090['value']=_0x2c65a7[_0x18900f(0xf3)],_0x1f6090[_0x18900f(0x130)]=_0x2c65a7[_0x18900f(0x13c)],_0x1f6090[_0x18900f(0x183)]=_0x2c65a7[_0x18900f(0xf3)]===NcqLang[_0x18900f(0x13f)],_0x5c4704[_0x18900f(0x114)](_0x1f6090);}$(_0x18900f(0x1a9))[_0x18900f(0x130)]=t('language')+(NcqLang[_0x18900f(0x13f)]==='en'?'':_0x18900f(0x19e));}function render(){const _0x27d84b=q0_0x14f37a;normalizeSelection();const _0x23d6d5=destinations(),_0x1e34e4=_0x23d6d5[0x0];for(let _0x1717a1=0x0;_0x1717a1<0x2;_0x1717a1++){const _0x401cd0=(openingThrower??game[_0x27d84b(0x1a7)])===_0x1717a1;cards[_0x1717a1][_0x27d84b(0x103)]['toggle'](_0x27d84b(0x16d),_0x401cd0);if(_0x401cd0)cards[_0x1717a1][_0x27d84b(0x12b)]('aria-current',_0x27d84b(0x18a));else cards[_0x1717a1]['removeAttribute']('aria-current');}$(_0x27d84b(0x100))[_0x27d84b(0x180)]=!!game['opening'],$(_0x27d84b(0x12d))[_0x27d84b(0x180)]=!game['opening']||game[_0x27d84b(0xf4)][_0x27d84b(0x1aa)]!==null||busy,$(_0x27d84b(0x112))[_0x27d84b(0x180)]=!game[_0x27d84b(0xf4)];for(let _0x439b85=0x0;_0x439b85<0x2;_0x439b85++){const _0x29d49c=game['opening']?.[_0x27d84b(0x13a)][_0x439b85],_0x1dfaff=openingThrower===_0x439b85&&!openingRevealed,_0x5a0a78=$(_0x439b85===0x0?_0x27d84b(0x194):_0x27d84b(0x152));_0x5a0a78[_0x27d84b(0x130)]=_0x1dfaff?'':_0x29d49c?t(_0x27d84b(0x186)+_0x29d49c[_0x27d84b(0x127)]):'',_0x5a0a78[_0x27d84b(0x180)]=!_0x29d49c||_0x1dfaff,_0x5a0a78['setAttribute'](_0x27d84b(0xf9),playerName(_0x439b85)+':\x20'+_0x5a0a78['textContent']);}game[_0x27d84b(0xf4)]?.[_0x27d84b(0x1aa)]!=null&&($(_0x27d84b(0x1a3))[_0x27d84b(0x19b)]['player']=String(game[_0x27d84b(0xf4)]['winner']),$(_0x27d84b(0x1b4))['textContent']=playerName(game['opening'][_0x27d84b(0x1aa)]));for(const _0x5f110d of game[_0x27d84b(0x143)]){const _0x2d2bc5=pieceButtons[_0x5f110d['id']],_0x316f07=position(_0x5f110d)===_0x27d84b(0x119);_0x2d2bc5[_0x27d84b(0x180)]=position(_0x5f110d)!==_0x27d84b(0x168);const _0x563182=!_0x2d2bc5['hidden']&&!busy&&_0x5f110d['player']===game[_0x27d84b(0x1a7)]&&availableDestinations(game,_0x5f110d['id'])[_0x27d84b(0x110)]>0x0;_0x2d2bc5['disabled']=!_0x563182,_0x2d2bc5[_0x27d84b(0x103)][_0x27d84b(0x14c)](_0x27d84b(0x199),_0x316f07),_0x2d2bc5[_0x27d84b(0x103)]['toggle'](_0x27d84b(0x175),_0x563182),_0x2d2bc5['classList'][_0x27d84b(0x14c)](_0x27d84b(0x11a),!!_0x1e34e4?.[_0x27d84b(0x10a)][_0x27d84b(0x1b3)](_0x5f110d['id'])),_0x2d2bc5[_0x27d84b(0x12b)](_0x27d84b(0xf9),playerName(_0x5f110d['player'])+'\x20·\x20'+t(_0x27d84b(0x188),{'n':_0x5f110d['id']%0x4+0x1})),_0x2d2bc5['setAttribute']('aria-pressed',String(!!_0x1e34e4?.[_0x27d84b(0x10a)][_0x27d84b(0x1b3)](_0x5f110d['id'])));}results[_0x27d84b(0x151)]();if(!busy)for(const _0x4a9c13 of game['pending']){const _0x1aa82d=document['createElement']('span');_0x1aa82d[_0x27d84b(0x12a)]=_0x27d84b(0x1a6),_0x1aa82d[_0x27d84b(0x130)]=t('out_'+_0x4a9c13[_0x27d84b(0x127)]),_0x1aa82d[_0x27d84b(0x19b)][_0x27d84b(0x113)]=String(_0x4a9c13['id']),results[_0x27d84b(0x114)](_0x1aa82d);}action[_0x27d84b(0x1ab)]=busy||!game[_0x27d84b(0xf4)]&&game['winner']===null&&game[_0x27d84b(0xf1)]===0x0&&_0x23d6d5['length']!==0x1;if(revealingFirst)label[_0x27d84b(0x130)]=t(_0x27d84b(0x125)),status['textContent']='';else{if(busy)label[_0x27d84b(0x130)]=t(phase===_0x27d84b(0x17c)||phase===_0x27d84b(0x157)?_0x27d84b(0x17c):phase==='moving'?'move':_0x27d84b(0x198),{'n':movingSteps??''}),status[_0x27d84b(0x130)]=t(phase===_0x27d84b(0x17c)||phase===_0x27d84b(0x157)?'gather':phase==='moving'?_0x27d84b(0x155):phase==='flight'?_0x27d84b(0x142):_0x27d84b(0x198));else{if(game[_0x27d84b(0xf4)]){const _0x30836c=game[_0x27d84b(0xf4)];label[_0x27d84b(0x130)]=t(_0x30836c[_0x27d84b(0x1aa)]!==null?_0x27d84b(0x125):'throw'),status[_0x27d84b(0x130)]=_0x30836c[_0x27d84b(0x1aa)]!==null?'':_0x30836c[_0x27d84b(0x13a)][_0x27d84b(0x1b1)](Boolean)?t(_0x27d84b(0x16f)):t(_0x27d84b(0x160),{'player':playerName(game[_0x27d84b(0x1a7)])});}else game[_0x27d84b(0x1aa)]!==null?(label[_0x27d84b(0x130)]=t(_0x27d84b(0x12c)),status['textContent']=t(_0x27d84b(0x1aa),{'player':playerName(game[_0x27d84b(0x1aa)])}),$(_0x27d84b(0x1a4))[_0x27d84b(0x130)]=t(_0x27d84b(0x1aa),{'player':playerName(game[_0x27d84b(0x1aa)])})):(label[_0x27d84b(0x130)]=game['throws']>0x0?t(_0x27d84b(0x17a)):_0x23d6d5[_0x27d84b(0x110)]===0x1?_0x1e34e4[_0x27d84b(0x10c)]<0x0?t(_0x27d84b(0x154)):t(_0x27d84b(0x10d),{'n':_0x1e34e4[_0x27d84b(0x10c)]}):_0x23d6d5[_0x27d84b(0x110)]>0x1?t('chooseDestination'):t('choosePiece'),status[_0x27d84b(0x130)]=notice?t(notice):_0x23d6d5['length']?t('moveHint'):game[_0x27d84b(0x131)][_0x27d84b(0x110)]?t(_0x27d84b(0x166)):t(_0x27d84b(0x17a)));}}$(_0x27d84b(0x137))[_0x27d84b(0x1ab)]=busy,$('#back-to-lobby')[_0x27d84b(0x1ab)]=busy;const _0x4dd7e0=window[_0x27d84b(0x122)][_0x27d84b(0x138)](_0x27d84b(0x158));for(const _0x2885ee of[$('#sound-button'),$('#lobby-sound-button')])_0x2885ee[_0x27d84b(0x12b)]('aria-pressed',String(_0x4dd7e0));$(_0x27d84b(0x167))['checked']=_0x4dd7e0,$('#board')[_0x27d84b(0x12b)](_0x27d84b(0xf9),t(_0x27d84b(0x108))+_0x27d84b(0x144)+t(_0x27d84b(0x155))),renderer['update']({'game':game,'plans':busy?[]:_0x23d6d5,'pieceId':selectedPiece,'busy':busy});}async function performOpeningThrow(){const _0x42e174=q0_0x14f37a;if(busy||!game[_0x42e174(0xf4)]||game[_0x42e174(0xf4)]['winner']!==null)return;const _0x2705bc=game[_0x42e174(0x1a7)],_0x1014e8=++generation,_0x436851=nextTestThrow||randomThrow();nextTestThrow=null,busy=!![],openingThrower=_0x2705bc,openingRevealed=![],notice=null,hideThrowResult(),game=throwForFirst(game,_0x436851),save(),$(_0x42e174(0x1ac))[_0x42e174(0x19b)][_0x42e174(0xf6)]=_0x2705bc===0x0?'me':'opponent',NcqMetrics[_0x42e174(0x126)]('first_player_roll'),flow(_0x42e174(0x132)),phase=_0x42e174(0x17c),render();const _0xfdcb2a=await renderer[_0x42e174(0x10b)](_0x2705bc,game[_0x42e174(0xf4)][_0x42e174(0x13a)][_0x2705bc][_0x42e174(0x127)],_0x436851);if(!_0xfdcb2a||_0x1014e8!==generation)return;hideThrowResult(),busy=![],openingThrower=null,phase='';if(game['opening'][_0x42e174(0x1aa)]!==null){await revealFirstPlayer();return;}if(game[_0x42e174(0xf4)]['winner']===null&&game[_0x42e174(0xf4)][_0x42e174(0x13a)][_0x42e174(0x1b1)](Boolean))NcqMetrics[_0x42e174(0x126)](_0x42e174(0x11b));flow(_0x42e174(0xf4)),render();}async function revealFirstPlayer(){const _0x584930=q0_0x14f37a;if(revealingFirst||game[_0x584930(0xf4)]?.[_0x584930(0x1aa)]==null||game['opening']['revealed'])return;const _0x538150=++generation;busy=!![],revealingFirst=!![],openingThrower=null,hideThrowResult(),flow(_0x584930(0xf8)),render();const _0x36a4c8=await firstReveal[_0x584930(0x181)]();if(!_0x36a4c8||_0x538150!==generation)return;game[_0x584930(0xf4)][_0x584930(0x19a)]=!![],save(),busy=![],revealingFirst=![],flow('opening'),render();}function q0_0x55c2(_0x462871,_0x487d59){_0x462871=_0x462871-0xf0;const _0x23650c=q0_0x2365();let _0x55c2c6=_0x23650c[_0x462871];if(q0_0x55c2['qQoqBg']===undefined){var _0x203764=function(_0x2a3973){const _0xa9937f='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x109bd1='',_0x113daf='';for(let _0x3beb18=0x0,_0x19facd,_0x2e2691,_0xb7b0e3=0x0;_0x2e2691=_0x2a3973['charAt'](_0xb7b0e3++);~_0x2e2691&&(_0x19facd=_0x3beb18%0x4?_0x19facd*0x40+_0x2e2691:_0x2e2691,_0x3beb18++%0x4)?_0x109bd1+=String['fromCharCode'](0xff&_0x19facd>>(-0x2*_0x3beb18&0x6)):0x0){_0x2e2691=_0xa9937f['indexOf'](_0x2e2691);}for(let _0x5bc97b=0x0,_0x15b245=_0x109bd1['length'];_0x5bc97b<_0x15b245;_0x5bc97b++){_0x113daf+='%'+('00'+_0x109bd1['charCodeAt'](_0x5bc97b)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x113daf);};q0_0x55c2['YvpUKd']=_0x203764,q0_0x55c2['UYFMCY']={},q0_0x55c2['qQoqBg']=!![];}const _0x355a49=_0x23650c[0x0];q0_0x55c2['KguuWR']!==_0x355a49&&(q0_0x55c2['UYFMCY']={},q0_0x55c2['KguuWR']=_0x355a49);const _0x5b1036=q0_0x55c2['UYFMCY'][_0x462871];return _0x5b1036===undefined?(_0x55c2c6=q0_0x55c2['YvpUKd'](_0x55c2c6),q0_0x55c2['UYFMCY'][_0x462871]=_0x55c2c6):_0x55c2c6=_0x5b1036,_0x55c2c6;}function startAfterOpening(){const _0x51293f=q0_0x14f37a;if(busy||game[_0x51293f(0xf4)]?.[_0x51293f(0x1aa)]==null)return;game=beginGame(game),notice=null,hideThrowResult(),save(),NcqMetrics[_0x51293f(0x126)](_0x51293f(0x165)),flow(_0x51293f(0x19d)),render();}async function performThrow(){const _0x23886c=q0_0x14f37a;if(busy||game[_0x23886c(0xf4)]||game[_0x23886c(0xf1)]<0x1||game['winner']!==null)return;busy=!![],notice=null,selectedPiece=null,hideThrowResult();const _0xcc95d0=++generation,_0x3aac29=game['active'];game['action']===0x0&&(NcqMetrics[_0x23886c(0x15d)]('local',{'round':game['id']}),NcqMetrics[_0x23886c(0x126)](_0x23886c(0x1a0)));const _0x2a8974=nextTestThrow||randomThrow();nextTestThrow=null,game=throwSticks(game,_0x2a8974),save(),$(_0x23886c(0x1ac))[_0x23886c(0x19b)][_0x23886c(0xf6)]=_0x3aac29===0x0?'me':_0x23886c(0x178),NcqMetrics[_0x23886c(0x126)]('first_throw'),flow('throwing'),phase=_0x23886c(0x17c),render();const _0x1c37e7=await renderer[_0x23886c(0x10b)](_0x3aac29,game[_0x23886c(0x11d)][_0x23886c(0x127)],_0x2a8974);if(!_0x1c37e7||_0xcc95d0!==generation)return;hideThrowResult(),busy=![],phase='',game=settleTurn(game),notice=game[_0x23886c(0x16c)]?_0x23886c(0x121):OUTCOMES[game['lastThrow']['outcome']][_0x23886c(0x124)]?_0x23886c(0x124):null;if(game[_0x23886c(0x16c)])NcqMetrics[_0x23886c(0x126)]('backdo_pass');if(OUTCOMES[game[_0x23886c(0x11d)][_0x23886c(0x127)]][_0x23886c(0x124)])NcqMetrics[_0x23886c(0x126)]('extra_throw');NcqMetrics['step'](_0x23886c(0x148)),flow(game['pending'][_0x23886c(0x110)]?_0x23886c(0x135):_0x23886c(0x19d)),save(),render();}async function performMove(_0x4a2124=null){const _0x565919=q0_0x14f37a,_0x590947=selection(_0x4a2124);if(busy||!_0x590947)return;const _0x500e94=movePiece(game,_0x590947[_0x565919(0x18f)],_0x590947[_0x565919(0x113)]);NcqMetrics[_0x565919(0x126)]('destination_selected'),busy=!![],movingSteps=_0x590947[_0x565919(0x10c)],phase=_0x565919(0x111),hideThrowResult();const _0x40a45c=++generation;render();const _0x106026=await renderer[_0x565919(0x171)](_0x590947,{'onContact':()=>{const _0x2a310c=_0x565919;if(_0x40a45c!==generation)return![];game=_0x500e94,save(),render();if(_0x590947['captured'][_0x2a310c(0x110)])playCapture();return!![];}});if(!_0x106026||_0x40a45c!==generation)return;busy=![],selectedPiece=null,movingSteps=null,notice=_0x590947[_0x565919(0x15b)][_0x565919(0x110)]?'capture':_0x590947[_0x565919(0x11e)]===_0x565919(0x119)?'finish':null;if(_0x590947[_0x565919(0x15b)][_0x565919(0x110)])NcqMetrics[_0x565919(0x126)](_0x565919(0x141));if(_0x590947['stackIds'][_0x565919(0x110)]>0x1)NcqMetrics[_0x565919(0x126)](_0x565919(0x193));if(_0x590947[_0x565919(0x11e)]===_0x565919(0x119))NcqMetrics[_0x565919(0x126)](_0x565919(0x161));NcqMetrics[_0x565919(0x126)](_0x565919(0x163)),save(),render();if(game[_0x565919(0x1aa)]!==null)NcqMetrics[_0x565919(0x15f)]('local',game[_0x565919(0x1aa)]===0x0),NcqMetrics[_0x565919(0x126)](_0x565919(0x196)),flow('result'),$(_0x565919(0x1a4))[_0x565919(0x130)]=t(_0x565919(0x1aa),{'player':playerName(game[_0x565919(0x1aa)])}),window[_0x565919(0x115)][_0x565919(0x14d)]($('#winner-dialog'));else flow(game[_0x565919(0x131)][_0x565919(0x110)]?_0x565919(0x135):_0x565919(0x19d));}function startNewGame(){const _0x505902=q0_0x14f37a;generation++,renderer['cancel'](),firstReveal['cancel'](),revealingFirst=![];for(const _0x2cf208 of document[_0x505902(0xf5)]('dialog[open]'))_0x2cf208[_0x505902(0x13b)]();game=createGame(),busy=![],selectedPiece=null,movingSteps=null,notice=null,phase='',openingThrower=null,resumeLevel=![],hideThrowResult(),save(),NcqMetrics['step'](_0x505902(0x1af)),flow(_0x505902(0xf4)),render();}action['addEventListener'](q0_0x14f37a(0x11f),()=>{const _0x171ad2=q0_0x14f37a;if(game[_0x171ad2(0xf4)]){if(game[_0x171ad2(0xf4)]['winner']!==null)startAfterOpening();else void performOpeningThrow();}else{if(game[_0x171ad2(0x1aa)]!==null)startNewGame();else{if(game['throws']>0x0)void performThrow();else{if(selection())void performMove();}}}});for(const button of[$(q0_0x14f37a(0x159)),$(q0_0x14f37a(0x133))])button[q0_0x14f37a(0x14e)]('click',()=>{const _0x2d6306=q0_0x14f37a;window['NcqSound']['enabled'](_0x2d6306(0x158),!window['NcqSound'][_0x2d6306(0x138)](_0x2d6306(0x158))),NcqMetrics[_0x2d6306(0x126)]('sound_changed'),render();});$('#sound-setting')[q0_0x14f37a(0x14e)](q0_0x14f37a(0x170),_0x23b380=>{const _0xb16671=q0_0x14f37a;window['NcqSound'][_0xb16671(0x138)](_0xb16671(0x158),_0x23b380[_0xb16671(0x11e)][_0xb16671(0x12e)]),render();});for(const button of[$(q0_0x14f37a(0x137)),$('#lobby-settings-button')])button[q0_0x14f37a(0x14e)](q0_0x14f37a(0x11f),()=>{const _0x2aa0c4=q0_0x14f37a;setLanguageMenu(),window[_0x2aa0c4(0x115)]['open']($(_0x2aa0c4(0x15a))),NcqMetrics[_0x2aa0c4(0x126)](_0x2aa0c4(0x191)),flow('settings');});$(q0_0x14f37a(0x192))[q0_0x14f37a(0x14e)](q0_0x14f37a(0x11f),showGame),$('#back-to-lobby')['addEventListener'](q0_0x14f37a(0x11f),showLobby),$(q0_0x14f37a(0x15c))[q0_0x14f37a(0x14e)]('click',()=>window['NcqPopup']['open']($(q0_0x14f37a(0x14b)))),$(q0_0x14f37a(0x1a8))['addEventListener'](q0_0x14f37a(0x11f),startNewGame),$('#play-again-button')[q0_0x14f37a(0x14e)]('click',startNewGame);for(const button of document[q0_0x14f37a(0xf5)](q0_0x14f37a(0x120)))button[q0_0x14f37a(0x14e)]('click',()=>button[q0_0x14f37a(0x17e)](q0_0x14f37a(0xfa))[q0_0x14f37a(0x13b)]());$(q0_0x14f37a(0x15a))[q0_0x14f37a(0x14e)](q0_0x14f37a(0x13b),()=>flow(currentFlow())),$(q0_0x14f37a(0x18c))[q0_0x14f37a(0x14e)](q0_0x14f37a(0x170),_0x371fb9=>{const _0x635390=q0_0x14f37a;NcqLang[_0x635390(0x176)](_0x371fb9[_0x635390(0x11e)][_0x635390(0x1a1)]),NcqMetrics[_0x635390(0x126)](_0x635390(0x147));}),NcqLang['onChange'](()=>{const _0x57986a=q0_0x14f37a;setLanguageMenu(),render(),document[_0x57986a(0x153)]=t(_0x57986a(0x153));}),$('#feedback-button')[q0_0x14f37a(0x180)]=!NcqFeedback[q0_0x14f37a(0x134)](),$(q0_0x14f37a(0x1ae))['addEventListener'](q0_0x14f37a(0x11f),async()=>{const _0x2db2d2=q0_0x14f37a;await NcqFeedback[_0x2db2d2(0x14d)]();}),window['ncqBack']=()=>{const _0x133979=q0_0x14f37a;if(NcqFeedback[_0x133979(0x1a5)]())return NcqFeedback['close'](),!![];if(window[_0x133979(0x115)][_0x133979(0xff)]())return!![];if(screen===_0x133979(0x195))return showLobby(),!![];return![];},$(q0_0x14f37a(0x150))[q0_0x14f37a(0x130)]=window[q0_0x14f37a(0x184)]?.['NCQ_VERSION']?'v'+window[q0_0x14f37a(0x184)][q0_0x14f37a(0x12f)]:q0_0x14f37a(0x16e);if(window['NCQ_TEST_DICE'])window['__yutTest']={'state':()=>structuredClone(game),'next':_0x414f95=>{nextTestThrow=_0x414f95;},'load':_0x3afe9c=>{const _0x55349a=q0_0x14f37a,_0x28df48=restoreGame(_0x3afe9c);if(!_0x28df48)throw new Error('Invalid\x20test\x20state');generation++,renderer[_0x55349a(0x10e)](),firstReveal[_0x55349a(0x10e)](),revealingFirst=![],game=_0x28df48,busy=![],selectedPiece=null,movingSteps=null,notice=null,openingThrower=null,hideThrowResult(),save(),render();}};NcqMetrics['step'](q0_0x14f37a(0x185));if(restored)NcqMetrics[q0_0x14f37a(0x126)](q0_0x14f37a(0x13e));$(q0_0x14f37a(0x15c))[q0_0x14f37a(0x180)]=!![],syncModalScreen(),flow(q0_0x14f37a(0x179)),setLanguageMenu(),render(),document['title']=t(q0_0x14f37a(0x153));
+import { createGame, restoreGame, position, throwForFirst, beginGame, throwSticks, randomThrow, settleTurn, movePiece, OUTCOMES } from './game.mjs';
+import { availableDestinations, defaultPieceId } from './move-selection.mjs';
+import { t, NcqLang } from './i18n.mjs';
+import { createRenderer } from './renderer.mjs';
+import { playCapture } from './audio.mjs';
+import { mountThrowSettings } from './throw-settings.mjs';
+import { createFirstPlayerReveal } from './first-player-reveal.mjs';
+
+const $ = selector => document.querySelector(selector);
+const NcqMetrics = window.NcqMetrics || { levelStart() {}, levelEnd() {}, step() {} };
+const NcqFeedback = window.NcqFeedback || { can: () => false, open: async () => false, isOpen: () => false, close() {} };
+window.NcqSave.init({ id: 'matjjang-yut', data: { match: null } });
+const restored = restoreGame(window.NcqSave.get('match'));
+let game = restored || createGame(), busy = false, selectedPiece = null, movingSteps = null;
+let notice = restored ? 'restored' : null, phase = '', generation = 0, nextTestThrow = null, screen = 'lobby';
+let resumeLevel = restored?.action > 0 && game.winner === null;
+let openingThrower = null, openingRevealed = false;
+let revealingFirst = false;
+const cards = [$('#my-card'), $('#opponent-card')];
+const racks = [$('#my-pieces'), $('#opponent-pieces')];
+const status = $('#game-status'), action = $('#main-button'), label = $('#main-label'), results = $('#pending-results');
+const resultBox = $('#throw-result');
+const quitDialog = $('#quit-dialog');
+const firstReveal = createFirstPlayerReveal($('#first-player-reveal'));
+const throwSettings = mountThrowSettings();
+const renderer = createRenderer($('#board'), { game, getThrowSettings: throwSettings.get, getPieceElement: id => pieceButtons[id], onSelect: selectPiece, onMove: performMove, onPhase: value => { phase = value; render(); }, onReveal: showThrowResult });
+const pieceButtons = game.pieces.map(piece => {
+  const button = document.createElement('button'); button.type = 'button'; button.className = 'piece-button'; button.dataset.piece = String(piece.id);
+  button.addEventListener('click', () => selectPiece(piece.id)); racks[piece.player].append(button); return button;
+});
+window.NcqPopup.watch(document);
+window.NcqPopup.sound('wood');
+// A modal is its own screen; the covered game action is not that screen's main action.
+function syncModalScreen() {
+  const modalOpen = !!document.querySelector('dialog[open]');
+  $('#app').inert = modalOpen;
+  $('#lobby').inert = modalOpen;
+  action.removeAttribute('data-ncq-main');
+  $('#together-button').removeAttribute('data-ncq-main');
+  if (!modalOpen) {
+    if (screen === 'game') action.setAttribute('data-ncq-main', 'game action');
+    else $('#together-button').setAttribute('data-ncq-main', 'play together');
+  }
+}
+new MutationObserver(syncModalScreen).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
+
+function save() { window.NcqSave.update(data => { data.match = structuredClone(game); }); }
+function flow(state) { window.NcqMetrics?.flow?.(screen === 'game' && quitDialog.open ? 'quit_confirmation' : state, { mode: 'local' }); }
+function currentFlow() { return screen === 'lobby' ? 'lobby' : quitDialog.open ? 'quit_confirmation' : revealingFirst ? 'opening_reveal' : game.opening ? 'opening' : game.winner !== null ? 'result' : game.pending.length ? 'choose_piece' : 'ready'; }
+function showGame() {
+  if (screen === 'game') return;
+  screen = 'game'; $('#lobby').hidden = true; $('#app').hidden = false;
+  $('#new-game-button').hidden = false; syncModalScreen(); render();
+  NcqMetrics.step('together_selected');
+  if (resumeLevel) { NcqMetrics.levelStart('local', { round: game.id }); resumeLevel = false; }
+  flow(currentFlow());
+  (action.disabled ? $('#back-to-lobby') : action).focus({ preventScroll: true });
+  if (game.opening?.winner != null && !game.opening.revealed) void revealFirstPlayer();
+}
+function showLobby() {
+  if (busy || screen === 'lobby') return;
+  screen = 'lobby'; hideThrowResult(); $('#app').hidden = true; $('#lobby').hidden = false;
+  $('#new-game-button').hidden = true; syncModalScreen();
+  NcqMetrics.step('lobby_returned'); flow('lobby'); $('#together-button').focus({ preventScroll: true });
+}
+function requestQuit() {
+  if (screen !== 'game' || quitDialog.open) return;
+  window.NcqPopup.open(quitDialog); NcqMetrics.step('quit_requested'); flow('quit_confirmation');
+}
+function resetMatch() {
+  generation++; renderer.reset(); firstReveal.cancel();
+  for (const dialog of document.querySelectorAll('dialog[open]')) dialog.close();
+  game = createGame(); busy = false; revealingFirst = false; selectedPiece = null; movingSteps = null;
+  notice = null; phase = ''; openingThrower = null; openingRevealed = false; resumeLevel = false; nextTestThrow = null; hideThrowResult();
+}
+function quitMatch() {
+  if (screen !== 'game' || !quitDialog.open) return;
+  resetMatch(); window.NcqSave.update(data => { data.match = null; });
+  NcqMetrics.step('match_quit'); render(); showLobby();
+}
+function destinations() { return availableDestinations(game, selectedPiece); }
+function selection(resultId = null) {
+  const choices = destinations();
+  return resultId === null ? choices.length === 1 ? choices[0] : null : choices.find(plan => plan.resultId === resultId) ?? null;
+}
+function playerName(player) { return t(player === 0 ? 'you' : 'opponent'); }
+function normalizeSelection() {
+  if (busy) return;
+  if (!destinations().length) selectedPiece = defaultPieceId(game);
+}
+function selectPiece(id) {
+  if (busy || game.winner !== null || !availableDestinations(game, id).length) return;
+  selectedPiece = id; notice = null;
+  NcqMetrics.step('piece_selected'); flow('destination'); render();
+}
+function showThrowResult() {
+  const openingRoll = openingThrower === null ? null : game.opening?.rolls[openingThrower];
+  if (openingRoll) { openingRevealed = true; render(); return; }
+  const result = game.lastThrow;
+  if (!result) return;
+  const extra = OUTCOMES[result.outcome].extra;
+  resultBox.querySelector('.result-name').textContent = t('out_' + result.outcome) + '!';
+  resultBox.querySelector('.result-eyebrow').textContent = extra ? t('extra') : playerName(result.player);
+  resultBox.querySelector('.result-detail').textContent = result.steps < 0 ? t('backward') : t('move', { n: result.steps });
+  resultBox.classList.add('is-visible'); resultBox.setAttribute('aria-hidden', 'false');
+}
+function hideThrowResult() { resultBox.classList.remove('is-visible'); resultBox.setAttribute('aria-hidden', 'true'); }
+function setLanguageMenu() {
+  const select = $('#language-select'); select.replaceChildren();
+  for (const language of NcqLang.list()) {
+    const option = document.createElement('option'); option.value = language.code; option.textContent = language.name; option.selected = language.code === NcqLang.lang; select.append(option);
+  }
+  $('#language-label').textContent = t('language') + (NcqLang.lang === 'en' ? '' : ' · Language');
+}
+function render() {
+  normalizeSelection();
+  const plans = destinations(), plan = plans[0];
+  for (let player = 0; player < 2; player++) {
+    const active = (openingThrower ?? game.active) === player;
+    cards[player].classList.toggle('is-active', active);
+    if (active) cards[player].setAttribute('aria-current', 'true'); else cards[player].removeAttribute('aria-current');
+  }
+  $('#app .mode').hidden = !!game.opening;
+  $('#opening-title').hidden = !game.opening || game.opening.winner !== null || busy;
+  $('#opening-scores').hidden = !game.opening;
+  for (let player = 0; player < 2; player++) {
+    const roll = game.opening?.rolls[player], hidden = openingThrower === player && !openingRevealed;
+    const score = $(player === 0 ? '#my-opening-result' : '#opponent-opening-result');
+    score.textContent = hidden ? '' : roll ? t('out_' + roll.outcome) : '';
+    score.hidden = !roll || hidden;
+    score.setAttribute('aria-label', playerName(player) + ': ' + score.textContent);
+  }
+  if (game.opening?.winner != null) {
+    $('#first-player-reveal .first-player-card').dataset.player = String(game.opening.winner);
+    $('#first-player-name').textContent = playerName(game.opening.winner);
+  }
+  for (const piece of game.pieces) {
+    const button = pieceButtons[piece.id], finished = position(piece) === 'finish';
+    button.hidden = position(piece) !== 'base';
+    const canPlay = !button.hidden && !busy && piece.player === game.active && availableDestinations(game, piece.id).length > 0;
+    button.disabled = !canPlay;
+    button.classList.toggle('is-finished', finished);
+    button.classList.toggle('is-playable', canPlay);
+    button.classList.toggle('is-selected', !!plan?.stackIds.includes(piece.id));
+    button.setAttribute('aria-label', playerName(piece.player) + ' · ' + t('piece', { n: piece.id % 4 + 1 }));
+    button.setAttribute('aria-pressed', String(!!plan?.stackIds.includes(piece.id)));
+  }
+  results.replaceChildren();
+  if (!busy) for (const result of game.pending) {
+    const chip = document.createElement('span'); chip.className = 'result-chip'; chip.textContent = t('out_' + result.outcome);
+    chip.dataset.resultId = String(result.id); results.append(chip);
+  }
+  action.disabled = busy || !game.opening && game.winner === null && game.throws === 0 && plans.length !== 1;
+  if (revealingFirst) {
+    label.textContent = t('startGame'); status.textContent = '';
+  } else if (busy) {
+    label.textContent = t(phase === 'gather' || phase === 'charge' ? 'gather' : phase === 'moving' ? 'move' : 'settle', { n: movingSteps ?? '' });
+    status.textContent = t(phase === 'gather' || phase === 'charge' ? 'gather' : phase === 'moving' ? 'moveHint' : phase === 'flight' ? 'flight' : 'settle');
+  } else if (game.opening) {
+    const opening = game.opening;
+    label.textContent = t(opening.winner !== null ? 'startGame' : 'throw');
+    status.textContent = opening.winner !== null ? '' : opening.rolls.every(Boolean) ? t('openingTie') : t('openingPrompt', { player: playerName(game.active) });
+  } else if (game.winner !== null) {
+    label.textContent = t('newGame'); status.textContent = t('winner', { player: playerName(game.winner) });
+    $('#winner-title').textContent = t('winner', { player: playerName(game.winner) });
+  } else {
+    label.textContent = game.throws > 0 ? t('throw') : plans.length === 1 ? (plan.steps < 0 ? t('backward') : t('move', { n: plan.steps })) : plans.length > 1 ? t('chooseDestination') : t('choosePiece');
+    status.textContent = notice ? t(notice) : plans.length ? t('moveHint') : game.pending.length ? t('choosePiece') : t('throw');
+  }
+  $('#settings-button').disabled = busy;
+  $('#back-to-lobby').disabled = false;
+  const sound = window.NcqSound.enabled('sfx');
+  for (const button of [$('#sound-button'), $('#lobby-sound-button')]) button.setAttribute('aria-pressed', String(sound));
+  $('#sound-setting').checked = sound;
+  $('#board').setAttribute('aria-label', t('rules') + ' · ' + t('moveHint'));
+  renderer.update({ game, plans: busy ? [] : plans, pieceId: selectedPiece, busy });
+}
+async function performOpeningThrow() {
+  if (busy || !game.opening || game.opening.winner !== null) return;
+  const player = game.active, token = ++generation, bits = nextTestThrow || randomThrow(); nextTestThrow = null;
+  busy = true; openingThrower = player; openingRevealed = false; notice = null; hideThrowResult();
+  game = throwForFirst(game, bits); save();
+  $('#play-area').dataset.thrower = player === 0 ? 'me' : 'opponent';
+  NcqMetrics.step('first_player_roll'); flow('opening_throwing'); phase = 'gather'; render();
+  const completed = await renderer.animateThrow(player, game.opening.rolls[player].outcome, bits);
+  if (!completed || token !== generation) return;
+  hideThrowResult(); busy = false; openingThrower = null; phase = '';
+  if (game.opening.winner !== null) { if (quitDialog.open) render(); else await revealFirstPlayer(); return; }
+  if (game.opening.winner === null && game.opening.rolls.every(Boolean)) NcqMetrics.step('first_player_tie');
+  flow('opening'); render();
+}
+async function revealFirstPlayer() {
+  if (revealingFirst || game.opening?.winner == null || game.opening.revealed) return;
+  const token = ++generation;
+  busy = true; revealingFirst = true; openingThrower = null; hideThrowResult();
+  flow('opening_reveal'); render();
+  const completed = await firstReveal.play();
+  if (!completed || token !== generation) return;
+  game.opening.revealed = true; save();
+  busy = false; revealingFirst = false; flow('opening'); render();
+}
+function startAfterOpening() {
+  if (busy || game.opening?.winner == null) return;
+  game = beginGame(game); notice = null; hideThrowResult(); save();
+  NcqMetrics.step('first_player_decided'); flow('ready'); render();
+}
+async function performThrow() {
+  if (busy || game.opening || game.throws < 1 || game.winner !== null) return;
+  busy = true; notice = null; selectedPiece = null; hideThrowResult();
+  const token = ++generation, player = game.active;
+  if (game.action === 0) { NcqMetrics.levelStart('local', { round: game.id }); NcqMetrics.step('001_first_game_start'); }
+  const bits = nextTestThrow || randomThrow(); nextTestThrow = null;
+  game = throwSticks(game, bits); save();
+  $('#play-area').dataset.thrower = player === 0 ? 'me' : 'opponent';
+  NcqMetrics.step('first_throw'); flow('throwing'); phase = 'gather'; render();
+  const completed = await renderer.animateThrow(player, game.lastThrow.outcome, bits);
+  if (!completed || token !== generation) return;
+  hideThrowResult(); busy = false; phase = '';
+  game = settleTurn(game); notice = game.lastPass ? 'pass' : OUTCOMES[game.lastThrow.outcome].extra ? 'extra' : null;
+  if (game.lastPass) NcqMetrics.step('backdo_pass');
+  if (OUTCOMES[game.lastThrow.outcome].extra) NcqMetrics.step('extra_throw');
+  NcqMetrics.step('throw_result'); flow(game.pending.length ? 'choose_piece' : 'ready'); save(); render();
+}
+async function performMove(resultId = null) {
+  const plan = selection(resultId); if (busy || !plan) return;
+  const next = movePiece(game, plan.pieceId, plan.resultId);
+  NcqMetrics.step('destination_selected');
+  busy = true; movingSteps = plan.steps; phase = 'moving'; hideThrowResult(); const token = ++generation; render();
+  const completed = await renderer.animateMove(plan, { onContact: () => {
+    if (token !== generation) return false;
+    game = next; save(); render();
+    if (plan.captured.length) playCapture();
+    return true;
+  } });
+  if (!completed || token !== generation) return;
+  busy = false; selectedPiece = null; movingSteps = null;
+  notice = plan.captured.length ? 'capture' : plan.target === 'finish' ? 'finish' : null;
+  if (plan.captured.length) NcqMetrics.step('first_capture');
+  if (plan.stackIds.length > 1) NcqMetrics.step('stack_moved');
+  if (plan.target === 'finish') NcqMetrics.step('first_piece_home');
+  NcqMetrics.step('first_move'); save(); render();
+  if (game.winner !== null) {
+    NcqMetrics.levelEnd('local', game.winner === 0); NcqMetrics.step('first_game_complete'); flow('result');
+    $('#winner-title').textContent = t('winner', { player: playerName(game.winner) }); if (!quitDialog.open) window.NcqPopup.open($('#winner-dialog'));
+  } else flow(game.pending.length ? 'choose_piece' : 'ready');
+}
+function startNewGame() {
+  resetMatch(); save();
+  NcqMetrics.step('new_game'); flow('opening'); render();
+}
+action.addEventListener('click', () => { if (game.opening) { if (game.opening.winner !== null) startAfterOpening(); else void performOpeningThrow(); } else if (game.winner !== null) startNewGame(); else if (game.throws > 0) void performThrow(); else if (selection()) void performMove(); });
+for (const button of [$('#sound-button'), $('#lobby-sound-button')]) button.addEventListener('click', () => { window.NcqSound.enabled('sfx', !window.NcqSound.enabled('sfx')); NcqMetrics.step('sound_changed'); render(); });
+$('#sound-setting').addEventListener('change', event => { window.NcqSound.enabled('sfx', event.target.checked); render(); });
+for (const button of [$('#settings-button'), $('#lobby-settings-button')]) button.addEventListener('click', () => { setLanguageMenu(); window.NcqPopup.open($('#settings-dialog')); NcqMetrics.step('settings_open'); flow('settings'); });
+$('#together-button').addEventListener('click', showGame);
+$('#back-to-lobby').addEventListener('click', requestQuit);
+$('#confirm-quit').addEventListener('click', quitMatch);
+$('#new-game-button').addEventListener('click', () => window.NcqPopup.open($('#restart-dialog')));
+$('#confirm-new-game').addEventListener('click', startNewGame); $('#play-again-button').addEventListener('click', startNewGame);
+for (const button of document.querySelectorAll('[data-close]')) button.addEventListener('click', () => button.closest('dialog').close());
+$('#settings-dialog').addEventListener('close', () => flow(currentFlow()));
+quitDialog.addEventListener('close', () => {
+  if (screen !== 'game') return;
+  flow(currentFlow());
+  if (!busy && game.opening?.winner != null && !game.opening.revealed) void revealFirstPlayer();
+  else if (!busy && game.winner !== null) window.NcqPopup.open($('#winner-dialog'));
+});
+$('#language-select').addEventListener('change', event => { NcqLang.set(event.target.value); NcqMetrics.step('language_changed'); });
+NcqLang.onChange(() => { setLanguageMenu(); render(); document.title = t('title'); });
+$('#feedback-button').hidden = !NcqFeedback.can();
+$('#feedback-button').addEventListener('click', async () => { await NcqFeedback.open(); });
+window.ncqBack = () => {
+  if (NcqFeedback.isOpen()) { NcqFeedback.close(); return true; }
+  if (window.NcqPopup.back()) return true;
+  if (screen === 'game') { requestQuit(); return true; }
+  return false;
+};
+$('#app-version').textContent = window.NCQ?.NCQ_VERSION ? 'v' + window.NCQ.NCQ_VERSION : 'dev';
+// NCQ_TEST_DICE: 윷 결과와 판 상태를 지정하는 개발용 검사 도구
+if (window.NCQ_TEST_DICE) window.__yutTest = {
+  state: () => structuredClone(game), next: bits => { nextTestThrow = bits; },
+  load: state => { const valid = restoreGame(state); if (!valid) throw new Error('Invalid test state'); generation++; renderer.cancel(); firstReveal.cancel(); revealingFirst = false; game = valid; busy = false; selectedPiece = null; movingSteps = null; notice = null; openingThrower = null; hideThrowResult(); save(); render(); },
+};
+NcqMetrics.step('000_loading_done'); if (restored) NcqMetrics.step('saved_game_restored');
+$('#new-game-button').hidden = true; syncModalScreen();
+flow('lobby'); setLanguageMenu(); render(); document.title = t('title');

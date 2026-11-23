@@ -415,9 +415,9 @@
     "version": "0.4.0",
     "developer": "wakeup5",
     "category": "보드",
-    "play": "",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.boardmadang",
     "icon": "5d12018dc07b",
-    "stores": "toss"
+    "stores": "googleplay,toss"
   },
   {
     "codename": "duel2048",

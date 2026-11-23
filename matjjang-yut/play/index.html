@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="./src/styles.css">
   <link rel="stylesheet" href="./src/throw-settings.css">
   <link rel="stylesheet" href="./src/move-targets.css">
+  <link rel="stylesheet" href="./src/teams.css">
   <script type="module" src="./src/app.mjs"></script>
 </head>
 <body>
@@ -41,10 +42,7 @@
       </header>
     </div>
     <div class="game-stage">
-      <section class="player-card opponent" id="opponent-card" data-player="1">
-        <span class="avatar" aria-hidden="true"><span class="hair"></span><span class="face"></span><span class="robe"></span></span>
-        <h2 data-i18n="opponent"></h2><div class="piece-rack" id="opponent-pieces"></div>
-      </section>
+      <div class="team-row upper-teams"></div>
       <section class="play-area" id="play-area" aria-label="Yutnori board">
         <canvas id="board" role="img"></canvas>
         <div class="opening-title" id="opening-title" data-i18n="openingTitle" hidden></div>
@@ -57,17 +55,10 @@
         </div>
         <div class="throw-result" id="throw-result" aria-hidden="true"><span class="result-eyebrow"></span><strong class="result-name"></strong><span class="result-detail"></span></div>
       </section>
-      <section class="player-card me is-active" id="my-card" data-player="0" aria-current="true">
-        <span class="avatar" aria-hidden="true"><span class="hair"></span><span class="face"></span><span class="robe"></span></span>
-        <h2 data-i18n="you"></h2><div class="piece-rack" id="my-pieces"></div>
-      </section>
+      <div class="team-row lower-teams"></div>
       <div class="result-lanes" id="pending-results" role="group" data-i18n-attr="aria-label:pendingResults">
-        <div class="pending-results" id="my-pending-results" data-player="0" role="group"></div>
-        <div class="pending-results" id="opponent-pending-results" data-player="1" role="group"></div>
       </div>
       <div class="opening-scores" id="opening-scores" data-i18n-attr="aria-label:openingTitle" role="group" hidden>
-        <span class="opening-score me" id="my-opening-result" hidden></span>
-        <span class="opening-score opponent" id="opponent-opening-result" hidden></span>
       </div>
     </div>
     <footer class="game-controls">
@@ -75,13 +66,18 @@
       <button type="button" class="main-button" id="main-button" data-ncq-main="game action"><span class="button-sticks" aria-hidden="true"><i></i><i></i></span><span id="main-label"></span></button>
     </footer>
   </main>
+  <dialog id="team-setup-dialog" aria-labelledby="team-setup-title">
+    <header class="dialog-header"><h2 id="team-setup-title" data-i18n="playTogether"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>
+    <div class="team-setup-body"><div id="setup-teams"></div><button class="secondary-button" id="add-team" type="button"><span aria-hidden="true">＋</span> <span data-i18n="addTeam"></span></button></div>
+    <footer class="team-setup-footer"><p id="setup-format" aria-live="polite"></p><button class="main-button" id="start-together" data-i18n="startTogether" data-ncq-main="start local teams" type="button"></button></footer>
+  </dialog>
   <dialog id="settings-dialog" aria-labelledby="settings-title" data-ncq-no-main>
     <header class="dialog-header"><h2 id="settings-title" data-i18n="settings"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>
     <div class="dialog-body">
       <p class="local-note" data-i18n="localNote"></p>
       <label class="setting-row"><span data-i18n="sound"></span><input id="sound-setting" type="checkbox" role="switch"></label>
       <label class="language-row"><span id="language-label"></span><select id="language-select"></select></label>
-      <details><summary data-i18n="rules"></summary><ol class="rules-list"><li data-i18n="openingRule"></li><li data-i18n="rule1"></li><li data-i18n="rule2"></li><li data-i18n="rule3"></li><li data-i18n="rule4"></li></ol></details>
+      <details><summary data-i18n="rules"></summary><ol class="rules-list"><li data-i18n="teamOpeningRule"></li><li data-i18n="teamRule"></li><li data-i18n="rule2"></li><li data-i18n="rule3"></li><li data-i18n="rule4"></li></ol></details>
       <button class="secondary-button" id="new-game-button" data-i18n="newGame" type="button"></button>
       <button class="secondary-button" id="feedback-button" data-i18n="feedback" type="button" hidden></button>
       <p class="save-note" data-i18n="saved"></p><span class="app-version" id="app-version"></span>

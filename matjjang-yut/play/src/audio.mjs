@@ -1,1 +1,56 @@
-(function(_0x3ea681,_0x3bfabc){const _0x1786b7=q1_0x2d88,_0x405b57=_0x3ea681();while(!![]){try{const _0x2befc8=-parseInt(_0x1786b7(0x160))/0x1*(-parseInt(_0x1786b7(0x17c))/0x2)+parseInt(_0x1786b7(0x16b))/0x3+parseInt(_0x1786b7(0x174))/0x4+parseInt(_0x1786b7(0x168))/0x5*(parseInt(_0x1786b7(0x17d))/0x6)+parseInt(_0x1786b7(0x172))/0x7+parseInt(_0x1786b7(0x182))/0x8+-parseInt(_0x1786b7(0x183))/0x9;if(_0x2befc8===_0x3bfabc)break;else _0x405b57['push'](_0x405b57['shift']());}catch(_0x316f4d){_0x405b57['push'](_0x405b57['shift']());}}}(q1_0x5034,0x8a1e2));const noiseBuffers=new WeakMap();function noiseBuffer(_0x5df95c,_0x55fa93){const _0x1e2db4=q1_0x2d88;let _0x5c0fb5=noiseBuffers[_0x1e2db4(0x165)](_0x5df95c);!_0x5c0fb5&&(_0x5c0fb5=new Map(),noiseBuffers['set'](_0x5df95c,_0x5c0fb5));if(!_0x5c0fb5[_0x1e2db4(0x161)](_0x55fa93)){const _0x46e65a=_0x55fa93===_0x1e2db4(0x162)?0.28:0.055,_0xf6fc31=Math['floor'](_0x5df95c[_0x1e2db4(0x167)]*_0x46e65a),_0x13c168=_0x5df95c[_0x1e2db4(0x16a)](0x1,_0xf6fc31,_0x5df95c['sampleRate']),_0x302a3b=_0x13c168[_0x1e2db4(0x164)](0x0);for(let _0x3a424d=0x0;_0x3a424d<_0xf6fc31;_0x3a424d++){const _0x3b249e=_0x55fa93===_0x1e2db4(0x162)?Math[_0x1e2db4(0x166)](_0x3a424d/_0xf6fc31*Math['PI'])*0.09:Math['exp'](-_0x3a424d/_0xf6fc31*0x9);_0x302a3b[_0x3a424d]=(Math[_0x1e2db4(0x177)]()*0x2-0x1)*_0x3b249e;}_0x5c0fb5['set'](_0x55fa93,_0x13c168);}return _0x5c0fb5[_0x1e2db4(0x165)](_0x55fa93);}function q1_0x2d88(_0x26ffde,_0x234c82){_0x26ffde=_0x26ffde-0x15c;const _0x503403=q1_0x5034();let _0x2d8823=_0x503403[_0x26ffde];if(q1_0x2d88['iIOcGC']===undefined){var _0x24337d=function(_0x4d9f0e){const _0x1c9941='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x30fc3e='',_0x5df95c='';for(let _0x55fa93=0x0,_0x5c0fb5,_0x46e65a,_0xf6fc31=0x0;_0x46e65a=_0x4d9f0e['charAt'](_0xf6fc31++);~_0x46e65a&&(_0x5c0fb5=_0x55fa93%0x4?_0x5c0fb5*0x40+_0x46e65a:_0x46e65a,_0x55fa93++%0x4)?_0x30fc3e+=String['fromCharCode'](0xff&_0x5c0fb5>>(-0x2*_0x55fa93&0x6)):0x0){_0x46e65a=_0x1c9941['indexOf'](_0x46e65a);}for(let _0x13c168=0x0,_0x302a3b=_0x30fc3e['length'];_0x13c168<_0x302a3b;_0x13c168++){_0x5df95c+='%'+('00'+_0x30fc3e['charCodeAt'](_0x13c168)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x5df95c);};q1_0x2d88['unwpQk']=_0x24337d,q1_0x2d88['DYZWdF']={},q1_0x2d88['iIOcGC']=!![];}const _0x55bfda=_0x503403[0x0];q1_0x2d88['iXkpoC']!==_0x55bfda&&(q1_0x2d88['DYZWdF']={},q1_0x2d88['iXkpoC']=_0x55bfda);const _0x198808=q1_0x2d88['DYZWdF'][_0x26ffde];return _0x198808===undefined?(_0x2d8823=q1_0x2d88['unwpQk'](_0x2d8823),q1_0x2d88['DYZWdF'][_0x26ffde]=_0x2d8823):_0x2d8823=_0x198808,_0x2d8823;}function releaseOnEnd(_0x253637,..._0x4e6963){const _0x9bbc0f=q1_0x2d88;_0x253637[_0x9bbc0f(0x16e)]=()=>{const _0x1077f9=_0x9bbc0f;_0x253637[_0x1077f9(0x171)]();for(const _0x39da4e of _0x4e6963)_0x39da4e[_0x1077f9(0x171)]();_0x253637[_0x1077f9(0x16e)]=null;};}function channel(){const _0x63cfa8=q1_0x2d88,_0x44ac13=window[_0x63cfa8(0x15e)];if(!_0x44ac13?.[_0x63cfa8(0x178)](_0x63cfa8(0x17b)))return null;try{const _0x19a538=_0x44ac13[_0x63cfa8(0x181)](),_0x583a4b=_0x44ac13[_0x63cfa8(0x169)](_0x63cfa8(0x17b));return _0x19a538&&_0x583a4b?{'ctx':_0x19a538,'output':_0x583a4b}:null;}catch{return null;}}function q1_0x5034(){const _0x1a92bc=['zw5HyMXLza','y3jLyxrLt3nJAwXSyxrVCG','zNjLCxvLBMn5','C2z4','nty2runHCxzV','odiWotHhu1z4whC','y3jLyxrLr2fPBG','C3rHCNq','y29UBMvJDa','y29UDgv4Da','nZG1ota0oefUAe53va','mJi4mdy2nZvADNjAAfm','DMfSDwu','DhLWzq','y3vYCMvUDfrPBwu','C2LUzq','tMnXu291BMq','zxHWB25LBNrPywXsyw1Wvg9wywX1zuf0vgLTzq','mti4s25fwLrZ','AgfZ','Bgf1BMnO','y3jLyxrLqNvMzMvYu291CMnL','z2v0q2HHBM5LBerHDge','z2v0','C2LU','C2fTCgXLuMf0zq','mtiWsgHgCu5M','B3v0Chv0','y3jLyxrLqNvMzMvY','mta2mZi3og56EwTmDG','z2fPBG','y3jLyxrLqMLXDwfKrMLSDgvY','B25LBMrLza','C3rVCa','DhjPyw5NBgu','zgLZy29UBMvJDa','mZCWotiWow9Jzvv5rG','C2v0vMfSDwvbDfrPBwu','mZq3mZK4me9mB0PiAW','y2XHy2S','yMfUzhbHC3m','CMfUzg9T'];q1_0x5034=function(){return _0x1a92bc;};return q1_0x5034();}function note(_0x11d675,_0x18af31,_0x4ce4bb,_0x4c1bfd,_0x4a3c1f='triangle'){const _0x15a9ba=q1_0x2d88,_0x5260be=channel();if(!_0x5260be)return;const {ctx:_0x276b02,output:_0x347703}=_0x5260be,_0x187861=_0x276b02[_0x15a9ba(0x15c)]+_0x18af31,_0x47b36a=_0x276b02[_0x15a9ba(0x179)](),_0x1cae76=_0x276b02[_0x15a9ba(0x17e)]();_0x47b36a['type']=_0x4a3c1f,_0x47b36a[_0x15a9ba(0x17a)][_0x15a9ba(0x173)](_0x11d675,_0x187861),_0x1cae76[_0x15a9ba(0x16c)]['setValueAtTime'](0x0,_0x187861),_0x1cae76[_0x15a9ba(0x16c)]['linearRampToValueAtTime'](_0x4c1bfd,_0x187861+0.006),_0x1cae76['gain'][_0x15a9ba(0x15f)](0.0001,_0x187861+_0x4ce4bb),_0x47b36a['connect'](_0x1cae76)[_0x15a9ba(0x180)](_0x347703),releaseOnEnd(_0x47b36a,_0x1cae76),_0x47b36a[_0x15a9ba(0x17f)](_0x187861),_0x47b36a[_0x15a9ba(0x16f)](_0x187861+_0x4ce4bb+0.01);}export function playLaunch(_0x5bcf9f=0.5){const _0x31028f=q1_0x2d88,_0x2f4af7=channel();if(!_0x2f4af7)return;const {ctx:_0x90498d,output:_0x4bd4df}=_0x2f4af7,_0x255a70=_0x90498d['currentTime']+_0x5bcf9f,_0x521171=_0x90498d[_0x31028f(0x163)](),_0x30405b=_0x90498d[_0x31028f(0x16d)]();_0x521171['buffer']=noiseBuffer(_0x90498d,'launch'),_0x30405b[_0x31028f(0x185)]='lowpass',_0x30405b[_0x31028f(0x17a)][_0x31028f(0x173)](0x15e,_0x255a70),_0x30405b['frequency']['exponentialRampToValueAtTime'](0xa8c,_0x255a70+0.25),_0x521171['connect'](_0x30405b)[_0x31028f(0x180)](_0x4bd4df),releaseOnEnd(_0x521171,_0x30405b),_0x521171['start'](_0x255a70);}export function playClack(_0x61871c){const _0x49c836=q1_0x2d88,_0x46bc11=channel();if(!_0x46bc11)return;const {ctx:_0x42a9cb,output:_0x532f58}=_0x46bc11,_0x4e1521=_0x42a9cb['createBufferSource'](),_0x22b4c2=_0x42a9cb[_0x49c836(0x16d)](),_0x780940=_0x42a9cb[_0x49c836(0x17e)]();_0x4e1521['buffer']=noiseBuffer(_0x42a9cb,_0x49c836(0x175)),_0x22b4c2[_0x49c836(0x185)]=_0x49c836(0x176),_0x22b4c2[_0x49c836(0x17a)][_0x49c836(0x184)]=0x578+_0x61871c*0xdc,_0x22b4c2['Q']['value']=0.8,_0x780940['gain'][_0x49c836(0x184)]=0.26,_0x4e1521[_0x49c836(0x180)](_0x22b4c2)['connect'](_0x780940)[_0x49c836(0x180)](_0x532f58),releaseOnEnd(_0x4e1521,_0x22b4c2,_0x780940),_0x4e1521[_0x49c836(0x17f)](),note(0xf0+_0x61871c*0x25,0x0,0.065,0.06);}export function playResult(_0x4dc7df){(_0x4dc7df?[523.25,659.25,783.99,1046.5]:[587.33,783.99])['forEach']((_0x4cb3b8,_0x4de61b)=>note(_0x4cb3b8,_0x4de61b*0.075,0.23,0.045));}export function playStep(_0x552cab=0x0,_0x4f420b=![]){const _0x1445f2=q1_0x2d88;note(0xaa+_0x552cab*0xd,0x0,0.065,_0x4f420b?0.055:0.04,_0x1445f2(0x170)),note(0x208+_0x552cab*0x13,0x0,0.035,_0x4f420b?0.028:0.018,_0x1445f2(0x15d));}export function playCapture(){note(0x1b8,0x0,0.12,0.06),note(0x370,0.08,0.18,0.05);}
+const noiseBuffers = new WeakMap();
+function noiseBuffer(ctx, kind) {
+  let buffers = noiseBuffers.get(ctx);
+  if (!buffers) { buffers = new Map(); noiseBuffers.set(ctx, buffers); }
+  if (!buffers.has(kind)) {
+    const duration = kind === 'launch' ? .28 : .055, length = Math.floor(ctx.sampleRate * duration);
+    const buffer = ctx.createBuffer(1, length, ctx.sampleRate), data = buffer.getChannelData(0);
+    for (let i = 0; i < length; i++) {
+      const envelope = kind === 'launch' ? Math.sin(i / length * Math.PI) * .09 : Math.exp(-i / length * 9);
+      data[i] = (Math.random() * 2 - 1) * envelope;
+    }
+    buffers.set(kind, buffer);
+  }
+  return buffers.get(kind);
+}
+function releaseOnEnd(source, ...nodes) {
+  source.onended = () => {
+    source.disconnect();
+    for (const node of nodes) node.disconnect();
+    source.onended = null;
+  };
+}
+function channel() {
+  const module = window.NcqSound;
+  if (!module?.enabled('sfx')) return null;
+  try { const ctx = module.context(), output = module.output('sfx'); return ctx && output ? { ctx, output } : null; } catch { return null; }
+}
+function note(frequency, delay, duration, volume, type = 'triangle') {
+  const audio = channel(); if (!audio) return;
+  const { ctx, output } = audio, time = ctx.currentTime + delay;
+  const oscillator = ctx.createOscillator(), gain = ctx.createGain();
+  oscillator.type = type; oscillator.frequency.setValueAtTime(frequency, time);
+  gain.gain.setValueAtTime(0, time); gain.gain.linearRampToValueAtTime(volume, time + .006); gain.gain.exponentialRampToValueAtTime(.0001, time + duration);
+  oscillator.connect(gain).connect(output); releaseOnEnd(oscillator, gain);
+  oscillator.start(time); oscillator.stop(time + duration + .01);
+}
+export function playLaunch(delay = .5) {
+  const audio = channel(); if (!audio) return;
+  const { ctx, output } = audio, time = ctx.currentTime + delay;
+  const source = ctx.createBufferSource(), filter = ctx.createBiquadFilter();
+  source.buffer = noiseBuffer(ctx, 'launch'); filter.type = 'lowpass'; filter.frequency.setValueAtTime(350, time); filter.frequency.exponentialRampToValueAtTime(2700, time + .25);
+  source.connect(filter).connect(output); releaseOnEnd(source, filter); source.start(time);
+}
+export function playClack(index) {
+  const audio = channel(); if (!audio) return;
+  const { ctx, output } = audio;
+  const source = ctx.createBufferSource(), filter = ctx.createBiquadFilter(), gain = ctx.createGain(); source.buffer = noiseBuffer(ctx, 'clack');
+  filter.type = 'bandpass'; filter.frequency.value = 1400 + index * 220; filter.Q.value = .8; gain.gain.value = .26;
+  source.connect(filter).connect(gain).connect(output); releaseOnEnd(source, filter, gain); source.start(); note(240 + index * 37, 0, .065, .06);
+}
+export function playResult(extra) { (extra ? [523.25,659.25,783.99,1046.5] : [587.33,783.99]).forEach((frequency, index) => note(frequency, index * .075, .23, .045)); }
+export function playStep(index = 0, final = false) {
+  note(170 + index * 13, 0, .065, final ? .055 : .04, 'triangle');
+  note(520 + index * 19, 0, .035, final ? .028 : .018, 'sine');
+}
+export function playCapture() { note(440, 0, .12, .06); note(880, .08, .18, .05); }

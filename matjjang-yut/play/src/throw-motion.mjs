@@ -1,1 +1,53 @@
-const qc_0x3194be=qc_0x4ed3;(function(_0x15d229,_0x384197){const _0x4b4a13=qc_0x4ed3,_0x5daa78=_0x15d229();while(!![]){try{const _0x332e0e=parseInt(_0x4b4a13(0x19b))/0x1+parseInt(_0x4b4a13(0x18e))/0x2*(parseInt(_0x4b4a13(0x191))/0x3)+-parseInt(_0x4b4a13(0x18d))/0x4*(-parseInt(_0x4b4a13(0x185))/0x5)+parseInt(_0x4b4a13(0x19a))/0x6+parseInt(_0x4b4a13(0x181))/0x7+-parseInt(_0x4b4a13(0x193))/0x8+-parseInt(_0x4b4a13(0x186))/0x9*(parseInt(_0x4b4a13(0x18f))/0xa);if(_0x332e0e===_0x384197)break;else _0x5daa78['push'](_0x5daa78['shift']());}catch(_0x202529){_0x5daa78['push'](_0x5daa78['shift']());}}}(qc_0x4f40,0xb66e4));export const BOARD_LENGTH=6.16;export const THROW_DEFAULTS=Object[qc_0x3194be(0x17a)]({'gather':0.2,'landingMin':0.5,'landingMax':0x1,'heightMin':0x5,'heightMax':0x12c,'distanceMin':0x5,'distanceMax':0x41,'spacingMin':0xa,'spacingMax':0x1e});export const THROW_LIMITS=Object['freeze']({'gather':[0.1,0x2,0.05],'landingMin':[0.3,0x5,0.05],'landingMax':[0.3,0x5,0.05],'heightMin':[0x5,0x12c,0x1],'heightMax':[0x5,0x12c,0x1],'distanceMin':[0x5,0x41,0x1],'distanceMax':[0x5,0x41,0x1],'spacingMin':[0x0,0x1e,0x1],'spacingMax':[0x0,0x1e,0x1]});const ranges=[qc_0x3194be(0x18a),qc_0x3194be(0x197),qc_0x3194be(0x194),qc_0x3194be(0x184)],clamp=(_0x2758dd,_0x40cb0d,_0x177ce4)=>Math[qc_0x3194be(0x199)](_0x40cb0d,Math[qc_0x3194be(0x196)](_0x177ce4,_0x2758dd));function settingValue(_0x4cb585,_0x229b2f){const _0x3a314e=qc_0x3194be;if(typeof _0x229b2f!==_0x3a314e(0x19c)||!Number['isFinite'](_0x229b2f))return THROW_DEFAULTS[_0x4cb585];const [_0x4d15f7,_0x49c4e1,_0x22723f]=THROW_LIMITS[_0x4cb585];return Number((_0x4d15f7+Math[_0x3a314e(0x188)]((clamp(_0x229b2f,_0x4d15f7,_0x49c4e1)-_0x4d15f7)/_0x22723f)*_0x22723f)[_0x3a314e(0x187)](0x2));}export function normalizeThrowSettings(_0x64fadb){const _0x3839bb=qc_0x3194be,_0x2450f5={...THROW_DEFAULTS};for(const _0x569c6a of Object[_0x3839bb(0x189)](THROW_LIMITS))_0x2450f5[_0x569c6a]=settingValue(_0x569c6a,_0x64fadb?.[_0x569c6a]);for(const _0x996a11 of ranges)_0x2450f5[_0x996a11+_0x3839bb(0x198)]=Math['max'](_0x2450f5[_0x996a11+'Min'],_0x2450f5[_0x996a11+_0x3839bb(0x198)]);return _0x2450f5;}export function changeThrowSetting(_0x11f2b2,_0x22f898,_0x30eb84){const _0x217eee=qc_0x3194be,_0x3b459d=normalizeThrowSettings(_0x11f2b2);if(!Object[_0x217eee(0x180)](THROW_LIMITS,_0x22f898))return _0x3b459d;_0x3b459d[_0x22f898]=settingValue(_0x22f898,_0x30eb84);if(_0x22f898['endsWith'](_0x217eee(0x195)))_0x3b459d[_0x22f898[_0x217eee(0x17f)]('Min',_0x217eee(0x198))]=Math['max'](_0x3b459d[_0x22f898],_0x3b459d[_0x22f898[_0x217eee(0x17f)]('Min',_0x217eee(0x198))]);if(_0x22f898[_0x217eee(0x190)](_0x217eee(0x198)))_0x3b459d[_0x22f898['replace'](_0x217eee(0x198),'Min')]=Math[_0x217eee(0x196)](_0x3b459d[_0x22f898],_0x3b459d[_0x22f898[_0x217eee(0x17f)](_0x217eee(0x198),_0x217eee(0x195))]);return _0x3b459d;}function qc_0x4ed3(_0x518c7f,_0x3688f){_0x518c7f=_0x518c7f-0x178;const _0x4f403e=qc_0x4f40();let _0x4ed38d=_0x4f403e[_0x518c7f];if(qc_0x4ed3['ypbmWG']===undefined){var _0x271f92=function(_0x2c8210){const _0x246564='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1f1a00='',_0x2758dd='';for(let _0x40cb0d=0x0,_0x177ce4,_0x4cb585,_0x229b2f=0x0;_0x4cb585=_0x2c8210['charAt'](_0x229b2f++);~_0x4cb585&&(_0x177ce4=_0x40cb0d%0x4?_0x177ce4*0x40+_0x4cb585:_0x4cb585,_0x40cb0d++%0x4)?_0x1f1a00+=String['fromCharCode'](0xff&_0x177ce4>>(-0x2*_0x40cb0d&0x6)):0x0){_0x4cb585=_0x246564['indexOf'](_0x4cb585);}for(let _0x4d15f7=0x0,_0x49c4e1=_0x1f1a00['length'];_0x4d15f7<_0x49c4e1;_0x4d15f7++){_0x2758dd+='%'+('00'+_0x1f1a00['charCodeAt'](_0x4d15f7)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x2758dd);};qc_0x4ed3['MvUIih']=_0x271f92,qc_0x4ed3['RdxQMX']={},qc_0x4ed3['ypbmWG']=!![];}const _0x49dd5b=_0x4f403e[0x0];qc_0x4ed3['TAaOCO']!==_0x49dd5b&&(qc_0x4ed3['RdxQMX']={},qc_0x4ed3['TAaOCO']=_0x49dd5b);const _0x52ea11=qc_0x4ed3['RdxQMX'][_0x518c7f];return _0x52ea11===undefined?(_0x4ed38d=qc_0x4ed3['MvUIih'](_0x4ed38d),qc_0x4ed3['RdxQMX'][_0x518c7f]=_0x4ed38d):_0x4ed38d=_0x52ea11,_0x4ed38d;}function qc_0x4f40(){const _0x128bd0=['ChvZAa','C3bHy2LUz01HEa','AgvPz2H0twLU','CMvKDwnL','CMvWBgfJzq','AgfZt3DU','ntyZota2mhb2vgrsva','BgfUzgLUz01HEa','zhvYyxrPB24','C3bHy2LUzW','ntG1nJy1A3bQCfne','ndv6whDWC2O','Dg9gAxHLza','CM91BMq','A2v5CW','BgfUzgLUzW','BgfUzgLUz01PBG','zMXVB3i','mJbxt2LqCLK','ndqWnZrMwfnkre4','ndqXmJa5mgzZq2XABG','zw5KC1DPDgG','mtiZqu9JvMXp','C3bHy2LUz01PBG','ntaZmJu4nfPLBNn2BG','zgLZDgfUy2u','twLU','BwLU','AgvPz2H0','twf4','Bwf4','nZqWnJy0nM9pzhfNrW','ntmXntfoDMj1sve','BNvTyMvY','zNjVBq','zgLZDgfUy2vnAw4','BwfW','zNjLzxPL'];qc_0x4f40=function(){return _0x128bd0;};return qc_0x4f40();}export function createThrowPlan(_0x2398b5,_0x1936bc=Math['random']){const _0x291f09=qc_0x3194be,_0x58b667=normalizeThrowSettings(_0x2398b5),_0x473100=(_0x635105,_0x4b9203)=>_0x635105+_0x1936bc()*(_0x4b9203-_0x635105),_0x40b2ed=Array[_0x291f09(0x19d)]({'length':0x3},()=>_0x473100(_0x58b667[_0x291f09(0x192)],_0x58b667[_0x291f09(0x17c)])*BOARD_LENGTH/0x64),_0x22b9ce=[-_0x40b2ed[_0x291f09(0x17e)]((_0x4063c3,_0x5d47e4)=>_0x4063c3+_0x5d47e4,0x0)/0x2];for(const _0xf6674c of _0x40b2ed)_0x22b9ce[_0x291f09(0x17b)](_0x22b9ce['at'](-0x1)+_0xf6674c);const _0x3b7989=Array['from']({'length':0x4},(_0x1f33cd,_0x109bcf)=>({'height':_0x473100(_0x58b667[_0x291f09(0x17d)],_0x58b667['heightMax'])*BOARD_LENGTH/0x64,'distance':_0x473100(_0x58b667[_0x291f09(0x178)],_0x58b667['distanceMax'])*BOARD_LENGTH/0x64,'x':_0x22b9ce[_0x109bcf],'angle':_0x473100(-0.2,0.2),'duration':_0x473100(_0x58b667[_0x291f09(0x18b)],_0x58b667[_0x291f09(0x182)])*0x3e8,'turns':0x2+Math[_0x291f09(0x196)](0x1,Math[_0x291f09(0x18c)](_0x1936bc()*0x2))}));for(const _0x179a34 of _0x3b7989)_0x179a34['y']=2.05-_0x179a34[_0x291f09(0x194)];const _0x1b9a9f=_0x58b667['gather']*0x3e8,_0x1d9fc0=_0x1b9a9f+0xb4,_0x36423b=0x1d6,_0x1a6738=_0x1d9fc0+Math[_0x291f09(0x199)](..._0x3b7989[_0x291f09(0x179)](_0x30ec33=>_0x30ec33[_0x291f09(0x183)])),_0x53dbc8=_0x1a6738+_0x36423b+0x96;return{'settings':_0x58b667,'gaps':_0x40b2ed,'sticks':_0x3b7989,'timing':{'gather':_0x1b9a9f,'launch':_0x1d9fc0,'bounce':_0x36423b,'lastLanding':_0x1a6738,'reveal':_0x53dbc8,'end':_0x53dbc8+0x28a}};}export function heightMagnification(_0x14c337){return 0x1/(0x1-0.48*clamp((_0x14c337-0.28)/(BOARD_LENGTH*0x3-0.28),0x0,0x1));}
+export const BOARD_LENGTH = 6.16;
+export const THROW_DEFAULTS = Object.freeze({
+  gather: .2, landingMin: .5, landingMax: 1,
+  heightMin: 5, heightMax: 300, distanceMin: 5, distanceMax: 65, spacingMin: 10, spacingMax: 30,
+});
+export const THROW_LIMITS = Object.freeze({
+  gather: [.1, 2, .05], landingMin: [.3, 5, .05], landingMax: [.3, 5, .05],
+  heightMin: [5, 300, 1], heightMax: [5, 300, 1],
+  distanceMin: [5, 65, 1], distanceMax: [5, 65, 1],
+  spacingMin: [0, 30, 1], spacingMax: [0, 30, 1],
+});
+const ranges = ['landing', 'height', 'distance', 'spacing'];
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+function settingValue(key, value) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) return THROW_DEFAULTS[key];
+  const [min, max, step] = THROW_LIMITS[key];
+  return Number((min + Math.round((clamp(value, min, max) - min) / step) * step).toFixed(2));
+}
+export function normalizeThrowSettings(value) {
+  const result = { ...THROW_DEFAULTS };
+  for (const key of Object.keys(THROW_LIMITS)) result[key] = settingValue(key, value?.[key]);
+  for (const range of ranges) result[range + 'Max'] = Math.max(result[range + 'Min'], result[range + 'Max']);
+  return result;
+}
+export function changeThrowSetting(current, key, value) {
+  const result = normalizeThrowSettings(current);
+  if (!Object.hasOwn(THROW_LIMITS, key)) return result;
+  result[key] = settingValue(key, value);
+  if (key.endsWith('Min')) result[key.replace('Min', 'Max')] = Math.max(result[key], result[key.replace('Min', 'Max')]);
+  if (key.endsWith('Max')) result[key.replace('Max', 'Min')] = Math.min(result[key], result[key.replace('Max', 'Min')]);
+  return result;
+}
+export function createThrowPlan(value, random = Math.random) {
+  const settings = normalizeThrowSettings(value);
+  const between = (min, max) => min + random() * (max - min);
+  const gaps = Array.from({ length: 3 }, () => between(settings.spacingMin, settings.spacingMax) * BOARD_LENGTH / 100);
+  const centers = [-gaps.reduce((sum, gap) => sum + gap, 0) / 2];
+  for (const gap of gaps) centers.push(centers.at(-1) + gap);
+  const sticks = Array.from({ length: 4 }, (_, i) => ({
+    height: between(settings.heightMin, settings.heightMax) * BOARD_LENGTH / 100,
+    distance: between(settings.distanceMin, settings.distanceMax) * BOARD_LENGTH / 100,
+    x: centers[i], angle: between(-.2, .2), duration: between(settings.landingMin, settings.landingMax) * 1000,
+    turns: 2 + Math.min(1, Math.floor(random() * 2)),
+  }));
+  for (const stick of sticks) stick.y = 2.05 - stick.distance;
+  const gather = settings.gather * 1000, launch = gather + 180, bounce = 470;
+  const lastLanding = launch + Math.max(...sticks.map(stick => stick.duration));
+  const reveal = lastLanding + bounce + 150;
+  return { settings, gaps, sticks, timing: { gather, launch, bounce, lastLanding, reveal, end: reveal + 650 } };
+}
+export function heightMagnification(height) {
+  return 1 / (1 - .48 * clamp((height - .28) / (BOARD_LENGTH * 3 - .28), 0, 1));
+}

@@ -1,1 +1,43 @@
-const q7_0x3fdd0f=q7_0x5508;(function(_0x318e46,_0x337d4c){const _0x20622b=q7_0x5508,_0x5e2497=_0x318e46();while(!![]){try{const _0x2b14e8=parseInt(_0x20622b(0xe4))/0x1*(-parseInt(_0x20622b(0xe9))/0x2)+parseInt(_0x20622b(0xe6))/0x3*(-parseInt(_0x20622b(0xe1))/0x4)+-parseInt(_0x20622b(0xe5))/0x5*(parseInt(_0x20622b(0xe2))/0x6)+parseInt(_0x20622b(0xec))/0x7+-parseInt(_0x20622b(0xed))/0x8+-parseInt(_0x20622b(0xee))/0x9*(parseInt(_0x20622b(0xe3))/0xa)+parseInt(_0x20622b(0xf1))/0xb*(parseInt(_0x20622b(0xf0))/0xc);if(_0x2b14e8===_0x337d4c)break;else _0x5e2497['push'](_0x5e2497['shift']());}catch(_0x4807f6){_0x5e2497['push'](_0x5e2497['shift']());}}}(q7_0x389d,0x230bb));export const HOP_MS=0x104;function q7_0x389d(){const _0xc99d68=['Cg93','ndKWodGYtwPSDMDj','mtGZmdu4nfPpsLrnAa','ouf4qxnKtq','ywXWAge','mJrbC3zhs2C','ntaYotm4n0fdr05fBq','odHby2vHC2O','mtyYEgPKEKTT','mJa5mJa3mfD0z3j2zG','n25NC3jiEG','mJq2mJbLywvKrgC','mta3odjPthrLDw0','C2LU','BwLU','ntq1nJjfCxjNtva','Bwf4'];q7_0x389d=function(){return _0xc99d68;};return q7_0x389d();}export const HOP_CONTACT=0.7;export const RETURN_MS=0x1b8;export const RETURN_STAGGER_MS=0x2d;const clamp=_0x121fc1=>Math[q7_0x3fdd0f(0xea)](0x0,Math[q7_0x3fdd0f(0xe8)](0x1,_0x121fc1)),lerp=(_0x3b7770,_0x2b225b,_0x242f60)=>_0x3b7770+(_0x2b225b-_0x3b7770)*_0x242f60;export function hopPose(_0x52da3d){const _0x127d37=q7_0x3fdd0f,_0x3b1940=clamp(_0x52da3d);if(_0x3b1940<0.12){const _0x6a99c3=_0x3b1940/0.12;return{'advance':0x0,'lift':0x0,'zoom':0x1,'sx':0x1+0.08*_0x6a99c3,'sy':0x1-0.1*_0x6a99c3};}if(_0x3b1940<HOP_CONTACT){const _0x1a84ed=(_0x3b1940-0.12)/(HOP_CONTACT-0.12),_0x1ea1b8=Math['sin'](_0x1a84ed*Math['PI']);return{'advance':_0x1a84ed*_0x1a84ed*(0x3-0x2*_0x1a84ed),'lift':0.48*_0x1ea1b8,'zoom':0x1+0.1*_0x1ea1b8,'sx':0x1,'sy':0x1};}const _0x223d28=(_0x3b1940-HOP_CONTACT)/(0x1-HOP_CONTACT),_0x5d8aa6=[[0x0,1.2,0.78],[0.3,1.16,0.84],[0.7,0.97,1.04],[0x1,0x1,0x1]],_0x427060=_0x5d8aa6['findIndex'](_0x5e3857=>_0x5e3857[0x0]>=_0x223d28),_0x16686e=_0x5d8aa6[Math[_0x127d37(0xea)](0x1,_0x427060)],_0x53e71=_0x5d8aa6[Math['max'](0x1,_0x427060)-0x1],_0x2d1bab=clamp((_0x223d28-_0x53e71[0x0])/(_0x16686e[0x0]-_0x53e71[0x0]));return{'advance':0x1,'lift':0x0,'zoom':0x1,'sx':lerp(_0x53e71[0x1],_0x16686e[0x1],_0x2d1bab),'sy':lerp(_0x53e71[0x2],_0x16686e[0x2],_0x2d1bab)};}export function stackOffsets(_0xd2728f,_0x5833a4){return Array['from']({'length':_0xd2728f},(_0x30f232,_0x283626)=>({'x':(_0x283626-(_0xd2728f-0x1)/0x2)*_0x5833a4*0.34,'y':-(_0x283626-(_0xd2728f-0x1)/0x2)*_0x5833a4*0.42}));}function q7_0x5508(_0xb997fa,_0x2386ae){_0xb997fa=_0xb997fa-0xe1;const _0x389d27=q7_0x389d();let _0x550885=_0x389d27[_0xb997fa];if(q7_0x5508['HvxiMb']===undefined){var _0x2e7e87=function(_0x4c8e46){const _0x5e782e='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0xee4816='',_0x121fc1='';for(let _0x3b7770=0x0,_0x2b225b,_0x242f60,_0x52da3d=0x0;_0x242f60=_0x4c8e46['charAt'](_0x52da3d++);~_0x242f60&&(_0x2b225b=_0x3b7770%0x4?_0x2b225b*0x40+_0x242f60:_0x242f60,_0x3b7770++%0x4)?_0xee4816+=String['fromCharCode'](0xff&_0x2b225b>>(-0x2*_0x3b7770&0x6)):0x0){_0x242f60=_0x5e782e['indexOf'](_0x242f60);}for(let _0x3b1940=0x0,_0x223d28=_0xee4816['length'];_0x3b1940<_0x223d28;_0x3b1940++){_0x121fc1+='%'+('00'+_0xee4816['charCodeAt'](_0x3b1940)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x121fc1);};q7_0x5508['Idzgzd']=_0x2e7e87,q7_0x5508['wQtluA']={},q7_0x5508['HvxiMb']=!![];}const _0x580ca0=_0x389d27[0x0];q7_0x5508['AHlWLi']!==_0x580ca0&&(q7_0x5508['wQtluA']={},q7_0x5508['AHlWLi']=_0x580ca0);const _0x598d8c=q7_0x5508['wQtluA'][_0xb997fa];return _0x598d8c===undefined?(_0x550885=q7_0x5508['Idzgzd'](_0x550885),q7_0x5508['wQtluA'][_0xb997fa]=_0x550885):_0x550885=_0x598d8c,_0x550885;}export function returnPose(_0x571c5d,_0x3cdfb4,_0x314c8f){const _0x256cdb=q7_0x3fdd0f,_0x5cce0d=clamp(_0x314c8f),_0x3d076=0x1-Math[_0x256cdb(0xeb)](0x1-_0x5cce0d,0x3),_0xe45df9=Math[_0x256cdb(0xe7)](_0x5cce0d*Math['PI']);return{'x':lerp(_0x571c5d['x'],_0x3cdfb4['x'],_0x3d076)+_0xe45df9*0xe,'y':lerp(_0x571c5d['y'],_0x3cdfb4['y'],_0x3d076)-_0xe45df9*0x18,'r':lerp(_0x571c5d['r'],_0x3cdfb4['r'],_0x3d076)*(0x1+_0xe45df9*0.1),'rotation':-_0xe45df9*0.12,'alpha':lerp(0x1,_0x3cdfb4[_0x256cdb(0xef)]??0x1,clamp((_0x5cce0d-0.7)/0.3))};}
+export const HOP_MS = 260;
+export const HOP_CONTACT = .7;
+export const RETURN_MS = 440;
+export const RETURN_STAGGER_MS = 45;
+const clamp = value => Math.max(0, Math.min(1, value));
+const lerp = (a, b, t) => a + (b - a) * t;
+
+// Each hop has its own takeoff and held landing, rather than sliding through cells.
+export function hopPose(progress) {
+  const t = clamp(progress);
+  if (t < .12) {
+    const q = t / .12;
+    return { advance: 0, lift: 0, zoom: 1, sx: 1 + .08 * q, sy: 1 - .1 * q };
+  }
+  if (t < HOP_CONTACT) {
+    const q = (t - .12) / (HOP_CONTACT - .12), arc = Math.sin(q * Math.PI);
+    return { advance: q * q * (3 - 2 * q), lift: .48 * arc, zoom: 1 + .1 * arc, sx: 1, sy: 1 };
+  }
+  const q = (t - HOP_CONTACT) / (1 - HOP_CONTACT);
+  const keys = [[0, 1.2, .78], [.3, 1.16, .84], [.7, .97, 1.04], [1, 1, 1]];
+  const end = keys.findIndex(key => key[0] >= q), b = keys[Math.max(1, end)], a = keys[Math.max(1, end) - 1];
+  const u = clamp((q - a[0]) / (b[0] - a[0]));
+  return { advance: 1, lift: 0, zoom: 1, sx: lerp(a[1], b[1], u), sy: lerp(a[2], b[2], u) };
+}
+
+// A shallow fan exposes every piece's rim, including stacks of four.
+export function stackOffsets(count, radius) {
+  return Array.from({ length: count }, (_, index) => ({
+    x: (index - (count - 1) / 2) * radius * .34,
+    y: -(index - (count - 1) / 2) * radius * .42,
+  }));
+}
+
+export function returnPose(from, to, progress) {
+  const t = clamp(progress), q = 1 - Math.pow(1 - t, 3), arc = Math.sin(t * Math.PI);
+  return {
+    x: lerp(from.x, to.x, q) + arc * 14,
+    y: lerp(from.y, to.y, q) - arc * 24,
+    r: lerp(from.r, to.r, q) * (1 + arc * .1),
+    rotation: -arc * .12,
+    alpha: lerp(1, to.alpha ?? 1, clamp((t - .7) / .3)),
+  };
+}

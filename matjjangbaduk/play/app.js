@@ -9729,7 +9729,6 @@ var BADUK_TEXTS = {
     tutorialBoard: "\uC785\uBB38 \uC5F0\uC2B5\uD310",
     language: "\uC5B8\uC5B4",
     sound: "\uCC29\uC218\uC74C",
-    helpers: "\uD65C\uB85C \uB3C4\uC6C0\uB9D0",
     nickname: "\uB2C9\uB124\uC784",
     save: "\uC800\uC7A5",
     feedback: "\uD53C\uB4DC\uBC31 \uBCF4\uB0B4\uAE30",
@@ -9759,7 +9758,6 @@ var BADUK_TEXTS = {
     overtime: "{seconds}\uCD08 \xB7 {periods}\uD68C",
     turn: "{color} \uCC28\uB840 \xB7 \uB3CC\uC744 \uB193\uC744 \uC790\uB9AC\uB97C \uACE0\uB974\uC138\uC694",
     selected: "{point} \xB7 \uD655\uC778\uC744 \uB204\uB974\uBA74 \uB461\uB2C8\uB2E4",
-    liberty: "{point} \xB7 \uB193\uC740 \uB4A4 \uD65C\uB85C {n}\uAC1C",
     atari: "\uB2E8\uC218! \uD65C\uB85C\uAC00 \uD558\uB098 \uB0A8\uC740 \uB3CC\uC774 \uC788\uC5B4\uC694",
     thinking: "AI\uAC00 \uC0DD\uAC01\uD558\uACE0 \uC788\uC5B4\uC694",
     waitingOpponent: "\uC0C1\uB300\uC758 \uC218\uB97C \uAE30\uB2E4\uB9AC\uACE0 \uC788\uC5B4\uC694",
@@ -9990,7 +9988,6 @@ var BADUK_TEXTS = {
     tutorialBoard: "Tutorial board",
     language: "Language",
     sound: "Stone sounds",
-    helpers: "Liberty hints",
     nickname: "Nickname",
     save: "Save",
     feedback: "Send feedback",
@@ -10020,7 +10017,6 @@ var BADUK_TEXTS = {
     overtime: "{seconds}s \xB7 {periods} left",
     turn: "{color} to play \xB7 Choose a point",
     selected: "{point} \xB7 Confirm to place your stone",
-    liberty: "{point} \xB7 {n} liberties after playing",
     atari: "Atari! A group has only one liberty",
     thinking: "AI is thinking",
     waitingOpponent: "Waiting for your opponent",
@@ -10871,8 +10867,10 @@ function beginnerCandidates(state) {
 
 // supabase/functions/matjjangbaduk/beginner-policy.mjs
 var BEGINNER_MISTAKES = Object.freeze([0.95, 0.87, 0.79, 0.71, 0.63, 0.55, 0.47, 0.39, 0.31, 0.23]);
-function weakenAction(state, level, action, random = Math.random) {
-  const probability = BEGINNER_MISTAKES[level];
+var BEGINNER_POLICY_V2 = "baduk-beginner-30k-v2";
+function weakenAction(state, level, action, random = Math.random, policyVersion) {
+  const novice = level === 0 && policyVersion === BEGINNER_POLICY_V2;
+  const probability = novice ? 0.99 : BEGINNER_MISTAKES[level];
   if (!Number.isInteger(level) || probability === void 0) return action;
   if (state.phase === "scoring-request" && action.type === "declineScore") {
     return beginnerCandidates(state).length ? action : { type: "acceptScore" };
@@ -10880,8 +10878,9 @@ function weakenAction(state, level, action, random = Math.random) {
   if (state.phase !== "playing") return action;
   if (action.type === "pass" && state.endgameVersion && state.passes > 0) return { type: "requestScore" };
   if (action.type !== "move") return action;
-  const candidates = beginnerCandidates(state);
-  if (!candidates.length) return { type: state.endgameVersion && !state.scoringDeclined ? "requestScore" : "pass" };
+  const filtered = beginnerCandidates(state);
+  if (!filtered.length) return { type: state.endgameVersion && !state.scoringDeclined ? "requestScore" : "pass" };
+  const candidates = novice ? state.board.flatMap((stone, index) => !stone && !tryMove(state, index).error ? [index] : []) : filtered;
   if (candidates.includes(action.index) && random() >= probability) return action;
   return { type: "move", index: candidates[Math.min(candidates.length - 1, Math.floor(random() * candidates.length))] };
 }
@@ -11354,7 +11353,7 @@ function createKataGoOfflineClient() {
     event?.preventDefault?.();
     reject("katagoOfflineUnavailable");
   }
-  async function request(state, input, evaluation = false, level = null) {
+  async function request(state, input, evaluation = false, level = null, beginnerPolicyVersion) {
     cancel();
     if (!worker) {
       try {
@@ -11372,7 +11371,7 @@ function createKataGoOfflineClient() {
           try {
             if (data.error) throw new Error("katagoOfflineUnavailable");
             const move = offlineMove(data.result, job.input);
-            job.resolve(job.evaluation ? positionEvaluation(data.result) : weakenAction(job.state, job.level, engineAction(job.state, move)));
+            job.resolve(job.evaluation ? positionEvaluation(data.result) : weakenAction(job.state, job.level, engineAction(job.state, move), Math.random, job.beginnerPolicyVersion));
           } catch (error) {
             close();
             job.reject(error);
@@ -11385,7 +11384,7 @@ function createKataGoOfflineClient() {
     }
     return new Promise((resolve, rejectJob) => {
       const id = ++sequence, timer = setTimeout(fail, 6e4);
-      pending = { id, state, input, evaluation, level, resolve, reject: rejectJob, timer };
+      pending = { id, state, input, evaluation, level, beginnerPolicyVersion, resolve, reject: rejectJob, timer };
       try {
         worker.postMessage({ id, input });
       } catch {
@@ -11402,7 +11401,7 @@ function createKataGoOfflineClient() {
         cancel();
         return Promise.resolve({ type: "confirm" });
       }
-      return request(state, offlineRequest(engineInput(state), session2, String(Math.random())), false, session2.level);
+      return request(state, offlineRequest(engineInput(state), session2, String(Math.random())), false, session2.level, session2.aiBeginnerPolicyVersion);
     }
   };
 }
@@ -11417,7 +11416,12 @@ function practiceEngine(mode, level, size = 9) {
   if (!validPracticeLevel(level, mode === "serverAi")) throw new Error("invalidEngineLevel");
   if (mode === "serverAi") return { aiEngine: "katago", aiPolicyVersion: BOT_POLICY };
   if (mode !== "ai") throw new Error("invalidEngineMode");
-  return { aiEngine: "katago-offline", aiPolicyVersion: KATAGO_OFFLINE_POLICY, aiSettings: offlineSettings(size, level) };
+  return {
+    aiEngine: "katago-offline",
+    aiPolicyVersion: KATAGO_OFFLINE_POLICY,
+    aiSettings: offlineSettings(size, level),
+    ...level === 0 ? { aiBeginnerPolicyVersion: BEGINNER_POLICY_V2 } : {}
+  };
 }
 function rematchEngine(session2) {
   if (session2.mode === "local") return { mode: "local" };
@@ -12095,7 +12099,7 @@ var uiIds = {
 var el = (id) => document.getElementById(uiIds[id] || id);
 var passNotice = createPassNotice(el("pass-notice"), () => t2("pass"));
 var save = window.NcqSave;
-save.init({ id: "matjjangbaduk", data: { boardSize: 9, useKomi: false, practiceEngine: "katago-offline", practiceRank: 0, practiceColor: 1, nickname: "", helpers: true, skin: "reference", owned: ["reference", "classic"], appearance: null, skinOwned: null, placement: "plain", effectOwned: ["plain"], goldenUntil: 0, rippleUntil: 0, mysticUntil: 0, sakuraUntil: 0, sakuraPermanent: false, effectLicenseVersion: 0, favorites: [], coins: 0, records: [], active: null, onlineCode: null, stats: { games: 0, wins: 0 }, mission: { day: "", games: 0, claimed: [] }, learned: false, academy: emptyAcademy() } });
+save.init({ id: "matjjangbaduk", data: { boardSize: 9, useKomi: false, practiceEngine: "katago-offline", practiceRank: 0, practiceColor: 1, nickname: "", skin: "reference", owned: ["reference", "classic"], appearance: null, skinOwned: null, placement: "plain", effectOwned: ["plain"], goldenUntil: 0, rippleUntil: 0, mysticUntil: 0, sakuraUntil: 0, sakuraPermanent: false, effectLicenseVersion: 0, favorites: [], coins: 0, records: [], active: null, onlineCode: null, stats: { games: 0, wins: 0 }, mission: { day: "", games: 0, claimed: [] }, learned: false, academy: emptyAcademy() } });
 initializeRankProgress(save);
 function migrateEffectLicense() {
   if (!save.get("effectLicenseVersion")) save.update((data) => {
@@ -12407,8 +12411,7 @@ function selectPoint(index) {
   if (move.error) return setMessage(move.error, {}, true);
   selected = index;
   haptics.tap();
-  if (save.get("helpers")) setMessage("liberty", { point: coordinate2(index), n: move.liberties });
-  else setMessage("selected", { point: coordinate2(index) });
+  setMessage("selected", { point: coordinate2(index) });
   renderMatch();
 }
 function playerName(seat) {
@@ -12764,6 +12767,7 @@ function recordFinished(finished = session) {
     ...finished.aiEngine ? { aiEngine: finished.aiEngine } : {},
     ...finished.aiVisits !== void 0 ? { aiVisits: finished.aiVisits } : {},
     ...finished.aiSettings ? { aiSettings: finished.aiSettings } : {},
+    ...finished.aiBeginnerPolicyVersion ? { aiBeginnerPolicyVersion: finished.aiBeginnerPolicyVersion } : {},
     game,
     endedAt: Date.now()
   })) {
@@ -13744,7 +13748,6 @@ function renderOptions() {
     el("language").append(option);
   }
   renderSoundSettings();
-  el("helpers").checked = save.get("helpers");
   el("use-komi").checked = save.get("useKomi") === true;
   el("nickname").value = save.get("nickname");
   el("app-version").textContent = window.NCQ?.NCQ_VERSION ? "v" + window.NCQ.NCQ_VERSION : "dev";
@@ -14048,7 +14051,6 @@ el("use-komi").onchange = () => {
 el("save-options").onclick = () => {
   save.update((data) => {
     data.nickname = el("nickname").value.trim().slice(0, 18);
-    data.helpers = el("helpers").checked;
   });
   window.NcqSound.enabled("sfx", el("sound").checked);
   closeDialog("options");

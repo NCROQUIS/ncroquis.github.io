@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
+<meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>블랙잭 테이블 프로토타입</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Gothic+A1:wght@500;700;900&family=Oswald:wght@600&family=Playfair+Display:ital,wght@0,900;1,600&display=swap" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<div id="app">
+  <main id="game">
+    <div id="stage"></div>
+
+    <!-- Labels pinned to things on the table -->
+    <div id="marks" aria-live="polite">
+      <div class="total" id="tDealer"></div>
+      <div class="total" id="tHand0"></div>
+      <div class="total" id="tHand1"></div>
+      <div class="bettag" id="bHand0"></div>
+      <div class="bettag" id="bHand1"></div>
+      <div class="result" id="rHand0"></div>
+      <div class="result" id="rHand1"></div>
+      <div class="shoetag on" id="shoeTag">312</div>
+    </div>
+
+    <div id="banner" aria-label="Advertisement"><span class="adtag">AD</span><span class="adtxt" data-i18n="bannerTxt"></span></div>
+
+    <header id="top">
+      <div class="tableinfo">
+        <div class="tablebtn" id="btnTable">
+          <span class="tname" id="tblName"></span>
+          <span class="tlim" id="tblLim"></span>
+        </div>
+        <button type="button" class="avatar" id="btnProfile" aria-label="Profile"><img id="avatarImg" alt=""></button>
+        <div class="lvl" id="lvl" role="button" tabindex="0" aria-label="Level"><b id="lvlNum">1</b><i><s id="lvlBar"></s></i><span id="xpGain" class="xpgain"></span><span id="xpTip" class="xptip"></span></div>
+        <button type="button" id="btnHelp" class="helpbtn" aria-label="How to play"><svg viewBox="0 0 24 24" aria-hidden="true"><path transform="translate(0 -0.5)" d="M11.07 12.85c.77-1.39 2.25-2.21 3.11-3.44.91-1.29.4-3.7-2.18-3.7-1.69 0-2.52 1.28-2.87 2.34L6.54 6.96C7.25 4.83 9.18 3 11.99 3c2.35 0 3.96 1.07 4.78 2.41.7 1.15 1.11 3.3.03 4.9-1.2 1.77-2.35 2.31-2.97 3.45-.25.46-.35.76-.35 2.24h-2.89c-.01-.78-.13-2.05.48-3.15zM14 20c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/></svg></button>
+      </div>
+      <div class="balance" title="Chips"><i class="coin"></i><b id="chips">0</b><span id="delta"></span></div>
+      <button type="button" id="btnGear" class="iconbtn" aria-label="Menu">
+        <svg class="ico-gear" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6-2-3.4-2.4 1a7.4 7.4 0 0 0-1.7-1L15 3.4h-4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.4-1-2 3.4 2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6 2 3.4 2.4-1a7.4 7.4 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.4 7.4 0 0 0 1.7-1l2.4 1 2-3.4zM13 15.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4z" transform="translate(-1 0)"/></svg>
+        <svg class="ico-exit" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h9a2 2 0 0 1 2 2v3h-2V5H5v14h9v-3h2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm12.6 5.4L21.2 12l-3.6 3.6-1.4-1.4 1.2-1.2H9v-2h8.4l-1.2-1.2z"/></svg>
+      </button>
+    </header>
+
+    <!-- Lobby: pick a table, then walk up to it -->
+    <section id="lobby">
+      <div class="lobbybox">
+        <div class="lobbytools">
+          <button type="button" class="ltool" id="btnAch"><svg viewBox="0 0 24 24"><path d="M7 3h10v3h3v2a5 5 0 0 1-4.3 4.95A5 5 0 0 1 13 15.9V18h3v3H8v-3h3v-2.1a5 5 0 0 1-2.7-2.95A5 5 0 0 1 4 8V6h3zm0 5V8H6a3 3 0 0 0 1.2 2.4A7 7 0 0 1 7 8zm10 0a7 7 0 0 1-.2 2.4A3 3 0 0 0 18 8z"/></svg><span data-i18n="ach"></span></button>
+          <button type="button" class="ltool" id="btnRank"><svg viewBox="0 0 24 24"><path d="M3 21v-8h5v8zm6.5 0V4h5v17zM16 21v-11h5v11z"/></svg><span data-i18n="rank"></span></button>
+        </div>
+        <div class="tcar" id="lobbyTables"></div>
+        <div class="playrow">
+          <button type="button" class="btn multi" id="btnMulti"><b data-i18n="multi"></b><small data-i18n="multiSub"></small></button>
+          <button type="button" class="btn deal" id="btnPlay" data-ncq-main="싱글 플레이"></button>
+        </div>
+      </div>
+    </section>
+
+    <div id="fx" aria-hidden="true"></div>
+    <div id="caption"></div>
+    <div id="toast" role="status"></div>
+    <div id="coach" aria-live="polite"><i class="blk"></i><i class="blk"></i><i class="blk"></i><i class="blk"></i><span class="ring"></span><p class="tip"></p></div>
+    <div id="unlockFx" aria-live="polite">
+      <div class="ufx-shade"></div>
+      <div class="ufx-panel">
+        <div class="ufx-kicker" id="ufxKicker"></div>
+        <div class="ufx-table" id="ufxTable">
+          <span class="ufx-felt"></span><span class="ufx-sheen"></span>
+          <svg class="ufx-lock" viewBox="0 0 40 48"><path class="sh" d="M11 22v-7a9 9 0 0 1 18 0v7" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="6" y="21" width="28" height="22" rx="4" fill="currentColor"/><circle cx="20" cy="31" r="3" fill="#000" opacity=".45"/></svg>
+          <span class="ufx-name" id="ufxName"></span>
+        </div>
+        <div class="ufx-meta" id="ufxMeta"></div>
+        <div class="ufx-btns"><button type="button" class="ufx-stay" id="ufxStay"></button><button type="button" class="ufx-go" id="ufxGo"></button></div>
+      </div>
+    </div>
+
+    <footer id="bottom">
+      <div id="betBar" class="bar">
+        <div class="chiprow" id="chipRow"></div>
+        <div class="betrow">
+          <button type="button" id="btnClear" class="btn ghost" data-i18n="clear"></button>
+          <button type="button" id="btnDeal" class="btn deal" data-i18n="deal"></button>
+          <button type="button" id="btnRebet" class="btn ghost" data-i18n="rebet"></button>
+        </div>
+      </div>
+      <div id="actBar" class="bar">
+        <button type="button" class="btn act split" data-act="split" data-i18n="split"></button>
+        <button type="button" class="btn act double" data-act="double" data-i18n="double"></button>
+        <button type="button" class="btn act hit" data-act="hit" data-i18n="hit"></button>
+        <button type="button" class="btn act stand" data-act="stand" data-i18n="stand"></button>
+      </div>
+    </footer>
+
+    <section class="sheet" id="sheetSettings" aria-modal="true" role="dialog">
+      <div class="panel">
+        <div class="phead"><h2 id="menuTitle" data-i18n="menu"></h2><button type="button" class="btn ghost small" data-close data-i18n="close"></button></div>
+        <div class="setrow"><span data-i18n="sound"></span><button type="button" class="btn ghost small" id="btnSound"></button></div>
+        <div class="setrow"><span data-i18n="language"></span><button type="button" class="btn ghost small" id="btnLang"></button></div>
+        <h3 data-i18n="stats"></h3>
+        <dl class="stats" id="statList"></dl>
+        <div class="setrow last"><span id="resetAsk" data-i18n="reset"></span>
+          <span class="pair"><button type="button" class="btn ghost small" id="btnReset" data-i18n="reset"></button><button type="button" class="btn danger small" id="btnResetYes" data-i18n="yes" hidden></button><button type="button" class="btn ghost small" id="btnResetNo" data-i18n="no" hidden></button></span></div>
+        <div class="menuacts" id="tableActs">
+          <button type="button" class="btn ghost wide" id="btnShuffle" data-i18n="newShoe"></button>
+          <button type="button" class="btn deal wide" id="btnLobby" data-i18n="back"></button>
+        </div>
+        <p class="ver" id="appVersion">dev</p>
+      </div>
+    </section>
+
+    <section class="sheet" id="sheetHelp" aria-modal="true" role="dialog">
+      <div class="panel helppanel">
+        <div class="phead"><h2 data-i18n="howto"></h2><button type="button" class="btn ghost small" data-close data-i18n="close"></button></div>
+        <div class="helppage">
+          <img id="helpImg" alt="">
+          <h3 id="helpTitle"></h3>
+          <p id="helpText"></p>
+        </div>
+        <div class="helpnav">
+          <button type="button" class="btn ghost small" id="helpPrev">‹</button>
+          <div class="dots" id="helpDots"></div>
+          <button type="button" class="btn deal small" id="helpNext">›</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="sheet" id="sheetRefill" aria-modal="true" role="dialog">
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="outTitle"></h2></div>
+        <p class="pbody" id="refillBody"></p>
+        <button type="button" class="btn deal wide" id="btnAd"></button>
+        <button type="button" class="btn ghost wide" id="btnDown"></button>
+      </div>
+    </section>
+
+
+    <section class="sheet" id="sheetProfile" aria-modal="true" role="dialog">
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="profile"></h2><button type="button" class="btn ghost small" data-close data-i18n="close"></button></div>
+        <div class="prof">
+          <img class="bigava" id="profAva" alt="">
+          <div class="profinfo"><b id="profName"></b><span id="profLv"></span></div>
+        </div>
+        <div class="nickrow">
+          <input id="nickInput" type="text" maxlength="12" autocomplete="off" spellcheck="false">
+          <button type="button" class="btn deal small" id="btnNick"></button>
+        </div>
+        <p class="nickmsg" id="nickMsg"></p>
+        <h3 data-i18n="icons"></h3>
+        <div class="icongrid" id="iconGrid"></div>
+      </div>
+    </section>
+
+    <section class="sheet" id="sheetAch" aria-modal="true" role="dialog">
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="ach"></h2><button type="button" class="btn ghost small" data-close data-i18n="close"></button></div>
+        <p class="pbody" id="achSummary"></p>
+        <div class="achlist" id="achList"></div>
+      </div>
+    </section>
+
+    <section class="sheet" id="sheetRank" aria-modal="true" role="dialog">
+      <div class="panel">
+        <div class="phead"><h2 data-i18n="rank"></h2><button type="button" class="btn ghost small" data-close data-i18n="close"></button></div>
+        <p class="ranknote" data-i18n="rankNote"></p>
+        <div class="ranklist" id="rankList"></div>
+        <div class="rankme" id="rankMe"></div>
+      </div>
+    </section>
+
+    <div id="interAd" hidden>
+      <div class="adbox"><b data-i18n="adLabel"></b><span data-i18n="interNote"></span><i id="interCount">5</i></div>
+      <button type="button" class="interclose" id="interClose" hidden aria-label="Close">✕</button>
+    </div>
+
+    <div id="adMock" hidden>
+      <div class="adbox"><b data-i18n="adLabel"></b><span data-i18n="adNote"></span><i id="adCount">3</i></div>
+    </div>
+
+    <div id="loading"><div class="lbox"><i class="spin"></i><span data-i18n="loading"></span></div></div>
+  </main>
+</div>
+
+<script src="vendor/three.min.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/util.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/art.js"></script>
+<script src="js/stage.js"></script>
+<script src="js/pieces.js"></script>
+<script src="js/meta.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>

@@ -17,4 +17,9 @@ const rows = {
   'zh-Hans': ['选择目标格', '可用结果', '点击高亮的目标格移动。', '叠加'],
   'zh-Hant': ['選擇目標格', '可用結果', '點擊亮起的目標格移動。', '疊加'],
 };
-export const MOVE_TEXTS = Object.fromEntries(Object.entries(rows).map(([language, [chooseDestination, pendingResults, moveHint, stackAction]]) => [language, { chooseDestination, pendingResults, moveHint, stackAction }]));
+const finishActions = {
+  en: 'Finish', ko: '완주', id: 'Selesaikan', 'pt-BR': 'Concluir', 'es-MX': 'Terminar',
+  th: 'เข้าเส้นชัย', vi: 'Về đích', pl: 'Ukończ', tr: 'Bitir', ms: 'Tamat', fr: 'Terminer',
+  de: 'Ins Ziel', es: 'Terminar', it: 'Concludi', ja: 'ゴール', 'zh-Hans': '完成', 'zh-Hant': '完成',
+};
+export const MOVE_TEXTS = Object.fromEntries(Object.entries(rows).map(([language, [chooseDestination, pendingResults, moveHint, stackAction]]) => [language, { chooseDestination, pendingResults, moveHint, stackAction, finishAction: finishActions[language] }]));

@@ -4,14 +4,18 @@ export const OUTCOMES = Object.freeze({
   geol: { steps: 3, extra: false }, yut: { steps: 4, extra: true },
   mo: { steps: 5, extra: true }, backdo: { steps: -1, extra: false },
 });
-export const ROUTES = Object.freeze({
+export const LEGACY_ROUTES = Object.freeze({
   outer: ['base', ...Array.from({ length: 19 }, (_, i) => `o${i + 1}`), 'finish'],
   ne: ['o5', 'ne1', 'ne2', 'center', 'sw2', 'sw1', 'o15', 'o16', 'o17', 'o18', 'o19', 'finish'],
   nw: ['o10', 'nw1', 'nw2', 'center', 'se2', 'se1', 'finish'],
   center: ['center', 'se2', 'se1', 'finish'],
 });
+export const RULES = 'local-teams-v2';
+export const ROUTES = Object.freeze(Object.fromEntries(Object.entries(LEGACY_ROUTES).map(([name, track]) =>
+  [name, [...track.slice(0, -1), 'o20', 'finish']])));
+const routesFor = rules => rules === RULES ? ROUTES : LEGACY_ROUTES;
 export const POINTS = (() => {
-  const a = 3.08, points = { base: [a, a], finish: [a, a], center: [0, 0] };
+  const a = 3.08, points = { base: [a, a], o20: [a, a], finish: [a, 5], center: [0, 0] };
   for (let i = 1; i <= 19; i++) {
     if (i <= 5) points[`o${i}`] = [a, a - i * 2 * a / 5];
     else if (i <= 10) points[`o${i}`] = [a - (i - 5) * 2 * a / 5, -a];
@@ -32,7 +36,7 @@ export function createGame(teamSizes = [1, 1]) {
   if (!Array.isArray(teamSizes) || teamSizes.length < 2 || teamSizes.length > 4 || teamSizes.some(n => !Number.isInteger(n) || n < 1 || n > 4)) throw new TypeError('Two to four teams with one to four members required');
   return {
     schema: SCHEMA, id: globalThis.crypto?.randomUUID?.() || `local-${Date.now()}`,
-    rules: 'local-teams-v1', teams: teamSizes.map(size => ({ size, member: 0 })),
+    rules: RULES, teams: teamSizes.map(size => ({ size, member: 0 })),
     active: 0, winner: null, throws: 1, pending: [], nextResult: 1, turn: 1, action: 0,
     pieces: Array.from({ length: teamSizes.length * 4 }, (_, id) => ({ id, player: Math.floor(id / 4), movedAt: 0, history: [{ node: 'base', route: 'outer' }] })),
     lastThrow: null, lastMove: null, lastPass: false,
@@ -88,7 +92,7 @@ export function throwSticks(game, bits) {
   state.action += 1;
   return state;
 }
-export function advance(piece, steps) {
+export function advance(piece, steps, rules = RULES) {
   const start = position(piece);
   if (start === 'finish' || start === 'base' && steps < 0) return null;
   const history = copy(piece.history), path = [];
@@ -101,7 +105,7 @@ export function advance(piece, steps) {
   if (start === 'o5') route = 'ne';
   if (start === 'o10') route = 'nw';
   if (start === 'center') route = 'center';
-  const track = ROUTES[route];
+  const track = routesFor(rules)[route];
   const index = track.indexOf(start);
   if (index < 0) throw new Error('Invalid route');
   for (let n = 1; n <= steps; n++) {
@@ -117,7 +121,7 @@ export function planMove(game, pieceId, resultId) {
   const piece = game.pieces.find(p => p.id === pieceId);
   const result = game.pending.find(r => r.id === resultId);
   if (!piece || piece.player !== game.active || !result) return null;
-  const plan = advance(piece, result.steps);
+  const plan = advance(piece, result.steps, game.rules ?? 'legacy');
   if (!plan) return null;
   const start = position(piece);
   const stackIds = start === 'base' ? [piece.id] : game.pieces.filter(p => p.player === piece.player && position(p) === start).map(p => p.id);
@@ -182,7 +186,7 @@ export function restoreGame(value) {
       if (piece.id !== id || piece.player !== Math.floor(id / 4) || !Array.isArray(piece.history) || piece.history.length < 1 || piece.history.length > 40) return null;
       if (piece.history[0].node !== 'base') return null;
       if (piece.movedAt !== undefined && (!Number.isSafeInteger(piece.movedAt) || piece.movedAt < 0 || piece.movedAt > value.action)) return null;
-      for (const point of piece.history) if (!ROUTES[point.route]?.includes(point.node)) return null;
+      for (const point of piece.history) if (!routesFor(value.rules)[point.route]?.includes(point.node)) return null;
     }
     if (value.winner !== null && !value.pieces.filter(p => p.player === value.winner).every(p => position(p) === 'finish')) return null;
     const occupied = new Map();

@@ -2,6 +2,7 @@
 <html>
 <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
   <script src="./ncq/safe.js"></script>
+  <script src="./ncq/display.js"></script>
   <script src="./ncq/motion.js"></script>
   <script src="./ncq/viewport.js"></script>
   <script src="./ncq/sound.js"></script>
@@ -16,6 +17,7 @@
   <link rel="stylesheet" href="./src/styles.css">
   <link rel="stylesheet" href="./src/throw-settings.css">
   <link rel="stylesheet" href="./src/move-targets.css">
+  <link rel="stylesheet" href="./src/throw-result.css">
   <link rel="stylesheet" href="./src/teams.css">
   <script type="module" src="./src/app.mjs"></script>
 </head>
@@ -53,7 +55,6 @@
             <div class="first-player-seal"><span class="reveal-laurel" aria-hidden="true"><i></i><i></i><i></i><i></i></span><strong class="first-player-label" data-i18n="firstPlayer"></strong><span class="reveal-laurel right" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
           </div>
         </div>
-        <div class="throw-result" id="throw-result" aria-hidden="true"><span class="result-eyebrow"></span><strong class="result-name"></strong><span class="result-detail"></span></div>
       </section>
       <div class="team-row lower-teams"></div>
       <div class="result-lanes" id="pending-results" role="group" data-i18n-attr="aria-label:pendingResults">
@@ -66,6 +67,7 @@
       <button type="button" class="main-button" id="main-button" data-ncq-main="game action"><span class="button-sticks" aria-hidden="true"><i></i><i></i></span><span id="main-label"></span></button>
     </footer>
   </main>
+  <div class="throw-result" id="throw-result" hidden aria-hidden="true"><strong class="result-name"></strong></div>
   <dialog id="team-setup-dialog" aria-labelledby="team-setup-title">
     <header class="dialog-header"><h2 id="team-setup-title" data-i18n="playTogether"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>
     <div class="team-setup-body"><div id="setup-teams"></div><button class="secondary-button" id="add-team" type="button"><span aria-hidden="true">＋</span> <span data-i18n="addTeam"></span></button></div>

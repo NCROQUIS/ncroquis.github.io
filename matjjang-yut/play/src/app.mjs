@@ -5,6 +5,7 @@ import { createRenderer } from './renderer.mjs';
 import { playCapture } from './audio.mjs';
 import { mountThrowSettings } from './throw-settings.mjs';
 import { createFirstPlayerReveal } from './first-player-reveal.mjs';
+import { createThrowResultMotion } from './throw-result-motion.mjs';
 import { createTeamView, mountTeamSetup, localPlayerName, colorTeam } from './teams.mjs';
 
 const $ = selector => document.querySelector(selector);
@@ -18,11 +19,13 @@ let resumeLevel = restored?.action > 0 && game.winner === null;
 let openingThrower = null, openingRevealed = false;
 let revealingFirst = false;
 let hasSavedMatch = !!restored;
+let arrivingResult = null, resultRevealTask = null;
 const teamView = createTeamView(selectPiece);
 const status = $('#game-status'), action = $('#main-button'), label = $('#main-label');
 const resultBox = $('#throw-result');
 const quitDialog = $('#quit-dialog');
 const firstReveal = createFirstPlayerReveal($('#first-player-reveal'));
+const resultMotion = createThrowResultMotion(resultBox, $('#play-area'));
 const throwSettings = mountThrowSettings();
 const renderer = createRenderer($('#board'), { game, getThrowSettings: throwSettings.get, getPieceElement: id => teamView.pieceButtons[id], onSelect: selectPiece, onMove: performMove, onPhase: value => { phase = value; render(); }, onReveal: showThrowResult });
 const teamSetup = mountTeamSetup(sizes => {
@@ -98,13 +101,15 @@ function showThrowResult() {
   if (openingRoll) { openingRevealed = true; render(); return; }
   const result = game.lastThrow;
   if (!result) return;
-  const extra = OUTCOMES[result.outcome].extra;
-  resultBox.querySelector('.result-name').textContent = t('out_' + result.outcome) + '!';
-  resultBox.querySelector('.result-eyebrow').textContent = extra ? t('extra') : playerName(result.player);
-  resultBox.querySelector('.result-detail').textContent = result.steps < 0 ? t('backward') : t('move', { n: result.steps });
-  resultBox.classList.add('is-visible'); resultBox.setAttribute('aria-hidden', 'false');
+  phase = 'result_transfer'; render();
+  resultRevealTask = resultMotion.play({
+    text: t('out_' + result.outcome), player: result.player,
+    getTarget: () => document.querySelector(`.pending-results[data-player="${result.player}"] .result-chip[data-result-id="${result.id}"]`),
+    onArrive: () => { arrivingResult = null; render(); },
+    fast: !!(window.NCQ_TEST_DICE && window.__yutFast),
+  });
 }
-function hideThrowResult() { resultBox.classList.remove('is-visible'); resultBox.setAttribute('aria-hidden', 'true'); }
+function hideThrowResult() { resultMotion.cancel(); arrivingResult = null; resultRevealTask = null; }
 function setLanguageMenu() {
   const select = $('#language-select'); select.replaceChildren();
   for (const language of NcqLang.list()) {
@@ -146,16 +151,21 @@ function render() {
     button.setAttribute('aria-pressed', String(!!plan?.stackIds.includes(piece.id)));
   }
   for (const [player, list] of pendingLists.entries()) {
+    const scroll = list.scrollLeft;
     list.replaceChildren();
     list.setAttribute('aria-label', playerName(player) + ' · ' + t('pendingResults'));
-    if (!busy && game.active === player) for (const result of game.pending) {
+    if (game.active === player) for (const result of game.pending) {
       const chip = document.createElement('span'); chip.className = 'result-chip'; chip.textContent = t('out_' + result.outcome);
+      chip.classList.toggle('is-result-arriving', result.id === arrivingResult);
       chip.dataset.resultId = String(result.id); list.append(chip);
     }
+    list.scrollLeft = scroll;
   }
   action.disabled = busy || !game.opening && game.winner === null && game.throws === 0 && plans.length !== 1;
   if (revealingFirst) {
     label.textContent = t('startGame'); status.textContent = '';
+  } else if (busy && phase === 'result_transfer') {
+    label.textContent = t('throw'); status.textContent = '';
   } else if (busy) {
     label.textContent = t(phase === 'gather' || phase === 'charge' ? 'gather' : phase === 'moving' ? 'move' : 'settle', { n: movingSteps ?? '' });
     status.textContent = t(phase === 'gather' || phase === 'charge' ? 'gather' : phase === 'moving' ? 'moveHint' : phase === 'flight' ? 'flight' : 'settle');
@@ -167,7 +177,7 @@ function render() {
     label.textContent = t('newGame'); status.textContent = t('winner', { player: playerName(game.winner) });
     $('#winner-title').textContent = t('winner', { player: playerName(game.winner) });
   } else {
-    label.textContent = game.throws > 0 ? t('throw') : plans.length === 1 ? (plan.steps < 0 ? t('backward') : t('move', { n: plan.steps })) : plans.length > 1 ? t('chooseDestination') : t('choosePiece');
+    label.textContent = game.throws > 0 ? t('throw') : plans.length === 1 ? (plan.target === 'finish' ? t('finishAction') : plan.steps < 0 ? t('backward') : t('move', { n: plan.steps })) : plans.length > 1 ? t('chooseDestination') : t('choosePiece');
     status.textContent = notice ? t(notice) : plans.length ? t('moveHint') : game.pending.length ? t('choosePiece') : t('throw');
   }
   $('#settings-button').disabled = busy;
@@ -215,10 +225,13 @@ async function performThrow() {
   if (game.action === 0) { NcqMetrics.levelStart('local', { round: game.id }); NcqMetrics.step('001_first_game_start'); }
   const bits = nextTestThrow || randomThrow(); nextTestThrow = null;
   game = throwSticks(game, bits); save();
+  arrivingResult = game.lastThrow.id;
   $('#play-area').dataset.thrower = player === 0 || player === 3 ? 'me' : 'opponent';
   NcqMetrics.step('first_throw'); flow('throwing'); phase = 'gather'; render();
   const completed = await renderer.animateThrow(player, game.lastThrow.outcome, bits);
   if (!completed || token !== generation) return;
+  const arrived = await resultRevealTask;
+  if (arrived === false || token !== generation) return;
   hideThrowResult(); busy = false; phase = '';
   game = settleTurn(game); notice = game.lastPass ? 'pass' : OUTCOMES[game.lastThrow.outcome].extra ? 'extra' : null;
   if (game.lastPass) NcqMetrics.step('backdo_pass');

@@ -64,7 +64,8 @@ export function createRenderer(canvas, options) {
     if(moving)groups.set('moving',[moving.x,moving.y,moving.player,moving.ids]);
     return Array.from(groups.values());
   }
-  function project(p){const k=9/(9-p.y*.06+p.z*.06);return{x:width*.5+p.x*scale*k,y:height*.5+(p.y-p.z*.66)*scale*k};}
+  const boardHeight=()=>height-Math.max(36,height*.18);
+  function project(p){const k=9/(9-p.y*.06+p.z*.06);return{x:width*.5+p.x*scale*k,y:boardHeight()*.5+(p.y-p.z*.66)*scale*k};}
   function stickView(p){
     if(p.view)return p.view;
     // The camera is above the board: rising sticks approach it and grow.
@@ -185,13 +186,18 @@ export function createRenderer(canvas, options) {
     for(const plan of ui.plans){
       const [x,y]=POINTS[plan.target],p=project({x,y,z:.045});
       const occupants=ui.game.pieces.filter(piece=>!['base','finish'].includes(position(piece))&&position(piece)===plan.target),occupied=occupants.length>0;
-      const r=Math.max(12,scale*(.37+Math.max(0,occupants.length-1)*.04));
+      const r=plan.target==='finish'?Math.max(14,Math.min(19,scale*.42)):Math.max(12,scale*(.37+Math.max(0,occupants.length-1)*.04));
       ctx.save();ctx.strokeStyle='#286dd0';ctx.lineWidth=2;ctx.setLineDash([4,3]);
       ctx.save();ctx.globalAlpha=.4+wave*.6;ctx.beginPath();ctx.arc(p.x,p.y,r*(.96+wave*.12),0,TAU);ctx.stroke();ctx.restore();ctx.setLineDash([]);
       // An occupied destination keeps its result badge outside the piece's rim.
       const tx=p.x+(occupied?r*.94:0),ty=p.y-(occupied?r*.94:0),font=Math.max(11,Math.min(14,scale*.34));
       ctx.fillStyle='#174d92';ctx.font='800 '+font+'px "Yut Sans",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillText(plan.target==='finish'?'✓':String(plan.steps),tx,ty);ctx.restore();
+      if(plan.target==='finish'){
+        // A vector check stays sharp without requiring a symbol font glyph.
+        ctx.strokeStyle='#174d92';ctx.lineWidth=2.6;ctx.lineCap='round';ctx.lineJoin='round';
+        path([{x:tx-5,y:ty},{x:tx-1,y:ty+4},{x:tx+6,y:ty-5}],false);ctx.stroke();
+      }else ctx.fillText(String(plan.steps),tx,ty);
+      ctx.restore();
     }
   }
   function pieceSelectionMarks(wave=0){
@@ -275,7 +281,9 @@ export function createRenderer(canvas, options) {
     for(const plan of ui.plans){
       const [x,y]=POINTS[plan.target],move=plan.steps<0?t('backward'):t('move',{n:plan.steps});
       const stack=friendlyDestination(plan)?stackControl(plan,stackControls):null;
-      const element=button('move:'+plan.pieceId+':'+plan.resultId,stack||project({x,y,z:.09}),'move-target'+(stack?' stack-target':''),t('out_'+plan.outcome)+' · '+(stack?t('stackAction'):move),stack?.text||'',()=>options.onMove?.(plan.resultId));
+      const finish=plan.target==='finish';
+      const element=button('move:'+plan.pieceId+':'+plan.resultId,stack||project({x,y,z:.09}),'move-target'+(stack?' stack-target':'')+(finish?' finish-target':''),t('out_'+plan.outcome)+' · '+(stack?t('stackAction'):finish?t('finishAction'):move),stack?.text||'',()=>options.onMove?.(plan.resultId));
+      if(finish){const hit=Math.max(30,Math.min(44,scale*.9));element.style.width=hit+'px';element.style.height=hit+'px';}
       if(stack){element.style.width=stack.width+'px';element.style.height=stack.height+'px';}
       element.dataset.resultId=String(plan.resultId);element.dataset.target=plan.target;
     }
@@ -293,7 +301,7 @@ export function createRenderer(canvas, options) {
   }
   function size(){
     const slot=area.getBoundingClientRect();width=Math.max(100,Math.min(slot.width,slot.height/1.02));height=width*1.02;
-    canvas.style.width=width+'px';canvas.style.height=height+'px';const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);scale=width/8.2;draw();
+    canvas.style.width=width+'px';canvas.style.height=height+'px';const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);scale=Math.min(width,boardHeight())/8.2;draw();
   }
   function update(next){ui={...ui,...next};if(!busy)opacity=ui.game.action===0?1:ui.game.pending.length>0?.12:.24;draw();}
   function cancel(){run++;cancelAnimationFrame(raf);cancelAnimationFrame(cueRaf);cueRaf=0;cleanupPending?.();cleanupPending=null;busy=false;moving=null;if(resolvePending){resolvePending(false);resolvePending=null;}}

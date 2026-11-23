@@ -927,6 +927,10 @@ button.entry-body:hover { background: #ebeede; }
   --black-stone: url("./assets/theme-skins/aurora/black-stone.webp") center / 100% no-repeat;
   --white-stone: url("./assets/theme-skins/aurora/white-stone.webp") center / 100% no-repeat;
 }
+[data-stone-style="mokhwa"] {
+  --black-stone: url("./assets/theme-skins/mokhwa/black-stone.webp") center / 100% no-repeat;
+  --white-stone: url("./assets/theme-skins/mokhwa/white-stone.webp") center / 100% no-repeat;
+}
 .stone.black { background: var(--black-stone); }
 .stone.white { background: var(--white-stone); }
 
@@ -1359,7 +1363,21 @@ html:has(body.in-match) { overflow-x: clip; }
   --board-inset: 3.5%;
   --board-surface: #221d50 var(--board-texture) center / cover no-repeat;
 }
-:is([data-board-style="quartz"], [data-board-style="sapphire"], [data-board-style="aurora"]) {
+[data-board-style="mokhwa"] {
+  --board-texture: url("./assets/theme-skins/mokhwa/board.webp");
+  --board-line: #e6d1a6;
+  --board-line-highlight: #fff2ce80;
+  --board-line-width: 1px;
+  --board-soft-line: #d9c39d9c;
+  --board-soft-highlight: #ffe5b361;
+  --board-star: #eedab2;
+  --board-corner: 1.2%;
+  --board-inset: 5.8%;
+  --board-frame-contained: 1;
+  --board-rim: inset 0 0 0 1px #d5b58a77, 0 3px 0 #351a17, 0 6px 12px #10131070;
+  --board-surface: #301514 var(--board-texture) center / cover no-repeat;
+}
+:is([data-board-style="quartz"], [data-board-style="sapphire"], [data-board-style="aurora"], [data-board-style="mokhwa"]) {
   --board-foul-color: #ff8a7d;
   --board-foul-shadow: #282033;
 }
@@ -1487,6 +1505,12 @@ html:has(body.in-match) { overflow-x: clip; }
 }
 #board[data-move-numbers] .stone.black { color: #fffaf2; }
 #board[data-move-numbers] .stone.white { color: #272018; }
+[data-stone-style="mokhwa"] #board[data-move-numbers] .stone {
+  color: #fff9e7;
+  -webkit-text-stroke: .6px #261621;
+  paint-order: stroke fill;
+  text-shadow: 0 1px 1px #261621, 1px 0 1px #261621, 0 -1px 1px #261621, -1px 0 1px #261621;
+}
 .cell:focus-visible { z-index: 4; outline-offset: -1px; border-radius: 4px; }
 .cell.selected .stone { opacity: .58; outline: 2px solid var(--green); animation: none; transition: none; }
 #last-move-marker { width: 58%; height: 58%; z-index: 3; pointer-events: none; filter: drop-shadow(0 1px 2px #793b15); }

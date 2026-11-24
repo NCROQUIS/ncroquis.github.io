@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="ko">
-<head>
+<head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
 <script src="ncq/safe.js"></script>
+<script src="ncq/display.js"></script>
 <script src="ncq/sound.js"></script>
-<meta charset="utf-8"><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-auth.js"></script>
+<meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-auth.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <meta name="theme-color" content="#1F2433">
 <title>맵찔이의 꼬치 먹방</title>
@@ -255,7 +256,7 @@ body{
 .btn-claim{flex:none;margin-left:auto;padding:5px 16px;border:2px solid var(--ink);border-radius:14px;background:var(--tent);color:#1F2433;font-family:var(--display);font-size:max(15px,calc(17px*var(--k,1)));line-height:1.2;cursor:pointer;box-shadow:0 3px 0 rgba(0,0,0,.3);animation:nudgeC 1.1s ease-in-out infinite}
 .btn-claim:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(0,0,0,.3)}
 @keyframes nudgeC{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
-@media (prefers-reduced-motion: reduce){.btn-claim{animation:none}}
+@media (max-width: -1px){.btn-claim{animation:none}}
 .ach .pv{flex:none;font-size:max(11px,calc(13px*var(--k,1)));font-weight:700;color:#7A5A3A;white-space:nowrap}
 .ach.done .pv{color:#A86F06}
 /* 설정 */
@@ -362,7 +363,7 @@ body{
 .rank-empty svg{width:calc(44px*var(--k,1));height:calc(44px*var(--k,1));opacity:.5}
 .rank-empty p{margin:0;line-height:1.5}
 .vs-line{margin-top:4px;padding-top:8px;border-top:2px dotted rgba(59,35,22,.3);font-size:calc(15px*var(--k,1));font-weight:700;color:var(--ink);text-align:center}
-@media (prefers-reduced-motion: reduce){.spin{animation-duration:3s}}
+@media (max-width: -1px){.spin{animation-duration:3s}}
 /* rewarded ad placeholder: stands in for the full-screen video */
 .adv{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(6,8,12,.94);color:var(--cream);text-align:center}
 .adv-box{width:100%;max-width:340px;display:flex;flex-direction:column;align-items:center;gap:14px}
@@ -394,8 +395,8 @@ body{
 .reveal-acts .btn-wood{flex:1}
 .side-btn.lift{z-index:60}
 .fly{position:absolute;left:0;top:0;z-index:70;width:46px;height:46px;object-fit:contain;pointer-events:none;will-change:transform}
-@media (prefers-reduced-motion: reduce){.nudge{animation:none!important}.reveal.show .reveal-card{animation:none}}
-@media (prefers-reduced-motion: reduce){.stamp.hit,.btn-big,.tip,.lobby.enter .lobby-bottom,.lobby.enter .side-btn{animation:none}.hang{transition:none}}
+@media (max-width: -1px){.nudge{animation:none!important}.reveal.show .reveal-card{animation:none}}
+@media (max-width: -1px){.stamp.hit,.btn-big,.tip,.lobby.enter .lobby-bottom,.lobby.enter .side-btn{animation:none}.hang{transition:none}}
 </style>
 </head>
 <body>

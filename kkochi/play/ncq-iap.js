@@ -477,7 +477,8 @@
     return setup.then(function () {
       if (env().ios) {
         if (typeof P.getUnfinishedTransactions !== "function" || typeof P.finishTransaction !== "function") return false;
-        if (typeof P.addListener === "function") P.addListener("transactionUpdated", checkAgain).then(noop, noop);
+        // Native iOS exports a plain remove handle; the modern JS proxy returns a Promise of that handle.
+        if (typeof P.addListener === "function") Promise.resolve(P.addListener("transactionUpdated", checkAgain)).then(noop, noop);
       }
       if (typeof P.isBillingSupported !== "function") return true;
       return timed(P.isBillingSupported(), CALL_WAIT).then(function (r) {

@@ -71,3 +71,23 @@
 @keyframes yut-match-edge{0%,16%{opacity:1}100%{opacity:0}}
 @keyframes yut-match-pawns{0%{transform:translateY(0)}26%{transform:translateY(-5px)}55%{transform:translateY(1px)}74%{transform:translateY(-1px)}100%{transform:translateY(0)}}
 @media(max-height:600px){.matching-body{padding-block:19px;gap:6px}.matching-sticks{height:80px}.matching-stick{height:63px}.matching-stick.rounded:before{top:11px}.matching-stick.rounded:after{bottom:10px}.matching-dots{height:16px;margin-bottom:3px}.match-intro-content{gap:17px}.match-player{padding-block:13px 10px}}
+/* All real participants remain visible for team and three-way matches. */
+.match-roster{display:flex;align-items:start;justify-content:center;width:100%;gap:7px;min-width:0}
+.match-person{display:flex;flex:1;min-width:0;align-items:center;flex-direction:column}
+.match-roster[data-members="2"]{flex-direction:column;gap:8px;margin-bottom:10px}
+.match-duel[data-format="2vs2"]{width:97%;grid-template-columns:minmax(0,1fr) 32px minmax(0,1fr)}
+.match-duel[data-format="2vs2"] .match-versus{font-size:18px}
+.match-roster[data-members="2"] .match-person{flex-direction:row;width:100%;gap:5px}
+.match-roster[data-members="2"] .match-avatar{width:30px}
+.match-roster[data-members="2"] .match-player-name{flex:1;min-width:0;font-size:.75rem;margin:0;text-align:left}
+.match-player[data-player="2"]{background:linear-gradient(145deg,#f9fff4,#daedda);box-shadow:0 5px 0 #285339,0 9px 25px #0005;transform-origin:left center}
+.match-duel[data-teams="3"]{width:94%;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr) 24px minmax(0,1fr)}
+.match-duel[data-teams="3"] .match-player{padding:15px 3px 12px;border-radius:14px}
+.match-duel[data-teams="3"] .match-avatar{width:min(45px,13cqw);border-width:2px}
+.match-duel[data-teams="3"] .match-player-name{font-size:.75rem;margin:8px 0}
+.match-duel[data-teams="3"] .match-pawns{gap:3px}
+.match-duel[data-teams="3"] .match-pawns i{width:12px;height:12px}
+.match-duel[data-teams="3"] .match-versus{font-size:12px;border-width:1px}
+#match-intro-dialog.is-playing .match-duel[data-teams="3"] .match-player[data-player="1"]{transform-origin:center;animation:yut-match-center .86s linear both}
+#match-intro-dialog.is-playing .match-duel[data-teams="3"] .match-player[data-player="2"]{animation:yut-match-right .86s linear both}
+@keyframes yut-match-center{0%{opacity:0;transform:scale(.85)}18%{opacity:1;transform:scale(1)}35%,44%{transform:scale(.94,1.045)}59%{transform:scale(1.015,.99)}76%{transform:scale(.995,1.005)}100%{opacity:1;transform:scale(1)}}

@@ -15,6 +15,7 @@
 .game-stage .play-area{grid-row:3;min-height:0;container-type:size;width:calc(100% + 2 * var(--board-bleed));margin-inline:calc(-1 * var(--board-bleed))}
 /* The action starts immediately after the lower cards; status text cannot push it down. */
 .game-controls{align-self:start;position:relative;z-index:6;translate:0 calc(-1 * var(--tray-inset-bottom,0px))}
+.main-button[data-waiting=true] #main-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .team-row{position:relative;z-index:6}
 .upper-teams{translate:0 var(--tray-inset-top,0px)}
 .lower-teams{translate:0 calc(-1 * var(--tray-inset-bottom,0px))}

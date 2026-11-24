@@ -8,12 +8,14 @@
   <script src="./ncq/sound.js"></script>
   <script src="./ncq/save.js"></script>
   <script src="./ncq/popup.js"></script>
+  <script src="./ncq/collect.js"></script>
   <meta charset="UTF-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#faf3e6">
   <meta name="description" content="A tactile local two-player Yutnori game. Gather, throw, and race your pieces home.">
   <title>맞짱 윷놀이 · Yut Duel</title>
   <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="preload" href="./assets/yeopjeon.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./src/styles.css">
   <link rel="stylesheet" href="./src/throw-settings.css">
   <link rel="stylesheet" href="./src/move-targets.css">
@@ -23,6 +25,8 @@
   <link rel="stylesheet" href="./src/matchmaking.css">
   <link rel="stylesheet" href="./src/shop.css">
   <link rel="stylesheet" href="./src/economy.css">
+  <link rel="stylesheet" href="./src/missions.css">
+  <link rel="stylesheet" href="./src/audio-settings.css">
   <script type="module" src="./src/app.mjs"></script>
 </head>
 <body>
@@ -36,10 +40,14 @@
     </div>
     <h1 class="lobby-title" id="lobby-title" data-i18n-attr="aria-label:title"><span data-i18n="lobbyTitleTop"></span><span data-i18n="lobbyTitleBottom"></span></h1>
     <div class="lobby-illustration" aria-hidden="true"><img src="./assets/lobby-background.webp" width="941" height="1672" alt="" fetchpriority="high" draggable="false"></div>
+    <button class="daily-mission-card" id="daily-missions-button" type="button" aria-haspopup="dialog" aria-controls="daily-missions-dialog">
+      <span class="daily-card-copy"><strong id="daily-card-title"></strong><small id="daily-card-progress"></small></span>
+      <span class="daily-card-reward"><i class="yeopjeon-icon" aria-hidden="true"></i><span id="daily-card-maximum"></span></span><svg class="daily-card-arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+    </button>
     <div class="lobby-modes" role="group" data-i18n-attr="aria-label:gameModes">
       <button class="mode-button" id="duel-button" type="button"><span data-i18n="modeDuel"></span><span class="duel-payoff"><span data-i18n="duelWin"></span><span aria-hidden="true"> · </span><span data-i18n="duelLoss"></span></span></button>
-      <button class="mode-button" type="button" disabled data-i18n="modeTeams"></button>
-      <button class="mode-button" type="button" disabled data-i18n="modeThree"></button>
+      <button class="mode-button" id="teams-button" type="button" data-i18n="modeTeams" data-ncq-main="online teams"></button>
+      <button class="mode-button" id="three-button" type="button" data-i18n="modeThree" data-ncq-main="online three"></button>
       <button class="mode-button" id="together-button" type="button" data-i18n="playTogether" data-ncq-main="play together"></button>
     </div>
     </section>
@@ -112,6 +120,7 @@
   <dialog id="matching-dialog" aria-labelledby="matching-title" data-ncq-no-main>
     <div class="matching-body">
       <h2 id="matching-title" data-i18n="matchingTitle"></h2>
+      <p id="matching-format"></p>
       <div class="matching-sticks" aria-hidden="true"><i class="matching-stick rounded"></i><i class="matching-stick flat"><span data-i18n="out_backdo"></span></i><i class="matching-stick rounded"></i><i class="matching-stick flat"></i></div>
       <p id="matching-status" aria-live="polite" hidden></p>
       <p class="matching-hint" data-i18n="matchingBotHint"></p>
@@ -144,7 +153,11 @@
     <header class="dialog-header"><h2 id="settings-title" data-i18n="settings"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>
     <div class="dialog-body">
       <p class="local-note" data-i18n="localNote"></p>
-      <label class="setting-row"><span data-i18n="sound"></span><input id="sound-setting" type="checkbox" role="switch"></label>
+      <label class="setting-row"><span data-i18n="audioMusic"></span><input id="music-setting" type="checkbox" role="switch"></label>
+      <label class="audio-volume"><span data-i18n="audioMusicVolume"></span><output id="music-volume-value" for="music-volume"></output><input id="music-volume" type="range" min="0" max="1" step=".01" data-i18n-attr="aria-label:audioMusicVolume"></label>
+      <label class="setting-row"><span data-i18n="audioEffects"></span><input id="sound-setting" type="checkbox" role="switch"></label>
+      <label class="audio-volume"><span data-i18n="audioEffectsVolume"></span><output id="effects-volume-value" for="effects-volume"></output><input id="effects-volume" type="range" min="0" max="1" step=".01" data-i18n-attr="aria-label:audioEffectsVolume"></label>
+      <details class="audio-credits"><summary data-i18n="audioCredits"></summary><p data-i18n="audioCreditText"></p><p data-i18n="audioUserFiles"></p><a data-audio-source="https://apis.gugak.go.kr/digitaleum/">apis.gugak.go.kr/digitaleum</a><a data-audio-source="https://www.kogl.or.kr/info/licenseType1.do">kogl.or.kr · KOGL Type 1</a></details>
       <label class="language-row"><span id="language-label"></span><select id="language-select"></select></label>
       <details><summary data-i18n="rules"></summary><ol class="rules-list"><li data-i18n="teamOpeningRule"></li><li data-i18n="teamRule"></li><li data-i18n="rule2"></li><li data-i18n="rule3"></li><li data-i18n="rule4"></li></ol></details>
       <button class="secondary-button" id="new-game-button" data-i18n="newGame" type="button"></button>
@@ -165,5 +178,20 @@
     <header class="dialog-header"><h2 id="winner-title"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>
     <div class="dialog-body"><div class="winner-medal" aria-hidden="true">✦</div><p class="economy-result" id="economy-result" aria-live="polite" hidden></p><button class="secondary-button filled" id="play-again-button" data-i18n="newGame" data-ncq-main="play again" type="button"></button></div>
   </dialog>
+  <dialog id="daily-missions-dialog" aria-labelledby="daily-missions-title">
+    <header class="dialog-header"><h2 id="daily-missions-title" data-i18n="dailyTitle"></h2><button class="close-button" type="button" data-close data-i18n-attr="aria-label:close">×</button></header>
+    <div class="dialog-body">
+      <div class="daily-earned"><i class="yeopjeon-icon" aria-hidden="true"></i><span id="daily-earned" role="status"></span></div>
+      <ol class="daily-mission-list">
+        <li class="daily-mission-row" data-mission-key="login"><div class="daily-row-copy"><div class="daily-row-heading"><h3 id="daily-login-title" data-i18n="dailyLoginTitle"></h3></div><p data-i18n="dailyLoginDetail"></p><div class="daily-progress"><div class="daily-progress-track" role="progressbar" aria-labelledby="daily-login-title" aria-valuemin="0" aria-valuemax="1"><span></span></div><small class="daily-progress-count"></small></div></div><div class="daily-row-action"><span class="daily-row-reward"><i class="yeopjeon-icon" aria-hidden="true"></i><span></span></span><button class="daily-row-claim" data-claim-mission="login" type="button" hidden></button><span class="daily-row-status"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="m4 10 4 4 8-9"/></svg><span class="daily-status-label"></span></span></div></li>
+        <li class="daily-mission-row" data-mission-key="throw"><div class="daily-row-copy"><div class="daily-row-heading"><h3 id="daily-throw-title" data-i18n="dailyThrowTitle"></h3></div><p data-i18n="dailyThrowDetail"></p><div class="daily-progress"><div class="daily-progress-track" role="progressbar" aria-labelledby="daily-throw-title" aria-valuemin="0" aria-valuemax="1"><span></span></div><small class="daily-progress-count"></small></div></div><div class="daily-row-action"><span class="daily-row-reward"><i class="yeopjeon-icon" aria-hidden="true"></i><span></span></span><button class="daily-row-claim" data-claim-mission="throw" type="button" hidden></button><span class="daily-row-status"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="m4 10 4 4 8-9"/></svg><span class="daily-status-label"></span></span></div></li>
+        <li class="daily-mission-row" data-mission-key="finish"><div class="daily-row-copy"><div class="daily-row-heading"><h3 id="daily-finish-title" data-i18n="dailyFinishTitle"></h3></div><p data-i18n="dailyFinishDetail"></p><div class="daily-progress"><div class="daily-progress-track" role="progressbar" aria-labelledby="daily-finish-title" aria-valuemin="0" aria-valuemax="1"><span></span></div><small class="daily-progress-count"></small></div></div><div class="daily-row-action"><span class="daily-row-reward"><i class="yeopjeon-icon" aria-hidden="true"></i><span></span></span><button class="daily-row-claim" data-claim-mission="finish" type="button" hidden></button><span class="daily-row-status"><svg aria-hidden="true" viewBox="0 0 20 20"><path d="m4 10 4 4 8-9"/></svg><span class="daily-status-label"></span></span></div></li>
+      </ol>
+      <p class="daily-mission-note" data-i18n="dailyClaimHint"></p><p class="daily-mission-note" data-i18n="dailyOnlineOnly"></p>
+      <p class="daily-reset" id="daily-reset"></p>
+    </div>
+    <footer class="daily-dialog-footer" id="daily-footer" hidden><p id="daily-error" role="alert" hidden></p><button class="secondary-button filled" id="daily-retry" type="button" data-i18n="dailyRetry" hidden></button></footer>
+  </dialog>
+  <div id="daily-mission-announcement" class="mission-announcement" aria-live="polite"></div>
 </body>
 </html>

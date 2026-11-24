@@ -132,3 +132,10 @@ const matchFound={
 for(const [lang,row]of Object.entries(matchFound))for(const [i,key]of ['matchingFound','matchingBotFound'].entries())ONLINE_TEXTS[lang][key]=row[i];
 ONLINE_TEXTS.en.matchingTitle='Finding an opponent';
 ONLINE_TEXTS.ko.matchingTitle='상대 찾는 중';
+const playerTurns={en:"{player}'s turn",ko:'{player}님의 차례예요.',id:'Giliran {player}.','pt-BR':'Vez de {player}.','es-MX':'Turno de {player}.',th:'ตาของ {player}',vi:'Đến lượt {player}.',pl:'Tura gracza {player}.',tr:'Sıra {player} adlı oyuncuda.',ms:'Giliran {player}.',fr:"C’est au tour de {player}.",de:'{player} ist am Zug.',es:'Turno de {player}.',it:'È il turno di {player}.',ja:'{player}さんの番です。','zh-Hans':'轮到{player}了。','zh-Hant':'輪到{player}了。'};
+for(const [language,texts]of Object.entries(ONLINE_TEXTS)){
+  texts.onlineFormat=texts.onlineMode.replace('1vs1','{format}');
+  texts.playerTurn=playerTurns[language];
+}
+const groupBotHints={en:'After 8 seconds, bots fill the empty seats.',ko:'8초 뒤 빈자리는 봇으로 채워요.',id:'Setelah 8 detik, bot mengisi kursi kosong.','pt-BR':'Após 8 segundos, bots ocupam as vagas.','es-MX':'Tras 8 segundos, los bots llenan los lugares libres.',th:'หลัง 8 วินาที บอทจะเติมที่นั่งที่ว่าง',vi:'Sau 8 giây, bot sẽ lấp các chỗ trống.',pl:'Po 8 sekundach boty zajmą wolne miejsca.',tr:'8 saniye sonra boş yerlere botlar katılır.',ms:'Selepas 8 saat, bot mengisi tempat kosong.',fr:'Après 8 secondes, les bots occupent les places libres.',de:'Nach 8 Sekunden füllen Bots die freien Plätze.',es:'Tras 8 segundos, los bots llenan los lugares libres.',it:'Dopo 8 secondi, i bot occupano i posti liberi.',ja:'8秒後、空いている席にボットが参加します。','zh-Hans':'8秒后，空位将由机器人补齐。','zh-Hant':'8秒後，空位將由機器人補齊。'};
+for(const [language,text]of Object.entries(groupBotHints))ONLINE_TEXTS[language].matchingGroupBotHint=text;

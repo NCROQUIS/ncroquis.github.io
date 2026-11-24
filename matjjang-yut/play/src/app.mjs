@@ -2,13 +2,14 @@ import { createGame, restoreGame, position, throwForFirst, beginGame, throwStick
 import { availableDestinations, defaultPieceId } from './move-selection.mjs';
 import { t, NcqLang } from './i18n.mjs';
 import { createRenderer } from './renderer.mjs';
-import { playCapture } from './audio.mjs';
+import { getGameAudio } from './game-audio.mjs';
+import { mountAudioSettings } from './audio-settings.mjs';
 import { mountThrowSettings } from './throw-settings.mjs';
 import { createFirstPlayerReveal } from './first-player-reveal.mjs';
 import { createThrowResultMotion } from './throw-result-motion.mjs';
 import { createTeamView, mountTeamSetup, localPlayerName, colorTeam } from './teams.mjs';
 import { createOnlineDuel } from './online-duel.mjs';
-import { projectRoom, orientMatch, pieceForSeat } from './online-state.mjs';
+import { projectRoom, orientMatch, serverPieceId } from './online-state.mjs';
 import { mountAccount } from './account.mjs';
 import { createSkinService } from './skin-assets.mjs';
 import { mountShop } from './shop.mjs';
@@ -17,29 +18,35 @@ import { roomClock, remainingSeconds } from './online-clock.mjs';
 import { mountWallet } from './wallet.mjs';
 import { createMatchIntro, shouldPlayMatchIntro } from './match-intro.mjs';
 import { SELECTED_TINT } from './selection-style.mjs';
+import { mountDailyMissions } from './mission-view.mjs';
 
 const $ = selector => document.querySelector(selector);
 const NcqMetrics = window.NcqMetrics || { levelStart() {}, levelEnd() {}, step() {} };
 const NcqFeedback = window.NcqFeedback || { can: () => false, open: async () => false, isOpen: () => false, close() {} };
-window.NcqSave.init({ id: 'matjjang-yut', data: { match: null, appearance: { version:1, board:'default', sticks:'default', pieces:'default' } } });
+window.NcqSave.init({ id: 'matjjang-yut', data: { match: null, appearance: { version:1, board:'default', sticks:'default', pieces:'default' }, dailyMissionProgress:{version:2,players:{}} } });
 const skins=createSkinService();
+const gameAudio=getGameAudio();
 document.documentElement.style.setProperty('--selection-tint', String(SELECTED_TINT.strength));
 const restored = restoreGame(window.NcqSave.get('match'));
 let game = restored || createGame(), busy = false, selectedPiece = null, movingSteps = null;
 let notice = restored ? 'restored' : null, phase = '', generation = 0, nextTestThrow = null, screen = 'lobby';
 let resumeLevel = restored?.action > 0 && game.winner === null;
 let openingThrower = null, openingRevealed = false;
-let revealingFirst = false;
+let revealingFirst = false,openingAudioPending=false;
 let hasSavedMatch = !!restored;
 let arrivingResult = null, resultRevealTask = null;
 let onlineMode=false,onlineRequest=false,onlineFailure=null,onlineVisualRoom=null,onlineQueue=[],onlinePlaying=false,onlineEpoch=0,onlineRevealKey='',onlineStartedKey='',onlineEndedKey='';
 let onlineClock=null,clockInterval=null,lastOnlineEvent=null,clockExpired=false;
+let missions=null;
+let onlineQueueName='duel';
+const onlineModeKeys={duel:'modeDuel',teams:'modeTeams',three:'modeThree'};
+const onlineCaption=()=>t('onlineFormat',{format:t(onlineModeKeys[onlineQueueName])});
 const teamView = createTeamView(selectPiece);
 const status = $('#game-status'), action = $('#main-button'), label = $('#main-label');
 const resultBox = $('#throw-result');
 const quitDialog = $('#quit-dialog');
-const firstReveal = createFirstPlayerReveal($('#first-player-reveal'));
-const matchIntro = createMatchIntro($('#match-intro-dialog'));
+const firstReveal = createFirstPlayerReveal($('#first-player-reveal'),{onConfirm:()=>{if(openingAudioPending){openingAudioPending=false;gameAudio.firstPlayer(roundAudioKey()+':'+game.opening?.round+':'+game.opening?.winner);}},onCancel:()=>gameAudio.cancel('first')});
+const matchIntro = createMatchIntro($('#match-intro-dialog'),{onContact:key=>gameAudio.found(key),onCancel:()=>gameAudio.cancel('found')});
 const resultMotion = createThrowResultMotion(resultBox, $('#play-area'));
 const throwSettings = mountThrowSettings();
 // Leave room for result and first-player motion within the server's opening grace.
@@ -52,14 +59,27 @@ const renderer = createRenderer($('#board'), { game, skins, getThrowSettings: th
 const teamSetup = mountTeamSetup(sizes => {
   resetMatch(sizes); save(); showGame();
 });
-const online=createOnlineDuel({onRoom:receiveOnlineRoom,onStatus:value=>{if(value==='connected')onlineFailure=null;if(value==='identityChanged'){onlineEpoch++;onlineQueue=[];matchIntro.cancel();busy=false;}if(onlineMode&&['connecting','reconnecting'].includes(value))flow(value);renderMatching();render();if(value==='connected'&&!onlineRequest)void continueAfterOpening();},onError:error=>{onlineFailure=error.code??'network';renderMatching();if(onlineMode)render();}});
+const online=createOnlineDuel({onRoom:receiveOnlineRoom,onStatus:value=>{if(value==='connected')onlineFailure=null;if(value==='identityChanged'){onlineEpoch++;onlineQueue=[];renderer.cancel();firstReveal.cancel();gameAudio.stop();matchIntro.cancel();busy=false;}if(onlineMode&&['connecting','reconnecting'].includes(value))flow(value);renderMatching();render();if(value==='connected'&&!onlineRequest)void continueAfterOpening();},onError:error=>{onlineFailure=error.code??'network';renderMatching();if(onlineMode)render();}});
 const account=mountAccount();
 const wallet=mountWallet(renderEconomy);
+missions=mountDailyMissions({wallet,
+  canAnimate:()=>!busy&&!onlineRequest&&!revealingFirst&&!document.querySelector('dialog[open]:not(#daily-missions-dialog)')
+    &&(screen==='lobby'&&!$('#lobby-home').hidden||onlineMode&&screen==='game'&&online.status==='connected'),
+  onNavigate:open=>flow(open?'daily_missions':currentFlow())
+});
 let shop=null;
-shop=mountShop({skins,onNavigate:state=>{syncModalScreen();if(screen==='lobby')flow(state);}});
+shop=mountShop({skins,onNavigate:state=>{missions.cancelEffects();syncModalScreen();if(screen==='lobby')flow(state);}});
 skins.subscribe(()=>render());
 window.NcqPopup.watch(document);
 window.NcqPopup.sound('wood');
+for(const id of ['matching-dialog','match-intro-dialog','winner-dialog'])window.NcqPopup.register($('#'+id),{sound:false});
+const audioSettings=mountAudioSettings({audio:gameAudio,onChange:()=>render()});
+$('#winner-dialog').addEventListener('close',()=>gameAudio.cancel('result'));
+function roundAudioKey(){return onlineMode?online.room?.code+':'+online.room?.round:game.id;}
+function showWinner(sound=true){
+  const dialog=$('#winner-dialog'),key=roundAudioKey();window.NcqPopup.open(dialog);
+  if(sound&&dialog.open&&!game.onlineDraw)gameAudio.result(key,onlineMode&&game.winner!==0?'lost':'won',{valid:()=>dialog.open&&screen==='game'&&roundAudioKey()===key});
+}
 // A modal is its own screen; the covered game action is not that screen's main action.
 function syncModalScreen() {
   const modalOpen = !!document.querySelector('dialog[open]');
@@ -67,20 +87,22 @@ function syncModalScreen() {
   $('#lobby').inert = modalOpen;
   action.removeAttribute('data-ncq-main');
   $('#together-button').removeAttribute('data-ncq-main');
-  $('#duel-button').removeAttribute('data-ncq-main');
+  for(const queue of Object.keys(onlineModeKeys))$('#'+queue+'-button').removeAttribute('data-ncq-main');
   shop?.main(modalOpen,screen==='game');
   if (!modalOpen) {
     if (screen === 'game') action.setAttribute('data-ncq-main', 'game action');
-    else if(!shop||shop.page()==='home') { $('#together-button').setAttribute('data-ncq-main', 'play together'); $('#duel-button').setAttribute('data-ncq-main','online duel'); }
+    else if(!shop||shop.page()==='home') { $('#together-button').setAttribute('data-ncq-main', 'play together'); for(const queue of Object.keys(onlineModeKeys))$('#'+queue+'-button').setAttribute('data-ncq-main','online '+queue); }
   }
+  if(modalOpen)missions?.cancelEffects();else missions?.flushAwards();
 }
 new MutationObserver(syncModalScreen).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
 
 function save() { if(onlineMode)return;hasSavedMatch = true; window.NcqSave.update(data => { data.match = structuredClone(game); }); }
 function flow(state) { window.NcqMetrics?.flow?.(screen === 'game' && quitDialog.open ? 'quit_confirmation' : state, { mode: onlineMode?'online':'local' }); }
-function currentFlow() { return screen === 'lobby' ? shop.flow() : quitDialog.open ? 'quit_confirmation' : revealingFirst ? 'opening_reveal' : game.opening ? 'opening' : game.winner !== null ? 'result' : game.pending.length ? 'choose_piece' : 'ready'; }
+function currentFlow() { return screen==='lobby'&&$('#daily-missions-dialog').open?'daily_missions':screen === 'lobby' ? shop.flow() : quitDialog.open ? 'quit_confirmation' : revealingFirst ? 'opening_reveal' : game.opening ? 'opening' : game.winner !== null ? 'result' : game.pending.length ? 'choose_piece' : 'ready'; }
 function showGame() {
   if (screen === 'game') return;
+  missions.cancelEffects();
   screen = 'game'; $('#lobby').hidden = true; $('#app').hidden = false;
   $('#new-game-button').hidden = false; syncModalScreen(); render();
   if(onlineMode)NcqMetrics.step('online_matched');else NcqMetrics.step('together_selected');
@@ -91,7 +113,9 @@ function showGame() {
 }
 function showLobby() {
   if (busy || screen === 'lobby') return;
+  missions.cancelEffects();
   screen = 'lobby'; hideThrowResult(); $('#app').hidden = true; $('#lobby').hidden = false;
+  gameAudio.stop();
   shop.home();
   $('#new-game-button').hidden = true; syncModalScreen();
   NcqMetrics.step('lobby_returned'); flow('lobby'); $('#together-button').focus({ preventScroll: true });
@@ -102,6 +126,8 @@ function requestQuit() {
   window.NcqPopup.open(quitDialog); NcqMetrics.step('quit_requested'); flow('quit_confirmation');
 }
 function resetMatch(sizes = [1, 1]) {
+  missions.cancelEffects();
+  gameAudio.stop();openingAudioPending=false;
   generation++; renderer.reset(); firstReveal.cancel(); matchIntro.cancel();
   for (const dialog of document.querySelectorAll('dialog[open]')) dialog.close();
   game = createGame(sizes); busy = false; revealingFirst = false; selectedPiece = null; movingSteps = null;
@@ -157,9 +183,9 @@ function render() {
   const { pendingLists, openingScores, pieceButtons } = teamView.sync(game, openingThrower ?? game.active);
   $('#app .mode').removeAttribute('data-i18n');
   $('#app').dataset.online=String(onlineMode);
-  $('#app .mode').textContent = onlineMode?t('onlineMode')+(online.room?.bot?' · '+t('botLabel'):''):t('teamMode', { n: teamCount(game) });
+  $('#app .mode').textContent = onlineMode?onlineCaption()+(online.room?.bot?' · '+t('botLabel'):''):t('teamMode', { n: teamCount(game) });
   $('#app .mode').hidden = !!game.opening;
-  const localNote = $('#settings-dialog .local-note'); localNote.removeAttribute('data-i18n'); localNote.textContent = onlineMode?t('onlineMode'):t('localTeamsNote', { n: teamCount(game) });
+  const localNote = $('#settings-dialog .local-note'); localNote.removeAttribute('data-i18n'); localNote.textContent = onlineMode?onlineCaption():t('localTeamsNote', { n: teamCount(game) });
   const saveNote=$('#settings-dialog .save-note');saveNote.dataset.i18n=onlineMode?'onlineSaveNote':'saved';saveNote.textContent=t(saveNote.dataset.i18n);
   const restartNote=$('#restart-detail');restartNote.dataset.i18n=onlineMode?'onlineQuitDetail':'newConfirm';restartNote.textContent=t(restartNote.dataset.i18n);
   $('#opening-title').hidden = !game.opening || game.opening.winner !== null || busy;
@@ -241,21 +267,23 @@ function render() {
     if(!busy&&game.winner===null){
       if(onlineRequest){label.textContent=t('connecting');status.textContent='';}
       else if(online.status!=='connected'){label.textContent=t(online.status==='connecting'?'connecting':'reconnecting');status.textContent=label.textContent;}
-      else if(!onlineCanInput()){label.textContent=t('opponentTurn');status.textContent=onlineFailure?t('onlineError'):t('opponentTurn');}
+      else if(!onlineCanInput()){label.textContent=onlineQueueName==='duel'?t('opponentTurn'):t('playerTurn',{player:playerName(game.active)});status.textContent=onlineFailure?t('onlineError'):onlineQueueName==='duel'?t('opponentTurn'):'';}
       else if(onlineFailure)status.textContent=t('onlineError');
     }
     if(game.onlineDraw){status.textContent=t('draw');$('#winner-title').textContent=t('draw');}
   }
+  action.dataset.waiting=String(onlineMode&&onlineQueueName!=='duel'&&!busy&&game.winner===null&&!onlineCanInput());
   $('#settings-button').disabled = busy;
   $('#back-to-lobby').disabled = false;
-  const sound = window.NcqSound.enabled('sfx');
+  const sound = window.NcqSound.enabled('sfx')||window.NcqSound.enabled('bgm');
   for (const button of [$('#sound-button'), $('#lobby-sound-button')]) button.setAttribute('aria-pressed', String(sound));
-  $('#sound-setting').checked = sound;
+  audioSettings?.render();gameAudio.scene(screen==='game'&&game.winner===null&&!game.onlineDraw&&(!onlineMode||online.status==='connected'));
   $('#board').setAttribute('aria-label', t('rules') + ' · ' + t('moveHint'));
   const locked=busy||onlineMode&&!onlineCanInput();
   const playableIds = locked ? [] : game.pieces.filter(piece => piece.player === game.active && availableDestinations(game, piece.id).length).map(piece => piece.id);
   renderer.update({ game, plans: locked ? [] : plans, pieceId: selectedPiece, playableIds, busy:locked });
   renderClock();
+  missions?.flushAwards();
 }
 function renderClock(){
   const counter=$('#turn-countdown'),seconds=remainingSeconds(onlineClock);
@@ -276,6 +304,7 @@ async function performOpeningThrow() {
   const player = game.active, token = ++generation, bits = nextTestThrow || randomThrow(); nextTestThrow = null;
   busy = true; openingThrower = player; openingRevealed = false; notice = null; hideThrowResult();
   game = throwForFirst(game, bits); save();
+  openingAudioPending=true;
   $('#play-area').dataset.thrower = player === 0 || player === 3 ? 'me' : 'opponent';
   NcqMetrics.step('first_player_roll'); flow('opening_throwing'); phase = 'gather'; render();
   const completed = await renderer.animateThrow(player, game.opening.rolls[player].outcome, bits);
@@ -335,14 +364,14 @@ async function performThrow() {
 }
 async function performMove(resultId = null) {
   const plan = selection(resultId); if (busy || !plan) return;
-  if(onlineMode){await sendOnlineAction({type:'move',pieceId:pieceForSeat(plan.pieceId,online.room.you),resultId:plan.resultId});return;}
+  if(onlineMode){await sendOnlineAction({type:'move',pieceId:serverPieceId(plan.pieceId,online.room),resultId:plan.resultId});return;}
   const next = movePiece(game, plan.pieceId, plan.resultId);
   NcqMetrics.step('destination_selected');
   busy = true; movingSteps = plan.steps; phase = 'moving'; hideThrowResult(); const token = ++generation; render();
   const completed = await renderer.animateMove(plan, { onContact: () => {
     if (token !== generation) return false;
     game = next; save(); render();
-    if (plan.captured.length) playCapture();
+    gameAudio.move(plan,game);
     return true;
   } });
   if (!completed || token !== generation) return;
@@ -354,7 +383,7 @@ async function performMove(resultId = null) {
   NcqMetrics.step('first_move'); save(); render();
   if (game.winner !== null) {
     NcqMetrics.levelEnd('local', game.winner === 0); NcqMetrics.step('first_game_complete'); flow('result');
-    $('#winner-title').textContent = t('winner', { player: playerName(game.winner) }); if (!quitDialog.open) window.NcqPopup.open($('#winner-dialog'));
+    $('#winner-title').textContent = t('winner', { player: playerName(game.winner) }); if (!quitDialog.open) showWinner();
   } else flow(game.pending.length ? 'choose_piece' : 'ready');
 }
 function startNewGame() {
@@ -374,18 +403,24 @@ function renderEconomy(){
     :t(wallet.status==='error'?'walletUnavailable':'walletSettling');
 }
 function renderMatching(){
+  $('#matching-format').textContent=onlineCaption();
+  const hint=$('#matching-dialog .matching-hint'),hintKey=onlineQueueName==='duel'?'matchingBotHint':'matchingGroupBotHint';
+  hint.dataset.i18n=hintKey;hint.textContent=t(hintKey);
   const message=$('#matching-status');message.removeAttribute('data-i18n');
   message.hidden=!onlineFailure;
   message.textContent=onlineFailure?t(['onlineUnavailable','coinNotEnough'].includes(onlineFailure)?onlineFailure:'onlineError'):'';
   $('#matching-dialog').classList.toggle('has-error',!!onlineFailure);
+  if(onlineFailure)gameAudio.stopWaiting();
   $('#retry-matching').hidden=!onlineFailure||online.matching;
 }
-async function startOnlineMatch(){
+async function startOnlineMatch(queue=onlineQueueName){
   if(online.matching||matchIntro.playing)return;
+  onlineQueueName=queue;
   onlineFailure=null;renderMatching();window.NcqPopup.open($('#matching-dialog'));
+  gameAudio.waiting('online');
   const task=window.NcqPopup.lease($('#matching-dialog'),'matching');
   NcqMetrics.step('online_match_requested');window.NcqMetrics?.flow?.('matching',{mode:'online'});
-  try{await online.start();}catch{task.apply(renderMatching);}
+  try{await online.start(queue);}catch{task.apply(renderMatching);}
 }
 async function sendOnlineAction(value){
   if(busy||!onlineCanInput())return;
@@ -398,7 +433,11 @@ function receiveOnlineRoom(next,context){
   onlineClock=roomClock(next);clockExpired=false;clearInterval(clockInterval);
   clockInterval=onlineClock?setInterval(renderClock,200):null;
   if(context.initial||next.phase==='finished')void wallet.refresh(true);
+  missions.observeRoom(next,context);
   if(context.initial){
+    missions.cancelEffects();
+    onlineQueueName=next.state.mode??'duel';
+    gameAudio.stop();openingAudioPending=false;
     matchIntro.cancel();
     onlineEpoch++;onlineQueue=[];onlineVisualRoom=null;onlineRevealKey='';onlineMode=true;
     generation++;renderer.reset();firstReveal.cancel();hideThrowResult();busy=false;revealingFirst=false;openingThrower=null;notice=null;selectedPiece=null;
@@ -419,19 +458,20 @@ async function playOnlineQueue(){
       if(item.initial){
         game=nextGame;
         if(shouldPlayMatchIntro(next,remainingSeconds(onlineClock))&&next.version===online.room?.version){
-          await matchIntro.play({game:nextGame,bot:next.bot===true});
+          await matchIntro.play({game:nextGame,bot:next.bot===true,paid:next.state.economy?.version==='yeopjeon-v1',key:next.code+':'+next.round});
           if(token!==onlineEpoch)continue;
         }
         showGame();
       }
       if(contiguous&&event?.type==='opening'){
+        openingAudioPending=true;
         game=nextGame;openingThrower=event.player;openingRevealed=false;phase='gather';
         $('#play-area').dataset.thrower=event.player===0?'me':'opponent';render();
         const done=await renderer.animateThrow(event.player,event.roll.outcome,event.roll.bits);
         if(!done||token!==onlineEpoch)continue;
         const arrived=await resultRevealTask;if(arrived===false||token!==onlineEpoch)continue;
       }else if(contiguous&&event?.type==='throw'){
-        game=orientMatch(throwSticks(onlineVisualRoom.state.match,event.roll.bits),next.you);game.onlinePlayers=nextGame.onlinePlayers;
+        game=orientMatch(throwSticks(onlineVisualRoom.state.match,event.roll.bits),next.you,next.state);game.onlinePlayers=nextGame.onlinePlayers;
         openingThrower=null;arrivingResult=event.roll.id;phase='gather';
         $('#play-area').dataset.thrower=event.player===0?'me':'opponent';render();
         const done=await renderer.animateThrow(event.player,event.roll.outcome,event.roll.bits);
@@ -440,7 +480,7 @@ async function playOnlineQueue(){
       }else if(contiguous&&event?.type==='move'){
         phase='moving';movingSteps=event.plan.steps;render();
         const done=await renderer.animateMove(event.plan,{onContact:()=>{
-          if(token!==onlineEpoch)return false;game=nextGame;render();if(event.plan.captured.length)playCapture();return true;
+          if(token!==onlineEpoch)return false;game=nextGame;render();gameAudio.move(event.plan,game);return true;
         }});
         if(!done||token!==onlineEpoch)continue;
       }else{game=nextGame;renderer.restoreThrow(game.lastThrow??(event?.type==='opening'?{...event.roll,player:event.player}:null));}
@@ -455,9 +495,9 @@ async function playOnlineQueue(){
         void continueAfterOpening();
       }
       if(next.phase==='finished'&&onlineEndedKey!==roundKey){
-        onlineEndedKey=roundKey;NcqMetrics.levelEnd('online',next.winner===0?undefined:next.winner===next.you);NcqMetrics.step('online_first_result');
+        onlineEndedKey=roundKey;NcqMetrics.levelEnd('online',next.results?next.results[next.you-1]==='draw'?undefined:next.results[next.you-1]==='win':next.winner===0?undefined:next.winner===next.you);NcqMetrics.step('online_first_result');
         $('#winner-title').textContent=game.onlineDraw?t('draw'):t('winner',{player:playerName(game.winner)});
-        if(!quitDialog.open&&!document.querySelector('dialog[open]'))window.NcqPopup.open($('#winner-dialog'));
+        if(!quitDialog.open&&!document.querySelector('dialog[open]'))showWinner(!item.initial);
       }
       render();flow(currentFlow());
     }
@@ -467,6 +507,7 @@ async function playOnlineQueue(){
 async function leaveOnlineMatch(){
   $('#confirm-quit').disabled=true;
   try{
+    missions.markQuit(online.room);
     await online.leave();onlineEpoch++;onlineQueue=[];matchIntro.cancel();onlineMode=false;onlineVisualRoom=null;onlineRequest=false;
     clearInterval(clockInterval);clockInterval=null;onlineClock=null;lastOnlineEvent=null;
     resetMatch();const local=restoreGame(window.NcqSave.get('match'));game=local??createGame();hasSavedMatch=!!local;notice=local?'restored':null;resumeLevel=!!local&&local.action>0&&local.winner===null;
@@ -476,12 +517,11 @@ async function leaveOnlineMatch(){
 }
 async function startAnotherOnlineMatch(){if(await leaveOnlineMatch())await startOnlineMatch();}
 
-$('#duel-button').addEventListener('click',()=>void startOnlineMatch());
+for(const queue of Object.keys(onlineModeKeys))$('#'+queue+'-button').addEventListener('click',()=>void startOnlineMatch(queue));
 $('#retry-matching').addEventListener('click',()=>void startOnlineMatch());
-$('#matching-dialog').addEventListener('close',()=>{if(online.matching){void online.cancel().catch(error=>{onlineFailure=error.code??'network';});window.NcqMetrics?.flow?.('lobby',{mode:'online'});}});
+$('#matching-dialog').addEventListener('close',()=>{gameAudio.stopWaiting();if(online.matching){void online.cancel().catch(error=>{onlineFailure=error.code??'network';});window.NcqMetrics?.flow?.('lobby',{mode:'online'});}});
 action.addEventListener('click', () => { if (game.opening) { if (game.opening.winner === null) void performOpeningThrow(); } else if (game.winner !== null) startNewGame(); else if (game.throws > 0) void performThrow(); else if (selection()) void performMove(); });
-for (const button of [$('#sound-button'), $('#lobby-sound-button')]) button.addEventListener('click', () => { window.NcqSound.enabled('sfx', !window.NcqSound.enabled('sfx')); NcqMetrics.step('sound_changed'); render(); });
-$('#sound-setting').addEventListener('change', event => { window.NcqSound.enabled('sfx', event.target.checked); render(); });
+for (const button of [$('#sound-button'), $('#lobby-sound-button')]) button.addEventListener('click', () => { const on=!(window.NcqSound.enabled('sfx')||window.NcqSound.enabled('bgm'));window.NcqSound.enabled('sfx',on);window.NcqSound.enabled('bgm',on);NcqMetrics.step('sound_changed');render(); });
 for (const button of [$('#settings-button'), $('#lobby-settings-button')]) button.addEventListener('click', () => { setLanguageMenu(); window.NcqPopup.open($('#settings-dialog')); NcqMetrics.step('settings_open'); flow('settings'); });
 $('#together-button').addEventListener('click', () => { if (hasSavedMatch) showGame(); else { teamSetup.open(); NcqMetrics.step('team_setup_opened'); flow('team_setup'); } });
 $('#team-setup-dialog').addEventListener('close', () => flow(currentFlow()));
@@ -495,9 +535,11 @@ quitDialog.addEventListener('close', () => {
   if (screen !== 'game') return;
   flow(currentFlow());
   if (!busy && game.opening?.winner != null) void continueAfterOpening();
-  else if (!busy && game.winner !== null) window.NcqPopup.open($('#winner-dialog'));
+  else if (!busy && game.winner !== null) showWinner(false);
 });
-document.addEventListener('visibilitychange', () => { if (!document.hidden) void continueAfterOpening(); });
+document.addEventListener('visibilitychange', () => {gameAudio.sync();if(!document.hidden)void continueAfterOpening();});
+window.addEventListener('pagehide',()=>gameAudio.stop());
+window.addEventListener('pageshow',()=>render());
 $('#language-select').addEventListener('change', event => { NcqLang.set(event.target.value); NcqMetrics.step('language_changed'); });
 NcqLang.onChange(() => { setLanguageMenu(); teamSetup.render(); shop.render(); renderMatching();render(); document.title = t('title'); });
 $('#feedback-button').hidden = !NcqFeedback.can();
@@ -513,7 +555,7 @@ $('#app-version').textContent = window.NCQ?.NCQ_VERSION ? 'v' + window.NCQ.NCQ_V
 // NCQ_TEST_DICE: 윷 결과와 판 상태를 지정하는 개발용 검사 도구
 if (window.NCQ_TEST_DICE) window.__yutTest = {
   state: () => structuredClone(game), next: bits => { nextTestThrow = bits; },
-  load: state => { const valid = restoreGame(state); if (!valid) throw new Error('Invalid test state'); generation++; renderer.cancel(); firstReveal.cancel(); revealingFirst = false; game = valid; busy = false; selectedPiece = null; movingSteps = null; notice = null; openingThrower = null; hideThrowResult(); save(); render(); },
+  load: state => { const valid = restoreGame(state); if (!valid) throw new Error('Invalid test state'); gameAudio.stop();openingAudioPending=false;generation++; renderer.cancel(); firstReveal.cancel(); revealingFirst = false; game = valid; busy = false; selectedPiece = null; movingSteps = null; notice = null; openingThrower = null; hideThrowResult(); save(); render(); },
 };
 if(window.NCQ_TEST_DICE)window.__yutOnlineTest={room:()=>structuredClone(online.room),status:()=>online.status,ready:()=>onlineMode&&onlineCanInput()&&!busy,visual:()=>structuredClone(game),busy:()=>busy,matching:()=>online.matching,sync:()=>online.sync(),diagnostic:()=>({failure:onlineFailure,request:onlineRequest,phase,playing:onlinePlaying,queue:onlineQueue.length,version:onlineVisualRoom?.version,hidden:document.hidden})};
 NcqMetrics.step('000_loading_done'); if (restored) NcqMetrics.step('saved_game_restored');

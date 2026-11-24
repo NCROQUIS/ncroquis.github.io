@@ -1,9 +1,10 @@
 export const FIRST_PLAYER_MOTION = Object.freeze({ enter: 440, hold: 700, exit: 340 });
 
-export function createFirstPlayerReveal(root) {
+export function createFirstPlayerReveal(root,{onConfirm=()=>{},onCancel=()=>{}}={}) {
   const card = root.querySelector('.first-player-card'), doc = root.ownerDocument;
   let animation = null, frame = 0, generation = 0;
   function cancel() {
+    if(animation)onCancel();
     generation++;
     cancelAnimationFrame(frame);
     animation?.cancel(); animation = null;
@@ -23,9 +24,11 @@ export function createFirstPlayerReveal(root) {
     animation = current;
     const visibility = () => { if (doc.hidden) current.pause(); else current.play(); };
     doc.addEventListener('visibilitychange', visibility); visibility();
+    let confirmed=false;
     function phase() {
       if (token !== generation) return;
       const elapsed = current.currentTime ?? 0;
+      if(!confirmed&&elapsed>=enter*.68){confirmed=true;onConfirm();}
       root.dataset.phase = elapsed < enter ? 'enter' : elapsed < enter + hold ? 'hold' : 'exit';
       frame = requestAnimationFrame(phase);
     }

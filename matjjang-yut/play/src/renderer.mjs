@@ -1,6 +1,6 @@
 import { POINTS, position, OUTCOMES } from './game.mjs';
 import { t } from './i18n.mjs';
-import { playLaunch, playClack, playResult, playStep } from './audio.mjs';
+import { playLaunch, playClack, playResult, playStep, cancelMotionAudio } from './audio.mjs';
 import { createThrowPlan, heightMagnification } from './throw-motion.mjs';
 import { HOP_MS, HOP_CONTACT, RETURN_MS, RETURN_STAGGER_MS, hopPose, stackOffsets, returnPose } from './piece-motion.mjs';
 import { paintPiece } from './piece-paint.mjs';
@@ -419,7 +419,7 @@ export function createRenderer(canvas, options) {
     const slot=area.getBoundingClientRect();resize(slot.width,slot.height);
   }
   function update(next){ui={...ui,...next};if(!busy)opacity=ui.game.action===0?1:ui.game.pending.length>0?.12:.24;draw();}
-  function cancel(){run++;cancelAnimationFrame(raf);cancelAnimationFrame(cueRaf);cueRaf=0;cleanupPending?.();cleanupPending=null;busy=false;moving=null;if(resolvePending){resolvePending(false);resolvePending=null;}}
+  function cancel(){cancelMotionAudio();run++;cancelAnimationFrame(raf);cancelAnimationFrame(cueRaf);cueRaf=0;cleanupPending?.();cleanupPending=null;busy=false;moving=null;if(resolvePending){resolvePending(false);resolvePending=null;}}
   function reset(){cancel();phase='idle';result='geol';thrower='me';elapsed=0;gatherFrom=null;opacity=1;draw();}
   function restoreThrow(roll){
     if(!roll){reset();return;}
@@ -445,7 +445,7 @@ export function createRenderer(canvas, options) {
         phase=elapsed<timing.gather?'gather':elapsed<timing.launch?'charge':elapsed<lastLanding()?'flight':elapsed<timing.reveal?'settle':'result';
         if(phase!==lastPhase){lastPhase=phase;options.onPhase?.(phase);}
         for(let i=0;i<4;i++)if(elapsed>=landingAt(i)&&!clacked[i]){clacked[i]=true;playClack(i);}
-        if(elapsed>=timing.reveal&&!revealed){revealed=true;playResult(OUTCOMES[result].extra);options.onReveal?.();}
+        if(elapsed>=timing.reveal&&!revealed){revealed=true;playResult(!ui.game.opening&&OUTCOMES[result].extra);options.onReveal?.();}
         draw();if(elapsed<timing.end)raf=requestAnimationFrame(frame);else{busy=false;phase='result';resolvePending=null;cleanupPending?.();cleanupPending=null;draw();resolve(true);}
       }
       raf=requestAnimationFrame(frame);

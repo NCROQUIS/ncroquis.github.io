@@ -1,4 +1,5 @@
 import { newerRoom } from './online-state.mjs';
+import {onlineFormat} from '../server/online-formats.mjs';
 
 const error = code => Object.assign(new Error(code),{code});
 let authLoading;
@@ -30,12 +31,12 @@ export async function createOnlineBoard() {
   const primary=NcqBoard.create({apiUrl:config.apiUrl,profiles:auth,getToken});
   const economy=NcqBoard.create({apiUrl:config.apiUrl.replace(/\/$/,'')+'-economy',profiles:false,getToken});
   // Match/realtime stay on the shared Board. Wallet reads use our authenticated extension.
-  const board={...primary,gameRequest:(path,...args)=>(path==='/wallet'?economy:primary).gameRequest(path,...args)};
+  const board={...primary,gameRequest:(path,...args)=>(['/wallet','/missions','/missions/claim'].includes(path)?economy:primary).gameRequest(path,...args)};
   return {auth,player:identity.player,board};
 }
 
 export function createOnlineDuel({load=createOnlineBoard,onRoom=()=>{},onStatus=()=>{},onError=()=>{},wait=ms=>new Promise(resolve=>setTimeout(resolve,ms))}={}) {
-  let client,loading,room=null,seats=[],connection=null,epoch=0,matching=false,writing=false,status='idle',ticket=null,unsubscribe;
+  let client,loading,room=null,seats=[],connection=null,epoch=0,matching=false,writing=false,status='idle',ticket=null,unsubscribe,queueName='duel';
   const emit=value=>{status=value;onStatus(value);};
   function accept(next,initial=false) {
     if(!next||!newerRoom(next,room))return;
@@ -49,20 +50,29 @@ export function createOnlineDuel({load=createOnlineBoard,onRoom=()=>{},onStatus=
     });
     return loaded;
   }
-  async function start(){
-    if(matching||room?.phase==='playing')return room;
+  async function start(queue='duel'){
+    const format=onlineFormat(queue);if(!format)throw error('unsupportedRoom');
+    if(matching)return room;
+    if(room?.phase==='playing'){if(queue===queueName)return room;await leave();}
+    queueName=queue;
     const generation=++epoch;matching=true;ticket=null;room=null;seats=[];connection?.close();connection=null;emit('matching');
     let service;
     try {
       service=await prepare();if(generation!==epoch)return null;
       // Profile mirroring preserves the common account nickname; it never invents an opponent.
       await service.board.profile();if(generation!==epoch)return null;
-      const wallet=await service.board.gameRequest('/wallet',undefined,-1);
-      if(generation!==epoch)return null;
-      if(wallet.player!==service.player||!Number.isSafeInteger(wallet.coins)||wallet.coins<0)throw error('network');
-      if(!wallet.canEnter&&!wallet.activeMatch)throw error('coinNotEnough');
+      if(queue==='duel'){
+        const wallet=await service.board.gameRequest('/wallet',undefined,-1);
+        if(generation!==epoch)return null;
+        if(wallet.player!==service.player||!Number.isSafeInteger(wallet.coins)||wallet.coins<0)throw error('network');
+        if(!wallet.canEnter&&!wallet.activeMatch)throw error('coinNotEnough');
+      }else{
+        const capabilities=await service.board.gameRequest('/status',undefined,-1);
+        if(generation!==epoch)return null;
+        if(capabilities.runtime<8||capabilities.queuePlayers?.[queue]!==format.capacity)throw error('onlineUnavailable');
+      }
       while(generation===epoch){
-        const result=await service.board.match({queue:'duel',...(ticket?{ticket}:{})});
+        const result=await service.board.match({queue,...(ticket?{ticket}:{})});
         if(generation!==epoch){if(result.ticket)await service.board.cancel(result.ticket).catch(onError);return null;}
         ticket=result.ticket??ticket;
         if(result.game){
@@ -82,7 +92,7 @@ export function createOnlineDuel({load=createOnlineBoard,onRoom=()=>{},onStatus=
       return null;
     }catch(e){
       // A concurrent server debit can fail after the preflight; never replace it with a local balance.
-      if(generation===epoch&&service&&e.code!=='coinNotEnough'){
+      if(generation===epoch&&service&&queue==='duel'&&e.code!=='coinNotEnough'){
         const funds=await service.board.gameRequest('/wallet',undefined,-1).catch(()=>null);
         if(funds?.player===service.player&&funds.coins<10&&!funds.activeMatch)e=error('coinNotEnough');
       }
@@ -110,5 +120,5 @@ export function createOnlineDuel({load=createOnlineBoard,onRoom=()=>{},onStatus=
     catch(e){if(generation===epoch){writing=false;onStatus(status);onError(e);}throw e;}
   }
   function close(){epoch++;matching=false;writing=false;room=null;connection?.close();connection=null;unsubscribe?.();unsubscribe=null;client=null;emit('idle');}
-  return {start,cancel,send,leave,close,sync:()=>connection?.sync(),get room(){return room;},get matching(){return matching;},get writing(){return writing;},get status(){return status;},canAct:()=>!!room&&room.phase==='playing'&&room.turn===room.you&&status==='connected'&&!writing};
+  return {start,cancel,send,leave,close,sync:()=>connection?.sync(),get queue(){return queueName;},get room(){return room;},get matching(){return matching;},get writing(){return writing;},get status(){return status;},canAct:()=>!!room&&room.phase==='playing'&&room.turn===room.you&&status==='connected'&&!writing};
 }

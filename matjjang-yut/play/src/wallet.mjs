@@ -4,7 +4,8 @@ import {NcqLang,t} from './i18n.mjs';
 // This is only the last server response, never a local grant, save or settlement.
 export function createWallet({load=createOnlineBoard,onChange=()=>{}}={}) {
   let client,pending,version=0,unsubscribe,value=null,status='loading';
-  const publish=()=>onChange({value,status});
+  const listeners=new Set();
+  const publish=()=>{onChange({value,status});for(const listener of listeners)listener({value,status});};
   async function refresh(force=false) {
     if(pending){await pending;return force?refresh():value;}
     const revision=version;
@@ -27,7 +28,13 @@ export function createWallet({load=createOnlineBoard,onChange=()=>{}}={}) {
     pending=task;
     try{return await task;}finally{if(pending===task)pending=null;}
   }
-  return {refresh,get value(){return value;},get status(){return status;},close(){version++;unsubscribe?.();client=null;pending=null;value=null;}};
+  return {refresh,get value(){return value;},get status(){return status;},
+    subscribe(listener){listeners.add(listener);listener({value,status});return()=>listeners.delete(listener);},
+    accept(result){
+      if(result?.player!==client?.player||!Number.isSafeInteger(result.coins)||result.coins<0)return false;
+      version++;pending=null;value=result;status='ready';publish();return true;
+    },
+    close(){version++;unsubscribe?.();client=null;pending=null;value=null;listeners.clear();}};
 }
 
 export function mountWallet(onChange=()=>{}) {

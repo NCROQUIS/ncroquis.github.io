@@ -1,0 +1,6 @@
+{
+  "provider": "supabase",
+  "environment": "prod",
+  "ruleset": "blackjack21-table-v1",
+  "apiUrl": "https://qqbajkltkhvhlwrxpgfn.supabase.co/functions/v1/blackjack21"
+}

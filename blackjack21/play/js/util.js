@@ -1,1 +1,67 @@
-function q8_0x6b6e(_0x27956d,_0x223f4e){_0x27956d=_0x27956d-0x96;var _0x4dc344=q8_0x4dc3();var _0x6b6ecc=_0x4dc344[_0x27956d];if(q8_0x6b6e['oKnglF']===undefined){var _0x12193d=function(_0x234952){var _0x4cd675='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x4d59ba='',_0x25a719='';for(var _0x6e5869=0x0,_0x49b984,_0x126643,_0x297a0d=0x0;_0x126643=_0x234952['charAt'](_0x297a0d++);~_0x126643&&(_0x49b984=_0x6e5869%0x4?_0x49b984*0x40+_0x126643:_0x126643,_0x6e5869++%0x4)?_0x4d59ba+=String['fromCharCode'](0xff&_0x49b984>>(-0x2*_0x6e5869&0x6)):0x0){_0x126643=_0x4cd675['indexOf'](_0x126643);}for(var _0x437df7=0x0,_0x73c015=_0x4d59ba['length'];_0x437df7<_0x73c015;_0x437df7++){_0x25a719+='%'+('00'+_0x4d59ba['charCodeAt'](_0x437df7)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x25a719);};q8_0x6b6e['YeYHsH']=_0x12193d,q8_0x6b6e['MgYjEM']={},q8_0x6b6e['oKnglF']=!![];}var _0x3e5989=_0x4dc344[0x0];q8_0x6b6e['JeLXML']!==_0x3e5989&&(q8_0x6b6e['MgYjEM']={},q8_0x6b6e['JeLXML']=_0x3e5989);var _0x35b168=q8_0x6b6e['MgYjEM'][_0x27956d];return _0x35b168===undefined?(_0x6b6ecc=q8_0x6b6e['YeYHsH'](_0x6b6ecc),q8_0x6b6e['MgYjEM'][_0x27956d]=_0x6b6ecc):_0x6b6ecc=_0x35b168,_0x6b6ecc;}function q8_0x4dc3(){var _0x1dd1cb=['Cg93','ChvZAa','yw5PBq','mtm3nZG2vgLkCMTT','mti3ndm4nu9UteLXrG','mJK1u0f4yMn2','zMXVB3i','DxrPBa','Bwf4','ndiWmKffsxvTuG','ndeYmJeYC2HWshnO','nZy5oduXz3n1wwnf','mtK1ndjxCgLywhK','Dg9tDhjPBMC','zM10','C3bSAwnL','y29Z','zg9Uzq','CMfUzg9T','ogvYtvj1rW','nteYnteZmg9vA2HUDa','ou5Jvg9rsq','ywjZ','zwfZzq','mJi4u2v1CgzV','ntbYvNbAD0G','DhDLzw4','BgvUz3rO'];q8_0x4dc3=function(){return _0x1dd1cb;};return q8_0x4dc3();}(function(_0x217c6d,_0x204ded){var _0x970712=q8_0x6b6e,_0x57010b=_0x217c6d();while(!![]){try{var _0x1f7674=-parseInt(_0x970712(0x9f))/0x1*(parseInt(_0x970712(0xaf))/0x2)+-parseInt(_0x970712(0xab))/0x3*(parseInt(_0x970712(0xa0))/0x4)+-parseInt(_0x970712(0x9b))/0x5*(-parseInt(_0x970712(0xa2))/0x6)+-parseInt(_0x970712(0x9a))/0x7+-parseInt(_0x970712(0xa9))/0x8*(parseInt(_0x970712(0xa1))/0x9)+parseInt(_0x970712(0xaa))/0xa+parseInt(_0x970712(0x99))/0xb*(parseInt(_0x970712(0xae))/0xc);if(_0x1f7674===_0x204ded)break;else _0x57010b['push'](_0x57010b['shift']());}catch(_0x2714aa){_0x57010b['push'](_0x57010b['shift']());}}}(q8_0x4dc3,0x3fb03),(function(){'use strict';var _0x33b988=q8_0x6b6e;var _0x25a719=window['BJ']=window['BJ']||{},_0x6e5869=_0x25a719[_0x33b988(0x9d)]={'clamp':function(_0x126643,_0x297a0d,_0x437df7){return _0x126643<_0x297a0d?_0x297a0d:_0x126643>_0x437df7?_0x437df7:_0x126643;},'lerp':function(_0x73c015,_0x3411e6,_0x44a1b1){return _0x73c015+(_0x3411e6-_0x73c015)*_0x44a1b1;},'rand':function(_0x2dcbd8,_0x19b675){var _0x2c937f=_0x33b988;return _0x2dcbd8+Math[_0x2c937f(0xa8)]()*(_0x19b675-_0x2dcbd8);},'outCubic':function(_0xb732c0){var _0x420d13=_0x33b988;return 0x1-Math[_0x420d13(0x96)](0x1-_0xb732c0,0x3);},'outQuart':function(_0x536ec8){return 0x1-Math['pow'](0x1-_0x536ec8,0x4);},'inCubic':function(_0x4df237){return _0x4df237*_0x4df237*_0x4df237;},'inOutCubic':function(_0x5946ec){var _0x320355=_0x33b988;return _0x5946ec<0.5?0x4*_0x5946ec*_0x5946ec*_0x5946ec:0x1-Math[_0x320355(0x96)](-0x2*_0x5946ec+0x2,0x3)/0x2;},'inOutSine':function(_0x2dca8a){var _0x3b0a8f=_0x33b988;return-(Math[_0x3b0a8f(0xa6)](Math['PI']*_0x2dca8a)-0x1)/0x2;},'outBack':function(_0x2ba4fa){var _0x1a2cad=_0x33b988,_0x44e90f=1.70158;return 0x1+(_0x44e90f+0x1)*Math['pow'](_0x2ba4fa-0x1,0x3)+_0x44e90f*Math[_0x1a2cad(0x96)](_0x2ba4fa-0x1,0x2);},'linear':function(_0x52d213){return _0x52d213;},'fmt':function(_0x2e5ce3){var _0x2bebc0=_0x33b988;return Math['round'](_0x2e5ce3)[_0x2bebc0(0xa3)]()['replace'](/\B(?=(\d{3})+(?!\d))/g,',');},'money':function(_0x38214e){var _0x27b74b=_0x33b988,_0x47332d=Math[_0x27b74b(0xac)](_0x38214e),_0x2db0c4=_0x38214e<0x0?'-':'';if(_0x47332d<0x2710)return _0x2db0c4+_0x6e5869[_0x27b74b(0xa4)](_0x47332d);var _0x3d671f=_0x47332d>=0x3b9aca00?[0x3b9aca00,'B']:_0x47332d>=0xf4240?[0xf4240,'M']:[0x3e8,'K'],_0x5e9da7=_0x47332d/_0x3d671f[0x0],_0x4376d7=_0x5e9da7<0x64?(Math[_0x27b74b(0x9c)](_0x5e9da7*0xa)/0xa)[_0x27b74b(0xa3)]():Math[_0x27b74b(0x9c)](_0x5e9da7)['toString']();return _0x2db0c4+_0x4376d7+_0x3d671f[0x1];},'short':function(_0x1ce5a3){if(_0x1ce5a3>=0xf4240)return _0x1ce5a3/0xf4240+'M';if(_0x1ce5a3>=0x3e8)return _0x1ce5a3/0x3e8+'K';return''+_0x1ce5a3;}},_0x49b984=[];_0x25a719['anim']={'speed':0x1,'tween':function(_0x3b60a5,_0x65cb7e,_0x570b64){return new Promise(function(_0x4c0100){var _0x17dfbd=q8_0x6b6e;_0x49b984[_0x17dfbd(0x97)]({'t':0x0,'d':Math[_0x17dfbd(0x9e)](0.0001,_0x3b60a5),'fn':_0x65cb7e,'ease':_0x570b64||_0x6e5869['linear'],'done':_0x4c0100});});},'wait':function(_0x48fe2a){var _0x4b2420=_0x33b988;return _0x25a719[_0x4b2420(0x98)][_0x4b2420(0xb0)](_0x48fe2a,function(){});},'update':function(_0x5919da){var _0x4e9d62=_0x33b988;for(var _0x1ee9fa=0x0;_0x1ee9fa<_0x49b984[_0x4e9d62(0xb1)];_0x1ee9fa++){var _0x2cbadf=_0x49b984[_0x1ee9fa];_0x2cbadf['t']+=_0x5919da;var _0x394f7d=_0x2cbadf['t']>=_0x2cbadf['d']?0x1:_0x2cbadf['t']/_0x2cbadf['d'];_0x2cbadf['fn'](_0x2cbadf[_0x4e9d62(0xad)](_0x394f7d),_0x394f7d),_0x394f7d>=0x1&&(_0x49b984[_0x4e9d62(0xa5)](_0x1ee9fa--,0x1),_0x2cbadf[_0x4e9d62(0xa7)]());}}};}()));
+/* Small helpers shared by every module: math, easing, and a promise-based tween clock. */
+(function () {
+  'use strict';
+  var BJ = window.BJ = window.BJ || {};
+
+  var U = BJ.util = {
+    clamp: function (v, a, b) { return v < a ? a : v > b ? b : v; },
+    lerp: function (a, b, t) { return a + (b - a) * t; },
+    rand: function (a, b) { return a + Math.random() * (b - a); },
+    outCubic: function (t) { return 1 - Math.pow(1 - t, 3); },
+    outQuart: function (t) { return 1 - Math.pow(1 - t, 4); },
+    inCubic: function (t) { return t * t * t; },
+    inOutCubic: function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; },
+    inOutSine: function (t) { return -(Math.cos(Math.PI * t) - 1) / 2; },
+    outBack: function (t) { var c = 1.70158; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); },
+    linear: function (t) { return t; },
+    // 12500 -> "12,500"
+    fmt: function (n) { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); },
+    // Money on screen: exact below 10,000, then short like the chips: 12.5K, 320K, 1.5M, 30M, 2.1B.
+    money: function (n) {
+      var a = Math.abs(n), sign = n < 0 ? '-' : '';
+      if (a < 10000) return sign + U.fmt(a);
+      var unit = a >= 1e9 ? [1e9, 'B'] : a >= 1e6 ? [1e6, 'M'] : [1e3, 'K'];
+      var v = a / unit[0], t = v < 100 ? (Math.floor(v * 10) / 10).toString() : Math.floor(v).toString();
+      return sign + t + unit[1];
+    },
+    // 5000 -> "5K" (chip faces)
+    short: function (n) {
+      if (n >= 1000000) return (n / 1000000) + 'M';
+      if (n >= 1000) return (n / 1000) + 'K';
+      return '' + n;
+    }
+  };
+
+  // Tweens run on the game clock (advanced once per frame), so they pause with the tab.
+  var tweens = [];
+  BJ.anim = {
+    speed: 1,
+    // fn(t, k): t is the eased 0..1 value, k the raw progress. Resolves when done.
+    tween: function (seconds, fn, ease) {
+      return new Promise(function (resolve) {
+        tweens.push({ t: 0, d: Math.max(0.0001, seconds), fn: fn, ease: ease || U.linear, done: resolve });
+      });
+    },
+    wait: function (seconds) { return BJ.anim.tween(seconds, function () {}); },
+    update: function (dt) {
+      for (var i = 0; i < tweens.length; i++) {
+        var w = tweens[i];
+        w.t += dt;
+        var k = w.t >= w.d ? 1 : w.t / w.d;
+        w.fn(w.ease(k), k);
+        if (k >= 1) { tweens.splice(i--, 1); w.done(); }
+      }
+    }
+  };
+})();
+// Metrics (NcqMetrics): the release build puts window.NcqMetrics in; during development these do nothing.
+// Calls in the game are written out in full (NcqMetrics.step + the literal name) so the release server can find them.
+(function () {
+  var M = function () { return window.NcqMetrics || {}; };
+  window.BJ.ncqMetrics = {
+    levelStart: function (a, b) { var m = M(); if (m.levelStart) m.levelStart(a, b); },
+    levelEnd: function (a, b, c) { var m = M(); if (m.levelEnd) m.levelEnd(a, b, c); },
+    step: function (a) { var m = M(); if (m.step) m.step(a); },
+    flow: function (a, b) { var m = M(); if (m.flow) m.flow(a, b); }
+  };
+})();

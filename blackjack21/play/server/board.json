@@ -1,0 +1,9 @@
+{
+  "ruleset": "blackjack21-table-v1",
+  "mode": "rules",
+  "players": 2,
+  "turn_seconds": 30,
+  "rules_version": "blackjack21-table-v1",
+  "queues": ["alley", "harbor", "garden", "grand", "royal", "sky", "monte", "macau", "vegas", "diamond", "crown"],
+  "bots": { "count": 200, "ranking": false }
+}

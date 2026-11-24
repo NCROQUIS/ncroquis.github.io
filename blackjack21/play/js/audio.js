@@ -1,1 +1,183 @@
-function q1_0x2f17(_0x5bb123,_0x3761ab){_0x5bb123=_0x5bb123-0x115;var _0x53367c=q1_0x5336();var _0x2f17f9=_0x53367c[_0x5bb123];if(q1_0x2f17['jlsGPN']===undefined){var _0x8c4333=function(_0x33cc38){var _0x493ee5='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x5548ac='',_0x1cb7bc='';for(var _0x2c7fe6=0x0,_0x46c1a2,_0x492c83,_0x2a69e8=0x0;_0x492c83=_0x33cc38['charAt'](_0x2a69e8++);~_0x492c83&&(_0x46c1a2=_0x2c7fe6%0x4?_0x46c1a2*0x40+_0x492c83:_0x492c83,_0x2c7fe6++%0x4)?_0x5548ac+=String['fromCharCode'](0xff&_0x46c1a2>>(-0x2*_0x2c7fe6&0x6)):0x0){_0x492c83=_0x493ee5['indexOf'](_0x492c83);}for(var _0x139793=0x0,_0xa3da41=_0x5548ac['length'];_0x139793<_0xa3da41;_0x139793++){_0x1cb7bc+='%'+('00'+_0x5548ac['charCodeAt'](_0x139793)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x1cb7bc);};q1_0x2f17['UYlzGw']=_0x8c4333,q1_0x2f17['tiOeMh']={},q1_0x2f17['jlsGPN']=!![];}var _0x4728f8=_0x53367c[0x0];q1_0x2f17['yVEvGJ']!==_0x4728f8&&(q1_0x2f17['tiOeMh']={},q1_0x2f17['yVEvGJ']=_0x4728f8);var _0x4c7a8d=q1_0x2f17['tiOeMh'][_0x5bb123];return _0x4c7a8d===undefined?(_0x2f17f9=q1_0x2f17['UYlzGw'](_0x2f17f9),q1_0x2f17['tiOeMh'][_0x5bb123]=_0x2f17f9):_0x2f17f9=_0x4c7a8d,_0x2f17f9;}function q1_0x5336(){var _0x1c26ea=['CMvZDw1L','B25LBMrLza','CgXHEwjHy2TsyxrL','zNjLCxvLBMn5','z2fPBG','Bg9Zzq','C2f3Dg9VDgG','y29PBKLU','y29UBMvJDa','yMXHy2TQywnR','lM1WmW','Bg93CgfZCW','DMfSDwu','y2HPCa','DhjPyw5NBgu','mtGWnJK2mfverfvHAq','CMLMzMXL','C2v0vMfSDwvbDfrPBwu','C2fTCgXLuMf0zq','D2LU','y2HHy2HPBMC','mJruyxrlCu8','y3jLyxrLqMLXDwfKrMLSDgvY','AMLUz2XL','BwfW','mJGZndmYoerXv3nnCW','yxjYyxLcDwzMzxi','C2z4lW','mti3nJy4suPdrwf1','CMfUzg9T','yNvZDa','y2fYzdm','C2H1zMzSzq','y3jLyxrLr2fPBG','mZeXmZa2s1bMz1vv','y2fYzde','BgvUz3rO','ndq2nZm2yLHRBwL5','yMLN','D2HVB3nO','yNvMzMvY','y29PBMjHzW','C2LUzq','zxHWB25LBNrPywXsyw1Wvg9wywX1zuf0vgLTzq','yxvKAw8','C3rHDgu','C3f1yxjL','y2fYzeXHBMq','ntv2CwXuzfO','mtmWndq5mLvTz2ziyG','C3rVCa','BwLU','AMLUz2XLx2XVC2u','zMXVB3i','y2HPCfjHA2u','y3jLyxrLqNvMzMvYu291CMnL','AgLNAhbHC3m','Bg9VCa','DgHLBG','DM9Py2u','y2fYzdi','nJaZndK2og9bDNrlsG','yMfUzhbHC3m','ywXS','y3vYCMvUDfrPBwu','zM9YrwfJAa','qxvKAw9dB250zxH0','CNvUBMLUzW','Cg93','Dw5SB2nR','D2vIA2L0qxvKAw9dB250zxH0','C3rHCNq','zMfUzMfYzq','zgvJB2rLqxvKAw9eyxrH','y2f0y2G','AMLUz2XLxW','DgLJAW','y2fYzda'];q1_0x5336=function(){return _0x1c26ea;};return q1_0x5336();}(function(_0xc2860f,_0x4039c4){var _0x4e8019=q1_0x2f17,_0x4d9ca9=_0xc2860f();while(!![]){try{var _0x2bfb63=-parseInt(_0x4e8019(0x12f))/0x1+-parseInt(_0x4e8019(0x11c))/0x2+-parseInt(_0x4e8019(0x132))/0x3+parseInt(_0x4e8019(0x126))/0x4+-parseInt(_0x4e8019(0x13d))/0x5*(-parseInt(_0x4e8019(0x129))/0x6)+-parseInt(_0x4e8019(0x13e))/0x7*(-parseInt(_0x4e8019(0x122))/0x8)+parseInt(_0x4e8019(0x14a))/0x9;if(_0x2bfb63===_0x4039c4)break;else _0x4d9ca9['push'](_0x4d9ca9['shift']());}catch(_0x1dc067){_0x4d9ca9['push'](_0x4d9ca9['shift']());}}}(q1_0x5336,0xc5672),(function(){'use strict';var _0x53635b=q1_0x2f17;var _0x1cb7bc=window['BJ'],_0x2c7fe6=_0x1cb7bc[_0x53635b(0x139)]={'on':!![]},_0x46c1a2=null,_0x492c83=null,_0x2a69e8=null,_0x139793=0x0;function _0xa3da41(){var _0x4d78dd=_0x53635b;return _0x2c7fe6['on']&&_0x46c1a2&&_0x46c1a2[_0x4d78dd(0x13a)]===_0x4d78dd(0x150);}_0x2c7fe6[_0x53635b(0x152)]=function(){var _0x5c0d46=_0x53635b;try{if(!_0x46c1a2){var _0x2a2418=window[_0x5c0d46(0x14f)]||window[_0x5c0d46(0x153)];if(!_0x2a2418)return;_0x46c1a2=new _0x2a2418(),_0x492c83=_0x46c1a2[_0x5c0d46(0x12e)](),_0x492c83[_0x5c0d46(0x15f)][_0x5c0d46(0x119)]=0.8,_0x492c83['connect'](_0x46c1a2['destination']),_0x2a69e8=_0x46c1a2['createBuffer'](0x1,Math[_0x5c0d46(0x142)](_0x46c1a2['sampleRate']*0.6),_0x46c1a2[_0x5c0d46(0x11f)]);var _0x25fa86=_0x2a69e8['getChannelData'](0x0);for(var _0x12c123=0x0;_0x12c123<_0x25fa86[_0x5c0d46(0x131)];_0x12c123++)_0x25fa86[_0x12c123]=Math[_0x5c0d46(0x12a)]()*0x2-0x1;}_0x412982();if(_0x46c1a2[_0x5c0d46(0x13a)]==='suspended'){var _0x119fe5=_0x46c1a2[_0x5c0d46(0x15b)]();if(_0x119fe5&&_0x119fe5['catch'])_0x119fe5[_0x5c0d46(0x157)](function(){});}}catch(_0x25a71a){_0x46c1a2=null;}};function _0x58f477(_0x59a8d6,_0x1c370f,_0x2364b5,_0x161f1a,_0x1ffe55,_0x352d55){var _0x3cd9a4=_0x53635b,_0x4556e5=_0x46c1a2['currentTime']+(_0x1ffe55||0x0),_0x26b757=_0x46c1a2['createOscillator'](),_0x2652fc=_0x46c1a2[_0x3cd9a4(0x12e)]();_0x26b757['type']=_0x161f1a||_0x3cd9a4(0x137),_0x26b757[_0x3cd9a4(0x15e)][_0x3cd9a4(0x11e)](_0x59a8d6,_0x4556e5);if(_0x352d55)_0x26b757[_0x3cd9a4(0x15e)]['exponentialRampToValueAtTime'](_0x352d55,_0x4556e5+_0x1c370f);_0x2652fc['gain']['setValueAtTime'](0.0001,_0x4556e5),_0x2652fc[_0x3cd9a4(0x15f)][_0x3cd9a4(0x138)](_0x2364b5,_0x4556e5+0.004),_0x2652fc['gain'][_0x3cd9a4(0x138)](0.0001,_0x4556e5+_0x1c370f),_0x26b757[_0x3cd9a4(0x115)](_0x2652fc),_0x2652fc[_0x3cd9a4(0x115)](_0x492c83),_0x26b757[_0x3cd9a4(0x154)](_0x4556e5),_0x26b757[_0x3cd9a4(0x13f)](_0x4556e5+_0x1c370f+0.02);}function _0x3a1c60(_0x4d88fb,_0x263d86,_0x45e478,_0x120a7b,_0x5d8715,_0x16e8a3,_0x19a266){var _0x221642=_0x53635b,_0x1581a6=_0x46c1a2['currentTime']+(_0x16e8a3||0x0),_0x47b6fc=_0x46c1a2['createBufferSource'](),_0x453418=_0x46c1a2[_0x221642(0x123)](),_0x5288f2=_0x46c1a2[_0x221642(0x12e)]();_0x47b6fc['buffer']=_0x2a69e8,_0x47b6fc[_0x221642(0x146)]=!![],_0x453418['type']=_0x5d8715||'bandpass',_0x453418[_0x221642(0x15e)][_0x221642(0x11e)](_0x263d86,_0x1581a6),_0x453418['Q'][_0x221642(0x119)]=_0x45e478;if(_0x19a266)_0x453418['frequency']['exponentialRampToValueAtTime'](_0x19a266,_0x1581a6+_0x4d88fb);_0x5288f2[_0x221642(0x15f)][_0x221642(0x11e)](0.0001,_0x1581a6),_0x5288f2['gain'][_0x221642(0x138)](_0x120a7b,_0x1581a6+0.006),_0x5288f2[_0x221642(0x15f)][_0x221642(0x138)](0.0001,_0x1581a6+_0x4d88fb),_0x47b6fc[_0x221642(0x115)](_0x453418),_0x453418[_0x221642(0x115)](_0x5288f2),_0x5288f2[_0x221642(0x115)](_0x492c83),_0x47b6fc[_0x221642(0x154)](_0x1581a6,Math[_0x221642(0x12a)]()*0.4),_0x47b6fc['stop'](_0x1581a6+_0x4d88fb+0.02);}function _0xb8aa59(_0x56a0bf,_0x473571,_0x4392a0){var _0x41f774=_0x53635b,_0x396194=(_0x473571?0xce4:0x8fc)*(0.88+Math[_0x41f774(0x12a)]()*0.3),_0x5988f2=0.04+0.2*_0x56a0bf;_0x58f477(_0x396194,0.034,_0x5988f2,_0x41f774(0x11b),_0x4392a0),_0x58f477(_0x396194*1.53,0.02,_0x5988f2*0.55,'sine',_0x4392a0),_0x3a1c60(0.022,_0x473571?0x15e0:0x7d0,1.1,_0x5988f2*(_0x473571?0.5:0.8),_0x41f774(0x14b),_0x4392a0);if(!_0x473571)_0x3a1c60(0.06,0xf0,0.7,_0x5988f2*0.9,_0x41f774(0x118),_0x4392a0);}function _0x1deaa8(_0x1a99ab,_0x38129e,_0x539f52){var _0xd04301=_0x53635b,_0x53a65d=_0x46c1a2[_0xd04301(0x144)](),_0x4a457c=_0x46c1a2[_0xd04301(0x12e)]();_0x53a65d[_0xd04301(0x135)]=_0x16b731[_0xd04301(0x11a)],_0x53a65d[_0xd04301(0x15d)][_0xd04301(0x119)]=(_0x38129e?1.08:0.92)+Math[_0xd04301(0x12a)]()*0.14+_0x1a99ab*0.06,_0x4a457c[_0xd04301(0x15f)][_0xd04301(0x119)]=0.15+0.75*_0x1a99ab,_0x53a65d['connect'](_0x4a457c),_0x4a457c[_0xd04301(0x115)](_0x492c83),_0x53a65d[_0xd04301(0x154)](_0x46c1a2[_0xd04301(0x14d)]+(_0x539f52||0x0));}_0x2c7fe6[_0x53635b(0x11a)]=function(_0x437cf0,_0x11935f){var _0x465ae4=_0x53635b;if(!_0xa3da41())return;var _0x92bf7d=_0x46c1a2['currentTime'];if(_0x92bf7d-_0x139793<0.03)return;_0x139793=_0x92bf7d;if(_0x16b731[_0x465ae4(0x11a)])_0x1deaa8(_0x437cf0,_0x11935f,0x0);else _0xb8aa59(_0x437cf0,_0x11935f,0x0);},_0x2c7fe6[_0x53635b(0x143)]=function(_0x48087c){var _0x2ce5f0=_0x53635b;if(!_0xa3da41())return;_0x3a1c60(0.3,0x5dc,0.6,0.07,'bandpass',0x0,0x2bc);for(var _0x2508a1=0x0;_0x2508a1<_0x48087c;_0x2508a1++){var _0x356c99=0.25+Math[_0x2ce5f0(0x12a)]()*0.3,_0x5172c9=_0x2508a1*0.03+Math[_0x2ce5f0(0x12a)]()*0.012;if(_0x16b731[_0x2ce5f0(0x11a)])_0x1deaa8(_0x356c99,!![],_0x5172c9);else _0xb8aa59(_0x356c99,!![],_0x5172c9);}};var _0x478c68=-0x1;function _0x2d27d3(){var _0x17d409=_0x53635b;return _0x16b731[_0x17d409(0x15a)]&&_0x16b731[_0x17d409(0x130)]&&_0x16b731[_0x17d409(0x149)]&&_0x16b731[_0x17d409(0x12c)];}_0x2c7fe6['cardSlide']=function(){var _0x426648=_0x53635b;if(!_0xa3da41())return;if(!_0x2d27d3())return _0x3a1c60(0.17,0xd48,0.7,0.085,_0x426648(0x14b),0x0,0x44c);var _0x4d9330;do{_0x4d9330=Math['floor'](Math[_0x426648(0x12a)]()*0x4);}while(_0x4d9330===_0x478c68);_0x478c68=_0x4d9330;var _0x307382=_0x46c1a2[_0x426648(0x144)](),_0x5bc3e0=_0x46c1a2[_0x426648(0x12e)]();_0x307382['buffer']=_0x16b731['card'+_0x4d9330],_0x307382[_0x426648(0x15d)][_0x426648(0x119)]=0.94+Math[_0x426648(0x12a)]()*0.12,_0x5bc3e0[_0x426648(0x15f)][_0x426648(0x119)]=0.85,_0x307382[_0x426648(0x115)](_0x5bc3e0),_0x5bc3e0[_0x426648(0x115)](_0x492c83),_0x307382[_0x426648(0x154)]();},_0x2c7fe6['cardFlip']=function(){var _0xc531f=_0x53635b;if(_0xa3da41())_0x3a1c60(0.08,0xa28,0.9,_0x2d27d3()?0.035:0.07,_0xc531f(0x14b),0x0,0x1450);},_0x2c7fe6[_0x53635b(0x13c)]=function(){var _0xb797e3=_0x53635b;_0xa3da41()&&!_0x2d27d3()&&(_0x3a1c60(0.05,0x208,0.8,0.2,_0xb797e3(0x118)),_0x3a1c60(0.015,0x1068,0x1,0.05,_0xb797e3(0x14b)));};var _0x5736ac=0x0,_0x579e28=0x0;_0x2c7fe6[_0x53635b(0x162)]=function(_0x1225b3){var _0x58e0e2=_0x53635b;if(!_0xa3da41())return;if(_0x16b731[_0x58e0e2(0x121)]){var _0x5735f6=_0x46c1a2[_0x58e0e2(0x14d)];if(_0x5735f6-_0x5736ac<0.075||_0x579e28>=0x3)return;_0x5736ac=_0x5735f6,_0x579e28++;var _0x3d7b6e=_0x46c1a2[_0x58e0e2(0x144)](),_0x99e7e7=_0x46c1a2[_0x58e0e2(0x12e)]();_0x3d7b6e[_0x58e0e2(0x135)]=_0x16b731[_0x58e0e2(0x121)],_0x3d7b6e[_0x58e0e2(0x15d)][_0x58e0e2(0x119)]=Math[_0x58e0e2(0x140)](1.45,0.92+Math['min'](_0x1225b3,0x18)*0.022),_0x99e7e7[_0x58e0e2(0x15f)][_0x58e0e2(0x119)]=0.42,_0x3d7b6e[_0x58e0e2(0x115)](_0x99e7e7),_0x99e7e7[_0x58e0e2(0x115)](_0x492c83),_0x3d7b6e[_0x58e0e2(0x154)](),_0x3d7b6e[_0x58e0e2(0x15c)]=function(){_0x579e28--;};return;}var _0x344143=0x76c*Math[_0x58e0e2(0x151)](1.03,Math[_0x58e0e2(0x140)](_0x1225b3,0x1e));_0x58f477(_0x344143,0.07,0.06,_0x58e0e2(0x137)),_0x58f477(_0x344143*2.5,0.04,0.03,'sine');},_0x2c7fe6['coinBurst']=function(){var _0x432d82=_0x53635b;if(_0xa3da41()&&_0x16b731[_0x432d82(0x136)]){var _0x496bfd=_0x46c1a2[_0x432d82(0x144)](),_0x5f3f65=_0x46c1a2[_0x432d82(0x12e)]();_0x496bfd[_0x432d82(0x135)]=_0x16b731[_0x432d82(0x136)],_0x5f3f65[_0x432d82(0x15f)][_0x432d82(0x119)]=0.8,_0x496bfd[_0x432d82(0x115)](_0x5f3f65),_0x5f3f65['connect'](_0x492c83),_0x496bfd[_0x432d82(0x154)]();return;}if(_0xa3da41()){_0x3a1c60(0.25,0x1450,0.6,0.06,_0x432d82(0x14b),0x0,0xa28);for(var _0x4ade69=0x0;_0x4ade69<0x6;_0x4ade69++)_0xb8aa59(0.3+Math[_0x432d82(0x12a)]()*0.3,!![],_0x4ade69*0.02);}};var _0x16b731={},_0xbaf202=null;function _0x412982(){var _0x5422f4=_0x53635b;if(_0xbaf202||!_0x46c1a2)return;_0xbaf202=Promise[_0x5422f4(0x14c)]([_0x5422f4(0x120),_0x5422f4(0x160),'draw',_0x5422f4(0x12b),_0x5422f4(0x116),_0x5422f4(0x15a),_0x5422f4(0x130),'card2',_0x5422f4(0x12c),_0x5422f4(0x11a),_0x5422f4(0x12d),'jingle_win','jingle_big',_0x5422f4(0x141),_0x5422f4(0x121),'coinbag'][_0x5422f4(0x125)](function(_0xaeb244){var _0x31aad0=_0x5422f4;return fetch(_0x31aad0(0x128)+_0xaeb244+_0x31aad0(0x117))[_0x31aad0(0x147)](function(_0x7c32e6){var _0x10c7ff=_0x31aad0;return _0x7c32e6[_0x10c7ff(0x127)]();})[_0x31aad0(0x147)](function(_0xf6e431){return new Promise(function(_0x3493c9,_0x277f54){var _0x57ddbb=q1_0x2f17;_0x46c1a2[_0x57ddbb(0x156)](_0xf6e431,_0x3493c9,_0x277f54);});})[_0x31aad0(0x147)](function(_0x456da3){_0x16b731[_0xaeb244]=_0x456da3;})[_0x31aad0(0x157)](function(){});}));}_0x2c7fe6[_0x53635b(0x148)]=function(_0x473027){var _0x5014f0=_0x53635b;if(!_0xa3da41()||!_0x16b731[_0x473027])return;var _0x4d8372=_0x46c1a2[_0x5014f0(0x144)](),_0x51a32f=_0x46c1a2[_0x5014f0(0x12e)]();_0x4d8372['buffer']=_0x16b731[_0x473027],_0x51a32f[_0x5014f0(0x15f)][_0x5014f0(0x119)]=1.15,_0x4d8372[_0x5014f0(0x115)](_0x51a32f),_0x51a32f[_0x5014f0(0x115)](_0x492c83),_0x4d8372['start']();},_0x2c7fe6[_0x53635b(0x12d)]=function(){var _0xdc634f=_0x53635b;if(!_0xa3da41()||!_0x16b731[_0xdc634f(0x12d)])return![];var _0x3a12a2=_0x46c1a2['createBufferSource'](),_0x1b29e7=_0x46c1a2[_0xdc634f(0x12e)]();return _0x3a12a2[_0xdc634f(0x135)]=_0x16b731[_0xdc634f(0x12d)],_0x1b29e7['gain'][_0xdc634f(0x119)]=0.9,_0x3a12a2['connect'](_0x1b29e7),_0x1b29e7[_0xdc634f(0x115)](_0x492c83),_0x3a12a2[_0xdc634f(0x154)](),!![];},_0x2c7fe6[_0x53635b(0x159)]=function(){var _0xd6a04b=_0x53635b;if(_0xa3da41())_0x58f477(0x4e2,0.03,0.05,_0xd6a04b(0x11b));},_0x2c7fe6[_0x53635b(0x11d)]=function(){var _0x5883ef=_0x53635b;_0xa3da41()&&(_0x3a1c60(0.022,0xc80+Math[_0x5883ef(0x12a)]()*0x708,1.4,0.07,_0x5883ef(0x14b)),_0x3a1c60(0.03,0x2bc,0.8,0.05,_0x5883ef(0x118)));},_0x2c7fe6['deckDrop']=function(){var _0x1ec1df=_0x53635b;_0xa3da41()&&(_0x3a1c60(0.07,0x17c,0.7,0.26,'lowpass'),_0x3a1c60(0.02,0xbb8,0x1,0.05,_0x1ec1df(0x14b)));},_0x2c7fe6[_0x53635b(0x134)]=function(){var _0x140d30=_0x53635b;if(_0xa3da41())_0x3a1c60(0.9,0x1f4,0.5,0.05,_0x140d30(0x14b),0x0,0x640);},_0x2c7fe6['deny']=function(){_0xa3da41()&&(_0x58f477(0xd2,0.09,0.09,'square'),_0x58f477(0xa0,0.12,0.09,'square',0.08));};function _0x50c53a(_0x1605ae,_0x127744,_0xc670e2,_0x5034ab){var _0x102dfa=_0x53635b;_0x1605ae[_0x102dfa(0x14e)](function(_0x590cf5,_0x12e041){var _0x5bc677=_0x102dfa;_0x58f477(_0x590cf5,0.26,_0xc670e2,_0x5034ab||_0x5bc677(0x11b),_0x12e041*_0x127744),_0x58f477(_0x590cf5*0x2,0.18,_0xc670e2*0.25,'sine',_0x12e041*_0x127744);});}function _0x31a3ea(_0x104b17){var _0x29194c=_0x53635b;if(!_0xa3da41()||!_0x16b731[_0x104b17])return![];var _0x2122ca=_0x46c1a2[_0x29194c(0x144)](),_0x3ffc8f=_0x46c1a2[_0x29194c(0x12e)]();return _0x2122ca['buffer']=_0x16b731[_0x104b17],_0x3ffc8f[_0x29194c(0x15f)][_0x29194c(0x119)]=0.75,_0x2122ca['connect'](_0x3ffc8f),_0x3ffc8f[_0x29194c(0x115)](_0x492c83),_0x2122ca[_0x29194c(0x154)](),!![];}_0x2c7fe6[_0x53635b(0x124)]=function(_0xb1e49b){var _0x4f5901=_0x53635b;if(_0x31a3ea(_0x4f5901(0x158)+_0xb1e49b))return;if(_0xb1e49b===_0x4f5901(0x133))_0x2c7fe6[_0x4f5901(0x116)]();else{if(_0xb1e49b==='win')_0x2c7fe6[_0x4f5901(0x120)]();else _0x2c7fe6[_0x4f5901(0x160)]();}},_0x2c7fe6['win']=function(){if(_0xa3da41())_0x50c53a([523.25,659.25,783.99,1046.5],0.075,0.13);},_0x2c7fe6[_0x53635b(0x116)]=function(){var _0x173fe5=_0x53635b;_0xa3da41()&&(_0x50c53a([523.25,659.25,783.99,1046.5,1318.5,0x620],0.07,0.14),_0x3a1c60(0.7,0x1b58,0.5,0.03,_0x173fe5(0x145),0.3));},_0x2c7fe6['push']=function(){if(_0xa3da41())_0x50c53a([0x1b8,0x1b8],0.12,0.09);},_0x2c7fe6['lose']=function(){var _0xce9262=_0x53635b;_0xa3da41()&&(_0x58f477(0xc4,0.32,0.13,_0xce9262(0x11b),0x0,0x78),_0x58f477(0x93,0.4,0.1,_0xce9262(0x137),0.05,0x5a));},_0x2c7fe6[_0x53635b(0x12b)]=function(){var _0x5343e4=_0x53635b;_0xa3da41()&&(_0x58f477(0x14a,0.12,0.11,_0x5343e4(0x161),0x0,0xdc),_0x58f477(0xdc,0.26,0.11,_0x5343e4(0x161),0.1,0x6e));},_0x2c7fe6['unlockClick']=function(){var _0x529cc4=_0x53635b;if(_0xa3da41())_0x50c53a([1318.5,1975.5],0.05,0.06,_0x529cc4(0x11b));},_0x2c7fe6[_0x53635b(0x155)]=function(){var _0xf6d19e=_0x53635b;if(_0xa3da41())_0x50c53a([0x188,523.25,659.25,783.99,1046.5],0.09,0.14,_0xf6d19e(0x13b));};}()));
+/* Sound effects, synthesised on the fly. No audio files. */
+(function () {
+  'use strict';
+  var BJ = window.BJ;
+  var A = BJ.audio = { on: true };
+  var ctx = null, master = null, noiseBuf = null, lastChip = 0;
+
+  function ready() { return A.on && ctx && ctx.state === 'running'; }
+
+  // Browsers only allow sound after a tap, so this is called from every button.
+  A.unlock = function () {
+    try {
+      if (!ctx) {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        ctx = new AC();
+        master = ctx.createGain(); master.gain.value = 0.8; master.connect(ctx.destination);
+        noiseBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.6), ctx.sampleRate);
+        var d = noiseBuf.getChannelData(0);
+        for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      }
+      loadVoices();
+      if (ctx.state === 'suspended') { var p = ctx.resume(); if (p && p.catch) p.catch(function () {}); }
+    } catch (e) { ctx = null; }
+  };
+
+  function tone(freq, dur, gain, type, delay, glideTo) {
+    var t = ctx.currentTime + (delay || 0), o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type || 'sine'; o.frequency.setValueAtTime(freq, t);
+    if (glideTo) o.frequency.exponentialRampToValueAtTime(glideTo, t + dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(gain, t + 0.004);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.02);
+  }
+
+  function noise(dur, freq, q, gain, type, delay, sweepTo) {
+    var t = ctx.currentTime + (delay || 0), s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+    s.buffer = noiseBuf; s.loop = true;
+    f.type = type || 'bandpass'; f.frequency.setValueAtTime(freq, t); f.Q.value = q;
+    if (sweepTo) f.frequency.exponentialRampToValueAtTime(sweepTo, t + dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(gain, t + 0.006);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    s.connect(f); f.connect(g); g.connect(master);
+    s.start(t, Math.random() * 0.4); s.stop(t + dur + 0.02);
+  }
+
+  // Clay chip: a short bright clack, duller and with a thud when it lands on felt.
+  function clack(level, onChip, delay) {
+    var f = (onChip ? 3300 : 2300) * (0.88 + Math.random() * 0.3), g = 0.04 + 0.2 * level;
+    tone(f, 0.034, g, 'triangle', delay);
+    tone(f * 1.53, 0.02, g * 0.55, 'sine', delay);
+    noise(0.022, onChip ? 5600 : 2000, 1.1, g * (onChip ? 0.5 : 0.8), 'bandpass', delay);
+    if (!onChip) noise(0.06, 240, 0.7, g * 0.9, 'lowpass', delay);
+  }
+  // Recorded clay chips; harder hits play louder and a little higher, chip-on-chip a touch brighter.
+  function chipSample(level, onChip, delay) {
+    var src = ctx.createBufferSource(), g = ctx.createGain();
+    src.buffer = voices.chip;
+    src.playbackRate.value = (onChip ? 1.08 : 0.92) + Math.random() * 0.14 + level * 0.06;
+    g.gain.value = 0.15 + 0.75 * level;
+    src.connect(g); g.connect(master); src.start(ctx.currentTime + (delay || 0));
+  }
+  A.chip = function (level, onChip) {
+    if (!ready()) return;
+    var now = ctx.currentTime;
+    if (now - lastChip < 0.03) return;
+    lastChip = now;
+    if (voices.chip) chipSample(level, onChip, 0); else clack(level, onChip, 0);
+  };
+  A.chipRake = function (n) {
+    if (!ready()) return;
+    noise(0.3, 1500, 0.6, 0.07, 'bandpass', 0, 700);
+    for (var i = 0; i < n; i++) { var lv = 0.25 + Math.random() * 0.3, t = i * 0.03 + Math.random() * 0.012; if (voices.chip) chipSample(lv, true, t); else clack(lv, true, t); }
+  };
+
+  // Card off the shoe: one of four recorded deals, pitched a hair differently each time. Synth stands in until they load.
+  var lastCard = -1;
+  function haveCards() { return voices.card0 && voices.card1 && voices.card2 && voices.card3; }
+  A.cardSlide = function () {
+    if (!ready()) return;
+    if (!haveCards()) return noise(0.17, 3400, 0.7, 0.085, 'bandpass', 0, 1100);
+    var k; do { k = Math.floor(Math.random() * 4); } while (k === lastCard); lastCard = k;
+    var src = ctx.createBufferSource(), g = ctx.createGain();
+    src.buffer = voices['card' + k]; src.playbackRate.value = 0.94 + Math.random() * 0.12; g.gain.value = 0.85;
+    src.connect(g); g.connect(master); src.start();
+  };
+  A.cardFlip = function () { if (ready()) noise(0.08, 2600, 0.9, haveCards() ? 0.035 : 0.07, 'bandpass', 0, 5200); };
+  A.cardLand = function () { if (ready() && !haveCards()) { noise(0.05, 520, 0.8, 0.2, 'lowpass'); noise(0.015, 4200, 1, 0.05, 'bandpass'); } };
+  // One coin landing in the purse; `step` raises the pitch along a run of coins.
+  // Coins landing in the purse: the cash-register clink, played on every few coins with a rising pitch.
+  // Spaced out and capped so a long stream stays a quick 차캉차캉 and never builds up into a roar.
+  var lastClink = 0, live = 0;
+  A.coinIn = function (step) {
+    if (!ready()) return;
+    if (voices.chaching) {
+      var now = ctx.currentTime;
+      if (now - lastClink < 0.075 || live >= 3) return;
+      lastClink = now; live++;
+      var src = ctx.createBufferSource(), g = ctx.createGain();
+      src.buffer = voices.chaching;
+      src.playbackRate.value = Math.min(1.45, 0.92 + Math.min(step, 24) * 0.022);
+      g.gain.value = 0.42;
+      src.connect(g); g.connect(master); src.start();
+      src.onended = function () { live--; };
+      return;
+    }
+    var f = 1900 * Math.pow(1.03, Math.min(step, 30));
+    tone(f, 0.07, 0.06, 'sine'); tone(f * 2.5, 0.04, 0.03, 'sine');
+  };
+  // Coins spilling out of the pile: the recorded coin-bag jingle, synth until it loads.
+  // A table opening: the recorded slot-machine payout, or the synth fanfare until it has loaded.
+  A.unlockTable = function () {
+    if (ready() && voices.unlock) {
+      var src = ctx.createBufferSource(), g = ctx.createGain();
+      src.buffer = voices.unlock; g.gain.value = 0.85;
+      src.connect(g); g.connect(master); src.start();
+    } else A.fanfare();
+  };
+  A.coinBurst = function () {
+    if (ready() && voices.coinbag) {
+      var src = ctx.createBufferSource(), g = ctx.createGain();
+      src.buffer = voices.coinbag; g.gain.value = 0.8;
+      src.connect(g); g.connect(master); src.start();
+      return;
+    }
+    if (ready()) { noise(0.25, 5200, 0.6, 0.06, 'bandpass', 0, 2600); for (var i = 0; i < 6; i++) clack(0.3 + Math.random() * 0.3, true, i * 0.02); } };
+  // Announcer clips (recorded voice): win, lose, draw, bust, blackjack.
+  var voices = {}, voiceLoad = null;
+  function loadVoices() {
+    if (voiceLoad || !ctx) return;
+    voiceLoad = Promise.all(['win', 'lose', 'draw', 'bust', 'blackjack', 'card0', 'card1', 'card2', 'card3', 'chip', 'shuffle', 'jingle_win', 'jingle_big', 'jingle_lose', 'chaching', 'coinbag', 'unlock'].map(function (n) {
+      return fetch('sfx/' + n + '.mp3').then(function (r) { return r.arrayBuffer(); })
+        .then(function (b) { return new Promise(function (ok, no) { ctx.decodeAudioData(b, ok, no); }); })
+        .then(function (buf) { voices[n] = buf; }).catch(function () {});
+    }));
+  }
+  A.voice = function (name) {
+    if (!ready() || !voices[name]) return;
+    var src = ctx.createBufferSource(), g = ctx.createGain();
+    src.buffer = voices[name]; g.gain.value = 1.15;
+    src.connect(g); g.connect(master); src.start();
+  };
+  // Recorded riffle for the deck shuffle; returns false if it has not loaded, so the caller can fall back.
+  A.shuffle = function () {
+    if (!ready() || !voices.shuffle) return false;
+    var src = ctx.createBufferSource(), g = ctx.createGain();
+    src.buffer = voices.shuffle; g.gain.value = 0.9;
+    src.playbackRate.value = A.shuffleRate || 1;      // keeps pace with the shuffle animation
+    src.connect(g); g.connect(master); src.start();
+    return true;
+  };
+  A.tick = function () { if (ready()) tone(1250, 0.03, 0.05, 'triangle'); };
+  // One card snapping down in a riffle; called in a fast run.
+  A.riffle = function () { if (ready()) { noise(0.022, 3200 + Math.random() * 1800, 1.4, 0.07, 'bandpass'); noise(0.03, 700, 0.8, 0.05, 'lowpass'); } };
+  A.deckDrop = function () { if (ready()) { noise(0.07, 380, 0.7, 0.26, 'lowpass'); noise(0.02, 3000, 1, 0.05, 'bandpass'); } };
+  A.whoosh = function () { if (ready()) noise(0.9, 500, 0.5, 0.05, 'bandpass', 0, 1600); };
+  A.deny = function () { if (ready()) { tone(210, 0.09, 0.09, 'square'); tone(160, 0.12, 0.09, 'square', 0.08); } };
+
+  function arp(notes, step, gain, type) {
+    notes.forEach(function (f, i) { tone(f, 0.26, gain, type || 'triangle', i * step); tone(f * 2, 0.18, gain * 0.25, 'sine', i * step); });
+  }
+  // Recorded result jingles: normal win, blackjack or big win, loss. The synth versions below stand in until they load.
+  function jingle(name) {
+    if (!ready() || !voices[name]) return false;
+    var src = ctx.createBufferSource(), g = ctx.createGain();
+    src.buffer = voices[name]; g.gain.value = 0.75;
+    src.connect(g); g.connect(master); src.start();
+    return true;
+  }
+  A.jingle = function (kind) {        // 'win' | 'big' | 'lose'
+    if (jingle('jingle_' + kind)) return;
+    if (kind === 'big') A.blackjack(); else if (kind === 'win') A.win(); else A.lose();
+  };
+  A.win = function () { if (ready()) arp([523.25, 659.25, 783.99, 1046.5], 0.075, 0.13); };
+  A.blackjack = function () { if (ready()) { arp([523.25, 659.25, 783.99, 1046.5, 1318.5, 1568], 0.07, 0.14); noise(0.7, 7000, 0.5, 0.03, 'highpass', 0.3); } };
+  A.push = function () { if (ready()) arp([440, 440], 0.12, 0.09); };
+  A.lose = function () { if (ready()) { tone(196, 0.32, 0.13, 'triangle', 0, 120); tone(147, 0.4, 0.1, 'sine', 0.05, 90); } };
+  A.bust = function () { if (ready()) { tone(330, 0.12, 0.11, 'sawtooth', 0, 220); tone(220, 0.26, 0.11, 'sawtooth', 0.1, 110); } };
+  A.unlockClick = function () { if (ready()) arp([1318.5, 1975.5], 0.05, 0.06, 'triangle'); };
+  A.fanfare = function () { if (ready()) arp([392, 523.25, 659.25, 783.99, 1046.5], 0.09, 0.14, 'square'); };
+})();

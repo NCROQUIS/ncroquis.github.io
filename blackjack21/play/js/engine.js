@@ -1,1 +1,284 @@
-function q2_0x523b(_0x3ef3e2,_0x5f07cf){_0x3ef3e2=_0x3ef3e2-0x167;var _0x226cf1=q2_0x226c();var _0x523b3a=_0x226cf1[_0x3ef3e2];if(q2_0x523b['GuKhkC']===undefined){var _0x2a54b9=function(_0x30d668){var _0x37511f='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x5aca07='',_0x4acba9='';for(var _0x215171=0x0,_0x4cf93c,_0x4519bf,_0x5837ea=0x0;_0x4519bf=_0x30d668['charAt'](_0x5837ea++);~_0x4519bf&&(_0x4cf93c=_0x215171%0x4?_0x4cf93c*0x40+_0x4519bf:_0x4519bf,_0x215171++%0x4)?_0x5aca07+=String['fromCharCode'](0xff&_0x4cf93c>>(-0x2*_0x215171&0x6)):0x0){_0x4519bf=_0x37511f['indexOf'](_0x4519bf);}for(var _0x3f7dae=0x0,_0x5a324f=_0x5aca07['length'];_0x3f7dae<_0x5a324f;_0x3f7dae++){_0x4acba9+='%'+('00'+_0x5aca07['charCodeAt'](_0x3f7dae)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x4acba9);};q2_0x523b['RtnzVJ']=_0x2a54b9,q2_0x523b['MvivFy']={},q2_0x523b['GuKhkC']=!![];}var _0x246cc8=_0x226cf1[0x0];q2_0x523b['PYkOKG']!==_0x246cc8&&(q2_0x523b['MvivFy']={},q2_0x523b['PYkOKG']=_0x246cc8);var _0x5ea5a6=q2_0x523b['MvivFy'][_0x3ef3e2];return _0x5ea5a6===undefined?(_0x523b3a=q2_0x523b['RtnzVJ'](_0x523b3a),q2_0x523b['MvivFy'][_0x3ef3e2]=_0x523b3a):_0x523b3a=_0x5ea5a6,_0x523b3a;}var q2_0x359450=q2_0x523b;function q2_0x226c(){var _0x5245a1=['y2fYza','Dw5KzwzPBMvK','C3bSAxrby2vZ','C29MDa','zgvHBgvY','CM95ywW','zgvHBgvYtMf0DxjHBa','zNjVBvnWBgL0','zMXVB3i','z3jHBMq','AgfUzhm','C29Tzq','zxHWB3j0CW','y3jVD24','BgvUz3rO','CMfUAW','ntG0otbkB01MCxa','Cg93','C2HVzq','zg91yMXLza','ywn0AxzL','BwfJyxu','ChvZAa','C2T5','Dg90ywW','mtGYmdKYohHvvuvbtq','yMXHy2TQywnR','nZCWmdu1meHqrujTtW','nZjMDfHHrfG','n1LcyLnMEa','Bg9Zzq','CMvHC29U','mti4otm1nhf5EwnHrq','yMv0','C3rHBMq','CMvZDwX0','mZqZmZi5zK14Bfrb','ywXSzxK','Bw9UDgu','Cgf5B3v0','zg91yMXL','Bwf4sgfUzhm','y2fYzhm','D2LU','nJy4nZGXugPWt2TQ','ndm0nun2vu1Qta','z2fYzgvU','mZy2mty2nuTfrvDTEG','CMfUzg9T','DhvYBG','ohfrzfzzwa','CgHHC2u','yNvZDa','AgL0','Cg9W','zg9Uzq','C3bSAxq','CgXHEwvY','C2v0DgXL'];q2_0x226c=function(){return _0x5245a1;};return q2_0x226c();}(function(_0x47fc68,_0x52a650){var _0x464bb3=q2_0x523b,_0x5c4af8=_0x47fc68();while(!![]){try{var _0x5295cb=-parseInt(_0x464bb3(0x191))/0x1+parseInt(_0x464bb3(0x18a))/0x2+-parseInt(_0x464bb3(0x195))/0x3*(-parseInt(_0x464bb3(0x168))/0x4)+-parseInt(_0x464bb3(0x1a0))/0x5+parseInt(_0x464bb3(0x18c))/0x6*(-parseInt(_0x464bb3(0x18e))/0x7)+-parseInt(_0x464bb3(0x18d))/0x8*(-parseInt(_0x464bb3(0x19d))/0x9)+parseInt(_0x464bb3(0x181))/0xa*(parseInt(_0x464bb3(0x19e))/0xb);if(_0x5295cb===_0x52a650)break;else _0x5c4af8['push'](_0x5c4af8['shift']());}catch(_0x16b6e1){_0x5c4af8['push'](_0x5c4af8['shift']());}}}(q2_0x226c,0xc693e),function(_0x4acba9){'use strict';var _0x812b52=q2_0x523b;var _0x215171=['S','H','D','C'],_0x4cf93c=['A','2','3','4','5','6','7','8','9','10','J','Q','K'],_0x4519bf={'decks':0x6,'hitSoft17':![],'blackjackPays':1.5,'maxHands':0x2,'doubleAfterSplit':!![]},_0x5837ea=[0x5,0xa,0x32,0x64,0x1f4,0x3e8,0x1388,0x2710,0xc350,0x186a0,0x7a120,0xf4240,0x4c4b40,0x989680],_0x3f7dae=[{'id':_0x812b52(0x196),'min':0xa,'max':0x1f4,'level':0x1,'chips':[0xa,0x32,0x64]},{'id':'harbor','min':0x32,'max':0x9c4,'level':0x2,'chips':[0x32,0x64,0x1f4]},{'id':_0x812b52(0x19f),'min':0x64,'max':0x1388,'level':0x5,'chips':[0x64,0x1f4,0x3e8]},{'id':_0x812b52(0x17a),'min':0x1f4,'max':0x61a8,'level':0x9,'chips':[0x1f4,0x3e8,0x1388]},{'id':_0x812b52(0x176),'min':0x3e8,'max':0xc350,'level':0xe,'chips':[0x3e8,0x1388,0x2710]},{'id':_0x812b52(0x188),'min':0x1388,'max':0x3d090,'level':0x14,'chips':[0x1388,0x2710,0xc350]},{'id':_0x812b52(0x197),'min':0x2710,'max':0x7a120,'level':0x1b,'chips':[0x2710,0xc350,0x186a0]},{'id':_0x812b52(0x186),'min':0xc350,'max':0x2625a0,'level':0x23,'chips':[0xc350,0x186a0,0x7a120]},{'id':'vegas','min':0x186a0,'max':0x4c4b40,'level':0x2d,'chips':[0x186a0,0x7a120,0xf4240]},{'id':'diamond','min':0x7a120,'max':0x17d7840,'level':0x39,'chips':[0x7a120,0xf4240,0x4c4b40]},{'id':_0x812b52(0x17e),'min':0xf4240,'max':0x2faf080,'level':0x46,'chips':[0xf4240,0x4c4b40,0x989680]}],_0x5a324f=0x3e8,_0x1d1b25=0xa,_0x426d9f=[0x1,1.5,0x2,0x3,0x4,0x6,0x8,0xc,0x10,0x18,0x20];function _0x5b0a2f(_0x233c6f){return _0x426d9f[_0x233c6f]||0x1;}var _0x4acf8e=0x1e,_0xbfd229=2.7;function _0x33d0da(_0x200a0f){return _0x200a0f<=0x1?0x0:Math['round'](_0x4acf8e*Math['pow'](_0x200a0f-0x1,_0xbfd229));}function _0x3faf56(_0x4f8d2e){var _0x313160=_0x812b52,_0x364445=Math[_0x313160(0x179)](Math[_0x313160(0x182)](Math['max'](0x0,_0x4f8d2e)/_0x4acf8e,0x1/_0xbfd229))+0x1;while(_0x33d0da(_0x364445+0x1)<=_0x4f8d2e)_0x364445++;while(_0x364445>0x1&&_0x33d0da(_0x364445)>_0x4f8d2e)_0x364445--;return _0x364445;}function _0x54d996(_0x986e58){return _0x986e58['min']*0x64;}function _0x11c3e9(_0x46b6d5){var _0x3278f2=_0x812b52,_0x598062=_0x46b6d5[_0x3278f2(0x180)];if(_0x598062==='A')return 0xb;if(_0x598062==='K'||_0x598062==='Q'||_0x598062==='J'||_0x598062==='10')return 0xa;return+_0x598062;}function _0x1a64cb(_0x448170){var _0x5639cb=_0x812b52,_0x1a8ce0=0x0,_0xe82985=0x0;for(var _0x3e28c5=0x0;_0x3e28c5<_0x448170[_0x5639cb(0x17f)];_0x3e28c5++){_0x1a8ce0+=_0x11c3e9(_0x448170[_0x3e28c5]);if(_0x448170[_0x3e28c5]['rank']==='A')_0xe82985++;}while(_0x1a8ce0>0x15&&_0xe82985>0x0){_0x1a8ce0-=0xa,_0xe82985--;}return{'total':_0x1a8ce0,'soft':_0xe82985>0x0};}function _0x7c78be(_0x2ce2db,_0x3d49f3){var _0x943a36=_0x812b52,_0x11ed5a=[];for(var _0x5a8653=0x0;_0x5a8653<_0x2ce2db;_0x5a8653++)for(var _0x30b4ed=0x0;_0x30b4ed<0x4;_0x30b4ed++)for(var _0x50db7f=0x0;_0x50db7f<0xd;_0x50db7f++)_0x11ed5a[_0x943a36(0x187)]({'rank':_0x4cf93c[_0x50db7f],'suit':_0x215171[_0x30b4ed]});for(var _0x5d465e=_0x11ed5a[_0x943a36(0x17f)]-0x1;_0x5d465e>0x0;_0x5d465e--){var _0x3c3781=Math[_0x943a36(0x179)](_0x3d49f3()*(_0x5d465e+0x1)),_0x4fc27d=_0x11ed5a[_0x5d465e];_0x11ed5a[_0x5d465e]=_0x11ed5a[_0x3c3781],_0x11ed5a[_0x3c3781]=_0x4fc27d;}return _0x11ed5a;}function _0x48aa26(_0x3867ed){return{'cards':[],'bet':_0x3867ed,'doubled':![],'done':![],'fromSplit':![],'splitAces':![],'reason':null,'result':null,'payout':0x0};}function _0x33417b(_0x490e07){var _0x4e5f21=_0x812b52;return!_0x490e07[_0x4e5f21(0x178)]&&_0x490e07[_0x4e5f21(0x19b)][_0x4e5f21(0x17f)]===0x2&&_0x1a64cb(_0x490e07[_0x4e5f21(0x19b)])[_0x4e5f21(0x189)]===0x15;}function _0x45fe21(_0x28fef4,_0x15c687,_0x45f06d,_0x4b09de){var _0x5d0c4a=_0x812b52;_0x4b09de=_0x4b09de||_0x7c78be(_0x4519bf['decks'],_0x15c687||Math[_0x5d0c4a(0x1a1)]);if(_0x45f06d){for(var _0x569d56=_0x45f06d['length']-0x1;_0x569d56>=0x0;_0x569d56--)_0x4b09de['push'](_0x45f06d[_0x569d56]);}var _0x5f373c=_0x48aa26(_0x28fef4),_0x386f3a={'shoe':_0x4b09de,'dealer':[],'hands':[_0x5f373c],'active':0x0,'phase':_0x5d0c4a(0x16f),'dealerNatural':![]};return _0x5f373c[_0x5d0c4a(0x19b)][_0x5d0c4a(0x187)](_0x4b09de[_0x5d0c4a(0x16c)]()),_0x386f3a[_0x5d0c4a(0x175)][_0x5d0c4a(0x187)](_0x4b09de[_0x5d0c4a(0x16c)]()),_0x5f373c[_0x5d0c4a(0x19b)][_0x5d0c4a(0x187)](_0x4b09de['pop']()),_0x386f3a[_0x5d0c4a(0x175)][_0x5d0c4a(0x187)](_0x4b09de[_0x5d0c4a(0x16c)]()),_0x386f3a['dealerNatural']=_0x1a64cb(_0x386f3a[_0x5d0c4a(0x175)])[_0x5d0c4a(0x189)]===0x15,(_0x386f3a[_0x5d0c4a(0x177)]||_0x33417b(_0x5f373c))&&(_0x5f373c['done']=!![],_0x5f373c[_0x5d0c4a(0x190)]=_0x33417b(_0x5f373c)?_0x5d0c4a(0x18b):_0x5d0c4a(0x193),_0x386f3a['phase']=_0x5d0c4a(0x175)),_0x386f3a;}function _0x15f6d1(_0x1d7cc4,_0x164873){var _0x1a47dd=_0x812b52,_0x4e00a5={'hit':![],'stand':![],'double':![],'split':![]};if(_0x1d7cc4[_0x1a47dd(0x169)]!==_0x1a47dd(0x16f))return _0x4e00a5;var _0x5dc8a2=_0x1d7cc4[_0x1a47dd(0x17b)][_0x1d7cc4['active']];if(!_0x5dc8a2||_0x5dc8a2[_0x1a47dd(0x16d)])return _0x4e00a5;_0x4e00a5[_0x1a47dd(0x16b)]=_0x4e00a5[_0x1a47dd(0x193)]=!![];if(_0x5dc8a2[_0x1a47dd(0x19b)][_0x1a47dd(0x17f)]===0x2&&!_0x5dc8a2[_0x1a47dd(0x173)]&&_0x164873>=_0x5dc8a2[_0x1a47dd(0x192)]&&(!_0x5dc8a2['fromSplit']||_0x4519bf['doubleAfterSplit']))_0x4e00a5[_0x1a47dd(0x199)]=!![];if(!_0x1d7cc4['noSplit']&&_0x1d7cc4[_0x1a47dd(0x17b)][_0x1a47dd(0x17f)]<_0x4519bf[_0x1a47dd(0x19a)]&&_0x5dc8a2[_0x1a47dd(0x19b)][_0x1a47dd(0x17f)]===0x2&&_0x11c3e9(_0x5dc8a2[_0x1a47dd(0x19b)][0x0])===_0x11c3e9(_0x5dc8a2[_0x1a47dd(0x19b)][0x1])&&_0x164873>=_0x5dc8a2['bet'])_0x4e00a5[_0x1a47dd(0x16e)]=!![];return _0x4e00a5;}function _0x1a88b3(_0x159dd0,_0x83bece){var _0x32b674=_0x812b52;for(;;){var _0x48af9c=_0x159dd0[_0x32b674(0x17b)][_0x159dd0[_0x32b674(0x185)]];if(!_0x48af9c[_0x32b674(0x16d)]&&_0x48af9c[_0x32b674(0x19b)][_0x32b674(0x17f)]===0x1){var _0x1fa226=_0x159dd0['shoe'][_0x32b674(0x16c)]();_0x48af9c[_0x32b674(0x19b)][_0x32b674(0x187)](_0x1fa226),_0x83bece[_0x32b674(0x187)]({'t':_0x32b674(0x171),'to':_0x32b674(0x16f),'hand':_0x159dd0['active'],'card':_0x1fa226}),(_0x48af9c['splitAces']||_0x1a64cb(_0x48af9c[_0x32b674(0x19b)])[_0x32b674(0x189)]===0x15)&&(_0x48af9c[_0x32b674(0x16d)]=!![],_0x48af9c[_0x32b674(0x190)]=_0x32b674(0x193));}if(!_0x48af9c[_0x32b674(0x16d)])return _0x83bece[_0x32b674(0x187)]({'t':_0x32b674(0x167),'hand':_0x159dd0[_0x32b674(0x185)]}),_0x83bece;if(_0x159dd0[_0x32b674(0x185)]+0x1<_0x159dd0[_0x32b674(0x17b)]['length'])_0x159dd0[_0x32b674(0x185)]++;else return _0x159dd0[_0x32b674(0x169)]=_0x32b674(0x175),_0x83bece['push']({'t':'phase','phase':_0x32b674(0x175)}),_0x83bece;}}function _0x708a0f(_0x34d96e){var _0x53c4fb=_0x812b52,_0x4b0836=[],_0x44b63e=_0x34d96e[_0x53c4fb(0x17b)][_0x34d96e[_0x53c4fb(0x185)]],_0x4207c3=_0x34d96e[_0x53c4fb(0x183)][_0x53c4fb(0x16c)]();_0x44b63e[_0x53c4fb(0x19b)][_0x53c4fb(0x187)](_0x4207c3),_0x4b0836[_0x53c4fb(0x187)]({'t':'card','to':'player','hand':_0x34d96e['active'],'card':_0x4207c3});var _0xbf9eef=_0x1a64cb(_0x44b63e[_0x53c4fb(0x19b)])[_0x53c4fb(0x189)];if(_0xbf9eef>0x15)_0x44b63e[_0x53c4fb(0x16d)]=!![],_0x44b63e[_0x53c4fb(0x190)]=_0x53c4fb(0x16a),_0x4b0836[_0x53c4fb(0x187)]({'t':'bust','hand':_0x34d96e[_0x53c4fb(0x185)]}),_0x1a88b3(_0x34d96e,_0x4b0836);else{if(_0xbf9eef===0x15)_0x44b63e[_0x53c4fb(0x16d)]=!![],_0x44b63e['reason']=_0x53c4fb(0x193),_0x1a88b3(_0x34d96e,_0x4b0836);else _0x4b0836[_0x53c4fb(0x187)]({'t':_0x53c4fb(0x167),'hand':_0x34d96e[_0x53c4fb(0x185)]});}return _0x4b0836;}function _0x297432(_0x2e4375){var _0x1f74af=_0x812b52,_0x3bb986=[],_0x3a08c4=_0x2e4375[_0x1f74af(0x17b)][_0x2e4375[_0x1f74af(0x185)]];return _0x3a08c4[_0x1f74af(0x16d)]=!![],_0x3a08c4[_0x1f74af(0x190)]=_0x1f74af(0x193),_0x1a88b3(_0x2e4375,_0x3bb986);}function _0x4d3bb7(_0x3721a8){var _0xfe28d7=_0x812b52,_0x38ceb1=[],_0x58e1db=_0x3721a8[_0xfe28d7(0x17b)][_0x3721a8['active']],_0x3c91ad=_0x3721a8[_0xfe28d7(0x183)][_0xfe28d7(0x16c)]();_0x58e1db[_0xfe28d7(0x192)]*=0x2,_0x58e1db[_0xfe28d7(0x184)]=!![],_0x58e1db[_0xfe28d7(0x19b)][_0xfe28d7(0x187)](_0x3c91ad),_0x38ceb1[_0xfe28d7(0x187)]({'t':_0xfe28d7(0x171),'to':'player','hand':_0x3721a8[_0xfe28d7(0x185)],'card':_0x3c91ad,'sideways':!![]}),_0x58e1db[_0xfe28d7(0x16d)]=!![];if(_0x1a64cb(_0x58e1db[_0xfe28d7(0x19b)])[_0xfe28d7(0x189)]>0x15)_0x58e1db['reason']=_0xfe28d7(0x16a),_0x38ceb1['push']({'t':_0xfe28d7(0x16a),'hand':_0x3721a8[_0xfe28d7(0x185)]});else _0x58e1db[_0xfe28d7(0x190)]=_0xfe28d7(0x193);return _0x1a88b3(_0x3721a8,_0x38ceb1);}function _0x438941(_0x5a92a2){var _0x4e8b4f=_0x812b52,_0x333997=[],_0x1a09a7=_0x5a92a2[_0x4e8b4f(0x17b)][_0x5a92a2['active']],_0x1a6a54=_0x48aa26(_0x1a09a7[_0x4e8b4f(0x192)]),_0x387612=_0x48aa26(_0x1a09a7[_0x4e8b4f(0x192)]);return _0x1a6a54['cards']=[_0x1a09a7[_0x4e8b4f(0x19b)][0x0]],_0x387612[_0x4e8b4f(0x19b)]=[_0x1a09a7[_0x4e8b4f(0x19b)][0x1]],_0x1a6a54[_0x4e8b4f(0x178)]=_0x387612[_0x4e8b4f(0x178)]=!![],_0x1a6a54[_0x4e8b4f(0x173)]=_0x387612[_0x4e8b4f(0x173)]=_0x1a09a7[_0x4e8b4f(0x19b)][0x0][_0x4e8b4f(0x180)]==='A'&&_0x1a09a7[_0x4e8b4f(0x19b)][0x1][_0x4e8b4f(0x180)]==='A',_0x5a92a2[_0x4e8b4f(0x17b)]=[_0x1a6a54,_0x387612],_0x5a92a2[_0x4e8b4f(0x185)]=0x0,_0x333997['push']({'t':_0x4e8b4f(0x16e)}),_0x1a88b3(_0x5a92a2,_0x333997);}function _0x1c80f6(_0x11b908){var _0x4dab29=_0x812b52,_0x3e6ecd=[{'t':'reveal'}],_0x4fa105=_0x11b908[_0x4dab29(0x17b)][_0x4dab29(0x17c)](function(_0x22c2a3){var _0x334704=_0x4dab29;return _0x22c2a3[_0x334704(0x190)]!==_0x334704(0x16a)&&!_0x33417b(_0x22c2a3);});if(!_0x11b908['dealerNatural']&&_0x4fa105)for(;;){var _0x4ab5f2=_0x1a64cb(_0x11b908[_0x4dab29(0x175)]);if(_0x4ab5f2[_0x4dab29(0x189)]<0x11||_0x4ab5f2[_0x4dab29(0x189)]===0x11&&_0x4ab5f2[_0x4dab29(0x174)]&&_0x4519bf['hitSoft17']){var _0x81ef2b=_0x11b908[_0x4dab29(0x183)]['pop']();_0x11b908['dealer']['push'](_0x81ef2b),_0x3e6ecd[_0x4dab29(0x187)]({'t':_0x4dab29(0x171),'to':_0x4dab29(0x175),'card':_0x81ef2b});}else break;}return _0x11b908[_0x4dab29(0x169)]=_0x4dab29(0x170),_0x3e6ecd;}function _0x7fdd44(_0x4e649f){var _0x1dc1ce=_0x812b52,_0xbfc044=_0x1a64cb(_0x4e649f[_0x1dc1ce(0x175)])[_0x1dc1ce(0x189)],_0x3c9743=_0xbfc044>0x15,_0x2cfa10=0x0;return _0x4e649f[_0x1dc1ce(0x17b)]['forEach'](function(_0x10a3b1){var _0x1a8df3=_0x1dc1ce,_0x44c2e3=_0x1a64cb(_0x10a3b1[_0x1a8df3(0x19b)])[_0x1a8df3(0x189)],_0x8f2e7d,_0x48b26e;if(_0x10a3b1[_0x1a8df3(0x190)]===_0x1a8df3(0x16a)||_0x44c2e3>0x15)_0x8f2e7d='lose',_0x48b26e=0x0;else{if(_0x33417b(_0x10a3b1))_0x4e649f['dealerNatural']?(_0x8f2e7d='push',_0x48b26e=_0x10a3b1['bet']):(_0x8f2e7d=_0x1a8df3(0x18b),_0x48b26e=_0x10a3b1[_0x1a8df3(0x192)]+_0x10a3b1[_0x1a8df3(0x192)]*_0x4519bf['blackjackPays']);else{if(_0x4e649f[_0x1a8df3(0x177)])_0x8f2e7d=_0x1a8df3(0x18f),_0x48b26e=0x0;else{if(_0x3c9743||_0x44c2e3>_0xbfc044)_0x8f2e7d=_0x1a8df3(0x19c),_0x48b26e=_0x10a3b1['bet']*0x2;else _0x44c2e3===_0xbfc044?(_0x8f2e7d=_0x1a8df3(0x187),_0x48b26e=_0x10a3b1[_0x1a8df3(0x192)]):(_0x8f2e7d=_0x1a8df3(0x18f),_0x48b26e=0x0);}}}_0x10a3b1[_0x1a8df3(0x194)]=_0x8f2e7d,_0x10a3b1[_0x1a8df3(0x198)]=_0x48b26e,_0x2cfa10+=_0x48b26e;}),_0x4e649f[_0x1dc1ce(0x169)]=_0x1dc1ce(0x16d),_0x2cfa10;}function _0x10db85(_0x504189,_0x574e40){var _0x1b5d97=_0x812b52,_0x4b5156=_0x504189[_0x1b5d97(0x17b)][_0x504189[_0x1b5d97(0x185)]],_0x5defce=_0x11c3e9(_0x504189[_0x1b5d97(0x175)][0x0]),_0x5af5fe=_0x1a64cb(_0x4b5156[_0x1b5d97(0x19b)]),_0x586e81=_0x5af5fe[_0x1b5d97(0x189)];if(_0x574e40['split']){var _0x21f1f4=_0x11c3e9(_0x4b5156[_0x1b5d97(0x19b)][0x0]);if(_0x21f1f4===0xb||_0x21f1f4===0x8)return _0x1b5d97(0x16e);if(_0x21f1f4===0x9&&_0x5defce!==0x7&&_0x5defce!==0xa&&_0x5defce!==0xb)return'split';if(_0x21f1f4===0x7&&_0x5defce<=0x7)return _0x1b5d97(0x16e);if(_0x21f1f4===0x6&&_0x5defce<=0x6)return'split';if(_0x21f1f4===0x4&&(_0x5defce===0x5||_0x5defce===0x6))return'split';if((_0x21f1f4===0x3||_0x21f1f4===0x2)&&_0x5defce<=0x7)return _0x1b5d97(0x16e);}if(_0x5af5fe[_0x1b5d97(0x174)]){if(_0x586e81>=0x13)return _0x1b5d97(0x193);if(_0x586e81===0x12){if(_0x5defce>=0x3&&_0x5defce<=0x6)return _0x574e40[_0x1b5d97(0x199)]?_0x1b5d97(0x199):_0x1b5d97(0x193);if(_0x5defce===0x2||_0x5defce===0x7||_0x5defce===0x8)return _0x1b5d97(0x193);return _0x1b5d97(0x16b);}if(_0x586e81===0x11)return _0x5defce>=0x3&&_0x5defce<=0x6&&_0x574e40[_0x1b5d97(0x199)]?_0x1b5d97(0x199):'hit';if(_0x586e81===0x10||_0x586e81===0xf)return _0x5defce>=0x4&&_0x5defce<=0x6&&_0x574e40[_0x1b5d97(0x199)]?_0x1b5d97(0x199):_0x1b5d97(0x16b);return(_0x5defce===0x5||_0x5defce===0x6)&&_0x574e40[_0x1b5d97(0x199)]?_0x1b5d97(0x199):_0x1b5d97(0x16b);}if(_0x586e81>=0x11)return _0x1b5d97(0x193);if(_0x586e81>=0xd)return _0x5defce<=0x6?_0x1b5d97(0x193):_0x1b5d97(0x16b);if(_0x586e81===0xc)return _0x5defce>=0x4&&_0x5defce<=0x6?_0x1b5d97(0x193):_0x1b5d97(0x16b);if(_0x586e81===0xb)return _0x5defce<=0xa&&_0x574e40[_0x1b5d97(0x199)]?_0x1b5d97(0x199):_0x1b5d97(0x16b);if(_0x586e81===0xa)return _0x5defce<=0x9&&_0x574e40[_0x1b5d97(0x199)]?_0x1b5d97(0x199):_0x1b5d97(0x16b);if(_0x586e81===0x9)return _0x5defce>=0x3&&_0x5defce<=0x6&&_0x574e40[_0x1b5d97(0x199)]?_0x1b5d97(0x199):_0x1b5d97(0x16b);return _0x1b5d97(0x16b);}function _0x175e30(_0x32a235,_0x2cfe9f){var _0x386e62=_0x812b52,_0x573da7=[],_0x54d41b=_0x32a235;for(var _0x493f8e=_0x5837ea[_0x386e62(0x17f)]-0x1;_0x493f8e>=0x0&&_0x54d41b>0x0;_0x493f8e--){while(_0x54d41b>=_0x5837ea[_0x493f8e]&&_0x573da7['length']<(_0x2cfe9f||0x63)){_0x573da7[_0x386e62(0x187)](_0x5837ea[_0x493f8e]),_0x54d41b-=_0x5837ea[_0x493f8e];}}return _0x573da7;}var _0x3aa4bf={'RULES':_0x4519bf,'DENOMS':_0x5837ea,'TABLES':_0x3f7dae,'START_CHIPS':_0x5a324f,'XP_HAND':_0x1d1b25,'xpMult':_0x5b0a2f,'xpFor':_0x33d0da,'levelOf':_0x3faf56,'refillAmount':_0x54d996,'cardValue':_0x11c3e9,'handValue':_0x1a64cb,'isNatural':_0x33417b,'newShoe':function(_0x49d4fd){var _0x327f46=_0x812b52;return _0x7c78be(_0x4519bf['decks'],_0x49d4fd||Math[_0x327f46(0x1a1)]);},'deal':_0x45fe21,'options':_0x15f6d1,'hit':_0x708a0f,'stand':_0x297432,'double':_0x4d3bb7,'split':_0x438941,'dealerPlay':_0x1c80f6,'settle':_0x7fdd44,'advise':_0x10db85,'breakdown':_0x175e30};if(typeof module!=='undefined'&&module[_0x812b52(0x17d)])module[_0x812b52(0x17d)]=_0x3aa4bf;else _0x4acba9['BJ']=_0x4acba9['BJ']||{},_0x4acba9['BJ']['engine']=_0x3aa4bf;}(typeof window!==q2_0x359450(0x172)?window:this));
+/* Blackjack rules and chip economy. Pure logic, no DOM: the game screen and the
+   balance simulator both run on this file. */
+(function (root) {
+  'use strict';
+
+  var SUITS = ['S', 'H', 'D', 'C'];
+  var RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+
+  // House rules. Every hand is dealt from a freshly shuffled shoe.
+  var RULES = {
+    decks: 6,
+    hitSoft17: false,       // dealer stands on all 17s
+    blackjackPays: 1.5,     // 3 to 2
+    maxHands: 2,            // one split
+    doubleAfterSplit: true
+  };
+
+  // Chip denominations that exist in the game, smallest first.
+  var DENOMS = [5, 10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000, 5000000, 10000000];
+
+  // Table ladder. A table opens when the player reaches its `level`.
+  var TABLES = [
+    { id: 'alley',  min: 10,   max: 500,    level: 1,       chips: [10, 50, 100] },
+    { id: 'harbor', min: 50,   max: 2500,   level: 3,    chips: [50, 100, 500] },
+    { id: 'garden', min: 100,  max: 5000,   level: 5,    chips: [100, 500, 1000] },
+    { id: 'grand',  min: 500,  max: 25000,  level: 9,   chips: [500, 1000, 5000] },
+    { id: 'royal',  min: 1000, max: 50000,  level: 14,   chips: [1000, 5000, 10000] },
+    { id: 'sky',    min: 5000, max: 250000, level: 20,  chips: [5000, 10000, 50000] },
+    { id: 'monte',  min: 10000,  max: 500000,   level: 27,   chips: [10000, 50000, 100000] },
+    { id: 'macau',  min: 50000,  max: 2500000,  level: 35,   chips: [50000, 100000, 500000] },
+    { id: 'vegas',  min: 100000, max: 5000000,  level: 45,  chips: [100000, 500000, 1000000] },
+    { id: 'diamond', min: 500000, max: 25000000, level: 57, chips: [500000, 1000000, 5000000] },
+    { id: 'crown',  min: 1000000, max: 50000000, level: 70, chips: [1000000, 5000000, 10000000] }
+  ];
+  var START_CHIPS = 1000;
+
+  // Experience. Every hand played earns XP, more at bigger tables. Levels open tables and pay out chips.
+  var XP_HAND = 10;
+  // XP by how the hand went (blackjack counts as a win). With basic strategy a hand wins about 43%, pushes 9%
+  // and loses 48% of the time, so the average stays close to the old flat 10.
+  var XP_RESULT = { win: 16, push: 8, lose: 4 };
+  // Bigger tables pay a lot more XP: playing up is the way to level.
+  var XP_MULT = [1, 1.5, 2, 3, 4, 6, 8, 12, 16, 24, 32];
+  function xpMult(tableIndex) { return XP_MULT[tableIndex] || 1; }
+  // Early levels come in a handful of hands (Harbor opens around the fourth); the last table, Lv70,
+  // is about 330 days away at 60 hands a day on the best open table.
+  var XP_K = 30, XP_P = 2.7;
+  function xpFor(level) { return level <= 1 ? 0 : Math.round(XP_K * Math.pow(level - 1, XP_P)); }   // total XP needed to be at `level`
+  function levelOf(xp) {
+    var L = Math.floor(Math.pow(Math.max(0, xp) / XP_K, 1 / XP_P)) + 1;
+    while (xpFor(L + 1) <= xp) L++;
+    while (L > 1 && xpFor(L) > xp) L--;
+    return L;
+  }
+
+  // Chips handed out for a rewarded ad when the player cannot cover the table minimum.
+  function refillAmount(table) { return table.min * 100; }
+
+  function cardValue(c) {
+    var r = c.rank;
+    if (r === 'A') return 11;
+    if (r === 'K' || r === 'Q' || r === 'J' || r === '10') return 10;
+    return +r;
+  }
+
+  function handValue(cards) {
+    var total = 0, aces = 0;
+    for (var i = 0; i < cards.length; i++) {
+      total += cardValue(cards[i]);
+      if (cards[i].rank === 'A') aces++;
+    }
+    while (total > 21 && aces > 0) { total -= 10; aces--; }
+    return { total: total, soft: aces > 0 };
+  }
+
+  function makeShoe(decks, rng) {
+    var shoe = [];
+    for (var d = 0; d < decks; d++)
+      for (var s = 0; s < 4; s++)
+        for (var r = 0; r < 13; r++)
+          shoe.push({ rank: RANKS[r], suit: SUITS[s] });
+    for (var i = shoe.length - 1; i > 0; i--) {
+      var j = Math.floor(rng() * (i + 1));
+      var t = shoe[i]; shoe[i] = shoe[j]; shoe[j] = t;
+    }
+    return shoe;
+  }
+
+  function newHand(bet) {
+    return { cards: [], bet: bet, doubled: false, done: false, fromSplit: false,
+             splitAces: false, reason: null, result: null, payout: 0 };
+  }
+
+  function isNatural(h) {
+    return !h.fromSplit && h.cards.length === 2 && handValue(h.cards).total === 21;
+  }
+
+  // Deal a round. Order on the table: player, dealer up card, player, dealer hole card.
+  // `rig` (optional) is a list of cards to draw first, in dealing order; tests and demos use it.
+  // `shoe` (optional) is the dealer's running shoe; cards are drawn from its end and stay gone.
+  // Without it every hand is dealt from a fresh shuffle (the simulator does that).
+  function deal(bet, rng, rig, shoe) {
+    shoe = shoe || makeShoe(RULES.decks, rng || Math.random);
+    if (rig) for (var k = rig.length - 1; k >= 0; k--) shoe.push(rig[k]);
+    var h = newHand(bet);
+    var round = { shoe: shoe, dealer: [], hands: [h], active: 0, phase: 'player', dealerNatural: false };
+    h.cards.push(shoe.pop());
+    round.dealer.push(shoe.pop());
+    h.cards.push(shoe.pop());
+    round.dealer.push(shoe.pop());
+    // The dealer peeks under an ace or a ten, so a dealer blackjack ends the round at once.
+    round.dealerNatural = handValue(round.dealer).total === 21;
+    if (round.dealerNatural || isNatural(h)) {
+      h.done = true;
+      h.reason = isNatural(h) ? 'blackjack' : 'stand';
+      round.phase = 'dealer';
+    }
+    return round;
+  }
+
+  function options(round, chips) {
+    var o = { hit: false, stand: false, double: false, split: false };
+    if (round.phase !== 'player') return o;
+    var h = round.hands[round.active];
+    if (!h || h.done) return o;
+    o.hit = o.stand = true;
+    if (h.cards.length === 2 && !h.splitAces && chips >= h.bet &&
+        (!h.fromSplit || RULES.doubleAfterSplit)) o.double = true;
+    if (!round.noSplit && round.hands.length < RULES.maxHands && h.cards.length === 2 &&
+        cardValue(h.cards[0]) === cardValue(h.cards[1]) && chips >= h.bet) o.split = true;
+    return o;
+  }
+
+  // Move to the next hand that still needs a decision, dealing split cards on the way.
+  function advance(round, ev) {
+    for (;;) {
+      var h = round.hands[round.active];
+      if (!h.done && h.cards.length === 1) {
+        var c = round.shoe.pop();
+        h.cards.push(c);
+        ev.push({ t: 'card', to: 'player', hand: round.active, card: c });
+        if (h.splitAces || handValue(h.cards).total === 21) { h.done = true; h.reason = 'stand'; }
+      }
+      if (!h.done) { ev.push({ t: 'turn', hand: round.active }); return ev; }
+      if (round.active + 1 < round.hands.length) round.active++;
+      else { round.phase = 'dealer'; ev.push({ t: 'phase', phase: 'dealer' }); return ev; }
+    }
+  }
+
+  function hit(round) {
+    var ev = [], h = round.hands[round.active], c = round.shoe.pop();
+    h.cards.push(c);
+    ev.push({ t: 'card', to: 'player', hand: round.active, card: c });
+    var v = handValue(h.cards).total;
+    if (v > 21) { h.done = true; h.reason = 'bust'; ev.push({ t: 'bust', hand: round.active }); advance(round, ev); }
+    else if (v === 21) { h.done = true; h.reason = 'stand'; advance(round, ev); }
+    else ev.push({ t: 'turn', hand: round.active });
+    return ev;
+  }
+
+  function stand(round) {
+    var ev = [], h = round.hands[round.active];
+    h.done = true; h.reason = 'stand';
+    return advance(round, ev);
+  }
+
+  // Caller takes the extra bet out of the bankroll before calling.
+  function double(round) {
+    var ev = [], h = round.hands[round.active], c = round.shoe.pop();
+    h.bet *= 2; h.doubled = true;
+    h.cards.push(c);
+    ev.push({ t: 'card', to: 'player', hand: round.active, card: c, sideways: true });
+    h.done = true;
+    if (handValue(h.cards).total > 21) { h.reason = 'bust'; ev.push({ t: 'bust', hand: round.active }); }
+    else h.reason = 'stand';
+    return advance(round, ev);
+  }
+
+  // Caller takes the second bet out of the bankroll before calling.
+  function split(round) {
+    var ev = [], h = round.hands[round.active];
+    var a = newHand(h.bet), b = newHand(h.bet);
+    a.cards = [h.cards[0]]; b.cards = [h.cards[1]];
+    a.fromSplit = b.fromSplit = true;
+    a.splitAces = b.splitAces = (h.cards[0].rank === 'A' && h.cards[1].rank === 'A');
+    round.hands = [a, b];
+    round.active = 0;
+    ev.push({ t: 'split' });
+    return advance(round, ev);
+  }
+
+  function dealerPlay(round) {
+    var ev = [{ t: 'reveal' }];
+    var live = round.hands.some(function (h) { return h.reason !== 'bust' && !isNatural(h); });
+    if (!round.dealerNatural && live) {
+      for (;;) {
+        var v = handValue(round.dealer);
+        if (v.total < 17 || (v.total === 17 && v.soft && RULES.hitSoft17)) {
+          var c = round.shoe.pop();
+          round.dealer.push(c);
+          ev.push({ t: 'card', to: 'dealer', card: c });
+        } else break;
+      }
+    }
+    round.phase = 'settle';
+    return ev;
+  }
+
+  // Sets result and payout on every hand. Payout is what comes back to the
+  // bankroll, stake included (the stake left the bankroll when it was bet).
+  function settle(round) {
+    var d = handValue(round.dealer).total, dBust = d > 21, total = 0;
+    round.hands.forEach(function (h) {
+      var p = handValue(h.cards).total, res, pay;
+      if (h.reason === 'bust' || p > 21) { res = 'lose'; pay = 0; }
+      else if (isNatural(h)) {
+        if (round.dealerNatural) { res = 'push'; pay = h.bet; }
+        else { res = 'blackjack'; pay = h.bet + h.bet * RULES.blackjackPays; }
+      }
+      else if (round.dealerNatural) { res = 'lose'; pay = 0; }
+      else if (dBust || p > d) { res = 'win'; pay = h.bet * 2; }
+      else if (p === d) { res = 'push'; pay = h.bet; }
+      else { res = 'lose'; pay = 0; }
+      h.result = res; h.payout = pay; total += pay;
+    });
+    round.phase = 'done';
+    return total;
+  }
+
+  // Basic strategy for these rules. Used by the simulator; a hint button can use it later.
+  function advise(round, opts) {
+    var h = round.hands[round.active];
+    var up = cardValue(round.dealer[0]);          // 2..11
+    var v = handValue(h.cards), t = v.total;
+    if (opts.split) {
+      var pv = cardValue(h.cards[0]);
+      if (pv === 11 || pv === 8) return 'split';
+      if (pv === 9 && up !== 7 && up !== 10 && up !== 11) return 'split';
+      if (pv === 7 && up <= 7) return 'split';
+      if (pv === 6 && up <= 6) return 'split';
+      if (pv === 4 && (up === 5 || up === 6)) return 'split';
+      if ((pv === 3 || pv === 2) && up <= 7) return 'split';
+    }
+    if (v.soft) {
+      if (t >= 19) return 'stand';
+      if (t === 18) {
+        if (up >= 3 && up <= 6) return opts.double ? 'double' : 'stand';
+        if (up === 2 || up === 7 || up === 8) return 'stand';
+        return 'hit';
+      }
+      if (t === 17) return (up >= 3 && up <= 6 && opts.double) ? 'double' : 'hit';
+      if (t === 16 || t === 15) return (up >= 4 && up <= 6 && opts.double) ? 'double' : 'hit';
+      return ((up === 5 || up === 6) && opts.double) ? 'double' : 'hit';
+    }
+    if (t >= 17) return 'stand';
+    if (t >= 13) return up <= 6 ? 'stand' : 'hit';
+    if (t === 12) return (up >= 4 && up <= 6) ? 'stand' : 'hit';
+    if (t === 11) return (up <= 10 && opts.double) ? 'double' : 'hit';
+    if (t === 10) return (up <= 9 && opts.double) ? 'double' : 'hit';
+    if (t === 9) return (up >= 3 && up <= 6 && opts.double) ? 'double' : 'hit';
+    return 'hit';
+  }
+
+  // Split an amount into chips, largest first. `floor` is the smallest chip allowed.
+  function breakdown(amount, maxChips) {
+    var out = [], left = amount;
+    for (var i = DENOMS.length - 1; i >= 0 && left > 0; i--) {
+      while (left >= DENOMS[i] && out.length < (maxChips || 99)) { out.push(DENOMS[i]); left -= DENOMS[i]; }
+    }
+    return out;
+  }
+
+  var api = {
+    RULES: RULES, DENOMS: DENOMS, TABLES: TABLES, START_CHIPS: START_CHIPS,
+    XP_HAND: XP_HAND, XP_RESULT: XP_RESULT, xpMult: xpMult, xpFor: xpFor, levelOf: levelOf,
+    refillAmount: refillAmount, cardValue: cardValue, handValue: handValue, isNatural: isNatural,
+    newShoe: function (rng) { return makeShoe(RULES.decks, rng || Math.random); },
+    deal: deal, options: options, hit: hit, stand: stand, double: double, split: split,
+    dealerPlay: dealerPlay, settle: settle, advise: advise, breakdown: breakdown
+  };
+
+  if (typeof module !== 'undefined' && module.exports) module.exports = api;
+  else { root.BJ = root.BJ || {}; root.BJ.engine = api; }
+})(typeof window !== 'undefined' ? window : this);

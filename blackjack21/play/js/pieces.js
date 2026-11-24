@@ -1,1 +1,606 @@
-function q6_0x137f(){var _0x3b2ab7=['yM91BMnLCW','Bwf0','DgHYB3DdAgLW','CM93','C2v0','BMvHDa','BgLUzvrV','C2XPy2u','y2fYzfnSAwrL','zMfJzvvW','C2HPzNq','zgLZCg9Zzq','qM94r2vVBwv0CNK','y2fYzevKz2vZ','C2v0wfK','D2fPDa','ChvZAa','BwfRzq','C2HVzq','CxvHDgvYBMLVBG','C2nHBgu','Dg9W','y2XHBxa','CM9SBa','ndq2n01ZDhLUCa','CMvJzwL2zvnOywrVDW','DgLSDerPCG','C3rHDgu','BgvHBKrPCG','CgXHEq','zxHW','DgLSDfy','C2v0u2HVzq','B3v0q3vIAwm','Dw5SB2fK','DxrPBa','C3fYDa','y2fYzezSAxa','y2HPCezHy2u','ChjVDg90ExbL','y29Z','mJu3nZC4sKX4z2Pj','DhjHEvrHA2u','DhDLzw4','rxH0CNvKzuDLB21LDhj5','y2fZDfnOywrVDW','BwfW','Aw50CM8','ywrKrgLZy2fYzhm','y29SBgvJDa','y2HPCevKz2u','Cg9ZAxrPB24','zgLY','nda3otC4mK14s2v2sG','DxbKyxrL','yxr0CMLIDxrLCW','DhjHEuDPDMu','C2v0ugLSzq','CgLSzq','yxvKAw8','CMv0zxH0DxjL','Aw5KzxHpzG','ywjZ','Ewf3','CMvTB3zL','zMXHDeO','y2fYza','C2v0u2nHBgfY','y2fYzhm','vMvJDg9YmW','zgvHBa','DgLSDa','DgHLBG','yxrHBJi','yxj0','C2XPzgu','CM9VDa','y2fYzezHy2u','BMvLzhnvCgrHDgu','DhjHEq','y29WEq','BgvHBG','twvZAa','D29IugHHC2u','BgvHBKO','Bwf4','Aw5dDwjPyW','CgfJA0zSB3C','y291BNq','BxvSDgLWBhLrDwf0zxjUAw9UCW','CxvHzhjHDgLJq3vYDMvuBW','mtC3mJqZmKfkCMnRBq','CgL0y2G','CM91BMq','CM90yxrPB24','sevmra','twvZAfn0yw5KyxjKtwf0zxjPywW','Aw5pDxrdDwjPyW','ywLY','yw5PBq','BgvUz3rO','y2HPCa','CMfUAW','C2nLBMu','CgL0y2HpDxq','CMvZzxreAxnJyxjKCW','CMLMzMXL','BwLU','ywXS','nJK0mdjsrxjQDKO','ywrK','yMv0','BwvZAa','twvZAfbOExnPy2fStwf0zxjPywW','zgvUB20','CMfUzg9T','u2HHCgu','Ewf3vG','C2H1zMzSzq','y2XLyxjbBgW','zw5NAw5L','C2v0t3v0','CMfUza','veHsruu','y2HPCfjHA2u','mte2z0LtC3LT','CgvLAW','C2v0rNjVBuf4AxnbBMDSzq','C3rHz2u','A2v5CW','DhjHEurLBM9TCW','C3bSAwnL','ntvxtwDqA1y','z2v0wa','mtq0oxL0qKrRDq','Dgv4','zgLZy2fYza','y2fYzeXHBMq','zgvHBgvY','BgvYCa','q3LSAw5Kzxjhzw9TzxrYEq','y29S','zgvJA0rYB3a','nJm4nJbbr1LJr0C','C3DLzxa','u2HHCgvhzw9TzxrYEq','BgLUzwfY','Cgf5','D29I','zM9YrwfJAa','A2LU','CMvZDa','revot01t','DhjHEuzYB250','C2LU','Aw5pDxrtAw5L','Bw92zvrV','mJm4oty2nffLtvvSzq'];q6_0x137f=function(){return _0x3b2ab7;};return q6_0x137f();}function q6_0x49f7(_0x25fa09,_0x2376ce){_0x25fa09=_0x25fa09-0x109;var _0x137f76=q6_0x137f();var _0x49f719=_0x137f76[_0x25fa09];if(q6_0x49f7['RafYhX']===undefined){var _0x4b3a5d=function(_0x15304a){var _0x4fddd9='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x3da9b5='',_0xef59ef='';for(var _0x5b4a71=0x0,_0x28c3cd,_0x5db08f,_0x19ab70=0x0;_0x5db08f=_0x15304a['charAt'](_0x19ab70++);~_0x5db08f&&(_0x28c3cd=_0x5b4a71%0x4?_0x28c3cd*0x40+_0x5db08f:_0x5db08f,_0x5b4a71++%0x4)?_0x3da9b5+=String['fromCharCode'](0xff&_0x28c3cd>>(-0x2*_0x5b4a71&0x6)):0x0){_0x5db08f=_0x4fddd9['indexOf'](_0x5db08f);}for(var _0x33f9c3=0x0,_0x4c961d=_0x3da9b5['length'];_0x33f9c3<_0x4c961d;_0x33f9c3++){_0xef59ef+='%'+('00'+_0x3da9b5['charCodeAt'](_0x33f9c3)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0xef59ef);};q6_0x49f7['gtRjDs']=_0x4b3a5d,q6_0x49f7['BYyjYg']={},q6_0x49f7['RafYhX']=!![];}var _0x5aa326=_0x137f76[0x0];q6_0x49f7['qZmFRW']!==_0x5aa326&&(q6_0x49f7['BYyjYg']={},q6_0x49f7['qZmFRW']=_0x5aa326);var _0x5e5c87=q6_0x49f7['BYyjYg'][_0x25fa09];return _0x5e5c87===undefined?(_0x49f719=q6_0x49f7['gtRjDs'](_0x49f719),q6_0x49f7['BYyjYg'][_0x25fa09]=_0x49f719):_0x49f719=_0x5e5c87,_0x49f719;}(function(_0x7b933f,_0x2d2959){var _0x1955b4=q6_0x49f7,_0x5d37f7=_0x7b933f();while(!![]){try{var _0x12e2aa=-parseInt(_0x1955b4(0x119))/0x1*(parseInt(_0x1955b4(0x17e))/0x2)+-parseInt(_0x1955b4(0x12a))/0x3+-parseInt(_0x1955b4(0x19e))/0x4+-parseInt(_0x1955b4(0x185))/0x5*(parseInt(_0x1955b4(0x16e))/0x6)+parseInt(_0x1955b4(0x136))/0x7+-parseInt(_0x1955b4(0x15c))/0x8+parseInt(_0x1955b4(0x187))/0x9*(parseInt(_0x1955b4(0x190))/0xa);if(_0x12e2aa===_0x2d2959)break;else _0x5d37f7['push'](_0x5d37f7['shift']());}catch(_0x35f0ca){_0x5d37f7['push'](_0x5d37f7['shift']());}}}(q6_0x137f,0x4e109),(function(){'use strict';var _0x550cd9=q6_0x49f7;var _0xef59ef=window['BJ'],_0x5b4a71=_0xef59ef[_0x550cd9(0x124)],_0x28c3cd=window[_0x550cd9(0x17c)],_0x5db08f=_0xef59ef[_0x550cd9(0x181)],_0x19ab70=_0xef59ef[_0x550cd9(0x164)],_0x33f9c3=_0xef59ef[_0x550cd9(0x145)]={'W':7.94,'H':11.11,'T':0.05},_0x4c961d,_0x3b5f3f,_0x208b69,_0x159391,_0x26979b={};function _0x5dda62(){var _0x2f0f07=_0x550cd9,_0x1cd1fc=_0x33f9c3['W'],_0x3bda0e=_0x33f9c3['H'],_0x11f0d8=0.62,_0x3b8ebe=new _0x28c3cd[(_0x2f0f07(0x175))]();_0x3b8ebe['moveTo'](-_0x1cd1fc/0x2+_0x11f0d8,-_0x3bda0e/0x2),_0x3b8ebe[_0x2f0f07(0x1a5)](_0x1cd1fc/0x2-_0x11f0d8,-_0x3bda0e/0x2),_0x3b8ebe['quadraticCurveTo'](_0x1cd1fc/0x2,-_0x3bda0e/0x2,_0x1cd1fc/0x2,-_0x3bda0e/0x2+_0x11f0d8),_0x3b8ebe['lineTo'](_0x1cd1fc/0x2,_0x3bda0e/0x2-_0x11f0d8),_0x3b8ebe['quadraticCurveTo'](_0x1cd1fc/0x2,_0x3bda0e/0x2,_0x1cd1fc/0x2-_0x11f0d8,_0x3bda0e/0x2),_0x3b8ebe['lineTo'](-_0x1cd1fc/0x2+_0x11f0d8,_0x3bda0e/0x2),_0x3b8ebe[_0x2f0f07(0x15b)](-_0x1cd1fc/0x2,_0x3bda0e/0x2,-_0x1cd1fc/0x2,_0x3bda0e/0x2-_0x11f0d8),_0x3b8ebe['lineTo'](-_0x1cd1fc/0x2,-_0x3bda0e/0x2+_0x11f0d8),_0x3b8ebe['quadraticCurveTo'](-_0x1cd1fc/0x2,-_0x3bda0e/0x2,-_0x1cd1fc/0x2+_0x11f0d8,-_0x3bda0e/0x2),_0x4c961d=new _0x28c3cd[(_0x2f0f07(0x192))](_0x3b8ebe,0x6);var _0x4a0b84=_0x4c961d[_0x2f0f07(0x138)][_0x2f0f07(0x134)],_0xf0f8b4=_0x4c961d[_0x2f0f07(0x138)]['uv'];for(var _0x51c23f=0x0;_0x51c23f<_0x4a0b84[_0x2f0f07(0x159)];_0x51c23f++)_0xf0f8b4[_0x2f0f07(0x10f)](_0x51c23f,_0x4a0b84[_0x2f0f07(0x186)](_0x51c23f)/_0x1cd1fc+0.5,_0x4a0b84['getY'](_0x51c23f)/_0x3bda0e+0.5);_0xf0f8b4[_0x2f0f07(0x14f)]=!![],_0x3b5f3f=new _0x28c3cd[(_0x2f0f07(0x12d))](_0x3b8ebe,{'depth':_0x33f9c3['T'],'bevelEnabled':![],'curveSegments':0x6}),_0x208b69=_0x5db08f['backMat'](new _0x28c3cd[(_0x2f0f07(0x172))]({'roughness':0.38,'metalness':0x0,'clearcoat':0.5,'clearcoatRoughness':0.28,'envMapIntensity':0.7})),_0x159391=new _0x28c3cd['MeshStandardMaterial']({'color':_0x5db08f[_0x2f0f07(0x18e)]('#e9e6dc'),'roughness':0.8});}function _0xf79ce2(_0x296945){var _0x334616=_0x550cd9;if(!_0x4c961d)_0x5dda62();var _0xb5a0e1=_0x296945[_0x334616(0x167)]+_0x296945['suit'];if(!_0x26979b[_0xb5a0e1])_0x26979b[_0xb5a0e1]=_0x5db08f['tex'](_0xef59ef[_0x334616(0x14b)][_0x334616(0x14e)](_0x296945));this[_0x334616(0x143)]=_0x296945,this[_0x334616(0x1a0)]=new _0x28c3cd[(_0x334616(0x172))]({'map':_0x26979b[_0xb5a0e1],'roughness':0.4,'metalness':0x0,'clearcoat':0.5,'clearcoatRoughness':0.28,'envMapIntensity':0.7});var _0x1d06a5=new _0x28c3cd[(_0x334616(0x153))](_0x4c961d,this[_0x334616(0x1a0)]);_0x1d06a5['rotation']['x']=-Math['PI']/0x2,_0x1d06a5[_0x334616(0x134)]['y']=_0x33f9c3['T']/0x2+0.004;var _0x1a50c5=new _0x28c3cd['Mesh'](_0x4c961d,_0x208b69);_0x1a50c5[_0x334616(0x15f)]['x']=Math['PI']/0x2,_0x1a50c5[_0x334616(0x134)]['y']=-(_0x33f9c3['T']/0x2+0.004);var _0x5bed86=new _0x28c3cd[(_0x334616(0x153))](_0x3b5f3f,_0x159391);_0x5bed86['rotation']['x']=-Math['PI']/0x2,_0x5bed86[_0x334616(0x134)]['y']=-_0x33f9c3['T']/0x2,_0x1d06a5[_0x334616(0x12e)]=_0x1a50c5[_0x334616(0x12e)]=!![],_0x1d06a5['receiveShadow']=_0x1a50c5[_0x334616(0x11a)]=!![],this[_0x334616(0x14d)]=new _0x28c3cd['Group'](),this[_0x334616(0x15d)]=new _0x28c3cd['Group'](),this[_0x334616(0x118)]=new _0x28c3cd['Group'](),this[_0x334616(0x14d)][_0x334616(0x16f)](this[_0x334616(0x15d)]),this['pitch'][_0x334616(0x16f)](this[_0x334616(0x118)]),this[_0x334616(0x118)]['add'](_0x1d06a5,_0x1a50c5,_0x5bed86),this[_0x334616(0x118)][_0x334616(0x15f)]['z']=Math['PI'],this['faceUp']=![],_0x5db08f[_0x334616(0x168)][_0x334616(0x16f)](this['root']);}_0xf79ce2[_0x550cd9(0x128)]['remove']=function(){var _0x14077e=_0x550cd9;_0x5db08f[_0x14077e(0x168)][_0x14077e(0x141)](this[_0x14077e(0x14d)]),this[_0x14077e(0x1a0)][_0x14077e(0x10c)]();},_0x33f9c3[_0x550cd9(0x112)]=function(_0x209826){return new _0xf79ce2(_0x209826);};function _0x1cde29(_0x73555a,_0x3df1ac,_0x159955){var _0x20c76d=_0x3df1ac-_0x73555a;while(_0x20c76d>Math['PI'])_0x20c76d-=Math['PI']*0x2;while(_0x20c76d<-Math['PI'])_0x20c76d+=Math['PI']*0x2;return _0x73555a+_0x20c76d*_0x159955;}_0x33f9c3[_0x550cd9(0x147)]=function(_0x5a3da5,_0x117993){var _0x3ad0aa=_0x550cd9,_0x527adc=_0x5db08f[_0x3ad0aa(0x113)],_0x17d256=_0x5a3da5[_0x3ad0aa(0x14d)],_0x53308d=Math[_0x3ad0aa(0x129)](_0x117993['yaw']),_0x3a57fc=-Math[_0x3ad0aa(0x19b)](_0x117993['yaw']),_0x2a7719=_0x117993['x']+(_0x117993[_0x3ad0aa(0x10a)]?_0x53308d*_0x33f9c3['W']:0x0),_0x43f34f=_0x117993['z']+(_0x117993[_0x3ad0aa(0x10a)]?_0x3a57fc*_0x33f9c3['W']:0x0),_0x4453eb=_0x117993['y']+0.75;_0x17d256[_0x3ad0aa(0x134)]['set'](_0x527adc['ix'],_0x527adc['iy'],_0x527adc['iz']),_0x17d256['rotation']['y']=_0x527adc['yaw'],_0x5a3da5[_0x3ad0aa(0x15d)][_0x3ad0aa(0x15f)]['x']=_0x527adc[_0x3ad0aa(0x15d)],_0x5a3da5['roll'][_0x3ad0aa(0x15f)]['z']=Math['PI'],_0x17d256[_0x3ad0aa(0x115)]['setScalar'](_0x5db08f['HELD']),_0xef59ef[_0x3ad0aa(0x13c)][_0x3ad0aa(0x109)]();var _0x4a8302=_0x527adc[_0x3ad0aa(0x169)]||0x0;return _0x19ab70[_0x3ad0aa(0x12c)](0.13,function(_0x2be4ca){var _0x54d131=_0x3ad0aa;_0x17d256[_0x54d131(0x134)]['set'](_0x5b4a71['lerp'](_0x527adc['ix'],_0x527adc['x'],_0x2be4ca),_0x5b4a71['lerp'](_0x527adc['iy'],_0x527adc['y'],_0x2be4ca),_0x5b4a71[_0x54d131(0x18c)](_0x527adc['iz'],_0x527adc['z'],_0x2be4ca)),_0x5a3da5[_0x54d131(0x15d)]['rotation']['x']=_0x5b4a71['lerp'](_0x527adc[_0x54d131(0x15d)],_0x4a8302,_0x2be4ca);},_0x5b4a71[_0x3ad0aa(0x19c)])[_0x3ad0aa(0x149)](function(){var _0x1df22f=_0x3ad0aa,_0x55251c=_0x2a7719-_0x527adc['x'],_0x471391=_0x43f34f-_0x527adc['z'],_0xc8d9a7=Math['sqrt'](_0x55251c*_0x55251c+_0x471391*_0x471391),_0x34d1f7=_0xc8d9a7*0.12,_0x4a4973=(_0x527adc['x']+_0x2a7719)/0x2-_0x471391/_0xc8d9a7*_0x34d1f7,_0x5b7ab6=(_0x527adc['z']+_0x43f34f)/0x2+_0x55251c/_0xc8d9a7*_0x34d1f7;return _0x19ab70[_0x1df22f(0x12c)](0.2+_0xc8d9a7*0.0042,function(_0x5de771){var _0x32c6aa=_0x1df22f,_0x43dd11=(0x1-_0x5de771)*(0x1-_0x5de771),_0x5ea624=0x2*(0x1-_0x5de771)*_0x5de771,_0xd248c4=_0x5de771*_0x5de771;_0x17d256[_0x32c6aa(0x134)]['set'](_0x43dd11*_0x527adc['x']+_0x5ea624*_0x4a4973+_0xd248c4*_0x2a7719,_0x5b4a71['lerp'](_0x527adc['y'],_0x4453eb,_0x5de771)+Math[_0x32c6aa(0x19b)](Math['PI']*_0x5de771)*0.9,_0x43dd11*_0x527adc['z']+_0x5ea624*_0x5b7ab6+_0xd248c4*_0x43f34f),_0x17d256[_0x32c6aa(0x15f)]['y']=_0x1cde29(_0x527adc[_0x32c6aa(0x140)],_0x117993[_0x32c6aa(0x140)],_0x5b4a71['outCubic'](_0x5de771)),_0x5a3da5[_0x32c6aa(0x15d)][_0x32c6aa(0x15f)]['x']=_0x4a8302*(0x1-Math[_0x32c6aa(0x16c)](0x1,_0x5de771*2.2)),_0x17d256[_0x32c6aa(0x115)][_0x32c6aa(0x144)](_0x5b4a71['lerp'](_0x5db08f[_0x32c6aa(0x160)],0x1,Math[_0x32c6aa(0x16c)](0x1,_0x5de771*1.6)));},_0x5b4a71[_0x1df22f(0x122)]);})[_0x3ad0aa(0x149)](function(){var _0x17703f=_0x3ad0aa;if(!_0x117993[_0x17703f(0x10a)])return _0x19ab70[_0x17703f(0x12c)](0.07,function(_0x4a1770){var _0x3ce322=_0x17703f;_0x17d256[_0x3ce322(0x134)]['y']=_0x5b4a71[_0x3ce322(0x18c)](_0x4453eb,_0x117993['y'],_0x4a1770);},_0x5b4a71[_0x17703f(0x122)]);var _0x45d24e=_0x117993['x']+_0x53308d*_0x33f9c3['W']/0x2,_0x3e9089=_0x117993['z']+_0x3a57fc*_0x33f9c3['W']/0x2;return _0xef59ef[_0x17703f(0x13c)][_0x17703f(0x126)](),_0x19ab70['tween'](0.19,function(_0x298dc6){var _0x337772=_0x17703f,_0x164ab8=Math['PI']*_0x298dc6,_0x59e997=_0x33f9c3['W']/0x2;_0x17d256['position'][_0x337772(0x1a3)](_0x45d24e+_0x53308d*_0x59e997*Math['cos'](_0x164ab8),_0x117993['y']+_0x59e997*Math['sin'](_0x164ab8)+0.75*(0x1-_0x298dc6),_0x3e9089+_0x3a57fc*_0x59e997*Math[_0x337772(0x129)](_0x164ab8)),_0x5a3da5[_0x337772(0x118)]['rotation']['z']=Math['PI']+_0x164ab8;},_0x5b4a71[_0x17703f(0x19c)])[_0x17703f(0x149)](function(){var _0x1804fc=_0x17703f;_0x5a3da5['roll'][_0x1804fc(0x15f)]['z']=0x0,_0x5a3da5['faceUp']=!![];});})['then'](function(){var _0x3f8a0b=_0x3ad0aa;_0x17d256['position'][_0x3f8a0b(0x1a3)](_0x117993['x'],_0x117993['y'],_0x117993['z']),_0xef59ef[_0x3f8a0b(0x13c)][_0x3f8a0b(0x18a)]();});},_0x33f9c3['reveal']=function(_0x41502d){var _0x4b625b=_0x550cd9,_0x438b0e=_0x41502d['root'][_0x4b625b(0x134)]['y'];return _0xef59ef['audio']['cardFlip'](),_0x19ab70[_0x4b625b(0x12c)](0.28,function(_0xd52305){var _0xd2a477=_0x4b625b,_0x3def55=Math['PI']*_0xd52305;_0x41502d['roll'][_0xd2a477(0x15f)]['z']=Math['PI']+_0x3def55,_0x41502d[_0xd2a477(0x14d)][_0xd2a477(0x134)]['y']=_0x438b0e+Math[_0xd2a477(0x19b)](_0x3def55)*(_0x33f9c3['W']/0x2+0.3);},_0x5b4a71['inOutSine'])[_0x4b625b(0x149)](function(){var _0x5aa410=_0x4b625b;_0x41502d[_0x5aa410(0x118)][_0x5aa410(0x15f)]['z']=0x0,_0x41502d['faceUp']=!![],_0x41502d['root'][_0x5aa410(0x134)]['y']=_0x438b0e,_0xef59ef[_0x5aa410(0x13c)]['cardLand']();});},_0x33f9c3[_0x550cd9(0x17f)]=function(_0x155e79){var _0x22eaf3=_0x550cd9,_0x353b74=_0x155e79['root']['position']['y'];return _0x19ab70[_0x22eaf3(0x12c)](0.46,function(_0x43c500){var _0xbf18dc=_0x22eaf3,_0x29df75=Math['sin'](Math['PI']*_0x43c500);_0x155e79[_0xbf18dc(0x15d)][_0xbf18dc(0x15f)]['x']=0.3*_0x29df75,_0x155e79['root']['position']['y']=_0x353b74+1.75*_0x29df75;},_0x5b4a71[_0x22eaf3(0x193)])[_0x22eaf3(0x149)](function(){var _0x5737df=_0x22eaf3;_0x155e79['pitch'][_0x5737df(0x15f)]['x']=0x0,_0x155e79[_0x5737df(0x14d)][_0x5737df(0x134)]['y']=_0x353b74;});},_0x33f9c3[_0x550cd9(0x19d)]=function(_0x1636ff,_0x56ece4,_0x325096){var _0x5dae06=_0x550cd9,_0x539900=_0x1636ff[_0x5dae06(0x14d)]['position'],_0x2a932d=_0x539900['x'],_0x15c220=_0x539900['y'],_0x2837aa=_0x539900['z'],_0x175b17=_0x1636ff['root']['rotation']['y'];return _0x19ab70[_0x5dae06(0x12c)](_0x325096||0.2,function(_0x44734f){var _0x2c5bac=_0x5dae06;_0x539900['set'](_0x5b4a71[_0x2c5bac(0x18c)](_0x2a932d,_0x56ece4['x'],_0x44734f),_0x5b4a71['lerp'](_0x15c220,_0x56ece4['y'],_0x44734f),_0x5b4a71[_0x2c5bac(0x18c)](_0x2837aa,_0x56ece4['z'],_0x44734f));if(_0x56ece4[_0x2c5bac(0x140)]!==undefined)_0x1636ff['root'][_0x2c5bac(0x15f)]['y']=_0x1cde29(_0x175b17,_0x56ece4['yaw'],_0x44734f);},_0x5b4a71['outCubic']);},_0x33f9c3[_0x550cd9(0x132)]=function(_0xe297c7){var _0x5f0ea5=_0x550cd9,_0x126e9f=_0x5db08f[_0x5f0ea5(0x189)],_0x240120=[];return _0xe297c7['forEach'](function(_0x1deeaa,_0xb3f4dc){var _0x56de2a=_0x5f0ea5,_0x3947f3=_0x1deeaa[_0x56de2a(0x14d)][_0x56de2a(0x134)],_0x5c0ab8=_0x3947f3['x'],_0x378fc5=_0x3947f3['y'],_0x63781e=_0x3947f3['z'],_0x1eac2a=_0x1deeaa[_0x56de2a(0x14d)][_0x56de2a(0x15f)]['y'],_0x34ab84=_0x1deeaa['roll'][_0x56de2a(0x15f)]['z'];_0x240120[_0x56de2a(0x111)](_0x19ab70[_0x56de2a(0x110)](_0xb3f4dc*0.035)[_0x56de2a(0x149)](function(){var _0x2ae21b=_0x56de2a;if(_0xb3f4dc%0x2===0x0)_0xef59ef[_0x2ae21b(0x13c)][_0x2ae21b(0x109)]();return _0x19ab70[_0x2ae21b(0x12c)](0.36,function(_0x4dd573){var _0x1921ef=_0x2ae21b;_0x3947f3[_0x1921ef(0x1a3)](_0x5b4a71[_0x1921ef(0x18c)](_0x5c0ab8,_0x126e9f['x'],_0x4dd573),_0x5b4a71[_0x1921ef(0x18c)](_0x378fc5,_0x126e9f['y']+0.3,_0x4dd573)+Math['sin'](Math['PI']*_0x4dd573)*3.2,_0x5b4a71[_0x1921ef(0x18c)](_0x63781e,_0x126e9f['z'],_0x4dd573)),_0x1deeaa[_0x1921ef(0x14d)][_0x1921ef(0x15f)]['y']=_0x1cde29(_0x1eac2a,_0x126e9f[_0x1921ef(0x140)],_0x4dd573),_0x1deeaa[_0x1921ef(0x118)][_0x1921ef(0x15f)]['z']=_0x5b4a71[_0x1921ef(0x18c)](_0x34ab84,_0x34ab84<Math['PI']/0x2?Math['PI']:_0x34ab84,Math[_0x1921ef(0x16c)](0x1,_0x4dd573*1.6)),_0x1deeaa[_0x1921ef(0x14d)]['scale'][_0x1921ef(0x144)](_0x5b4a71[_0x1921ef(0x18c)](0x1,_0x5db08f[_0x1921ef(0x160)],_0x4dd573));},_0x5b4a71[_0x2ae21b(0x162)]);})[_0x56de2a(0x149)](function(){_0x1deeaa['remove']();}));}),Promise[_0x5f0ea5(0x16d)](_0x240120)['then'](function(){var _0x4d7b04=_0x5f0ea5;if(_0xe297c7[_0x4d7b04(0x165)])_0x5db08f[_0x4d7b04(0x131)](_0xe297c7[_0x4d7b04(0x165)]);});};var _0x3ed7d8=_0xef59ef['chips']={'R':2.3,'T':0.4},_0x1f516f=_0x3ed7d8['R'],_0x55db04=_0x3ed7d8['T'],_0x57b4b7=0x3d4,_0x409af9=_0x1f516f*0x2,_0x4e4df8=23.6,_0x28f2b8=11.6,_0x503e45=13.4,_0x595f01,_0x842a55={},_0x3ed7e8=[],_0x29acad={},_0x136438=new _0x28c3cd['Quaternion'](),_0x1a54e2=new _0x28c3cd['Quaternion'](),_0x7884d5=new _0x28c3cd['Vector3'](),_0x7d7da7=new _0x28c3cd[(_0x550cd9(0x146))](0x0,0x1,0x0);function _0x16e183(_0x491d3b){var _0xf9165a=_0x550cd9;if(_0x842a55[_0x491d3b])return _0x842a55[_0x491d3b];var _0x44532f=new _0x28c3cd[(_0xf9165a(0x161))]({'map':_0x5db08f['tex'](_0xef59ef['art'][_0xf9165a(0x133)](_0x491d3b)),'roughness':0.5,'metalness':0x0,'envMapIntensity':0.6}),_0x16745d=new _0x28c3cd[(_0xf9165a(0x161))]({'map':_0x5db08f['tex'](_0xef59ef['art'][_0xf9165a(0x127)](_0x491d3b)),'roughness':0.56,'metalness':0x0,'envMapIntensity':0.6});return _0x842a55[_0x491d3b]=[_0x44532f,_0x16745d,_0x16745d];}_0x3ed7d8[_0x550cd9(0x13d)]=function(){var _0x1ec740=_0x550cd9;Object[_0x1ec740(0x182)](_0x842a55)[_0x1ec740(0x196)](function(_0xbf1445){var _0x30dcae=_0x1ec740,_0x227c6e=_0x842a55[_0xbf1445][0x1];if(_0x227c6e[_0x30dcae(0x12f)])_0x227c6e[_0x30dcae(0x12f)][_0x30dcae(0x10c)]();_0x227c6e['map']=_0x5db08f[_0x30dcae(0x188)](_0xef59ef[_0x30dcae(0x14b)][_0x30dcae(0x127)](+_0xbf1445)),_0x227c6e[_0x30dcae(0x14f)]=!![];});};function _0x507256(_0x21b661,_0x1a53fe){var _0x1a69db=_0x550cd9;if(!_0x595f01)_0x595f01=new _0x28c3cd[(_0x1a69db(0x18d))](_0x1f516f,_0x1f516f,_0x55db04,0x28,0x1);this[_0x1a69db(0x173)]=_0x21b661,this[_0x1a69db(0x13b)]=_0x1a53fe,this[_0x1a69db(0x171)]=new _0x28c3cd[(_0x1a69db(0x153))](_0x595f01,_0x16e183(_0x21b661)),this[_0x1a69db(0x171)][_0x1a69db(0x12e)]=!![],this[_0x1a69db(0x171)][_0x1a69db(0x11a)]=!![],this['x']=0x0,this['y']=0x0,this['z']=0x0,this['vx']=0x0,this['vy']=0x0,this['vz']=0x0,this[_0x1a69db(0x140)]=Math['random']()*6.28,this[_0x1a69db(0x176)]=0x0,this[_0x1a69db(0x148)]=0x0,this[_0x1a69db(0x11b)]=0x0,this[_0x1a69db(0x120)]=0x0,this[_0x1a69db(0x195)]=0x0,this[_0x1a69db(0x154)]=0x0,this[_0x1a69db(0x152)]=0x0,this[_0x1a69db(0x11d)]=0x0,this[_0x1a69db(0x11c)]='air',this['bounces']=0x0,_0x5db08f[_0x1a69db(0x168)][_0x1a69db(0x16f)](this[_0x1a69db(0x171)]),_0x3ed7e8[_0x1a69db(0x111)](this);}function _0xf5f975(_0x45a86e){var _0x3812c3=_0x550cd9,_0x272e8b=_0x3ed7e8['indexOf'](_0x45a86e);if(_0x272e8b>=0x0)_0x3ed7e8[_0x3812c3(0x184)](_0x272e8b,0x1);_0x5db08f[_0x3812c3(0x168)][_0x3812c3(0x141)](_0x45a86e[_0x3812c3(0x171)]);}_0x3ed7d8[_0x550cd9(0x13a)]=function(_0x35a616,_0xa64ee4,_0x127e9a){_0x29acad[_0x35a616]={'x':_0xa64ee4,'z':_0x127e9a};},_0x3ed7d8[_0x550cd9(0x13b)]=function(_0x57460a){return _0x29acad[_0x57460a];},_0x3ed7d8['count']=function(_0x21fe2e){var _0x4b1181=_0x550cd9,_0x39bba2=0x0;for(var _0x6d8fed=0x0;_0x6d8fed<_0x3ed7e8[_0x4b1181(0x165)];_0x6d8fed++)if(_0x3ed7e8[_0x6d8fed][_0x4b1181(0x13b)]===_0x21fe2e)_0x39bba2++;return _0x39bba2;};function _0x18e02a(_0x463082){var _0x52f26e=_0x550cd9,_0x1f41cb=0x0,_0x5e7a12=null,_0x45405f=[],_0x5e6f46,_0x5e755b,_0x3af7b5,_0x1fcdd9,_0x37cde8;for(_0x5e6f46=0x0;_0x5e6f46<_0x3ed7e8[_0x52f26e(0x165)];_0x5e6f46++){_0x5e755b=_0x3ed7e8[_0x5e6f46];if(_0x5e755b===_0x463082||_0x5e755b[_0x52f26e(0x11c)]===_0x52f26e(0x163)||_0x5e755b[_0x52f26e(0x11c)]===_0x52f26e(0x197))continue;_0x3af7b5=_0x5e755b['x']-_0x463082['x'],_0x1fcdd9=_0x5e755b['z']-_0x463082['z'],_0x37cde8=Math[_0x52f26e(0x125)](_0x3af7b5*_0x3af7b5+_0x1fcdd9*_0x1fcdd9);if(_0x37cde8>=_0x409af9*0.93)continue;if(_0x5e755b['y']+_0x55db04*0.4>_0x463082['y'])continue;var _0x27916b=_0x5e755b['y']+_0x55db04/0x2;if(_0x37cde8<=_0x1f516f)_0x27916b>_0x1f41cb&&(_0x1f41cb=_0x27916b,_0x5e7a12=_0x5e755b);else _0x45405f['push']({'j':_0x5e755b,'top':_0x27916b,'d':_0x37cde8,'dir':Math[_0x52f26e(0x14a)](_0x1fcdd9,_0x3af7b5)});}var _0x4acf63=0x0,_0x1bdb81=0x0,_0x2f07b8=null;for(_0x5e6f46=0x0;_0x5e6f46<_0x45405f[_0x52f26e(0x165)];_0x5e6f46++){var _0x2d9010=_0x45405f[_0x5e6f46];if(_0x2d9010['top']>_0x1f41cb+0.05){var _0x569fbc=Math['asin'](Math['min'](0.8,(_0x2d9010[_0x52f26e(0x116)]-_0x1f41cb)/_0x2d9010['d']));_0x569fbc>_0x4acf63&&(_0x4acf63=_0x569fbc,_0x1bdb81=_0x2d9010[_0x52f26e(0x135)],_0x2f07b8=_0x2d9010['j']);}}return{'h':_0x1f41cb,'lean':_0x4acf63,'leanDir':_0x1bdb81,'flatJ':_0x5e7a12,'leanJ':_0x2f07b8};}function _0x415eed(_0x5a236e,_0x43d185){var _0x258dc8=_0x550cd9;return _0x5a236e['h']+_0x1f516f*Math[_0x258dc8(0x19b)](_0x43d185)+_0x55db04/0x2*Math[_0x258dc8(0x129)](_0x43d185);}function _0x4420ae(_0x7312a4){var _0x44608a=_0x550cd9;if(_0x7312a4['state']!==_0x44608a(0x198))return;_0x7312a4['state']='slide';for(var _0x1471f8=0x0;_0x1471f8<_0x3ed7e8[_0x44608a(0x165)];_0x1471f8++){var _0x5b8139=_0x3ed7e8[_0x1471f8];if(_0x5b8139['state']!==_0x44608a(0x198)||_0x5b8139['y']<=_0x7312a4['y']+_0x55db04*0.3)continue;var _0x2c38f6=_0x5b8139['x']-_0x7312a4['x'],_0x4457ed=_0x5b8139['z']-_0x7312a4['z'];if(_0x2c38f6*_0x2c38f6+_0x4457ed*_0x4457ed<_0x409af9*_0x409af9)_0x4420ae(_0x5b8139);}}function _0x420ea0(_0x7d0c87,_0x320edc){var _0x11d105=_0x550cd9,_0x2f9d24,_0x463605,_0x5f519f;if(_0x7d0c87['state']===_0x11d105(0x163)){_0x7d0c87['vy']-=_0x57b4b7*_0x320edc,_0x7d0c87['x']+=_0x7d0c87['vx']*_0x320edc,_0x7d0c87['y']+=_0x7d0c87['vy']*_0x320edc,_0x7d0c87['z']+=_0x7d0c87['vz']*_0x320edc,_0x7d0c87[_0x11d105(0x140)]+=_0x7d0c87[_0x11d105(0x176)]*_0x320edc,_0x7d0c87[_0x11d105(0x148)]+=_0x7d0c87['tiltV']*_0x320edc;if(_0x7d0c87['y']<3.2){if(_0x7d0c87['z']<_0x503e45&&_0x7d0c87['vz']<=0x0)_0x7d0c87['z']=_0x503e45,_0x7d0c87['vz']=-_0x7d0c87['vz']*0.35;else _0x7d0c87['z']>_0x4e4df8&&_0x7d0c87['vz']>=0x0&&_0x7d0c87[_0x11d105(0x19f)]>0x0&&(_0x7d0c87['z']=_0x4e4df8,_0x7d0c87['vz']=-_0x7d0c87['vz']*0.35);}_0x2f9d24=_0x18e02a(_0x7d0c87),_0x463605=_0x415eed(_0x2f9d24,_0x2f9d24[_0x11d105(0x152)]);if(_0x7d0c87['y']<=_0x463605&&_0x7d0c87['vy']<0x0){var _0x57a2fb=-_0x7d0c87['vy'],_0x4e112b=_0x2f9d24[_0x11d105(0x142)]||_0x2f9d24[_0x11d105(0x155)];_0x7d0c87['y']=_0x463605,_0xef59ef[_0x11d105(0x13c)][_0x11d105(0x166)](Math['min'](0x1,_0x57a2fb/0xdc),!!_0x4e112b);_0x4e112b&&!_0x7d0c87['neat']&&(_0x4420ae(_0x4e112b),_0x4e112b['vx']+=_0x7d0c87['vx']*0.32,_0x4e112b['vz']+=_0x7d0c87['vz']*0.32);if(_0x7d0c87['neat'])_0x7d0c87['vx']*=0.12,_0x7d0c87['vz']*=0.12,_0x7d0c87['bounces']<0x1&&_0x57a2fb>0x3c?(_0x7d0c87['vy']=_0x57a2fb*0.1,_0x7d0c87[_0x11d105(0x19f)]++):(_0x7d0c87[_0x11d105(0x11c)]='slide',_0x7d0c87['vy']=0x0,_0x7d0c87[_0x11d105(0x195)]=Math[_0x11d105(0x16c)](0.12,0.03+_0x57a2fb*0.0004),_0x7d0c87['wobPhase']=_0x7d0c87[_0x11d105(0x11b)],_0x7d0c87[_0x11d105(0x148)]=0x0,_0x7d0c87['tiltV']=0x0);else{if(_0x57a2fb>0x37&&_0x7d0c87[_0x11d105(0x19f)]<0x3){var _0x4e0a94=_0x57a2fb>0xb4,_0x195d40=_0x4e0a94?0.45:0.62;_0x7d0c87['vy']=_0x57a2fb*(_0x4e112b?0.34:_0x4e0a94?0.17:0.22),_0x7d0c87['vx']*=_0x195d40,_0x7d0c87['vz']*=_0x195d40,_0x7d0c87[_0x11d105(0x120)]=_0x5b4a71[_0x11d105(0x17b)](-0x1,0x1)*_0x57a2fb*0.018,_0x7d0c87[_0x11d105(0x19f)]++;}else _0x7d0c87[_0x11d105(0x11c)]=_0x11d105(0x14c),_0x7d0c87['vy']=0x0,_0x7d0c87[_0x11d105(0x195)]=Math[_0x11d105(0x16c)](0.42,Math['abs'](_0x7d0c87[_0x11d105(0x148)])*0.6+_0x57a2fb*0.0014+0.03),_0x7d0c87[_0x11d105(0x154)]=_0x7d0c87[_0x11d105(0x11b)],_0x7d0c87[_0x11d105(0x148)]=0x0,_0x7d0c87[_0x11d105(0x120)]=0x0;}}}else{if(_0x7d0c87[_0x11d105(0x11c)]===_0x11d105(0x14c)){if(_0x7d0c87['neat']){var _0xb9e278=Math['min'](0x1,_0x320edc*0xe);_0x7d0c87['x']+=(_0x7d0c87[_0x11d105(0x1a4)]['x']-_0x7d0c87['x'])*_0xb9e278,_0x7d0c87['z']+=(_0x7d0c87[_0x11d105(0x1a4)]['z']-_0x7d0c87['z'])*_0xb9e278,_0x7d0c87['vx']*=0.5,_0x7d0c87['vz']*=0.5;}_0x2f9d24=_0x18e02a(_0x7d0c87),_0x5f519f=Math[_0x11d105(0x125)](_0x7d0c87['vx']*_0x7d0c87['vx']+_0x7d0c87['vz']*_0x7d0c87['vz']);if(_0x5f519f>0x0){var _0x1fd8c9=Math[_0x11d105(0x156)](0x0,_0x5f519f-(_0x2f9d24[_0x11d105(0x142)]?0.5:0.82)*_0x57b4b7*_0x320edc);_0x7d0c87['vx']*=_0x1fd8c9/_0x5f519f,_0x7d0c87['vz']*=_0x1fd8c9/_0x5f519f,_0x5f519f=_0x1fd8c9,_0x7d0c87['x']+=_0x7d0c87['vx']*_0x320edc,_0x7d0c87['z']+=_0x7d0c87['vz']*_0x320edc;}_0x7d0c87['yawV']*=Math['exp'](-0x7*_0x320edc),_0x7d0c87[_0x11d105(0x140)]+=_0x7d0c87['yawV']*_0x320edc,_0x7d0c87[_0x11d105(0x195)]*=Math[_0x11d105(0x11f)](-7.5*_0x320edc),_0x7d0c87[_0x11d105(0x154)]+=_0x320edc*(0xc+0x2e*(0x1-Math[_0x11d105(0x16c)](0x1,_0x7d0c87[_0x11d105(0x195)]/0.42))),_0x7d0c87[_0x11d105(0x152)]+=(_0x2f9d24[_0x11d105(0x152)]-_0x7d0c87['lean'])*(0x1-Math[_0x11d105(0x11f)](-0x16*_0x320edc));if(_0x2f9d24['lean']>0x0)_0x7d0c87[_0x11d105(0x11d)]=_0x2f9d24[_0x11d105(0x11d)];_0x463605=_0x415eed(_0x2f9d24,Math[_0x11d105(0x156)](_0x7d0c87['lean'],_0x7d0c87[_0x11d105(0x195)]));if(_0x7d0c87['y']>_0x463605+0.12)_0x7d0c87[_0x11d105(0x11c)]='air',_0x7d0c87['vy']=0x0,_0x7d0c87[_0x11d105(0x19f)]=0x2;else _0x7d0c87['y']=_0x463605;_0x1f726e(_0x7d0c87);if(_0x7d0c87['z']>_0x4e4df8){_0x7d0c87['z']=_0x4e4df8;if(_0x7d0c87['vz']>0x0)_0x7d0c87['vz']=-_0x7d0c87['vz']*0.3;}else{if(_0x7d0c87['z']<_0x503e45){_0x7d0c87['z']=_0x503e45;if(_0x7d0c87['vz']<0x0)_0x7d0c87['vz']=-_0x7d0c87['vz']*0.3;}}if(_0x7d0c87['x']>_0x28f2b8){_0x7d0c87['x']=_0x28f2b8;if(_0x7d0c87['vx']>0x0)_0x7d0c87['vx']=-_0x7d0c87['vx']*0.3;}else{if(_0x7d0c87['x']<-_0x28f2b8){_0x7d0c87['x']=-_0x28f2b8;if(_0x7d0c87['vx']<0x0)_0x7d0c87['vx']=-_0x7d0c87['vx']*0.3;}}_0x5f519f<2.5&&_0x7d0c87[_0x11d105(0x195)]<0.012&&Math[_0x11d105(0x13f)](_0x7d0c87[_0x11d105(0x152)]-_0x2f9d24[_0x11d105(0x152)])<0.012&&(_0x7d0c87[_0x11d105(0x11c)]=_0x11d105(0x198),_0x7d0c87['vx']=_0x7d0c87['vz']=0x0,_0x7d0c87[_0x11d105(0x195)]=0x0,_0x7d0c87[_0x11d105(0x152)]=_0x2f9d24['lean'],_0x7d0c87[_0x11d105(0x176)]=0x0,_0x7d0c87['y']=_0x415eed(_0x2f9d24,_0x7d0c87[_0x11d105(0x152)]));}}}function _0x1f726e(_0x1a3775){var _0x10c2ab=_0x550cd9;for(var _0x43afe9=0x0;_0x43afe9<_0x3ed7e8[_0x10c2ab(0x165)];_0x43afe9++){var _0x564529=_0x3ed7e8[_0x43afe9];if(_0x564529===_0x1a3775||_0x564529[_0x10c2ab(0x11c)]===_0x10c2ab(0x163)||_0x564529[_0x10c2ab(0x11c)]===_0x10c2ab(0x197))continue;if(_0x1a3775[_0x10c2ab(0x1a4)]&&_0x564529[_0x10c2ab(0x1a4)])continue;if(Math[_0x10c2ab(0x13f)](_0x564529['y']-_0x1a3775['y'])>_0x55db04*0.7)continue;var _0x3b741f=_0x1a3775['x']-_0x564529['x'],_0x2e7e37=_0x1a3775['z']-_0x564529['z'],_0x426b57=_0x3b741f*_0x3b741f+_0x2e7e37*_0x2e7e37;if(_0x426b57>=_0x409af9*_0x409af9||_0x426b57<0.000001)continue;var _0x38cefe=Math[_0x10c2ab(0x125)](_0x426b57),_0x2e6f91=_0x3b741f/_0x38cefe,_0x5dfec0=_0x2e7e37/_0x38cefe,_0x1f1e87=_0x409af9-_0x38cefe,_0x56e180=(_0x1a3775['vx']-_0x564529['vx'])*_0x2e6f91+(_0x1a3775['vz']-_0x564529['vz'])*_0x5dfec0;if(_0x564529['state']===_0x10c2ab(0x198)&&_0x56e180<-0x6)_0x4420ae(_0x564529);_0x564529['state']===_0x10c2ab(0x198)?(_0x1a3775['x']+=_0x2e6f91*_0x1f1e87,_0x1a3775['z']+=_0x5dfec0*_0x1f1e87):(_0x1a3775['x']+=_0x2e6f91*_0x1f1e87/0x2,_0x1a3775['z']+=_0x5dfec0*_0x1f1e87/0x2,_0x564529['x']-=_0x2e6f91*_0x1f1e87/0x2,_0x564529['z']-=_0x5dfec0*_0x1f1e87/0x2);if(_0x56e180<0x0){if(_0x564529[_0x10c2ab(0x11c)]===_0x10c2ab(0x198))_0x1a3775['vx']-=1.3*_0x56e180*_0x2e6f91,_0x1a3775['vz']-=1.3*_0x56e180*_0x5dfec0;else{var _0x35c900=-1.55*_0x56e180/0x2;_0x1a3775['vx']+=_0x35c900*_0x2e6f91,_0x1a3775['vz']+=_0x35c900*_0x5dfec0,_0x564529['vx']-=_0x35c900*_0x2e6f91,_0x564529['vz']-=_0x35c900*_0x5dfec0,_0x564529[_0x10c2ab(0x176)]+=_0x5b4a71['rand'](-0x6,0x6);}if(_0x56e180<-0x19)_0xef59ef[_0x10c2ab(0x13c)][_0x10c2ab(0x166)](Math['min'](0x1,-_0x56e180/0xa0),!![]);}}}function _0x28c980(_0x12c62b){var _0x20f40f=_0x550cd9,_0x217fb3=_0x12c62b[_0x20f40f(0x171)],_0x170608,_0x529c54;_0x217fb3[_0x20f40f(0x134)]['set'](_0x12c62b['x'],_0x12c62b['y'],_0x12c62b['z']);_0x12c62b[_0x20f40f(0x11c)]===_0x20f40f(0x163)?(_0x170608=Math[_0x20f40f(0x129)](_0x12c62b[_0x20f40f(0x11b)])*_0x12c62b['tilt'],_0x529c54=Math[_0x20f40f(0x19b)](_0x12c62b[_0x20f40f(0x11b)])*_0x12c62b[_0x20f40f(0x148)]):(_0x170608=Math[_0x20f40f(0x129)](_0x12c62b[_0x20f40f(0x11d)])*_0x12c62b[_0x20f40f(0x152)]+Math[_0x20f40f(0x129)](_0x12c62b[_0x20f40f(0x154)])*_0x12c62b[_0x20f40f(0x195)],_0x529c54=Math[_0x20f40f(0x19b)](_0x12c62b[_0x20f40f(0x11d)])*_0x12c62b[_0x20f40f(0x152)]+Math['sin'](_0x12c62b[_0x20f40f(0x154)])*_0x12c62b[_0x20f40f(0x195)]);var _0x495f99=Math[_0x20f40f(0x125)](_0x170608*_0x170608+_0x529c54*_0x529c54);_0x136438['setFromAxisAngle'](_0x7d7da7,_0x12c62b[_0x20f40f(0x140)]);if(_0x495f99>0.0001)_0x7884d5[_0x20f40f(0x1a3)](-_0x529c54/_0x495f99,0x0,_0x170608/_0x495f99),_0x1a54e2[_0x20f40f(0x180)](_0x7884d5,_0x495f99),_0x217fb3[_0x20f40f(0x114)][_0x20f40f(0x15a)](_0x1a54e2,_0x136438);else _0x217fb3[_0x20f40f(0x114)][_0x20f40f(0x151)](_0x136438);}_0x3ed7d8[_0x550cd9(0x137)]=function(_0x134a95){var _0x1d4d96=_0x550cd9,_0x1caf1b=0x3,_0x6dd61=_0x134a95/_0x1caf1b,_0x3e3156,_0x32df96;for(_0x32df96=0x0;_0x32df96<_0x1caf1b;_0x32df96++)for(_0x3e3156=0x0;_0x3e3156<_0x3ed7e8[_0x1d4d96(0x165)];_0x3e3156++)_0x420ea0(_0x3ed7e8[_0x3e3156],_0x6dd61);for(_0x3e3156=0x0;_0x3e3156<_0x3ed7e8[_0x1d4d96(0x165)];_0x3e3156++)_0x28c980(_0x3ed7e8[_0x3e3156]);},_0x3ed7d8['throwChip']=function(_0x9cd503,_0x30bbd9,_0x539224,_0x188638,_0x4d72ac){var _0x3bee84=_0x550cd9,_0x229fff=new _0x507256(_0x9cd503,_0x30bbd9);return _0x229fff['x']=_0x539224['x'],_0x229fff['y']=_0x539224['y'],_0x229fff['z']=_0x539224['z'],_0x229fff['vx']=(_0x188638['x']-_0x539224['x'])/_0x4d72ac,_0x229fff['vz']=(_0x188638['z']-_0x539224['z'])/_0x4d72ac,_0x229fff['vy']=(_0x55db04/0x2-_0x539224['y']+0.5*_0x57b4b7*_0x4d72ac*_0x4d72ac)/_0x4d72ac,_0x229fff[_0x3bee84(0x176)]=_0x5b4a71[_0x3bee84(0x17b)](-0x10,0x10),_0x229fff[_0x3bee84(0x148)]=_0x5b4a71[_0x3bee84(0x17b)](0.05,0.3),_0x229fff[_0x3bee84(0x11b)]=_0x5b4a71[_0x3bee84(0x17b)](0x0,6.28),_0x229fff['tiltV']=_0x5b4a71['rand'](-2.4,2.4),_0x28c980(_0x229fff),_0x229fff;};function _0x1beedd(_0x517b04,_0x5a371c){var _0x459088=_0x550cd9,_0x55c818=_0x29acad[_0x517b04],_0x5393a3=_0x5db08f[_0x459088(0x183)][_0x459088(0x165)]?_0x5db08f[_0x459088(0x183)]:[_0x5a371c],_0x24f3a8=_0x5393a3[_0x459088(0x13e)](_0x5a371c);if(_0x24f3a8<0x0)_0x24f3a8=_0x5a371c>=_0x5393a3[_0x5393a3[_0x459088(0x165)]-0x1]?_0x5393a3['length']-0x1:0x0;var _0x4cbb52=Math[_0x459088(0x13f)](_0x55c818['x'])<0x1,_0x4555e5=_0x4cbb52?[[-4.9,0x0],[0x0,0x0],[4.9,0x0]][_0x24f3a8]:[[-1.3,-2.3],[1.3,-2.3],[0x0,2.2]][_0x24f3a8];return{'x':_0x55c818['x']+_0x4555e5[0x0],'z':_0x55c818['z']+_0x4555e5[0x1]};}_0x3ed7d8[_0x550cd9(0x170)]=function(_0x3c709c,_0x236642){var _0x1eb292=_0x550cd9,_0x27b12b=_0x29acad[_0x236642],_0xcb215={'x':_0x5b4a71[_0x1eb292(0x17b)](-0x6,0x6),'y':_0x5b4a71[_0x1eb292(0x17b)](0x6,0x9),'z':0x29},_0x35b6a2=_0x5b4a71['rand'](0x0,6.28),_0x1bd192=Math[_0x1eb292(0x125)](Math[_0x1eb292(0x174)]())*(Math[_0x1eb292(0x13f)](_0x27b12b['x'])>0x1?1.4:2.2),_0x5d4b0c={'x':_0x27b12b['x']+Math[_0x1eb292(0x129)](_0x35b6a2)*_0x1bd192,'z':_0x27b12b['z']+Math['sin'](_0x35b6a2)*_0x1bd192+0x3},_0xc2687d=_0x3ed7d8[_0x1eb292(0x1a1)](_0x3c709c,_0x236642,_0xcb215,_0x5d4b0c,_0x5b4a71['rand'](0.25,0.33));return _0x40983e(_0x236642),_0xc2687d;},_0x3ed7d8[_0x550cd9(0x194)]=function(_0xd14897,_0x1b64fd){var _0x554217=_0x550cd9,_0x5a1842=_0x29acad[_0x1b64fd],_0x2853a2=[],_0x3ee8ff=Math[_0x554217(0x13f)](_0x5a1842['x'])<0x1;return _0xd14897[_0x554217(0x196)](function(_0x22c945,_0x5e6aa9){var _0x2576f5=_0x554217;_0x2853a2[_0x2576f5(0x111)](_0x19ab70[_0x2576f5(0x110)](_0x5e6aa9*0.05)[_0x2576f5(0x149)](function(){var _0x4d2e77=_0x2576f5,_0x1fef0b=_0x5e6aa9%0x2?0x1:-0x1,_0x356023=_0x5db08f[_0x4d2e77(0x19a)](_0x22c945);_0x5db08f[_0x4d2e77(0x12b)](_0x22c945);var _0x3ebd15={'x':_0x356023['x']+_0x5b4a71[_0x4d2e77(0x17b)](-0.5,0.5),'y':_0x356023['y']+_0x5b4a71[_0x4d2e77(0x17b)](0x1,2.5),'z':_0x356023['z']+0.5},_0x2440a5={'x':_0x5a1842['x']+_0x1fef0b*(_0x3ee8ff?_0x5b4a71['rand'](1.2,5.4):_0x5b4a71[_0x4d2e77(0x17b)](0.4,2.8)),'z':_0x5a1842['z']+_0x5b4a71[_0x4d2e77(0x17b)](-4.1,-1.6)};_0x3ed7d8[_0x4d2e77(0x1a1)](_0x22c945,_0x1b64fd,_0x3ebd15,_0x2440a5,_0x5b4a71[_0x4d2e77(0x17b)](0.44,0.5));}));}),Promise['all'](_0x2853a2)[_0x554217(0x149)](function(){var _0x221745=_0x554217;return _0x19ab70[_0x221745(0x110)](0.95);});},_0x3ed7d8[_0x550cd9(0x191)]=function(_0x23654c,_0x51af89){var _0x2f9f4d=_0x550cd9,_0x45b14c=[],_0x39a4bb=0x0;_0x3ed7e8['slice']()[_0x2f9f4d(0x196)](function(_0x5abccd){var _0x43af19=_0x2f9f4d;if(_0x5abccd['pile']!==_0x23654c)return;_0x5abccd[_0x43af19(0x11c)]=_0x43af19(0x197),_0x5abccd['pile']=null;var _0x4b14f4=_0x5abccd['x'],_0x264bf8=_0x5abccd['z'],_0x3141=_0x5abccd['y'],_0x5b00e9=_0x51af89===_0x43af19(0x18b)?_0x4b14f4*0.3+_0x5b4a71[_0x43af19(0x17b)](-0x2,0x2):_0x4b14f4*0.6+_0x5b4a71['rand'](-0x2,0x2),_0x7a93e3=_0x51af89===_0x43af19(0x18b)?_0x5db08f[_0x43af19(0x150)]['z']-0x4:0x2e,_0x1203a0=_0x5b4a71[_0x43af19(0x17b)](-0x5,0x5);_0x45b14c[_0x43af19(0x111)](_0x19ab70[_0x43af19(0x110)](_0x39a4bb++*0.012)[_0x43af19(0x149)](function(){var _0x4f8983=_0x43af19;return _0x19ab70['tween'](_0x51af89===_0x4f8983(0x18b)?0.4:0.34,function(_0x4d6bb6){var _0x4e95dd=_0x4f8983;_0x5abccd['x']=_0x5b4a71[_0x4e95dd(0x18c)](_0x4b14f4,_0x5b00e9,_0x4d6bb6),_0x5abccd['z']=_0x5b4a71['lerp'](_0x264bf8,_0x7a93e3,_0x4d6bb6),_0x5abccd['y']=_0x51af89==='dealer'?_0x5b4a71[_0x4e95dd(0x18c)](_0x3141,Math[_0x4e95dd(0x156)](_0x3141,2.2),Math[_0x4e95dd(0x16c)](0x1,_0x4d6bb6*1.3)):_0x3141+_0x5b4a71[_0x4e95dd(0x117)]((_0x5abccd['z']-0x15)/0x7,0x0,0x1)*4.6,_0x5abccd[_0x4e95dd(0x140)]+=_0x1203a0*0.016;},_0x5b4a71[_0x4f8983(0x157)]);})['then'](function(){var _0x2144b5=_0x43af19;_0xf5f975(_0x5abccd);if(_0x51af89==='dealer')_0x5db08f[_0x2144b5(0x139)](_0x5abccd['denom']);}));});if(_0x39a4bb)_0xef59ef[_0x2f9f4d(0x13c)][_0x2f9f4d(0x17d)](Math[_0x2f9f4d(0x16c)](_0x39a4bb,0xa));return Promise[_0x2f9f4d(0x16d)](_0x45b14c);},_0x3ed7d8[_0x550cd9(0x10b)]=function(_0x3b25bf,_0x4524dd){var _0x4e568c=_0x550cd9,_0x5c58a0=[];return _0x3ed7e8['forEach'](function(_0x5e3e07){var _0x3c6d2f=q6_0x49f7;if(_0x5e3e07['pile']!==_0x3b25bf)return;var _0x421e6e=_0x5e3e07['x'],_0x7bac34=_0x5e3e07[_0x3c6d2f(0x11c)];_0x5e3e07[_0x3c6d2f(0x11c)]='kin',_0x5c58a0[_0x3c6d2f(0x111)](_0x19ab70[_0x3c6d2f(0x12c)](0.24,function(_0x39b060){_0x5e3e07['x']=_0x421e6e+_0x4524dd*_0x39b060;},_0x5b4a71['outCubic'])[_0x3c6d2f(0x149)](function(){var _0x334545=_0x3c6d2f;_0x5e3e07[_0x334545(0x11c)]=_0x7bac34===_0x334545(0x163)?_0x334545(0x14c):_0x7bac34;}));}),Promise[_0x4e568c(0x16d)](_0x5c58a0);},_0x3ed7d8['retag']=function(_0x2378ff,_0x2f2c42){var _0x23ecec=_0x550cd9;_0x3ed7e8[_0x23ecec(0x196)](function(_0x2735bc){var _0x18561d=_0x23ecec;if(_0x2735bc[_0x18561d(0x13b)]===_0x2378ff)_0x2735bc[_0x18561d(0x13b)]=_0x2f2c42;});};function _0x40983e(_0x1fc2b8){var _0x391cd4=_0x550cd9,_0x5dc66c=_0xef59ef[_0x391cd4(0x179)][_0x391cd4(0x199)];for(var _0x4f1684=0x0;_0x4f1684<_0x5dc66c['length']-0x1;_0x4f1684++){var _0xa77fd1=_0x5dc66c[_0x4f1684+0x1]/_0x5dc66c[_0x4f1684];if(_0xa77fd1!==Math[_0x391cd4(0x15e)](_0xa77fd1)||_0xa77fd1>0xa)continue;var _0x49b8e7=_0x3ed7e8['filter'](function(_0x20a13f){var _0x12cccd=_0x391cd4;return _0x20a13f['pile']===_0x1fc2b8&&_0x20a13f[_0x12cccd(0x173)]===_0x5dc66c[_0x4f1684]&&_0x20a13f['state']===_0x12cccd(0x198);});if(_0x49b8e7[_0x391cd4(0x165)]<Math[_0x391cd4(0x156)](0xe,_0xa77fd1+0x6))continue;_0x49b8e7['sort'](function(_0x42717c,_0x103c29){return _0x103c29['y']-_0x42717c['y'];});var _0x485809=_0x49b8e7[_0x391cd4(0x1a6)](0x0,_0xa77fd1),_0x126d77=_0x485809[0x0],_0x3d7ead=_0x5dc66c[_0x4f1684+0x1];_0x485809[_0x391cd4(0x196)](function(_0x5382cb){var _0x25ec76=_0x391cd4;_0x5382cb[_0x25ec76(0x11c)]='kin',_0x5382cb['pile']=null;});var _0xeeee4f=_0x485809[_0x391cd4(0x12f)](function(_0x4cb39b){return _0x4cb39b['y'];});_0x19ab70[_0x391cd4(0x12c)](0.22,function(_0x41e521){var _0x40d266=_0x391cd4;_0x485809[_0x40d266(0x196)](function(_0x4b1432,_0x5e6ce0){var _0x2e3ff4=_0x40d266;_0x4b1432['y']=_0x5b4a71[_0x2e3ff4(0x18c)](_0xeeee4f[_0x5e6ce0],_0x126d77['y']+3.5,_0x41e521),_0x4b1432['x']=_0x5b4a71[_0x2e3ff4(0x18c)](_0x4b1432['x'],_0x126d77['x'],_0x41e521*0.5),_0x4b1432['z']=_0x5b4a71['lerp'](_0x4b1432['z'],_0x126d77['z'],_0x41e521*0.5),_0x4b1432['yaw']+=0.2;});},_0x5b4a71['outCubic'])['then'](function(){var _0x2789ff=_0x391cd4,_0x12a048=_0x126d77['x'],_0x170f7b=_0x126d77['z'],_0x2d3272=_0x126d77['y'];_0x485809['forEach'](_0xf5f975),_0xef59ef[_0x2789ff(0x13c)]['chip'](0.5,!![]);var _0x58efe4=_0x29acad[_0x1fc2b8];_0x3ed7d8[_0x2789ff(0x1a1)](_0x3d7ead,_0x1fc2b8,{'x':_0x12a048,'y':_0x2d3272,'z':_0x170f7b},{'x':_0x58efe4['x']+_0x5b4a71[_0x2789ff(0x17b)](-1.5,1.5),'z':_0x58efe4['z']+_0x5b4a71['rand'](-0x1,0x1)},0.24);});return;}}_0x3ed7d8[_0x550cd9(0x178)]=function(){var _0x3cc676=_0x550cd9;_0x3ed7e8['slice']()[_0x3cc676(0x196)](_0xf5f975);},_0x3ed7d8['all']=function(){return _0x3ed7e8;};var _0x402a7e=_0xef59ef[_0x550cd9(0x130)]={},_0x1f2de7,_0x59e046,_0x201ba0=[],_0x592be8=0.9,_0x242403={'x':1.2,'z':-4.2};function _0x1042f8(_0x1b44b0,_0x2dd593){var _0x3c863b=_0x550cd9;_0x1b44b0[_0x3c863b(0x115)]['y']=Math['max'](0.001,_0x2dd593),_0x1b44b0['position']['y']=_0x2dd593/0x2+0.02,_0x1b44b0['visible']=_0x2dd593>0.03;}function _0x26f2a6(_0x2c791e){var _0x56a86d=_0x550cd9;if(!_0x1f2de7){if(!_0x4c961d)_0x5dda62();_0x1f2de7=new _0x28c3cd[(_0x56a86d(0x10d))](_0x33f9c3['W'],0x1,_0x33f9c3['H']);var _0x1bbd51=new _0x28c3cd[(_0x56a86d(0x161))]({'map':_0x5db08f['tex'](_0xef59ef[_0x56a86d(0x14b)][_0x56a86d(0x10e)]()),'roughness':0.75});_0x59e046=[_0x1bbd51,_0x1bbd51,_0x208b69,_0x1bbd51,_0x1bbd51,_0x1bbd51];}var _0x4c9cdc=new _0x28c3cd[(_0x56a86d(0x153))](_0x1f2de7,_0x59e046);return _0x4c9cdc[_0x56a86d(0x12e)]=!![],_0x4c9cdc[_0x56a86d(0x11a)]=!![],_0x1042f8(_0x4c9cdc,_0x2c791e),_0x5db08f[_0x56a86d(0x168)]['add'](_0x4c9cdc),_0x4c9cdc;}function _0x3a0c5f(_0x4222eb,_0x13983f){var _0x3ce445=_0x550cd9,_0x263fa8=Math['ceil'](_0x13983f/0x2),_0x3983c6=_0x4222eb<_0x263fa8?0x0:0x1,_0x3b7f03=_0x4222eb%_0x263fa8;return{'row':_0x3983c6,'col':_0x3b7f03,'x':_0x242403['x']+(_0x3b7f03-(_0x263fa8-0x1)/0x2)*0x9+_0x5b4a71[_0x3ce445(0x17b)](-0.4,0.4),'z':_0x242403['z']+(_0x3983c6?6.2:-6.2)+_0x5b4a71['rand'](-0.4,0.4),'yaw':_0x5b4a71[_0x3ce445(0x17b)](-0.14,0.14)};}function _0x98410a(){var _0x39c4ba=_0x550cd9;_0x201ba0[_0x39c4ba(0x196)](function(_0x59d833){var _0x29274b=_0x39c4ba;_0x5db08f[_0x29274b(0x168)][_0x29274b(0x141)](_0x59d833['m']);}),_0x201ba0=[];}_0x402a7e[_0x550cd9(0x17a)]=function(_0x3c6395){var _0x3e30c1=_0x550cd9;_0x3c6395=_0x3c6395||0x6,_0x98410a(),_0x5db08f[_0x3e30c1(0x121)](![]),_0x5db08f[_0x3e30c1(0x16a)]();for(var _0x558bc3=0x0;_0x558bc3<_0x3c6395;_0x558bc3++){var _0x7f8c4e=_0x3a0c5f(_0x558bc3,_0x3c6395),_0x2c0c53=_0x26f2a6(_0x592be8);_0x2c0c53['position']['x']=_0x7f8c4e['x'],_0x2c0c53['position']['z']=_0x7f8c4e['z'],_0x2c0c53[_0x3e30c1(0x15f)]['y']=_0x7f8c4e[_0x3e30c1(0x140)],_0x201ba0[_0x3e30c1(0x111)]({'m':_0x2c0c53,'row':_0x7f8c4e[_0x3e30c1(0x1a2)],'col':_0x7f8c4e[_0x3e30c1(0x18e)]});}},_0x402a7e[_0x550cd9(0x123)]=function(_0x557c3e){var _0x1c2c3a=_0x550cd9;_0x557c3e=_0x557c3e||0x6;var _0x13e166=_0x592be8*_0x557c3e,_0x4c3219={'x':_0x242403['x'],'z':_0x242403['z'],'h':_0x13e166};return _0x98410a(),_0x5db08f[_0x1c2c3a(0x16a)](),_0xef59ef[_0x1c2c3a(0x13c)][_0x1c2c3a(0x109)](),_0x19ab70[_0x1c2c3a(0x12c)](0.85,function(_0x615957){var _0x2555dc=_0x1c2c3a;_0x5db08f[_0x2555dc(0x158)](0x1-_0x615957,_0x4c3219);},_0x5b4a71[_0x1c2c3a(0x193)])[_0x1c2c3a(0x149)](function(){var _0x413284=_0x1c2c3a;_0x5db08f[_0x413284(0x121)](![]);var _0x549644=[];for(var _0x38ee7e=0x0;_0x38ee7e<_0x557c3e;_0x38ee7e++)(function(_0x5e7d8f){var _0x45b0f9=_0x413284,_0xfaafe5=_0x3a0c5f(_0x5e7d8f,_0x557c3e),_0x3a345e=_0x26f2a6(_0x592be8),_0x3ee1bb=_0x592be8/0x2+0.02+(_0x557c3e-0x1-_0x5e7d8f)*_0x592be8;_0x3a345e['position'][_0x45b0f9(0x1a3)](_0x242403['x'],_0x3ee1bb,_0x242403['z']),_0x201ba0[_0x45b0f9(0x111)]({'m':_0x3a345e,'row':_0xfaafe5['row'],'col':_0xfaafe5[_0x45b0f9(0x18e)]}),_0x549644[_0x45b0f9(0x111)](_0x19ab70[_0x45b0f9(0x110)](_0x5e7d8f*0.05)[_0x45b0f9(0x149)](function(){var _0x556e9d=_0x45b0f9;return _0x19ab70[_0x556e9d(0x12c)](0.3,function(_0x8d55b2){var _0x2a7dc1=_0x556e9d;_0x3a345e['position'][_0x2a7dc1(0x1a3)](_0x5b4a71['lerp'](_0x242403['x'],_0xfaafe5['x'],_0x8d55b2),_0x5b4a71[_0x2a7dc1(0x18c)](_0x3ee1bb,_0x592be8/0x2+0.02,_0x8d55b2)+Math[_0x2a7dc1(0x19b)](Math['PI']*_0x8d55b2)*0x2,_0x5b4a71['lerp'](_0x242403['z'],_0xfaafe5['z'],_0x8d55b2)),_0x3a345e[_0x2a7dc1(0x15f)]['y']=_0xfaafe5[_0x2a7dc1(0x140)]*_0x8d55b2;},_0x5b4a71[_0x556e9d(0x122)])[_0x556e9d(0x149)](function(){var _0x3ed90d=_0x556e9d;_0xef59ef['audio'][_0x3ed90d(0x18f)]();});}));}(_0x38ee7e));return Promise[_0x413284(0x16d)](_0x549644);});},_0x402a7e[_0x550cd9(0x11e)]=function(_0x291854){var _0x55fd70=_0x550cd9;_0x291854=_0x291854||0x6;if(_0x201ba0[_0x55fd70(0x165)]!==_0x291854)_0x402a7e['setOut'](_0x291854);var _0x1c4da7=5.6,_0x502402=_0x242403['z'],_0x166fd5=_0x592be8*_0x291854/0x2,_0xefc3c5=_0x592be8*_0x291854,_0x2624bf=_0x201ba0;_0x201ba0=[],_0x5db08f[_0x55fd70(0x121)](![]),_0x5db08f[_0x55fd70(0x16a)]();var _0x45b12d=_0xef59ef[_0x55fd70(0x13c)][_0x55fd70(0x177)](),_0xd977f4=[];return _0x2624bf[_0x55fd70(0x196)](function(_0x4bf85c){var _0x3af5d3=_0x55fd70,_0x56869c=_0x4bf85c['m'],_0x26216a=_0x242403['x']+(_0x4bf85c[_0x3af5d3(0x1a2)]?_0x1c4da7:-_0x1c4da7),_0x2b89eb=_0x56869c[_0x3af5d3(0x134)]['x'],_0x16a04b=_0x56869c[_0x3af5d3(0x134)]['z'],_0x31d471=_0x56869c[_0x3af5d3(0x15f)]['y'];_0xd977f4[_0x3af5d3(0x111)](_0x19ab70['wait'](_0x4bf85c[_0x3af5d3(0x18e)]*0.1)[_0x3af5d3(0x149)](function(){var _0x329a23=_0x3af5d3;return _0x19ab70[_0x329a23(0x12c)](0.28,function(_0x17b2f4){var _0x44486a=_0x329a23;_0x56869c[_0x44486a(0x134)][_0x44486a(0x1a3)](_0x5b4a71['lerp'](_0x2b89eb,_0x26216a,_0x17b2f4),_0x592be8/0x2+0.02+_0x4bf85c[_0x44486a(0x18e)]*_0x592be8*_0x17b2f4+Math[_0x44486a(0x19b)](Math['PI']*_0x17b2f4)*2.6,_0x5b4a71['lerp'](_0x16a04b,_0x502402,_0x17b2f4)),_0x56869c['rotation']['y']=_0x5b4a71[_0x44486a(0x18c)](_0x31d471,0x0,_0x17b2f4);},_0x5b4a71[_0x329a23(0x162)])[_0x329a23(0x149)](function(){var _0xebfdf2=_0x329a23;_0xef59ef[_0xebfdf2(0x13c)][_0xebfdf2(0x18f)]();});}));}),Promise[_0x55fd70(0x16d)](_0xd977f4)['then'](function(){var _0x1995f8=_0x55fd70;return _0x19ab70[_0x1995f8(0x110)](0.1);})[_0x55fd70(0x149)](function(){var _0x2ff279=_0x55fd70;_0x2624bf[_0x2ff279(0x196)](function(_0x16fefc){var _0xf230b0=_0x2ff279;_0x5db08f[_0xf230b0(0x168)][_0xf230b0(0x141)](_0x16fefc['m']);});var _0x3b8c97=_0x26f2a6(_0x166fd5),_0x2b7975=_0x26f2a6(_0x166fd5),_0x411de9=_0x26f2a6(0x0),_0x43f3f5=0x2e,_0x43da81=_0x166fd5,_0x1d5c8a=_0x166fd5,_0x4a1519=0x0;_0x3b8c97[_0x2ff279(0x134)]['x']=_0x242403['x']-_0x1c4da7,_0x2b7975['position']['x']=_0x242403['x']+_0x1c4da7,_0x411de9[_0x2ff279(0x134)]['x']=_0x242403['x'],_0x3b8c97[_0x2ff279(0x134)]['z']=_0x2b7975[_0x2ff279(0x134)]['z']=_0x411de9['position']['z']=_0x502402;var _0x348f01=[_0x19ab70[_0x2ff279(0x12c)](0.18,function(_0x2195a5){var _0x1c85d5=_0x2ff279;_0x3b8c97[_0x1c85d5(0x134)]['x']=_0x242403['x']+_0x5b4a71[_0x1c85d5(0x18c)](-_0x1c4da7,-4.6,_0x2195a5),_0x2b7975[_0x1c85d5(0x134)]['x']=_0x242403['x']+_0x5b4a71[_0x1c85d5(0x18c)](_0x1c4da7,4.6,_0x2195a5),_0x3b8c97['rotation']['y']=-0.4*_0x2195a5,_0x2b7975[_0x1c85d5(0x15f)]['y']=0.4*_0x2195a5;},_0x5b4a71[_0x2ff279(0x122)])];for(var _0x4b4ae0=0x0;_0x4b4ae0<_0x43f3f5;_0x4b4ae0++)(function(_0x347a6c){var _0xda322e=_0x2ff279;_0x348f01[_0xda322e(0x111)](_0x19ab70[_0xda322e(0x110)](0.17+_0x347a6c*0.021)[_0xda322e(0x149)](function(){var _0x303f76=_0xda322e,_0x473603=_0x347a6c%0x2===0x0,_0x92c801=_0x473603?_0x3b8c97:_0x2b7975;_0x473603?(_0x43da81=Math['max'](0x0,_0x43da81-_0x166fd5/(_0x43f3f5/0x2)),_0x1042f8(_0x3b8c97,_0x43da81)):(_0x1d5c8a=Math[_0x303f76(0x156)](0x0,_0x1d5c8a-_0x166fd5/(_0x43f3f5/0x2)),_0x1042f8(_0x2b7975,_0x1d5c8a));var _0x24e140=new _0x28c3cd['Mesh'](_0x4c961d,_0x208b69),_0x5bd8fb=new _0x28c3cd['Group']();_0x24e140[_0x303f76(0x15f)]['x']=-Math['PI']/0x2,_0x24e140[_0x303f76(0x12e)]=!![],_0x5bd8fb[_0x303f76(0x16f)](_0x24e140),_0x5db08f[_0x303f76(0x168)][_0x303f76(0x16f)](_0x5bd8fb);var _0x367a86=_0x92c801[_0x303f76(0x134)]['x'],_0x3b1489=(_0x473603?_0x43da81:_0x1d5c8a)+0.12,_0x3918be=_0x92c801['rotation']['y'],_0x348bbe=_0x242403['x']+_0x5b4a71[_0x303f76(0x17b)](-0.16,0.16),_0x412c7a=_0x4a1519+_0xefc3c5/_0x43f3f5+0.08,_0x53cfe3=_0x5b4a71['rand'](-0.07,0.07);if(!_0x45b12d)_0xef59ef['audio'][_0x303f76(0x16b)]();return _0x19ab70[_0x303f76(0x12c)](0.12,function(_0x56a1e8){var _0x222289=_0x303f76;_0x5bd8fb[_0x222289(0x134)][_0x222289(0x1a3)](_0x5b4a71[_0x222289(0x18c)](_0x367a86,_0x348bbe,_0x56a1e8),_0x5b4a71[_0x222289(0x18c)](_0x3b1489,_0x412c7a,_0x56a1e8)+Math['sin'](Math['PI']*_0x56a1e8)*1.3,_0x502402),_0x5bd8fb['rotation']['y']=_0x5b4a71[_0x222289(0x18c)](_0x3918be,_0x53cfe3,_0x56a1e8);},_0x5b4a71[_0x303f76(0x122)])[_0x303f76(0x149)](function(){var _0x531928=_0x303f76;_0x5db08f[_0x531928(0x168)][_0x531928(0x141)](_0x5bd8fb),_0x4a1519+=_0xefc3c5/_0x43f3f5,_0x1042f8(_0x411de9,_0x4a1519);});}));}(_0x4b4ae0));return Promise[_0x2ff279(0x16d)](_0x348f01)[_0x2ff279(0x149)](function(){var _0x29b96a=_0x2ff279;return _0x5db08f[_0x29b96a(0x168)][_0x29b96a(0x141)](_0x3b8c97),_0x5db08f['scene']['remove'](_0x2b7975),_0x1042f8(_0x411de9,_0xefc3c5),_0xef59ef[_0x29b96a(0x13c)][_0x29b96a(0x18f)](),_0x19ab70['tween'](0.22,function(_0x26454){var _0x52b24e=_0x29b96a;_0x411de9[_0x52b24e(0x134)]['y']=_0xefc3c5/0x2+0.02+Math['sin'](Math['PI']*_0x26454)*0.9,_0x411de9[_0x52b24e(0x15f)]['y']=Math[_0x52b24e(0x19b)](Math['PI']*0x2*_0x26454)*0.05;},_0x5b4a71['linear'])[_0x29b96a(0x149)](function(){return _0x411de9;});});})[_0x55fd70(0x149)](function(_0x9e828){var _0x4dc5d3=_0x55fd70,_0x28e1cf={'x':_0x242403['x'],'z':_0x502402,'h':_0xefc3c5};_0x5db08f[_0x4dc5d3(0x168)][_0x4dc5d3(0x141)](_0x9e828),_0x5db08f[_0x4dc5d3(0x158)](0x0,_0x28e1cf),_0x19ab70[_0x4dc5d3(0x110)](0.5)[_0x4dc5d3(0x149)](_0xef59ef['audio'][_0x4dc5d3(0x18f)]);for(var _0x492521=0x0;_0x492521<0xe;_0x492521++)_0x19ab70['wait'](0.56+_0x492521*0.028)[_0x4dc5d3(0x149)](_0xef59ef[_0x4dc5d3(0x13c)][_0x4dc5d3(0x16b)]);return _0x19ab70[_0x4dc5d3(0x12c)](1.2,function(_0x49ac28){var _0xa7e334=_0x4dc5d3;_0x5db08f[_0xa7e334(0x158)](_0x49ac28,_0x28e1cf);},_0x5b4a71[_0x4dc5d3(0x193)])[_0x4dc5d3(0x149)](function(){var _0x3fb7e6=_0x4dc5d3;_0x5db08f[_0x3fb7e6(0x121)](!![]);});});};}()));
+/* Things that move on the table: cards (dealt the way a dealer does it: pulled
+   from the shoe, carried low across the felt, turned over onto the hand) and
+   chips (thrown, bouncing, skidding and knocking into each other). */
+(function () {
+  'use strict';
+  var BJ = window.BJ, U = BJ.util, T3 = window.THREE, S = BJ.stage, anim = BJ.anim;
+
+  /* =========================== Cards =========================== */
+  var C = BJ.cards = { W: 7.94, H: 11.11, T: 0.05 };
+  var cardGeo, edgeGeo, backMat, edgeMat, faceTex = {};
+
+  function initCards() {
+    var w = C.W, h = C.H, r = 0.62, sh = new T3.Shape();
+    sh.moveTo(-w / 2 + r, -h / 2);
+    sh.lineTo(w / 2 - r, -h / 2); sh.quadraticCurveTo(w / 2, -h / 2, w / 2, -h / 2 + r);
+    sh.lineTo(w / 2, h / 2 - r); sh.quadraticCurveTo(w / 2, h / 2, w / 2 - r, h / 2);
+    sh.lineTo(-w / 2 + r, h / 2); sh.quadraticCurveTo(-w / 2, h / 2, -w / 2, h / 2 - r);
+    sh.lineTo(-w / 2, -h / 2 + r); sh.quadraticCurveTo(-w / 2, -h / 2, -w / 2 + r, -h / 2);
+    cardGeo = new T3.ShapeGeometry(sh, 6);
+    var pos = cardGeo.attributes.position, uv = cardGeo.attributes.uv;
+    for (var i = 0; i < pos.count; i++) uv.setXY(i, pos.getX(i) / w + 0.5, pos.getY(i) / h + 0.5);
+    uv.needsUpdate = true;
+    edgeGeo = new T3.ExtrudeGeometry(sh, { depth: C.T, bevelEnabled: false, curveSegments: 6 });
+    backMat = S.backMat(new T3.MeshPhysicalMaterial({ roughness: 0.38, metalness: 0, clearcoat: 0.5, clearcoatRoughness: 0.28, envMapIntensity: 0.7 }));
+    edgeMat = new T3.MeshStandardMaterial({ color: S.col('#e9e6dc'), roughness: 0.8 });
+  }
+
+  function Card(card) {
+    if (!cardGeo) initCards();
+    var key = card.rank + card.suit;
+    if (!faceTex[key]) faceTex[key] = S.tex(BJ.art.cardFace(card));
+    this.card = card;
+    this.mat = new T3.MeshPhysicalMaterial({ map: faceTex[key], roughness: 0.4, metalness: 0, clearcoat: 0.5, clearcoatRoughness: 0.28, envMapIntensity: 0.7 });
+    var front = new T3.Mesh(cardGeo, this.mat); front.rotation.x = -Math.PI / 2; front.position.y = C.T / 2 + 0.004;
+    var back = new T3.Mesh(cardGeo, backMat); back.rotation.x = Math.PI / 2; back.position.y = -(C.T / 2 + 0.004);
+    var edge = new T3.Mesh(edgeGeo, edgeMat); edge.rotation.x = -Math.PI / 2; edge.position.y = -C.T / 2;
+    front.castShadow = back.castShadow = true; front.receiveShadow = back.receiveShadow = true;
+    this.root = new T3.Group(); this.pitch = new T3.Group(); this.roll = new T3.Group();
+    this.root.add(this.pitch); this.pitch.add(this.roll); this.roll.add(front, back, edge);
+    this.roll.rotation.z = Math.PI;          // face down
+    this.faceUp = false;
+    S.scene.add(this.root);
+  }
+  Card.prototype.remove = function () { S.scene.remove(this.root); this.mat.dispose(); };
+
+  C.make = function (card) { return new Card(card); };
+  // A face-down card whose face isn't known yet (an online dealer's hole card) gets its real face when it's turned.
+  C.setFace = function (c, card) {
+    var key = card.rank + card.suit;
+    if (!faceTex[key]) faceTex[key] = S.tex(BJ.art.cardFace(card));
+    c.mat.map = faceTex[key]; c.mat.needsUpdate = true; c.card = card;
+  };
+
+  function angLerp(a, b, t) {
+    var d = b - a;
+    while (d > Math.PI) d -= Math.PI * 2;
+    while (d < -Math.PI) d += Math.PI * 2;
+    return a + d * t;
+  }
+
+  // Deal one card from the shoe to `tg` = {x, y, z, yaw, faceUp}.
+  C.deal = function (c, tg) {
+    var sh = S.shoe, root = c.root;
+    var lx = Math.cos(tg.yaw), lz = -Math.sin(tg.yaw);                  // card's own right-hand direction
+    var gx = tg.x + (tg.faceUp ? lx * C.W : 0), gz = tg.z + (tg.faceUp ? lz * C.W : 0);
+    var hover = tg.y + 0.75;
+
+    // 1) Slide out of the shoe along its slope.
+    root.position.set(sh.ix, sh.iy, sh.iz);
+    root.rotation.y = sh.yaw; c.pitch.rotation.x = sh.pitch; c.roll.rotation.z = Math.PI;
+    root.scale.setScalar(S.HELD);
+    BJ.audio.cardSlide();
+    var pOut = sh.pitchOut || 0;
+    return anim.tween(0.13, function (e) {
+      root.position.set(U.lerp(sh.ix, sh.x, e), U.lerp(sh.iy, sh.y, e), U.lerp(sh.iz, sh.z, e));
+      c.pitch.rotation.x = U.lerp(sh.pitch, pOut, e);
+    }, U.inOutSine).then(function () {
+      // 2) Carry it low over the felt on a slightly bowed path, squaring it up on the way.
+      var dx = gx - sh.x, dz = gz - sh.z, dist = Math.sqrt(dx * dx + dz * dz);
+      var bow = dist * 0.12, cx = (sh.x + gx) / 2 - (dz / dist) * bow, cz = (sh.z + gz) / 2 + (dx / dist) * bow;
+      return anim.tween(0.2 + dist * 0.0042, function (e) {
+        var a = (1 - e) * (1 - e), b = 2 * (1 - e) * e, d = e * e;
+        root.position.set(a * sh.x + b * cx + d * gx, U.lerp(sh.y, hover, e) + Math.sin(Math.PI * e) * 0.9, a * sh.z + b * cz + d * gz);
+        root.rotation.y = angLerp(sh.yaw, tg.yaw, U.outCubic(e));
+        c.pitch.rotation.x = pOut * (1 - Math.min(1, e * 2.2));
+        root.scale.setScalar(U.lerp(S.HELD, 1, Math.min(1, e * 1.6)));
+      }, U.outCubic);
+    }).then(function () {
+      if (!tg.faceUp) {
+        return anim.tween(0.07, function (e) { root.position.y = U.lerp(hover, tg.y, e); }, U.outCubic);
+      }
+      // 3) Turn it over like a page: the left edge stays down, the card lands one width to the left.
+      var px = tg.x + lx * C.W / 2, pz = tg.z + lz * C.W / 2;
+      BJ.audio.cardFlip();
+      return anim.tween(0.19, function (e) {
+        var phi = Math.PI * e, r = C.W / 2;
+        root.position.set(px + lx * r * Math.cos(phi), tg.y + r * Math.sin(phi) + 0.75 * (1 - e), pz + lz * r * Math.cos(phi));
+        c.roll.rotation.z = Math.PI + phi;
+      }, U.inOutSine).then(function () { c.roll.rotation.z = 0; c.faceUp = true; });
+    }).then(function () {
+      root.position.set(tg.x, tg.y, tg.z);
+      BJ.audio.cardLand();
+    });
+  };
+
+  // Turn a face-down card over where it lies (dealer's hole card).
+  C.reveal = function (c) {
+    var y0 = c.root.position.y;
+    BJ.audio.cardFlip();
+    return anim.tween(0.28, function (e) {
+      var phi = Math.PI * e;
+      c.roll.rotation.z = Math.PI + phi;
+      c.root.position.y = y0 + Math.sin(phi) * (C.W / 2 + 0.3);
+    }, U.inOutSine).then(function () { c.roll.rotation.z = 0; c.faceUp = true; c.root.position.y = y0; BJ.audio.cardLand(); });
+  };
+
+  // The dealer lifts the far edge of the hole card to check for blackjack.
+  C.peek = function (c) {
+    var y0 = c.root.position.y;
+    return anim.tween(0.46, function (e) {
+      var k = Math.sin(Math.PI * e);
+      c.pitch.rotation.x = 0.3 * k;
+      c.root.position.y = y0 + 1.75 * k;
+    }, U.linear).then(function () { c.pitch.rotation.x = 0; c.root.position.y = y0; });
+  };
+
+  C.moveTo = function (c, tg, seconds) {
+    var p = c.root.position, x0 = p.x, y0 = p.y, z0 = p.z, yaw0 = c.root.rotation.y;
+    return anim.tween(seconds || 0.2, function (e) {
+      p.set(U.lerp(x0, tg.x, e), U.lerp(y0, tg.y, e), U.lerp(z0, tg.z, e));
+      if (tg.yaw !== undefined) c.root.rotation.y = angLerp(yaw0, tg.yaw, e);
+    }, U.outCubic);
+  };
+
+  // Sweep used cards into the discard rack, turning them face down on the way.
+  C.collect = function (list) {
+    var D = S.discard, jobs = [];
+    list.forEach(function (c, i) {
+      var p = c.root.position, x0 = p.x, y0 = p.y, z0 = p.z, yaw0 = c.root.rotation.y, roll0 = c.roll.rotation.z;
+      jobs.push(anim.wait(i * 0.035).then(function () {
+        if (i % 2 === 0) BJ.audio.cardSlide();
+        return anim.tween(0.36, function (e) {
+          p.set(U.lerp(x0, D.x, e), U.lerp(y0, D.y + 0.3, e) + Math.sin(Math.PI * e) * 3.2, U.lerp(z0, D.z, e));
+          c.root.rotation.y = angLerp(yaw0, D.yaw, e);
+          c.roll.rotation.z = U.lerp(roll0, roll0 < Math.PI / 2 ? Math.PI : roll0, Math.min(1, e * 1.6));
+          c.root.scale.setScalar(U.lerp(1, S.HELD, e));
+        }, U.inOutCubic);
+      }).then(function () { c.remove(); }));
+    });
+    return Promise.all(jobs).then(function () { if (list.length) S.addDiscards(list.length); });
+  };
+
+  /* =========================== Chips =========================== */
+  var Ch = BJ.chips = { R: 2.3, T: 0.4 };
+  var R = Ch.R, TH = Ch.T, G = 980, DIA = R * 2;
+  // Invisible kerbs around the betting area: the padded rail below, the screen edges at the
+  // sides, and KEEP_Z above so that no chip ends up lying on the player's cards.
+  var RAIL_Z = 23.6, SIDE_X = 11.6, KEEP_Z = 13.4;
+  var DEF_BOX = { x0: -SIDE_X, x1: SIDE_X, z0: KEEP_Z, z1: RAIL_Z };
+  var chipGeo, chipMats = {}, chips = [], piles = {};
+  var q1 = new T3.Quaternion(), q2 = new T3.Quaternion(), ax = new T3.Vector3(), UP = new T3.Vector3(0, 1, 0);
+
+  function mats(denom) {
+    if (chipMats[denom]) return chipMats[denom];
+    var side = new T3.MeshStandardMaterial({ map: S.tex(BJ.art.chipEdge(denom)), roughness: 0.5, metalness: 0, envMapIntensity: 0.6 });
+    var face = new T3.MeshStandardMaterial({ map: S.tex(BJ.art.chipFace(denom)), roughness: 0.56, metalness: 0, envMapIntensity: 0.6 });
+    return (chipMats[denom] = [side, face, face]);
+  }
+  // A new lounge reprints the faces (its name goes round the inlay).
+  Ch.retexture = function () {
+    Object.keys(chipMats).forEach(function (d) {
+      var face = chipMats[d][1];
+      if (face.map) face.map.dispose();
+      face.map = S.tex(BJ.art.chipFace(+d)); face.needsUpdate = true;
+    });
+  };
+
+  function Chip(denom, pile) {
+    if (!chipGeo) chipGeo = new T3.CylinderGeometry(R, R, TH, 40, 1);
+    this.denom = denom; this.pile = pile;
+    var pb = piles[pile] && piles[pile].box;          // side seats keep their chips in their own spot
+    this.kb = pb || DEF_BOX;
+    this.mesh = new T3.Mesh(chipGeo, mats(denom));
+    this.mesh.castShadow = true; this.mesh.receiveShadow = true;
+    this.x = 0; this.y = 0; this.z = 0; this.vx = 0; this.vy = 0; this.vz = 0;
+    this.yaw = Math.random() * 6.28; this.yawV = 0;
+    this.tilt = 0; this.tiltDir = 0; this.tiltV = 0;     // tumble while in the air
+    this.wob = 0; this.wobPhase = 0;                     // coin wobble after landing
+    this.lean = 0; this.leanDir = 0;                     // resting against another chip
+    this.state = 'air'; this.bounces = 0;
+    S.scene.add(this.mesh);
+    chips.push(this);
+  }
+  function removeChip(c) {
+    var i = chips.indexOf(c);
+    if (i >= 0) chips.splice(i, 1);
+    S.scene.remove(c.mesh);
+  }
+
+  Ch.setPile = function (id, x, z, box) {
+    piles[id] = { x: x, z: z, box: box ? { x0: x - box, x1: x + box, z0: z - box, z1: z + box } : null };
+  };
+  // A chip tossed from somewhere other than the player's seat (a tablemate's hand at the side).
+  Ch.betFrom = function (denom, pile, from) {
+    var p = piles[pile], a = U.rand(0, 6.28), r = Math.sqrt(Math.random()) * 1.2;
+    return Ch.throwChip(denom, pile, from, { x: p.x + Math.cos(a) * r, z: p.z + Math.sin(a) * r }, U.rand(0.3, 0.38));
+  };
+  Ch.pile = function (id) { return piles[id]; };
+  Ch.count = function (id) { var n = 0; for (var i = 0; i < chips.length; i++) if (chips[i].pile === id) n++; return n; };
+
+  // What is under chip c: a flat surface height, and possibly another chip's edge to lean on.
+  function supportAt(c) {
+    var h = 0, flatJ = null, leans = [], i, j, dx, dz, d;
+    for (i = 0; i < chips.length; i++) {
+      j = chips[i];
+      if (j === c || j.state === 'air' || j.state === 'kin') continue;
+      dx = j.x - c.x; dz = j.z - c.z; d = Math.sqrt(dx * dx + dz * dz);
+      if (d >= DIA * 0.93) continue;
+      if (j.y + TH * 0.4 > c.y) continue;                 // not underneath
+      var top = j.y + TH / 2;
+      if (d <= R) { if (top > h) { h = top; flatJ = j; } }
+      else leans.push({ j: j, top: top, d: d, dir: Math.atan2(dz, dx) });
+    }
+    var lean = 0, leanDir = 0, leanJ = null;
+    for (i = 0; i < leans.length; i++) {
+      var L = leans[i];
+      if (L.top > h + 0.05) {
+        var th = Math.asin(Math.min(0.8, (L.top - h) / L.d));
+        if (th > lean) { lean = th; leanDir = L.dir; leanJ = L.j; }
+      }
+    }
+    return { h: h, lean: lean, leanDir: leanDir, flatJ: flatJ, leanJ: leanJ };
+  }
+  function restHeight(sup, tilt) { return sup.h + R * Math.sin(tilt) + (TH / 2) * Math.cos(tilt); }
+
+  function wake(j) {
+    if (j.state !== 'rest') return;
+    j.state = 'slide';
+    for (var i = 0; i < chips.length; i++) {
+      var k = chips[i];
+      if (k.state !== 'rest' || k.y <= j.y + TH * 0.3) continue;
+      var dx = k.x - j.x, dz = k.z - j.z;
+      if (dx * dx + dz * dz < DIA * DIA) wake(k);
+    }
+  }
+
+  function step(c, h) {
+    var sup, target, speed;
+    if (c.state === 'air') {
+      c.vy -= G * h;
+      c.x += c.vx * h; c.y += c.vy * h; c.z += c.vz * h;
+      c.yaw += c.yawV * h; c.tilt += c.tiltV * h;
+      if (c.y < 3.2) {                                   // skimming low: the kerbs apply in the air too
+        if (c.z < c.kb.z0 && c.vz <= 0) { c.z = c.kb.z0; c.vz = -c.vz * 0.35; }
+        else if (c.z > c.kb.z1 && c.vz >= 0 && c.bounces > 0) { c.z = c.kb.z1; c.vz = -c.vz * 0.35; }
+      }
+      sup = supportAt(c);
+      target = restHeight(sup, sup.lean);
+      if (c.y <= target && c.vy < 0) {
+        var impact = -c.vy, onChip = sup.flatJ || sup.leanJ;
+        c.y = target;
+        BJ.audio.chip(Math.min(1, impact / 220), !!onChip);
+        if (onChip && !c.neat) {                        // knock the chip it landed on
+          wake(onChip);
+          onChip.vx += c.vx * 0.32; onChip.vz += c.vz * 0.32;
+        }
+        if (c.neat) {                                    // set down, not thrown: one small hop and no skid
+          c.vx *= 0.12; c.vz *= 0.12;
+          if (c.bounces < 1 && impact > 60) { c.vy = impact * 0.1; c.bounces++; }
+          else { c.state = 'slide'; c.vy = 0; c.wob = Math.min(0.12, 0.03 + impact * 0.0004); c.wobPhase = c.tiltDir; c.tilt = 0; c.tiltV = 0; }
+        } else if (impact > 55 && c.bounces < 3) {
+          var hard = impact > 180, keep = hard ? 0.45 : 0.62;     // a lobbed chip thuds and mostly stops
+          c.vy = impact * (onChip ? 0.34 : hard ? 0.17 : 0.22);
+          c.vx *= keep; c.vz *= keep;
+          c.tiltV = U.rand(-1, 1) * impact * 0.018;
+          c.bounces++;
+        } else {
+          c.state = 'slide'; c.vy = 0;
+          c.wob = Math.min(0.42, Math.abs(c.tilt) * 0.6 + impact * 0.0014 + 0.03);
+          c.wobPhase = c.tiltDir; c.tilt = 0; c.tiltV = 0;
+        }
+      }
+    } else if (c.state === 'slide') {
+      if (c.neat) {                                      // ease onto the stack's centre
+        var kk = Math.min(1, h * 14);
+        c.x += (c.neat.x - c.x) * kk; c.z += (c.neat.z - c.z) * kk; c.vx *= 0.5; c.vz *= 0.5;
+      }
+      sup = supportAt(c);
+      speed = Math.sqrt(c.vx * c.vx + c.vz * c.vz);
+      if (speed > 0) {
+        var ns = Math.max(0, speed - (sup.flatJ ? 0.5 : 0.82) * G * h);
+        c.vx *= ns / speed; c.vz *= ns / speed; speed = ns;
+        c.x += c.vx * h; c.z += c.vz * h;
+      }
+      c.yawV *= Math.exp(-7 * h); c.yaw += c.yawV * h;
+      c.wob *= Math.exp(-7.5 * h);
+      c.wobPhase += h * (12 + 46 * (1 - Math.min(1, c.wob / 0.42)));
+      c.lean += (sup.lean - c.lean) * (1 - Math.exp(-22 * h));
+      if (sup.lean > 0) c.leanDir = sup.leanDir;
+      target = restHeight(sup, Math.max(c.lean, c.wob));
+      if (c.y > target + 0.12) { c.state = 'air'; c.vy = 0; c.bounces = 2; }      // slid off an edge
+      else c.y = target;
+      collide(c);
+      // Kerbs last, so that a shove from another chip cannot leave this one past them.
+      var kb = c.kb;
+      if (c.z > kb.z1) { c.z = kb.z1; if (c.vz > 0) c.vz = -c.vz * 0.3; }
+      else if (c.z < kb.z0) { c.z = kb.z0; if (c.vz < 0) c.vz = -c.vz * 0.3; }
+      if (c.x > kb.x1) { c.x = kb.x1; if (c.vx > 0) c.vx = -c.vx * 0.3; }
+      else if (c.x < kb.x0) { c.x = kb.x0; if (c.vx < 0) c.vx = -c.vx * 0.3; }
+      if (speed < 2.5 && c.wob < 0.012 && Math.abs(c.lean - sup.lean) < 0.012) {
+        c.state = 'rest'; c.vx = c.vz = 0; c.wob = 0; c.lean = sup.lean; c.yawV = 0;
+        c.y = restHeight(sup, c.lean);
+      }
+    }
+  }
+
+  // Chips on the same level bump like pucks.
+  function collide(c) {
+    for (var i = 0; i < chips.length; i++) {
+      var j = chips[i];
+      if (j === c || j.state === 'air' || j.state === 'kin') continue;
+      if (c.neat && j.neat) continue;
+      if (Math.abs(j.y - c.y) > TH * 0.7) continue;
+      var dx = c.x - j.x, dz = c.z - j.z, d2 = dx * dx + dz * dz;
+      if (d2 >= DIA * DIA || d2 < 1e-6) continue;
+      var d = Math.sqrt(d2), nx = dx / d, nz = dz / d, overlap = DIA - d;
+      var vn = (c.vx - j.vx) * nx + (c.vz - j.vz) * nz;
+      if (j.state === 'rest' && vn < -6) wake(j);
+      if (j.state === 'rest') { c.x += nx * overlap; c.z += nz * overlap; }
+      else { c.x += nx * overlap / 2; c.z += nz * overlap / 2; j.x -= nx * overlap / 2; j.z -= nz * overlap / 2; }
+      if (vn < 0) {
+        if (j.state === 'rest') { c.vx -= 1.3 * vn * nx; c.vz -= 1.3 * vn * nz; }
+        else {
+          var J = -(1.55) * vn / 2;
+          c.vx += J * nx; c.vz += J * nz; j.vx -= J * nx; j.vz -= J * nz;
+          j.yawV += U.rand(-6, 6);
+        }
+        if (vn < -25) BJ.audio.chip(Math.min(1, -vn / 160), true);
+      }
+    }
+  }
+
+  function place(c) {
+    var m = c.mesh, tx, tz;
+    m.position.set(c.x, c.y, c.z);
+    if (c.state === 'air') { tx = Math.cos(c.tiltDir) * c.tilt; tz = Math.sin(c.tiltDir) * c.tilt; }
+    else { tx = Math.cos(c.leanDir) * c.lean + Math.cos(c.wobPhase) * c.wob; tz = Math.sin(c.leanDir) * c.lean + Math.sin(c.wobPhase) * c.wob; }
+    var th = Math.sqrt(tx * tx + tz * tz);
+    q1.setFromAxisAngle(UP, c.yaw);
+    if (th > 1e-4) { ax.set(-tz / th, 0, tx / th); q2.setFromAxisAngle(ax, th); m.quaternion.multiplyQuaternions(q2, q1); }
+    else m.quaternion.copy(q1);
+  }
+
+  Ch.update = function (dt) {
+    var n = 3, h = dt / n, i, s;
+    for (s = 0; s < n; s++) for (i = 0; i < chips.length; i++) step(chips[i], h);
+    for (i = 0; i < chips.length; i++) place(chips[i]);
+  };
+
+  // Throw a chip from `from` so that it first touches the felt at `to` after `flight` seconds.
+  Ch.throwChip = function (denom, pile, from, to, flight) {
+    var c = new Chip(denom, pile);
+    c.x = from.x; c.y = from.y; c.z = from.z;
+    c.vx = (to.x - from.x) / flight; c.vz = (to.z - from.z) / flight;
+    c.vy = (TH / 2 - from.y + 0.5 * G * flight * flight) / flight;
+    c.yawV = U.rand(-16, 16);
+    c.tilt = U.rand(0.05, 0.3); c.tiltDir = U.rand(0, 6.28); c.tiltV = U.rand(-2.4, 2.4);
+    place(c);
+    return c;
+  };
+
+  // The player tosses a chip into the betting box.
+  // Where each chip value is stacked inside a betting spot. A wide spot has three stacks side by side;
+  // the narrower spots of a split hand stack them in a small triangle.
+  function stackSlot(pile, denom) {
+    var p = piles[pile], vals = S.trayDenoms.length ? S.trayDenoms : [denom];
+    var k = vals.indexOf(denom); if (k < 0) k = denom >= vals[vals.length - 1] ? vals.length - 1 : 0;
+    var wide = Math.abs(p.x) < 1;
+    var off = wide ? [[-4.9, 0], [0, 0], [4.9, 0]][k] : [[-1.3, -2.3], [1.3, -2.3], [0, 2.2]][k];
+    return { x: p.x + off[0], z: p.z + off[1] };
+  }
+
+  // The player tosses a chip into the betting spot: it lands somewhere near the middle, hops, and skids a little.
+  Ch.bet = function (denom, pile) {
+    var p = piles[pile], from = { x: U.rand(-6, 6), y: U.rand(6, 9), z: 41 };
+    var a = U.rand(0, 6.28), r = Math.sqrt(Math.random()) * (Math.abs(p.x) > 1 ? 1.4 : 2.2);
+    // It skids forward after landing, so aim a little short of the spot.
+    var to = { x: p.x + Math.cos(a) * r, z: p.z + Math.sin(a) * r + 3.0 };
+    var c = Ch.throwChip(denom, pile, from, to, U.rand(0.25, 0.33));
+    colorUp(pile);
+    return c;
+  };
+
+  // The dealer pays: chips are lobbed from the float, down both sides of the hand, and come
+  // down inside the betting box rather than skidding across the cards.
+  Ch.pay = function (list, pile) {
+    var p = piles[pile], jobs = [], wide = Math.abs(p.x) < 1;
+    list.forEach(function (denom, i) {
+      jobs.push(anim.wait(i * 0.05).then(function () {
+        var side = i % 2 ? 1 : -1;
+        var f = S.trayFront(denom); S.trayTake(denom);            // the chip really leaves the float
+        var from = { x: f.x + U.rand(-0.5, 0.5), y: f.y + U.rand(1, 2.5), z: f.z + 0.5 };
+        var to = { x: p.x + side * (wide ? U.rand(1.2, 5.4) : U.rand(0.4, 2.8)), z: p.z + U.rand(-4.1, -1.6) };
+        Ch.throwChip(denom, pile, from, to, U.rand(0.44, 0.5));
+      }));
+    });
+    return Promise.all(jobs).then(function () { return anim.wait(0.95); });
+  };
+
+  // Rake a pile off the table: to the dealer when lost, back to the player when won or returned.
+  Ch.sweep = function (pile, toward) {
+    var jobs = [], n = 0;
+    chips.slice().forEach(function (c) {
+      if (c.pile !== pile) return;
+      c.state = 'kin'; c.pile = null;
+      var x0 = c.x, z0 = c.z, y0 = c.y;
+      var x1 = toward === 'dealer' ? x0 * 0.3 + U.rand(-2, 2) : x0 * 0.6 + U.rand(-2, 2);
+      var z1 = toward === 'dealer' ? S.tray.z - 4 : 46;
+      var spin = U.rand(-5, 5);
+      jobs.push(anim.wait(n++ * 0.012).then(function () {
+        return anim.tween(toward === 'dealer' ? 0.4 : 0.34, function (e) {
+          c.x = U.lerp(x0, x1, e); c.z = U.lerp(z0, z1, e);
+          // lift over the cards on the way to the dealer, over the padded rail on the way to the player
+          c.y = toward === 'dealer' ? U.lerp(y0, Math.max(y0, 2.2), Math.min(1, e * 1.3)) : y0 + U.clamp((c.z - 21) / 7, 0, 1) * 4.6;
+          c.yaw += spin * 0.016;
+        }, U.inCubic);
+      }).then(function () { removeChip(c); if (toward === 'dealer') S.trayGive(c.denom); }));
+    });
+    if (n) BJ.audio.chipRake(Math.min(n, 10));
+    return Promise.all(jobs);
+  };
+
+  // Slide a pile sideways (when a hand is split).
+  Ch.shift = function (pile, dx) {
+    var jobs = [];
+    chips.forEach(function (c) {
+      if (c.pile !== pile) return;
+      var x0 = c.x, st = c.state;
+      c.state = 'kin';
+      jobs.push(anim.tween(0.24, function (e) { c.x = x0 + dx * e; }, U.outCubic).then(function () { c.state = st === 'air' ? 'slide' : st; }));
+    });
+    return Promise.all(jobs);
+  };
+
+  Ch.retag = function (from, to) { chips.forEach(function (c) { if (c.pile === from) c.pile = to; }); };
+
+  // A stack of small chips that gets tall is traded up: the top chips lift off together, fold into
+  // one chip of the next value, and that chip is set on its own stack.
+  function colorUp(pile) {
+    var D = BJ.engine.DENOMS;
+    for (var di = 0; di < D.length - 1; di++) {
+      var need = D[di + 1] / D[di];
+      if (need !== Math.round(need) || need > 10) continue;
+      var same = chips.filter(function (c) { return c.pile === pile && c.denom === D[di] && c.state === 'rest'; });
+      if (same.length < Math.max(14, need + 6)) continue;
+      same.sort(function (a, b) { return b.y - a.y; });
+      var take = same.slice(0, need), top = take[0], up = D[di + 1];
+      take.forEach(function (c) { c.state = 'kin'; c.pile = null; });
+      var y0 = take.map(function (c) { return c.y; });
+      anim.tween(0.22, function (e) {
+        take.forEach(function (c, i) { c.y = U.lerp(y0[i], top.y + 3.5, e); c.x = U.lerp(c.x, top.x, e * 0.5); c.z = U.lerp(c.z, top.z, e * 0.5); c.yaw += 0.2; });
+      }, U.outCubic).then(function () {
+        var x = top.x, z = top.z, y = top.y;
+        take.forEach(removeChip);
+        BJ.audio.chip(0.5, true);
+        var p = piles[pile];
+        Ch.throwChip(up, pile, { x: x, y: y, z: z }, { x: p.x + U.rand(-1.5, 1.5), z: p.z + U.rand(-1, 1) }, 0.24);
+      });
+      return;
+    }
+  }
+
+  Ch.clearAll = function () { chips.slice().forEach(removeChip); };
+  Ch.all = function () { return chips; };
+
+  /* =========================== Decks and the opening shuffle ===========================
+     In the lobby the sealed decks lie on the felt and the shoe is empty. Sitting down stacks them
+     into two halves, riffles them together, squares the pack and lays it out into the shoe card by
+     card. Leaving runs it backwards. Everything runs on the tween clock, so it can be fast-forwarded. */
+  var Intro = BJ.intro = {};
+  var deckGeo, deckMats, packs = [], DT = 0.9, GRID = { x: 1.2, z: -4.2 };
+
+  function setHeight(m, h) { m.scale.y = Math.max(0.001, h); m.position.y = h / 2 + 0.02; m.visible = h > 0.03; }
+  function deckMesh(h) {
+    if (!deckGeo) {
+      if (!cardGeo) initCards();
+      deckGeo = new T3.BoxGeometry(C.W, 1, C.H);
+      var paper = new T3.MeshStandardMaterial({ map: S.tex(BJ.art.cardEdges()), roughness: 0.75 });
+      deckMats = [paper, paper, backMat, paper, paper, paper];
+    }
+    var m = new T3.Mesh(deckGeo, deckMats);
+    m.castShadow = true; m.receiveShadow = true;
+    setHeight(m, h);
+    S.scene.add(m);
+    return m;
+  }
+  // Where deck i lies when the decks are set out: two loose rows.
+  function slot(i, decks) {
+    var cols = Math.ceil(decks / 2), row = i < cols ? 0 : 1, col = i % cols;
+    return { row: row, col: col, x: GRID.x + (col - (cols - 1) / 2) * 9.0 + U.rand(-0.4, 0.4), z: GRID.z + (row ? 6.2 : -6.2) + U.rand(-0.4, 0.4), yaw: U.rand(-0.14, 0.14) };
+  }
+  function clearDecks() { packs.forEach(function (pk) { S.scene.remove(pk.m); }); packs = []; }
+
+  // Lobby state, set at once: empty shoe, decks on the felt.
+  Intro.setOut = function (decks) {
+    decks = decks || 6;
+    clearDecks(); S.setShoe(false); S.resetDiscards();
+    for (var i = 0; i < decks; i++) {
+      var sl = slot(i, decks), m = deckMesh(DT);
+      m.position.x = sl.x; m.position.z = sl.z; m.rotation.y = sl.yaw;
+      packs.push({ m: m, row: sl.row, col: sl.col });
+    }
+  };
+
+  // Leaving the table: the pack comes back out of the shoe onto the felt and is cut into the decks again.
+  Intro.unload = function (decks) {
+    decks = decks || 6;
+    var full = DT * decks, from = { x: GRID.x, z: GRID.z, h: full };
+    clearDecks(); S.resetDiscards();
+    BJ.audio.cardSlide();
+    return anim.tween(0.85, function (e) { S.packFlow(1 - e, from); }, U.linear).then(function () {
+      S.setShoe(false);
+      var jobs = [];
+      for (var i = 0; i < decks; i++) (function (i) {
+        var sl = slot(i, decks), m = deckMesh(DT), y0 = DT / 2 + 0.02 + (decks - 1 - i) * DT;
+        m.position.set(GRID.x, y0, GRID.z);
+        packs.push({ m: m, row: sl.row, col: sl.col });
+        jobs.push(anim.wait(i * 0.05).then(function () {
+          return anim.tween(0.3, function (e) {
+            m.position.set(U.lerp(GRID.x, sl.x, e), U.lerp(y0, DT / 2 + 0.02, e) + Math.sin(Math.PI * e) * 2, U.lerp(GRID.z, sl.z, e));
+            m.rotation.y = sl.yaw * e;
+          }, U.outCubic).then(function () { BJ.audio.deckDrop(); });
+        }));
+      })(i);
+      return Promise.all(jobs);
+    });
+  };
+
+  Intro.play = function (decks) {
+    decks = decks || 6;
+    if (packs.length !== decks) Intro.setOut(decks);
+    var halfX = 5.6, cz = GRID.z, halfH = DT * decks / 2, full = DT * decks, mine = packs;
+    packs = [];
+    S.setShoe(false); S.resetDiscards();
+
+    // 1) Stack the decks into two halves. The recorded shuffle runs under the stacking and the riffle.
+    var recorded = BJ.audio.shuffle();
+    var jobs = [];
+    mine.forEach(function (pk) {
+      var m = pk.m, hx = GRID.x + (pk.row ? halfX : -halfX), x0 = m.position.x, z0 = m.position.z, r0 = m.rotation.y;
+      jobs.push(anim.wait(pk.col * 0.1).then(function () {
+        return anim.tween(0.28, function (e) {
+          m.position.set(U.lerp(x0, hx, e), DT / 2 + 0.02 + pk.col * DT * e + Math.sin(Math.PI * e) * 2.6, U.lerp(z0, cz, e));
+          m.rotation.y = U.lerp(r0, 0, e);
+        }, U.inOutCubic).then(function () { BJ.audio.deckDrop(); });
+      }));
+    });
+
+    return Promise.all(jobs).then(function () { return anim.wait(0.1); }).then(function () {
+      // 2) Riffle: cards drop alternately from each half into one pack between them.
+      mine.forEach(function (pk) { S.scene.remove(pk.m); });
+      var L = deckMesh(halfH), Rt = deckMesh(halfH), mid = deckMesh(0), K = 46, hL = halfH, hR = halfH, hM = 0;
+      L.position.x = GRID.x - halfX; Rt.position.x = GRID.x + halfX; mid.position.x = GRID.x;
+      L.position.z = Rt.position.z = mid.position.z = cz;
+      var js = [anim.tween(0.18, function (e) {
+        L.position.x = GRID.x + U.lerp(-halfX, -4.6, e); Rt.position.x = GRID.x + U.lerp(halfX, 4.6, e);
+        L.rotation.y = -0.4 * e; Rt.rotation.y = 0.4 * e;
+      }, U.outCubic)];
+      for (var k = 0; k < K; k++) (function (k) {
+        js.push(anim.wait(0.17 + k * 0.021).then(function () {
+          var left = k % 2 === 0, src = left ? L : Rt;
+          if (left) { hL = Math.max(0, hL - halfH / (K / 2)); setHeight(L, hL); }
+          else { hR = Math.max(0, hR - halfH / (K / 2)); setHeight(Rt, hR); }
+          var card = new T3.Mesh(cardGeo, backMat), holder = new T3.Group();
+          card.rotation.x = -Math.PI / 2; card.castShadow = true;
+          holder.add(card); S.scene.add(holder);
+          var x0 = src.position.x, y0 = (left ? hL : hR) + 0.12, yaw0 = src.rotation.y;
+          var x1 = GRID.x + U.rand(-0.16, 0.16), y1 = hM + full / K + 0.08, yaw1 = U.rand(-0.07, 0.07);
+          if (!recorded) BJ.audio.riffle();
+          return anim.tween(0.12, function (e) {
+            holder.position.set(U.lerp(x0, x1, e), U.lerp(y0, y1, e) + Math.sin(Math.PI * e) * 1.3, cz);
+            holder.rotation.y = U.lerp(yaw0, yaw1, e);
+          }, U.outCubic).then(function () { S.scene.remove(holder); hM += full / K; setHeight(mid, hM); });
+        }));
+      })(k);
+      return Promise.all(js).then(function () {
+        // 3) Square the pack up.
+        S.scene.remove(L); S.scene.remove(Rt);
+        setHeight(mid, full);
+        BJ.audio.deckDrop();
+        return anim.tween(0.22, function (e) {
+          mid.position.y = full / 2 + 0.02 + Math.sin(Math.PI * e) * 0.9;
+          mid.rotation.y = Math.sin(Math.PI * 2 * e) * 0.05;
+        }, U.linear).then(function () { return mid; });
+      });
+    }).then(function (mid) {
+      // 4) Lay the pack out into the shoe: cards peel off the top in a stream and fan into place.
+      var from = { x: GRID.x, z: cz, h: full };
+      S.scene.remove(mid);
+      S.packFlow(0, from);
+      anim.wait(0.5).then(BJ.audio.deckDrop);                                   // 착
+      for (var k = 0; k < 14; k++) anim.wait(0.56 + k * 0.028).then(BJ.audio.riffle);   // 샤악
+      return anim.tween(1.2, function (e) { S.packFlow(e, from); }, U.linear).then(function () { S.setShoe(true); });
+    });
+  };
+})();

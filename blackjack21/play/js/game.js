@@ -1,1 +1,2021 @@
-function q3_0xa6a7(){var _0x256fa4=['qLvtva','AgfUza','ywrKrxzLBNrmAxn0zw5LCG','CgHHC2u','y2XPzw50wq','BMvLzeX2ugXHEq','CMv2zwfS','ChGPihnJywXLka','C3DLzxa','yM9Sza','CgfYzw50tM9Kzq','Bg9HzgLUzW','zgvHBgvY','B3v0uxvHCNq','C3vPDa','zMvSDa','C2v0u2HVzunVDw50','CMvZzxrbC2S','zMX5','yxbWzw5Kq2HPBgq','yNrUuMvIzxq','C2HVzq','lNrZ','Dw5SB2nRrNG','B3v0q3vIAwm','Dw5SB2nRq2XPy2S','DgLTzu91Da','CMfUzg9T','C2nYB2XS','i2nVywnOic5IBgS','veHftuvt','B24G','yNrUqwq','Dg90ywW','ls1W','r2fYzgvU','yMv0DgfNig9Uia','C2H1zMzSAw5N','AML0','y2fSBa','ChvZAa','AgvSCfbYzxy','ywn0AxzL','ue9trvm','zg9JDw1LBNrfBgvTzw50','yxbWvMvYC2LVBG','yNrUuMvZzxq','y29PBKLU','Ate4BG','C2HVDW','ls1MzwX0','BM9szw5Kzxi','yM9VDa','DeHHBMqW','mJeXodnbvLrQA0q','lMjHBgfUy2uGlMnVAw4','Bg9IyNLuywjSzxm','mtHSuNfnCvG','yNrUu291BMq','C3rHCNrLCG','Bw91C2u','CMvUzgvY','C2LKzxDHExm','AMLUz2XL','y29PBKj1CNn0','rvHqicS','DerLywXLCG','yNjLywTKB3DU','nZa4nta1DerLt0f5','C2LU','y3jLyxrLrwXLBwvUDa','Aw1Nl2HLBhaV','Bw9UzxK','uLvmrvm','phnWyw4+pc9ZCgfUpG','yNrUuMvZzxrzzxm','C3rHDgu','Dg9mB3DLCKnHC2u','BMv3vgfIBgu','ic8G','zgvIDwC','y2HPCgj0BG','BgfUzW','ywn0qMfY','y2fYzhm','wfbFsefora','AgfUzerVBMu','zMfJzvvW','C2LUz2XL','Bw9Kzs0','y29Hy2G','ywrZ','y29Hy2Huyxa','zNHJB2LU','AgvSCfrPDgXL','7zwC6RwT7jA0','CMvMAwXSqM9KEq','BM9Uzq','CxvLCNLtzwXLy3rVCKfSBa','tKnr','y2XHC3nmAxn0','AgvSCeLTzW','CMvZ','rgLHBw9Uza','lNrVDa','y2HPChm','Bg9IyNK','ywrK','Cgf5B3v0','Dwz4vgfIBgu','Aw5PDa','lNjLCW','q3jVD24','C25HCa','y2fYzfzHBhvL','lMrLy2S','C3rHDhvZ','C3rYAw5NAwz5','phnTywXSpKjvu1q8l3nTywXSpG','yxvKAw8','yNrUsgvSCa','BgfZDfrHyMXL','Bgf0zxi','zhjHDW','lMjLDa','CMvTB3zLq2HPBgq','zhjPzNrtDg9W','C2vHDcbVzMy','AhvYCNK','phnWyw4Gy2XHC3m9iMLUzM8IpJXZCgfUignSyxnZpsj0BIi+pc9ZCgfUpJXZCgfUignSyxnZpsj0Bci+pc9ZCgfUpJXZCgfUignSyxnZpsjYB3CIpJXZCgfUignSyxnZpsj4Cci+pc9ZCgfUpJXZCgfUignSyxnZpsj0CYi+pc9ZCgfUpJWVC3bHBJ48l3nWyw4+','ywrdB3vUDa','DhjHBNnSyxrLka','CM91BMq','DhLWzq','zgL2','yMfY','CgXHEq','C2v0DgLUz3m','zgf0ys1Hy3q','y2HPCfvYBa','Dwz4u3rHEq','DgfN','yNrUugXHEq','CMvZig9Uia','EhbnDwX0','yNrUu2H1zMzSzq','yNrUtgfUzW','zMLYC3rdAgLSza','B2zM','C3bSAxq','B2zMC2v0v2LKDgG','Cg9PBNrLCNvW','y29Uy2f0','C2HLzxrszwzPBgW','EhbuAxa','Axnoyxr1CMfS','y29UDgfPBNm','DgLJAW','Dwz4twv0yq','ChvZAgvK','Dwz4tMfTzq','BgvHDMvbzNrLCG','ifHqkq','Ewf3','te4Y','y2XHC3noyw1L','B3bHy2L0Eq','zxjYB3i','DhDLzw4','thyG','DgjStMfTzq','ig9U','Bg9JA2vK','y2vPBa','Dw5SB2nRzwq','C2vHDfjLCW','BwLU','BgLTAxrZ','DM9Py2u','lMj1CNn0','AgLKzgvU','CgfYC2u','BgvUz3rO','CMvZDwX0ig9Uia','C3rVCfbYB3bHz2f0Aw9U','C3rYzwfR','igXVy2TLza','C3rHBMq','lMX2','yNvZEq','C2v0qxr0CMLIDxrL','yNv0Dg9U','C2HLzxrizwXW','z2fPBG','Bw92zvrV','CMvKDwnL','BM9tDgfYDgvY','ihrHCgnSB3nL','C2nYB2XSu25HCfr5Cgu','yNvZDa','ody3nZiYnfPfyurmrG','CMvUzgvYzxi','iNr1Dci','Dw5SB2fK','BMv4Da','BM93','CgXHEwvY','yKHHBMqX','yxbWBhK','C2HVzvrHzW','DgjStgLT','zgLZywjSzwq','zM9YrwfJAa','D29U','ChjVDg90ExbL','B3b0Aw9UCW','zgvHBgvYugXHEq','ywn0q2XVy2S','yNrUtg9IyNK','C3bLzwq','mti1mJK3y0rougjh','Dg9HC3q','C2vHDa','DhvYBG','CgLSzq','yNrUrgvHBa','C2v0ugLSzq','C2v0DgXL','AgvSCfrLEhq','igj1C3q','zM9UDhm','y2XPzw50wa','yMv0','DeHHBMqX','yMXHy2TQywnR','BwfRzq','yMPZ','B2zMC2v0tgvMDa','Bg9Zzq','Cg9PBNrLCLr5Cgu','vefctevt','BgvYCa','C2v0u2HVzq','Dw5ZAgLMDa','lMPWzW','DhjHBNnMB3jT','rvHqimox','BwfW','B3v0tg9IyNK','CMvZDa','B3bLBMLUzW','DxbKyxrL','C3r5Bgu','CgfUAwm','BhzSqMfY','y2HLy2S','Bwv0yq','uM95ywW','yMLN','y2XPzw50v2LKDgG','zML4zwrrDwfSAxr5','yNrUq2XLyxi','BhzS','Bg9N','yM90Dg9T','C2XPy2u','B2zMC2v0sgvPz2H0','Bw92zurVD24','yNjVA2vmzwf2zq','Dgv4DenVBNrLBNq','B3v0qM9KEq','C2v0vgHLBwu','AgvSCa','DgfYz2v0','y29SBgvJDa','zg93BG','zg91yMXL','D2fPDa','CMvMAwXSqw1VDw50','nZyZmdm1ouH6BujwtG','y29Hy2HizwXW','y2HPCfjVDW','zgvNkq','zM92','igjQ','y29Hy2Hczxq','BgfZDenOAwXK','yNrUuMvZzxroBW','DxrPBa','C3rHDhm','AM9PBMvK','Aw50zxjbza','zhjPzNq','C2vS','Bg9ZDa','ywXS','w2rHDgeTy2XVC2vD','Bgv2zwXpzG','z29Uzq','C2XPzgu','C29Tzq','y2XVy2S','ihnLBa','BgvMDa','y2f0y2G','CgXHy2vfzgDLCW','pgrPDIbJBgfZCZ0ID2HViJ48Aw1NigfSDd0IiJ48yJ48l2i+pc9KAxy+pgrPDIbJBgfZCZ0IAw5MBYi+phnWyw4Gy2XHC3m9iMjLDci+pc9ZCgfUpJXZCgfUignSyxnZpsj0B3qIpJWVC3bHBJ48l2rPDJ48zgL2ignSyxnZpsjZDgf0DxmIpJWVzgL2pG','zNHZCgfYAW','iNn0yxj0zxiI','D2f0y2Hbza','Dg9W','AwnVBG','C3bHBG','pgrPDIbJBgfZCZ0ICMvZiJ48l2rPDJ4','rfjbvW','zgvHBa','Aw5dDwjPyW','AgfUzhm','twfJyxu','CKHHBMqW','Aw50CM8','zM10','zMLSDgvY','y2XLyxjbBgW','D293','C29MDa','CMvZDwX0','tefzt1vu','ig9MzG','D2LU','yMv0twLU','BMvLza','lNrS','zhjHD0LTywDL','Dg9eyxrHvvjm','z2v0qxr0CMLIDxrL','y29Z','ls1KEa','Bgv2zwXvCa','DxjSka','C2L0DgLUz091Da','C291BMq','CMvZB2X2zq','C3rHz2u','Dhv0','y2fTzxjH','zgvUEq','qKXbq0Tkqunl','BxvSDgLxywL0','yMfJA2DYB3vUzeLTywDL','Aw5Uzxjive1m','ywrnB2nR','CMvZAxPL','r3jHBMq','BMLJAW','Bg9Hza','C3jJ','C2nYB2XSvg8','lMXIB3G','Dwz4r28','C2nYB2XStgvMDa','z290q2HPChm','yw5PBq','tw9UDgu','CMfUAW','zw50zxi','B3bLBG','zgf0ys1Kzw5VBq','zgXY','iokaKYa','z2fTzq','y3jLyxrLvgv4De5Vzgu','lNnOzwv0','CgvHAW','y29UC29Szq','u1rbuLrFq0Hjufm','nZG0nZi3nenhBwjqtW','Cg9PBNrLCM1VDMu','CKHHBMqX','y2XPy2S','AgvSCe5LEhq','nZeXnZm3mhjYAvf1tq','ChjVAMvJDa','qKXbq0Tkqunlia','yxv0B0jLDa','zgvSDge','z2v0qM91BMrPBMDdBgLLBNrszwn0','C2HPzNq','lMjSAW','Aw1N','BgL2zq','D2LSza','C21VB3rO','C3rHDeXPC3q','DgLTzwq','zgvJA3m','nfbZCM5MEa','C21HBgW','revot01t','CMLN','zgvHBenSB2nR','BwvUDq','phnWyw4Gy2XHC3m9iMX2iJ48l3nWyw4+phnWyw4Gy2XHC3m9iMDVBgqIpJXPpJWVAt48zw0+pc9LBt48l3nWyw4+pc9ZCgfUpJXZCgfUignSyxnZpsjIDxjZDci+pc9ZCgfUpG','te9trq','mZaWBLbzvKP5','y2fYza','CxvLCNLtzwXLy3rVCG','z2v0sxrLBq','lNn0yxr1CW','yNrUtxvSDgK','lMj0BI5Hy3q','DgnHCMq','ChGPihrYyw5ZBgf0zsGTntaLlc01mcuP','BwfYA3m','C2v0uhjVCgvYDhK','yNrUrg93BG','Agf2zq','C2L0t3v0','AgvSCerVDhm','C2HLzxrtzxr0Aw5NCW','ChGS','BgfUz3vHz2u','B24GC2HVDW','rw5NBgLZAa','y2HPBgrYzw4','Dg9gAxHLza','y2fYzwz1Ba','C2v0ugL4zwXsyxrPBW','y29PBLvYBa','u2T5','DgHLBG','zg9Uzq','CMLNAhq','y29Hy2HezwfS','AgfUzfzHBhvL','Bwf4','Cg9PBNrLCMrVD24','Bgv2zwW','y2XVC2vZDa','B3v0','Dg9Nz2XL','zgv2','y2fYzejHy2S','AgvPz2H0','n29qrvjPua','zw5NAw5L','ls1KEq','BxvSDgK','lNrJyxiSigj1DhrVBG','BwvUDvrPDgXL','yNrUr2vHCG','C2v0sxrLBq','ywjZ','zMfUzMfYzq','mtaWjq','CMvTB3zL','y2fUDMfZ','AgL0','C2vHDcbZzwf0CMvZ','BM9tCgXPDa','DgfIBgu','zgvHBgvYwG','yxj0','CMfUza','BMv3u2HVzq','BhzStNvT','DgfWy2XVC2u','Dw5SB2nR','D2LKDgG','phnWyw4Gy2XHC3m9iMXVy2SIpG','pgr0pJWVzhq+pgrKpJWVzgq+','tKnrx1zfuLnjt04'];q3_0xa6a7=function(){return _0x256fa4;};return q3_0xa6a7();}function q3_0x5d0f(_0xcdbcf3,_0x28f85e){_0xcdbcf3=_0xcdbcf3-0x1f2;var _0xa6a7d6=q3_0xa6a7();var _0x5d0fd4=_0xa6a7d6[_0xcdbcf3];if(q3_0x5d0f['swpWMn']===undefined){var _0x6d3c3c=function(_0x4d7d66){var _0x198a1d='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';var _0x58583e='',_0x2b9cfd='';for(var _0x348df9=0x0,_0x252005,_0x1c8733,_0x1f6653=0x0;_0x1c8733=_0x4d7d66['charAt'](_0x1f6653++);~_0x1c8733&&(_0x252005=_0x348df9%0x4?_0x252005*0x40+_0x1c8733:_0x1c8733,_0x348df9++%0x4)?_0x58583e+=String['fromCharCode'](0xff&_0x252005>>(-0x2*_0x348df9&0x6)):0x0){_0x1c8733=_0x198a1d['indexOf'](_0x1c8733);}for(var _0x2d7a60=0x0,_0x40083b=_0x58583e['length'];_0x2d7a60<_0x40083b;_0x2d7a60++){_0x2b9cfd+='%'+('00'+_0x58583e['charCodeAt'](_0x2d7a60)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x2b9cfd);};q3_0x5d0f['gzGntJ']=_0x6d3c3c,q3_0x5d0f['XDakvC']={},q3_0x5d0f['swpWMn']=!![];}var _0x569c91=_0xa6a7d6[0x0];q3_0x5d0f['FXpXvz']!==_0x569c91&&(q3_0x5d0f['XDakvC']={},q3_0x5d0f['FXpXvz']=_0x569c91);var _0x51524b=q3_0x5d0f['XDakvC'][_0xcdbcf3];return _0x51524b===undefined?(_0x5d0fd4=q3_0x5d0f['gzGntJ'](_0x5d0fd4),q3_0x5d0f['XDakvC'][_0xcdbcf3]=_0x5d0fd4):_0x5d0fd4=_0x51524b,_0x5d0fd4;}(function(_0x3e0981,_0x241020){var _0x2bdca7=q3_0x5d0f,_0x2fb1cf=_0x3e0981();while(!![]){try{var _0x1c8f48=parseInt(_0x2bdca7(0x34c))/0x1+-parseInt(_0x2bdca7(0x22c))/0x2*(parseInt(_0x2bdca7(0x2a6))/0x3)+-parseInt(_0x2bdca7(0x224))/0x4*(parseInt(_0x2bdca7(0x2b4))/0x5)+-parseInt(_0x2bdca7(0x210))/0x6*(parseInt(_0x2bdca7(0x254))/0x7)+parseInt(_0x2bdca7(0x338))/0x8+-parseInt(_0x2bdca7(0x2a9))/0x9*(-parseInt(_0x2bdca7(0x215))/0xa)+parseInt(_0x2bdca7(0x387))/0xb;if(_0x1c8f48===_0x241020)break;else _0x2fb1cf['push'](_0x2fb1cf['shift']());}catch(_0x176762){_0x2fb1cf['push'](_0x2fb1cf['shift']());}}}(q3_0xa6a7,0xc7cbb),(function(){'use strict';var _0x482022=q3_0x5d0f;var _0x2b9cfd=window['BJ'],_0x348df9=_0x2b9cfd[_0x482022(0x255)],_0x252005=_0x2b9cfd[_0x482022(0x390)],_0x1c8733=_0x2b9cfd[_0x482022(0x202)],_0x1f6653=_0x2b9cfd[_0x482022(0x3c7)],_0x2d7a60=_0x2b9cfd[_0x482022(0x2c4)],_0x40083b=_0x2b9cfd[_0x482022(0x2d9)],_0x8ea119=_0x2b9cfd[_0x482022(0x2e7)],_0x1e0a90=_0x2b9cfd[_0x482022(0x2a0)],_0x57e69d=function(_0x5ca71f){return document['getElementById'](_0x5ca71f);},_0x54a6df='blackjack-proto-1';function _0x20855d(){var _0x237ebb=_0x482022;return{'chips':_0x348df9[_0x237ebb(0x20f)],'xp':0x0,'table':0x0,'lastTable':null,'unlocked':[!![],![],![],![],![],![],![],![],![],![],![]],'starter':0x0,'tut':0x0,'nick':null,'icon':0x0,'icons':[],'ach':{},'achSeen':{},'adHands':0x0,'lang':null,'sound':!![],'stats':{'hands':0x0,'won':0x0,'lost':0x0,'pushed':0x0,'bjs':0x0,'ads':0x0,'peak':_0x348df9[_0x237ebb(0x20f)]}};}function _0x53c201(){var _0x74d096=_0x482022;try{var _0xd77a47=localStorage[_0x74d096(0x22f)](_0x54a6df);if(!_0xd77a47)return _0x20855d();var _0x52dc11=JSON[_0x74d096(0x325)](_0xd77a47),_0xc240a5=_0x20855d();for(var _0x214d2c in _0xc240a5)if(_0x52dc11[_0x214d2c]===undefined)_0x52dc11[_0x214d2c]=_0xc240a5[_0x214d2c];for(var _0x453e2b in _0xc240a5[_0x74d096(0x391)])if(_0x52dc11['stats'][_0x453e2b]===undefined)_0x52dc11['stats'][_0x453e2b]=_0xc240a5[_0x74d096(0x391)][_0x453e2b];while(_0x52dc11[_0x74d096(0x31e)][_0x74d096(0x326)]<_0xc240a5[_0x74d096(0x31e)][_0x74d096(0x326)])_0x52dc11[_0x74d096(0x31e)]['push'](![]);if(_0xd77a47['indexOf'](_0x74d096(0x3a4))<0x0)_0x52dc11[_0x74d096(0x2ab)]=Math[_0x74d096(0x320)](0x3,_0x52dc11[_0x74d096(0x391)]['hands']);if(_0xd77a47['indexOf'](_0x74d096(0x33a))<0x0&&_0x52dc11[_0x74d096(0x391)][_0x74d096(0x3ad)]>0x0)_0x52dc11['tut']=0x9;return _0x52dc11;}catch(_0x212f3b){return _0x20855d();}}function _0x407e47(){var _0x3e91ba=_0x482022;try{localStorage[_0x3e91ba(0x25b)](_0x54a6df,JSON[_0x3e91ba(0x2e5)](_0x16e085));}catch(_0x1131bc){}}var _0x16e085=_0x53c201(),_0x3cca5d=_0x348df9[_0x482022(0x360)][_0x16e085[_0x482022(0x264)]],_0x32f793=_0x482022(0x2a4),_0x38939f=0x0,_0x32aca9=_0x482022(0x32d),_0x4f3337=null,_0x343c8d=0x0,_0x5eab70=[],_0x2520d9=[],_0x2ff539={'dealer':[],'hands':[[],[]]},_0x129bc0=![],_0x52e449=_0x16e085[_0x482022(0x2d9)],_0x16430b=[![],![]],_0x23fe4c=0x1,_0xec01a7=null,_0x1d5583=0x4e,_0x24d61c={'x':0x0,'z':_0x1f6653['LAYOUT'][_0x482022(0x265)]},_0x574601={'x':0x0,'z':4.4},_0x5f2a69={'x':0x0,'z':17.6},_0x4aab8c=7.7,_0x358d8f=5.3;function _0x5e0c3d(_0xf9d9c){return _0x129bc0?{'x':_0xf9d9c?_0x4aab8c:-_0x4aab8c,'z':_0x574601['z']}:_0x574601;}function _0x196346(_0x4fe937,_0x4c140a){var _0x1d82a7=_0x482022,_0x4db2a8=_0x4fe937==='dealer'?_0x2ff539[_0x1d82a7(0x27c)]:_0x2ff539[_0x1d82a7(0x3ad)][_0x4c140a],_0x9d1173=_0x4db2a8[_0x1d82a7(0x326)],_0x38dec3=_0x4fe937===_0x1d82a7(0x27c)?_0x24d61c:_0x5e0c3d(_0x4c140a),_0xbef1cc,_0x1bc2c9=_0x9d1173&&_0x4db2a8[_0x9d1173-0x1][_0x1d82a7(0x2ae)]?_0x9d1173-0x1:_0x9d1173,_0x2febd8=[];if(_0x4fe937===_0x1d82a7(0x27c))_0xbef1cc=_0x9d1173<=0x2?8.7:Math[_0x1d82a7(0x320)](3.6,(_0x1f6653[_0x1d82a7(0x3b7)]['dealerHalf']*0x2-_0x2d7a60['W'])/(_0x9d1173-0x1));else _0xbef1cc=_0x129bc0?Math[_0x1d82a7(0x320)](2.4,6.6/Math[_0x1d82a7(0x24b)](0x1,_0x1bc2c9-0x1)):Math[_0x1d82a7(0x320)](3.3,13.5/Math[_0x1d82a7(0x24b)](0x1,_0x1bc2c9-0x1));for(var _0x5d9d06=0x0;_0x5d9d06<_0x9d1173;_0x5d9d06++){var _0x43d154=_0x4db2a8[_0x5d9d06],_0x5a00e6={'x':_0x38dec3['x']+(_0x5d9d06-(_0x1bc2c9-0x1)/0x2)*_0xbef1cc,'y':0.04+_0x5d9d06*0.058,'z':_0x38dec3['z'],'yaw':_0x43d154[_0x1d82a7(0x296)]};_0x43d154[_0x1d82a7(0x2ae)]&&(_0x5a00e6['x']=_0x38dec3['x']+0.9,_0x5a00e6['z']=_0x38dec3['z']+2.4,_0x5a00e6[_0x1d82a7(0x313)]=Math['PI']/0x2+_0x43d154['jit']),_0x2febd8[_0x1d82a7(0x298)](_0x5a00e6);}return _0x2febd8;}function _0x34cdff(_0x1ea9cc,_0x2f0f33,_0x1397ce,_0x418bbe,_0x4ffb35){var _0x284d1b=_0x482022,_0x59d5a5=_0x1ea9cc===_0x284d1b(0x27c)?_0x2ff539[_0x284d1b(0x27c)]:_0x2ff539[_0x284d1b(0x3ad)][_0x2f0f33],_0x1e3087=_0x2d7a60[_0x284d1b(0x35b)](_0x1397ce);_0x1e3087[_0x284d1b(0x296)]=_0x252005['rand'](-0.03,0.03),_0x1e3087[_0x284d1b(0x2ae)]=!!_0x4ffb35,_0x23b61b++,_0x1f6653[_0x284d1b(0x280)](Math[_0x284d1b(0x24b)](0x0,_0x519173()-_0x23b61b)),_0x56f045(),_0x59d5a5['push'](_0x1e3087);var _0x2a5409=_0x196346(_0x1ea9cc,_0x2f0f33);for(var _0xbfd77a=0x0;_0xbfd77a<_0x59d5a5[_0x284d1b(0x326)]-0x1;_0xbfd77a++)_0x2d7a60['moveTo'](_0x59d5a5[_0xbfd77a],_0x2a5409[_0xbfd77a],0.22);var _0x5c7eba=_0x2a5409[_0x59d5a5['length']-0x1];return _0x5c7eba[_0x284d1b(0x2c7)]=_0x418bbe,_0x2d7a60[_0x284d1b(0x3ab)](_0x1e3087,_0x5c7eba)['then'](_0x4d9171);}var _0x23b61b=0x0,_0x4e78f8=0x138;function _0x519173(){return _0x4e78f8;}function _0x56f045(){var _0x30b1dd=_0x482022,_0x1c4f4c=_0x57e69d(_0x30b1dd(0x341));_0x1c4f4c[_0x30b1dd(0x37d)]=Math[_0x30b1dd(0x24b)](0x0,_0x4e78f8-_0x23b61b);}var _0x506f5a=0x1e,_0x581af4=0x0,_0x55674c=0x0;function _0x303e29(){var _0x36ac9b=_0x482022;_0x2ebe2a(),_0x55674c=Date['now']()+_0x506f5a*0x3e8;var _0x329cb9=_0x57e69d(_0x36ac9b(0x351));_0x329cb9[_0x36ac9b(0x2d4)][_0x36ac9b(0x2db)](_0x36ac9b(0x222));var _0x3162f0=_0x57e69d(_0x36ac9b(0x228));!_0x3162f0&&(_0x3162f0=document[_0x36ac9b(0x2b6)]('i'),_0x3162f0['id']='dealClock',_0x329cb9['parentNode'][_0x36ac9b(0x283)](_0x3162f0)),_0x3162f0[_0x36ac9b(0x315)]='on',_0x12561d(),_0x581af4=setInterval(_0x12561d,0x64);}function _0x12561d(){var _0x2cbe89=_0x482022,_0x47b2b9=Math[_0x2cbe89(0x24b)](0x0,_0x55674c-Date[_0x2cbe89(0x33d)]()),_0x354e26=_0x57e69d('btnDeal'),_0x5bdaa9=_0x57e69d(_0x2cbe89(0x228));_0x354e26['style'][_0x2cbe89(0x236)]('--p',(_0x47b2b9/(_0x506f5a*0x3e8))[_0x2cbe89(0x241)](0x3)),_0x5bdaa9['textContent']=Math[_0x2cbe89(0x31d)](_0x47b2b9/0x3e8);var _0x53840c=_0x354e26[_0x2cbe89(0x21a)](),_0x276521=_0x354e26[_0x2cbe89(0x27a)]['getBoundingClientRect']();_0x5bdaa9[_0x2cbe89(0x36c)][_0x2cbe89(0x39f)]=_0x53840c[_0x2cbe89(0x39f)]-_0x276521['left']+_0x53840c[_0x2cbe89(0x26c)]/0x2+'px',_0x5bdaa9[_0x2cbe89(0x36c)]['top']=_0x53840c['top']-_0x276521[_0x2cbe89(0x3a6)]+'px',_0x354e26[_0x2cbe89(0x2d4)]['toggle'](_0x2cbe89(0x2f0),_0x47b2b9<0x1388);if(_0x47b2b9>0x0)return;_0x2ebe2a();if(_0x32aca9!==_0x2cbe89(0x358))return;var _0x59da4d=Math[_0x2cbe89(0x320)](_0x3cca5d[_0x2cbe89(0x24b)],_0x16e085['chips']+_0x343c8d)-_0x343c8d;if(_0x343c8d+_0x59da4d>=_0x3cca5d[_0x2cbe89(0x320)])return _0x26c260(_0x1e0a90['t'](_0x2cbe89(0x218),{'n':_0x252005['money'](_0x343c8d+_0x59da4d)})),_0x348df9[_0x2cbe89(0x2b3)](_0x59da4d,0x1e)[_0x2cbe89(0x344)](function(_0xad6063){var _0x50c7bf=_0x2cbe89;_0x16e085[_0x50c7bf(0x2d9)]-=_0xad6063,_0x343c8d+=_0xad6063,_0x5eab70[_0x50c7bf(0x298)](_0xad6063),_0x40083b[_0x50c7bf(0x358)](_0xad6063,'h0');}),_0x469cf8(),_0x27cae4(),_0x1c8733[_0x2cbe89(0x385)](0.6)[_0x2cbe89(0x246)](function(){if(_0x32aca9==='bet')_0x169fee();});_0x1d840b(),_0x26c260(_0x1e0a90['t'](_0x2cbe89(0x28a)));if(_0x3ac57b[_0x2cbe89(0x39c)](Boolean))_0x404abe(_0x1e0a90['t'](_0x2cbe89(0x3c4)));else _0x303e29();}var _0x3a0cce=0x1e,_0x1e7733=0x0,_0x20e5d2=0x0;function _0x3b056f(){var _0x15e8ed=_0x482022;_0x305ec1();if(!_0x11992a)return;_0x20e5d2=Date[_0x15e8ed(0x33d)]()+_0x3a0cce*0x3e8;var _0x26c50f=_0x57e69d(_0x15e8ed(0x2c3)),_0x2bd917=_0x57e69d(_0x15e8ed(0x349));!_0x2bd917&&(_0x2bd917=document['createElement']('i'),_0x2bd917['id']=_0x15e8ed(0x349),_0x26c50f[_0x15e8ed(0x283)](_0x2bd917)),_0x2bd917['className']='on',_0x53be04(),_0x1e7733=setInterval(_0x53be04,0x64);}function _0x53be04(){var _0x5b70cf=_0x482022,_0x38f707=Math['max'](0x0,_0x20e5d2-Date['now']()),_0xe41840=_0x38f707/(_0x3a0cce*0x3e8),_0x45792e=_0x57e69d(_0x5b70cf(0x2c3))[_0x5b70cf(0x2d2)]('.btn.act');for(var _0x2855b4=0x0;_0x2855b4<_0x45792e['length'];_0x2855b4++){var _0x10a978=_0x45792e[_0x2855b4];_0x10a978[_0x5b70cf(0x2d4)][_0x5b70cf(0x250)](_0x5b70cf(0x222),!_0x10a978['disabled']),_0x10a978[_0x5b70cf(0x36c)][_0x5b70cf(0x236)](_0x5b70cf(0x292),_0xe41840[_0x5b70cf(0x241)](0x3)),_0x10a978[_0x5b70cf(0x2d4)]['toggle'](_0x5b70cf(0x2f0),!_0x10a978['disabled']&&_0x38f707<0x2710),_0x10a978[_0x5b70cf(0x2d4)][_0x5b70cf(0x250)](_0x5b70cf(0x36d),!_0x10a978['disabled']&&_0x38f707<0xfa0);}_0x57e69d(_0x5b70cf(0x349))[_0x5b70cf(0x37d)]=Math['ceil'](_0x38f707/0x3e8);if(_0x38f707>0x0)return;_0x305ec1();if(_0x32aca9===_0x5b70cf(0x33e))_0x191e1f(_0x5b70cf(0x32b));}function _0x305ec1(){var _0xec2f77=_0x482022;clearInterval(_0x1e7733),_0x1e7733=0x0,Array['prototype'][_0xec2f77(0x344)][_0xec2f77(0x297)](_0x57e69d('actBar')[_0xec2f77(0x2d2)](_0xec2f77(0x232)),function(_0xcddb32){var _0xbbcf64=_0xec2f77;_0xcddb32[_0xbbcf64(0x2d4)][_0xbbcf64(0x25f)](_0xbbcf64(0x222),_0xbbcf64(0x2f0),'panic');});var _0xa84ddb=_0x57e69d(_0xec2f77(0x349));if(_0xa84ddb)_0xa84ddb[_0xec2f77(0x315)]='';}function _0x2ebe2a(){var _0x507480=_0x482022;clearInterval(_0x581af4),_0x581af4=0x0;var _0x1438b4=_0x57e69d(_0x507480(0x351));_0x1438b4['classList'][_0x507480(0x25f)](_0x507480(0x222),_0x507480(0x2f0));var _0x820be=_0x57e69d(_0x507480(0x228));if(_0x820be)_0x820be[_0x507480(0x315)]='';}var _0x548461=0x0,_0x576268=null;function _0x9fcff5(_0x5a6fa4,_0x8cb973,_0x4d2ad3,_0x2a9079){var _0x58af3f=_0x482022,_0x260844=_0x57e69d(_0x58af3f(0x2ca)),_0x3dbe0f=_0x57e69d(_0x58af3f(0x20a))[_0x58af3f(0x21a)](),_0x2a7127=_0x5a6fa4['getBoundingClientRect'](),_0x3f9094=0x8,_0x23c52c=_0x2a7127[_0x58af3f(0x39f)]-_0x3dbe0f[_0x58af3f(0x39f)]-_0x3f9094,_0x4c6176=_0x2a7127['top']-_0x3dbe0f[_0x58af3f(0x3a6)]-_0x3f9094,_0x26d6a2=_0x2a7127[_0x58af3f(0x248)]-_0x3dbe0f[_0x58af3f(0x39f)]+_0x3f9094,_0x5ee253=_0x2a7127[_0x58af3f(0x378)]-_0x3dbe0f['top']+_0x3f9094,_0x54949a=_0x3dbe0f[_0x58af3f(0x26c)],_0x37b978=_0x3dbe0f[_0x58af3f(0x253)],_0x3997b5=_0x260844[_0x58af3f(0x2d2)](_0x58af3f(0x21c));function _0x48d7e9(_0x427d83,_0x24f81a,_0x2f82c2,_0x38955a,_0x2d79ce){var _0x37b1ad=_0x58af3f;_0x427d83[_0x37b1ad(0x36c)][_0x37b1ad(0x39f)]=_0x24f81a+'px',_0x427d83[_0x37b1ad(0x36c)][_0x37b1ad(0x3a6)]=_0x2f82c2+'px',_0x427d83[_0x37b1ad(0x36c)][_0x37b1ad(0x26c)]=Math['max'](0x0,_0x38955a)+'px',_0x427d83[_0x37b1ad(0x36c)][_0x37b1ad(0x253)]=Math[_0x37b1ad(0x24b)](0x0,_0x2d79ce)+'px';}_0x48d7e9(_0x3997b5[0x0],0x0,0x0,_0x54949a,_0x4c6176),_0x48d7e9(_0x3997b5[0x1],0x0,_0x5ee253,_0x54949a,_0x37b978-_0x5ee253),_0x48d7e9(_0x3997b5[0x2],0x0,_0x4c6176,_0x23c52c,_0x5ee253-_0x4c6176),_0x48d7e9(_0x3997b5[0x3],_0x26d6a2,_0x4c6176,_0x54949a-_0x26d6a2,_0x5ee253-_0x4c6176),_0x48d7e9(_0x260844[_0x58af3f(0x22e)]('.ring'),_0x23c52c,_0x4c6176,_0x26d6a2-_0x23c52c,_0x5ee253-_0x4c6176);var _0x5e5a4b=_0x260844['querySelector']('.tip');_0x5e5a4b[_0x58af3f(0x1f6)]='',_0x5e5a4b[_0x58af3f(0x283)](document[_0x58af3f(0x20b)](_0x8cb973));if(_0x4d2ad3){var _0x5351c6=document[_0x58af3f(0x2b6)](_0x58af3f(0x225));_0x5351c6['textContent']=_0x4d2ad3,_0x5e5a4b['appendChild'](_0x5351c6);}_0x260844[_0x58af3f(0x315)]='on'+(_0x2a9079?_0x58af3f(0x335):'');var _0x146454=_0x5ee253+0xe,_0x892534=_0x4c6176-0xe-_0x5e5a4b[_0x58af3f(0x37a)];_0x5e5a4b[_0x58af3f(0x36c)][_0x58af3f(0x3a6)]=((_0x4c6176+_0x5ee253)/0x2>_0x37b978*0.5?_0x892534:_0x146454)+'px',_0x576268=_0x5a6fa4;}function _0x9ea9fd(){var _0x400c7c=_0x482022;_0x57e69d(_0x400c7c(0x2ca))[_0x400c7c(0x315)]='',_0x576268=null;}function _0x329ff0(){var _0x11a547=_0x482022;if(!_0x576268)return;if(_0x548461===0x1)_0x9fcff5(_0x57e69d(_0x11a547(0x389)),_0x1e0a90['t'](_0x11a547(0x38d)));else{if(_0x548461===0x2)_0x9fcff5(_0x57e69d(_0x11a547(0x351)),_0x1e0a90['t'](_0x11a547(0x249)));else{if(_0x548461===0x3)_0x9fcff5(_0x57e69d(_0x11a547(0x2e8)),_0x1e0a90['t'](_0x11a547(0x388)),_0x1e0a90['t'](_0x11a547(0x2cc)),!![]);}}}function _0x46fa63(){var _0x1ee8ed=_0x482022;if(_0x16e085[_0x1ee8ed(0x3c8)]>=0x1||_0x32f793!=='table')return;_0x16e085[_0x1ee8ed(0x3c8)]=0x1,_0x548461=0x1,_0x407e47(),setTimeout(_0x329ff0,0x15e),_0x576268=_0x57e69d('chipRow'),_0x329ff0();}function _0x2e13a3(){var _0x41dee1=_0x482022;_0x548461===0x1&&_0x343c8d>=_0x3cca5d[_0x41dee1(0x320)]&&(_0x548461=0x2,_0x16e085[_0x41dee1(0x3c8)]=0x2,_0x329ff0());}function _0x12559d(){var _0x390b69=_0x482022;_0x548461===0x2&&(_0x548461=0x0,_0x16e085[_0x390b69(0x3c8)]=0x3,_0x9ea9fd(),_0x407e47());}function _0x175ead(){var _0x4f7583=_0x482022;if(_0x16e085['tut']!==0x3)return;_0x16e085[_0x4f7583(0x3c8)]=0x4,_0x407e47(),setTimeout(function(){var _0x40cb9e=_0x4f7583;if(_0x32f793!==_0x40cb9e(0x264)||_0x32aca9!==_0x40cb9e(0x358)){_0x16e085[_0x40cb9e(0x3c8)]=0x3;return;}_0x548461=0x3,_0x576268=_0x57e69d('btnHelp'),_0x329ff0();},0x384);}function _0x155e81(){var _0x5a87bc=_0x482022;_0x548461===0x3&&(_0x548461=0x0,_0x16e085[_0x5a87bc(0x3c8)]=0x9,_0x407e47(),_0x9ea9fd());}var _0x11992a=![],_0x5c238f=[{'x':-14.5,'z':-0x3,'yaw':Math['PI']/0x4},{'x':14.5,'z':-0x3,'yaw':-Math['PI']/0x4}],_0x3ac57b=[null,null];function _0x40ed35(_0x49b9cf){var _0x2aa697=_0x482022,_0x233cab='seat'+_0x49b9cf,_0x33c548=_0x57e69d(_0x233cab);if(!_0x33c548){_0x33c548=document[_0x2aa697(0x2b6)](_0x2aa697(0x2f6)),_0x33c548['id']=_0x233cab,_0x33c548[_0x2aa697(0x315)]=_0x2aa697(0x2ef),_0x33c548[_0x2aa697(0x1f6)]=_0x2aa697(0x3a2),_0x57e69d(_0x2aa697(0x235))[_0x2aa697(0x283)](_0x33c548);var _0xd61ad3=document['createElement']('div');_0xd61ad3[_0x2aa697(0x315)]=_0x2aa697(0x262),_0xd61ad3['id']=_0x2aa697(0x31f)+_0x49b9cf,_0xd61ad3[_0x2aa697(0x1f6)]=_0x2aa697(0x3a9),_0x57e69d('marks')[_0x2aa697(0x283)](_0xd61ad3);}return _0x33c548;}function _0x15b89a(_0xc0e67d){var _0x5d0e63=_0x482022,_0x5bf7f4=_0x3ac57b[_0xc0e67d],_0x474985=_0x5c238f[_0xc0e67d],_0x399ede=_0x5bf7f4['cards'][_0x5d0e63(0x326)],_0x1cebde=Math[_0x5d0e63(0x320)](2.6,0x9/Math['max'](0x1,_0x399ede-0x1)),_0x1940ce=[],_0x47fc7a=Math['cos'](_0x474985[_0x5d0e63(0x313)]),_0xce2b8e=-Math[_0x5d0e63(0x2b5)](_0x474985[_0x5d0e63(0x313)]);for(var _0x29669b=0x0;_0x29669b<_0x399ede;_0x29669b++){var _0x2d5630=(_0x29669b-(_0x399ede-0x1)/0x2)*_0x1cebde;_0x1940ce[_0x5d0e63(0x298)]({'x':_0x474985['x']+_0x47fc7a*_0x2d5630,'y':0.04+_0x29669b*0.058,'z':_0x474985['z']+_0xce2b8e*_0x2d5630,'yaw':_0x474985[_0x5d0e63(0x313)]+_0x5bf7f4[_0x5d0e63(0x2c4)][_0x29669b][_0x5d0e63(0x296)],'faceUp':!![]});}return _0x1940ce;}function _0x404d7f(_0x246426){var _0x142052=_0x482022,_0x339aa3=_0x3ac57b[_0x246426],_0x482647=_0xec01a7[_0x142052(0x21b)](),_0x4da846=_0x2d7a60[_0x142052(0x35b)](_0x482647);_0x4da846['jit']=_0x252005[_0x142052(0x267)](-0.03,0.03),_0x339aa3[_0x142052(0x271)][_0x142052(0x298)](_0x482647),_0x339aa3[_0x142052(0x2c4)]['push'](_0x4da846),_0x23b61b++,_0x1f6653[_0x142052(0x280)](Math[_0x142052(0x24b)](0x0,_0x519173()-_0x23b61b)),_0x56f045();var _0x393941=_0x15b89a(_0x246426);for(var _0x5b2ccb=0x0;_0x5b2ccb<_0x339aa3[_0x142052(0x2c4)]['length']-0x1;_0x5b2ccb++)_0x2d7a60[_0x142052(0x332)](_0x339aa3[_0x142052(0x2c4)][_0x5b2ccb],_0x393941[_0x5b2ccb],0.2);return _0x2d7a60[_0x142052(0x3ab)](_0x4da846,_0x393941[_0x393941[_0x142052(0x326)]-0x1])[_0x142052(0x246)](function(){_0x48f455(_0x246426);});}function _0x48f455(_0x2a7075){var _0x4d1797=_0x482022,_0x2ca8a2=_0x3ac57b[_0x2a7075],_0x48614c=_0x40ed35(_0x2a7075);if(!_0x2ca8a2){_0x48614c[_0x4d1797(0x2d4)][_0x4d1797(0x2db)](_0x4d1797(0x304));return;}_0x48614c[_0x4d1797(0x2d4)]['remove'](_0x4d1797(0x304)),_0x48614c[_0x4d1797(0x22e)](_0x4d1797(0x21d))['src']=_0x2b9cfd[_0x4d1797(0x370)][_0x4d1797(0x3a7)](_0x2ca8a2[_0x4d1797(0x3a7)]),_0x48614c[_0x4d1797(0x22e)]('b')[_0x4d1797(0x37d)]=_0x2ca8a2['nick'],_0x48614c[_0x4d1797(0x22e)](_0x4d1797(0x2ec))[_0x4d1797(0x37d)]=_0x2ca8a2[_0x4d1797(0x358)]?'●\x20'+_0x252005[_0x4d1797(0x2b8)](_0x2ca8a2[_0x4d1797(0x358)]):'';var _0x3828ce=_0x2ca8a2[_0x4d1797(0x271)][_0x4d1797(0x326)]?_0x348df9['handValue'](_0x2ca8a2['hand']):null;_0x48614c['querySelector'](_0x4d1797(0x2d8))[_0x4d1797(0x37d)]=_0x3828ce?_0x3828ce[_0x4d1797(0x3b5)]&&_0x3828ce[_0x4d1797(0x291)]<0x15?_0x3828ce['total']-0xa+'/'+_0x3828ce[_0x4d1797(0x291)]:_0x3828ce[_0x4d1797(0x291)]:'',_0x48614c[_0x4d1797(0x22e)](_0x4d1797(0x230))[_0x4d1797(0x37d)]=_0x2ca8a2[_0x4d1797(0x2e4)]||'';}function _0x2034ec(){var _0x59590a=_0x482022;for(var _0x229eb6=0x0;_0x229eb6<0x2;_0x229eb6++){var _0x4cdef0=_0x57e69d(_0x59590a(0x34e)+_0x229eb6);if(_0x4cdef0)_0x215f8e(_0x4cdef0,_0x5c238f[_0x229eb6]['x'],0.5,_0x5c238f[_0x229eb6]['z']+9.2);var _0x2b650b=_0x57e69d(_0x59590a(0x31f)+_0x229eb6);if(_0x2b650b)_0x215f8e(_0x2b650b,_0x5c238f[_0x229eb6]['x'],0.5,_0x5c238f[_0x229eb6]['z']-8.2);}}function _0x3a7309(_0x576ed6,_0x52d9d7){var _0x2ee36e=_0x482022,_0x53f72f=_0x3ac57b[_0x2ee36e(0x3b2)](Boolean)['map'](function(_0x3ce504){var _0x4b5644=_0x2ee36e;return _0x3ce504[_0x4b5644(0x1fa)];})[_0x2ee36e(0x308)]([_0x16e085[_0x2ee36e(0x1fa)]]),_0x19970d=_0x2b9cfd['meta']['randomMate'](_0x53f72f);_0x3ac57b[_0x576ed6]={'nick':_0x19970d[_0x2ee36e(0x1fa)],'icon':_0x19970d[_0x2ee36e(0x3a7)],'bet':0x0,'hand':[],'cards':[],'status':''},_0x48f455(_0x576ed6),!_0x52d9d7&&(_0x26c260(_0x1e0a90['t'](_0x2ee36e(0x392),{'n':_0x19970d['nick']})),_0x8ea119[_0x2ee36e(0x30d)]());}function _0x42a151(_0x37aa08){var _0x47afa8=_0x3ac57b[_0x37aa08];if(!_0x47afa8)return;_0x3ac57b[_0x37aa08]=null,_0x48f455(_0x37aa08),_0x26c260(_0x1e0a90['t']('left',{'n':_0x47afa8['nick']}));}function _0x19e43c(){_0x3ac57b=[null,null];for(var _0x30937a=0x0;_0x30937a<0x2;_0x30937a++)_0x48f455(_0x30937a);}function _0x49fcee(){var _0x1abc3a=_0x482022;_0x19e43c();var _0x817897=Math['random']()<0.55?0x2:0x1,_0x5b1627=Math['random']()<0.5?0x0:0x1;_0x3a7309(_0x5b1627,!![]);if(_0x817897===0x2)_0x3a7309(0x1-_0x5b1627,!![]);_0x1f6653[_0x1abc3a(0x282)](_0x1f6653[_0x1abc3a(0x29b)]['multi'],0.8),_0xe31c4(_0x1e0a90['t'](_0x1abc3a(0x1f4)));var _0x39b5e5=[];return _0x3ac57b[_0x1abc3a(0x344)](function(_0x3083f6,_0x479cc9){var _0x27e269=_0x1abc3a;if(!_0x3083f6)return;_0x3083f6[_0x27e269(0x358)]=_0x5b6fd7(_0x3083f6),_0x3083f6[_0x27e269(0x2e4)]='',_0x39b5e5['push'](_0x1c8733[_0x27e269(0x385)](_0x479cc9*0.3)[_0x27e269(0x246)](function(){return _0x404d7f(_0x479cc9);})[_0x27e269(0x246)](function(){return _0x404d7f(_0x479cc9);}));}),Promise[_0x1abc3a(0x397)](_0x39b5e5)[_0x1abc3a(0x246)](function(){return _0x13276f(_0x46f6ba());})[_0x1abc3a(0x246)](function(){var _0x594d15=_0x1abc3a;return _0x1c8733[_0x594d15(0x385)](1.2);})[_0x1abc3a(0x246)](function(){var _0xa71d78=_0x1abc3a,_0x23d3ba=[];return _0x3ac57b[_0xa71d78(0x344)](function(_0x1305d7,_0x279016){var _0x377e1d=_0xa71d78;_0x1305d7&&(_0x23d3ba=_0x23d3ba[_0x377e1d(0x308)](_0x1305d7[_0x377e1d(0x2c4)]),_0x1305d7[_0x377e1d(0x2c4)]=[],_0x1305d7[_0x377e1d(0x271)]=[],_0x1305d7[_0x377e1d(0x358)]=0x0,_0x48f455(_0x279016));}),_0x311e70(),_0x2d7a60[_0xa71d78(0x382)](_0x23d3ba);});}function _0x5b6fd7(_0x454656){var _0x58dc76=_0x482022;if(!_0x454656[_0x58dc76(0x36c)])_0x454656['style']=['careful','steady','bold',_0x58dc76(0x21f)][Math['random']()*0x4|0x0];var _0x2cb262=Math[_0x58dc76(0x28b)](),_0x506b99;if(_0x454656[_0x58dc76(0x36c)]==='careful')_0x506b99=[0x1,0x1,0x2,0x3][_0x2cb262*0x4|0x0];else{if(_0x454656[_0x58dc76(0x36c)]==='steady')_0x506b99=[0x2,0x3,0x5,0x5,0xa][_0x2cb262*0x5|0x0];else{if(_0x454656[_0x58dc76(0x36c)]===_0x58dc76(0x279))_0x506b99=[0x5,0xa,0xf,0x14,0x19][_0x2cb262*0x5|0x0];else _0x506b99=_0x2cb262<0.2?_0x3cca5d[_0x58dc76(0x24b)]/_0x3cca5d[_0x58dc76(0x320)]:[0x3,0x7,0xc,0x1e][Math[_0x58dc76(0x28b)]()*0x4|0x0];}}return Math[_0x58dc76(0x24b)](_0x3cca5d[_0x58dc76(0x320)],Math[_0x58dc76(0x320)](_0x3cca5d['max'],_0x3cca5d[_0x58dc76(0x320)]*_0x506b99));}function _0x46f6ba(){return[{'rank':['7','8','9','10','K'][Math['random']()*0x5|0x0],'suit':'S'}];}function _0x2cb30b(){var _0x5ca17c=_0x482022;_0x3ac57b[_0x5ca17c(0x344)](function(_0x1415dc,_0x8b98ff){var _0xabf44b=_0x5ca17c;if(!_0x1415dc)return;_0x1415dc[_0xabf44b(0x358)]=_0x5b6fd7(_0x1415dc),_0x1415dc[_0xabf44b(0x271)]=[],_0x1415dc[_0xabf44b(0x2c4)]=[],_0x1415dc[_0xabf44b(0x2e4)]='',_0x57e69d(_0xabf44b(0x31f)+_0x8b98ff)[_0xabf44b(0x22e)](_0xabf44b(0x2df))['className']=_0xabf44b(0x2d6),_0x48f455(_0x8b98ff);});}function _0x2394d4(){var _0x5e5c13=_0x482022,_0x16b3b6=Promise[_0x5e5c13(0x3c6)]();return[0x0,0x1][_0x5e5c13(0x344)](function(_0x89d72f){var _0xc8a3b8=_0x5e5c13;_0x3ac57b[_0xc8a3b8(0x344)](function(_0x5f5819,_0x266455){var _0x1773ba=_0xc8a3b8;if(_0x5f5819)_0x16b3b6=_0x16b3b6[_0x1773ba(0x246)](function(){return _0x404d7f(_0x266455);});});}),_0x16b3b6;}function _0x13276f(_0x5c47b0){var _0x31b60b=_0x482022,_0x4e9d1f=Promise[_0x31b60b(0x3c6)]();return _0x3ac57b[_0x31b60b(0x344)](function(_0x5ed9fc,_0x2b56e8){if(!_0x5ed9fc)return;_0x4e9d1f=_0x4e9d1f['then'](function _0x1ca0fb(){var _0x5085ba=q3_0x5d0f,_0x1faba1=_0x348df9[_0x5085ba(0x24a)](_0x5ed9fc['hand']);if(_0x1faba1['total']>=0x15){_0x5ed9fc[_0x5085ba(0x2e4)]=_0x1faba1[_0x5085ba(0x291)]>0x15?_0x5085ba(0x270):'',_0x48f455(_0x2b56e8);return;}var _0x2e5c1a=_0x348df9['advise']({'hands':[{'cards':_0x5ed9fc['hand']}],'active':0x0,'dealer':_0x5c47b0},{'double':_0x5ed9fc[_0x5085ba(0x271)]['length']===0x2,'split':![]});if(_0x2e5c1a===_0x5085ba(0x384)&&_0x5ed9fc[_0x5085ba(0x36c)]!==_0x5085ba(0x242))return _0x5ed9fc[_0x5085ba(0x358)]=Math[_0x5085ba(0x320)](_0x5ed9fc[_0x5085ba(0x358)]*0x2,_0x3cca5d[_0x5085ba(0x24b)]*0x2),_0x5ed9fc[_0x5085ba(0x2e4)]='DOUBLE',_0x48f455(_0x2b56e8),_0x1c8733[_0x5085ba(0x385)](0.35)[_0x5085ba(0x246)](function(){return _0x404d7f(_0x2b56e8);})[_0x5085ba(0x246)](function(){var _0xb2c72f=_0x5085ba;if(_0x348df9[_0xb2c72f(0x24a)](_0x5ed9fc[_0xb2c72f(0x271)])['total']>0x15)_0x5ed9fc[_0xb2c72f(0x2e4)]=_0xb2c72f(0x270);_0x48f455(_0x2b56e8);});if(_0x2e5c1a!==_0x5085ba(0x261))return _0x5ed9fc[_0x5085ba(0x2e4)]='STAND',_0x48f455(_0x2b56e8),_0x1c8733[_0x5085ba(0x385)](0.25);return _0x1c8733['wait'](0.35)['then'](function(){return _0x404d7f(_0x2b56e8);})[_0x5085ba(0x246)](_0x1ca0fb);});}),_0x4e9d1f;}function _0x3b1c22(){var _0x38e988=_0x482022,_0x3f3a7c=_0x348df9[_0x38e988(0x24a)](_0x4f3337[_0x38e988(0x27c)])['total'],_0x41bb40=_0x5a5d4c();_0x3ac57b['forEach'](function(_0x27f2db,_0xc8725b){var _0x3d368b=_0x38e988;if(!_0x27f2db||!_0x27f2db[_0x3d368b(0x271)]['length'])return;var _0x55dd14=_0x348df9['handValue'](_0x27f2db[_0x3d368b(0x271)])[_0x3d368b(0x291)],_0x224f2a=_0x27f2db['hand']['length']===0x2&&_0x55dd14===0x15,_0x43771a,_0xf6f86;if(_0x55dd14>0x15)_0x43771a='lose',_0xf6f86=-_0x27f2db[_0x3d368b(0x358)];else{if(_0x224f2a&&!_0x41bb40)_0x43771a=_0x3d368b(0x3b9),_0xf6f86=_0x27f2db[_0x3d368b(0x358)]*1.5;else{if(_0x41bb40)_0x43771a=_0x224f2a?_0x3d368b(0x298):_0x3d368b(0x35e),_0xf6f86=_0x224f2a?0x0:-_0x27f2db['bet'];else{if(_0x3f3a7c>0x15||_0x55dd14>_0x3f3a7c)_0x43771a=_0x3d368b(0x3b9),_0xf6f86=_0x27f2db[_0x3d368b(0x358)];else _0x55dd14===_0x3f3a7c?(_0x43771a=_0x3d368b(0x298),_0xf6f86=0x0):(_0x43771a=_0x3d368b(0x35e),_0xf6f86=-_0x27f2db[_0x3d368b(0x358)]);}}}var _0x26e1f6=_0x57e69d('seatRes'+_0xc8725b)[_0x3d368b(0x22e)]('.res');_0x26e1f6[_0x3d368b(0x37d)]=_0x43771a==='win'?(_0x224f2a?_0x3d368b(0x217):'WIN\x20')+'+'+_0x252005[_0x3d368b(0x2b8)](_0xf6f86):_0x43771a===_0x3d368b(0x298)?'PUSH':_0x3d368b(0x22b),_0x26e1f6[_0x3d368b(0x315)]=_0x3d368b(0x2ff)+_0x43771a;});}function _0x5a5d4c(){var _0x5f4e4d=_0x482022;return _0x4f3337['dealer'][_0x5f4e4d(0x326)]===0x2&&_0x348df9[_0x5f4e4d(0x24a)](_0x4f3337[_0x5f4e4d(0x27c)])['total']===0x15;}function _0x4ee960(){var _0x1130b3=_0x482022,_0x2c00ee=[];return _0x3ac57b[_0x1130b3(0x344)](function(_0x66f015){var _0x2add27=_0x1130b3;_0x66f015&&(_0x2c00ee=_0x2c00ee['concat'](_0x66f015[_0x2add27(0x2c4)]),_0x66f015[_0x2add27(0x2c4)]=[]);}),_0x2c00ee;}function _0x18a73e(){var _0x42aaba=_0x482022;if(!_0x11992a)return;var _0xde73e7=[0x0,0x1]['filter'](function(_0x24d7c1){return!_0x3ac57b[_0x24d7c1];}),_0x5912d2=[0x0,0x1][_0x42aaba(0x3b2)](function(_0x42f160){return _0x3ac57b[_0x42f160];});if(_0xde73e7[_0x42aaba(0x326)]&&Math[_0x42aaba(0x28b)]()<0.28)_0x3a7309(_0xde73e7[Math[_0x42aaba(0x28b)]()*_0xde73e7[_0x42aaba(0x326)]|0x0]);else{if(_0x5912d2[_0x42aaba(0x326)]===0x2&&Math[_0x42aaba(0x28b)]()<0.12)_0x42a151(_0x5912d2[Math[_0x42aaba(0x28b)]()*0x2|0x0]);}_0x3ac57b[_0x42aaba(0x344)](function(_0x5a54fb,_0xf2bd91){var _0xfc0984=_0x42aaba;_0x5a54fb&&(_0x5a54fb[_0xfc0984(0x271)]=[],_0x5a54fb[_0xfc0984(0x358)]=0x0,_0x5a54fb['status']='',_0x57e69d(_0xfc0984(0x31f)+_0xf2bd91)['querySelector'](_0xfc0984(0x2df))[_0xfc0984(0x315)]=_0xfc0984(0x2d6),_0x48f455(_0xf2bd91));});}var _0x11808c={'tDealer':_0x57e69d(_0x482022(0x2b2)),'t':[_0x57e69d(_0x482022(0x2a5)),_0x57e69d(_0x482022(0x359))],'b':[_0x57e69d('bHand0'),_0x57e69d(_0x482022(0x33f))],'r':[_0x57e69d(_0x482022(0x3af)),_0x57e69d(_0x482022(0x212))]};function _0x215f8e(_0x62bb2f,_0x592429,_0x24b04a,_0x136ae9){var _0x445030=_0x482022,_0x263f11=_0x1f6653[_0x445030(0x216)](_0x592429,_0x24b04a,_0x136ae9);_0x62bb2f[_0x445030(0x36c)]['transform']=_0x445030(0x2f3)+_0x263f11['x'][_0x445030(0x241)](0x1)+_0x445030(0x23c)+_0x263f11['y'][_0x445030(0x241)](0x1)+_0x445030(0x234);}function _0x4fa4a6(){var _0x549e2d=_0x482022;_0x215f8e(_0x11808c[_0x549e2d(0x2b2)],_0x24d61c['x'],0.3,_0x24d61c['z']+_0x2d7a60['H']/0x2+0.2);var _0x8a2fe3=_0x1f6653[_0x549e2d(0x285)];_0x215f8e(_0x57e69d('shoeTag'),_0x8a2fe3[_0x549e2d(0x2fd)]['x'],_0x8a2fe3[_0x549e2d(0x2fd)]['y'],_0x8a2fe3[_0x549e2d(0x2fd)]['z']),_0x2034ec();for(var _0x51cdf5=0x0;_0x51cdf5<0x2;_0x51cdf5++){var _0x4e44f8=_0x5e0c3d(_0x51cdf5),_0x20bdf4=_0x129bc0?_0x51cdf5?_0x358d8f:-_0x358d8f:_0x5f2a69['x'];_0x215f8e(_0x11808c['t'][_0x51cdf5],_0x4e44f8['x'],0.5,_0x4e44f8['z']-_0x2d7a60['H']/0x2-0.4),_0x215f8e(_0x11808c['r'][_0x51cdf5],_0x4e44f8['x'],0.6,_0x4e44f8['z']-_0x2d7a60['H']/0x2-4.5),_0x215f8e(_0x11808c['b'][_0x51cdf5],_0x20bdf4,0.3,_0x5f2a69['z']-5.9);}}function _0x1c4f90(_0x234a38,_0x1ea402){var _0x5cf63c=_0x482022,_0x1bc125=_0x348df9[_0x5cf63c(0x24a)](_0x234a38);if(_0x1bc125[_0x5cf63c(0x3b5)]&&_0x1bc125['total']<0x15&&!_0x1ea402)return _0x1bc125[_0x5cf63c(0x291)]-0xa+'/'+_0x1bc125[_0x5cf63c(0x291)];return''+_0x1bc125[_0x5cf63c(0x291)];}function _0x4c8ab3(_0xe0ee99){var _0x294455=_0x482022;return _0xe0ee99[_0x294455(0x3b2)](function(_0x44f217){var _0x5e9aa9=_0x294455;return _0x44f217[_0x5e9aa9(0x2c7)];})[_0x294455(0x367)](function(_0x207a84){var _0x4251ed=_0x294455;return _0x207a84[_0x4251ed(0x22d)];});}function _0x4d9171(){var _0x35e623=_0x482022,_0x1ac684=_0x4c8ab3(_0x2ff539[_0x35e623(0x27c)]),_0x5d9996=_0x11808c[_0x35e623(0x2b2)];_0x5d9996[_0x35e623(0x315)]='total'+(_0x1ac684[_0x35e623(0x326)]?_0x35e623(0x31b):'');if(_0x1ac684[_0x35e623(0x326)]){var _0xe3059c=_0x348df9[_0x35e623(0x24a)](_0x1ac684),_0x12b44d=_0x1ac684[_0x35e623(0x326)]===_0x2ff539[_0x35e623(0x27c)][_0x35e623(0x326)];_0x5d9996[_0x35e623(0x37d)]=_0x1c4f90(_0x1ac684,_0x12b44d);if(_0x12b44d&&_0xe3059c[_0x35e623(0x291)]>0x15)_0x5d9996[_0x35e623(0x315)]+=_0x35e623(0x355),_0x5d9996[_0x35e623(0x1f6)]=_0x35e623(0x2e6)+_0xe3059c[_0x35e623(0x291)];else{if(_0x12b44d&&_0x1ac684[_0x35e623(0x326)]===0x2&&_0xe3059c[_0x35e623(0x291)]===0x15)_0x5d9996[_0x35e623(0x315)]+='\x20bj';}}for(var _0xe0c83a=0x0;_0xe0c83a<0x2;_0xe0c83a++){var _0x267dab=_0x4c8ab3(_0x2ff539['hands'][_0xe0c83a]),_0x3ae8c7=_0x11808c['t'][_0xe0c83a],_0x3314a1=_0x4f3337&&_0x4f3337['hands'][_0xe0c83a];_0x3ae8c7['className']=_0x35e623(0x291)+(_0x267dab[_0x35e623(0x326)]?'\x20on':'');if(!_0x267dab[_0x35e623(0x326)])continue;var _0x53a494=_0x348df9[_0x35e623(0x24a)](_0x267dab),_0xa1eb8e=_0x3314a1&&_0x3314a1[_0x35e623(0x247)];_0x3ae8c7[_0x35e623(0x37d)]=_0x1c4f90(_0x267dab,_0xa1eb8e);if(_0x53a494[_0x35e623(0x291)]>0x15)_0x3ae8c7['className']+=_0x35e623(0x355),_0x3ae8c7[_0x35e623(0x1f6)]=_0x35e623(0x2e6)+_0x53a494[_0x35e623(0x291)];else{if(_0x3314a1&&_0x348df9[_0x35e623(0x30b)](_0x3314a1)&&_0x267dab['length']===0x2)_0x3ae8c7[_0x35e623(0x315)]+=_0x35e623(0x38c);else{if(_0x53a494['total']===0x15)_0x3ae8c7['className']+='\x20best';}}if(_0x32aca9==='player'&&_0x4f3337&&_0x4f3337['active']===_0xe0c83a&&_0x129bc0)_0x3ae8c7[_0x35e623(0x315)]+='\x20live';}}function _0x469cf8(){var _0x590c66=_0x482022;for(var _0x4d93e4=0x0;_0x4d93e4<0x2;_0x4d93e4++){var _0x427633=_0x4f3337?_0x4f3337['hands'][_0x4d93e4]&&!_0x16430b[_0x4d93e4]?_0x4f3337['hands'][_0x4d93e4][_0x590c66(0x358)]:0x0:_0x4d93e4===0x0?_0x343c8d:0x0;_0x11808c['b'][_0x4d93e4][_0x590c66(0x315)]='bettag'+(_0x427633>0x0?'\x20on':''),_0x11808c['b'][_0x4d93e4][_0x590c66(0x37d)]=_0x252005[_0x590c66(0x2b8)](_0x427633);}}function _0x211565(_0x5193c6,_0x1d453d,_0x1a6adf,_0x5cc5b2,_0x38ea61){var _0x15d56a=_0x482022,_0x1bcca5=_0x57e69d('fx'),_0x396f8e=_0x57e69d(_0x15d56a(0x20a))['getBoundingClientRect'](),_0x16a23c=document[_0x15d56a(0x22e)]('.balance'),_0x5c0015=document['querySelector'](_0x15d56a(0x2a7))[_0x15d56a(0x21a)](),_0x9146a9=_0x5c0015[_0x15d56a(0x39f)]+_0x5c0015[_0x15d56a(0x26c)]/0x2-_0x396f8e[_0x15d56a(0x39f)],_0x10912a=_0x5c0015[_0x15d56a(0x3a6)]+_0x5c0015['height']/0x2-_0x396f8e[_0x15d56a(0x3a6)],_0xfa2142=_0x1f6653[_0x15d56a(0x216)](_0x5193c6,0.5,_0x1d453d),_0x181f75=_0x396f8e['width']/0x64,_0x2f573a=Math['round'](_0x252005['clamp'](0x6+3.2*Math[_0x15d56a(0x377)](Math['max'](0x1,_0x1a6adf/_0x3cca5d[_0x15d56a(0x320)]))/Math[_0x15d56a(0x314)],0x6,0x1e)*(_0x5cc5b2?1.35:0x1)),_0x56503c=(_0x5cc5b2?0x1a:0x12)+Math['min'](0xa,_0x2f573a*0.4);_0x8ea119[_0x15d56a(0x2b0)]();var _0x40d865=[];for(var _0x51dfdd=0x0;_0x51dfdd<_0x2f573a;_0x51dfdd++)(function(_0x1437df){var _0x198bb1=_0x15d56a,_0x147db8=document[_0x198bb1(0x2b6)]('i');_0x147db8['className']=_0x198bb1(0x2cd),_0x147db8[_0x198bb1(0x36c)][_0x198bb1(0x316)]='0',_0x1bcca5[_0x198bb1(0x283)](_0x147db8);var _0x1d3ac0=_0x252005['rand'](-Math['PI'],0x0),_0x505ceb=_0x252005['rand'](0.35,0x1)*_0x56503c*_0x181f75,_0xebaab9=_0xfa2142['x']+Math[_0x198bb1(0x3c0)](_0x1d3ac0)*_0x505ceb*1.25,_0x38e69f=_0xfa2142['y']+Math[_0x198bb1(0x2b5)](_0x1d3ac0)*_0x505ceb-_0x252005[_0x198bb1(0x267)](0x2,0x8)*_0x181f75,_0x3156d6=_0x252005[_0x198bb1(0x267)](-0x21c,0x21c),_0xa4af66=(_0xebaab9+_0x9146a9)/0x2+_0x252005['rand'](-0xe,0xe)*_0x181f75,_0x4123f3=Math[_0x198bb1(0x320)](_0x38e69f,_0x10912a)-_0x252005[_0x198bb1(0x267)](0x4,0x12)*_0x181f75;function _0x2ffbe4(_0x12715,_0xaf14a4,_0x20ffb7,_0xf3b4c7){var _0x2634c3=_0x198bb1;_0x147db8[_0x2634c3(0x36c)][_0x2634c3(0x365)]=_0x2634c3(0x2f3)+_0x12715['toFixed'](0x1)+_0x2634c3(0x23c)+_0xaf14a4['toFixed'](0x1)+'px)\x20scale('+_0x20ffb7[_0x2634c3(0x241)](0x3)+')\x20rotate('+_0xf3b4c7[_0x2634c3(0x241)](0x0)+_0x2634c3(0x38a);}_0x40d865[_0x198bb1(0x298)](_0x1c8733[_0x198bb1(0x385)](_0x1437df*(_0x5cc5b2?0.016:0.02))[_0x198bb1(0x246)](function(){var _0xf4cdfa=_0x198bb1;return _0x147db8[_0xf4cdfa(0x36c)]['opacity']='1',_0x1c8733[_0xf4cdfa(0x318)](0.2,function(_0x20aa42){var _0x1d3972=_0xf4cdfa;_0x2ffbe4(_0x252005[_0x1d3972(0x361)](_0xfa2142['x'],_0xebaab9,_0x20aa42),_0x252005['lerp'](_0xfa2142['y'],_0x38e69f,_0x20aa42),0.5+0.6*_0x20aa42,_0x3156d6*_0x20aa42*0.3);},_0x252005[_0xf4cdfa(0x27d)]);})['then'](function(){var _0x6ee282=_0x198bb1;return _0x1c8733[_0x6ee282(0x385)](0.06+Math[_0x6ee282(0x28b)]()*0.06);})[_0x198bb1(0x246)](function(){var _0x61decb=_0x198bb1;return _0x1c8733[_0x61decb(0x318)](0.34,function(_0x23c1b1){var _0x5a5d44=_0x61decb,_0x7f2813=(0x1-_0x23c1b1)*(0x1-_0x23c1b1)*_0xebaab9+0x2*(0x1-_0x23c1b1)*_0x23c1b1*_0xa4af66+_0x23c1b1*_0x23c1b1*_0x9146a9,_0x3bcdab=(0x1-_0x23c1b1)*(0x1-_0x23c1b1)*_0x38e69f+0x2*(0x1-_0x23c1b1)*_0x23c1b1*_0x4123f3+_0x23c1b1*_0x23c1b1*_0x10912a;_0x2ffbe4(_0x7f2813,_0x3bcdab,_0x252005[_0x5a5d44(0x361)](1.1,0.45,_0x23c1b1),_0x3156d6*(0.3+_0x23c1b1));},_0x252005[_0x61decb(0x3ac)]);})['then'](function(){var _0xbbb02d=_0x198bb1;_0x1bcca5[_0xbbb02d(0x2ed)](_0x147db8),_0x8ea119[_0xbbb02d(0x29f)](_0x1437df);if(_0x38ea61)_0x38ea61(_0x1437df,_0x2f573a);_0x16a23c['classList'][_0xbbb02d(0x25f)](_0xbbb02d(0x261)),void _0x16a23c[_0xbbb02d(0x306)],_0x16a23c[_0xbbb02d(0x2d4)][_0xbbb02d(0x2db)](_0xbbb02d(0x261));if(_0x1437df%0x3===0x0)_0x337dce(_0x9146a9,_0x10912a,_0x181f75);}));}(_0x51dfdd));return Promise['all'](_0x40d865)[_0x15d56a(0x246)](function(){var _0x4c53da=_0x15d56a;_0x16a23c['classList']['remove'](_0x4c53da(0x261),_0x4c53da(0x3b4)),void _0x16a23c['offsetWidth'],_0x16a23c['classList']['add'](_0x4c53da(0x3b4));for(var _0x1b93ca=0x0;_0x1b93ca<(_0x5cc5b2?0xe:0x9);_0x1b93ca++)_0x337dce(_0x9146a9,_0x10912a,_0x181f75,!![]);setTimeout(function(){var _0x1f83ac=_0x4c53da;_0x16a23c[_0x1f83ac(0x2d4)][_0x1f83ac(0x25f)](_0x1f83ac(0x3b4));},0x2bc);});}function _0x337dce(_0x4c0010,_0x16bc2c,_0x1eec9d,_0x384564){var _0x11fcbf=_0x482022,_0x1073a8=document['createElement']('i');_0x1073a8[_0x11fcbf(0x315)]=_0x11fcbf(0x3a3),_0x57e69d('fx')[_0x11fcbf(0x283)](_0x1073a8);var _0x4c871a=_0x252005[_0x11fcbf(0x267)](0x0,Math['PI']*0x2),_0x85ece9=_0x252005[_0x11fcbf(0x267)](0x3,_0x384564?0xd:0x7)*_0x1eec9d;_0x1c8733[_0x11fcbf(0x318)](_0x384564?0.45:0.3,function(_0xa94a55){var _0x1fa202=_0x11fcbf;_0x1073a8[_0x1fa202(0x36c)][_0x1fa202(0x365)]='translate('+(_0x4c0010+Math['cos'](_0x4c871a)*_0x85ece9*_0xa94a55)[_0x1fa202(0x241)](0x1)+_0x1fa202(0x23c)+(_0x16bc2c+Math[_0x1fa202(0x2b5)](_0x4c871a)*_0x85ece9*_0xa94a55)[_0x1fa202(0x241)](0x1)+_0x1fa202(0x277)+(1.4-_0xa94a55)[_0x1fa202(0x241)](0x2)+')',_0x1073a8['style']['opacity']=(0x1-_0xa94a55)[_0x1fa202(0x241)](0x2);},_0x252005[_0x11fcbf(0x288)])[_0x11fcbf(0x246)](function(){_0x1073a8['remove']();});}var _0x5b8d4c={'win':'WIN','lose':_0x482022(0x22b),'push':_0x482022(0x3aa),'bj':_0x482022(0x1f3),'bust':_0x482022(0x270)};function _0x2506d6(_0x467289,_0x89a4ac,_0x4dcf5d){var _0x17ef65=_0x482022,_0x4e341c=_0x11808c['r'][_0x467289];_0x4e341c[_0x17ef65(0x315)]=_0x17ef65(0x3b6),void _0x4e341c[_0x17ef65(0x306)],_0x4e341c[_0x17ef65(0x315)]=_0x17ef65(0x327)+_0x89a4ac+(_0x129bc0?'\x20two':''),_0x4e341c[_0x17ef65(0x1f6)]=_0x17ef65(0x2ba),_0x4e341c[_0x17ef65(0x303)][_0x17ef65(0x37d)]=_0x5b8d4c[_0x89a4ac];var _0x4cd816=_0x11808c['b'][_0x467289];_0x4cd816[_0x17ef65(0x315)]=_0x17ef65(0x294)+(_0x4dcf5d>0x0?_0x17ef65(0x331):_0x4dcf5d<0x0?'loss':'even'),_0x4cd816[_0x17ef65(0x37d)]=_0x4dcf5d>0x0?'+'+_0x252005[_0x17ef65(0x2b8)](_0x4dcf5d):_0x4dcf5d<0x0?'−'+_0x252005[_0x17ef65(0x2b8)](-_0x4dcf5d):'±0';}function _0x5ca5b6(){var _0x2cce2b=_0x482022,_0x37e7d2=!![],_0x4ae046=!![];_0x4f3337[_0x2cce2b(0x3ad)][_0x2cce2b(0x344)](function(_0x1cc6c7,_0x963ccb){var _0x15732f=_0x2cce2b,_0x339e51=_0x1cc6c7[_0x15732f(0x3b6)]===_0x15732f(0x3b9)||_0x1cc6c7[_0x15732f(0x3b6)]==='blackjack',_0x5750ab=_0x1cc6c7['result']==='lose';if(!_0x5750ab)_0x37e7d2=![];if(!_0x339e51)_0x4ae046=![];if(_0x339e51)_0x11808c['t'][_0x963ccb][_0x15732f(0x2d4)][_0x15732f(0x2db)](_0x15732f(0x345));else{if(_0x5750ab)_0x11808c['t'][_0x963ccb][_0x15732f(0x2d4)][_0x15732f(0x2db)](_0x15732f(0x396));}_0x11808c['t'][_0x963ccb][_0x15732f(0x2d4)][_0x15732f(0x25f)](_0x15732f(0x21e));});if(_0x37e7d2)_0x11808c[_0x2cce2b(0x2b2)][_0x2cce2b(0x2d4)][_0x2cce2b(0x2db)]('won');else{if(_0x4ae046)_0x11808c['tDealer'][_0x2cce2b(0x2d4)][_0x2cce2b(0x2db)]('lost');}}function _0x15c3af(_0x2bfc9e){var _0x3f7d81=_0x482022;if(!_0x2bfc9e)return;var _0x13266b=_0x57e69d(_0x3f7d81(0x219));_0x13266b['className']='',void _0x13266b[_0x3f7d81(0x306)],_0x13266b[_0x3f7d81(0x37d)]=(_0x2bfc9e>0x0?'+':'−')+_0x252005['money'](Math[_0x3f7d81(0x25c)](_0x2bfc9e)),_0x13266b[_0x3f7d81(0x315)]=_0x3f7d81(0x28f)+(_0x2bfc9e>0x0?'up':_0x3f7d81(0x383));}function _0x5070e1(){var _0x11b1a8=_0x482022;for(var _0x284493=0x0;_0x284493<0x2;_0x284493++){_0x11808c['r'][_0x284493][_0x11b1a8(0x315)]=_0x11b1a8(0x3b6),_0x11808c['t'][_0x284493][_0x11b1a8(0x315)]=_0x11b1a8(0x291),_0x11808c['b'][_0x284493][_0x11b1a8(0x315)]='bettag';}_0x11808c[_0x11b1a8(0x2b2)][_0x11b1a8(0x315)]=_0x11b1a8(0x291);}var _0x3d47bf=0x0;function _0x26c260(_0x55a5db){var _0x1aee89=_0x482022,_0xd65c61=_0x57e69d(_0x1aee89(0x34d));_0xd65c61['textContent']=_0x55a5db,_0xd65c61['className']='',void _0xd65c61[_0x1aee89(0x306)],_0xd65c61['className']='in',clearTimeout(_0x3d47bf),_0x3d47bf=setTimeout(function(){var _0x177fae=_0x1aee89;_0xd65c61[_0x177fae(0x315)]='out';},0x514);}function _0xe31c4(_0x1e8f82){var _0x1dde11=_0x482022,_0x1ece33=_0x57e69d(_0x1dde11(0x34d));_0x1ece33[_0x1dde11(0x37d)]=_0x1e8f82,clearTimeout(_0x3d47bf),_0x1ece33['className']='',void _0x1ece33[_0x1dde11(0x306)],_0x1ece33['className']='in';}function _0x311e70(){var _0x5531bd=_0x482022,_0x4080a1=_0x57e69d(_0x5531bd(0x34d));clearTimeout(_0x3d47bf),_0x3d47bf=setTimeout(function(){var _0x519200=_0x5531bd;_0x4080a1[_0x519200(0x315)]=_0x519200(0x24f);},0xfa);}function _0x534196(_0x45a8c4){var _0x105fee=_0x482022;_0x32f793=_0x45a8c4,_0x57e69d(_0x105fee(0x20a))['className']=_0x105fee(0x2c9)+_0x45a8c4;}function _0x2b90de(_0x438942){var _0x20a896=_0x482022;_0x32aca9=_0x438942;if(_0x438942===_0x20a896(0x358)&&_0x11992a&&_0x32f793===_0x20a896(0x264)&&!_0x548461)_0x303e29();else{if(_0x438942!==_0x20a896(0x358))_0x2ebe2a();}if(_0x438942==='player'&&_0x11992a)_0x3b056f();else{if(_0x438942!==_0x20a896(0x33e))_0x305ec1();}_0x57e69d('betBar')[_0x20a896(0x315)]=_0x20a896(0x2f7)+(_0x438942==='bet'?'\x20on':''),_0x57e69d(_0x20a896(0x2c3))[_0x20a896(0x315)]=_0x20a896(0x2f7)+(_0x438942===_0x20a896(0x33e)||_0x438942===_0x20a896(0x32d)?_0x20a896(0x31b):''),_0x27cae4();}function _0x27cae4(){var _0x567039=_0x482022,_0x28cd5e,_0x2f101d=_0x57e69d(_0x567039(0x389))[_0x567039(0x240)];if(_0x32aca9===_0x567039(0x358)){for(_0x28cd5e=0x0;_0x28cd5e<_0x2f101d[_0x567039(0x326)];_0x28cd5e++){var _0xcdb932=+_0x2f101d[_0x28cd5e][_0x567039(0x3bf)](_0x567039(0x207));_0x2f101d[_0x28cd5e][_0x567039(0x315)]=_0x567039(0x2c1)+(_0x16e085[_0x567039(0x2d9)]<_0xcdb932||_0x343c8d+_0xcdb932>_0x3cca5d[_0x567039(0x24b)]?_0x567039(0x3b8):'');}_0x57e69d('btnDeal')[_0x567039(0x343)]=_0x343c8d<_0x3cca5d[_0x567039(0x320)],_0x57e69d(_0x567039(0x375))[_0x567039(0x343)]=_0x343c8d===0x0,_0x57e69d('btnRebet')['disabled']=_0x343c8d>0x0||!_0x2520d9[_0x567039(0x326)];}var _0x131be4=_0x32aca9==='player'&&_0x4f3337?_0x348df9[_0x567039(0x347)](_0x4f3337,_0x16e085[_0x567039(0x2d9)]):{'hit':![],'stand':![],'double':![],'split':![]},_0x4b208d=_0x57e69d(_0x567039(0x2c3))[_0x567039(0x240)];for(_0x28cd5e=0x0;_0x28cd5e<_0x4b208d['length'];_0x28cd5e++)_0x4b208d[_0x28cd5e]['disabled']=!_0x131be4[_0x4b208d[_0x28cd5e][_0x567039(0x3bf)](_0x567039(0x2fa))];}function _0xbead6e(){var _0x7b776d=_0x482022,_0x50f794=_0x57e69d(_0x7b776d(0x389));_0x50f794['innerHTML']='',_0x3cca5d[_0x7b776d(0x2d9)][_0x7b776d(0x344)](function(_0x502655){var _0x1deaf8=_0x7b776d,_0x5a7e04=document[_0x1deaf8(0x2b6)](_0x1deaf8(0x32f));_0x5a7e04[_0x1deaf8(0x2f5)]=_0x1deaf8(0x32f),_0x5a7e04['className']=_0x1deaf8(0x2c1),_0x5a7e04[_0x1deaf8(0x32e)](_0x1deaf8(0x207),_0x502655),_0x5a7e04[_0x1deaf8(0x32e)]('aria-label',_0x1e0a90['t'](_0x1deaf8(0x358))+'\x20'+_0x252005[_0x1deaf8(0x2b8)](_0x502655)),_0x5a7e04[_0x1deaf8(0x36c)][_0x1deaf8(0x1f5)]=_0x1deaf8(0x3c3)+_0x2b9cfd[_0x1deaf8(0x266)][_0x1deaf8(0x2fb)](_0x502655)+')',_0x5a7e04[_0x1deaf8(0x272)](_0x1deaf8(0x213),function(){_0x8ea119['unlock'](),_0x2ac32c(_0x502655);}),_0x50f794[_0x1deaf8(0x283)](_0x5a7e04);});}var _0x4c2041={'alley':'Alley','harbor':'Harbor','garden':_0x482022(0x293),'grand':_0x482022(0x1f9),'royal':_0x482022(0x371),'sky':_0x482022(0x245),'monte':_0x482022(0x203),'macau':_0x482022(0x3ae),'vegas':'Vegas','diamond':_0x482022(0x2d7),'crown':_0x482022(0x2e0)};function _0x4614d8(_0x2ea7f3){var _0x4ada07=_0x482022;return{'house':_0x4c2041[_0x2ea7f3['id']],'title':_0x1e0a90['t'](_0x4ada07(0x321)),'lines':[_0x1e0a90['t'](_0x4ada07(0x320))+'\x20'+_0x252005[_0x4ada07(0x2b8)](_0x2ea7f3['min']),_0x1e0a90['t'](_0x4ada07(0x24b))+'\x20'+_0x252005[_0x4ada07(0x2b8)](_0x2ea7f3[_0x4ada07(0x24b)])]};}function _0x4f3c0b(){var _0x130ff4=_0x482022;_0x3cca5d=_0x348df9[_0x130ff4(0x360)][_0x16e085[_0x130ff4(0x264)]],_0x1f6653[_0x130ff4(0x37f)](_0x16e085['table'],_0x3cca5d,_0x4614d8(_0x3cca5d)),_0x57e69d('tblName')['textContent']=_0x1e0a90['t']('t_'+_0x3cca5d['id']),_0x57e69d(_0x130ff4(0x342))[_0x130ff4(0x37d)]=_0x252005['money'](_0x3cca5d[_0x130ff4(0x320)])+'\x20–\x20'+_0x252005[_0x130ff4(0x2b8)](_0x3cca5d[_0x130ff4(0x24b)]),_0xbead6e(),_0x2520d9=[],_0x27cae4();}function _0x23bf11(){var _0x58a26a=_0x482022,_0x3fa242=_0x348df9[_0x58a26a(0x399)](_0x16e085['xp']),_0x2b3f6b=_0x348df9['xpFor'](_0x3fa242),_0x5f13d8=_0x348df9['xpFor'](_0x3fa242+0x1);return{'L':_0x3fa242,'have':_0x16e085['xp']-_0x2b3f6b,'need':_0x5f13d8-_0x2b3f6b};}function _0x3f7e40(){var _0x1e84c8=_0x482022,_0x19caba=_0x23bf11();_0x57e69d('lvlNum')[_0x1e84c8(0x37d)]=_0x19caba['L'],_0x57e69d(_0x1e84c8(0x36e))['style'][_0x1e84c8(0x26c)]=(Math[_0x1e84c8(0x320)](0x1,_0x19caba[_0x1e84c8(0x238)]/_0x19caba[_0x1e84c8(0x3bb)])*0x64)[_0x1e84c8(0x241)](0x1)+'%';if(_0x57e69d(_0x1e84c8(0x30a))[_0x1e84c8(0x2d4)][_0x1e84c8(0x30c)]('on'))_0x57e69d('xpTip')[_0x1e84c8(0x37d)]=_0x252005['fmt'](_0x19caba[_0x1e84c8(0x238)])+'\x20/\x20'+_0x252005[_0x1e84c8(0x3b1)](_0x19caba[_0x1e84c8(0x3bb)]);}var _0x343888=0x0;function _0x1805b9(_0x3bf48b,_0x4fd3e1){var _0x501873=_0x482022,_0x47a9f9=_0x57e69d(_0x501873(0x376)),_0x2ba492=_0x57e69d(_0x501873(0x36e)),_0x4c0fac=_0x57e69d('xpGain');_0x4c0fac[_0x501873(0x37d)]=_0x501873(0x2b1)+_0x252005[_0x501873(0x3b1)](_0x3bf48b),_0x4c0fac[_0x501873(0x2d4)][_0x501873(0x25f)]('on'),void _0x4c0fac[_0x501873(0x306)],_0x4c0fac[_0x501873(0x2d4)][_0x501873(0x2db)]('on'),_0x47a9f9[_0x501873(0x2d4)]['add']('xp'),clearTimeout(_0x343888),_0x343888=setTimeout(function(){var _0x12daa7=_0x501873;_0x47a9f9[_0x12daa7(0x2d4)][_0x12daa7(0x25f)]('xp');},0x5dc);if(_0x4fd3e1)_0x2ba492[_0x501873(0x36c)][_0x501873(0x26c)]=_0x501873(0x25e),setTimeout(function(){var _0x3c3291=_0x501873;_0x2ba492[_0x3c3291(0x2d4)][_0x3c3291(0x2db)]('snap'),_0x2ba492[_0x3c3291(0x36c)][_0x3c3291(0x26c)]='0%',void _0x2ba492[_0x3c3291(0x306)],_0x2ba492['classList']['remove'](_0x3c3291(0x2e1)),_0x3f7e40();},0x2d0);else _0x3f7e40();}var _0x24aff3=0x0;function _0x54b199(){var _0x29c3b0=_0x482022,_0x2c98b0=_0x57e69d(_0x29c3b0(0x30a)),_0x1cc37e=_0x23bf11();_0x2c98b0[_0x29c3b0(0x37d)]=_0x252005[_0x29c3b0(0x3b1)](_0x1cc37e[_0x29c3b0(0x238)])+_0x29c3b0(0x2bf)+_0x252005['fmt'](_0x1cc37e[_0x29c3b0(0x3bb)]),_0x2c98b0[_0x29c3b0(0x2d4)][_0x29c3b0(0x250)]('on'),clearTimeout(_0x24aff3);if(_0x2c98b0[_0x29c3b0(0x2d4)][_0x29c3b0(0x30c)]('on'))_0x24aff3=setTimeout(function(){var _0x24a5e3=_0x29c3b0;_0x2c98b0[_0x24a5e3(0x2d4)][_0x24a5e3(0x25f)]('on');},0xa28);}function _0x3911e4(){var _0x2a9c08=_0x482022,_0x47bd6d=_0x348df9[_0x2a9c08(0x399)](_0x16e085['xp']),_0x33467f=[];return _0x348df9['TABLES'][_0x2a9c08(0x344)](function(_0x479270,_0x348edd){var _0x2224c3=_0x2a9c08,_0xb69c14=_0x47bd6d>=_0x479270[_0x2224c3(0x24d)];if(_0xb69c14&&!_0x16e085[_0x2224c3(0x31e)][_0x348edd])_0x33467f['push'](_0x348edd);_0x16e085[_0x2224c3(0x31e)][_0x348edd]=_0xb69c14;}),_0x33467f;}function _0x3a5e9f(){var _0x5c358=_0x482022,_0x15db51=0x0;for(var _0x37347a=0x0;_0x37347a<_0x348df9[_0x5c358(0x360)][_0x5c358(0x326)];_0x37347a++)if(_0x16e085['unlocked'][_0x37347a])_0x15db51=_0x37347a;return _0x15db51;}function _0x3296c5(){var _0x343dba=_0x482022,_0x1f7645=_0x348df9[_0x343dba(0x399)](_0x16e085['xp']),_0xd7ad5c=Math[_0x343dba(0x2f4)](_0x348df9[_0x343dba(0x2c5)]*_0x348df9['xpMult'](_0x16e085[_0x343dba(0x264)]));_0x16e085['xp']+=_0xd7ad5c;var _0x16bd27=_0x348df9[_0x343dba(0x399)](_0x16e085['xp']),_0x3f8bee=_0x57e69d(_0x343dba(0x269));if(_0x16bd27>_0x1f7645)_0x3f8bee['textContent']=_0x1f7645;_0x1805b9(_0xd7ad5c,_0x16bd27>_0x1f7645);if(_0x16bd27>_0x1f7645){var _0x494418=_0x3911e4(),_0x495c35=_0x3a5e9f(),_0x3bbb90=_0x348df9[_0x343dba(0x360)][_0x495c35]['min']*(_0x494418[_0x343dba(0x326)]?0x32:0x14*(_0x16bd27-_0x1f7645));_0x49e5e4(_0x3bbb90),_0x15c3af(_0x3bbb90);if(_0x494418[_0x343dba(0x326)])_0x4f3a91(_0x494418[_0x494418[_0x343dba(0x326)]-0x1],_0x16bd27,_0x3bbb90);else _0x8ea119[_0x343dba(0x25d)](),_0x26c260(_0x1e0a90['t'](_0x343dba(0x3c2),{'n':_0x16bd27,'c':_0x252005[_0x343dba(0x2b8)](_0x3bbb90)}));var _0x1111ce=_0x57e69d(_0x343dba(0x376));_0x1111ce[_0x343dba(0x2d4)][_0x343dba(0x25f)]('up'),void _0x1111ce[_0x343dba(0x306)],_0x1111ce[_0x343dba(0x2d4)][_0x343dba(0x2db)]('up'),setTimeout(function(){var _0x16be9a=_0x343dba;_0x1111ce[_0x16be9a(0x2d4)][_0x16be9a(0x25f)]('up');},0x384),_0x407e47();}}var _0x28e80e=-0x1;function _0x4f3a91(_0x5c05be,_0x261804,_0x4962be){var _0x30b6aa=_0x482022,_0x3fd398=_0x348df9['TABLES'][_0x5c05be],_0x2b8d22=_0x57e69d('unlockFx');_0x28e80e=_0x5c05be,_0x57e69d('ufxKicker')[_0x30b6aa(0x37d)]=_0x1e0a90['t'](_0x30b6aa(0x2be)),_0x57e69d(_0x30b6aa(0x310))[_0x30b6aa(0x37d)]=_0x1e0a90['t']('t_'+_0x3fd398['id']),_0x57e69d(_0x30b6aa(0x2dd))['style'][_0x30b6aa(0x236)](_0x30b6aa(0x2a2),_0x1f6653[_0x30b6aa(0x28e)][_0x5c05be]['felt']),_0x57e69d('ufxMeta')[_0x30b6aa(0x1f6)]=_0x1e0a90['t'](_0x30b6aa(0x30e),{'n':_0x261804,'lim':_0x252005['money'](_0x3fd398[_0x30b6aa(0x320)])+'\x20–\x20'+_0x252005[_0x30b6aa(0x2b8)](_0x3fd398['max']),'x':_0x348df9[_0x30b6aa(0x300)](_0x5c05be),'c':_0x252005[_0x30b6aa(0x2b8)](_0x4962be)}),_0x57e69d(_0x30b6aa(0x1ff))['textContent']=_0x1e0a90['t'](_0x30b6aa(0x1ff)),_0x57e69d(_0x30b6aa(0x2fc))[_0x30b6aa(0x37d)]=_0x1e0a90['t'](_0x30b6aa(0x2fc)),_0x2b8d22[_0x30b6aa(0x315)]='on',void _0x2b8d22['offsetWidth'],_0x2b8d22[_0x30b6aa(0x315)]=_0x30b6aa(0x23e),setTimeout(function(){var _0x43204a=_0x30b6aa;_0x2b8d22[_0x43204a(0x2d4)][_0x43204a(0x2db)](_0x43204a(0x206)),_0x8ea119[_0x43204a(0x289)]();},0x28a),setTimeout(function(){var _0x1c2eb1=_0x30b6aa;_0x8ea119[_0x1c2eb1(0x2af)](_0x1c2eb1(0x372));},0x384);}function _0x43d522(_0x2e87f2){var _0x45e0b4=_0x482022,_0x330a35=_0x57e69d(_0x45e0b4(0x287));if(!_0x330a35['classList'][_0x45e0b4(0x30c)]('on'))return;_0x330a35['classList']['remove'](_0x45e0b4(0x2a1)),setTimeout(function(){var _0x10ad34=_0x45e0b4;_0x330a35[_0x10ad34(0x315)]='';},0x1a4),_0x8ea119[_0x45e0b4(0x30d)]();if(!_0x2e87f2)return;var _0x3ac1b6=_0x28e80e;_0x16e085[_0x45e0b4(0x2e9)]=_0x3ac1b6,_0x407e47(),function _0x18b1a0(_0x1130bc){if(_0x32f793==='table'&&_0x32aca9==='bet')_0x162c1a(_0x3ac1b6);else{if(_0x1130bc<0x3c)setTimeout(function(){_0x18b1a0(_0x1130bc+0x1);},0x96);}}(0x0);}function _0x49e5e4(_0x27bb51){var _0x39d2db=_0x482022;_0x16e085[_0x39d2db(0x2d9)]+=_0x27bb51;if(_0x16e085[_0x39d2db(0x2d9)]>_0x16e085[_0x39d2db(0x391)][_0x39d2db(0x20d)])_0x16e085['stats'][_0x39d2db(0x20d)]=_0x16e085[_0x39d2db(0x2d9)];}function _0x3f2c5f(){var _0x10fb15=_0x482022,_0x43f92b=_0x57e69d(_0x10fb15(0x2a8));_0x43f92b[_0x10fb15(0x1f6)]='';var _0x1b48c8='<svg\x20viewBox=\x220\x200\x2040\x2048\x22><path\x20class=\x22sh\x22\x20d=\x22M11\x2022v-7a9\x209\x200\x200\x201\x2018\x200v7\x22\x20fill=\x22none\x22\x20stroke=\x22currentColor\x22\x20stroke-width=\x224\x22\x20stroke-linecap=\x22round\x22/><rect\x20x=\x226\x22\x20y=\x2221\x22\x20width=\x2228\x22\x20height=\x2222\x22\x20rx=\x224\x22\x20fill=\x22currentColor\x22/><circle\x20cx=\x2220\x22\x20cy=\x2231\x22\x20r=\x223\x22\x20fill=\x22#000\x22\x20opacity=\x22.45\x22/><rect\x20x=\x2218.6\x22\x20y=\x2231\x22\x20width=\x222.8\x22\x20height=\x226\x22\x20rx=\x221.2\x22\x20fill=\x22#000\x22\x20opacity=\x22.45\x22/></svg>';_0x348df9['TABLES'][_0x10fb15(0x344)](function(_0x95b5ee,_0x51b150){var _0x1184af=_0x10fb15,_0x1d6464=document[_0x1184af(0x2b6)](_0x1184af(0x32f));_0x1d6464['type']=_0x1184af(0x32f),_0x1d6464[_0x1184af(0x315)]=_0x1184af(0x233)+(_0x51b150===_0x38939f?_0x1184af(0x39e):'')+(_0x16e085['unlocked'][_0x51b150]&&_0x51b150!==_0x135f46?'':_0x1184af(0x32a)),_0x1d6464[_0x1184af(0x1f6)]='<span\x20class=\x22felt\x22><span\x20class=\x22chip\x22></span><span\x20class=\x22deck\x22></span></span>'+_0x1184af(0x2f1)+_0x1184af(0x26d)+_0x1b48c8+_0x1184af(0x22a);var _0x4b6e1e=_0x1d6464[_0x1184af(0x22e)]('.felt');_0x4b6e1e['style']['backgroundColor']=_0x1f6653[_0x1184af(0x28e)][_0x51b150][_0x1184af(0x27f)],_0x1d6464['querySelector'](_0x1184af(0x2e3))[_0x1184af(0x36c)]['backgroundImage']=_0x1184af(0x3c3)+_0x241fd6(_0x51b150)+')',_0x1d6464[_0x1184af(0x22e)]('.chip')[_0x1184af(0x36c)]['backgroundImage']=_0x1184af(0x3c3)+_0x2b9cfd[_0x1184af(0x266)]['chipUrl'](_0x95b5ee['chips'][0x2])+')',_0x1d6464['querySelector']('.tn')[_0x1184af(0x37d)]=_0x1e0a90['t']('t_'+_0x95b5ee['id']),_0x1d6464[_0x1184af(0x22e)](_0x1184af(0x3bc))[_0x1184af(0x37d)]=_0x252005['money'](_0x95b5ee[_0x1184af(0x320)])+_0x1184af(0x209)+_0x252005[_0x1184af(0x2b8)](_0x95b5ee[_0x1184af(0x24b)]),_0x1d6464[_0x1184af(0x22e)]('.xp')[_0x1184af(0x37d)]=_0x1184af(0x366)+_0x348df9[_0x1184af(0x300)](_0x51b150),_0x1d6464[_0x1184af(0x22e)](_0x1184af(0x286))[_0x1184af(0x37d)]=_0x1e0a90['t']('open'),_0x1d6464['querySelector'](_0x1184af(0x32c))['textContent']=_0x1184af(0x319)+_0x95b5ee['level'],_0x1d6464[_0x1184af(0x22e)]('.gold\x20em')['textContent']='+'+_0x252005[_0x1184af(0x2b8)](_0x95b5ee[_0x1184af(0x320)]*0x32);var _0x1e6cfd=_0x1d6464['querySelector'](_0x1184af(0x323));for(var _0x3532c1=0x0;_0x3532c1<0xa;_0x3532c1++){var _0x516d60=document[_0x1184af(0x2b6)]('b'),_0x31d9c6=_0x3532c1/0xa*Math['PI']*0x2;_0x516d60[_0x1184af(0x36c)][_0x1184af(0x236)](_0x1184af(0x3c1),(Math[_0x1184af(0x3c0)](_0x31d9c6)*0x3c)[_0x1184af(0x241)](0x0)+'px'),_0x516d60['style'][_0x1184af(0x236)](_0x1184af(0x256),(Math[_0x1184af(0x2b5)](_0x31d9c6)*0x3c)[_0x1184af(0x241)](0x0)+'px'),_0x1e6cfd[_0x1184af(0x283)](_0x516d60);}_0x1d6464['addEventListener']('click',function(){var _0x34c20e=_0x1184af;_0x8ea119[_0x34c20e(0x26b)]();if(!_0xe06b49)_0x211834(_0x51b150);}),_0x43f92b[_0x1184af(0x283)](_0x1d6464);}),_0x4b7754(![]),_0x353383();}var _0x30a4aa={};function _0x241fd6(_0xd13964){var _0x671140=_0x482022;if(_0x30a4aa[_0xd13964])return _0x30a4aa[_0xd13964];var _0x27b3fd=_0x2b9cfd['art'][_0x671140(0x252)](_0xd13964),_0x44e03b=document[_0x671140(0x2b6)](_0x671140(0x260));return _0x44e03b[_0x671140(0x26c)]=0x78,_0x44e03b['height']=0xa8,_0x44e03b['getContext']('2d')[_0x671140(0x3bd)](_0x27b3fd,0x0,0x0,0x78,0xa8),_0x30a4aa[_0xd13964]=_0x44e03b[_0x671140(0x3be)]('image/jpeg',0.85);}function _0x353383(){var _0x275022=_0x482022,_0x9424e9=_0x348df9[_0x275022(0x360)][_0x38939f],_0x44b9e9=_0x57e69d(_0x275022(0x2fe)),_0x2f022b=_0x16e085[_0x275022(0x31e)][_0x38939f]&&_0x38939f!==_0x135f46;_0x44b9e9[_0x275022(0x37d)]=_0x2f022b?_0x1e0a90['t'](_0x275022(0x2c8)):_0x1e0a90['t'](_0x275022(0x275),{'n':_0x9424e9[_0x275022(0x24d)]}),_0x44b9e9[_0x275022(0x343)]=!_0x2f022b,_0x57e69d(_0x275022(0x231))[_0x275022(0x343)]=!_0x2f022b;}function _0x211834(_0x50960e,_0x2ac62a){var _0xd9e790=_0x482022;if(_0x32f793!=='lobby')return;_0x50960e=Math['max'](0x0,Math[_0xd9e790(0x320)](_0x348df9[_0xd9e790(0x360)][_0xd9e790(0x326)]-0x1,_0x50960e));if(_0x50960e===_0x38939f)return;_0x38939f=_0x50960e,_0x1f6653[_0xd9e790(0x37f)](_0x50960e,_0x348df9[_0xd9e790(0x360)][_0x50960e],_0x4614d8(_0x348df9[_0xd9e790(0x360)][_0x50960e]));var _0x154cec=_0x57e69d('lobbyTables')[_0xd9e790(0x240)];for(var _0x52da2d=0x0;_0x52da2d<_0x154cec[_0xd9e790(0x326)];_0x52da2d++)_0x154cec[_0x52da2d][_0xd9e790(0x2d4)][_0xd9e790(0x250)](_0xd9e790(0x395),_0x52da2d===_0x38939f);if(!_0x2ac62a)_0x4b7754(!![]);_0x353383(),_0x8ea119[_0xd9e790(0x30d)]();}function _0x4b7754(_0x29ce28){var _0x5006c6=_0x482022,_0xee3836=_0x57e69d(_0x5006c6(0x2a8)),_0x4b5c56=_0xee3836['children'][_0x38939f];if(!_0x4b5c56)return;var _0x4cdd7b=_0x4b5c56[_0x5006c6(0x35d)]-(_0xee3836[_0x5006c6(0x373)]-_0x4b5c56[_0x5006c6(0x306)])/0x2;if(_0x29ce28&&_0xee3836[_0x5006c6(0x1fd)])_0xee3836[_0x5006c6(0x1fd)]({'left':_0x4cdd7b,'behavior':_0x5006c6(0x220)});else _0xee3836[_0x5006c6(0x200)]=_0x4cdd7b;}function _0x2cc916(){var _0x5cd605=_0x482022;if(_0x16e085[_0x5cd605(0x2e9)]!=null&&_0x16e085[_0x5cd605(0x31e)][_0x16e085[_0x5cd605(0x2e9)]])return _0x16e085[_0x5cd605(0x2e9)];return _0x3a5e9f();}function _0x5e8873(){var _0x251c0a=_0x482022;if(_0x32f793!==_0x251c0a(0x2da))return;if(!_0x16e085[_0x251c0a(0x31e)][_0x38939f]){_0x8ea119[_0x251c0a(0x1f2)](),_0x26c260(_0x1e0a90['t'](_0x251c0a(0x275),{'n':_0x348df9[_0x251c0a(0x360)][_0x38939f][_0x251c0a(0x24d)]}));return;}_0x12db55();}function _0x12db55(){var _0x23f279=_0x482022;_0x16e085[_0x23f279(0x264)]=_0x38939f,_0x16e085[_0x23f279(0x2e9)]=_0x38939f,_0x4f3c0b(),_0x407e47(),_0x2b90de(_0x23f279(0x32d)),_0x534196(_0x23f279(0x3b0)),_0x23fe4c=0x1;if(!_0x11992a)_0x19e43c();_0x1f6653[_0x23f279(0x3a1)](_0x11992a?_0x23f279(0x257):'table'),_0x1f6653['fly'](_0x11992a?_0x1f6653[_0x23f279(0x29b)][_0x23f279(0x257)]:_0x1f6653['POSES'][_0x23f279(0x264)],1.5)[_0x23f279(0x246)](function(){var _0x5c5fca=_0x23f279;return _0xe31c4(_0x1e0a90['t']('shuffling',{'n':_0x348df9[_0x5c5fca(0x2b9)]['decks']})),_0x2b9cfd['intro'][_0x5c5fca(0x2f8)](_0x348df9['RULES'][_0x5c5fca(0x223)]);})[_0x23f279(0x3a0)](function(_0x12811){var _0x272619=_0x23f279;if(window[_0x272619(0x20e)])console[_0x272619(0x317)](_0x12811);_0x1f6653[_0x272619(0x362)](!![]);})['then'](function(){var _0x1f97e3=_0x23f279;_0x311e70(),_0x23fe4c=0x1,_0x4702cf(),_0x534196(_0x1f97e3(0x264));if(!_0x11992a){_0x2b90de(_0x1f97e3(0x358));if(_0x16e085[_0x1f97e3(0x2d9)]<_0x3cca5d[_0x1f97e3(0x320)])_0x2c1360();_0x46fa63();return;}return _0x49fcee()[_0x1f97e3(0x246)](function(){var _0x32747e=_0x1f97e3;_0x2b90de(_0x32747e(0x358));if(_0x16e085[_0x32747e(0x2d9)]<_0x3cca5d[_0x32747e(0x320)])_0x2c1360();_0x46fa63();});});}var _0x135f46=-0x1;function _0x5b12e8(_0x13ab94){var _0x9448e2=_0x482022;_0x135f46=_0x13ab94,_0x3f2c5f();if(_0x13ab94!==_0x38939f)_0x211834(_0x13ab94);var _0xd7e6cb=_0x57e69d(_0x9448e2(0x2a8))[_0x9448e2(0x240)][_0x13ab94];setTimeout(function(){var _0x5e7cbc=_0x9448e2;if(_0x32f793!=='lobby')return;_0xd7e6cb[_0x5e7cbc(0x2d4)][_0x5e7cbc(0x2db)](_0x5e7cbc(0x36a)),_0x8ea119['unlockClick'](),setTimeout(function(){var _0x349749=_0x5e7cbc;_0x8ea119[_0x349749(0x2af)](_0x349749(0x372));},0x1c2),setTimeout(function(){var _0xa28775=_0x5e7cbc;_0x135f46=-0x1,_0xd7e6cb[_0xa28775(0x2d4)][_0xa28775(0x25f)](_0xa28775(0x31c),_0xa28775(0x36a)),_0x353383(),setTimeout(function(){var _0x234c7e=_0xa28775;if(_0x32f793===_0x234c7e(0x2da)&&_0x38939f===_0x13ab94)_0x12db55();},0x226);},0x5dc);},0x28a);}function _0x162c1a(_0x2331c2){var _0x2b4b04=_0x482022;if(_0x32f793!=='table'||_0x32aca9!=='bet')return;_0x1d840b(),_0x2b90de(_0x2b4b04(0x32d)),_0x534196('intro'),_0x23fe4c=0x1,_0x38939f=_0x16e085[_0x2b4b04(0x264)],_0x19e43c(),_0x2ebe2a(),Promise[_0x2b4b04(0x397)]([_0x1f6653[_0x2b4b04(0x282)](_0x1f6653[_0x2b4b04(0x29b)][_0x2b4b04(0x2da)],1.4),_0x2b9cfd['intro'][_0x2b4b04(0x33b)](_0x348df9[_0x2b4b04(0x2b9)]['decks'])['catch'](function(){var _0x30023c=_0x2b4b04;_0x2b9cfd[_0x30023c(0x3b0)]['setOut'](_0x348df9['RULES'][_0x30023c(0x223)]);})])[_0x2b4b04(0x246)](function(){var _0x1ff0a6=_0x2b4b04;_0x23fe4c=0x1,_0x534196(_0x1ff0a6(0x2da));if(_0x2331c2!=null)_0x5b12e8(_0x2331c2);else _0x3f2c5f();});}function _0x2ac32c(_0x242c4c){var _0x37daa1=_0x482022;if(_0x32aca9!==_0x37daa1(0x358))return;if(_0x343c8d+_0x242c4c>_0x3cca5d[_0x37daa1(0x24b)])return _0x8ea119['deny'](),_0x26c260(_0x1e0a90['t']('betMax',{'n':_0x252005[_0x37daa1(0x2b8)](_0x3cca5d[_0x37daa1(0x24b)])}));if(_0x16e085[_0x37daa1(0x2d9)]<_0x242c4c){_0x8ea119[_0x37daa1(0x1f2)](),_0x26c260(_0x1e0a90['t']('noChips'));if(_0x16e085[_0x37daa1(0x2d9)]+_0x343c8d<_0x3cca5d[_0x37daa1(0x320)])_0x2c1360();return;}_0x16e085['chips']-=_0x242c4c,_0x343c8d+=_0x242c4c,_0x5eab70[_0x37daa1(0x298)](_0x242c4c),_0x40083b[_0x37daa1(0x358)](_0x242c4c,'h0'),_0x469cf8(),_0x27cae4(),_0x2e13a3();}function _0x1d840b(){var _0xdaf957=_0x482022;if(_0x32aca9!==_0xdaf957(0x358)||!_0x343c8d)return;_0x16e085[_0xdaf957(0x2d9)]+=_0x343c8d,_0x343c8d=0x0,_0x5eab70=[],_0x40083b['sweep']('h0','player'),_0x469cf8(),_0x27cae4();}function _0x45cb6d(){var _0x20c2f6=_0x482022;if(_0x32aca9!==_0x20c2f6(0x358)||_0x343c8d||!_0x2520d9['length'])return;var _0xe918fd=_0x2520d9[_0x20c2f6(0x333)](function(_0x19c2fb,_0x55697e){return _0x19c2fb+_0x55697e;},0x0),_0x2b12f4=_0x2520d9;_0xe918fd>_0x16e085[_0x20c2f6(0x2d9)]&&(_0xe918fd=Math['floor'](_0x16e085['chips']/_0x3cca5d['min'])*_0x3cca5d['min'],_0x2b12f4=_0x348df9[_0x20c2f6(0x2b3)](_0xe918fd,0x18));if(_0xe918fd<_0x3cca5d[_0x20c2f6(0x320)])return _0x8ea119[_0x20c2f6(0x1f2)](),_0x26c260(_0x1e0a90['t']('noChips'));_0x2b12f4[_0x20c2f6(0x344)](function(_0x3df5c0,_0x5f09ec){var _0x485b09=_0x20c2f6;_0x16e085['chips']-=_0x3df5c0,_0x343c8d+=_0x3df5c0,_0x5eab70[_0x485b09(0x298)](_0x3df5c0),_0x1c8733[_0x485b09(0x385)](_0x5f09ec*0.06)[_0x485b09(0x246)](function(){var _0xcf59da=_0x485b09;_0x40083b[_0xcf59da(0x358)](_0x3df5c0,'h0');});}),_0x469cf8(),_0x27cae4(),_0x2b90de(_0x20c2f6(0x32d)),_0x1c8733[_0x20c2f6(0x385)](_0x2b12f4[_0x20c2f6(0x326)]*0.06+0.6)[_0x20c2f6(0x246)](function(){var _0x4f4fb0=_0x20c2f6;_0x32aca9=_0x4f4fb0(0x358),_0x169fee();});}function _0x4adac5(_0x1a9378){return _0x1a9378['catch'](function(_0xfaa74b){var _0x59ef4b=q3_0x5d0f;if(window[_0x59ef4b(0x20e)])console[_0x59ef4b(0x317)](_0xfaa74b);_0xd96b26();});}function _0xd96b26(){var _0x234008=_0x482022;_0x2ff539[_0x234008(0x27c)][_0x234008(0x308)](_0x2ff539['hands'][0x0],_0x2ff539['hands'][0x1],_0x4ee960())['forEach'](function(_0x4a5f4e){var _0x24fdfa=_0x234008;_0x4a5f4e[_0x24fdfa(0x25f)]();}),_0x2ff539={'dealer':[],'hands':[[],[]]},_0x40083b[_0x234008(0x3b3)]();if(_0x4f3337)_0x4f3337[_0x234008(0x3ad)][_0x234008(0x344)](function(_0x1d7c90,_0x45b00b){var _0x360a1c=_0x234008;if(!_0x16430b[_0x45b00b])_0x16e085[_0x360a1c(0x2d9)]+=_0x1d7c90[_0x360a1c(0x358)];});else _0x16e085[_0x234008(0x2d9)]+=_0x343c8d;_0x21a0b7();}function _0x1bbd73(){var _0x4c3382=_0x482022;if(_0x16e085['starter']>=0x3||_0x2b9cfd[_0x4c3382(0x2c0)][_0x4c3382(0x334)])return null;var _0x6fb895=['S','H','D','C'],_0x2d29e5=function(){var _0x2a3e60=_0x4c3382;return _0x6fb895[Math[_0x2a3e60(0x28b)]()*0x4|0x0];};_0x16e085[_0x4c3382(0x2ab)]++;var _0x26e1ce=function(_0x22a374){var _0x29206a=_0x4c3382;if(_0xec01a7){for(var _0x5377c7=_0xec01a7[_0x29206a(0x326)]-0x1;_0x5377c7>=0x0;_0x5377c7--)if(_0xec01a7[_0x5377c7]['rank']===_0x22a374)return _0xec01a7['splice'](_0x5377c7,0x1)[0x0];}return{'rank':_0x22a374,'suit':_0x2d29e5()};},_0x394859=[{'me':['K','Q'],'dlr':['5','7'],'next':['4','K','10','J']},{'me':['10','9'],'dlr':['K','8'],'next':['2','Q','J','10']},{'me':['A','K'],'dlr':['9','7'],'next':['10','J','Q','K']}][_0x16e085[_0x4c3382(0x2ab)]-0x1];return[_0x26e1ce(_0x394859['me'][0x0]),_0x26e1ce(_0x394859['dlr'][0x0]),_0x26e1ce(_0x394859['me'][0x1]),_0x26e1ce(_0x394859[_0x4c3382(0x208)][0x1])][_0x4c3382(0x308)](_0x394859[_0x4c3382(0x33c)][_0x4c3382(0x367)](_0x26e1ce));}function _0x169fee(){var _0x13abad=_0x482022;if(_0x32aca9!=='bet'||_0x343c8d<_0x3cca5d[_0x13abad(0x320)]){_0x32aca9===_0x13abad(0x358)&&(_0x8ea119[_0x13abad(0x1f2)](),_0x26c260(_0x1e0a90['t'](_0x13abad(0x3ba),{'n':_0x252005[_0x13abad(0x2b8)](_0x3cca5d[_0x13abad(0x320)])})));return;}_0x2b90de(_0x13abad(0x32d)),_0x12559d(),_0x2520d9=_0x5eab70[_0x13abad(0x379)]();if(!_0xec01a7)_0xec01a7=_0x348df9[_0x13abad(0x268)]();_0x4e78f8=_0xec01a7[_0x13abad(0x326)],_0x23b61b=0x0;if(!_0xec01a7)_0xec01a7=_0x348df9['newShoe']();var _0x4cb3dd=!_0x2b9cfd[_0x13abad(0x2c0)][_0x13abad(0x227)]&&_0x1bbd73();_0x4f3337=_0x348df9[_0x13abad(0x3ab)](_0x343c8d,Math[_0x13abad(0x28b)],_0x2b9cfd[_0x13abad(0x2c0)][_0x13abad(0x227)]||_0x4cb3dd,_0xec01a7),_0x2b9cfd[_0x13abad(0x2c0)]['rig']=null;if(_0x4cb3dd)_0x4f3337[_0x13abad(0x263)]=!![];_0x16430b=[![],![]],_0x16e085[_0x13abad(0x391)][_0x13abad(0x3ad)]++;var _0x25a1d4=_0x4f3337[_0x13abad(0x3ad)][0x0],_0x443b77=0.38,_0x594491=[];_0x594491[_0x13abad(0x298)](_0x34cdff('player',0x0,_0x25a1d4[_0x13abad(0x2c4)][0x0],!![])),_0x594491[_0x13abad(0x298)](_0x1c8733[_0x13abad(0x385)](_0x443b77)['then'](function(){var _0x40ef4d=_0x13abad;return _0x34cdff('dealer',0x0,_0x4f3337[_0x40ef4d(0x27c)][0x0],!![]);})),_0x594491['push'](_0x1c8733[_0x13abad(0x385)](_0x443b77*0x2)[_0x13abad(0x246)](function(){var _0x55c19f=_0x13abad;return _0x34cdff(_0x55c19f(0x33e),0x0,_0x25a1d4[_0x55c19f(0x2c4)][0x1],!![]);})),_0x594491[_0x13abad(0x298)](_0x1c8733['wait'](_0x443b77*0x3)[_0x13abad(0x246)](function(){var _0x8a3f63=_0x13abad;return _0x34cdff(_0x8a3f63(0x27c),0x0,_0x4f3337[_0x8a3f63(0x27c)][0x1],![]);}));if(_0x11992a)_0x2cb30b();_0x4adac5(Promise['all'](_0x594491)[_0x13abad(0x246)](function(){if(_0x11992a)return _0x2394d4();})['then'](function(){var _0x50f500=_0x13abad;if(_0x348df9[_0x50f500(0x2e2)](_0x4f3337[_0x50f500(0x27c)][0x0])>=0xa)return _0x2d7a60['peek'](_0x2ff539[_0x50f500(0x27c)][0x1]);})[_0x13abad(0x246)](function(){var _0x331963=_0x13abad;if(_0x11992a&&!_0x5a5d4c())return _0x13276f(_0x4f3337[_0x331963(0x27c)][_0x331963(0x379)](0x0,0x1));})['then'](function(){var _0x134cd7=_0x13abad;if(_0x4f3337[_0x134cd7(0x273)]===_0x134cd7(0x27c))return _0x50cd6f();_0x2b90de(_0x134cd7(0x33e)),_0x4d9171();}));}function _0x35909f(_0x3ab742,_0x1dacaa){var _0x15e02a=_0x482022;_0x348df9['breakdown'](_0x3ab742,0xc)[_0x15e02a(0x344)](function(_0x440016,_0x18226e){var _0x4d2f71=_0x15e02a;_0x1c8733['wait'](_0x18226e*0.05)[_0x4d2f71(0x246)](function(){var _0x6cdfb4=_0x4d2f71;_0x40083b[_0x6cdfb4(0x358)](_0x440016,_0x1dacaa);});});}function _0x191e1f(_0x265458){var _0x2217f3=_0x482022;if(_0x32aca9!==_0x2217f3(0x33e)||!_0x4f3337)return;var _0x44e4be=_0x348df9[_0x2217f3(0x347)](_0x4f3337,_0x16e085[_0x2217f3(0x2d9)]);if(!_0x44e4be[_0x265458])return;_0x2b90de(_0x2217f3(0x32d));var _0x30e92f=_0x4f3337[_0x2217f3(0x29a)],_0x320b07=_0x4f3337[_0x2217f3(0x3ad)][_0x30e92f],_0x401947,_0x3b4f31=Promise['resolve']();if(_0x265458===_0x2217f3(0x261))_0x401947=_0x348df9[_0x2217f3(0x261)](_0x4f3337);else{if(_0x265458===_0x2217f3(0x32b))_0x401947=_0x348df9['stand'](_0x4f3337);else _0x265458===_0x2217f3(0x384)?(_0x16e085['chips']-=_0x320b07[_0x2217f3(0x358)],_0x35909f(_0x320b07['bet'],'h'+_0x30e92f),_0x401947=_0x348df9['double'](_0x4f3337)):(_0x16e085[_0x2217f3(0x2d9)]-=_0x320b07[_0x2217f3(0x358)],_0x3b4f31=_0x165996(_0x320b07[_0x2217f3(0x358)]),_0x401947=_0x348df9[_0x2217f3(0x305)](_0x4f3337));}_0x469cf8(),_0x4adac5(_0x3b4f31[_0x2217f3(0x246)](function(){return _0x23a323(_0x401947);})[_0x2217f3(0x246)](function(){var _0x5223c6=_0x2217f3;if(_0x4f3337['phase']===_0x5223c6(0x27c))return _0x50cd6f();_0x2b90de(_0x5223c6(0x33e)),_0x4d9171();}));}function _0x165996(_0x31bbaf){var _0x4ee116=_0x482022,_0x3b5ae7=_0x2ff539['hands'][0x0][0x0],_0x47fa25=_0x2ff539[_0x4ee116(0x3ad)][0x0][0x1];return _0x2ff539[_0x4ee116(0x3ad)]=[[_0x3b5ae7],[_0x47fa25]],_0x129bc0=!![],_0x40083b[_0x4ee116(0x352)]('h0',-_0x358d8f,_0x5f2a69['z']),_0x40083b[_0x4ee116(0x352)]('h1',_0x358d8f,_0x5f2a69['z']),_0x40083b['shift']('h0',-_0x358d8f),_0x35909f(_0x31bbaf,'h1'),_0x4d9171(),Promise[_0x4ee116(0x397)]([_0x2d7a60['moveTo'](_0x3b5ae7,_0x196346(_0x4ee116(0x33e),0x0)[0x0],0.28),_0x2d7a60[_0x4ee116(0x332)](_0x47fa25,_0x196346('player',0x1)[0x0],0.28)]);}function _0x23a323(_0x49ee7c){var _0x552683=_0x482022,_0x310fac=Promise[_0x552683(0x3c6)]();return _0x49ee7c[_0x552683(0x344)](function(_0x20b90e){_0x310fac=_0x310fac['then'](function(){var _0x1e4b34=q3_0x5d0f;if(_0x20b90e['t']===_0x1e4b34(0x22d))return _0x20b90e['to']===_0x1e4b34(0x27c)?_0x34cdff('dealer',0x0,_0x20b90e['card'],!![]):_0x34cdff('player',_0x20b90e[_0x1e4b34(0x271)],_0x20b90e[_0x1e4b34(0x22d)],!![],_0x20b90e[_0x1e4b34(0x2ae)]);if(_0x20b90e['t']===_0x1e4b34(0x337))return _0x16430b[_0x20b90e[_0x1e4b34(0x271)]]=!![],_0x8ea119[_0x1e4b34(0x337)](),_0x8ea119['voice']('bust'),_0x2506d6(_0x20b90e[_0x1e4b34(0x271)],_0x1e4b34(0x337),-_0x4f3337['hands'][_0x20b90e['hand']][_0x1e4b34(0x358)]),_0x11808c['t'][_0x20b90e[_0x1e4b34(0x271)]]['classList']['add'](_0x1e4b34(0x396)),_0x16e085['stats'][_0x1e4b34(0x396)]++,Promise[_0x1e4b34(0x397)]([_0x40083b[_0x1e4b34(0x278)]('h'+_0x20b90e[_0x1e4b34(0x271)],_0x1e4b34(0x27c)),_0x1c8733[_0x1e4b34(0x385)](0.6)]);if(_0x20b90e['t']===_0x1e4b34(0x34f)){_0x4d9171();return;}if(_0x20b90e['t']===_0x1e4b34(0x276))return _0x2d7a60[_0x1e4b34(0x276)](_0x2ff539[_0x1e4b34(0x27c)][0x1])['then'](_0x4d9171)[_0x1e4b34(0x246)](function(){var _0x39e3fe=_0x1e4b34;return _0x1c8733[_0x39e3fe(0x385)](0.22);});});}),_0x310fac;}function _0x29b326(_0x2d955b){var _0xb425a2=_0x482022,_0x5ee254=[],_0xc0a001=_0x2d955b,_0x600bb3=_0x348df9[_0xb425a2(0x226)],_0x100cdc=_0x3cca5d['chips'][_0x3cca5d[_0xb425a2(0x2d9)][_0xb425a2(0x326)]-0x1];for(var _0x1843c8=_0x600bb3[_0xb425a2(0x326)]-0x1;_0x1843c8>=0x0&&_0xc0a001>0x0;_0x1843c8--){if(_0x600bb3[_0x1843c8]>_0x100cdc)continue;while(_0xc0a001>=_0x600bb3[_0x1843c8]&&_0x5ee254[_0xb425a2(0x326)]<0x12){_0x5ee254['push'](_0x600bb3[_0x1843c8]),_0xc0a001-=_0x600bb3[_0x1843c8];}}if(_0x5ee254[_0xb425a2(0x326)]&&_0x5ee254['length']<0x4){var _0x40e115=_0x600bb3['indexOf'](_0x5ee254[0x0]);if(_0x40e115>0x0&&_0x5ee254[0x0]/_0x600bb3[_0x40e115-0x1]<=0x5){var _0x20c52d=_0x5ee254[_0xb425a2(0x21b)]();for(var _0x1a3075=0x0;_0x1a3075<_0x20c52d/_0x600bb3[_0x40e115-0x1];_0x1a3075++)_0x5ee254[_0xb425a2(0x363)](_0x600bb3[_0x40e115-0x1]);}}return _0x5ee254[_0xb425a2(0x326)]?_0x5ee254:_0x348df9[_0xb425a2(0x2b3)](_0x2d955b,0x12);}function _0x50cd6f(){var _0x2124c1=_0x482022;return _0x2b90de(_0x2124c1(0x32d)),_0x4d9171(),_0x23a323(_0x348df9[_0x2124c1(0x348)](_0x4f3337))['then'](function(){var _0x3edb3a=_0x2124c1;_0x4d9171(),_0x348df9[_0x3edb3a(0x353)](_0x4f3337);if(_0x11992a)_0x3b1c22();var _0x444e98=[],_0x39b384=_0x3edb3a(0x35e),_0x13144b=0x0,_0x839c3e=0x0;_0x4f3337['hands'][_0x3edb3a(0x344)](function(_0x1c1487,_0x2c55b0){var _0x372e61=_0x3edb3a,_0x495ae2='h'+_0x2c55b0;_0x13144b+=_0x1c1487[_0x372e61(0x2dc)]-_0x1c1487[_0x372e61(0x358)],_0x839c3e+=_0x1c1487[_0x372e61(0x358)];if(_0x1c1487[_0x372e61(0x3b6)]===_0x372e61(0x35e))!_0x16430b[_0x2c55b0]&&(_0x16e085[_0x372e61(0x391)][_0x372e61(0x396)]++,_0x2506d6(_0x2c55b0,_0x372e61(0x35e),-_0x1c1487[_0x372e61(0x358)]),_0x444e98[_0x372e61(0x298)](_0x40083b[_0x372e61(0x278)](_0x495ae2,_0x372e61(0x27c))));else{if(_0x1c1487[_0x372e61(0x3b6)]===_0x372e61(0x298)){_0x16e085[_0x372e61(0x391)][_0x372e61(0x30f)]++;if(_0x39b384===_0x372e61(0x35e))_0x39b384=_0x372e61(0x298);_0x2506d6(_0x2c55b0,_0x372e61(0x298),0x0),_0x444e98[_0x372e61(0x298)](_0x1c8733[_0x372e61(0x385)](0.7)['then'](function(){var _0x23cc08=_0x372e61;return _0x49e5e4(_0x1c1487['payout']),_0x40083b[_0x23cc08(0x278)](_0x495ae2,'player');}));}else{var _0x471423=_0x1c1487[_0x372e61(0x3b6)]==='blackjack';_0x16e085[_0x372e61(0x391)][_0x372e61(0x345)]++;if(_0x471423)_0x16e085[_0x372e61(0x391)][_0x372e61(0x35c)]++;_0x39b384=_0x471423?_0x372e61(0x35a):_0x39b384===_0x372e61(0x35a)?_0x39b384:_0x372e61(0x3b9),_0x2506d6(_0x2c55b0,_0x471423?'bj':_0x372e61(0x3b9),_0x1c1487['payout']-_0x1c1487[_0x372e61(0x358)]),_0x444e98['push'](_0x40083b['pay'](_0x29b326(_0x1c1487[_0x372e61(0x2dc)]-_0x1c1487[_0x372e61(0x358)]),_0x495ae2)[_0x372e61(0x246)](function(){var _0x39a4e0=_0x372e61,_0x37b108=_0x40083b[_0x39a4e0(0x350)](_0x495ae2),_0x1b3782=0x0,_0x107a3b=_0x211565(_0x37b108['x'],_0x37b108['z'],_0x1c1487[_0x39a4e0(0x2dc)]-_0x1c1487['bet'],_0x471423,function(_0x5eb6f9,_0x495f7d){var _0x3385c3=_0x39a4e0,_0x2ff07d=_0x5eb6f9===_0x495f7d-0x1?_0x1c1487[_0x3385c3(0x2dc)]:Math[_0x3385c3(0x2f4)](_0x1c1487[_0x3385c3(0x2dc)]*(_0x5eb6f9+0x1)/_0x495f7d);_0x49e5e4(_0x2ff07d-_0x1b3782),_0x1b3782=_0x2ff07d;})['then'](function(){var _0xc18ae4=_0x39a4e0;_0x1b3782<_0x1c1487[_0xc18ae4(0x2dc)]&&(_0x49e5e4(_0x1c1487[_0xc18ae4(0x2dc)]-_0x1b3782),_0x1b3782=_0x1c1487[_0xc18ae4(0x2dc)]);});return Promise[_0x39a4e0(0x397)]([_0x40083b[_0x39a4e0(0x278)](_0x495ae2,_0x39a4e0(0x33e)),_0x107a3b]);}));}}}),_0x5ca5b6(),_0x15c3af(_0x13144b);if(_0x39b384===_0x3edb3a(0x3b9)||_0x39b384===_0x3edb3a(0x35a))_0x16e085[_0x3edb3a(0x391)][_0x3edb3a(0x329)]=(_0x16e085['stats']['streak']||0x0)+0x1,_0x16e085['stats']['bestStreak']=Math['max'](_0x16e085[_0x3edb3a(0x391)]['bestStreak']||0x0,_0x16e085[_0x3edb3a(0x391)]['streak']);else{if(_0x39b384===_0x3edb3a(0x35e))_0x16e085[_0x3edb3a(0x391)]['streak']=0x0;}_0x1c8733[_0x3edb3a(0x385)](1.6)[_0x3edb3a(0x246)](_0x3296c5);var _0x2dffc1=_0x39b384===_0x3edb3a(0x35a)||_0x13144b>=_0x3cca5d['min']*0xa;if(_0x39b384===_0x3edb3a(0x35a))_0x8ea119[_0x3edb3a(0x2af)]('big'),_0x8ea119[_0x3edb3a(0x322)](_0x3edb3a(0x35a));else{if(_0x39b384===_0x3edb3a(0x3b9))_0x8ea119[_0x3edb3a(0x2af)](_0x2dffc1?_0x3edb3a(0x372):_0x3edb3a(0x3b9)),_0x8ea119[_0x3edb3a(0x322)](_0x3edb3a(0x3b9));else{if(_0x39b384==='push')_0x8ea119['push'](),_0x8ea119[_0x3edb3a(0x322)](_0x3edb3a(0x2eb));else{_0x8ea119[_0x3edb3a(0x2af)]('lose');if(!_0x16430b[0x0]||_0x4f3337['hands'][0x1]&&!_0x16430b[0x1])_0x8ea119[_0x3edb3a(0x322)](_0x3edb3a(0x35e));}}}return Promise[_0x3edb3a(0x397)]([Promise[_0x3edb3a(0x397)](_0x444e98),_0x1c8733[_0x3edb3a(0x385)](1.35)]);})[_0x2124c1(0x246)](function(){return _0x1c8733['wait'](0.55);})['then'](function(){var _0x4363b2=_0x2124c1;_0x5070e1();var _0x21232a=_0x2ff539[_0x4363b2(0x27c)][_0x4363b2(0x308)](_0x2ff539[_0x4363b2(0x3ad)][0x0],_0x2ff539[_0x4363b2(0x3ad)][0x1],_0x4ee960());return _0x2ff539={'dealer':[],'hands':[[],[]]},_0x2d7a60['collect'](_0x21232a);})[_0x2124c1(0x246)](_0x21a0b7);}function _0x21a0b7(){var _0x1bb135=_0x482022;_0x4f3337=null,_0x343c8d=0x0,_0x5eab70=[],_0x129bc0=![],_0x16430b=[![],![]],_0x40083b[_0x1bb135(0x352)]('h0',_0x5f2a69['x'],_0x5f2a69['z']),_0x40083b[_0x1bb135(0x352)]('h1',_0x358d8f,_0x5f2a69['z']),_0x5070e1(),_0x469cf8(),_0x18a73e(),_0x407e47(),_0x2b9cfd[_0x1bb135(0x370)][_0x1bb135(0x36f)]();var _0x192929=_0x2b9cfd['meta'][_0x1bb135(0x2c6)]();_0x175ead();if(_0xec01a7&&_0xec01a7[_0x1bb135(0x326)]<_0x1d5583)return _0x1e53e4();if(_0x11992a&&_0x16e085[_0x1bb135(0x2d9)]<_0x3cca5d[_0x1bb135(0x320)])return _0x1d2926();if(_0x192929&&_0x11992a&&_0x3ac57b[_0x1bb135(0x39c)](Boolean))return _0x404abe();_0x2b90de(_0x1bb135(0x358));if(_0x16e085[_0x1bb135(0x2d9)]<_0x3cca5d[_0x1bb135(0x320)])_0x2c1360();}function _0x1d2926(){var _0x2fb617=_0x482022;_0x32aca9=_0x2fb617(0x358),_0x26c260(_0x1e0a90['t'](_0x2fb617(0x37c))),setTimeout(function(){_0x162c1a();},0x384);var _0xadfa9e=setInterval(function(){_0x32f793==='lobby'&&(clearInterval(_0xadfa9e),setTimeout(_0x296d92,0x1f4));},0xc8);}var _0x510056=_0x482022(0x264);function _0x5d9c4f(){var _0x3fa34e=_0x482022;return _0x348df9[_0x3fa34e(0x360)][_0x3a5e9f()][_0x3fa34e(0x24b)];}function _0x296d92(){var _0x2d892d=_0x482022;_0x510056='lobby',_0x57e69d(_0x2d892d(0x2d0))['textContent']=_0x1e0a90['t'](_0x2d892d(0x368)),_0x57e69d(_0x2d892d(0x290))['textContent']=_0x1e0a90['t']('watchAd',{'n':_0x252005[_0x2d892d(0x2b8)](_0x5d9c4f())}),_0x57e69d(_0x2d892d(0x237))[_0x2d892d(0x324)]=![],_0x57e69d('btnDown')[_0x2d892d(0x37d)]=_0x1e0a90['t'](_0x2d892d(0x2ea)),_0x57e69d('btnDown')['onclick']=function(){var _0x5a9a86=_0x2d892d;_0x58618a(_0x5a9a86(0x309));},_0x134430(_0x2d892d(0x309));}function _0x404abe(_0x39fefe){var _0x4d7d68=_0x482022;_0x2b90de('busy');var _0x715167=_0x57e69d(_0x4d7d68(0x239));return!_0x715167&&(_0x715167=document[_0x4d7d68(0x2b6)](_0x4d7d68(0x2f6)),_0x715167['id']=_0x4d7d68(0x239),_0x715167['className']='seat\x20sitout',_0x57e69d(_0x4d7d68(0x235))[_0x4d7d68(0x283)](_0x715167)),_0x715167[_0x4d7d68(0x37d)]=_0x39fefe||_0x1e0a90['t']('watchingAd'),_0x715167[_0x4d7d68(0x2d4)][_0x4d7d68(0x25f)]('off'),_0x215f8e(_0x715167,_0x5f2a69['x'],0.5,_0x5f2a69['z']-0x2),_0x3ac57b[_0x4d7d68(0x344)](function(_0x4c319d){var _0x5e8938=_0x4d7d68;if(_0x4c319d)_0x4c319d[_0x5e8938(0x358)]=_0x5b6fd7(_0x4c319d);}),_0x3ac57b[_0x4d7d68(0x344)](function(_0x4fbf43,_0x402199){if(_0x4fbf43)_0x48f455(_0x402199);}),_0x1c8733['wait'](0.8)[_0x4d7d68(0x246)](_0x2394d4)[_0x4d7d68(0x246)](function(){return _0x13276f(_0x46f6ba());})['then'](function(){var _0x319e20=_0x4d7d68;return _0x1c8733[_0x319e20(0x385)](1.4);})[_0x4d7d68(0x246)](function(){var _0x28252a=_0x4d7d68,_0x136cde=_0x4ee960();return _0x3ac57b[_0x28252a(0x344)](function(_0x131908,_0x2aa4d1){var _0x2176d2=_0x28252a;_0x131908&&(_0x131908[_0x2176d2(0x271)]=[],_0x131908[_0x2176d2(0x358)]=0x0,_0x131908[_0x2176d2(0x2e4)]='',_0x48f455(_0x2aa4d1));}),_0x2d7a60[_0x28252a(0x382)](_0x136cde);})[_0x4d7d68(0x246)](function _0x53eb2d(){var _0x3e8ca4=_0x4d7d68;if(!_0x57e69d(_0x3e8ca4(0x393))[_0x3e8ca4(0x324)])return _0x1c8733[_0x3e8ca4(0x385)](0.5)['then'](_0x53eb2d);})[_0x4d7d68(0x246)](function(){var _0x4fa177=_0x4d7d68;_0x715167['classList'][_0x4fa177(0x2db)]('off'),_0x26c260(_0x1e0a90['t']('backIn')),_0x2b90de('bet');if(_0x16e085[_0x4fa177(0x2d9)]<_0x3cca5d[_0x4fa177(0x320)])_0x2c1360();});}function _0x1e53e4(){var _0x555859=_0x482022;if(_0x32f793!==_0x555859(0x264))return;return _0x1d840b(),_0x2b90de(_0x555859(0x32d)),_0xe31c4(_0x1e0a90['t'](_0x555859(0x295),{'n':_0x348df9[_0x555859(0x2b9)][_0x555859(0x223)]})),_0x2b9cfd['intro']['setOut'](_0x348df9[_0x555859(0x2b9)]['decks']),_0x2b9cfd['intro'][_0x555859(0x2f8)](_0x348df9[_0x555859(0x2b9)][_0x555859(0x223)])[_0x555859(0x3a0)](function(){var _0x3c057d=_0x555859;_0x1f6653[_0x3c057d(0x362)](!![]);})[_0x555859(0x246)](function(){var _0x2563cf=_0x555859;_0x4702cf(),_0x311e70(),_0x2b90de('bet');if(_0x16e085[_0x2563cf(0x2d9)]<_0x3cca5d[_0x2563cf(0x320)])_0x2c1360();});}var _0xcc46c9=0x0;function _0x4fb1eb(_0x218c14){var _0xfc11c9=_0x482022,_0x1ae008=_0x1e0a90[_0xfc11c9(0x380)]();_0xcc46c9=Math[_0xfc11c9(0x24b)](0x0,Math[_0xfc11c9(0x320)](_0x1ae008[_0xfc11c9(0x326)]-0x1,_0x218c14));var _0x3bca38=_0x1ae008[_0xcc46c9];_0x57e69d(_0xfc11c9(0x2d5))[_0xfc11c9(0x1fc)]=_0xfc11c9(0x2b7)+_0x3bca38[0x0]+_0xfc11c9(0x364),_0x57e69d(_0xfc11c9(0x2d5))['alt']=_0x3bca38[0x1],_0x57e69d(_0xfc11c9(0x2ce))[_0xfc11c9(0x37d)]=_0xcc46c9+0x1+'.\x20'+_0x3bca38[0x1],_0x57e69d(_0xfc11c9(0x354))[_0xfc11c9(0x37d)]=_0x3bca38[0x2];var _0x6c83d9=_0x57e69d(_0xfc11c9(0x23a));_0x6c83d9[_0xfc11c9(0x1f6)]='',_0x1ae008[_0xfc11c9(0x344)](function(_0x42fa04,_0x2305a9){var _0x4a36af=_0xfc11c9,_0xd1756d=document[_0x4a36af(0x2b6)]('i');if(_0x2305a9===_0xcc46c9)_0xd1756d[_0x4a36af(0x315)]='on';_0x6c83d9[_0x4a36af(0x283)](_0xd1756d);}),_0x57e69d(_0xfc11c9(0x299))[_0xfc11c9(0x343)]=_0xcc46c9===0x0,_0x57e69d(_0xfc11c9(0x214))[_0xfc11c9(0x37d)]=_0xcc46c9===_0x1ae008[_0xfc11c9(0x326)]-0x1?'✓':'›',_0x134430(_0xfc11c9(0x330));}function _0x4702cf(){var _0x4acf30=_0x482022;_0xec01a7=_0x348df9[_0x4acf30(0x268)](),_0x4e78f8=_0xec01a7[_0x4acf30(0x326)],_0x23b61b=0x0,_0x1f6653[_0x4acf30(0x280)](_0xec01a7[_0x4acf30(0x326)]),_0x56f045();}function _0x134430(_0x1342e4){var _0xf28870=_0x482022;_0x57e69d(_0x1342e4)[_0xf28870(0x2d4)]['add'](_0xf28870(0x206));}function _0x58618a(_0x20c24e){var _0xe5d3ce=_0x482022;_0x57e69d(_0x20c24e)[_0xe5d3ce(0x2d4)][_0xe5d3ce(0x25f)]('open');}function _0x168d5e(_0x23f4c3){var _0x5ceb3d=_0x482022;_0x1d840b(),_0x16e085['table']=_0x23f4c3,_0x38939f=_0x23f4c3,_0x4f3c0b(),_0x407e47(),_0x8ea119[_0x5ceb3d(0x30d)]();if(_0x16e085[_0x5ceb3d(0x2d9)]<_0x3cca5d['min'])_0x2c1360();}function _0x2c1360(){var _0x1ec39c=_0x482022;_0x57e69d(_0x1ec39c(0x2d0))['textContent']=_0x1e0a90['t'](_0x1ec39c(0x37e),{'n':_0x252005['money'](_0x3cca5d['min'])}),_0x57e69d(_0x1ec39c(0x290))[_0x1ec39c(0x37d)]=_0x1e0a90['t'](_0x1ec39c(0x3a5),{'n':_0x252005['money'](_0x348df9[_0x1ec39c(0x386)](_0x3cca5d))});var _0x3b3e77=-0x1;for(var _0x334115=_0x16e085[_0x1ec39c(0x264)]-0x1;_0x334115>=0x0;_0x334115--)if(_0x16e085[_0x1ec39c(0x2d9)]>=_0x348df9['TABLES'][_0x334115][_0x1ec39c(0x320)]){_0x3b3e77=_0x334115;break;}var _0x484160=_0x57e69d(_0x1ec39c(0x237));_0x484160[_0x1ec39c(0x324)]=_0x3b3e77<0x0,_0x3b3e77>=0x0&&(_0x484160[_0x1ec39c(0x37d)]=_0x1e0a90['t'](_0x1ec39c(0x37b),{'t':_0x1e0a90['t']('t_'+_0x348df9[_0x1ec39c(0x360)][_0x3b3e77]['id'])}),_0x484160['onclick']=function(){var _0x39a6cb=_0x1ec39c;_0x58618a(_0x39a6cb(0x309)),_0x168d5e(_0x3b3e77);}),_0x134430(_0x1ec39c(0x309));}function _0x41fb49(){var _0x549ec1=_0x482022;_0x58618a('sheetRefill');var _0x5c438e=_0x57e69d(_0x549ec1(0x1f7)),_0x3cf86d=0x3;_0x5c438e[_0x549ec1(0x324)]=![],_0x57e69d(_0x549ec1(0x2f2))[_0x549ec1(0x37d)]=_0x3cf86d;var _0xcc85ae=setInterval(function(){var _0x3126ca=_0x549ec1;_0x3cf86d--,_0x57e69d(_0x3126ca(0x2f2))[_0x3126ca(0x37d)]=_0x3cf86d;if(_0x3cf86d>0x0)return;clearInterval(_0xcc85ae),_0x5c438e['hidden']=!![];var _0x377dde=_0x348df9[_0x3126ca(0x386)](_0x3cca5d);_0x16e085[_0x3126ca(0x391)][_0x3126ca(0x2cb)]++,_0x2b90de(_0x3126ca(0x32d)),_0x40083b['pay'](_0x348df9[_0x3126ca(0x2b3)](_0x377dde,0x12),'h0')[_0x3126ca(0x246)](function(){var _0x2a1647=_0x3126ca;return _0x49e5e4(_0x377dde),_0x15c3af(_0x377dde),_0x40083b['sweep']('h0',_0x2a1647(0x33e));})[_0x3126ca(0x246)](function(){var _0x19c720=_0x3126ca;_0x407e47(),_0x2b90de(_0x19c720(0x358));});},0x3e8);}function _0x3f6649(){var _0x590b06=_0x482022;_0x57e69d(_0x590b06(0x2aa))[_0x590b06(0x37d)]=_0x1e0a90['t'](_0x16e085[_0x590b06(0x3c5)]?'on':_0x590b06(0x304)),_0x57e69d(_0x590b06(0x302))[_0x590b06(0x37d)]=_0x1e0a90[_0x590b06(0x2c2)]==='ko'?_0x590b06(0x2cf):_0x590b06(0x23f);var _0x35938c=_0x16e085['stats'],_0x21e3b7=[['level',_0x348df9[_0x590b06(0x399)](_0x16e085['xp'])+'\x20('+_0x252005[_0x590b06(0x2b8)](_0x16e085['xp'])+_0x590b06(0x312)],['hands',_0x35938c['hands']],[_0x590b06(0x345),_0x35938c[_0x590b06(0x345)]],[_0x590b06(0x396),_0x35938c['lost']],['pushed',_0x35938c['pushed']],['bjs',_0x35938c['bjs']],[_0x590b06(0x2cb),_0x35938c['ads']],[_0x590b06(0x20d),_0x252005[_0x590b06(0x2b8)](_0x35938c[_0x590b06(0x20d)])]],_0x2d930b=_0x57e69d(_0x590b06(0x221));_0x2d930b[_0x590b06(0x1f6)]='',_0x21e3b7[_0x590b06(0x344)](function(_0x3c3f64){var _0x3b5152=_0x590b06,_0x5e1e9b=document[_0x3b5152(0x2b6)](_0x3b5152(0x2f6));_0x5e1e9b['innerHTML']=_0x3b5152(0x26e),_0x5e1e9b['firstChild']['textContent']=_0x1e0a90['t'](_0x3c3f64[0x0]),_0x5e1e9b[_0x3b5152(0x38e)][_0x3b5152(0x37d)]=_0x3c3f64[0x1],_0x2d930b[_0x3b5152(0x283)](_0x5e1e9b);}),_0x3ab9c1(![]),_0x57e69d(_0x590b06(0x301))['disabled']=!(_0x32f793===_0x590b06(0x264)&&_0x32aca9==='bet'),_0x57e69d(_0x590b06(0x34a))[_0x590b06(0x343)]=_0x32f793!==_0x590b06(0x264),_0x57e69d(_0x590b06(0x259))[_0x590b06(0x37d)]=_0x1e0a90['t'](_0x32f793===_0x590b06(0x2da)?_0x590b06(0x2f9):_0x590b06(0x229)),_0x134430(_0x590b06(0x23b));}function _0x3ab9c1(_0x7c921){var _0x9ab60=_0x482022;_0x57e69d(_0x9ab60(0x29e))['hidden']=_0x7c921,_0x57e69d('btnResetYes')[_0x9ab60(0x324)]=!_0x7c921,_0x57e69d(_0x9ab60(0x38f))[_0x9ab60(0x324)]=!_0x7c921,_0x57e69d(_0x9ab60(0x281))[_0x9ab60(0x37d)]=_0x1e0a90['t'](_0x7c921?_0x9ab60(0x281):'reset');}function _0x38f90e(_0x25462f){var _0x48d6de=_0x482022;_0x1e0a90['lang']=_0x25462f,_0x16e085[_0x48d6de(0x2c2)]=_0x25462f,_0x1e0a90[_0x48d6de(0x340)](),_0x57e69d(_0x48d6de(0x31a))[_0x48d6de(0x37d)]=_0x1e0a90['t']('t_'+_0x3cca5d['id']);if(_0x32f793==='lobby')_0x3f2c5f();_0x407e47();}var _0xe06b49=![];function _0x5f58da(){var _0x3927ff=_0x482022,_0x77830b=_0x57e69d('lobbyTables'),_0x1c79b6=0x0;_0x77830b[_0x3927ff(0x272)](_0x3927ff(0x28c),function(){clearTimeout(_0x1c79b6),_0x1c79b6=setTimeout(function(){var _0x4e166b=q3_0x5d0f,_0x5e428b=_0x77830b[_0x4e166b(0x200)]+_0x77830b[_0x4e166b(0x373)]/0x2,_0x4baa3d=_0x38939f,_0x3e6d9b=0x3b9aca00;for(var _0x17e62d=0x0;_0x17e62d<_0x77830b['children']['length'];_0x17e62d++){var _0x1a0bc2=_0x77830b[_0x4e166b(0x240)][_0x17e62d],_0x34b44c=Math[_0x4e166b(0x25c)](_0x1a0bc2[_0x4e166b(0x35d)]+_0x1a0bc2[_0x4e166b(0x306)]/0x2-_0x5e428b);_0x34b44c<_0x3e6d9b&&(_0x3e6d9b=_0x34b44c,_0x4baa3d=_0x17e62d);}if(_0x4baa3d!==_0x38939f)_0x211834(_0x4baa3d,!![]);},0x6e);});var _0x277490=null;_0x77830b['addEventListener'](_0x3927ff(0x24c),function(_0xfd3a6a){var _0x51bd9b=_0x3927ff;if(_0xfd3a6a[_0x51bd9b(0x35f)]!==_0x51bd9b(0x2ac))return;_0x277490={'x':_0xfd3a6a['clientX'],'left':_0x77830b[_0x51bd9b(0x200)]},_0xe06b49=![];}),window['addEventListener'](_0x3927ff(0x211),function(_0x4fe679){var _0x2eb2ca=_0x3927ff;if(!_0x277490)return;var _0x43558a=_0x4fe679[_0x2eb2ca(0x357)]-_0x277490['x'];Math[_0x2eb2ca(0x25c)](_0x43558a)>0x6&&(_0xe06b49=!![],_0x77830b['style'][_0x2eb2ca(0x336)]=_0x2eb2ca(0x2d1)),_0x77830b[_0x2eb2ca(0x200)]=_0x277490[_0x2eb2ca(0x39f)]-_0x43558a;}),window[_0x3927ff(0x272)](_0x3927ff(0x307),function(){var _0x165802=_0x3927ff;if(!_0x277490)return;_0x277490=null,_0x77830b['style'][_0x165802(0x336)]='',setTimeout(function(){_0xe06b49=![];},0x0);});var _0x4697dd=_0x57e69d('lobby'),_0x599804=null;_0x4697dd[_0x3927ff(0x272)](_0x3927ff(0x24c),function(_0x576dfd){var _0x4cd47a=_0x3927ff;if(_0x576dfd[_0x4cd47a(0x381)][_0x4cd47a(0x24e)](_0x4cd47a(0x258)))return;_0x599804={'x':_0x576dfd[_0x4cd47a(0x357)],'y':_0x576dfd[_0x4cd47a(0x274)]};}),_0x4697dd[_0x3927ff(0x272)](_0x3927ff(0x307),function(_0x6c28de){var _0x4e20f6=_0x3927ff;if(!_0x599804)return;var _0x1bb51b=_0x6c28de['clientX']-_0x599804['x'],_0x21de3e=_0x6c28de[_0x4e20f6(0x274)]-_0x599804['y'];_0x599804=null,Math[_0x4e20f6(0x25c)](_0x1bb51b)>0x28&&Math[_0x4e20f6(0x25c)](_0x1bb51b)>Math[_0x4e20f6(0x25c)](_0x21de3e)*1.3&&(_0x8ea119['unlock'](),_0x211834(_0x38939f+(_0x1bb51b<0x0?0x1:-0x1)));});}function _0x892efc(){var _0x35e412=_0x482022;_0x57e69d(_0x35e412(0x2fe))[_0x35e412(0x272)]('click',function(){var _0x5456f4=_0x35e412;_0x8ea119[_0x5456f4(0x26b)](),_0x11992a=![],_0x5e8873();}),_0x57e69d('btnMulti')['addEventListener']('click',function(){_0x8ea119['unlock'](),_0x11992a=!![],_0x5e8873();}),_0x57e69d(_0x35e412(0x351))['addEventListener'](_0x35e412(0x213),function(){var _0x5ae323=_0x35e412;_0x8ea119[_0x5ae323(0x26b)](),_0x169fee();}),_0x57e69d(_0x35e412(0x375))[_0x35e412(0x272)]('click',function(){var _0xdd5338=_0x35e412;_0x8ea119[_0xdd5338(0x26b)](),_0x1d840b();}),_0x57e69d(_0x35e412(0x284))[_0x35e412(0x272)](_0x35e412(0x213),function(){var _0x44f3fd=_0x35e412;_0x8ea119[_0x44f3fd(0x26b)](),_0x45cb6d();}),Array['prototype'][_0x35e412(0x344)][_0x35e412(0x297)](_0x57e69d(_0x35e412(0x2c3))['children'],function(_0x5d7824){var _0x52cd3b=_0x35e412;_0x5d7824[_0x52cd3b(0x272)]('click',function(){var _0x44d183=_0x52cd3b;_0x8ea119[_0x44d183(0x26b)](),_0x8ea119[_0x44d183(0x30d)](),_0x191e1f(_0x5d7824[_0x44d183(0x3bf)](_0x44d183(0x2fa)));});}),_0x57e69d(_0x35e412(0x2e8))[_0x35e412(0x272)](_0x35e412(0x213),function(){var _0x2799ca=_0x35e412;_0x8ea119[_0x2799ca(0x26b)](),_0x4fb1eb(0x0);}),_0x57e69d(_0x35e412(0x299))[_0x35e412(0x272)](_0x35e412(0x213),function(){_0x4fb1eb(_0xcc46c9-0x1);}),_0x57e69d(_0x35e412(0x214))[_0x35e412(0x272)]('click',function(){var _0x4b2076=_0x35e412;if(_0xcc46c9>=_0x1e0a90['help']()['length']-0x1)_0x58618a(_0x4b2076(0x330));else _0x4fb1eb(_0xcc46c9+0x1);}),_0x57e69d(_0x35e412(0x25a))[_0x35e412(0x272)](_0x35e412(0x213),function(){var _0x2b0d96=_0x35e412;_0x8ea119['unlock']();if(_0x32f793!==_0x2b0d96(0x3b0))_0x3f6649();}),_0x57e69d(_0x35e412(0x34a))[_0x35e412(0x272)](_0x35e412(0x213),function(){var _0xdb0646=_0x35e412;_0x58618a(_0xdb0646(0x23b));if(_0x32aca9!==_0xdb0646(0x358))return _0x26c260(_0x1e0a90['t'](_0xdb0646(0x311)));_0x162c1a();}),_0x57e69d(_0x35e412(0x376))[_0x35e412(0x272)](_0x35e412(0x213),function(_0x3ee406){var _0x151f7a=_0x35e412;_0x3ee406[_0x151f7a(0x328)](),_0x8ea119[_0x151f7a(0x26b)](),_0x8ea119['tick'](),_0x54b199();}),Array['prototype']['forEach'][_0x35e412(0x297)](document['querySelectorAll'](_0x35e412(0x28d)),function(_0x4f929b){var _0x423cd4=_0x35e412;_0x4f929b['addEventListener'](_0x423cd4(0x213),function(){var _0x4dc3dc=_0x423cd4;if(_0x57e69d(_0x4dc3dc(0x2ca))[_0x4dc3dc(0x2d4)]['contains'](_0x4dc3dc(0x26a)))_0x155e81();});}),_0x57e69d('btnHelp')['addEventListener'](_0x35e412(0x213),_0x155e81),window[_0x35e412(0x272)](_0x35e412(0x1f8),function(){setTimeout(_0x329ff0,0x3c);}),_0x57e69d(_0x35e412(0x1ff))[_0x35e412(0x272)]('click',function(){var _0x5d4a2b=_0x35e412;_0x8ea119[_0x5d4a2b(0x26b)](),_0x43d522(!![]);}),_0x57e69d(_0x35e412(0x2fc))['addEventListener'](_0x35e412(0x213),function(){var _0x8be197=_0x35e412;_0x8ea119[_0x8be197(0x26b)](),_0x43d522(![]);}),_0x57e69d(_0x35e412(0x301))['addEventListener'](_0x35e412(0x213),function(){var _0x487244=_0x35e412;_0x58618a(_0x487244(0x23b)),_0x1e53e4();}),_0x57e69d('btnAd')[_0x35e412(0x272)](_0x35e412(0x213),function(){var _0x262b6d=_0x35e412;_0x8ea119[_0x262b6d(0x26b)]();if(_0x510056!==_0x262b6d(0x2da))return _0x41fb49();_0x58618a(_0x262b6d(0x309)),_0x510056='table',_0x2b9cfd['meta']['rewarded'](function(){var _0x1a4d74=_0x262b6d,_0xcfd9ff=_0x5d9c4f();_0x49e5e4(_0xcfd9ff),_0x15c3af(_0xcfd9ff),_0x8ea119[_0x1a4d74(0x2b0)]&&_0x8ea119[_0x1a4d74(0x2b0)](),_0x26c260(_0x1e0a90['t'](_0x1a4d74(0x201),{'n':_0x252005[_0x1a4d74(0x2b8)](_0xcfd9ff)})),_0x407e47(),_0x3f2c5f();});}),_0x57e69d(_0x35e412(0x2aa))[_0x35e412(0x272)](_0x35e412(0x213),function(){var _0x35d315=_0x35e412;_0x16e085[_0x35d315(0x3c5)]=!_0x16e085[_0x35d315(0x3c5)],_0x8ea119['on']=_0x16e085[_0x35d315(0x3c5)],_0x407e47(),_0x3f6649(),_0x8ea119[_0x35d315(0x30d)]();}),_0x57e69d('btnLang')['addEventListener'](_0x35e412(0x213),function(){var _0xdbc17=_0x35e412;_0x38f90e(_0x1e0a90[_0xdbc17(0x2c2)]==='ko'?'en':'ko'),_0x3f6649();}),_0x57e69d('btnReset')['addEventListener'](_0x35e412(0x213),function(){_0x3ab9c1(!![]);}),_0x57e69d('btnResetNo')[_0x35e412(0x272)](_0x35e412(0x213),function(){_0x3ab9c1(![]);}),_0x57e69d(_0x35e412(0x2bb))['addEventListener'](_0x35e412(0x213),function(){var _0x2f6c06=_0x35e412;if(!(_0x32f793==='lobby'||_0x32f793===_0x2f6c06(0x264)&&_0x32aca9===_0x2f6c06(0x358)))return;_0x40083b[_0x2f6c06(0x3b3)](),_0x343c8d=0x0,_0x5eab70=[];var _0x2bd6a6=_0x16e085[_0x2f6c06(0x2c2)],_0x117ff2=_0x16e085['sound'];_0x16e085=_0x20855d(),_0x16e085[_0x2f6c06(0x2c2)]=_0x2bd6a6,_0x16e085[_0x2f6c06(0x3c5)]=_0x117ff2,_0x52e449=_0x16e085['chips'],_0x38939f=0x0,_0x57e69d(_0x2f6c06(0x2d9))[_0x2f6c06(0x37d)]=_0x252005[_0x2f6c06(0x2b8)](_0x16e085[_0x2f6c06(0x2d9)]),_0x4f3c0b(),_0x469cf8(),_0x3f7e40(),_0x407e47(),_0x58618a(_0x2f6c06(0x23b));if(_0x32f793===_0x2f6c06(0x2da))_0x3f2c5f();}),Array[_0x35e412(0x346)]['forEach'][_0x35e412(0x297)](document[_0x35e412(0x2d2)](_0x35e412(0x398)),function(_0xcb5a4d){var _0x365162=_0x35e412;_0xcb5a4d[_0x365162(0x272)](_0x365162(0x213),function(){var _0x25331f=_0x365162;_0xcb5a4d[_0x25331f(0x24e)]('.sheet')[_0x25331f(0x2d4)]['remove']('open');});}),Array[_0x35e412(0x346)]['forEach'][_0x35e412(0x297)](document['querySelectorAll'](_0x35e412(0x20c)),function(_0x4961d9){var _0xe58db1=_0x35e412;_0x4961d9[_0xe58db1(0x272)](_0xe58db1(0x213),function(_0x452fb0){var _0x4c21cb=_0xe58db1;if(_0x452fb0[_0x4c21cb(0x381)]===_0x4961d9&&_0x4961d9['id']!=='sheetRefill')_0x4961d9[_0x4c21cb(0x2d4)]['remove'](_0x4c21cb(0x206));});}),_0x57e69d(_0x35e412(0x20a))[_0x35e412(0x272)](_0x35e412(0x24c),function(){var _0x3c29be=_0x35e412;if(_0x32f793===_0x3c29be(0x3b0))_0x23fe4c=0x6;}),window[_0x35e412(0x272)]('resize',_0x469f1d),document[_0x35e412(0x272)]('keydown',function(_0x2c89f3){var _0x5c6e56=_0x35e412;if(_0x2c89f3['repeat'])return;var _0x340919=_0x2c89f3['key'][_0x5c6e56(0x2bd)]();if(_0x32f793===_0x5c6e56(0x2da))(_0x340919===_0x5c6e56(0x205)||_0x340919==='\x20')&&(_0x8ea119['unlock'](),_0x5e8873());else{if(_0x32f793===_0x5c6e56(0x3b0))_0x23fe4c=0x6;else{if(_0x32aca9==='bet'){if(_0x340919===_0x5c6e56(0x205)||_0x340919==='\x20'){_0x8ea119[_0x5c6e56(0x26b)]();if(!_0x343c8d&&_0x2520d9[_0x5c6e56(0x326)])_0x45cb6d();else _0x169fee();}_0x340919>='1'&&_0x340919<='3'&&_0x3cca5d[_0x5c6e56(0x2d9)][+_0x340919-0x1]&&(_0x8ea119['unlock'](),_0x2ac32c(_0x3cca5d['chips'][+_0x340919-0x1]));}else{if(_0x32aca9===_0x5c6e56(0x33e)){var _0x2aa1c8={'h':_0x5c6e56(0x261),'s':_0x5c6e56(0x32b),'d':'double','p':_0x5c6e56(0x305)}[_0x340919];_0x2aa1c8&&(_0x8ea119[_0x5c6e56(0x26b)](),_0x191e1f(_0x2aa1c8));}}}}});}function _0x469f1d(){var _0x21ab5b=_0x482022,_0x3a2375=_0x57e69d(_0x21ab5b(0x20a));document[_0x21ab5b(0x29c)][_0x21ab5b(0x36c)][_0x21ab5b(0x236)]('--u',_0x3a2375[_0x21ab5b(0x373)]/0x64+'px'),_0x1f6653[_0x21ab5b(0x1f8)]();}var _0x5f365a=0x0,_0x5a9daf=0x0;function _0x4d2b1e(_0x546828){var _0x1222c6=_0x482022,_0x45546a=Math[_0x1222c6(0x320)](0.034,(_0x546828-_0x5f365a)/0x3e8||0.016),_0x25766b=_0x45546a*_0x1c8733[_0x1222c6(0x34b)]*_0x23fe4c;_0x5f365a=_0x546828,_0x5a9daf+=_0x45546a,_0x2b9cfd[_0x1222c6(0x2c0)][_0x1222c6(0x39d)]+=_0x25766b;while(_0x25766b>0.000001){var _0x2bea00=Math[_0x1222c6(0x320)](0.034,_0x25766b);_0x1c8733['update'](_0x2bea00),_0x40083b[_0x1222c6(0x36b)](_0x2bea00),_0x25766b-=_0x2bea00;}if(_0x32f793===_0x1222c6(0x2da))_0x1f6653[_0x1222c6(0x394)](_0x5a9daf);else _0x1f6653[_0x1222c6(0x2ee)]();_0x4fa4a6();if(_0x52e449!==_0x16e085['chips']){var _0x494fbd=_0x16e085[_0x1222c6(0x2d9)]-_0x52e449;_0x52e449=Math[_0x1222c6(0x25c)](_0x494fbd)<0x1?_0x16e085['chips']:_0x52e449+_0x494fbd*Math[_0x1222c6(0x320)](0x1,_0x45546a*0xe),_0x57e69d(_0x1222c6(0x2d9))['textContent']=_0x252005[_0x1222c6(0x2b8)](_0x52e449);}if(!_0x2b9cfd[_0x1222c6(0x2c0)][_0x1222c6(0x2a3)])_0x1f6653[_0x1222c6(0x2ad)]();_0x5d37f3(_0x45546a),requestAnimationFrame(_0x4d2b1e);}var _0xf3220b=0x0,_0x55f177=0x0,_0x18e9ec=0x0;function _0x5d37f3(_0x2164d8){var _0x541b66=_0x482022;if(_0x18e9ec>0x1||_0x2b9cfd[_0x541b66(0x2c0)][_0x541b66(0x374)])return;_0xf3220b++,_0x55f177+=_0x2164d8;if(_0xf3220b<0x50)return;var _0x5cc479=_0x55f177/_0xf3220b;_0xf3220b=0x0,_0x55f177=0x0;if(_0x5cc479>0.024)_0x18e9ec++,_0x1f6653[_0x541b66(0x339)][_0x541b66(0x243)](Math['min'](window['devicePixelRatio']||0x1,_0x18e9ec===0x1?1.5:0x1)),_0x1f6653[_0x541b66(0x1f8)]();else _0x18e9ec=0x2;}_0x2b9cfd[_0x482022(0x2c0)]={'rig':null,'noStarter':![],'state':function(){var _0x45ed8d=_0x482022;return{'mode':_0x32f793,'phase':_0x32aca9,'chips':_0x16e085[_0x45ed8d(0x2d9)],'bet':_0x343c8d,'table':_0x16e085[_0x45ed8d(0x264)],'split':_0x129bc0,'round':_0x4f3337&&{'phase':_0x4f3337[_0x45ed8d(0x273)],'active':_0x4f3337[_0x45ed8d(0x29a)],'hands':_0x4f3337['hands'][_0x45ed8d(0x367)](function(_0x2354e3){var _0x4a2ae=_0x45ed8d;return{'cards':_0x2354e3[_0x4a2ae(0x2c4)]['map'](function(_0x1e4b6b){var _0x4f4cab=_0x4a2ae;return _0x1e4b6b[_0x4f4cab(0x204)]+_0x1e4b6b[_0x4f4cab(0x27e)];}),'bet':_0x2354e3['bet'],'result':_0x2354e3[_0x4a2ae(0x3b6)]};}),'dealer':_0x4f3337[_0x45ed8d(0x27c)][_0x45ed8d(0x367)](function(_0x324373){var _0x279f7a=_0x45ed8d;return _0x324373[_0x279f7a(0x204)]+_0x324373[_0x279f7a(0x27e)];})},'chipsOnTable':_0x40083b[_0x45ed8d(0x397)]()[_0x45ed8d(0x326)],'chipZ':_0x40083b[_0x45ed8d(0x397)]()['filter'](function(_0x3052bb){var _0xcd942=_0x45ed8d;return _0x3052bb[_0xcd942(0x2bc)]===_0xcd942(0x369)||_0x3052bb[_0xcd942(0x2bc)]===_0xcd942(0x39b);})[_0x45ed8d(0x367)](function(_0x140162){var _0x5514b9=_0x45ed8d;return+_0x140162['z'][_0x5514b9(0x241)](0x2);})};},'unlockFx':function(_0x23c8b6){var _0x4f9012=_0x482022;_0x4f3a91(_0x23c8b6,_0x348df9['TABLES'][_0x23c8b6][_0x4f9012(0x24d)],_0x348df9[_0x4f9012(0x360)][_0x23c8b6][_0x4f9012(0x320)]*0x32);},'theme':function(_0x59b070){var _0x26f2a=_0x482022;_0x1f6653[_0x26f2a(0x37f)](_0x59b070,_0x348df9['TABLES'][_0x59b070],_0x4614d8(_0x348df9[_0x26f2a(0x360)][_0x59b070]));},'skipCoach':function(){var _0x361902=_0x482022;_0x16e085[_0x361902(0x3c8)]=0x9,_0x548461=0x0,_0x9ea9fd();},'cam':function(){var _0x219db7=_0x482022,_0x5c6f97=_0x1f6653['camera']['position'];return[_0x5c6f97['x'],_0x5c6f97['y'],_0x5c6f97['z'],_0x1f6653[_0x219db7(0x3c9)][_0x219db7(0x38b)]][_0x219db7(0x367)](function(_0x14f439){return+_0x14f439['toFixed'](0x1);});},'give':function(_0x2cc9e6){var _0x5beb95=_0x482022;_0x16e085['chips']=_0x2cc9e6,_0x27cae4();if(_0x32f793===_0x5beb95(0x2da))_0x3f2c5f();},'speed':function(_0x2586c7){var _0x387606=_0x482022;_0x1c8733[_0x387606(0x34b)]=_0x2586c7;},'pixelRatio':function(_0x540497){var _0x376293=_0x482022;_0x2b9cfd[_0x376293(0x2c0)][_0x376293(0x374)]=!![],_0x1f6653[_0x376293(0x339)][_0x376293(0x243)](_0x540497),_0x1f6653[_0x376293(0x1f8)]();},'fixedQuality':![],'noRender':![],'clock':0x0};function _0x535512(){var _0x4f81a8=_0x482022,_0x12ab21=window['NCQ']&&window[_0x4f81a8(0x2d3)][_0x4f81a8(0x26f)];_0x57e69d(_0x4f81a8(0x29d))[_0x4f81a8(0x37d)]=_0x12ab21?'v'+_0x12ab21:_0x4f81a8(0x251),_0x2b9cfd['meta']['init'](_0x16e085,_0x407e47,{'toast':function(_0x5942ef){_0x26c260(_0x5942ef);}}),_0x1e0a90['lang']=_0x16e085[_0x4f81a8(0x2c2)]||((navigator[_0x4f81a8(0x23d)]||'en')['toLowerCase']()['indexOf']('ko')===0x0?'ko':'en'),_0x1e0a90[_0x4f81a8(0x340)](),_0x8ea119['on']=_0x16e085[_0x4f81a8(0x3c5)],_0x469f1d();var _0x1ce008=document['fonts']&&document[_0x4f81a8(0x356)][_0x4f81a8(0x1fb)]?Promise['all'](_0x2b9cfd[_0x4f81a8(0x266)][_0x4f81a8(0x356)][_0x4f81a8(0x367)](function(_0x511785){var _0x5e238f=_0x4f81a8;return document[_0x5e238f(0x356)]['load'](_0x511785)['catch'](function(){});})):Promise['resolve'](),_0x1cfe0b=new Promise(function(_0x4aad76){setTimeout(_0x4aad76,0x9c4);});Promise['race']([_0x1ce008,_0x1cfe0b])[_0x4f81a8(0x246)](function(){var _0x20b00c=_0x4f81a8;try{_0x1f6653[_0x20b00c(0x2de)](_0x57e69d(_0x20b00c(0x3c7)));}catch(_0xe0b10a){if(window[_0x20b00c(0x20e)])console[_0x20b00c(0x317)](_0xe0b10a);_0x57e69d(_0x20b00c(0x27b))[_0x20b00c(0x22e)](_0x20b00c(0x1fe))['innerHTML']='<span></span>',_0x57e69d(_0x20b00c(0x27b))[_0x20b00c(0x22e)](_0x20b00c(0x3a8))[_0x20b00c(0x37d)]=_0x1e0a90['t']('webgl');return;}_0x40083b[_0x20b00c(0x352)]('h0',_0x5f2a69['x'],_0x5f2a69['z']),_0x40083b[_0x20b00c(0x352)]('h1',_0x358d8f,_0x5f2a69['z']);var _0x5c8bc8=_0x2b9cfd['art'][_0x20b00c(0x244)]();document['documentElement'][_0x20b00c(0x36c)][_0x20b00c(0x236)]('--coin',_0x20b00c(0x3c3)+_0x5c8bc8+')'),_0x4f3c0b(),_0x2b9cfd[_0x20b00c(0x3b0)]['setOut'](_0x348df9[_0x20b00c(0x2b9)][_0x20b00c(0x223)]),_0x892efc(),_0x469f1d(),_0x57e69d(_0x20b00c(0x2d9))['textContent']=_0x252005[_0x20b00c(0x2b8)](_0x16e085[_0x20b00c(0x2d9)]),_0x3f7e40(),_0x469cf8(),_0x2b90de('busy'),_0x3911e4(),_0x38939f=_0x2cc916(),_0x16e085[_0x20b00c(0x264)]=_0x38939f,_0x1f6653[_0x20b00c(0x37f)](_0x38939f,_0x348df9['TABLES'][_0x38939f],_0x4614d8(_0x348df9[_0x20b00c(0x360)][_0x38939f])),_0x534196('lobby'),_0x3f2c5f(),_0x5f58da(),requestAnimationFrame(function(_0xb02203){var _0x2653a4=_0x20b00c;_0x5f365a=_0xb02203,_0x4d2b1e(_0xb02203),_0x57e69d('loading')['className']=_0x2653a4(0x39a);});});}_0x535512();}()));
+/* Game flow and HUD: lobby, the walk-up to the table and opening shuffle, betting,
+   dealing, player actions, dealer play, results and payout, running out of chips, settings. */
+(function () {
+  'use strict';
+  var BJ = window.BJ, E = BJ.engine, U = BJ.util, anim = BJ.anim, S = BJ.stage, C = BJ.cards, Ch = BJ.chips, A = BJ.audio, I = BJ.i18n;
+  var $ = function (id) { return document.getElementById(id); };
+  var NcqMetrics = BJ.ncqMetrics;
+
+  /* ---------- saved state: the shared save module NcqSave (on the device, backed up to the cloud in release builds) ---------- */
+  var KEY = 'blackjack-proto-1';          // the save from before NcqSave, moved over once
+  function fresh() {
+    return { chips: E.START_CHIPS, xp: 0, table: 0, lastTable: null, unlocked: [true, false, false, false, false, false, false, false, false, false, false], starter: 0, tut: 0, nick: null, icon: 0, icons: [], ach: {}, achSeen: {}, adHands: 0, unveil: -1, tours: {}, rating: 1000, tourLog: [], inTour: null, bank: null, lang: null, sound: true,
+             vipUntil: 0, vipDays: 0, vipApplied: 0, vipGift: null, migrated: false, firstDay: null, dayHands: {},
+             stats: { hands: 0, won: 0, lost: 0, pushed: 0, bjs: 0, ads: 0, peak: E.START_CHIPS } };
+  }
+  function load() {
+    var N = window.NcqSave, f = fresh();
+    N.init({ id: 'blackjack21', data: f });
+    var d = N.get();
+    if (!d.migrated) {
+      var old = null;
+      try { old = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { old = null; }
+      N.update(function (s) {
+        if (old) {
+          Object.keys(old).forEach(function (k) { s[k] = old[k]; });
+          if (old.starter === undefined) s.starter = Math.min(3, (old.stats && old.stats.hands) || 0);
+          if (old.tut === undefined && old.stats && old.stats.hands > 0) s.tut = 9;      // older players skip the first-time pointers
+        }
+        s.migrated = true;
+      });
+      if (old) { try { localStorage.removeItem(KEY); } catch (e) { /* nothing to clear */ } }
+      d = N.get();
+    }
+    for (var k in f) if (d[k] === undefined) d[k] = f[k];
+    for (var q in f.stats) if (d.stats[q] === undefined) d.stats[q] = f.stats[q];
+    while (d.unlocked.length < f.unlocked.length) d.unlocked.push(false);
+    // closed mid-tournament: the tournament chips go back to the entry and the player's own chips come back
+    if (d.inTour) { if (d.tours && d.tours[d.inTour]) d.tours[d.inTour].chips = d.chips; d.chips = d.bank != null ? d.bank : d.chips; d.inTour = null; d.bank = null; }
+    return d;
+  }
+  function save() { window.NcqSave.update(function (s) { Object.keys(st).forEach(function (k) { s[k] = st[k]; }); }); }
+
+  var st = load();
+  var table = E.TABLES[st.table];
+  var mode = 'boot';            // lobby | intro (camera move + shuffle, no HUD) | table
+  var sel = 0;                  // table highlighted in the lobby (set at boot)
+  var phase = 'busy';           // bet | busy | player
+  var round = null;
+  var bet = 0, betChips = [], lastBet = [];
+  var view = { dealer: [], hands: [[], []] };
+  var split = false;
+  var shown = st.chips;         // the balance on screen counts toward st.chips
+  var busted = [false, false];  // hands whose chips were already taken
+  var boost = 1;                // animation speed-up (the shuffle runs at SHUFFLE_SPEED)
+  var SHUFFLE_SPEED = 1.5;      // the deck shuffle plays a little brisker, and can't be tapped away
+  var shoe = null;              // the dealer's running shoe; reshuffled when it runs down to the cut card
+  var CUT = 78;                 // about three quarters dealt
+
+  /* ---------- where things sit on the felt ---------- */
+  var DEALER = { x: 0, z: S.LAYOUT.dealerZ }, HAND = { x: 0, z: 4.4 }, PILE = { x: 0, z: 17.6 };
+  var SPLIT_X = 7.7, SPLIT_PILE_X = 5.3;
+
+  function handCenter(i) { return split ? { x: i ? SPLIT_X : -SPLIT_X, z: HAND.z } : HAND; }
+
+  // Slot for every card of a hand: a tight overlapping row, re-centred as it grows.
+  function slots(who, i) {
+    var list = who === 'dealer' ? view.dealer : view.hands[i];
+    var n = list.length, ctr = who === 'dealer' ? DEALER : handCenter(i), off;
+    // A doubled hand ends with one card laid sideways across the row.
+    var m = n && list[n - 1].sideways ? n - 1 : n, out = [];
+    if (who === 'dealer') off = n <= 2 ? 8.7 : Math.min(3.6, (S.LAYOUT.dealerHalf * 2 - C.W) / (n - 1));   // two cards sit in their printed boxes
+    else off = split ? Math.min(2.4, 6.6 / Math.max(1, m - 1)) : Math.min(3.3, 13.5 / Math.max(1, m - 1));
+    for (var k = 0; k < n; k++) {
+      var c = list[k], o = { x: ctr.x + (k - (m - 1) / 2) * off, y: 0.04 + k * 0.058, z: ctr.z, yaw: c.jit };
+      if (c.sideways) { o.x = ctr.x + 0.9; o.z = ctr.z + 2.4; o.yaw = Math.PI / 2 + c.jit; }
+      out.push(o);
+    }
+    return out;
+  }
+
+  function dealTo(who, i, card, faceUp, sideways) {
+    var list = who === 'dealer' ? view.dealer : view.hands[i];
+    var c = C.make(card);
+    c.jit = U.rand(-0.03, 0.03); c.sideways = !!sideways;
+    dealtFromShoe++; S.setShoeCount(Math.max(0, shoeTotal() - dealtFromShoe)); refreshShoeTag();
+    list.push(c);
+    var sl = slots(who, i);
+    for (var k = 0; k < list.length - 1; k++) C.moveTo(list[k], sl[k], 0.22);
+    var tg = sl[list.length - 1];
+    tg.faceUp = faceUp;
+    return C.deal(c, tg).then(refreshTotals);
+  }
+
+  // What the shoe shows: cards still in it. Cards are pulled out of the array at deal time, so count the ones animated.
+  var dealtFromShoe = 0, shoeAtDeal = 312;
+  function shoeTotal() { return shoeAtDeal; }
+  function refreshShoeTag() { var el = $('shoeTag'); el.textContent = Math.max(0, shoeAtDeal - dealtFromShoe); }
+
+
+
+
+  /* ---------- multiplayer bet clock ---------- */
+  // At a shared table you get 30 seconds to bet and press DEAL. The DEAL button's border runs down like a clock,
+  // shows the seconds left, and starts to nod for the last five. If time runs out with a bet down it deals;
+  // with nothing down you sit this hand out.
+  var BET_SECONDS = 30, betTimer = 0, betEnds = 0;
+  function startBetTimer() {
+    stopBetTimer();
+    betEnds = Date.now() + BET_SECONDS * 1000;
+    var btn = $('btnDeal'); btn.classList.add('timed');
+    var badge = $('dealClock');
+    if (!badge) { badge = document.createElement('i'); badge.id = 'dealClock'; btn.parentNode.appendChild(badge); }
+    badge.className = 'on';
+    tickBet(); betTimer = setInterval(tickBet, 100);
+  }
+  function tickBet() {
+    var left = Math.max(0, betEnds - Date.now()), btn = $('btnDeal'), badge = $('dealClock');
+    btn.style.setProperty('--p', (left / (BET_SECONDS * 1000)).toFixed(3));
+    badge.textContent = Math.ceil(left / 1000);
+    var r = btn.getBoundingClientRect(), pr = btn.parentNode.getBoundingClientRect();
+    badge.style.left = (r.left - pr.left + r.width / 2) + 'px'; badge.style.top = (r.top - pr.top) + 'px';
+    btn.classList.toggle('hurry', left < 5000);
+    if (left > 0) return;
+    stopBetTimer();
+    if (phase !== 'bet') return;
+    // time's up: whatever is down is topped up to the table maximum (or all you have) and dealt
+    var want = Math.min(table.max, st.chips + bet) - bet;
+    autoBet = true;
+    if (bet + want >= table.min) {
+      toast(I.t('autoBet', { n: U.money(bet + want) }));
+      E.breakdown(want, 30).forEach(function (d) { st.chips -= d; bet += d; betChips.push(d); Ch.bet(d, 'h0'); });
+      refreshBetTags(); refreshButtons();
+      return anim.wait(0.6).then(function () { if (phase === 'bet') deal(); });
+    }
+    clearBet(); toast(I.t('timeOut'));
+    if (mates.some(Boolean)) sitOutHand(I.t('sittingOut')); else startBetTimer();
+  }
+
+  /* ---------- multiplayer turn clock ---------- */
+  // Your decisions at a shared table get 30 seconds too: every action button carries the running border,
+  // they nod harder as time runs low, and when it's out you stand.
+  var autoBet = false, handIdle = false;     // a hand that ran only on timeouts
+  var ACT_SECONDS = 30, actTimer = 0, actEnds = 0;
+  function startActTimer() {
+    stopActTimer();
+    if (!multi) return;
+    actEnds = Date.now() + ACT_SECONDS * 1000;
+    var bar = $('actBar'), badge = $('actClock');
+    if (!badge) { badge = document.createElement('i'); badge.id = 'actClock'; bar.appendChild(badge); }
+    badge.className = 'on';
+    tickAct(); actTimer = setInterval(tickAct, 100);
+  }
+  function tickAct() {
+    var left = Math.max(0, actEnds - Date.now()), frac = left / (ACT_SECONDS * 1000);
+    var btns = $('actBar').querySelectorAll('.btn.act');
+    for (var i = 0; i < btns.length; i++) {
+      var b = btns[i];
+      b.classList.toggle('timed', !b.disabled);
+      b.style.setProperty('--p', frac.toFixed(3));
+      b.classList.toggle('hurry', !b.disabled && left < 10000);
+      b.classList.toggle('panic', !b.disabled && left < 4000);
+    }
+    $('actClock').textContent = Math.ceil(left / 1000);
+    if (left > 0) return;
+    stopActTimer();
+    if (phase === 'player') act('stand', true);
+  }
+  function stopActTimer() {
+    clearInterval(actTimer); actTimer = 0;
+    Array.prototype.forEach.call($('actBar').querySelectorAll('.btn.act'), function (b) { b.classList.remove('timed', 'hurry', 'panic'); });
+    var badge = $('actClock'); if (badge) badge.className = '';
+  }
+  function stopBetTimer() {
+    clearInterval(betTimer); betTimer = 0;
+    var btn = $('btnDeal'); btn.classList.remove('timed', 'hurry');
+    var badge = $('dealClock'); if (badge) badge.className = '';
+  }
+
+  /* ---------- metrics: hands (levelStart/levelEnd), first-time steps, screen flow ---------- */
+  // The full plan with every observation point is in docs/metrics-plan.md.
+  function handMode() { return st.inTour ? 'tour_' + st.inTour.split(':')[0] : multi ? 'multi' : 'single'; }
+  function dayNo() { var d = new Date(); var k = Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5); if (st.firstDay == null) { st.firstDay = k; save(); } return k - st.firstDay + 1; }
+  function handCountSteps(n) {
+    if (n === 1) NcqMetrics.step("010_hand1_end");
+    else if (n === 2) NcqMetrics.step("013_hand2_end");
+    else if (n === 3) NcqMetrics.step("014_hand3_end");
+    else if (n === 5) NcqMetrics.step("015_hand5_end");
+    else if (n === 10) NcqMetrics.step("016_hand10_end");
+    else if (n === 25) NcqMetrics.step("021_hand25_end");
+    else if (n === 50) NcqMetrics.step("022_hand50_end");
+    else if (n === 100) NcqMetrics.step("024_hand100_end");
+    else if (n === 200) NcqMetrics.step("026_hand200_end");
+    else if (n === 500) NcqMetrics.step("027_hand500_end");
+  }
+  function levelSteps(L) {
+    if (L >= 2) NcqMetrics.step("017_level2");
+    if (L >= 5) NcqMetrics.step("023_level5");
+    if (L >= 9) NcqMetrics.step("025_level9");
+    if (L >= 14) NcqMetrics.step("028_level14");
+  }
+  function dayOpenStep() {
+    var n = dayNo();
+    if (n === 2) NcqMetrics.step("080_day2_open");
+    else if (n === 3) NcqMetrics.step("083_day3_open");
+    else if (n === 4) NcqMetrics.step("086_day4_open");
+    else if (n === 5) NcqMetrics.step("089_day5_open");
+  }
+  function dayHandSteps() {
+    var n = dayNo(); if (n < 2 || n > 5) return;
+    var key = 'd' + n; st.dayHands = st.dayHands || {}; st.dayHands[key] = (st.dayHands[key] || 0) + 1;
+    var c = st.dayHands[key];
+    if (n === 2) { NcqMetrics.step("081_day2_hand_end"); if (c >= 10) NcqMetrics.step("082_day2_hand10"); }
+    else if (n === 3) { NcqMetrics.step("084_day3_hand_end"); if (c >= 10) NcqMetrics.step("085_day3_hand10"); }
+    else if (n === 4) { NcqMetrics.step("087_day4_hand_end"); if (c >= 10) NcqMetrics.step("088_day4_hand10"); }
+    else { NcqMetrics.step("090_day5_hand_end"); if (c >= 10) NcqMetrics.step("091_day5_hand10"); }
+  }
+  // hand results worth noting once
+  function handResultSteps(best, net) {
+    if (best === 'win' || best === 'blackjack') NcqMetrics.step("first_win");
+    if (best === 'blackjack') NcqMetrics.step("first_blackjack");
+    if (best === 'push') NcqMetrics.step("first_push");
+    if (best === 'lose') NcqMetrics.step("first_loss");
+    if ((st.stats.streak || 0) >= 3) NcqMetrics.step("streak3");
+    if (multi) NcqMetrics.step("multi_first_hand_end");
+    if (st.inTour) NcqMetrics.step("tour_first_hand_end");
+    void net;
+  }
+
+  /* ---------- first-time pointers ---------- */
+  // The first time at a table: light up the chips ("place a bet"), then DEAL, play the hand, and after it the ? button.
+  // Everything else is dimmed and can't be pressed while a pointer is up.
+  var coachStep = 0, coachTarget = null;
+  function coachShow(el, text, sub, tapClose) {
+    var box = $('coach'), g = $('game').getBoundingClientRect(), r = el.getBoundingClientRect(), pad = 8;
+    var x0 = r.left - g.left - pad, y0 = r.top - g.top - pad, x1 = r.right - g.left + pad, y1 = r.bottom - g.top + pad, W = g.width, H = g.height;
+    var b = box.querySelectorAll('.blk');
+    function put(e, l, t, w, h) { e.style.left = l + 'px'; e.style.top = t + 'px'; e.style.width = Math.max(0, w) + 'px'; e.style.height = Math.max(0, h) + 'px'; }
+    put(b[0], 0, 0, W, y0); put(b[1], 0, y1, W, H - y1); put(b[2], 0, y0, x0, y1 - y0); put(b[3], x1, y0, W - x1, y1 - y0);
+    put(box.querySelector('.ring'), x0, y0, x1 - x0, y1 - y0);
+    var tip = box.querySelector('.tip');
+    tip.innerHTML = ''; tip.appendChild(document.createTextNode(text));
+    if (sub) { var sm = document.createElement('small'); sm.textContent = sub; tip.appendChild(sm); }
+    box.className = 'on' + (tapClose ? ' tapclose' : '');
+    var below = y1 + 14, above = y0 - 14 - tip.offsetHeight;
+    tip.style.top = ((y0 + y1) / 2 > H * 0.5 ? above : below) + 'px';
+    coachTarget = el;
+  }
+  function coachHide() { $('coach').className = ''; coachTarget = null; }
+  // keep the lit hole on its target while bars slide in or the window changes size
+  setInterval(function () { if (coachTarget && $('coach').className) coachRelayout(); }, 250);
+  function coachRelayout() {
+    if (!coachTarget) return;
+    if (coachStep === 1) { coachShow($('chipRow'), I.t('coachBet')); NcqMetrics.step("004_coach_bet"); }
+    else if (coachStep === 2) { coachShow($('btnDeal'), I.t('coachDeal')); NcqMetrics.step("006_coach_deal"); }
+    else if (coachStep === 3) { coachShow($('btnHelp'), I.t('coachHelp'), I.t('coachTap'), true); NcqMetrics.step("011_coach_help"); }
+    else if (coachStep === 4) { coachShow(document.querySelector('[data-act=stand]'), I.t('coachStand')); NcqMetrics.step("008_coach_stand"); }
+    else if (coachStep === 5) { coachShow(document.querySelector('.playrow'), I.t('coachPick')); NcqMetrics.step("020_unveil_done"); }
+  }
+  function coachBegin() {
+    if (st.tut >= 1 || mode !== 'table') return;
+    st.tut = 1; coachStep = 1; save();
+    setTimeout(coachRelayout, 350); coachTarget = $('chipRow'); coachRelayout();
+  }
+  function coachAfterBet() { if (coachStep === 1 && bet >= table.min) { coachStep = 2; st.tut = 2; coachRelayout(); } }
+  var standPending = false, coachShownAt = 0;
+  function coachAfterDeal() { if (coachStep === 2) { coachStep = 0; st.tut = 3; coachHide(); save(); standPending = true; } }
+  // first decision of the first hand: point at STAND (the welcome hand is a 20)
+  function coachPlayerTurn() {
+    if (!standPending) return;
+    standPending = false; coachStep = 4; coachTarget = $('actBar');
+    setTimeout(coachRelayout, 300); coachRelayout();
+  }
+  function coachAfterAct() { if (coachStep === 4) { coachStep = 0; coachHide(); } }
+  function coachAfterHand() {
+    standPending = false; if (coachStep === 4) { coachStep = 0; coachHide(); }
+    if (st.tut !== 3) return;
+    st.tut = 4; save();
+    setTimeout(function () { if (mode !== 'table' || phase !== 'bet') { st.tut = 3; return; } coachStep = 3; coachTarget = $('btnHelp'); coachShownAt = Date.now(); coachRelayout(); }, 900);
+  }
+  // the ? pointer stays at least a second, so a quick double tap doesn't skip past it unread
+  // after a new table pops open in the lobby: point at MULTI / SINGLE and let the player pick one
+  function coachPickMode() {
+    if (mode !== 'lobby') return;
+    coachStep = 5; coachTarget = document.querySelector('.playrow');
+    setTimeout(coachRelayout, 300); coachRelayout();
+  }
+  function coachPickDone() { if (coachStep === 5) { coachStep = 0; coachHide(); } }
+  function coachEnd() { if (coachStep === 3 && Date.now() - coachShownAt >= 1000) { coachStep = 0; st.tut = 9; save(); coachHide(); NcqMetrics.step("012_coach_help_done"); } }
+
+  /* ---------- tablemates (multiplayer look, no real matching yet) ---------- */
+  // Up to two AI players sit to either side. They bet, take cards from the same shoe, play basic strategy
+  // before you, and settle against the dealer like you do. Between hands people now and then sit down or leave.
+  var multi = false;
+  // seats either side of yours along the curve of the table, cards turned toward the dealer
+  // Side seats sit level with your hand, cards turned 45° in toward you, each with its own betting spot below.
+  // Side seats copy your own seat — the same betting box and the same gap from the box to the cards
+  // (HAND.z to PILE.z) — only turned in toward the dealer and set up the table's curve.
+  var SEATS = [-1, 1].map(function (side) {
+    var spin = 0.34 * side, px = 25 * side, pz = 13, gap = PILE.z - HAND.z;
+    return { px: px, pz: pz, spin: spin, yaw: spin, x: px - Math.sin(spin) * gap, z: pz - Math.cos(spin) * gap };
+  });
+  Ch.setPile('m0', SEATS[0].px, SEATS[0].pz, 3.2); Ch.setPile('m1', SEATS[1].px, SEATS[1].pz, 3.2);
+  var mates = [null, null];
+  function seatEl(i) {
+    var id = 'seat' + i, el = $(id);
+    if (!el) {
+      el = document.createElement('div'); el.id = id; el.className = 'seat off';
+      el.innerHTML = '<div class="who"><span class="ord"></span><img alt=""><b></b></div><div class="info"><span class="bet"></span><span class="tot"></span></div><div class="status"></div>';
+      $('marks').appendChild(el);
+      var res = document.createElement('div'); res.className = 'seat seatres'; res.id = 'seatRes' + i; res.innerHTML = '<div class="res"></div>';
+      $('marks').appendChild(res);
+      // the seat's total over its cards and its stake above its box, like yours but smaller
+      var tot = document.createElement('div'); tot.className = 'total mini'; tot.id = 'seatTot' + i; $('marks').appendChild(tot);
+      var bt = document.createElement('div'); bt.className = 'bettag mini'; bt.id = 'seatBet' + i; $('marks').appendChild(bt);
+    }
+    return el;
+  }
+  function seatCards(i) {
+    var m = mates[i], sp = SEATS[i], n = m.cards.length, off = Math.min(2.6, 9 / Math.max(1, n - 1)), out = [];
+    var ux = Math.cos(sp.yaw), uz = -Math.sin(sp.yaw);
+    if (m.sets) {               // a split seat: two little rows side by side along the seat
+      return m.cards.map(function (c) {
+        var k = m.sets[0].indexOf(c) >= 0 ? 0 : 1, set = m.sets[k], j = set.indexOf(c), o = Math.min(1.6, 4.5 / Math.max(1, set.length - 1));
+        var d = (k ? 5.2 : -5.2) + (j - (set.length - 1) / 2) * o;
+        return { x: sp.x + ux * d, y: 0.04 + j * 0.058, z: sp.z + uz * d, yaw: sp.yaw + c.jit, faceUp: true };
+      });
+    }
+    for (var k = 0; k < n; k++) {
+      var d = (k - (n - 1) / 2) * off;
+      out.push({ x: sp.x + ux * d, y: 0.04 + k * 0.058, z: sp.z + uz * d, yaw: sp.yaw + m.cards[k].jit, faceUp: true });
+    }
+    return out;
+  }
+  function mateDrawCard(i, card) {
+    var m = mates[i], c = C.make(card);
+    c.jit = U.rand(-0.03, 0.03);
+    m.hand.push(card); m.cards.push(c); if (m.sets) m.sets[m.active].push(c);
+    var sl = seatCards(i);
+    for (var k = 0; k < m.cards.length - 1; k++) C.moveTo(m.cards[k], sl[k], 0.2);
+    return C.deal(c, sl[sl.length - 1]).then(function () { refreshSeat(i); });
+  }
+  function mateDraw(i) {
+    // from the far end of the shoe, so set-up hands (the welcome deals) stay in order for the player and dealer
+    var m = mates[i], card = shoe.shift(), c = C.make(card);
+    c.jit = U.rand(-0.03, 0.03);
+    m.hand.push(card); m.cards.push(c); if (m.sets) m.sets[m.active].push(c);
+    dealtFromShoe++; S.setShoeCount(Math.max(0, shoeTotal() - dealtFromShoe)); refreshShoeTag();
+    var sl = seatCards(i);
+    for (var k = 0; k < m.cards.length - 1; k++) C.moveTo(m.cards[k], sl[k], 0.2);
+    return C.deal(c, sl[sl.length - 1]).then(function () { refreshSeat(i); });
+  }
+  function refreshSeat(i) {
+    var m = mates[i], el = seatEl(i), tot = $('seatTot' + i), bt = $('seatBet' + i);
+    if (!m) { el.classList.add('off'); tot.className = 'total mini'; bt.className = 'bettag mini'; $('seatRes' + i).querySelector('.res').className = 'res'; return; }
+    el.classList.remove('off');
+    el.querySelector('img').src = BJ.meta.icon(m.icon);
+    el.querySelector('b').textContent = m.nick;
+    el.querySelector('.bet').textContent = m.bet ? '● ' + U.money(m.bet) : '';
+    var v = m.hand.length ? E.handValue(m.hand) : null;
+    if (m.hands) v = null;
+    el.querySelector('.tot').textContent = '';
+    el.querySelector('.bet').textContent = '';
+    tot.textContent = v ? (v.soft && v.total < 21 ? (v.total - 10) + '/' + v.total : v.total) : '';
+    tot.className = 'total mini' + (v ? ' on' : '') + (v && v.total > 21 ? ' bust' : '');
+    if (m.hands) { tot.textContent = m.hands.map(function (h) { return h.length ? E.handValue(h).total : '·'; }).join(' · '); tot.className = 'total mini on'; }
+    bt.textContent = m.bet ? U.money(m.bet) : '';
+    bt.className = 'bettag mini' + (m.bet ? ' on' : '');
+    el.querySelector('.status').textContent = '';
+    // the seat's move (HIT, STAND, ...) shows in its call-out spot until the hand is settled there
+    var res = $('seatRes' + i).querySelector('.res');
+    if (!/\bdone\b/.test(res.className)) {
+      var word = { THINK: I.t('mThink'), BETTHINK: I.t('mBetThink'), READY: I.t('mReady'), TIMEOUT: I.t('mTimeout'), AUTOBET: I.t('mAutoBet') }[m.status] || m.status || '';
+      res.textContent = word;
+      res.className = 'res' + (m.status ? ' on act' + (m.status === 'BUST' ? ' lose' : '') + (/THINK/.test(m.status) ? ' think' : '') + (m.status === 'READY' ? ' ready' : '') : '');
+    }
+  }
+  function layoutSeats() {
+    for (var i = 0; i < 2; i++) {
+      var sp = SEATS[i], el = $('seat' + i);      // the name sits just past the outer end of the seat's box, out toward the rail
+      if (el) pin(el, sp.px * 0.72 + Math.sin(sp.spin) * 6, 0.5, sp.pz + Math.cos(sp.spin) * 7.5);   // pulled in a little so it stays on screen
+      var up = { x: -Math.sin(sp.spin), z: -Math.cos(sp.spin) }, tt = $('seatTot' + i), bt = $('seatBet' + i);
+      if (tt) pin(tt, sp.x + up.x * (C.H / 2 + 0.4), 0.5, sp.z + up.z * (C.H / 2 + 0.4));
+      if (bt) pin(bt, sp.px + up.x * 5.9, 0.3, sp.pz + up.z * 5.9);
+      var r = $('seatRes' + i), out = { x: -Math.cos(sp.spin) * (i ? -1 : 1), z: Math.sin(sp.spin) * (i ? -1 : 1) };   // call-out spot: above the cards, toward the outside
+      if (r) { pin(r, sp.x + up.x * (C.H / 2 + 3.6) + out.x * 5.5, 0.6, sp.z + up.z * (C.H / 2 + 3.6) + out.z * 5.5); r.style.transform = r.style.transform.replace('translate(-50%,-50%)', i ? 'translate(-100%,-50%)' : 'translate(0,-50%)'); r.style.textAlign = i ? 'right' : 'left'; }
+    }
+  }
+  function seatMate(i, quiet) {
+    var taken = mates.filter(Boolean).map(function (m) { return m.nick; }).concat([st.nick]);
+    var m = BJ.meta.randomMate(taken);
+    mates[i] = { nick: m.nick, icon: m.icon, bet: 0, hand: [], cards: [], status: '', seq: ++joinSeq };
+    refreshSeat(i); refreshOrder();
+    if (!quiet) { toast(I.t('joined', { n: m.nick })); A.tick(); }
+  }
+  function leaveMate(i) {
+    var m = mates[i]; if (!m) return;
+    mateClear(i);
+    mates[i] = null; refreshSeat(i); refreshOrder();
+    toast(I.t('left', { n: m.nick }));
+  }
+  // Turn order: everyone sees themselves in the middle, but play goes by when you sat down: first come, first
+  // to play, and whoever arrives later goes to the back. The number shows beside each player's picture.
+  var joinSeq = 0, mySeq = 0;
+  function turnOrder() {
+    var list = [{ me: true, seq: mySeq }];
+    mates.forEach(function (m, i) { if (m) list.push({ i: i, seq: m.seq }); });
+    return list.sort(function (a, b) { return a.seq - b.seq; });
+  }
+  function refreshOrder() {
+    var ord = turnOrder(), mine = $('myOrd');
+    ord.forEach(function (o, k) { if (!o.me) { var e = $('seat' + o.i); if (e) e.querySelector('.ord').textContent = k + 1; } });
+    if (!mine) { mine = document.createElement('span'); mine.id = 'myOrd'; mine.className = 'ord'; $('btnProfile').appendChild(mine); }
+    ord.forEach(function (o, k) { if (o.me) mine.textContent = k + 1; });
+    mine.hidden = !multi || mode === 'lobby';
+  }
+  function clearSeats() { if (Ch.count) { mateClear(0); mateClear(1); } mates = [null, null]; for (var i = 0; i < 2; i++) refreshSeat(i); }
+  // Coming to a multiplayer table: one or two players already there, mid-hand. You watch it play out, then everyone starts together.
+  function joinTable() {
+    clearSeats();
+    var n = Math.random() < 0.55 ? 2 : 1, first = Math.random() < 0.5 ? 0 : 1;
+    seatMate(first, true); if (n === 2) seatMate(1 - first, true);
+    mySeq = ++joinSeq; refreshOrder();          // you sat down last, so you play after the ones already here
+    S.fly(S.POSES.multi, 0.8);
+    toastHold(I.t('waitOthers'));
+    return anim.wait(1.2).then(function () { toastEnd(); });
+  }
+  // Each tablemate has a mood: careful ones creep up by the minimum, bold ones throw big round numbers,
+  // and now and then someone pushes a stack to the max.
+  function mateStake(m) {
+    if (!m.style) m.style = ['careful', 'steady', 'bold', 'wild'][(Math.random() * 4) | 0];
+    var r = Math.random(), mult;
+    if (m.style === 'careful') mult = [1, 1, 2, 3][(r * 4) | 0];
+    else if (m.style === 'steady') mult = [2, 3, 5, 5, 10][(r * 5) | 0];
+    else if (m.style === 'bold') mult = [5, 10, 15, 20, 25][(r * 5) | 0];
+    else mult = r < 0.2 ? table.max / table.min : [3, 7, 12, 30][(Math.random() * 4) | 0];
+    return Math.max(table.min, Math.min(table.max, table.min * mult));
+  }
+  function mateChips(i, amount) {
+    var sp = SEATS[i], from = { x: sp.px + (i ? 9 : -9), y: 7, z: sp.pz + 8 };
+    E.breakdown(amount, 10).forEach(function (d, k) { anim.wait(k * 0.06).then(function () { Ch.betFrom(d, 'm' + i, from); }); });
+  }
+  function mateClear(i) { if (Ch.count('m' + i)) Ch.sweep('m' + i); }
+  // A hand you're not in: the others play it out against the dealer in full view, dealer cards and all.
+  function watchHand() {
+    var dc = [];
+    function dealerCard(faceUp) {
+      var card = shoe.shift(); dc.push(card);
+      return dealTo('dealer', 0, card, faceUp);
+    }
+    var chain = Promise.resolve();
+    mates.forEach(function (m, i) { if (m) chain = chain.then(function () { return mateDraw(i); }); });
+    chain = chain.then(function () { return dealerCard(true); });
+    mates.forEach(function (m, i) { if (m) chain = chain.then(function () { return mateDraw(i); }); });
+    chain = chain.then(function () { return dealerCard(false); });
+    return chain.then(function () { return matesPlay(dc.slice(0, 1)); })
+      .then(function () { return C.reveal(view.dealer[1]).then(refreshTotals); })
+      .then(function draw() {
+        var live = mates.some(function (m) { return m && m.hand.length && E.handValue(m.hand).total <= 21; });
+        if (!live || E.handValue(dc).total >= 17) return;
+        return anim.wait(0.35).then(function () { return dealerCard(true); }).then(draw);
+      })
+      .then(function () { matesSettle(dc); return anim.wait(1.6); })
+      .then(function () {
+        var all = view.dealer.concat(matesCards()); view.dealer = [];
+        mates.forEach(function (m, i) { mateClear(i); if (m) { m.hand = []; m.bet = 0; m.status = ''; m.hands = m.sets = m.stakes = null; m.active = 0; $('seatRes' + i).querySelector('.res').className = 'res'; refreshSeat(i); } });
+        refreshTotals();
+        return C.collect(all);
+      });
+  }
+  function fakeDealer() { return [{ rank: ['7', '8', '9', '10', 'K'][(Math.random() * 5) | 0], suit: 'S' }]; }
+  function matesBet() {
+    mates.forEach(function (m, i) {
+      if (!m) return;
+      if (!m.placed) { m.bet = m.idle ? table.max : mateStake(m); mateChips(i, m.bet); }
+      m.hand = []; m.cards = []; m.status = ''; m.thought = false; m.placed = false; m.turnDone = false; m.hands = m.sets = m.stakes = null; m.active = 0;
+      $('seatRes' + i).querySelector('.res').className = 'res';
+      refreshSeat(i);
+    });
+  }
+  function matesDeal() {
+    var chain = Promise.resolve();
+    [0, 1].forEach(function (k) { mates.forEach(function (m, i) { if (m) chain = chain.then(function () { return mateDraw(i); }); }); });
+    return chain;
+  }
+  // A tablemate stops to think before each move like a person would: from a blink to ten seconds.
+  function think(i, long) {
+    var m = mates[i]; if (!m) return Promise.resolve();
+    m.status = 'THINK'; refreshSeat(i);
+    if (m.idle) return anim.wait(ACT_SECONDS);           // the AFK seat: the whole clock runs out
+    return anim.wait(U.rand(0.1, 10));                  // anywhere from an instant to ten seconds
+  }
+  // While you bet, the others make up their minds too and put their chips down when they've decided: some
+  // straight away, most after a good think. The cards only come out once everyone's stake is down.
+  var betThinkId = 0;
+  function matesThinkBets() {
+    var id = ++betThinkId;
+    mates.forEach(function (m, i) {
+      if (!m) return;
+      m.placed = false;
+      // now and then (about one hand in 200 per seat) someone has wandered off: they never decide, the clock
+      // decides for them, and they're sent off the table after the hand, just like a real player would be
+      if (!m.idle && Math.random() < 0.005) m.idle = true;
+      m.status = 'BETTHINK'; refreshSeat(i);
+      var wait = m.idle ? BET_SECONDS : U.rand(0.1, 10);
+      anim.wait(wait).then(function () {
+        if (id !== betThinkId || mates[i] !== m || m.placed) return;
+        placeMate(i, m.idle ? 'AUTOBET' : 'READY');
+      });
+    });
+  }
+  function placeMate(i, status) {
+    var m = mates[i];
+    m.bet = m.idle ? table.max : mateStake(m); m.placed = true; m.status = status;
+    mateChips(i, m.bet); A.tick && A.tick();
+    refreshSeat(i);
+  }
+  function matesAllPlaced() { return mates.every(function (m) { return !m || m.placed; }); }
+  function waitMates() { return matesAllPlaced() ? Promise.resolve() : anim.wait(0.25).then(waitMates); }
+  // Each AI plays its hand out by basic strategy (hit or stand only), one after the other.
+  function matesPlay(dealerCards) {
+    var chain = Promise.resolve();
+    mates.forEach(function (m, i) {
+      if (!m) return;
+      var first = true;
+      chain = chain.then(function step() {
+        var v = E.handValue(m.hand);
+        if (v.total >= 21) { m.status = v.total > 21 ? 'BUST' : ''; refreshSeat(i); return; }
+        if (!m.thought) { m.thought = true; var long = first; first = false; return think(i, long).then(step); }
+        m.thought = false;
+        if (m.idle) { m.status = 'TIMEOUT'; refreshSeat(i); return; }
+        var move = E.advise({ hands: [{ cards: m.hand }], active: 0, dealer: dealerCards }, { double: m.hand.length === 2, split: false });
+        if (move === 'double' && m.style !== 'careful') {
+          mateChips(i, m.bet); m.bet = m.bet * 2; m.status = 'DOUBLE'; refreshSeat(i);
+          return anim.wait(0.35).then(function () { return mateDraw(i); }).then(function () { if (E.handValue(m.hand).total > 21) m.status = 'BUST'; refreshSeat(i); });
+        }
+        if (move !== 'hit') { m.status = 'STAND'; refreshSeat(i); return anim.wait(0.25); }
+        m.status = 'HIT'; refreshSeat(i);
+        return anim.wait(0.35).then(function () { return mateDraw(i); }).then(step);
+      });
+    });
+    return chain;
+  }
+  // Seats take their turns in join order: the ones ahead of you before your turn, the rest after it.
+  function matesTurns(which, dealerCards) {
+    var chain = Promise.resolve();
+    turnOrder().forEach(function (o, k) {
+      if (o.me || !which(k)) return;
+      chain = chain.then(function () { return mateTurn(o.i, dealerCards); });
+    });
+    return chain;
+  }
+  function myPos() { var ord = turnOrder(); for (var k = 0; k < ord.length; k++) if (ord[k].me) return k; return 0; }
+  function mateTurn(i, dealerCards) {
+    var m = mates[i];
+    if (!m || !m.hand.length || m.turnDone) return Promise.resolve();
+    m.turnDone = true;
+    var first = true;
+    return (function step() {
+        var v = E.handValue(m.hand);
+        if (v.total >= 21) { m.status = v.total > 21 ? 'BUST' : ''; refreshSeat(i); return next(); }
+        if (!m.thought) { m.thought = true; var long = first; first = false; return think(i, long).then(step); }
+        m.thought = false;
+        if (m.idle) { m.status = 'TIMEOUT'; refreshSeat(i); return next(); }
+        if (!m.sets && wantsSplit(m, dealerCards)) return splitMate(i).then(step);
+        var move = E.advise({ hands: [{ cards: m.hand }], active: 0, dealer: dealerCards }, { double: m.hand.length === 2, split: false });
+        if (move === 'double' && m.style !== 'careful') {
+          var stake = m.stakes ? m.stakes[m.active] : m.bet;
+          mateChips(i, stake); m.bet += stake; if (m.stakes) m.stakes[m.active] *= 2; m.status = 'DOUBLE';
+          return mateDraw(i).then(function () { if (E.handValue(m.hand).total > 21) m.status = 'BUST'; refreshSeat(i); return next(); });
+        }
+        if (move !== 'hit') { m.status = 'STAND'; refreshSeat(i); return next(); }
+        m.status = 'HIT'; refreshSeat(i);
+        return mateDraw(i).then(step);
+    })();
+    // after a split's first hand, the second one gets its card and its turn
+    function next() {
+      if (!m.sets || m.active === 1) return;
+      m.active = 1; m.hand = m.hands[1]; m.thought = false;
+      return anim.wait(0.4).then(function () { return mateDraw(i); }).then(function () { return step2(); });
+    }
+    function step2() { return mateTurnStep(i, dealerCards, next); }
+  }
+  // People don't always split by the book: most do when the chart says so, a few split what they shouldn't.
+  function wantsSplit(m, dealerCards) {
+    if (m.hand.length !== 2 || E.cardValue(m.hand[0]) !== E.cardValue(m.hand[1])) return false;
+    var adv = E.advise({ hands: [{ cards: m.hand }], active: 0, dealer: dealerCards }, { double: true, split: true });
+    if (BJ.debug.forceSplit) return true;
+    if (adv === 'split') return Math.random() < 0.85;
+    return Math.random() < (E.cardValue(m.hand[0]) === 10 ? 0.04 : 0.1);
+  }
+  function splitMate(i) {
+    var m = mates[i], h = m.hand, c = m.cards;
+    m.status = 'SPLIT'; refreshSeat(i);
+    mateChips(i, m.bet); m.stakes = [m.bet, m.bet]; m.bet *= 2;
+    m.hands = [[h[0]], [h[1]]]; m.sets = [[c[0]], [c[1]]]; m.active = 0; m.hand = m.hands[0];
+    var sl = seatCards(i);
+    m.cards.forEach(function (card, k) { C.moveTo(card, sl[k], 0.3); });
+    return anim.wait(0.5).then(function () { return mateDraw(i); }).then(function () { m.thought = false; refreshSeat(i); });
+  }
+  // the second hand of a split plays the same way as the first
+  function mateTurnStep(i, dealerCards, next) {
+    var m = mates[i];
+    return (function step() {
+      var v = E.handValue(m.hand);
+      if (v.total >= 21) { m.status = v.total > 21 ? 'BUST' : ''; refreshSeat(i); return next(); }
+      if (!m.thought) { m.thought = true; return think(i).then(step); }
+      m.thought = false;
+      var move = E.advise({ hands: [{ cards: m.hand }], active: 0, dealer: dealerCards }, { double: m.hand.length === 2, split: false });
+      if (move === 'double' && m.style !== 'careful') {
+        mateChips(i, m.stakes[1]); m.bet += m.stakes[1]; m.stakes[1] *= 2; m.status = 'DOUBLE';
+        return mateDraw(i).then(function () { if (E.handValue(m.hand).total > 21) m.status = 'BUST'; refreshSeat(i); return next(); });
+      }
+      if (move !== 'hit') { m.status = 'STAND'; refreshSeat(i); return next(); }
+      m.status = 'HIT'; refreshSeat(i);
+      return mateDraw(i).then(step);
+    })();
+  }
+  function matesSettle(dc) {
+    dc = dc || round.dealer;
+    var d = E.handValue(dc).total, dBJ = dc.length === 2 && d === 21;
+    mates.forEach(function (m, i) {
+      if (!m || !m.hand.length) return;
+      if (m.hands) return settleSplit(m, i, d, dBJ);
+      var v = E.handValue(m.hand).total, bj = m.hand.length === 2 && v === 21, r, amt;
+      if (v > 21) { r = 'lose'; amt = -m.bet; }
+      else if (bj && !dBJ) { r = 'win'; amt = m.bet * 1.5; }
+      else if (dBJ) { r = bj ? 'push' : 'lose'; amt = bj ? 0 : -m.bet; }
+      else if (d > 21 || v > d) { r = 'win'; amt = m.bet; }
+      else if (v === d) { r = 'push'; amt = 0; }
+      else { r = 'lose'; amt = -m.bet; }
+      var el = $('seatRes' + i).querySelector('.res');
+      el.textContent = r === 'win' ? (bj ? 'BLACKJACK ' : 'WIN ') + '+' + U.money(amt) : r === 'push' ? 'PUSH' : 'LOSE';
+      el.className = 'res on done ' + r;
+      if (r === 'lose') Ch.sweep('m' + i);
+      else if (r === 'win') Ch.pay(E.breakdown(amt, 10), 'm' + i);
+    });
+  }
+  function settleSplit(m, i, d, dBJ) {
+    var net = 0, words = m.hands.map(function (h, k) {
+      var v = E.handValue(h).total, st = m.stakes[k];
+      if (v > 21 || dBJ) { net -= st; return 'LOSE'; }
+      if (d > 21 || v > d) { net += st; return 'WIN'; }
+      if (v === d) return 'PUSH';
+      net -= st; return 'LOSE';
+    });
+    var el = $('seatRes' + i).querySelector('.res');
+    el.textContent = words.join(' · ') + (net ? ' ' + (net > 0 ? '+' : '−') + U.money(Math.abs(net)) : '');
+    el.className = 'res on done ' + (net > 0 ? 'win' : net < 0 ? 'lose' : 'push');
+    if (net < 0) Ch.sweep('m' + i); else if (net > 0) Ch.pay(E.breakdown(net, 10), 'm' + i);
+  }
+  function dealerBJ() { return round.dealer.length === 2 && E.handValue(round.dealer).total === 21; }
+  function matesCards() { var out = []; mates.forEach(function (m) { if (m) { out = out.concat(m.cards); m.cards = []; } }); return out; }
+  function matesBetween() {           // between hands: someone may sit down, someone may leave
+    if (!multi) return;
+    var gone = false;
+    mates.forEach(function (m, i) { if (m && m.idle) { mateClear(i); mates[i] = null; refreshSeat(i); toast(I.t('mKicked', { n: m.nick })); gone = true; } });
+    if (gone) { mates.forEach(function (m, i) { if (m) { m.hand = []; m.bet = 0; m.status = ''; m.hands = m.sets = m.stakes = null; m.active = 0; $('seatRes' + i).querySelector('.res').className = 'res'; refreshSeat(i); } }); return; }
+    var free = [0, 1].filter(function (i) { return !mates[i]; }), busy = [0, 1].filter(function (i) { return mates[i]; });
+    if (free.length && Math.random() < 0.28) seatMate(free[(Math.random() * free.length) | 0]);
+    else if (busy.length === 2 && Math.random() < 0.12) leaveMate(busy[(Math.random() * 2) | 0]);
+    mates.forEach(function (m, i) { mateClear(i); if (m) { m.hand = []; m.bet = 0; m.status = ''; m.hands = m.sets = m.stakes = null; m.active = 0; $('seatRes' + i).querySelector('.res').className = 'res'; refreshSeat(i); } });
+  }
+
+
+  /* ---------- the online shared table (NcqBoard) ---------- */
+  // With a sign-in (release builds) a shared table is a real room on the company game server: you and one other
+  // player, or a house player when nobody comes. The server deals and settles; here we turn each new server view
+  // into the same card, chip and label animations the local table uses.
+  var net = null;
+  function cardOf(c) { return c ? { rank: c.r, suit: c.s } : null; }
+  var HOLE_STANDIN = { rank: '2', suit: 'S' };      // face-down until the server shows the real card
+  function netOppIndex(oppSeat) { return oppSeat < net.you ? 0 : 1; }   // the earlier seat sits on your left
+  function joinOnline() {
+    clearSeats();
+    S.fly(S.POSES.multi, 0.8);
+    toastHold(I.t('findPlayer'));
+    return BJ.online.find(table.id).then(function (room) {
+      net = { room: room, you: room.state.you || room.you, oppSeat: 0, oi: 0, dealt: false, settled: false, chain: Promise.resolve(), conn: null, pending: null };
+      net.oppSeat = net.you === 1 ? 2 : 1; net.oi = netOppIndex(net.oppSeat);
+      return BJ.online.seats(room.code).catch(function () { return null; });
+    }).then(function (info) {
+      toastEnd();
+      var list = info && (info.seats || info) || [], o = null;
+      if (list.forEach) list.forEach(function (x) { if ((x.seat || x.you) === net.oppSeat) o = x; });
+      var nick = (o && (o.nickname || o.name)) || BJ.meta.randomMate([st.nick]).nick;
+      mates = [null, null];
+      mates[net.oi] = { nick: nick, icon: (o && typeof o.avatar === 'number') ? o.avatar : (Math.random() * BJ.meta.iconCount) | 0, bet: 0, hand: [], cards: [], status: '', seq: net.oppSeat };
+      mySeq = net.you; refreshSeat(net.oi); refreshOrder();
+      net.conn = BJ.online.subscribe(net.room.code, net.room, function (next) { netState(next); });
+      netState(net.room, true);
+    }).catch(function (e) {
+      toastEnd(); net = null;
+      if (e && e.message === 'cancelled') return;
+      toast(I.t('netFail')); return joinTable();     // can't reach the server: the local table instead
+    });
+  }
+  function netLeave() {
+    if (!net) return;
+    BJ.online.cancel();
+    if (net.conn && net.conn.close) net.conn.close();
+    BJ.online.leave(net.room.code);
+    net = null;
+  }
+  // New server views are drawn one after another, never out of order.
+  function netState(room, first) {
+    if (!net) return;
+    if (!first && net.room && room.round === net.room.round && room.version <= net.room.version && room !== net.room) return;
+    net.room = room;
+    net.chain = net.chain.then(function () { return netDraw(room); }).catch(function (e) { if (window.console) console.warn(e); });
+  }
+  function netMirror(v) {
+    var me = v.seats[net.you - 1];
+    round = round || { dealer: [], hands: [], active: 0, phase: 'dealer' };
+    round.dealer = v.dealer.map(function (c) { return cardOf(c) || HOLE_STANDIN; });
+    round.hands = me.hands.map(function (h) { return { cards: h.cards.map(cardOf), bet: h.bet, doubled: h.doubled, done: h.done, fromSplit: h.split && me.hands.length > 1, splitAces: h.split && h.cards[0].r === 'A', result: null, payout: 0 }; });
+    round.active = me.active;
+    round.phase = v.phase === 'play' && v.turn === net.you ? 'player' : 'dealer';
+    round.noSplit = false;
+  }
+  function netDraw(room) {
+    if (!net || mode !== 'table') return;
+    var v = room.state, me = v.seats[net.you - 1], op = v.seats[net.oppSeat - 1], m = mates[net.oi];
+    // betting: the other seat's chips go down when they've decided; your bet bar opens until you've sent yours
+    if (v.phase === 'bet') {
+      if (net.settled) return;
+      if (m) {
+        if (op.bet && !m.placed) { m.bet = op.bet; m.placed = true; m.status = 'READY'; mateChips(net.oi, op.bet); refreshSeat(net.oi); }
+        else if (!op.bet && m.status !== 'BETTHINK') { m.status = 'BETTHINK'; refreshSeat(net.oi); }
+      }
+      if (!me.bet && phase !== 'bet' && !dealWaiting) setPhase('bet');
+      return;
+    }
+    var jobs = Promise.resolve();
+    // the deal: two cards each, seat by seat, then the dealer
+    if (!net.dealt) {
+      net.dealt = true;
+      if (m && !m.placed) { m.bet = op.bet; m.placed = true; mateChips(net.oi, op.bet); }
+      if (dealWaiting) { dealWaiting = false; toastEnd(); }
+      setPhase('busy');
+      st.stats.hands++;
+      NcqMetrics.step("007_first_deal"); NcqMetrics.levelStart(handMode());
+      round = null; netMirror(v); busted = [false, false];
+      if (m) { m.hand = []; m.cards = []; m.status = ''; m.hands = m.sets = m.stakes = null; m.active = 0; }
+      var order = net.you < net.oppSeat ? ['me', 'op'] : ['op', 'me'];
+      [0, 1].forEach(function (k) {
+        order.forEach(function (who) {
+          jobs = jobs.then(function () {
+            if (who === 'me') return dealTo('player', 0, cardOf(me.hands[0].cards[k]) || cardOf(v.seats[net.you - 1].hands[0].cards[k]), true);
+            return m ? mateDrawCard(net.oi, cardOf(op.hands[0].cards[k])) : null;
+          });
+        });
+        jobs = jobs.then(function () { return dealTo('dealer', 0, cardOf(v.dealer[k]) || HOLE_STANDIN, k === 0); });
+      });
+      net.shown = { me: [2, 0], op: [2, 0], dealer: 2, opSplit: false };
+    }
+    return jobs.then(function () { return netUpdate(room); });
+  }
+  // after the deal: new cards, splits and moves for both seats
+  function netUpdate(room) {
+    var v = room.state, me = v.seats[net.you - 1], op = v.seats[net.oppSeat - 1], m = mates[net.oi], jobs = Promise.resolve();
+    netMirror(v);
+    // your seat
+    if (me.hands.length > 1 && !split) jobs = jobs.then(function () { return splitTable(me.hands[1].bet); });
+    me.hands.forEach(function (h, i) {
+      var have = view.hands[i] ? view.hands[i].length : 0;
+      for (var k = have; k < h.cards.length; k++) (function (card, side) {
+        jobs = jobs.then(function () { return dealTo('player', i, card, true, side); });
+      })(cardOf(h.cards[k]), h.doubled && k === 2);
+      if (h.cards.length && E.handValue(h.cards.map(cardOf)).total > 21 && !busted[i]) jobs = jobs.then(function () {
+        busted[i] = true; A.bust(); A.voice('bust'); setResult(i, 'bust', -h.bet); marks.t[i].classList.add('lost'); st.stats.lost++;
+        return Promise.all([Ch.sweep('h' + i, 'dealer'), anim.wait(0.6)]);
+      });
+    });
+    // the other seat
+    if (m) jobs = jobs.then(function () {
+      if (op.hands.length > 1 && !m.sets) {
+        var c = m.cards; m.stakes = [op.hands[0].bet, op.hands[1].bet]; mateChips(net.oi, op.hands[1].bet);
+        m.hands = [[m.hand[0]], [m.hand[1]]]; m.sets = [[c[0]], [c[1]]]; m.active = 0; m.hand = m.hands[0];
+        var sl = seatCards(net.oi); m.cards.forEach(function (card, k) { C.moveTo(card, sl[k], 0.3); });
+      }
+      var p = Promise.resolve();
+      op.hands.forEach(function (h, hi) {
+        var have = m.sets ? m.sets[hi].length : m.cards.length;
+        for (var k = have; k < h.cards.length; k++) (function (card) {
+          p = p.then(function () { if (m.sets) { m.active = hi; m.hand = m.hands[hi]; } return mateDrawCard(net.oi, card); });
+        })(cardOf(h.cards[k]));
+        if (h.doubled && m.bet < op.hands.reduce(function (a, x) { return a + x.bet; }, 0)) { var add = h.bet / 2; m.bet += add; mateChips(net.oi, add); }
+      });
+      return p.then(function () {
+        var thinking = v.phase === 'play' && v.turn === net.oppSeat;
+        var last = op.last && op.last !== 'bet' ? op.last.toUpperCase() : '';
+        var bust = op.hands.some(function (h) { return E.handValue(h.cards.map(cardOf)).total > 21; }) && !op.hands.some(function (h) { return E.handValue(h.cards.map(cardOf)).total <= 21; });
+        m.status = bust ? 'BUST' : thinking ? 'THINK' : last;
+        refreshSeat(net.oi);
+      });
+    });
+    return jobs.then(function () {
+      refreshTotals(); refreshBetTags();
+      if (v.phase === 'finished') return netSettle(room);
+      if (v.phase === 'play' && v.turn === net.you) { if (phase !== 'player') setPhase('player'); else refreshButtons(); }
+      else if (phase === 'player') setPhase('busy');
+    });
+  }
+  // the server's result: turn the hole card, the dealer draws, then the usual payout
+  function netSettle(room) {
+    if (net.settled) return; net.settled = true;
+    var v = room.state, me = v.seats[net.you - 1], op = v.seats[net.oppSeat - 1], m = mates[net.oi];
+    setPhase('busy');
+    var p = Promise.resolve();
+    if (view.dealer[1] && v.dealer[1]) p = p.then(function () { C.setFace(view.dealer[1], cardOf(v.dealer[1])); return C.reveal(view.dealer[1]).then(refreshTotals); });
+    for (var k = 2; k < v.dealer.length; k++) (function (c) { p = p.then(function () { return dealTo('dealer', 0, c, true); }); })(cardOf(v.dealer[k]));
+    return p.then(function () {
+      netMirror(v);
+      round.hands.forEach(function (h, i) {
+        var r = me.hands[i].result; h.result = r; h.done = true;
+        h.payout = r === 'blackjack' ? h.bet * 2.5 : r === 'win' ? h.bet * 2 : r === 'push' ? h.bet : 0;
+      });
+      if (m) {
+        var n = v.payouts ? v.payouts[net.oppSeat - 1] : 0, words = op.hands.map(function (h) { return (h.result === 'blackjack' ? 'BLACKJACK' : h.result === 'lose' ? 'LOSE' : (h.result || '').toUpperCase()); });
+        var el = $('seatRes' + net.oi).querySelector('.res');
+        el.textContent = (op.hands.length > 1 ? words.join(' · ') : words[0] === 'WIN' || words[0] === 'BLACKJACK' ? words[0] : words[0]) + (n > 0 ? ' +' + U.money(n) : '');
+        el.className = 'res on done ' + (n > 0 ? 'win' : n < 0 ? 'lose' : 'push');
+        if (n < 0) Ch.sweep('m' + net.oi); else if (n > 0) Ch.pay(E.breakdown(n, 10), 'm' + net.oi);
+      }
+      return settleHand(true);
+    });
+  }
+  // the next hand at the same table; if the other player has gone, find another
+  function netNextHand() {
+    var old = net.room, m = mates[net.oi];
+    net.dealt = false; net.settled = false;
+    if (m) { mateClear(net.oi); m.hand = []; m.cards = []; m.bet = 0; m.placed = false; m.status = ''; m.hands = m.sets = m.stakes = null; $('seatRes' + net.oi).querySelector('.res').className = 'res'; refreshSeat(net.oi); }
+    return BJ.online.rematch(old).then(function (room) { if (room && room.state) netState(room); else setPhase('bet'); })
+      .catch(function () {
+        if (m) toast(I.t('left', { n: m.nick }));
+        netLeave(); return joinOnline();
+      });
+  }
+
+  /* ---------- labels pinned to the table ---------- */
+  var marks = { tDealer: $('tDealer'), t: [$('tHand0'), $('tHand1')], b: [$('bHand0'), $('bHand1')], r: [$('rHand0'), $('rHand1')] };
+
+  function pin(el, x, y, z) {
+    var p = S.project(x, y, z);
+    el.style.transform = 'translate(' + p.x.toFixed(1) + 'px,' + p.y.toFixed(1) + 'px) translate(-50%,-50%)';
+  }
+  function layoutMarks() {
+    pin(marks.tDealer, DEALER.x, 0.3, DEALER.z + C.H / 2 + 0.2);
+    var sh = S.shoe;                                                   // on the lower part of the front card, near the mouth
+    pin($('shoeTag'), sh.tag.x, sh.tag.y, sh.tag.z);
+    layoutSeats();
+    for (var i = 0; i < 2; i++) {
+      var hc = handCenter(i), px = split ? (i ? SPLIT_PILE_X : -SPLIT_PILE_X) : PILE.x;
+      pin(marks.t[i], hc.x, 0.5, hc.z - C.H / 2 - 0.4);
+      pin(marks.r[i], hc.x, 0.6, hc.z - C.H / 2 - 4.5);       // verdict sits above the hand, clear of the cards
+      pin(marks.b[i], px, 0.3, PILE.z - 5.9);
+    }
+  }
+
+  function totalText(cards, final) {
+    var v = E.handValue(cards);
+    if (v.soft && v.total < 21 && !final) return (v.total - 10) + '/' + v.total;
+    return '' + v.total;
+  }
+  function faceUpCards(list) { return list.filter(function (c) { return c.faceUp; }).map(function (c) { return c.card; }); }
+
+  function refreshTotals() {
+    var d = faceUpCards(view.dealer), el = marks.tDealer;
+    el.className = 'total' + (d.length ? ' on' : '');
+    if (d.length) {
+      var dv = E.handValue(d), all = d.length === view.dealer.length;
+      el.textContent = totalText(d, all);
+      if (all && dv.total > 21) { el.className += ' bust'; el.innerHTML = '<small>BUST</small>' + dv.total; }
+      else if (all && d.length === 2 && dv.total === 21) el.className += ' bj';
+    }
+    for (var i = 0; i < 2; i++) {
+      var cards = faceUpCards(view.hands[i]), t = marks.t[i], h = round && round.hands[i];
+      t.className = 'total' + (cards.length ? ' on' : '');
+      if (!cards.length) continue;
+      var v = E.handValue(cards), done = h && h.done;
+      t.textContent = totalText(cards, done);
+      if (v.total > 21) { t.className += ' bust'; t.innerHTML = '<small>BUST</small>' + v.total; }
+      else if (h && E.isNatural(h) && cards.length === 2) t.className += ' bj';
+      else if (v.total === 21) t.className += ' best';
+      if (phase === 'player' && round && round.active === i && split) t.className += ' live';
+    }
+  }
+
+  function refreshBetTags() {
+    for (var i = 0; i < 2; i++) {
+      var amt = round ? (round.hands[i] && !busted[i] ? round.hands[i].bet : 0) : (i === 0 ? bet : 0);
+      marks.b[i].className = 'bettag' + (amt > 0 ? ' on' : '');
+      marks.b[i].textContent = U.money(amt);
+    }
+  }
+
+  /* ---------- winnings: coins burst off the pile and stream into the balance ---------- */
+  function coinBurst(wx, wz, amount, bj, onCoin) {
+    var layer = $('fx'), game = $('game').getBoundingClientRect(), bal = document.querySelector('.balance');
+    var tr = document.querySelector('.balance .coin').getBoundingClientRect();
+    var tx = tr.left + tr.width / 2 - game.left, ty = tr.top + tr.height / 2 - game.top;
+    var src = S.project(wx, 0.5, wz), u = game.width / 100;
+    // more coins and a wider burst for a bigger win, capped so it stays quick
+    var n = Math.round(U.clamp(6 + 3.2 * Math.log(Math.max(1, amount / table.min)) / Math.LN2, 6, 30) * (bj ? 1.35 : 1));
+    var spread = (bj ? 26 : 18) + Math.min(10, n * 0.4);
+    A.coinBurst();
+    var jobs = [];
+    for (var i = 0; i < n; i++) (function (i) {
+      var el = document.createElement('i'); el.className = 'fxcoin'; el.style.opacity = '0'; layer.appendChild(el);
+      var a = U.rand(-Math.PI, 0), d = U.rand(0.35, 1) * spread * u;
+      var bx = src.x + Math.cos(a) * d * 1.25, by = src.y + Math.sin(a) * d - U.rand(2, 8) * u;
+      var spin = U.rand(-540, 540), cx = (bx + tx) / 2 + U.rand(-14, 14) * u, cy = Math.min(by, ty) - U.rand(4, 18) * u;
+      function put(x, y, sc, r) { el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px) scale(' + sc.toFixed(3) + ') rotate(' + r.toFixed(0) + 'deg)'; }
+      jobs.push(anim.wait(i * (bj ? 0.016 : 0.02)).then(function () {
+        el.style.opacity = '1';
+        // 1) 촤라락: pop out of the pile
+        return anim.tween(0.2, function (e) { put(U.lerp(src.x, bx, e), U.lerp(src.y, by, e), 0.5 + 0.6 * e, spin * e * 0.3); }, U.outQuart);
+      }).then(function () { return anim.wait(0.06 + Math.random() * 0.06); }).then(function () {
+        // 2) 슈루룩: whip up into the purse, speeding up
+        return anim.tween(0.34, function (e) {
+          var x = (1 - e) * (1 - e) * bx + 2 * (1 - e) * e * cx + e * e * tx, y = (1 - e) * (1 - e) * by + 2 * (1 - e) * e * cy + e * e * ty;
+          put(x, y, U.lerp(1.1, 0.45, e), spin * (0.3 + e));
+        }, U.inCubic);
+      }).then(function () {
+        layer.removeChild(el);
+        A.coinIn(i);
+        if (onCoin) onCoin(i, n);
+        bal.classList.remove('hit'); void bal.offsetWidth; bal.classList.add('hit');
+        if (i % 3 === 0) spark(tx, ty, u);
+      }));
+    })(i);
+    return Promise.all(jobs).then(function () {
+      bal.classList.remove('hit', 'wow'); void bal.offsetWidth; bal.classList.add('wow');      // 와!
+      for (var k = 0; k < (bj ? 14 : 9); k++) spark(tx, ty, u, true);
+      setTimeout(function () { bal.classList.remove('wow'); }, 700);
+    });
+  }
+  function spark(x, y, u, wide) {
+    var el = document.createElement('i'); el.className = 'fxspark'; $('fx').appendChild(el);
+    var a = U.rand(0, Math.PI * 2), d = U.rand(3, wide ? 13 : 7) * u;
+    anim.tween(wide ? 0.45 : 0.3, function (e) {
+      el.style.transform = 'translate(' + (x + Math.cos(a) * d * e).toFixed(1) + 'px,' + (y + Math.sin(a) * d * e).toFixed(1) + 'px) scale(' + (1.4 - e).toFixed(2) + ')';
+      el.style.opacity = (1 - e).toFixed(2);
+    }, U.outCubic).then(function () { el.remove(); });
+  }
+
+  /* ---------- telling the player how it went ---------- */
+  var VERDICT = { win: 'WIN', lose: 'LOSE', push: 'DRAW', bj: 'BLACKJACK', bust: 'BUST' };
+
+  // Big word over the hand, and what it did to the stake where the chips are.
+  function setResult(i, kind, delta) {
+    var el = marks.r[i];
+    el.className = 'result';
+    void el.offsetWidth;                                   // restart the pop animation
+    el.className = 'result on ' + kind + (split ? ' two' : '');
+    el.innerHTML = '<span></span>'; el.firstChild.textContent = VERDICT[kind];
+    var tag = marks.b[i];
+    tag.className = 'bettag on ' + (delta > 0 ? 'gain' : delta < 0 ? 'loss' : 'even') + (split ? ' two' : '');
+    tag.textContent = delta > 0 ? '+' + U.money(delta) : delta < 0 ? '−' + U.money(-delta) : '±0';
+  }
+  // The hand that won gets the gold number, the one that lost is dimmed.
+  function markTotals() {
+    var allLost = true, allWon = true;
+    round.hands.forEach(function (h, i) {
+      var won = h.result === 'win' || h.result === 'blackjack', lost = h.result === 'lose';
+      if (!lost) allLost = false; if (!won) allWon = false;
+      if (won) marks.t[i].classList.add('won'); else if (lost) marks.t[i].classList.add('lost');
+      marks.t[i].classList.remove('live');
+    });
+    if (allLost) marks.tDealer.classList.add('won'); else if (allWon) marks.tDealer.classList.add('lost');
+  }
+  // Net change of the round floats under the balance.
+  function floatDelta(net) {
+    if (!net) return;
+    var el = $('delta');
+    el.className = '';
+    void el.offsetWidth;
+    el.textContent = (net > 0 ? '+' : '−') + U.money(Math.abs(net));
+    el.className = 'on ' + (net > 0 ? 'up' : 'down');
+  }
+  function clearMarks() {
+    for (var i = 0; i < 2; i++) { marks.r[i].className = 'result'; marks.t[i].className = 'total'; marks.b[i].className = 'bettag'; }
+    marks.tDealer.className = 'total';
+  }
+
+  // A band across the middle of the screen: glides in, holds, then drifts up and fades.
+  var toastTimer = 0;
+  function toast(msg) {
+    var el = $('toast'); el.textContent = msg;
+    el.className = ''; void el.offsetWidth; el.className = 'in';
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { el.className = 'out'; }, 1300);
+  }
+
+  // A toast that stays up while something runs (shuffling the decks), then drifts away when it's done.
+  function toastHold(msg) {
+    var el = $('toast'); el.textContent = msg; clearTimeout(toastTimer);
+    el.className = ''; void el.offsetWidth; el.className = 'in';
+  }
+  function toastEnd() { var el = $('toast'); clearTimeout(toastTimer); toastTimer = setTimeout(function () { el.className = 'out'; }, 250); }
+
+  function setMode(m) { mode = m; $('game').className = 'mode-' + m + (st.inTour ? ' intour' : ''); }
+
+  function setPhase(p) {
+    phase = p;
+    if (p === 'bet' && multi && mode === 'table' && !coachStep) startBetTimer(); else if (p !== 'bet') stopBetTimer();
+    if (p === 'bet' && multi && mode === 'table' && !net) matesThinkBets(); else if (p !== 'bet') betThinkId++;
+    if (p === 'player' && multi) startActTimer(); else if (p !== 'player') stopActTimer();
+    if (p === 'player') coachPlayerTurn();
+    $('betBar').className = 'bar' + (p === 'bet' ? ' on' : '');
+    $('actBar').className = 'bar' + (p === 'player' || p === 'busy' ? ' on' : '');
+    refreshButtons();
+  }
+
+  function refreshButtons() {
+    var i, row = $('chipRow').children;
+    if (phase === 'bet') {
+      for (i = 0; i < row.length; i++) {
+        var d = +row[i].getAttribute('data-denom');
+        row[i].className = 'chipbtn' + ((st.chips < d || bet + d > table.max) ? ' off' : '');
+      }
+      $('btnDeal').disabled = bet < table.min;
+      $('btnClear').disabled = bet === 0;
+      $('btnRebet').disabled = bet > 0 || !lastBet.length;
+    }
+    var o = (phase === 'player' && round) ? E.options(round, st.chips) : { hit: false, stand: false, double: false, split: false };
+    var acts = $('actBar').children;
+    for (i = 0; i < acts.length; i++) acts[i].disabled = !o[acts[i].getAttribute('data-act')];
+  }
+
+  function buildChipRow() {
+    var row = $('chipRow'); row.innerHTML = '';
+    table.chips.forEach(function (d) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'chipbtn'; b.setAttribute('data-denom', d);
+      b.setAttribute('aria-label', I.t('bet') + ' ' + U.money(d));
+      b.style.backgroundImage = 'url(' + BJ.art.chipUrl(d) + ')';
+      b.addEventListener('click', function () { A.unlock(); addBet(d); });
+      row.appendChild(b);
+    });
+  }
+
+  var HOUSE = { alley: 'Alley', harbor: 'Harbor', garden: 'Garden', grand: 'Grand', royal: 'Royal', sky: 'Sky', monte: 'Monte', macau: 'Macau', vegas: 'Vegas', diamond: 'Diamond', crown: 'Crown' };
+  function themeLabels(T) { return { house: HOUSE[T.id], title: I.t('limits'), lines: [I.t('min') + ' ' + U.money(T.min), I.t('max') + ' ' + U.money(T.max)] }; }
+
+  function applyTable() {
+    if (st.inTour) {                      // a tournament table: its own limits and lounge, hands left in place of the limits
+      table = BJ.tour.table(st.inTour);
+      var th = BJ.tour.theme(st.inTour);
+      S.setTheme(th, E.TABLES[th], { house: table.house, title: I.t('limits'), lines: [I.t('min') + ' ' + U.money(table.min), I.t('max') + ' ' + U.money(table.max)] });
+      $('tblName').textContent = table.name;
+      refreshTourHands();
+    } else {
+      table = E.TABLES[st.table];
+      S.setTheme(st.table, table, themeLabels(table));
+      $('tblName').textContent = I.t('t_' + table.id);
+      $('tblLim').textContent = U.money(table.min) + ' – ' + U.money(table.max);
+    }
+    buildChipRow();
+    lastBet = [];
+    refreshButtons();
+  }
+
+  function refreshTourHands() {
+    if (!st.inTour) return;
+    var n = BJ.tour.handsLeft(st.inTour), m = BJ.tour.HANDS;
+    $('tblLim').textContent = $('thHands').textContent = I.t('tHands', { n: n, m: m });
+    $('thName').textContent = BJ.tour.table(st.inTour).name;
+    $('thBar').style.width = (n / m * 100) + '%';
+  }
+
+  /* ---------- tournaments ---------- */
+  // Sit down at a tournament: your own chips are set aside and the tournament stack is put in front of you.
+  function enterTour(key) {
+    if (mode !== 'lobby' || !BJ.tour.isKey(key)) return;
+    coachPickDone();
+    multi = false;
+    st.bank = st.chips; st.chips = BJ.tour.chipsOf(key); st.inTour = key; shown = st.chips; $('chips').textContent = U.money(st.chips);
+    save();
+    enterTable();
+  }
+  // Back to the lobby from a tournament: the stack goes back to the entry and your own chips return.
+  function leaveTour() {
+    var key = st.inTour;
+    BJ.tour.setChips(key, st.chips);
+    st.chips = st.bank; st.bank = null; st.inTour = null; shown = st.chips; $('chips').textContent = U.money(st.chips);
+    $('game').classList.remove('intour');
+    save();
+    return key;
+  }
+  function tourOver(msg) {
+    phase = 'bet';                        // toLobby only leaves from the betting phase
+    toast(msg);
+    setTimeout(function () { toLobby(); }, 1300);
+  }
+
+  /* ---------- level ---------- */
+  function levelFrac() { var L = E.levelOf(st.xp), a = E.xpFor(L), b = E.xpFor(L + 1); return { L: L, have: st.xp - a, need: b - a }; }
+  function refreshLevel() {
+    var f = levelFrac();
+    $('lvlNum').textContent = f.L;
+    $('lvlBar').style.width = (Math.min(1, f.have / f.need) * 100).toFixed(1) + '%';
+    if ($('xpTip').classList.contains('on')) $('xpTip').textContent = U.fmt(f.have) + ' / ' + U.fmt(f.need);
+  }
+  // Settling a hand: the pill lights up sky blue, "EXP +N" shows beside it and the bar fills
+  // (to the end first and round again when a level is crossed).
+  var xpGlowTimer = 0;
+  function showXpGain(n, levelled) {
+    var pill = $('lvl'), bar = $('lvlBar'), g = $('xpGain');
+    g.textContent = 'EXP +' + U.fmt(n);
+    g.classList.remove('on'); void g.offsetWidth; g.classList.add('on');
+    pill.classList.add('xp');
+    clearTimeout(xpGlowTimer);
+    xpGlowTimer = setTimeout(function () { pill.classList.remove('xp'); }, 1500);
+    if (levelled) {
+      bar.style.width = '100%';
+      setTimeout(function () {
+        bar.classList.add('snap'); bar.style.width = '0%'; void bar.offsetWidth; bar.classList.remove('snap');
+        refreshLevel();
+      }, 720);
+    } else refreshLevel();
+  }
+  var tipTimer = 0;
+  function toggleXpTip() {
+    var tip = $('xpTip'), f = levelFrac();
+    tip.textContent = U.fmt(f.have) + ' / ' + U.fmt(f.need);
+    tip.classList.toggle('on');
+    clearTimeout(tipTimer);
+    if (tip.classList.contains('on')) tipTimer = setTimeout(function () { tip.classList.remove('on'); }, 2600);
+  }
+
+  // Tables open by level; this keeps st.unlocked in step with the player's level.
+  function syncUnlocks() {
+    var L = E.levelOf(st.xp), fresh = [];
+    E.TABLES.forEach(function (T, i) { var open = L >= T.level; if (open && !st.unlocked[i]) fresh.push(i); st.unlocked[i] = open; });
+    return fresh;
+  }
+  function topOpen() { var t = 0; for (var i = 0; i < E.TABLES.length; i++) if (st.unlocked[i]) t = i; return t; }
+
+  // A finished hand earns XP at this table's rate. Each level reached pays twenty minimum bets of the
+  // best open table; a level that opens a new table pays fifty of that table's minimum, enough to sit down there.
+  function gainXp(result) {
+    var base = E.XP_RESULT[result === 'blackjack' ? 'win' : result] || E.XP_HAND;
+    if (st.inTour) BJ.tour.noteHand(result);
+    var before = E.levelOf(st.xp), gain = Math.round(base * (st.inTour ? 1 : E.xpMult(st.table)));
+    st.xp += gain;
+    var after = E.levelOf(st.xp);
+    var num = $('lvlNum'); if (after > before) num.textContent = before;   // the number ticks over when the bar wraps
+    showXpGain(gain, after > before);
+    if (after > before) {
+      levelSteps(after);
+      var opened = syncUnlocks(), top = topOpen();
+      var reward = E.TABLES[top].min * (opened.length ? 50 : 20 * (after - before));
+      if (st.inTour) st.bank += reward; else { addChips(reward); floatDelta(reward); }   // level rewards go to your own chips
+      if (opened.length) showUnlock(opened[opened.length - 1], after, reward);
+      else { A.fanfare(); toast(I.t('levelUp', { n: after, c: U.money(reward) })); }
+      var el = $('lvl'); el.classList.remove('up'); void el.offsetWidth; el.classList.add('up');
+      setTimeout(function () { el.classList.remove('up'); }, 900);
+      save();
+    }
+  }
+
+  // A new table opens mid-session: the room dims, a little table in its felt colour is unlocked, and the
+  // player can head straight there or keep playing.
+  var ufxTarget = -1;
+  function showUnlock(i, level, reward) {
+    var T = E.TABLES[i], fx = $('unlockFx');
+    ufxTarget = i; st.unveil = i; save();
+    if (i === 1) NcqMetrics.step("019_level3_unlock");
+    $('ufxKicker').textContent = I.t('newTable');
+    $('ufxName').textContent = I.t('t_' + T.id);
+    $('ufxTable').style.setProperty('--felt', S.THEMES[i].felt);
+    $('ufxMeta').innerHTML = I.t('ufxMeta', { n: level, lim: U.money(T.min) + ' – ' + U.money(T.max), x: E.xpMult(i), c: U.money(reward) });
+    $('ufxGo').textContent = I.t('ufxGo'); $('ufxStay').textContent = I.t('ufxStay');
+    fx.className = 'on'; void fx.offsetWidth; fx.className = 'on show';
+    setTimeout(function () { fx.classList.add('open'); A.unlockTable(); }, 650);
+  }
+  function closeUnlock(go) {
+    var fx = $('unlockFx');
+    if (!fx.classList.contains('on')) return;
+    fx.classList.remove('show');
+    setTimeout(function () { fx.className = ''; }, 420);
+    A.tick();
+    if (go) NcqMetrics.step("unlock_go"); else NcqMetrics.step("unlock_stay");
+    if (!go) return;
+    var target = topOpen();
+    st.lastTable = target; save();
+    (function tryGo(n) {                       // wait for the round's chips to settle before walking off
+      if (mode === 'table' && phase === 'bet') toLobby(target);
+      else if (n < 60) setTimeout(function () { tryGo(n + 1); }, 150);
+    })(0);
+  }
+
+  function addChips(n) {
+    st.chips += n;
+    if (!st.inTour && st.chips > st.stats.peak) st.stats.peak = st.chips;
+  }
+
+  /* ---------- lobby ---------- */
+  function buildLobby() {
+    var box = $('lobbyTables'); box.innerHTML = '';
+    var LOCK = '<svg viewBox="0 0 40 48"><path class="sh" d="M11 22v-7a9 9 0 0 1 18 0v7" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="6" y="21" width="28" height="22" rx="4" fill="currentColor"/><circle cx="20" cy="31" r="3" fill="#000" opacity=".45"/><rect x="18.6" y="31" width="2.8" height="6" rx="1.2" fill="#000" opacity=".45"/></svg>';
+    E.TABLES.forEach(function (T, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'tcard' + (i === sel ? ' sel' : '') + (st.unlocked[i] && i !== popPending ? '' : ' locked');
+      b.innerHTML = '<span class="felt"><span class="chip"></span><span class="deck"></span></span>' +
+        '<span class="info"><span class="tn"></span><span class="tl"></span><span class="row"><span class="xp"></span><span class="ts"></span></span></span>' +
+        '<span class="lock">' + LOCK + '<span class="lv"></span><span class="gold"><i></i><em></em></span></span><span class="burst"></span>';
+      var felt = b.querySelector('.felt');
+      felt.style.backgroundColor = S.THEMES[i].felt;
+      b.querySelector('.deck').style.backgroundImage = 'url(' + backThumb(i) + ')';
+      b.querySelector('.chip').style.backgroundImage = 'url(' + BJ.art.chipUrl(T.chips[2]) + ')';
+      b.querySelector('.tn').textContent = I.t('t_' + T.id);
+      b.querySelector('.tl').textContent = U.money(T.min) + ' – ' + U.money(T.max);
+      b.querySelector('.xp').textContent = 'EXP ×' + E.xpMult(i);
+      b.querySelector('.ts').textContent = I.t('open');
+      b.querySelector('.lv').textContent = 'Lv ' + T.level;
+      b.querySelector('.gold em').textContent = '+' + U.money(T.min * 50);
+      var burst = b.querySelector('.burst');
+      for (var k = 0; k < 10; k++) {
+        var sp = document.createElement('b'), ang = k / 10 * Math.PI * 2;
+        sp.style.setProperty('--dx', (Math.cos(ang) * 60).toFixed(0) + 'px'); sp.style.setProperty('--dy', (Math.sin(ang) * 60).toFixed(0) + 'px');
+        burst.appendChild(sp);
+      }
+      b.addEventListener('click', function () { A.unlock(); if (!dragged) pick(i); });
+      box.appendChild(b);
+    });
+    centreCard(false);
+    refreshPlay();
+  }
+  var backThumbs = {};
+  function backThumb(i) {          // a small copy of the lounge's card back for its lobby card
+    if (backThumbs[i]) return backThumbs[i];
+    var src = BJ.art.cardBack(i), c = document.createElement('canvas'); c.width = 120; c.height = 168;
+    c.getContext('2d').drawImage(src, 0, 0, 120, 168);
+    return (backThumbs[i] = c.toDataURL('image/jpeg', 0.85));
+  }
+  function refreshPlay() {
+    var T = E.TABLES[sel], b = $('btnPlay');
+    var ok = st.unlocked[sel] && sel !== popPending;
+    b.textContent = ok ? I.t('single') : I.t('needLvPlay', { n: T.level }); b.disabled = !ok;
+    $('btnMulti').disabled = !ok;
+  }
+  // Looking at another table in the lobby re-dresses the one in front of the camera.
+  function pick(i, fromScroll) {
+    if (mode !== 'lobby') return;
+    i = Math.max(0, Math.min(E.TABLES.length - 1, i));
+    if (i === sel) return;
+    sel = i;
+    S.setTheme(i, E.TABLES[i], themeLabels(E.TABLES[i]));
+    var cards = $('lobbyTables').children;
+    for (var k = 0; k < cards.length; k++) cards[k].classList.toggle('sel', k === sel);
+    if (!fromScroll) centreCard(true);
+    refreshPlay();
+    A.tick();
+  }
+  function centreCard(smooth) {
+    var box = $('lobbyTables'), cur = box.children[sel];
+    if (!cur) return;
+    var left = cur.offsetLeft - (box.clientWidth - cur.offsetWidth) / 2;
+    if (smooth && box.scrollTo) box.scrollTo({ left: left, behavior: 'smooth' }); else box.scrollLeft = left;
+  }
+  // The table to show first: the one played last, or else the best one open.
+  function defaultPick() {
+    if (st.lastTable != null && st.unlocked[st.lastTable]) return st.lastTable;
+    return topOpen();
+  }
+  function lobbyGo() {
+    if (mode !== 'lobby') return;
+    if (!st.unlocked[sel]) { A.deny(); toast(I.t('needLvPlay', { n: E.TABLES[sel].level })); return; }
+    // Not enough chips for this table: offer the ad top-up first, and sit down straight after it
+    if (st.chips < E.TABLES[sel].min) { goAfterAd = true; openLobbyRefill(); return; }
+    enterTable();
+  }
+
+  // Walk up to the table: the camera cranes over, the decks are shuffled into the shoe, then the controls appear.
+  function enterTable() {
+    if (mode !== 'lobby') return;                       // one walk to the table at a time (a tap can race the first-launch entry)
+    if (!st.inTour) { st.table = sel; st.lastTable = sel; }
+    applyTable(); save();
+    NcqMetrics.step("002_intro_table");
+    if (multi) NcqMetrics.step("multi_first_enter"); else if (st.stats.hands) NcqMetrics.step("single_from_lobby");
+    setPhase('busy'); setMode('intro'); boost = 1;
+    if (!multi) clearSeats();
+    S.placeEdges(multi ? 'multi' : 'table');
+    S.seatSpots(multi ? SEATS.map(function (sp) { return { x: sp.px, z: sp.pz, yaw: sp.spin }; }) : null);
+    S.fly(multi ? S.POSES.multi : S.POSES.table, 1.5).then(function () {
+      toastHold(I.t('shuffling', { n: E.RULES.decks }));
+      boost = SHUFFLE_SPEED; A.shuffleRate = SHUFFLE_SPEED;
+      return BJ.intro.play(E.RULES.decks);
+    }).catch(function (err) { if (window.console) console.error(err); S.setShoe(true); })     // never leave the player without a shoe
+      .then(function () {
+        toastEnd(); boost = 1;
+        freshShoe();
+        NcqMetrics.step("003_shuffle_done");
+        setMode('table');
+        NcqMetrics.flow('table', { mode: handMode() });
+        if (!multi) { setPhase('bet'); if (st.chips < table.min) openRefill(); coachBegin(); return; }
+        if (BJ.online.on()) return joinOnline();
+        return joinTable().then(function () { setPhase('bet'); if (st.chips < table.min) openRefill(); coachBegin(); });
+      });
+  }
+  // Arriving from "Go now": the new table's card is still shown locked, slides to the middle, its padlock
+  // springs open with a little burst of sparks, and then the camera walks straight in.
+  var popPending = -1;
+  function popOpen(i) {
+    st.unveil = -1; save();
+    popPending = i; buildLobby();
+    if (i !== sel) pick(i);
+    var card = $('lobbyTables').children[i];
+    setTimeout(function () {
+      if (mode !== 'lobby') return;
+      card.classList.add('opening'); A.unlockTable();
+      setTimeout(function () {
+        popPending = -1; card.classList.remove('locked', 'opening'); refreshPlay();
+        setTimeout(coachPickMode, 450);
+      }, 1500);
+    }, 650);
+  }
+  function pendingUnveil() { return st.unveil != null && st.unveil >= 0 && st.unlocked[st.unveil]; }
+  function toLobby(target) {
+    if (mode !== 'table' || phase !== 'bet') return;
+    clearBet(); coachPickDone();
+    if (coachStep === 3) { coachStep = 0; coachHide(); st.tut = 3; }     // the ? pointer waits for the next table
+    netLeave();
+    var fromTour = st.inTour ? leaveTour() : null;
+    setPhase('busy'); setMode('intro'); boost = 1;
+    sel = st.table;
+    clearSeats(); S.seatSpots(null); stopBetTimer();
+    // The pack comes back out of the shoe and is cut into decks while the camera pulls away.
+    Promise.all([S.fly(S.POSES.lobby, 1.4), BJ.intro.unload(E.RULES.decks).catch(function () { BJ.intro.setOut(E.RULES.decks); })])
+      .then(function () {
+        boost = 1; setMode('lobby');
+        NcqMetrics.step("018_first_lobby"); NcqMetrics.flow('lobby', { mode: 'app' });
+        if (fromTour) { applyTable(); BJ.tour.refreshButton(); }
+        if (target == null && pendingUnveil()) target = topOpen();
+        if (target != null) popOpen(target); else buildLobby();
+        if (fromTour && target == null) setTimeout(function () { BJ.tour.check(); BJ.tour.reopen(fromTour); }, 250);
+        else BJ.tour.check();
+      });
+  }
+
+  /* ---------- betting ---------- */
+  function addBet(d) {
+    if (phase !== 'bet') return;
+    if (bet + d > table.max) { A.deny(); return toast(I.t('betMax', { n: U.money(table.max) })); }
+    if (st.chips < d) { A.deny(); toast(I.t('noChips')); if (st.chips + bet < table.min) openRefill(); return; }
+    st.chips -= d; bet += d; betChips.push(d);
+    Ch.bet(d, 'h0');
+    NcqMetrics.step("005_first_chip");
+    refreshBetTags(); refreshButtons();
+    coachAfterBet();
+  }
+
+  function clearBet() {
+    if (phase !== 'bet' || !bet) return;
+    st.chips += bet; bet = 0; betChips = [];
+    Ch.sweep('h0', 'player');
+    refreshBetTags(); refreshButtons();
+  }
+
+  function rebet() {
+    if (phase !== 'bet' || bet || !lastBet.length) return;
+    var want = lastBet.reduce(function (a, b) { return a + b; }, 0), list = lastBet;
+    if (want > st.chips) {                                   // cannot cover it: bet what is left, in table steps
+      want = Math.floor(st.chips / table.min) * table.min;
+      list = E.breakdown(want, 24);
+    }
+    if (want < table.min) { A.deny(); return toast(I.t('noChips')); }
+    list.forEach(function (d, k) {
+      st.chips -= d; bet += d; betChips.push(d);
+      anim.wait(k * 0.06).then(function () { Ch.bet(d, 'h0'); });
+    });
+    refreshBetTags(); refreshButtons();
+    // Same bet again means "go": deal as soon as the last chip is down.
+    setPhase('busy');
+    anim.wait(list.length * 0.06 + 0.6).then(function () { phase = 'bet'; deal(); });
+  }
+
+  /* ---------- a round ---------- */
+  function guard(p) { return p.catch(function (err) { if (window.console) console.error(err); recover(); }); }
+  function recover() {      // something threw mid-animation: put the table back in a playable state
+    view.dealer.concat(view.hands[0], view.hands[1], matesCards()).forEach(function (c) { c.remove(); });
+    view = { dealer: [], hands: [[], []] }; Ch.clearAll();
+    if (round) { round.hands.forEach(function (h, i) { if (!busted[i]) st.chips += h.bet; }); } else st.chips += bet;
+    endRound();
+  }
+
+  // A new player's first three hands are set up to land well: 20, then 12 that hits to 21, then a blackjack. The dealer shows
+  // a 6 over a 10 and then draws tens, so it busts every time; only hitting into a bust can lose these.
+  function starterHand() {
+    if (st.starter >= 3 || BJ.debug.noStarter || st.inTour) return null;
+    var suits = ['S', 'H', 'D', 'C'], sx = function () { return suits[(Math.random() * 4) | 0]; };
+    st.starter++;
+    // take the real cards out of the shoe so the count stays true
+    var c = function (r) {
+      if (shoe) for (var k = shoe.length - 1; k >= 0; k--) if (shoe[k].rank === r) return shoe.splice(k, 1)[0];
+      return { rank: r, suit: sx() };
+    };
+    // player's two cards, dealer's up and hole card, then what comes off the shoe next
+    var plan = [
+      { me: ['K', 'Q'],  dlr: ['5', '7'],  next: ['4', 'K', '10', 'J'] },   // 20 vs 12: the dealer draws to 16, then busts
+      { me: ['7', '5'],  dlr: ['6', '10'], next: ['9', '10', 'J', 'Q'] },  // 12: hit or double catches a 9 for 21; the dealer's 16 then busts either way
+      { me: ['A', 'K'],  dlr: ['9', '7'],  next: ['10', 'J', 'Q', 'K'] }    // blackjack
+    ][st.starter - 1];
+    return [c(plan.me[0]), c(plan.dlr[0]), c(plan.me[1]), c(plan.dlr[1])].concat(plan.next.map(c));
+  }
+  var dealWaiting = false;
+  function deal() {
+    if (phase !== 'bet' || bet < table.min) { if (phase === 'bet') { A.deny(); toast(I.t('betMin', { n: U.money(table.min) })); } return; }
+    if (net) {
+      if (dealWaiting) return;
+      dealWaiting = true; phase = 'busy'; $('betBar').className = 'bar'; refreshButtons(); stopBetTimer();
+      coachAfterDeal(); handIdle = autoBet; autoBet = false; lastBet = betChips.slice();
+      toastHold(I.t('waitOthers'));
+      BJ.online.move(net.room, { type: 'bet', amount: bet }).then(function (room) { netState(room); })
+        .catch(function () { dealWaiting = false; toastEnd(); phase = 'bet'; setPhase('bet'); toast(I.t('netRetry')); });
+      return;
+    }
+    // at a shared table the cards wait until every seat has put its chips down
+    if (multi && !matesAllPlaced()) {
+      if (dealWaiting) return;
+      dealWaiting = true; phase = 'busy'; $('betBar').className = 'bar'; refreshButtons();
+      toastHold(I.t('waitOthers'));
+      return waitMates().then(function () { dealWaiting = false; toastEnd(); phase = 'bet'; deal(); });
+    }
+    setPhase('busy');
+    coachAfterDeal();
+    handIdle = multi && autoBet; autoBet = false;
+    lastBet = betChips.slice();
+    if (!shoe) shoe = E.newShoe();
+    shoeAtDeal = shoe.length; dealtFromShoe = 0;
+    if (!shoe) shoe = E.newShoe();
+    var welcome = !BJ.debug.rig && starterHand();
+    round = E.deal(bet, Math.random, BJ.debug.rig || welcome, shoe); BJ.debug.rig = null;
+    if (welcome) round.noSplit = true;            // the welcome 20 is a pair of tens: keep it a plain stand
+    busted = [false, false];
+    st.stats.hands++;
+    if (st.inTour) { BJ.tour.useHand(st.inTour); refreshTourHands(); }
+    NcqMetrics.step("007_first_deal");
+    NcqMetrics.levelStart(handMode());
+    var h = round.hands[0], gap = 0.38, jobs = [];
+    jobs.push(dealTo('player', 0, h.cards[0], true));
+    jobs.push(anim.wait(gap).then(function () { return dealTo('dealer', 0, round.dealer[0], true); }));
+    jobs.push(anim.wait(gap * 2).then(function () { return dealTo('player', 0, h.cards[1], true); }));
+    jobs.push(anim.wait(gap * 3).then(function () { return dealTo('dealer', 0, round.dealer[1], false); }));
+    if (multi) matesBet();
+    guard(Promise.all(jobs).then(function () {
+      if (multi) return matesDeal();
+    }).then(function () {
+      if (E.cardValue(round.dealer[0]) >= 10) return C.peek(view.dealer[1]);
+    }).then(function () {
+      if (multi && !dealerBJ()) { var me = myPos(); return matesTurns(function (k) { return k < me; }, round.dealer.slice(0, 1)); }   // the seats ahead of you go first
+    }).then(function () {
+      if (round.phase === 'dealer') return finish();
+      setPhase('player'); refreshTotals();
+    }));
+  }
+
+  function throwStake(amount, pile) {
+    E.breakdown(amount, 12).forEach(function (d, k) { anim.wait(k * 0.05).then(function () { Ch.bet(d, pile); }); });
+  }
+
+  function act(kind, byClock) {
+    if (phase !== 'player' || !round) return;
+    if (!byClock) handIdle = false;
+    coachAfterAct();
+    var o = E.options(round, st.chips);
+    if (!o[kind]) return;
+    NcqMetrics.step("009_first_action");
+    if (kind === 'double') NcqMetrics.step("first_double"); else if (kind === 'split') NcqMetrics.step("first_split");
+    if (net) {
+      setPhase('busy');
+      var hh = round.hands[round.active];
+      if (kind === 'double') { st.chips -= hh.bet; throwStake(hh.bet, 'h' + round.active); }
+      else if (kind === 'split') st.chips -= hh.bet;
+      BJ.online.move(net.room, { type: kind }).then(function (room) { netState(room); })
+        .catch(function () { if (kind === 'double' || kind === 'split') st.chips += hh.bet; toast(I.t('netRetry')); setPhase('player'); });
+      return;
+    }
+    setPhase('busy');
+    var i = round.active, h = round.hands[i], ev, pre = Promise.resolve();
+    if (kind === 'hit') ev = E.hit(round);
+    else if (kind === 'stand') ev = E.stand(round);
+    else if (kind === 'double') { st.chips -= h.bet; throwStake(h.bet, 'h' + i); ev = E.double(round); }
+    else { st.chips -= h.bet; pre = splitTable(h.bet); ev = E.split(round); }
+    refreshBetTags();
+    guard(pre.then(function () { return play(ev); }).then(function () {
+      if (round.phase === 'dealer') return finish();
+      setPhase('player'); refreshTotals();
+    }));
+  }
+
+  // Pull the pair apart and put a second stake down.
+  function splitTable(stake) {
+    var a = view.hands[0][0], b = view.hands[0][1];
+    view.hands = [[a], [b]];
+    split = true;
+    Ch.setPile('h0', -SPLIT_PILE_X, PILE.z); Ch.setPile('h1', SPLIT_PILE_X, PILE.z);
+    Ch.shift('h0', -SPLIT_PILE_X);
+    throwStake(stake, 'h1');
+    refreshTotals();
+    return Promise.all([C.moveTo(a, slots('player', 0)[0], 0.28), C.moveTo(b, slots('player', 1)[0], 0.28)]);
+  }
+
+  // Animate what the engine said happened, in order.
+  function play(events) {
+    var p = Promise.resolve();
+    events.forEach(function (e) {
+      p = p.then(function () {
+        if (e.t === 'card') return e.to === 'dealer' ? dealTo('dealer', 0, e.card, true) : dealTo('player', e.hand, e.card, true, e.sideways);
+        if (e.t === 'bust') {
+          busted[e.hand] = true;
+          A.bust(); A.voice('bust'); setResult(e.hand, 'bust', -round.hands[e.hand].bet);
+          marks.t[e.hand].classList.add('lost');
+          st.stats.lost++;
+          return Promise.all([Ch.sweep('h' + e.hand, 'dealer'), anim.wait(0.6)]);
+        }
+        if (e.t === 'turn') { refreshTotals(); return; }
+        if (e.t === 'reveal') return C.reveal(view.dealer[1]).then(refreshTotals).then(function () { return anim.wait(0.22); });
+      });
+    });
+    return p;
+  }
+
+  // Which chips the dealer pays with: the table's own denominations, never one fat chip.
+  function payChips(amount) {
+    var out = [], left = amount, D = E.DENOMS, top = table.chips[table.chips.length - 1];
+    for (var i = D.length - 1; i >= 0 && left > 0; i--) {
+      if (D[i] > top) continue;
+      while (left >= D[i] && out.length < 18) { out.push(D[i]); left -= D[i]; }
+    }
+    // A small win still deserves a few chips: break the largest one down once.
+    if (out.length && out.length < 4) {
+      var k = D.indexOf(out[0]);
+      if (k > 0 && out[0] / D[k - 1] <= 5) { var big = out.shift(); for (var n = 0; n < big / D[k - 1]; n++) out.unshift(D[k - 1]); }
+    }
+    return out.length ? out : E.breakdown(amount, 18);
+  }
+
+  function finish() {
+    setPhase('busy');
+    refreshTotals();
+    // at a shared table everyone else's decisions land together once you're done, then the dealer plays
+    var others = multi && !dealerBJ() ? matesTurns(function () { return true; }, round.dealer.slice(0, 1)) : Promise.resolve();   // whoever hasn't played yet, in order
+    return others.then(function () { return play(E.dealerPlay(round)); }).then(function () { return settleHand(false); });
+  }
+  function settleHand(fromServer) {
+    return Promise.resolve().then(function () {
+      refreshTotals();
+      if (!fromServer) { E.settle(round); if (multi) matesSettle(); }
+      var jobs = [], best = 'lose', net = 0, staked = 0;
+      round.hands.forEach(function (h, i) {
+        var pile = 'h' + i;
+        net += h.payout - h.bet; staked += h.bet;
+        if (h.result === 'lose') {
+          if (!busted[i]) { st.stats.lost++; setResult(i, 'lose', -h.bet); jobs.push(Ch.sweep(pile, 'dealer')); }
+        } else if (h.result === 'push') {
+          st.stats.pushed++; if (best === 'lose') best = 'push';
+          setResult(i, 'push', 0);
+          jobs.push(anim.wait(0.7).then(function () { addChips(h.payout); return Ch.sweep(pile, 'player'); }));
+        } else {
+          var bj = h.result === 'blackjack';
+          st.stats.won++; if (bj) st.stats.bjs++;
+          best = bj ? 'blackjack' : (best === 'blackjack' ? best : 'win');
+          setResult(i, bj ? 'bj' : 'win', h.payout - h.bet);
+          jobs.push(Ch.pay(payChips(h.payout - h.bet), pile).then(function () {
+            // each coin that lands adds its share, so the balance runs up 쫘라락 with the stream
+            var p = Ch.pile(pile), paid = 0;
+            var burst = coinBurst(p.x, p.z, h.payout - h.bet, bj, function (k, n) {
+              var to = k === n - 1 ? h.payout : Math.round(h.payout * (k + 1) / n);
+              addChips(to - paid); paid = to;
+            }).then(function () { if (paid < h.payout) { addChips(h.payout - paid); paid = h.payout; } });
+            return Promise.all([Ch.sweep(pile, 'player'), burst]);
+          }));
+        }
+      });
+      markTotals();
+      floatDelta(net);
+      NcqMetrics.levelEnd(handMode(), best === 'push' ? undefined : best !== 'lose', { score: net });
+      handCountSteps(st.stats.hands); handResultSteps(best, net); dayHandSteps();
+      if (busted[0] || busted[1]) NcqMetrics.step("first_bust");
+      if (best === 'win' || best === 'blackjack') { st.stats.streak = (st.stats.streak || 0) + 1; st.stats.bestStreak = Math.max(st.stats.bestStreak || 0, st.stats.streak); }
+      else if (best === 'lose') st.stats.streak = 0;
+      anim.wait(1.6).then(function () { gainXp(best); });
+      // A big win is a blackjack, or winning at least ten table minimums in one round.
+      var big = best === 'blackjack' || net >= table.min * 10;
+      if (best === 'blackjack') { A.jingle('big'); A.voice('blackjack'); }
+      else if (best === 'win') { A.jingle(big ? 'big' : 'win'); A.voice('win'); }
+      else if (best === 'push') { A.push(); A.voice('draw'); }
+      else { A.jingle('lose'); if (!busted[0] || (round.hands[1] && !busted[1])) A.voice('lose'); }   // a bust already said its piece
+      // The verdict stays up long enough to read even when the chips are gone in a blink.
+      return Promise.all([Promise.all(jobs), anim.wait(1.35)]);
+    }).then(function () { return anim.wait(0.55); })
+      .then(function () {
+        clearMarks();
+        var all = view.dealer.concat(view.hands[0], view.hands[1], matesCards());
+        view = { dealer: [], hands: [[], []] };
+        return C.collect(all);
+      }).then(endRound);
+  }
+
+  function endRound() {
+    round = null; bet = 0; betChips = []; split = false; busted = [false, false];
+    Ch.setPile('h0', PILE.x, PILE.z); Ch.setPile('h1', SPLIT_PILE_X, PILE.z);
+    clearMarks(); refreshBetTags();
+    if (!net) matesBetween();
+    save();
+    BJ.meta.check();
+    var adNow = BJ.meta.handDone();
+    coachAfterHand();
+    // Cut card reached: the discards and what is left go back on the felt and the whole shoe is reshuffled.
+    if (st.inTour && st.chips < table.min) { NcqMetrics.step("tour_bust"); return tourOver(I.t('tBust')); }
+    if (st.inTour && !BJ.tour.handsLeft(st.inTour)) NcqMetrics.step("tour_day_done");
+    if (st.inTour && !BJ.tour.handsLeft(st.inTour)) return tourOver(I.t('tTodayDone', { n: BJ.tour.HANDS }));
+    if (shoe && shoe.length < CUT) return reshuffle();
+    if (multi && st.chips < table.min) return brokeToLobby();
+    if (multi && handIdle) { handIdle = false; return idleToLobby(); }
+    if (net) return netNextHand();
+    if (adNow && multi && mates.some(Boolean)) return sitOutHand();
+    setPhase('bet');
+    if (st.chips < table.min) openRefill();
+  }
+  function idleToLobby() {
+    NcqMetrics.step("multi_idle_kick");
+    phase = 'bet';
+    toast(I.t('idleKick'));
+    setTimeout(function () { toLobby(); }, 1200);
+  }
+  function brokeToLobby() {
+    NcqMetrics.step("multi_broke");
+    phase = 'bet';                     // toLobby only leaves from the betting phase
+    toast(I.t('brokeLeave'));
+    setTimeout(function () { toLobby(); }, 900);
+    var wait = setInterval(function () { if (mode === 'lobby') { clearInterval(wait); setTimeout(openLobbyRefill, 500); } }, 200);
+  }
+  // The lobby top-up pays the most a player can bet at the best table they've opened.
+  var refillMode = 'table', goAfterAd = false;
+  function lobbyRefillAmount() { return E.TABLES[topOpen()].max; }
+  function openLobbyRefill() {
+    NcqMetrics.step("lobby_refill_offer"); NcqMetrics.flow('refill', { mode: 'lobby' });
+    refillMode = 'lobby';
+    $('refillBody').textContent = I.t('outLobby');
+    $('btnAd').textContent = I.t('watchAd', { n: U.money(lobbyRefillAmount()) });
+    $('btnDown').hidden = false; $('btnDown').textContent = I.t('later');
+    $('btnDown').onclick = function () { close('sheetRefill'); goAfterAd = false; };
+    open('sheetRefill');
+  }
+  // While you watch an ad at a shared table the others play a hand without you; your seat says so,
+  // and you're dealt back in from the next hand.
+  function sitOutHand(label) {
+    setPhase('busy');
+    var tag = $('sitOut');
+    if (!tag) { tag = document.createElement('div'); tag.id = 'sitOut'; tag.className = 'seat sitout'; $('marks').appendChild(tag); }
+    tag.textContent = label || I.t('watchingAd'); tag.classList.remove('off'); pin(tag, PILE.x, 0.5, PILE.z - 2);
+    matesThinkBets();
+    return waitMates().then(function () { mates.forEach(function (m, i) { if (m) { m.status = ''; m.placed = false; m.thought = false; refreshSeat(i); } }); return anim.wait(0.6); }).then(watchHand)
+.then(function waitAd() {
+        if (!$('interAd').hidden) return anim.wait(0.5).then(waitAd);
+      }).then(function () {
+        tag.classList.add('off');
+        toast(I.t('backIn'));
+        setPhase('bet');
+        if (st.chips < table.min) openRefill();
+      });
+  }
+  function reshuffle() {
+    if (mode !== 'table') return;
+    clearBet();
+    setPhase('busy');
+    toastHold(I.t('shuffling', { n: E.RULES.decks }));
+    BJ.intro.setOut(E.RULES.decks);
+    boost = SHUFFLE_SPEED; A.shuffleRate = SHUFFLE_SPEED;
+    return BJ.intro.play(E.RULES.decks).catch(function () { S.setShoe(true); }).then(function () {
+      boost = 1; freshShoe(); toastEnd();
+      setPhase('bet');
+      if (st.chips < table.min) openRefill();
+    });
+  }
+  // How-to pages
+  var helpAt = 0;
+  function openHelp(i) {
+    NcqMetrics.step("help_open");
+    var pages = I.help(); helpAt = Math.max(0, Math.min(pages.length - 1, i));
+    var pg = pages[helpAt];
+    $('helpImg').src = 'img/help/' + pg[0] + '.jpg'; $('helpImg').alt = pg[1];
+    $('helpTitle').textContent = (helpAt + 1) + '. ' + pg[1];
+    $('helpText').textContent = pg[2];
+    var dots = $('helpDots'); dots.innerHTML = '';
+    pages.forEach(function (_, k) { var d = document.createElement('i'); if (k === helpAt) d.className = 'on'; dots.appendChild(d); });
+    $('helpPrev').disabled = helpAt === 0;
+    $('helpNext').textContent = helpAt === pages.length - 1 ? '✓' : '›';
+    open('sheetHelp');
+  }
+  function freshShoe() { shoe = E.newShoe(); shoeAtDeal = shoe.length; dealtFromShoe = 0; S.setShoeCount(shoe.length); refreshShoeTag(); }
+
+  /* ---------- sheets ---------- */
+  function open(id) { $(id).classList.add('open'); }
+  function close(id) { $(id).classList.remove('open'); }
+
+  // Step down to a cheaper table without leaving the felt.
+  function sit(i) {
+    clearBet();
+    st.table = i; sel = i; applyTable(); save();
+    A.tick();
+    if (st.chips < table.min) openRefill();
+  }
+
+  function openRefill() {
+    if (st.inTour) return;
+    NcqMetrics.step("refill_offer"); NcqMetrics.flow('refill', { mode: handMode() });            // a tournament has no top-ups: running out ends it
+    $('refillBody').textContent = I.t('outBody', { n: U.money(table.min) });
+    $('btnAd').textContent = I.t('watchAd', { n: U.money(E.refillAmount(table)) });
+    var lower = -1;
+    for (var i = st.table - 1; i >= 0; i--) if (st.chips >= E.TABLES[i].min) { lower = i; break; }
+    var down = $('btnDown');
+    down.hidden = lower < 0;
+    if (lower >= 0) { down.textContent = I.t('moveDown', { t: I.t('t_' + E.TABLES[lower].id) }); down.onclick = function () { close('sheetRefill'); sit(lower); }; }
+    open('sheetRefill');
+  }
+  function watchAd() {
+    close('sheetRefill');
+    var box = $('adMock'), n = 3; box.hidden = false; $('adCount').textContent = n;
+    var timer = setInterval(function () {
+      n--; $('adCount').textContent = n;
+      if (n > 0) return;
+      clearInterval(timer); box.hidden = true;
+      var amount = E.refillAmount(table);
+      st.stats.ads++; setPhase('busy');
+      NcqMetrics.step("refill_ad_done");
+      Ch.pay(E.breakdown(amount, 18), 'h0').then(function () { addChips(amount); floatDelta(amount); return Ch.sweep('h0', 'player'); }).then(function () { save(); setPhase('bet'); });
+    }, 1000);
+  }
+
+  function openSettings() {
+    NcqMetrics.step("settings_open"); NcqMetrics.flow('settings', { mode: 'app' });
+    $('btnSound').textContent = I.t(st.sound ? 'on' : 'off');
+    $('btnLang').textContent = I.lang === 'ko' ? '한국어' : 'English';
+    var s = st.stats, rows = [['level', E.levelOf(st.xp) + ' (' + U.money(st.xp) + ' XP)'], ['hands', s.hands], ['won', s.won], ['lost', s.lost], ['pushed', s.pushed], ['bjs', s.bjs], ['ads', s.ads], ['peak', U.money(s.peak)]];
+    var dl = $('statList'); dl.innerHTML = '';
+    rows.forEach(function (r) {
+      var d = document.createElement('div'); d.innerHTML = '<dt></dt><dd></dd>';
+      d.firstChild.textContent = I.t(r[0]); d.lastChild.textContent = r[1]; dl.appendChild(d);
+    });
+    askReset(false);
+    $('btnShuffle').disabled = !(mode === 'table' && phase === 'bet');
+    $('btnLobby').disabled = mode !== 'table';
+    $('menuTitle').textContent = I.t(mode === 'lobby' ? 'settings' : 'menu');
+    open('sheetSettings');
+  }
+  function askReset(on) {
+    $('btnReset').hidden = on; $('btnResetYes').hidden = !on; $('btnResetNo').hidden = !on;
+    $('resetAsk').textContent = I.t(on ? 'resetAsk' : 'reset');
+  }
+  function setLang(l) {
+    I.lang = l; st.lang = l; I.apply();
+    $('tblName').textContent = st.inTour ? BJ.tour.table(st.inTour).name : I.t('t_' + table.id);
+    refreshTourHands(); BJ.tour.refreshButton();
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cheat=chips]'), function (b) { b.textContent = I.t('cheatChips', { n: U.money(+b.getAttribute('data-n')) }); });
+    if (mode === 'lobby') buildLobby();
+    save();
+  }
+
+  /* ---------- lobby swiping ---------- */
+  // Drag the table cards (mouse or finger) or swipe anywhere over the table to step through lounges.
+  var dragged = false;
+  function wireSwipe() {
+    var box = $('lobbyTables'), scrollTimer = 0;
+    // the card nearest the middle after a scroll becomes the selection
+    box.addEventListener('scroll', function () {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(function () {
+        var mid = box.scrollLeft + box.clientWidth / 2, best = sel, bd = 1e9;
+        for (var k = 0; k < box.children.length; k++) {
+          var c = box.children[k], d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+          if (d < bd) { bd = d; best = k; }
+        }
+        if (best !== sel) pick(best, true);
+      }, 110);
+    });
+    // mouse drag on the cards (touch already scrolls natively)
+    var down = null;
+    box.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') return; down = { x: e.clientX, left: box.scrollLeft }; dragged = false; });
+    window.addEventListener('pointermove', function (e) {
+      if (!down) return;
+      var dx = e.clientX - down.x;
+      if (Math.abs(dx) > 6) { dragged = true; box.style.scrollSnapType = 'none'; }
+      box.scrollLeft = down.left - dx;
+    });
+    window.addEventListener('pointerup', function () {
+      if (!down) return; down = null; box.style.scrollSnapType = '';
+      setTimeout(function () { dragged = false; }, 0);
+    });
+    // a horizontal swipe over the table itself
+    var lobby = $('lobby'), start = null;
+    lobby.addEventListener('pointerdown', function (e) { if (e.target.closest('.tcar, button')) return; start = { x: e.clientX, y: e.clientY }; });
+    lobby.addEventListener('pointerup', function (e) {
+      if (!start) return;
+      var dx = e.clientX - start.x, dy = e.clientY - start.y; start = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.3) { A.unlock(); pick(sel + (dx < 0 ? 1 : -1)); }
+    });
+  }
+
+  /* ---------- wiring ---------- */
+  function wire() {
+    $('btnPlay').addEventListener('click', function () { A.unlock(); coachPickDone(); multi = false; lobbyGo(); });
+    $('btnMulti').addEventListener('click', function () { A.unlock(); coachPickDone(); multi = true; lobbyGo(); });
+    $('btnDeal').addEventListener('click', function () { A.unlock(); deal(); });
+    $('btnClear').addEventListener('click', function () { A.unlock(); clearBet(); });
+    $('btnRebet').addEventListener('click', function () { A.unlock(); rebet(); });
+    Array.prototype.forEach.call($('actBar').children, function (b) {
+      b.addEventListener('click', function () { A.unlock(); A.tick(); act(b.getAttribute('data-act')); });
+    });
+    $('btnHelp').addEventListener('click', function () { A.unlock(); openHelp(0); });
+    $('helpPrev').addEventListener('click', function () { openHelp(helpAt - 1); });
+    $('helpNext').addEventListener('click', function () { if (helpAt >= I.help().length - 1) close('sheetHelp'); else openHelp(helpAt + 1); });
+    $('btnGear').addEventListener('click', function () { A.unlock(); if (mode !== 'intro') openSettings(); });
+    $('btnLobby').addEventListener('click', function () {
+      if (phase !== 'bet') { NcqMetrics.step("leave_blocked"); return toast(I.t('leaveAfter')); }     // mid-hand: the menu stays open, it just says to wait
+      NcqMetrics.step("leave_table");
+      close('sheetSettings');
+      toLobby();
+    });
+    $('lvl').addEventListener('click', function (e) { e.stopPropagation(); A.unlock(); A.tick(); toggleXpTip(); });
+    Array.prototype.forEach.call(document.querySelectorAll('#coach .blk'), function (b) { b.addEventListener('click', function () { if ($('coach').classList.contains('tapclose')) coachEnd(); }); });
+    $('btnHelp').addEventListener('click', coachEnd);
+    window.addEventListener('resize', function () { setTimeout(coachRelayout, 60); });
+    $('ufxGo').addEventListener('click', function () { A.unlock(); closeUnlock(true); });
+    $('ufxStay').addEventListener('click', function () { A.unlock(); closeUnlock(false); });
+    $('btnShuffle').addEventListener('click', function () { close('sheetSettings'); reshuffle(); });
+    // NCQ_TEST_CHEAT: 테스트용 칩 추가·레벨업
+    // Shown while developing (no build flags yet) and in builds made with the test cheat turned on.
+    if (window.NCQ_TEST_CHEAT || !window.NCQ) {
+      $('cheatBox').hidden = false;
+      Array.prototype.forEach.call(document.querySelectorAll('[data-cheat]'), function (b) {
+        if (b.getAttribute('data-cheat') === 'chips') b.textContent = I.t('cheatChips', { n: U.money(+b.getAttribute('data-n')) });
+        b.addEventListener('click', function () {
+          A.unlock(); A.tick();
+          if (b.getAttribute('data-cheat') === 'chips') {
+            var n = +b.getAttribute('data-n');
+            if (st.inTour) st.bank += n; else { addChips(n); floatDelta(n); }    // at a tournament table it goes to your own chips
+            toast(I.t('gotChips', { n: U.money(n) }));
+            if (mode === 'lobby') buildLobby();
+          } else {
+            close('sheetSettings');
+            st.xp = Math.max(st.xp, E.xpFor(E.levelOf(st.xp) + 1) - 1);   // one step short, then a hand's worth of XP crosses it
+            gainXp('push');
+            if (mode === 'lobby') buildLobby();
+          }
+          save(); refreshButtons();
+        });
+      });
+    }
+    $('btnAd').addEventListener('click', function () {
+      A.unlock();
+      if (refillMode !== 'lobby') return watchAd();
+      close('sheetRefill'); refillMode = 'table';
+      BJ.meta.rewarded(function () { NcqMetrics.step("lobby_refill_done"); var n = lobbyRefillAmount(); addChips(n); floatDelta(n); A.coinBurst && A.coinBurst(); toast(I.t('gotChips', { n: U.money(n) })); save(); buildLobby(); if (goAfterAd) { goAfterAd = false; setTimeout(lobbyGo, 700); } });
+    });
+    $('btnSound').addEventListener('click', function () { NcqMetrics.step("sound_toggle"); st.sound = !st.sound; A.on = st.sound; save(); openSettings(); A.tick(); });
+    $('btnLang').addEventListener('click', function () { NcqMetrics.step("lang_change"); setLang(I.lang === 'ko' ? 'en' : 'ko'); openSettings(); });
+    $('btnReset').addEventListener('click', function () { askReset(true); });
+    $('btnResetNo').addEventListener('click', function () { askReset(false); });
+    $('btnResetYes').addEventListener('click', function () {
+      // Start over from scratch: a fresh save (language and sound kept), then the game reloads and, like a
+      // first launch, walks straight into the first table with the shuffle and the first-time pointers.
+      var lang = st.lang, sound = st.sound;
+      window.NcqSave.reset();
+      window.NcqSave.update(function (s) { s.lang = lang; s.sound = sound; s.migrated = true; });
+      close('sheetSettings');
+      try { localStorage.removeItem('bj-noauto'); } catch (e) {}
+      $('loading').className = '';
+      setTimeout(function () { location.reload(); }, 150);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-close]'), function (b) {
+      b.addEventListener('click', function () { b.closest('.sheet').classList.remove('open'); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.sheet'), function (s) {
+      s.addEventListener('click', function (e) { if (e.target === s && s.id !== 'sheetRefill') s.classList.remove('open'); });
+    });
+    window.addEventListener('resize', fit);
+    document.addEventListener('keydown', function (e) {
+      if (e.repeat) return;
+      var k = e.key.toLowerCase();
+      if (mode === 'lobby') { if (k === 'enter' || k === ' ') { A.unlock(); lobbyGo(); } }
+      else if (phase === 'bet') { if (k === 'enter' || k === ' ') { A.unlock(); if (!bet && lastBet.length) rebet(); else deal(); } if (k >= '1' && k <= '3' && table.chips[+k - 1]) { A.unlock(); addBet(table.chips[+k - 1]); } }
+      else if (phase === 'player') { var m = { h: 'hit', s: 'stand', d: 'double', p: 'split' }[k]; if (m) { A.unlock(); act(m); } }
+    });
+  }
+
+  function fit() {
+    var g = $('game');
+    document.documentElement.style.setProperty('--u', (g.clientWidth / 100) + 'px');
+    S.resize();
+  }
+
+  var last = 0, wall = 0;
+  function frame(t) {
+    var dt = Math.min(0.034, (t - last) / 1000 || 0.016), left = dt * anim.speed * boost; last = t; wall += dt;
+    BJ.debug.clock += left;
+    while (left > 1e-6) {                       // fixed-size steps keep the chips stable at any speed
+      var stepDt = Math.min(0.034, left);
+      anim.update(stepDt); Ch.update(stepDt);
+      left -= stepDt;
+    }
+    if (mode === 'lobby') S.drift(wall); else S.driftStop();
+    layoutMarks();
+    if (shown !== st.chips) {
+      var diff = st.chips - shown;
+      shown = Math.abs(diff) < 1 ? st.chips : shown + diff * Math.min(1, dt * 14);
+      $('chips').textContent = U.money(shown);
+    }
+    if (!BJ.debug.noRender) S.render();
+    tuneQuality(dt);
+    requestAnimationFrame(frame);
+  }
+
+  // Slow phone: trade sharpness for frame rate. Checked twice, early on.
+  var qFrames = 0, qTime = 0, qStep = 0;
+  function tuneQuality(dt) {
+    if (qStep > 1 || BJ.debug.fixedQuality) return;
+    qFrames++; qTime += dt;
+    if (qFrames < 80) return;
+    var avg = qTime / qFrames; qFrames = 0; qTime = 0;
+    if (avg > 0.024) { qStep++; S.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, qStep === 1 ? 1.5 : 1)); S.resize(); }
+    else qStep = 2;
+  }
+
+  // Test and demo hooks.
+  BJ.debug = {
+    stackPairs: function () { if (!shoe) shoe = E.newShoe(); ['8', '8', '8', '8', '3', '2', 'K', 'Q', '9', '7'].reverse().forEach(function (r) { shoe.unshift({ rank: r, suit: 'H' }); }); BJ.debug.forceSplit = true; },
+    idleMate: function () { var m = mates.filter(Boolean)[0]; if (m) m.idle = true; },
+    fillSeats: function () { for (var i = 0; i < 2; i++) { if (!mates[i]) seatMate(i, true); mates[i].bet = table.min * 5; mateChips(i, mates[i].bet); mateDraw(i); mateDraw(i); } },
+    seatGeo: function (px, pz, spin) { SEATS.forEach(function (sp, i) { var side = i ? 1 : -1, gap = PILE.z - HAND.z; sp.px = px * side; sp.pz = pz; sp.spin = sp.yaw = spin * side; sp.x = sp.px - Math.sin(sp.spin) * gap; sp.z = sp.pz - Math.cos(sp.spin) * gap; Ch.setPile('m' + i, sp.px, sp.pz, 3.2); }); S.seatSpots(SEATS.map(function (sp) { return { x: sp.px, z: sp.pz, yaw: sp.spin }; })); layoutSeats(); },
+    useHands: function (n) { for (var i = 0; i < n; i++) BJ.tour.useHand(st.inTour); refreshTourHands(); },
+    tourDays: function (d) { BJ.tour.debugShift(d); if (mode === 'lobby') BJ.tour.check(); },
+    gain: function (xp, r) { st.xp = xp; gainXp(r || 'win'); },
+    rig: null,
+    noStarter: false,
+    state: function () { return { mode: mode, phase: phase, chips: st.chips, bet: bet, table: st.table, split: split, round: round && { phase: round.phase, active: round.active, hands: round.hands.map(function (h) { return { cards: h.cards.map(function (c) { return c.rank + c.suit; }), bet: h.bet, result: h.result }; }), dealer: round.dealer.map(function (c) { return c.rank + c.suit; }) }, chipsOnTable: Ch.all().length, chipZ: Ch.all().filter(function (c) { return c.state === 'rest' || c.state === 'slide'; }).map(function (c) { return +c.z.toFixed(2); }) }; },
+    unlockFx: function (i) { showUnlock(i, E.TABLES[i].level, E.TABLES[i].min * 50); },
+    theme: function (i) { S.setTheme(i, E.TABLES[i], themeLabels(E.TABLES[i])); },
+    skipCoach: function () { st.tut = 9; coachStep = 0; coachHide(); save(); },
+    coachInfo: function () { return [coachStep, st.tut, $('coach').className, mode, phase]; },
+    cam: function () { var p = S.camera.position; return [p.x, p.y, p.z, S.camera.fov].map(function (v) { return +v.toFixed(1); }); },
+    give: function (n) { st.chips = n; refreshButtons(); if (mode === 'lobby') buildLobby(); },
+    speed: function (x) { anim.speed = x; },
+    pixelRatio: function (r) { BJ.debug.fixedQuality = true; S.renderer.setPixelRatio(r); S.resize(); },
+    fixedQuality: false,
+    noRender: false,
+    clock: 0
+  };
+
+  function boot() {
+    // 앱 버전 표시: 빌드가 넣은 버전 (웹 공개·구글플레이·토스), 개발 중에는 없어서 dev
+    var version = window.NCQ && window.NCQ.NCQ_VERSION;
+    $('appVersion').textContent = version ? 'v' + version : 'dev';
+    window.NcqSave.onChange(function (s, info) {
+      if (info.source !== 'cloud' || mode === 'table' || mode === 'intro') return;
+      Object.keys(s).forEach(function (k) { st[k] = s[k]; });
+      shown = st.chips; $('chips').textContent = U.money(st.chips); refreshLevel(); syncUnlocks();
+      if (mode === 'lobby') buildLobby();
+    });
+    BJ.online.ready();
+    BJ.meta.init(st, save, { toast: function (m) { toast(m); } });
+    BJ.tour.init(st, save, {
+      toast: function (m) { toast(m); },
+      enter: enterTour,
+      spend: function (n) { st.chips -= n; save(); },
+      addChips: function (n) { addChips(n); floatDelta(n); save(); },
+      check: function () { BJ.meta.check(); }
+    });
+    BJ.vip.init(st, save, {
+      toast: function (m) { toast(m); },
+      give: function (n) { if (st.inTour) st.bank += n; else { addChips(n); floatDelta(n); } save(); if (mode === 'lobby') buildLobby(); },   // always your own chips
+      shown: function (n) { if (!st.inTour) { if (st.chips > st.stats.peak) st.stats.peak = st.chips; floatDelta(n); } if (mode === 'lobby') buildLobby(); }
+    });
+    I.lang = st.lang || ((navigator.language || 'en').toLowerCase().indexOf('ko') === 0 ? 'ko' : 'en');
+    I.apply(); BJ.tour.refreshButton();
+    A.on = st.sound;
+    fit();
+    var fonts = (document.fonts && document.fonts.load)
+      ? Promise.all(BJ.art.fonts.map(function (f) { return document.fonts.load(f).catch(function () {}); }))
+      : Promise.resolve();
+    var timeout = new Promise(function (r) { setTimeout(r, 2500); });
+    Promise.race([fonts, timeout]).then(function () {
+      try { S.init($('stage')); }
+      catch (err) {
+        if (window.console) console.error(err);
+        $('loading').querySelector('.lbox').innerHTML = '<span></span>';
+        $('loading').querySelector('span').textContent = I.t('webgl');
+        return;
+      }
+      Ch.setPile('h0', PILE.x, PILE.z); Ch.setPile('h1', SPLIT_PILE_X, PILE.z);
+      var coin = BJ.art.coinUrl();
+      document.documentElement.style.setProperty('--coin', 'url(' + coin + ')');
+      applyTable();
+      BJ.intro.setOut(E.RULES.decks);           // lobby: empty shoe, decks lying on the felt
+      wire();
+      fit();
+      $('chips').textContent = U.money(st.chips);
+      refreshLevel();
+      refreshBetTags();
+      setPhase('busy');
+      syncUnlocks();
+      sel = defaultPick(); st.table = sel;
+      S.setTheme(sel, E.TABLES[sel], themeLabels(E.TABLES[sel]));
+      setMode('lobby');
+      if (pendingUnveil() && (st.stats.hands || st.tut)) { sel = topOpen(); st.table = sel; S.setTheme(sel, E.TABLES[sel], themeLabels(E.TABLES[sel])); popOpen(sel); } else buildLobby();
+      wireSwipe();
+      setTimeout(function () { if (mode === 'lobby') BJ.tour.check(); }, 600);
+      requestAnimationFrame(function (t) { last = t; frame(t); $('loading').className = 'gone'; });
+      NcqMetrics.step("001_loading_done"); dayOpenStep();
+      // A brand-new player skips the lobby: straight to the first table, the decks shuffle into the shoe,
+      // and the first-time pointers take over from there.
+      var noAuto = false; try { noAuto = !!localStorage.getItem('bj-noauto'); } catch (e) {}   // test runs that start in the lobby
+      if (!st.stats.hands && !st.tut && !noAuto) { sel = 0; multi = false; setTimeout(function () { if (mode === 'lobby') enterTable(); }, 400); }
+    });
+  }
+  boot();
+})();

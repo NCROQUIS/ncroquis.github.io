@@ -1,11 +1,17 @@
 import {spriteBox} from './skin-model.mjs';
 import {TEAM_COLORS} from './team-colors.mjs';
-// The stick's projected faces are affine parallelograms. Keep UVs continuous
-// around all twelve curved facets and paint gameplay marks above the texture.
+// Narrow cylinder facets use an affine texture approximation. The caller clips
+// each face with a small overlap; keep neighboring UVs available at that edge.
 export function paintSurface(ctx,image,quad,sx=0,sw=image.naturalWidth){
   const h=image.naturalHeight,a=quad[0],b=quad[1],d=quad[3];
   ctx.save();ctx.transform((b.x-a.x)/sw,(b.y-a.y)/sw,(d.x-a.x)/h,(d.y-a.y)/h,a.x,a.y);
-  ctx.drawImage(image,sx,0,sw,h,0,0,sw,h);ctx.restore();
+  ctx.drawImage(image,-sx,0);ctx.restore();
+}
+export function overlapSurfaceSides(quad,padding=.55){
+  const [a,b,c,d]=quad,top=Math.hypot(b.x-a.x,b.y-a.y),bottom=Math.hypot(c.x-d.x,c.y-d.y);
+  if(top<1e-6||bottom<1e-6)return quad;
+  const tx=(b.x-a.x)/top*padding,ty=(b.y-a.y)/top*padding,bx=(c.x-d.x)/bottom*padding,by=(c.y-d.y)/bottom*padding;
+  return[{x:a.x-tx,y:a.y-ty},{x:b.x+tx,y:b.y+ty},{x:c.x+bx,y:c.y+by},{x:d.x-bx,y:d.y-by}];
 }
 export function paintBoardImage(ctx,image,quad){
   const w=image.naturalWidth,h=image.naturalHeight;

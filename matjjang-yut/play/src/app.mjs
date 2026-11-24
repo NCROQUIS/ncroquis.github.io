@@ -40,8 +40,13 @@ const firstReveal = createFirstPlayerReveal($('#first-player-reveal'));
 const matchIntro = createMatchIntro($('#match-intro-dialog'));
 const resultMotion = createThrowResultMotion(resultBox, $('#play-area'));
 const throwSettings = mountThrowSettings();
-// Opening result flight (1.58s) fits the server's existing 3s grace with this toss cap.
-const renderer = createRenderer($('#board'), { game, skins, getThrowSettings: throwSettings.get, getMaxThrowDuration:()=>onlineMode?(game.opening?1400:2800):Infinity, getPieceElement: id => teamView.pieceButtons[id], onSelect: selectPiece, onMove: performMove, onPhase: value => { phase = value; render(); }, onReveal: showThrowResult });
+// Leave room for result and first-player motion within the server's opening grace.
+const renderer = createRenderer($('#board'), { game, skins, getThrowSettings: throwSettings.get, getMaxThrowDuration:()=>onlineMode?(game.opening?1400:2800):Infinity, getPieceElement: id => teamView.pieceButtons[id], onSelect: selectPiece, onMove: performMove, onPhase: value => { phase = value; render(); }, onReveal: showThrowResult,
+  onTrayBounds:({top,bottom})=>{
+    $('#app').style.setProperty('--tray-inset-top',Math.max(0,top)+'px');
+    $('#app').style.setProperty('--tray-inset-bottom',Math.max(0,bottom)+'px');
+  }
+});
 const teamSetup = mountTeamSetup(sizes => {
   resetMatch(sizes); save(); showGame();
 });
@@ -171,7 +176,11 @@ function render() {
     $('#first-player-name').textContent = playerName(game.opening.winner);
   }
   for (const piece of game.pieces) {
-    const button = pieceButtons[piece.id], finished = position(piece) === 'finish';
+    const button = pieceButtons[piece.id], node = position(piece), finished = node === 'finish';
+    const slot = button.parentElement, check = slot.querySelector('.piece-slot-check');
+    slot.dataset.state = finished ? 'finished' : node === 'base' ? 'reserve' : 'deployed';
+    check.setAttribute('aria-label', playerName(piece.player) + ' · ' + t('piece', { n: piece.id % 4 + 1 }) + ' · ' + t('finishAction'));
+    check.setAttribute('aria-hidden', String(!finished));
     const skin=skins.sprite(piece.player);
     if(skin){
       button.dataset.skin=skin.id;
@@ -181,7 +190,7 @@ function render() {
       const {box,dx,dy}=rackSpriteBox(skin);
       Object.assign(image.style,{left:'calc(50% + '+(box.left+dx)+' * var(--size))',top:'calc(50% + '+(box.top+dy)+' * var(--size))',width:'calc(var(--size) * '+box.width+')',height:'calc(var(--size) * '+box.height+')'});
     }else{delete button.dataset.skin;button.querySelector('.piece-skin')?.remove();}
-    button.hidden = position(piece) !== 'base';
+    button.hidden = node !== 'base';
     const canPlay = !button.hidden && !busy && (!onlineMode||onlineCanInput()) && piece.player === game.active && availableDestinations(game, piece.id).length > 0;
     button.disabled = !canPlay;
     button.classList.toggle('is-finished', finished);

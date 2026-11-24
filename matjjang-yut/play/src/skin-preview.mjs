@@ -25,9 +25,9 @@ export function mountSkinPreview(canvas,{skins,getSelection}){
     const dpr=Math.min(devicePixelRatio||1,2);
     canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
     // Enlarge the lower board while keeping the actual in-game camera and
-    // relative sizes. The sample pieces and all four sticks sit in this crop.
+    // relative sizes. Include the full scene width so both tray edges stay visible.
     renderer.resize(400,408,dpr);
-    const source={x:16,y:128,width:368,height:216},zoom=Math.min((w-8)/source.width,(h-4)/source.height);
+    const source={x:0,y:128,width:400,height:216},zoom=Math.min((w-8)/source.width,(h-4)/source.height);
     const width=source.width*zoom,height=source.height*zoom;
     ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#fcf5e7';ctx.fillRect(0,0,w,h);
     ctx.drawImage(scene,source.x*dpr,source.y*dpr,source.width*dpr,source.height*dpr,(w-width)/2,(h-height)/2,width,height);

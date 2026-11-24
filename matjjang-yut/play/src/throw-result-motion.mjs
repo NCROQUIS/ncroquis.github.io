@@ -1,4 +1,4 @@
-export const THROW_RESULT_MOTION = Object.freeze({ enter: 240, hold: 480, flight: 620, land: 240 });
+export const THROW_RESULT_MOTION = Object.freeze({ enter: 240, hold: 480, flight: 620 / 3, land: 240 });
 
 export function createThrowResultMotion(root, area) {
   const doc = root.ownerDocument, win = doc.defaultView, name = root.querySelector('.result-name');

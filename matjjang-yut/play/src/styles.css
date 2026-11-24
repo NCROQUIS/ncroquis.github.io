@@ -8,13 +8,19 @@
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}html:not([lang]) [data-i18n]{visibility:hidden}body{background:radial-gradient(ellipse at 50% 25%,#faf5e9,#e5ddcd)}button,input,select{font:inherit}button{cursor:pointer;touch-action:manipulation}button:disabled{cursor:default}button:focus-visible,select:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid #e0a44e;outline-offset:3px}button,select{color:inherit}button svg{display:block;width:20px;height:20px}button[hidden],[hidden]{display:none!important}
 .game-shell{--layout-gap:8px;--card-height:62px;--header-rail:60px;--rail-height:92px;--side-space:10px;--board-bleed:min(max(0px,calc(var(--side-space) - var(--ncq-left))),max(0px,calc(var(--side-space) - var(--ncq-right))));width:100%;max-width:480px;height:100dvh;margin:0 auto;padding:calc(var(--ncq-top) + 8px) max(var(--side-space),var(--ncq-right)) calc(var(--ncq-bottom) + 12px) max(var(--side-space),var(--ncq-left));background:#fcf5e7;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:var(--header-rail) minmax(0,1fr) var(--rail-height);gap:var(--layout-gap);min-width:0;box-shadow:0 0 70px #51402e18;isolation:isolate;container-type:size}
 .game-shell[data-online=true]{--header-rail:100px}
-/* Stable header/action rails leave all remaining height for the fixed card/board frame. */
+/* Reserve room for controls, then anchor the visible cards to the rendered tray. */
 .game-top{display:flex;flex-direction:column;justify-content:space-between;gap:var(--layout-gap);min-width:0;min-height:0}
 .game-stage{--result-height:0px;--result-gap:5px;position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:var(--card-height) var(--result-height) minmax(0,1fr) var(--result-height) var(--card-height);gap:var(--result-gap);min-width:0;min-height:0;height:100%}
 .game-stage>#opponent-card{grid-row:1}.game-stage>#my-card{grid-row:5}
 .game-stage .play-area{grid-row:3;min-height:0;container-type:size;width:calc(100% + 2 * var(--board-bleed));margin-inline:calc(-1 * var(--board-bleed))}
 /* The action starts immediately after the lower cards; status text cannot push it down. */
-.game-controls{align-self:start}
+.game-controls{align-self:start;position:relative;z-index:6;translate:0 calc(-1 * var(--tray-inset-bottom,0px))}
+.team-row{position:relative;z-index:6}
+.upper-teams{translate:0 var(--tray-inset-top,0px)}
+.lower-teams{translate:0 calc(-1 * var(--tray-inset-bottom,0px))}
+/* Separate layout translation from the result's landing scale animation. */
+.pending-results,.opening-score{translate:0 calc(-1 * var(--tray-inset-bottom,0px))}
+.pending-results:is([data-player="1"],[data-player="2"]),.opening-score:is([data-player="1"],[data-player="2"]){translate:0 var(--tray-inset-top,0px)}
 .result-lanes,.opening-scores{position:absolute;inset:0;display:grid;grid-template-columns:inherit;grid-template-rows:inherit;gap:inherit;pointer-events:none;z-index:4}
 .result-lanes .pending-results{--result-bright:#448eeb;--result-dark:#1759bb;grid-row:4;min-width:0;height:34px;align-items:flex-start;align-self:end;overflow-x:auto;overflow-y:hidden;padding:0 3px 4px;scrollbar-width:none;pointer-events:none}
 .result-lanes .result-chip{pointer-events:auto}

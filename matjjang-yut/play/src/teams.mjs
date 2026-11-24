@@ -43,7 +43,9 @@ export function createTeamView(onSelect) {
       for (const piece of game.pieces.filter(piece => piece.player === team)) {
         const button = document.createElement('button'); button.type = 'button'; button.className = 'piece-button'; button.dataset.piece = String(piece.id);
         for (const name of ['piece-choice-halo','piece-selected-ring']) { const mark = document.createElement('span'); mark.className = name; mark.setAttribute('aria-hidden','true'); button.append(mark); }
-        button.addEventListener('click', () => onSelect(piece.id)); rack.append(button); refs.pieceButtons[piece.id] = button;
+        const slot = document.createElement('span'); slot.className = 'piece-slot'; slot.dataset.slot = String(piece.id);
+        slot.innerHTML = '<span class="piece-slot-ghost" aria-hidden="true"></span><svg class="piece-slot-check" viewBox="0 0 24 24" role="img"><path d="m6 12 4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        button.addEventListener('click', () => onSelect(piece.id)); slot.append(button); rack.append(slot); refs.pieceButtons[piece.id] = button;
       }
       card.append(identity,rack); document.querySelector([0,3].includes(team) ? '.lower-teams' : '.upper-teams').append(card); refs.cards.push(card);
       const pending = document.createElement('div'); pending.className = 'pending-results'; pending.setAttribute('role','group'); colorTeam(pending,team);

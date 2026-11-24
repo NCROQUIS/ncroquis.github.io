@@ -1,6 +1,7 @@
 import {t} from './i18n.mjs';
 import {SKIN_IDS,SKIN_KINDS,sameAppearance} from './skin-model.mjs';
 import {mountSkinPreview} from './skin-preview.mjs';
+import {enableSkinScroll} from './skin-scroll.mjs';
 
 const $=selector=>document.querySelector(selector);
 const names={default:'shopDefault',porcelain:'skinPorcelain',jade:'skinJade',lacquer:'skinLacquer',ocean:'skinOcean',soda:'skinSoda',mokhwa:'skinMokhwa'};
@@ -14,7 +15,7 @@ const icons={
 export function mountShop({skins,onNavigate=()=>{}}){
   let page='home',tab='dress',applied=skins.get(),selected={...applied};
   let epoch=0,loading=false,applying=false,failed=false,saved=false,catalogReady=false,failureKind='load';
-  const cards=[];
+  const cards=[],centers=[];
   const flowState=()=>page==='shop'?(tab==='dress'?'skin_shop':'currency_shop'):page==='rank'?'ranking':'lobby';
   const preview=mountSkinPreview($('#skin-preview'),{skins,getSelection:()=>selected});
   for(const node of document.querySelectorAll('#lobby [data-icon]'))node.innerHTML=icons[node.dataset.icon];
@@ -30,16 +31,14 @@ export function mountShop({skins,onNavigate=()=>{}}){
     if(kind==='pieces')return image('piece-blue');
     return '<span class="mini-stick">'+image('stick-flat')+'</span><span class="mini-stick round" style="--x-color:'+skins.look(id).mark+'">'+image('stick-round')+'</span>';
   }
-  function center(card){
-    const row=card.parentElement,a=card.getBoundingClientRect(),b=row.getBoundingClientRect();
-    row.scrollLeft+=a.left-b.left-(b.width-a.width)/2;
-  }
-  const centerSelected=()=>cards.filter(card=>card.dataset.skin===selected[card.dataset.kind]).forEach(center);
+  const centerSelected=()=>centers.forEach(center=>center());
   for(const kind of SKIN_KINDS){
     const section=document.createElement('section');section.className='shelf';
     section.setAttribute('aria-labelledby','skin-'+kind+'-title');
     section.innerHTML='<div class="shelf-heading"><h3 id="skin-'+kind+'-title"></h3><span></span></div><div class="skin-list" role="group"></div>';
     const row=section.querySelector('.skin-list');row.dataset.kind=kind;
+    const center=enableSkinScroll(row);
+    centers.push(()=>center(row.querySelector('[data-skin='+selected[kind]+']')));
     for(const id of SKIN_IDS){
       const card=document.createElement('button');card.type='button';card.className='skin-card';card.dataset.kind=kind;card.dataset.skin=id;
       card.innerHTML='<span class="card-art" aria-hidden="true">'+art(kind,id)+'</span><span class="card-title"></span><span class="card-status"></span>';
@@ -52,12 +51,6 @@ export function mountShop({skins,onNavigate=()=>{}}){
       });
       row.append(card);cards.push(card);
     }
-    let drag=null,suppress=false;
-    row.addEventListener('pointerdown',event=>{if(event.pointerType==='mouse'&&event.button===0)drag={x:event.clientX,left:row.scrollLeft};});
-    row.addEventListener('pointermove',event=>{if(!drag)return;const dx=event.clientX-drag.x;if(Math.abs(dx)>5){suppress=true;row.scrollLeft=drag.left-dx;}});
-    window.addEventListener('pointerup',()=>{drag=null;setTimeout(()=>{suppress=false;},0);});
-    row.addEventListener('pointercancel',()=>{drag=null;suppress=false;});
-    row.addEventListener('click',event=>{if(suppress){event.preventDefault();event.stopImmediatePropagation();}},{capture:true});
     $('#skin-shelves').append(section);
   }
   function render(){

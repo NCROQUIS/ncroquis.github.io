@@ -5,7 +5,7 @@ import { createThrowPlan, heightMagnification } from './throw-motion.mjs';
 import { HOP_MS, HOP_CONTACT, RETURN_MS, RETURN_STAGGER_MS, hopPose, stackOffsets, returnPose } from './piece-motion.mjs';
 import { paintPiece } from './piece-paint.mjs';
 import { spriteBox, rackSpriteBox } from './skin-model.mjs';
-import { paintSurface, paintBoardImage } from './skin-paint.mjs';
+import { paintSurface, paintBoardImage, overlapSurfaceSides } from './skin-paint.mjs';
 import { TEAM_COLORS } from './team-colors.mjs';
 import { localPlayerName } from './teams.mjs';
 import { fitBoardLayout } from './board-layout.mjs';
@@ -88,6 +88,17 @@ export function createRenderer(canvas, options) {
   }
   const appearance=()=>options.skins?.get()||{board:'default',sticks:'default',pieces:'default'};
   const skinTray={halfWidth:4.04,halfHeight:3.94,depth:0};
+  let trayBoundsKey='';
+  function publishTrayBounds(points,vertical={}){
+    const bounds={left:Math.min(...points.map(p=>p.x)),right:Math.max(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y)),bottom:Math.max(...points.map(p=>p.y)),...vertical};
+    const key=JSON.stringify({width,height,...bounds});
+    if(key===trayBoundsKey)return;
+    trayBoundsKey=key;
+    if(window.NCQ_TEST_DICE)canvas.dataset.boardBounds=JSON.stringify(bounds);
+    // Keep the frame stable while cards and results follow the visible tray,
+    // rather than the unused space above and below it inside the canvas.
+    if(interactive)options.onTrayBounds?.({top:bounds.top,bottom:height-bounds.bottom});
+  }
   function trayExtent(){
     const id=appearance().board,image=options.skins?.image(id,'board');
     if(!image)return undefined;
@@ -106,12 +117,15 @@ export function createRenderer(canvas, options) {
     if(image){
       const {halfWidth:w,halfHeight:h}=skinTray;
       const quad=[[-w,-h],[w,-h],[w,h],[-w,h]].map(([x,y])=>project({x,y,z:0}));
-      if(window.NCQ_TEST_DICE){const {halfWidth:w,halfHeight:h}=trayExtent(),points=[[-w,-h],[w,-h],[w,h],[-w,h]].map(([x,y])=>project({x,y,z:0}));canvas.dataset.boardBounds=JSON.stringify({left:Math.min(...points.map(p=>p.x)),right:Math.max(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y)),bottom:Math.max(...points.map(p=>p.y))});}
+      const extent=trayExtent(),points=[[-extent.halfWidth,-extent.halfHeight],[extent.halfWidth,-extent.halfHeight],[extent.halfWidth,extent.halfHeight],[-extent.halfWidth,extent.halfHeight]].map(([x,y])=>project({x,y,z:0}));
+      const info=options.skins?.record?.(id)?.assets.board;
+      const vertical=info?{top:lerp(quad[0].y,quad[3].y,info.opaqueBounds[1]/info.height),bottom:lerp(quad[0].y,quad[3].y,(info.opaqueBounds[1]+info.opaqueBounds[3])/info.height)}:{};
+      publishTrayBounds(points,vertical);
       paintBoardImage(ctx,image,quad);return;
     }
     const corners=[[-3.78,-3.65], [3.78,-3.65],[3.78,3.65],[-3.78,3.65]];
     const top=corners.map(([x,y])=>project({x,y,z:0})),bottom=corners.map(([x,y])=>project({x,y,z:-.24}));
-    if(window.NCQ_TEST_DICE){const points=[...top,...bottom];canvas.dataset.boardBounds=JSON.stringify({left:Math.min(...points.map(p=>p.x)),right:Math.max(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y)),bottom:Math.max(...points.map(p=>p.y))});}
+    publishTrayBounds([...top,...bottom]);
     ctx.save();ctx.shadowColor=rgba(color.shadow,.18);ctx.shadowBlur=18*width/416;ctx.shadowOffsetY=9;roundPolygon(bottom,20*width/416);ctx.fillStyle='#b5b0a6';ctx.fill();ctx.restore();
     roundPolygon(bottom,20*width/416);ctx.fillStyle='#c7c2b8';ctx.fill();
     roundPolygon(top,20*width/416);const rim=ctx.createLinearGradient(0,top[0].y,0,top[2].y);rim.addColorStop(0,'#ffffff');rim.addColorStop(.5,'#eeece6');rim.addColorStop(1,'#f8f7f3');ctx.fillStyle=rim;ctx.fill();ctx.strokeStyle='#c6c2b8';ctx.lineWidth=1;ctx.stroke();
@@ -173,12 +187,20 @@ export function createRenderer(canvas, options) {
     const id=appearance().sticks,texture=options.skins?.image(id,flat?'stick-flat':'stick-round'),look=texture?options.skins.look(id):null;
     const base=flat?[235,190,120]:face.type==='cap'?(look?.cap||[189,134,73]):[153,89,43];
     const fill='rgb('+base.map(v=>Math.min(255,Math.round(v*light))).join(',')+')';
-    ctx.save();path(pts);ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=flat?'#dab07c90':'#87502c30';ctx.lineWidth=.55;ctx.stroke();ctx.clip();
+    ctx.save();
+    if(!texture||face.type==='cap'){
+      path(pts);ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=flat?'#dab07c90':'#87502c30';ctx.lineWidth=.55;ctx.stroke();
+    }
     if(texture&&face.type!=='cap'){
       const sx=flat?0:(face.theta-PI/24)/PI*texture.naturalWidth,sw=flat?texture.naturalWidth:texture.naturalWidth/12;
+      // Overlap only the long internal facet edges. No wood-colored underpaint
+      // or mesh outline may show through a light glass/ivory texture.
+      const surface=flat?pts:overlapSurfaceSides(pts);
+      ctx.save();path(surface);ctx.clip();
       paintSurface(ctx,texture,pts,sx,sw);
-      ctx.fillStyle=light<1?'rgba(0,0,0,'+(1-light)*.42+')':'rgba(255,255,255,'+(light-1)+')';path(pts);ctx.fill();
+      ctx.fillStyle=light<1?'rgba(0,0,0,'+(1-light)*.42+')':'rgba(255,255,255,'+(light-1)+')';path(surface);ctx.fill();ctx.restore();
     }
+    path(texture&&face.type==='curve'?overlapSurfaceSides(pts):pts);ctx.clip();
     const localLine=local=>path(local.map(v=>projectStick(world(v,p),p)),false);
     if(flat){
       if(!texture)for(let k=0;k<18;k++){const x=-.25+k*.029;const line=[];for(let j=0;j<14;j++)line.push({x:x+Math.sin(j*.7+k+i)*.006,y:-1.22+j*.188,z:.001});localLine(line);ctx.strokeStyle=k%3?'#9155231b':'#fff4cc55';ctx.lineWidth=k%3?.55:.8;ctx.stroke();}
@@ -224,12 +246,24 @@ export function createRenderer(canvas, options) {
       ctx.save();ctx.globalAlpha=.4+wave*.6;ctx.beginPath();ctx.arc(p.x,p.y,r*(.96+wave*.12),0,TAU);ctx.stroke();ctx.restore();ctx.setLineDash([]);
       // An occupied destination keeps its result badge outside the piece's rim.
       const tx=p.x+(occupied?r*.94:0),ty=p.y-(occupied?r*.94:0),font=Math.max(11,Math.min(14,scale*.34));
-      ctx.fillStyle='#174d92';ctx.font='800 '+font+'px "Yut Sans",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      const family='"Yut Sans","Yut Korean","Yut Thai",sans-serif';
+      ctx.fillStyle='#174d92';ctx.font='800 '+font+'px '+family;ctx.textAlign='center';ctx.textBaseline='middle';
       if(plan.target==='finish'){
         // A vector check stays sharp without requiring a symbol font glyph.
         ctx.strokeStyle='#174d92';ctx.lineWidth=2.6;ctx.lineCap='round';ctx.lineJoin='round';
         path([{x:tx-5,y:ty},{x:tx-1,y:ty+4},{x:tx+6,y:ty-5}],false);ctx.stroke();
-      }else ctx.fillText(String(plan.steps),tx,ty);
+      }else{
+        const text=t('out_'+plan.outcome),available=r*1.8;
+        let lines=[text];
+        // Keep longer localized names readable inside the destination ring.
+        if(ctx.measureText(text).width>available*font/9){
+          const letters=Array.from(text),middle=Math.ceil(letters.length/2);
+          lines=text.includes('-')?text.split('-'):[letters.slice(0,middle).join(''),letters.slice(middle).join('')];
+        }
+        const fitted=Math.min(font,...lines.map(line=>font*available/Math.max(1,ctx.measureText(line).width)));
+        ctx.font='800 '+fitted+'px '+family;
+        lines.forEach((line,index)=>ctx.fillText(line,tx,ty+(index-(lines.length-1)/2)*fitted*1.05));
+      }
       ctx.restore();
     }
   }

@@ -21,7 +21,9 @@ const KNUCK=(()=>{const h=KIT.pool.L/2,w=KIT.pool.W/2,k=[];for(const sz of [-1,1
 // ---------- renderer: 필름 톤매핑 + 당구장 조명 반사 ----------
 const app=$('app'),canvas=$('c');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+// 화면 배율: 최대 1.5배로 그리고, 느린 기기면 판을 그리는 동안 1배까지 저절로 낮춰요 (QUAL·qualTick, ui.js)
+const QUAL={max:Math.min(window.devicePixelRatio||1,1.5),pr:0,slow:0,t:0,n:0,sum:0};QUAL.pr=QUAL.max;
+renderer.setPixelRatio(QUAL.pr);
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;renderer.shadowMap.autoUpdate=false;
 renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;renderer.localClippingEnabled=true;
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x07090c);
@@ -164,7 +166,7 @@ function poolTex(n){
   [128,384].forEach(u=>{g.fillStyle='#f7f3e9';g.beginPath();g.arc(u,128,40,0,TAU);g.fill();g.fillStyle='#14141a';g.font='700 52px "Barlow Condensed",Arial,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(String(n),u,131);});
   const t=new THREE.CanvasTexture(c);t.encoding=THREE.sRGBEncoding;t.anisotropy=MAXA;return t;
 }
-const sgC=new THREE.SphereGeometry(KIT.carom.R,56,40),sgP=new THREE.SphereGeometry(KIT.pool.R,48,32);
+const sgC=new THREE.SphereGeometry(KIT.carom.R,40,28),sgP=new THREE.SphereGeometry(KIT.pool.R,32,22);
 const aoGeo=new THREE.PlaneGeometry(1,1).rotateX(-Math.PI/2),aoMat=new THREE.MeshBasicMaterial({transparent:true,depthWrite:false,toneMapped:false,color:0x000000,opacity:.78,map:(function(){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d'),r=g.createRadialGradient(64,64,6,64,64,64);r.addColorStop(0,'rgba(255,255,255,1)');r.addColorStop(.36,'rgba(255,255,255,.72)');r.addColorStop(.62,'rgba(255,255,255,.14)');r.addColorStop(1,'rgba(255,255,255,0)');g.fillStyle=r;g.fillRect(0,0,128,128);return new THREE.CanvasTexture(c);})()});
 function mkBall(name,tex,geo,rad,num){
   const m=new THREE.Mesh(geo,new THREE.MeshPhysicalMaterial({map:tex,color:0xd2d2d2,roughness:.14,metalness:0,clearcoat:1,clearcoatRoughness:.025,envMapIntensity:.85,reflectivity:.5}));

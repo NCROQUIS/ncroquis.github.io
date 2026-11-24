@@ -65,6 +65,7 @@ function camTargets(now){
 function updateCamera(dt,snap,now){
   const t=camTargets(now||performance.now()),k=snap?1:1-Math.exp(-dt*(phase==='shot'?3.2:6));
   camPos.lerp(t.p,k);camLook.lerp(t.l,k);camDy+=(t.dy-camDy)*k;
+  if(camPos.distanceToSquared(t.p)<1e-10)camPos.copy(t.p);if(camLook.distanceToSquared(t.l)<1e-10)camLook.copy(t.l);if(Math.abs(t.dy-camDy)<.01)camDy=t.dy;
   camera.position.copy(camPos);camera.up.set(0,1,0);camera.lookAt(camLook);
   camera.setViewOffset(viewW,viewH,0,camDy,viewW,viewH);
   const d=camPos.distanceTo(camLook);scene.fog.near=d+1.6;scene.fog.far=d+11;
@@ -137,7 +138,7 @@ function updateCue(dt){
   const c=LB[G.cueI],show=G.mode!=='attract'&&(phase==='aim'||phase==='strike'||phase==='ai-aim'||phase==='wait'||(phase==='ai-think'&&G.players[G.turn]&&G.players[G.turn].bot))&&c&&!c.off;
   cue.visible=!!show;if(!show){setCueRisk(false);return;}
   const target=phase==='strike'?-0.004:0.025+power*0.24;
-  pull+=(target-pull)*Math.min(1,dt*(phase==='strike'?40:14));
+  pull+=(target-pull)*Math.min(1,dt*(phase==='strike'?40:14));if(Math.abs(target-pull)<1e-5)pull=target;
   const mine=phase==='aim',rf=cueFloor(c,true,false),bf=cueFloor(c,false,true);
   if(mine&&elev<rf){elev=Math.min(rf,75);syncSpinUI();}
   setCueRisk(mine&&elev<bf);
@@ -876,16 +877,41 @@ function tick(dt,now){
   clockTick(dt);
 }
 let last=performance.now();
+// 그림 바뀜 확인: 보이는 물체의 자리·회전·투명도·색과 카메라·화면 크기를 숫자 하나로 모아요 (dyn은 그림자를 드리우는 물체만)
+const RS={all:NaN,dyn:NaN,t:0,skip:0};
+function renderSig(r,cr){
+  scene.updateMatrixWorld();camera.updateMatrixWorld();
+  // 0.05mm·0.0001 단위로 반올림한 정수만 더해요 (카메라가 거의 다 따라온 뒤의 아주 작은 떨림은 무시)
+  const q=x=>Math.round(x*2e4);let all=0,dyn=0,i=0;
+  scene.traverseVisible(o=>{i++;const e=o.matrixWorld.elements,v=q(e[0])+3*q(e[2])+5*q(e[5])+7*q(e[6])+11*q(e[10])+13*q(e[12])+17*q(e[13])+19*q(e[14]),w=(i%97)+1;all=(all+v*w)%1e15;
+    const m=o.material;if(m&&!Array.isArray(m))all=(all+(q(m.opacity||0)+(m.color?q(m.color.r)+2*q(m.color.g)+3*q(m.color.b):0))*w)%1e15;
+    if(o.castShadow)dyn=(dyn+v*((i%89)+1)+1e3)%1e15;});
+  const ce=camera.matrixWorld.elements;
+  all+=i*1e3+q(ce[12])*11+q(ce[13])*13+q(ce[14])*17+q(ce[8])*19+q(ce[9])*23+q(ce[10])*29+q(camDy/1e4)*31+viewW*37+viewH*41+q(renderer.getPixelRatio())*43+($('dock').hidden?0:47)+q(free.y/1e4)*53+q(free.h/1e4)*59;
+  if(r)all+=Math.round(r.left)*61+Math.round(r.top)*67+Math.round(r.width)*71+Math.round(r.height)*73+Math.round(cr.left)*79+Math.round(cr.top)*83;
+  return {all,dyn};
+}
+// 느린 기기: 그린 프레임 간격이 2초 동안 평균 22ms(약 45fps)보다 길면 화면 배율을 한 단계(0.25) 낮춰요 (1배까지)
+function qualTick(now){
+  if(QUAL.t){const d=now-QUAL.t;if(d<200){QUAL.sum+=d;QUAL.n++;}}QUAL.t=now;
+  if(QUAL.n>=90){const avg=QUAL.sum/QUAL.n;QUAL.sum=QUAL.n=0;
+    if(avg>22&&QUAL.pr>1){QUAL.pr=Math.max(1,QUAL.pr-.25);renderer.setPixelRatio(QUAL.pr);renderer.setSize(viewW,viewH,false);RS.all=NaN;}}
+}
 function loop(now){
   const fdt=Math.min(0.05,(now-last)/1000);last=now;
   tick(fdt,now);
   syncMeshes(fdt);updateCue(fdt);updateGuide();updateCamera(fdt,false,now);tutDraw(now);
+  const pip=$('pip'),c=LB[G.cueI],pipOn=!$('dock').hidden&&cue.visible&&c,r=pipOn?pip.getBoundingClientRect():null,cr=pipOn?canvas.getBoundingClientRect():null;
+  // 바뀐 게 없으면 다시 그리지 않아요 (가만히 조준할 때·결과 화면 등). 그림자는 공·큐가 움직일 때만 새로 그려요
+  const sg=renderSig(r,cr);
+  // 로비 뒤 당구대(데모)는 천천히 움직여서 30fps로 그려도 충분해요
+  if((sg.all===RS.all&&now-RS.t<1000)||(G.mode==='attract'&&now-RS.t<30)){RS.skip++;requestAnimationFrame(loop);return;}
+  if(sg.dyn!==RS.dyn)renderer.shadowMap.needsUpdate=true;
+  RS.all=sg.all;RS.dyn=sg.dyn;RS.t=now;qualTick(now);
   renderer.setScissorTest(false);renderer.setViewport(0,0,viewW,viewH);renderer.setClearColor(0x07090c,1);renderer.clear();
   if(!$('dock').hidden){const b=free.y+free.h;renderer.setScissorTest(true);renderer.setScissor(0,viewH-b,viewW,b);}
-  renderer.shadowMap.needsUpdate=true;renderer.render(scene,camera);renderer.setScissorTest(false);
-  const pip=$('pip'),c=LB[G.cueI];
-  if(!$('dock').hidden&&cue.visible&&c){
-    const r=pip.getBoundingClientRect(),cr=canvas.getBoundingClientRect();
+  renderer.render(scene,camera);renderer.setScissorTest(false);
+  if(pipOn){
     if(r.width>2&&r.height>2){
       const x=r.left-cr.left,y=viewH-(r.top-cr.top)-r.height,d=cueDir(aimPhi,elev);
       pipCam.aspect=r.width/r.height;pipCam.updateProjectionMatrix();

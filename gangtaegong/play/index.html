@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
     <meta name="theme-color" content="#16233f" />
     <title>강태공: 한 줄의 승부</title>
-    <script type="module" crossorigin src="./assets/index-B_k_58xQ.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-DK1n50hk.css">
+    <script type="module" crossorigin src="./assets/index-CRFgAhTy.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DbehBeRz.css">
   </head>
   <body>
     <div id="app">
@@ -15,7 +15,7 @@
       <!-- 항구 그림: 항구 화면 뒤에 깔려요 (창이 올라와도 그대로 보여요) -->
       <div id="port-bg" class="port-bg" hidden></div>
 
-      <!-- 항구: 돌아오는 곳. 그림 속 장소를 누르면 창이 올라오고, '출항'으로 떠났던 바다 자리로 돌아가요 -->
+      <!-- 항구: 돌아오는 곳. 장면은 캔버스가 그려요 (부두에 묶인 배를 옆에서 봐요). 장소를 누르면 창이 올라오고, '출항'으로 떠났던 바다 자리로 돌아가요 -->
       <section id="port" class="layer port" hidden>
         <header class="topbar">
           <div class="top-left">
@@ -29,20 +29,25 @@
             </svg>
           </button>
         </header>
-        <div class="port-offer">
-          <button id="lb-event" class="lobby-card event" hidden><span id="lb-event-t" class="t"></span><span id="lb-event-s" class="s"></span></button>
-          <button id="lb-merchant" class="lobby-card merchant" hidden><span class="t" data-i18n="merchant"></span><span id="lb-merchant-s" class="s"></span></button>
-          <button id="lb-offer" class="lobby-card offer" hidden><span class="t" data-i18n="memo"></span><span id="lb-offer-s" class="s"></span></button>
-        </div>
-        <!-- 그림 속 장소: 게시판(의뢰) · 기록실 · 선구점(낚싯대·줄) · 조선소(배) · 어시장(상점) · 탐사소(파견·연구) · 수족관 -->
-        <div class="port-places">
-          <button class="place" data-place="board" style="--x: 4%; --y: 2%"><i class="ti ti-board"></i><span class="p-t" data-i18n="place_board"></span><span id="pl-board-s" class="p-s"></span><i id="pl-board-dot" class="dot" hidden></i></button>
-          <button class="place r" data-place="records" style="--x: 4%; --y: 2%"><i class="ti ti-records"></i><span class="p-t" data-i18n="records"></span><span id="pl-records-s" class="p-s"></span><i id="pl-records-dot" class="dot" hidden></i></button>
-          <button class="place" data-place="tackle" style="--x: 4%; --y: 44%"><i class="ti ti-gear"></i><span class="p-t" data-i18n="place_tackle"></span><span id="pl-tackle-s" class="p-s"></span><i id="pl-tackle-dot" class="dot" hidden></i></button>
-          <button class="place r" data-place="yard" style="--x: 4%; --y: 30%"><i class="ti ti-boat"></i><span class="p-t" data-i18n="place_yard"></span><span id="pl-yard-s" class="p-s"></span><i id="pl-yard-dot" class="dot" hidden></i></button>
-          <button class="place" data-place="lab" style="--x: 4%; --y: 23%"><i class="ti ti-lab"></i><span class="p-t" data-i18n="place_lab"></span><span id="pl-lab-s" class="p-s"></span><i id="pl-lab-dot" class="dot" hidden></i></button>
-          <button class="place r" data-place="aqua" style="--x: 4%; --y: 52%"><i class="ti ti-aqua"></i><span class="p-t" data-i18n="place_aqua"></span><span id="pl-aqua-s" class="p-s"></span><i id="pl-aqua-dot" class="dot" hidden></i></button>
-          <button class="place" data-place="market" style="--x: 30%; --y: 72%"><i class="ti ti-shop"></i><span class="p-t" data-i18n="place_market"></span><span id="pl-market-s" class="p-s"></span></button>
+        <!-- 장소: 사이드 메뉴 (2026-11-24, 사용자 지시: 항구 그림에 건물로 세우지 않고 UI로). 왼쪽 의뢰 · 기록실 · 탐사소(파견·연구) · 수족관, 오른쪽 선구점(낚싯대·줄) · 조선소(배) · 어시장(상점) -->
+        <div class="port-sides">
+          <div class="side-col port-side left">
+            <button class="side-icon" data-place="board"><i class="ti ti-board"></i><span class="t" data-i18n="quests"></span><span id="pl-board-s" class="s"></span><i id="pl-board-dot" class="dot" hidden></i></button>
+            <button class="side-icon" data-place="records"><i class="ti ti-records"></i><span class="t" data-i18n="records"></span><span id="pl-records-s" class="s"></span><i id="pl-records-dot" class="dot" hidden></i></button>
+            <button class="side-icon" data-place="lab"><i class="ti ti-lab"></i><span class="t" data-i18n="place_lab"></span><span id="pl-lab-s" class="s"></span><i id="pl-lab-dot" class="dot" hidden></i></button>
+            <button class="side-icon" data-place="aqua"><i class="ti ti-aqua"></i><span class="t" data-i18n="place_aqua"></span><span id="pl-aqua-s" class="s"></span><i id="pl-aqua-dot" class="dot" hidden></i></button>
+          </div>
+          <!-- 주간 이벤트 · 떠돌이 상인 · 기념 팩: 두 열 사이 가운데 (떠 있을 때만) -->
+          <div class="port-offer">
+            <button id="lb-event" class="lobby-card event" hidden><span id="lb-event-t" class="t"></span><span id="lb-event-s" class="s"></span></button>
+            <button id="lb-merchant" class="lobby-card merchant" hidden><span class="t" data-i18n="merchant"></span><span id="lb-merchant-s" class="s"></span></button>
+            <button id="lb-offer" class="lobby-card offer" hidden><span class="t" data-i18n="memo"></span><span id="lb-offer-s" class="s"></span></button>
+          </div>
+          <div class="side-col port-side right">
+            <button class="side-icon" data-place="tackle"><i class="ti ti-gear"></i><span class="t" data-i18n="place_tackle"></span><span id="pl-tackle-s" class="s"></span><i id="pl-tackle-dot" class="dot" hidden></i></button>
+            <button class="side-icon" data-place="yard"><i class="ti ti-boat"></i><span class="t" data-i18n="place_yard"></span><span id="pl-yard-s" class="s"></span><i id="pl-yard-dot" class="dot" hidden></i></button>
+            <button class="side-icon" data-place="market"><i class="ti ti-shop"></i><span class="t" data-i18n="place_market"></span><span id="pl-market-s" class="s"></span></button>
+          </div>
         </div>
         <div class="port-go">
           <button id="btn-depart" class="main-btn" data-ncq-main="출항 버튼" data-i18n="depart"></button>

@@ -44,6 +44,8 @@ head='''<!doctype html>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <title>당구 : PVP 3구 4구 포켓볼</title>
 <script src="ncq/safe.js"></script>
+<script src="ncq/display.js"></script>
+<script src="ncq/motion.js"></script>
 <script src="ncq/save.js"></script>
 <script src="ncq/sound.js"></script>
 <script src="ncq/device.js"></script>

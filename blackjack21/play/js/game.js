@@ -1910,6 +1910,18 @@
       b.classList.remove('small', 'ghost'); b.classList.add('pclose');
       foot.appendChild(b); panel.appendChild(body); panel.appendChild(foot); panel.classList.add('hasfoot');
     });
+    // the round ✕ on the centred popups becomes the same text close button at the bottom
+    Array.prototype.forEach.call(document.querySelectorAll('.tpanel > .tclose, .tpanel .tihead > .tclose'), function (x) {
+      var panel = x.closest('.tpanel'), foot = document.createElement('div'), b = document.createElement('button');
+      b.type = 'button'; b.className = 'btn pclose'; b.setAttribute('data-close', ''); b.setAttribute('data-i18n', 'close'); b.textContent = I.t('close');
+      x.remove(); foot.className = 'pfoot'; foot.appendChild(b);
+      if (getComputedStyle(panel).overflowY === 'auto') {          // the panel scrolled as a whole: keep the footer outside the scroll
+        var body = document.createElement('div'); body.className = 'pscroll';
+        while (panel.firstChild) body.appendChild(panel.firstChild);
+        panel.appendChild(body); panel.classList.add('hasfoot');
+      }
+      panel.appendChild(foot);
+    });
     dragScroll();
     Array.prototype.forEach.call(document.querySelectorAll('[data-close]'), function (b) {
       b.addEventListener('click', function () { b.closest('.sheet').classList.remove('open'); });
@@ -1949,15 +1961,23 @@
       shown = Math.abs(diff) < 1 ? st.chips : shown + diff * Math.min(1, dt * 14);
       $('chips').textContent = U.money(shown);
     }
-    if (!BJ.debug.noRender) S.render();
+    // a popup covers the table: the 3D scene behind it only needs a slow refresh (saves battery and heat)
+    var covered = sheetOpen();
+    if (!BJ.debug.noRender && (!covered || (frameN++ % 3) === 0)) S.render();
     tuneQuality(dt);
     requestAnimationFrame(frame);
   }
 
+  var frameN = 0, sheetCache = null;
+  function sheetOpen() {
+    if (!sheetCache) sheetCache = document.getElementsByClassName('sheet');   // live list, no per-frame query
+    for (var i = 0; i < sheetCache.length; i++) if (sheetCache[i].classList.contains('open')) return true;
+    return false;
+  }
   // Slow phone: trade sharpness for frame rate. Checked twice, early on.
   var qFrames = 0, qTime = 0, qStep = 0;
   function tuneQuality(dt) {
-    if (qStep > 1 || BJ.debug.fixedQuality) return;
+    if (qStep > 1 || BJ.debug.fixedQuality || sheetOpen()) return;   // judge speed only while the table is in view
     qFrames++; qTime += dt;
     if (qFrames < 80) return;
     var avg = qTime / qFrames; qFrames = 0; qTime = 0;

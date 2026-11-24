@@ -401,6 +401,7 @@
     // tabs
     Array.prototype.forEach.call($('tiTabs').children, function (b) { b.classList.toggle('on', b.getAttribute('data-tab') === infoTab); });
     var pane = $('tiPane'); pane.innerHTML = ''; pane.scrollTop = 0;
+    Array.prototype.forEach.call(document.querySelectorAll('#tinfo .tipme'), function (x) { x.remove(); });
     if (infoTab === 'board') {
       if (!s.live) pane.appendChild(el('p', 'tempty', I.t('tBoardWait')));
       else {
@@ -409,9 +410,10 @@
         list.forEach(function (q, i) {
           if (i >= 100 && !q.me) return;
           var r = rankRow(i + 1, q.icon, q.nick, U.money(q.chips), q.me);
-          pane.appendChild(r); if (q.me) myRow = r;
+          if (q.me) myRow = r;
+          if (!(q.me && i >= 100)) pane.appendChild(r);
         });
-        if (myRow) setTimeout(function () { pane.scrollTop = Math.max(0, myRow.offsetTop - pane.offsetTop - pane.clientHeight / 2); }, 30);
+        if (myRow) { var mine = el('div', 'rankme tipme'); mine.appendChild(myRow.cloneNode(true)); pane.parentNode.insertBefore(mine, pane.nextSibling); }
       }
     } else if (infoTab === 'prize') {
       var n = list ? list.length : t.field + 1;

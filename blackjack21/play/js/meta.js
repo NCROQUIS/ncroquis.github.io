@@ -348,16 +348,18 @@
     var me = { nick: st.nick, icon: st.icon, xp: st.xp, rating: st.rating, me: true };
     var all = rating ? BJ.tour.ratingList() : sampleBoard().concat([me]).sort(function (a, b) { return b.xp - a.xp; });
     var list = $('rankList'); list.innerHTML = '';
-    var myRow = null;
+    var myRow = null, shown = 0;
     all.forEach(function (p, i) {
-      var row = BJ.tour.rankRow(p.rank || i + 1, p.icon, p.nick, rating ? U.fmt(p.rating) : 'Lv ' + BJ.engine.levelOf(p.xp), p.me);
+      var rk = p.rank || i + 1;
+      var row = BJ.tour.rankRow(rk, p.icon, p.nick, rating ? U.fmt(p.rating) : 'Lv ' + BJ.engine.levelOf(p.xp), p.me);
       if (rating) row.querySelector('.lv').appendChild(BJ.tour.tierPill(p.rating));
-      list.appendChild(row);
       if (p.me) myRow = row;
+      if (p.me && rk > shown + 1) return;            // far down the board: only in my own box below
+      list.appendChild(row); shown = rk;
     });
-    var meBox = $('rankMe'); meBox.innerHTML = ''; meBox.appendChild(myRow.cloneNode(true));
+    var meBox = $('rankMe'); meBox.innerHTML = ''; if (myRow) meBox.appendChild(myRow.cloneNode(true));
     $('sheetRank').classList.add('open');
-    setTimeout(function () { list.scrollTop = Math.max(0, myRow.offsetTop - list.offsetTop - list.clientHeight / 2); }, 30);
+    list.scrollTop = 0;                               // always from No. 1
   };
 
   // The Legendary League board: pick a season from the drop-down (the latest by default).
@@ -376,10 +378,12 @@
     BJ.tour.legendBoard(legendWk).forEach(function (p) {
       if (p.rank > 50 && !p.me) return;
       var row = BJ.tour.rankRow(p.rank, p.icon, p.nick, U.money(p.chips), p.me);
-      list.appendChild(row); if (p.me) myRow = row;
+      if (p.me) myRow = row;
+      if (!(p.me && p.rank > 50)) list.appendChild(row);
     });
     if (myRow) meBox.appendChild(myRow.cloneNode(true));
     $('sheetRank').classList.add('open');
+    list.scrollTop = 0;
   }
 
   /* ---------- tablemates (multiplayer look) ---------- */

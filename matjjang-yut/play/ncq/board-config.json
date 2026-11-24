@@ -1,0 +1,6 @@
+{
+  "provider": "supabase",
+  "environment": "prod",
+  "ruleset": "yut-duel-v1",
+  "apiUrl": "https://qqbajkltkhvhlwrxpgfn.supabase.co/functions/v1/matjjang-yut"
+}

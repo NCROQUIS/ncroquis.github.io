@@ -8,7 +8,7 @@
   <script src="./ncq/sound.js"></script>
   <script src="./ncq/save.js"></script>
   <script src="./ncq/popup.js"></script>
-  <meta charset="UTF-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script>
+  <meta charset="UTF-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#faf3e6">
   <meta name="description" content="A tactile local two-player Yutnori game. Gather, throw, and race your pieces home.">
@@ -19,18 +19,21 @@
   <link rel="stylesheet" href="./src/move-targets.css">
   <link rel="stylesheet" href="./src/throw-result.css">
   <link rel="stylesheet" href="./src/teams.css">
+  <link rel="stylesheet" href="./src/online.css">
+  <link rel="stylesheet" href="./src/economy.css">
   <script type="module" src="./src/app.mjs"></script>
 </head>
 <body>
   <main class="lobby-shell" id="lobby" aria-labelledby="lobby-title">
     <div class="lobby-toolbar header-actions">
+      <button class="wallet-balance" data-wallet type="button"><i class="yeopjeon-icon" aria-hidden="true"></i><span data-i18n="yeopjeon"></span><strong data-wallet-coins>—</strong></button>
       <button class="icon-button" id="lobby-sound-button" data-sound-toggle data-i18n-attr="aria-label:sound" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg></button>
       <button class="icon-button" id="lobby-settings-button" data-settings-open data-i18n-attr="aria-label:settings" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m9 3-1 3-3 1-2 3 2 2-1 3 2 3 3-1 2 3h3l1-3 3-1 2-3-2-2 1-3-2-3-3 1-2-3H9Z"/><circle cx="12" cy="12" r="3"/></svg></button>
     </div>
     <h1 class="lobby-title" id="lobby-title" data-i18n-attr="aria-label:title"><span data-i18n="lobbyTitleTop"></span><span data-i18n="lobbyTitleBottom"></span></h1>
     <div class="lobby-illustration" aria-hidden="true"><img src="./assets/lobby-background.webp" width="941" height="1672" alt="" fetchpriority="high" draggable="false"></div>
     <div class="lobby-modes" role="group" data-i18n-attr="aria-label:gameModes">
-      <button class="mode-button" type="button" disabled data-i18n="modeDuel"></button>
+      <button class="mode-button" id="duel-button" type="button"><span data-i18n="modeDuel"></span><span class="duel-payoff"><span data-i18n="duelWin"></span><span aria-hidden="true"> · </span><span data-i18n="duelLoss"></span></span></button>
       <button class="mode-button" type="button" disabled data-i18n="modeTeams"></button>
       <button class="mode-button" type="button" disabled data-i18n="modeThree"></button>
       <button class="mode-button" id="together-button" type="button" data-i18n="playTogether" data-ncq-main="play together"></button>
@@ -42,6 +45,7 @@
         <div class="brand"><button class="icon-button back-button" id="back-to-lobby" data-i18n-attr="aria-label:quitGame" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg></button><h1 data-i18n="title"></h1><span class="mode" data-i18n="mode"></span></div>
         <div class="header-actions"><button class="icon-button" id="sound-button" data-i18n-attr="aria-label:sound" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg></button><button class="icon-button" id="settings-button" data-i18n-attr="aria-label:settings" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m9 3-1 3-3 1-2 3 2 2-1 3 2 3 3-1 2 3h3l1-3 3-1 2-3-2-2 1-3-2-3-3 1-2-3H9Z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
       </header>
+      <div class="match-economy" id="match-economy" hidden><span class="duel-payoff"><span data-i18n="duelWin"></span><span aria-hidden="true"> · </span><span data-i18n="duelLoss"></span></span><button class="wallet-balance" data-wallet type="button"><i class="yeopjeon-icon" aria-hidden="true"></i><strong data-wallet-coins>—</strong></button></div>
     </div>
     <div class="game-stage">
       <div class="team-row upper-teams"></div>
@@ -64,10 +68,14 @@
     </div>
     <footer class="game-controls">
       <p class="game-status" id="game-status" aria-live="polite"></p>
-      <button type="button" class="main-button" id="main-button" data-ncq-main="game action"><span class="button-sticks" aria-hidden="true"><i></i><i></i></span><span id="main-label"></span></button>
+      <button type="button" class="main-button" id="main-button" data-ncq-main="game action"><span class="button-sticks" aria-hidden="true"><i></i><i></i></span><span id="main-label"></span><span id="turn-countdown" hidden aria-hidden="true"></span></button>
     </footer>
   </main>
   <div class="throw-result" id="throw-result" hidden aria-hidden="true"><strong class="result-name"></strong></div>
+  <dialog id="matching-dialog" aria-labelledby="matching-title" data-ncq-no-main>
+    <header class="dialog-header"><h2 id="matching-title" data-i18n="matchingTitle"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>
+    <div class="dialog-body"><p id="matching-status" aria-live="polite" data-i18n="matchingWait"></p><p class="matching-hint" data-i18n="matchingBotHint"></p><div class="dialog-actions"><button class="secondary-button" data-close type="button" data-i18n="cancel"></button><button class="secondary-button filled" id="retry-matching" type="button" data-i18n="retry" data-ncq-main="retry matchmaking" hidden></button></div></div>
+  </dialog>
   <dialog id="team-setup-dialog" aria-labelledby="team-setup-title">
     <header class="dialog-header"><h2 id="team-setup-title" data-i18n="playTogether"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>
     <div class="team-setup-body"><div id="setup-teams"></div><button class="secondary-button" id="add-team" type="button"><span aria-hidden="true">＋</span> <span data-i18n="addTeam"></span></button></div>
@@ -82,12 +90,13 @@
       <details><summary data-i18n="rules"></summary><ol class="rules-list"><li data-i18n="teamOpeningRule"></li><li data-i18n="teamRule"></li><li data-i18n="rule2"></li><li data-i18n="rule3"></li><li data-i18n="rule4"></li></ol></details>
       <button class="secondary-button" id="new-game-button" data-i18n="newGame" type="button"></button>
       <button class="secondary-button" id="feedback-button" data-i18n="feedback" type="button" hidden></button>
+      <section class="account-panel" aria-labelledby="account-id-label"><label id="account-id-label" for="account-id" data-i18n="accountId"></label><div class="account-id-row"><input id="account-id" readonly data-ncq-selectable><button class="secondary-button" id="copy-account-id" type="button" data-i18n="copyId" disabled></button></div><p id="account-status" aria-live="polite"></p></section>
       <p class="save-note" data-i18n="saved"></p><span class="app-version" id="app-version"></span>
     </div>
   </dialog>
   <dialog id="restart-dialog" aria-labelledby="restart-title">
     <header class="dialog-header"><h2 id="restart-title" data-i18n="newGame"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>
-    <div class="dialog-body"><p data-i18n="newConfirm"></p><div class="dialog-actions"><button class="secondary-button" data-close data-i18n="cancel" type="button"></button><button class="secondary-button filled" id="confirm-new-game" data-i18n="confirm" data-ncq-main="new game" type="button"></button></div></div>
+    <div class="dialog-body"><p id="restart-detail" data-i18n="newConfirm"></p><div class="dialog-actions"><button class="secondary-button" data-close data-i18n="cancel" type="button"></button><button class="secondary-button filled" id="confirm-new-game" data-i18n="confirm" data-ncq-main="new game" type="button"></button></div></div>
   </dialog>
   <dialog id="quit-dialog" aria-labelledby="quit-title" aria-describedby="quit-detail">
     <header class="dialog-header"><h2 id="quit-title" data-i18n="quitTitle"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>
@@ -95,7 +104,7 @@
   </dialog>
   <dialog id="winner-dialog" aria-labelledby="winner-title">
     <header class="dialog-header"><h2 id="winner-title"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>
-    <div class="dialog-body"><div class="winner-medal" aria-hidden="true">✦</div><button class="secondary-button filled" id="play-again-button" data-i18n="newGame" data-ncq-main="play again" type="button"></button></div>
+    <div class="dialog-body"><div class="winner-medal" aria-hidden="true">✦</div><p class="economy-result" id="economy-result" aria-live="polite" hidden></p><button class="secondary-button filled" id="play-again-button" data-i18n="newGame" data-ncq-main="play again" type="button"></button></div>
   </dialog>
 </body>
 </html>

@@ -7,6 +7,11 @@ import { mountThrowSettings } from './throw-settings.mjs';
 import { createFirstPlayerReveal } from './first-player-reveal.mjs';
 import { createThrowResultMotion } from './throw-result-motion.mjs';
 import { createTeamView, mountTeamSetup, localPlayerName, colorTeam } from './teams.mjs';
+import { createOnlineDuel } from './online-duel.mjs';
+import { projectRoom, orientMatch, pieceForSeat } from './online-state.mjs';
+import { mountAccount } from './account.mjs';
+import { roomClock, remainingSeconds } from './online-clock.mjs';
+import { mountWallet } from './wallet.mjs';
 
 const $ = selector => document.querySelector(selector);
 const NcqMetrics = window.NcqMetrics || { levelStart() {}, levelEnd() {}, step() {} };
@@ -20,6 +25,8 @@ let openingThrower = null, openingRevealed = false;
 let revealingFirst = false;
 let hasSavedMatch = !!restored;
 let arrivingResult = null, resultRevealTask = null;
+let onlineMode=false,onlineRequest=false,onlineFailure=null,onlineVisualRoom=null,onlineQueue=[],onlinePlaying=false,onlineEpoch=0,onlineRevealKey='',onlineStartedKey='',onlineEndedKey='';
+let onlineClock=null,clockInterval=null,lastOnlineEvent=null,clockExpired=false;
 const teamView = createTeamView(selectPiece);
 const status = $('#game-status'), action = $('#main-button'), label = $('#main-label');
 const resultBox = $('#throw-result');
@@ -27,10 +34,13 @@ const quitDialog = $('#quit-dialog');
 const firstReveal = createFirstPlayerReveal($('#first-player-reveal'));
 const resultMotion = createThrowResultMotion(resultBox, $('#play-area'));
 const throwSettings = mountThrowSettings();
-const renderer = createRenderer($('#board'), { game, getThrowSettings: throwSettings.get, getPieceElement: id => teamView.pieceButtons[id], onSelect: selectPiece, onMove: performMove, onPhase: value => { phase = value; render(); }, onReveal: showThrowResult });
+const renderer = createRenderer($('#board'), { game, getThrowSettings: throwSettings.get, getMaxThrowDuration:()=>onlineMode?2800:Infinity, getPieceElement: id => teamView.pieceButtons[id], onSelect: selectPiece, onMove: performMove, onPhase: value => { phase = value; render(); }, onReveal: showThrowResult });
 const teamSetup = mountTeamSetup(sizes => {
   resetMatch(sizes); save(); showGame();
 });
+const online=createOnlineDuel({onRoom:receiveOnlineRoom,onStatus:value=>{if(value==='connected')onlineFailure=null;if(onlineMode&&['connecting','reconnecting'].includes(value))flow(value);renderMatching();render();},onError:error=>{onlineFailure=error.code??'network';renderMatching();if(onlineMode)render();}});
+const account=mountAccount();
+const wallet=mountWallet(renderEconomy);
 window.NcqPopup.watch(document);
 window.NcqPopup.sound('wood');
 // A modal is its own screen; the covered game action is not that screen's main action.
@@ -40,25 +50,26 @@ function syncModalScreen() {
   $('#lobby').inert = modalOpen;
   action.removeAttribute('data-ncq-main');
   $('#together-button').removeAttribute('data-ncq-main');
+  $('#duel-button').removeAttribute('data-ncq-main');
   if (!modalOpen) {
     if (screen === 'game') action.setAttribute('data-ncq-main', 'game action');
-    else $('#together-button').setAttribute('data-ncq-main', 'play together');
+    else { $('#together-button').setAttribute('data-ncq-main', 'play together'); $('#duel-button').setAttribute('data-ncq-main','online duel'); }
   }
 }
 new MutationObserver(syncModalScreen).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
 
-function save() { hasSavedMatch = true; window.NcqSave.update(data => { data.match = structuredClone(game); }); }
-function flow(state) { window.NcqMetrics?.flow?.(screen === 'game' && quitDialog.open ? 'quit_confirmation' : state, { mode: 'local' }); }
+function save() { if(onlineMode)return;hasSavedMatch = true; window.NcqSave.update(data => { data.match = structuredClone(game); }); }
+function flow(state) { window.NcqMetrics?.flow?.(screen === 'game' && quitDialog.open ? 'quit_confirmation' : state, { mode: onlineMode?'online':'local' }); }
 function currentFlow() { return screen === 'lobby' ? 'lobby' : quitDialog.open ? 'quit_confirmation' : revealingFirst ? 'opening_reveal' : game.opening ? 'opening' : game.winner !== null ? 'result' : game.pending.length ? 'choose_piece' : 'ready'; }
 function showGame() {
   if (screen === 'game') return;
   screen = 'game'; $('#lobby').hidden = true; $('#app').hidden = false;
   $('#new-game-button').hidden = false; syncModalScreen(); render();
-  NcqMetrics.step('together_selected');
-  if (resumeLevel) { NcqMetrics.levelStart('local', { round: game.id }); resumeLevel = false; }
+  if(onlineMode)NcqMetrics.step('online_matched');else NcqMetrics.step('together_selected');
+  if (!onlineMode && resumeLevel) { NcqMetrics.levelStart('local', { round: game.id }); resumeLevel = false; }
   flow(currentFlow());
   (action.disabled ? $('#back-to-lobby') : action).focus({ preventScroll: true });
-  if (game.opening?.winner != null && !game.opening.revealed) void revealFirstPlayer();
+  if (!onlineMode && game.opening?.winner != null && !game.opening.revealed) void revealFirstPlayer();
 }
 function showLobby() {
   if (busy || screen === 'lobby') return;
@@ -68,6 +79,7 @@ function showLobby() {
 }
 function requestQuit() {
   if (screen !== 'game' || quitDialog.open) return;
+  $('#quit-detail').dataset.i18n=onlineMode?'onlineQuitDetail':'quitDetail';$('#quit-detail').textContent=t($('#quit-detail').dataset.i18n);
   window.NcqPopup.open(quitDialog); NcqMetrics.step('quit_requested'); flow('quit_confirmation');
 }
 function resetMatch(sizes = [1, 1]) {
@@ -78,10 +90,12 @@ function resetMatch(sizes = [1, 1]) {
 }
 function quitMatch() {
   if (screen !== 'game' || !quitDialog.open) return;
+  if(onlineMode){void leaveOnlineMatch();return;}
   resetMatch(); hasSavedMatch = false; window.NcqSave.update(data => { data.match = null; });
   NcqMetrics.step('match_quit'); render(); showLobby();
 }
-function destinations() { return availableDestinations(game, selectedPiece); }
+function onlineCanInput(){return online.canAct()&&!onlineRequest&&remainingSeconds(onlineClock)!==0&&onlineVisualRoom?.code===online.room?.code&&onlineVisualRoom?.round===online.room?.round&&onlineVisualRoom?.version===online.room?.version;}
+function destinations() { return onlineMode&&!onlineCanInput()?[]:availableDestinations(game, selectedPiece); }
 function selection(resultId = null) {
   const choices = destinations();
   return resultId === null ? choices.length === 1 ? choices[0] : null : choices.find(plan => plan.resultId === resultId) ?? null;
@@ -92,7 +106,7 @@ function normalizeSelection() {
   if (!destinations().length) selectedPiece = defaultPieceId(game);
 }
 function selectPiece(id) {
-  if (busy || game.winner !== null || !availableDestinations(game, id).length) return;
+  if (busy || onlineMode&&!onlineCanInput() || game.winner !== null || !availableDestinations(game, id).length) return;
   selectedPiece = id; notice = null;
   NcqMetrics.step('piece_selected'); flow('destination'); render();
 }
@@ -118,13 +132,17 @@ function setLanguageMenu() {
   $('#language-label').textContent = t('language') + (NcqLang.lang === 'en' ? '' : ' · Language');
 }
 function render() {
+  renderEconomy();
   normalizeSelection();
   const plans = destinations(), plan = plans[0];
   const { pendingLists, openingScores, pieceButtons } = teamView.sync(game, openingThrower ?? game.active);
   $('#app .mode').removeAttribute('data-i18n');
-  $('#app .mode').textContent = t('teamMode', { n: teamCount(game) });
+  $('#app').dataset.online=String(onlineMode);
+  $('#app .mode').textContent = onlineMode?t('onlineMode')+(online.room?.bot?' · '+t('botLabel'):''):t('teamMode', { n: teamCount(game) });
   $('#app .mode').hidden = !!game.opening;
-  const localNote = $('#settings-dialog .local-note'); localNote.removeAttribute('data-i18n'); localNote.textContent = t('localTeamsNote', { n: teamCount(game) });
+  const localNote = $('#settings-dialog .local-note'); localNote.removeAttribute('data-i18n'); localNote.textContent = onlineMode?t('onlineMode'):t('localTeamsNote', { n: teamCount(game) });
+  const saveNote=$('#settings-dialog .save-note');saveNote.dataset.i18n=onlineMode?'onlineSaveNote':'saved';saveNote.textContent=t(saveNote.dataset.i18n);
+  const restartNote=$('#restart-detail');restartNote.dataset.i18n=onlineMode?'onlineQuitDetail':'newConfirm';restartNote.textContent=t(restartNote.dataset.i18n);
   $('#opening-title').hidden = !game.opening || game.opening.winner !== null || busy;
   $('#opening-scores').hidden = !game.opening;
   for (let player = 0; player < teamCount(game); player++) {
@@ -142,7 +160,7 @@ function render() {
   for (const piece of game.pieces) {
     const button = pieceButtons[piece.id], finished = position(piece) === 'finish';
     button.hidden = position(piece) !== 'base';
-    const canPlay = !button.hidden && !busy && piece.player === game.active && availableDestinations(game, piece.id).length > 0;
+    const canPlay = !button.hidden && !busy && (!onlineMode||onlineCanInput()) && piece.player === game.active && availableDestinations(game, piece.id).length > 0;
     button.disabled = !canPlay;
     button.classList.toggle('is-finished', finished);
     button.classList.toggle('is-playable', canPlay);
@@ -180,16 +198,42 @@ function render() {
     label.textContent = game.throws > 0 ? t('throw') : plans.length === 1 ? (plan.target === 'finish' ? t('finishAction') : plan.steps < 0 ? t('backward') : t('move', { n: plan.steps })) : plans.length > 1 ? t('chooseDestination') : t('choosePiece');
     status.textContent = notice ? t(notice) : plans.length ? t('moveHint') : game.pending.length ? t('choosePiece') : t('throw');
   }
+  if(onlineMode){
+    action.disabled ||= onlineRequest||online.status!=='connected'||online.writing||game.winner===null&&!onlineCanInput();
+    if(!busy&&game.winner===null){
+      if(onlineRequest){label.textContent=t('connecting');status.textContent='';}
+      else if(online.status!=='connected'){label.textContent=t(online.status==='connecting'?'connecting':'reconnecting');status.textContent=label.textContent;}
+      else if(!onlineCanInput()){label.textContent=t('opponentTurn');status.textContent=onlineFailure?t('onlineError'):t('opponentTurn');}
+      else if(onlineFailure)status.textContent=t('onlineError');
+    }
+    if(game.onlineDraw){status.textContent=t('draw');$('#winner-title').textContent=t('draw');}
+  }
   $('#settings-button').disabled = busy;
   $('#back-to-lobby').disabled = false;
   const sound = window.NcqSound.enabled('sfx');
   for (const button of [$('#sound-button'), $('#lobby-sound-button')]) button.setAttribute('aria-pressed', String(sound));
   $('#sound-setting').checked = sound;
   $('#board').setAttribute('aria-label', t('rules') + ' · ' + t('moveHint'));
-  const playableIds = busy ? [] : game.pieces.filter(piece => piece.player === game.active && availableDestinations(game, piece.id).length).map(piece => piece.id);
-  renderer.update({ game, plans: busy ? [] : plans, pieceId: selectedPiece, playableIds, busy });
+  const locked=busy||onlineMode&&!onlineCanInput();
+  const playableIds = locked ? [] : game.pieces.filter(piece => piece.player === game.active && availableDestinations(game, piece.id).length).map(piece => piece.id);
+  renderer.update({ game, plans: locked ? [] : plans, pieceId: selectedPiece, playableIds, busy:locked });
+  renderClock();
+}
+function renderClock(){
+  const counter=$('#turn-countdown'),seconds=remainingSeconds(onlineClock);
+  if(onlineMode&&(seconds===0)!==clockExpired){clockExpired=seconds===0;render();return;}
+  const throwing=game.opening?game.opening.winner===null:game.throws>0;
+  const visible=onlineMode&&throwing&&onlineClock?.seconds===5&&online.status==='connected'&&!busy&&!onlineRequest&&game.winner===null
+    &&onlineVisualRoom?.version===online.room?.version;
+  counter.hidden=!visible;action.classList.toggle('has-countdown',visible);
+  if(!visible)return;
+  const text=(element,value)=>{if(element.textContent!==value)element.textContent=value;};
+  text(counter,NcqLang.num(seconds));
+  if(seconds===0){action.disabled=true;text(label,t('throw'));text(status,t('autoThrowing'));}
+  else if(!onlineFailure)text(status,lastOnlineEvent?.automatic==='disconnect'?t('aiPlayed'):t('throwCountdown',{n:NcqLang.num(seconds)}));
 }
 async function performOpeningThrow() {
+  if(onlineMode){await sendOnlineAction({type:'throw'});return;}
   if (busy || !game.opening || game.opening.winner !== null) return;
   const player = game.active, token = ++generation, bits = nextTestThrow || randomThrow(); nextTestThrow = null;
   busy = true; openingThrower = player; openingRevealed = false; notice = null; hideThrowResult();
@@ -214,11 +258,13 @@ async function revealFirstPlayer() {
   busy = false; revealingFirst = false; flow('opening'); render();
 }
 function startAfterOpening() {
+  if(onlineMode){void sendOnlineAction({type:'start'});return;}
   if (busy || game.opening?.winner == null) return;
   game = beginGame(game); notice = null; hideThrowResult(); save();
   NcqMetrics.step('first_player_decided'); flow('ready'); render();
 }
 async function performThrow() {
+  if(onlineMode){await sendOnlineAction({type:'throw'});return;}
   if (busy || game.opening || game.throws < 1 || game.winner !== null) return;
   busy = true; notice = null; selectedPiece = null; hideThrowResult();
   const token = ++generation, player = game.active;
@@ -240,6 +286,7 @@ async function performThrow() {
 }
 async function performMove(resultId = null) {
   const plan = selection(resultId); if (busy || !plan) return;
+  if(onlineMode){await sendOnlineAction({type:'move',pieceId:pieceForSeat(plan.pieceId,online.room.you),resultId:plan.resultId});return;}
   const next = movePiece(game, plan.pieceId, plan.resultId);
   NcqMetrics.step('destination_selected');
   busy = true; movingSteps = plan.steps; phase = 'moving'; hideThrowResult(); const token = ++generation; render();
@@ -262,9 +309,115 @@ async function performMove(resultId = null) {
   } else flow(game.pending.length ? 'choose_piece' : 'ready');
 }
 function startNewGame() {
+  if(onlineMode){void startAnotherOnlineMatch();return;}
   resetMatch(game.teams?.map(team => team.size) ?? [1, 1]); save();
   NcqMetrics.step('new_game'); flow('opening'); render();
 }
+
+function renderEconomy(){
+  const room=online.room,paid=onlineMode&&room?.state?.economy?.version==='yeopjeon-v1';
+  $('#match-economy').hidden=!paid;
+  const result=$('#economy-result');result.hidden=!paid||room?.phase!=='finished';
+  if(result.hidden)return;
+  const entry=wallet.value?.recent?.find(item=>item.room===room.code&&item.round===room.round&&item.settled);
+  result.dataset.net=entry?.net>0?'positive':entry?.net<0?'negative':'neutral';
+  result.textContent=entry?t('coinsChange',{n:new Intl.NumberFormat(NcqLang.lang,{signDisplay:'always'}).format(entry.net)})
+    :t(wallet.status==='error'?'walletUnavailable':'walletSettling');
+}
+function renderMatching(){
+  const message=$('#matching-status');message.removeAttribute('data-i18n');
+  message.textContent=onlineFailure?t(['onlineUnavailable','coinNotEnough'].includes(onlineFailure)?onlineFailure:'onlineError'):t('matchingWait');
+  $('#retry-matching').hidden=!onlineFailure||online.matching;
+}
+async function startOnlineMatch(){
+  if(online.matching)return;
+  onlineFailure=null;renderMatching();window.NcqPopup.open($('#matching-dialog'));
+  const task=window.NcqPopup.lease($('#matching-dialog'),'matching');
+  NcqMetrics.step('online_match_requested');window.NcqMetrics?.flow?.('matching',{mode:'online'});
+  try{await online.start();}catch{task.apply(renderMatching);}
+}
+async function sendOnlineAction(value){
+  if(busy||!onlineCanInput())return;
+  onlineRequest=true;onlineFailure=null;render();
+  try{await online.send(value);}catch(error){onlineFailure=error.code??'network';}
+  finally{onlineRequest=false;render();}
+}
+function receiveOnlineRoom(next,context){
+  onlineFailure=null;
+  onlineClock=roomClock(next);clockExpired=false;clearInterval(clockInterval);
+  clockInterval=onlineClock?setInterval(renderClock,200):null;
+  if(context.initial||next.phase==='finished')void wallet.refresh(true);
+  if(context.initial){
+    onlineEpoch++;onlineQueue=[];onlineVisualRoom=null;onlineRevealKey='';onlineMode=true;
+    generation++;renderer.reset();firstReveal.cancel();hideThrowResult();busy=false;revealingFirst=false;openingThrower=null;notice=null;selectedPiece=null;
+    $('#matching-dialog').close();
+  }
+  onlineQueue.push({room:next,...context});
+  if(onlineQueue.length>8)onlineQueue=onlineQueue.slice(-1);
+  void playOnlineQueue();
+}
+async function playOnlineQueue(){
+  if(onlinePlaying)return;onlinePlaying=true;
+  try{
+    while(onlineQueue.length&&onlineMode){
+      const item=onlineQueue.shift(),token=onlineEpoch,next=item.room;
+      const {game:nextGame,event}=projectRoom(next,item.seats);
+      const contiguous=onlineVisualRoom?.code===next.code&&onlineVisualRoom.round===next.round&&next.state.seq===onlineVisualRoom.state.seq+1;
+      busy=true;notice=null;selectedPiece=null;hideThrowResult();
+      if(item.initial){game=nextGame;showGame();}
+      if(contiguous&&event?.type==='opening'){
+        game=nextGame;openingThrower=event.player;openingRevealed=false;phase='gather';
+        $('#play-area').dataset.thrower=event.player===0?'me':'opponent';render();
+        const done=await renderer.animateThrow(event.player,event.roll.outcome,event.roll.bits);
+        if(!done||token!==onlineEpoch)continue;
+      }else if(contiguous&&event?.type==='throw'){
+        game=orientMatch(throwSticks(onlineVisualRoom.state.match,event.roll.bits),next.you);game.onlinePlayers=nextGame.onlinePlayers;
+        openingThrower=null;arrivingResult=event.roll.id;phase='gather';
+        $('#play-area').dataset.thrower=event.player===0?'me':'opponent';render();
+        const done=await renderer.animateThrow(event.player,event.roll.outcome,event.roll.bits);
+        if(!done||token!==onlineEpoch)continue;
+        const arrived=await resultRevealTask;if(arrived===false||token!==onlineEpoch)continue;
+      }else if(contiguous&&event?.type==='move'){
+        phase='moving';movingSteps=event.plan.steps;render();
+        const done=await renderer.animateMove(event.plan,{onContact:()=>{
+          if(token!==onlineEpoch)return false;game=nextGame;render();if(event.plan.captured.length)playCapture();return true;
+        }});
+        if(!done||token!==onlineEpoch)continue;
+      }else{game=nextGame;renderer.restoreThrow(game.lastThrow??(event?.type==='opening'?{...event.roll,player:event.player}:null));}
+      if(token!==onlineEpoch)continue;
+      hideThrowResult();game=nextGame;onlineVisualRoom=next;lastOnlineEvent=event;busy=false;phase='';movingSteps=null;openingThrower=null;openingRevealed=false;
+      const roundKey=next.code+':'+next.round;
+      if(game.action>0&&onlineStartedKey!==roundKey){onlineStartedKey=roundKey;NcqMetrics.levelStart('online',{round:roundKey});NcqMetrics.step('online_first_action');}
+      if(game.opening?.winner!==null&&game.opening?.winner!==undefined){
+        const key=roundKey+':'+game.opening.round+':'+game.opening.winner;
+        if(onlineRevealKey===key)game.opening.revealed=true;
+        else if(!quitDialog.open){await revealFirstPlayer();if(token!==onlineEpoch)continue;if(game.opening?.revealed)onlineRevealKey=key;}
+      }
+      if(next.phase==='finished'&&onlineEndedKey!==roundKey){
+        onlineEndedKey=roundKey;NcqMetrics.levelEnd('online',next.winner===0?undefined:next.winner===next.you);NcqMetrics.step('online_first_result');
+        $('#winner-title').textContent=game.onlineDraw?t('draw'):t('winner',{player:playerName(game.winner)});
+        if(!quitDialog.open&&!document.querySelector('dialog[open]'))window.NcqPopup.open($('#winner-dialog'));
+      }
+      render();flow(currentFlow());
+    }
+  }catch(error){onlineFailure=error.code??'network';busy=false;hideThrowResult();render();}
+  finally{onlinePlaying=false;}
+}
+async function leaveOnlineMatch(){
+  $('#confirm-quit').disabled=true;
+  try{
+    await online.leave();onlineEpoch++;onlineQueue=[];onlineMode=false;onlineVisualRoom=null;onlineRequest=false;
+    clearInterval(clockInterval);clockInterval=null;onlineClock=null;lastOnlineEvent=null;
+    resetMatch();const local=restoreGame(window.NcqSave.get('match'));game=local??createGame();hasSavedMatch=!!local;notice=local?'restored':null;resumeLevel=!!local&&local.action>0&&local.winner===null;
+    render();showLobby();return true;
+  }catch(error){onlineFailure=error.code??'network';render();return false;}
+  finally{$('#confirm-quit').disabled=false;void wallet.refresh(true);}
+}
+async function startAnotherOnlineMatch(){if(await leaveOnlineMatch())await startOnlineMatch();}
+
+$('#duel-button').addEventListener('click',()=>void startOnlineMatch());
+$('#retry-matching').addEventListener('click',()=>void startOnlineMatch());
+$('#matching-dialog').addEventListener('close',()=>{if(online.matching){void online.cancel().catch(error=>{onlineFailure=error.code??'network';});window.NcqMetrics?.flow?.('lobby',{mode:'online'});}});
 action.addEventListener('click', () => { if (game.opening) { if (game.opening.winner !== null) startAfterOpening(); else void performOpeningThrow(); } else if (game.winner !== null) startNewGame(); else if (game.throws > 0) void performThrow(); else if (selection()) void performMove(); });
 for (const button of [$('#sound-button'), $('#lobby-sound-button')]) button.addEventListener('click', () => { window.NcqSound.enabled('sfx', !window.NcqSound.enabled('sfx')); NcqMetrics.step('sound_changed'); render(); });
 $('#sound-setting').addEventListener('change', event => { window.NcqSound.enabled('sfx', event.target.checked); render(); });
@@ -284,7 +437,7 @@ quitDialog.addEventListener('close', () => {
   else if (!busy && game.winner !== null) window.NcqPopup.open($('#winner-dialog'));
 });
 $('#language-select').addEventListener('change', event => { NcqLang.set(event.target.value); NcqMetrics.step('language_changed'); });
-NcqLang.onChange(() => { setLanguageMenu(); teamSetup.render(); render(); document.title = t('title'); });
+NcqLang.onChange(() => { setLanguageMenu(); teamSetup.render(); renderMatching();render(); document.title = t('title'); });
 $('#feedback-button').hidden = !NcqFeedback.can();
 $('#feedback-button').addEventListener('click', async () => { await NcqFeedback.open(); });
 window.ncqBack = () => {
@@ -299,6 +452,7 @@ if (window.NCQ_TEST_DICE) window.__yutTest = {
   state: () => structuredClone(game), next: bits => { nextTestThrow = bits; },
   load: state => { const valid = restoreGame(state); if (!valid) throw new Error('Invalid test state'); generation++; renderer.cancel(); firstReveal.cancel(); revealingFirst = false; game = valid; busy = false; selectedPiece = null; movingSteps = null; notice = null; openingThrower = null; hideThrowResult(); save(); render(); },
 };
+if(window.NCQ_TEST_DICE)window.__yutOnlineTest={room:()=>structuredClone(online.room),status:()=>online.status,ready:()=>onlineMode&&onlineCanInput()&&!busy,visual:()=>structuredClone(game),busy:()=>busy,matching:()=>online.matching,sync:()=>online.sync(),diagnostic:()=>({failure:onlineFailure,request:onlineRequest,phase,playing:onlinePlaying,queue:onlineQueue.length,version:onlineVisualRoom?.version,hidden:document.hidden})};
 NcqMetrics.step('000_loading_done'); if (restored) NcqMetrics.step('saved_game_restored');
 $('#new-game-button').hidden = true; syncModalScreen();
 flow('lobby'); setLanguageMenu(); render(); document.title = t('title');

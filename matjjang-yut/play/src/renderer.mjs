@@ -306,12 +306,17 @@ export function createRenderer(canvas, options) {
   function update(next){ui={...ui,...next};if(!busy)opacity=ui.game.action===0?1:ui.game.pending.length>0?.12:.24;draw();}
   function cancel(){run++;cancelAnimationFrame(raf);cancelAnimationFrame(cueRaf);cueRaf=0;cleanupPending?.();cleanupPending=null;busy=false;moving=null;if(resolvePending){resolvePending(false);resolvePending=null;}}
   function reset(){cancel();phase='idle';result='geol';thrower='me';elapsed=0;gatherFrom=null;opacity=1;draw();}
+  function restoreThrow(roll){
+    if(!roll){reset();return;}
+    cancel();phase='idle';result=roll.outcome;outcomes[result]={flat:roll.bits};thrower=roll.player===0||roll.player===3?'me':'opponent';
+    gatherFrom=[0,1,2,3].map(pose);phase='result';elapsed=timing.end;draw();
+  }
   async function animateThrow(player,outcome,bits){
     cancel();const generation=run;gatherFrom=[0,1,2,3].map(pose).map(p=>({...p,rx:Math.atan2(Math.sin(p.rx),Math.cos(p.rx)),ry:Math.atan2(Math.sin(p.ry),Math.cos(p.ry))}));
     const flightPlan=createThrowPlan(options.getThrowSettings?.());timing=flightPlan.timing;flights=flightPlan.sticks;
     if(window.NCQ_TEST_DICE)canvas.dataset.throwMotion=JSON.stringify(flightPlan);
     thrower=player===0||player===3?'me':'opponent';result=outcome;outcomes[result]={flat:bits};busy=true;phase='gather';elapsed=0;opacity=1;
-    const duration=window.NCQ_TEST_DICE&&window.__yutFast?350:timing.end,speed=timing.end/duration;playLaunch((timing.launch-110)/speed/1000);
+    const duration=window.NCQ_TEST_DICE&&window.__yutFast?350:Math.min(timing.end,options.getMaxThrowDuration?.()??Infinity),speed=timing.end/duration;playLaunch((timing.launch-110)/speed/1000);
     let start=performance.now(),lastPhase='',revealed=false,clacked=[false,false,false,false],hiddenAt=0;
     const visibility=()=>{if(document.hidden)hiddenAt=performance.now();else if(hiddenAt){start+=performance.now()-hiddenAt;hiddenAt=0;}};
     document.addEventListener('visibilitychange',visibility);
@@ -393,5 +398,5 @@ export function createRenderer(canvas, options) {
   new ResizeObserver(size).observe(area);size();
   document.addEventListener('visibilitychange',syncCueLoop);
   new MutationObserver(syncCueLoop).observe(document.body,{subtree:true,attributes:true,attributeFilter:['hidden','open']});
-  return {update,animateThrow,animateMove,cancel,reset,draw,projectNode:node=>project({x:POINTS[node][0],y:POINTS[node][1],z:.09})};
+  return {update,animateThrow,animateMove,cancel,reset,restoreThrow,draw,projectNode:node=>project({x:POINTS[node][0],y:POINTS[node][1],z:.09})};
 }

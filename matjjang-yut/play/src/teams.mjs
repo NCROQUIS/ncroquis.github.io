@@ -10,6 +10,7 @@ export function colorTeam(element, team) {
 const sizesOf = game => game.teams?.map(team => team.size) ?? [1, 1];
 const numberOf = (sizes, team, member) => sizes.slice(0, team).reduce((sum, n) => sum + n, 0) + member + 1;
 export function localPlayerName(game, team, member = memberIndex(game, team)) {
+  if (game.onlinePlayers?.[team]?.nickname) return game.onlinePlayers[team].nickname;
   const sizes = sizesOf(game);
   if (sizes.length === 2 && sizes.every(n => n === 1)) return t(team === 0 ? 'you' : 'opponent');
   return t('localPlayer', { n: numberOf(sizes, team, member) });
@@ -67,6 +68,11 @@ export function createTeamView(onSelect) {
         const current = active && member === index;
         person.classList.toggle('is-current',current); person.setAttribute('aria-label',localPlayerName(game,team,index));
         if (current) person.setAttribute('aria-current','true'); else person.removeAttribute('aria-current');
+        const image=game.onlinePlayers?.[team]?.avatar,existing=person.querySelector('.profile-photo');
+        if(typeof image==='string'&&/^https:\/\//.test(image)){
+          if(!existing){const photo=document.createElement('img');photo.className='profile-photo';photo.alt='';photo.referrerPolicy='no-referrer';photo.src=image;photo.addEventListener('error',()=>photo.remove());person.querySelector('.avatar').append(photo);}
+          else if(existing.src!==image)existing.src=image;
+        }else existing?.remove();
       });
     });
     return refs;

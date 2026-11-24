@@ -77,7 +77,7 @@ window.DOKU_TEXTS = {
     rule_3: 'Ducks never touch each other, not even diagonally.',
     rules_note: 'Tap a cell once for X, tap the same cell twice quickly for a duck. Swipe to draw X’s in a row.',
     // 설정
-    settings: 'Settings', set_sfx: 'Sound effects', set_vib: 'Vibration', set_pattern: 'Color patterns', set_pattern_sub: 'Turn on if colors are hard to tell apart',
+    settings: 'Settings', set_bgm: 'Music', set_sfx: 'Sound effects', set_vib: 'Vibration', set_pattern: 'Color patterns', set_pattern_sub: 'Turn on if colors are hard to tell apart',
     set_slow: 'Slow double tap', set_slow_sub: 'More time between the two taps', language: 'Language',
     test_menu: 'Test menu', privacy: 'Privacy settings',
     restart_title: 'Start over?', restart_text: "Resets this puzzle. Tools you've already used won't come back.", btn_restart_short: 'Restart',
@@ -163,7 +163,7 @@ window.DOKU_TEXTS = {
     rules_title: '오리 찾는 법', rule_1: '같은 색 칸에는 오리가 딱 한 마리 있어요.', rule_2: '가로줄과 세로줄에도 한 마리씩만 있어요.',
     rule_3: '오리끼리는 붙어 있지 않아요. 대각선으로 바로 옆도 안 돼요.',
     rules_note: '칸을 한 번 누르면 X, 같은 칸을 빠르게 두 번 누르면 오리. 쓱 문지르면 X를 이어서 그려요.',
-    settings: '설정', set_sfx: '효과음', set_vib: '진동', set_pattern: '색 구역 무늬', set_pattern_sub: '색 구분이 어려울 때 켜 주세요',
+    settings: '설정', set_bgm: '배경음', set_sfx: '효과음', set_vib: '진동', set_pattern: '색 구역 무늬', set_pattern_sub: '색 구분이 어려울 때 켜 주세요',
     set_slow: '느린 두 번 누르기', set_slow_sub: '두 번 누르기 간격을 넉넉하게', language: '언어',
     test_menu: '테스트 메뉴', privacy: '개인정보 설정',
     restart_title: '처음부터 다시 할까요?', restart_text: '같은 퍼즐을 처음 상태로 되돌려요. 이미 쓴 도구는 돌아오지 않아요.', btn_restart_short: '다시 시작',

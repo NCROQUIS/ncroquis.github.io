@@ -240,42 +240,84 @@
   }
 
   /* ---------- 소리·진동 ---------- */
+  // 녹음 효과음 (NcqSound가 있을 때): 오리 찾음 꽥, X 서걱, 지우기, 개굴점프 뾰옹. 없으면 아래 합성음
+  // 크기는 버튼 소리(ui)와 가장 큰 순간(50ms)이 같게 맞춘 값이에요 (2026-11-24)
+  const SFX = { quack: ['assets/audio/sfx_quack.mp3', 0.087], x: ['assets/audio/sfx_x.mp3', 0.13], erase: ['assets/audio/sfx_erase.mp3', 0.135], frog: ['assets/audio/sfx_frog.mp3', 0.11] };
+  const SFX_VOL = 0.7;                                                           // 효과음 전체 크기 (2026-11-24: 30% 줄임)
   const Snd = {
-    ctx: null,
+    ctx: null, out: null,
     ensure() {
       if (this.ctx) { if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => {}); return; }
+      const N = window.NcqSound;                                                  // 공용 소리 모듈이 있으면 그 소리판에 이어요 (광고·화면 가림 때 멈춤)
+      if (N) { try { this.ctx = N.context(); this.out = this.ctx ? N.output('sfx') : null; } catch (e) { this.ctx = null; this.out = null; } if (this.ctx) return; }
       try { const AC = window.AudioContext || window.webkitAudioContext; if (AC) this.ctx = new AC(); } catch (e) { this.ctx = null; }
+    },
+    // 모든 효과음은 한 줄(bus)로 모아 압축기(compressor)를 거쳐 내보내요: 여러 소리가 한꺼번에 겹쳐도 갑자기 커지지 않게 눌러 줘요
+    bus: null,
+    dest() {
+      if (!this.bus) {
+        const c = this.ctx, out = this.out || c.destination;
+        try {
+          const k = c.createDynamicsCompressor(); k.threshold.value = -20; k.knee.value = 10; k.ratio.value = 12; k.attack.value = 0.002; k.release.value = 0.2;
+          k.connect(out); this.bus = k;
+        } catch (e) { this.bus = out; }
+      }
+      return this.bus;
+    },
+    // 녹음 효과음은 직접 받아 풀어 두고(AudioBuffer) 위 한 줄로 내요. 미리보기의 data: 주소는 받기(fetch)가 막혀서 글자를 직접 풀어요
+    bufs: {}, last: {}, live: {},
+    decode(src) {
+      if (src in this.bufs || !this.ctx) return; this.bufs[src] = null;
+      const ok = buf => { this.bufs[src] = buf; }, dec = ab => { const p = this.ctx.decodeAudioData(ab, ok, () => {}); if (p && p.then) p.then(ok, () => {}); };
+      try {
+        if (src.slice(0, 5) === 'data:') { const b = atob(src.slice(src.indexOf(',') + 1)), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); dec(u.buffer); }
+        else fetch(src).then(r => r.arrayBuffer()).then(dec, () => {});
+      } catch (e) { /* 못 풀면 합성음 */ }
+    },
+    buf(src, vol, rate) {
+      const c = this.ctx, b = this.bufs[src]; if (!b) { this.decode(src); return false; }
+      const now = c.currentTime;
+      if (now - (this.last[src] || -1) < 0.06) return true;                       // 같은 소리가 60ms 안에 또 오면 건너뛰어요 (드래그로 여러 칸)
+      this.last[src] = now;
+      const L = (this.live[src] = (this.live[src] || []).filter(v => v.end > now));
+      if (L.length >= 2) { const o = L.shift(); try { o.g.gain.setTargetAtTime(0, now, 0.015); o.s.stop(now + 0.06); } catch (e) { /* 이미 멈춤 */ } }   // 같은 소리는 2개까지만 겹쳐요
+      const s = c.createBufferSource(), g = c.createGain(); s.buffer = b; s.playbackRate.value = rate || 1; g.gain.value = vol * SFX_VOL;
+      s.connect(g); g.connect(this.dest()); s.start();
+      L.push({ s, g, end: now + b.duration / (rate || 1) });
+      return true;
     },
     tone(type, f0, f1, dur, vol, delay, q) {
       const c = this.ctx; if (!c) return;
       const t = c.currentTime + (delay || 0), o = c.createOscillator(), g = c.createGain();
       o.type = type; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(Math.max(30, f1), t + dur);
-      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol * SFX_VOL, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
       let node = o;
       if (q) { const f = c.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = q; f.Q.value = 4; o.connect(f); node = f; }
-      node.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.02);
+      node.connect(g); g.connect(this.dest()); o.start(t); o.stop(t + dur + 0.02);
     },
     noise(dur, vol, freq) {
       const c = this.ctx; if (!c) return;
       const len = Math.floor(c.sampleRate * dur), buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
       for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
       const s = c.createBufferSource(), g = c.createGain(), f = c.createBiquadFilter();
-      s.buffer = buf; f.type = 'bandpass'; f.frequency.value = freq; f.Q.value = 1.2; g.gain.value = vol;
-      s.connect(f); f.connect(g); g.connect(c.destination); s.start();
+      s.buffer = buf; f.type = 'bandpass'; f.frequency.value = freq; f.Q.value = 1.2; g.gain.value = vol * SFX_VOL;
+      s.connect(f); f.connect(g); g.connect(this.dest()); s.start();
     },
-    play(name) {
+    play(name, rate) {
       if (!S.settings.sfx) return;
       this.ensure(); if (!this.ctx) return;
+      const f = SFX[name];
+      if (f && this.buf(f[0], f[1], rate)) return;                                // 녹음 소리 (아직 못 풀었으면 이번만 아래 합성음)
       switch (name) {
         case 'x': this.noise(0.05, 0.22, 2600); break;
         case 'erase': this.noise(0.05, 0.12, 1400); break;
         case 'quack': this.tone('sawtooth', 620, 420, 0.09, 0.2, 0, 1300); this.tone('sawtooth', 540, 330, 0.13, 0.22, 0.1, 1100); break;
-        case 'wrong': this.tone('square', 190, 110, 0.24, 0.13); break;
+        case 'wrong': this.tone('square', 190, 110, 0.24, 0.044); break;
         case 'ui': this.tone('sine', 700, 900, 0.06, 0.12); break;
-        case 'hint': this.tone('triangle', 660, 990, 0.14, 0.16); this.tone('triangle', 990, 1320, 0.16, 0.14, 0.1); break;
+        case 'hint': this.tone('triangle', 660, 990, 0.14, 0.1); this.tone('triangle', 990, 1320, 0.16, 0.086, 0.1); break;
         case 'frog': this.tone('square', 150, 210, 0.07, 0.1, 0, 500); this.tone('square', 170, 240, 0.08, 0.1, 0.09, 600); break;
-        case 'win': [523, 659, 784, 1047].forEach((f, i) => this.tone('triangle', f, f, 0.22, 0.18, i * 0.11)); this.tone('sawtooth', 620, 420, 0.09, 0.14, 0.5, 1300); this.tone('sawtooth', 540, 330, 0.13, 0.16, 0.6, 1100); break;
-        case 'lose': [392, 330, 262].forEach((f, i) => this.tone('triangle', f, f * 0.97, 0.26, 0.16, i * 0.16)); break;
+        case 'win': [523, 659, 784, 1047].forEach((f, i) => this.tone('triangle', f, f, 0.22, 0.08, i * 0.11)); break;   // 꽥은 다 같이 '여어!' 할 때 따로 한 번
+        case 'lose': [392, 330, 262].forEach((f, i) => this.tone('triangle', f, f * 0.97, 0.26, 0.074, i * 0.16)); break;
       }
     }
   };
@@ -297,7 +339,12 @@
   }
   function vibOn() { const h = hl(); if (h) { try { return typeof h.hapticEnabled === 'function' ? !!h.hapticEnabled() : true; } catch (e) { return true; } } const D = window.NcqDevice; return !!(D && D.vibration()); }
   function vibSet(on) { const h = hl(); if (h) { try { if (typeof h.setHapticEnabled === 'function') h.setHapticEnabled(on); } catch (e) { /* 무시 */ } return; } const D = window.NcqDevice; if (D) D.vibration(on); }
-  function cue(name, vib) { Snd.play(name); buzz(vib === undefined ? VIB[name] : vib); }   // 소리 + 그 소리에 맞는 진동 (vib를 주면 그 진동, null이면 진동 없이)
+  /* ---------- 배경음 (NcqSound) ----------
+     곡 파일은 끝의 무음을 잘라 둔 것(58.5초)이라 끝나면 바로 처음부터 되풀이해요. 켬·끔은 NcqSound가 기기에 저장해요 */
+  const BGM = { src: 'assets/audio/bgm_brain_bounce.mp3', volume: 0.135 };   // 크기: 버튼 소리 기준의 3배 (2026-11-24, 사용자가 들어 보고 정함)
+  function bgmStart() { const N = window.NcqSound; if (N) N.bgm(BGM.src, { volume: BGM.volume, loop: true }); }
+  function bgmOn() { const N = window.NcqSound; return !!(N && N.enabled('bgm')); }
+  function cue(name, vib, rate) { Snd.play(name, rate); buzz(vib === undefined ? VIB[name] : vib); }   // 소리 + 그 소리에 맞는 진동 (vib를 주면 그 진동, null이면 진동 없이)
 
   /* ---------- 구역 모양: 격자 외곽선을 따라가며 마커로 칠한 듯 살짝 흔들리는 경로를 만든다 ---------- */
   function regionPath(n, reg, g, R) {
@@ -877,7 +924,7 @@
     View.clearOverlays(); View.confetti();
     // 마지막 오리가 먼저 "여어!" 하고 손을 내린 다음(약 1.1초), 한 박자 쉬고 다 같이 "여어!"
     setTimeout(() => $$('.dk', $('#cells')).forEach(el => { el.classList.remove('in', 'settle'); el.classList.add('hop'); View.wave(el, 850); }), 1350);
-    setTimeout(() => { if (G === g0) buzz('medium'); }, 1350);                    // 다 같이 '여어!' 할 때 한 번 톡
+    setTimeout(() => { if (G === g0) cue('quack', 'medium'); }, 1350);             // 다 같이 '여어!' 할 때 꽥 한 번 + 톡 (여러 마리여도 소리는 하나)
     setTimeout(() => { if (G === g0 && screen === 'game' && g0.status === 'won') showResult(rewards, notes, bonus); }, 2700);
   }
   function lose() {
@@ -1056,9 +1103,10 @@
     frog.style.left = '50%'; frog.style.top = '108%'; fx.appendChild(frog);
     await wait(40);
     if (G !== g || screen !== 'game') { frog.remove(); return; }
+    let hop = 0;
     for (const c of (targets.length ? targets : [giveDuck])) {
       const p = View.center(c); frog.style.left = p[0] + '%'; frog.style.top = p[1] + '%';
-      frog.classList.remove('jump'); void frog.offsetWidth; frog.classList.add('jump'); cue('frog');
+      frog.classList.remove('jump'); void frog.offsetWidth; frog.classList.add('jump'); cue('frog', undefined, 1 + Math.min(hop++, 4) * 0.06);   // 뾰옹 뾰옹 뾰옹: 뛸 때마다 조금씩 높게
       await wait(520);
       if (G !== g || screen !== 'game') { frog.remove(); return; }
       if (targets.length) { G.marks[c] = XM; G.rev++; View.cell(c, true); cue('x'); }
@@ -1335,7 +1383,7 @@
   function showSettings(inGame) {
     settingsOpen = !!inGame;
     const userId = neptuneUserId();
-    let h = '<h2>' + tr('settings') + '</h2><div class="settings-body">' + sw('sfx', tr('set_sfx'), '', 'ic_sound') + vibRow() + sw('pattern', tr('set_pattern'), tr('set_pattern_sub')) + sw('slow', tr('set_slow'), tr('set_slow_sub')) + langRow();
+    let h = '<h2>' + tr('settings') + '</h2><div class="settings-body">' + (window.NcqSound ? sw('bgm', tr('set_bgm'), '', 'ic_sound', bgmOn()) : '') + sw('sfx', tr('set_sfx'), '', window.NcqSound ? '' : 'ic_sound') + vibRow() + sw('pattern', tr('set_pattern'), tr('set_pattern_sub')) + sw('slow', tr('set_slow'), tr('set_slow_sub')) + langRow();
     if (NEPTUNE) h += '<div class="partner-user"><label for="neptune-user-id">' + tr(kakaoHost() === 'KAKAOTALK' ? 'user_id_talk' : 'user_id') + '</label><input id="neptune-user-id" type="text" readonly spellcheck="false" autocomplete="off"><button class="btn small ghost" data-act="copy-user"' + (userId ? '' : ' disabled') + '>' + tr('copy_id') + '</button></div>';
     h += '</div><div class="col"><button class="btn ghost" data-act="rules">' + icon('ic_bulb') + tr('rules_title') + '</button>';
     if (inGame && G && G.mode !== 'tutorial') h += '<button class="btn yellow" data-act="restart">' + icon('ic_retry') + tr('btn_restart') + '</button>';
@@ -1822,7 +1870,7 @@
     const dk = document.createElement('style');                                 // 오리 조각 그림은 한 번만 등록해요 (칸마다 주소를 되풀이하지 않게)
     dk.textContent = [['b0', 'duck_body'], ['b1', 'duck_wave'], ['hf', 'duck_head'], ['hr', 'duck_hair'], ['fb', 'duck_blush'], ['fk', 'duck_beak'], ['fe', 'duck_eyes']].map(p => '.dk .' + p[0] + '{background-image:url("' + ART[p[1]] + '")}').join('');
     document.head.appendChild(dk);
-    loadSave(); inviteStart();
+    loadSave(); inviteStart(); Snd.ensure(); Object.keys(SFX).forEach(k => Snd.decode(SFX[k][0])); bgmStart();
     bootMainSnapshot = S.cur; bootDailySnapshot = S.daily.cur; save();
     // 언어: 주소의 ?lang= → 고른 언어 → 기기 언어 → 영어 (NcqLang). 바꾸면 지금 화면을 다시 그려요
     initLanguage();
@@ -1875,6 +1923,7 @@
       const s = e.target.closest('[data-sw]');
       if (s) {
         const k = s.dataset.sw;
+        if (k === 'bgm') { const on = !bgmOn(); window.NcqSound.enabled('bgm', on); s.setAttribute('aria-checked', on); cue('ui'); return; }
         if (k === 'vib') { const on = !vibOn(); vibSet(on); s.setAttribute('aria-checked', on); cue('ui'); return; }   // 켜면 바로 톡 하고 울려요
         S.settings[k] = !S.settings[k]; s.setAttribute('aria-checked', S.settings[k]); save(); cue('ui');
         if (k === 'pattern') $('#board').classList.toggle('patterns', S.settings.pattern);

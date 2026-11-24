@@ -16,7 +16,7 @@ export const ROUTES = Object.freeze(Object.fromEntries(Object.entries(LEGACY_ROU
   [name, [...track.slice(0, -1), 'o20', 'finish']])));
 const routesFor = rules => rules === RULES ? ROUTES : LEGACY_ROUTES;
 export const POINTS = (() => {
-  const a = 3.08, points = { base: [a, a], o20: [a, a], finish: [a, 5], center: [0, 0] };
+  const a = 3.08, points = { base: [a, a], o20: [a, a], finish: [0, 2], center: [0, 0] };
   for (let i = 1; i <= 19; i++) {
     if (i <= 5) points[`o${i}`] = [a, a - i * 2 * a / 5];
     else if (i <= 10) points[`o${i}`] = [a - (i - 5) * 2 * a / 5, -a];

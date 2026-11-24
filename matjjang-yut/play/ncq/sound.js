@@ -1,6 +1,6 @@
 // NcqSound — 엔크로키 공용 소리 모듈 (ncq/sound.js): 배경음·효과음
 // 킥오프 서버가 모든 웹 프로젝트 레포에 넣고 최신으로 맞춰요. 이 파일은 고치지 않아요 (고쳐도 다음 맞추기 때 덮여요).
-// 쓰는 법은 AGENTS.md의 '소리 (NcqSound)'에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
+// 쓰는 법은 docs/ncq/sound.md에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
 //
 //   <script src="ncq/sound.js"></script>     index.html의 <head> (빌드 도구 없이)
 //   import "../ncq/sound.js";                  Vite 같은 빌드 도구를 쓰면 시작 파일 맨 위 (그다음 window.NcqSound)

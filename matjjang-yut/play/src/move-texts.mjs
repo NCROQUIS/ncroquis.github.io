@@ -22,4 +22,7 @@ const finishActions = {
   th: 'เข้าเส้นชัย', vi: 'Về đích', pl: 'Ukończ', tr: 'Bitir', ms: 'Tamat', fr: 'Terminer',
   de: 'Ins Ziel', es: 'Terminar', it: 'Concludi', ja: 'ゴール', 'zh-Hans': '完成', 'zh-Hant': '完成',
 };
-export const MOVE_TEXTS = Object.fromEntries(Object.entries(rows).map(([language, [chooseDestination, pendingResults, moveHint, stackAction]]) => [language, { chooseDestination, pendingResults, moveHint, stackAction, finishAction: finishActions[language] }]));
+const selectActions = {
+  en:'Select',ko:'선택',id:'Pilih','pt-BR':'Selecionar','es-MX':'Elegir',th:'เลือก',vi:'Chọn',pl:'Wybierz',tr:'Seç',ms:'Pilih',fr:'Choisir',de:'Wählen',es:'Elegir',it:'Scegli',ja:'選択','zh-Hans':'选择','zh-Hant':'選擇',
+};
+export const MOVE_TEXTS = Object.fromEntries(Object.entries(rows).map(([language, [chooseDestination, pendingResults, moveHint, stackAction]]) => [language, { chooseDestination, pendingResults, moveHint, stackAction, finishAction: finishActions[language], selectAction: selectActions[language] }]));

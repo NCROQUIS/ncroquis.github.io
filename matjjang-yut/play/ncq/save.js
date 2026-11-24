@@ -1,6 +1,6 @@
 // NcqSave — 엔크로키 공용 저장 모듈 (ncq/save.js): 게임 저장(재화·진행도)과 클라우드 백업
 // 킥오프 서버가 모든 웹 프로젝트 레포에 넣고 최신으로 맞춰요. 이 파일은 고치지 않아요 (고쳐도 다음 맞추기 때 덮여요).
-// 쓰는 법은 AGENTS.md의 '저장 (NcqSave)'에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
+// 쓰는 법은 docs/ncq/save.md에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
 //
 //   <script src="ncq/save.js"></script>     index.html의 <head> (빌드 도구 없이)
 //   import "../ncq/save.js";                  Vite 같은 빌드 도구를 쓰면 시작 파일 맨 위 (그다음 window.NcqSave)

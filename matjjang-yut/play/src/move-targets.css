@@ -5,6 +5,10 @@
 .board-controls .stack-target{border:2px solid #e7ba71;background:linear-gradient(165deg,#3989ec,#1057c5 80%);color:#fff5df;border-radius:12px;white-space:nowrap;box-shadow:inset 0 1px 0 #b7dcff,0 3px 0 #163d7b,0 5px 0 #dfc292,0 7px 8px #142e5330;text-shadow:0 1px 1px #123a8380;font-weight:850;transition:box-shadow .1s,filter .1s}
 .board-controls .stack-target:hover{filter:brightness(1.08)}
 .board-controls .stack-target:active{transform:translate(-50%,-50%) translateY(2px);box-shadow:inset 0 1px 0 #b7dcff,0 1px 0 #163d7b,0 3px 0 #dfc292,0 4px 5px #142e5320}
+.board-controls .stack-target,.board-controls .select-target{font-family:Yut Lobby Sans,Yut Lobby Korean,Yut Lobby Thai,sans-serif;font-weight:850}
+.board-controls .select-target{z-index:2;border:2px solid #b8e0aa;background:linear-gradient(165deg,#28ab70,#08794c 80%);color:#fffef0;border-radius:12px;white-space:nowrap;box-shadow:inset 0 1px 0 #b9efd0,0 3px 0 #164b35,0 5px 0 #d3c99b,0 7px 8px #142e5330;text-shadow:0 1px 1px #0b563980;transition:box-shadow .1s,filter .1s}
+.board-controls .select-target:hover{filter:brightness(1.08)}
+.board-controls .select-target:active{transform:translate(-50%,-50%) translateY(2px);box-shadow:inset 0 1px 0 #b9efd0,0 1px 0 #164b35,0 3px 0 #d3c99b,0 4px 5px #142e5320}
 .piece-button.is-selected{background:transparent;box-shadow:none}
 .piece-button.is-playable:before{box-shadow:0 2px 0 var(--team-dark),0 3px 4px #33211820}
 .piece-button{isolation:isolate}

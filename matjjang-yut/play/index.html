@@ -20,13 +20,17 @@
   <link rel="stylesheet" href="./src/throw-result.css">
   <link rel="stylesheet" href="./src/teams.css">
   <link rel="stylesheet" href="./src/online.css">
+  <link rel="stylesheet" href="./src/matchmaking.css">
+  <link rel="stylesheet" href="./src/shop.css">
   <link rel="stylesheet" href="./src/economy.css">
   <script type="module" src="./src/app.mjs"></script>
 </head>
 <body>
   <main class="lobby-shell" id="lobby" aria-labelledby="lobby-title">
+    <div class="lobby-pages">
+    <section class="lobby-page lobby-home" id="lobby-home">
     <div class="lobby-toolbar header-actions">
-      <button class="wallet-balance" data-wallet type="button"><i class="yeopjeon-icon" aria-hidden="true"></i><span data-i18n="yeopjeon"></span><strong data-wallet-coins>—</strong></button>
+      <button class="wallet-balance" data-wallet type="button"><i class="yeopjeon-icon" aria-hidden="true"></i><strong data-wallet-coins>—</strong></button>
       <button class="icon-button" id="lobby-sound-button" data-sound-toggle data-i18n-attr="aria-label:sound" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path class="sound-waves" d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/></svg></button>
       <button class="icon-button" id="lobby-settings-button" data-settings-open data-i18n-attr="aria-label:settings" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m9 3-1 3-3 1-2 3 2 2-1 3 2 3 3-1 2 3h3l1-3 3-1 2-3-2-2 1-3-2-3-3 1-2-3H9Z"/><circle cx="12" cy="12" r="3"/></svg></button>
     </div>
@@ -38,6 +42,39 @@
       <button class="mode-button" type="button" disabled data-i18n="modeThree"></button>
       <button class="mode-button" id="together-button" type="button" data-i18n="playTogether" data-ncq-main="play together"></button>
     </div>
+    </section>
+    <section class="lobby-page shop-screen" id="lobby-shop" aria-labelledby="shop-title" hidden>
+      <header class="shop-heading"><h2 id="shop-title"><span data-icon="shop"></span><span data-i18n="navShop"></span></h2><span class="shop-free" data-i18n="shopAllAvailable"></span></header>
+      <div class="shop-tabs" role="tablist" data-i18n-attr="aria-label:navShop">
+        <button id="currency-tab" type="button" role="tab" aria-controls="currency-panel" aria-selected="false" tabindex="-1" data-i18n="shopCurrency"></button>
+        <button id="dress-tab" type="button" role="tab" aria-controls="dress-panel" aria-selected="true" data-i18n="shopDress"></button>
+      </div>
+      <div class="dress-panel" id="dress-panel" role="tabpanel" aria-labelledby="dress-tab">
+        <div class="dress-content">
+          <section class="preview-panel" data-i18n-attr="aria-label:shopPreview">
+            <div class="preview-toolbar"><span><i class="preview-dot" aria-hidden="true"></i><span data-i18n="shopPreview"></span></span><button id="restore-selection" type="button" data-i18n="shopRestore"></button></div>
+            <div class="preview-scene"><canvas id="skin-preview" role="img"></canvas></div>
+          </section>
+          <div class="skin-shelves" id="skin-shelves"></div>
+        </div>
+        <footer class="dress-footer"><div class="skin-feedback"><p id="skin-status" role="status" aria-live="polite"></p><button id="skin-retry" type="button" hidden></button></div><button class="skin-primary" id="apply-skins" type="button"></button></footer>
+      </div>
+      <div class="currency-panel" id="currency-panel" role="tabpanel" aria-labelledby="currency-tab" hidden>
+        <div class="currency-illustration" aria-hidden="true"><i class="coin"></i><i class="coin"></i><i class="coin"></i></div>
+        <h3 data-i18n="shopCurrencyTitle"></h3><p data-i18n="shopCurrencyDetail"></p>
+        <button class="skin-secondary" id="go-dress" type="button" data-i18n="shopBrowse"></button>
+      </div>
+    </section>
+    <section class="lobby-page rank-screen" id="lobby-rank" aria-labelledby="rank-title" hidden>
+      <header class="plain-heading"><h2 id="rank-title" data-i18n="navRanking"></h2></header>
+      <div class="rank-empty"><span data-icon="rank" aria-hidden="true"></span><h3 data-i18n="shopRankTitle"></h3><p data-i18n="shopRankDetail"></p><button class="skin-secondary" id="ranking-home" type="button" data-i18n="navHome"></button></div>
+    </section>
+    </div>
+    <nav class="bottom-nav" data-i18n-attr="aria-label:navHome">
+      <button type="button" data-lobby-nav="shop"><span class="nav-icon" data-icon="shop"></span><span data-i18n="navShop"></span></button>
+      <button type="button" data-lobby-nav="home" aria-current="page"><span class="nav-icon" data-icon="home"></span><span data-i18n="navHome"></span></button>
+      <button type="button" data-lobby-nav="rank"><span class="nav-icon" data-icon="rank"></span><span data-i18n="navRanking"></span></button>
+    </nav>
   </main>
   <main class="game-shell" id="app" hidden>
     <div class="game-top">
@@ -67,14 +104,36 @@
       </div>
     </div>
     <footer class="game-controls">
-      <p class="game-status" id="game-status" aria-live="polite"></p>
       <button type="button" class="main-button" id="main-button" data-ncq-main="game action"><span class="button-sticks" aria-hidden="true"><i></i><i></i></span><span id="main-label"></span><span id="turn-countdown" hidden aria-hidden="true"></span></button>
+      <p class="game-status" id="game-status" aria-live="polite"></p>
     </footer>
   </main>
   <div class="throw-result" id="throw-result" hidden aria-hidden="true"><strong class="result-name"></strong></div>
   <dialog id="matching-dialog" aria-labelledby="matching-title" data-ncq-no-main>
-    <header class="dialog-header"><h2 id="matching-title" data-i18n="matchingTitle"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>
-    <div class="dialog-body"><p id="matching-status" aria-live="polite" data-i18n="matchingWait"></p><p class="matching-hint" data-i18n="matchingBotHint"></p><div class="dialog-actions"><button class="secondary-button" data-close type="button" data-i18n="cancel"></button><button class="secondary-button filled" id="retry-matching" type="button" data-i18n="retry" data-ncq-main="retry matchmaking" hidden></button></div></div>
+    <div class="matching-body">
+      <h2 id="matching-title" data-i18n="matchingTitle"></h2>
+      <div class="matching-sticks" aria-hidden="true"><i class="matching-stick rounded"></i><i class="matching-stick flat"><span data-i18n="out_backdo"></span></i><i class="matching-stick rounded"></i><i class="matching-stick flat"></i></div>
+      <p id="matching-status" aria-live="polite" hidden></p>
+      <p class="matching-hint" data-i18n="matchingBotHint"></p>
+      <div class="matching-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="matching-actions"><button class="secondary-button" data-close type="button" data-i18n="cancel" autofocus></button><button class="secondary-button filled" id="retry-matching" type="button" data-i18n="retry" data-ncq-main="retry matchmaking" hidden></button></div>
+    </div>
+  </dialog>
+  <dialog id="match-intro-dialog" aria-labelledby="match-intro-title" data-ncq-no-main>
+    <div class="match-intro-content">
+      <h2 id="match-intro-title"></h2>
+      <div class="match-duel-stage">
+        <div class="match-impact" aria-hidden="true"></div>
+        <div class="match-rings" aria-hidden="true"><i></i><i></i></div>
+        <div class="match-sparks" aria-hidden="true"></div>
+        <div class="match-duel">
+          <section class="match-player" data-player="0"><span class="avatar member-avatar match-avatar" aria-hidden="true"><span class="hair"></span><span class="face"></span><span class="robe"></span></span><strong class="match-player-name"></strong><span class="match-pawns" aria-hidden="true"><i></i><i></i><i></i><i></i></span></section>
+          <span class="match-versus" aria-hidden="true">VS</span>
+          <section class="match-player" data-player="1"><span class="avatar member-avatar match-avatar" aria-hidden="true"><span class="hair"></span><span class="face"></span><span class="robe"></span></span><strong class="match-player-name"></strong><span class="match-pawns" aria-hidden="true"><i></i><i></i><i></i><i></i></span></section>
+        </div>
+      </div>
+      <p class="match-intro-payoff"><span data-i18n="duelWin"></span><span aria-hidden="true"> · </span><span data-i18n="duelLoss"></span></p>
+    </div>
   </dialog>
   <dialog id="team-setup-dialog" aria-labelledby="team-setup-title">
     <header class="dialog-header"><h2 id="team-setup-title" data-i18n="playTogether"></h2><button class="close-button" data-close data-i18n-attr="aria-label:close" type="button">×</button></header>

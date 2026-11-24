@@ -109,3 +109,26 @@ const clockTexts={
  ]
 };
 for(const [lang,row] of Object.entries(clockTexts))for(const [i,key]of ['throwCountdown','autoThrowing','aiPlayed'].entries())ONLINE_TEXTS[lang][key]=row[i];
+
+const matchFound={
+ en:['Opponent found!','Bot match ready!'],
+ ko:['상대를 찾았어요!','봇과 대전해요!'],
+ id:['Lawan ditemukan!','Siap melawan bot!'],
+ 'pt-BR':['Adversário encontrado!','Tudo pronto contra o bot!'],
+ 'es-MX':['¡Rival encontrado!','¡Listo para jugar contra un bot!'],
+ th:['พบคู่แข่งแล้ว!','พร้อมแข่งกับบอต!'],
+ vi:['Đã tìm thấy đối thủ!','Sẵn sàng đấu với bot!'],
+ pl:['Znaleziono rywala!','Gotowi do gry z botem!'],
+ tr:['Rakip bulundu!','Bot maçı hazır!'],
+ ms:['Lawan ditemui!','Sedia melawan bot!'],
+ fr:['Adversaire trouvé !','Prêt à affronter un bot !'],
+ de:['Gegner gefunden!','Bereit für das Bot-Match!'],
+ es:['¡Rival encontrado!','¡Listo para jugar contra un bot!'],
+ it:['Avversario trovato!','Pronti a sfidare il bot!'],
+ ja:['対戦相手が見つかりました！','ボットと対戦します！'],
+ 'zh-Hans':['找到对手了！','准备与机器人对战！'],
+ 'zh-Hant':['找到對手了！','準備與機器人對戰！'],
+};
+for(const [lang,row]of Object.entries(matchFound))for(const [i,key]of ['matchingFound','matchingBotFound'].entries())ONLINE_TEXTS[lang][key]=row[i];
+ONLINE_TEXTS.en.matchingTitle='Finding an opponent';
+ONLINE_TEXTS.ko.matchingTitle='상대 찾는 중';

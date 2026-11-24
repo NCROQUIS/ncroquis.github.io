@@ -4,19 +4,23 @@ import { playLaunch, playClack, playResult, playStep } from './audio.mjs';
 import { createThrowPlan, heightMagnification } from './throw-motion.mjs';
 import { HOP_MS, HOP_CONTACT, RETURN_MS, RETURN_STAGGER_MS, hopPose, stackOffsets, returnPose } from './piece-motion.mjs';
 import { paintPiece } from './piece-paint.mjs';
+import { spriteBox, rackSpriteBox } from './skin-model.mjs';
+import { paintSurface, paintBoardImage } from './skin-paint.mjs';
 import { TEAM_COLORS } from './team-colors.mjs';
 import { localPlayerName } from './teams.mjs';
+import { fitBoardLayout } from './board-layout.mjs';
 export function createRenderer(canvas, options) {
   const ctx=canvas.getContext('2d'), area=canvas.parentElement;
+  const interactive=options.interactive!==false;
   const PI=Math.PI,TAU=PI*2,clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
   const lerp=(a,b,t)=>a+(b-a)*t,smooth=t=>t*t*(3-2*t),ease=t=>1-Math.pow(1-t,3);
   const settings={impact:.85},reduced=false;
-  let width=400,height=408,scale=49,phase='idle',result='geol',thrower='me',elapsed=0,busy=false,gatherFrom=null;
+  let width=400,height=408,scale=49,scaleX=49,centerY=167,phase='idle',result='geol',thrower='me',elapsed=0,busy=false,gatherFrom=null;
   let ui={game:options.game,plans:[],pieceId:null,playableIds:[],busy:false},moving=null,opacity=1,raf=0,run=0,resolvePending=null,cleanupPending=null;
   const backdrop=document.createElement('canvas'),backdropCtx=backdrop.getContext('2d'),stage=area.closest('.game-stage');
   let cueRaf=0,cueEpoch=null,cuePaused=null,lastCueFrame=0;
   function cueWave(now=performance.now()){return cueEpoch===null?0:(1-Math.cos(Math.max(0,now-cueEpoch)/1800*TAU))/2;}
-  function cuesVisible(){return !document.hidden&&!ui.busy&&!busy&&!moving&&ui.playableIds.length>0&&!area.closest('[hidden]')&&!document.querySelector('dialog[open]');}
+  function cuesVisible(){return interactive&&!document.hidden&&!ui.busy&&!busy&&!moving&&ui.playableIds.length>0&&!area.closest('[hidden]')&&!document.querySelector('dialog[open]');}
   function paintFeedback(now=performance.now()){
     const wave=cueWave(now);stage?.style.setProperty('--cue-wave',wave.toFixed(4));destinationMarks(wave);pieceSelectionMarks(wave);drawPieces(wave);
     if(window.NCQ_TEST_DICE)canvas.dataset.choiceCue=JSON.stringify({wave,scale:.96+wave*.12,alpha:.56+wave*.22,selectedScale:1,playableIds:ui.playableIds});
@@ -40,9 +44,9 @@ export function createRenderer(canvas, options) {
     cueRaf=requestAnimationFrame(frame);
   }
   const controlLayer=document.createElement('div'),controlButtons=new Map();
-  controlLayer.className='board-controls';controlLayer.hidden=true;controlLayer.setAttribute('role','group');area.append(controlLayer);
+  controlLayer.className='board-controls';controlLayer.hidden=true;controlLayer.setAttribute('role','group');if(interactive)area.append(controlLayer);
   const flightCanvas=document.createElement('canvas'),flightCtx=flightCanvas.getContext('2d');
-  flightCanvas.className='piece-flight-layer';flightCanvas.hidden=true;flightCanvas.setAttribute('aria-hidden','true');document.body.append(flightCanvas);
+  flightCanvas.className='piece-flight-layer';flightCanvas.hidden=true;flightCanvas.setAttribute('aria-hidden','true');if(interactive)document.body.append(flightCanvas);
   const outcomes={geol:{flat:[0,1,1,1]}};
   const color={bg:'#fcf5e7',shadow:'#5e422c',ink:'#ac8e60',line:'#c2a77c',wood:'#e9bd7d',rim:'#f2d19a',grain:'#aa6e36',board:'#d7ae77'};
   const startX=[-1.75,-.58,.58,1.75];
@@ -64,8 +68,7 @@ export function createRenderer(canvas, options) {
     if(moving)groups.set('moving',[moving.x,moving.y,moving.player,moving.ids]);
     return Array.from(groups.values());
   }
-  const boardHeight=()=>height-Math.max(36,height*.18);
-  function project(p){const k=9/(9-p.y*.06+p.z*.06);return{x:width*.5+p.x*scale*k,y:boardHeight()*.5+(p.y-p.z*.66)*scale*k};}
+  function project(p){const k=9/(9-p.y*.06+p.z*.06);return{x:width*.5+p.x*scaleX*k,y:centerY+(p.y-p.z*.66)*scale*k};}
   function stickView(p){
     if(p.view)return p.view;
     // The camera is above the board: rising sticks approach it and grow.
@@ -83,9 +86,32 @@ export function createRenderer(canvas, options) {
     ctx.fillStyle=color.bg;ctx.fillRect(0,0,width,height);
     const halo=ctx.createRadialGradient(width*.5,height*.47,2,width*.5,height*.47,width*.65);halo.addColorStop(0,'#f2ce7e26');halo.addColorStop(1,'#f2ce7e00');ctx.fillStyle=halo;ctx.fillRect(0,0,width,height);
   }
+  const appearance=()=>options.skins?.get()||{board:'default',sticks:'default',pieces:'default'};
+  const skinTray={halfWidth:4.04,halfHeight:3.94,depth:0};
+  function trayExtent(){
+    const id=appearance().board,image=options.skins?.image(id,'board');
+    if(!image)return undefined;
+    const info=options.skins?.record?.(id)?.assets.board;
+    if(!info)return skinTray;
+    const [x,y,w,h]=info.opaqueBounds;
+    return{halfWidth:skinTray.halfWidth*Math.max(1-2*x/info.width,2*(x+w)/info.width-1),
+      halfHeight:skinTray.halfHeight*Math.max(1-2*y/info.height,2*(y+h)/info.height-1),depth:0};
+  }
+  const pieceSkin=player=>options.skins?.sprite(player)||null;
+  let stackLocale='',stackFormat;
+  function stackLabel(count){const lang=document.documentElement.lang||'en';if(lang!==stackLocale){stackLocale=lang;stackFormat=new Intl.NumberFormat(lang);}return stackFormat.format(count);}
+  const pieceOffsets=(count,r,player)=>pieceSkin(player)?.character?Array.from({length:count},()=>({x:0,y:0})):stackOffsets(count,r);
   function tray(){
+    const id=appearance().board,image=options.skins?.image(id,'board');
+    if(image){
+      const {halfWidth:w,halfHeight:h}=skinTray;
+      const quad=[[-w,-h],[w,-h],[w,h],[-w,h]].map(([x,y])=>project({x,y,z:0}));
+      if(window.NCQ_TEST_DICE){const {halfWidth:w,halfHeight:h}=trayExtent(),points=[[-w,-h],[w,-h],[w,h],[-w,h]].map(([x,y])=>project({x,y,z:0}));canvas.dataset.boardBounds=JSON.stringify({left:Math.min(...points.map(p=>p.x)),right:Math.max(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y)),bottom:Math.max(...points.map(p=>p.y))});}
+      paintBoardImage(ctx,image,quad);return;
+    }
     const corners=[[-3.78,-3.65], [3.78,-3.65],[3.78,3.65],[-3.78,3.65]];
     const top=corners.map(([x,y])=>project({x,y,z:0})),bottom=corners.map(([x,y])=>project({x,y,z:-.24}));
+    if(window.NCQ_TEST_DICE){const points=[...top,...bottom];canvas.dataset.boardBounds=JSON.stringify({left:Math.min(...points.map(p=>p.x)),right:Math.max(...points.map(p=>p.x)),top:Math.min(...points.map(p=>p.y)),bottom:Math.max(...points.map(p=>p.y))});}
     ctx.save();ctx.shadowColor=rgba(color.shadow,.18);ctx.shadowBlur=18*width/416;ctx.shadowOffsetY=9;roundPolygon(bottom,20*width/416);ctx.fillStyle='#b5b0a6';ctx.fill();ctx.restore();
     roundPolygon(bottom,20*width/416);ctx.fillStyle='#c7c2b8';ctx.fill();
     roundPolygon(top,20*width/416);const rim=ctx.createLinearGradient(0,top[0].y,0,top[2].y);rim.addColorStop(0,'#ffffff');rim.addColorStop(.5,'#eeece6');rim.addColorStop(1,'#f8f7f3');ctx.fillStyle=rim;ctx.fill();ctx.strokeStyle='#c6c2b8';ctx.lineWidth=1;ctx.stroke();
@@ -95,8 +121,9 @@ export function createRenderer(canvas, options) {
     const highlight=top.map(p=>({x:p.x,y:p.y-1}));roundPolygon(highlight,20*width/416);ctx.strokeStyle='#ffffffd0';ctx.lineWidth=1;ctx.stroke();
   }
   function boardRoutes(){
+    const id=appearance().board,look=options.skins?.image(id,'board')?options.skins.look(id):null;
     const a=3.08,corners=[[-a,-a],[a,-a],[a,a],[-a,a]],node=(x,y,z=.045)=>project({x,y,z});
-    ctx.save();ctx.lineWidth=1.5;ctx.strokeStyle='#a9aca4';path(corners.map(([x,y])=>node(x,y)));ctx.stroke();
+    ctx.save();ctx.lineWidth=1.5;ctx.strokeStyle=look?.route||'#a9aca4';path(corners.map(([x,y])=>node(x,y)));ctx.stroke();
     for(let i=0;i<2;i++){path([node(...corners[i]),node(...corners[i+2])],false);ctx.stroke();}
     const nodes=[];
     for(let edge=0;edge<4;edge++)for(let n=0;n<5;n++){const t=n/5,start=corners[edge],end=corners[(edge+1)%4];nodes.push({x:lerp(start[0],end[0],t),y:lerp(start[1],end[1],t),corner:n===0});}
@@ -104,11 +131,11 @@ export function createRenderer(canvas, options) {
     nodes.push({x:0,y:0,corner:true});
     nodes.forEach((n,i)=>{
       const p=node(n.x,n.y),r=scale*(n.corner?.255:.115);ctx.save();ctx.shadowColor='#77766b20';ctx.shadowBlur=2;ctx.shadowOffsetY=1.5;
-      const fill=ctx.createRadialGradient(p.x-r*.3,p.y-r*.4,1,p.x,p.y,r);fill.addColorStop(0,'#ffffff');fill.addColorStop(1,n.corner?'#e8e6de':'#f0f1ec');
-      ctx.fillStyle=fill;ctx.strokeStyle='#a4a79d';ctx.lineWidth=n.corner?1.8:1.2;ctx.beginPath();ctx.arc(p.x,p.y,r,0,TAU);ctx.fill();ctx.stroke();ctx.restore();
-      if(n.corner){ctx.strokeStyle='#ada897';ctx.lineWidth=.9;ctx.beginPath();ctx.arc(p.x,p.y,r*.74,0,TAU);ctx.stroke();for(let k=0;k<8;k++){const angle=k*TAU/8;ctx.beginPath();ctx.ellipse(p.x+Math.cos(angle)*r*.36,p.y+Math.sin(angle)*r*.36,r*.28,r*.10,angle,0,TAU);ctx.stroke();}ctx.fillStyle='#ada897';ctx.beginPath();ctx.arc(p.x,p.y,r*.12,0,TAU);ctx.fill();}
+      const fill=ctx.createRadialGradient(p.x-r*.3,p.y-r*.4,1,p.x,p.y,r);fill.addColorStop(0,look?.node||'#ffffff');fill.addColorStop(1,look?.node||(n.corner?'#e8e6de':'#f0f1ec'));
+      ctx.fillStyle=fill;ctx.strokeStyle=look?.edge||'#a4a79d';ctx.lineWidth=n.corner?1.8:1.2;ctx.beginPath();ctx.arc(p.x,p.y,r,0,TAU);ctx.fill();ctx.stroke();ctx.restore();
+      if(n.corner){ctx.strokeStyle=look?.medallion||'#ada897';ctx.lineWidth=.9;ctx.beginPath();ctx.arc(p.x,p.y,r*.74,0,TAU);ctx.stroke();for(let k=0;k<8;k++){const angle=k*TAU/8;ctx.beginPath();ctx.ellipse(p.x+Math.cos(angle)*r*.36,p.y+Math.sin(angle)*r*.36,r*.28,r*.10,angle,0,TAU);ctx.stroke();}ctx.fillStyle=look?.medallion||'#ada897';ctx.beginPath();ctx.arc(p.x,p.y,r*.12,0,TAU);ctx.fill();}
     });
-    const start=node(a,a);ctx.font='600 '+Math.max(11,width*.025)+'px "Yut Sans","Yut Korean",sans-serif';ctx.textAlign='right';ctx.fillStyle='#7f847a';ctx.fillText(t('start'),start.x-17*width/448,start.y-18*width/448);
+    const start=node(a,a);ctx.font='600 '+Math.max(11,width*.025)+'px "Yut Sans","Yut Korean",sans-serif';ctx.textAlign='right';ctx.fillStyle=look?.text||'#7f847a';ctx.fillText(t('start'),start.x-17*width/448,start.y-18*width/448);
     ctx.restore();canvas.dataset.boardNodes=String(nodes.length);
   }
   function rotate(v,p){
@@ -143,31 +170,37 @@ export function createRenderer(canvas, options) {
   function drawFace(face){
     const p=face.p,i=face.i,n=face.normal,pts=face.points.map(point=>projectStick(point,p));
     const light=clamp((n.x*-.35+n.y*-.4+n.z*.85)*.45+.62,.2,1.04),flat=face.type==='flat';
-    const base=flat?[235,190,120]:face.type==='cap'?[189,134,73]:[153,89,43];
+    const id=appearance().sticks,texture=options.skins?.image(id,flat?'stick-flat':'stick-round'),look=texture?options.skins.look(id):null;
+    const base=flat?[235,190,120]:face.type==='cap'?(look?.cap||[189,134,73]):[153,89,43];
     const fill='rgb('+base.map(v=>Math.min(255,Math.round(v*light))).join(',')+')';
     ctx.save();path(pts);ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle=flat?'#dab07c90':'#87502c30';ctx.lineWidth=.55;ctx.stroke();ctx.clip();
+    if(texture&&face.type!=='cap'){
+      const sx=flat?0:(face.theta-PI/24)/PI*texture.naturalWidth,sw=flat?texture.naturalWidth:texture.naturalWidth/12;
+      paintSurface(ctx,texture,pts,sx,sw);
+      ctx.fillStyle=light<1?'rgba(0,0,0,'+(1-light)*.42+')':'rgba(255,255,255,'+(light-1)+')';path(pts);ctx.fill();
+    }
     const localLine=local=>path(local.map(v=>projectStick(world(v,p),p)),false);
     if(flat){
-      for(let k=0;k<18;k++){const x=-.25+k*.029;const line=[];for(let j=0;j<14;j++)line.push({x:x+Math.sin(j*.7+k+i)*.006,y:-1.22+j*.188,z:.001});localLine(line);ctx.strokeStyle=k%3?'#9155231b':'#fff4cc55';ctx.lineWidth=k%3?.55:.8;ctx.stroke();}
+      if(!texture)for(let k=0;k<18;k++){const x=-.25+k*.029;const line=[];for(let j=0;j<14;j++)line.push({x:x+Math.sin(j*.7+k+i)*.006,y:-1.22+j*.188,z:.001});localLine(line);ctx.strokeStyle=k%3?'#9155231b':'#fff4cc55';ctx.lineWidth=k%3?.55:.8;ctx.stroke();}
       if(i===0){
         // Keep the Back-do stamp on the marked stick's flat surface as it turns.
         const origin=projectStick(world({x:0,y:0,z:.006},p),p),x=projectStick(world({x:1,y:0,z:.006},p),p),y=projectStick(world({x:0,y:1,z:.006},p),p);
         ctx.save();ctx.transform(x.x-origin.x,x.y-origin.y,y.x-origin.x,y.y-origin.y,origin.x,origin.y);
-        ctx.fillStyle='#9b3f2c';ctx.font='900 .36px "Yut Lobby Sans","Yut Lobby Korean","Yut Lobby Thai",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+        ctx.fillStyle=look?.flatMark||'#9b3f2c';ctx.font='900 .36px "Yut Lobby Sans","Yut Lobby Korean","Yut Lobby Thai",sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
         const label=t('out_backdo'),letters=Array.from(label);
         if(letters.length<=2)letters.forEach((letter,j)=>ctx.fillText(letter,0,(j-(letters.length-1)/2)*.43,.42));
         else{ctx.rotate(-PI/2);ctx.fillText(label,0,0,1.92);}
         ctx.restore();
       }
     }else if(face.type==='curve'){
-      for(let k=0;k<3;k++){const theta=face.theta+(k-1)*.065;const line=[];for(let j=0;j<10;j++){const t=theta+Math.sin(j*.9+k+i)*.008;line.push({x:.256*Math.cos(t),y:-1.22+j*.273,z:-.256*Math.sin(t)});}localLine(line);ctx.strokeStyle=k===1?'#fff2bc19':'#4c27101c';ctx.lineWidth=.7;ctx.stroke();}
+      if(!texture)for(let k=0;k<3;k++){const theta=face.theta+(k-1)*.065;const line=[];for(let j=0;j<10;j++){const t=theta+Math.sin(j*.9+k+i)*.008;line.push({x:.256*Math.cos(t),y:-1.22+j*.273,z:-.256*Math.sin(t)});}localLine(line);ctx.strokeStyle=k===1?'#fff2bc19':'#4c27101c';ctx.lineWidth=.7;ctx.stroke();}
       // Wrap both X marks around the round back, clipped to each visible facet.
       for(const sy of [-.52,.5])for(const dir of [-1,1]){
         const line=Array.from({length:13},(_,j)=>{const q=j/12,theta=PI/2+lerp(-.48,.48,q);return{x:.257*Math.cos(theta),y:sy+dir*lerp(-.12,.12,q),z:-.257*Math.sin(theta)};});
         localLine(line);ctx.lineCap='round';ctx.strokeStyle='#f3ce9633';ctx.lineWidth=4.2*width/416*stickView(p).zoom;ctx.stroke();
-        ctx.strokeStyle='#4d2915';ctx.lineWidth=2.8*width/416*stickView(p).zoom;ctx.stroke();
+        ctx.strokeStyle=look?.mark||'#4d2915';ctx.lineWidth=2.8*width/416*stickView(p).zoom;ctx.stroke();
       }
-    }else{
+    }else if(!texture){
       ctx.strokeStyle='#73401838';ctx.lineWidth=.7;for(let k=0;k<3;k++){const r=.1+k*.055;const line=[];for(let j=0;j<=10;j++){const a=j*PI/10;line.push({x:r*Math.cos(a),y:face.local[0].y,z:-r*Math.sin(a)-.01});}localLine(line);ctx.stroke();}
     }
     ctx.restore();
@@ -223,10 +256,11 @@ export function createRenderer(canvas, options) {
     for(const [x,y,team,ids] of pieceTokens()){
       const p=project({x,y,z:.07}),r=scale*.225;
       const motion=moving&&ids===moving.ids?moving.pose:null,player=team;
-      const offsets=stackOffsets(ids.length,r);
+      const skin=pieceSkin(player),offsets=pieceOffsets(ids.length,r,player);
       for(let index=0;index<ids.length;index++){
         const token={x:p.x+offsets[index].x,y:p.y+offsets[index].y,r,player,lift:(motion?.lift||0)*scale,zoom:motion?.zoom??1,sx:motion?.sx??1,sy:motion?.sy??1};
-        paintPiece(ctx,token);disks.push({id:ids[index],...token});
+        if(!skin?.character||index===0)paintPiece(ctx,{...token,skin,stackCount:ids.length,stackLabel:skin?.character&&ids.length>1?stackLabel(ids.length):String(ids.length)});
+        disks.push({id:ids[index],...token,skin:skin?.id||'default',representative:!skin?.character||index===0,stackCount:ids.length});
       }
     }
     if(moving?.impact>0){
@@ -238,26 +272,34 @@ export function createRenderer(canvas, options) {
     if(window.NCQ_TEST_DICE)canvas.dataset.pieceDisks=JSON.stringify(disks);
   }
   function friendlyDestination(plan){return !['base','finish'].includes(plan.target)&&ui.game.pieces.some(piece=>piece.player===plan.player&&position(piece)===plan.target);}
-  function pieceControlSize(count){
-    const r=scale*.225,minimum=Math.max(22,Math.min(34,scale*.68));
-    return{width:Math.max(minimum,r*(2+(count-1)*.34)+8),height:Math.max(minimum,r*(2+(count-1)*.42)+8)};
+  function pieceControlSize(count,player=ui.game.active){
+    const r=scale*.225,minimum=Math.max(22,Math.min(34,scale*.68)),skin=pieceSkin(player);
+    if(skin?.character){const box=spriteBox(skin,r);return{width:Math.max(minimum,box.visibleWidth+8),height:Math.max(minimum,box.visibleHeight+8),dx:box.visibleLeft+box.visibleWidth/2,dy:box.visibleTop+box.visibleHeight/2};}
+    return{width:Math.max(minimum,r*(2+(count-1)*.34)+8),height:Math.max(minimum,r*(2+(count-1)*.42)+8),dx:0,dy:0};
   }
   function stackControl(plan,used){
-    const [x,y]=POINTS[plan.target],point=project({x,y,z:.07}),text=t('stackAction'),font=Math.max(11,Math.min(14,scale*.34));
-    ctx.save();ctx.font='800 '+font+'px "Yut Sans","Yut Korean","Yut Thai",sans-serif';const w=Math.max(60,Math.ceil(ctx.measureText(text).width)+26),h=matchMedia('(pointer:coarse)').matches?44:38;ctx.restore();
-    const tokens=pieceTokens().map(([x,y,team,ids])=>({...project({x,y,z:.07}),...pieceControlSize(ids.length)}));
+    const [x,y]=POINTS[plan.target],point=project({x,y,z:.07}),text=t('stackAction'),selectText=t('selectAction'),font=Math.max(11,Math.min(14,scale*.34));
+    ctx.save();ctx.font='850 '+font+'px "Yut Lobby Sans","Yut Lobby Korean","Yut Lobby Thai",sans-serif';
+    const w=Math.max(60,Math.ceil(ctx.measureText(text).width)+26),sw=Math.max(60,Math.ceil(ctx.measureText(selectText).width)+26),h=matchMedia('(pointer:coarse)').matches?44:38;ctx.restore();
+    const tokens=pieceTokens().map(([x,y,team,ids])=>{const point=project({x,y,z:.07}),hit=pieceControlSize(ids.length,team);return{x:point.x+hit.dx,y:point.y+hit.dy,...hit};});
     const destinations=ui.plans.filter(other=>other.target!==plan.target).map(other=>{const [x,y]=POINTS[other.target];return{...project({x,y,z:.09}),width:34,height:34};});
-    const own=tokens.find(token=>Math.hypot(token.x-point.x,token.y-point.y)<2),dx=w/2+(own?.width||34)/2+6,dy=h/2+(own?.height||34)/2+6;
-    const sx=point.x>width/2?-1:1,sy=point.y>height/2?-1:1;
-    const candidates=[[sx*dx,0],[sx*dx,sy*dy],[sx*dx,-sy*dy],[0,sy*dy],[0,-sy*dy],[-sx*dx,0]];
+    const own=pieceControlSize(ui.game.pieces.filter(piece=>piece.player===plan.player&&position(piece)===plan.target).length,plan.player),gap=own.width+16,total=w+gap+sw;
+    point.x+=own.dx;point.y+=own.dy;
+    const dy=h/2+(own?.height||34)/2+10,sx=point.x>width/2?-1:1,sy=point.y>height/2?-1:1;
+    const candidates=[[0,0],[0,sy*dy],[0,-sy*dy],[sx*total/2,sy*dy],[sx*total/2,-sy*dy],[0,sy*dy*2],[0,-sy*dy*2]];
+    const overlap=(a,b)=>Math.max(0,(a.width+b.width)/2+5-Math.abs(a.x-b.x))*Math.max(0,(a.height+b.height)/2+5-Math.abs(a.y-b.y));
     const scored=candidates.map(([dx,dy],index)=>{
-      const p={x:clamp(point.x+dx,w/2+3,width-w/2-3),y:clamp(point.y+dy,h/2+3,height-h/2-3),width:w,height:h};
-      const overlap=[...tokens,...destinations,...used].reduce((sum,box)=>sum+Math.max(0,(w+box.width)/2+4-Math.abs(p.x-box.x))*Math.max(0,(h+box.height)/2+4-Math.abs(p.y-box.y)),0);
-      return{...p,score:overlap*100+index};
-    });
-    scored.sort((a,b)=>a.score-b.score);used.push(scored[0]);return{...scored[0],text};
+      const centerX=clamp(point.x+dx,total/2+4,width-total/2-4),centerY=clamp(point.y+dy,h/2+7,height-h/2-9);
+      const left={x:centerX-total/2+w/2,y:centerY,width:w,height:h},right={x:centerX+total/2-sw/2,y:centerY,width:sw,height:h};
+      const intersections=[...tokens,...destinations,...used].reduce((sum,box)=>sum+overlap(left,box)+overlap(right,box),0);
+      return {left,right,score:intersections*100+index};
+    }).sort((a,b)=>a.score-b.score);
+    const best=scored[0];used.push(best.left,best.right);
+    const piece=ui.game.pieces.find(piece=>piece.player===plan.player&&position(piece)===plan.target);
+    return {...best.left,text,select:{...best.right,text:selectText,pieceId:piece.id}};
   }
   function syncBoardControls(){
+    if(!interactive)return;
     controlLayer.hidden=ui.busy||busy||!!moving||ui.plans.length===0;
     if(controlLayer.hidden){controlLayer.replaceChildren();controlButtons.clear();return;}
     controlLayer.setAttribute('aria-label',t('moveHint'));
@@ -274,22 +316,32 @@ export function createRenderer(canvas, options) {
     for(const [x,y,team,ids] of pieceTokens()){
       const player=team;if(player!==ui.game.active)continue;
       const label=localPlayerName(ui.game,player)+' · '+t('piece',{n:ids[0]%4+1})+(ids.length>1?' · '+t('stack',{n:ids.length}):'');
-      const element=button('piece:'+ids[0],project({x,y,z:.07}),'board-piece-select',label,'',()=>options.onSelect?.(ids[0]));
-      const hit=pieceControlSize(ids.length);element.style.width=hit.width+'px';element.style.height=hit.height+'px';
+      const hit=pieceControlSize(ids.length,player),point=project({x,y,z:.07});point.x+=hit.dx;point.y+=hit.dy;
+      const element=button('piece:'+ids[0],point,'board-piece-select',label,'',()=>options.onSelect?.(ids[0]));
+      element.style.width=hit.width+'px';element.style.height=hit.height+'px';
       element.dataset.boardPiece=String(ids[0]);element.setAttribute('aria-pressed',String(ids.includes(ui.pieceId)));
     }
     for(const plan of ui.plans){
       const [x,y]=POINTS[plan.target],move=plan.steps<0?t('backward'):t('move',{n:plan.steps});
       const stack=friendlyDestination(plan)?stackControl(plan,stackControls):null;
-      const finish=plan.target==='finish';
-      const element=button('move:'+plan.pieceId+':'+plan.resultId,stack||project({x,y,z:.09}),'move-target'+(stack?' stack-target':'')+(finish?' finish-target':''),t('out_'+plan.outcome)+' · '+(stack?t('stackAction'):finish?t('finishAction'):move),stack?.text||'',()=>options.onMove?.(plan.resultId));
+      const finish=plan.target==='finish',occupant=ui.game.pieces.find(piece=>piece.player!==plan.player&&position(piece)===plan.target);
+      const captureHit=occupant&&pieceSkin(occupant.player)?.character?pieceControlSize(1,occupant.player):null;
+      const target=project({x,y,z:.09});if(captureHit){target.x+=captureHit.dx;target.y+=captureHit.dy;}
+      const element=button('move:'+plan.pieceId+':'+plan.resultId,stack||target,'move-target'+(stack?' stack-target':'')+(finish?' finish-target':''),t('out_'+plan.outcome)+' · '+(stack?t('stackAction'):finish?t('finishAction'):move),stack?.text||'',()=>options.onMove?.(plan.resultId));
+      if(captureHit){element.style.width=captureHit.width+'px';element.style.height=captureHit.height+'px';}
       if(finish){const hit=Math.max(30,Math.min(44,scale*.9));element.style.width=hit+'px';element.style.height=hit+'px';}
-      if(stack){element.style.width=stack.width+'px';element.style.height=stack.height+'px';}
+      if(stack){
+        element.style.width=stack.width+'px';element.style.height=stack.height+'px';element.dataset.pair=plan.target;
+        const choice=button('choose-target:'+plan.pieceId+':'+plan.resultId,stack.select,'select-target',stack.select.text+' · '+t('piece',{n:stack.select.pieceId%4+1}),stack.select.text,()=>options.onSelect?.(stack.select.pieceId));
+        choice.style.width=stack.select.width+'px';choice.style.height=stack.select.height+'px';choice.dataset.pair=plan.target;choice.dataset.selectPiece=String(stack.select.pieceId);
+      }
       element.dataset.resultId=String(plan.resultId);element.dataset.target=plan.target;
     }
     for(const [key,element] of controlButtons)if(!wanted.has(key)){element.remove();controlButtons.delete(key);}
   }
   function draw(){
+    // Refit when a decoded skin changes, even if the play slot did not resize.
+    ({scaleX,scale,centerY}=fitBoardLayout(width,height,trayExtent()));
     ctx.clearRect(0,0,width,height);ctx.save();let shake=0;
     for(let i=0;i<4;i++){const d=(elapsed-landingAt(i))/160;if(busy&&d>0&&d<1)shake+=Math.sin(d*TAU*2)*(1-d)*1.4*settings.impact;}
     background();tray();boardRoutes();
@@ -299,9 +351,12 @@ export function createRenderer(canvas, options) {
     canvas.dataset.phase=phase;canvas.dataset.thrower=thrower;canvas.dataset.result=result;
     syncBoardControls();syncCueLoop();
   }
+  function resize(w,h,dpr=Math.min(devicePixelRatio||1,2)){
+    ({width,height,scaleX,scale,centerY}=fitBoardLayout(w,h));
+    canvas.style.width=width+'px';canvas.style.height=height+'px';canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);draw();
+  }
   function size(){
-    const slot=area.getBoundingClientRect();width=Math.max(100,Math.min(slot.width,slot.height/1.02));height=width*1.02;
-    canvas.style.width=width+'px';canvas.style.height=height+'px';const dpr=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);scale=Math.min(width,boardHeight())/8.2;draw();
+    const slot=area.getBoundingClientRect();resize(slot.width,slot.height);
   }
   function update(next){ui={...ui,...next};if(!busy)opacity=ui.game.action===0?1:ui.game.pending.length>0?.12:.24;draw();}
   function cancel(){run++;cancelAnimationFrame(raf);cancelAnimationFrame(cueRaf);cueRaf=0;cleanupPending?.();cleanupPending=null;busy=false;moving=null;if(resolvePending){resolvePending(false);resolvePending=null;}}
@@ -350,13 +405,14 @@ export function createRenderer(canvas, options) {
       const bounds=flightCanvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);
       if(flightCanvas.width!==Math.round(bounds.width*dpr)||flightCanvas.height!==Math.round(bounds.height*dpr)){flightCanvas.width=Math.round(bounds.width*dpr);flightCanvas.height=Math.round(bounds.height*dpr);}
       flightCtx.setTransform(dpr,0,0,dpr,0,0);flightCtx.clearRect(0,0,bounds.width,bounds.height);
-      const board=canvas.getBoundingClientRect(),p=project({x:POINTS[plan.target][0],y:POINTS[plan.target][1],z:.07}),r=scale*.225,offsets=stackOffsets(plan.captured.length,r),poses=[];
+      const board=canvas.getBoundingClientRect(),p=project({x:POINTS[plan.target][0],y:POINTS[plan.target][1],z:.07}),r=scale*.225,capturedPlayer=ui.game.pieces[plan.captured[0]]?.player,skin=pieceSkin(capturedPlayer),offsets=pieceOffsets(plan.captured.length,r,capturedPlayer),poses=[];
       for(let index=0;index<plan.captured.length;index++){
         const element=arrivals[index],rect=element?.getBoundingClientRect();if(!rect?.width)continue;
         const from={x:board.left+(p.x+offsets[index].x)*board.width/width,y:board.top+(p.y+offsets[index].y)*board.height/height,r:r*board.width/width};
-        const to={x:rect.left+rect.width/2,y:rect.top+rect.height/2,r:(parseFloat(getComputedStyle(element).getPropertyValue('--size'))||24)/2,alpha:parseFloat(getComputedStyle(element.closest('.player-card')).opacity)||1};
+        const rackSize=parseFloat(getComputedStyle(element).getPropertyValue('--size'))||24,rack=skin?rackSpriteBox(skin,rackSize):{dx:0,dy:0,r:rackSize/2};
+        const to={x:rect.left+rect.width/2+rack.dx,y:rect.top+rect.height/2+rack.dy,r:rack.r,alpha:parseFloat(getComputedStyle(element.closest('.player-card')).opacity)||1};
         const progress=clamp((time-index*stagger)/returnMs),pose=returnPose(from,to,progress);
-        if(progress<1)paintPiece(flightCtx,{...pose,x:pose.x-bounds.left,y:pose.y-bounds.top,player:ui.game.pieces[plan.captured[index]].player});
+        if(progress<1)paintPiece(flightCtx,{...pose,x:pose.x-bounds.left,y:pose.y-bounds.top,player:ui.game.pieces[plan.captured[index]].player,skin});
         else element.removeAttribute('data-piece-arriving');
         poses.push({id:plan.captured[index],progress,...pose,to});
       }
@@ -385,14 +441,22 @@ export function createRenderer(canvas, options) {
       if(!ended)raf=requestAnimationFrame(frame);else{cleanupPending?.();cleanupPending=null;moving=null;resolvePending=null;draw();resolve(true);}
     }raf=requestAnimationFrame(frame);});
   }
+  // A static view shares every paint/projection function, but creates no game
+  // controls, audio, input listeners, observers or animation loop.
+  if(!interactive){resize(400,408);return{update,draw,resize};}
   canvas.addEventListener('pointerup',event=>{
     if(ui.busy||busy||moving)return;const bounds=canvas.getBoundingClientRect(),x=(event.clientX-bounds.left)*width/bounds.width,y=(event.clientY-bounds.top)*height/bounds.height;
     // Selecting an owned piece must never spend a result, even at a destination.
     for(const [tx,ty,team,ids] of pieceTokens()){
-      if(team!==ui.game.active)continue;const point=project({x:tx,y:ty,z:.07}),hit=pieceControlSize(ids.length);
+      if(team!==ui.game.active)continue;const point=project({x:tx,y:ty,z:.07}),hit=pieceControlSize(ids.length,team);point.x+=hit.dx;point.y+=hit.dy;
       if(Math.abs(point.x-x)<=hit.width/2&&Math.abs(point.y-y)<=hit.height/2){options.onSelect?.(ids[0]);return;}
     }
-    const nearest=ui.plans.filter(plan=>!friendlyDestination(plan)).map(plan=>{const [tx,ty]=POINTS[plan.target],target=project({x:tx,y:ty,z:.09});return{plan,distance:Math.hypot(target.x-x,target.y-y)};}).sort((a,b)=>a.distance-b.distance)[0];
+    const nearest=ui.plans.filter(plan=>!friendlyDestination(plan)).map(plan=>{
+      const [tx,ty]=POINTS[plan.target],target=project({x:tx,y:ty,z:.09}),occupant=ui.game.pieces.find(piece=>piece.player!==plan.player&&position(piece)===plan.target);
+      const hit=occupant&&pieceSkin(occupant.player)?.character?pieceControlSize(1,occupant.player):null;
+      if(hit){target.x+=hit.dx;target.y+=hit.dy;if(Math.abs(target.x-x)<=hit.width/2&&Math.abs(target.y-y)<=hit.height/2)return{plan,distance:0};}
+      return{plan,distance:Math.hypot(target.x-x,target.y-y)};
+    }).sort((a,b)=>a.distance-b.distance)[0];
     if(nearest?.distance<26){options.onMove?.(nearest.plan.resultId);return;}
   });
   new ResizeObserver(size).observe(area);size();

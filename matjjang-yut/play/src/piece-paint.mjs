@@ -1,5 +1,8 @@
 import { TEAM_COLORS } from './team-colors.mjs';
-export function paintPiece(ctx, { x, y, r, player, lift = 0, zoom = 1, sx = 1, sy = 1, alpha = 1, rotation = 0 }) {
+import { paintSkinPiece } from './skin-paint.mjs';
+export function paintPiece(ctx, options) {
+  if(options.skin){paintSkinPiece(ctx,options);return;}
+  const { x, y, r, player, lift = 0, zoom = 1, sx = 1, sy = 1, alpha = 1, rotation = 0 }=options;
   const { bright, dark } = TEAM_COLORS[player];
   const main = player === 0 ? '#327bd6' : player === 1 ? '#dc6855' : TEAM_COLORS[player].main;
   ctx.save(); ctx.globalAlpha *= alpha;

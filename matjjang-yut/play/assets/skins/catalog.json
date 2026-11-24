@@ -1,0 +1,888 @@
+{
+  "schemaVersion": 1,
+  "productionVersion": 2,
+  "created": "2026-11-24",
+  "status": "integrated-free-selection",
+  "teamOrder": [
+    "blue",
+    "red",
+    "green",
+    "purple"
+  ],
+  "rendering": {
+    "board": "Top-down surface only; draw route, 29 nodes and finish selection in code.",
+    "sticks": "UV surface textures; flat and unwrapped curved back. Draw two X marks and localized Back-do in code.",
+    "pieces": "RGBA sprites. Anchor is normalized bottom-center of opaque bounds; bounds use alpha > 128.",
+    "stacking": "Character skins: representative sprite + count badge; mokhwa: shallow round token.",
+    "loading": "Decode the selected combination on demand; shelf thumbnails load when the shop opens. Runtime manifest includes this optimized pack."
+  },
+  "themes": [
+    {
+      "id": "porcelain",
+      "title": "백자와 먹",
+      "character": "한복 꼬마",
+      "pieceKind": "character",
+      "assets": {
+        "board": {
+          "file": "porcelain/board.webp",
+          "width": 768,
+          "height": 768,
+          "bytes": 46808,
+          "sha256": "0aa337cc29d9ac837bb0e2dfdcad61d9bbc34398dc0deb77bb4d84c83328107f",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            15,
+            16,
+            738,
+            738
+          ]
+        },
+        "stick-flat": {
+          "file": "porcelain/stick-flat.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 1214,
+          "sha256": "b66e34363c1106950b54054ef7ecee4e602ee3d62b7f43c93d2e6d0d24c9cdba",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "stick-round": {
+          "file": "porcelain/stick-round.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 2156,
+          "sha256": "fb9ce57c3897709896564acedb606a01350087d2b6fe084e8ffbb8eb4b66420d",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "piece-blue": {
+          "file": "porcelain/piece-blue.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 12480,
+          "sha256": "d56774f4dbe11005fd6837c049b4e5d75f7ecf8ddba749d6071af0ce68a963cc",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            66,
+            12,
+            125,
+            232
+          ],
+          "anchor": [
+            0.5,
+            0.953125
+          ]
+        },
+        "piece-red": {
+          "file": "porcelain/piece-red.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 12252,
+          "sha256": "6a2d79580575f41db06c881190f42d120c84824f63bdcd598455b23e08be98c8",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            65,
+            12,
+            126,
+            232
+          ],
+          "anchor": [
+            0.5,
+            0.953125
+          ]
+        },
+        "piece-green": {
+          "file": "porcelain/piece-green.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 11950,
+          "sha256": "85b8a7bc6d3c489154751035ba6340610f4cc90300066ce5175649d85c3ca328",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            65,
+            11,
+            126,
+            234
+          ],
+          "anchor": [
+            0.5,
+            0.957031
+          ]
+        },
+        "piece-purple": {
+          "file": "porcelain/piece-purple.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 12118,
+          "sha256": "29967dafee9d50a7ed438006a3301d866d317ade8319cb57a7f95d786043a19f",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            65,
+            11,
+            126,
+            233
+          ],
+          "anchor": [
+            0.5,
+            0.953125
+          ]
+        }
+      },
+      "bytes": 98978
+    },
+    {
+      "id": "jade",
+      "title": "비취와 옥",
+      "character": "비취 호랑이",
+      "pieceKind": "character",
+      "assets": {
+        "board": {
+          "file": "jade/board.webp",
+          "width": 768,
+          "height": 768,
+          "bytes": 48754,
+          "sha256": "23fa1070a7cba350c30ee04039c168a04d73f874015f85b2588c56962076291f",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            21,
+            20,
+            726,
+            727
+          ]
+        },
+        "stick-flat": {
+          "file": "jade/stick-flat.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 2188,
+          "sha256": "e390cfbe51eb01bc4c81c32640c50c92f1c3622a7b00c6ba7f7d7046f0db5aa4",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "stick-round": {
+          "file": "jade/stick-round.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 3964,
+          "sha256": "378eebede5e16ff1bc7daf1bf99a2ce42b8654764f81cccbf4287d17b77a6aa2",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "piece-blue": {
+          "file": "jade/piece-blue.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 16348,
+          "sha256": "abbd47eb42fc39b4d5be26cae3f27e010e3ff57d7d1b974052f13745341bd664",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            28,
+            23,
+            208,
+            216
+          ],
+          "anchor": [
+            0.5,
+            0.933594
+          ]
+        },
+        "piece-red": {
+          "file": "jade/piece-red.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 15788,
+          "sha256": "2309afaee55868e7ea06b96847bbad9c4209a78eb1bc7580f394b42f21eb9520",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            32,
+            26,
+            200,
+            206
+          ],
+          "anchor": [
+            0.5,
+            0.90625
+          ]
+        },
+        "piece-green": {
+          "file": "jade/piece-green.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 16402,
+          "sha256": "724c797fe0cb2c39ebcba82b481fdaca02129b174c0e839ed39be147d63b45a1",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            31,
+            27,
+            198,
+            206
+          ],
+          "anchor": [
+            0.5,
+            0.910156
+          ]
+        },
+        "piece-purple": {
+          "file": "jade/piece-purple.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 14518,
+          "sha256": "5414ff3e3f66232736716f53bb31a237ec7aa3c5dbf04119509decf6c137367b",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            41,
+            30,
+            189,
+            197
+          ],
+          "anchor": [
+            0.5,
+            0.886719
+          ]
+        }
+      },
+      "bytes": 117962
+    },
+    {
+      "id": "lacquer",
+      "title": "옻칠과 자개",
+      "character": "자개 해태",
+      "pieceKind": "character",
+      "assets": {
+        "board": {
+          "file": "lacquer/board.webp",
+          "width": 768,
+          "height": 768,
+          "bytes": 40506,
+          "sha256": "fec349b2cd6d6672ed147f15cad56e36da593c426b1284c296793c1e3ec6370e",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            15,
+            15,
+            738,
+            738
+          ]
+        },
+        "stick-flat": {
+          "file": "lacquer/stick-flat.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 6812,
+          "sha256": "b053801028662a76cc939c58de3417a6cfe9b002812625b9277bd593937f17f2",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "stick-round": {
+          "file": "lacquer/stick-round.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 3156,
+          "sha256": "714ad07940b35b5883e6d5bc339a0ca2d61ae4a68b1b046293ee53bdfb8a9387",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "piece-blue": {
+          "file": "lacquer/piece-blue.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 16778,
+          "sha256": "33dcc36da0821694d2a3f6e0b97ef2e43419ee4156c252b384dbb959e7f2a094",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            40,
+            25,
+            190,
+            208
+          ],
+          "anchor": [
+            0.5,
+            0.910156
+          ]
+        },
+        "piece-red": {
+          "file": "lacquer/piece-red.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 15804,
+          "sha256": "f13c0c79c1b421c76279b0ed68a504a55deb95036148df4b5829bfc34a28d121",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            40,
+            25,
+            188,
+            202
+          ],
+          "anchor": [
+            0.5,
+            0.886719
+          ]
+        },
+        "piece-green": {
+          "file": "lacquer/piece-green.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 15484,
+          "sha256": "f3f61a1a7725b68a61f8844760902234932067e8c0a298390db0e3c530065f6a",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            44,
+            31,
+            179,
+            197
+          ],
+          "anchor": [
+            0.5,
+            0.890625
+          ]
+        },
+        "piece-purple": {
+          "file": "lacquer/piece-purple.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 19460,
+          "sha256": "d0a3be7baf47927d1fff08af8b31f8de12b52a0d22c4d830ea45ca300d8a3cf6",
+          "alphaRange": [
+            0,
+            253
+          ],
+          "opaqueBounds": [
+            41,
+            23,
+            197,
+            213
+          ],
+          "anchor": [
+            0.5,
+            0.921875
+          ]
+        }
+      },
+      "bytes": 118000
+    },
+    {
+      "id": "ocean",
+      "title": "밤바다",
+      "character": "밤바다 펭귄",
+      "pieceKind": "character",
+      "assets": {
+        "board": {
+          "file": "ocean/board.webp",
+          "width": 768,
+          "height": 768,
+          "bytes": 40518,
+          "sha256": "0133da9c67677667615a322341227802d903244338bfe81eadacd3299cbe160e",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            12,
+            14,
+            744,
+            741
+          ]
+        },
+        "stick-flat": {
+          "file": "ocean/stick-flat.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 2118,
+          "sha256": "9ad6c5d07500655a668090938305ea9a765778771b7930165baafd682037ebb5",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "stick-round": {
+          "file": "ocean/stick-round.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 5352,
+          "sha256": "76f4d90112bdcf7e10c79276b95ddd148f1f5d68e0426760d1a2eb428783effc",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "piece-blue": {
+          "file": "ocean/piece-blue.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 10948,
+          "sha256": "d8e4f1608d2832a3193001a639242919f8426d9c6f829aa3c5794665d0682055",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            42,
+            35,
+            171,
+            186
+          ],
+          "anchor": [
+            0.5,
+            0.863281
+          ]
+        },
+        "piece-red": {
+          "file": "ocean/piece-red.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 11622,
+          "sha256": "2151e9329fae72da5adb92d49d7eedbbe7d0cf057da56750e1a8a4c8d3e01e95",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            35,
+            32,
+            185,
+            199
+          ],
+          "anchor": [
+            0.5,
+            0.902344
+          ]
+        },
+        "piece-green": {
+          "file": "ocean/piece-green.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 11598,
+          "sha256": "38a521eaea835fd559d8e39bc6eb80137f81c6a9d7be8f27a7d74f9def7a5db6",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            37,
+            32,
+            186,
+            200
+          ],
+          "anchor": [
+            0.5,
+            0.90625
+          ]
+        },
+        "piece-purple": {
+          "file": "ocean/piece-purple.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 11430,
+          "sha256": "d48ed1b365e7f1d44c13c3b750cc893c8c63384ec9c81a50cbb66a9fd9007255",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            38,
+            29,
+            179,
+            199
+          ],
+          "anchor": [
+            0.5,
+            0.890625
+          ]
+        }
+      },
+      "bytes": 93586
+    },
+    {
+      "id": "soda",
+      "title": "소다 글라스",
+      "character": "유리 토끼",
+      "pieceKind": "character",
+      "assets": {
+        "board": {
+          "file": "soda/board.webp",
+          "width": 768,
+          "height": 768,
+          "bytes": 46442,
+          "sha256": "9fdaec16a0fdba8153a868a4a96b1e0a4fbc81685a55c17e1f72bf100c34f6fc",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            15,
+            19,
+            739,
+            732
+          ]
+        },
+        "stick-flat": {
+          "file": "soda/stick-flat.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 2408,
+          "sha256": "9ff131eb9978aba37bbd0f49703a62f4e5c6ec3eaf1704e60175848a4726b384",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "stick-round": {
+          "file": "soda/stick-round.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 3392,
+          "sha256": "2e0eed8afcf2477718b42917e1f12307ad0e804ada4d047182bb0a9ef411827e",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "piece-blue": {
+          "file": "soda/piece-blue.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 16472,
+          "sha256": "941ebfed56582269af3f4acbfe209b0e7227eaf2e37a7aa9433284ed910f224d",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            43,
+            6,
+            164,
+            241
+          ],
+          "anchor": [
+            0.5,
+            0.964844
+          ]
+        },
+        "piece-red": {
+          "file": "soda/piece-red.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 15376,
+          "sha256": "6855b9b85d1dddd5a65b50f124594e8e06f14690ce3b4f05c01b64b26ce8442f",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            42,
+            5,
+            166,
+            242
+          ],
+          "anchor": [
+            0.5,
+            0.964844
+          ]
+        },
+        "piece-green": {
+          "file": "soda/piece-green.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 16568,
+          "sha256": "4dfe2e46e3129d0b9de867fe6488b687ea4e6a608c93fea2d1f76562214bcbf7",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            43,
+            5,
+            165,
+            242
+          ],
+          "anchor": [
+            0.5,
+            0.964844
+          ]
+        },
+        "piece-purple": {
+          "file": "soda/piece-purple.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 15150,
+          "sha256": "8f425e5c22a63c32b79a25eb6a662b39787a3cbe7584868eabe658dd7a4967f4",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            43,
+            6,
+            164,
+            241
+          ],
+          "anchor": [
+            0.5,
+            0.964844
+          ]
+        }
+      },
+      "bytes": 115808
+    },
+    {
+      "id": "mokhwa",
+      "title": "목화자단",
+      "character": "원형 새와 꽃 말",
+      "pieceKind": "round-token",
+      "assets": {
+        "board": {
+          "file": "mokhwa/board.webp",
+          "width": 768,
+          "height": 768,
+          "bytes": 153654,
+          "sha256": "fd036ca33f19af50d86569e87aa72bf783b68d21ceb2a0e555e9b4666724371b",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            11,
+            12,
+            746,
+            744
+          ]
+        },
+        "stick-flat": {
+          "file": "mokhwa/stick-flat.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 5402,
+          "sha256": "efa09f77dbcf82368ecd1d70321411a7f66f23889082fabd9ef425bf930df4fd",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "stick-round": {
+          "file": "mokhwa/stick-round.webp",
+          "width": 128,
+          "height": 512,
+          "bytes": 7254,
+          "sha256": "bce815ad46693ce900d5dc9e82f6f34662c217cf1891f4a9e97e519e096755bb",
+          "alphaRange": [
+            255,
+            255
+          ],
+          "opaqueBounds": [
+            0,
+            0,
+            128,
+            512
+          ]
+        },
+        "piece-blue": {
+          "file": "mokhwa/piece-blue.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 12212,
+          "sha256": "3261fe8439116a5990f6930caf12b5356f1d30318ee465f6b28110896730265f",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            40,
+            48,
+            170,
+            172
+          ],
+          "anchor": [
+            0.5,
+            0.859375
+          ]
+        },
+        "piece-red": {
+          "file": "mokhwa/piece-red.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 12526,
+          "sha256": "48e0480e3df0b517a95241456ed9d0d0a434c2dffce59db9c8d5eee1c828b412",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            34,
+            33,
+            182,
+            191
+          ],
+          "anchor": [
+            0.5,
+            0.875
+          ]
+        },
+        "piece-green": {
+          "file": "mokhwa/piece-green.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 13218,
+          "sha256": "737adf6b5e5cdb50d2230e24dbea63fd359d4a28e1f7032ea74a39f9c4b516fd",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            27,
+            28,
+            198,
+            199
+          ],
+          "anchor": [
+            0.5,
+            0.886719
+          ]
+        },
+        "piece-purple": {
+          "file": "mokhwa/piece-purple.webp",
+          "width": 256,
+          "height": 256,
+          "bytes": 14222,
+          "sha256": "1ccf7d59ec27f938b16e63c2a8ca6afa17cebae60f0b11f03feb996dbbde5549",
+          "alphaRange": [
+            0,
+            254
+          ],
+          "opaqueBounds": [
+            25,
+            29,
+            202,
+            204
+          ],
+          "anchor": [
+            0.5,
+            0.910156
+          ]
+        }
+      },
+      "bytes": 218488
+    }
+  ],
+  "imageCount": 42,
+  "imageBytes": 762822,
+  "sourceBytes": 62302481
+}

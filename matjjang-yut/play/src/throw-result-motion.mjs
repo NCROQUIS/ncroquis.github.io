@@ -64,9 +64,9 @@ export function createThrowResultMotion(root, area) {
         const from = origin(), end = target();
         if (!end) return null;
         return [
-          { left: from.x + 'px', top: from.y + 'px', fontSize: size + 'px', color: '#e8ab3f', webkitTextStrokeWidth: '2px', textShadow: '0 3px 0 #75451e,0 5px 0 #e7cd9e' },
-          { offset: .48, left: (from.x + (end.x - from.x) * .45 + 14) + 'px', top: (from.y + (end.y - from.y) * .36) + 'px', fontSize: size * .76 + 'px', webkitTextStrokeWidth: '1px' },
-          { left: end.x + 'px', top: end.y + 'px', fontSize: end.fontSize, color: end.color, webkitTextStrokeWidth: '0px', textShadow: '0 0 0 transparent' },
+          { left: from.x + 'px', top: from.y + 'px', fontSize: size + 'px' },
+          { offset: .48, left: (from.x + (end.x - from.x) * .45 + 14) + 'px', top: (from.y + (end.y - from.y) * .36) + 'px', fontSize: size * .76 + 'px' },
+          { left: end.x + 'px', top: end.y + 'px', fontSize: end.fontSize },
         ];
       };
       root.dataset.phase = 'flight';

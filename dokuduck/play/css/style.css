@@ -24,6 +24,8 @@ body {
 button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; }
 button:focus-visible { outline: 3px dashed var(--ink); outline-offset: 3px; }
 [hidden] { display: none !important; }
+#partner-status { position: fixed; inset: 0; z-index: 10000; display: grid; place-items: center; background: #DDF1EC; padding: calc(var(--ncq-top, 0px) + 16px) calc(var(--ncq-right, 0px) + 16px) calc(var(--ncq-bottom, 0px) + 16px) calc(var(--ncq-left, 0px) + 16px); }
+#partner-status p { max-width: 448px; text-align: center; overflow-wrap: anywhere; }
 img { max-width: 100%; -webkit-user-drag: none; }
 
 #app { position: relative; height: 100%; max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; padding: var(--ncq-top, 0px) var(--ncq-right, 0px) var(--ncq-bottom, 0px) var(--ncq-left, 0px); }
@@ -324,6 +326,14 @@ img { max-width: 100%; -webkit-user-drag: none; }
 .reward { display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px 4px 8px; background: #E4F6F2; border: 2.5px solid var(--ink); border-radius: var(--wob2); font-size: 17px; }
 .reward .ic { width: 26px; height: 26px; }
 .ver { align-self: flex-end; font-size: 12px; color: var(--muted); opacity: .7; }
+.settings-sheet { overflow: hidden; }
+.modal.settings-modal { padding: calc(var(--ncq-top, 0px) + 12px) calc(var(--ncq-right, 0px) + 12px) calc(var(--ncq-bottom, 0px) + 20px) calc(var(--ncq-left, 0px) + 12px); }
+.settings-sheet > * { flex-shrink: 0; }
+.settings-sheet > .settings-body { min-height: 0; flex: 1 1 auto; overflow-y: auto; }
+.settings-sheet > .col { gap: 8px; }
+.partner-user { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; padding: 10px 4px 4px; }
+.partner-user label { grid-column: 1 / -1; font-size: 15px; }
+.partner-user input { width: 100%; min-width: 0; padding: 8px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 8px; font: 13px monospace; user-select: text; -webkit-user-select: text; }
 .note { font-size: 13px !important; font-family: var(--f-display) !important; color: var(--muted); }
 .opt { display: flex; align-items: center; gap: 10px; padding: 8px 4px; border-bottom: 2px dashed var(--line); font-size: 19px; }
 .opt:last-of-type { border-bottom: 0; }
@@ -454,3 +464,39 @@ html:not([lang]) [data-i18n], html:not([lang]) [data-i18n-html] { visibility: hi
 .opt.lang .seg { display: flex; gap: 6px; flex: none; }
 .segb { font: inherit; font-size: 16px; padding: 4px 12px; border: 3px solid var(--ink); border-radius: 14px 12px 15px 11px; background: var(--paper); color: var(--ink); }
 .segb.on { background: var(--duck); }
+
+/* 친구 초대 (홈 위쪽 버튼, 초대 창, 도쿠힌트 날아가기) */
+.invite-chip { padding: 0 12px 0 8px; font-size: 17px; white-space: nowrap; }
+.invite-chip .ic { width: 26px; height: 26px; }
+.invite-hero { display: grid; place-items: center; margin: 2px 0 0; }
+.invite-hero .bulb-badge { --s: 112px; animation: invbob 1.8s ease-in-out infinite; }
+@keyframes invbob { 50% { transform: translateY(-5px) rotate(-4deg); } }
+.bulb-badge { --s: 64px; position: relative; width: var(--s); height: var(--s); display: grid; place-items: center; background: var(--paper); border: 4px solid var(--ink); border-radius: 50%; box-shadow: 0 4px 0 var(--ink); }
+.bulb-badge .ic { width: 64%; height: 64%; }
+.bulb-badge b { position: absolute; right: -8%; bottom: -6%; min-width: 40%; height: 40%; display: grid; place-items: center; padding: 0 4px; font-weight: 400; font-size: calc(var(--s) * .2); background: var(--teal); border: 3px solid var(--ink); border-radius: 999px; }
+.invite-count { display: flex; align-items: baseline; justify-content: center; gap: 6px; margin-top: 6px; }
+.invite-count b { font-weight: 400; font-size: 46px; line-height: 1; }
+.invite-count span { font-size: 20px; opacity: .6; }
+.invite-sheet .note { margin: 2px 0 8px; }
+.invite-bar { height: 16px; margin: 0 8px 10px; background: var(--paper); border: 3px solid var(--ink); border-radius: 10px; overflow: hidden; }
+.invite-bar i { display: block; height: 100%; background: var(--duck); border-right: 3px solid var(--ink); transition: width .5s cubic-bezier(.3,1.4,.5,1); }
+.invite-bar i[style*="width:0%"] { border-right: 0; }
+.invite-sheet p b { color: var(--orange); font-weight: 400; }
+.btn:disabled { opacity: .55; transform: none; }
+/* 결과 창 오리 양옆: 아래 끝을 오리 발뒤꿈치에 맞춰요 */
+.res-top { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; margin-bottom: -4px; }
+.res-top .hero { grid-column: 2; }
+.res-invite { grid-column: 1; grid-row: 1; justify-self: start; display: flex; flex-direction: column; align-items: center; gap: 0; background: none; border: 0; padding: 0; margin-bottom: 6px; animation: invbob 1.8s ease-in-out infinite; }
+.res-invite .bulb-badge { --s: 58px; }
+.res-invite em { margin-top: -6px; position: relative; font-style: normal; font-size: 14px; padding: 1px 7px; background: var(--duck); border: 3px solid var(--ink); border-radius: 8px; white-space: nowrap; box-shadow: 0 2px 0 var(--ink); font-variant-numeric: tabular-nums; }
+.res-invite:active { transform: translateY(2px); }
+.res-invite.off { animation: none; opacity: .55; }
+.res-brag { grid-column: 3; grid-row: 1; justify-self: end; display: inline-flex; align-items: center; gap: 3px; margin-bottom: 6px; padding: 3px 10px 3px 6px; font-size: 14px; background: var(--paper); border: 3px solid var(--ink); border-radius: 999px; box-shadow: 0 2px 0 var(--ink); white-space: nowrap; }
+.res-brag .ic { width: 20px; height: 20px; }
+.res-brag:active { transform: translateY(2px); box-shadow: none; }
+.fly-hint { position: fixed; left: 0; top: 0; width: 96px; height: 96px; z-index: 60; pointer-events: none; display: grid; place-items: center; background: var(--paper); border: 4px solid var(--ink); border-radius: 50%; box-shadow: 0 4px 0 var(--ink); }
+.fly-hint .ic { width: 64px; height: 64px; }
+.fly-hint b { position: absolute; right: -10px; bottom: -6px; font-weight: 400; font-size: 22px; padding: 0 8px; background: var(--duck); border: 3px solid var(--ink); border-radius: 12px; }
+.tool.gulp { animation: gulp .45s cubic-bezier(.3,1.6,.5,1); }
+@keyframes gulp { 30% { transform: scale(1.18); } 60% { transform: scale(.94); } }
+.invite-sheet #inv-go.nudge-soft { animation: oknudge 1.25s ease-in-out infinite; }

@@ -2,6 +2,12 @@
    {n}·{tool}처럼 중괄호는 끼워 넣는 값, { one, other }는 영어 복수형이에요. <b>·<br>이 든 글자는 innerHTML로 그려요. */
 window.DOKU_TEXTS = {
   en: {
+    partner_loading: 'Loading your game data…',
+    partner_failed: 'Your game data could not be loaded. Close the game and reopen it in Kakao Pay.',
+    partner_paused: 'Game paused. Return to the game to continue.',
+    user_id: 'Neptune User ID', user_id_talk: 'KakaoTalk User ID', user_id_unavailable: 'User ID is not available yet.',
+    copy_id: 'Copy ID', id_copied: 'User ID copied.', id_copy_manual: 'Select the ID and copy it manually.',
+    send_feedback: 'Send feedback',
     // 도구
     tool_hint: 'Doku Hint', tool_locate: 'Duck Finder', tool_frog: 'Frog Hop', tool_draft: 'Doodle Pen',
     desc_hint: 'Shows your next move and why.', desc_locate: 'Finds one duck in the color you pick.',
@@ -84,9 +90,21 @@ window.DOKU_TEXTS = {
     // 홈
     play_level: 'Level {n}', play_cont: 'Continue · Level {n}', play_found: { one: '{n} duck found', other: '{n} ducks found' },
     daily_from: 'From level {n}', daily_done_at: 'Done {time}', unlock_at: 'Unlocks at level {n}', map_opens: 'Unlocks',
+    invite_btn: 'Invite', invite_title: 'Invite Friends', invite_today: 'Doku Hints received today', invite_desc: 'Get <b>+1 Doku Hint</b> for every invite<br>up to <b>{max} times</b> a day.',
+    invite_go: 'Invite', invite_done_today: 'All done for today!', res_invite: 'Invite +1', res_brag: 'Brag',
+    brag_title: 'Every duck found!', brag_level: 'Cleared level {n}! I beat a round of Dokuduck. Want to try this puzzle too?', brag_daily: 'I solved today\'s Dokuduck puzzle in {time}! Want to try it too?',
+    invite_share_title: 'Doku invited you!', invite_share_text: "It's the duck-finding puzzle I've been playing. Give it a try!", share_title: 'Is there a duck in this cell?', share_text: 'One duck in every color, row and column! Can you find where they hide?',
+    invite_sent: 'Invite sent! You get a Doku Hint when your friend joins', invite_got: 'Your friend joined! Doku Hint +{n}', share_again: 'Tap once more to share',
+    invite_in_title: 'A friend invited you!', invite_in_text: 'Accept the invite and you both get <b>+1 Doku Hint</b>.', invite_in_ok: 'Accept', invite_in_done: 'Invite accepted! The hint arrives soon', brag_card: 'Can you find every duck?', brag_copied: 'Copied! Paste it to your friends', brag_failed: "Couldn't share. Try again",
     daily_done_title: "Today's puzzle done", daily_done_text: 'A new puzzle opens tomorrow. You can replay this one for practice.', btn_practice: 'Replay for practice'
   },
   ko: {
+    partner_loading: '게임 데이터를 불러오고 있어요…',
+    partner_failed: '게임 데이터를 불러오지 못했어요. 카카오페이에서 게임을 닫고 다시 열어 주세요.',
+    partner_paused: '게임이 잠시 멈췄어요. 게임으로 돌아오면 이어서 할 수 있어요.',
+    user_id: 'Neptune 유저 ID', user_id_talk: '카카오톡 유저 ID', user_id_unavailable: '아직 유저 ID를 확인할 수 없어요.',
+    copy_id: 'ID 복사', id_copied: '유저 ID를 복사했어요.', id_copy_manual: '선택한 ID를 직접 복사해 주세요.',
+    send_feedback: '피드백 보내기',
     tool_hint: '도쿠힌트', tool_locate: '오리찾기', tool_frog: '개굴점프', tool_draft: '낙서연필',
     desc_hint: '다음 수와 그 이유를 알려줘요.', desc_locate: '선택한 색에서 오리 한 마리를 찾아줘요.',
     desc_frog: '오리가 없는 빈칸 최대 3곳에 X를 찍어요.', desc_draft: '오리를 3마리까지 미리 그려 봐요. 틀려도 하트는 그대로!',
@@ -155,6 +173,12 @@ window.DOKU_TEXTS = {
     gift_today: '오늘 한 판 깨면 받아요', gift_tomorrow: '내일 한 판 깨면 받아요', gift_more: '{n}일 더 이어가면 받아요',
     play_level: '레벨 {n}', play_cont: '이어하기 · 레벨 {n}', play_found: '오리 {n}마리 찾음',
     daily_from: '레벨 {n}부터', daily_done_at: '완료 {time}', unlock_at: '레벨 {n}부터 열려요', map_opens: '열려요',
+    invite_btn: '친구 초대', invite_title: '친구 초대하기', invite_today: '오늘 받은 도쿠힌트', invite_desc: '초대할 때마다 <b>도쿠힌트 +1개</b><br>하루 최대 <b>{max}번</b>까지 받을 수 있어요.',
+    invite_go: '초대하기', invite_done_today: '오늘은 다 받았어요!', res_invite: '초대 힌트+1', res_brag: '자랑하기',
+    brag_title: '오리 전원 발견!', brag_level: '레벨 {n} 클리어! 나 도쿠덕 한 판 깼다. 너도 이 퍼즐 풀어볼래?', brag_daily: '오늘의 도쿠덕 퍼즐 클리어! 나 {time} 만에 풀었다. 너도 풀어볼래?',
+    invite_share_title: '도쿠가 너를 초대했어!', invite_share_text: '내가 요즘 하는 오리 찾기 퍼즐이야. 너도 한 판 해봐!', share_title: '이 칸에 오리가 있을까?', share_text: '색 구역마다, 가로줄과 세로줄마다 오리가 딱 한 마리씩! 어디에 숨어 있는지 찾아봐.',
+    invite_sent: '초대를 보냈어요! 친구가 들어오면 도쿠힌트를 받아요', invite_got: '친구가 들어왔어요! 도쿠힌트 +{n}', share_again: '한 번 더 누르면 공유 창이 열려요',
+    invite_in_title: '친구가 초대했어요!', invite_in_text: '초대를 받으면 둘 다 <b>도쿠힌트 +1개</b>를 받아요.', invite_in_ok: '초대 받기', invite_in_done: '초대를 받았어요! 도쿠힌트가 곧 들어와요', brag_card: '오리 다 찾을 수 있어요?', brag_copied: '복사했어요! 친구에게 붙여 넣어 보세요', brag_failed: '공유하지 못했어요. 다시 해 볼까요?',
     daily_done_title: '오늘의 퍼즐 완료', daily_done_text: '내일 새 퍼즐이 열려요. 같은 판을 연습으로 다시 풀 수 있어요.', btn_practice: '연습으로 다시 풀기'
   }
 };

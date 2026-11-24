@@ -1,6 +1,6 @@
 // NcqLang — 엔크로키 공용 언어 모듈 (ncq/lang.js)
 // 킥오프 서버가 모든 웹 프로젝트 레포에 넣고 최신으로 맞춰요. 이 파일은 고치지 않아요 (고쳐도 다음 맞추기 때 덮여요).
-// 쓰는 법은 AGENTS.md의 '언어'에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
+// 쓰는 법은 docs/ncq/lang.md에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
 //
 //   import { NcqLang } from "./ncq/lang.js";
 //   NcqLang.init({ id: "<코드네임>", texts: { en: { play: "Play" }, ko: { play: "시작" } } });
@@ -11,12 +11,12 @@
 //
 // 기본 언어: 주소의 ?lang= (시험·스크린샷, 저장 안 함) → 고른 언어(저장) → 기기 언어(선호 순서) → 영어.
 
-const VERSION = 1;
+const VERSION = 2;
 
 // 언어 메뉴에 보일 이름 (그 언어로). 없으면 Intl.DisplayNames, 그것도 없으면 코드 그대로
 const NAMES = {
   en: "English", ko: "한국어", ja: "日本語", "zh-Hans": "简体中文", "zh-Hant": "繁體中文",
-  es: "Español", fr: "Français", de: "Deutsch", it: "Italiano", pt: "Português", "pt-BR": "Português (Brasil)",
+  es: "Español", "es-MX": "Español (México)", fr: "Français", de: "Deutsch", it: "Italiano", pt: "Português", "pt-BR": "Português (Brasil)",
   ru: "Русский", id: "Bahasa Indonesia", ms: "Bahasa Melayu", th: "ไทย", vi: "Tiếng Việt", tr: "Türkçe",
   pl: "Polski", nl: "Nederlands", ar: "العربية", hi: "हिन्दी",
 };
@@ -284,12 +284,16 @@ function date(value, options) {
   }
 }
 
-// 시험용: 언어마다 빠진 키 { ko: ["..."] } (어느 표에든 있는 키 기준). 다 있으면 {}
-function missing() {
+// 시험용: 언어마다 빠진 키 { ko: ["..."] }. required를 주면 표가 통째로 빠진 언어도 확인해요
+function missing(required) {
   const all = {};
   codes.forEach((code) => Object.keys(texts[code]).forEach((key) => { all[key] = true; }));
+  const check = codes.slice();
+  if (Array.isArray(required)) required.forEach((code) => {
+    if (typeof code === "string" && code && check.indexOf(code) < 0) check.push(code);
+  });
   const out = {};
-  codes.forEach((code) => {
+  check.forEach((code) => {
     const gaps = Object.keys(all).filter((key) => !own(texts[code], key));
     if (gaps.length) out[code] = gaps;
   });

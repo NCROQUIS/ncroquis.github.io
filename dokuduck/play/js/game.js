@@ -2,6 +2,7 @@
 (function () {
   'use strict';
   const E = window.DokuEngine, ART = window.DOKU_ART || {}, BANK = window.DOKU_BANK;
+  const Metrics = window.DokuMetrics;
   const BLANK = 0, XM = 1, DUCK = 2, WRONG = 3;
   const $ = (s, el) => (el || document).querySelector(s);
   const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
@@ -10,8 +11,10 @@
   /* 화면 글자: js/texts.js의 표에서 지금 언어로 가져와요 (NcqLang, docs/ncq/lang.md). 글자는 그릴 때마다 tr()로 가져와요. */
   function tr(k, p) {
     const L = window.NcqLang;
-    if (L && L.ready) return L.t(k, p);
-    const T = window.DOKU_TEXTS || { en: {}, ko: {} }; let v = T.en[k] !== undefined ? T.en[k] : k;   // 언어 모듈이 없을 때(미리보기 등): 영어
+    const beforeAccount = NEPTUNE && !partnerBooted;
+    if (!beforeAccount && L && L.ready) return L.t(k, p);
+    const T = window.DOKU_TEXTS || { en: {}, ko: {} }, table = T[beforeAccount ? startupLanguage() : 'en'] || T.en;
+    let v = table[k] !== undefined ? table[k] : k;
     if (v && typeof v === 'object') v = p && p.n === 1 ? v.one : v.other;
     return String(v).replace(/\{(\w+)\}/g, (w, n) => (p && p[n] !== undefined ? p[n] : w));
   }
@@ -66,7 +69,31 @@
   function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
 
   /* ---------- 저장 ---------- */
-  const SAVE_KEY = 'dokuduck.save.v2';
+  const KAKAO = window.NCQ && window.NCQ.NCQ_KAKAO;
+  const NEPTUNE = !!(KAKAO && KAKAO.provider === 'neptune');
+  // 공용 Neptune 백업은 app_id. 아래의 키만 복원해요. 다른 플랫폼의 기기 저장은 회원 계정으로 복사하지 않아요.
+  const SAVE_KEY = NEPTUNE ? KAKAO.app_id + '.dokuduck.save.v2' : 'dokuduck.save.v2';
+  let partnerBooted = false, partnerPaused = false;
+  let partnerExtraRegistered = false, partnerBackupTimer = null;
+  function partnerProgress() {
+    // 도쿠덕의 랭킹 점수는 완료한 메인 레벨 수예요. 판 안의 콤보 점수·회원 정보는 보내지 않아요.
+    const data = { schemaVersion: 1 };
+    if (Number.isSafeInteger(S.level) && S.level >= 1) { data.score = S.level - 1; data.stage = S.level; }
+    if (Number.isSafeInteger(S.wins) && S.wins >= 0) data.wins = S.wins;
+    return data;
+  }
+  function backupPartner(immediate) {
+    if (!partnerBooted || !partnerExtraRegistered) return;
+    clearTimeout(partnerBackupTimer);
+    const flush = () => {
+      if (!partnerBooted || !partnerExtraRegistered) return;
+      try {
+        const sdk = window.NcqNeptune;
+        if (sdk.status().ready) Promise.resolve(sdk.flush(!!immediate)).catch(() => {});
+      } catch (e) { /* 백업 실패는 SDK에 남기고 다음 저장 때 재시도해요. */ }
+    };
+    if (immediate) flush(); else partnerBackupTimer = setTimeout(flush, 500);
+  }
   function freshSave() {
     return {
       v: 1, tutorialDone: false, level: 1,
@@ -85,10 +112,12 @@
   function loadSave() {
     try {
       const raw = localStorage.getItem(SAVE_KEY);
-      if (!raw) return;
+      if (!raw) { Metrics.init(S, 'fresh'); return; }
       const d = JSON.parse(raw);
+      if (!d || d.v !== 1) { Metrics.init(S, 'unknown'); Metrics.step('save_read_failed', true); return; }
       if (d && d.v === 1) S = Object.assign(freshSave(), d, { tools: Object.assign(freshSave().tools, d.tools), settings: Object.assign(freshSave().settings, d.settings), daily: Object.assign(freshSave().daily, d.daily), streak: Object.assign(freshSave().streak, d.streak), dda: Object.assign(freshSave().dda, d.dda) });
-      if (!S.vs) { S.vs = newVs(); try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) { /* 이번 실행 동안만 */ } }   // 예전 저장도 이제부터 여는 판은 모양이 달라져요
+      Metrics.init(S, 'existing');
+      if (!S.vs) { S.vs = newVs(); try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) { Metrics.step('save_write_failed', true); } }   // 예전 저장도 이제부터 여는 판은 모양이 달라져요
       if (S.settings.vib !== undefined) {                                        // 예전 저장의 진동 끔은 공용 진동 설정(NcqDevice)으로 한 번 옮겨요
         if (S.settings.vib === false && window.NcqDevice) window.NcqDevice.vibration(false);
         delete S.settings.vib;
@@ -99,14 +128,16 @@
         if (S.seen.unlock21) { S.seen.tool_frog = 1; S.seen.tool_draft = 1; }
         S.tv = 2;
       }
-    } catch (e) { /* 저장소를 못 쓰는 환경에서는 이번 실행 동안만 유지 */ }
+    } catch (e) { Metrics.init(S, 'unknown'); Metrics.step('save_read_failed', true); }
   }
   function save() {
+    if (NEPTUNE && !partnerBooted) return false;
     if (G && G.status !== 'won') {
       const snap = snapshot();
       if (G.mode === 'main') S.cur = snap; else if (G.mode === 'daily') S.daily.cur = snap;
     }
-    try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) { /* 무시 */ }
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); backupPartner(false); return true; }
+    catch (e) { Metrics.step('save_write_failed', true); return false; }
   }
 
   /* ---------- 출제 정책 ----------
@@ -255,7 +286,17 @@
      켬·끔과 기기별 진동 방식(앱·토스·브라우저)은 NcqDevice가 맡아요. */
   const VIB = { ui: 'tap', x: 'light', erase: 'light', hint: 'light', quack: 'medium', frog: 'medium', wrong: 'heavy', win: 'success', lose: 'error' };
   const VIB_SUPER = [30, 90, 30];                                               // SUPER HARD 등장: 쿵, 쿵
-  function buzz(kind) { const D = window.NcqDevice; if (D && kind) { try { D.vibrate(kind); } catch (e) { /* 진동이 안 돼도 게임은 그대로 */ } } }
+  // 카카오톡 빌드: 퍼블리셔가 넣은 카카오 햅틱(window.DokuHL, HLSDK.GenerateHapticFeedback). 다른 빌드에는 없어서 NcqDevice로 울려요
+  const HL_KIND = { tap: 'tap', light: 'tickWeak', medium: 'softMedium', heavy: 'basicMedium', warning: 'wiggle', success: 'success', error: 'error' };
+  function hl() { const h = window.DokuHL; return h && typeof h.haptic === 'function' ? h : null; }
+  function buzz(kind) {
+    if (!kind) return;
+    const h = hl();
+    if (h) { try { if (typeof h.hapticEnabled !== 'function' || h.hapticEnabled()) h.haptic(Array.isArray(kind) ? 'basicMedium' : (HL_KIND[kind] || 'tap')); } catch (e) { /* 진동이 안 돼도 게임은 그대로 */ } return; }
+    const D = window.NcqDevice; if (D) { try { D.vibrate(kind); } catch (e) { /* 진동이 안 돼도 게임은 그대로 */ } }
+  }
+  function vibOn() { const h = hl(); if (h) { try { return typeof h.hapticEnabled === 'function' ? !!h.hapticEnabled() : true; } catch (e) { return true; } } const D = window.NcqDevice; return !!(D && D.vibration()); }
+  function vibSet(on) { const h = hl(); if (h) { try { if (typeof h.setHapticEnabled === 'function') h.setHapticEnabled(on); } catch (e) { /* 무시 */ } return; } const D = window.NcqDevice; if (D) D.vibration(on); }
   function cue(name, vib) { Snd.play(name); buzz(vib === undefined ? VIB[name] : vib); }   // 소리 + 그 소리에 맞는 진동 (vib를 주면 그 진동, null이면 진동 없이)
 
   /* ---------- 구역 모양: 격자 외곽선을 따라가며 마커로 칠한 듯 살짝 흔들리는 경로를 만든다 ---------- */
@@ -513,9 +554,34 @@
   /* ---------- 게임 상태 ---------- */
   let G = null, screen = '', modalOpen = false;
   const UI = { mode: 'play', hint: null, busy: false };
+  let metricModal = null, modalEpoch = 0, bootMainSnapshot = null, bootDailySnapshot = null;
+  function metricRestore() {
+    const g = screen === 'game' ? G : null;
+    if (adBusy) return Metrics.flow('ad_wait', g);
+    if (modalOpen && metricModal) return Metrics.flow(metricModal, g);
+    if (!g) return screen === 'home' ? Metrics.flow('lobby', null) : undefined;
+    if (!$('#tier').hidden) return Metrics.flow('tier_intro', g);
+    if (g.status === 'won') return Metrics.flow(g.metricResultShown ? (g.metricStreakResult ? 'streak_result' : 'result') : 'clear_anim', g);
+    if (g.status === 'lost') return; // 실패 창을 닫고 홈으로 가는 순간을 조작 가능한 판으로 만들지 않는다.
+    if (g.tut) return Metrics.tutorialPrompt(g.tut.step, g);
+    if (g.tt) return Metrics.flow('tool_trial', g);
+    if (UI.hint) return Metrics.flow('hint_open', g);
+    if (UI.mode === 'locate') return Metrics.flow('locate_pick', g);
+    if (UI.mode === 'draft') return Metrics.flow('draft_open', g);
+    if (!UI.busy) Metrics.flow(g.metricView || 'board_ready', g);
+  }
+  function metricGame(state) { if (G) G.metricView = state; metricRestore(); }
+  function metricAction() {
+    if (!G || G.tut || G.tt) return;
+    Metrics.action(G);
+    if (G.metricView !== 'playing') metricGame('playing');
+  }
+  function metricTrialDone(tool) {
+    if (G && G.tt && G.tt.tool === tool) Metrics.step(tool + '_done');
+  }
 
   function snapshot() {
-    return { mode: G.mode, level: G.level, day: G.day, pk: G.pk, hard: G.hard, tier: G.tier, marks: Array.from(G.marks), hearts: G.hearts, found: G.found, mistakes: G.mistakes, score: G.score, combo: G.combo, secs: G.secs, used: G.used, revives: G.revives, status: G.status, lethal: G.lethal, attempt: G.attempt, practice: G.practice };
+    return { mode: G.mode, level: G.level, day: G.day, pk: G.pk, hard: G.hard, tier: G.tier, marks: Array.from(G.marks), hearts: G.hearts, found: G.found, mistakes: G.mistakes, score: G.score, combo: G.combo, secs: G.secs, used: G.used, revives: G.revives, status: G.status, lethal: G.lethal, attempt: G.attempt, practice: G.practice, metrics: G.metrics };
   }
   function setupGame(mode, opt, snap) {
     const built = buildPuzzle(opt.pk), b = built.b, n = b.n;
@@ -530,21 +596,28 @@
     if (snap) {
       G.marks = Uint8Array.from(snap.marks); G.hearts = snap.hearts; G.found = snap.found; G.mistakes = snap.mistakes; G.score = snap.score; G.combo = snap.combo;
       G.secs = snap.secs; G.used = snap.used; G.revives = snap.revives; G.status = snap.status; G.lethal = snap.lethal || null; G.attempt = snap.attempt || 1; G.practice = !!snap.practice;
+      G.metrics = snap.metrics ? Object.assign({}, snap.metrics) : null;
     } else built.pre.forEach(c => { G.marks[c] = DUCK; G.found++; });
+    Metrics.prepare(G); G.metricView = 'board_ready';
     UI.mode = 'play'; UI.hint = null; UI.busy = false; lastTap.cell = -1;
   }
   function startMain(resume) {
+    const fromBoot = resume && S.cur && S.cur === bootMainSnapshot && S.cur.level === S.level;
     if (resume && S.cur && S.cur.level === S.level) setupGame('main', S.cur, S.cur);
     else { const p = pickMain(S.level); setupGame('main', { pk: p.pk, level: S.level, hard: p.hard, tier: p.tier }); }
+    if (fromBoot) { Metrics.step('saved_main_resume'); bootMainSnapshot = null; }
     enterGame(!(resume && S.cur && S.cur.level === S.level));
   }
   function startDaily(practice) {
     const day = dayIndex(), cur = S.daily.cur;
+    const fromBoot = !practice && cur && cur === bootDailySnapshot && cur.day === day && cur.status !== 'won';
     if (!practice && cur && cur.day === day && cur.status !== 'won') setupGame('daily', cur, cur);
     else { const p = pickDaily(day); setupGame('daily', { pk: p.pk, day: day, practice: !!practice }); }
+    if (fromBoot) { Metrics.step('saved_daily_resume'); bootDailySnapshot = null; }
     enterGame();
   }
   function enterGame(fresh) {
+    Metrics.start(G); Metrics.checkpoint(G, 'start');
     show('game');
     $('#guide').hidden = true; $('#hintbar').hidden = true; $('#draftbar').hidden = true; toolsShown(true); $('#tools').classList.remove('dim'); ttMark(null); ttDraft(0); spot(false); okDim(false); $('#tier').hidden = true;
     $('#btn-rules').hidden = false; $('#hearts-row').hidden = false; $('#colors-row').hidden = false;
@@ -552,7 +625,7 @@
     View.build(); hud(true); status('');
     requestAnimationFrame(() => View.fit());
     save();
-    if (G.status === 'lost') setTimeout(showFail, 300);
+    if (G.status === 'lost') { const g = G; setTimeout(() => { if (G === g && screen === 'game' && g.status === 'lost') showFail(); }, 300); }
     else if (G.mode === 'main') {
       const g = G, tool = () => {                                               // 새로 열린 도구가 있으면 소개하고 한 번 써 보게 해요
         const t = ['locate', 'frog', 'draft'].find(k => G.level >= TOOL_UNLOCK[k] && !S.seen['tool_' + k]);
@@ -566,6 +639,7 @@
         }, 250);
       } else setTimeout(tool, 450);
     }
+    metricRestore();
   }
   // HARD·SUPER HARD 판 시작 알림: 1초쯤 자동으로 나왔다가 사라져요 (글자는 영어로만 크게)
   let tierTok = 0;
@@ -573,11 +647,11 @@
     const el = $('#tier'), g = G, tok = ++tierTok;
     $('#tier-duck').src = ART[t === 2 ? 'duck_super' : 'duck_hard'] || ART.duck_think;
     $('#tier-title').textContent = TIER_NAME[t]; $('#tier-line').textContent = tr(t === 2 ? 'tier_line_2' : 'tier_line_1');
-    el.className = 'tier t' + t; el.hidden = false; UI.busy = true; cue('hint', t === 2 ? VIB_SUPER : 'heavy');
+    el.className = 'tier t' + t; el.hidden = false; UI.busy = true; cue('hint', t === 2 ? VIB_SUPER : 'heavy'); metricRestore();
     setTimeout(() => {
       if (tok !== tierTok) return;
       el.hidden = true;
-      if (G === g) { UI.busy = false; if (done) done(); }
+      if (G === g) { UI.busy = false; metricRestore(); if (done) done(); }
     }, 1500);
   }
 
@@ -622,7 +696,7 @@
   let ptr = null;
   const lastTap = { cell: -1, time: 0 };
   function dblMs() { return S.settings.slow ? 500 : 350; }
-  function canInput() { return G && G.status === 'play' && !UI.busy && !modalOpen && !UI.hint && !(G.tt && G.tt.step === 1); }
+  function canInput() { return !partnerPaused && G && G.status === 'play' && !UI.busy && !modalOpen && !UI.hint && !(G.tt && G.tt.step === 1); }
   function editable(i) {
     if (G.tut) return G.tut.allow ? G.tut.allow.has(i) : G.tut.free;
     const k = ttdKind(); if (k !== null) return !!k && i === ttdCell();          // 낙서연필 써 보기: 표시된 칸만
@@ -648,8 +722,8 @@
     }
     if (G.tut && G.tut.kind === 'duck' && !start) return;
     if (ptr.pmode === null) ptr.pmode = m === BLANK ? 'add' : 'erase';
-    if (ptr.pmode === 'add' && m === BLANK) { G.marks[i] = XM; G.rev++; View.cell(i, true); cue('x'); }
-    else if (ptr.pmode === 'erase' && m === XM) { G.marks[i] = BLANK; G.rev++; View.erase(i); cue('erase'); }
+    if (ptr.pmode === 'add' && m === BLANK) { G.marks[i] = XM; G.rev++; metricAction(); View.cell(i, true); cue('x'); }
+    else if (ptr.pmode === 'erase' && m === XM) { G.marks[i] = BLANK; G.rev++; metricAction(); View.erase(i); cue('erase'); }
   }
   function lineCells(a, b) {
     const n = G.n, out = [];
@@ -661,11 +735,12 @@
   }
   function onDown(e) {
     Snd.ensure();
+    if (ptr && ptr.id !== e.pointerId && performance.now() - ptr.t > 600) ptr = null;   // 아이폰: 손 뗀 신호를 못 받아 남은 누르기는 새 누르기에서 버려요
     if (ptr || !canInput()) return;
     const i = View.cellAt(e); if (i < 0) return;
     e.preventDefault();
     try { $('#board').setPointerCapture(e.pointerId); } catch (err) { /* 무시 */ }
-    ptr = { id: e.pointerId, last: i, pmode: null, done: false };
+    ptr = { id: e.pointerId, last: i, pmode: null, done: false, t: performance.now() };
     if (G.tut && View.handEl) { View.handEl.style.opacity = 0; if (View.ringEl) View.ringEl.style.display = 'none'; }
     if (UI.mode === 'locate') { ptr.pick = i; locateHover(i); return; }                 // 손을 댄 구역을 점선으로 보여 주고, 떼면 그 구역으로 정해요
     const now = performance.now();
@@ -717,7 +792,7 @@
     return tr(sameReg ? 'wrong_color' : sameLine ? 'wrong_line' : adj ? 'wrong_adj' : 'wrong_spot');
   }
   function placeDuck(i, scored) {
-    G.marks[i] = DUCK; G.found++; G.rev++; G.paidHint = null;
+    G.marks[i] = DUCK; G.found++; G.rev++; G.paidHint = null; metricAction();
     if (scored) { G.combo = Math.min(COMBO_MAX, G.combo + 1); const pts = 100 * G.combo; G.score += pts; View.float(i, '+' + pts, G.combo > 1 ? tr('combo', { n: G.combo }) : ''); }
     View.cell(i, true); View.burst(i); cue('quack', G.found >= G.n ? null : undefined); hud();   // 마지막 오리는 바로 이어지는 클리어 진동에 맡겨요
     if (G.found >= G.n) { win(); return true; }
@@ -740,12 +815,15 @@
     }
     if (G.tut && G.tut.kind === 'x') return;
     if (G.b.solSet[i]) {
+      if (G.tut && G.tut.kind === 'duck') Metrics.tutorialDone(G.tut.step);
       const done = placeDuck(i, true);
       if (!done) { save(); if (G.tut) tutProgress(); }
       return;
     }
     if (G.tut) { G.marks[i] = BLANK; View.cell(i); toast(tr('tut_wrong')); cue('wrong'); shake(i); return; }
     G.marks[i] = WRONG; G.rev++; G.paidHint = null; G.hearts--; G.mistakes++; G.combo = 0;
+    if (G.mode === 'main') Metrics.step('mistake');
+    if (G.hearts === 1) metricGame('hearts_low'); else if (G.hearts > 1 && G.mistakes === 1) metricGame('first_mistake');
     toast(wrongReason(i)); cue('wrong', G.hearts <= 0 ? null : G.hearts === 1 ? 'warning' : undefined); shake(i);   // 하트 1개 남으면 조심 신호, 다 쓰면 lose()의 실패 진동
     View.overlay(i, '<img class="mk duck" src="' + ART.duck_oops + '" alt="" style="animation:blink .25s 2">');
     setTimeout(() => { $$('.ov', View.cells[i]).forEach(x => x.remove()); View.cell(i, true); }, 480);
@@ -763,16 +841,17 @@
   }
   function streakNow() { return S.streak.last >= dayIndex() - 1 ? S.streak.count : 0; }   // 하루를 건너뛰면 끊긴 것으로 보여 줘요
   function streakWin(rewards, notes) {                                          // 그날 처음 깬 판이면 그 일차 선물을 줘요
-    const d = touchStreak(); if (!d) return;
+    const d = touchStreak(); if (!d) return false;
     const o = {}; streakGift(d).forEach(r => { o[r[0]] = (o[r[0]] || 0) + r[1]; rewards.push(r); });
     grant(o); notes.push(d === 7 ? tr('gift_streak7') : tr('gift_streak', { n: d }));
+    return true;
   }
   function grant(items) { Object.keys(items).forEach(k => { S.tools[k] = Math.min(999999, (S.tools[k] || 0) + items[k]); }); }
   function win() {
     const g0 = G;
     G.status = 'won'; UI.busy = true; ttEnd(); spot(false);
     const bonus = G.hearts * 200; G.score += bonus;
-    const rewards = [], notes = [];
+    const rewards = [], notes = []; let streakReward = false;
     if (G.mode === 'main') {
       ddaAfterWin();
       S.wins++; S.level = Math.max(S.level, G.level + 1); S.cur = null;
@@ -782,28 +861,32 @@
         S.milestones[G.level] = 1; const items = {}; gift.forEach(r => { items[r[0]] = (items[r[0]] || 0) + r[1]; rewards.push(r); });
         grant(items); notes.push(tr('gift_tier', { tier: TIER_NAME[tierOf(G.level)] }));
       }
-      streakWin(rewards, notes);
+      streakReward = streakWin(rewards, notes);
     } else if (G.mode === 'daily') {
       S.daily.cur = null;
       if (!G.practice) {
-        if (S.daily.done[G.day] === undefined) { S.daily.done[G.day] = G.secs; S.daily.count++; streakWin(rewards, notes); }
+        if (S.daily.done[G.day] === undefined) { S.daily.done[G.day] = G.secs; S.daily.count++; streakReward = streakWin(rewards, notes); }
         if (S.daily.best === null || G.secs < S.daily.best) S.daily.best = G.secs;
       }
     } else if (G.mode === 'tutorial') S.tutorialDone = true;
-    save();
+    Metrics.checkpoint(G, 'clear'); Metrics.end(G, true);
+    const persisted = save(); G.metricStreakResult = !!streakReward && persisted;
+    if (G.mode === 'main' && S.level >= DAILY_UNLOCK) Metrics.step('daily_unlocked');
+    metricGame('clear_anim');
     cue('win');
     View.clearOverlays(); View.confetti();
     // 마지막 오리가 먼저 "여어!" 하고 손을 내린 다음(약 1.1초), 한 박자 쉬고 다 같이 "여어!"
     setTimeout(() => $$('.dk', $('#cells')).forEach(el => { el.classList.remove('in', 'settle'); el.classList.add('hop'); View.wave(el, 850); }), 1350);
     setTimeout(() => { if (G === g0) buzz('medium'); }, 1350);                    // 다 같이 '여어!' 할 때 한 번 톡
-    setTimeout(() => showResult(rewards, notes, bonus), 2700);
+    setTimeout(() => { if (G === g0 && screen === 'game' && g0.status === 'won') showResult(rewards, notes, bonus); }, 2700);
   }
   function lose() {
-    G.status = 'lost'; G.combo = 0; ttEnd(); save();
+    G.status = 'lost'; G.combo = 0; Metrics.step('hearts_empty'); ttEnd(); save();
     cue('lose');
-    setTimeout(showFail, 650);
+    const g = G; setTimeout(() => { if (G === g && screen === 'game' && g.status === 'lost') showFail(); }, 650);
   }
   function restartSame() {
+    if (G.status === 'lost') { Metrics.step('fail_retry'); Metrics.end(G, false); }
     const keepUsed = G.used, attempt = G.attempt + 1, mode = G.mode, opt = { pk: G.pk, level: G.level, day: G.day, hard: G.hard, tier: G.tier, practice: G.practice };
     setupGame(mode, opt); G.used = keepUsed; G.attempt = attempt;
     closeModal(); enterGame();
@@ -811,6 +894,7 @@
   function revive() {
     if (G.lethal) { G.lethal.forEach(c => { if (G.marks[c] === WRONG) G.marks[c] = BLANK; }); G.lethal = null; }
     G.hearts = 3; G.combo = 0; G.revives++; G.status = 'play'; UI.busy = false;
+    Metrics.step('revive'); G.metricView = 'playing';
     closeModal(); for (let i = 0; i < G.n * G.n; i++) View.cell(i); hud(); save(); toast(tr('revived')); buzz('success');
   }
 
@@ -820,22 +904,23 @@
     // (도구가 다 떨어졌을 때 '광고 보고 +1')
     const head = '<img class="hero" src="' + ART.duck_think + '" alt=""><h2>' + tr('need_title', { tool: isKo() ? iga(toolName(t)) : toolName(t) }) + '</h2>';
     if (!NcqAds.can("TOOL")) {                                                  // 광고를 끈 빌드: 버튼 없이 모으는 방법만 알려 줘요
-      return openModal(head + '<p>' + tr('need_noad') + '</p><div class="col"><button class="btn primary" data-act="close">' + tr('close') + '</button></div>', {});
+      return openModal(head + '<p>' + tr('need_noad') + '</p><div class="col"><button class="btn primary" data-act="close">' + tr('close') + '</button></div>', {}, false, 'tool_empty');
     }
     openModal(head + '<p>' + tr('need_ad', { tool: toolName(t) }) + '</p>' +
       '<div class="col"><button class="btn primary" data-act="ad">' + icon(TOOL_ICON[t]) + tr('btn_ad_plus') + '</button><button class="btn ghost" data-act="close">' + tr('close') + '</button></div>' + (ADS_DEV ? '<p class="note">' + tr('dev_tool') + '</p>' : ''),
       {
         async ad() {
           if (adBusy) return;
-          const g = G; adBusy = true;
+          const g = G, epoch = modalEpoch; adBusy = true; metricRestore();
           let ok = false; try { ok = await NcqAds.rewarded("TOOL"); } catch (e) { ok = false; }   // 끝까지 봤을 때만 true예요
           adBusy = false;
-          if (!ok) return;                                                      // 중간에 닫았거나 광고가 없으면 그대로 둬요 (안내는 NcqAds가 해요)
+          if (G !== g || screen !== 'game' || modalEpoch !== epoch) { metricRestore(); return; }
+          if (!ok) { metricRestore(); return; }                                                      // 중간에 닫았거나 광고가 없으면 그대로 둬요 (안내는 NcqAds가 해요)
           grant({ [t]: 1 }); save(); buzz('success');
           if (G === g) { closeModal(); hud(); }
           toast(toolName(t) + ' +1');
         }
-      });
+      }, false, 'tool_empty');
   }
   function useTool(t) {
     if (!G || G.status !== 'play' || UI.busy) return;
@@ -863,7 +948,7 @@
     $('#tools').classList.toggle('dim', m !== 'play');
     $('#draftbar').hidden = m !== 'draft'; toolsShown(!(m === 'draft'));
     status(m === 'locate' ? tr('locate_pick') : '');
-    hud(); requestAnimationFrame(() => View.fit());
+    hud(); requestAnimationFrame(() => View.fit()); metricRestore();
   }
 
   // 힌트
@@ -914,7 +999,9 @@
     $('#hint-more').hidden = !(h.chain && h.chain.forced.length);
     $('#hintbar').hidden = false; toolsShown(false); status('');
     $('#hint-apply').classList.toggle('nudge', !!(G.tut && G.tut.kind === 'hint'));   // 튜토리얼의 힌트: '확인'을 누르라고 까딱까딱
+    Metrics.step(G.tut ? 'tut_hint_open' : 'hint_open');
     drawHint(h, false); hud(); requestAnimationFrame(() => View.fit());
+    metricRestore();
     if (G.tut && G.tut.kind === 'hint') { spot(false); ttMark(null); tutGuide(tr('tut_hint'), 'duck_joy'); }
   }
   function hintClose(apply) {
@@ -922,19 +1009,20 @@
     UI.hint = null; View.clearOverlays(); dimSync();
     $('#hintbar').hidden = true; toolsShown(true);
     if (apply) {
+      Metrics.step(G.tut ? 'tut_hint_apply' : 'hint_apply');
       G.paidHint = null;
       if (h.action === 'duck') { placeDuck(h.targets[0], false); }
-      else { h.targets.forEach(c => { G.marks[c] = h.action === 'x' ? XM : BLANK; View.cell(c, true); }); G.rev++; cue('x'); }
+      else { h.targets.forEach(c => { G.marks[c] = h.action === 'x' ? XM : BLANK; View.cell(c, true); }); G.rev++; cue('x'); metricAction(); }
       if (G.status === 'play') { save(); if (G.tut) tutProgress(); }
     }
-    requestAnimationFrame(() => View.fit());
+    requestAnimationFrame(() => View.fit()); metricRestore();
   }
 
   // 오리 찾기: 색을 고르면 그 색의 오리 한 마리를 알려 준다
   function openRegs() { const a = E.analyze(G.b, G.marks), r = []; for (let g = 0; g < G.n; g++) if (!a.regHas[g]) r.push(g); return r; }
   function locateReveal(g) {
     const cell = G.b.regCells[g].find(c => G.b.solSet[c]);
-    spend('locate'); setMode('play');
+    spend('locate'); setMode('play'); metricTrialDone('locate');
     if (!placeDuck(cell, false)) save();
     if (G.tt) { G.tt.show = [cell]; ttStep(3); }
   }
@@ -952,6 +1040,7 @@
 
   // 개구리: 오리가 없는 빈칸 최대 3곳에 X
   async function frogGo() {
+    const g = G;
     const a = E.analyze(G.b, G.marks), n = G.n, R = Math.random;
     const blanks = []; for (let i = 0; i < n * n; i++) if (G.marks[i] === BLANK && !G.b.solSet[i]) blanks.push(i);
     const pri = shuffled(blanks.filter(i => !a.regHas[G.b.reg[i]]), R), rest = shuffled(blanks.filter(i => a.regHas[G.b.reg[i]]), R);
@@ -966,14 +1055,18 @@
     const fx = $('#fx'), frog = document.createElement('img'); frog.className = 'frog'; frog.src = ART.ic_frog; frog.alt = '';
     frog.style.left = '50%'; frog.style.top = '108%'; fx.appendChild(frog);
     await wait(40);
+    if (G !== g || screen !== 'game') { frog.remove(); return; }
     for (const c of (targets.length ? targets : [giveDuck])) {
       const p = View.center(c); frog.style.left = p[0] + '%'; frog.style.top = p[1] + '%';
       frog.classList.remove('jump'); void frog.offsetWidth; frog.classList.add('jump'); cue('frog');
       await wait(520);
+      if (G !== g || screen !== 'game') { frog.remove(); return; }
       if (targets.length) { G.marks[c] = XM; G.rev++; View.cell(c, true); cue('x'); }
       await wait(160);
+      if (G !== g || screen !== 'game') { frog.remove(); return; }
     }
-    frog.remove(); UI.busy = false; G.paidHint = null;
+    frog.remove(); UI.busy = false; G.paidHint = null; metricTrialDone('frog');
+    if (targets.length) metricAction();
     if (!targets.length) { if (!placeDuck(giveDuck, false)) save(); } else save();
     hud();
     if (G.tt) { G.tt.show = targets.length ? targets : [giveDuck]; ttStep(3); }
@@ -999,9 +1092,9 @@
     for (let i = 0; i < n * n; i++) { if (d[i] === 2) (G.b.solSet[i] ? right : wrong).push(i); else if (d[i] === 1) xs.push(i); }
     if (!wrong.length && !right.length && !xs.length) return draftCancel();      // 아무것도 안 그렸으면 그냥 닫아요 (연필도 안 써요)
     G.draft = null; setMode('play'); G.paidHint = null;
-    spend('draft');
+    spend('draft'); metricTrialDone('draft');
     xs.concat(wrong).forEach(c => { G.marks[c] = XM; });                        // 틀린 낙서 오리는 하트를 깎지 않고 X로 바꿔요
-    G.rev++;
+    G.rev++; metricAction();
     for (let i = 0; i < n * n; i++) View.cell(i);
     wrong.forEach(c => {                                                        // 틀린 자리: 오리가 '앗' 하고는 X가 돼요
       shake(c); View.overlay(c, '<img class="mk duck" src="' + ART.duck_oops + '" alt="" style="animation:blink .25s 2">');
@@ -1020,34 +1113,44 @@
   function show(name) {
     screen = name;
     $('#scr-home').hidden = name !== 'home'; $('#scr-game').hidden = name !== 'game';
-    if (name === 'home') renderHome();
+    if (name === 'home') { renderHome(); metricRestore(); }
   }
-  function openModal(html, acts, dismissable) {
-    modalOpen = true;
+  function openModal(html, acts, dismissable, metricState) {
+    modalOpen = true; metricModal = metricState || null; modalEpoch++;
     // 창에는 X 버튼을 두지 않아요. 닫을 수 있는 창은 맨 아래에 큰 '닫기' 버튼을 둬요 (dismissable은 뒤로가기·바깥 누르기로도 닫힘)
-    const sheet = $('#sheet'); sheet.innerHTML = html + (dismissable && html.indexOf('data-act="close"') < 0 ? '<div class="col"><button class="btn ghost" data-act="close">' + tr('close') + '</button></div>' : '');
+    const sheet = $('#sheet'); sheet.classList.toggle('settings-sheet', metricState === 'settings');
+    $('#modal').classList.toggle('settings-modal', metricState === 'settings');
+    sheet.innerHTML = html + (dismissable && html.indexOf('data-act="close"') < 0 ? '<div class="col"><button class="btn ghost" data-act="close">' + tr('close') + '</button></div>' : '');
     sheet._acts = acts || {}; $('#modal').hidden = false; sheet.scrollTop = 0;
+    if (metricState === 'tool_empty') Metrics.step('tool_empty');
+    metricRestore();
     $$('[data-count]', sheet).forEach(el => {
       const to = +el.dataset.count, t0 = performance.now() + 250;
       (function step(now) { const k = Math.max(0, Math.min(1, (now - t0) / 650)); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1 && el.isConnected) requestAnimationFrame(step); })(performance.now());
     });
   }
-  function closeModal() { modalOpen = false; $('#modal').hidden = true; }
+  function closeModal() { modalOpen = false; metricModal = null; modalEpoch++; $('#modal').hidden = true; metricRestore(); }
   function rewardHTML(list) { return list.length ? '<div class="rewards">' + list.map(r => '<span class="reward">' + icon(TOOL_ICON[r[0]]) + toolName(r[0]) + ' +' + r[1] + '</span>').join('') + '</div>' : ''; }
 
   function showResult(rewards, notes, bonus) {
-    UI.busy = false;
+    UI.busy = false; G.metricResultShown = true;
+    Metrics.checkpoint(G, 'result');
     const usedN = G.used.hint + G.used.locate + G.used.frog + G.used.draft;
     let h = '<img class="hero joy" src="' + ART.duck_joy + '" alt="">';
+    if (G.mode !== 'tutorial') {                                               // 오리 양옆: 왼쪽 친구 초대(힌트 +1), 오른쪽 자랑하기. 아래 끝을 오리 발뒤꿈치에 맞춰요
+      h = '<div class="res-top">' + (inviteOn() ? '<button class="res-invite' + (inviteLeft() ? '' : ' off') + '" data-act="invite" type="button">' + bulbBadge() + '<em data-invite-label>' + inviteLabel() + '</em></button>' : '<span></span>') + h +
+        '<button class="res-brag" data-act="brag" type="button">' + icon('ic_star') + tr('res_brag') + '</button></div>';
+    }
     if (G.mode === 'tutorial') {
       h += '<h2>' + tr('tut_done_title') + '</h2><p>' + tr('tut_done_text') + '</p><div class="col"><button class="btn big primary" data-act="next">' + tr('btn_level1') + '</button></div>';
-      return openModal(h, { next() { closeModal(); adBanner(); startMain(false); } });
+      return openModal(h, { next() { closeModal(); adBanner(); startMain(false); } }, false, 'result');
     }
     h += '<h2>' + (G.mode === 'main' ? tr('res_level', { n: G.level }) : G.practice ? tr('res_practice') : tr('res_daily')) + '</h2><p>' + tr(pick(LINE_CLEAR)) + '</p>';
     h += '<div class="stats"><div class="stat"><span>' + tr('stat_time') + '</span><b>' + fmtTime(G.secs) + '</b></div><div class="stat"><span>' + tr('stat_mistakes') + '</span><b>' + G.mistakes + '</b></div><div class="stat"><span>' + tr(G.mode === 'daily' ? 'stat_best' : 'lbl_score') + '</span><b>' + (G.mode === 'daily' ? fmtTime(S.daily.best) : '<i data-count="' + G.score + '" style="font-style:normal">0</i>') + '</b></div></div>';
     if (G.mode === 'main') h += '<p class="note">' + tr('res_note', { bonus: bonus, n: usedN }) + '</p>';
     if (rewards.length) h += '<p>' + notes.join(' · ') + '</p>' + rewardHTML(rewards);
     h += '<div class="col"><button class="btn big primary" data-act="next">' + (G.mode === 'main' ? tr('btn_next') : tr('btn_cont_level', { n: S.level })) + '</button><button class="btn ghost" data-act="home">' + icon('ic_home') + tr('btn_home') + '</button></div>';
+    const shareSnap = { mode: G.mode, level: G.level, practice: G.practice, secs: G.secs, mistakes: G.mistakes, score: G.score };
     const adAfter = G.mode === 'main' && (S.adN || 0) >= AD_CLEAR_EVERY;
     openModal(h, {
       async next() {
@@ -1055,15 +1158,18 @@
         if (adAfter) {
           // NCQ_ADS_LEVEL_CLEAR: 레벨 클리어 전면 광고
           // (5레벨을 넘긴 뒤 3판마다, 깬 뒤 '다음 레벨'을 누를 때. 못 보여 줬으면 다음 판을 깬 뒤에 다시 시도해요)
-          adBusy = true;
+          const g = G, epoch = modalEpoch; adBusy = true; metricRestore();
           let shown = false; try { shown = await NcqAds.interstitial("LEVEL_CLEAR"); } catch (e) { shown = false; }
           adBusy = false;
+          if (G !== g || screen !== 'game' || modalEpoch !== epoch) { metricRestore(); return; }
           if (shown) { S.adN = 0; save(); }
         }
         closeModal(); startMain(true);
       },
-      home() { if (adBusy) return; closeModal(); G = null; show('home'); }
-    });
+      home() { if (adBusy) return; closeModal(); G = null; show('home'); },
+      async invite(btn) { if (adBusy) return; const ok = await doInvite(btn); },
+      brag(btn) { if (adBusy) return; brag(shareSnap, btn); }
+    }, false, G.metricStreakResult ? 'streak_result' : 'result');
   }
   function showFail() {
     UI.busy = false;
@@ -1076,21 +1182,22 @@
       {
         async revive() {
           if (adBusy) return;
-          const g = G; adBusy = true;
+          const g = G, epoch = modalEpoch; adBusy = true; metricRestore();
           let ok = false; try { ok = await NcqAds.rewarded("REVIVE"); } catch (e) { ok = false; }   // 끝까지 봤을 때만 이어 해요
           adBusy = false;
-          if (ok && G === g && G.status === 'lost') revive();
+          if (ok && G === g && screen === 'game' && modalEpoch === epoch && G.status === 'lost') revive();
+          else metricRestore();
         },
         restart() { if (!adBusy) restartSame(); },
         home() { if (adBusy) return; closeModal(); save(); G = null; show('home'); }
-      });
+      }, false, 'hearts_empty');
   }
   function showUnlock(t) {
-    buzz('success');
+    buzz('success'); Metrics.step(t + '_intro');
     openModal('<img class="hero" src="' + ART.duck_joy + '" alt=""><h2>' + tr('unlock_title') + '</h2>' +
       '<div class="opt">' + icon(TOOL_ICON[t]) + '<span class="l">' + toolName(t) + '<small>' + tr('desc_' + t) + '</small></span></div>' +
       (t === 'draft' ? '<div class="opt">' + icon('ic_calendar') + '<span class="l">' + tr('lbl_daily') + '<small>' + tr('unlock_daily') + '</small></span></div>' : '') +
-      '<div class="col"><button class="btn primary" data-act="go">' + tr('btn_try') + '</button></div>', { go() { closeModal(); ttStart(t); } });
+      '<div class="col"><button class="btn primary" data-act="go">' + tr('btn_try') + '</button></div>', { go() { closeModal(); ttStart(t); } }, false, 'tool_intro');
   }
 
   /* ---------- 새 도구 한 번 써 보기 (도구가 열리는 판에서 짧게) ---------- */
@@ -1137,7 +1244,7 @@
   function okDim(on, cells) { okOn = !!on; okCells = on && cells && cells.length ? cells : null; dimSync(); }
   function ttStart(t) {
     if (!G || G.status !== 'play' || screen !== 'game') return;
-    G.tt = { tool: t, step: 0, free: false };
+    G.tt = { tool: t, step: 0, free: false }; Metrics.step(t + '_start');
     $('#btn-rules').hidden = true; $('#guide').hidden = false;
     ttStep(1);
   }
@@ -1161,6 +1268,7 @@
     tutGuide(tr(TT_TEXT[T.tool][s - 1]), last ? 'duck_joy' : s === 1 ? 'duck_hello' : 'duck_think', last ? () => { cue('ui'); ttEnd(); } : null, last ? T.show : null);
     ttMark(s === 1 ? T.tool : null);
     if (T.tool === 'draft') ttDraft(s);
+    metricRestore();
   }
   function ttEnd() {
     if (!G || !G.tt) return;
@@ -1168,7 +1276,7 @@
     G.tt = null; ttMark(null); if (wasDraft) ttDraft(0);
     if ($('#scr-game').classList.contains('okhole')) View.dimOff();
     $('#guide').hidden = true; okDim(false); $('#btn-rules').hidden = false;
-    save(); requestAnimationFrame(() => View.fit());
+    save(); requestAnimationFrame(() => View.fit()); metricRestore();
   }
   function showRules() {
     const sq = (x, y, f) => '<rect x="' + x + '" y="' + y + '" width="18" height="18" rx="4" fill="' + f + '"/>';
@@ -1180,7 +1288,7 @@
     const g3 = sq(2, 2, M) + sq(22, 2, M) + sq(42, 2, M) + sq(2, 22, M) + sq(22, 22, M) + sq(42, 22, M) + sq(2, 42, M) + sq(22, 42, M) + sq(42, 42, M) + dk(22, 22) + xx(2, 2) + xx(42, 2) + xx(2, 42) + xx(42, 42);
     const card = (g, t) => '<div class="rulecard"><svg viewBox="0 0 62 62">' + g + '</svg><p>' + t + '</p></div>';
     openModal('<h2>' + tr('rules_title') + '</h2>' + card(g1, tr('rule_1')) + card(g2, tr('rule_2')) + card(g3, tr('rule_3')) +
-      '<p class="note">' + tr('rules_note') + '</p><div class="col"><button class="btn primary" data-act="close">' + tr('close') + '</button></div>', {}, true);
+      '<p class="note">' + tr('rules_note') + '</p><div class="col"><button class="btn primary" data-act="close">' + tr('close') + '</button></div>', {}, true, 'rules');
   }
   function ruleGrid(kind) {
     const col = { color: ['#F7A8C4', '#F1E4C6'], line: ['#8FCDF2', '#8FCDF2'], adj: ['#8FDDB5', '#8FDDB5'] }[kind];
@@ -1201,47 +1309,287 @@
     const title = L.lang === 'en' ? 'Language' : tr('language') + ' · Language';   // 읽지 못하는 언어여도 찾아 돌아올 수 있게 영어도 같이
     return '<div class="opt lang"><span class="l">' + title + '</span><span class="seg">' + L.list().map(o => '<button type="button" class="segb' + (o.current ? ' on' : '') + '" data-lang="' + o.code + '" aria-pressed="' + o.current + '">' + o.name + '</button>').join('') + '</span></div>';
   }
-  function vibRow() { const D = window.NcqDevice; return D && D.canVibrate() ? sw('vib', tr('set_vib'), '', '', D.vibration()) : ''; }   // 진동이 안 되는 곳(아이폰 브라우저·컴퓨터)에서는 칸을 숨겨요
+  function vibRow() { const D = window.NcqDevice; return hl() || (D && D.canVibrate()) ? sw('vib', tr('set_vib'), '', '', vibOn()) : ''; }   // 진동이 안 되는 곳(아이폰 브라우저·컴퓨터)에서는 칸을 숨겨요
   let settingsOpen = null;
+  function kakaoHost() { try { return (window.NcqKakao && window.NcqKakao.status().host) || ''; } catch (e) { return ''; } }
+  function neptuneUserId() {
+    if (!NEPTUNE || !partnerBooted) return null;
+    try {
+      if (!window.NcqKakao.status().membershipReady) return null;
+      const sdk = window.NcqNeptune, id = sdk && sdk.status().ready && typeof sdk.userKey === 'function' && sdk.userKey();
+      return typeof id === 'string' && id ? id : null;
+    } catch (e) { return null; }
+  }
+  async function copyUserId() {
+    const epoch = modalEpoch, input = $('#neptune-user-id'), id = neptuneUserId();
+    if (!input || !id || input.value !== id) return;
+    const current = () => modalOpen && modalEpoch === epoch && neptuneUserId() === id;
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) throw Error('clipboard_unavailable');
+      await navigator.clipboard.writeText(id);
+      if (current()) toast(tr('id_copied'));
+    } catch (e) {
+      if (current()) { input.focus(); input.select(); toast(tr('id_copy_manual')); }
+    }
+  }
   function showSettings(inGame) {
     settingsOpen = !!inGame;
-    let h = '<h2>' + tr('settings') + '</h2>' + sw('sfx', tr('set_sfx'), '', 'ic_sound') + vibRow() + sw('pattern', tr('set_pattern'), tr('set_pattern_sub')) + sw('slow', tr('set_slow'), tr('set_slow_sub')) + langRow();
-    h += '<div class="col"><button class="btn ghost" data-act="rules">' + icon('ic_bulb') + tr('rules_title') + '</button>';
+    const userId = neptuneUserId();
+    let h = '<h2>' + tr('settings') + '</h2><div class="settings-body">' + sw('sfx', tr('set_sfx'), '', 'ic_sound') + vibRow() + sw('pattern', tr('set_pattern'), tr('set_pattern_sub')) + sw('slow', tr('set_slow'), tr('set_slow_sub')) + langRow();
+    if (NEPTUNE) h += '<div class="partner-user"><label for="neptune-user-id">' + tr(kakaoHost() === 'KAKAOTALK' ? 'user_id_talk' : 'user_id') + '</label><input id="neptune-user-id" type="text" readonly spellcheck="false" autocomplete="off"><button class="btn small ghost" data-act="copy-user"' + (userId ? '' : ' disabled') + '>' + tr('copy_id') + '</button></div>';
+    h += '</div><div class="col"><button class="btn ghost" data-act="rules">' + icon('ic_bulb') + tr('rules_title') + '</button>';
     if (inGame && G && G.mode !== 'tutorial') h += '<button class="btn yellow" data-act="restart">' + icon('ic_retry') + tr('btn_restart') + '</button>';
     // NCQ_TEST_CHEAT: 테스트 메뉴 (레벨 이동·도구 지급)
     if (!inGame && (window.NCQ_TEST_CHEAT || !window.NCQ)) h += '<button class="btn ghost" data-act="test">' + tr('test_menu') + '</button>';
     // 앱 버전 표시: 빌드가 넣은 버전, 개발 중에는 dev
     const version = window.NCQ && window.NCQ.NCQ_VERSION;
     h += '<button class="btn ghost" data-act="privacy" id="btn-privacy" hidden>' + tr('privacy') + '</button>';
-    h += '<button class="btn primary" data-act="close">' + tr('close') + '</button></div><span class="ver" id="app-version">' + (version ? 'v' + version : 'dev') + '</span>';
-    openModal(h, { rules: showRules, restart: confirmRestart, test: showTest, privacy() { NcqAds.showPrivacyOptions(); } }, true);
+    const feedback = window.NcqFeedback;
+    if (feedback && feedback.can()) h += '<button class="btn ghost" data-act="feedback">' + tr('send_feedback') + '</button>';
+    h += '<button class="btn primary" data-act="close" data-ncq-main>' + tr('close') + '</button></div><span class="ver" id="app-version">' + (version ? 'v' + version : 'dev') + '</span>';
+    openModal(h, { rules: showRules, restart: confirmRestart, test: showTest, 'copy-user': copyUserId,
+      privacy() { NcqAds.showPrivacyOptions(); },
+      feedback() { try { Promise.resolve(feedback.open()).catch(() => {}); } catch (e) { /* 설정 창은 유지 */ } }
+    }, true, 'settings');
+    if (NEPTUNE) {
+      const input = $('#neptune-user-id');
+      input.value = userId || ''; input.placeholder = tr('user_id_unavailable');
+    }
     // 광고 동의를 다시 고를 수 있는 곳(유럽 등)에서만 '개인정보 설정' 버튼을 보여 줘요
     Promise.resolve().then(() => NcqAds.ready()).then(() => { const b = $('#btn-privacy'); if (b && NcqAds.privacyRequired()) b.hidden = false; }).catch(() => {});
   }
   function confirmRestart() {
-    openModal('<img class="hero" src="' + ART.duck_think + '" alt=""><h2>' + tr('restart_title') + '</h2><p>' + tr('restart_text') + '</p><div class="col"><button class="btn yellow" data-act="restart">' + tr('btn_restart_short') + '</button><button class="btn ghost" data-act="close">' + tr('cancel') + '</button></div>', { restart: restartSame });
+    openModal('<img class="hero" src="' + ART.duck_think + '" alt=""><h2>' + tr('restart_title') + '</h2><p>' + tr('restart_text') + '</p><div class="col"><button class="btn yellow" data-act="restart">' + tr('btn_restart_short') + '</button><button class="btn ghost" data-act="close">' + tr('cancel') + '</button></div>', { restart: restartSame }, false, 'restart_confirm');
   }
   function showTest() {
     openModal('<h2>' + tr('test_menu') + '</h2><p class="note">' + tr('test_note') + '</p><div class="stepper"><button class="btn small" data-act="m10">-10</button><button class="btn small" data-act="m1">-1</button><b>' + tr('play_level', { n: S.level }) + '</b><button class="btn small" data-act="p1">+1</button><button class="btn small" data-act="p10">+10</button></div>' +
       '<div class="col"><button class="btn ghost" data-act="tools">' + tr('test_tools') + '</button><button class="btn ghost" data-act="tut">' + tr('test_tut') + '</button><button class="btn ghost" data-act="reset">' + tr('test_reset') + '</button></div>',
       {
         m10() { lv(-10); }, m1() { lv(-1); }, p1() { lv(1); }, p10() { lv(10); },
-        tools() { grant({ hint: 5, locate: 5, frog: 5, draft: 5 }); save(); toast(tr('test_tools_done')); },
-        tut() { closeModal(); startTutorial(); },
+        tools() { Metrics.exclude(); grant({ hint: 5, locate: 5, frog: 5, draft: 5 }); save(); toast(tr('test_tools_done')); },
+        tut() { Metrics.exclude(); save(); closeModal(); startTutorial(); },
         reset() {
-          S = freshSave(); try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* 무시 */ }
+          Metrics.exclude(); const observation = S.observation;
+          S = freshSave(); S.observation = observation; try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* 무시 */ }
           bannerOn = false; try { Promise.resolve(NcqAds.hideBanner()).catch(() => {}); } catch (e) { /* 무시 */ }   // 처음부터 다시: 튜토리얼 동안에는 배너도 다시 숨겨요
-          closeModal(); startTutorial();
+          save(); closeModal(); startTutorial();
         }
       }, true);
-    function lv(d) { S.level = Math.max(1, S.level + d); S.cur = null; save(); showTest(); renderHome(); }
+    function lv(d) { Metrics.exclude(); S.level = Math.max(1, S.level + d); S.cur = null; save(); showTest(); renderHome(); }
   }
+  /* ---------- 친구 초대 (도쿠힌트 +1, 하루 3번) ----------
+     지금은 '초대하기'를 누르면 초대를 끝낸 것으로 보고 바로 도쿠힌트를 줘요.
+     초대 SDK(NcqInvite)는 다른 분이 붙일 예정이라, 붙일 자리를 inviteDone()에 주석으로 남겨 뒀어요. */
+  const INVITE_MAX = 3;
+  function inviteToday() { const v = S.invite || {}; return v.day === dayIndex() ? (v.n | 0) : 0; }
+  function inviteLeft() { return Math.max(0, INVITE_MAX - inviteToday()); }
+  // 공유 그림 (800×400): assets/share/. 토스 미리보기는 공개 주소(웹 공개 빌드)의 같은 그림을 써요
+  const SHARE_IMG = { share: 'assets/share/dokuduck_share_800x400.jpg', invite: 'assets/share/dokuduck_share_reward_800x400.jpg', brag: 'assets/share/dokuduck_brag_800x400.jpg' };
+  const SHARE_PUBLIC = 'https://ncroquis.github.io/dokuduck/play/';
+  function shareBlob(k) { return fetch(SHARE_IMG[k]).then(r => (r.ok ? r.blob() : null)).catch(() => null); }
+  function inviteSdk() { const I = window.NcqInvite; return I && typeof I.share === 'function' ? I : null; }
+  function inviteOn() { return !!inviteSdk() || !window.NCQ; }               // 초대 도구가 없는 빌드(카카오 등)에서는 초대 화면을 숨겨요. 개발 화면은 미리보기용
+  function saveId() {                                                         // 초대 보상을 받을 이 저장의 번호 (저장과 함께 보관해요)
+    if (!S.saveId) { S.saveId = 'dk-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 12); save(); }
+    return S.saveId;
+  }
+  let invitePrepared = null;
+  async function inviteDone() {
+    const I = inviteSdk();
+    if (!I) return 'dev';                                                     // 개발·미리보기: SDK가 없어서 누르면 초대를 끝낸 것으로 봐요
+    // 출시 빌드: 초대 링크를 보내요. 보상은 친구가 초대를 받은 뒤 다시 들어왔을 때 NcqInvite.onGrant로 와요 (inviteGrant)
+    if (!invitePrepared) invitePrepared = await I.prepareShare({ image: () => shareBlob('invite'), title: tr('invite_share_title'), message: tr('invite_share_text'), ogImageUrl: SHARE_PUBLIC + SHARE_IMG.invite });
+    const r = await I.share(invitePrepared);
+    if (r && r.status === 'ready') { toast(tr('share_again')); return 'ready'; }   // 링크를 받는 동안 누르기 권한이 끝났어요: 한 번 더 누르면 열려요
+    if (r && (r.status === 'shared' || r.status === 'copied')) { invitePrepared = null; return 'sent'; }
+    if (r && r.status === 'failed') { invitePrepared = null; toast(tr('brag_failed')); }
+    return 'none';
+  }
+  let inviteBusy = false;
+  async function doInvite(fromEl) {
+    if (inviteBusy || inviteLeft() <= 0) return false;
+    inviteBusy = true;
+    let r = 'none'; try { r = await inviteDone(); } catch (e) { r = 'none'; toast(tr('brag_failed')); }
+    inviteBusy = false;
+    if (r === 'sent') { toast(tr('invite_sent')); return false; }
+    if (r !== 'dev') return false;
+    giveInviteHint(1, fromEl);
+    return true;
+  }
+  function giveInviteHint(n, fromEl) {
+    S.invite = { day: dayIndex(), n: Math.min(INVITE_MAX, inviteToday() + 1) };   // 오늘 받은 수
+    grant({ hint: n }); const ok = save(); buzz('success');                   // 지급·저장을 먼저 하고 연출은 결과만 보여 줘요
+    flyHint(fromEl);
+    if (G) hud();
+    renderInvite(); inviteTick();
+    return ok;
+  }
+  // 초대 보상 (출시 빌드): 같은 지급 번호는 한 번만. 잔액과 지급 번호를 같은 저장에 넣은 뒤에만 true
+  function inviteGrant(g) {
+    if (!g || !g.reward || g.reward.key !== 'HINT') return false;
+    S.inviteGrants = S.inviteGrants || [];
+    if (S.inviteGrants.indexOf(g.id) >= 0) return true;
+    const n = Math.max(1, Math.min(10, g.reward.amount | 0));
+    S.inviteGrants.push(g.id); if (S.inviteGrants.length > 300) S.inviteGrants.splice(0, S.inviteGrants.length - 300);
+    const ok = giveInviteHint(n, null);
+    if (!ok) { S.inviteGrants = S.inviteGrants.filter(x => x !== g.id); S.tools.hint = Math.max(0, S.tools.hint - n); return false; }
+    toast(tr('invite_got', { n: n }));
+    return true;
+  }
+  // 초대 링크로 들어온 친구: 수락하면 둘 다 도쿠힌트를 받아요 (첫 튜토리얼이 끝난 뒤 홈에서 한 번 물어요)
+  let inviteAsked = false;
+  function inviteStart() {
+    const I = inviteSdk(); if (!I) return;
+    try {
+      I.onGrant(inviteGrant, { saveId: saveId() });
+      I.onChange(st => { if (st && st.incoming && !inviteAsked) setTimeout(inviteIncoming, 300); });
+      Promise.resolve(I.ready()).then(st => { if (st && st.incoming) inviteIncoming(); }).catch(() => {});
+    } catch (e) { /* 초대가 안 돼도 게임은 그대로 */ }
+  }
+  function inviteIncoming() {
+    const I = inviteSdk(); if (!I || inviteAsked || modalOpen || screen !== 'home' || !S.tutorialDone) return;
+    Promise.resolve(I.ready()).then(st => {
+      if (!st || !st.incoming || inviteAsked || modalOpen || screen !== 'home') return;
+      inviteAsked = true;
+      openModal('<h2>' + tr('invite_in_title') + '</h2><div class="invite-hero">' + bulbBadge() + '</div><p>' + tr('invite_in_text') + '</p>' +
+        '<div class="col"><button class="btn big yellow" data-act="accept">' + tr('invite_in_ok') + '</button><button class="btn primary" data-act="close">' + tr('close') + '</button></div>', {
+        async accept(btn) {
+          if (btn) btn.disabled = true;
+          try { await I.accept(st.incoming.token); closeModal(); toast(tr('invite_in_done')); }
+          catch (e) { if (btn) btn.disabled = false; toast(tr('brag_failed')); }
+        }
+      }, true, 'invite');
+    }).catch(() => {});
+  }
+  // 도쿠힌트 아이콘이 화면 가운데에서 톡 나타났다가 도쿠힌트 버튼 자리(인게임 왼쪽 아래)로 쏘옥 들어가요
+  function flyHint(fromEl) {
+    const inGame = G && !$('#scr-game').hidden;
+    const tool = inGame ? $('.tool[data-tool="hint"] .ic') : null;
+    const vw = innerWidth, vh = innerHeight;
+    const to = tool ? tool.getBoundingClientRect() : hintSlot() || { left: 26, top: vh - 92, width: 40, height: 40 };
+    const fr = fromEl && fromEl.getBoundingClientRect ? fromEl.getBoundingClientRect() : null;
+    const el = document.createElement('div'); el.className = 'fly-hint'; el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = '<span class="ic" style="background-image:url(' + ART.ic_bulb + ')"></span><b>+1</b>';
+    document.body.appendChild(el);
+    const S0 = 96, cx = vw / 2, cy = vh * 0.42;
+    const sx = fr ? fr.left + fr.width / 2 : cx, sy = fr ? fr.top + fr.height / 2 : cy;
+    const tx = to.left + to.width / 2, ty = to.top + to.height / 2, ts = Math.max(0.25, to.width / S0);
+    const A = el.animate([
+      { transform: `translate(${sx - S0 / 2}px, ${sy - S0 / 2}px) scale(.2)`, opacity: 0 },
+      { transform: `translate(${cx - S0 / 2}px, ${cy - S0 / 2}px) scale(1.15)`, opacity: 1, offset: 0.28 },
+      { transform: `translate(${cx - S0 / 2}px, ${cy - S0 / 2}px) scale(1) rotate(-6deg)`, opacity: 1, offset: 0.42 },
+      { transform: `translate(${cx - S0 / 2}px, ${cy - S0 / 2}px) scale(1) rotate(6deg)`, opacity: 1, offset: 0.55 },
+      { transform: `translate(${tx - S0 / 2}px, ${ty - S0 / 2}px) scale(${ts})`, opacity: 1, offset: 0.92 },
+      { transform: `translate(${tx - S0 / 2}px, ${ty - S0 / 2}px) scale(${ts * 0.6})`, opacity: 0 }
+    ], { duration: 1300, easing: 'cubic-bezier(.45,0,.3,1)', fill: 'forwards' });
+    A.onfinish = () => {
+      el.remove();
+      const btn = tool && tool.closest('.tool');
+      if (btn) { btn.classList.remove('gulp'); void btn.offsetWidth; btn.classList.add('gulp'); setTimeout(() => btn.classList.remove('gulp'), 500); cue('quack', null); }
+    };
+  }
+  // 결과 창 이름표: 남은 횟수 '친구 초대 (3/3)', 다 받으면 초대 창 버튼처럼 흐린 노랑 '오늘은 다 받았어요!' (홈 버튼은 늘 '친구 초대')
+  function inviteLabel() {
+    const left = inviteLeft();
+    return left ? tr('invite_btn') + ' (' + left + '/' + INVITE_MAX + ')' : tr('invite_done_today');
+  }
+  let inviteDay = null;
+  function inviteTick() {                                                       // 보이는 초대 이름표·버튼을 1초마다 맞춰요 (자정이 지나면 다시 3번)
+    const left = inviteLeft();
+    $$('[data-invite-label]').forEach(el => { el.textContent = inviteLabel(); const b = el.closest('button'); if (b) b.classList.toggle('off', !left); });
+    if (inviteDay !== null && inviteDay !== dayIndex()) renderInvite();
+    inviteDay = dayIndex();
+  }
+  setInterval(inviteTick, 1000);
+  function bulbBadge() { return '<span class="bulb-badge">' + icon('ic_bulb') + '<b>+1</b></span>'; }   // 흰 동그라미 전구 + 초록 +1
+  // 홈에서는 인게임 화면이 숨어 있어서, 잠깐 안 보이게 펼쳐 도쿠힌트 버튼 자리를 재요 (인게임과 똑같은 자리로 들어가게)
+  function hintSlot() {
+    const scr = $('#scr-game'), tools = $('.tools', scr);
+    if (!scr || !tools) return null;
+    const was = scr.hidden, tw = tools.hidden, vis = scr.style.visibility;
+    scr.style.visibility = 'hidden'; scr.hidden = false; tools.hidden = false;
+    let r = null;
+    try {
+      // 판 크기는 판을 열 때 정해져서, 버튼 줄은 화면 아래 끝(안쪽 여백 위)에 붙은 자리로 계산해요
+      const ic = $('.tool[data-tool="hint"] .ic', scr), b = ic && ic.getBoundingClientRect(), tb = tools.getBoundingClientRect();
+      const sb = scr.getBoundingClientRect(), pad = parseFloat(getComputedStyle(scr).paddingBottom) || 0;
+      const bottom = Math.min(sb.bottom, innerHeight) - pad;
+      if (b && b.width) r = { left: b.left, top: bottom - (tb.bottom - b.top), width: b.width, height: b.height };
+    } catch (e) { r = null; }
+    tools.hidden = tw; scr.hidden = was; scr.style.visibility = vis;
+    return r;
+  }
+  function inviteHTML() {
+    const n = inviteToday(), left = inviteLeft();
+    return '<h2>' + tr('invite_title') + '</h2>' +
+      '<div class="invite-hero">' + bulbBadge() + '</div>' +
+      '<div class="invite-count"><b id="inv-n">' + n + '</b><span>/ ' + INVITE_MAX + '</span></div>' +
+      '<p class="note">' + tr('invite_today') + '</p>' +
+      '<div class="invite-bar"><i id="inv-bar" style="width:' + Math.round(n / INVITE_MAX * 100) + '%"></i></div>' +
+      '<p>' + tr('invite_desc', { max: INVITE_MAX }) + '</p>' +
+      '<div class="col"><button class="btn big yellow" data-act="invite" id="inv-go"' + (left ? '' : ' disabled') + '>' + (left ? tr('invite_go') : tr('invite_done_today')) + '</button>' +
+      '<button class="btn primary" data-act="close">' + tr('close') + '</button></div>';
+  }
+  function showInvite() {
+    openModal(inviteHTML(), { async invite(btn) { await doInvite(btn); } }, true, 'invite');
+    $('#sheet').classList.add('invite-sheet');
+  }
+  function renderInvite() {                                                    // 열린 초대 창의 숫자·막대·버튼만 다시 그려요
+    const n = $('#inv-n'); if (!n) return;
+    const k = inviteToday(), left = inviteLeft();
+    n.textContent = k; $('#inv-bar').style.width = Math.round(k / INVITE_MAX * 100) + '%';
+    const go = $('#inv-go'); go.disabled = !left; go.textContent = left ? tr('invite_go') : tr('invite_done_today');
+  }
+
+  /* ---------- 자랑하기 (기록 공유) ----------
+     출시 빌드에는 공용 공유 도구 NcqShare가 들어와요 (docs/ncq/share.md, release/share.json).
+     개발·미리보기에는 없어서 기기 공유창(navigator.share)이나 글 복사로 대신해요. */
+  function bragText(r) {
+    return r.mode === 'main' ? tr('brag_level', { n: r.level, time: fmtTime(r.secs) }) : tr('brag_daily', { time: fmtTime(r.secs) });
+  }
+  function bragImage(r) {                                                     // 자랑 카드: 게임 그림과 기록을 캔버스에 그려요
+    const W = 720, H = 720, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const x = c.getContext('2d'), css = getComputedStyle(document.documentElement);
+    const col = (v, d) => (css.getPropertyValue(v) || d).trim() || d;
+    x.fillStyle = col('--pond', '#DDF1EC'); x.fillRect(0, 0, W, H);
+    x.fillStyle = col('--paper', '#FFFBF0'); x.strokeStyle = col('--ink', '#3A2E2A'); x.lineWidth = 10;
+    x.beginPath(); x.roundRect(40, 40, W - 80, H - 80, 48); x.fill(); x.stroke();
+    const img = (k) => { const i = new Image(); i.src = ART[k]; return i; };
+    const logo = img('logo'), duck = img('duck_joy');
+    const draw = () => {
+      try { x.drawImage(logo, 150, 80, 420, 420 * logo.naturalHeight / (logo.naturalWidth || 1)); } catch (e) { /* 그림 없이도 그려요 */ }
+      try { x.drawImage(duck, 250, 190, 220, 220 * duck.naturalHeight / (duck.naturalWidth || 1)); } catch (e) { /* 그림 없이도 그려요 */ }
+      x.fillStyle = col('--ink', '#3A2E2A'); x.textAlign = 'center';
+      const f = getComputedStyle(document.body).fontFamily;
+      x.font = '56px ' + f; x.fillText(r.mode === 'main' ? tr('res_level', { n: r.level }) : tr('res_daily'), W / 2, 500);
+      x.font = '36px ' + f; x.fillText(tr('stat_time') + ' ' + fmtTime(r.secs) + '  ·  ' + tr('stat_mistakes') + ' ' + r.mistakes, W / 2, 566);
+      x.font = '30px ' + f; x.fillText(tr('brag_card'), W / 2, 625);
+      return c;
+    };
+    return Promise.all([logo, duck].map(i => i.decode ? i.decode().catch(() => {}) : null)).then(draw);
+  }
+  async function brag(r, btn) {
+    const text = bragText(r), title = tr('brag_title');
+    const S2 = window.NcqShare;
+    try {
+      if (S2 && S2.can && S2.can()) {
+        const prepared = await S2.prepareShare({ image: () => shareBlob('brag').then(b => b || bragImage(r)), title: title, message: text });
+        const res = await S2.share(prepared);
+        if (res && res.status === 'copied') toast(tr('brag_copied'));
+        else if (res && res.status === 'failed') toast(tr('brag_failed'));
+        return;
+      }
+      if (navigator.share) { await navigator.share({ title: title, text: text, url: location.href.split('#')[0] }); return; }
+      await navigator.clipboard.writeText(text + ' ' + location.href.split('#')[0]); toast(tr('brag_copied'));
+    } catch (e) { if (!(e && e.name === 'AbortError')) toast(tr('brag_failed')); }
+  }
+
   function showStreak() {
     // 받은 날은 완료 표시(체크), 고른 날은 점선 테두리가 돌아요. 날짜를 누르면 아래에 그날 선물이 나와요.
     const c = streakNow(), pos = c % 7 || (c ? 7 : 0), today = S.streak.last === dayIndex();
     let sel = Math.min(7, pos + 1), w = '';
     for (let i = 1; i <= 7; i++) w += '<button type="button" class="wd' + (i <= pos ? ' on' : '') + '" data-day="' + i + '" aria-label="' + tr(i <= pos ? 'day_got' : 'day_n', { n: i }) + '">' + (i <= pos ? CHECK_SVG : i) + '</button>';
-    openModal('<h2>' + tr('streak_title', { n: c }) + '</h2><div class="week">' + w + '</div><div class="gift" id="gift"></div><p class="note">' + tr('streak_note') + '</p><div class="row2"><button class="btn ghost" data-act="close">' + tr('close') + '</button><button class="btn primary" data-act="close">' + tr('ok') + '</button></div>', {}, true);
+    openModal('<h2>' + tr('streak_title', { n: c }) + '</h2><div class="week">' + w + '</div><div class="gift" id="gift"></div><p class="note">' + tr('streak_note') + '</p><div class="row2"><button class="btn ghost" data-act="close">' + tr('close') + '</button><button class="btn primary" data-act="close">' + tr('ok') + '</button></div>', {}, true, 'streak');
     const days = $$('.wd', $('#sheet'));
     const draw = () => {
       days.forEach(b => b.classList.toggle('sel', +b.dataset.day === sel));
@@ -1252,10 +1600,12 @@
     draw();
   }
   function renderHome() {
+    inviteTick(); $('#btn-invite').hidden = !inviteOn(); if (!inviteAsked) setTimeout(inviteIncoming, 400);
     $('#streak-n').textContent = streakNow(); $('#streak-u').textContent = tr('day_unit', { n: streakNow() });
     const cont = S.cur && S.cur.level === S.level && S.cur.status !== 'won';
     $('#play-label').textContent = tr(cont ? 'play_cont' : 'play_level', { n: S.level });
     $('#play-sub').textContent = cont ? tr('play_found', { n: S.cur.found }) : TIER_NAME[policy(S.level).tier];
+    if (S.level >= DAILY_UNLOCK) Metrics.step('daily_unlocked');
     const day = dayIndex(), locked = S.level < DAILY_UNLOCK, done = S.daily.done[day] !== undefined;
     $('#btn-daily').classList.toggle('locked', locked);
     $('#btn-daily').firstElementChild.style.backgroundImage = 'url(' + (locked ? ART.ic_lock : ART.ic_calendar) + ')';
@@ -1323,6 +1673,7 @@
     show('game');
     $('#hintbar').hidden = true; $('#draftbar').hidden = true; toolsShown(false); $('#btn-rules').hidden = true; $('#hearts-row').hidden = true; $('#colors-row').hidden = true; $('#guide').hidden = false;
     View.build(); hud(true); status(''); ttMark(null); spot(false);
+    Metrics.start(G); Metrics.checkpoint(G, 'start'); save();
     requestAnimationFrame(() => View.fit());
     tutStep(1);
   }
@@ -1366,10 +1717,11 @@
   }
   function tutStep(s) {
     const T = G.tut; T.step = s;
+    Metrics.tutorialPrompt(s, G);
     if (s === 1) { tutTargets('duck', [T.first], 'tap2'); tutGuide(tr('tut_1'), 'duck_hello'); }
     else if (s === 2) {
       T.kind = 'info'; T.allow = new Set(); T.demo = ''; View.clearOverlays(); View.unit('reg', G.b.reg[T.first]);
-      tutGuide(tr('tut_2'), 'duck_joy', () => { cue('ui'); tutStep(3); }, G.b.regCells[G.b.reg[T.first]]);
+      tutGuide(tr('tut_2'), 'duck_joy', () => { cue('ui'); Metrics.step('tut_color_ack'); tutStep(3); }, G.b.regCells[G.b.reg[T.first]]);
     }
     else if (s === 3) { tutTargets('x', tutBasic(true), 'tap1'); tutGuide(tr('tut_3'), 'duck_think'); }
     else if (s === 4) { tutTargets('duck', [tutSingle()], 'tap2'); tutGuide(tr('tut_4'), 'duck_hello'); }
@@ -1390,7 +1742,7 @@
     else if (T.kind === 'x') {
       const left = Array.from(T.allow).filter(c => G.marks[c] === BLANK);
       $$('.ov', $('#cells')).forEach(e => { if (!e.parentNode.firstChild.innerHTML) return; e.remove(); });
-      if (!left.length) tutStep(T.step + 1); else if (!ptr) tutHand();
+      if (!left.length) { Metrics.tutorialDone(T.step); tutStep(T.step + 1); } else if (!ptr) tutHand();
     }
   }
 
@@ -1403,18 +1755,77 @@
     if (!(L && L.ready)) document.documentElement.lang = 'en';
   }
   function onLang() {
-    applyTexts();
+    applyTexts(); inviteTick();
     if (!$('#scr-home').hidden) renderHome();
     if (G && !$('#scr-game').hidden) { hud(true); if (UI.mode === 'draft') draftCount(); }
     if (settingsOpen !== null && !$('#modal').hidden) showSettings(settingsOpen);   // 설정 창은 고른 언어로 다시 그려요
+  }
+  let languageStarted = false;
+  function startupLanguage() {
+    // 인증 전에는 URL·기기 언어만 읽어요. NcqLang.init은 계정 저장 복원 뒤에 불러요.
+    const match = value => /^(en|ko)(?:[-_]|$)/i.exec(String(value || ''));
+    try {
+      const fromUrl = match(new URLSearchParams(location.search).get('lang'));
+      if (fromUrl) return fromUrl[1].toLowerCase();
+    } catch (e) { /* 주소를 읽을 수 없으면 기기 언어 */ }
+    for (const value of navigator.languages || [navigator.language]) {
+      const found = match(value); if (found) return found[1].toLowerCase();
+    }
+    return 'en';
+  }
+  function initLanguage() {
+    if (languageStarted) return;
+    languageStarted = true;
+    if (window.NcqLang) { try { window.NcqLang.init({ id: 'dokuduck', texts: window.DOKU_TEXTS }); window.NcqLang.onChange(onLang); } catch (e) { /* 언어 모듈이 없어도 영어로 표시 */ } }
+  }
+  function partnerStatus(key) {
+    const el = $('#partner-status');
+    el.hidden = !key;
+    if (key) $('p', el).textContent = tr(key);
+    if (!partnerBooted) document.documentElement.lang = startupLanguage();
+    $('#app').inert = !!key;
+  }
+  async function launch() {
+    if (!NEPTUNE) { boot(); return; }
+    partnerStatus('partner_loading');
+    partnerPaused = document.hidden;
+    window.addEventListener('ncq-kakao-pause', () => {
+      partnerPaused = true;
+      if (partnerBooted) { save(); backupPartner(true); partnerStatus('partner_paused'); }
+    });
+    window.addEventListener('ncq-kakao-resume', () => {
+      partnerPaused = document.hidden;
+      if (partnerBooted) partnerStatus(partnerPaused ? 'partner_paused' : null);
+    });
+    try {
+      const bridge = window.NcqKakao;
+      const sdk = window.NcqNeptune;
+      if (window.NCQ.NCQ_PLATFORM !== 'kakaopay' || !KAKAO.app_id || !KAKAO.game_id || !bridge || !bridge.ready || !bridge.status || !bridge.start || !sdk || !sdk.status) throw Error('partner_config');
+      const state = await bridge.ready();
+      if (!state || !state.available || !state.membershipReady || !bridge.status().membershipReady || !sdk.status().ready) throw Error('partner_not_ready');
+      // 회원 확인·탈퇴 확인·서버 저장 복원이 끝난 다음에만 저장을 읽고 게임을 열어요.
+      partnerBooted = true;
+      boot();
+      if (typeof sdk.setExtraData === 'function') {
+        sdk.setExtraData(partnerProgress); partnerExtraRegistered = true; backupPartner(false);
+      }
+      await bridge.start();
+      partnerStatus(partnerPaused ? 'partner_paused' : null);
+    } catch (e) {
+      partnerBooted = false;
+      partnerExtraRegistered = false; clearTimeout(partnerBackupTimer);
+      partnerPaused = true;
+      partnerStatus('partner_failed');
+    }
   }
   function boot() {
     const dk = document.createElement('style');                                 // 오리 조각 그림은 한 번만 등록해요 (칸마다 주소를 되풀이하지 않게)
     dk.textContent = [['b0', 'duck_body'], ['b1', 'duck_wave'], ['hf', 'duck_head'], ['hr', 'duck_hair'], ['fb', 'duck_blush'], ['fk', 'duck_beak'], ['fe', 'duck_eyes']].map(p => '.dk .' + p[0] + '{background-image:url("' + ART[p[1]] + '")}').join('');
     document.head.appendChild(dk);
-    loadSave();
+    loadSave(); inviteStart();
+    bootMainSnapshot = S.cur; bootDailySnapshot = S.daily.cur; save();
     // 언어: 주소의 ?lang= → 고른 언어 → 기기 언어 → 영어 (NcqLang). 바꾸면 지금 화면을 다시 그려요
-    if (window.NcqLang) { try { window.NcqLang.init({ id: 'dokuduck', texts: window.DOKU_TEXTS }); window.NcqLang.onChange(onLang); } catch (e) { /* 언어 모듈이 없어도 게임은 그대로 (영어) */ } }
+    initLanguage();
     applyTexts();
     $$('[data-ic]').forEach(el => { el.style.backgroundImage = 'url(' + (ART[el.dataset.ic] || '') + ')'; });
     ['color', 'line', 'adj'].forEach(k => { $('#rg-' + k).innerHTML = ruleGrid(k); });
@@ -1422,6 +1833,7 @@
     const board = $('#board');
     board.addEventListener('pointerdown', onDown); board.addEventListener('pointermove', onMove);
     board.addEventListener('pointerup', onUp); board.addEventListener('pointercancel', onUp);
+    window.addEventListener('pointerup', onUp, true); window.addEventListener('pointercancel', onUp, true);   // 판이 잠깐 막혀(pointer-events: none) 판에 손 뗀 신호가 오지 않아도 놓쳐지지 않게 (아이폰)
     board.addEventListener('contextmenu', e => e.preventDefault());
     board.addEventListener('pointerleave', () => { if (!ptr && G && UI.mode === 'locate') View.pickHover(-1); });
     $('#btn-play').onclick = () => { Snd.ensure(); cue('ui'); startMain(true); };
@@ -1431,9 +1843,10 @@
       if (S.level < DAILY_UNLOCK) return toast(tr('unlock_at', { n: DAILY_UNLOCK }));
       const day = dayIndex();
       if (S.daily.done[day] === undefined) return startDaily(false);
-      openModal('<img class="hero" src="' + ART.duck_joy + '" alt=""><h2>' + tr('daily_done_title') + '</h2><div class="stats"><div class="stat"><span>' + tr('stat_today') + '</span><b>' + fmtTime(S.daily.done[day]) + '</b></div><div class="stat"><span>' + tr('stat_best') + '</span><b>' + fmtTime(S.daily.best) + '</b></div><div class="stat"><span>' + tr('stat_total') + '</span><b>' + S.daily.count + '</b></div></div><p>' + tr('daily_done_text') + '</p><div class="col"><button class="btn yellow" data-act="again">' + tr('btn_practice') + '</button><button class="btn ghost" data-act="close">' + tr('close') + '</button></div>', { again() { closeModal(); startDaily(true); } }, true);
+      openModal('<img class="hero" src="' + ART.duck_joy + '" alt=""><h2>' + tr('daily_done_title') + '</h2><div class="stats"><div class="stat"><span>' + tr('stat_today') + '</span><b>' + fmtTime(S.daily.done[day]) + '</b></div><div class="stat"><span>' + tr('stat_best') + '</span><b>' + fmtTime(S.daily.best) + '</b></div><div class="stat"><span>' + tr('stat_total') + '</span><b>' + S.daily.count + '</b></div></div><p>' + tr('daily_done_text') + '</p><div class="col"><button class="btn yellow" data-act="again">' + tr('btn_practice') + '</button><button class="btn ghost" data-act="close">' + tr('close') + '</button></div>', { again() { closeModal(); startDaily(true); } }, true, 'daily_summary');
     };
     $('#btn-streak').onclick = () => { cue('ui'); showStreak(); };
+    $('#btn-invite').onclick = () => { cue('ui'); showInvite(); };
     $('#btn-home-settings').onclick = () => { cue('ui'); showSettings(false); };
     $('#btn-game-settings').onclick = () => { cue('ui'); showSettings(true); };
     $('#btn-rules').onclick = () => { cue('ui'); showRules(); };
@@ -1462,7 +1875,7 @@
       const s = e.target.closest('[data-sw]');
       if (s) {
         const k = s.dataset.sw;
-        if (k === 'vib') { const D = window.NcqDevice, on = !D.vibration(); D.vibration(on); s.setAttribute('aria-checked', on); cue('ui'); return; }   // 켜면 바로 톡 하고 울려요
+        if (k === 'vib') { const on = !vibOn(); vibSet(on); s.setAttribute('aria-checked', on); cue('ui'); return; }   // 켜면 바로 톡 하고 울려요
         S.settings[k] = !S.settings[k]; s.setAttribute('aria-checked', S.settings[k]); save(); cue('ui');
         if (k === 'pattern') $('#board').classList.toggle('patterns', S.settings.pattern);
         return;
@@ -1470,7 +1883,7 @@
       const b = e.target.closest('[data-act]'); if (!b) return;
       Snd.ensure(); cue('ui');
       const acts = $('#sheet')._acts || {}, a = b.dataset.act;
-      if (acts[a]) acts[a](); else if (a === 'close') closeModal();
+      if (acts[a]) acts[a](b); else if (a === 'close') closeModal();   // 누른 버튼을 넘겨요 (연출 출발점)
     });
     document.addEventListener('pointerdown', e => {                             // 보드 밖을 누르면 색 선택 취소
       if (G && UI.mode === 'locate' && !G.tt && !e.target.closest('#board') && !e.target.closest('.tool')) setMode('play');
@@ -1478,19 +1891,23 @@
     window.addEventListener('resize', () => View.fit());
     if (window.ResizeObserver) new ResizeObserver(() => View.fit()).observe($('#board-holder'));
     setInterval(() => {
-      if (G && G.status === 'play' && screen === 'game' && !document.hidden && !modalOpen && !adBusy && !G.tut) { G.secs++; if (G.secs % 10 === 0) save(); }
+      if (G && G.status === 'play' && screen === 'game' && !document.hidden && !partnerPaused && !modalOpen && !adBusy && !G.tut) { G.secs++; if (G.secs % 10 === 0) save(); }
     }, 1000);
     document.addEventListener('visibilitychange', () => { if (document.hidden && G && G.status === 'play' && G.mode !== 'tutorial') save(); });
+    Metrics.step('boot');
     if (!S.tutorialDone) startTutorial(); else show('home');
     adBanner();
   }
   // 기기 뒤로가기(구글플레이·토스): 떠 있는 창 → 도구 모드 → 게임 화면 순서로 닫고, 홈이면 false
   window.ncqBack = function () {
+    const feedback = window.NcqFeedback;
+    if (feedback && feedback.isOpen()) { feedback.close(); return true; }
+    if (NEPTUNE && (!partnerBooted || partnerPaused)) return true;
     if (adBusy) return true;                                                    // 광고를 보는 동안에는 화면을 바꾸지 않아요
     if (modalOpen) { if (G && (G.status === 'lost' || G.status === 'won')) return true; closeModal(); return true; }
     if (screen === 'game') { $('#btn-back').click(); return true; }
     return false;
   };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', launch); else launch();
   window.__doku = { get G() { return G; }, get S() { return S; }, E: E, policy: policy, pickMain: pickMain, buildPuzzle: buildPuzzle };
 })();

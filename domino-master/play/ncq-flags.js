@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.1.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.dominomaster", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/domino-master", "board": "https://ncroquis.github.io/domino-master/feedback/"}, "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.1.1", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.dominomaster", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/domino-master", "board": "https://ncroquis.github.io/domino-master/feedback/"}, "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
 Object.assign(window, window.NCQ);
 /* NcqViewport — fixed game page, native inner scrolling and editable controls. ES2017. */
 (function (w, d) {
@@ -686,4 +686,4 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"domino-master","pf":"web","mk":"web","tr":"share","vn":"0.1.0","vc":0,"cm":"67ff1d3","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"domino-master","pf":"web","mk":"web","tr":"share","vn":"0.1.1","vc":0,"cm":"3177240","ft":[]});

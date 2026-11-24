@@ -65,6 +65,8 @@
     document.body.classList.toggle('vip', on);
     b.classList.toggle('on', on);
     b.classList.toggle('gift', giftReady());
+    // ads start at Lv3, so the ad-free pass is only offered from then (a VIP keeps their badge)
+    b.classList.toggle('early', !on && BJ.engine.levelOf(st.xp) < 3);
     $('vipDays').textContent = on ? I.t('vipDays', { n: daysLeft() }) : I.t('vipNoAd');
   };
   function claimGift() {

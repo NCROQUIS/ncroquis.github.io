@@ -1094,6 +1094,34 @@
   }
 
   /* ---------- level ---------- */
+  // mouse/pen drag scrolls lists the way a finger swipe does on a phone (touch already scrolls natively);
+  // a drag that moved swallows the click that would follow
+  function dragScroll() {
+    var box = null, sx = 0, sy = 0, st0 = 0, sl0 = 0, moved = false;
+    function scroller(el) {
+      for (; el && el !== document.body; el = el.parentElement) {
+        var cs = getComputedStyle(el);
+        if ((/(auto|scroll)/.test(cs.overflowY) && el.scrollHeight > el.clientHeight + 1) ||
+            (/(auto|scroll)/.test(cs.overflowX) && el.scrollWidth > el.clientWidth + 1)) return el;
+      }
+      return null;
+    }
+    document.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'touch' || e.button !== 0 || /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) return;
+      box = scroller(e.target); if (!box) return;
+      sx = e.clientX; sy = e.clientY; st0 = box.scrollTop; sl0 = box.scrollLeft; moved = false;
+    });
+    document.addEventListener('pointermove', function (e) {
+      if (!box) return;
+      var dx = e.clientX - sx, dy = e.clientY - sy;
+      if (!moved && Math.abs(dx) + Math.abs(dy) < 6) return;
+      moved = true; box.scrollTop = st0 - dy; box.scrollLeft = sl0 - dx;
+    });
+    document.addEventListener('pointerup', function () {
+      if (box && moved) { var swallow = function (ev) { ev.stopPropagation(); ev.preventDefault(); }; window.addEventListener('click', swallow, true); setTimeout(function () { window.removeEventListener('click', swallow, true); }, 0); }
+      box = null;
+    });
+  }
   function levelFrac() { var L = E.levelOf(st.xp), a = E.xpFor(L), b = E.xpFor(L + 1); return { L: L, have: st.xp - a, need: b - a }; }
   function refreshLevel() {
     var f = levelFrac();
@@ -1148,6 +1176,7 @@
     showXpGain(gain, after > before);
     if (after > before) {
       levelSteps(after);
+      BJ.vip.refresh();
       var opened = syncUnlocks(), top = topOpen();
       var reward = E.TABLES[top].min * (opened.length ? 50 : 20 * (after - before));
       if (st.inTour) st.bank += reward; else { addChips(reward); floatDelta(reward); }   // level rewards go to your own chips
@@ -1872,6 +1901,16 @@
       $('loading').className = '';
       setTimeout(function () { location.reload(); }, 150);
     });
+    // popups: the text close button moves from the top-right to a footer centred at the bottom;
+    // everything between the header and that footer scrolls (by swipe, no scrollbar)
+    Array.prototype.forEach.call(document.querySelectorAll('.panel > .phead > .btn[data-close]'), function (b) {
+      var panel = b.closest('.panel'), head = b.parentNode, body = document.createElement('div'), foot = document.createElement('div');
+      body.className = 'pscroll'; foot.className = 'pfoot';
+      while (head.nextSibling) body.appendChild(head.nextSibling);
+      b.classList.remove('small', 'ghost'); b.classList.add('pclose');
+      foot.appendChild(b); panel.appendChild(body); panel.appendChild(foot); panel.classList.add('hasfoot');
+    });
+    dragScroll();
     Array.prototype.forEach.call(document.querySelectorAll('[data-close]'), function (b) {
       b.addEventListener('click', function () { b.closest('.sheet').classList.remove('open'); });
     });

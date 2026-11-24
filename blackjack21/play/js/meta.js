@@ -174,7 +174,7 @@
     });
   }
   function iconOwned(i) { return i <= 1 || st.icons.indexOf(i) >= 0; }
-  // Call after anything that could finish an achievement. New ones announce themselves one by one.
+  // Call after anything that could finish an achievement. New ones only light the red dot on the lobby button (no toast).
   M.check = function () {
     var fresh = [];
     ACH.forEach(function (a) {
@@ -185,7 +185,6 @@
     if (fresh.length) {
       save();
       NcqMetrics.step("ach_first_done");
-      fresh.forEach(function (a, k) { setTimeout(function () { hooks.toast(I.t('achDone', { a: a.title() })); }, 2600 + k * 1900); });
       refreshAchDot();
     }
   };

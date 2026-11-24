@@ -848,3 +848,14 @@ body.vip #banner { visibility: hidden; }
 #btnVip .vtag .noad { width: calc(var(--u) * 2.2); height: calc(var(--u) * 2.2); border-width: 1.2px; }
 #btnVip .vtag .noad::before { font-size: calc(var(--u) * 0.95); }
 #btnVip .vtag em { display: block; transform: translateY(0.04em); }
+#btnVip.early { display: none; }
+
+/* popups: header on top, swipe-scrolled body, close button centred at the bottom; no scrollbars anywhere */
+.panel.hasfoot { display: flex; flex-direction: column; overflow: hidden; }
+.panel.hasfoot > .phead { flex: none; }
+.pscroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.pfoot { flex: none; display: flex; justify-content: center; padding-top: calc(var(--u) * 3); }
+.btn.pclose { min-width: calc(var(--u) * 34); padding: calc(var(--u) * 2.4) calc(var(--u) * 6); font-size: calc(var(--u) * 3.9); font-weight: 800;
+  color: var(--ink, #f3ead4); background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(220, 180, 88, 0.45); border-radius: 999px; box-shadow: none; }
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; width: 0; height: 0; }

@@ -3,13 +3,16 @@ export function enableSkinScroll(row){
   let drag=null,suppress=false,frame=0;
   function stop(){cancelAnimationFrame(frame);frame=0;}
   function coast(velocity){
-    let previous=performance.now();
+    let previous=performance.now(),position=row.scrollLeft;
     function tick(now){
-      const elapsed=Math.min(now-previous,32);previous=now;
-      const before=row.scrollLeft;
-      row.scrollLeft+=velocity*elapsed;
+      const elapsed=Math.max(0,Math.min(now-previous,32));previous=now;
+      const limit=Math.max(0,row.scrollWidth-row.clientWidth);
+      // Keep subpixel distance even when the browser rounds scrollLeft. A short
+      // first frame must not be mistaken for reaching the end of the shelf.
+      position=Math.max(0,Math.min(limit,position+velocity*elapsed));
+      row.scrollLeft=position;
       velocity*=Math.exp(-elapsed/180);
-      if(Math.abs(velocity)>.02&&Math.abs(row.scrollLeft-before)>.1)frame=requestAnimationFrame(tick);
+      if(Math.abs(velocity)>.02&&(velocity<0?position>0:position<limit))frame=requestAnimationFrame(tick);
       else frame=0;
     }
     frame=requestAnimationFrame(tick);

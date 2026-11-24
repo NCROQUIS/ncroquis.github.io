@@ -1,5 +1,6 @@
 import {spriteBox} from './skin-model.mjs';
 import {TEAM_COLORS} from './team-colors.mjs';
+import {selectedImage} from './selection-style.mjs';
 // Narrow cylinder facets use an affine texture approximation. The caller clips
 // each face with a small overlap; keep neighboring UVs available at that edge.
 export function paintSurface(ctx,image,quad,sx=0,sw=image.naturalWidth){
@@ -32,12 +33,12 @@ export function paintBoardImage(ctx,image,quad){
   }
   ctx.restore();
 }
-export function paintSkinPiece(ctx,{x,y,r,player,skin,lift=0,zoom=1,sx=1,sy=1,alpha=1,rotation=0,stackCount=1,stackLabel=String(stackCount)}){
+export function paintSkinPiece(ctx,{x,y,r,player,skin,lift=0,zoom=1,sx=1,sy=1,alpha=1,rotation=0,stackCount=1,stackLabel=String(stackCount),selected=false}){
   const box=spriteBox(skin,r);
   ctx.save();ctx.globalAlpha*=alpha;
   ctx.save();ctx.translate(x,y+2);ctx.scale(1+lift/Math.max(1,r)*.05,.67);ctx.fillStyle='rgba(63,45,31,'+Math.max(.08,.22-lift/Math.max(1,r)*.05)+')';ctx.beginPath();ctx.ellipse(0,0,r*1.12,r,0,0,Math.PI*2);ctx.fill();ctx.restore();
   ctx.translate(x,y-lift);ctx.rotate(rotation);ctx.scale(zoom*sx,zoom*sy);
-  ctx.drawImage(skin.image,box.left,box.top,box.width,box.height);
+  ctx.drawImage(selected?selectedImage(skin.image):skin.image,box.left,box.top,box.width,box.height);
   if(skin.character&&stackCount>1){
     const radius=Math.max(6,Math.min(9,r*.75)),bx=box.visibleLeft+box.visibleWidth-radius*.15,by=box.visibleTop+radius*.7;
     ctx.beginPath();ctx.arc(bx,by,radius,0,Math.PI*2);ctx.fillStyle=TEAM_COLORS[player].dark;ctx.fill();ctx.strokeStyle='#fff6e6';ctx.lineWidth=1.2;ctx.stroke();

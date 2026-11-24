@@ -1,10 +1,12 @@
 import { TEAM_COLORS } from './team-colors.mjs';
 import { paintSkinPiece } from './skin-paint.mjs';
+import { selectedColor } from './selection-style.mjs';
 export function paintPiece(ctx, options) {
   if(options.skin){paintSkinPiece(ctx,options);return;}
   const { x, y, r, player, lift = 0, zoom = 1, sx = 1, sy = 1, alpha = 1, rotation = 0 }=options;
-  const { bright, dark } = TEAM_COLORS[player];
-  const main = player === 0 ? '#327bd6' : player === 1 ? '#dc6855' : TEAM_COLORS[player].main;
+  let { bright, dark } = TEAM_COLORS[player];
+  let main = player === 0 ? '#327bd6' : player === 1 ? '#dc6855' : TEAM_COLORS[player].main;
+  if(options.selected){bright=selectedColor(bright);dark=selectedColor(dark);main=selectedColor(main);}
   ctx.save(); ctx.globalAlpha *= alpha;
   ctx.save(); ctx.translate(x, y + 2); ctx.scale(1 + lift / Math.max(1, r) * .05, .67);
   ctx.fillStyle = `rgba(63,45,31,${Math.max(.08, .22 - lift / Math.max(1, r) * .05)})`;

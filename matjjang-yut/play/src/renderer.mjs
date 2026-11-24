@@ -9,20 +9,24 @@ import { paintSurface, paintBoardImage, overlapSurfaceSides } from './skin-paint
 import { TEAM_COLORS } from './team-colors.mjs';
 import { localPlayerName } from './teams.mjs';
 import { fitBoardLayout } from './board-layout.mjs';
+import { STICK_RADIUS,STICK_HALF_LENGTH,STICK_SEGMENTS,STICK_VERTICES,convexHull } from './stick-geometry.mjs';
+import { DEFAULT_STICK_PRESENTATION } from './stick-presentation.mjs';
 export function createRenderer(canvas, options) {
   const ctx=canvas.getContext('2d'), area=canvas.parentElement;
   const interactive=options.interactive!==false;
+  const stickPresentation=()=>options.getStickPresentation?.()??DEFAULT_STICK_PRESENTATION;
   const PI=Math.PI,TAU=PI*2,clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
   const lerp=(a,b,t)=>a+(b-a)*t,smooth=t=>t*t*(3-2*t),ease=t=>1-Math.pow(1-t,3);
   const settings={impact:.85},reduced=false;
   let width=400,height=408,scale=49,scaleX=49,centerY=167,phase='idle',result='geol',thrower='me',elapsed=0,busy=false,gatherFrom=null;
   let ui={game:options.game,plans:[],pieceId:null,playableIds:[],busy:false},moving=null,opacity=1,raf=0,run=0,resolvePending=null,cleanupPending=null;
   const backdrop=document.createElement('canvas'),backdropCtx=backdrop.getContext('2d'),stage=area.closest('.game-stage');
-  let cueRaf=0,cueEpoch=null,cuePaused=null,lastCueFrame=0;
+  let cueRaf=0,cueEpoch=null,cuePaused=null,lastCueFrame=0,frontFaces=[],frontShake=0;
   function cueWave(now=performance.now()){return cueEpoch===null?0:(1-Math.cos(Math.max(0,now-cueEpoch)/1800*TAU))/2;}
   function cuesVisible(){return interactive&&!document.hidden&&!ui.busy&&!busy&&!moving&&ui.playableIds.length>0&&!area.closest('[hidden]')&&!document.querySelector('dialog[open]');}
   function paintFeedback(now=performance.now()){
     const wave=cueWave(now);stage?.style.setProperty('--cue-wave',wave.toFixed(4));destinationMarks(wave);pieceSelectionMarks(wave);drawPieces(wave);
+    if(frontFaces.length){ctx.save();ctx.translate(frontShake,frontShake*.55);frontFaces.forEach(drawFace);ctx.restore();}
     if(window.NCQ_TEST_DICE)canvas.dataset.choiceCue=JSON.stringify({wave,scale:.96+wave*.12,alpha:.56+wave*.22,selectedScale:1,playableIds:ui.playableIds});
   }
   function syncCueLoop(){
@@ -171,14 +175,27 @@ export function createRenderer(canvas, options) {
     return{x:landingX(i)+Math.sin(bounce*PI)*.07*(i%2?1:-1)*side,y:landingY(i)+Math.sin(bounce*PI)*.06*side,z:base+hop,rx:Math.sin(bounce*PI*3)*.13*(1-bounce)*side,ry:finalRy+Math.sin(bounce*PI*4)*.25*(1-bounce),rz:p.angle*side+Math.sin(bounce*PI*2)*.055*(1-bounce)*side,h:hop,t:1};
   }
   function stickShadow(p){
-    const center=project({x:p.x,y:p.y,z:0});ctx.save();ctx.translate(center.x,center.y);ctx.rotate(p.rz);const h=Math.max(0,p.h),s=1+h*.12;ctx.scale(1,.97);ctx.filter='blur('+(2+h*1.4)*width/416+'px)';ctx.fillStyle=rgba('#59331c',.24/(1+h*.7));ctx.beginPath();ctx.ellipse(0,0,.33*scale*s,1.24*scale*s,0,0,TAU);ctx.fill();ctx.restore();
+    const center=project({x:p.x,y:p.y,z:0}),presentation=stickPresentation();
+    const dx=(presentation?.shadowX||0)*width/400,dy=(presentation?.shadowY||0)*width/400;
+    center.x+=dx;center.y+=dy;
+    const h=Math.max(0,p.h);let outline=null;
+    ctx.save();ctx.filter='blur('+(2+h*1.4)*width/416+'px)';ctx.fillStyle=rgba('#59331c',.24/(1+h*.7));
+    if(presentation?.shadowShape==='mesh'){
+      // Drop the entire rotated mesh onto the board plane. A resting stick has
+      // straight ends; a tumbling stick casts its actual changing silhouette.
+      outline=convexHull(STICK_VERTICES.map(vertex=>{const point=world(vertex,p),floor=project({x:point.x,y:point.y,z:0});return{x:floor.x+dx,y:floor.y+dy};}));
+      path(outline);
+    }else{
+      ctx.translate(center.x,center.y);ctx.rotate(p.rz);const s=1+h*.12;ctx.scale(1,.97);ctx.beginPath();ctx.ellipse(0,0,.33*scale*s,1.24*scale*s,0,0,TAU);
+    }
+    ctx.fill();ctx.restore();return{center,outline};
   }
   function buildFaces(i,p){
-    const r=.255,L=1.22,faces=[];
+    const r=STICK_RADIUS,L=STICK_HALF_LENGTH,faces=[];
     const add=(local,normal,type,theta=0)=>{const n=rotate(normal,p);if(n.y*.55+n.z*.83<-.015)return;const points=local.map(v=>world(v,p));const center=points.reduce((s,v)=>({x:s.x+v.x/points.length,y:s.y+v.y/points.length,z:s.z+v.z/points.length}),{x:0,y:0,z:0});faces.push({local,points,normal:n,type,theta,p,i,depth:center.y*.55+center.z*.83});};
     add([{x:-r,y:-L,z:0},{x:r,y:-L,z:0},{x:r,y:L,z:0},{x:-r,y:L,z:0}],{x:0,y:0,z:1},'flat');
-    for(let k=0;k<12;k++){const a=k*PI/12,b=(k+1)*PI/12;add([{x:r*Math.cos(a),y:-L,z:-r*Math.sin(a)},{x:r*Math.cos(b),y:-L,z:-r*Math.sin(b)},{x:r*Math.cos(b),y:L,z:-r*Math.sin(b)},{x:r*Math.cos(a),y:L,z:-r*Math.sin(a)}],{x:Math.cos((a+b)/2),y:0,z:-Math.sin((a+b)/2)},'curve',(a+b)/2);}
-    for(const sign of [-1,1]){const cap=[{x:r,y:sign*L,z:0}];for(let k=1;k<=12;k++)cap.push({x:r*Math.cos(k*PI/12),y:sign*L,z:-r*Math.sin(k*PI/12)});add(cap,{x:0,y:sign,z:0},'cap');}
+    for(let k=0;k<STICK_SEGMENTS;k++){const a=k*PI/STICK_SEGMENTS,b=(k+1)*PI/STICK_SEGMENTS;add([{x:r*Math.cos(a),y:-L,z:-r*Math.sin(a)},{x:r*Math.cos(b),y:-L,z:-r*Math.sin(b)},{x:r*Math.cos(b),y:L,z:-r*Math.sin(b)},{x:r*Math.cos(a),y:L,z:-r*Math.sin(a)}],{x:Math.cos((a+b)/2),y:0,z:-Math.sin((a+b)/2)},'curve',(a+b)/2);}
+    for(const sign of [-1,1]){const cap=[{x:r,y:sign*L,z:0}];for(let k=1;k<=STICK_SEGMENTS;k++)cap.push({x:r*Math.cos(k*PI/STICK_SEGMENTS),y:sign*L,z:-r*Math.sin(k*PI/STICK_SEGMENTS)});add(cap,{x:0,y:sign,z:0},'cap');}
     return faces;
   }
   function drawFace(face){
@@ -262,7 +279,11 @@ export function createRenderer(canvas, options) {
         }
         const fitted=Math.min(font,...lines.map(line=>font*available/Math.max(1,ctx.measureText(line).width)));
         ctx.font='800 '+fitted+'px '+family;
-        lines.forEach((line,index)=>ctx.fillText(line,tx,ty+(index-(lines.length-1)/2)*fitted*1.05));
+        lines.forEach((line,index)=>{
+          const y=ty+(index-(lines.length-1)/2)*fitted*1.05;
+          ctx.strokeStyle='#102a4a';ctx.lineWidth=Math.max(2.6,fitted*.24);ctx.lineJoin='round';
+          ctx.strokeText(line,tx,y);ctx.fillStyle='#fffce3';ctx.fillText(line,tx,y);
+        });
       }
       ctx.restore();
     }
@@ -278,9 +299,11 @@ export function createRenderer(canvas, options) {
           ctx.beginPath();ctx.ellipse(p.x,p.y,r*(1.30+(ids.length-1)*.12)*zoom,r*(1.30+(ids.length-1)*.18)*zoom,-.2,0,TAU);ctx.fill();ctx.restore();
         }
         if(ids.includes(ui.pieceId)){
-          ctx.save();ctx.globalAlpha=.55+wave*.45;ctx.strokeStyle='#dba32c';ctx.lineWidth=2.6;
-          ctx.shadowColor='#e8ad3450';ctx.shadowBlur=6;
-          ctx.beginPath();ctx.ellipse(p.x,p.y,r*(1.45+(ids.length-1)*.12),r*(1.45+(ids.length-1)*.18),-.2,0,TAU);ctx.stroke();ctx.restore();
+          ctx.save();ctx.globalAlpha=.55+wave*.45;
+          ctx.shadowColor='#eaff00b0';ctx.shadowBlur=10;
+          ctx.beginPath();ctx.ellipse(p.x,p.y,r*(1.45+(ids.length-1)*.12),r*(1.45+(ids.length-1)*.18),-.2,0,TAU);
+          ctx.strokeStyle='#435500b0';ctx.lineWidth=4.6;ctx.stroke();
+          ctx.strokeStyle='#f2ff00';ctx.lineWidth=2.8;ctx.stroke();ctx.restore();
         }
       }
     }
@@ -292,7 +315,7 @@ export function createRenderer(canvas, options) {
       const motion=moving&&ids===moving.ids?moving.pose:null,player=team;
       const skin=pieceSkin(player),offsets=pieceOffsets(ids.length,r,player);
       for(let index=0;index<ids.length;index++){
-        const token={x:p.x+offsets[index].x,y:p.y+offsets[index].y,r,player,lift:(motion?.lift||0)*scale,zoom:motion?.zoom??1,sx:motion?.sx??1,sy:motion?.sy??1};
+        const token={x:p.x+offsets[index].x,y:p.y+offsets[index].y,r,player,lift:(motion?.lift||0)*scale,zoom:motion?.zoom??1,sx:motion?.sx??1,sy:motion?.sy??1,selected:!ui.busy&&!busy&&!moving&&ids.includes(ui.pieceId)&&ids.some(id=>ui.playableIds.includes(id))};
         if(!skin?.character||index===0)paintPiece(ctx,{...token,skin,stackCount:ids.length,stackLabel:skin?.character&&ids.length>1?stackLabel(ids.length):String(ids.length)});
         disks.push({id:ids[index],...token,skin:skin?.id||'default',representative:!skin?.character||index===0,stackCount:ids.length});
       }
@@ -379,10 +402,13 @@ export function createRenderer(canvas, options) {
     ctx.clearRect(0,0,width,height);ctx.save();let shake=0;
     for(let i=0;i<4;i++){const d=(elapsed-landingAt(i))/160;if(busy&&d>0&&d<1)shake+=Math.sin(d*TAU*2)*(1-d)*1.4*settings.impact;}
     background();tray();boardRoutes();
-    ctx.save();ctx.translate(shake,shake*.55);ctx.globalAlpha=opacity;const poses=[0,1,2,3].map(pose);poses.forEach(stickShadow);motionEffects(poses);const faces=poses.flatMap((p,i)=>buildFaces(i,p));faces.sort((a,b)=>a.depth-b.depth).forEach(drawFace);ctx.restore();
+    const foreground=stickPresentation().foreground===true&&phase!=='idle'&&opacity===1;
+    ctx.save();ctx.translate(shake,shake*.55);ctx.globalAlpha=opacity;const poses=[0,1,2,3].map(pose),shadows=poses.map(stickShadow);motionEffects(poses);const faces=poses.flatMap((p,i)=>buildFaces(i,p)).sort((a,b)=>a.depth-b.depth);
+    frontFaces=foreground?faces:[];frontShake=shake;if(!foreground)faces.forEach(drawFace);ctx.restore();
     if(backdrop.width!==canvas.width||backdrop.height!==canvas.height){backdrop.width=canvas.width;backdrop.height=canvas.height;}
     backdropCtx.clearRect(0,0,backdrop.width,backdrop.height);backdropCtx.drawImage(canvas,0,0);paintFeedback();ctx.restore();
     canvas.dataset.phase=phase;canvas.dataset.thrower=thrower;canvas.dataset.result=result;
+    if(window.NCQ_TEST_DICE){canvas.dataset.stickLayer=foreground?'above-pieces':'below-pieces';canvas.dataset.stickShadows=JSON.stringify(shadows.map(shadow=>shadow.center));canvas.dataset.stickShadowContours=JSON.stringify(shadows.map(shadow=>shadow.outline));canvas.dataset.stickOpacity=String(opacity);}
     syncBoardControls();syncCueLoop();
   }
   function resize(w,h,dpr=Math.min(devicePixelRatio||1,2)){
@@ -477,7 +503,16 @@ export function createRenderer(canvas, options) {
   }
   // A static view shares every paint/projection function, but creates no game
   // controls, audio, input listeners, observers or animation loop.
-  if(!interactive){resize(400,408);return{update,draw,resize};}
+  if(!interactive){
+    resize(400,408);
+    const preview=options.preview?{previewFrame({progress=1,alpha=1,player=0,outcome='geol',bits=[0,1,1,1]}){
+      phase='idle';result=outcome;outcomes[result]={flat:bits};thrower=player===0||player===3?'me':'opponent';gatherFrom=[0,1,2,3].map(pose);
+      elapsed=clamp(progress)*timing.end;opacity=clamp(alpha);busy=progress<1;
+      phase=elapsed<timing.gather?'gather':elapsed<timing.launch?'charge':elapsed<lastLanding()?'flight':elapsed<timing.reveal?'settle':'result';
+      draw();return{phase,duration:timing.end};
+    }}:{};
+    return{update,draw,resize,...preview};
+  }
   canvas.addEventListener('pointerup',event=>{
     if(ui.busy||busy||moving)return;const bounds=canvas.getBoundingClientRect(),x=(event.clientX-bounds.left)*width/bounds.width,y=(event.clientY-bounds.top)*height/bounds.height;
     // Selecting an owned piece must never spend a result, even at a destination.

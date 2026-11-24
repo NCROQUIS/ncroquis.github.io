@@ -16,12 +16,14 @@ import { rackSpriteBox } from './skin-model.mjs';
 import { roomClock, remainingSeconds } from './online-clock.mjs';
 import { mountWallet } from './wallet.mjs';
 import { createMatchIntro, shouldPlayMatchIntro } from './match-intro.mjs';
+import { SELECTED_TINT } from './selection-style.mjs';
 
 const $ = selector => document.querySelector(selector);
 const NcqMetrics = window.NcqMetrics || { levelStart() {}, levelEnd() {}, step() {} };
 const NcqFeedback = window.NcqFeedback || { can: () => false, open: async () => false, isOpen: () => false, close() {} };
 window.NcqSave.init({ id: 'matjjang-yut', data: { match: null, appearance: { version:1, board:'default', sticks:'default', pieces:'default' } } });
 const skins=createSkinService();
+document.documentElement.style.setProperty('--selection-tint', String(SELECTED_TINT.strength));
 const restored = restoreGame(window.NcqSave.get('match'));
 let game = restored || createGame(), busy = false, selectedPiece = null, movingSteps = null;
 let notice = restored ? 'restored' : null, phase = '', generation = 0, nextTestThrow = null, screen = 'lobby';
@@ -188,8 +190,13 @@ function render() {
       if(!image){image=document.createElement('img');image.className='piece-skin';image.alt='';image.draggable=false;button.append(image);}
       if(image.src!==skin.image.src)image.src=skin.image.src;
       const {box,dx,dy}=rackSpriteBox(skin);
-      Object.assign(image.style,{left:'calc(50% + '+(box.left+dx)+' * var(--size))',top:'calc(50% + '+(box.top+dy)+' * var(--size))',width:'calc(var(--size) * '+box.width+')',height:'calc(var(--size) * '+box.height+')'});
-    }else{delete button.dataset.skin;button.querySelector('.piece-skin')?.remove();}
+      const bounds={left:'calc(50% + '+(box.left+dx)+' * var(--size))',top:'calc(50% + '+(box.top+dy)+' * var(--size))',width:'calc(var(--size) * '+box.width+')',height:'calc(var(--size) * '+box.height+')'};
+      Object.assign(image.style,bounds);
+      let tint=button.querySelector('.piece-selection-tint');
+      if(!tint){tint=document.createElement('span');tint.className='piece-selection-tint';tint.setAttribute('aria-hidden','true');button.append(tint);}
+      const mask='url("'+skin.image.src+'")';
+      Object.assign(tint.style,{...bounds,maskImage:mask,webkitMaskImage:mask});
+    }else{delete button.dataset.skin;button.querySelector('.piece-skin')?.remove();button.querySelector('.piece-selection-tint')?.remove();}
     button.hidden = node !== 'base';
     const canPlay = !button.hidden && !busy && (!onlineMode||onlineCanInput()) && piece.player === game.active && availableDestinations(game, piece.id).length > 0;
     button.disabled = !canPlay;

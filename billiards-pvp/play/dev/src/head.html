@@ -21,7 +21,7 @@
   --ball-y:#f3c22c;
   --ball-r:#c81f29;
   --f-num:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
-  --f-ui:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;
+  --f-ui:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans Thai","Leelawadee UI",Thonburi,sans-serif;
   --f-disp:"Black Han Sans","Noto Sans KR",system-ui,sans-serif;
   --dock-h:118px;
   --hud-h:66px;
@@ -30,6 +30,10 @@
 }
 [hidden]{display:none!important}
 *{box-sizing:border-box}
+html:lang(ja){--f-ui:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Noto Sans CJK JP","Yu Gothic",Meiryo,sans-serif;--f-disp:var(--f-ui)}
+html:lang(zh-Hans){--f-ui:system-ui,-apple-system,"PingFang SC","Noto Sans SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;--f-disp:var(--f-ui)}
+html:lang(zh-Hant){--f-ui:system-ui,-apple-system,"PingFang TC","Noto Sans TC","Noto Sans CJK TC","Microsoft JhengHei",sans-serif;--f-disp:var(--f-ui)}
+html:lang(th){--f-disp:"Noto Sans Thai","Leelawadee UI",Thonburi,var(--f-ui)}
 html,body{height:100%;background:var(--bg);color:var(--ink);font-family:var(--f-ui);overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
 #app{position:relative;height:calc(100% - var(--gap-t) - var(--gap-b));width:min(100%,calc(100vh*.62));margin:0 auto;overflow:hidden;background:var(--bg)}
 /* 위·아래 가려지는 자리(상태 바·토스 메뉴 줄·홈 인디케이터): 공용 NcqSafe 값, 없으면 기기 안전 영역 */
@@ -368,9 +372,11 @@ button.sm{padding:5px 8px;font-size:12px}
 html:not([lang]) [data-i18n]{visibility:hidden}
 /* 긴 차례 안내(영어 'Player 2's turn · Ball in hand' 등)는 한 줄에 들어가게 작게 */
 #banner.long{font-size:19px;padding-inline:12px}
-/* 영어 난이도 이름은 길어서 조금 작게 */
-html[lang=en] .lv button{gap:8px}
-html[lang=en] .lv b{font-size:19px}
+/* 한국어가 아닌 언어는 난이도 이름이 길어서 조금 작게 */
+html:not([lang=ko]) .lv button{gap:8px}
+html:not([lang=ko]) .lv b{font-size:19px}
+.lv b,.gbtn b{white-space:nowrap}
+#rMain{white-space:nowrap}
 /* 언어 메뉴 (룰·설정 창) */
 .set-list{display:flex;flex-direction:column;gap:2px;margin:4px 0 2px}
 .set-row{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:46px;font-size:15px;border-bottom:1px solid rgba(255,255,255,.07)}

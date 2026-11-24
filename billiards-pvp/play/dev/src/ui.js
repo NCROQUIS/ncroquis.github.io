@@ -17,12 +17,23 @@ function solveFit(tilt){
   return {pos,dy:(b.y0+b.y1)/2-(free.y+free.h/2)};
 }
 // 로비 제목·부제가 오른쪽 위 전적 표 밑으로 들어가지 않게 글자 크기를 줄여 맞춰요 (언어마다 길이가 달라요)
+// 긴 번역 글자: 한 줄을 지키고 칸을 넘치면 글자를 줄여요 (단어 가운데서 끊기지 않게)
+function fitIn(el,box,min,pad){
+  if(!el||!box||!el.offsetParent)return;el.style.fontSize='';
+  let fs=parseFloat(getComputedStyle(el).fontSize);const right=()=>box.getBoundingClientRect().right-(pad||0),left=()=>box.getBoundingClientRect().left+(pad||0);
+  for(let i=0;i<60&&fs>min;i++){const r=el.getBoundingClientRect();if(r.right<=right()+.5&&r.left>=left()-.5&&el.scrollWidth<=Math.ceil(r.width)+1)break;fs-=1;el.style.fontSize=fs+'px';}
+}
+function fitTexts(){
+  document.querySelectorAll('.lv button').forEach(b=>fitIn(b.querySelector('b'),b,11,6));
+  document.querySelectorAll('.gbtn').forEach(b=>fitIn(b.querySelector('b'),b,10,6));
+  if(!$('result').hidden)fitIn($('rMain'),$('rMain').parentElement,24,10);
+}
 function fitBrand(){
   const box=document.querySelector('#lobby .rankbox');if(!box||$('lobby').hidden)return;
   const right=box.getBoundingClientRect().left-10;
   // 제목은 줄여서 한 줄로, 부제는 14px까지 줄이고 그래도 길면 두 줄로 나눠요
   document.querySelectorAll('.brand h1,.brand p').forEach(el=>{
-    const h1=el.tagName==='H1',min=h1?28:14;el.style.fontSize=el.style.whiteSpace=el.style.maxWidth='';
+    const h1=el.tagName==='H1',min=h1?18:14;el.style.fontSize=el.style.whiteSpace=el.style.maxWidth='';
     const w=el.getBoundingClientRect().width,room=right-el.getBoundingClientRect().left;if(w<=room||room<=0)return;
     const want=Math.floor(parseFloat(getComputedStyle(el).fontSize)*room/w);
     el.style.fontSize=Math.max(min,want)+'px';
@@ -35,7 +46,7 @@ function fitRank(){
   box.style.transform='';const b=box.getBoundingClientRect(),t=pick.getBoundingClientRect().top-8;
   if(b.bottom>t&&b.height>0){const k=Math.max(.62,(t-b.top)/b.height);box.style.transformOrigin='top right';box.style.transform=`scale(${k})`;}
 }
-function relayout(){
+function relayout(){requestAnimationFrame(fitTexts);
   fitBrand();fitRank();
   const r=app.getBoundingClientRect();viewW=Math.max(1,r.width);viewH=Math.max(1,r.height);
   renderer.setSize(viewW,viewH,false);camera.aspect=viewW/viewH;camera.updateProjectionMatrix();
@@ -302,7 +313,7 @@ function refreshLobby(){
   achCheck(true);profRender();
   // 부제: 종목 이름을 '·'로 이어요. 줄이 바뀔 때 이름 가운데(3-Cushion의 '-' 등)에서 끊기지 않게 이름마다 묶어요
   const bs=$('brandSub');bs.textContent='';['4b','3c','pool'].forEach((g,i)=>{if(i)bs.append('\u00a0· ');const n=document.createElement('span');n.style.whiteSpace='nowrap';n.textContent=GAME_INFO[g].name;bs.append(n);});
-  requestAnimationFrame(fitBrand);
+  requestAnimationFrame(()=>{fitBrand();fitTexts();});
   pickGame(nav.game,true);
   const rows=$('rankRows');rows.textContent='';
   ['4b','3c','pool'].forEach(g=>{const r=save.rec[g],tr=document.createElement('tr'),th=document.createElement('th');th.scope='row';th.textContent=GAME_INFO[g].name;tr.appendChild(th);[r.rk,rankPos(g)?T('rank_pos',{n:rankPos(g)}):'—',`${r.w}-${r.l}`].forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td);});rows.appendChild(tr);});
@@ -331,7 +342,7 @@ function showResult(o){
   cue.visible=false;cueRing.visible=false;SEGS.forEach(m=>m.visible=false);ghost.visible=false;
   interPending=!!o.ad;mFlow('result');
   $('result').hidden=false;$('rTag').textContent=o.tag;
-  const m=$('rMain');m.textContent=o.main;m.className=o.cls||'';
+  const m=$('rMain');m.textContent=o.main;m.className=o.cls||'';requestAnimationFrame(fitTexts);
   $('rWhy').textContent=o.why||'';
   $('rScore').hidden=!o.score;if(o.score)$('rScore').textContent=o.score;
   const st=$('rStars');st.hidden=o.stars==null;if(o.stars!=null){renderStars(st,o.stars);[...st.children].forEach((e,i)=>{e.style.animationDelay=(.25+i*.32)+'s';e.classList.add('pop');});
@@ -746,7 +757,7 @@ function pickGame(g,quiet){
 }
 document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{ensureAudio();const g=b.dataset.pick;if(g==='4b')NcqMetrics.step("pick_4b");else if(g==='3c')NcqMetrics.step("pick_3c");else NcqMetrics.step("pick_pool");pickGame(g);});
 document.querySelectorAll('[data-help]').forEach(b=>b.onclick=e=>{e.stopPropagation();openRules(b.dataset.help);});
-function openModes(){NcqMetrics.step("022_first_mode_tap");NcqMetrics.step("single_open");mFlow('single_menu');nav.mode='single';$('aiRule').textContent=GAME_INFO[nav.game].rule;showStep('stepMode',GAME_INFO[nav.game].name,'Single');}
+function openModes(){requestAnimationFrame(fitTexts);NcqMetrics.step("022_first_mode_tap");NcqMetrics.step("single_open");mFlow('single_menu');nav.mode='single';$('aiRule').textContent=GAME_INFO[nav.game].rule;showStep('stepMode',GAME_INFO[nav.game].name,'Single');}
 const LOCK_MINI='<svg viewBox="0 0 12 14" width="11" height="13" aria-hidden="true"><path d="M3.2 6.2V4.4a2.8 2.8 0 0 1 5.6 0v1.8" fill="none" stroke="currentColor" stroke-width="1.7"/><rect x="1.2" y="6" width="9.6" height="7.4" rx="1.6" fill="currentColor"/></svg>';
 
 // ---------- 스테이지 맵: 노드가 길처럼 이어져요 (1번이 아래). 드래그해서 끝까지 볼 수 있고, 다음에 할 판이 골라져 있어

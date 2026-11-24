@@ -19,6 +19,13 @@ for tag in ('sound','device'):
     assert n==1,'ncq/'+tag+'.js 묶음을 찾지 못했어요'
 assert 'cdnjs' not in s and 'fonts.g' not in s
 used=set(ord(c) for c in s if ord(c)>32)
+# 일본어·중국어 글자는 한국어 글꼴 조각을 끌어오지 않게 빼요 (그 언어는 기기 글꼴로 그려요, head.html의 :lang)
+import json as _j,os as _o
+_d=_o.path.dirname(_o.path.abspath(__file__))
+_cjk=set()
+for _c in ('ja','zh-Hans','zh-Hant'):_cjk|=set(ord(c) for c in open(_o.path.join(_d,'lang',_c+'.json'),encoding='utf8').read())
+_keep=set(ord(c) for c in open(_o.path.join(_d,'src','texts.js'),encoding='utf8').read())|set(range(0,0x3000))
+used-=(_cjk-_keep)
 def inter(r):
     for p in r.split(','):
         p=p.strip().replace('U+','')

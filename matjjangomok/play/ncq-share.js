@@ -43,6 +43,51 @@
     return url.href;
   }
 
+  // Only a platform name travels in a shared URL, never a client-supplied redirect.
+  var sources = ["googleplay", "appstore", "toss", "kakaopay", "kakaotalk", "web", "unknown"];
+  function currentPlatform() {
+    var platform = {android: "googleplay", ios: "appstore"}[flags.NCQ_PLATFORM] || flags.NCQ_PLATFORM;
+    if ((platform === "kakaopay" || platform === "kakaotalk") && w.NcqKakao && w.NcqKakao.status) {
+      var host = w.NcqKakao.status();
+      if (host && host.available && host.host === "KAKAOTALK") platform = "kakaotalk";
+      if (host && host.available && host.host === "KAKAOPAY") platform = "kakaopay";
+    }
+    return sources.indexOf(platform) >= 0 ? platform : "unknown";
+  }
+  function source() {
+    var incoming = new URLSearchParams(w.location.search).get("ncq_source");
+    if (incoming !== null) return sources.indexOf(incoming) >= 0 ? incoming : "unknown";
+    return currentPlatform();
+  }
+  function withSource(value) {
+    var valid = httpsUrl(value);
+    if (!valid) return "";
+    var url = new URL(valid);
+    url.searchParams.set("ncq_source", source());
+    return url.href;
+  }
+  function appUrl() {
+    // The landing page resolves the originating app or another public store.
+    return gameUrl ? withSource(playUrl()) : "";
+  }
+  function openApp(options) {
+    options = options || {};
+    var current = currentPlatform(), origin = source();
+    if (["googleplay", "appstore", "toss", "kakaopay", "kakaotalk"].indexOf(current) >= 0) {
+      // Stay in the current game. Never navigate a host WebView to another app.
+      if (["unknown", "web", current].indexOf(origin) < 0) return {status: "unavailable", reason: "different_host"};
+      if (typeof options.onCurrentApp !== "function") return {status: "unavailable", reason: "missing_callback"};
+      options.onCurrentApp();
+      return {status: "current"};
+    }
+    var url = appUrl();
+    if (!url) return {status: "unavailable", reason: "missing_link"};
+    try {
+      w.location.assign(url);
+      return {status: "opened", url: url};
+    } catch (error) { return {status: "unavailable", reason: "navigation_failed"}; }
+  }
+
   function fileName(image) {
     var ext = {"image/png": ".png", "image/webp": ".webp", "image/jpeg": ".jpg"};
     return "game-screenshot" + (ext[image.type] || ".jpg");
@@ -102,7 +147,7 @@
 
   async function share(prepared) {
     var customUrl = prepared && prepared.url != null;
-    var url = customUrl ? httpsUrl(prepared.url) : gameUrl;
+    var url = customUrl ? httpsUrl(prepared.url) : withSource(gameUrl);
     var imageAttached = false;
     function result(status) { return {status: status, url: url, imageAttached: imageAttached}; }
     if (!url || !prepared || busy) return result("failed");
@@ -115,7 +160,7 @@
       if (flags.NCQ_PLATFORM === "toss" && toss && toss.sendMessage) {
         if (!customUrl && config.tossApp && toss.createLink) {
           try {
-            url = httpsUrl(await toss.createLink({path: "intoss://" + config.tossApp})) || gameUrl;
+            url = httpsUrl(await toss.createLink({path: "intoss://" + config.tossApp})) || withSource(gameUrl);
           } catch (error) { /* 토스 링크를 만들지 못하면 공개 게임 링크를 써요. */ }
         }
         await toss.sendMessage({message: messageWithLink(prepared, url)});
@@ -183,7 +228,7 @@
   }
 
   async function copy(prepared) {
-    var url = prepared && prepared.url != null ? httpsUrl(prepared.url) : gameUrl;
+    var url = prepared && prepared.url != null ? httpsUrl(prepared.url) : withSource(gameUrl);
     try {
       if (!prepared || !url || !w.navigator.clipboard || !w.navigator.clipboard.writeText) throw new Error("clipboard_unavailable");
       await w.navigator.clipboard.writeText(messageWithLink(prepared, url));
@@ -249,6 +294,11 @@
     connectPopup: connectPopup,
     popupContractVersion: 1,
     playUrl: playUrl,
+    source: source,
+    withSource: withSource,
+    appUrl: appUrl,
+    openApp: openApp,
+    routingVersion: 1,
     saveImage: saveImage
   });
 })(window);

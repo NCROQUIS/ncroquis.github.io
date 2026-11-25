@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "1.19.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangomok", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/matjjangomok", "board": "https://ncroquis.github.io/matjjangomok/feedback/"}, "NCQ_SHARE": {"url": "https://ncroquis.github.io/matjjangomok/share/", "title": "맞짱 오목"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "matjjangomok", "environment": "prod", "platform": "web", "firebase": {"projectId": "ncq-auth-prod", "apiKey": "AIzaSyDqEPsungpngw_qgoPvZhCGRZah1KpjQTk", "appId": "1:82264449125:web:1f719a207abad22b95e68c"}}, "NCQ_VIEWPORT": {"pageScroll": false}});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "1.19.4", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangomok", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/matjjangomok", "board": "https://ncroquis.github.io/matjjangomok/feedback/"}, "NCQ_SHARE": {"url": "https://ncroquis.github.io/matjjangomok/share/", "title": "맞짱 오목"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "matjjangomok", "environment": "prod", "platform": "web", "firebase": {"projectId": "ncq-auth-prod", "apiKey": "AIzaSyDqEPsungpngw_qgoPvZhCGRZah1KpjQTk", "appId": "1:82264449125:web:1f719a207abad22b95e68c"}}, "NCQ_SOURCE_COMMIT": "9f5b3fddf2947d880c686fd37d96eafb04ee71df", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
 Object.assign(window, window.NCQ);
 /* NcqViewport — fixed game page, native inner scrolling and editable controls. ES2017. */
 (function (w, d) {
@@ -77,14 +77,68 @@ Object.assign(window, window.NCQ);
 
 if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && window.NCQ.NCQ_VIEWPORT){window.NcqViewport.configure(window.NCQ.NCQ_VIEWPORT);}
 
-/* 화면 켜 두기 (ncq_build.py가 넣어요, 웹 공개). 게임을 보는 동안 휴대폰 화면이 저절로 꺼지지 않게 브라우저의
- * Screen Wake Lock을 잡아요. 화면을 내리면 브라우저가 풀고, 다시 보면 다시 잡아요. 지원하지 않는 브라우저는 그대로이고,
- * 브라우저가 거절하면(절전 모드, 첫 터치 전) 1초 뒤의 터치에 다시 해 봐요. 잡혀 있는지는 NcqAwake.held(). */
+/* NcqDisplay — 기기 화면 설정 한 곳 (엔크로키 공용 모듈). ES5로 써요 (오래된 WebView에서 게임 코드보다 먼저 돌아요).
+ * 출시 빌드는 ncq-flags.js에 붙이고(설정은 window.NCQ.NCQ_DISPLAY), 개발 화면은 <head>에서 불러 같은 동작을 해요.
+ *   확대·축소 막기  viewport에 maximum-scale=1·user-scalable=no, 두 번 탭은 *{touch-action:manipulation}(게임이 요소에 적은
+ *                   touch-action이 이겨요), 아이폰 사파리의 손가락 두 개 확대는 gesture 이벤트를 막아요. 게임이 받는 터치는 그대로.
+ *                   열기: 설정 zoom "open"(release/android.json의 "zoom": true) 또는 <html data-ncq-zoom="open">.
+ *   글자 크기 고정  브라우저의 자동 글자 확대를 꺼요 (text-size-adjust:100%). 설정 textScale "system"이면 그대로.
+ *   화면 켜 두기    웹(브라우저)은 Screen Wake Lock을 보이는 동안 잡아요. 안드로이드·iOS 앱은 빌드가 네이티브로, 토스는
+ *                   ncq-toss.js가 앱인토스 Screen으로 해요. 설정 awake false면 아무것도 안 해요.
+ * 상태는 NcqDisplay.state(). 예전 이름 NcqNoZoom·NcqAwake도 그대로 둬요 (두 번 불려도 한 번만 설치). */
 (function (w, d) {
   "use strict";
-  try {
+  if (!w || w.NcqDisplay) return;
+  var NCQ = w.NCQ || {};
+  var cfg = NCQ.NCQ_DISPLAY || {};
+  var platform = String(NCQ.NCQ_PLATFORM || "");
+  var root = d && d.documentElement;
+  var zoomOpen = cfg.zoom === "open" || !!(root && root.getAttribute("data-ncq-zoom") === "open");
+  var textScale = cfg.textScale === "system" ? "system" : "web";
+  var awakeOn = cfg.awake !== false;
+  var awakeHow = !awakeOn ? false : (platform === "" || platform === "web") ? "web"
+    : (platform === "android" || platform === "ios") ? "native" : platform;
+  var wake = null;
+
+  function head() { return d.head || d.getElementsByTagName("head")[0] || root; }
+  function firstStyle(id, css) {  // <head> 맨 앞에 (게임 CSS가 뒤에서 이기게). 빌드가 이미 넣었으면 그대로
+    if (!d || d.getElementById(id)) return;
+    var s = d.createElement("style");
+    s.id = id;
+    s.appendChild(d.createTextNode(css));
+    var h = head();
+    if (h) h.insertBefore(s, h.firstChild);
+  }
+  function lockViewport() {
+    var meta = d.querySelector('meta[name="viewport"]');
+    if (!meta) {
+      meta = d.createElement("meta");
+      meta.setAttribute("name", "viewport");
+      meta.setAttribute("content", "width=device-width, initial-scale=1");
+      var h = head();
+      if (h) h.insertBefore(meta, h.firstChild);
+    }
+    var parts = String(meta.getAttribute("content") || "").split(",");
+    var kept = [], locked = 0;
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i].replace(/^\s+|\s+$/g, "");
+      if (!p) continue;
+      if (/^user-scalable\s*=\s*(no|0)$/i.test(p) || /^maximum-scale\s*=\s*1(\.0*)?$/i.test(p)) locked++;
+      if (/^(maximum-scale|user-scalable)\s*=/i.test(p)) continue;
+      kept.push(p);
+    }
+    if (locked < 2) meta.setAttribute("content", kept.concat(["maximum-scale=1", "user-scalable=no"]).join(", "));
+  }
+  function noZoom() {
+    if (w.NcqNoZoom) return;  // 예전 빌드의 NCQ_NO_ZOOM이 이미 막고 있어요
+    var stop = function (e) { if (e && e.cancelable !== false && e.preventDefault) e.preventDefault(); };
+    var names = ["gesturestart", "gesturechange", "gestureend"];
+    for (var i = 0; i < names.length; i++) d.addEventListener(names[i], stop, {passive: false});
+    w.NcqNoZoom = Object.freeze({version: 1});
+  }
+  function keepAwake() {  // 브라우저의 Screen Wake Lock: 화면을 내리면 브라우저가 풀고, 다시 보면 다시 잡아요
     var nav = w.navigator, wl = nav && nav.wakeLock;
-    if (!d || !wl || typeof wl.request !== "function" || w.NcqAwake) return;
+    if (!wl || typeof wl.request !== "function" || w.NcqAwake) return;
     var lock = null, asking = false, refused = 0;
     var held = function () { return !!lock && lock.released !== true; };
     var grab = function () {
@@ -106,28 +160,46 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     var taps = ["pointerdown", "pointerup", "touchend", "keydown", "click"];
     for (var i = 0; i < taps.length; i++) d.addEventListener(taps[i], poke, true);
     w.NcqAwake = Object.freeze({version: 1, held: held});
+    wake = held;
     poke();
-  } catch (e) { /* 화면 켜 두기가 안 돼도 게임은 그대로 */ }
-})(window, typeof document !== "undefined" ? document : null);
+  }
+  function step(fn) { try { fn(); } catch (e) { /* 하나가 안 돼도 게임과 나머지는 그대로 */ } }
 
-/* 확대·축소 막기 (ncq_build.py가 넣어요, 기본). 아이폰 사파리는 viewport의 user-scalable=no를 지키지 않아서 손가락 두 개로
- * 벌리는 확대(gesture 이벤트)를 여기서 막아요. 두 번 탭 확대는 <head>의 touch-action 스타일이 막아요.
- * 게임이 받는 터치·포인터 이벤트는 그대로예요 (게임 안 확대는 게임이 직접). */
-(function (w, d) {
-  "use strict";
-  try {
-    if (!d || w.NcqNoZoom) return;
-    var stop = function (e) { if (e && e.cancelable !== false && e.preventDefault) e.preventDefault(); };
-    var names = ["gesturestart", "gesturechange", "gestureend"];
-    for (var i = 0; i < names.length; i++) d.addEventListener(names[i], stop, {passive: false});
-    w.NcqNoZoom = Object.freeze({version: 1});
-  } catch (e) { /* 막지 못해도 게임은 그대로 */ }
-})(window, typeof document !== "undefined" ? document : null);
+  if (d) {
+    if (!zoomOpen) {
+      // 게임의 viewport 태그가 이 스크립트 뒤에 있으면(<head> 맨 앞에서 불렀을 때) 다 읽은 뒤에 맞춰요 (태그를 둘로 만들지 않게)
+      if (d.querySelector('meta[name="viewport"]') || d.readyState !== "loading") step(lockViewport);
+      else d.addEventListener("DOMContentLoaded", function () { step(lockViewport); });
+      step(function () { firstStyle("ncq-no-zoom", "*{touch-action:manipulation}"); });
+      step(noZoom);
+    }
+    if (textScale === "web") {
+      step(function () {
+        firstStyle("ncq-text-scale", ":where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}");
+      });
+    }
+    if (awakeHow === "web") step(keepAwake);
+  }
+  w.NcqDisplay = Object.freeze({
+    version: 1,
+    state: function () {
+      var vp = w.NcqViewport && typeof w.NcqViewport.status === "function" ? w.NcqViewport.status() : null;
+      return {
+        zoom: zoomOpen ? "open" : "locked",
+        textScale: textScale,
+        awake: awakeHow,
+        awakeHeld: wake ? wake() : null,
+        pageScroll: vp ? !!vp.pageScroll : null,
+        motion: w.NcqMotion && w.NcqMotion.policy ? String(w.NcqMotion.policy) : null
+      };
+    }
+  });
+})(typeof window !== "undefined" ? window : null, typeof document !== "undefined" ? document : null);
 
 /* 엔크로키 지표 모듈 (ncq_build.py가 ncq-flags.js 뒤에 붙여요. 직접 고치지 마세요)
-   ncq-metrics 8 (2: 판 시작·끝 NcqMetrics.levelStart·levelEnd, 3: 광고·결제 도구가 보내는 광고·결제 이벤트,
+   ncq-metrics 9 (2: 판 시작·끝 NcqMetrics.levelStart·levelEnd, 3: 광고·결제 도구가 보내는 광고·결제 이벤트,
    4: 저장 모듈의 save_tamper, 5: 게임 오류 app_error, 6: 토스 포인트 지급 promo_reward, 7: 진행 단계 NcqMetrics.step,
-   8: 초기 반복 동선 NcqMetrics.flow — 20판·300건·14일)
+   8: 초기 반복 동선 NcqMetrics.flow — 20판·300건·14일, 9: 비정상 종료 app_exit·웹뷰 되살림 app_recover)
 
    아래 이벤트는 게임 코드가 할 일 없이 저절로 모아 킥오프 서버로 보내요.
      first_open     이 기기에서 처음 실행 (설치 ID를 만들 때)
@@ -147,6 +219,9 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
    공용 저장 모듈(NcqSave)은 기기 저장이 바깥에서 바뀐 걸 알아채면 save_tamper {where}를 알려요 (지표 모듈 4).
    게임 스크립트에서 잡히지 않은 오류는 app_error {kind, msg, src, line}로 알려요 (지표 모듈 5, 업데이트 뒤 깨진 버전을
    찾으려고). 글의 주소·이메일·긴 숫자는 지우고 120자까지, 한 번 열 때 같은 오류는 한 번·모두 10개까지예요.
+   화면을 보던 중에 앱이 끝났으면(크래시·응답 없음 강제 종료·메모리 부족 — 사용자가 닫으면 화면을 먼저 벗어나서 세지 않아요)
+   다음에 열 때 app_exit {up, pvn, pvc}로 알려요 (지표 모듈 9, 끝난 때의 시각·버전으로). 안드로이드 앱이 죽은 웹뷰를 되살렸으면
+   (빌드가 넣는 NcqSystem) 그 일은 app_recover {n, crashed, fg}로 알리고 app_exit로 또 세지 않아요.
    설치 ID는 코드네임별 무작위 값이라 기기·광고 ID·개인정보와 이어지지 않아요. 앱을 지우면 함께 지워져요.
    보내지 못한 이벤트는 기기에 모아 뒀다가(최대 300개) 다음에 보내요. 서버가 받았다고 답한 것만 지워요.
    같은 이벤트가 두 번 가도 서버 집계가 이벤트 ID로 한 번만 세요. 오류가 나도 게임은 그대로 돌아가요. */
@@ -154,7 +229,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
   "use strict";
   if (!cfg || !cfg.url || !cfg.cn || typeof window === "undefined" || typeof document === "undefined") return;
 
-  var SDK = 8;
+  var SDK = 9;
   var SESSION_GAP = 30 * 60 * 1000;      // 이만큼 쉬면 새 세션
   var BEAT = 15 * 1000;                  // 살아 있음 기록 (꺼져도 그때까지 시간은 남는다)
   var ENGAGE_EVERY = 5 * 60 * 1000;      // 오래 켜 둬도 이만큼마다 플레이 시간을 보낸다
@@ -356,6 +431,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
   }
   function hidden() {
     var t = now();
+    runMark(t, false);
     roundsAway(t, true);
     engage(t);
     visibleSince = null;
@@ -365,6 +441,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
   }
   function shown() {
     var t = now();
+    runMark(t, true);
     roundsAway(t, false);
     if (!session || t - session.last > SESSION_GAP) startSession(t);
     else touch(t);
@@ -389,6 +466,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     }
     lastBeat = t;
     touch(t);
+    runMark(t, true);
     if (t - lastEngage >= ENGAGE_EVERY) engage(t);
   }
   function isHidden() { return document.visibilityState ? document.visibilityState === "hidden" : !!document.hidden; }
@@ -577,6 +655,65 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     try { return String(r); } catch (err) { return "?"; }
   }
 
+  // ------------------------------------------------------------ 비정상 종료 (지표 모듈 9)
+  // 실행마다 기기에 '켜져 있음' 표시(runs)를 두고 화면을 보는 동안 BEAT마다 시각을 고친다. 화면을 벗어나면 '안 보임'으로 바꾼다.
+  // 다음에 열 때 '보이는 채'로 멈춘 표시가 남아 있으면 앞 실행이 화면을 보던 중에 끝났다는 뜻이라 app_exit로 알린다 (그 실행의
+  // 마지막 시각·버전으로). 웹은 다른 탭이 아직 켜져 있을 수 있어서 RUN_STALE만큼 소식이 없는 표시만 끝난 실행으로 본다.
+  // 안드로이드 앱이 죽은 웹뷰를 되살렸으면(NcqSystem.takeRecovered, 빌드가 넣어요) app_recover로 알리고, 보던 중에 되살린 수만큼
+  // app_exit를 빼요 (같은 일을 두 번 세지 않게). 크래시와 사용자의 강제 종료를 가르지 못해서 서버·화면은 '추정'이라고 불러요.
+  var RUN_STALE = BEAT * 4, RUN_MAX = 5, EXIT_MAX = 3, RECOVER_WAIT = 3000;
+  var single = ctx.pf === "android" || ctx.pf === "ios" || ctx.pf === "toss";  // 한 번에 하나만 켜지는 앱
+  var runId = rand(12), runStart = now(), deadRuns = [];
+  function runsLoad() {
+    var r = loadJson("runs");
+    return r && typeof r === "object" ? r : {};
+  }
+  function runMark(t, visible) {
+    var r = runsLoad();
+    r[runId] = {s: runStart, l: t, v: visible ? 1 : 0, vn: ctx.vn, vc: ctx.vc, sid: session ? session.id : ""};
+    save("runs", JSON.stringify(r));
+  }
+  function runsOpen(t) {  // 시작할 때: 끝난 실행 중 보던 채로 멈춘 것을 고르고, 아직 켜져 있을 수 있는 다른 탭만 남긴다
+    var r = runsLoad(), keep = {}, kept = 0, k, e;
+    for (k in r) {
+      e = r[k];
+      if (!e || typeof e !== "object" || typeof e.l !== "number") continue;
+      if (!single && e.v === 1 && t - e.l < RUN_STALE && t >= e.l) {
+        if (kept < RUN_MAX - 1) { keep[k] = e; kept += 1; }
+      } else if (e.v === 1 && deadRuns.length < EXIT_MAX) deadRuns.push(e);
+    }
+    keep[runId] = {s: runStart, l: t, v: isHidden() ? 0 : 1, vn: ctx.vn, vc: ctx.vc, sid: session ? session.id : ""};
+    save("runs", JSON.stringify(keep));
+  }
+  function runsReport(recoveredFg) {
+    deadRuns.sort(function (a, b) { return a.l - b.l; });
+    for (var i = 0; i < deadRuns.length; i++) {
+      var e = deadRuns[i];
+      if (recoveredFg > 0) { recoveredFg -= 1; continue; }  // 앱이 웹뷰를 되살린 실행 (app_recover로 셌어요)
+      var props = {up: Math.max(0, Math.min(86400, Math.round((e.l - (e.s || e.l)) / 1000)))};
+      if (typeof e.vn === "string" && e.vn) props.pvn = e.vn.slice(0, 40);
+      if (typeof e.vc === "number" && isFinite(e.vc)) props.pvc = e.vc;
+      var sid = typeof e.sid === "string" && /^[A-Za-z0-9_-]{8,40}$/.test(e.sid) ? e.sid : undefined;
+      track("app_exit", props, {time: e.l, session: sid});
+    }
+    deadRuns = [];
+  }
+  function recovered(done) {  // 안드로이드 앱(NcqSystem)이 이번 실행 전에 웹뷰를 되살렸는지 → 보던 중에 되살린 수
+    var finished = false;
+    var finish = function (n) { if (!finished) { finished = true; done(n); } };
+    var cap = window.Capacitor, plugin = cap && cap.Plugins && cap.Plugins.NcqSystem;
+    if (ctx.pf !== "android" || !plugin || typeof plugin.takeRecovered !== "function"
+        || (typeof cap.isPluginAvailable === "function" && !cap.isPluginAvailable("NcqSystem"))) { finish(0); return; }
+    window.setTimeout(safe(function () { finish(0); }), RECOVER_WAIT);
+    plugin.takeRecovered().then(safe(function (r) {
+      var n = r && typeof r.count === "number" ? Math.max(0, Math.min(20, Math.floor(r.count))) : 0;
+      var fg = r && typeof r.fg === "number" ? Math.max(0, Math.min(n, Math.floor(r.fg))) : 0;
+      var crashed = r && typeof r.crashed === "number" ? Math.max(0, Math.min(n, Math.floor(r.crashed))) : 0;
+      if (n) track("app_recover", {n: n, crashed: crashed, fg: fg});
+      finish(fg);
+    }), safe(function () { finish(0); }));
+  }
+
   function guard(fn) {  // 게임이 부르는 함수: 어떤 값이 와도 오류를 게임으로 넘기지 않는다
     return function (a, b, c) { try { fn(a, b, c); } catch (err) { /* 무시 */ } };
   }
@@ -594,6 +731,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     save("ver", verKey);
     if (!session || t0 - session.last > SESSION_GAP) startSession(t0);
     else touch(t0);
+    try { runsOpen(t0); recovered(safe(runsReport)); } catch (e) { /* 비정상 종료 기록은 덤이에요 */ }
     journeyWork(function () {});
     if (!isHidden()) visibleSince = t0;
 
@@ -614,4 +752,4 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangomok","pf":"web","mk":"web","tr":"share","vn":"1.19.0","vc":0,"cm":"a962278","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangomok","pf":"web","mk":"web","tr":"share","vn":"1.19.4","vc":0,"cm":"9f5b3fd","ft":[]});

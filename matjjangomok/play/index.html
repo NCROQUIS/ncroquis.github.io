@@ -1,34 +1,36 @@
 <!doctype html>
 <html>
-<head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
+<head><script src="ncq-build-info.js?b=495eda16372a2a0f"></script>
+<script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
   <script src="./ncq/safe.js"></script>
-  <script src="./ncq/motion.js?v=83fb57b4197c"></script>
-  <script src="./ncq/device.js?v=83fb57b4197c"></script>
-  <script src="./ncq/sound.js?v=83fb57b4197c"></script>
-  <script src="./ncq/save.js?v=83fb57b4197c"></script>
-  <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
+  <script src="./ncq/display.js?v=89a41d1e00fd"></script>
+  <script src="./ncq/motion.js?v=89a41d1e00fd"></script>
+  <script src="./ncq/device.js?v=89a41d1e00fd"></script>
+  <script src="./ncq/sound.js?v=89a41d1e00fd"></script>
+  <script src="./ncq/save.js?v=89a41d1e00fd"></script>
+  <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-device.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-share.js"></script><script src="ncq-auth.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
   <meta name="theme-color" content="#f8f5eb">
   <link rel="icon" href="data:,">
-  <link rel="preload" href="./assets/forest-ui/fonts/subsets/core-7dccc98ad827.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/forest-ui/fonts/subsets/core-3892d97ff142.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="./assets/match-ui/golden-wave.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-bloom.svg" as="image" type="image/svg+xml">
   <link rel="preload" href="./assets/match-ui/sakura-petal.svg" as="image" type="image/svg+xml">
   <link rel="stylesheet" href="./assets/match-ui/chrome.css">
-  <link rel="stylesheet" href="./style.css?v=83fb57b4197c">
-  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=83fb57b4197c">
-  <link rel="stylesheet" href="./board-thumbnails.css?v=83fb57b4197c">
-  <link rel="stylesheet" href="./forest-ui.css?v=83fb57b4197c">
-  <link rel="stylesheet" href="./lobby-layout.css?v=83fb57b4197c">
-  <link rel="stylesheet" href="./list-dialog.css?v=83fb57b4197c">
-  <link rel="stylesheet" href="./shop-layout.css?v=83fb57b4197c">
-  <link rel="stylesheet" href="./ranking-layout.css?v=83fb57b4197c">
-  <link rel="stylesheet" href="./mission-layout.css?v=83fb57b4197c">
-  <link rel="stylesheet" href="./game-modes.css?v=83fb57b4197c">
-  <link rel="stylesheet" href="./webview-ui.css?v=83fb57b4197c">
-  <link rel="stylesheet" href="./review-layout.css?v=83fb57b4197c">
-  <script type="module" src="./webview-ui.js?v=83fb57b4197c"></script>
-  <script type="module" src="./app.js?v=83fb57b4197c"></script>
+  <link rel="stylesheet" href="./style.css?v=89a41d1e00fd">
+  <link rel="stylesheet" href="./assets/forest-ui/fonts/subsets.css?v=89a41d1e00fd">
+  <link rel="stylesheet" href="./board-thumbnails.css?v=89a41d1e00fd">
+  <link rel="stylesheet" href="./forest-ui.css?v=89a41d1e00fd">
+  <link rel="stylesheet" href="./lobby-layout.css?v=89a41d1e00fd">
+  <link rel="stylesheet" href="./list-dialog.css?v=89a41d1e00fd">
+  <link rel="stylesheet" href="./shop-layout.css?v=89a41d1e00fd">
+  <link rel="stylesheet" href="./ranking-layout.css?v=89a41d1e00fd">
+  <link rel="stylesheet" href="./mission-layout.css?v=89a41d1e00fd">
+  <link rel="stylesheet" href="./game-modes.css?v=89a41d1e00fd">
+  <link rel="stylesheet" href="./webview-ui.css?v=89a41d1e00fd">
+  <link rel="stylesheet" href="./review-layout.css?v=89a41d1e00fd">
+  <script type="module" src="./webview-ui.js?v=89a41d1e00fd"></script>
+  <script type="module" src="./app.js?v=89a41d1e00fd"></script>
 </head>
 <body class="forest-ui">
   <svg class="board-grid-definitions" width="0" height="0" aria-hidden="true" focusable="false">
@@ -518,7 +520,7 @@
             <button id="review-room-action" class="primary" type="button">
               <span class="review-action-content"><span id="review-room-action-label"></span></span>
             </button>
-            <a id="review-play" class="primary" rel="noreferrer" data-i18n="recordPlay" hidden></a>
+            <button id="review-play" class="primary" type="button" data-i18n="recordPlay" hidden></button>
           </div>
         </div>
         <div id="player-bar" class="player-bar">
@@ -679,7 +681,7 @@
           </div>
           <label class="option-row sound-option">
             <span data-i18n="backgroundMusic"></span>
-            <input id="background-music" type="checkbox" checked>
+            <input id="background-music" type="checkbox">
           </label>
           <div class="option-row effects-volume-option">
             <label for="music-volume" data-i18n="musicVolume"></label>

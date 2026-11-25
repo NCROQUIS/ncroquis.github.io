@@ -1,12 +1,13 @@
 <!doctype html>
 <html>
-  <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
-    <meta charset="UTF-8" /><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-auth.js"></script>
+  <head><script src="ncq-build-info.js?b=e4a918d98e0d1003"></script>
+<script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
+    <meta charset="UTF-8" /><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-device.js"></script><script src="ncq-popup.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-auth.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
     <meta name="theme-color" content="#bfe8da" />
     <title>Car Out</title>
-    <script type="module" crossorigin src="./assets/index-BLDkdmv1.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Dk5eXzXh.css">
+    <script type="module" crossorigin src="./assets/index-CCrCTVGc.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CuTWCpqJ.css">
   </head>
   <body>
     <div id="app">
@@ -26,6 +27,8 @@
         <canvas id="board"></canvas>
         <p class="hint" id="hint" data-i18n="hint_tap" hidden></p>
         <div class="toast" id="toast" role="status"></div>
+        <!-- 어려운 판 시작 알림 -->
+        <div class="tier-banner" id="tier-banner" aria-live="polite" hidden><b id="tier-name"></b><span id="tier-sub"></span></div>
       </main>
 
       <!-- 아이템 막대 (화면 흐름 안에 둬서 판을 가리지 않아요) -->
@@ -56,6 +59,7 @@
           </div>
           <div class="hearts-line" id="hearts-line" hidden></div>
           <button class="btn primary revive" id="revive-btn" hidden></button>
+          <button class="btn easy" id="easy-btn" hidden></button>
           <button class="btn primary" id="result-btn" data-ncq-main="결과 버튼"></button>
         </div>
       </section>

@@ -62,11 +62,11 @@
   V.refresh = function () {
     if (!st) return;
     var on = V.active(), b = $('btnVip');
-    document.body.classList.toggle('vip', on);
+    if (document.body.classList.contains('vip') !== on) { document.body.classList.toggle('vip', on); BJ.stage.resize && BJ.stage.resize(); }
     b.classList.toggle('on', on);
     b.classList.toggle('gift', giftReady());
     // ads start at Lv3, so the ad-free pass is only offered from then (a VIP keeps their badge)
-    b.classList.toggle('early', !on && BJ.engine.levelOf(st.xp) < 3);
+    b.classList.toggle('early', !on && (st.stats.hands || 0) < BJ.meta.AD_FROM);
     $('vipDays').textContent = on ? I.t('vipDays', { n: daysLeft() }) : I.t('vipNoAd');
   };
   function claimGift() {

@@ -66,7 +66,7 @@
   };
 
   // Where things sit on the felt. Far row, left to right: discard rack, chip float, shoe.
-  S.LAYOUT = { dealerZ: -17, dealerHalf: 10 };
+  S.LAYOUT = { dealerZ: -18.1, dealerHalf: 10 };   // dealer cards (and their printed boxes) sit a touch further up
 
   function col(hex) { return new T3.Color(hex).convertSRGBToLinear(); }
   function tex(canvas, repeatX, repeatY) {
@@ -81,7 +81,7 @@
   // Filled in by the builders below.
   S.shoe = { x: 0, y: 0, z: 0, yaw: 0, pitch: 0 };
   S.discard = { x: -15, y: 0.45, z: -30.4, yaw: Math.PI / 4, count: 0 };
-  S.tray = { x: 0, y: 1.6, z: -31.6 };
+  S.tray = { x: 0, y: 1.6, z: -31.6 };      // x is set by fitTray(): between the discard rack and the shoe
 
   function buildEnvironment(renderer) {
     var es = new T3.Scene();
@@ -395,7 +395,18 @@
     S.placeShoe(Math.max(11, right - shoeLocal.reach), SHOE_Z);
     S.discard.x = left + 9.0;                           // the rack is turned 45 degrees, so it reaches about 8 cm either side
     if (discardGroup) discardGroup.position.x = S.discard.x;
+    fitTray();
   };
+  // The chip float sits in the gap between the discard rack and the shoe: centred there, and a little smaller
+  // when a narrow screen pulls those two in, so the three never overlap.
+  function trayK() { return trayGroup ? trayGroup.scale.x : 1; }
+  function fitTray() {
+    if (!trayGroup || !discardGroup || !shoeGroup) return;
+    var b = new T3.Box3(), L = b.setFromObject(discardGroup).max.x, R = b.setFromObject(shoeGroup).min.x;
+    var W = 17.2, room = R - L - 1.2, k = Math.max(0.6, Math.min(1, room / W));
+    S.tray.x = (L + R) / 2;
+    trayGroup.scale.set(k, k, k); trayGroup.position.x = S.tray.x;
+  }
 
   S.setShoe = function (full) { if (full) { S.packFlow(1); S.setShoeCount(S.shoeLeft); } else shoePack.visible = false; };
   // The run of cards in the shoe gets shorter as the shoe is dealt down (`left` of 312).
@@ -467,20 +478,21 @@
     var g = new T3.Group();
     woodMats();
     var steel = woodBox;
-    var base = prop(new T3.Mesh(new T3.BoxGeometry(13.2, 0.7, 9.4), steel)); base.position.y = 0.35; base.castShadow = true; base.receiveShadow = true; g.add(base);
+    var W = 17.2;                                    // four chip columns
+    var base = prop(new T3.Mesh(new T3.BoxGeometry(W, 0.7, 9.4), steel)); base.position.y = 0.35; base.castShadow = true; base.receiveShadow = true; g.add(base);
     [-4.5, 4.5].forEach(function (z) {
-      var m = prop(new T3.Mesh(new T3.BoxGeometry(13.2, 1.5, 0.5), steel)); m.position.set(0, 0.9, z); g.add(m);
+      var m = prop(new T3.Mesh(new T3.BoxGeometry(W, 1.5, 0.5), steel)); m.position.set(0, 0.9, z); g.add(m);
     });
-    [-6.4, 6.4].forEach(function (x) {
+    [-W / 2 + 0.2, W / 2 - 0.2].forEach(function (x) {
       var m = prop(new T3.Mesh(new T3.BoxGeometry(0.5, 1.5, 9.4), steel)); m.position.set(x, 0.9, 0); g.add(m);
     });
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 4; i++) {
       var mat = new T3.MeshStandardMaterial({ roughness: 0.55, metalness: 0 });
       var capMat = new T3.MeshStandardMaterial({ roughness: 0.6, metalness: 0 });
       var c = new T3.Mesh(new T3.CylinderGeometry(1.85, 1.85, 8.2, 28, 1), [mat, capMat, capMat]);
-      c.rotation.x = Math.PI / 2; c.position.set((i - 1) * 4.05, 1.75, 0); c.castShadow = true;
+      c.rotation.x = Math.PI / 2; c.position.set((i - 1.5) * 4.05, 1.75, 0); c.castShadow = true;
       g.add(c); trayCols.push(c);
-      c.userData.x = (i - 1) * 4.05;
+      c.userData.x = (i - 1.5) * 4.05;
     }
     g.position.set(S.tray.x, 0, S.tray.z);
     scene.add(g);
@@ -490,7 +502,7 @@
   /* The dealer's float holds real chips: paying a win takes them out, a lost bet puts them back.
      A column that runs low gets a fresh bundle dropped in; one that overflows has a bundle taken away. */
   var trayGroup, FULL = 40, BUNDLE = 20, COL_LEN = 8.2;
-  S.trayCount = [FULL, FULL, FULL];
+  S.trayCount = [FULL, FULL, FULL, FULL];
   S.trayDenoms = [];
   function drawColumn(i) {
     // a full column stays full: extra chips coming in don't make it poke out of the float
@@ -505,7 +517,7 @@
   // Where the chip at the front of a column sits in the world.
   S.trayFront = function (denom) {
     var i = colOf(denom), k = i < 0 ? 1 : Math.max(0.1, S.trayCount[i] / FULL);
-    return { x: S.tray.x + (i < 0 ? 0 : trayCols[i].userData.x), y: S.tray.y + 0.3, z: S.tray.z - COL_LEN / 2 + COL_LEN * k };
+    return { x: S.tray.x + (i < 0 ? 0 : trayCols[i].userData.x * trayK()), y: S.tray.y * trayK() + 0.3, z: S.tray.z + (COL_LEN * k - COL_LEN / 2) * trayK() };
   };
   S.trayTake = function (denom) {
     var i = colOf(denom); if (i < 0) return;
@@ -523,7 +535,7 @@
     m.rotation.x = Math.PI / 2; m.scale.y = BUNDLE / FULL;
     var band = new T3.Mesh(new T3.CylinderGeometry(1.9, 1.9, 0.7, 24, 1, true), new T3.MeshStandardMaterial({ color: col_('#d9c38a'), roughness: 0.6, side: T3.DoubleSide }));
     band.scale.y = FULL / BUNDLE; m.add(band);         // paper band round the bundle
-    var gx = S.tray.x + col.userData.x, slotZ = function () { return S.tray.z - COL_LEN / 2 + COL_LEN * S.trayCount[i] / FULL + COL_LEN * BUNDLE / FULL / 2; };
+    var gx = S.tray.x + col.userData.x * trayK(), slotZ = function () { return S.tray.z - COL_LEN / 2 + COL_LEN * S.trayCount[i] / FULL + COL_LEN * BUNDLE / FULL / 2; };
     var far = { x: gx + 3, y: 22, z: S.tray.z - 18 };
     S.scene.add(m);
     var a = dir > 0 ? far : { x: gx, y: 1.75, z: slotZ() - COL_LEN * BUNDLE / FULL }, b = dir > 0 ? null : far;
@@ -566,9 +578,10 @@
     if (BJ.chips && BJ.chips.retexture) BJ.chips.retexture();
     backMats.forEach(function (m) { m.map = S.backTex; m.needsUpdate = true; });
     // Dealer's float: the three chips this table plays with.
-    S.trayDenoms = table.chips.slice(); S.trayCount = [FULL, FULL, FULL];
+    S.trayDenoms = table.chips.slice(); S.trayCount = [FULL, FULL, FULL, FULL];
     trayCols.forEach(function (m, i) {
       var d = table.chips[i];
+      m.visible = d != null; if (d == null) return;        // a table with fewer chips leaves a column empty
       var side = m.material[0], cap = m.material[1];
       if (side.map) side.map.dispose();
       var t = tex(A.chipEdge(d), 1, 21); side.map = t; side.needsUpdate = true;
@@ -586,6 +599,9 @@
     S.renderer.domElement.style.width = w + 'px';
     S.renderer.domElement.style.height = h + 'px';
     S.camera.aspect = w / h;
+    // with no banner (VIP) the whole picture slides up by the banner's height, so the table sits under the HUD
+    var lift = document.body.classList.contains('vip') ? Math.round(w * 0.06) : 0;   // about half the banner: the room gains headroom without the shoe crowding the HUD
+    if (lift) S.camera.setViewOffset(w, h, 0, lift, w, h); else S.camera.clearViewOffset();
     S.camera.updateProjectionMatrix();
     S.w = w; S.h = h;
     S.placeEdges();

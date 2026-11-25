@@ -102,7 +102,7 @@
     // Dealer's card boxes.
     g.globalAlpha = 0.5; g.lineWidth = 0.09 * PX;
     [-4.35, 4.35].forEach(function (x) {
-      rrect(g, px(x - 3.97), pz(-17 - 5.55), 7.94 * PX, 11.1 * PX, 0.62 * PX); g.stroke();
+      rrect(g, px(x - 3.97), pz(((BJ.stage && BJ.stage.LAYOUT) ? BJ.stage.LAYOUT.dealerZ : -17) - 5.55), 7.94 * PX, 11.1 * PX, 0.62 * PX); g.stroke();
     });
 
     // House rule, on an arc.
@@ -696,6 +696,7 @@
     10:     { base: '#2759c4', insert: '#f4f0e4', inlay: '#f1efe6', text: '#1b3f96' },
     50:     { base: '#e07a1c', insert: '#f4f0e4', inlay: '#fbf3e2', text: '#a8520a' },
     100:    { base: '#1d1d21', insert: '#d9b24a', inlay: '#efe8d2', text: '#1d1d21' },
+    250:    { base: '#00838f', insert: '#f4f0e4', inlay: '#e8f7f8', text: '#005f66' },
     500:    { base: '#6a2fa6', insert: '#f4f0e4', inlay: '#f3ecf8', text: '#4f1f82' },
     1000:   { base: '#d6a11c', insert: '#2a2520', inlay: '#fff5d2', text: '#7d5a00' },
     5000:   { base: '#c2185b', insert: '#f4f0e4', inlay: '#fdeef3', text: '#8f0f41' },
@@ -705,7 +706,16 @@
     500000: { base: '#5a1f30', insert: '#e4c35a', inlay: '#f3e6c8', text: '#5a1f30' },
     1000000: { base: '#f2f2f4', insert: '#c9a14a', inlay: '#1a1a1e', text: '#f2d27a' },
     5000000: { base: '#2a7fd4', insert: '#f4f0e4', inlay: '#f0f6ff', text: '#0f3d73' },
-    10000000: { base: '#12405e', insert: '#e4c35a', inlay: '#f6efdc', text: '#12405e' }
+    10000000: { base: '#12405e', insert: '#e4c35a', inlay: '#f6efdc', text: '#12405e' },
+    50000000: { base: '#2e7d32', insert: '#f4f0e4', inlay: '#eef8ee', text: '#1b5e20' },
+    100000000: { base: '#7b1fa2', insert: '#f0d58a', inlay: '#f6edfa', text: '#5a137a' },
+    500000000: { base: '#b71c1c', insert: '#f0d58a', inlay: '#fbeaea', text: '#8a1212' },
+    1000000000: { base: '#111114', insert: '#f2d27a', inlay: '#2a2418', text: '#f2d27a' },
+    2500: { base: '#6d4c41', insert: '#f4f0e4', inlay: '#f5ede8', text: '#4e342e' },
+    25000: { base: '#ad1457', insert: '#f0d58a', inlay: '#fbe9f1', text: '#7a0d3d' },
+    250000: { base: '#283593', insert: '#f0d58a', inlay: '#eceffb', text: '#1a237e' },
+    2500000: { base: '#ef6c00', insert: '#1f1a14', inlay: '#fff3e0', text: '#a64b00' },
+    25000000: { base: '#4a148c', insert: '#f2d27a', inlay: '#f1e8fb', text: '#4a148c' }
   };
   A.chipStyle = function (d) { return CHIP[d] || CHIP[100]; };
 

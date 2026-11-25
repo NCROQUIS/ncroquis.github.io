@@ -16,23 +16,24 @@
   };
 
   // Chip denominations that exist in the game, smallest first.
-  var DENOMS = [5, 10, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000, 5000000, 10000000];
+  var DENOMS = [5, 10, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1000000, 2500000, 5000000, 10000000, 25000000, 50000000, 100000000, 500000000, 1000000000];
 
-  // Table ladder. A table opens when the player reaches its `level`.
+  // Table ladder: every table's top bet is 500 times its minimum, and it plays with four chips.
+  // A table opens for good once you hold `open` of your own chips (fifty of its minimum bets).
   var TABLES = [
-    { id: 'alley',  min: 10,   max: 500,    level: 1,       chips: [10, 50, 100] },
-    { id: 'harbor', min: 50,   max: 2500,   level: 3,    chips: [50, 100, 500] },
-    { id: 'garden', min: 100,  max: 5000,   level: 5,    chips: [100, 500, 1000] },
-    { id: 'grand',  min: 500,  max: 25000,  level: 9,   chips: [500, 1000, 5000] },
-    { id: 'royal',  min: 1000, max: 50000,  level: 14,   chips: [1000, 5000, 10000] },
-    { id: 'sky',    min: 5000, max: 250000, level: 20,  chips: [5000, 10000, 50000] },
-    { id: 'monte',  min: 10000,  max: 500000,   level: 27,   chips: [10000, 50000, 100000] },
-    { id: 'macau',  min: 50000,  max: 2500000,  level: 35,   chips: [50000, 100000, 500000] },
-    { id: 'vegas',  min: 100000, max: 5000000,  level: 45,  chips: [100000, 500000, 1000000] },
-    { id: 'diamond', min: 500000, max: 25000000, level: 57, chips: [500000, 1000000, 5000000] },
-    { id: 'crown',  min: 1000000, max: 50000000, level: 70, chips: [1000000, 5000000, 10000000] }
+    { id: 'alley',   min: 500,      max: 250000,      open: 0,          chips: [500, 1000, 5000, 10000] },
+    { id: 'harbor',  min: 1000,     max: 500000,      open: 50000,      chips: [1000, 5000, 10000, 50000] },
+    { id: 'garden',  min: 5000,     max: 2500000,     open: 250000,     chips: [5000, 10000, 50000, 100000] },
+    { id: 'grand',   min: 10000,    max: 5000000,     open: 500000,     chips: [10000, 50000, 100000, 500000] },
+    { id: 'royal',   min: 50000,    max: 25000000,    open: 2500000,    chips: [50000, 100000, 500000, 1000000] },
+    { id: 'sky',     min: 100000,   max: 50000000,    open: 5000000,    chips: [100000, 500000, 1000000, 5000000] },
+    { id: 'monte',   min: 500000,   max: 250000000,   open: 25000000,   chips: [500000, 1000000, 5000000, 10000000] },
+    { id: 'macau',   min: 1000000,  max: 500000000,   open: 50000000,   chips: [1000000, 5000000, 10000000, 50000000] },
+    { id: 'vegas',   min: 5000000,  max: 2500000000,  open: 250000000,  chips: [5000000, 10000000, 50000000, 100000000] },
+    { id: 'diamond', min: 10000000, max: 5000000000,  open: 500000000,  chips: [10000000, 50000000, 100000000, 500000000] },
+    { id: 'crown',   min: 50000000, max: 25000000000, open: 2500000000, chips: [50000000, 100000000, 500000000, 1000000000] }
   ];
-  var START_CHIPS = 1000;
+  var START_CHIPS = 20000;           // forty minimum bets at the first table
 
   // Experience. Every hand played earns XP, more at bigger tables. Levels open tables and pay out chips.
   var XP_HAND = 10;
@@ -54,7 +55,7 @@
   }
 
   // Chips handed out for a rewarded ad when the player cannot cover the table minimum.
-  function refillAmount(table) { return table.min * 100; }
+  function refillAmount(table) { return table.min * 10; }      // ten minimum bets of that table
 
   function cardValue(c) {
     var r = c.rank;

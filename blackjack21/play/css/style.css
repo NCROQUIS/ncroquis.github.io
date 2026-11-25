@@ -865,3 +865,137 @@ body.vip #banner { visibility: hidden; }
 .tpanel > .pfoot { padding-top: calc(var(--u) * 2.6); }
 .tipme { flex: none; margin-top: calc(var(--u) * 1.4); }
 .tpanel.hasfoot > .pscroll { flex: 1 1 auto; min-height: 0; }
+
+/* table menu: close + back to lobby side by side at the bottom (lobby button hidden in the lobby) */
+.pfoot.pair { display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--u) * 2.6); }
+.pfoot.pair .btn { width: 100%; min-width: 0; margin: 0; height: calc(var(--u) * 12.4); padding: 0 calc(var(--u) * 2); font-size: calc(var(--u) * 4); }
+.mode-lobby .pfoot.pair { grid-template-columns: 1fr; justify-items: center; }
+.mode-lobby .pfoot.pair .btn.pclose { width: auto; min-width: calc(var(--u) * 34); }
+.mode-lobby #btnLobby { display: none; }
+/* in a tournament the winnings that fly into the balance are tournament chips, not gold coins */
+.intour .fxcoin { background: var(--tcoin) center / cover no-repeat; border-radius: 50%; }
+.intour .bettag::before { background: var(--tcoin) center / cover no-repeat; border-radius: 50%; }
+/* VIP: no banner, so the HUD and everything hung under it moves up by the banner's height */
+body.vip #banner { display: none; }
+body.vip #top { top: env(safe-area-inset-top, 0px); }
+body.vip #lobby { padding-top: calc(env(safe-area-inset-top, 0px) + var(--u) * 17.5); }
+body.vip .tourbtn { top: calc(env(safe-area-inset-top, 0px) + var(--u) * 16.5); }
+body.vip #tourHud { top: calc(env(safe-area-inset-top, 0px) + var(--u) * 12.5); }
+body.vip #btnVip { top: max(calc(24% - var(--u) * 12.5), calc(env(safe-area-inset-top, 0px) + var(--u) * 31.5)); }
+/* multiplayer closed for now: greyed out, still tappable for the 'coming soon' toast */
+.btn.multi.soon { filter: grayscale(1) brightness(0.62); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12); }
+.btn.multi.soon:active { transform: none; }
+/* popups stay tidy on any screen: smaller close button, the frame never lets it spill out, long labels shrink instead of wrapping */
+.btn.pclose { min-width: calc(var(--u) * 26); height: calc(var(--u) * 9.6); padding: 0 calc(var(--u) * 5); font-size: calc(var(--u) * 3.5); }
+.pfoot, .tpanel > .pfoot { padding-top: calc(var(--u) * 2.2); }
+.pfoot.pair .btn { height: calc(var(--u) * 10.4); font-size: calc(var(--u) * 3.6); }
+.mode-lobby .pfoot.pair .btn.pclose { min-width: calc(var(--u) * 26); }
+.tipane { min-height: calc(var(--u) * 14); }
+.btn.tigo, .btn.vipgo { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: calc(var(--u) * 3.9); height: calc(var(--u) * 11.6); }
+.sheet.center.open, .sheet.open { z-index: 40; }
+/* layout guards for any screen and text size: page arrows never get pushed out, filter tabs scroll sideways */
+.helpnav { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: calc(var(--u) * 2); }
+.helpnav .btn { min-width: calc(var(--u) * 13); width: calc(var(--u) * 13); padding: 0; }
+.helpnav .dots { justify-content: center; flex-wrap: wrap; min-width: 0; }
+.achtabs { display: flex; flex-wrap: nowrap; gap: calc(var(--u) * 0.6); }
+.achtabs button { flex: 1 1 auto; min-width: 0; padding: 0 calc(var(--u) * 1.2); font-size: calc(var(--u) * 2.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.helppage h3, .ttitle h2, .tihead h2 { overflow-wrap: anywhere; }
+/* no bet for a while: the chips blink with a soft gold glow, one after another */
+@keyframes chipNudge { 0%, 100% { filter: brightness(1); box-shadow: 0 0 0 0 rgba(255, 214, 102, 0); } 50% { filter: brightness(1.35); box-shadow: 0 0 calc(var(--u) * 3.2) calc(var(--u) * 0.8) rgba(255, 214, 102, 0.85); } }
+#chipRow.nudge .chipbtn:not(:disabled) { animation: chipNudge 1.1s ease-in-out infinite; }
+#chipRow.nudge .chipbtn:nth-child(2) { animation-delay: 0.18s; }
+#chipRow.nudge .chipbtn:nth-child(3) { animation-delay: 0.36s; }
+/* season prize amount shown with a gold coin (hub header and the prize ranking help) */
+.tme b, .rhme b { display: inline-flex; align-items: center; gap: calc(var(--u) * 1); }
+.tme b .coin, .rhme b .coin { width: calc(var(--u) * 3.6); height: calc(var(--u) * 3.6); border-radius: 50%; background: var(--coin) center / cover; flex: none; }
+/* top-left: my season prize ranking — silver-violet pill with a trophy, so it never reads as the gold balance */
+.lvl.prizepill { flex-direction: row; align-items: center; gap: calc(var(--u) * 1.6); padding: 0 calc(var(--u) * 2.6) 0 calc(var(--u) * 1.6);
+  background: linear-gradient(180deg, rgba(64, 50, 104, 0.92), rgba(30, 22, 52, 0.92)); border-color: rgba(196, 178, 255, 0.45); }
+.prizepill .trophy { width: calc(var(--u) * 5.2); height: calc(var(--u) * 5.2); background: none; overflow: visible; border-radius: 0; flex: none; }
+.prizepill .trophy svg { width: 100%; height: 100%; fill: #dcd2ff; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.6)); }
+.prizepill .pz { display: flex; flex-direction: column; justify-content: center; gap: calc(var(--u) * 0.5); min-width: calc(var(--u) * 9); }
+.prizepill .pz b { font-size: calc(var(--u) * 3.3); color: #fff; }
+.prizepill .pz b::before { content: none; }
+.prizepill .pz small { font-family: var(--font-num); font-size: calc(var(--u) * 2.3); color: #c8bdf0; line-height: 1; }
+/* four chips per table */
+.chiprow { gap: calc(var(--u) * 2.6); }
+.chipbtn { width: calc(var(--u) * 15); height: calc(var(--u) * 15); }
+#chipRow.nudge .chipbtn:nth-child(4) { animation-delay: 0.54s; }
+/* holds taps off during the walk to the lobby and the padlock reveal */
+#tapBlock { position: absolute; inset: 0; z-index: 30; display: none; }
+#tapBlock.on { display: block; }
+/* locked table card: padlock, then just the coin and "250K 보유 시 해금" — no pill, no extra label */
+.tcard .lock .lv:empty { display: none; }
+.tcard .lock .gold { padding: 0; border: 0; background: none; box-shadow: none; }
+.tcard .lock .gold em { font-style: normal; font-weight: 800; font-size: calc(var(--u) * 2.9); color: #f6e6bd; white-space: nowrap; }
+
+/* ---------- tournament info, flat layout: header · status line · three stats · my box · underlined tabs · board ---------- */
+.tinfo .tihead, .tinfo.ace .tihead, .tinfo.world .tihead, .tinfo.legend .tihead { background: none; border: 0; box-shadow: none; padding: 0 0 calc(var(--u) * 3);
+  grid-template-columns: calc(var(--u) * 17) 1px 1fr; gap: calc(var(--u) * 3.2); border-bottom: 1px solid rgba(226, 194, 122, 0.35); border-radius: 0; margin: 0; }
+.tinfo .tihead::after { content: none; }
+.tinfo .tihead .art { height: calc(var(--u) * 13); grid-column: 1; }
+.tinfo .tihead .tx { grid-column: 3; }
+.tinfo .tihead::before { content: ''; grid-column: 2; grid-row: 1; align-self: stretch; margin: calc(var(--u) * 1.6) 0; background: rgba(226, 194, 122, 0.45); }
+.tinfo .tihead b { font-size: calc(var(--u) * 6.4); }
+.tinfo .tihead small { font-size: calc(var(--u) * 3.1); color: #e9c56a; }
+.tinfo .tistatus { justify-content: space-between; margin: 0; padding: calc(var(--u) * 2.6) calc(var(--u) * 1); border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: calc(var(--u) * 3.3); }
+.tinfo .tistatus .l { display: flex; align-items: center; gap: calc(var(--u) * 1.6); font-weight: 900; }
+.tinfo .tistatus .r { color: rgba(240, 228, 205, 0.72); font-weight: 700; }
+.tinfo .tistatus:not(.live) .l { color: #f0cf84; }
+.tinfo .tistats { gap: 0; padding: calc(var(--u) * 2.4) 0; }
+.tinfo .tistats > span { background: none; border: 0; border-radius: 0; padding: calc(var(--u) * 0.6) 0; }
+.tinfo .tistats > span + span { border-left: 1px solid rgba(255, 255, 255, 0.14); }
+.tinfo .timine { display: block; padding: calc(var(--u) * 3) calc(var(--u) * 3.6); border-radius: calc(var(--u) * 3.4); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.08); margin: 0 0 calc(var(--u) * 2.4); }
+.tinfo .timine .mtop { display: grid; grid-template-columns: 1fr 1fr; padding-bottom: calc(var(--u) * 2.4); border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+.tinfo .timine .mtop > span { display: grid; gap: calc(var(--u) * 1); justify-items: start; padding: 0 0 0 calc(var(--u) * 1); background: none; border: 0; }
+.tinfo .timine .mtop > span + span { border-left: 1px solid rgba(255, 255, 255, 0.14); padding-left: calc(var(--u) * 5); }
+.tinfo .timine .mtop b { font-size: calc(var(--u) * 6.4); color: #ffe6a0; }
+.tinfo .timine .mtop span + span b { color: #fff; }
+.tinfo .timine .mleft { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: calc(var(--u) * 1.6) 0; padding-top: calc(var(--u) * 2.2); }
+.tinfo .timine .mleft b { font-family: var(--font-num); font-weight: 400; font-size: calc(var(--u) * 4); color: #fff; }
+.tinfo .timine .mleft .hbar { grid-column: 1 / -1; width: 100%; height: calc(var(--u) * 1.6); background: rgba(255, 255, 255, 0.12); }
+.tinfo .timine .mleft .hbar s { background: linear-gradient(90deg, #f6e1a0, #d9ad4c); }
+#tiTabs { background: none; border: 0; padding: 0; gap: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.12); border-radius: 0; }
+#tiTabs button { position: relative; background: none !important; box-shadow: none !important; border-radius: 0; color: rgba(240, 228, 205, 0.6); font-size: calc(var(--u) * 3.6); }
+#tiTabs button + button::before { content: ''; position: absolute; left: 0; top: 28%; bottom: 28%; width: 1px; background: rgba(255, 255, 255, 0.14); }
+#tiTabs button.on { color: #f3cf6a; }
+#tiTabs button.on::after { content: ''; position: absolute; left: 12%; right: 12%; bottom: -1px; height: calc(var(--u) * 0.7); border-radius: 2px; background: #e9c56a; }
+.tinfo .tipane .tnote { text-align: left; margin: calc(var(--u) * 2) 0 calc(var(--u) * 1.2); }
+.rrow.rhead { background: rgba(255, 255, 255, 0.05); color: rgba(240, 228, 205, 0.62); font-size: calc(var(--u) * 2.9); font-weight: 700; padding-top: calc(var(--u) * 1.4); padding-bottom: calc(var(--u) * 1.4); }
+.rrow.rhead .pl { grid-column: 2 / 4; }
+.rrow.rhead .lv { color: rgba(240, 228, 205, 0.62); font-family: var(--font-ui); font-size: calc(var(--u) * 2.9); }
+.rrow .mebadge { display: inline-block; margin-left: calc(var(--u) * 1.4); padding: 0 calc(var(--u) * 1.4); border-radius: calc(var(--u) * 1.2); background: #e2c27a; color: #241703; font-style: normal; font-size: 0.72em; font-weight: 900; vertical-align: middle; }
+.rrow.me { box-shadow: inset calc(var(--u) * 0.8) 0 0 #e2c27a, inset 0 0 0 1px rgba(226, 194, 122, 0.45); }
+/* hand totals 10% smaller (box and number) */
+#marks > .total:not(.mini) { min-width: calc(var(--u) * 9); height: calc(var(--u) * 5.9); padding: 0 calc(var(--u) * 2.2); border-radius: calc(var(--u) * 3.6); font-size: calc(var(--u) * 4.05); }
+#marks > .total:not(.mini) small { font-size: calc(var(--u) * 2.6); }
+
+/* tournament info, compact: the header, stats and my box stay small so the standings show plenty of rows */
+.tinfo { padding: calc(var(--u) * 3) calc(var(--u) * 3.6) calc(var(--u) * 3); }
+.tinfo .tihead, .tinfo.ace .tihead, .tinfo.world .tihead, .tinfo.legend .tihead { grid-template-columns: calc(var(--u) * 11) 1px 1fr; gap: calc(var(--u) * 2.4); padding-bottom: calc(var(--u) * 2); }
+.tinfo .tihead .art { height: calc(var(--u) * 9.5); }
+.tinfo .tihead b { font-size: calc(var(--u) * 5); }
+.tinfo .tihead small { font-size: calc(var(--u) * 2.6); }
+.tinfo .tistatus { padding: calc(var(--u) * 1.6) calc(var(--u) * 0.6); font-size: calc(var(--u) * 2.9); }
+.tinfo .tistats { padding: calc(var(--u) * 1.4) 0; }
+.tinfo .tistats > span { gap: calc(var(--u) * 0.4); padding: 0; }
+.tinfo .tistats small { font-size: calc(var(--u) * 2.3); }
+.tinfo .tistats b { font-size: calc(var(--u) * 3.4); }
+.tinfo .timine { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; padding: calc(var(--u) * 1.8) calc(var(--u) * 2.4) calc(var(--u) * 2); margin-bottom: calc(var(--u) * 1.6); border-radius: calc(var(--u) * 2.6); }
+.tinfo .timine .mtop { display: contents; }
+.tinfo .timine .mtop > span, .tinfo .timine .mleft { display: grid; gap: calc(var(--u) * 0.4); justify-items: center; padding: 0; border: 0; }
+.tinfo .timine .mtop > span + span, .tinfo .timine .mleft { border-left: 1px solid rgba(255, 255, 255, 0.14); padding-left: 0; }
+.tinfo .timine small { font-size: calc(var(--u) * 2.3); }
+.tinfo .timine .mtop b, .tinfo .timine .mleft b { font-size: calc(var(--u) * 4); }
+.tinfo .timine .mleft { grid-template-columns: none; padding-top: 0; }
+.tinfo .timine .mleft .hbar { grid-column: auto; width: 76%; height: calc(var(--u) * 0.9); }
+#tiTabs button { height: calc(var(--u) * 8); font-size: calc(var(--u) * 3.2); }
+.tinfo .tipane .tnote { margin: calc(var(--u) * 1.2) 0 calc(var(--u) * 0.8); font-size: calc(var(--u) * 2.5); }
+.tinfo .tipane { min-height: calc(var(--u) * 24); }
+.tinfo .btn.tigo { height: calc(var(--u) * 10.4); margin-top: calc(var(--u) * 2); }
+.tpanel > .pfoot { padding-top: calc(var(--u) * 1.8); }
+.tinfo .tipane .rrow { padding-top: calc(var(--u) * 0.9); padding-bottom: calc(var(--u) * 0.9); font-size: calc(var(--u) * 3.2); }
+.tinfo .tipane .rrow img { width: calc(var(--u) * 6.4); height: calc(var(--u) * 6.4); }
+.tinfo .tipane .rrow .lv { font-size: calc(var(--u) * 3.1); }
+.tinfo .tipme .rrow { padding-top: calc(var(--u) * 1); padding-bottom: calc(var(--u) * 1); }
+.tinfo .tipme .rrow img { width: calc(var(--u) * 6.4); height: calc(var(--u) * 6.4); }

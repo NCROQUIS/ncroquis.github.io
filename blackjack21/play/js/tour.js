@@ -1,6 +1,6 @@
 // Blackjack tournaments: King's Cup (every week), Ace Masters (one week on, two off) and the World Championship
 // (one week on, four off). Everyone pays the same entry, gets the same stack of tournament chips and 30 hands a day;
-// when the week ends the biggest stacks win chips and rating points.
+// when the week ends the biggest stacks win prize chips. Prizes also add up into the season's prize ranking.
 // The field is a sample until the game server (NcqBoard) is connected. game.js calls BJ.tour.init() with its state.
 (function () {
   'use strict';
@@ -12,20 +12,19 @@
   var DAY = 864e5, HANDS = 30;
   var EPOCH = Date.UTC(2026, 0, 5);                 // a Monday: week 0
   var TOURS = [
-    { id: 'kings', cycle: 1, phase: 0, fee: 1000, stack: 10000, min: 100, max: 2000, chips: [100, 500, 1000], field: 240, weight: 0, theme: 4, house: 'Kings Cup' },
-    { id: 'ace', cycle: 3, phase: 1, fee: 10000, stack: 1000000, min: 10000, max: 200000, chips: [10000, 50000, 100000], field: 160, weight: 1, theme: 6, house: 'Ace Masters' },
-    { id: 'world', cycle: 5, phase: 3, fee: 1000000, stack: 100000000, min: 1000000, max: 20000000, chips: [1000000, 5000000, 10000000], field: 480, weight: 4, theme: 7, house: 'World Champ', big: true },
-    // once a season (the last full week of each quarter), for the top 30% by rating; when it ends, the season ends and rating resets
-    { id: 'legend', legend: true, fee: 10000000, stack: 1000000000, min: 5000000, max: 50000000, chips: [1000000, 5000000, 10000000], field: 64, weight: 0, theme: 10, house: 'Legendary League', topPct: 0.3 }
+    { id: 'kings', cycle: 1, phase: 0, fee: 20000, stack: 50000, min: 100, max: 5000, chips: [100, 250, 500, 1000], field: 240, weight: 0, theme: 4, house: 'Kings Cup' },
+    { id: 'ace', cycle: 3, phase: 1, fee: 500000, stack: 5000000, min: 10000, max: 500000, chips: [10000, 25000, 50000, 100000], field: 160, weight: 1, theme: 6, house: 'Ace Masters' },
+    { id: 'world', cycle: 5, phase: 3, fee: 10000000, stack: 500000000, min: 1000000, max: 50000000, chips: [1000000, 2500000, 5000000, 10000000], field: 480, weight: 4, theme: 7, house: 'World Champ', big: true },
+    // once a season (the last full week of each quarter), for the top 30% of the season's prize ranking; when it ends, the season ends and prize totals start again
+    { id: 'legend', legend: true, fee: 100000000, stack: 2500000000, min: 5000000, max: 250000000, chips: [5000000, 10000000, 25000000, 50000000], field: 64, weight: 0, theme: 10, house: 'Legendary League', topPct: 0.3 }
   ];
   var byId = {}; TOURS.forEach(function (t) { byId[t.id] = t; });
-  // Tiers go by percentile, the way chess ladders do: the share of players you're rated above.
-  var TIERS = [[0, 'iron'], [0.01, 'bronze'], [0.16, 'silver'], [0.48, 'gold'], [0.80, 'plat'], [0.96, 'dia'], [0.999, 'chall']];
-  // Until the server keeps the real ladder, the player base is modelled: 10,000 players, ratings spread
-  // normally around 1,050 (sd 230). Percentile, rank and the top-50 board all come from that.
-  var POP = 10000, MU = 1050, SD = 230;
+  // Prize ranking: what each player has won in tournament prizes this season (separate from their chips).
+  // Until the server keeps the real board, the player base is modelled: 10,000 players whose season prize totals
+  // spread log-normally around 1.2M. Percentile, rank and the top-50 board all come from that.
+  var POP = 10000, LMU = Math.log(1200000), LS = 2.3;   // entries went up twentyfold, so does the modelled season
   function erf(x) { var t = 1 / (1 + 0.3275911 * Math.abs(x)), y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x); return x >= 0 ? y : -y; }
-  function pctOf(r) { return 0.5 * (1 + erf((r - MU) / SD / Math.SQRT2)); }
+  function pctOf(v) { return v > 0 ? 0.5 * (1 + erf((Math.log(v) - LMU) / LS / Math.SQRT2)) : 0; }
   function zOf(p) {                 // inverse normal (Acklam), good to ~1e-9
     var a = [-39.6968302866538, 220.946098424521, -275.928510446969, 138.357751867269, -30.6647980661472, 2.50662827745924], b = [-54.4760987982241, 161.585836858041, -155.698979859887, 66.8013118877197, -13.2806815528857],
         c = [-0.00778489400243029, -0.322396458041136, -2.40075827716184, -2.54973253934373, 4.37466414146497, 2.93816398269878], d = [0.00778469570904146, 0.32246712907004, 2.445134137143, 3.75440866190742], q, r;
@@ -33,45 +32,43 @@
     if (p > 1 - 0.02425) { q = Math.sqrt(-2 * Math.log(1 - p)); return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1); }
     q = p - 0.5; r = q * q; return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
   }
-  function ratingAt(p) { return Math.round(MU + SD * zOf(p)); }   // the rating that sits at percentile p
+  function prizeAt(p) { var v = Math.exp(LMU + LS * zOf(p)), m = Math.pow(10, Math.max(0, Math.floor(Math.log10(v)) - 1)); return Math.round(v / m) * m; }   // the season prize total at percentile p
 
   I.add('en', {
-    tourBtn: 'Blackjack Tournaments', tLiveN: '{n} live', tourTitle: 'Tournaments', tourBig: 'Biggest', tourSched: 'Schedule', myRating: 'My rating',
+    tourBtn: 'Blackjack Tournaments', tLiveN: '{n} live', tourTitle: 'Tournaments', tourBig: 'Biggest', tourSched: 'Schedule', myPrize: 'Season prizes',
     tn_kings: "King's Cup", tn_ace: 'Ace Masters', tn_world: 'World Championship',
     tc_kings: 'Every week', tc_ace: 'Every 3 weeks', tc_world: 'Every 5 weeks',
-    tLive: 'Live · {t} left', tPlaying: '#{r} · {t} left', tNext: 'Starts {d} · D-{n}',
-    tDH: '{d}d {h}h', tHM: '{h}h {m}m', tEd: '#{n}', tEnds: 'Live · ends in {t}', tStarts: 'Starts {d} · D-{n}',
+    tLive: 'Live · {t} left', tPlaying: '#{r} · {t} left', tNext: 'D-{n}',
+    tDH: '{d}d {h}h', tHM: '{h}h {m}m', tEd: '#{n}', tEnds: 'Live · ends in {t}', tStarts: 'D-{n}',
     tFee: 'Entry', tStack: 'Starting chips', tDaily: 'Hands a day', tMyRank: 'My rank', tMyChips: 'Tour chips', tToday: 'Hands left today', tRankOf: '#{r} / {n}',
     tabBoard: 'Standings', tabPrize: 'Prizes', tabRules: 'How it works',
-    tJoin: 'Join · entry {n}', tPlay: 'Play · {n} hands left today', tDoneToday: 'Next {n} hands in {t}', tOut: 'Out of chips · eliminated',
-    tSoon: 'Opens {d}', tNoFee: 'Not enough chips · entry {n}', tJoined: "You're in! You start with {n} tournament chips",
+    tJoin: 'Join · entry {n}', tLiveNow: 'Live', tEndsIn: 'Ends in {t}', tSampleShort: 'Sample standings · before the server is connected', thRank: 'Rank', thPlayer: 'Player', meTag: 'Me', tPlay: 'Enter ({n}/{m})', tDoneToday: 'Next {n} hands in {t}', tOut: 'Out of chips · eliminated',
+    tSoon: 'Opens in D-{n}', tNoFee: 'Not enough chips · entry {n}', tJoined: "You're in! You start with {n} tournament chips",
     tBoardWait: 'Standings show up once the tournament starts.', tPlayers: '{n} players', tSample: 'sample field until the game server is connected',
-    tRank1: '#{a}', tRankR: '#{a}–{b}', tTop30: 'Top 30%', tPrizeNote: 'Prizes are paid in chips when the week ends.', tRp_kings: 'King\u2019s Cup gives no rating points (RP).', tRp_ace: 'A few rating points (RP) are at stake; the lower half loses some.', tRp_world: 'The most rating points (RP) of any tournament; the lower half loses some.',
-    tRules: 'Everyone pays the same entry and starts with the same {s} tournament chips.\nYou get {h} hands every day. Hands you don’t play don’t carry over to the next day.\nBets at the tournament table are {min}–{max}.\nWhen the week ends, players are ranked by the chips they hold.\nYour rank pays prize chips and rating points. Lose all your chips and you’re out.\nTournament chips stay in the tournament; your own chips aren’t touched.',
+    tRank1: '#{a}', tRankR: '#{a}–{b}', tTop30: 'Top 30%', tPrizeNote: 'Prizes are paid in chips when the week ends.', tRules: 'Everyone pays the same entry and starts with the same {s} tournament chips.\nYou get {h} hands every day. Hands you don’t play don’t carry over to the next day.\nBets at the tournament table are {min}–{max}.\nWhen the week ends, players are ranked by the chips they hold.\nYour rank pays prize chips, and prizes add up in the season prize ranking. Lose all your chips and you’re out.\nTournament chips stay in the tournament; your own chips aren’t touched.',
     tHands: 'Hands {n}/{m}', tChipTag: 'TOUR', tTodayDone: 'All {n} hands played today · see you tomorrow', tBust: 'Out of chips · you’re out of this tournament',
-    tResTitle: '{t} #{n} is over', tResOf: 'of {n} players · {c} chips', tResOut: 'Eliminated', tResPrize: 'Prize', tResRate: 'Rating', tOk: 'OK',
+    tResTitle: '{t} #{n} is over', tResOf: 'of {n} players · {c} chips', tResOut: 'Eliminated', tResPrize: 'Prize', tResRate: 'Season prizes', tOk: 'OK',
     calDays: 'Mon,Tue,Wed,Thu,Fri,Sat,Sun', calCad_kings: 'Every week', calCad_ace: '1 week on · 2 weeks off', calCad_world: '1 week on · 4 weeks off', calNow: 'Live now', calHint: 'Each tournament runs Monday to Sunday.',
-    rankRating: 'Rating', rankLevel: 'Level', rankNoteRating: 'Ranked by tournament rating · sample board until the game server is connected',
-    tn_legend: 'Legendary League', tc_legend: 'Once a season', calCad_legend: 'Last week of each quarter · top 30% only', thRpv_legend: 'None', tRp_legend: 'No rating points here: when it ends, the season ends and every rating goes back to 1,000.', tNeedRank: 'Top {a}% rating only · you are top {b}', tourSeason: 'Season finale', tReq: 'Entry {f} · top {a}% rating', seasonOver: 'Season {n} is over', seasonFinal: 'Final rating {r} · ratings start again at 1,000', seasonReset: 'reset', rateHelp: 'Rating', rhTop: 'Top {a} · #{r}', rhReset: 'Next reset: {d} (D-{n})', rhSeason: 'Season {n}', rhSecs: 'What rating is\nRating starts at 1,000 and moves with where you finish in tournaments.\nKing\u2019s Cup gives no rating points, Ace Masters a few, the World Championship the most.\nThe lower half of a tournament loses some points.||Seasons and the reset\nA season is a calendar quarter. It ends with the Legendary League in the quarter\u2019s last full week.\nWhen the Legendary League ends, every rating goes back to 1,000 and a new season starts.\nThe Legendary League is open to the top 30% by rating, entry 10M.||Tiers\nYour tier comes from your percentile, the way chess ladders work: the share of players rated below you.\nOnly the top 0.1% are Challengers.', achTJoin: 'Play the {t}', achTJoinDesc: 'Enter the {t} once', achTTop: '{t} top {n}', achTTopDesc: 'Finish the {t} in the top {n}', achTWin: '{t} champion', achTWinDesc: 'Win the {t}', achTHands: '{n} tournament wins', achTHandsDesc: 'Win {n} hands at tournament tables', achRate: 'Reach {t}', achRateDesc: 'Reach a rating of {r} ({t})', achAll: 'All', achTable: 'Tables', achTour: 'Tournaments', achRating: 'Rating', achRecord: 'Records', achStreakN: '{n} wins in a row', achStreakNDesc: 'Win {n} hands in a row', achBjN: '{n} blackjacks', achBjNDesc: 'Get {n} blackjacks', achHandsN: '{n} hands', achHandsNDesc: 'Play {n} hands', achWonN: '{n} hands won', achWonNDesc: 'Win {n} hands', achTitlesN: '{n} tournament titles', achTitlesNDesc: 'Win tournaments {n} times (any)', achTPlayN: '{n} tournaments', achTPlayNDesc: 'Enter tournaments {n} times', achTTitles: '{t} ×{n}', achTTitlesDesc: 'Win the {t} {n} times', rankLegend: 'Legendary', rankNoteLegend: 'Final standings of the Legendary League · sample until the game server is connected', legendLive: 'live', legendNone: 'No Legendary League has been held yet.', tier_iron: 'Iron', tier_bronze: 'Bronze', tier_silver: 'Silver', tier_gold: 'Gold', tier_plat: 'Platinum', tier_dia: 'Diamond', tier_chall: 'Challenger', tierTop: 'Top: {a}+', tierBand: '{a} – {b}', tierBelow: 'Under {b}', tourHelp: 'Tournament guide', thBets: 'Bets', thRp: 'RP', thWhen: 'Runs', thRpv_kings: 'None', thRpv_ace: 'Low', thRpv_world: 'High', thTiers: 'Rating tiers', thSecs: 'How it works\nEveryone pays the same entry and gets the same stack of tournament chips.\nThe three tournaments at a glance:||Hands\nYou get 30 hands every day. Unplayed hands don\u2019t carry over.\nNew hands arrive at midnight.\nTournament chips are separate from your own chips. Running out of them knocks you out.||Prizes\nWhen the week ends, players are ranked by the tournament chips they hold.\nPrize chips go to your own chips; the top 30% at least get the entry back.\nResults show up the next time you open the lobby.||Rating (RP)\nRating starts at 1,000 and moves with your finishing place.\nKing\u2019s Cup gives no RP, Ace Masters a little, the World Championship the most.\nThe lower half of a field loses RP. Rankings show rating first.||Schedule\nEvery tournament runs Monday to Sunday.\nKing\u2019s Cup every week, Ace Masters one week on and two off, the World Championship one week on and four off.', tHandsShort: 'Today {n}/{m}', tOutShort: 'Eliminated', tourInGame: 'Tournaments open from the lobby.'
+    rankRating: 'Prizes', rankNoteRating: 'Ranked by tournament prizes won this season · sample board until the game server is connected',
+    tn_legend: 'Legendary League', tc_legend: 'Once a season', calCad_legend: 'Last week of each quarter · top 30% in prizes', tNeedRank: 'Top {a}% in season prizes only · you are top {b}', tourSeason: 'Season finale', tReq: 'Entry {f} · top {a}% in prizes', seasonOver: 'Season {n} is over', seasonFinal: 'Season prizes · the prize ranking starts again from 0', seasonReset: 'reset', rateHelp: 'Prize ranking', rhTop: 'Top {a} · #{r}', tLegendNote: 'Its prizes count toward the season that is ending.', rhNone: 'No prizes yet this season', rhTopOnly: 'Finished top {a}', rhReset: 'Next reset: {d} (D-{n})', rhSeason: 'Season {n}', rhSecs: 'What counts\nThe prize ranking adds up the tournament prizes you win this season.\nIt is separate from your chips: spending or losing chips doesn’t lower it.\nEvery tournament counts; the bigger ones pay bigger prizes.||Seasons and the reset\nA season is a calendar quarter. It ends with the Legendary League in the quarter’s last full week.\nWhen the Legendary League ends, everyone’s season prizes go back to 0 and a new season starts.\nThe Legendary League is open to the top 30% of the prize ranking, entry 100M.', achTJoin: 'Play the {t}', achTJoinDesc: 'Enter the {t} once', achTTop: '{t} top {n}', achTTopDesc: 'Finish the {t} in the top {n}', achTWin: '{t} champion', achTWinDesc: 'Win the {t}', achTHands: '{n} tournament wins', achTHandsDesc: 'Win {n} hands at tournament tables', achRate: '{n} in prizes', achRateDesc: 'Win {n} in tournament prizes (all seasons)', achAll: 'All', achTable: 'Tables', achTour: 'Tournaments', achRating: 'Prizes', achRecord: 'Records', achStreakN: '{n} wins in a row', achStreakNDesc: 'Win {n} hands in a row', achBjN: '{n} blackjacks', achBjNDesc: 'Get {n} blackjacks', achHandsN: '{n} hands', achHandsNDesc: 'Play {n} hands', achWonN: '{n} hands won', achWonNDesc: 'Win {n} hands', achTitlesN: '{n} tournament titles', achTitlesNDesc: 'Win tournaments {n} times (any)', achTPlayN: '{n} tournaments', achTPlayNDesc: 'Enter tournaments {n} times', achTTitles: '{t} ×{n}', achTTitlesDesc: 'Win the {t} {n} times', rankLegend: 'Legendary', rankNoteLegend: 'Final standings of the Legendary League · sample until the game server is connected', legendLive: 'live', legendNone: 'No Legendary League has been held yet.', tourHelp: 'Tournament guide', thBets: 'Bets', thWhen: 'Runs', thSecs: 'How it works\nEveryone pays the same entry and gets the same stack of tournament chips.\nThe tournaments at a glance:||Hands\nYou get 30 hands every day. Unplayed hands don’t carry over.\nNew hands arrive at midnight.\nTournament chips are separate from your own chips. Running out of them knocks you out.||Prizes\nWhen the week ends, players are ranked by the tournament chips they hold.\nPrize chips go to your own chips; the top 30% at least get the entry back.\nEvery prize also adds up in the season prize ranking.\nResults show up the next time you open the lobby.||Schedule\nEvery tournament runs Monday to Sunday.\nKing’s Cup every week, Ace Masters one week on and two off, the World Championship one week on and four off.', tHandsShort: 'Today {n}/{m}', tOutShort: 'Eliminated', tourInGame: 'Tournaments open from the lobby.'
   });
   I.add('ko', {
-    tourBtn: '블랙잭 대회', tLiveN: '{n}개 진행 중', tourTitle: '블랙잭 대회', tourBig: '최대 규모', tourSched: '대회 일정', myRating: '내 레이팅',
+    tourBtn: '블랙잭 대회', tLiveN: '{n}개 진행 중', tourTitle: '블랙잭 대회', tourBig: '최대 규모', tourSched: '대회 일정', myPrize: '이번 시즌 상금',
     tn_kings: '킹스 컵', tn_ace: '에이스 마스터즈', tn_world: '월드 챔피언십',
     tc_kings: '매주 개최', tc_ace: '3주마다 개최', tc_world: '5주마다 개최',
-    tLive: '진행 중 · {t} 남음', tPlaying: '{r}위 · {t} 남음', tNext: '{d} 개최 · D-{n}',
-    tDH: '{d}일 {h}시간', tHM: '{h}시간 {m}분', tEd: '제 {n}회', tEnds: '진행 중 · 종료까지 {t}', tStarts: '{d} 시작 · D-{n}',
+    tLive: '진행 중 · {t} 남음', tPlaying: '{r}위 · {t} 남음', tNext: 'D-{n}',
+    tDH: '{d}일 {h}시간', tHM: '{h}시간 {m}분', tEd: '제{n}회', tEnds: '진행 중 · 종료까지 {t}', tStarts: 'D-{n}',
     tFee: '참가비', tStack: '시작 칩', tDaily: '하루 핸드', tMyRank: '내 순위', tMyChips: '대회 칩', tToday: '오늘 남은 핸드', tRankOf: '{r}위 / {n}명',
     tabBoard: '순위', tabPrize: '상금', tabRules: '진행 방식',
-    tJoin: '참가하기 · 참가비 {n}', tPlay: '대회 테이블로 · 오늘 {n}핸드 남음', tDoneToday: '{t} 뒤 {n}핸드 충전', tOut: '칩을 모두 잃어 탈락했어요',
-    tSoon: '{d}에 열려요', tNoFee: '칩이 모자라요 · 참가비 {n}', tJoined: '참가 완료! 대회 칩 {n}으로 시작해요',
+    tJoin: '참가하기 · 참가비 {n}', tLiveNow: '진행 중', tEndsIn: '종료까지 {t}', tSampleShort: '샘플 순위 · 서버 연결 전', thRank: '순위', thPlayer: '플레이어', meTag: '나', tPlay: '대회 입장 ({n}/{m})', tDoneToday: '{t} 뒤 {n}핸드 충전', tOut: '칩을 모두 잃어 탈락했어요',
+    tSoon: 'D-{n} 오픈', tNoFee: '칩이 모자라요 · 참가비 {n}', tJoined: '참가 완료! 대회 칩 {n}으로 시작해요',
     tBoardWait: '대회가 시작되면 순위가 보여요.', tPlayers: '{n}명 참가', tSample: '게임 서버 연결 전까지는 샘플 참가자예요',
-    tRank1: '{a}위', tRankR: '{a}–{b}위', tTop30: '상위 30%', tPrizeNote: '상금은 대회가 끝나면 칩으로 지급돼요.', tRp_kings: '킹스 컵은 레이팅 점수(RP)가 없어요.', tRp_ace: '레이팅 점수(RP)가 조금 걸려요. 하위 절반은 조금 깎여요.', tRp_world: '레이팅 점수(RP)가 가장 많이 걸려요. 하위 절반은 깎여요.',
-    tRules: '모든 참가자가 같은 참가비를 내고 같은 대회 칩 {s}으로 시작해요.\n매일 {h}핸드가 주어져요. 그날 쓰지 않은 핸드는 다음 날로 넘어가지 않아요.\n대회 테이블 베팅은 {min}–{max}이에요.\n대회가 끝날 때 가진 칩이 많은 순으로 순위를 정해요.\n순위에 따라 상금(칩)과 레이팅 점수를 받아요. 칩을 다 잃으면 탈락이에요.\n대회 칩은 대회 안에서만 쓰이고, 내 칩과 섞이지 않아요.',
+    tRank1: '{a}위', tRankR: '{a}–{b}위', tTop30: '상위 30%', tPrizeNote: '상금은 대회가 끝나면 칩으로 지급돼요.', tRules: '모든 참가자가 같은 참가비를 내고 같은 대회 칩 {s}으로 시작해요.\n하루에 {h}핸드를 할 수 있어요. 그날 쓰지 않은 핸드는 다음 날로 넘어가지 않아요.\n대회 테이블 베팅은 {min}–{max}예요.\n대회가 끝나면 가진 칩 순으로 순위를 정해요.\n순위에 따라 상금을 받고, 받은 상금은 시즌 상금 랭킹에 쌓여요. 칩을 다 잃으면 탈락이에요.\n대회 칩은 대회 안에서만 쓰여요. 내 칩은 그대로예요.',
     tHands: '남은 핸드 {n}/{m}', tChipTag: '대회', tTodayDone: '오늘 {n}핸드를 모두 마쳤어요 · 내일 또 만나요', tBust: '칩을 모두 잃어 대회에서 탈락했어요',
-    tResTitle: '{t} 제 {n}회 종료', tResOf: '{n}명 중 · 최종 칩 {c}', tResOut: '탈락', tResPrize: '상금', tResRate: '레이팅', tOk: '확인',
+    tResTitle: '{t} 제 {n}회 종료', tResOf: '{n}명 중 · 최종 칩 {c}', tResOut: '탈락', tResPrize: '상금', tResRate: '시즌 상금', tOk: '확인',
     calDays: '월,화,수,목,금,토,일', calCad_kings: '매주 진행', calCad_ace: '1주 진행 · 2주 휴식', calCad_world: '1주 진행 · 4주 휴식', calNow: '진행 중', calHint: '모든 대회는 월요일에 시작해 일요일에 끝나요.',
-    rankRating: '레이팅', rankLevel: '레벨', rankNoteRating: '대회 레이팅 순 · 게임 서버 연결 전까지는 샘플 순위예요',
-    tn_legend: '레전더리 리그', tc_legend: '시즌마다 한 번', calCad_legend: '분기 마지막 주 · 레이팅 상위 30%', thRpv_legend: '없음', tRp_legend: '레이팅 점수는 없어요. 이 대회가 끝나면 시즌이 끝나고 모든 레이팅이 1,000으로 초기화돼요.', tNeedRank: '레이팅 상위 {a}%만 참가 · 지금 상위 {b}', tourSeason: '시즌 결승', tReq: '참가비 {f} · 레이팅 상위 {a}%', seasonOver: '시즌 {n} 종료', seasonFinal: '최종 레이팅 {r} · 레이팅은 1,000부터 다시 시작해요', seasonReset: '초기화', rateHelp: '레이팅', rhTop: '상위 {a} · {r}위', rhReset: '다음 초기화: {d} (D-{n})', rhSeason: '시즌 {n}', rhSecs: '레이팅이란\n레이팅은 1,000에서 시작해 대회 순위에 따라 오르내려요.\n킹스 컵은 레이팅 점수가 없고, 에이스 마스터즈는 조금, 월드 챔피언십은 가장 많이 걸려요.\n대회 하위 절반은 점수가 깎여요.||시즌과 초기화\n시즌은 3달(분기) 단위예요. 분기 마지막 주에 레전더리 리그가 열리고 그 주가 시즌의 끝이에요.\n레전더리 리그가 끝나면 모든 레이팅이 1,000으로 초기화되고 새 시즌이 시작돼요.\n레전더리 리그는 레이팅 상위 30%만, 참가비 10M으로 들어갈 수 있어요.||티어\n티어는 체스 랭킹처럼 백분위로 정해요. 나보다 레이팅이 낮은 사람의 비율이에요.\n상위 0.1%만 챌린저가 될 수 있어요.', achTJoin: '{t} 첫 참가', achTJoinDesc: '{t}에 한 번 참가하기', achTTop: '{t} {n}위 안', achTTopDesc: '{t}에서 {n}위 안에 들기', achTWin: '{t} 우승', achTWinDesc: '{t}에서 1위 하기', achTHands: '대회 {n}승', achTHandsDesc: '대회 테이블에서 {n}핸드 이기기', achRate: '{t} 달성', achRateDesc: '레이팅 {r}({t}) 달성하기', achAll: '전체', achTable: '테이블', achTour: '대회', achRating: '레이팅', achRecord: '기록', achStreakN: '{n}연승', achStreakNDesc: '{n}핸드 연속으로 이기기', achBjN: '블랙잭 {n}번', achBjNDesc: '블랙잭 {n}번 만들기', achHandsN: '{n}핸드', achHandsNDesc: '{n}핸드 플레이하기', achWonN: '{n}승', achWonNDesc: '{n}핸드 이기기', achTitlesN: '대회 우승 {n}회', achTitlesNDesc: '어떤 대회든 {n}번 우승하기', achTPlayN: '대회 {n}회 참가', achTPlayNDesc: '대회에 {n}번 참가하기', achTTitles: '{t} {n}회 우승', achTTitlesDesc: '{t}에서 {n}번 우승하기', rankLegend: '레전더리', rankNoteLegend: '레전더리 리그 최종 순위 · 게임 서버 연결 전까지는 샘플이에요', legendLive: '진행 중', legendNone: '아직 열린 레전더리 리그가 없어요.', tier_iron: '아이언', tier_bronze: '브론즈', tier_silver: '실버', tier_gold: '골드', tier_plat: '플래티넘', tier_dia: '다이아몬드', tier_chall: '챌린저', tierTop: '{a} 이상', tierBand: '{a} 이상 {b} 미만', tierBelow: '{b} 미만', tourHelp: '대회 도움말', thBets: '베팅', thRp: 'RP', thWhen: '개최', thRpv_kings: '없음', thRpv_ace: '적음', thRpv_world: '많음', thTiers: '레이팅 등급', thSecs: '대회 방식\n모든 참가자가 같은 참가비를 내고 같은 대회 칩으로 시작해요.\n대회별 참가비와 시작 칩은 아래와 같아요.||핸드\n하루에 30핸드를 할 수 있어요. 그날 쓰지 않은 핸드는 다음 날로 넘어가지 않아요.\n자정이 지나면 30핸드가 새로 채워져요.\n대회 칩은 내 칩과 따로예요. 대회 칩을 다 잃으면 탈락이에요.||상금\n대회가 끝나는 순간 가진 대회 칩이 많은 순으로 순위를 정해요.\n상금은 내 칩으로 들어오고, 상위 30%는 적어도 참가비를 돌려받아요.\n결과는 대회가 끝난 뒤 로비에 들어오면 보여요.||레이팅(RP)\n레이팅은 1,000에서 시작해 대회 순위에 따라 오르내려요.\n킹스 컵은 RP가 없고, 에이스 마스터즈는 조금, 월드 챔피언십은 가장 많이 걸려요.\n하위 절반은 RP가 깎여요. 랭킹은 레이팅 순이 먼저 보여요.||대회 일정\n모든 대회는 월요일에 시작해 일요일에 끝나요.\n킹스 컵은 매주, 에이스 마스터즈는 1주 진행·2주 휴식, 월드 챔피언십은 1주 진행·4주 휴식이에요.', tHandsShort: '오늘 {n}/{m}핸드', tOutShort: '탈락', tourInGame: '대회는 로비에서 들어갈 수 있어요.'
+    rankRating: '상금', rankNoteRating: '이번 시즌 대회 상금 순 · 게임 서버 연결 전까지는 샘플 순위예요',
+    tn_legend: '레전더리 리그', tc_legend: '시즌마다 한 번', calCad_legend: '분기 마지막 주 · 상금 랭킹 상위 30%', tNeedRank: '시즌 상금 랭킹 상위 {a}%만 참가 · 지금 상위 {b}', tourSeason: '시즌 결승', tReq: '참가비 {f} · 상금 랭킹 상위 {a}%', seasonOver: '시즌 {n} 종료', seasonFinal: '시즌 상금 · 상금 랭킹은 0부터 다시 시작해요', seasonReset: '초기화', rateHelp: '상금 랭킹', rhTop: '상위 {a} · {r}위', tLegendNote: '이 대회 상금은 끝나는 시즌에 들어가요.', rhNone: '이번 시즌 받은 상금이 아직 없어요', rhTopOnly: '최종 상위 {a}', rhReset: '다음 초기화: {d} (D-{n})', rhSeason: '시즌 {n}', rhSecs: '무엇으로 순위를 정하나요\n상금 랭킹은 이번 시즌 대회에서 받은 상금을 모두 더한 금액으로 정해요.\n내 칩과는 따로예요. 칩을 쓰거나 잃어도 줄지 않아요.\n모든 대회 상금이 쌓이고, 큰 대회일수록 상금이 커요.||시즌과 초기화\n시즌은 3달(분기) 단위예요. 분기 마지막 주에 레전더리 리그가 열리고 그 주가 시즌의 끝이에요.\n레전더리 리그가 끝나면 모든 시즌 상금이 0으로 초기화되고 새 시즌이 시작돼요.\n레전더리 리그는 상금 랭킹 상위 30%만, 참가비 100M으로 들어갈 수 있어요.', achTJoin: '{t} 첫 참가', achTJoinDesc: '{t}에 한 번 참가하기', achTTop: '{t} {n}위 안', achTTopDesc: '{t}에서 {n}위 안에 들기', achTWin: '{t} 우승', achTWinDesc: '{t}에서 1위 하기', achTHands: '대회 {n}승', achTHandsDesc: '대회 테이블에서 {n}핸드 이기기', achRate: '상금 {n} 달성', achRateDesc: '대회 상금을 모두 합쳐 {n} 받기', achAll: '전체', achTable: '테이블', achTour: '대회', achRating: '상금', achRecord: '기록', achStreakN: '{n}연승', achStreakNDesc: '{n}핸드 연속으로 이기기', achBjN: '블랙잭 {n}번', achBjNDesc: '블랙잭 {n}번 만들기', achHandsN: '{n}핸드', achHandsNDesc: '{n}핸드 플레이하기', achWonN: '{n}승', achWonNDesc: '{n}핸드 이기기', achTitlesN: '대회 우승 {n}회', achTitlesNDesc: '어떤 대회든 {n}번 우승하기', achTPlayN: '대회 {n}회 참가', achTPlayNDesc: '대회에 {n}번 참가하기', achTTitles: '{t} {n}회 우승', achTTitlesDesc: '{t}에서 {n}번 우승하기', rankLegend: '레전더리', rankNoteLegend: '레전더리 리그 최종 순위 · 게임 서버 연결 전까지는 샘플이에요', legendLive: '진행 중', legendNone: '아직 열린 레전더리 리그가 없어요.', tourHelp: '대회 도움말', thBets: '베팅', thWhen: '개최', thSecs: '대회 방식\n모든 참가자가 같은 참가비를 내고 같은 대회 칩으로 시작해요.\n대회별 참가비와 시작 칩은 아래와 같아요.||핸드\n하루에 30핸드를 할 수 있어요. 그날 쓰지 않은 핸드는 다음 날로 넘어가지 않아요.\n자정이 지나면 30핸드가 새로 채워져요.\n대회 칩은 내 칩과 따로예요. 대회 칩을 다 잃으면 탈락이에요.||상금\n대회가 끝나는 순간 가진 대회 칩이 많은 순으로 순위를 정해요.\n상금은 내 칩으로 들어오고, 상위 30%는 적어도 참가비를 돌려받아요.\n받은 상금은 시즌 상금 랭킹에도 쌓여요.\n결과는 대회가 끝난 뒤 로비에 들어오면 보여요.||대회 일정\n모든 대회는 월요일에 시작해 일요일에 끝나요.\n킹스 컵은 매주, 에이스 마스터즈는 1주 진행·2주 휴식, 월드 챔피언십은 1주 진행·4주 휴식이에요.', tHandsShort: '오늘 {n}/{m}핸드', tOutShort: '탈락', tourInGame: '대회는 로비에서 들어갈 수 있어요.'
   });
 
   /* ---------- calendar ---------- */
@@ -81,7 +78,7 @@
   function curWk() { return Math.floor(dayIndex(T.now()) / 7); }
   function wkStart(wk) { return new Date(2026, 0, 5 + wk * 7); }
   // Seasons follow the calendar quarters. Each one closes with the Legendary League in the quarter's last full
-  // Monday-to-Sunday week; when that week ends, everyone's rating goes back to the start.
+  // Monday-to-Sunday week; when that week ends, everyone's season prize total starts again from zero.
   function quarterOf(d) { return d.getFullYear() * 4 + Math.floor(d.getMonth() / 3); }
   function legendWkOfQuarter(q) {
     var end = new Date(Math.floor(q / 4), (q % 4) * 3 + 3, 0);          // last day of the quarter
@@ -92,7 +89,7 @@
   function isOn(t, wk) { return t.legend ? isLegendWk(wk) : ((wk - t.phase) % t.cycle + t.cycle) % t.cycle === 0; }
   function nextOn(t, wk) { while (!isOn(t, wk)) wk++; return wk; }
   function edition(t, wk) { return t.legend ? quarterOf(wkStart(wk)) - quarterOf(new Date(2026, 0, 5)) + 1 : Math.floor((wk - t.phase) / t.cycle) + 1; }
-  // The next rating reset: the end of the coming (or running) Legendary League week.
+  // The next season reset: the end of the coming (or running) Legendary League week.
   function nextReset() { var wk = nextOn(byId.legend, curWk()); return wkStart(wk + 1); }
   T.nextReset = function () { return nextReset(); };
   function progress(wk) { return Math.max(0, Math.min(1, (T.now() - wkStart(wk).getTime()) / (7 * DAY))); }
@@ -153,7 +150,7 @@
   }
   function myRank(list) { for (var i = 0; i < list.length; i++) if (list[i].me) return i + 1; return 0; }
 
-  /* ---------- prizes and rating ---------- */
+  /* ---------- prizes and the prize ranking ---------- */
   function prizeTiers(t, n) {
     var f = t.fee, top = Math.ceil(n * 0.3);
     var tiers = [[1, 1, f * 100], [2, 2, f * 60], [3, 3, f * 40], [4, 10, f * 15], [11, 25, f * 6], [26, 50, f * 3]];
@@ -166,47 +163,29 @@
     for (var i = 0; i < tiers.length; i++) if (rank >= tiers[i][0] && rank <= tiers[i][1]) return tiers[i][2];
     return 0;
   }
-  function ratingDelta(t, rank, n) { var p = (rank - 1) / Math.max(1, n - 1); return Math.round(t.weight * (40 - 65 * p + (rank === 1 ? 20 : 0))); }   // King's Cup: no rating at all
-  function tierOf(r) { var p = pctOf(r), k = TIERS[0][1]; TIERS.forEach(function (x) { if (p >= x[0]) k = x[1]; }); return k; }
-  T.tierOf = tierOf;
-  function myRatingPct() { return 1 - pctOf(st.rating); }      // share of players above you: 0.3 = top 30%
-  T.myRatingPct = myRatingPct;
-  function myRatingRank() {
-    var board = T.ratingBoard(), above = board.filter(function (p) { return p.rating > st.rating; }).length;
-    return above < board.length ? above + 1 : Math.max(board.length + 1, Math.round((1 - pctOf(st.rating)) * POP) + 1);
+  function myPrizePct() { return 1 - pctOf(st.prize); }      // share of players above you: 0.3 = top 30%
+  T.myPrizePct = myPrizePct;
+  function myPrizeRank() {
+    var board = T.prizeBoard(), above = board.filter(function (p) { return p.prize > st.prize; }).length;
+    return above < board.length ? above + 1 : Math.max(board.length + 1, Math.round((1 - pctOf(st.prize)) * POP) + 1);
   }
-  T.myRatingRank = myRatingRank;
-  // The rating board: the top 50 of the modelled ladder, plus you in your place (or under them with your rank).
-  T.ratingList = function () {
-    var list = T.ratingBoard().map(function (p, i) { return { nick: p.nick, icon: p.icon, rating: p.rating, rank: i + 1 }; });
-    var me = { nick: st.nick, icon: st.icon, rating: st.rating, me: true, rank: myRatingRank() };
-    if (me.rank <= list.length) { list.splice(me.rank - 1, 0, me); for (var i = me.rank; i < list.length; i++) list[i].rank = i + 1; list.pop(); }
+  T.myPrizeRank = myPrizeRank;
+  // The prize board: the top 50 of the modelled season, plus you in your place (or under them with your rank).
+  T.prizeList = function () {
+    var list = T.prizeBoard().map(function (p, i) { return { nick: p.nick, icon: p.icon, prize: p.prize, rank: i + 1 }; });
+    var me = { nick: st.nick, icon: st.icon, prize: st.prize, me: true, rank: st.prize > 0 ? myPrizeRank() : '—' };   // no prize yet: not ranked
+    if (typeof me.rank === 'number' && me.rank <= list.length) { list.splice(me.rank - 1, 0, me); for (var i = me.rank; i < list.length; i++) list[i].rank = i + 1; list.pop(); }
     else list.push(me);
     return list;
   };
-  function tierPill(r) { var k = tierOf(r), s = document.createElement('i'); s.className = 'tier t-' + k; s.textContent = I.t('tier_' + k); return s; }
-  T.tierPill = tierPill;
-  function tierPillK(k) { var s = document.createElement('i'); s.className = 'tier t-' + k; s.textContent = I.t('tier_' + k); return s; }
-  // tier, percentile band and about where that is in rating today
-  function tierTable(box) {
-    TIERS.slice().reverse().forEach(function (x, i, arr) {
-      var up = i ? arr[i - 1][0] : null, w = el('span', '');
-      w.appendChild(tierPillK(x[1]));
-      var band = up == null ? I.t('tierTop', { a: pct(x[0]) }) : x[0] === 0 ? I.t('tierBelow', { b: pct(up) }) : I.t('tierBand', { a: pct(x[0]), b: pct(up) });
-      w.appendChild(el('small', '', band)); w.appendChild(el('em', '', x[0] ? '≈' + U.fmt(ratingAt(x[0])) + '+' : ''));
-      box.appendChild(w);
-    });
-  }
   function pct(p) { return (Math.round(p * 1000) / 10) + '%'; }
-  T.tierTable = tierTable;
-  T.ratingAt = ratingAt;
-  var rboard = null;
-  T.ratingBoard = function () {
-    if (rboard) return rboard;
-    var r = rng(hash('rating')), names = BJ.meta.NAMES;
-    rboard = [];
-    for (var i = 0; i < 50; i++) rboard.push({ nick: i < names.length ? names[i] : names[i % names.length] + (i + 7), icon: (r() * BJ.meta.iconCount) | 0, rating: ratingAt(1 - (i + 0.5) / POP) });
-    return rboard;
+  var pboard = null;
+  T.prizeBoard = function () {
+    if (pboard) return pboard;
+    var r = rng(hash('prize')), names = BJ.meta.NAMES;
+    pboard = [];
+    for (var i = 0; i < 50; i++) pboard.push({ nick: i < names.length ? names[i] : names[i % names.length] + (i + 7), icon: (r() * BJ.meta.iconCount) | 0, prize: prizeAt(1 - (i + 0.5) / POP) });
+    return pboard;
   };
 
   /* ---------- art ---------- */
@@ -303,7 +282,7 @@
       var list = standings(t, s.wk, progress(s.wk));
       span.appendChild(el('i', 'ldot')); span.appendChild(document.createTextNode(I.t('tPlaying', { r: myRank(list), t: fmtLeft(s.ends - T.now()) })));
     } else if (s.live) { span.appendChild(el('i', 'ldot')); span.appendChild(document.createTextNode(I.t('tLive', { t: fmtLeft(s.ends - T.now()) }))); }
-    else span.appendChild(document.createTextNode(I.t('tNext', { d: fmtDate(s.start, true), n: dDay(s.start) })));
+    else span.appendChild(document.createTextNode(I.t('tNext', { n: dDay(s.start) })));
     return span;
   }
   // Playing in it: today's hands left and the tournament chips, as two small pills under the status line.
@@ -322,8 +301,8 @@
     T.check();
     var box = $('tourList'); box.innerHTML = '';
     var me = $('tourMe'); me.innerHTML = '';
-    me.appendChild(el('span', '', I.t('myRating'))); me.appendChild(el('b', '', U.fmt(st.rating))); me.appendChild(tierPill(st.rating));
-    var q = el('button', 'qbtn'); q.innerHTML = QSVG; q.type = 'button'; q.setAttribute('aria-label', 'Rating help'); q.addEventListener('click', function () { BJ.audio.tick(); T.openRating(); }); me.appendChild(q);
+    me.appendChild(el('span', '', I.t('myPrize'))); var pb = el('b', ''); pb.appendChild(el('i', 'coin')); pb.appendChild(document.createTextNode(U.money(st.prize))); me.appendChild(pb);
+    var q = el('button', 'qbtn'); q.innerHTML = QSVG; q.type = 'button'; q.setAttribute('aria-label', 'Prize ranking help'); q.addEventListener('click', function () { BJ.audio.tick(); T.openRating(); }); me.appendChild(q);
     TOURS.forEach(function (t) {
       var b = el('button', 'trow ' + t.id); b.type = 'button';
       var art = el('span', 'art'); art.innerHTML = ART[t.id]();
@@ -357,20 +336,16 @@
     });
     // the three tournaments side by side
     var tb = el('div', 'thtable');
-    [['', 'tFee', 'tStack', 'thBets', 'thRp', 'thWhen']].concat(TOURS.map(function (t) { return [t.id]; })).forEach(function (r, i) {
+    [['', 'tFee', 'tStack', 'thBets', 'thWhen']].concat(TOURS.map(function (t) { return [t.id]; })).forEach(function (r, i) {
       var row = el('div', 'thr' + (i ? ' ' + r[0] : ' head'));
       if (!i) r.forEach(function (k) { row.appendChild(el('span', '', k ? I.t(k) : '')); });
       else {
         var t = byId[r[0]];
-        [I.t('tn_' + t.id), U.money(t.fee), U.money(t.stack), U.money(t.min) + '–' + U.money(t.max), I.t('thRpv_' + t.id), I.t('calCad_' + t.id)].forEach(function (v) { row.appendChild(el('span', '', v)); });
+        [I.t('tn_' + t.id), U.money(t.fee), U.money(t.stack), U.money(t.min) + '–' + U.money(t.max), I.t('calCad_' + t.id)].forEach(function (v) { row.appendChild(el('span', '', v)); });
       }
       tb.appendChild(row);
     });
     box.insertBefore(tb, box.children[1] || null);
-    var tiers = el('div', 'thtiers');
-    tierTable(tiers);
-    box.appendChild(el('h3', 'thth', I.t('thTiers')));
-    box.appendChild(tiers);
     $('sheetTourHelp').classList.add('open');
   };
 
@@ -383,17 +358,20 @@
     var box = $('tinfo'); box.className = 'tpanel tinfo ' + id;
     $('tiArt').innerHTML = ART[id]();
     $('tiName').textContent = I.t('tn_' + id);
-    $('tiSub').textContent = I.t('tEd', { n: edition(t, s.wk) }) + ' · ' + fmtDate(s.start) + ' – ' + fmtDate(new Date(s.ends.getTime() - DAY));
+    var md = function (d) { return (d.getMonth() + 1) + '.' + d.getDate(); };
+    $('tiSub').textContent = I.t('tEd', { n: edition(t, s.wk) }) + ' · ' + md(s.start) + ' – ' + md(new Date(s.ends.getTime() - DAY));
     var line = $('tiStatus'); line.innerHTML = ''; line.className = 'tistatus' + (s.live ? ' live' : '');
-    if (s.live) { line.appendChild(el('i', 'ldot')); line.appendChild(document.createTextNode(I.t('tEnds', { t: fmtLeft(s.ends - T.now()) }))); }
-    else line.textContent = I.t('tStarts', { d: fmtDate(s.start, true), n: dDay(s.start) });
+    var lft = el('span', 'l'), rgt = el('span', 'r');
+    if (s.live) { lft.appendChild(el('i', 'ldot')); lft.appendChild(document.createTextNode(I.t('tLiveNow'))); rgt.textContent = I.t('tEndsIn', { t: fmtLeft(s.ends - T.now()) }); }
+    else { lft.textContent = I.t('tStarts', { n: dDay(s.start) }); }
+    line.appendChild(lft); line.appendChild(rgt);
     $('tiFee').textContent = U.money(t.fee); $('tiStack').textContent = U.money(t.stack); $('tiHands').textContent = HANDS;
     // my standing
     var mine = $('tiMine'), list = s.live ? standings(t, s.wk, p) : null;
     mine.hidden = !e;
     if (e) {
       var left = handsLeft(t, s.wk);
-      $('tiRank').textContent = e.out ? '—' : I.t('tRankOf', { r: myRank(list), n: list.length });
+      $('tiRank').textContent = e.out ? '—' : I.t('tRank1', { a: U.fmt(myRank(list)) });
       $('tiChips').textContent = U.money(myChips(t, s.wk));
       $('tiLeft').textContent = left + ' / ' + HANDS;
       $('tiBar').style.width = (left / HANDS * 100) + '%';
@@ -405,7 +383,8 @@
     if (infoTab === 'board') {
       if (!s.live) pane.appendChild(el('p', 'tempty', I.t('tBoardWait')));
       else {
-        pane.appendChild(el('p', 'tnote', I.t('tPlayers', { n: U.fmt(list.length) }) + ' · ' + I.t('tSample')));
+        pane.appendChild(el('p', 'tnote', I.t('tSampleShort')));
+        var hd = el('div', 'rrow rhead'); hd.appendChild(el('span', 'no', I.t('thRank'))); hd.appendChild(el('span', 'pl', I.t('thPlayer'))); hd.appendChild(el('span', 'lv', I.t('tMyChips'))); pane.appendChild(hd);
         var myRow = null;
         list.forEach(function (q, i) {
           if (i >= 100 && !q.me) return;
@@ -421,10 +400,10 @@
         var row = el('div', 'prow' + (x[0] <= 3 ? ' top' + x[0] : ''));
         row.appendChild(el('span', 'pr', x[0] === 51 ? I.t('tTop30') : x[0] === x[1] ? I.t('tRank1', { a: x[0] }) : I.t('tRankR', { a: x[0], b: x[1] })));
         var v = el('span', 'pv'); v.appendChild(el('i', 'coin')); v.appendChild(document.createTextNode('+' + U.money(x[2]))); row.appendChild(v);
-        if (t.weight) row.appendChild(el('span', 'pd', '+' + ratingDelta(t, x[0], n))); else row.classList.add('norp');
+        row.classList.add('norp');
         pane.appendChild(row);
       });
-      pane.appendChild(el('p', 'tnote', I.t('tPrizeNote') + ' ' + I.t('tRp_' + t.id)));
+      pane.appendChild(el('p', 'tnote', I.t('tPrizeNote') + (t.legend ? ' ' + I.t('tLegendNote') : '')));
     } else {
       var ul = el('ul', 'trules');
       I.t('tRules').split('\n').forEach(function (li) {
@@ -434,27 +413,27 @@
     }
     // the main button
     var go = $('tiGo'); go.disabled = false; go.onclick = null;
-    if (!s.live) { go.textContent = I.t('tSoon', { d: fmtDate(s.start, true) }); go.disabled = true; }
+    if (!s.live) { go.textContent = I.t('tSoon', { n: dDay(s.start) }); go.disabled = true; }
     else if (!e) {
-      if (t.topPct && myRatingPct() > t.topPct) { go.textContent = I.t('tNeedRank', { a: Math.round(t.topPct * 100), b: pct(myRatingPct()) }); go.disabled = true; }
+      if (t.topPct && myPrizePct() > t.topPct) { go.textContent = I.t('tNeedRank', { a: Math.round(t.topPct * 100), b: pct(myPrizePct()) }); go.disabled = true; }
       else if (st.chips < t.fee) { go.textContent = I.t('tNoFee', { n: U.money(t.fee) }); go.disabled = true; }
       else { go.textContent = I.t('tJoin', { n: U.money(t.fee) }); go.onclick = function () { join(t, s.wk); }; }
     } else if (e.out) { go.textContent = I.t('tOut'); go.disabled = true; }
     else if (!handsLeft(t, s.wk)) { go.textContent = I.t('tDoneToday', { t: fmtLeft(untilMidnight()), n: HANDS }); go.disabled = true; }
-    else { go.textContent = I.t('tPlay', { n: handsLeft(t, s.wk) }); go.onclick = function () { play(t, s.wk); }; }
+    else { go.textContent = I.t('tPlay', { n: handsLeft(t, s.wk), m: HANDS }); go.onclick = function () { play(t, s.wk); }; }
     $('sheetTourInfo').classList.add('open');
   };
   function rankRow(no, icon, nick, value, me) {
     var row = el('div', 'rrow' + (no <= 3 ? ' top' + no : '') + (me ? ' me' : ''));
     row.appendChild(el('span', 'no', no));
     var img = document.createElement('img'); img.alt = ''; img.src = BJ.meta.icon(icon); row.appendChild(img);
-    row.appendChild(el('span', 'nm', nick)); row.appendChild(el('span', 'lv', value));
+    var nm = el('span', 'nm', nick); if (me) nm.appendChild(el('em', 'mebadge', I.t('meTag'))); row.appendChild(nm); row.appendChild(el('span', 'lv', value));
     return row;
   }
   T.rankRow = rankRow;
   function handsLeft(t, wk) { var e = entry(t, wk); return e ? Math.max(0, HANDS - (e.used[today()] || 0)) : 0; }
   function join(t, wk) {
-    if (st.chips < t.fee || entry(t, wk) || (t.topPct && myRatingPct() > t.topPct)) return;
+    if (st.chips < t.fee || entry(t, wk) || (t.topPct && myPrizePct() > t.topPct)) return;
     hooks.spend(t.fee);
     st.tours[keyOf(t, wk)] = { chips: t.stack, used: {}, out: false };
     var ts = st.tstats; ts.played[t.id] = (ts.played[t.id] || 0) + 1;
@@ -535,25 +514,25 @@
       var e = st.tours[k], p = k.split(':'), t = byId[p[0]], w = +p[1];
       if (!t || w >= wk || e.done) return;
       var list = standings(t, w, 1), rank = myRank(list), n = list.length, mine = e.out ? 0 : e.chips;
-      var prize = prizeFor(t, rank, n, mine), dr = ratingDelta(t, rank, n), before = st.rating;
-      st.rating = Math.max(0, st.rating + dr); notePeak();
+      var prize = prizeFor(t, rank, n, mine), before = st.prize;
+      st.prize += prize; st.prizeAll = (st.prizeAll || 0) + prize;      // the prize ranking counts prizes, not chips
       if (mine && (!st.tstats.best[t.id] || rank < st.tstats.best[t.id])) st.tstats.best[t.id] = rank;
       if (mine && rank === 1) { st.tstats.titles = (st.tstats.titles || 0) + 1; st.tstats.titlesBy = st.tstats.titlesBy || {}; st.tstats.titlesBy[t.id] = (st.tstats.titlesBy[t.id] || 0) + 1; }
       if (prize) hooks.addChips(prize);
-      e.done = true; e.rank = rank; e.n = n; e.prize = prize; e.dr = dr;
-      st.tourLog.unshift({ id: t.id, ed: edition(t, w), rank: rank, n: n, prize: prize, dr: dr });
+      e.done = true; e.rank = rank; e.n = n; e.prize = prize;
+      st.tourLog.unshift({ id: t.id, ed: edition(t, w), rank: rank, n: n, prize: prize });
       st.tourLog = st.tourLog.slice(0, 20);
       NcqMetrics.step("tour_result");
-      queue.push({ t: t, w: w, rank: rank, n: n, prize: prize, before: before, after: st.rating, chips: mine });
+      queue.push({ t: t, w: w, rank: rank, n: n, prize: prize, before: before, after: st.prize, chips: mine });
     });
     // finished entries older than a month are dropped
     Object.keys(st.tours).forEach(function (k) { if (st.tours[k].done && +k.split(':')[1] < wk - 5) delete st.tours[k]; });
-    // the season is over (the Legendary League week has ended): ratings go back to the start
+    // the season is over (the Legendary League week has ended): season prize totals start again from zero
     if (T.now() >= st.seasonEnds) {
       NcqMetrics.step("season_reset");
-      queue.push({ season: true, before: st.rating, n: st.season });
-      st.ratingLog = (st.ratingLog || []).concat([{ season: st.season, rating: st.rating }]).slice(-8);
-      st.rating = 1000; st.season += 1; st.seasonEnds = nextReset().getTime();
+      queue.push({ season: true, before: st.prize, pct: myPrizePct(), n: st.season });
+      st.prizeLog = (st.prizeLog || []).concat([{ season: st.season, prize: st.prize }]).slice(-8);
+      st.prize = 0; st.season += 1; st.seasonEnds = nextReset().getTime();
     }
     save();
     if (hooks.check) hooks.check();
@@ -570,10 +549,9 @@
     $('trRank').textContent = r.chips ? I.t('tRank1', { a: r.rank }) : I.t('tResOut');
     $('trOf').textContent = I.t('tResOf', { n: U.fmt(r.n), c: U.money(r.chips) });
     $('trPrize').textContent = r.prize ? '+' + U.money(r.prize) : '—';
-    var d = r.after - r.before;
-    $('trRate').textContent = U.fmt(r.before) + ' → ' + U.fmt(r.after);
-    var dd = $('trDelta'); dd.textContent = (d >= 0 ? '+' : '') + d; dd.className = d >= 0 ? 'up' : 'down';
-    var tp = $('trTier'); tp.innerHTML = ''; tp.appendChild(tierPill(r.after));
+    $('trRate').textContent = U.money(r.before) + ' → ' + U.money(r.after);
+    var dd = $('trDelta'); dd.textContent = r.prize ? '+' + U.money(r.prize) : ''; dd.className = r.prize ? 'up' : '';
+    $('trTier').innerHTML = '';
     $('sheetTourRes').classList.add('open');
     BJ.audio.fanfare && r.prize && BJ.audio.fanfare();
   }
@@ -582,15 +560,14 @@
     $('trBox').className = 'tpanel tres legend';
     $('trArt').innerHTML = ART.legend();
     $('trTitle').textContent = I.t('seasonOver', { n: r.n });
-    $('trRank').textContent = I.t('tier_' + tierOf(r.before));
-    $('trOf').textContent = I.t('seasonFinal', { r: U.fmt(r.before) });
+    $('trRank').textContent = U.money(r.before);
+    $('trOf').textContent = (r.before > 0 ? I.t('rhTopOnly', { a: pct(r.pct) }) + ' · ' : '') + I.t('seasonFinal');
     $('trPrizeRow').hidden = true;
-    $('trRate').textContent = U.fmt(r.before) + ' → ' + U.fmt(st.rating);
+    $('trRate').textContent = U.money(r.before) + ' → 0';
     var dd = $('trDelta'); dd.textContent = I.t('seasonReset'); dd.className = '';
-    var tp = $('trTier'); tp.innerHTML = ''; tp.appendChild(tierPill(st.rating));
+    $('trTier').innerHTML = '';
     $('sheetTourRes').classList.add('open');
   }
-  function notePeak() { if (st.rating > (st.tstats.peak || 0)) st.tstats.peak = st.rating; }
   // a hand at a tournament table, for the tournament achievements
   T.noteHand = function (result) { if (result === 'win' || result === 'blackjack') st.tstats.wins = (st.tstats.wins || 0) + 1; };
 
@@ -610,13 +587,13 @@
     return list.map(function (q, i) { return { rank: i + 1, nick: q.nick, icon: q.icon, chips: q.chips, me: q.me }; });
   };
 
-  /* ---------- rating help: what rating is, the tiers, and when the season resets ---------- */
+  /* ---------- prize ranking help: what counts, and when the season resets ---------- */
   T.openRating = function () {
     NcqMetrics.step("rating_help_open");
     var reset = nextReset(), box = $('rhBody'); box.innerHTML = '';
     var me = el('div', 'rhme');
-    me.appendChild(el('span', '', I.t('myRating'))); me.appendChild(el('b', '', U.fmt(st.rating))); me.appendChild(tierPill(st.rating));
-    me.appendChild(el('small', '', I.t('rhTop', { a: pct(myRatingPct()), r: U.fmt(myRatingRank()) })));
+    me.appendChild(el('span', '', I.t('myPrize'))); var pb = el('b', ''); pb.appendChild(el('i', 'coin')); pb.appendChild(document.createTextNode(U.money(st.prize))); me.appendChild(pb);
+    me.appendChild(el('small', '', st.prize > 0 ? I.t('rhTop', { a: pct(myPrizePct()), r: U.fmt(myPrizeRank()) }) : I.t('rhNone')));
     box.appendChild(me);
     var rs = el('div', 'rhreset');
     rs.appendChild(el('b', '', I.t('rhReset', { d: fmtDate(new Date(reset.getTime() - 1), true), n: dDay(reset) })));
@@ -628,8 +605,6 @@
       var ul = el('ul', 'trules'); parts.slice(1).forEach(function (li) { ul.appendChild(el('li', '', li)); }); d.appendChild(ul);
       box.appendChild(d);
     });
-    box.appendChild(el('h3', 'thth', I.t('thTiers')));
-    var tb = el('div', 'thtiers'); tierTable(tb); box.appendChild(tb);
     $('sheetRateHelp').classList.add('open');
   };
 
@@ -641,7 +616,7 @@
 
   T.init = function (state, saveFn, h) {
     st = state; save = saveFn; hooks = h;
-    st.tours = st.tours || {}; if (st.rating == null) st.rating = 1000; st.tourLog = st.tourLog || [];
+    st.tours = st.tours || {}; if (st.prize == null) st.prize = 0; if (st.prizeAll == null) st.prizeAll = 0; st.tourLog = st.tourLog || [];
     st.tstats = st.tstats || {}; st.tstats.played = st.tstats.played || {}; st.tstats.best = st.tstats.best || {};
     if (!st.season) st.season = 1;
     if (!st.seasonEnds) st.seasonEnds = nextReset().getTime();

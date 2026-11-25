@@ -9,7 +9,7 @@
   /* ---------- saved state: the shared save module NcqSave (on the device, backed up to the cloud in release builds) ---------- */
   var KEY = 'blackjack-proto-1';          // the save from before NcqSave, moved over once
   function fresh() {
-    return { chips: E.START_CHIPS, xp: 0, table: 0, lastTable: null, unlocked: [true, false, false, false, false, false, false, false, false, false, false], starter: 0, tut: 0, nick: null, icon: 0, icons: [], ach: {}, achSeen: {}, adHands: 0, unveil: -1, tours: {}, rating: 1000, tourLog: [], inTour: null, bank: null, lang: null, sound: true,
+    return { chips: E.START_CHIPS, xp: 0, table: 0, lastTable: null, unlocked: [true, false, false, false, false, false, false, false, false, false, false], starter: 0, tut: 0, nick: null, icon: 0, icons: [], ach: {}, achSeen: {}, adHands: 0, unveil: -1, tours: {}, prize: 0, prizeAll: 0, tourLog: [], inTour: null, bank: null, lang: null, sound: true,
              vipUntil: 0, vipDays: 0, vipApplied: 0, vipGift: null, migrated: false, firstDay: null, dayHands: {},
              stats: { hands: 0, won: 0, lost: 0, pushed: 0, bjs: 0, ads: 0, peak: E.START_CHIPS } };
   }
@@ -30,6 +30,11 @@
       });
       if (old) { try { localStorage.removeItem(KEY); } catch (e) { /* nothing to clear */ } }
       d = N.get();
+    }
+    // stakes went up fifty-fold (first table 10–500 → 500–250K): an older save's chips move up with them, once
+    if (!d.econ) {
+      if (d.stats && d.stats.hands) { d.chips = Math.round(d.chips * 50); if (d.bank != null) d.bank = Math.round(d.bank * 50); if (d.stats.peak) d.stats.peak *= 50; }
+      d.econ = 2; N.update && N.update(function (s) { s.chips = d.chips; s.bank = d.bank; s.econ = 2; if (d.stats) s.stats = d.stats; });
     }
     for (var k in f) if (d[k] === undefined) d[k] = f[k];
     for (var q in f.stats) if (d.stats[q] === undefined) d.stats[q] = f.stats[q];
@@ -57,7 +62,7 @@
   var CUT = 78;                 // about three quarters dealt
 
   /* ---------- where things sit on the felt ---------- */
-  var DEALER = { x: 0, z: S.LAYOUT.dealerZ }, HAND = { x: 0, z: 4.4 }, PILE = { x: 0, z: 17.6 };
+  var DEALER = { x: 0, z: S.LAYOUT.dealerZ }, HAND = { x: 0, z: 5.5 }, PILE = { x: 0, z: 17.6 };
   var SPLIT_X = 7.7, SPLIT_PILE_X = 5.3;
 
   function handCenter(i) { return split ? { x: i ? SPLIT_X : -SPLIT_X, z: HAND.z } : HAND; }
@@ -192,11 +197,12 @@
     else if (n === 200) NcqMetrics.step("026_hand200_end");
     else if (n === 500) NcqMetrics.step("027_hand500_end");
   }
-  function levelSteps(L) {
-    if (L >= 2) NcqMetrics.step("017_level2");
-    if (L >= 5) NcqMetrics.step("023_level5");
-    if (L >= 9) NcqMetrics.step("025_level9");
-    if (L >= 14) NcqMetrics.step("028_level14");
+  // the old level checkpoints now follow the tables opened by chips held (2nd, 3rd, 4th, 5th table)
+  function unlockSteps(i) {
+    if (i >= 1) NcqMetrics.step("017_level2");
+    if (i >= 2) NcqMetrics.step("023_level5");
+    if (i >= 3) NcqMetrics.step("025_level9");
+    if (i >= 4) NcqMetrics.step("028_level14");
   }
   function dayOpenStep() {
     var n = dayNo();
@@ -248,13 +254,25 @@
   function coachHide() { $('coach').className = ''; coachTarget = null; }
   // keep the lit hole on its target while bars slide in or the window changes size
   setInterval(function () { if (coachTarget && $('coach').className) coachRelayout(); }, 250);
+  // While the camera travels to the lobby or a new table's padlock springs open, taps are held off,
+  // so nothing can open on top of the reveal and leave the screen stuck.
+  setInterval(function () { $('tapBlock').classList.toggle('on', mode === 'intro' || popPending >= 0); }, 80);
+  // Nudge: sitting at the betting step with no chip down for 5 s makes the chips blink until one is placed
+  var idleBetSince = 0;
+  setInterval(function () {
+    var row = $('chipRow');
+    var waiting = mode === 'table' && phase === 'bet' && !bet && !sheetOpen() && !$('coach').className && !net;
+    if (!waiting) { idleBetSince = 0; row.classList.remove('nudge'); return; }
+    if (!idleBetSince) idleBetSince = Date.now();
+    row.classList.toggle('nudge', Date.now() - idleBetSince >= 5000);
+  }, 250);
   function coachRelayout() {
     if (!coachTarget) return;
     if (coachStep === 1) { coachShow($('chipRow'), I.t('coachBet')); NcqMetrics.step("004_coach_bet"); }
     else if (coachStep === 2) { coachShow($('btnDeal'), I.t('coachDeal')); NcqMetrics.step("006_coach_deal"); }
     else if (coachStep === 3) { coachShow($('btnHelp'), I.t('coachHelp'), I.t('coachTap'), true); NcqMetrics.step("011_coach_help"); }
     else if (coachStep === 4) { coachShow(document.querySelector('[data-act=stand]'), I.t('coachStand')); NcqMetrics.step("008_coach_stand"); }
-    else if (coachStep === 5) { coachShow(document.querySelector('.playrow'), I.t('coachPick')); NcqMetrics.step("020_unveil_done"); }
+    else if (coachStep === 5) { var solo = $('btnMulti').classList.contains('soon'); coachShow(solo ? $('btnPlay') : document.querySelector('.playrow'), I.t(solo ? 'coachPickSingle' : 'coachPick')); NcqMetrics.step("020_unveil_done"); }
   }
   function coachBegin() {
     if (st.tut >= 1 || mode !== 'table') return;
@@ -263,7 +281,7 @@
   }
   function coachAfterBet() { if (coachStep === 1 && bet >= table.min) { coachStep = 2; st.tut = 2; coachRelayout(); } }
   var standPending = false, coachShownAt = 0;
-  function coachAfterDeal() { if (coachStep === 2) { coachStep = 0; st.tut = 3; coachHide(); save(); standPending = true; } }
+  function coachAfterDeal() { if (coachStep === 2) { coachStep = 0; st.tut = 3; coachHide(); save(); standPending = !multi; } }   // the STAND tip fits the scripted 20, single only
   // first decision of the first hand: point at STAND (the welcome hand is a 20)
   function coachPlayerTurn() {
     if (!standPending) return;
@@ -280,12 +298,19 @@
   // the ? pointer stays at least a second, so a quick double tap doesn't skip past it unread
   // after a new table pops open in the lobby: point at MULTI / SINGLE and let the player pick one
   function coachPickMode() {
-    if (mode !== 'lobby') return;
-    coachStep = 5; coachTarget = document.querySelector('.playrow');
+    if (mode !== 'lobby' || st.pickShown) return;                     // the 'tap Single Play' pointer only the very first time
+    if (sheetOpen()) return setTimeout(coachPickMode, 300);          // a popup is up: point once it's closed
+    st.pickShown = true; save();
+    coachStep = 5; coachTarget = $('btnMulti').classList.contains('soon') ? $('btnPlay') : document.querySelector('.playrow');
     setTimeout(coachRelayout, 300); coachRelayout();
   }
   function coachPickDone() { if (coachStep === 5) { coachStep = 0; coachHide(); } }
-  function coachEnd() { if (coachStep === 3 && Date.now() - coachShownAt >= 1000) { coachStep = 0; st.tut = 9; save(); coachHide(); NcqMetrics.step("012_coach_help_done"); } }
+  function coachEnd() {
+    if (!(coachStep === 3 && Date.now() - coachShownAt >= 1000)) return;
+    coachStep = 0; st.tut = 9; save(); coachHide(); NcqMetrics.step("012_coach_help_done");
+    // a parting wish slides in; if the tap opened the rules, it waits until they're closed
+    (function wish() { if ($('sheetHelp').classList.contains('open')) return setTimeout(wish, 300); toast(I.t('coachEnjoy')); })();
+  }
 
   /* ---------- tablemates (multiplayer look, no real matching yet) ---------- */
   // Up to two AI players sit to either side. They bet, take cards from the same shoe, play basic strategy
@@ -853,7 +878,7 @@
       var hc = handCenter(i), px = split ? (i ? SPLIT_PILE_X : -SPLIT_PILE_X) : PILE.x;
       pin(marks.t[i], hc.x, 0.5, hc.z - C.H / 2 - 0.4);
       pin(marks.r[i], hc.x, 0.6, hc.z - C.H / 2 - 4.5);       // verdict sits above the hand, clear of the cards
-      pin(marks.b[i], px, 0.3, PILE.z - 5.9);
+      pin(marks.b[i], px, 0.3, PILE.z + 6.2);                 // the stake sits just below the betting spot
     }
   }
 
@@ -1122,83 +1147,48 @@
       box = null;
     });
   }
-  function levelFrac() { var L = E.levelOf(st.xp), a = E.xpFor(L), b = E.xpFor(L + 1); return { L: L, have: st.xp - a, need: b - a }; }
-  function refreshLevel() {
-    var f = levelFrac();
-    $('lvlNum').textContent = f.L;
-    $('lvlBar').style.width = (Math.min(1, f.have / f.need) * 100).toFixed(1) + '%';
-    if ($('xpTip').classList.contains('on')) $('xpTip').textContent = U.fmt(f.have) + ' / ' + U.fmt(f.need);
+  // Top-left pill: my place in the season prize ranking (trophy, rank, and the prize total under it).
+  function refreshPrize() {
+    var has = st.prize > 0;
+    $('lvlNum').textContent = has ? I.t('rankNo', { n: U.fmt(BJ.tour.myPrizeRank()) }) : '—';
+    $('lvlAmt').textContent = U.money(st.prize || 0);
   }
-  // Settling a hand: the pill lights up sky blue, "EXP +N" shows beside it and the bar fills
-  // (to the end first and round again when a level is crossed).
-  var xpGlowTimer = 0;
-  function showXpGain(n, levelled) {
-    var pill = $('lvl'), bar = $('lvlBar'), g = $('xpGain');
-    g.textContent = 'EXP +' + U.fmt(n);
-    g.classList.remove('on'); void g.offsetWidth; g.classList.add('on');
-    pill.classList.add('xp');
-    clearTimeout(xpGlowTimer);
-    xpGlowTimer = setTimeout(function () { pill.classList.remove('xp'); }, 1500);
-    if (levelled) {
-      bar.style.width = '100%';
-      setTimeout(function () {
-        bar.classList.add('snap'); bar.style.width = '0%'; void bar.offsetWidth; bar.classList.remove('snap');
-        refreshLevel();
-      }, 720);
-    } else refreshLevel();
-  }
-  var tipTimer = 0;
-  function toggleXpTip() {
-    var tip = $('xpTip'), f = levelFrac();
-    tip.textContent = U.fmt(f.have) + ' / ' + U.fmt(f.need);
-    tip.classList.toggle('on');
-    clearTimeout(tipTimer);
-    if (tip.classList.contains('on')) tipTimer = setTimeout(function () { tip.classList.remove('on'); }, 2600);
-  }
-
-  // Tables open by level; this keeps st.unlocked in step with the player's level.
-  function syncUnlocks() {
-    var L = E.levelOf(st.xp), fresh = [];
-    E.TABLES.forEach(function (T, i) { var open = L >= T.level; if (open && !st.unlocked[i]) fresh.push(i); st.unlocked[i] = open; });
+  var refreshLevel = refreshPrize;
+  // Tables open by the chips you hold: holding a table's top bet opens it for good (your own chips only).
+  function unlockAt(i) { return E.TABLES[i].open || 0; }
+  function checkUnlocks(quiet) {
+    if (st.inTour) return [];
+    var fresh = [];
+    E.TABLES.forEach(function (T, i) { if (!st.unlocked[i] && st.chips >= unlockAt(i)) { st.unlocked[i] = true; fresh.push(i); } });
+    if (!fresh.length) return fresh;
+    var top = fresh[fresh.length - 1];
+    unlockSteps(top); BJ.meta.checkAch && BJ.meta.checkAch(); save();
+    if (!quiet) {
+      if (mode === 'table') showUnlock(top);
+      else { st.unveil = top; save(); }
+    }
     return fresh;
   }
   function topOpen() { var t = 0; for (var i = 0; i < E.TABLES.length; i++) if (st.unlocked[i]) t = i; return t; }
 
-  // A finished hand earns XP at this table's rate. Each level reached pays twenty minimum bets of the
-  // best open table; a level that opens a new table pays fifty of that table's minimum, enough to sit down there.
-  function gainXp(result) {
-    var base = E.XP_RESULT[result === 'blackjack' ? 'win' : result] || E.XP_HAND;
+  // After a hand: tournament wins are counted; outside tournaments a bigger stack may open a table.
+  function afterHand(result) {
     if (st.inTour) BJ.tour.noteHand(result);
-    var before = E.levelOf(st.xp), gain = Math.round(base * (st.inTour ? 1 : E.xpMult(st.table)));
-    st.xp += gain;
-    var after = E.levelOf(st.xp);
-    var num = $('lvlNum'); if (after > before) num.textContent = before;   // the number ticks over when the bar wraps
-    showXpGain(gain, after > before);
-    if (after > before) {
-      levelSteps(after);
-      BJ.vip.refresh();
-      var opened = syncUnlocks(), top = topOpen();
-      var reward = E.TABLES[top].min * (opened.length ? 50 : 20 * (after - before));
-      if (st.inTour) st.bank += reward; else { addChips(reward); floatDelta(reward); }   // level rewards go to your own chips
-      if (opened.length) showUnlock(opened[opened.length - 1], after, reward);
-      else { A.fanfare(); toast(I.t('levelUp', { n: after, c: U.money(reward) })); }
-      var el = $('lvl'); el.classList.remove('up'); void el.offsetWidth; el.classList.add('up');
-      setTimeout(function () { el.classList.remove('up'); }, 900);
-      save();
-    }
+    checkUnlocks(); refreshPrize();
+    if (st.stats.hands === BJ.meta.AD_FROM) BJ.vip.refresh();      // the VIP offer appears with the first ads
   }
 
   // A new table opens mid-session: the room dims, a little table in its felt colour is unlocked, and the
   // player can head straight there or keep playing.
   var ufxTarget = -1;
-  function showUnlock(i, level, reward) {
+  function showUnlock(i) {
     var T = E.TABLES[i], fx = $('unlockFx');
     ufxTarget = i; st.unveil = i; save();
     if (i === 1) NcqMetrics.step("019_level3_unlock");
     $('ufxKicker').textContent = I.t('newTable');
     $('ufxName').textContent = I.t('t_' + T.id);
     $('ufxTable').style.setProperty('--felt', S.THEMES[i].felt);
-    $('ufxMeta').innerHTML = I.t('ufxMeta', { n: level, lim: U.money(T.min) + ' – ' + U.money(T.max), x: E.xpMult(i), c: U.money(reward) });
+    $('ufxMeta').innerHTML = I.t('ufxMeta', { min: U.short(T.min), max: U.short(T.max), c: U.short(unlockAt(i)) });
     $('ufxGo').textContent = I.t('ufxGo'); $('ufxStay').textContent = I.t('ufxStay');
     fx.className = 'on'; void fx.offsetWidth; fx.className = 'on show';
     setTimeout(function () { fx.classList.add('open'); A.unlockTable(); }, 650);
@@ -1219,6 +1209,11 @@
     })(0);
   }
 
+  // chips changed while in the lobby (ad refill, VIP, prizes): a table the stack now reaches opens right there
+  function lobbyRefresh() {
+    checkUnlocks(); refreshPrize();
+    if (pendingUnveil() && popPending < 0) popOpen(topOpen()); else buildLobby();
+  }
   function addChips(n) {
     st.chips += n;
     if (!st.inTour && st.chips > st.stats.peak) st.stats.peak = st.chips;
@@ -1226,6 +1221,9 @@
 
   /* ---------- lobby ---------- */
   function buildLobby() {
+    // chips can grow by many routes (prizes, gifts, ads, a hand just won): any table the stack now reaches opens here
+    var fresh = mode === 'lobby' && popPending < 0 ? checkUnlocks(true) : [];
+    if (fresh.length) { st.unveil = -1; save(); setTimeout(function () { if (mode === 'lobby' && popPending < 0) popOpen(fresh[fresh.length - 1]); }, 250); }
     var box = $('lobbyTables'); box.innerHTML = '';
     var LOCK = '<svg viewBox="0 0 40 48"><path class="sh" d="M11 22v-7a9 9 0 0 1 18 0v7" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="6" y="21" width="28" height="22" rx="4" fill="currentColor"/><circle cx="20" cy="31" r="3" fill="#000" opacity=".45"/><rect x="18.6" y="31" width="2.8" height="6" rx="1.2" fill="#000" opacity=".45"/></svg>';
     E.TABLES.forEach(function (T, i) {
@@ -1241,10 +1239,10 @@
       b.querySelector('.chip').style.backgroundImage = 'url(' + BJ.art.chipUrl(T.chips[2]) + ')';
       b.querySelector('.tn').textContent = I.t('t_' + T.id);
       b.querySelector('.tl').textContent = U.money(T.min) + ' – ' + U.money(T.max);
-      b.querySelector('.xp').textContent = 'EXP ×' + E.xpMult(i);
+      b.querySelector('.xp').textContent = '';
       b.querySelector('.ts').textContent = I.t('open');
-      b.querySelector('.lv').textContent = 'Lv ' + T.level;
-      b.querySelector('.gold em').textContent = '+' + U.money(T.min * 50);
+      b.querySelector('.lv').textContent = '';
+      b.querySelector('.gold em').textContent = I.t('openAt', { n: U.short(unlockAt(i)) });
       var burst = b.querySelector('.burst');
       for (var k = 0; k < 10; k++) {
         var sp = document.createElement('b'), ang = k / 10 * Math.PI * 2;
@@ -1267,8 +1265,8 @@
   function refreshPlay() {
     var T = E.TABLES[sel], b = $('btnPlay');
     var ok = st.unlocked[sel] && sel !== popPending;
-    b.textContent = ok ? I.t('single') : I.t('needLvPlay', { n: T.level }); b.disabled = !ok;
-    $('btnMulti').disabled = !ok;
+    b.textContent = ok || sel === popPending ? I.t('single') : I.t('needChipsPlay', { n: U.money(unlockAt(sel)) }); b.disabled = !ok;
+    $('btnMulti').disabled = !ok && !$('btnMulti').classList.contains('soon');   // the closed button still answers a tap
   }
   // Looking at another table in the lobby re-dresses the one in front of the camera.
   function pick(i, fromScroll) {
@@ -1296,7 +1294,7 @@
   }
   function lobbyGo() {
     if (mode !== 'lobby') return;
-    if (!st.unlocked[sel]) { A.deny(); toast(I.t('needLvPlay', { n: E.TABLES[sel].level })); return; }
+    if (!st.unlocked[sel]) { A.deny(); toast(I.t('needChipsPlay', { n: U.money(unlockAt(sel)) })); return; }
     // Not enough chips for this table: offer the ad top-up first, and sit down straight after it
     if (st.chips < E.TABLES[sel].min) { goAfterAd = true; openLobbyRefill(); return; }
     enterTable();
@@ -1418,7 +1416,7 @@
   // A new player's first three hands are set up to land well: 20, then 12 that hits to 21, then a blackjack. The dealer shows
   // a 6 over a 10 and then draws tens, so it busts every time; only hitting into a bust can lose these.
   function starterHand() {
-    if (st.starter >= 3 || BJ.debug.noStarter || st.inTour) return null;
+    if (st.starter >= 3 || BJ.debug.noStarter || st.inTour || multi) return null;   // the scripted first hands are single-table only
     var suits = ['S', 'H', 'D', 'C'], sx = function () { return suits[(Math.random() * 4) | 0]; };
     st.starter++;
     // take the real cards out of the shoe so the count stays true
@@ -1611,7 +1609,7 @@
       if (busted[0] || busted[1]) NcqMetrics.step("first_bust");
       if (best === 'win' || best === 'blackjack') { st.stats.streak = (st.stats.streak || 0) + 1; st.stats.bestStreak = Math.max(st.stats.bestStreak || 0, st.stats.streak); }
       else if (best === 'lose') st.stats.streak = 0;
-      anim.wait(1.6).then(function () { gainXp(best); });
+      anim.wait(1.6).then(function () { afterHand(best); });
       // A big win is a blackjack, or winning at least ten table minimums in one round.
       var big = best === 'blackjack' || net >= table.min * 10;
       if (best === 'blackjack') { A.jingle('big'); A.voice('blackjack'); }
@@ -1665,7 +1663,7 @@
   }
   // The lobby top-up pays the most a player can bet at the best table they've opened.
   var refillMode = 'table', goAfterAd = false;
-  function lobbyRefillAmount() { return E.TABLES[topOpen()].max; }
+  function lobbyRefillAmount() { return E.TABLES[sel].min * 10; }   // ten minimum bets of the table you're about to sit at
   function openLobbyRefill() {
     NcqMetrics.step("lobby_refill_offer"); NcqMetrics.flow('refill', { mode: 'lobby' });
     refillMode = 'lobby';
@@ -1765,7 +1763,7 @@
     NcqMetrics.step("settings_open"); NcqMetrics.flow('settings', { mode: 'app' });
     $('btnSound').textContent = I.t(st.sound ? 'on' : 'off');
     $('btnLang').textContent = I.lang === 'ko' ? '한국어' : 'English';
-    var s = st.stats, rows = [['level', E.levelOf(st.xp) + ' (' + U.money(st.xp) + ' XP)'], ['hands', s.hands], ['won', s.won], ['lost', s.lost], ['pushed', s.pushed], ['bjs', s.bjs], ['ads', s.ads], ['peak', U.money(s.peak)]];
+    var s = st.stats, rows = [['hands', s.hands], ['won', s.won], ['lost', s.lost], ['pushed', s.pushed], ['bjs', s.bjs], ['ads', s.ads], ['peak', U.money(s.peak)]];
     var dl = $('statList'); dl.innerHTML = '';
     rows.forEach(function (r) {
       var d = document.createElement('div'); d.innerHTML = '<dt></dt><dd></dd>';
@@ -1786,7 +1784,7 @@
     $('tblName').textContent = st.inTour ? BJ.tour.table(st.inTour).name : I.t('t_' + table.id);
     refreshTourHands(); BJ.tour.refreshButton();
     Array.prototype.forEach.call(document.querySelectorAll('[data-cheat=chips]'), function (b) { b.textContent = I.t('cheatChips', { n: U.money(+b.getAttribute('data-n')) }); });
-    if (mode === 'lobby') buildLobby();
+    if (mode === 'lobby') lobbyRefresh();
     save();
   }
 
@@ -1833,7 +1831,13 @@
   /* ---------- wiring ---------- */
   function wire() {
     $('btnPlay').addEventListener('click', function () { A.unlock(); coachPickDone(); multi = false; lobbyGo(); });
-    $('btnMulti').addEventListener('click', function () { A.unlock(); coachPickDone(); multi = true; lobbyGo(); });
+    // multiplayer is closed for now: the button stays visible but greyed, and a tap only says it's coming
+    var MULTI_OPEN = false;
+    $('btnMulti').addEventListener('click', function () {
+      if (!MULTI_OPEN) { toast(I.t('soon')); return; }
+      A.unlock(); coachPickDone(); multi = true; lobbyGo();
+    });
+    if (!MULTI_OPEN) { $('btnMulti').classList.add('soon'); $('btnMulti').setAttribute('aria-disabled', 'true'); }
     $('btnDeal').addEventListener('click', function () { A.unlock(); deal(); });
     $('btnClear').addEventListener('click', function () { A.unlock(); clearBet(); });
     $('btnRebet').addEventListener('click', function () { A.unlock(); rebet(); });
@@ -1850,7 +1854,7 @@
       close('sheetSettings');
       toLobby();
     });
-    $('lvl').addEventListener('click', function (e) { e.stopPropagation(); A.unlock(); A.tick(); toggleXpTip(); });
+    $('lvl').addEventListener('click', function (e) { e.stopPropagation(); A.unlock(); A.tick(); BJ.meta.openRank('rating'); });   // the prize ranking
     Array.prototype.forEach.call(document.querySelectorAll('#coach .blk'), function (b) { b.addEventListener('click', function () { if ($('coach').classList.contains('tapclose')) coachEnd(); }); });
     $('btnHelp').addEventListener('click', coachEnd);
     window.addEventListener('resize', function () { setTimeout(coachRelayout, 60); });
@@ -1869,13 +1873,9 @@
             var n = +b.getAttribute('data-n');
             if (st.inTour) st.bank += n; else { addChips(n); floatDelta(n); }    // at a tournament table it goes to your own chips
             toast(I.t('gotChips', { n: U.money(n) }));
-            if (mode === 'lobby') buildLobby();
-          } else {
-            close('sheetSettings');
-            st.xp = Math.max(st.xp, E.xpFor(E.levelOf(st.xp) + 1) - 1);   // one step short, then a hand's worth of XP crosses it
-            gainXp('push');
-            if (mode === 'lobby') buildLobby();
+            if (mode === 'lobby') lobbyRefresh();
           }
+          checkUnlocks(); if (mode === 'lobby') { if (pendingUnveil()) popOpen(topOpen()); else buildLobby(); }
           save(); refreshButtons();
         });
       });
@@ -1915,13 +1915,15 @@
       var panel = x.closest('.tpanel'), foot = document.createElement('div'), b = document.createElement('button');
       b.type = 'button'; b.className = 'btn pclose'; b.setAttribute('data-close', ''); b.setAttribute('data-i18n', 'close'); b.textContent = I.t('close');
       x.remove(); foot.className = 'pfoot'; foot.appendChild(b);
-      if (getComputedStyle(panel).overflowY === 'auto') {          // the panel scrolled as a whole: keep the footer outside the scroll
+      if (getComputedStyle(panel).overflowY === 'auto' || !panel.querySelector('.tipane, .tlist')) {   // keep the footer inside the frame; the rest scrolls
         var body = document.createElement('div'); body.className = 'pscroll';
         while (panel.firstChild) body.appendChild(panel.firstChild);
         panel.appendChild(body); panel.classList.add('hasfoot');
       }
       panel.appendChild(foot);
     });
+    // in the table menu, 'back to lobby' shares the bottom row with close
+    (function () { var lb = $('btnLobby'), foot = document.querySelector('#sheetSettings .pfoot'); if (foot) { lb.classList.remove('wide'); foot.appendChild(lb); foot.classList.add('pair'); } })();
     dragScroll();
     Array.prototype.forEach.call(document.querySelectorAll('[data-close]'), function (b) {
       b.addEventListener('click', function () { b.closest('.sheet').classList.remove('open'); });
@@ -1934,7 +1936,7 @@
       if (e.repeat) return;
       var k = e.key.toLowerCase();
       if (mode === 'lobby') { if (k === 'enter' || k === ' ') { A.unlock(); lobbyGo(); } }
-      else if (phase === 'bet') { if (k === 'enter' || k === ' ') { A.unlock(); if (!bet && lastBet.length) rebet(); else deal(); } if (k >= '1' && k <= '3' && table.chips[+k - 1]) { A.unlock(); addBet(table.chips[+k - 1]); } }
+      else if (phase === 'bet') { if (k === 'enter' || k === ' ') { A.unlock(); if (!bet && lastBet.length) rebet(); else deal(); } if (k >= '1' && k <= '4' && table.chips[+k - 1]) { A.unlock(); addBet(table.chips[+k - 1]); } }
       else if (phase === 'player') { var m = { h: 'hit', s: 'stand', d: 'double', p: 'split' }[k]; if (m) { A.unlock(); act(m); } }
     });
   }
@@ -1993,16 +1995,17 @@
     seatGeo: function (px, pz, spin) { SEATS.forEach(function (sp, i) { var side = i ? 1 : -1, gap = PILE.z - HAND.z; sp.px = px * side; sp.pz = pz; sp.spin = sp.yaw = spin * side; sp.x = sp.px - Math.sin(sp.spin) * gap; sp.z = sp.pz - Math.cos(sp.spin) * gap; Ch.setPile('m' + i, sp.px, sp.pz, 3.2); }); S.seatSpots(SEATS.map(function (sp) { return { x: sp.px, z: sp.pz, yaw: sp.spin }; })); layoutSeats(); },
     useHands: function (n) { for (var i = 0; i < n; i++) BJ.tour.useHand(st.inTour); refreshTourHands(); },
     tourDays: function (d) { BJ.tour.debugShift(d); if (mode === 'lobby') BJ.tour.check(); },
-    gain: function (xp, r) { st.xp = xp; gainXp(r || 'win'); },
+    gain: function (n) { if (n != null) st.chips = n; checkUnlocks(); },
+    hands: function (n) { st.stats.hands = n; BJ.vip.refresh(); },
     rig: null,
     noStarter: false,
     state: function () { return { mode: mode, phase: phase, chips: st.chips, bet: bet, table: st.table, split: split, round: round && { phase: round.phase, active: round.active, hands: round.hands.map(function (h) { return { cards: h.cards.map(function (c) { return c.rank + c.suit; }), bet: h.bet, result: h.result }; }), dealer: round.dealer.map(function (c) { return c.rank + c.suit; }) }, chipsOnTable: Ch.all().length, chipZ: Ch.all().filter(function (c) { return c.state === 'rest' || c.state === 'slide'; }).map(function (c) { return +c.z.toFixed(2); }) }; },
-    unlockFx: function (i) { showUnlock(i, E.TABLES[i].level, E.TABLES[i].min * 50); },
+    unlockFx: function (i) { showUnlock(i); },
     theme: function (i) { S.setTheme(i, E.TABLES[i], themeLabels(E.TABLES[i])); },
     skipCoach: function () { st.tut = 9; coachStep = 0; coachHide(); save(); },
     coachInfo: function () { return [coachStep, st.tut, $('coach').className, mode, phase]; },
     cam: function () { var p = S.camera.position; return [p.x, p.y, p.z, S.camera.fov].map(function (v) { return +v.toFixed(1); }); },
-    give: function (n) { st.chips = n; refreshButtons(); if (mode === 'lobby') buildLobby(); },
+    give: function (n) { st.chips = n; checkUnlocks(true); refreshButtons(); if (mode === 'lobby') buildLobby(); },   // test hook: tables it reaches open quietly
     speed: function (x) { anim.speed = x; },
     pixelRatio: function (r) { BJ.debug.fixedQuality = true; S.renderer.setPixelRatio(r); S.resize(); },
     fixedQuality: false,
@@ -2017,8 +2020,8 @@
     window.NcqSave.onChange(function (s, info) {
       if (info.source !== 'cloud' || mode === 'table' || mode === 'intro') return;
       Object.keys(s).forEach(function (k) { st[k] = s[k]; });
-      shown = st.chips; $('chips').textContent = U.money(st.chips); refreshLevel(); syncUnlocks();
-      if (mode === 'lobby') buildLobby();
+      shown = st.chips; $('chips').textContent = U.money(st.chips); refreshPrize(); st.unlocked[0] = true; checkUnlocks(true);
+      if (mode === 'lobby') lobbyRefresh();
     });
     BJ.online.ready();
     BJ.meta.init(st, save, { toast: function (m) { toast(m); } });
@@ -2031,8 +2034,8 @@
     });
     BJ.vip.init(st, save, {
       toast: function (m) { toast(m); },
-      give: function (n) { if (st.inTour) st.bank += n; else { addChips(n); floatDelta(n); } save(); if (mode === 'lobby') buildLobby(); },   // always your own chips
-      shown: function (n) { if (!st.inTour) { if (st.chips > st.stats.peak) st.stats.peak = st.chips; floatDelta(n); } if (mode === 'lobby') buildLobby(); }
+      give: function (n) { if (st.inTour) st.bank += n; else { addChips(n); floatDelta(n); } save(); if (mode === 'lobby') lobbyRefresh(); },   // always your own chips
+      shown: function (n) { if (!st.inTour) { if (st.chips > st.stats.peak) st.stats.peak = st.chips; floatDelta(n); } if (mode === 'lobby') lobbyRefresh(); }
     });
     I.lang = st.lang || ((navigator.language || 'en').toLowerCase().indexOf('ko') === 0 ? 'ko' : 'en');
     I.apply(); BJ.tour.refreshButton();
@@ -2061,7 +2064,7 @@
       refreshLevel();
       refreshBetTags();
       setPhase('busy');
-      syncUnlocks();
+      checkUnlocks();
       sel = defaultPick(); st.table = sel;
       S.setTheme(sel, E.TABLES[sel], themeLabels(E.TABLES[sel]));
       setMode('lobby');

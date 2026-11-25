@@ -30,7 +30,7 @@
     { bg: ['#1f6b4b', '#0a2b1e'], mark: 'A' },              // 17 Ace Masters
     { bg: ['#8b1d2d', '#3a0914'], mark: 'star' },           // 18 World Championship
     { bg: ['#5a2a9a', '#170830'], mark: 'gem' },            // 19 Legendary League
-    { bg: ['#0f4c6b', '#06202e'], mark: 'chip' },           // 20 rating
+    { bg: ['#0f4c6b', '#06202e'], mark: 'chip' },           // 20 prizes
     { bg: ['#3a2a6b', '#140c2e'], mark: '21' }              // 21 tournament hands won
   ];
   var iconCache = {};
@@ -114,8 +114,8 @@
       if (!i) return;
       ACH.push({ id: 'open_' + T.id, icon: i + 1, kind: 'table', table: i,
                  title: function () { return I.t('achOpen', { t: I.t('t_' + T.id) }); },
-                 desc: function () { return I.t('achOpenDesc', { n: T.level }); },
-                 prog: function () { return [Math.min(BJ.engine.levelOf(st.xp), T.level), T.level]; } });
+                 desc: function () { return I.t('achOpenDesc', { n: U.money(T.max) }); },
+                 prog: function () { return [st.unlocked[i] ? 1 : 0, 1]; } });
     });
     ACH.push({ id: 'bj1', icon: 12, title: function () { return I.t('achBj1'); }, desc: function () { return I.t('achBj1Desc'); }, prog: function () { return [Math.min(st.stats.bjs, 1), 1]; } });
     ACH.push({ id: 'bj10', icon: 13, title: function () { return I.t('achBj10'); }, desc: function () { return I.t('achBj10Desc'); }, prog: function () { return [Math.min(st.stats.bjs, 10), 10]; } });
@@ -165,12 +165,12 @@
       ACH.push({ id: 'tw_' + n, icon: 21, kind: 'tour', title: function () { return I.t('achTHands', { n: n }); }, desc: function () { return I.t('achTHandsDesc', { n: n }); },
                  prog: function () { return [Math.min(ts().wins || 0, n), n]; } });
     });
-    // Rating: reach each tier's line (by the best rating you've held)
-    [['silver', 0.16], ['gold', 0.48], ['plat', 0.80], ['dia', 0.96], ['chall', 0.999]].forEach(function (x) {
-      ACH.push({ id: 'rt_' + x[0], icon: 20, kind: 'rating',
-                 title: function () { return I.t('achRate', { t: I.t('tier_' + x[0]) }); },
-                 desc: function () { return I.t('achRateDesc', { t: I.t('tier_' + x[0]), r: U.fmt(BJ.tour.ratingAt(x[1])) }); },
-                 prog: function () { var need = BJ.tour.ratingAt(x[1]); return [Math.min(Math.max(ts().peak || 0, st.rating || 0), need), need]; } });
+    // Prizes: tournament prize money won over all seasons (separate from chips)
+    [100000, 1000000, 10000000, 100000000, 1000000000, 10000000000].forEach(function (n) {
+      ACH.push({ id: 'pz_' + n, icon: 20, kind: 'rating',
+                 title: function () { return I.t('achRate', { n: U.money(n) }); },
+                 desc: function () { return I.t('achRateDesc', { n: U.money(n) }); },
+                 prog: function () { return [Math.min(st.prizeAll || 0, n), n]; } });
     });
   }
   function iconOwned(i) { return i <= 1 || st.icons.indexOf(i) >= 0; }
@@ -250,7 +250,7 @@
     NcqMetrics.step("profile_open"); NcqMetrics.flow('profile', { mode: 'app' });
     $('profAva').src = M.icon(st.icon);
     $('profName').textContent = st.nick;
-    $('profLv').textContent = 'Lv ' + BJ.engine.levelOf(st.xp) + ' · ' + I.t('hands') + ' ' + U.fmt(st.stats.hands);
+    $('profLv').textContent = I.t('hands') + ' ' + U.fmt(st.stats.hands);
     var inp = $('nickInput'); inp.value = st.nick; inp.placeholder = I.t('nickHint');
     $('btnNick').textContent = I.t('nickAd');
     setNickMsg(I.t('nickRule'), '');
@@ -291,13 +291,13 @@
     var timer = setInterval(function () {
       n--; $('adCount').textContent = n;
       if (n > 0) return;
-      clearInterval(timer); box.hidden = true; st.stats.ads++; save(); done();
+      clearInterval(timer); box.hidden = true; st.stats.ads++; st.adHands = 0; save(); done();   // a reward ad just watched: the full-screen count starts over (10 more hands)
     }, 1000);
   };
-  // From Lv3 on, every tenth finished hand is followed by a full-screen ad that can be closed after 5 seconds.
+  // After the first 20 hands, every tenth finished hand is followed by a full-screen ad that can be closed after 5 seconds.
   M.handDone = function () {         // true when an ad is about to show
     if (BJ.vip && BJ.vip.active()) return false;               // VIP: no full-screen ads
-    if (BJ.engine.levelOf(st.xp) < 3) return false;          // no ads before Lv3
+    if ((st.stats.hands || 0) < M.AD_FROM) return false;       // no ads in the first 20 hands
     st.adHands = (st.adHands || 0) + 1;
     if (st.adHands < 10) return false;                         // then one every 10 hands
     if (document.getElementById('unlockFx').classList.contains('on')) return false;   // wait for the next hand
@@ -324,6 +324,7 @@
     '하트에이스', 'Monaco', '마카오킹', 'Neon', '라스베가스', 'Ruby', '클로버', 'Phantom', '스페이드킹', 'Stardust', '이븐머니', 'Ivory', '인슈어런스', 'Blaze', '버스트없음',
     'Echo', '소프트17', 'Orchid', '하드핸드', 'Saffron', '내추럴', 'Tempest', '푸쉬', 'Willow', '셔플러'];
   M.NAMES = NAMES; M.iconCount = ICONS.length;
+  M.AD_FROM = 20;                    // full-screen ads (and the VIP offer) start after this many hands
   var board = null;
   function sampleBoard() {
     if (board) return board;
@@ -334,7 +335,7 @@
     });
     return board;
   }
-  // Two boards: tournament rating (shown first) and level.
+  // Boards: season tournament prizes (shown first), the Legendary League and level.
   var rankTab = 'rating';
   var legendWk = null;
   M.openRank = function (tab) {
@@ -342,19 +343,19 @@
     if (tab) rankTab = tab;
     if (rankTab === 'legend') return openLegend();
     $('rankSel').hidden = true;
-    var rating = rankTab === 'rating';
+    if (rankTab !== 'rating') rankTab = 'rating';      // levels are gone: prizes and the Legendary League only
+    var rating = true;
     Array.prototype.forEach.call($('rankTabs').children, function (b) { b.classList.toggle('on', b.getAttribute('data-tab') === rankTab); });
     $('rankNote').textContent = I.t(rating ? 'rankNoteRating' : 'rankNote');
-    var me = { nick: st.nick, icon: st.icon, xp: st.xp, rating: st.rating, me: true };
-    var all = rating ? BJ.tour.ratingList() : sampleBoard().concat([me]).sort(function (a, b) { return b.xp - a.xp; });
+    var me = { nick: st.nick, icon: st.icon, xp: st.xp, me: true };
+    var all = rating ? BJ.tour.prizeList() : sampleBoard().concat([me]).sort(function (a, b) { return b.xp - a.xp; });
     var list = $('rankList'); list.innerHTML = '';
     var myRow = null, shown = 0;
     all.forEach(function (p, i) {
       var rk = p.rank || i + 1;
-      var row = BJ.tour.rankRow(rk, p.icon, p.nick, rating ? U.fmt(p.rating) : 'Lv ' + BJ.engine.levelOf(p.xp), p.me);
-      if (rating) row.querySelector('.lv').appendChild(BJ.tour.tierPill(p.rating));
+      var row = BJ.tour.rankRow(rk, p.icon, p.nick, rating ? U.money(p.prize) : 'Lv ' + BJ.engine.levelOf(p.xp), p.me);
       if (p.me) myRow = row;
-      if (p.me && rk > shown + 1) return;            // far down the board: only in my own box below
+      if (p.me && (typeof rk !== 'number' || rk > shown + 1)) return;   // far down the board (or not ranked yet): only in my own box below
       list.appendChild(row); shown = rk;
     });
     var meBox = $('rankMe'); meBox.innerHTML = ''; if (myRow) meBox.appendChild(myRow.cloneNode(true));

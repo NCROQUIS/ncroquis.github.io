@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head><script id="ncq-authored-motion" src="ncq-motion.js?v=10dd8b3eaad1"></script>
+<script src="ncq/safe.js"></script>
 <meta charset="utf-8"><style id="ncq-text-scale">:where(html){font-size:16px}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}</style><style id="ncq-no-zoom">*{touch-action:manipulation}</style><script src="ncq-flags.js"></script><script src="ncq-ads.js"></script><script src="ncq-iap.js"></script><script src="ncq-feedback.js"></script><script src="ncq-auth.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
 <title>블랙잭 테이블 프로토타입</title>
 <link href="css/fonts.css" rel="stylesheet">
 <link href="css/style.css" rel="stylesheet">
+<script src="ncq/display.js"></script>
 <script src="ncq/save.js"></script>
 </head>
 <body>
@@ -34,7 +36,7 @@
           <span class="tlim" id="tblLim"></span>
         </div>
         <button type="button" class="avatar" id="btnProfile" aria-label="Profile"><img id="avatarImg" alt=""></button>
-        <div class="lvl" id="lvl" role="button" tabindex="0" aria-label="Level"><b id="lvlNum">1</b><i><s id="lvlBar"></s></i><span id="xpGain" class="xpgain"></span><span id="xpTip" class="xptip"></span></div>
+        <div class="lvl prizepill" id="lvl" role="button" tabindex="0" aria-label="Prize ranking"><i class="trophy" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h10v2h3v3a4 4 0 0 1-4 4h-.3A5 5 0 0 1 13 14.9V17h3v3H8v-3h3v-2.1A5 5 0 0 1 8.3 12H8a4 4 0 0 1-4-4V5h3V3zm0 4H6v1a2 2 0 0 0 1 1.7V7zm10 0v2.7A2 2 0 0 0 18 8V7h-1z"/></svg></i><span class="pz"><b id="lvlNum">—</b><small id="lvlAmt">0</small></span></div>
         <button type="button" id="btnHelp" class="helpbtn" aria-label="How to play"><svg viewBox="0 0 24 24" aria-hidden="true"><path transform="translate(0 -0.5)" d="M11.07 12.85c.77-1.39 2.25-2.21 3.11-3.44.91-1.29.4-3.7-2.18-3.7-1.69 0-2.52 1.28-2.87 2.34L6.54 6.96C7.25 4.83 9.18 3 11.99 3c2.35 0 3.96 1.07 4.78 2.41.7 1.15 1.11 3.3.03 4.9-1.2 1.77-2.35 2.31-2.97 3.45-.25.46-.35.76-.35 2.24h-2.89c-.01-.78-.13-2.05.48-3.15zM14 20c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/></svg></button>
       </div>
       <div class="balance" title="Chips"><i class="coin"></i><b id="chips">0</b><span id="delta"></span></div>
@@ -65,6 +67,7 @@
     <div id="fx" aria-hidden="true"></div>
     <div id="caption"></div>
     <div id="toast" role="status"></div>
+    <div id="tapBlock" aria-hidden="true"></div>
     <div id="coach" aria-live="polite"><i class="blk"></i><i class="blk"></i><i class="blk"></i><i class="blk"></i><span class="ring"></span><p class="tip"></p></div>
     <div id="unlockFx" aria-live="polite">
       <div class="ufx-shade"></div>
@@ -108,7 +111,7 @@
           <span class="pair"><button type="button" class="btn ghost small" id="btnReset" data-i18n="reset"></button><button type="button" class="btn danger small" id="btnResetYes" data-i18n="yes" hidden></button><button type="button" class="btn ghost small" id="btnResetNo" data-i18n="no" hidden></button></span></div>
         <div class="cheat" id="cheatBox" hidden>
           <h3 data-i18n="cheatTitle"></h3>
-          <div class="cheatrow"><button type="button" class="btn ghost small" data-cheat="chips" data-n="100000"></button><button type="button" class="btn ghost small" data-cheat="chips" data-n="10000000"></button><button type="button" class="btn ghost small" data-cheat="level" data-i18n="cheatLevel"></button></div>
+          <div class="cheatrow"><button type="button" class="btn ghost small" data-cheat="chips" data-n="100000"></button><button type="button" class="btn ghost small" data-cheat="chips" data-n="10000000"></button></div>
         </div>
         <div class="menuacts" id="tableActs">
           <button type="button" class="btn ghost wide" id="btnShuffle" data-i18n="newShoe"></button>
@@ -172,8 +175,8 @@
 
     <section class="sheet" id="sheetRank" aria-modal="true" role="dialog">
       <div class="panel">
-        <div class="phead"><h2 data-i18n="rank"></h2><button type="button" class="qbtn big" id="btnRankHelp" aria-label="Rating help"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.07 12.85c.77-1.39 2.25-2.21 3.11-3.44.91-1.29.4-3.7-2.18-3.7-1.69 0-2.52 1.28-2.87 2.34L6.54 6.96C7.25 4.83 9.18 3 11.99 3c2.35 0 3.96 1.07 4.78 2.41.7 1.15 1.11 3.3.03 4.9-1.2 1.77-2.35 2.31-2.97 3.45-.25.46-.35.76-.35 2.24h-2.89c-.01-.78-.13-2.05.48-3.15zM14 20c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z" transform="translate(0 -0.5)"/></svg></button><button type="button" class="btn ghost small" data-close data-i18n="close"></button></div>
-        <div class="ttabs rtabs" id="rankTabs"><button type="button" data-tab="rating" data-i18n="rankRating"></button><button type="button" data-tab="legend" data-i18n="rankLegend"></button><button type="button" data-tab="level" data-i18n="rankLevel"></button></div>
+        <div class="phead"><h2 data-i18n="rank"></h2><button type="button" class="qbtn big" id="btnRankHelp" aria-label="Prize ranking help"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.07 12.85c.77-1.39 2.25-2.21 3.11-3.44.91-1.29.4-3.7-2.18-3.7-1.69 0-2.52 1.28-2.87 2.34L6.54 6.96C7.25 4.83 9.18 3 11.99 3c2.35 0 3.96 1.07 4.78 2.41.7 1.15 1.11 3.3.03 4.9-1.2 1.77-2.35 2.31-2.97 3.45-.25.46-.35.76-.35 2.24h-2.89c-.01-.78-.13-2.05.48-3.15zM14 20c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z" transform="translate(0 -0.5)"/></svg></button><button type="button" class="btn ghost small" data-close data-i18n="close"></button></div>
+        <div class="ttabs rtabs" id="rankTabs"><button type="button" data-tab="rating" data-i18n="rankRating"></button><button type="button" data-tab="legend" data-i18n="rankLegend"></button></div>
         <select class="ranksel" id="rankSel" hidden></select>
         <p class="ranknote" id="rankNote"></p>
         <div class="ranklist" id="rankList"></div>
@@ -197,9 +200,8 @@
         <p class="tistatus" id="tiStatus"></p>
         <div class="tistats"><span><small data-i18n="tFee"></small><b><i class="coin"></i><em id="tiFee"></em></b></span><span><small data-i18n="tStack"></small><b><i class="tcoin"></i><em id="tiStack"></em></b></span><span><small data-i18n="tDaily"></small><b id="tiHands"></b></span></div>
         <div class="timine" id="tiMine" hidden>
-          <span><small data-i18n="tMyRank"></small><b id="tiRank"></b></span>
-          <span><small data-i18n="tMyChips"></small><b><i class="tcoin"></i><em id="tiChips"></em></b></span>
-          <span class="left"><small data-i18n="tToday"></small><b id="tiLeft"></b><i class="hbar"><s id="tiBar"></s></i></span>
+          <div class="mtop"><span><small data-i18n="tMyRank"></small><b id="tiRank"></b></span><span><small data-i18n="tMyChips"></small><b><i class="tcoin"></i><em id="tiChips"></em></b></span></div>
+          <div class="mleft"><small data-i18n="tToday"></small><b id="tiLeft"></b><i class="hbar"><s id="tiBar"></s></i></div>
         </div>
         <div class="ttabs" id="tiTabs"><button type="button" data-tab="board" data-i18n="tabBoard"></button><button type="button" data-tab="prize" data-i18n="tabPrize"></button><button type="button" data-tab="rules" data-i18n="tabRules"></button></div>
         <div class="tipane" id="tiPane"></div>

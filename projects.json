@@ -582,7 +582,7 @@
     "category": "날씨",
     "play": "https://play.google.com/store/apps/details?id=com.ncroquis.nalssinyang",
     "icon": "8f76dc18e498",
-    "stores": "googleplay"
+    "stores": "googleplay,toss"
   },
   {
     "codename": "voca-cards",

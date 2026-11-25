@@ -18,18 +18,15 @@
     fmt: function (n) { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); },
     // Money on screen: exact below 10,000, then short like the chips: 12.5K, 320K, 1.5M, 30M, 2.1B.
     money: function (n) {
+      // one style everywhere: 950, 1K, 2.5K, 19.5K, 250K, 2.5M, 2.5B, 100T
       var a = Math.abs(n), sign = n < 0 ? '-' : '';
-      if (a < 10000) return sign + U.fmt(a);
-      var unit = a >= 1e9 ? [1e9, 'B'] : a >= 1e6 ? [1e6, 'M'] : [1e3, 'K'];
-      var v = a / unit[0], t = v < 100 ? (Math.floor(v * 10) / 10).toString() : Math.floor(v).toString();
+      if (a < 1000) return sign + U.fmt(Math.round(a));
+      var unit = a >= 1e12 ? [1e12, 'T'] : a >= 1e9 ? [1e9, 'B'] : a >= 1e6 ? [1e6, 'M'] : [1e3, 'K'];
+      var v = a / unit[0], t = v < 100 ? (Math.floor(v * 10 + 1e-9) / 10).toString() : Math.floor(v + 1e-9).toString();
       return sign + t + unit[1];
     },
     // 5000 -> "5K" (chip faces)
-    short: function (n) {
-      if (n >= 1000000) return (n / 1000000) + 'M';
-      if (n >= 1000) return (n / 1000) + 'K';
-      return '' + n;
-    }
+    short: function (n) { return U.money(n); }
   };
 
   // Tweens run on the game clock (advanced once per frame), so they pause with the tab.

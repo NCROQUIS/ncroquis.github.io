@@ -9,7 +9,7 @@
   /* ---------- saved state: the shared save module NcqSave (on the device, backed up to the cloud in release builds) ---------- */
   var KEY = 'blackjack-proto-1';          // the save from before NcqSave, moved over once
   function fresh() {
-    return { chips: E.START_CHIPS, xp: 0, table: 0, lastTable: null, unlocked: [true, false, false, false, false, false, false, false, false, false, false], starter: 0, tut: 0, nick: null, icon: 0, icons: [], ach: {}, achSeen: {}, adHands: 0, unveil: -1, tours: {}, prize: 0, prizeAll: 0, tourLog: [], inTour: null, bank: null, lang: null, sound: true,
+    return { chips: E.START_CHIPS, xp: 0, table: 0, lastTable: null, unlocked: E.TABLES.map(function (_, i) { return i === 0; }), starter: 0, tut: 0, nick: null, icon: 0, icons: [], ach: {}, achSeen: {}, adHands: 0, unveil: -1, tours: {}, prize: 0, prizeAll: 0, tourLog: [], inTour: null, bank: null, lang: null, sound: true,
              vipUntil: 0, vipDays: 0, vipApplied: 0, vipGift: null, migrated: false, firstDay: null, dayHands: {},
              stats: { hands: 0, won: 0, lost: 0, pushed: 0, bjs: 0, ads: 0, peak: E.START_CHIPS } };
   }
@@ -1064,7 +1064,7 @@
     });
   }
 
-  var HOUSE = { alley: 'Alley', harbor: 'Harbor', garden: 'Garden', grand: 'Grand', royal: 'Royal', sky: 'Sky', monte: 'Monte', macau: 'Macau', vegas: 'Vegas', diamond: 'Diamond', crown: 'Crown' };
+  var HOUSE = { alley: 'Alley', harbor: 'Harbor', garden: 'Garden', grand: 'Grand', royal: 'Royal', sky: 'Sky', monte: 'Monte', macau: 'Macau', vegas: 'Vegas', diamond: 'Diamond', crown: 'Crown', emerald: 'Emerald', sapphire: 'Sapphire', ruby: 'Ruby', platinum: 'Platinum', imperial: 'Sovereign', olympus: 'Olympus', galaxy: 'Galaxy', infinity: 'Infinity' };
   function themeLabels(T) { return { house: HOUSE[T.id], title: I.t('limits'), lines: [I.t('min') + ' ' + U.money(T.min), I.t('max') + ' ' + U.money(T.max)] }; }
 
   function applyTable() {
@@ -1432,6 +1432,25 @@
     ][st.starter - 1];
     return [c(plan.me[0]), c(plan.dlr[0]), c(plan.me[1]), c(plan.dlr[1])].concat(plan.next.map(c));
   }
+  // Single play only, a few hands are set so the dealer goes bust:
+  //  - the first two hands at Harbor Club (the second table) the first time you play there;
+  //  - the hand right after a rescue ad (out of chips): 50% the first time, 80% if you go broke again
+  //    without winning in between, 100% the third time in a row. Any win clears the run.
+  function dealerBustPlan() {
+    if (multi || net || st.inTour || BJ.debug.rig || BJ.debug.noStarter) return false;
+    if (st.table === 1 && !st.harborIntro) { st.harborIntro = true; st.harborForce = 2; }
+    if (st.harborForce > 0 && st.table === 1) { st.harborForce--; return true; }
+    if (st.rescue) { st.rescue = false; return Math.random() < [0, 0.5, 0.8, 1][Math.min(3, st.brokeChain || 0)]; }
+    return false;
+  }
+  // dealer: a small up card over a ten (a hard 12–16, never a blackjack); the card it draws is a ten as well
+  function bustDeal() {
+    var take = function (ok) { for (var k = shoe.length - 1; k >= 0; k--) if (ok(shoe[k])) return shoe.splice(k, 1)[0]; return shoe.pop(); };
+    var ten = function (c) { return E.cardValue(c) === 10; }, small = function (c) { var v = E.cardValue(c); return v >= 2 && v <= 6; };
+    var p1 = shoe.pop(), up = take(small), p2 = shoe.pop(), hole = take(ten);
+    return [p1, up, p2, hole];
+  }
+  function noteRescue() { st.brokeChain = Math.min(3, (st.brokeChain || 0) + 1); st.rescue = true; st.adHands = 0; }
   var dealWaiting = false;
   function deal() {
     if (phase !== 'bet' || bet < table.min) { if (phase === 'bet') { A.deny(); toast(I.t('betMin', { n: U.money(table.min) })); } return; }
@@ -1459,7 +1478,9 @@
     shoeAtDeal = shoe.length; dealtFromShoe = 0;
     if (!shoe) shoe = E.newShoe();
     var welcome = !BJ.debug.rig && starterHand();
-    round = E.deal(bet, Math.random, BJ.debug.rig || welcome, shoe); BJ.debug.rig = null;
+    var bust = !welcome && dealerBustPlan();
+    round = E.deal(bet, Math.random, BJ.debug.rig || welcome || (bust ? bustDeal() : null), shoe); BJ.debug.rig = null;
+    if (bust) round.forceBust = true;
     if (welcome) round.noSplit = true;            // the welcome 20 is a pair of tens: keep it a plain stand
     busted = [false, false];
     st.stats.hands++;
@@ -1570,7 +1591,10 @@
     refreshTotals();
     // at a shared table everyone else's decisions land together once you're done, then the dealer plays
     var others = multi && !dealerBJ() ? matesTurns(function () { return true; }, round.dealer.slice(0, 1)) : Promise.resolve();   // whoever hasn't played yet, in order
-    return others.then(function () { return play(E.dealerPlay(round)); }).then(function () { return settleHand(false); });
+    return others.then(function () {
+      if (round.forceBust) { for (var k = shoe.length - 1; k >= 0; k--) if (E.cardValue(shoe[k]) === 10) { shoe.push(shoe.splice(k, 1)[0]); break; } }   // next off the shoe: a ten
+      return play(E.dealerPlay(round));
+    }).then(function () { return settleHand(false); });
   }
   function settleHand(fromServer) {
     return Promise.resolve().then(function () {
@@ -1607,6 +1631,7 @@
       NcqMetrics.levelEnd(handMode(), best === 'push' ? undefined : best !== 'lose', { score: net });
       handCountSteps(st.stats.hands); handResultSteps(best, net); dayHandSteps();
       if (busted[0] || busted[1]) NcqMetrics.step("first_bust");
+      if (best === 'win' || best === 'blackjack') st.brokeChain = 0;           // a win ends the run of rescues
       if (best === 'win' || best === 'blackjack') { st.stats.streak = (st.stats.streak || 0) + 1; st.stats.bestStreak = Math.max(st.stats.bestStreak || 0, st.stats.streak); }
       else if (best === 'lose') st.stats.streak = 0;
       anim.wait(1.6).then(function () { afterHand(best); });
@@ -1633,6 +1658,7 @@
     clearMarks(); refreshBetTags();
     if (!net) matesBetween();
     save();
+    checkUnlocks(); refreshPrize();          // the winnings are in by now: a table the stack reaches opens right away
     BJ.meta.check();
     var adNow = BJ.meta.handDone();
     coachAfterHand();
@@ -1667,6 +1693,7 @@
   function openLobbyRefill() {
     NcqMetrics.step("lobby_refill_offer"); NcqMetrics.flow('refill', { mode: 'lobby' });
     refillMode = 'lobby';
+    $('btnRefillLobby').hidden = true;
     $('refillBody').textContent = I.t('outLobby');
     $('btnAd').textContent = I.t('watchAd', { n: U.money(lobbyRefillAmount()) });
     $('btnDown').hidden = false; $('btnDown').textContent = I.t('later');
@@ -1740,6 +1767,8 @@
     $('btnAd').textContent = I.t('watchAd', { n: U.money(E.refillAmount(table)) });
     var lower = -1;
     for (var i = st.table - 1; i >= 0; i--) if (st.chips >= E.TABLES[i].min) { lower = i; break; }
+    $('btnRefillLobby').hidden = false;                 // out of chips at the table: you can also just head back to the lobby
+    $('btnRefillLobby').onclick = function () { close('sheetRefill'); toLobby(); };
     var down = $('btnDown');
     down.hidden = lower < 0;
     if (lower >= 0) { down.textContent = I.t('moveDown', { t: I.t('t_' + E.TABLES[lower].id) }); down.onclick = function () { close('sheetRefill'); sit(lower); }; }
@@ -1753,7 +1782,7 @@
       if (n > 0) return;
       clearInterval(timer); box.hidden = true;
       var amount = E.refillAmount(table);
-      st.stats.ads++; setPhase('busy');
+      st.stats.ads++; noteRescue(); setPhase('busy');
       NcqMetrics.step("refill_ad_done");
       Ch.pay(E.breakdown(amount, 18), 'h0').then(function () { addChips(amount); floatDelta(amount); return Ch.sweep('h0', 'player'); }).then(function () { save(); setPhase('bet'); });
     }, 1000);
@@ -1884,7 +1913,7 @@
       A.unlock();
       if (refillMode !== 'lobby') return watchAd();
       close('sheetRefill'); refillMode = 'table';
-      BJ.meta.rewarded(function () { NcqMetrics.step("lobby_refill_done"); var n = lobbyRefillAmount(); addChips(n); floatDelta(n); A.coinBurst && A.coinBurst(); toast(I.t('gotChips', { n: U.money(n) })); save(); buildLobby(); if (goAfterAd) { goAfterAd = false; setTimeout(lobbyGo, 700); } });
+      BJ.meta.rewarded(function () { noteRescue(); NcqMetrics.step("lobby_refill_done"); var n = lobbyRefillAmount(); addChips(n); floatDelta(n); A.coinBurst && A.coinBurst(); toast(I.t('gotChips', { n: U.money(n) })); save(); buildLobby(); if (goAfterAd) { goAfterAd = false; setTimeout(lobbyGo, 700); } });
     });
     $('btnSound').addEventListener('click', function () { NcqMetrics.step("sound_toggle"); st.sound = !st.sound; A.on = st.sound; save(); openSettings(); A.tick(); });
     $('btnLang').addEventListener('click', function () { NcqMetrics.step("lang_change"); setLang(I.lang === 'ko' ? 'en' : 'ko'); openSettings(); });
@@ -1997,6 +2026,8 @@
     tourDays: function (d) { BJ.tour.debugShift(d); if (mode === 'lobby') BJ.tour.check(); },
     gain: function (n) { if (n != null) st.chips = n; checkUnlocks(); },
     hands: function (n) { st.stats.hands = n; BJ.vip.refresh(); },
+    rescue: function (chain) { st.brokeChain = chain; st.rescue = true; st.starter = 3; },
+    bustTrial: function (chain) { st.brokeChain = chain; st.rescue = chain > 0; var t = st.table; st.table = 0; var r = dealerBustPlan(); st.table = t; return r; },
     rig: null,
     noStarter: false,
     state: function () { return { mode: mode, phase: phase, chips: st.chips, bet: bet, table: st.table, split: split, round: round && { phase: round.phase, active: round.active, hands: round.hands.map(function (h) { return { cards: h.cards.map(function (c) { return c.rank + c.suit; }), bet: h.bet, result: h.result }; }), dealer: round.dealer.map(function (c) { return c.rank + c.suit; }) }, chipsOnTable: Ch.all().length, chipZ: Ch.all().filter(function (c) { return c.state === 'rest' || c.state === 'slide'; }).map(function (c) { return +c.z.toFixed(2); }) }; },

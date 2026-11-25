@@ -21,6 +21,10 @@
     { felt: '#22252c', ink: '#dfe6ee', rail: '#08080a', shoe: '#ffffff', floor: '#060607', glow: ['#e8f0ff','#c8d4ff','#ffffff'], prop: { tex: 'pearl', rough: 0.15, coat: 1, rep: 1 } },   // diamond - black and silver
     { felt: '#7a6a42', ink: '#2a1e08', rail: '#120c06', shoe: '#ffffff', floor: '#0f0b05', glow: ['#ffd78a','#fff0c8','#ffc46a'], prop: { tex: 'pearl', color: '#3f8f70', rough: 0.18, coat: 1, rep: 1 } }   // crown   - champagne felt / jade lacquer
   ];
+  // Lounges 12–19 reuse the finishes and rooms above with felts of their own.
+  [['#0f6b4f', 9], ['#173f8a', 4], ['#8a1530', 7], ['#5b6470', 5], ['#5a2a7a', 3], ['#7a5a1a', 10], ['#141a3a', 8], ['#1b1b1f', 9]].forEach(function (x) {
+    var base = S.THEMES[x[1]], t = {}; for (var k in base) t[k] = base[k]; t.felt = x[0]; t.room = x[1]; S.THEMES.push(t);
+  });
   // Every material that shows a card back; they all change deck together.
   var backMats = [], plasticMats = [];
   var woodBox, woodShape;
@@ -299,6 +303,7 @@
     img.src = 'img/room/' + index + '.jpg';
   }
   function setRoom(index, th) {
+    if (th && th.room != null) index = th.room;          // the upper lounges borrow a room
     roomShown = index; loadRoomPhoto(index);
     if (wallMat.map) wallMat.map.dispose();
     wallMat.map = tex(BJ.art.room(index)); wallMat.needsUpdate = true;
@@ -323,12 +328,12 @@
 
     // Local frame: +z is the mouth, cards stand leaning back toward -z, stacked from the mouth to the back.
     var alpha = 0.75, sa = Math.sin(alpha), ca = Math.cos(alpha);
-    var N = 26, stepZ = 0.2, tight = SLAB / sa, baseY = 0.55, z0 = 5.7;
+    var N = 26, stepZ = 0.26, tight = SLAB / sa + 0.02, baseY = 0.55, z0 = 5.7;   // a little air between the cards so their faces never touch (no flicker)
     shoePack = new T3.InstancedMesh(new T3.BoxGeometry(W, H, SLAB), [paper, paper, paper, white, back, white], N);
     var e = new T3.Euler();
     for (var i = 0; i < N; i++) {
       var along = i ? U.rand(-0.12, 0.12) : 0, side = i ? U.rand(-0.06, 0.06) : 0, half = H / 2 + along;
-      e.set(-(Math.PI / 2 - alpha), 0, i ? U.rand(-0.012, 0.012) : 0);
+      e.set(-(Math.PI / 2 - alpha), 0, i ? U.rand(-0.006, 0.006) : 0);
       var q = new T3.Quaternion().setFromEuler(e);
       e.set(-(Math.PI / 2 - alpha), 0, 0);
       // p: its place in the run of cards; p0: squared up in a tight block at the back of the shoe
@@ -336,7 +341,7 @@
                    p0: new T3.Vector3(0, baseY + (H / 2) * sa, z0 - (N - 1) * stepZ + (N - 1 - i) * tight - (H / 2) * ca),
                    q0: new T3.Quaternion().setFromEuler(e) });
     }
-    shoePack.castShadow = true; shoePack.receiveShadow = true;
+    shoePack.castShadow = true; shoePack.receiveShadow = false;     // self-shadowing on the tight stack flickered
     g.add(shoePack);
 
     var mouth = 6.9, backEnd = z0 - (N - 1) * stepZ - H * ca - 0.6, len = mouth - backEnd, wide = W + 1.0, hW = 6.6;   // walls tall enough to hold the pack's sides

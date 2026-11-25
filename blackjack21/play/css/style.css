@@ -902,7 +902,7 @@ body.vip #btnVip { top: max(calc(24% - var(--u) * 12.5), calc(env(safe-area-inse
 .helppage h3, .ttitle h2, .tihead h2 { overflow-wrap: anywhere; }
 /* no bet for a while: the chips blink with a soft gold glow, one after another */
 @keyframes chipNudge { 0%, 100% { filter: brightness(1); box-shadow: 0 0 0 0 rgba(255, 214, 102, 0); } 50% { filter: brightness(1.35); box-shadow: 0 0 calc(var(--u) * 3.2) calc(var(--u) * 0.8) rgba(255, 214, 102, 0.85); } }
-#chipRow.nudge .chipbtn:not(:disabled) { animation: chipNudge 1.1s ease-in-out infinite; }
+#chipRow.nudge .chipbtn:not(:disabled):not(.off) { animation: chipNudge 1.1s ease-in-out infinite; }
 #chipRow.nudge .chipbtn:nth-child(2) { animation-delay: 0.18s; }
 #chipRow.nudge .chipbtn:nth-child(3) { animation-delay: 0.36s; }
 /* season prize amount shown with a gold coin (hub header and the prize ranking help) */

@@ -179,6 +179,14 @@
     return list;
   };
   function pct(p) { return (Math.round(p * 1000) / 10) + '%'; }
+  // A modelled board for any log-normal quantity (chips held): top 50 values and where a value would rank.
+  T.lognBoard = function (key, median, spread) {
+    var mu = Math.log(median), at = function (p) { var v = Math.exp(mu + spread * zOf(p)), m = Math.pow(10, Math.max(0, Math.floor(Math.log10(v)) - 1)); return Math.round(v / m) * m; };
+    var pct = function (v) { return v > 0 ? 0.5 * (1 + erf((Math.log(v) - mu) / spread / Math.SQRT2)) : 0; };
+    var r = rng(hash(key)), names = BJ.meta.NAMES.slice(7).concat(BJ.meta.NAMES.slice(0, 7)), list = [];
+    for (var i = 0; i < 50; i++) list.push({ nick: names[i % names.length] + (i >= names.length ? i : ''), icon: (r() * BJ.meta.iconCount) | 0, value: at(1 - (i + 0.5) / POP) });
+    return { list: list, rankOf: function (v) { var above = list.filter(function (q) { return q.value > v; }).length; return above < list.length ? above + 1 : Math.max(list.length + 1, Math.round((1 - pct(v)) * POP) + 1); } };
+  };
   var pboard = null;
   T.prizeBoard = function () {
     if (pboard) return pboard;

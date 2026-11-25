@@ -112,7 +112,7 @@
     var ts = function () { return st.tstats || { played: {}, best: {} }; };
     BJ.engine.TABLES.forEach(function (T, i) {
       if (!i) return;
-      ACH.push({ id: 'open_' + T.id, icon: i + 1, kind: 'table', table: i,
+      ACH.push({ id: 'open_' + T.id, icon: i < 11 ? i + 1 : (i - 11) % 10 + 2, kind: 'table', table: i,
                  title: function () { return I.t('achOpen', { t: I.t('t_' + T.id) }); },
                  desc: function () { return I.t('achOpenDesc', { n: U.money(T.max) }); },
                  prog: function () { return [st.unlocked[i] ? 1 : 0, 1]; } });
@@ -342,6 +342,7 @@
     NcqMetrics.step("rank_open"); NcqMetrics.flow('ranking', { mode: 'app' });
     if (tab) rankTab = tab;
     if (rankTab === 'legend') return openLegend();
+    if (rankTab === 'chips') return openChips();
     $('rankSel').hidden = true;
     if (rankTab !== 'rating') rankTab = 'rating';      // levels are gone: prizes and the Legendary League only
     var rating = true;
@@ -362,6 +363,30 @@
     $('sheetRank').classList.add('open');
     list.scrollTop = 0;                               // always from No. 1
   };
+
+  // Chips held: a board that refreshes once a day at midnight — your own line is the stack you held then.
+  function chipSnap() {
+    var d = new Date(), today = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+    var mine = st.inTour && st.bank != null ? st.bank : st.chips;
+    if (!st.chipSnap || st.chipSnap.day !== today) { st.chipSnap = { day: today, chips: mine }; save(); }
+    return st.chipSnap.chips;
+  }
+  function openChips() {
+    NcqMetrics.step("rank_chips_tab");
+    Array.prototype.forEach.call($('rankTabs').children, function (b) { b.classList.toggle('on', b.getAttribute('data-tab') === 'chips'); });
+    $('rankSel').hidden = true;
+    $('rankNote').textContent = I.t('rankNoteChips');
+    var day = Math.floor(Date.now() / 864e5), board = BJ.tour.lognBoard('chips' + day, 400000, 2.6), held = chipSnap();
+    var list = $('rankList'), meBox = $('rankMe'); list.innerHTML = ''; meBox.innerHTML = '';
+    var rank = board.rankOf(held), myRow = BJ.tour.rankRow(rank, st.icon, st.nick, U.money(held), true), shown = 0;
+    board.list.forEach(function (q, i) {
+      if (rank === i + 1) { list.appendChild(myRow.cloneNode(true)); shown++; }
+      list.appendChild(BJ.tour.rankRow(i + 1 + (rank <= i + 1 ? 1 : 0), q.icon, q.nick, U.money(q.value), false));
+    });
+    meBox.appendChild(myRow);
+    $('sheetRank').classList.add('open');
+    list.scrollTop = 0;
+  }
 
   // The Legendary League board: pick a season from the drop-down (the latest by default).
   function openLegend() {

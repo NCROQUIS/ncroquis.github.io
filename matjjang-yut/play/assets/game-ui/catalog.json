@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "background": {
+    "baked": true,
+    "referenceCssBlur": 1,
+    "originalSource": "design/game-ui/source/hanok-courtyard.png",
+    "originalSha256": "3d845414b434bdb73779d925c5e779b08eafae7584d2075c73ac5e75f5965b8b"
+  },
+  "assets": {
+    "background": {
+      "file": "hanok-courtyard-blurred.webp",
+      "width": 941,
+      "height": 1670,
+      "bounds": [
+        0,
+        0,
+        941,
+        1670
+      ],
+      "sourceSha256": "005470f7149c179e7feb3ee6e4acb11b8fbaf4c67576f81dde3f384cbe6912e4",
+      "bytes": 147262
+    },
+    "button": {
+      "file": "action-button.webp",
+      "width": 2206,
+      "height": 713,
+      "bounds": [
+        22,
+        173,
+        2160,
+        381
+      ],
+      "sourceSha256": "b4aca345d905f48b28c7e1c78746d6dd7203378848ee70cbc6f9b6dcf7a4ce30",
+      "bytes": 494218
+    },
+    "playable": {
+      "file": "piece-playable.webp",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        248,
+        304,
+        746,
+        640
+      ],
+      "sourceSha256": "3f2ec4d5843ec02dfd3f4fee76f67346fffca2b060cd13a3abf19ac9a3e641fb",
+      "bytes": 405230
+    },
+    "selected": {
+      "file": "piece-selected.webp",
+      "width": 1254,
+      "height": 1254,
+      "bounds": [
+        60,
+        76,
+        1100,
+        1097
+      ],
+      "sourceSha256": "f18a529e74f12b844e7b8b3f8c6324613f839f36c255f13068ee1d63ba28f0bd",
+      "bytes": 567644
+    },
+    "back": {
+      "file": "back-button.webp",
+      "width": 80,
+      "height": 75,
+      "bounds": [
+        8,
+        5,
+        62,
+        65
+      ],
+      "sourceSha256": "22da8457f39e5f3deecff9a309b8e3ec5731530a7b41a7bbc3980814ddf89d25",
+      "bytes": 7392
+    },
+    "settings": {
+      "file": "settings-button.webp",
+      "width": 84,
+      "height": 82,
+      "bounds": [
+        10,
+        5,
+        66,
+        66
+      ],
+      "sourceSha256": "9a3c554318298d91c199116c7ae5de9cdd45c3902cd70221c1ba18c29cd399c5",
+      "bytes": 8898
+    }
+  }
+}

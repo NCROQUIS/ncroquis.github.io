@@ -1,0 +1,16 @@
+.game-shell[data-reference-art=ready]{position:relative;background:#efd6b6}
+.game-art-background{display:none;position:absolute;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
+.game-shell[data-reference-art=ready]>.game-art-background{display:block}
+.game-art-background:before{content:'';position:absolute;inset:-32px;background:url('../assets/game-ui/hanok-courtyard-blurred.webp') center top/cover}
+.game-shell[data-reference-art=ready] .brand{text-shadow:0 1px 0 #fff8e6,0 0 9px #fff7e2}
+.action-button-art{display:none;position:absolute;left:-2px;top:-2px;width:calc(100% + 4px);height:calc(100% + 4px);pointer-events:none;z-index:-1}
+.game-shell[data-reference-art=ready] #main-button{position:relative;isolation:isolate;background:transparent;border-color:transparent;border-radius:999px;box-shadow:none;text-shadow:0 2px 1px #07306ca0}
+.game-shell[data-reference-art=ready] #main-button .action-button-art{display:block}
+.game-shell[data-reference-art=ready] #main-button:active:not(:disabled){box-shadow:none}
+.game-shell[data-reference-art=ready] .piece-choice-halo{left:calc(50% + var(--size) * var(--playable-art-x,0));top:calc(50% + var(--size) * var(--playable-art-y,0));width:calc((var(--size) + 8px) * var(--playable-art-scale,1));height:calc((var(--size) + 8px) * var(--playable-art-ratio) * var(--playable-art-scale,1));background-color:transparent;background-image:url('../assets/game-ui/piece-playable.webp');background-size:var(--playable-art-size);background-position:var(--playable-art-position);background-repeat:no-repeat;border-radius:0}
+.game-shell[data-reference-art=ready] .piece-selected-ring{left:calc(50% + var(--size) * var(--selected-art-x,0));top:calc(50% + var(--size) * var(--selected-art-y,0));width:calc((var(--size) + 12px) * var(--selected-art-scale,1));height:calc((var(--size) + 12px) * var(--selected-art-scale,1));border:0;border-radius:0;box-shadow:none;background-image:url('../assets/game-ui/piece-selected.webp');background-size:var(--selected-art-size);background-position:var(--selected-art-position);background-repeat:no-repeat}
+.header-image-button[data-art=back]{--header-button-image:url('../assets/game-ui/back-button.webp');--header-image-size:var(--back-art-size);--header-image-position:var(--back-art-position)}
+.header-image-button[data-art=settings]{--header-button-image:url('../assets/game-ui/settings-button.webp');--header-image-size:var(--settings-art-size);--header-image-position:var(--settings-art-position)}
+html[data-header-art=ready] .icon-button.header-image-button{border:0;border-radius:27%;background-color:transparent;background-image:var(--header-button-image);background-size:var(--header-image-size);background-position:var(--header-image-position);background-repeat:no-repeat;box-shadow:none}
+html[data-header-art=ready] .header-image-button svg{visibility:hidden}
+html[data-header-art=ready] .header-image-button:active:not(:disabled){opacity:.8}

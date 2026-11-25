@@ -1,0 +1,18 @@
+.game-header{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;gap:8px;align-items:center;padding:0 2px}
+.game-header .icon-button{width:44px;height:44px}
+.game-header .brand{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;text-align:center;min-width:0}
+.game-header .brand .mode{flex-basis:auto;width:100%;min-width:0;padding:4px 8px;color:#664020;font-weight:800;font-size:clamp(.7rem,3.1cqw,.82rem);line-height:1.3;overflow-wrap:anywhere;text-shadow:0 1px #fff9eb}
+.game-header .header-actions{justify-self:end;margin-right:0}
+.audio-settings-group{display:grid;gap:9px;min-width:0;padding-bottom:4px}.audio-settings-group h3{margin:0 0 3px;font-size:.95rem}.audio-settings-group .audio-volume{margin-bottom:3px}
+.ivory-ribbon{position:relative;isolation:isolate;background:transparent;border-radius:0;box-shadow:none}
+.ivory-ribbon:before,.ivory-ribbon:after{content:'';position:absolute;pointer-events:none}
+.ivory-ribbon:before{inset:0;z-index:-1;background:linear-gradient(90deg,#fff2db00,#fff2dbf0 14%,#fff2dbf0 86%,#fff2db00)}
+.ivory-ribbon:after{inset:50% 5% -7px;z-index:-2;background:radial-gradient(ellipse at center,#57361f 0%,#57361f80 44%,#57361f00 74%);opacity:var(--ribbon-shadow-strength,.22);translate:var(--ribbon-shadow-x,0px) var(--ribbon-shadow-y,0px)}
+.game-header .mode{--ribbon-shadow-strength:var(--mode-shadow-strength,.22);--ribbon-shadow-x:var(--mode-shadow-x,0px);--ribbon-shadow-y:var(--mode-shadow-y,0px)}
+.game-status{--ribbon-shadow-strength:var(--status-shadow-strength,.22);--ribbon-shadow-x:var(--status-shadow-x,0px);--ribbon-shadow-y:var(--status-shadow-y,0px)}
+.game-status.ivory-ribbon{padding:3px 10px}
+#main-button{font-size:clamp(1.18rem,5.2cqw,1.35rem);line-height:1.15;align-items:center}
+#main-label{display:flex;align-items:center;justify-content:center;min-width:0;align-self:center;line-height:1.15;translate:var(--button-text-x,0px) var(--button-text-y,0px)}
+#main-button .button-sticks{height:32px;align-self:center;translate:var(--button-icon-x,0px) var(--button-icon-y,0px)}
+#main-button .button-sticks i:first-child{transform:rotate(10deg)}
+@media(max-height:720px){.game-header .brand .mode{font-size:.72rem;padding-block:3px}}

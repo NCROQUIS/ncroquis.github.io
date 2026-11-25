@@ -18,7 +18,7 @@ export function mountShop({skins,onNavigate=()=>{}}){
   const cards=[],centers=[];
   const flowState=()=>page==='shop'?(tab==='dress'?'skin_shop':'currency_shop'):page==='rank'?'ranking':'lobby';
   const preview=mountSkinPreview($('#skin-preview'),{skins,getSelection:()=>selected});
-  for(const node of document.querySelectorAll('#lobby [data-icon]'))node.innerHTML=icons[node.dataset.icon];
+  for(const node of document.querySelectorAll('#lobby [data-icon]'))node.innerHTML=node.closest('.bottom-nav,.lobby-dress-shortcut')?`<img src="./assets/lobby-ui/icon-${node.dataset.icon}.webp" width="80" height="80" alt="">`:icons[node.dataset.icon];
   function art(kind,id){
     if(id==='default'){
       if(kind==='board')return '<span class="default-board"></span>';
@@ -54,6 +54,7 @@ export function mountShop({skins,onNavigate=()=>{}}){
     $('#skin-shelves').append(section);
   }
   function render(){
+    $('#lobby').dataset.page=page;
     for(const name of ['home','shop','rank'])$('#lobby-'+name).hidden=page!==name;
     for(const button of document.querySelectorAll('[data-lobby-nav]')){
       if(button.dataset.lobbyNav===page)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');
@@ -106,6 +107,7 @@ export function mountShop({skins,onNavigate=()=>{}}){
     tab=next;if(next==='dress'){void prepare();requestAnimationFrame(centerSelected);}else{epoch++;loading=false;render();}
   }
   for(const button of document.querySelectorAll('[data-lobby-nav]'))button.addEventListener('click',()=>navigate(button.dataset.lobbyNav));
+  $('#lobby-dress-shortcut').addEventListener('click',()=>navigate('shop'));
   for(const name of ['currency','dress']){
     const button=$('#'+name+'-tab');button.addEventListener('click',()=>setTab(name));
     button.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const next=event.key==='Home'?'currency':event.key==='End'?'dress':tab==='dress'?'currency':'dress';setTab(next);$('#'+next+'-tab').focus();});

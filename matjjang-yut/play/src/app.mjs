@@ -4,6 +4,9 @@ import { t, NcqLang } from './i18n.mjs';
 import { createRenderer } from './renderer.mjs';
 import { getGameAudio } from './game-audio.mjs';
 import { mountAudioSettings } from './audio-settings.mjs';
+import { mountLobbyBackdrop } from './lobby-backdrop.mjs';
+import { mountLobbyLayout } from './lobby-layout.mjs';
+import { mountLobbyButtonFrames } from './lobby-button-frames.mjs';
 import { mountThrowSettings } from './throw-settings.mjs';
 import { createFirstPlayerReveal } from './first-player-reveal.mjs';
 import { createThrowResultMotion } from './throw-result-motion.mjs';
@@ -19,12 +22,16 @@ import { mountWallet } from './wallet.mjs';
 import { createMatchIntro, shouldPlayMatchIntro } from './match-intro.mjs';
 import { SELECTED_TINT } from './selection-style.mjs';
 import { mountDailyMissions } from './mission-view.mjs';
+import { mountGameArt } from './game-art.mjs';
 
 const $ = selector => document.querySelector(selector);
 const NcqMetrics = window.NcqMetrics || { levelStart() {}, levelEnd() {}, step() {} };
 const NcqFeedback = window.NcqFeedback || { can: () => false, open: async () => false, isOpen: () => false, close() {} };
 window.NcqSave.init({ id: 'matjjang-yut', data: { match: null, appearance: { version:1, board:'default', sticks:'default', pieces:'default' }, dailyMissionProgress:{version:2,players:{}} } });
 const skins=createSkinService();
+mountLobbyBackdrop();
+mountLobbyLayout();
+mountLobbyButtonFrames();
 const gameAudio=getGameAudio();
 document.documentElement.style.setProperty('--selection-tint', String(SELECTED_TINT.strength));
 const restored = restoreGame(window.NcqSave.get('match'));
@@ -44,6 +51,7 @@ const onlineCaption=()=>t('onlineFormat',{format:t(onlineModeKeys[onlineQueueNam
 const teamView = createTeamView(selectPiece);
 const status = $('#game-status'), action = $('#main-button'), label = $('#main-label');
 const resultBox = $('#throw-result');
+const gameArt=mountGameArt($('#app'),action);
 const quitDialog = $('#quit-dialog');
 const firstReveal = createFirstPlayerReveal($('#first-player-reveal'),{onConfirm:()=>{if(openingAudioPending){openingAudioPending=false;gameAudio.firstPlayer(roundAudioKey()+':'+game.opening?.round+':'+game.opening?.winner);}},onCancel:()=>gameAudio.cancel('first')});
 const matchIntro = createMatchIntro($('#match-intro-dialog'),{onContact:key=>gameAudio.found(key),onCancel:()=>gameAudio.cancel('found')});
@@ -51,7 +59,7 @@ const resultMotion = createThrowResultMotion(resultBox, $('#play-area'));
 const throwSettings = mountThrowSettings();
 // Leave room for result and first-player motion within the server's opening grace.
 const renderer = createRenderer($('#board'), { game, skins, getThrowSettings: throwSettings.get, getMaxThrowDuration:()=>onlineMode?(game.opening?1400:2800):Infinity, getPieceElement: id => teamView.pieceButtons[id], onSelect: selectPiece, onMove: performMove, onPhase: value => { phase = value; render(); }, onReveal: showThrowResult,
-  onTrayBounds:({top,bottom})=>{
+  gameArt,onTrayBounds:({top,bottom})=>{
     $('#app').style.setProperty('--tray-inset-top',Math.max(0,top)+'px');
     $('#app').style.setProperty('--tray-inset-bottom',Math.max(0,bottom)+'px');
   }
@@ -73,7 +81,7 @@ skins.subscribe(()=>render());
 window.NcqPopup.watch(document);
 window.NcqPopup.sound('wood');
 for(const id of ['matching-dialog','match-intro-dialog','winner-dialog'])window.NcqPopup.register($('#'+id),{sound:false});
-const audioSettings=mountAudioSettings({audio:gameAudio,onChange:()=>render()});
+const audioSettings=mountAudioSettings({audio:gameAudio,onChange:()=>{NcqMetrics.step('sound_changed');render();}});
 $('#winner-dialog').addEventListener('close',()=>gameAudio.cancel('result'));
 function roundAudioKey(){return onlineMode?online.room?.code+':'+online.room?.round:game.id;}
 function showWinner(sound=true){
@@ -184,7 +192,7 @@ function render() {
   $('#app .mode').removeAttribute('data-i18n');
   $('#app').dataset.online=String(onlineMode);
   $('#app .mode').textContent = onlineMode?onlineCaption()+(online.room?.bot?' · '+t('botLabel'):''):t('teamMode', { n: teamCount(game) });
-  $('#app .mode').hidden = !!game.opening;
+  $('#app .mode').hidden = false;
   const localNote = $('#settings-dialog .local-note'); localNote.removeAttribute('data-i18n'); localNote.textContent = onlineMode?onlineCaption():t('localTeamsNote', { n: teamCount(game) });
   const saveNote=$('#settings-dialog .save-note');saveNote.dataset.i18n=onlineMode?'onlineSaveNote':'saved';saveNote.textContent=t(saveNote.dataset.i18n);
   const restartNote=$('#restart-detail');restartNote.dataset.i18n=onlineMode?'onlineQuitDetail':'newConfirm';restartNote.textContent=t(restartNote.dataset.i18n);
@@ -275,8 +283,6 @@ function render() {
   action.dataset.waiting=String(onlineMode&&onlineQueueName!=='duel'&&!busy&&game.winner===null&&!onlineCanInput());
   $('#settings-button').disabled = busy;
   $('#back-to-lobby').disabled = false;
-  const sound = window.NcqSound.enabled('sfx')||window.NcqSound.enabled('bgm');
-  for (const button of [$('#sound-button'), $('#lobby-sound-button')]) button.setAttribute('aria-pressed', String(sound));
   audioSettings?.render();gameAudio.scene(screen==='game'&&game.winner===null&&!game.onlineDraw&&(!onlineMode||online.status==='connected'));
   $('#board').setAttribute('aria-label', t('rules') + ' · ' + t('moveHint'));
   const locked=busy||onlineMode&&!onlineCanInput();
@@ -521,7 +527,6 @@ for(const queue of Object.keys(onlineModeKeys))$('#'+queue+'-button').addEventLi
 $('#retry-matching').addEventListener('click',()=>void startOnlineMatch());
 $('#matching-dialog').addEventListener('close',()=>{gameAudio.stopWaiting();if(online.matching){void online.cancel().catch(error=>{onlineFailure=error.code??'network';});window.NcqMetrics?.flow?.('lobby',{mode:'online'});}});
 action.addEventListener('click', () => { if (game.opening) { if (game.opening.winner === null) void performOpeningThrow(); } else if (game.winner !== null) startNewGame(); else if (game.throws > 0) void performThrow(); else if (selection()) void performMove(); });
-for (const button of [$('#sound-button'), $('#lobby-sound-button')]) button.addEventListener('click', () => { const on=!(window.NcqSound.enabled('sfx')||window.NcqSound.enabled('bgm'));window.NcqSound.enabled('sfx',on);window.NcqSound.enabled('bgm',on);NcqMetrics.step('sound_changed');render(); });
 for (const button of [$('#settings-button'), $('#lobby-settings-button')]) button.addEventListener('click', () => { setLanguageMenu(); window.NcqPopup.open($('#settings-dialog')); NcqMetrics.step('settings_open'); flow('settings'); });
 $('#together-button').addEventListener('click', () => { if (hasSavedMatch) showGame(); else { teamSetup.open(); NcqMetrics.step('team_setup_opened'); flow('team_setup'); } });
 $('#team-setup-dialog').addEventListener('close', () => flow(currentFlow()));
@@ -551,7 +556,8 @@ window.ncqBack = () => {
   if (shop.back()) return true;
   return false;
 };
-$('#app-version').textContent = window.NCQ?.NCQ_VERSION ? 'v' + window.NCQ.NCQ_VERSION : 'dev';
+$('#app-version').setAttribute('data-ncq-version', '');
+window.NcqBuild?.mount($('#app-version'));
 // NCQ_TEST_DICE: 윷 결과와 판 상태를 지정하는 개발용 검사 도구
 if (window.NCQ_TEST_DICE) window.__yutTest = {
   state: () => structuredClone(game), next: bits => { nextTestThrow = bits; },

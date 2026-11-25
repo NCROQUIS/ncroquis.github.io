@@ -95,8 +95,16 @@
   }
   function apply(row) {
     var value = visible(row) ? read() : {id: null, platform: "web"};
-    var lang = language(), strings = words[lang], brand = value.platform === "kakaotalk" ? "KakaoTalk" :
-      (value.platform === "kakaopay" ? "KakaoPay" : "");
+    var platform = value.platform;
+    try {
+      if (value.source === "neptune" && w.NcqKakao && typeof w.NcqKakao.status === "function") {
+        var host = w.NcqKakao.status().host;
+        if (host === "KAKAOTALK") platform = "kakaotalk";
+        else if (host === "KAKAOPAY") platform = "kakaopay";
+      }
+    } catch (e) { /* a display name must not hide a ready account ID */ }
+    var lang = language(), strings = words[lang], brand = platform === "kakaotalk" ? "KakaoTalk" :
+      (platform === "kakaopay" ? "KakaoPay" : "");
     if (lang === "ko") brand = brand === "KakaoTalk" ? "카카오톡" : (brand === "KakaoPay" ? "카카오페이" : "");
     var label = (brand ? brand + " " : "") + strings[0];
     text(row.label, label); text(row.button, strings[1]); row.input.setAttribute("aria-label", label);

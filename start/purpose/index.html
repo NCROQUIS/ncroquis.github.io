@@ -1,0 +1,1810 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>목적과 기대 효과 · 엔크로키 킥오프</title>
+<meta name="description" content="자동화된 개발과 검증으로 사업성 있는 게임을 빠르게 제작·발굴해요. AI 개발·플랫폼별 출시·모객과 검증의 역할과 흐름을 안내해요.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="목적과 기대 효과 · 엔크로키 킥오프">
+<meta property="og:description" content="개발에서 출시로, 검증에서 확장 또는 개선으로 이어지는 두 파이프라인이에요.">
+<meta property="og:url" content="https://ncroquis.github.io/start/purpose/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;600&family=Nanum+Pen+Script&display=swap">
+<style>
+:root {
+  --mat: #2f5d50;
+  --mat-line: rgba(236, 214, 120, 0.13);
+  --mat-line-major: rgba(236, 214, 120, 0.28);
+  --paper: #fdfdfb;
+  --ink: #1f2623;
+  --graphite: #57605b;
+  --on-mat: #f3f7f4;
+  --on-mat-soft: #c4dace;
+  --tape-dev: #f1c94f;
+  --tape-test: #93c4ec;
+  --tape-live: #e9664c;
+  --mat-deep: #264d42;
+  --store-googleplay: #8fd3a6;
+  --store-toss: #9cc6f2;
+  --store-appstore: #c9b6ee;
+  --store-web: #f7e3a1;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mat: #213f36;
+    --mat-deep: #1b342d;
+    --paper: #eceee9;
+    --mat-line: rgba(236, 214, 120, 0.1);
+    --mat-line-major: rgba(236, 214, 120, 0.2);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--on-mat);
+  font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  background-color: var(--mat);
+  background-image:
+    linear-gradient(var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line-major) 1px, transparent 1px),
+    linear-gradient(var(--mat-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mat-line) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  background-position: -1px -1px;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 64px 20px 72px; }
+
+.masthead h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(48px, 10vw, 96px);
+  line-height: 1;
+}
+
+.masthead p { margin: 16px 0 0; max-width: 34em; color: var(--on-mat-soft); font-size: 18px; }
+
+/* 목록 위 숫자판 = 플랫폼 필터 (hub.js). 고른 칸은 카드처럼 종이로 */
+.tally {
+  margin: 56px 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 22px 16px 14px;
+  border: 2px solid rgba(243, 247, 244, 0.34);
+  background: var(--mat-deep);
+  color: var(--on-mat);
+  text-decoration: none;
+}
+.tile:hover { border-color: rgba(243, 247, 244, 0.7); }
+.tile:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.tile .strip {
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  width: 46px;
+  height: 16px;
+  background: var(--on-mat);
+  transform: rotate(-3deg);
+}
+.tile-googleplay .strip { background: var(--store-googleplay); }
+.tile-toss .strip { background: var(--store-toss); }
+.tile-appstore .strip { background: var(--store-appstore); }
+.tile-web .strip { background: var(--tape-dev); }
+.tile-before .strip { background: transparent; border: 2px dashed var(--on-mat-soft); }
+.tile .num {
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-size: 52px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.tile-all .num { font-size: 64px; }
+.tile .label { font-size: 16px; font-weight: 600; line-height: 1.3; }
+.tile .sub { font-size: 14px; color: var(--on-mat-soft); line-height: 1.3; }
+.tile[aria-current="true"] {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 12px 20px -12px rgba(0, 0, 0, 0.55);
+  transform: rotate(-0.6deg);
+}
+.tile[aria-current="true"] .sub { color: var(--graphite); }
+
+.shown { margin: 28px 0 0; color: var(--on-mat-soft); }
+.shown strong { color: var(--on-mat); font-weight: 600; }
+
+@media (max-width: 520px) {
+  .tally { margin-top: 40px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; }
+  .tile-all { grid-column: 1 / -1; }
+  .tile .num { font-size: 40px; }
+  .tile-all .num { font-size: 52px; }
+}
+
+/* 카드의 '나와 있는 곳' 표시 */
+.marks { margin: 14px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.mark { padding: 2px 9px 3px; color: var(--ink); font-size: 13px; font-weight: 600; line-height: 1.4; }
+.mark-googleplay { background: var(--store-googleplay); }
+.mark-toss { background: var(--store-toss); }
+.mark-appstore { background: var(--store-appstore); }
+.mark-web { background: var(--store-web); }
+
+.board {
+  list-style: none;
+  margin: 36px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 44px 28px;
+}
+
+.sheet {
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 34px 22px 18px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 12px 20px -12px rgba(0, 0, 0, 0.55);
+}
+
+.board > li[hidden] { display: none; }
+.board li:nth-child(3n + 1) .sheet { transform: rotate(-0.7deg); }
+.board li:nth-child(3n + 2) .sheet { transform: rotate(0.5deg); }
+.board li:nth-child(3n) .sheet { transform: rotate(-0.25deg); }
+
+.board .sheet h2 a { color: inherit; text-decoration: none; }
+.board .sheet h2 a::after { content: ""; position: absolute; inset: 0; }
+.board .sheet h2 a:focus-visible { outline: none; }
+.board .sheet:focus-within { outline: 3px solid var(--tape-dev); outline-offset: 5px; }
+
+.tape {
+  position: absolute;
+  top: -12px;
+  left: 18px;
+  padding: 3px 12px 4px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  transform: rotate(-2.5deg);
+  opacity: 0.95;
+}
+
+.tape[data-status="테스트 중"] { background: var(--tape-test); }
+.tape[data-status="출시"] { background: var(--tape-live); color: #fff; }
+
+.sheet h2 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.15;
+}
+
+.summary { margin: 10px 0 0; }
+
+/* 앱 아이콘·카테고리 (출시 서버가 프로젝트 레포의 스토어 정보로 채워요). 아이콘이 없으면 이름 첫 글자 자리표시 */
+.head { display: flex; align-items: center; gap: 14px; }
+.head .title { min-width: 0; }
+.app-icon {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 22%;
+  object-fit: cover;
+  background: #e9ece7;
+  box-shadow: 0 0 0 1px rgba(31, 38, 35, 0.14);
+}
+.app-icon.none {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  box-shadow: none;
+  border: 2px dashed rgba(31, 38, 35, 0.28);
+  color: var(--graphite);
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-size: 28px;
+  line-height: 1;
+}
+.page .app-icon { width: 88px; height: 88px; }
+.page .app-icon.none { font-size: 40px; }
+.cat { margin: 6px 0 0; color: var(--graphite); font-size: 14px; font-weight: 600; line-height: 1.3; }
+
+.quick { margin: 16px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+.quick .ver { margin-left: -4px; }
+
+.quick-play {
+  position: relative;
+  z-index: 1; /* 카드 전체가 소개 페이지 링크(h2 a::after)라 그 위에서 따로 눌려요 */
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 18px 10px 15px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.quick-play::before {
+  content: "";
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent currentColor;
+}
+
+.quick-play:hover { background: #34433c; }
+
+/* 피드백 게시판 링크 (카드·소개 페이지) */
+/* 구글플레이 스토어 버튼 (스토어 페이지가 열리는 앱만) */
+.quick-store,
+.store {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding: 9px 16px 10px;
+  background: var(--mat);
+  color: var(--on-mat);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.quick-store:hover,
+.store:hover { background: #3a6e60; }
+.quick-store:focus-visible,
+.store:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; margin: 24px 0 0; }
+.actions .play { margin-top: 0; }
+.actions .store { padding: 12px 22px; }
+.actions .ver { margin-left: -6px; }
+
+.quick-board {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding: 7px 14px 8px;
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.quick-board:hover { background: rgba(31, 38, 35, 0.08); }
+.quick-board:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.board-link { margin: 14px 0 0; }
+.board-link a { color: var(--ink); font-weight: 600; text-underline-offset: 3px; }
+
+.ver {
+  margin-left: 10px;
+  color: var(--graphite);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.note {
+  margin: 18px 0 0;
+  color: var(--graphite);
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+/* 만든 사람: 개발자 GitHub 아이디 (카드 전체 링크 위에서 따로 눌려요) */
+.by { margin: 4px 0 0; color: var(--graphite); font-size: 14px; }
+.dev {
+  position: relative;
+  z-index: 1;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.dev:hover { color: #34433c; }
+.dev:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+
+.empty {
+  margin: 64px 0 0;
+  max-width: 30em;
+  padding: 24px;
+  border: 2px dashed var(--on-mat-soft);
+  color: var(--on-mat-soft);
+}
+
+.back {
+  color: var(--on-mat);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.page { max-width: 760px; margin: 0 auto; padding: 32px 20px 72px; }
+
+.page .sheet {
+  margin-top: 44px;
+  padding: 52px clamp(22px, 6vw, 60px) 40px;
+  transform: rotate(-0.35deg);
+}
+
+.page .sheet h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(40px, 8vw, 64px);
+  line-height: 1.05;
+}
+
+.lead { margin: 16px 0 0; font-size: 20px; line-height: 1.5; }
+
+.pitch { margin: 24px 0 0; max-width: 34em; }
+
+.play {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 22px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pending { margin: 24px 0 0; color: var(--graphite); }
+
+.back:focus-visible,
+.play:focus-visible,
+.quick-play:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+
+footer { margin-top: 72px; color: var(--on-mat-soft); font-size: 14px; }
+
+.masthead .start-link { margin: 28px 0 0; }
+
+.start-link a {
+  display: inline-block;
+  padding: 8px 16px 9px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  font-weight: 600;
+  text-decoration: none;
+  transform: rotate(-1.5deg);
+}
+
+.start-link a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+
+.guide { max-width: 760px; margin: 0 auto; padding: 32px 20px 72px; }
+
+.guide-head { margin-top: 44px; }
+
+.guide-head h1 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(46px, 10vw, 84px);
+  line-height: 1.02;
+}
+
+.guide-lead { margin: 20px 0 0; max-width: 31em; color: var(--on-mat-soft); font-size: 18px; }
+
+.idea {
+  margin: 44px 0 0;
+  max-width: 540px;
+  padding: 30px 28px 20px;
+  background: var(--tape-dev);
+  color: #2b2a20;
+  transform: rotate(-1.4deg);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 16px 22px -14px rgba(0, 0, 0, 0.6);
+}
+
+.idea-text {
+  margin: 0;
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: clamp(32px, 6.4vw, 42px);
+  line-height: 1.12;
+}
+
+.idea figcaption {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  font-size: 15px;
+}
+
+.guide .sheet { margin-top: 60px; padding: 46px clamp(22px, 6vw, 52px) 34px; }
+
+.steps { list-style: none; margin: 0; padding: 0; }
+.steps > li:nth-child(odd) { transform: rotate(-0.35deg); }
+.steps > li:nth-child(even) { transform: rotate(0.3deg); }
+
+.guide .sheet h2 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: clamp(28px, 5.4vw, 38px);
+  line-height: 1.15;
+}
+
+.guide .tape { font-size: 15px; padding: 3px 14px 4px; }
+.tape.help-tape { background: var(--tape-test); }
+
+.when { margin: 6px 0 0; color: var(--graphite); }
+
+.guide .sheet p { margin: 16px 0 0; max-width: 36em; }
+
+.kit { margin: 18px 0 0; padding: 0; list-style: none; }
+.kit li { position: relative; padding-left: 34px; max-width: 36em; }
+.kit li + li { margin-top: 14px; }
+.kit li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--ink);
+}
+.kit b { display: block; }
+
+.do { margin: 18px 0 0; padding-left: 1.4em; max-width: 36em; }
+.do li { padding-left: 4px; }
+.do li + li { margin-top: 10px; }
+.do li::marker { font-weight: 600; }
+
+.button {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 12px 20px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.slip {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  border: 2px dashed var(--graphite);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+.slip span { font-weight: 600; overflow-wrap: anywhere; }
+
+/* Codex로 시작하기: 적어 넣을 글(이름·설정 한 줄·명령)과 키보드 단축키 */
+.guide code, .guide kbd { font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; font-size: 0.9em; }
+.guide code { padding: 1px 5px; background: rgba(31, 38, 35, 0.08); overflow-wrap: anywhere; }
+.guide kbd {
+  padding: 0 6px;
+  border: 1.5px solid currentColor;
+  border-bottom-width: 3px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.slip code { padding: 0; background: none; font-weight: 600; }
+.do .copy { margin-left: 6px; vertical-align: 1px; }
+.do .slip { margin-top: 8px; }
+
+.copy {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border: 0;
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+}
+
+.pencil {
+  color: var(--graphite);
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: 24px;
+  line-height: 1.25;
+}
+.guide .sheet p.pencil { margin-top: 22px; }
+
+.say {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 18px;
+}
+.say li {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px 16px 14px;
+  background: #f8e8a6;
+  color: #2b2a20;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 12px -10px rgba(0, 0, 0, 0.45);
+}
+.say li:nth-child(odd) { transform: rotate(-1deg); }
+.say li:nth-child(even) { transform: rotate(0.8deg); }
+.say p { margin: 0; font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif; font-size: 27px; line-height: 1.15; }
+.guide .sheet .say p { margin: 0; }
+.say .copy { align-self: flex-start; }
+
+.caution { margin: 20px 0 0; padding: 12px 16px; border-left: 6px solid var(--tape-live); background: #fbeae6; max-width: 36em; }
+.guide .sheet p.caution { margin-top: 20px; }
+
+.made { margin: 18px 0 0; max-width: 36em; }
+.made dt { font-weight: 600; }
+.made dd { margin: 2px 0 0; }
+.made dd + dt { margin-top: 14px; }
+
+.faq { margin-top: 18px; }
+.faq details { border-top: 1px solid rgba(31, 38, 35, 0.18); padding: 12px 0; max-width: 36em; }
+.faq details:last-child { border-bottom: 1px solid rgba(31, 38, 35, 0.18); }
+.faq summary { cursor: pointer; font-weight: 600; }
+.faq details p { margin: 8px 0 0; }
+.guide .sheet .faq details p { margin-top: 8px; }
+
+.guide .sheet a:not(.button) { color: inherit; text-underline-offset: 3px; }
+
+.copy:focus-visible,
+.button:focus-visible,
+.guide .sheet a:focus-visible,
+.faq summary:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 3px; }
+.idea .copy:focus-visible { outline-color: var(--ink); }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* 시작하기 | 출시하기 탭 (페이지 사이) */
+.guide-tabs { margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.guide-tabs a {
+  padding: 7px 18px 8px;
+  border: 2px solid var(--on-mat-soft);
+  color: var(--on-mat);
+  font-weight: 600;
+  text-decoration: none;
+}
+.guide-tabs a[aria-current="page"] {
+  background: var(--tape-dev);
+  border-color: var(--tape-dev);
+  color: #2b2a20;
+  transform: rotate(-1.5deg);
+}
+.guide-tabs a:focus-visible { outline: 3px solid var(--on-mat); outline-offset: 3px; }
+
+/* 출시하기: 게임 이름 칸과 하고 싶은 일마다 한 마디 */
+.name-box { margin: 22px 0 0; padding: 14px 16px 12px; border: 2px dashed var(--graphite); max-width: 30em; }
+.name-box label { display: block; font-weight: 600; }
+.name-box input {
+  margin-top: 8px;
+  width: 100%;
+  font: inherit;
+  font-size: 18px;
+  padding: 8px 10px;
+  border: 2px solid var(--ink);
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+}
+.name-box input:focus-visible { outline: 3px solid var(--tape-dev); outline-offset: 2px; }
+.guide .sheet .name-box p { margin: 6px 0 0; color: var(--graphite); font-size: 14px; }
+
+.game-name { padding: 0 3px; border-bottom: 2px dashed currentColor; }
+.game-name.filled { padding: 0; border-bottom: 0; }
+
+.wants { list-style: none; margin: 30px 0 0; padding: 0; }
+.wants > li + li { margin-top: 30px; padding-top: 28px; border-top: 1px solid rgba(31, 38, 35, 0.18); }
+.guide .sheet .wants h3 {
+  margin: 0;
+  font-family: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  font-weight: 400;
+  font-size: 23px;
+  line-height: 1.2;
+}
+.note-label { display: block; margin: 16px 0 0; color: var(--graphite); font-size: 15px; font-weight: 600; }
+.cmd-note {
+  margin: 12px 0 0;
+  max-width: 24em;
+  padding: 13px 14px 11px;
+  background: #f8e8a6;
+  color: #2b2a20;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 12px -10px rgba(0, 0, 0, 0.45);
+  transform: rotate(-0.8deg);
+}
+.note-label + .cmd-note { margin-top: 6px; }
+.wants > li:nth-child(even) .cmd-note { transform: rotate(0.7deg); }
+.guide .sheet .cmd-note p {
+  margin: 0;
+  font-family: "Nanum Pen Script", "IBM Plex Sans KR", sans-serif;
+  font-size: 26px;
+  line-height: 1.12;
+}
+.cmd-note .copy { margin-top: 10px; }
+.guide .sheet .wants .does { margin: 14px 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* 기울임은 :nth-child 규칙이 더 구체적이라 !important로 끈다 */
+  .idea, .steps > li, .say li, .cmd-note, .guide-tabs a { transform: none !important; }
+}
+
+/* 목표와 두 파이프라인을 한 장의 발표 자료처럼 보여 주는 구조 초안. */
+.purpose { max-width: 1280px; padding: 22px 24px 28px; }
+.purpose .guide-tabs { margin-top: 14px; gap: 8px; }
+.purpose .guide-tabs a { padding: 6px 14px; font-size: .9rem; }
+.purpose-slide { margin-top: 22px; padding: 28px 38px 22px; background: #fff; color: #183137; border-radius: 12px; box-shadow: 0 12px 36px #112d2940; }
+.purpose-goal { margin-bottom: 24px; }
+.purpose-eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 12px; font-weight: 700; font-size: .9rem; color: #526569; }
+.purpose-eyebrow span { padding: 2px 9px; background: #edf2f1; border-radius: 4px; font-weight: 400; }
+.purpose-eyebrow .purpose-legend { margin-left: auto; border: 1px dashed #657875; background: transparent; }
+.purpose-goal h1, .purpose-goal .ai-title, .purpose-goal .purpose-title { margin: 0; font-size: clamp(28px, 3.3vw, 42px); line-height: 1.4; font-weight: 700; letter-spacing: -.045em; }
+.purpose-goal strong { font-weight: 800; color: #08755c; }
+.purpose-diagram { position: relative; }
+.purpose-pipeline { --lane: #326bc1; --lane-bg: #edf3fc; padding: 18px 26px 22px; background: var(--lane-bg); border: 1px solid #d3e0f2; border-radius: 10px; }
+.purpose-pipeline.validation { --lane: #197c6e; --lane-bg: #edf7f3; border-color: #cce4dc; }
+.purpose-pipeline h2 { margin: 0 0 14px; color: var(--lane); font-size: 1.35rem; line-height: 1.35; font-weight: 700; }
+.purpose-flow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 42px; list-style: none; padding: 0; margin: 0; }
+.purpose-flow li { position: relative; display: flex; align-items: center; justify-content: center; min-height: 70px; padding: 12px; border: 2px solid var(--lane); border-radius: 8px; background: #fff; color: #183137; font-size: clamp(18px, 1.65vw, 22px); line-height: 1.4; font-weight: 700; text-align: center; }
+.purpose-flow li.automated { border-style: dashed; }
+.purpose-flow li:not(:last-child)::after { content: ""; position: absolute; top: calc(50% - 1px); left: calc(100% + 9px); width: 24px; border-top: 2px solid var(--lane); }
+.purpose-flow li:not(:last-child)::before { content: ""; position: absolute; top: calc(50% - 5px); left: calc(100% + 25px); width: 8px; height: 8px; border-top: 2px solid var(--lane); border-right: 2px solid var(--lane); transform: rotate(45deg); }
+.purpose-handoff { display: flex; justify-content: center; height: 30px; }
+.purpose-handoff span { position: relative; display: block; width: 2px; height: 24px; background: #748c88; }
+.purpose-handoff span::after { content: ""; position: absolute; bottom: 0; left: -4px; width: 8px; height: 8px; border-right: 2px solid #748c88; border-bottom: 2px solid #748c88; transform: rotate(45deg); }
+.purpose-branches { position: relative; display: flex; justify-content: space-around; margin: 16px 14% 0; height: 25px; border-top: 2px solid #8d9e9b; }
+.purpose-branches::before { content: ""; position: absolute; width: 2px; height: 16px; background: #8d9e9b; left: calc(50% - 1px); top: -18px; }
+.purpose-branches i { position: relative; width: 2px; height: 22px; background: #8d9e9b; }
+.purpose-branches i::after { content: ""; position: absolute; bottom: 0; left: -4px; width: 8px; height: 8px; border-right: 2px solid #8d9e9b; border-bottom: 2px solid #8d9e9b; transform: rotate(45deg); }
+.purpose-outcomes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin: 0 14%; }
+.purpose-outcome { padding: 12px 8px; border-radius: 7px; text-align: center; }
+.purpose-outcome h2 { margin: 0; font-size: 1.2rem; line-height: 1.5; }
+.purpose-outcome.scale { background: #dcefe5; color: #176144; }
+.purpose-outcome.improve { background: #fff0c9; color: #795718; }
+.purpose-outcome.park { background: #e9edef; color: #526168; }
+.purpose-return { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 16px 0 0; color: #87631f; font-size: 1rem; font-weight: 600; }
+.purpose-return svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.ai-slide { scroll-margin-top: 20px; }
+.ai-slide .purpose-goal strong { color: #326bc1; }
+.ai-lead { margin: 16px 0 0; color: #526569; font-size: 1.1rem; line-height: 1.7; }
+.ai-request, .ai-result { max-width: 430px; margin: 0 auto; padding: 14px 20px; border: 2px solid #829b98; border-radius: 9px; text-align: center; }
+.ai-result h3 { margin: 0; font-size: 1.25rem; line-height: 1.5; }
+.ai-result p { margin: 4px 0 0; color: #526569; font-size: 1rem; }
+.ai-engine { padding: 18px 24px; border: 2px dashed #326bc1; border-radius: 10px; background: #f6f9fe; text-align: center; }
+.ai-engine > h3 { margin: 0 0 16px; color: #326bc1; font-size: 1.4rem; line-height: 1.4; }
+.ai-resources { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 20px; }
+.ai-resource { min-width: 0; min-height: 94px; border: 2px dashed #658ac4; border-radius: 8px; background: #fff; }
+.ai-resource > summary, .ai-request summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 90px; padding: 16px 20px; list-style: none; text-align: left; cursor: pointer; }
+.ai-resource > summary::-webkit-details-marker, .ai-request summary::-webkit-details-marker { display: none; }
+.ai-resource > summary::after, .ai-request summary::after { content: "+"; flex: none; color: #326bc1; font-size: 1.7rem; line-height: 1; }
+.ai-resource[open] > summary::after, .ai-request[open] summary::after { content: "−"; }
+.ai-resource > summary:focus-visible, .ai-request summary:focus-visible { outline: 3px solid #326bc1; outline-offset: 4px; }
+.ai-resource > summary b, .ai-request summary b { display: block; font-size: 1.25rem; }
+.ai-resource > summary small { display: block; margin-top: 4px; color: #526569; font-size: .9rem; }
+.ai-request { padding: 0; text-align: left; }
+.ai-request[open] { max-width: 100%; }
+.ai-request summary { position: relative; display: block; min-height: 58px; padding: 14px 38px; text-align: center; }
+.ai-request summary::after { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #526569; }
+.ai-planning-table-wrap { margin: 0 16px 16px; overflow-x: auto; border-radius: 6px; }
+.ai-planning-table-wrap:focus-visible { outline: 3px solid #326bc1; outline-offset: 3px; }
+.ai-planning-table { width: 100%; min-width: 720px; border-collapse: collapse; table-layout: fixed; text-align: left; font-size: 1rem; }
+.ai-planning-table .planning-category { width: 21%; }
+.ai-planning-table .planning-purpose { width: 19%; }
+.ai-planning-table .planning-features { width: 46%; }
+.ai-planning-table .planning-priority { width: 14%; }
+.ai-planning-table th, .ai-planning-table td { padding: 12px; vertical-align: top; border-bottom: 1px solid #d8e3df; }
+.ai-planning-table thead { background: #e2eeea; color: #31564d; }
+.ai-planning-table tbody th { font-weight: 600; }
+.ai-planning-table tbody tr:nth-child(odd) { background: #edf3f8; }
+.ai-planning-table td:last-child { white-space: nowrap; font-weight: 600; }
+.ai-table-hint { display: none; margin: 0 16px 14px; color: #526569; font-size: .9rem; }
+.ai-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; list-style: none; padding: 0 14px 14px; margin: 0; text-align: left; }
+.ai-list li { min-width: 0; padding: 8px 10px; border-radius: 5px; background: #edf3fc; }
+.ai-list b, .ai-list span { display: block; }
+.ai-list b { font-size: 1rem; overflow-wrap: anywhere; }
+.ai-list span { margin-top: 3px; font-size: .9rem; color: #526569; }
+.ai-contracts { margin: 0 14px 14px; border: 1px solid #cad9ee; border-radius: 6px; text-align: left; }
+.ai-contracts > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; list-style: none; cursor: pointer; font-size: 1rem; font-weight: 600; }
+.ai-contracts > summary::-webkit-details-marker { display: none; }
+.ai-contracts > summary::after { content: "+"; flex: none; color: #326bc1; font-size: 1.5rem; line-height: 1; }
+.ai-contracts[open] > summary::after { content: "−"; }
+.ai-contracts > summary:focus-visible { outline: 3px solid #326bc1; outline-offset: 3px; }
+.ai-contract-list { margin: 0; padding: 0 14px 14px; }
+.ai-contract-list > div { padding: 12px 0; border-top: 1px solid #dce5f1; font-size: .95rem; line-height: 1.7; }
+.ai-contract-list dt { margin-bottom: 4px; color: #326bc1; font-weight: 700; }
+.ai-contract-list dd { margin: 0; }
+.ai-tools { margin: 16px 0 0; font-size: 1.25rem; font-weight: 700; }
+.ai-result { border-color: #197c6e; background: #f4faf7; }
+.ai-feedback { margin-top: 18px; }
+.ai-next { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid #dce5e2; text-align: right; font-size: 1rem; color: #526569; }
+.release-slide { scroll-margin-top: 20px; }
+.release-system-diagram { max-width: 680px; margin: 0 auto; }
+.release-request { padding: 18px 20px; border: 2px solid #829b98; border-radius: 9px; text-align: center; }
+.release-request h3 { margin: 0 0 14px; font-size: 1.4rem; line-height: 1.4; }
+.release-platforms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; list-style: none; margin: 0; padding: 0; }
+.release-platforms li { padding: 8px 4px; border-radius: 5px; background: #edf2f1; font-size: 1rem; font-weight: 600; }
+.release-route-intro { margin: 14px 0 0; color: #526569; font-size: 1rem; line-height: 1.7; }
+.release-flow { display: grid; gap: 30px; list-style: none; margin: 0; padding: 0; }
+.release-flow > li { position: relative; width: 100%; max-width: 430px; margin: 0 auto; padding: 16px 20px; border: 2px dashed #197c6e; border-radius: 9px; background: #f4faf7; text-align: center; font-size: 1.4rem; line-height: 1.4; font-weight: 700; }
+.release-flow > li:not(:last-child)::after { content: ""; position: absolute; top: calc(100% + 2px); left: calc(50% - 1px); height: 22px; border-left: 2px solid #748c88; }
+.release-flow > li:not(:last-child)::before { content: ""; position: absolute; top: calc(100% + 16px); left: calc(50% - 4px); width: 8px; height: 8px; border-right: 2px solid #748c88; border-bottom: 2px solid #748c88; transform: rotate(45deg); }
+.release-flow > .release-prep-step { max-width: none; padding: 0; border: 0; background: transparent; text-align: left; font-size: 1rem; font-weight: 400; }
+.release-preparation { max-width: 430px; margin: 0 auto; border: 2px dashed #197c6e; border-radius: 9px; background: #f4faf7; }
+.release-preparation[open] { max-width: none; }
+.release-preparation > summary, .release-prep-item > summary { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; list-style: none; cursor: pointer; }
+.release-preparation > summary { justify-content: center; padding-left: 40px; padding-right: 40px; font-size: 1.4rem; text-align: center; }
+.release-preparation > summary::-webkit-details-marker, .release-prep-item > summary::-webkit-details-marker { display: none; }
+.release-preparation > summary::after, .release-prep-item > summary::after { content: "+"; flex: none; color: #197c6e; font-size: 1.6rem; line-height: 1; }
+.release-preparation > summary::after { position: absolute; right: 16px; }
+.release-preparation[open] > summary::after, .release-prep-item[open] > summary::after { content: "−"; }
+.release-preparation > summary:focus-visible, .release-prep-item > summary:focus-visible { outline: 3px solid #197c6e; outline-offset: 3px; }
+.release-once, .release-conditional { position: absolute; top: 18px; left: calc(50% + 227px); padding: 4px 10px; border: 1px solid #e3ce9e; border-radius: 5px; background: #fff4d9; color: #795718; font-size: .9rem; line-height: 1.5; font-weight: 600; white-space: nowrap; }
+.release-conditional { border-color: #c8d9f0; background: #edf3fc; color: #326bc1; }
+.release-preparation[open] + .release-once, .release-preparation[open] + .release-conditional { top: -12px; right: 12px; left: auto; }
+.release-flow-caption { max-width: 430px; margin: 8px auto 0; color: #526569; font-size: .9rem; line-height: 1.6; text-align: center; }
+.release-prep-body { padding: 0 18px 18px; }
+.release-prep-intro { margin: 0 0 16px; color: #526569; font-size: 1rem; line-height: 1.7; }
+.release-prep-items { display: grid; gap: 10px; }
+.release-prep-item { min-width: 0; border: 1px solid #cddfd9; border-radius: 7px; background: #fff; }
+.release-prep-item > summary { padding: 14px 16px; }
+.release-prep-item summary b, .release-prep-item summary small { display: block; }
+.release-prep-item summary b { font-size: 1.05rem; }
+.release-prep-item summary small { margin-top: 4px; color: #526569; font-size: .9rem; }
+.release-stage-heading { display: flex; flex-direction: column; align-items: center; gap: 7px; min-width: 0; }
+.release-item-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; min-width: 0; }
+.release-browser-badge { display: inline-flex; align-items: center; max-width: 100%; padding: 2px 8px; border: 1px solid #d7c3eb; border-radius: 5px; background: #f4edfb; color: #704399; font-size: .78rem; line-height: 1.55; font-weight: 600; text-align: center; vertical-align: middle; }
+.release-browser-key { display: flex; align-items: flex-start; gap: 10px; margin: 16px 0 0; color: #526569; font-size: .9rem; line-height: 1.7; }
+.release-browser-key > .release-browser-badge { flex: none; margin-top: 2px; }
+.release-criteria { margin: 0; padding: 0 18px 16px 36px; list-style: disc; }
+.release-criteria li { margin: 0; font-size: 1rem; line-height: 1.7; }
+.release-criteria li + li { margin-top: 8px; }
+.release-detail-intro { margin: 0 16px 14px; color: #526569; font-size: 1rem; line-height: 1.7; }
+.release-result-table { width: calc(100% - 32px); margin: 0 16px 16px; border-collapse: collapse; table-layout: fixed; font-size: 1rem; line-height: 1.7; }
+.release-result-table th, .release-result-table td { padding: 12px 10px; vertical-align: top; border-bottom: 1px solid #d8e3df; text-align: left; overflow-wrap: anywhere; }
+.release-result-table th:first-child { width: 27%; }
+.release-result-table thead { background: #e2eeea; color: #31564d; }
+.release-result-table tbody tr:nth-child(odd) { background: #f4f8f6; }
+.release-result-table th small { display: block; margin-top: 4px; color: #526569; font-size: .9rem; font-weight: 400; }
+.release-outcome-note { margin: 0 16px 16px; padding: 12px; border-left: 3px solid #197c6e; background: #edf7f3; font-size: 1rem; line-height: 1.7; }
+.release-evidence { margin: 0 16px 16px; }
+.release-build-next { margin: 16px 0 0; }
+.release-rating-criteria { margin: 0 16px 16px; }
+.release-rating-criteria > div { display: grid; grid-template-columns: 155px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-top: 1px solid #e2ebe7; font-size: 1rem; line-height: 1.7; }
+.release-rating-criteria dt { font-weight: 600; }
+.release-rating-criteria dd { margin: 0; }
+.release-source { margin: 0 16px 16px; font-size: .9rem; }
+.release-kakao-route { margin-top: 28px; padding: 16px 20px; border: 1px solid #e3ce9e; border-radius: 9px; background: #fff8e8; }
+.release-kakao-route h3 { margin: 0 0 8px; color: #795718; font-size: 1.1rem; }
+.release-kakao-route p { margin: 6px 0 0; font-size: 1rem; line-height: 1.7; }
+.acquisition-slide { scroll-margin-top: 20px; }
+.acquisition-request .release-platforms { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.acquisition-kpi-policy { margin-top: 16px; }
+.acquisition-kpi-table-wrap { margin: 0 16px 16px; overflow-x: auto; }
+.acquisition-kpi-table-wrap:focus-visible { outline: 3px solid #197c6e; outline-offset: 3px; }
+.acquisition-kpi-table { width: 100%; min-width: 600px; margin: 0; }
+.acquisition-kpi-table th:first-child { width: 21%; }
+.acquisition-kpi-table th:nth-child(2) { width: 34%; }
+.acquisition-kpi-table-hint { display: none; margin: 0 16px 14px; color: #526569; font-size: .9rem; }
+.acquisition-flow .acquisition-human { border-style: solid; border-color: #829b98; background: #fff; }
+.acquisition-flow .release-preparation > summary span { min-width: 0; }
+.acquisition-flow .release-preparation > summary b, .acquisition-flow .release-preparation > summary small { display: block; }
+.acquisition-flow .release-preparation > summary small { margin-top: 5px; color: #526569; font-size: .85rem; line-height: 1.6; font-weight: 400; }
+.acquisition-flow .release-prep-body > .release-criteria { padding-left: 22px; padding-right: 4px; }
+.acquisition-return { line-height: 1.6; text-align: center; }
+.acquisition-return svg { flex: none; }
+.purpose-footer { margin-top: 14px; color: var(--on-mat-soft); font-size: .85rem; text-align: right; }
+@media (max-width: 840px) {
+  .purpose { padding: 16px; }
+  .purpose-slide { padding: 24px 20px; }
+  .purpose-flow { gap: 25px; }
+  .purpose-flow li { padding: 10px 6px; font-size: 1rem; }
+  .purpose-flow li:not(:last-child)::after { left: calc(100% + 5px); width: 13px; }
+  .purpose-flow li:not(:last-child)::before { left: calc(100% + 10px); }
+  .purpose-pipeline { padding: 18px 16px; }
+  .purpose-outcomes { margin: 0 5%; gap: 10px; }
+  .purpose-branches { margin-left: 5%; margin-right: 5%; }
+  .ai-engine { padding: 18px 16px; }
+  .ai-table-hint { display: block; }
+  .release-once, .release-conditional { top: -12px; right: 12px; left: auto; }
+}
+@media (max-width: 600px) {
+  .purpose-goal h1, .purpose-goal .ai-title, .purpose-goal .purpose-title { font-size: 1.75rem; }
+  .purpose-flow { grid-template-columns: 1fr; gap: 27px; }
+  .purpose-flow li { min-height: 54px; font-size: 1.15rem; }
+  .purpose-flow li:not(:last-child)::after { top: calc(100% + 5px); left: calc(50% - 1px); width: 0; height: 15px; border-top: 0; border-left: 2px solid var(--lane); }
+  .purpose-flow li:not(:last-child)::before { top: calc(100% + 11px); left: calc(50% - 4px); transform: rotate(135deg); }
+  .purpose-outcomes { margin: 0; gap: 8px; }
+  .purpose-outcome h2 { font-size: 1rem; }
+  .purpose-branches { margin-left: 0; margin-right: 0; }
+  .ai-slide .purpose-eyebrow, .release-slide .purpose-eyebrow, .acquisition-slide .purpose-eyebrow { flex-wrap: wrap; gap: 8px; }
+  .ai-slide .purpose-eyebrow .purpose-legend, .release-slide .purpose-eyebrow .purpose-legend, .acquisition-slide .purpose-eyebrow .purpose-legend { margin-left: 0; }
+  .ai-resources, .ai-list { grid-template-columns: 1fr; }
+  .ai-resource summary { padding: 16px; }
+  .ai-list { padding: 0 10px 10px; }
+  .ai-next { text-align: center; }
+  .release-request { padding: 16px; }
+  .release-platforms { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .release-prep-body { padding: 0 12px 12px; }
+  .release-rating-criteria > div { grid-template-columns: 1fr; gap: 4px; }
+  .release-result-table th, .release-result-table td { padding: 10px 8px; }
+  .acquisition-kpi-table-hint { display: block; }
+}
+@media print {
+  body { background: #fff; }
+  .purpose { max-width: none; padding: 0; }
+  .purpose-chrome, .purpose-footer { display: none; }
+  .purpose-slide { margin: 0; padding: 0; box-shadow: none; break-inside: avoid; }
+  .purpose-slide + .purpose-slide { break-before: page; }
+  .purpose-pipeline, .purpose-outcome { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+<main class="guide purpose">
+  <div class="purpose-chrome">
+    <a class="back" href="../../">전체 프로젝트 보기</a>
+    <nav class="guide-tabs" aria-label="시작 가이드"><a href="../">시작하기</a><a href="../codex/">Codex로 시작하기</a><a href="../release/">출시하기</a><a href="../workflow/">대화로 개발·출시</a><a href="./" aria-current="page">목적과 기대 효과</a><a href="../cycle/">검증 사이클 한눈에</a></nav>
+  </div>
+
+  <article class="purpose-slide" aria-labelledby="purpose-goal">
+    <header class="purpose-goal">
+      <p class="purpose-eyebrow">목표 <span class="purpose-legend">점선 = 자동화</span></p>
+      <h1 id="purpose-goal">자동화된 개발과 검증으로<br><strong>사업성 있는 게임을 빠르게 제작, 발굴한다.</strong></h1>
+    </header>
+
+    <div class="purpose-diagram">
+      <section id="development" class="purpose-pipeline development" aria-labelledby="development-title">
+        <h2 id="development-title">개발 파이프라인</h2>
+        <ol class="purpose-flow" aria-label="개발 진행 순서">
+          <li>아이디어·기획</li>
+          <li class="automated">AI 개발</li>
+          <li class="automated">자동 빌드, 출시</li>
+        </ol>
+      </section>
+
+      <div class="purpose-handoff" aria-hidden="true"><span></span></div>
+
+      <section id="validation" class="purpose-pipeline validation" aria-labelledby="validation-title">
+        <h2 id="validation-title">검증 파이프라인</h2>
+        <ol class="purpose-flow" aria-label="검증 진행 순서">
+          <li class="automated">모객</li>
+          <li class="automated">자동 수집·분석</li>
+          <li>사업성 판단</li>
+        </ol>
+      </section>
+
+      <div class="purpose-branches" aria-hidden="true"><i></i><i></i><i></i></div>
+      <section class="purpose-outcomes" aria-label="사업성 판단 후 다음 행동">
+        <div class="purpose-outcome scale"><h2>확장</h2></div>
+        <div class="purpose-outcome improve"><h2>개선·재검증</h2></div>
+        <div class="purpose-outcome park"><h2>방치·중단</h2></div>
+      </section>
+
+      <div class="purpose-return" role="img" aria-label="개선 결과를 개발 파이프라인에 반영하고 다시 검증하는 반복 흐름">
+        <svg viewBox="0 0 36 36" aria-hidden="true" focusable="false"><path d="M12 9H7V4M7 9a12 12 0 1 1-1 17"/></svg>
+        <span>개선 후 다시 개발·검증</span>
+      </div>
+    </div>
+  </article>
+
+  <section id="ai-development" class="purpose-slide ai-slide" aria-labelledby="ai-system-title">
+    <header class="purpose-goal">
+      <p class="purpose-eyebrow">AI 개발 시스템 <span class="purpose-legend">점선 = 자동화</span></p>
+      <h2 id="ai-system-title" class="ai-title">게임의 재미만 신경쓰세요.<br><strong>나머지는 AI가 알아서 합니다.</strong></h2>
+      <p class="ai-lead">광고, 결제, 공유하기, 랭킹, 크래시 분석, 지표검증 이벤트, 햅틱, …<br>게임의 마감에 필요한 기능을 알아서 구현해 줍니다.</p>
+    </header>
+
+    <div class="ai-system-diagram">
+      <details id="ai-planning-request" class="ai-request">
+        <summary><b>기획·개발 요청</b></summary>
+        <div class="ai-planning-table-wrap" tabindex="0" role="region" aria-label="기획·개발 요청 표, 좁은 화면에서는 좌우로 이동">
+          <table class="ai-planning-table" aria-label="기획·개발 항목별 목적과 대표 기능, 우선순위">
+            <colgroup><col class="planning-category"><col class="planning-purpose"><col class="planning-features"><col class="planning-priority"></colgroup>
+            <thead><tr><th scope="col">분류</th><th scope="col">목적</th><th scope="col">대표 기능</th><th scope="col">우선</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">핵심 게임플레이</th><td>재미·몰입</td><td>Core Loop, 조작, 피드백, 난이도</td><td>P0</td></tr>
+              <tr><th scope="row">성장·경제</th><td>반복 플레이</td><td>레벨, 업그레이드, 재화, 소모처</td><td>P0</td></tr>
+              <tr><th scope="row">잔존율</th><td>재방문</td><td>미션, 출석, 해금, 수집</td><td>P1</td></tr>
+              <tr><th scope="row">광고 수익화</th><td>광고 ARPDAU</td><td>RV, 전면 광고, 빈도 제한</td><td>P1</td></tr>
+              <tr><th scope="row">인앱결제</th><td>PUR·ARPPU</td><td>상점, 스타터팩, 패스</td><td>P1~P2</td></tr>
+              <tr><th scope="row">보상 연출</th><td>획득 만족</td><td>상자, 희귀도, FX, 사운드</td><td>P1~P2</td></tr>
+              <tr><th scope="row">소셜·경쟁</th><td>장기 참여</td><td>리더보드, 랭킹</td><td>P2</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="ai-table-hint">표는 좌우로 움직여 볼 수 있어요.</p>
+      </details>
+
+      <div class="purpose-handoff" aria-hidden="true"><span></span></div>
+
+      <section class="ai-engine automated" aria-labelledby="ai-engine-title">
+        <h3 id="ai-engine-title">AI 개발 자동화</h3>
+        <div class="ai-resources">
+          <details id="ai-ncq-modules" class="ai-resource ai-library">
+            <summary><span><b>Ncq 라이브러리</b><small>랭킹·계정·화면 등 공용 모듈과 도구</small></span></summary>
+            <ul class="ai-list ai-modules" aria-label="주요 Ncq 모듈과 공용 도구">
+              <li><b>NcqAds</b><span>광고</span></li>
+              <li><b>NcqIap</b><span>인앱 결제</span></li>
+              <li><b>NcqShare</b><span>공유하기</span></li>
+              <li><b>NcqMetrics</b><span>플레이·이탈·안정성 지표</span></li>
+              <li><b>NcqBuild</b><span>앱 버전·실제 소스 커밋 표시·복사</span></li>
+              <li><b>NcqRank</b><span>대전 없는 점수·기록 랭킹</span></li>
+              <li><b>NcqDevice</b><span>햅틱·진동</span></li>
+              <li><b>NcqSound</b><span>배경음·효과음</span></li>
+              <li><b>NcqPopup</b><span>팝업</span></li>
+              <li><b>NcqLang</b><span>다국어</span></li>
+              <li><b>NcqSafe</b><span>안전 영역</span></li>
+              <li><b>NcqViewport</b><span>화면 고정·터치</span></li>
+              <li><b>NcqDisplay</b><span>화면 켜두기·글자 배율·확대 제어</span></li>
+              <li><b>NcqMotion</b><span>움직임·연출 설정</span></li>
+              <li><b>NcqCollect</b><span>재화 획득 연출</span></li>
+              <li><b>NcqSave</b><span>저장·클라우드 백업</span></li>
+              <li><b>NcqAuth</b><span>사용자 계정·닉네임</span></li>
+              <li><b>NcqAccount</b><span>설정창 유저 ID·전체 복사</span></li>
+              <li><b>NcqInvite</b><span>친구 초대·보상</span></li>
+              <li><b>NcqInviteRewards</b><span>플랫폼별 초대 보상 공용 연결</span></li>
+              <li><b>NcqSocial</b><span>친구·길드</span></li>
+              <li><b>NcqBoard</b><span>실시간 대전·대전 랭킹</span></li>
+              <li><b>NcqFeedback</b><span>사용자 피드백</span></li>
+              <li><b>NcqPromo</b><span>토스 미션·포인트 보상</span></li>
+            </ul>
+          </details>
+          <details id="ai-common-features" class="ai-resource ai-rules">
+            <summary><span><b>공통 개발 지침</b><small>기본 기능·공용 사용 규격 보기</small></span></summary>
+            <ul class="ai-list ai-common-features" aria-label="공통 개발 규격과 기본 적용 항목">
+              <li><b>화면 켜두기</b><span>NcqDisplay와 플랫폼 설정으로 화면 꺼짐 방지</span></li>
+              <li><b>글자 크기 고정</b><span>NcqDisplay로 기본 글자 배율 통일</span></li>
+              <li><b>화면 확대·축소 막기</b><span>NcqDisplay로 두 번 탭·핀치 확대 방지</span></li>
+              <li><b>크래시·ANR 분석</b><span>비정상 종료 추정과 구글 공식 안정성 지표 확인</span></li>
+              <li><b>유저 ID 표시·복사</b><span>NcqAccount로 현재 계정의 CS ID 연결</span></li>
+              <li><b>공용 규격 검사</b><span>채택한 SDK·완성 화면의 동작 검사와 주의사항 정리</span></li>
+              <li><b>코드 보호</b><span>출시 JavaScript 코드 난독화</span></li>
+              <li><b>앱 버전·코드 식별</b><span>NcqBuild로 앱 버전과 실제 소스 커밋 표시·복사</span></li>
+              <li><b>테스트·출시 기능 분리</b><span>사내 테스트 기능·모의 결제와 공개 웹 배포를 구분</span></li>
+            </ul>
+            <details id="ai-common-contracts" class="ai-contracts">
+              <summary>기능별 공용 규격 자세히 보기</summary>
+              <dl class="ai-contract-list">
+                <div><dt>랭킹</dt><dd>NcqRank는 대전 없이 점수·클리어 시간 등을 비교할 때 선택해요. 최고·누적·최근 기록과 높은 순·낮은 순을 정하고 같은 결과 번호는 한 번만 반영해요. 서버 검증형은 게임별 결과 검증을 연결해요. 기기에서 신고한 점수는 검증된 기록으로 표시하거나 경쟁 보상의 근거로 쓰지 않아요.</dd></div>
+                <div><dt>계정·닉네임</dt><dd>NcqAuth를 계정과 닉네임의 원본으로 사용하고 로비·랭킹·친구 화면에 같은 프로필을 표시해요. 게임·테스트/운영 환경을 구분하고, 계정 전환 뒤 이전 계정의 늦은 응답을 적용하지 않아요.</dd></div>
+                <div><dt>고객지원 ID</dt><dd>NcqAccount가 설정창의 현재 유저 ID 표시·전체 복사를 맡아요. 카카오판은 인증된 플랫폼 원본 ID 연결이 필수예요. 다른 플랫폼은 NcqAuth를 이미 사용하는 게임의 현재 세션 ID를 표시해요.</dd></div>
+                <div><dt>팝업·공유</dt><dd>NcqPopup을 채택한 게임은 열린 창의 역순으로 뒤로가기를 처리하고, 닫거나 다시 연 화면에 이전 응답을 적용하지 않아요. 공유창도 같은 수명 규격을 사용해요. 기존 게임의 팝업 방식 변경은 사용자가 채택하기로 정했을 때 적용해요.</dd></div>
+                <div><dt>저장·보상</dt><dd>NcqSave를 쓰는 게임은 재화와 지급 번호를 함께 기록해 중복 지급을 막아요. 결제·초대 보상은 게임의 지급·저장을 완료한 뒤에만 완료를 보고해요. 새 플랫폼의 초대 보상은 NcqInviteRewards로 연결하고, 공유 성공이나 상태 조회만으로 지급하지 않아요.</dd></div>
+                <div><dt>기기·언어</dt><dd>화면 설정은 NcqDisplay, 진동은 NcqDevice, 소리는 NcqSound로 통일해요. 토스·앱·카카오 SDK의 연결 차이와 켬·끔 설정은 공용 모듈이 맡고, 다국어는 NcqLang의 언어 표와 누락 점검을 사용해요.</dd></div>
+                <div><dt>안정성 분석</dt><dd>NcqMetrics의 안정성 기록이 포함된 빌드부터 화면을 보던 중 종료된 실행을 다음 실행 때 알려요. 이 값은 비정상 종료 추정치이며 안드로이드 웹뷰 복구 기록도 집계해요. 구글플레이의 공식 크래시·ANR(응답 없음)은 Android vitals에서 확인하고, 같은 종료가 겹칠 수 있어 두 출처를 구분해 봐요.</dd></div>
+                <div><dt>적용·검증</dt><dd>선택 기능은 해당 게임에서 사용할 때 연결해요. 공용 팝업·공유·프로필 규격을 채택한 게임은 공용 SDK와 완성 화면을 실제 브라우저에서 검사하고 주의사항을 보고해요. 실제 기기의 화면·진동·결제 확인도 함께 구분해 진행해요.</dd></div>
+              </dl>
+            </details>
+          </details>
+        </div>
+        <p class="ai-tools">Claude, Codex</p>
+      </section>
+
+      <div class="purpose-handoff" aria-hidden="true"><span></span></div>
+
+      <section class="ai-result" aria-label="개발 결과">
+        <h3>사내에서 브라우저 테스트 플레이</h3>
+        <p>테스트 기능·모의 결제 · 코드·변경 기록</p>
+        <p>테스트 빌드는 회사 PC의 사내 페이지로 보내요. 공개 웹 배포는 테스트 기능과 인앱 결제·모의 결제를 제거해 별도로 준비해요.</p>
+      </section>
+
+      <div class="purpose-return ai-feedback" role="img" aria-label="사람이 직접 플레이하고 준 피드백을 AI 개발에 반영하는 반복 흐름">
+        <svg viewBox="0 0 36 36" aria-hidden="true" focusable="false"><path d="M12 9H7V4M7 9a12 12 0 1 1-1 17"/></svg>
+        <span>재미 확인·피드백 → AI에 반영</span>
+      </div>
+      <p class="ai-next">다음 단계 · 자동 빌드·출시</p>
+    </div>
+  </section>
+
+  <section id="automated-release" class="purpose-slide release-slide" aria-labelledby="release-system-title">
+    <header class="purpose-goal">
+      <p class="purpose-eyebrow">자동 빌드·출시 <span class="purpose-legend">점선 = 자동화</span></p>
+      <h2 id="release-system-title" class="purpose-title">어떤 플랫폼에 출시할지 선택만 해주세요.<br><strong>앱 등록부터 배포까지 AI가 알아서 합니다.</strong></h2>
+      <p class="release-browser-key"><span class="release-browser-badge">관리자 브라우저</span><span>서버 API와 연결된 콘솔 도구를 먼저 사용해요. 배지 표시 항목에는 도구가 지원하지 않아 관리자 에이전트가 브라우저로 처리하는 작업이 포함돼요. 로그인은 관리자가 진행해요.</span></p>
+    </header>
+
+    <div class="release-system-diagram">
+      <section class="release-request" aria-labelledby="release-request-title">
+        <h3 id="release-request-title">출시 요청</h3>
+        <ul class="release-platforms" aria-label="출시 플랫폼">
+          <li>구글플레이</li>
+          <li>앱스토어</li>
+          <li>토스</li>
+          <li>공개 웹</li>
+          <li>카카오페이</li>
+          <li>카카오톡</li>
+        </ul>
+        <p class="release-route-intro">구글플레이 첫 출시 기준의 7단계예요.<br>업데이트는 4단계부터, 준비가 끝난 경우 5단계는 건너뛰어요. 공개 웹은 별도 웹 배포 경로, 카카오페이·카카오톡은 빌드·전달 경로로 진행해요.</p>
+      </section>
+
+      <div class="purpose-handoff" aria-hidden="true"><span></span></div>
+
+      <ol class="release-flow" aria-label="실제 출시 파이프라인 7단계">
+        <li class="release-prep-step">
+          <details id="release-preparation" class="release-preparation automated">
+            <summary><b>1. 개발·자료 준비</b></summary>
+            <div class="release-prep-body">
+              <p class="release-prep-intro">게임의 재미와 필요한 지표를 코드에 연결하고 등록 자료를 준비해요.<br>우리의 기본 방침·공용 모듈 정보·기존 자료를 재사용하고, 업데이트에서는 바뀐 항목만 보완해요.</p>
+              <div class="release-prep-items">
+                <details id="release-feature-metrics" class="release-prep-item">
+                  <summary><span><b>지표 설계·게임 이벤트 연결</b><small>무엇을 검증할지 제안 · 빠진 기록 연결</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>AI가 기획·코드를 보고 첫 실행·첫 플레이·판 시작과 종료·주요 동선 등 검증에 필요한 기록을 제안해요.</li>
+                    <li>게임 코드에 판·진행 단계·반복 동선을 연결해요. 지표 SDK와 수집 설정은 각 빌드에서 자동으로 포함해요.</li>
+                    <li>수집 한도·중복 제거·묶음 전송은 공용 SDK가 처리하고, 게임은 필요한 시점과 상태만 연결해요.</li>
+                    <li>게임·플랫폼·앱 버전을 구분해 대시보드에서 볼 수 있게 하고, 지표 연결 주의사항은 빌드 전 보고에 남겨요.</li>
+                  </ul>
+                </details>
+                <details id="release-store-copy" class="release-prep-item">
+                  <summary><span><b>스토어 문구·기본 정보</b><small>컨셉 재사용 · 언어별 소개 자동 준비</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>이미 정리한 컨셉과 실제 게임을 바탕으로 앱 이름·짧은 설명·자세한 설명을 작성해요.</li>
+                    <li>실제 게임의 장르와 기능에 맞는 카테고리와 스토어 태그를 골라요.</li>
+                    <li>확정된 회사 정보·기본 설정을 재사용하고, 지원 언어에 맞는 소개를 준비해요.</li>
+                  </ul>
+                </details>
+                <details id="release-store-images" class="release-prep-item">
+                  <summary><span><b>스토어 이미지</b><small>게임 아트 재사용 · 실제 화면 촬영</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>이미 준비한 자료를 먼저 재사용하고, 빠진 이미지는 AI가 만들어요.</li>
+                    <li><b>아이콘:</b> 게임 아트로 512 × 512px 이미지를 준비해요.</li>
+                    <li><b>홍보 그래픽:</b> 핵심 플레이와 분위기가 드러나는 1024 × 500px 이미지를 만들어요.</li>
+                    <li><b>스크린샷:</b> 게임을 직접 실행해 대표 화면 2~8장을 촬영해요.</li>
+                    <li>완성된 자료를 게임별로 보관해 다음 등록·업데이트에서도 이어서 써요.</li>
+                  </ul>
+                </details>
+                <details id="release-target-age" class="release-prep-item">
+                  <summary><span><b>타깃 연령</b><small>기본 13세 이상 · 확정된 값 재사용</small></span></summary>
+                  <p class="release-outcome-note"><b>우리 기본값 · 13세 이상</b><br>13~15세·16~17세·18세 이상을 기본으로 선택해요. 가족 정책을 고려해 기본 출시 대상을 13세 이상으로 두고 있어요.</p>
+                  <table class="release-result-table" aria-label="우리 타깃 연령 기본값과 예외 처리">
+                    <thead><tr><th scope="col">우리의 기준</th><th scope="col">AI가 처리하는 방식</th></tr></thead>
+                    <tbody>
+                      <tr><th scope="row">기본 설정</th><td>13세 이상 3개 구간을 기본으로 준비하고, 실제 기획·게임 화면과 맞는지 확인해요.</td></tr>
+                      <tr><th scope="row">이미 확정한 값</th><td>프로젝트에 저장된 연령대를 재사용해 콘솔에 같은 값을 입력해요. 정한 내용을 반복해서 묻지 않아요.</td></tr>
+                      <tr><th scope="row">아동 대상 등 예외</th><td>실제 기획에 맞는 연령과 광고·데이터 처리 등 추가 준비를 별도로 확인해요.</td></tr>
+                    </tbody>
+                  </table>
+                </details>
+                <details id="release-content-rating" class="release-prep-item">
+                  <summary><span><b>콘텐츠 등급 설문</b><small>전체이용가 목표 · 예외 결과만 확인</small></span></summary>
+                  <p class="release-outcome-note"><b>우리 기본 방침 · 한국 전체이용가 목표</b><br>기획·연출을 전체이용가 범위에 맞추고, 설문은 실제 게임 내용대로 답해요. 이 게임에 확정해 둔 답은 이후 작업에서 재사용해요.</p>
+                  <table class="release-result-table" aria-label="우리 콘텐츠 등급 결과별 자동 처리">
+                    <thead><tr><th scope="col">확인한 결과</th><th scope="col">자동 진행과 예외 처리</th></tr></thead>
+                    <tbody>
+                      <tr><th scope="row">한국 전체이용가</th><td>정한 답으로 설문을 채우고 저장해 다음 단계로 진행해요. 같은 답을 다시 확인받지 않아요.</td></tr>
+                      <tr><th scope="row">한국 전체이용가 외 결과</th><td>12세·15세·청소년이용불가 등이 나오면 저장 전에 결과와 그렇게 나온 답을 보여 주고 확인받아요.</td></tr>
+                      <tr><th scope="row">해외 등급만 높음</th><td>한국이 전체이용가면 진행하고, 다른 나라의 등급 차이는 결과 보고에 남겨요.</td></tr>
+                      <tr><th scope="row">새 질문·게임 변경</th><td>기획·코드로 답을 보완하고, 판단하기 어려운 부분이나 실제 앱과 다른 내용만 확인해요.</td></tr>
+                    </tbody>
+                  </table>
+                  <details id="release-rating-evidence" class="release-prep-item release-evidence">
+                    <summary><span><b>AI가 설문 답을 정할 때 보는 내용</b><small>코드·실제 화면·대사·소리를 함께 확인</small></span></summary>
+                  <dl class="release-rating-criteria">
+                    <div><dt>폭력</dt><dd>전투·무기·상처·유혈 묘사의 대상, 강도와 빈도를 확인해요.</dd></div>
+                    <div><dt>공포</dt><dd>위협적인 장면·캐릭터·음악, 놀라게 하는 연출을 확인해요.</dd></div>
+                    <div><dt>성적인 콘텐츠</dt><dd>노출·성적 표현·암시가 그림이나 대사에 있는지 확인해요.</dd></div>
+                    <div><dt>욕설·언어</dt><dd>화면 글·대사·음성에 포함된 욕설과 표현 수위를 확인해요.</dd></div>
+                    <div><dt>약물·술·담배</dt><dd>등장 여부와 사용·미화하는 표현이 있는지 확인해요.</dd></div>
+                    <div><dt>도박·현금성 보상</dt><dd>베팅·모의 도박, 현금·기프트 카드·가상자산 등의 보상과 환전 기능을 확인해요.</dd></div>
+                    <div><dt>사용자 간 소통·공유</dt><dd>다른 이용자에게 글·채팅·이미지 등을 보낼 수 있는지 확인해요.</dd></div>
+                    <div><dt>위치 공유</dt><dd>사용자의 실제 위치를 다른 이용자에게 보여 주는지 확인해요.</dd></div>
+                    <div><dt>디지털 상품 구매</dt><dd>유료 재화·아이템·구독과 유료 무작위 상품의 판매 여부를 확인해요.</dd></div>
+                    <div><dt>외부·온라인 콘텐츠</dt><dd>앱 안의 브라우저·검색, 다운로드·온라인 추가 콘텐츠의 범위를 확인해요.</dd></div>
+                  </dl>
+                  </details>
+                </details>
+                <details id="release-ads-purchases" class="release-prep-item">
+                  <summary><span><b>광고·결제 신고</b><small>빌드 선택값에 맞춰 신고·상품 정보 연결</small></span></summary>
+                  <ul class="release-criteria">
+                    <li><b>광고:</b> 이번 빌드에서 켠 광고 지면과 SDK를 보고 광고 포함·광고 ID 사용 여부를 정리해요.</li>
+                    <li><b>결제:</b> 실제 판매할 상품 ID·종류·가격과 게임에서 지급하는 내용을 정리해요.</li>
+                    <li>광고·상품 설정이 스토어 소개, 데이터 보안 신고와 맞는지 확인해요.</li>
+                  </ul>
+                </details>
+                <details id="release-data-privacy" class="release-prep-item">
+                  <summary><span><b>데이터 보안·개인정보처리방침</b><small>공통 SDK 신고 자동 작성 · 게임별 데이터 반영</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>공용 지표 모듈·AdMob 사용 정보로 서버가 기본 데이터 보안 양식을 만들어 올려요.</li>
+                    <li>게임이 별도로 보내는 데이터는 AI가 코드를 확인해 추가하고, 기본 신고와 함께 반영해요.</li>
+                    <li>정리한 데이터 처리 내용으로 개인정보처리방침과 공개 주소를 준비해요.</li>
+                    <li>데이터 삭제·보관에 관한 안내는 실제 구현과 운영 방식에 맞춰 작성해요.</li>
+                  </ul>
+                  <p class="release-source"><a href="https://support.google.com/googleplay/android-developer/answer/10787469?hl=ko">Google 데이터 보안 작성 안내</a></p>
+                </details>
+                <details id="release-review-access" class="release-prep-item">
+                  <summary><span><b>심사 접근 안내</b><small>실제 시작 흐름을 보고 필요한 안내만 준비</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>로그인·권한·지역 제한으로 접근이 막히는 기능이 있는지 확인해요.</li>
+                    <li>게스트로 모든 기능을 이용할 수 있는지, 별도 심사 계정이 필요한지 정리해요.</li>
+                    <li>심사자가 기능을 재현할 수 있도록 진입 순서와 필요한 안내를 작성해요.</li>
+                  </ul>
+                </details>
+              </div>
+            </div>
+          </details>
+          <span class="release-once">첫 출시만</span>
+        </li>
+        <li class="release-prep-step">
+          <details id="release-first-build" class="release-preparation automated">
+            <summary><b>2. 등록용 진단·테스트 빌드</b></summary>
+            <div class="release-prep-body">
+              <p class="release-prep-intro">구글플레이는 첫 등록용 빌드도 먼저 진단한 뒤 시작해요.<br>앱스토어·토스는 이 구글 전용 단계를 건너뛰고 각 플랫폼의 앱 등록·연결로 진행해요.</p>
+              <div class="release-prep-items">
+                <details id="release-registration-request" class="release-prep-item">
+                  <summary><span><b>1. 등록 요청 접수</b><small>1단계 자료 확인 → 게시 상황 등록 → 관리자 AI 깨우기</small></span></summary>
+                  <p class="release-detail-intro">여기서 확인하는 ‘등록 자료’는 <a href="#release-preparation">1단계 ‘개발·자료 준비’</a>에서 만들어 저장한 아래 자료예요.</p>
+                  <ul class="release-criteria">
+                    <li><b>스토어 문구:</b> 앱 이름·짧은 소개·자세한 소개</li>
+                    <li><b>스토어 이미지:</b> 아이콘·홍보 그래픽·게임 스크린샷</li>
+                    <li><b>앱 콘텐츠 답변:</b> 카테고리·타깃 연령·콘텐츠 등급 설문 답변 등</li>
+                    <li><b>데이터 보안 신고:</b> 게임이 별도로 수집·전송하는 데이터가 있을 때 정리한 신고 내용</li>
+                  </ul>
+                  <p class="release-outcome-note">서버가 이 자료와 빌드할 게임 코드가 준비됐는지 확인해요. 빠진 항목이 있으면 1단계에서 보완하도록 안내하고, 갖춰졌으면 마켓 등록 요청을 접수해요.</p>
+                  <ul class="release-criteria">
+                    <li>게시 상황과 요청자의 피드백에 진행 상태를 남기고 관리자 측 AI를 깨워요.</li>
+                    <li>빌드가 실패해도 요청 기록을 유지해 관리자 측 AI가 이어서 처리해요.</li>
+                  </ul>
+                </details>
+                <details id="release-first-build-diagnosis" class="release-prep-item">
+                  <summary><span><b>2. 등록용 사전 진단</b><small>게임 설정·고유 앱 ID·권한 설정·1단계 자료 확인</small></span></summary>
+                  <p class="release-detail-intro">빌드 전에 코드·설정 파일·저장한 등록 자료를 읽고 아래 항목을 확인해요. 각 항목을 펼치면 무엇을 보고 어떻게 처리하는지 알 수 있어요.</p>
+                  <details id="release-first-check-settings" class="release-prep-item release-evidence">
+                    <summary><span><b>필수 설정·게임 프로젝트</b><small>무엇을 어떤 버전으로 빌드할지 확인</small></span></summary>
+                    <ul class="release-criteria">
+                      <li><b>확인 대상:</b> 프로젝트 정보, 요청한 앱 버전·버전 코드, 테스트용 빌드 구분, 선택한 광고·상품 설정이에요.</li>
+                      <li><b>진단:</b> 프로젝트 설정을 읽을 수 있는지, 게임 시작 파일이나 빌드 명령이 있는지, 버전 형식·중복·다른 코드에 사용한 버전과의 충돌이 없는지 확인해요.</li>
+                      <li><b>처리 예:</b> 게임 코드가 없거나 버전이 충돌하면 중단해요. 공통 빌드 스크립트가 없으면 서버가 넣는 것으로 안내해요.</li>
+                    </ul>
+                  </details>
+                  <details id="release-first-check-package" class="release-prep-item release-evidence">
+                    <summary><span><b>앱 식별자 · 패키지명</b><small>다른 앱의 설정으로 바뀌지 않았는지 확인</small></span></summary>
+                    <ul class="release-criteria">
+                      <li><b>뜻:</b> 패키지명은 앱을 구분하는 고유 ID예요. 프로젝트의 <code>bundle_id</code>에 저장된 값이에요.</li>
+                      <li><b>빌드 전:</b> 저장된 값이 킥오프에서 정한 이 프로젝트의 앱 ID와 일치하는지 확인하고, 다르면 중단해요.</li>
+                      <li><b>빌드 후:</b> 완성된 AAB에서 실제 앱 ID를 읽어 요청한 값과 다시 대조해요.</li>
+                    </ul>
+                  </details>
+                  <details id="release-first-check-permissions" class="release-prep-item release-evidence">
+                    <summary><span><b>권한·연결 설정</b><small>마켓 접근과 앱 기능 권한을 구분해 확인</small></span></summary>
+                    <ul class="release-criteria">
+                      <li><b>마켓 접근 권한:</b> 서버 계정으로 대상 앱을 읽을 수 있는지 봐요. 첫 등록 전 앱이 아직 없는 것은 안내하고, 이미 연결한 앱에 접근하지 못하면 오류로 처리해요.</li>
+                      <li><b>앱 기능 권한:</b> 광고 ID·결제·위치·카메라 등 앱이 요청하는 기능이에요. 빌드 전에는 설정 파일과 플러그인 목록을 보고 데이터 보안 신고 누락을 확인해요.</li>
+                      <li><b>처리 예:</b> 결제 라이브러리 없이 결제 권한만 추가한 설정은 오류예요. 테스트 빌드에서 데이터 신고가 빠진 항목은 주의로 알리고, 배포용 진단에서는 필수 조건으로 확인해요.</li>
+                      <li>완성된 앱에 실제로 어떤 권한이 들어갔는지는 AAB 결과 검사에서 확인해요.</li>
+                    </ul>
+                  </details>
+                  <details id="release-first-check-materials" class="release-prep-item release-evidence">
+                    <summary><span><b>1단계 등록 자료</b><small>자료가 있는지 확인한 뒤 형식과 준비 상태 점검</small></span></summary>
+                    <ul class="release-criteria">
+                      <li><b>확인 대상:</b> <a href="#release-preparation">1단계 ‘개발·자료 준비’</a>의 스토어 문구·이미지·앱 콘텐츠 답변·데이터 보안 신고예요.</li>
+                      <li><b>진단:</b> 스토어 문구를 읽을 수 있는지, 이미지가 등록 규격에 맞는지, 답변·신고·회사 지원 이메일 등이 준비됐는지 확인해요.</li>
+                      <li>개인정보처리방침 주소가 있으면 열리는지 확인하고, 첫 준비라 아직 없으면 등록 과정에서 생성할 것으로 안내해요.</li>
+                    </ul>
+                  </details>
+                  <details id="release-first-check-code" class="release-prep-item release-evidence">
+                    <summary><span><b>선택한 기능·공통 지침</b><small>광고·결제·지표 연결과 테스트 조건 확인</small></span></summary>
+                    <ul class="release-criteria">
+                      <li>광고·결제를 켰을 때 필요한 플러그인과 코드 연결이 있는지, 같은 상품을 서로 다른 구매 종류로 사용하지 않는지 확인해요.</li>
+                      <li>광고 ID가 없으면 발급·승인 요청을 시작할 수 있고, 승인 전 테스트 빌드는 테스트 광고를 사용할 수 있어요. 미등록 상품도 먼저 테스트 빌드에 포함한 뒤 등록할 수 있어요.</li>
+                      <li>판 지표·진행 단계·화면 안전 영역·저장·공용 모듈 등 공통 지침의 연결 누락은 주의로 알려요.</li>
+                      <li>테스터 그룹의 설정과 접근 상태도 확인해요.</li>
+                    </ul>
+                  </details>
+                  <p class="release-outcome-note"><b>진단 결과:</b> 오류는 빌드를 중단하고, 주의는 보완할 내용을 알리되 빌드 자체를 막지 않아요. 안내는 첫 등록·빌드 과정에서 자동으로 준비할 내용이나 현재 상태를 알려 줘요.</p>
+                  <p class="release-detail-intro">이 단계는 소스와 설정 점검이에요. 완성된 AAB의 실제 값은 아래 ‘결과 검사’에서, 정식 배포 조건은 4단계에서 다시 확인해요.</p>
+                </details>
+                <details id="release-registration-test-build" class="release-prep-item">
+                  <summary><span><b>3. 등록용 테스트 빌드 실행</b><small>요청 버전으로 자동 준비 · 같은 빌드는 재사용</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>구글플레이는 등록 요청을 받으면 요청 버전으로 첫 내부 테스트 빌드를 시작해요.</li>
+                    <li>이미 진행 중이거나 같은 코드·버전으로 만든 빌드가 있으면 재사용해 중복 작업을 줄여요.</li>
+                    <li>선택한 테스트 설정과 필요한 공용 SDK를 연결해 내부 테스트용 AAB를 만들어요.</li>
+                    <li>완료된 결과는 3단계 앱 등록·첫 업로드에 사용해요.</li>
+                  </ul>
+                </details>
+                <details id="release-first-build-result" class="release-prep-item">
+                  <summary><span><b>4. 결과 검사·첫 업로드 파일 준비</b><small>만들어진 AAB를 검사하고 업로드 키로 서명</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>완성된 AAB에서 앱 식별자·버전·실제 포함된 권한을 읽어 요청한 설정과 대조해요.</li>
+                    <li>타깃 API·64비트·16KB 페이지·용량 등 실제 결과물이 지원 규격에 맞는지 확인해요.</li>
+                    <li>검사를 통과한 파일을 앱별 업로드 키로 서명하고 첫 업로드에 사용할 수 있게 준비해요.</li>
+                    <li>오류가 있으면 원인과 해결 방법을 정리해 수정·재빌드로 이어가요.</li>
+                  </ul>
+                </details>
+              </div>
+            </div>
+          </details>
+          <span class="release-once">구글 첫 출시만</span>
+        </li>
+        <li class="release-prep-step">
+          <details id="release-registration" class="release-preparation automated">
+            <summary><span class="release-stage-heading"><b>3. 앱 등록·첫 업로드</b><span class="release-browser-badge">관리자 브라우저</span></span></summary>
+            <div class="release-prep-body">
+              <p class="release-prep-intro">관리자 측 AI가 준비한 자료로 앱을 만들고 마켓을 연결해요.<br>구글은 2단계에서 준비한 파일을 첫 업로드에 사용하고, 등록된 앱은 기존 연결을 재사용해요.</p>
+              <div class="release-prep-items">
+                <details id="release-registration-admin" class="release-prep-item">
+                  <summary><span><span class="release-item-heading"><b>1. 관리자 콘솔 작업 연결</b><span class="release-browser-badge">관리자 브라우저</span></span><small>관리자 로그인과 AI 입력 작업 연결</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>관리자가 해당 회사 계정의 콘솔에 로그인하고 회사 권한이 필요한 내용을 확인해요.</li>
+                    <li>관리자 에이전트가 준비한 자료와 앱 식별자로 등록 작업을 이어가요. 연결된 콘솔 도구가 지원하는 입력은 도구로 처리하고, 남은 화면 작업만 브라우저로 진행해요.</li>
+                  </ul>
+                </details>
+                <details id="release-registration-platform" class="release-prep-item">
+                  <summary><span><span class="release-item-heading"><b>2. 플랫폼 앱 생성·연결</b><span class="release-browser-badge">관리자 브라우저</span></span><small>회사 계정과 앱 식별자를 한 번 연결해 기억</small></span></summary>
+                  <p class="release-detail-intro">구글 앱 만들기와 Apple 첫 앱 레코드 생성은 콘솔에서 진행해요. 토스 앱 생성·등록 정보 입력은 연결된 콘솔 MCP를 먼저 사용해요.</p>
+                  <table class="release-result-table" aria-label="플랫폼별 첫 앱 등록과 연결">
+                    <thead><tr><th scope="col">플랫폼</th><th scope="col">우리의 첫 등록 방식</th></tr></thead>
+                    <tbody>
+                      <tr><th scope="row">구글플레이</th><td>선택한 NCROQUIS·NPHOKARA 계정에 앱을 만들어요. 기본은 NCROQUIS이며, 기존 앱은 현재 계정을 유지해요.</td></tr>
+                      <tr><th scope="row">앱스토어</th><td>관리자가 Apple 연결·번들 ID·App Store Connect 앱 레코드를 준비하고 실제 앱을 확인해요.</td></tr>
+                      <tr><th scope="row">토스</th><td>관리자 에이전트가 콘솔 MCP로 앱 이름·appName·종류를 등록하고, 등록한 값을 이후 빌드와 업로드에 재사용해요.</td></tr>
+                    </tbody>
+                  </table>
+                </details>
+                <details id="release-registration-link" class="release-prep-item">
+                  <summary><span><span class="release-item-heading"><b>3. 첫 업로드·등록 정보 반영</b><span class="release-browser-badge">관리자 브라우저</span></span><small>준비한 자료를 연결하고 등록 완료 확인</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>구글은 첫 AAB 업로드와 앱 콘텐츠 선언·타깃 연령·등급 설문을 콘솔에서 처리해요. 이후 스토어 문구·이미지·연락처·데이터 보안·테스터는 서버 API로 반영해요.</li>
+                    <li>앱스토어는 등록된 앱과 번들 ID를 확인한 뒤 iOS 빌드·TestFlight 흐름으로 넘겨요.</li>
+                    <li>토스는 콘솔 MCP로 등록 글·이미지·개인정보처리방침 등 지원되는 항목을 반영하고, 실제 앱 정보를 기록해 배포용 번들을 올릴 수 있게 연결해요.</li>
+                    <li>첫 등록 요청을 완료 처리하고 이후 업데이트는 기존 연결을 사용해요.</li>
+                  </ul>
+                </details>
+              </div>
+            </div>
+          </details>
+          <span class="release-once">첫 출시만</span>
+        </li>
+        <li class="release-prep-step">
+          <details id="release-preflight" class="release-preparation automated">
+            <summary><b>4. 배포 요청·빌드 전 진단</b></summary>
+            <div class="release-prep-body">
+              <p class="release-prep-intro">정식 배포 조건을 확인하고 필요한 준비로 분기하는 기준점이에요.<br>준비됐으면 6단계로, 보완이 필요하면 5단계로 이어가요.</p>
+              <div class="release-prep-items">
+                <details id="release-build-settings" class="release-prep-item">
+                  <summary><span><b>1. 배포 요청·선택 확정</b><small>버전과 기능을 한 번 정해 빌드 조건 확정</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>지난 빌드 이후 바뀐 내용을 모아 버전과 출시 노트 초안을 준비해요.</li>
+                    <li>테스트 기능은 끄고 실제 광고와 판매할 인앱 상품 등 고른 설정을 반영해요.</li>
+                    <li>버전·출시 노트·광고·상품·테스터 등 확정한 선택을 저장해 준비 작업 뒤에도 재사용해요.</li>
+                    <li>아직 실제 배포용 파일은 만들지 않고 진단 결과와 필요한 준비를 먼저 확인해요.</li>
+                  </ul>
+                </details>
+                <details id="release-preflight-checks" class="release-prep-item">
+                  <summary><span><b>2. 정식 배포 조건 진단</b><small>실제 광고·상품·권한·정책 자료를 기준으로 확인</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>실제 광고 ID, 상품 등록·판매 상태, 권한·데이터 보안·개인정보처리방침·아이콘 등 필수 조건을 확인해요.</li>
+                    <li>판 지표·화면 등 공통 지침은 주의로 알리고, 필수 오류와 구분해요.</li>
+                    <li>2단계의 테스트 빌드 진단과 달리 실제 광고·상품을 사용하는 배포용 조건으로 확인해요.</li>
+                  </ul>
+                </details>
+                <details id="release-preflight-routing" class="release-prep-item">
+                  <summary><span><b>3. 진단 결과에 따른 분기</b><small>준비 완료는 6단계로 · 준비 필요는 5단계로</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>준비가 끝났으면 5단계를 건너뛰고 6단계 배포용 빌드로 진행해요.</li>
+                    <li>광고 발급·상품 등록·결제 검증 등이 필요하면 5단계의 해당 작업만 진행해요.</li>
+                    <li>코드·자료의 필수 오류는 원인을 고친 뒤 다시 진단해요. 지표 보완이 필요하면 1단계의 연결 내용을 활용해요.</li>
+                    <li>기존 결제 앱의 새 상품 등록처럼 빌드와 병행할 수 있는 작업은 대기 여부를 구분해요.</li>
+                  </ul>
+                </details>
+                <details id="release-preflight-recheck" class="release-prep-item">
+                  <summary><span><b>4. 보완 후 재확인·빌드 재개</b><small>같은 요청의 선택을 유지하고 준비 결과 반영</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>발급·등록·검증 결과가 준비되면 저장한 버전과 선택 설정으로 다시 진단해요.</li>
+                    <li>승인된 결제 준비 흐름은 버전·노트·그룹을 다시 묻지 않고 이어가요.</li>
+                    <li>필수 조건을 통과한 요청만 배포용 빌드로 넘겨요.</li>
+                  </ul>
+                </details>
+              </div>
+            </div>
+          </details>
+        </li>
+        <li class="release-prep-step">
+          <details id="release-features" class="release-preparation automated">
+            <summary><span class="release-stage-heading"><b>5. 필요한 준비 처리</b><span class="release-browser-badge">관리자 브라우저</span></span></summary>
+            <div class="release-prep-body">
+              <p class="release-prep-intro">4단계 진단에서 부족한 것으로 확인한 작업만 진행해요.<br>개발 중이나 등록용 빌드에서 이미 준비한 결과는 재사용하고, 추가 발급·등록·검증이 필요한 항목만 처리해요.</p>
+              <div class="release-prep-items">
+                <details id="release-feature-metrics-repair" class="release-prep-item">
+                  <summary><span><b>1. 지표 연결 보완</b><small>진단에서 확인한 누락만 코드에 반영</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>판·진행 단계 연결이 빠졌으면 AI가 필요한 기록을 제안하고 게임 코드 보완으로 이어가요.</li>
+                    <li>측정 시점과 동선 설계는 1단계 내용을 재사용해요. SDK를 결과물에 넣는 작업은 빌드 단계에서 처리해요.</li>
+                    <li>지표 지침 주의사항은 필수 빌드 오류와 구분해요.</li>
+                  </ul>
+                </details>
+                <details id="release-feature-ads" class="release-prep-item">
+                  <summary><span><span class="release-item-heading"><b>2. 광고 ID 발급·반영</b><span class="release-browser-badge">관리자 브라우저</span></span><small>고른 광고 지면 확인 → 발급 요청 → 빌드에 연결</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>게임에서 사용할 광고 지면을 고르면 기존 앱·광고 단위 ID를 먼저 확인하고 재사용해요.</li>
+                    <li>구글플레이 AdMob ID가 없으면 승인 요청을 만들어요. 회사 자동 승인이 켜져 있으면 바로 발급하고, 그 밖에는 관리자 승인 뒤 발급해요.</li>
+                    <li>승인 전 테스트 빌드는 테스트 광고를 사용할 수 있고, 배포용 빌드는 준비된 실제 광고 ID를 반영해요.</li>
+                  </ul>
+                  <table class="release-result-table" aria-label="플랫폼별 광고 ID 준비 방식">
+                    <thead><tr><th scope="col">플랫폼</th><th scope="col">ID를 준비하는 방식</th></tr></thead>
+                    <tbody>
+                      <tr><th scope="row">구글플레이</th><td>승인 흐름으로 AdMob 앱·광고 단위를 준비하고 실제 빌드 설정에 연결해요.</td></tr>
+                      <tr><th scope="row">앱스토어</th><td>iOS 광고·상품 준비에서 기존 iOS AdMob 앱·광고 단위를 재사용하고 빠진 항목을 만들어요.</td></tr>
+                      <tr><th scope="row">토스</th><td><span class="release-browser-badge">관리자 브라우저</span><br>관리자 에이전트가 앱인토스 콘솔에서 기존 광고 그룹을 확인하고 필요한 형식만 발급해요. 저장한 ID를 다음 배포용 번들에 넣어요.</td></tr>
+                      <tr><th scope="row">공개 웹</th><td>Google Ad Manager 웹 광고 계정·지면 연결은 준비 중이에요. 실제 수익 광고는 연결·검증을 마친 뒤 적용해요.</td></tr>
+                      <tr><th scope="row">카카오페이·카카오톡</th><td>퍼블리셔가 제공한 카카오 전용 ID를 환경·OS·광고 형식별로 연결해요.</td></tr>
+                    </tbody>
+                  </table>
+                </details>
+                <details id="release-feature-iap" class="release-prep-item">
+                  <summary><span><span class="release-item-heading"><b>3. 인앱 상품 등록·결제 검증</b><span class="release-browser-badge">관리자 브라우저</span></span><small>상품 ID·가격·지급 내용 확인 → 등록 → 실제 동작 확인</small></span></summary>
+                  <p class="release-detail-intro">코드에서 사용하는 상품과 마켓 등록 상태를 비교해요. 미등록 상품은 ‘등록 요청 후 포함’ 또는 ‘이번 빌드에서 제외’를 정해 진행해요.</p>
+                  <p class="release-detail-intro">구글 상품 등록·판매 활성화와 앱스토어 상품 준비는 서버 API로 진행해요. 구글에서 API로 처리하지 못한 상품만 관리자 콘솔 작업으로 넘기고, 토스 상품 등록은 콘솔에서 진행해요.</p>
+                  <details id="release-iap-first" class="release-prep-item release-evidence">
+                    <summary><span><span class="release-item-heading"><b>구글 · 결제를 처음 붙이는 앱</b></span><small>준비용 내부 빌드 → API 상품 등록 → 회사 폰 결제 검사 → 배포 재개</small></span></summary>
+                    <ul class="release-criteria">
+                      <li>승인된 배포 요청을 결제 준비용 내부 빌드로 먼저 진행하고 내부 테스트에 올려요.</li>
+                      <li>서버가 API로 상품을 등록하고 판매를 켜요. 가격 정보가 없거나 API가 처리하지 못한 상품만 관리자에게 요청해요.</li>
+                      <li>상품이 모두 활성화되면 회사 폰 결제 검사로 이어가요. 실제 결제·지급을 확인한 뒤 저장해 둔 버전·노트·선택 설정으로 배포용 빌드를 이어가요.</li>
+                      <li>준비 빌드가 이미 올라갔으면 같은 빌드를 다시 만들지 않아요.</li>
+                    </ul>
+                  </details>
+                  <details id="release-iap-update" class="release-prep-item release-evidence">
+                    <summary><span><span class="release-item-heading"><b>구글 · 기존 앱에 상품 추가</b></span><small>배포용 빌드와 API 상품 등록을 병행 · 실패한 상품만 관리자에게</small></span></summary>
+                    <ul class="release-criteria">
+                      <li>이미 결제를 쓰는 앱은 새 상품을 포함해 빌드하면서 서버 API로 추가 상품을 등록·활성화해요. 처리하지 못한 상품만 관리자 콘솔 작업으로 남겨요.</li>
+                      <li>등록 전 상품은 게임이 숨기고, 등록이 끝나면 다시 빌드하지 않아도 이용할 수 있어요.</li>
+                    </ul>
+                  </details>
+                  <details id="release-iap-platforms" class="release-prep-item release-evidence">
+                    <summary><span><b>앱스토어·토스·카카오페이</b><small>플랫폼별 상품 준비와 검증 경로 적용</small></span></summary>
+                    <ul class="release-criteria">
+                      <li><b>앱스토어:</b> iOS 상품 설정을 준비하고, 첫 인앱 상품은 앱 버전과 함께 심사에 제출해요.</li>
+                      <li><b>토스:</b> <span class="release-browser-badge">관리자 브라우저</span> 콘솔에서 상품을 등록하고 SKU를 게임 상품과 연결해요. QR로 연 번들도 실제 결제이므로 검증에 반영해요.</li>
+                      <li><b>카카오페이:</b> 현재 전달 빌드에서는 인앱 결제를 꺼요.</li>
+                    </ul>
+                  </details>
+                </details>
+                <details id="release-registration-features" class="release-prep-item">
+                  <summary><span><span class="release-item-heading"><b>4. 인증·부가 기능 연결</b><span class="release-browser-badge">관리자 브라우저</span></span><small>필요한 앱에만 Play 게임즈·초대·저장 설정 연결</small></span></summary>
+                  <ul class="release-criteria">
+                    <li><span class="release-browser-badge">관리자 브라우저</span> NcqAuth로 Play 게임즈 로그인이 필요한 앱은 최초 연결을 관리자에게 요청해요. 관리자 에이전트가 Play Console에서 앱 서명 정보·Play 게임즈 자격 증명을 확인해 연결해요.</li>
+                    <li>연결된 인증·초대·클라우드 저장 설정을 해당 기능을 쓰는 빌드에 반영해요. 친구·길드 등 NcqSocial을 쓰는 게임도 빌드가 소셜 기능을 자동으로 켜요.</li>
+                    <li>기존 연결과 게임별 설정을 재사용해 같은 등록 작업을 반복하지 않아요.</li>
+                  </ul>
+                </details>
+                <details id="release-feature-ready" class="release-prep-item">
+                  <summary><span><b>5. 준비 결과 기록·진단으로 복귀</b><small>실제 ID·상품 상태·데이터 보안을 함께 맞춤</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>발급된 광고 ID·상품 상태·결제 검증 결과를 기록하고 4단계 진단에서 다시 확인해요.</li>
+                    <li>지표·광고·결제 선택에 맞춰 데이터 보안 신고와 개인정보처리방침도 함께 반영해요.</li>
+                    <li>첫 결제처럼 필수 검증이 필요한 대기와, 기존 결제 앱의 상품 추가처럼 빌드와 병행하는 작업을 구분해 이어가요.</li>
+                  </ul>
+                </details>
+              </div>
+              <p class="release-outcome-note release-build-next">준비를 마치면 4단계 진단으로 돌아가 확인한 뒤 6단계 빌드를 이어가요.</p>
+            </div>
+          </details>
+          <span class="release-conditional">필요할 때</span>
+          <p class="release-flow-caption">준비된 경우 생략 · 보완 후 4단계 재확인</p>
+        </li>
+        <li class="release-prep-step">
+          <details id="release-build" class="release-preparation automated">
+            <summary><b>6. 배포용 빌드</b></summary>
+            <div class="release-prep-body">
+              <p class="release-prep-intro">진단에서 확인한 선택과 준비 결과를 받아 정식 배포용 결과물을 만들어요.<br>발급·등록을 반복하지 않고 확정된 설정을 적용하는 웹 게임 기준의 빌드 과정이에요.</p>
+              <div class="release-prep-items">
+                <details id="release-build-environment" class="release-prep-item">
+                  <summary><span><b>1. 코드·빌드 환경 준비</b><small>공통 빌드 도구 자동 맞춤 · 준비된 환경 재사용</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>빌드할 코드 버전을 가져오고, 공통 빌드 스크립트와 도구를 서버가 관리하는 버전으로 맞춰요.</li>
+                    <li>플랫폼에 맞춰 클라우드나 회사 빌드 머신에서 실행해요. iOS는 회사 맥을 사용해요.</li>
+                    <li>프로젝트가 정한 패키지 버전과 사용할 수 있는 캐시를 재사용해 환경을 준비해요.</li>
+                  </ul>
+                </details>
+                <details id="release-build-game" class="release-prep-item">
+                  <summary><span><b>2. 게임 빌드·확정 설정 적용</b><small>확정한 SDK·ID·상품 설정을 결과물에 포함</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>게임의 빌드 설정으로 실행 파일을 만들고, 선택한 플랫폼·앱 버전·기능 설정을 넣어요.</li>
+                    <li>확정된 지표 수집 설정·광고 ID·상품 목록을 필요한 공용 SDK와 함께 결과물에 넣어요.</li>
+                    <li>이미 연결해 둔 인증·초대·클라우드 저장 설정과 필요한 앱 플러그인을 포함해요.</li>
+                  </ul>
+                </details>
+                <details id="release-build-policy" class="release-prep-item">
+                  <summary><span><b>3. 출시 파일 정리·기본 정책 적용</b><small>개발 자료 제외 · 화면 기본값 · 코드 보호</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>게임이 사용하지 않는 시험 파일·문서·개발 자료가 출시 결과에 섞이지 않도록 정리해요.</li>
+                    <li>화면 켜두기·글자 배율·확대 방지·연출 정책 등 우리 기본값과 게임별 설정을 반영해요.</li>
+                    <li>테스트 기능을 끈 빌드는 기본적으로 게임 코드를 난독화해 보호해요. 게임별로 정한 예외는 설정을 따라요.</li>
+                  </ul>
+                </details>
+                <details id="release-build-checks" class="release-prep-item">
+                  <summary><span><b>4. 화면·공용 기능 자동 점검</b><small>완성된 웹 화면과 공용 모듈 동작 확인</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>검사 대상 화면을 Chrome에서 열어 안전 영역과 주요 버튼이 가려지는지 확인해요.</li>
+                    <li>채택한 공용 모듈은 정해진 동작 규약을 검사하고, 판 지표 연결 등 공통 지침도 확인해요.</li>
+                    <li>CSS가 가리키는 로컬 파일과 경로는 소스로 검사해 누락과 경로 위험을 찾아요. 이미지·소리 용량을 줄일 후보도 찾아 알려 줘요.</li>
+                    <li>지침·화면·공용 모듈 점검은 주의로 보고하고, 필수 빌드 오류는 중단해요. 이미지·소리 최적화는 사용자가 진행을 선택한 뒤 해당 프로젝트 대화에서 처리해요.</li>
+                  </ul>
+                </details>
+                <details id="release-build-artifacts" class="release-prep-item">
+                  <summary><span><b>5. 플랫폼별 출시 파일 생성</b><small>플랫폼마다 필요한 결과물로 자동 변환</small></span></summary>
+                  <table class="release-result-table" aria-label="플랫폼별 자동 빌드 결과물">
+                    <thead><tr><th scope="col">플랫폼</th><th scope="col">만드는 결과물</th></tr></thead>
+                    <tbody>
+                      <tr><th scope="row">구글플레이</th><td>안드로이드 앱 배포용 AAB 파일</td></tr>
+                      <tr><th scope="row">앱스토어</th><td>별도 서명 작업으로 이어지는 iOS 서명 전 아카이브</td></tr>
+                      <tr><th scope="row">토스</th><td>앱인토스용 미니앱 번들</td></tr>
+                      <tr><th scope="row">공개 웹</th><td>테스트 기능·인앱 결제를 제거한 웹 파일</td></tr>
+                      <tr><th scope="row">카카오페이·카카오톡</th><td>퍼블리셔에게 전달할 SDK 연결 ZIP 파일</td></tr>
+                    </tbody>
+                  </table>
+                </details>
+                <details id="release-build-result" class="release-prep-item">
+                  <summary><span><b>6. 결과 검사·기록</b><small>다음 단계 진행 여부와 빌드 버전 추적</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>구글플레이 AAB는 패키지명·버전·타깃 API·64비트·16KB 페이지·권한·용량 등을 검사해요.</li>
+                    <li>결과물에 코드 버전·앱 버전·Ncq 버전·선택 설정과 검사 결과를 남겨 어떤 빌드인지 추적해요.</li>
+                    <li>다음 단계로 진행할 수 있는지 보고하고, 문제가 있으면 원인·해결 방법을 정리해 수정과 재빌드로 이어가요.</li>
+                  </ul>
+                </details>
+              </div>
+              <p class="release-outcome-note release-build-next">결과물이 준비되면 7단계에서 서명·업로드와 해당 빌드의 기기 검사를 이어가요.</p>
+            </div>
+          </details>
+        </li>
+        <li class="release-prep-step">
+          <details id="release-deployment" class="release-preparation automated">
+            <summary><span class="release-stage-heading"><b>7. 출시 진행</b><span class="release-browser-badge">관리자 브라우저</span></span></summary>
+            <div class="release-prep-body">
+              <p class="release-prep-intro">6단계의 배포용 결과물을 올리고 같은 빌드의 검사 결과를 확인해요.<br>서명·업로드 → 플랫폼별 테스트 → 심사·공개를 이어가요. 구글·앱스토어는 회사 장비로 검사하고, 토스는 개발자 본인 앱으로 테스트 푸시를 보내 확인해요.</p>
+              <div class="release-prep-items">
+                <details id="release-deployment-upload" class="release-prep-item">
+                  <summary><span><b>1. 서명·마켓 업로드</b><small>확인한 배포용 빌드를 플랫폼에 전달</small></span></summary>
+                  <table class="release-result-table" aria-label="플랫폼별 서명과 업로드">
+                    <thead><tr><th scope="col">플랫폼</th><th scope="col">자동으로 이어가는 작업</th></tr></thead>
+                    <tbody>
+                      <tr><th scope="row">구글플레이</th><td>앱별 업로드 키로 서명해 비공개 테스트에 올리고, 같은 빌드를 내부 테스트에도 제공해요.</td></tr>
+                      <tr><th scope="row">앱스토어</th><td>별도 서명 작업으로 아카이브를 검증·서명하고 TestFlight에 올려요.</td></tr>
+                      <tr><th scope="row">토스</th><td>회사 API로 번들을 올리고, 개발자 대화의 콘솔 MCP로 본인 토스 앱에 테스트 푸시를 보내요. 테스트 링크·QR도 함께 제공해요.</td></tr>
+                    </tbody>
+                  </table>
+                </details>
+                <details id="release-deployment-device" class="release-prep-item">
+                  <summary><span><b>2. 플랫폼별 테스트 확인</b><small>구글·앱스토어는 회사 장비 · 토스는 본인 앱 테스트 푸시</small></span></summary>
+                  <ul class="release-criteria">
+                    <li><b>구글·앱스토어:</b> 회사 장비에서 업로드한 같은 버전을 확인하고 앱 실행·실행 유지·충돌·화면 기록을 검사해요. 구글은 내부 테스트 트랙, 앱스토어는 TestFlight에 등록된 빌드를 확인해요.</li>
+                    <li><b>토스:</b> 회사 장비 검사를 사용하지 않아요. 개발자가 본인 토스 앱의 테스트 푸시 알림을 눌러 확인하고 ‘테스트 했어요’를 남겨요. 테스트 링크·QR로도 열 수 있어요.
+                    </li>
+                    <li>장비 연결 등 자동 복구 가능한 문제는 먼저 복구하고, 남은 장비 문제는 관리자에게 넘겨요. 실제 앱 실패는 개발 대화에서 고친 뒤 같은 빌드를 다시 검사해요.</li>
+                    <li>결제 지급·광고 클릭·게임 완주 등 기본 실행 검사에 포함되지 않은 항목은 따로 확인해요.</li>
+                  </ul>
+                </details>
+                <details id="release-deployment-submit" class="release-prep-item">
+                  <summary><span><span class="release-item-heading"><b>3. 검토·심사 제출</b><span class="release-browser-badge">관리자 브라우저</span></span><small>플랫폼별 제출 작업을 이어서 처리</small></span></summary>
+                  <ul class="release-criteria">
+                    <li><b>구글:</b> 관리자 에이전트가 브라우저로 첫 출시 초안의 국가·지역과 제출 내용을 맞추고 Play Console에서 검토에 보내요.</li>
+                    <li><b>앱스토어:</b> 배포용 빌드와 아이폰 확인 기록, 심사 자료·연결 상품을 준비해 제출해요.</li>
+                    <li><b>토스:</b> 앱 정보·이미지는 콘솔 MCP로 먼저 반영해요. 첫 출시는 드라이브 입력표에 게임 등급분류번호가 있으면 관리자 에이전트가 남은 화면 작업과 검토 요청을 진행하고, 없으면 기다려요. 비게임 앱은 게임 등급분류를 요구하지 않아요.
+                    </li>
+                    <li><b>토스 업데이트:</b> 출시를 마친 앱은 본인 앱에서 테스트한 뒤 개발자 대화의 콘솔 MCP로 검토를 요청해요.</li>
+                    <li>자료 작성·화면 입력은 AI가 이어가고, 실제 심사는 각 마켓이 담당해요.</li>
+                  </ul>
+                  <details id="release-appstore-privacy" class="release-prep-item release-evidence">
+                    <summary><span><span class="release-item-heading"><b>앱스토어 · 앱 개인정보 입력</b><span class="release-browser-badge">관리자 브라우저</span></span><small>필요한 답을 콘솔에 게시한 뒤 심사 제출 재개</small></span></summary>
+                    <ul class="release-criteria">
+                      <li>앱 개인정보 답변 게시는 공개 API가 없어, 제출이 이 항목에서 막히면 관리자 에이전트의 콘솔 작업으로 연결해요.</li>
+                      <li>서버가 광고·지표·결제·피드백·클라우드 저장 정보를 바탕으로 준비한 답을 App Store Connect에서 입력·게시해요.</li>
+                      <li>완료하면 기존 심사 제출을 다시 요청해요. 서명·TestFlight·일반 심사 제출·공개는 서버 도구로 이어가요.</li>
+                    </ul>
+                  </details>
+                </details>
+                <details id="release-deployment-public" class="release-prep-item">
+                  <summary><span><span class="release-item-heading"><b>4. 승인 후 공개</b><span class="release-browser-badge">관리자 브라우저</span></span><small>승인 상태와 선택한 공개 범위 반영</small></span></summary>
+                  <ul class="release-criteria">
+                    <li><b>구글:</b> 첫 출시는 별도 지시가 없으면 프로덕션 100% 공개까지 준비해요. 국가·지역 설정과 심사·게시 상태 확인은 브라우저로 하고, 프로덕션 승격은 서버 도구로 진행해요.</li>
+                    <li><b>앱스토어:</b> Apple이 승인한 버전을 공개해요.</li>
+                    <li><b>토스:</b> 승인·반려 상태는 콘솔 MCP로 확인해요. 승인됐으면 관리자 에이전트가 브라우저에서 ‘출시하기’를 진행해요.</li>
+                    <li>첫 공개는 관리자가 진행하고, 이후 업데이트는 각 플랫폼의 프로젝트 권한에 따라 이어가요.</li>
+                  </ul>
+                </details>
+                <details id="release-deployment-record" class="release-prep-item">
+                  <summary><span><b>5. 출시 기록·다음 업데이트</b><small>실제 공개 상태를 확인하고 기록 연결</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>실제 마켓 상태와 출시 버전·사용한 빌드를 확인해 대시보드 기록을 맞춰요.</li>
+                    <li>구글·토스의 첫 출시 완료는 관리자가 표시하고, 앱스토어는 Apple에서 읽은 상태를 반영해요.</li>
+                    <li>다음 업데이트는 4단계 배포 요청·진단부터 이어가고, 바뀐 게임 코드·자료는 1단계에서 보완해요.</li>
+                  </ul>
+                  <details id="release-admob-store-link" class="release-prep-item release-evidence">
+                    <summary><span><span class="release-item-heading"><b>AdMob · 공개 후 스토어 연결 확인</b><span class="release-browser-badge">관리자 브라우저</span></span><small>스토어 미연결 앱이 있을 때 콘솔에서 마무리</small></span></summary>
+                    <ul class="release-criteria">
+                      <li>공개 전에 만든 AdMob 앱이 스토어에 연결되지 않았다면, 공개 후 관리자 에이전트가 AdMob 콘솔의 ‘스토어 추가’로 연결해요.</li>
+                      <li>스토어 연결·검토 상태와 필요한 app-ads.txt 확인을 마치고 결과를 기록해요. 앱·광고 단위의 일반 발급은 서버 API로 진행해요.</li>
+                    </ul>
+                  </details>
+                </details>
+              </div>
+            </div>
+          </details>
+        </li>
+      </ol>
+
+      <aside class="release-kakao-route release-web-route" aria-labelledby="release-web-title">
+        <h3 id="release-web-title">공개 웹 · 별도 배포 경로</h3>
+        <p>웹 배포 요청 → 버전·변경 내용 확인 → 공개용 빌드 → 공개 페이지 반영</p>
+        <p>테스트 기능·인앱 결제·모의 결제를 제거한 웹 파일을 공개 주소에 올려요. 스토어 등록·심사는 없으며, 배포 뒤 플레이 주소의 실제 반영을 확인해요. 사내 테스트 빌드와는 경로를 구분해요.</p>
+      </aside>
+
+      <aside class="release-kakao-route" aria-labelledby="release-kakao-title">
+        <h3 id="release-kakao-title">카카오페이·카카오톡 · 빌드·전달 경로</h3>
+        <p>플랫폼 연결·전용 ID 확인 → SDK ZIP 빌드 → 퍼블리셔 전달</p>
+        <p>우리는 로그인·저장 등 연결 상태와 남은 작업을 정리해 결과물을 전달해요. 실기기 QA·앱 등록·심사·공개는 퍼블리셔가 담당해요.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section id="acquisition" class="purpose-slide acquisition-slide" aria-labelledby="acquisition-title">
+    <header class="purpose-goal">
+      <p class="purpose-eyebrow">모객·검증 시스템 <span class="purpose-legend">점선 = 자동화 · 실선 = 사람 확인</span></p>
+      <h2 id="acquisition-title" class="purpose-title">검증에 필요한 유저를 모으고,<br><strong>실제 플레이로 게임의 가능성을 확인합니다.</strong></h2>
+      <p class="ai-lead">출시한 게임에 작은 검증 사이클을 반복해요.<br>광고·프로모션 또는 자연 유입으로 신규를 모으고, 비용 집계·재방문 측정을 연결해 다음 개발을 결정합니다.</p>
+    </header>
+
+    <div class="release-system-diagram acquisition-diagram">
+      <div class="release-request acquisition-request">
+        <h3>검증 요청</h3>
+        <ul class="release-platforms" aria-label="현재 검증 사이클 지원 플랫폼"><li>구글플레이</li><li>토스</li></ul>
+        <p class="release-route-intro">출시 완료된 게임·플랫폼·버전으로 시작해요.<br>대시보드 → 지표 → 사이클 검증</p>
+      </div>
+
+      <div class="purpose-handoff" aria-hidden="true"><span></span></div>
+      <ol class="release-flow acquisition-flow" aria-label="현재 검증 파이프라인의 여섯 단계">
+        <li class="release-prep-step">
+          <details id="acquisition-plan" class="release-preparation acquisition-human">
+            <summary><span><b>1. 모객 계획</b><small>목표 수·기간·예산·측정기간 설정</small></span></summary>
+            <div class="release-prep-body">
+              <p class="release-prep-intro">기본 계획으로 시작할 수 있고, 게임의 검증 목적이나 허용 비용이 다를 때 조정해요. 시작 전에 확인할 가설 1~3개와 출시 버전, 유료 모객 또는 자연 유입을 정하고, 관리자가 계획과 집계 시작을 승인해요.</p>
+              <div class="release-prep-items">
+                <details id="acquisition-plan-target" class="release-prep-item">
+                  <summary><span><b>목표 수</b><small>기본 신규 500명 · 판단에 필요한 표본 확보</small></span></summary>
+                  <ul class="release-criteria">
+                    <li><b>설정 기준:</b> 재방문율을 판단할 만큼 신규 표본을 모으는 것이 목적이에요. 현재 서버의 판정 추천에는 최소 350명이 필요하고, 처음에는 여유를 두어 500명을 목표로 해요.</li>
+                    <li><b>설정 방법:</b> 사이클의 목표 신규 수에 기본 500명을 넣어요. 더 많은 표본이 필요한 검증은 예산·기간도 함께 검토해 목표를 늘려요. 현재 입력 범위는 350~5,000명이에요.</li>
+                    <li><b>집계 대상:</b> 해당 기간·플랫폼·버전을 처음 실행한 설치예요. 자연 유입도 포함될 수 있어요.</li>
+                    <li>유료 모객은 예산·기간이 먼저 끝나면, 자연 유입은 기간이 끝나면 실제 표본 수를 남겨요. 350명 미만이면 성과 판정을 보류해요.</li>
+                  </ul>
+                </details>
+                <details id="acquisition-plan-duration" class="release-prep-item">
+                  <summary><span><b>모객 기간</b><small>기본 최대 10일 · 학습·속도 조정 시간 고려</small></span></summary>
+                  <ul class="release-criteria">
+                    <li><b>설정 기준:</b> 광고가 학습하고 목표 인원을 모을 시간을 확보해요. 구글은 처음 3일 동안 단가를 유지하고, 그 뒤 최소 2일 간격으로 조정하므로 기본 10일로 시작해요.</li>
+                    <li><b>설정 방법:</b> 사이클의 모객 일수에 기본 10일을 넣어요. 이전 모객 속도를 보고 다음 계획의 목표 수·예산과 함께 기간을 조정해요. 현재 입력 범위는 3~30일이에요.</li>
+                    <li><b>진행 기준:</b> 목표 수 ÷ 모객 일수로 하루 기대 신규 수를 봐요. 기본 500명·10일이면 하루 평균 50명이 계획 속도예요.</li>
+                    <li>유료 모객은 목표 신규 수·예산·종료일 중 먼저 닿으면 마쳐요. 자연 유입은 목표 신규 수·종료일로 종료하고, 잠시 멈춘 시간은 기간에서 빼요.</li>
+                  </ul>
+                </details>
+                <details id="acquisition-plan-budget" class="release-prep-item">
+                  <summary><span><b>예산</b><small>기본 구글 10만 원 · 토스 2만 원</small></span></summary>
+                  <ul class="release-criteria">
+                    <li><b>설정 기준:</b> 목표 표본을 모을 예상 단가와 한 사이클에 허용할 비용을 함께 검토해요. 첫 검증은 현재 회사 기본 예산에서 시작하고, 이전 집행 기록이 있으면 목표 수 × 예상 모객 단가로 필요한 금액을 다시 계산해요.</li>
+                    <li><b>설정 방법:</b> 사이클 예산에 구글플레이 10만 원, 토스 2만 원을 기본으로 넣고 관리자가 승인해요. 현재 입력 범위는 1만~1,000만 원이며, 금액을 크게 바꿀 때는 표본·기간도 함께 검토해요.</li>
+                    <li><b>구글:</b> 총예산과 모객 일수로 일 예산을 계산해요. 기본은 하루 1만 원이에요. 목표 설치 단가는 예산·목표 표본으로 계산해 기본 120원에서 시작하고 최대 280원까지 조정해요.</li>
+                    <li><b>토스:</b> 미션 보상 금액과 프로모션 한도를 함께 확인하고, 실제 포인트 지급액으로 비용을 집계해요.</li>
+                    <li>예산 도달 확인과 비용 반영이 늦으면 실제 지출이 설정 예산을 넘을 수 있어요. 토스 프로모션 시작·중지는 관리자 콘솔에서 맞춰요. 자연 유입을 선택한 사이클은 광고·프로모션 비용 없이 집계해요.</li>
+                  </ul>
+                </details>
+                <details id="acquisition-plan-measurement" class="release-prep-item">
+                  <summary><span><b>측정기간</b><small>모객 종료 후 7일 · 마지막 신규의 D7 확인</small></span></summary>
+                  <ul class="release-criteria">
+                    <li><b>설정 기준:</b> 마지막에 들어온 유저도 7일 뒤 다시 오는지 확인할 수 있어야 해요. 모객 종료 뒤 7일을 더 관찰하도록 잡아요.</li>
+                    <li><b>현재 적용:</b> 측정기간은 검증 서버의 공통 7일 고정값이에요. 사이클 화면에서 목표 수·모객 기간·예산처럼 바꾸는 입력 항목은 없어요.</li>
+                    <li><b>일정 예:</b> 10일 모객을 모두 진행하면 그 뒤 7일을 더 측정해요. 목표·예산에 먼저 닿아 모객을 끝내면 그 종료 시점부터 7일을 관찰해요.</li>
+                    <li>D1·D3는 중간 흐름을 확인하고, 마지막 신규의 D7까지 관찰한 뒤 최종 판정을 진행해요.</li>
+                  </ul>
+                </details>
+              </div>
+            </div>
+          </details>
+          <span class="release-conditional">필요할 때</span>
+          <p class="release-flow-caption">기본값을 쓰면 그대로 진행 · 다른 계획이 필요할 때 조정</p>
+        </li>
+        <li class="release-prep-step">
+          <details id="acquisition-preparation" class="release-preparation automated">
+            <summary><span><b>2. 준비 확인·모객 준비</b><small>출시·지표 확인 → 광고·프로모션 또는 자연 유입 선택</small></span></summary>
+            <div class="release-prep-body">
+              <p class="release-prep-intro">검증 서버가 킥오프의 출시 기록과 실제 지표를 읽어 준비 상태를 채워요. 빠진 부분은 게임·설정을 보완한 뒤 이어갑니다.</p>
+              <div class="release-prep-items">
+                <details id="acquisition-readiness" class="release-prep-item">
+                  <summary><span><b>출시·지표 준비 확인</b><small>숫자를 읽을 수 있는 게임인지 먼저 확인</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>선택한 플랫폼의 출시 완료 기록, 실제 지표 유입, 판 시작 지표와 진행 단계 기록을 확인해요.</li>
+                    <li>기록이 빠졌으면 게임에 지표를 연결해 새 버전을 출시해요. 광고비를 쓰기 전에 측정할 준비를 갖춰요.</li>
+                    <li>비교할 기존 유입의 D1도 집계해요. 비교 자료가 부족하면 ‘없음’으로 표시하고 진행할 수 있어요.</li>
+                  </ul>
+                </details>
+                <details id="acquisition-organic" class="release-prep-item">
+                  <summary><span><b>광고 없이 자연 유입으로 검증</b><small>최근 신규 수로 표본 확보 가능성을 확인 · 개발자도 선택</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>최근 하루 평균 신규 × 모객 일수로 예상 표본을 계산해요. 최소 350명 이상이 예상되면 광고·프로모션 없이 자연 유입으로 검증할 수 있어요.</li>
+                    <li>프로젝트 개발자도 이 경로를 선택할 수 있어요. 실제 사이클 집계 시작은 관리자가 승인해요.</li>
+                    <li>Google Ads 캠페인은 켜지 않고, 토스 포인트 모객도 사용하지 않아요. 광고비·목표 입찰 단가 조정은 적용하지 않아요.</li>
+                    <li>목표 신규 수나 종료일에 닿으면 추가 관찰로 넘어가요. 광고·프로모션으로 모은 유저와 성격이 다를 수 있어 결과를 구분해 비교해요.</li>
+                  </ul>
+                </details>
+                <details id="acquisition-google" class="release-prep-item">
+                  <summary><span><b>구글플레이 · Google Ads 앱 캠페인</b><small>나라·문구·단가를 준비하고 일시중지로 생성</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>회사 광고 계정과 앱 연결을 재사용해요. 첫 연결의 계정 로그인·결제 수단·Play Console 연결은 관리자가 준비해요.</li>
+                    <li>앞 사이클의 나라를 재사용하거나 게임 장르에 맞는 나라 후보를 추천해요. 추천 자료가 부족하면 관리자가 골라요.</li>
+                    <li>게임 이름을 바탕으로 기본 광고 제목·설명을 준비하고, 예산·목표 신규 수로 일 예산과 목표 설치 단가를 계산해요.</li>
+                    <li>연결·나라 등 필요한 값이 갖춰지면 서버가 캠페인을 미리 만들어요. 시작 승인 전에는 일시중지 상태로 둬요.</li>
+                  </ul>
+                  <details id="acquisition-google-bid" class="release-prep-item release-evidence">
+                    <summary><span><b>목표 설치 단가 조정</b><small>처음 3일 유지 · 모객이 느리면 조금씩 조정</small></span></summary>
+                    <ul class="release-criteria">
+                      <li>시작 단가는 예산 ÷ 목표 신규 수의 60%를 기준으로 계산해요. 현재 기본값에서는 약 120원이에요.</li>
+                      <li>캠페인을 켠 뒤 3일 동안은 단가를 유지해요.</li>
+                      <li>이후 신규 수가 계획 속도의 80%보다 적으면 최소 2일 간격으로 목표 단가를 25%씩 올려요.</li>
+                      <li>올릴 수 있는 끝은 예산과 최소 판단 표본을 기준으로 계산하며, 관리자가 시작값·최댓값을 조정할 수 있어요.</li>
+                    </ul>
+                  </details>
+                </details>
+                <details id="acquisition-toss" class="release-prep-item">
+                  <summary><span><b>토스 · 미션 프로모션</b><small>기존 미션 코드 연결 · 실제 지급액으로 비용 집계</small></span></summary>
+                  <ul class="release-criteria">
+                    <li>킥오프에 저장한 토스 프로모션 설정에서 콘솔 코드가 있고 유효한 미션을 읽어 모객 준비를 채워요.</li>
+                    <li>미션·보상 금액·기간·코드 등록은 관리자와 토스 콘솔에서 준비해요. 관리자가 이미 고른 설정은 유지해요.</li>
+                    <li>게임에서 토스 포인트를 실제 지급한 기록으로 모객 비용을 합산해요. 테스트 지급과 중복 기록은 제외해요.</li>
+                  </ul>
+                </details>
+              </div>
+            </div>
+          </details>
+        </li>
+        <li class="release-prep-step">
+          <details id="acquisition-approval" class="release-preparation acquisition-human">
+            <summary><span><b>3. 관리자 집계 시작 승인</b><small>준비·유입 경로 확인 → 승인 시점부터 신규 집계</small></span></summary>
+            <div class="release-prep-body">
+              <ul class="release-criteria">
+                <li>관리자가 준비 체크리스트와 모객 계획을 확인하고 ‘사이클 집계 시작’을 승인해요. 유료 모객은 예산을, 자연 유입은 광고비 없이 집계할 경로와 예상 표본을 확인해요.</li>
+                <li>이 시점을 시작 기록으로 남기고 신규 수와 비용을 집계해요. 유료 모객의 구글 캠페인은 서버가 켜고, 자연 유입 사이클에서는 켜지 않아요.</li>
+                <li>토스 프로모션의 실제 시작·중지는 관리자가 콘솔에서 진행해요. 검증 서버의 집계 상태와 함께 맞춰요.</li>
+              </ul>
+            </div>
+          </details>
+        </li>
+        <li class="release-prep-step">
+          <details id="acquisition-management" class="release-preparation automated">
+            <summary><span><b>4. 모객·비용 자동 관리</b><small>30분마다 확인 · 목표·종료일과 유료 모객 예산으로 종료</small></span></summary>
+            <div class="release-prep-body">
+              <ul class="release-criteria">
+                <li>화면을 열지 않아도 주기 작업이 30분마다 신규 수·지출·진행 상태를 확인해요.</li>
+                <li>유료 모객은 구글 Google Ads 지출과 토스 실제 프로모션 지급액을 비용에 반영해요. 자연 유입은 광고비 없이 신규를 집계해요.</li>
+                <li>유료 모객은 목표 신규 수·예산 한도·종료일 중 먼저 닿은 조건으로, 자연 유입은 목표 신규 수·종료일로 ‘측정 중’에 넘어가요. 켜 둔 구글 캠페인은 서버가 중지해요.</li>
+                <li>신규는 해당 기간·플랫폼·버전을 처음 실행한 설치를 기준으로 세며, 자연 유입도 포함될 수 있어요.</li>
+              </ul>
+              <p class="release-outcome-note">유료 모객은 예산에 닿으면 중지해요. 주기 확인과 비용 반영이 늦으면 실제 지출이 설정 예산을 넘을 수 있어요. 토스 프로모션 중지는 관리자 콘솔 확인이 필요하며, 자연 유입에는 예산 종료 조건을 적용하지 않아요.</p>
+              <details id="acquisition-interruption" class="release-prep-item">
+                <summary><span><b>버그·업데이트가 생기면</b><small>잠시 멈춤 · 핫픽스 · 새 사이클로 구분</small></span></summary>
+                <ul class="release-criteria">
+                  <li>심한 오류가 있으면 이유를 남기고 모객을 잠시 멈춰요. 멈춘 시간은 모객 기간에서 빼요.</li>
+                  <li>버그 수정 버전은 ‘핫픽스로 이어가기’로 연결하고 두 버전을 함께 측정했다는 기록을 남겨요.</li>
+                  <li>난이도·보상·화면 흐름처럼 게임 내용을 바꾸면 판정 후 다음 사이클로 가거나, 현재 사이클을 취소하고 새로 시작해요.</li>
+                </ul>
+              </details>
+            </div>
+          </details>
+        </li>
+        <li class="release-prep-step">
+          <details id="acquisition-measurement" class="release-preparation automated">
+            <summary><span><b>5. D7 측정·결과 정리</b><small>마지막 신규의 7일 뒤 재방문까지 관찰</small></span></summary>
+            <div class="release-prep-body">
+              <ul class="release-criteria">
+                <li>모객이 끝나도 7일 더 관찰해 마지막에 들어온 사람의 D7까지 확인해요.</li>
+                <li>D1·D3·D7 재방문율, 첫날 플레이 시간, 판 진행·이탈 지점, 모객 비용을 정리해요.</li>
+                <li>지난 사이클과 비교하고 서버의 판정 추천·이유를 보여 줘요.</li>
+                <li>현재 추천 기준에서 신규 350명 미만 등 표본이 부족하면 판단하기 이르다고 표시해요.</li>
+              </ul>
+            </div>
+          </details>
+        </li>
+        <li class="release-prep-step">
+          <details id="acquisition-decision" class="release-preparation acquisition-human">
+            <summary><span><b>6. 판정·다음 사이클</b><small>상황별 대처·확장·개선·중단 기준과 다음 행동</small></span></summary>
+            <div class="release-prep-body">
+              <p class="release-prep-intro">모객 중의 이상 상황은 아래 기준으로 대처하고, 모객 종료 후에는 마지막 신규의 D7까지 관찰해요. 자연 유입과 유료 모객의 결과는 유입 성격을 구분해 비교해요. 숫자와 추천 이유를 바탕으로 개발자가 AI와 결과를 해석하고, 최종 선택과 이유를 검증 화면에 남겨요.</p>
+              <div id="acquisition-kpi" class="release-prep-items">
+                <details id="acquisition-kpi-decision" class="release-prep-item">
+                  <summary><span><b>확장·개선·중단 기준과 다음 행동</b><small>어떤 결과일 때 선택하고, 무엇을 이어가는가</small></span></summary>
+                  <p class="release-detail-intro">D1·D7은 처음 쓴 1일·7일 뒤 다시 온 비율이에요. 신규 350명 이상과 D1 자료를 확보하고 마지막 신규의 D7까지 관찰한 뒤, 세 항목의 기준과 의미를 확인해요.</p>
+                  <div class="acquisition-kpi-table-wrap" tabindex="0" role="region" aria-label="확장·개선·중단 기준 표, 좁은 화면에서는 좌우로 이동">
+                    <table class="release-result-table acquisition-kpi-table" aria-label="확장·개선·중단의 선택 기준과 의미">
+                      <thead><tr><th scope="col">항목</th><th scope="col">선택 기준</th><th scope="col">의미·다음 행동</th></tr></thead>
+                      <tbody>
+                        <tr><th scope="row">확장</th><td><b>D1 40% 이상</b><br><b>그리고 D7 15% 이상</b></td><td><b>재방문 성과가 확인되어 더 많은 유저에게 검증할 후보예요.</b><br>관리자가 실제 수익·유입 비용을 함께 확인하고 예산 확대를 결정해요. 승인한 예산으로 다음 모객 계획을 세워요.</td></tr>
+                        <tr><th scope="row">개선</th><td>확장 기준과 중단 기준에 해당하지 않으면서,<br><b>D1 25% 이상</b>이거나<br><b>특정 판 중단률 30% 이상</b></td><td><b>재방문 가능성이 있거나 손볼 지점이 보이는 경우예요.</b><br>개선 가설 1~3개와 바꿀 내용을 기록해요. AI로 수정한 새 버전을 출시하고, 다음 사이클에서 재방문율과 판 중단률이 나아졌는지 비교해요.</td></tr>
+                        <tr><th scope="row">중단</th><td>확장 기준에 못 미친 상태에서,<br><b>개선 2회 후 D1 상승이 5%p 미만</b>이거나<br><b>3번째 사이클에도 확장 기준 미달</b></td><td><b>정해진 개선 횟수 안에 성과가 회복되지 않은 경우예요.</b><br>현재 D1을 첫 개선 사이클과 비교하고, 모객·업데이트에 대한 추가 투입을 멈추는 쪽을 검토해요. 쓴 비용과 중단 이유를 기록해요.</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p class="acquisition-kpi-table-hint">표는 좌우로 움직여 볼 수 있어요.</p>
+                  <ul class="release-criteria">
+                    <li><b>판 중단률:</b> 해당 판을 시작한 사람 중 끝내지 않은 비율이에요. 시작한 사람이 30명 이상인 판만 개선 추천에 사용해요.</li>
+                    <li><b>5%p 상승:</b> D1이 20%에서 25%가 되면 5%p 상승이에요. 20%에서 24%라면 4%p로, 개선 2회 뒤 중단 검토 조건에 해당해요.</li>
+                    <li><b>첫 사이클의 예:</b> D1 42%·D7 16%는 확장 검토, D1 42%·D7 10%는 개선 검토예요. D1 22%여도 판 중단률이 35%라면 개선할 지점으로 봐요. 반복 개선 한도에 닿으면 중단 검토를 먼저 해요.</li>
+                    <li>확장 조건을 먼저 확인해요. 확장에 해당하지 않고 반복 개선 한도에 닿았다면 중단을 우선 검토해요. 서버의 추천과 이유를 보고 사람이 최종 선택을 기록해요.</li>
+                  </ul>
+                  <details id="acquisition-kpi-other-statuses" class="release-prep-item release-evidence">
+                    <summary><span><b>표본 부족·그 밖의 낮은 성과는?</b><small>현재 검증 서버의 별도 처리</small></span></summary>
+                    <ul class="release-criteria">
+                      <li>신규 350명 미만이거나 D1 자료가 없으면 판단을 보류하고 표본·수집 상태를 확인해요.</li>
+                      <li>확장·반복 개선의 중단 조건에 해당하지 않고, D1 25% 미만이며 기준에 해당하는 판 중단도 없으면 현재 서버는 ‘방치’를 추천해요. 모객을 멈추고 스토어의 게임은 유지하는 선택이에요.</li>
+                    </ul>
+                  </details>
+                </details>
+                <details id="acquisition-kpi-delivery" class="release-prep-item">
+                  <summary><span><b>모객 중 문제별 대처</b><small>표본 부족·느린 모객·단가 한도·종료 조건</small></span></summary>
+                  <div class="acquisition-kpi-table-wrap" tabindex="0" role="region" aria-label="모객 진행 KPI 표, 좁은 화면에서는 좌우로 이동">
+                    <table class="release-result-table acquisition-kpi-table" aria-label="모객 진행 KPI의 수준과 대처">
+                      <thead><tr><th scope="col">지표</th><th scope="col">현재 기준</th><th scope="col">수준에 따른 대처</th></tr></thead>
+                      <tbody>
+                        <tr><th scope="row">목표 신규</th><td>사이클당 500명</td><td>목표에 닿으면 모객을 마치고 측정으로 넘어가요.</td></tr>
+                        <tr><th scope="row">판정 표본</th><td>신규 350명 이상<br>D1 계산 가능</td><td>미달하거나 D1 자료가 없으면 판정 추천을 보류해요. 추가 모객 여부는 관리자가 검토해요.</td></tr>
+                        <tr><th scope="row">모객 속도<small>구글 자동 조정</small></th><td>계획 속도의 80% 이상</td><td>캠페인 시작 후 3일은 유지해요. 이후 80% 미만이면 최소 2일 간격으로 목표 단가를 25%씩 올려요.</td></tr>
+                        <tr><th scope="row">목표 설치 단가<small>구글 입찰 설정</small></th><td>기본 시작 120원<br>기본 최댓값 280원</td><td>설정한 최댓값까지만 자동으로 올려요. 최댓값에서도 느리면 관리자가 나라·광고 문구·계획을 검토해요.</td></tr>
+                        <tr><th scope="row">예산·기간</th><td>유료: 구글 10만 원 / 토스 2만 원<br>기본 최대 10일</td><td>유료 모객은 목표 신규·예산·종료일로, 자연 유입은 광고비 없이 목표 신규·종료일로 마쳐요. 구글 광고는 자동 중지하고, 토스 프로모션은 관리자 콘솔에서 중지해요.</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p class="acquisition-kpi-table-hint">표는 좌우로 움직여 볼 수 있어요.</p>
+                  <p class="release-detail-intro">속도 기준은 목표 신규 × 지난 일수 ÷ 모객 일수로 계산해요. 기본값으로 캠페인 시작 후 4일이 지났을 때 기대치는 200명이고, 160명 미만이면 단가 조정 대상이에요. 목표 단가는 광고에 설정하는 입찰 목표이며, 신규 수에는 자연 유입도 포함될 수 있어요.</p>
+                  <p class="release-detail-intro">120원·280원은 현재 기본 예산과 표본에서 계산한 값이에요. 예산·목표를 바꾸면 다시 계산하고, 관리자가 시작값·최댓값을 조정할 수 있어요. 예산 도달 확인과 비용 반영에는 지연이 있을 수 있어요.</p>
+                </details>
+                <details id="acquisition-kpi-supporting" class="release-prep-item">
+                  <summary><span><b>보조 지표·추가할 수익성 기준</b><small>개선 원인 찾기 · 본격 확대 전 수익 회수 확인</small></span></summary>
+                  <ul class="release-criteria">
+                    <li><b>현재 보조 지표:</b> D3(3일 뒤 재방문율), 첫날 플레이 시간, 진행 단계·이탈 지점, 이전 사이클 대비 변화를 함께 봐요. 현재는 이 값에 공통 합격선을 두지 않고 게임별 가설과 개선 전후를 비교해요.</li>
+                    <li><b>추가할 기준 초안:</b> 같은 나라·플랫폼·유입 집단에서 유저 1명당 누적 순수익과 실제 유료 획득 비용을 비교하고, 언제까지 비용을 회수할지 정해요.</li>
+                    <li>현재 자동 판정에는 광고·결제 매출, LTV(유저 1명당 누적 수익), ROAS(광고비 대비 매출) 기준이 아직 연결돼 있지 않아요. 본격적인 예산 확대 전 수익성 확인 항목으로 추가해야 해요.</li>
+                  </ul>
+                </details>
+              </div>
+              <p class="release-outcome-note acquisition-kpi-policy">목표 수·모객 기간·예산은 사이클별로 설정하고, 측정기간은 현재 공통 7일이에요. D1·D7·판 중단률·반복 개선 한도는 회사 공통 초기 기준이며, 초기 게임들의 결과를 모아 조정해요.</p>
+            </div>
+          </details>
+        </li>
+      </ol>
+      <div class="purpose-return acquisition-return" role="img" aria-label="개선 결과를 AI 개발과 출시로 이어 다음 검증 사이클을 반복">
+        <svg viewBox="0 0 36 36" aria-hidden="true" focusable="false"><path d="M12 9H7V4M7 9a12 12 0 1 1-1 17"/></svg>
+        <span>개선 → AI 개발·출시 → 다음 검증</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="purpose-footer">엔크로키 · 목적과 기대 효과 · © 2026</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,107 @@
+/* Adapted from matjjangomok 68b4ac0: one-line players and one playback panel. */
+/* One playback surface; player rows and metadata no longer create separate cards. */
+.forest-ui.in-review .match { grid-template-rows: auto auto [board-start] auto [board-end] auto auto auto; }
+.forest-ui.in-review #review-header {
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: 6px;
+  padding-bottom: 0;
+  min-height: 36px;
+}
+.forest-ui.in-review #review-header h1 { font-size: clamp(16px, 4.3vw, 23px); }
+.forest-ui.in-review #review-header .review-button { width: 32px; height: 32px; min-height: 32px; }
+.forest-ui.in-review .review-actions { gap: 4px; }
+.forest-ui.in-review .review-player,
+.forest-ui.in-review .match[data-compact-board] .review-player {
+  display: flex; align-items: center; gap: 6px;
+  min-height: 30px; padding: 0 4px;
+  border: 0; border-radius: 0; background: none;
+  color: #fff6de; box-shadow: none;
+}
+.forest-ui.in-review .review-player:not(:disabled):hover { background: #ffffff0c; }
+.forest-ui.in-review .review-player:disabled { opacity: 1; }
+.forest-ui.in-review .review-player[data-turn] { background: none; box-shadow: none; }
+.forest-ui.in-review .review-player .review-avatar { width: 26px; height: 26px; flex: none; }
+.forest-ui.in-review .review-identity {
+  display: flex; flex: 1; flex-direction: row; align-items: center; gap: 5px; min-width: 0;
+}
+.forest-ui.in-review .review-identity strong { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.forest-ui.in-review .review-seat { color: #e4e2c9; font-size: 12px; white-space: nowrap; }
+.forest-ui.in-review .review-turn { display: none; }
+.forest-ui.in-review .review-win {
+  flex: none; padding: 2px 8px; border: 1px solid #e8c35c; border-radius: 99px;
+  background: #f2d676; color: #3f320c; font-size: 11px; font-weight: 800;
+}
+.forest-ui.in-review .review-win[data-outcome="lost"] { border-color: #c9b8a3; background: #e6d8c9; color: #654332; }
+.forest-ui.in-review .review-win[data-outcome="draw"] { border-color: #adc09b; background: #dce7cd; color: #365438; }
+.forest-ui.in-review #review-own-status { flex: 0 1 auto; max-width: 45%; }
+.forest-ui.in-review .review-playback {
+  grid-area: 5 / 1 / 6 / -1;
+  min-width: 0; padding: 4px 10px; border: 1px solid #cdb990;
+  border-radius: 12px; background: linear-gradient(#fff8eb, #eee3cc);
+  color: #193e25; box-shadow: inset 0 1px #fffdf580, 0 2px 4px #001a0c40;
+}
+:is(.forest-ui.in-review, .forest-ui.spectating) #review .review-controls {
+  padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none;
+}
+.forest-ui.in-review #review .review-controls .review-button { width: 30px; height: 30px; }
+.forest-ui.in-review #review .review-controls #move-count { border: 0; background: none; box-shadow: none; }
+#review-position {
+  display: block; width: 100%; min-width: 0; min-height: 24px;
+  margin: 0; padding: 0; accent-color: #568638; touch-action: pan-x;
+}
+.forest-ui.in-review #review .placement-timing {
+  padding: 4px 0 2px; margin-top: 2px;
+  border: 0; border-top: 1px solid #d1c8ae; border-radius: 0;
+  background: none; box-shadow: none; color: #193e25;
+}
+.forest-ui.in-review #review .review-result {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+  min-height: 0; padding: 0; gap: 2px 8px; border: 0; border-radius: 0;
+  background: none; box-shadow: none; color: #426044; font-size: 10px;
+}
+.forest-ui.in-review #review #review-mode {
+  max-width: 100%; padding: 0; border: 0; border-radius: 0; background: none;
+  color: #e4e2c9; font-size: 11px; line-height: 1.2;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.forest-ui.in-review #review .review-footer {
+  grid-area: 6 / 1 / 7 / -1;
+  display: grid; grid-template-columns: 44px minmax(0, 320px) 44px;
+  justify-content: center; align-items: center; gap: 8px; padding-top: 4px;
+}
+.forest-ui.in-review #review .review-footer > :is(#review-room-action, #review-play, #join-tournament) {
+  grid-area: 1 / 2; width: 100%; min-width: 0; margin: 0;
+}
+.forest-ui.in-review #review .review-footer #review-share {
+  grid-area: 1 / 1; width: 44px; height: 44px; min-height: 44px; margin: 0; padding: 0;
+}
+.forest-ui.spectating #review > .review-playback { display: block; }
+.forest-ui.spectating #review .review-playback > :is(.placement-timing, .review-result) { display: none; }
+.forest-ui.spectating .review-playback { border: 1px solid #c9b080; border-radius: 12px; padding: 4px 10px; background: #f4ecd8; color: #193e25; }
+@media (max-height: 700px) {
+  .forest-ui.in-review #review-header, .forest-ui.in-review #review-header .review-button { min-height: 30px; }
+  .forest-ui.in-review #review .review-controls .review-button { width: 28px; height: 28px; }
+  .forest-ui.in-review .review-playback { padding-block: 2px; }
+}
+
+/* Janggi keeps its saved rank, Cho/Han piece mark and material count on the same row. */
+.forest-ui.in-review .match { width:100%;max-width:560px;min-width:0;margin-inline:auto; }
+.forest-ui.in-review .board-slot { width:100%;min-width:0;margin-inline:0; }
+.forest-ui.in-review .review-player .jangi-player-name { flex:1;min-width:0;align-items:center;gap:5px; }
+.forest-ui.in-review .review-player .jangi-player-name > strong { flex:1;min-width:0; }
+.forest-ui.in-review .review-player .jangi-review-seat { flex:none;min-width:0; }
+.forest-ui.in-review .review-player .review-seat { display:none; }
+.forest-ui.in-review .review-player .jangi-player-rank { font-size:11px; }
+.forest-ui.in-review .review-player .jangi-material { color:#e4e2c9;font-size:10px; }
+.forest-ui.in-review #review-own-status { flex-direction:row;align-items:center; }
+.forest-ui.spectating #review > .review-playback { grid-column:1 / -1;min-width:0; }
+.forest-ui.in-review #review-opponent-row { grid-area:2 / 1 / 3 / -1; }
+.forest-ui.in-review #review-own-row { grid-area:4 / 1 / 5 / -1; }
+.forest-ui.in-review .review-player-row { min-width:0; }
+.forest-ui.in-review .review-player-row > .review-player { width:100%; }
+/* Captures keep a reserved tray, so first/previous/slider never move the board. */
+.forest-ui.in-review .review-captures { height:24px;min-width:0; }
+.forest-ui.in-review .review-captures .jangi-captured {
+  --capture-size:18px;height:24px;min-height:24px;justify-content:start;padding:0 4px 2px;gap:6px;
+}
+.forest-ui.in-review .review-captures .jangi-captured-token .stone { font-size:13px; }

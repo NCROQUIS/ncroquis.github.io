@@ -1,0 +1,11 @@
+/* Approved watch / weekly ranking row. The preview builder reuses these rules. */
+#hanok-lobby-stage .hanok-feature-row{position:absolute;bottom:0;left:9%;right:9%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;z-index:3}
+#hanok-lobby-stage .hanok-feature-row .hanok-feature-button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:100%;min-width:0;min-height:62px;padding:8px 6px;color:#fff0cb;text-align:center;white-space:normal}
+#hanok-lobby-stage .hanok-feature-head{display:flex;align-items:center;justify-content:center;gap:7px;min-width:0;max-width:100%;font-size:clamp(12px,3.8cqw,16px);font-weight:750;line-height:1.25}
+#hanok-lobby-stage .hanok-feature-icon{position:relative;flex:none;display:block;width:29px;height:24px;object-fit:contain}
+#hanok-lobby-stage .hanok-feature-watch-icon{background:url('./assets/hanok-lobby/realtime-background.webp') -123px -12px/407px auto no-repeat}
+#hanok-lobby-stage .hanok-feature-row small{display:block;max-width:100%;font-size:clamp(11px,2.9cqw,13px);font-weight:400;line-height:1.3;color:#e4cda5;overflow-wrap:anywhere}
+html[lang='en'] #hanok-lobby-stage .hanok-feature-head{gap:5px;font-size:clamp(12px,3.45cqw,15px)}
+#hanok-lobby-stage[data-short='true'] .hanok-feature-head{gap:4px}
+#hanok-lobby-stage[data-short='true'] .hanok-feature-icon{width:22px;height:20px}
+#hanok-lobby-stage[data-short='true'] .hanok-feature-watch-icon{background-size:309px auto;background-position:-93px -9px}

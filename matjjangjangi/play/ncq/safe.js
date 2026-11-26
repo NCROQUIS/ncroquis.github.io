@@ -1,6 +1,6 @@
 // NcqSafe — 엔크로키 공용 화면 안전 영역 모듈 (ncq/safe.js)
 // 킥오프 서버가 모든 웹 프로젝트 레포에 넣고 최신으로 맞춰요. 이 파일은 고치지 않아요 (고쳐도 다음 맞추기 때 덮여요).
-// 쓰는 법은 AGENTS.md의 '화면 안전 영역'에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
+// 쓰는 법은 docs/ncq/safe.md에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
 //
 //   <script src="ncq/safe.js"></script>     index.html의 <head> 맨 앞 (빌드 도구 없이)
 //   import "../ncq/safe.js";                  Vite 같은 빌드 도구를 쓰면 시작 파일 맨 위 (그다음 window.NcqSafe)

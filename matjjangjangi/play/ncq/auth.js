@@ -52,6 +52,9 @@
       return r.json().then(function (out) {
         if (!r.ok) {
           var e = error(out.code || "server_error", r.status, out.message);
+          if (["AUTH_CODE_INVALID", "INVALID_PARAMS", "UPSTREAM_ERROR", "SERVER_ERROR"].indexOf(out.neptune_code) >= 0) {
+            e.neptuneCode = out.neptune_code;
+          }
           e.retryAfter = Math.min(3600, parseInt(r.headers.get("Retry-After") || "0", 10) || 0) * 1000;
           throw e;
         }
@@ -141,7 +144,7 @@
         throw error("wrong_scope", 403, "이 게임과 환경에서 다시 사용자 확인을 해 주세요.");
       }
       if (scope.platform !== (cfg.platform || "web")) {
-        if (!platformRefreshed && scope.platform === "web" && cfg.platform === "googleplay") {
+        if (!platformRefreshed && scope.platform === "web" && ["googleplay", "appstore"].indexOf(cfg.platform) >= 0) {
           var player = user.uid;
           var renewal = busy || track(exchange(null, null, result.token));
           return renewal.then(function (refreshed) {

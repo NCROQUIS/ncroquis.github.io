@@ -52,15 +52,4 @@
 .preview-scene{background:#fcf5e7}
 .skin-shelves{flex:1;min-height:0;display:flex;flex-direction:column;overflow-y:auto;overscroll-behavior-y:contain;scrollbar-width:thin;padding-bottom:2px}
 .shelf{flex:none}
-@container dress-body (min-height:501px){.skin-card{height:78px}}
 .shelf-heading span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-@container dress-body (max-height:430px){
-  .skin-shelves{gap:4px}.shelf-heading{min-height:14px;margin-bottom:2px}
-  .skin-list{grid-auto-columns:max(104px,calc((100% - 14px)/3));padding:1px 1px 3px}
-  .skin-card{height:44px;grid-template-columns:28px minmax(0,1fr);grid-template-rows:repeat(2,minmax(0,1fr));gap:0 5px;justify-items:start;padding:4px}
-  .skin-card[aria-pressed=true]{padding:3px}.skin-card[aria-pressed=true]:after{display:none}
-  .skin-card .card-art{grid-column:1;grid-row:1/-1;width:28px;height:100%}
-  .card-art .default-pieces{flex:none;transform:scale(.7)}.card-art .default-board{height:28px;max-height:100%;flex:none}
-  .card-title,.card-status{grid-column:2;font-size:11px;line-height:15px}
-  .skin-card[data-applied=true] .card-status{padding:0 3px;font-size:10px}
-}

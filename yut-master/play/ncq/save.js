@@ -1,6 +1,6 @@
 // NcqSave — 엔크로키 공용 저장 모듈 (ncq/save.js): 게임 저장(재화·진행도)과 클라우드 백업
 // 킥오프 서버가 모든 웹 프로젝트 레포에 넣고 최신으로 맞춰요. 이 파일은 고치지 않아요 (고쳐도 다음 맞추기 때 덮여요).
-// 쓰는 법은 AGENTS.md의 '저장 (NcqSave)'에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
+// 쓰는 법은 docs/ncq/save.md에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
 //
 //   <script src="ncq/save.js"></script>     index.html의 <head> (빌드 도구 없이)
 //   import "../ncq/save.js";                  Vite 같은 빌드 도구를 쓰면 시작 파일 맨 위 (그다음 window.NcqSave)
@@ -39,7 +39,7 @@
   "use strict";
   var w = typeof window !== "undefined" ? window : null;
   if (!w) return;
-  var VERSION = 3;
+  var VERSION = 4;
   if (w.NcqSave && w.NcqSave.version >= VERSION) return; // 두 번 불러도 한 번만
   var PREFIX = "ncq:save:";
   var MAX_BYTES = 200000; // 클라우드에 올리는 저장 크기 (서버 ncqsave.MAX_SAVE와 같게)
@@ -286,7 +286,7 @@
       else at[0][at[1]] = clone(v);
     });
   }
-  function commit(data, source) {
+  function commit(data, source, previous) {
     var size = JSON.stringify(data).length;
     if (size > MAX_BYTES) warn("size", "저장이 너무 커서(" + size + "자) 클라우드에 올리지 못해요. " + MAX_BYTES + "자 아래로 줄여 주세요.");
     setData(data);
@@ -294,6 +294,7 @@
     rec.at = Date.now();
     rec.dirty = true;
     var ok = store();
+    if (!ok && previous) { use(previous); return false; }
     emit(source);
     return ok;
   }
@@ -313,6 +314,7 @@
     id = id === undefined || id === null ? "" : String(id);
     if (id.length > 200) { warn("grantId", "보상 id는 200자까지예요."); return false; }
     if (id && own(rec.rc, id)) return true; // 이미 넣은 보상
+    var previous = clone(plain());
     var draft = getData(), out;
     if (typeof change === "function") {
       try { out = change(draft); } catch (e) { warn("grant", "grant 함수에서 오류가 나서 넣지 않았어요.", e); return false; }
@@ -325,8 +327,8 @@
     }
     if (id) rec.rc[id] = {t: Date.now(), a: isObj(change) ? clone(change) : 0}; // a: 다른 기기 저장과 합칠 때 다시 더할 값
     rec.hot = true; // 결제·보상은 바로 올려요 (앱이 꺼져도 다음에 열면 올려요)
-    var ok = commit(fill(draft), "grant");
-    schedule(0);
+    var ok = commit(fill(draft), "grant", previous);
+    if (ok) schedule(0);
     return ok;
   }
   function has(id) { ensure(); return own(rec.rc, String(id)); }

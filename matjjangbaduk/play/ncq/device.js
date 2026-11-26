@@ -1,6 +1,6 @@
 // NcqDevice — 엔크로키 공용 기기 모듈 (ncq/device.js): 휴대폰 진동
 // 킥오프 서버가 모든 웹 프로젝트 레포에 넣고 최신으로 맞춰요. 이 파일은 고치지 않아요 (고쳐도 다음 맞추기 때 덮여요).
-// 쓰는 법은 AGENTS.md의 '진동 (NcqDevice)'에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
+// 쓰는 법은 docs/ncq/device.md에 있어요. 오래된 안드로이드 WebView에서도 돌게 ES2017까지만 써요.
 //
 //   <script src="ncq/device.js"></script>     index.html의 <head> (빌드 도구 없이)
 //   import "../ncq/device.js";                  Vite 같은 빌드 도구를 쓰면 시작 파일 맨 위 (그다음 window.NcqDevice)
@@ -22,7 +22,7 @@
   "use strict";
   var w = typeof window !== "undefined" ? window : null;
   if (!w) return;
-  var VERSION = 2;
+  var VERSION = 3;
   if (w.NcqDevice && w.NcqDevice.version >= VERSION) return; // 두 번 불러도 한 번만
   var d = w.document;
   var KEY = "ncq:vibration";
@@ -58,11 +58,19 @@
   var last = 0;
   var timers = [];
   var warned = {};
+  var registered = null, hyperlane = null, linked = null, synced = null;
+  var chosen = false, issue = null;
 
   function noop() {}
 
   function quiet(p) { // 약속(Promise)이 실패해도 조용히
     if (p && typeof p.then === "function") p.then(noop, noop);
+  }
+  function observe(p, code) {
+    if (p && typeof p.then === "function") p.then(noop, function () {
+      issue = code;
+      if (code === "settings") synced = null;
+    });
   }
 
   function now() { return new Date().getTime(); }
@@ -105,6 +113,80 @@
     }
   }
 
+  function ready(adapter) {
+    try { return adapter && adapter.available() === true; } catch (e) { return false; }
+  }
+
+  function externalHaptic() {
+    if (ready(registered)) return registered;
+    if (tossHaptic() || appHaptic() || kakaoHaptic()) return null;
+    // HyperLane exposes its official singleton; never depend on a game's wrapper name.
+    try {
+      var sdk = w.HLSDK;
+      var instance = sdk && Object.getOwnPropertyDescriptor(sdk, "Instance");
+      if (instance && instance.value) sdk = instance.value; // capability checks must not start a lazy SDK
+      if (!sdk || typeof sdk.GenerateHapticFeedback !== "function" ||
+          typeof sdk.GetHapticEnabled !== "function" || typeof sdk.SetHapticEnabled !== "function") return null;
+      if (!hyperlane || hyperlane.owner !== sdk) {
+        hyperlane = {
+          id: "hyperlane", owner: sdk,
+          available: function () {
+            return !!sdk.provider && typeof sdk.provider.IsHapticSupported === "function" &&
+              sdk.provider.IsHapticSupported() === true;
+          },
+          isEnabled: function () { return sdk.GetHapticEnabled(); },
+          setEnabled: function (value) { return sdk.SetHapticEnabled(value); },
+          play: function (kind, duration) {
+            return sdk.GenerateHapticFeedback(kind === "medium" ? "softMedium" :
+              (kind ? KINDS[kind][0] : tossFor(duration)));
+          }
+        };
+      }
+      return ready(hyperlane) ? hyperlane : null;
+    } catch (e) { return null; }
+  }
+
+  function sync(adapter) {
+    try {
+      var value = stored();
+      var native = adapter.isEnabled();
+      if (typeof native !== "boolean") throw new TypeError("Haptics isEnabled must return boolean");
+      if (linked !== adapter) {
+        // Keep either existing mute. An explicit choice made in this session wins.
+        if (!chosen && native === false && value) {
+          on = value = false;
+          try { w.localStorage.setItem(KEY, "off"); } catch (e) { /* session only */ }
+        }
+        linked = adapter; synced = null;
+      }
+      if (synced !== value || native !== value) {
+        observe(adapter.setEnabled(value), "settings");
+        synced = value;
+      }
+      if (issue === "settings") issue = null;
+      return true;
+    } catch (e) { issue = "settings"; synced = null; return false; }
+  }
+
+  function registerHaptics(adapter) {
+    if (!adapter || typeof adapter.id !== "string" || !/^[a-z][a-z0-9_-]{0,39}$/.test(adapter.id) ||
+        ["available", "play", "isEnabled", "setEnabled"].some(function (key) {
+          return typeof adapter[key] !== "function";
+        })) throw new TypeError("NcqDevice.registerHaptics: id, available, play, isEnabled, setEnabled");
+    stop();
+    registered = adapter; linked = null; synced = null;
+    return function () {
+      if (registered !== adapter) return;
+      stop(); registered = null; linked = null; synced = null;
+    };
+  }
+
+  function play(adapter, kind, duration) {
+    if (!stored() || hidden() || externalHaptic() !== adapter || !sync(adapter)) return false;
+    try { issue = null; observe(adapter.play(kind, duration), "play"); return true; }
+    catch (e) { issue = "play"; return false; }
+  }
+
   function stored() {
     if (on === null) {
       on = true;
@@ -117,6 +199,7 @@
 
   function vibration(value) {
     if (arguments.length && value !== undefined) {
+      chosen = true;
       on = !!value; // 체크 칸의 checked처럼 참·거짓 (0도 끔)
       try {
         if (on) w.localStorage.removeItem(KEY);
@@ -124,10 +207,14 @@
       } catch (e) { /* 이번 실행에만 */ }
       if (!on) stop();
     }
+    var adapter = externalHaptic();
+    if (adapter) sync(adapter);
     return stored();
   }
 
   function canVibrate() {
+    var adapter = externalHaptic();
+    if (adapter) return sync(adapter);
     if (tossHaptic() || appHaptic() || kakaoHaptic()) return true;
     if (!webVibrate()) return false;
     try { // 브라우저 진동은 휴대폰에서만 (컴퓨터 브라우저에도 navigator.vibrate는 있지만 울릴 모터가 없어요)
@@ -139,8 +226,12 @@
 
   function stop() {
     while (timers.length) clearTimeout(timers.pop());
+    var adapter = externalHaptic();
+    if (adapter && typeof adapter.stop === "function") {
+      try { quiet(adapter.stop()); } catch (e) { /* game continues */ }
+    }
     var nav = webVibrate();
-    if (nav && !tossHaptic() && !appHaptic() && !kakaoHaptic()) {
+    if (nav && !adapter && !tossHaptic() && !appHaptic() && !kakaoHaptic()) {
       try { nav.vibrate(0); } catch (e) { /* 멈출 진동이 없어요 */ }
     }
   }
@@ -173,7 +264,9 @@
     steps.forEach(function (v, i) {
       if (i % 2 === 0) {
         if (at === 0) fn(v);
-        else timers.push(setTimeout(function () { if (!hidden()) fn(v); }, at));
+        else timers.push(setTimeout(function () {
+          if (!hidden()) { try { fn(v); } catch (e) { /* SDK failure must not interrupt the game */ } }
+        }, at));
       }
       at += v;
     });
@@ -199,12 +292,14 @@
         stop();
         return false;
       }
+      var adapter = externalHaptic();
+      if (adapter && !sync(adapter)) return false;
       if (!stored() || hidden()) return false;
-      var toss = tossHaptic();
+      var toss = adapter ? null : tossHaptic();
       var app = toss ? null : appHaptic();
-      var kakao = toss || app ? null : kakaoHaptic();
-      var nav = toss || app || kakao ? null : webVibrate();
-      if (!toss && !app && !kakao && !nav) return false;
+      var kakao = adapter || toss || app ? null : kakaoHaptic();
+      var nav = adapter || toss || app || kakao ? null : webVibrate();
+      if (!adapter && !toss && !app && !kakao && !nav) return false;
       var kind = null;
       var steps = null;
       if (Array.isArray(value)) {
@@ -222,7 +317,11 @@
       if (short && t - last < GAP) return false;
       last = t;
       while (timers.length) clearTimeout(timers.pop()); // 새 진동이 울리던 패턴을 바꿔요
-      if (toss) {
+      if (adapter) {
+        var name = kind ? (LOWER[String(value).toLowerCase()] || "tap") : null;
+        if (kind) return play(adapter, name, null);
+        each(steps, function (v) { play(adapter, null, v); });
+      } else if (toss) {
         if (kind) quiet(toss.triggerHaptic({type: kind[0]}));
         else each(steps, function (v) { quiet(toss.triggerHaptic({type: tossFor(v)})); });
       } else if (app) {
@@ -248,5 +347,12 @@
     d.addEventListener("visibilitychange", function () { if (hidden()) stop(); });
   }
 
-  w.NcqDevice = {version: VERSION, vibrate: vibrate, canVibrate: canVibrate, vibration: vibration};
+  function status() {
+    var adapter = externalHaptic();
+    var source = adapter ? adapter.id : (tossHaptic() ? "toss" : (appHaptic() ? "capacitor" :
+      (kakaoHaptic() ? "kakao" : (webVibrate() ? "browser" : "none"))));
+    return {version: VERSION, source: source, available: canVibrate(), enabled: vibration(), issue: issue};
+  }
+  w.NcqDevice = {version: VERSION, vibrate: vibrate, canVibrate: canVibrate, vibration: vibration,
+    registerHaptics: registerHaptics, status: status};
 })();

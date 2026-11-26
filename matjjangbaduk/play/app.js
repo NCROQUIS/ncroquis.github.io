@@ -2282,9 +2282,9 @@ function addSakuraParticles(burst, unit) {
     const slot = flower ? i : i - flowers;
     const count2 = flower ? flowers : petals;
     const angle = phase + (slot + random(0.08, 0.92)) * 2 * Math.PI / count2;
-    const distance = unit * (flower ? random(0.97, 1.42) : random(1.55, 2.65));
-    const x = Math.cos(angle) * distance;
-    const y = Math.sin(angle) * distance;
+    const distance2 = unit * (flower ? random(0.97, 1.42) : random(1.55, 2.65));
+    const x = Math.cos(angle) * distance2;
+    const y = Math.sin(angle) * distance2;
     const drift = random(-0.33, 0.33) * unit;
     const spin = random(-195, 195);
     const rotation = random(0, 360);
@@ -2307,9 +2307,9 @@ function addEnergyParticles(burst, unit, style) {
   const count2 = water ? 18 : 20;
   for (let i = 0; i < count2; i += 1) {
     const angle = phase + (i + random(0.1, 0.9)) * 2 * Math.PI / count2;
-    const distance = unit * random(1.3, 2.5);
-    const x = Math.cos(angle) * distance;
-    const y = Math.sin(angle) * distance * 0.58;
+    const distance2 = unit * random(1.3, 2.5);
+    const x = Math.cos(angle) * distance2;
+    const y = Math.sin(angle) * distance2 * 0.58;
     const curl = unit * random(-0.7, 0.7);
     const rise = unit * random(0.25, water ? 0.9 : 1.5);
     const particle = document.createElement("span");
@@ -2930,10 +2930,10 @@ function animateBoardTransition(board, cells2, previous, next, { effect = "plain
     ghost.append(shadow);
     ghost.append(stone);
     overlay.append(ghost);
-    const distance = Math.max(18, rect.height * 0.85) * (0.8 + Math.random() * 0.4);
+    const distance2 = Math.max(18, rect.height * 0.85) * (0.8 + Math.random() * 0.4);
     const angle = -Math.PI * 0.75 + (order + Math.random()) / removed.length * Math.PI * 0.5;
-    const dx = Math.cos(angle) * distance;
-    const dy = Math.sin(angle) * distance;
+    const dx = Math.cos(angle) * distance2;
+    const dy = Math.sin(angle) * distance2;
     const animation = ghost.animate(reduced ? [{ opacity: 1 }, { opacity: 0 }] : [
       { transform: "translate(0, 0) scale(1)", opacity: 1 },
       { transform: `translate(${dx * 0.3}px, ${dy * 0.3}px) scale(1.08)`, opacity: 0.95, offset: 0.35 },
@@ -9635,6 +9635,8 @@ var ACADEMY_TEXTS = Object.fromEntries(["ko", "en"].map((language, index) => [la
 // texts.js
 var BADUK_TEXTS = {
   ko: {
+    recordPlay: "\uBC14\uB451 \uB450\uB7EC \uAC00\uAE30",
+    recordAppUnavailable: "\uC774\uC6A9 \uC911\uC778 \uC571\uC5D0\uC11C \uBC14\uB451\uC744 \uC5F4\uC5B4 \uC8FC\uC138\uC694. \uC5EC\uAE30\uC11C\uB294 \uC544\uC9C1 \uC571 \uC5F0\uACB0\uC744 \uC0AC\uC6A9\uD560 \uC218 \uC5C6\uC5B4\uC694.",
     playerCardInfo: "{name} \xB7 {color} \xB7 \uB530\uB0B8 \uB3CC {n}\uAC1C",
     capturedStonesCountLabel: "\uB530\uB0B8 \uB3CC {n}\uAC1C",
     positionBlackLeadCompact: "\uD751 +{n}",
@@ -9902,6 +9904,8 @@ var BADUK_TEXTS = {
     clockExpired: "\uC81C\uD55C\uC2DC\uAC04\uC774 \uB05D\uB0AC\uC5B4\uC694"
   },
   en: {
+    recordPlay: "Play Baduk",
+    recordAppUnavailable: "Open Baduk in its app. Its app link is not available here yet.",
     playerCardInfo: "{name}, {color}, {n} captures",
     capturedStonesCountLabel: "Captured {n} stones",
     positionBlackLeadCompact: "Black +{n}",
@@ -10928,12 +10932,12 @@ function noviceCandidateSettings(settings = NOVICE_CANDIDATE_DEFAULTS) {
   if (!Number.isFinite(probability) || probability < 0 || probability > 1) throw Error("invalidBeginnerSettings");
   return { captureRiskCandidateProbability: probability };
 }
-function noviceMoveCandidates(state) {
+function noviceMoveCandidates(state, { excludeSelfAtari = false } = {}) {
   const all = [], capturable = [], color = colorForSeat(state, state.turn);
   for (let index = 0; index < state.board.length; index++) {
     if (state.board[index]) continue;
     const move = tryMove(state, index, color);
-    if (move.error) continue;
+    if (move.error || excludeSelfAtari && move.liberties === 1) continue;
     all.push(index);
     if (move.liberties !== 1) continue;
     const liberty = groupAt(move.board, index, state.size).liberties[0];
@@ -10948,14 +10952,115 @@ function sampleNoviceCandidate(pools, probability, random = Math.random) {
   return candidates[Math.min(candidates.length - 1, Math.floor(random() * candidates.length))];
 }
 
+// supabase/functions/matjjangbaduk/novice-style.mjs
+var NOVICE_STYLE_DEFAULTS = Object.freeze({ extendProbability: 0.35, followProbability: 0.55, exploreProbability: 0.1, focusTurns: 3, followRadius: 2 });
+function noviceStyleSettings(settings = NOVICE_STYLE_DEFAULTS) {
+  if (!settings || typeof settings !== "object" || Array.isArray(settings)) throw Error("invalidNoviceStyleSettings");
+  const value = { ...NOVICE_STYLE_DEFAULTS, ...settings };
+  const probabilities = ["extendProbability", "followProbability", "exploreProbability"].map((key) => value[key]);
+  if (probabilities.some((p) => !Number.isFinite(p) || p < 0 || p > 1) || Math.abs(probabilities.reduce((a, b) => a + b, 0) - 1) > 1e-9 || !Number.isInteger(value.focusTurns) || value.focusTurns < 1 || value.focusTurns > 8 || !Number.isInteger(value.followRadius) || value.followRadius < 1 || value.followRadius > 4) throw Error("invalidNoviceStyleSettings");
+  return {
+    extendProbability: value.extendProbability,
+    followProbability: value.followProbability,
+    exploreProbability: value.exploreProbability,
+    focusTurns: value.focusTurns,
+    followRadius: value.followRadius
+  };
+}
+function moveColor(state, action) {
+  return action.color ?? colorForSeat(state, action.seat);
+}
+function distance(a, b, size) {
+  return Math.abs(a % size - b % size) + Math.abs(Math.floor(a / size) - Math.floor(b / size));
+}
+function focusPoint(state, color, turns) {
+  const own2 = state.actions.filter((action) => action.type === "move" && moveColor(state, action) === color);
+  if (!own2.length) return null;
+  const start = Math.floor((own2.length - 1) / turns) * turns;
+  const candidates = [own2[start], ...own2.slice(start + 1).reverse(), ...own2.slice(0, start).reverse()];
+  return candidates.find((action) => state.board[action.index] === color)?.index ?? null;
+}
+function noviceStyleCandidates(state, settings) {
+  const value = noviceStyleSettings(settings), color = colorForSeat(state, state.turn), size = state.size;
+  const all = noviceMoveCandidates(state, { excludeSelfAtari: true }).all;
+  const focusIndex = focusPoint(state, color, value.focusTurns);
+  const chain = focusIndex === null ? [] : groupAt(state.board, focusIndex, size).stones;
+  const chainSet = new Set(chain), tips = /* @__PURE__ */ new Set(), straight = /* @__PURE__ */ new Set();
+  for (const point of chain) {
+    const joined = neighbors(point, size).filter((index) => chainSet.has(index));
+    if (joined.length > 1) continue;
+    tips.add(point);
+    if (joined.length !== 1) continue;
+    const nextX = 2 * (point % size) - joined[0] % size, nextY = 2 * Math.floor(point / size) - Math.floor(joined[0] / size);
+    if (nextX >= 0 && nextX < size && nextY >= 0 && nextY < size) straight.add(nextY * size + nextX);
+  }
+  const lastOpponent = [...state.actions].reverse().find((action) => action.type === "move" && moveColor(state, action) === 3 - color);
+  const opponentIndex = lastOpponent && state.board[lastOpponent.index] === 3 - color ? lastOpponent.index : null;
+  const extend = [], follow = [], near = /* @__PURE__ */ new Set();
+  for (const index of all) {
+    const adjacent = neighbors(index, size), touches = adjacent.filter((point) => chainSet.has(point));
+    if (touches.length) {
+      const friendly = adjacent.filter((point) => state.board[point] === color).length;
+      const weight = (straight.has(index) ? 4 : touches.some((point) => tips.has(point)) ? 2 : 1) / (friendly * friendly);
+      extend.push({ index, weight });
+      near.add(index);
+    }
+    if (opponentIndex !== null) {
+      const steps = distance(index, opponentIndex, size);
+      if (steps > 0 && steps <= value.followRadius) {
+        follow.push({ index, weight: 1 / steps });
+        near.add(index);
+      }
+    }
+  }
+  const explore = all.filter((index) => !near.has(index)).map((index) => ({ index, weight: 1 }));
+  return { all, extend, follow, explore, focusIndex, opponentIndex };
+}
+function weightedChoice(entries, random) {
+  let target = random() * entries.reduce((sum, entry) => sum + entry.weight, 0);
+  for (const entry of entries) {
+    target -= entry.weight;
+    if (target < 0) return entry;
+  }
+  return entries.at(-1);
+}
+function sampleNoviceStyle(pools, settings, random = Math.random) {
+  const value = noviceStyleSettings(settings);
+  const available = [["extend", value.extendProbability], ["follow", value.followProbability], ["explore", value.exploreProbability]].filter(([name2, weight]) => weight > 0 && pools[name2].length).map(([name2, weight]) => ({ name: name2, weight }));
+  if (!available.length) return pools.all.length ? { index: pools.all[Math.min(pools.all.length - 1, Math.floor(random() * pools.all.length))], strategy: "fallback", focusIndex: pools.focusIndex } : null;
+  const { name } = weightedChoice(available, random), { index } = weightedChoice(pools[name], random);
+  return { index, strategy: name, focusIndex: pools.focusIndex };
+}
+
+// supabase/functions/matjjangbaduk/beginner-ladder.mjs
+var BEGINNER_LADDER_POLICY = "baduk-beginner-ladder-v1";
+var BEGINNER_LADDER_ANCHOR = 12;
+var BEGINNER_LADDER_PROBABILITIES = Object.freeze({
+  9: Object.freeze([0.99, 0.9321, 0.8674, 0.7946, 0.7123, 0.6197, 0.5185, 0.4138, 0.3125, 0.2199, 0.1375, 0.0647, 0]),
+  19: Object.freeze([0.99, 0.9097, 0.8262, 0.74, 0.6521, 0.5635, 0.4752, 0.3884, 0.304, 0.1954, 0.1104, 0.044, 0])
+});
+function beginnerLadderSettings(settings) {
+  if (!settings || !Number.isFinite(settings.styleProbability) || settings.styleProbability < 0 || settings.styleProbability > 1) throw Error("invalidBeginnerLadderSettings");
+  return { ...noviceStyleSettings(settings), styleProbability: settings.styleProbability };
+}
+function beginnerLadderProfile(size, level, settings) {
+  if (![9, 19].includes(size) || !Number.isInteger(level) || level < 1 || level >= BEGINNER_LADDER_ANCHOR) throw Error("invalidBeginnerLadderLevel");
+  return beginnerLadderSettings({ ...noviceStyleSettings(), styleProbability: BEGINNER_LADDER_PROBABILITIES[size][level], ...settings });
+}
+
 // supabase/functions/matjjangbaduk/beginner-policy.mjs
 var BEGINNER_MISTAKES = Object.freeze([0.95, 0.87, 0.79, 0.71, 0.63, 0.55, 0.47, 0.39, 0.31, 0.23]);
 var BEGINNER_POLICY_V2 = "baduk-beginner-30k-v2";
 var BEGINNER_POLICY_V3 = "baduk-beginner-30k-v3";
+var BEGINNER_POLICY_V4 = "baduk-beginner-30k-v4";
+var BEGINNER_POLICY_V5 = "baduk-beginner-30k-v5";
 function weakenAction(state, level, action, random = Math.random, policyVersion, settings) {
   const biasedNovice = level === 0 && policyVersion === BEGINNER_POLICY_V3;
-  const novice = level === 0 && (policyVersion === BEGINNER_POLICY_V2 || biasedNovice);
-  const probability = novice ? 0.99 : BEGINNER_MISTAKES[level];
+  const ladder = Number.isInteger(level) && level > 0 && level < BEGINNER_LADDER_ANCHOR && policyVersion === BEGINNER_LADDER_POLICY;
+  const styledNovice = level === 0 && policyVersion === BEGINNER_POLICY_V5 || ladder;
+  const safeNovice = level === 0 && (policyVersion === BEGINNER_POLICY_V4 || styledNovice);
+  const novice = level === 0 && (policyVersion === BEGINNER_POLICY_V2 || biasedNovice || safeNovice);
+  const probability = ladder ? beginnerLadderSettings(settings).styleProbability : novice ? 0.99 : BEGINNER_MISTAKES[level];
   if (!Number.isInteger(level) || probability === void 0) return action;
   if (state.phase === "scoring-request" && action.type === "declineScore") {
     return beginnerCandidates(state).length ? action : { type: "acceptScore" };
@@ -10971,7 +11076,14 @@ function weakenAction(state, level, action, random = Math.random, policyVersion,
     if (pools.all.includes(action.index) && random() >= probability) return action;
     return { type: "move", index: sampleNoviceCandidate(pools, captureRiskCandidateProbability, random) };
   }
-  const candidates = novice ? state.board.flatMap((stone, index) => !stone && !tryMove(state, index).error ? [index] : []) : filtered;
+  if (styledNovice) {
+    const pools = noviceStyleCandidates(state, settings);
+    if (pools.all.includes(action.index) && random() >= probability) return action;
+    const selected2 = sampleNoviceStyle(pools, settings, random);
+    return selected2 ? { type: "move", index: selected2.index } : { type: state.endgameVersion && !state.scoringDeclined ? "requestScore" : "pass" };
+  }
+  const candidates = safeNovice ? noviceMoveCandidates(state, { excludeSelfAtari: true }).all : novice ? state.board.flatMap((stone, index) => !stone && !tryMove(state, index).error ? [index] : []) : filtered;
+  if (!candidates.length) return { type: state.endgameVersion && !state.scoringDeclined ? "requestScore" : "pass" };
   if (candidates.includes(action.index) && random() >= probability) return action;
   return { type: "move", index: candidates[Math.min(candidates.length - 1, Math.floor(random() * candidates.length))] };
 }
@@ -11531,11 +11643,12 @@ function practiceEngine(mode, level, size = 9, beginnerSettings) {
   if (!validPracticeLevel(level, mode === "serverAi")) throw new Error("invalidEngineLevel");
   if (mode === "serverAi") return { aiEngine: "katago", aiPolicyVersion: BOT_POLICY };
   if (mode !== "ai") throw new Error("invalidEngineMode");
+  const ladder = level > 0 && level < BEGINNER_LADDER_ANCHOR;
   return {
     aiEngine: "katago-offline",
     aiPolicyVersion: KATAGO_OFFLINE_POLICY,
-    aiSettings: offlineSettings(size, level),
-    ...level === 0 ? { aiBeginnerPolicyVersion: BEGINNER_POLICY_V3, aiBeginnerSettings: noviceCandidateSettings(beginnerSettings) } : {}
+    aiSettings: offlineSettings(size, ladder ? BEGINNER_LADDER_ANCHOR : level),
+    ...level === 0 ? { aiBeginnerPolicyVersion: BEGINNER_POLICY_V5, aiBeginnerSettings: noviceStyleSettings(beginnerSettings) } : ladder ? { aiBeginnerPolicyVersion: BEGINNER_LADDER_POLICY, aiBeginnerSettings: beginnerLadderProfile(size, level, beginnerSettings) } : {}
   };
 }
 function rematchEngine(session2) {
@@ -12763,7 +12876,9 @@ function renderMatch() {
   el("review-exit").hidden = !reviewing || Boolean(session.shared);
   el("rematch").disabled = busy || Boolean(remoteRoom?.requested);
   el("rematch").hidden = Boolean(session.shared);
-  el("review-home").toggleAttribute("data-ncq-main", Boolean(session.shared));
+  el("review-play").hidden = !reviewing || !session.shared;
+  el("review-play").toggleAttribute("data-ncq-main", reviewing && Boolean(session.shared));
+  el("review-home").removeAttribute("data-ncq-main");
   syncTogetherControls(state);
   syncScoringPrompt(requested);
   fitMatchHeight();
@@ -13883,7 +13998,7 @@ function renderOptions() {
   renderSoundSettings();
   el("use-komi").checked = save.get("useKomi") === true;
   el("nickname").value = save.get("nickname");
-  el("app-version").textContent = window.NCQ?.NCQ_VERSION ? "v" + window.NCQ.NCQ_VERSION : "dev";
+  window.NcqBuild?.mount(el("app-version"));
   el("send-feedback").hidden = !window.NcqFeedback?.can();
   el("options-player").hidden = !window.NcqAuth;
   el("options-player-id").value = optionsPlayerId;
@@ -13922,9 +14037,14 @@ async function shareRecord() {
   const current2 = () => request === shareRequest && session === target && page === "match";
   const data = { size: session.game.size, komi: session.game.komi, rulesVersion: session.game.rulesVersion, scoringVersion: session.game.scoringVersion, endgameVersion: session.game.endgameVersion, scoringResultVersion: session.game.scoringResultVersion, scoringTurnVersion: session.game.scoringTurnVersion, actions: session.game.actions.map(({ type, index }) => ({ type, ...index === void 0 ? {} : { index } })), black: session.game.black, endReason: session.game.endReason, winner: session.game.winner };
   const encoded = btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(data)))).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "");
-  const url = new URL(window.NCQ?.NCQ_SHARE?.url || "https://ncroquis.github.io/matjjangbaduk/play/");
+  const url = new URL("https://ncroquis.github.io/matjjangbaduk/play/");
   url.hash = "record=" + encoded;
-  recordSharing.open(url.href);
+  recordSharing.open(window.NcqShare?.withSource?.(url.href) || url.href);
+}
+function openSharedRecordApp() {
+  if (!session?.shared) return;
+  const result = window.NcqShare?.openApp?.({ onCurrentApp: goHome });
+  if (!["current", "opened"].includes(result?.status)) toast("recordAppUnavailable");
 }
 function loadSharedRecord() {
   const hash = new URLSearchParams(location.hash.slice(1));
@@ -14089,6 +14209,7 @@ el("resign").onclick = goHome;
 el("resume-play").onclick = () => submit({ type: session?.game.phase === "scoring-request" ? "declineScore" : "resume" });
 el("match-home").onclick = goHome;
 el("review-home").onclick = goHome;
+el("review-play").onclick = openSharedRecordApp;
 el("review-exit").onclick = goHome;
 el("open-review").onclick = () => openReview();
 el("result").addEventListener("cancel", (event) => {

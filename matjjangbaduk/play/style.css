@@ -1,4 +1,5 @@
 /* Original Omok UI + Jangi cards, with the approved compact Baduk header. */
+.match-build-version { display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;line-height:12px;opacity:.65; }
 .forest-ui .match[data-playing] .match-status { grid-template-rows:minmax(44px,auto) 20px;min-height:0;height:auto;gap:6px 8px;margin:0 0 8px;padding:4px 0; }
 .forest-ui .match[data-playing] .match-status-copy { grid-column:2;grid-row:1;display:block;min-height:0;align-self:center;color:#fff4d9;text-align:center; }
 .forest-ui .match[data-playing] .match-status h1 { margin:0;font-size:16px;font-weight:400;line-height:1.4;letter-spacing:0;white-space:nowrap; }

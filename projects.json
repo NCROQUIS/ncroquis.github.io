@@ -145,9 +145,9 @@
     "version": "0.1.13",
     "developer": "Heo-SD",
     "category": "퍼즐",
-    "play": "",
+    "play": "https://play.google.com/store/apps/details?id=com.ncroquis.happylifetiles",
     "icon": "d3577164118a",
-    "stores": ""
+    "stores": "googleplay"
   },
   {
     "codename": "dokuduck",

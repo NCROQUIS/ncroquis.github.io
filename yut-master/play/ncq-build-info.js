@@ -1,4 +1,4 @@
-window.NCQ_BUILD_INFO = Object.freeze({"schema":1,"source_sha":"3479357d01a1b9580a751cb5e5477cb0997a0575","dirty":false,"version":"0.3.2","platform":"web","built_at":"2026-11-26T04:28:11+00:00"});
+window.NCQ_BUILD_INFO = Object.freeze({"schema":1,"source_sha":"ed391d7337aefbe0fb8a821a52a58d746b00339e","dirty":false,"version":"0.3.3","platform":"web","built_at":"2026-11-26T05:10:39+00:00"});
 // NcqBuild — immutable build source identity, shared version labels and copy.
 // ES2017, no network, storage, authentication or game-state changes.
 (function () {

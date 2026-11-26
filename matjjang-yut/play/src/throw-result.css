@@ -1,3 +1,5 @@
 .throw-result{position:fixed;left:0;top:0;z-index:15;display:block;pointer-events:none;white-space:nowrap;transform:translate(-50%,-50%);font-family:Yut Lobby Sans,Yut Lobby Korean,Yut Lobby Thai,sans-serif;font-size:44px;font-weight:900;line-height:1.2;letter-spacing:.01em;color:#fff5b8;-webkit-text-stroke:.12em #132b43;paint-order:stroke fill;text-shadow:0 .05em 0 #071827,0 .1em .16em #07182766}
 .throw-result .result-name{display:block;font:inherit;color:inherit;letter-spacing:inherit;-webkit-text-stroke:inherit;paint-order:inherit;text-shadow:inherit}
 .result-chip.is-result-arriving,.opening-score.is-result-arriving{visibility:hidden}
+.opening-score{opacity:1;filter:none;background:var(--team-dark);color:#fff8e7;text-shadow:0 1px 2px #07182780}
+#opening-scores .opening-score:before{background:var(--team-dark)}

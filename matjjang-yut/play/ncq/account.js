@@ -85,14 +85,17 @@
     return function () { if (registered === provider) { registered = null; refresh(); } };
   }
   function text(node, value) { if (node.textContent !== value) node.textContent = value; }
-  function visible(row) {
-    if (d.visibilityState === "hidden" || !row.host.isConnected || !row.settings.getClientRects().length) return false;
+  function presentation(row) {
+    if (d.visibilityState === "hidden" || !row.host.isConnected || !row.settings.getClientRects().length) return 0;
+    var transparent = false;
     for (var node = row.settings; node && node.nodeType === 1; node = node.parentElement) {
       var style = w.getComputedStyle(node);
-      if (node.hidden || node.getAttribute("aria-hidden") === "true" || style.visibility === "hidden" || style.opacity === "0") return false;
+      if (node.hidden || node.getAttribute("aria-hidden") === "true" || style.visibility === "hidden") return 0;
+      if (style.opacity === "0") transparent = true;
     }
-    return true;
+    return transparent ? 1 : 2;
   }
+  function visible(row) { return presentation(row) === 2; }
   function apply(row) {
     var value = visible(row) ? read() : {id: null, platform: "web"};
     var platform = value.platform;
@@ -127,7 +130,11 @@
     try {
       if (!clipboard || typeof clipboard.writeText !== "function") { manual(); return; }
       Promise.resolve(clipboard.writeText(id)).then(function () {
-        if (current()) { row.feedback = 2; text(row.message, words[language()][2]); } else refresh();
+        if (current()) {
+          row.feedback = 2; text(row.message, words[language()][2]);
+          // Notify the current settings UI only; never include the copied ID.
+          try { row.host.dispatchEvent(new w.CustomEvent("ncq-account-copied", { bubbles: true })); } catch (e) { /* copying already succeeded */ }
+        } else refresh();
       }, manual);
     } catch (e) { manual(); }
   }
@@ -164,7 +171,9 @@
     rows.slice().forEach(function (row) { if (!row.host.isConnected) row.destroy(); });
     Array.prototype.forEach.call(d.querySelectorAll("[data-ncq-account]"), function (host) { mount(host); });
     rows.forEach(apply);
-    if (rows.some(visible)) timer = w.setTimeout(refresh, 500); // only while the settings UI is visible
+    // An open dialog can start at opacity 0. Keep checking presentation until it fades in;
+    // apply/copy still never read or expose the ID while fully transparent or closed.
+    if (rows.some(function (row) { return presentation(row) > 0; })) timer = w.setTimeout(refresh, 500);
   }
   function boot() {
     if (!d.getElementById("ncq-account-style")) {

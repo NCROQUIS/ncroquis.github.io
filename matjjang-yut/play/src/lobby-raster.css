@@ -4,10 +4,11 @@
 .lobby-illustration img{filter:blur(var(--lobby-blur));scale:1.035}
 .lobby-illustration:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 78% 72% at 50% 45%,rgb(255 255 255 / var(--lobby-white)) 0%,rgb(255 255 255 / var(--lobby-white)) 33%,rgb(255 255 255 / calc(var(--lobby-white) * .65)) 63%,transparent 95%);pointer-events:none}
 .lobby-characters{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.lobby-characters img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;scale:1.035;filter:none;opacity:1}
+/* Fit the 737px-wide illustration, rather than its tall transparent canvas, to the lobby width. */
+.lobby-characters img{position:absolute;left:50%;top:50%;translate:-50% -50%;display:block;width:calc(100% * 941 / 737);max-width:none;height:auto;object-fit:contain;scale:1;filter:none;opacity:1}
 .lobby-shell[data-page=shop]>.lobby-characters,.lobby-shell[data-page=rank]>.lobby-characters{display:none}
 .lobby-brand{padding-top:0;gap:4px;pointer-events:none}
-.lobby-brand .lobby-title{display:block;width:100%;height:clamp(100px,20cqh,170px);padding:0;margin:0;line-height:0;transform:none;filter:none;text-shadow:none;-webkit-text-stroke:0}
+.lobby-brand .lobby-title{display:block;width:100%;height:auto;aspect-ratio:550/265;padding:0;margin:0;line-height:0;transform:none;filter:none;text-shadow:none;-webkit-text-stroke:0}
 .lobby-title img{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none}
 .lobby-tagline{background:url('../assets/lobby-ui/brush.webp') center/100% 100% no-repeat;clip-path:none;padding:7px 24px 9px;font-style:italic;font-synthesis:style;font-size:clamp(12px,3.7cqw,18px)}
 .lobby-feature-icon img{display:block;width:100%;height:100%;object-fit:contain}
@@ -34,6 +35,6 @@
 #lobby .bottom-nav img{width:100%;height:100%;object-fit:contain;pointer-events:none}
 .lobby-backdrop-settings{font-size:13px;line-height:1.5}.lobby-backdrop-settings summary{font-weight:750}.lobby-backdrop-settings .audio-volume{margin-top:10px}
 @container(max-height:180px){.lobby-hero .daily-mission-card,.lobby-hero .lobby-dress-shortcut{padding:7px 9px 10px}}
-@media(max-height:740px){.lobby-brand{padding-top:0;gap:3px}.lobby-brand .lobby-title{height:clamp(75px,17cqh,120px)}.lobby-tagline{font-size:12px;padding-block:6px}#lobby img.crown-emblem{width:46px;height:39px}#lobby img.group-emblem{width:40px;height:30px}.lobby-shell .bottom-nav button{padding:8px 6px 10px}#lobby .bottom-nav .nav-icon{width:24px;height:25px}}
+@media(max-height:740px){.lobby-brand{padding-top:0;gap:3px}.lobby-brand .lobby-title{height:clamp(75px,17cqh,120px);aspect-ratio:auto}.lobby-characters img{width:100%}.lobby-tagline{font-size:12px;padding-block:6px}#lobby img.crown-emblem{width:46px;height:39px}#lobby img.group-emblem{width:40px;height:30px}.lobby-shell .bottom-nav button{padding:8px 6px 10px}#lobby .bottom-nav .nav-icon{width:24px;height:25px}}
 @media(max-height:740px){.lobby-characters img{transform:translateY(-35px)}}
 @media(max-height:620px){.lobby-characters img{transform:translateY(-45px)}}

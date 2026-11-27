@@ -1,0 +1,24 @@
+{
+  "ruleset": "chess-v1",
+  "mode": "rules",
+  "queues": [
+    "c10",
+    "c20",
+    "c30",
+    "b3",
+    "b3i2",
+    "b5",
+    "u1",
+    "u1i1",
+    "u2i1"
+  ],
+  "ratings": "queue",
+  "turn_seconds": 600,
+  "bots": {
+    "count": 200,
+    "min": 400,
+    "max": 2100,
+    "ranking": true
+  },
+  "rules_version": "chess-v2"
+}

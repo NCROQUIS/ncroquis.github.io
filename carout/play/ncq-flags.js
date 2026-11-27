@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_PUBLIC": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.1.2", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.carout", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/carout", "board": "https://ncroquis.github.io/carout/feedback/"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "carout", "environment": "test", "platform": "web", "firebase": {"projectId": "ncq-auth-test", "apiKey": "AIzaSyD4CoZ5Zgu5tn1I_xcEqyA-8OdNQY4hoFI", "appId": "1:1092518000531:web:59b3357077a1178a329a66"}}, "NCQ_WEB_DESTINATION": "public", "NCQ_SOURCE_COMMIT": "621f6ab0154d34573543b2e9ed179f7b89df0d3b", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_PUBLIC": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.1.3", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.carout", "NCQ_SURVEY": {"schema_version": "1", "progress": ["stage"], "translations": {"ko": {"favorite_choices": ["차를 빼는 퍼즐", "손님이 우르르 타는 연출", "콤보", "새 요소(물음표·차고·얼음)", "아이템", "그래픽·배경"], "pain_choices": ["너무 어려워요", "너무 쉬워요", "하트가 모자라요", "코인이 모자라요", "광고가 많아요", "화면이 작거나 잘 안 보여요"]}, "en": {"favorite_choices": ["Clearing cars puzzle", "Passengers rushing aboard", "Combos", "New elements (mystery, garage, ice)", "Items", "Graphics and scenery"], "pain_choices": ["Too hard", "Too easy", "Not enough hearts", "Not enough coins", "Too many ads", "Screen is small or hard to see"]}}, "game": "carout", "environment": "live", "url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/surveys/live/carout"}, "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/carout", "board": "https://ncroquis.github.io/carout/feedback/"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "carout", "environment": "test", "platform": "web", "firebase": {"projectId": "ncq-auth-test", "apiKey": "AIzaSyD4CoZ5Zgu5tn1I_xcEqyA-8OdNQY4hoFI", "appId": "1:1092518000531:web:59b3357077a1178a329a66"}}, "NCQ_WEB_DESTINATION": "public", "NCQ_SOURCE_COMMIT": "f1304588adb23b4e1f0a6ad3bf597bc9678a58a2", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
 Object.assign(window, window.NCQ);
 /* NcqViewport — fixed game page, native inner scrolling and editable controls. ES2017. */
 (function (w, d) {
@@ -611,6 +611,8 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
   // 이름은 정해 둔 것만 받고, 값은 짧은 글·숫자·참거짓만 남긴다 (게임 코드가 부르는 함수가 아니에요)
   var TOOL_EVENTS = {ad_load: 1, ad_fail: 1, ad_show: 1, ad_reward: 1, ad_call: 1, purchase_start: 1, purchase: 1,
                      purchase_cancel: 1, purchase_fail: 1, purchase_restore: 1, save_tamper: 1,
+                     survey_prompt_shown: 1, survey_open: 1, survey_dismiss: 1, survey_submit_attempt: 1, survey_submit_confirmed: 1,
+                     review_eligible: 1, review_request_attempt: 1, review_request_result: 1, review_manual_store_open: 1,
                      promo_reward: 1};
   function toolEvent(name, props) {
     if (typeof name !== "string" || !Object.prototype.hasOwnProperty.call(TOOL_EVENTS, name)) return;
@@ -752,7 +754,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"carout","pf":"web","mk":"web","tr":"share","vn":"0.1.2","vc":0,"cm":"621f6ab","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"carout","pf":"web","mk":"web","tr":"share","vn":"0.1.3","vc":0,"cm":"f130458","ft":[]});
 
 (function(w){
   function no(){return false;}

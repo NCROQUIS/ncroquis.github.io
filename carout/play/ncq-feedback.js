@@ -111,6 +111,8 @@
     ".ncqfb textarea,.ncqfb input{width:100%;font:inherit;font-size:16px;border:2px solid #c9cfc9;border-radius:10px;",
     "padding:10px;background:#fff;color:#1d2420}",
     ".ncqfb textarea{min-height:120px;resize:vertical}",
+    "#ncq-survey select{display:block;width:100%;min-height:44px;max-width:100%;font:inherit}",
+    "#ncq-survey input[type=checkbox]{width:auto;margin-right:6px}#ncq-survey textarea{min-height:60px}",
     ".ncqfb-small{margin:6px 0 0;color:#5b645f;font-size:13px}",
     ".ncqfb-err{margin:10px 0 0;color:#b3261e;font-size:14px;min-height:1em}",
     ".ncqfb-send{width:100%;min-height:48px;margin-top:12px;border:0;border-radius:12px;background:#1d2420;color:#fff;",
@@ -216,9 +218,164 @@
     });
   }
 
+  var survey = NCQ.NCQ_SURVEY;
+  var surveyText = {
+    en: {title:"Game survey", prompt:"Would you like to share your experience?", start:"Take survey", skip:"Close",
+      note:"Registered developers, including external developers, can read your answers. Please leave out personal details.",
+      fun:"How much fun was the game?", difficulty:"How difficult was it?", favorite:"What did you enjoy?",
+      pain:"What was frustrating?", comment:"Bugs or improvements", idea:"Any new ideas?", optional:"Optional",
+      levels:["Very easy","Easy","About right","Hard","Very hard"], consent:"Include this game progress",
+      received:"Response received", receipt:"Keep this response number if you contact us about your submission.",
+      conflict:"An earlier version of these answers was already received.", choose:"Choose an answer", send:"Send", sending:"Sending…", error:"Could not send. Your answers are here. Please retry."},
+    ko: {title:"게임 설문", prompt:"이번 플레이에 대한 의견을 남겨 주시겠어요?", start:"설문 참여", skip:"닫기",
+      note:"등록된 사내·외 개발자 멤버가 답변을 읽습니다. 개인정보는 입력하지 마세요.",
+      fun:"게임은 얼마나 재미있었나요?", difficulty:"난이도는 어땠나요?", favorite:"가장 재미있는 부분은 무엇인가요?",
+      pain:"어떤 점이 불편했나요?", comment:"버그·개선 의견", idea:"새로운 아이디어", optional:"선택",
+      levels:["너무 쉬움","쉬움","적당함","어려움","너무 어려움"], consent:"다음 게임 진행 정보 첨부",
+      received:"설문을 받았습니다", receipt:"제출한 답변에 대해 문의할 때 이 응답 번호를 알려 주세요.",
+      conflict:"먼저 보낸 답변이 이미 접수되었습니다.", choose:"선택해 주세요", send:"보내기", sending:"보내는 중…", error:"보내지 못했습니다. 입력한 답변으로 다시 시도해 주세요."}
+  };
+  function surveyEvent(name) {
+    var metrics = w.NcqMetrics;
+    try { if (metrics && typeof metrics._tool === "function") metrics._tool("survey_" + name, {trigger: state.trigger || "manual"}); }
+    catch (e) { /* 지표 오류가 제출을 가로막지 않게 해요. */ }
+  }
+  function newResponseId() {
+    var bits = new Uint8Array(16);
+    w.crypto.getRandomValues(bits);
+    bits[6] = (bits[6] & 15) | 64; bits[8] = (bits[8] & 63) | 128;
+    var hex = Array.from(bits, function (b) { return ("0" + b.toString(16)).slice(-2); }).join("");
+    return hex.slice(0,8) + "-" + hex.slice(8,12) + "-" + hex.slice(12,16) + "-" + hex.slice(16,20) + "-" + hex.slice(20);
+  }
+  function surveyAvailable() { return !!(survey && survey.url && w.crypto && w.crypto.getRandomValues); }
+  function surveyDialog(auto, options) {
+    options = options || {};
+    if (!surveyAvailable() || state.open || typeof document === "undefined" || !document.body) return Promise.resolve(false);
+    var key = "ncq:survey:" + survey.environment + ":" + survey.game + ":shown";
+    if (auto) {
+      if (options.eligible !== true || options.safe !== true || document.hidden) return Promise.resolve(false);
+      var top = w.NcqPopup && w.NcqPopup.top();
+      var review = w.NcqReview && w.NcqReview.status();
+      if ((top && top !== options.parent) || (review && (review.blocks.length || review.reasons.indexOf("in_progress") >= 0))) return Promise.resolve(false);
+      try { if (w.localStorage.getItem(key)) return Promise.resolve(false); }
+      catch (e) { return Promise.resolve(false); }
+    }
+    var locale = options.language || lang() || "en", table = survey.translations || {};
+    var tx = Object.assign({}, /^ko\b/i.test(locale) ? surveyText.ko : surveyText.en,
+                           table[locale] || table[locale.split("-")[0]] || table.en || {});
+    var result = new Promise(function (resolve) {
+      var root = el("div", "ncqfb"), card = el("div", "ncqfb-card"), finished = false;
+      var unlock = null, confirmed = false, opener = document.activeElement;
+      try {
+        state.open = true; state.root = root; state.trigger = auto ? "auto" : "manual";
+        state.finish = function (sent) {
+          if (!sent && !confirmed && (!auto || finished)) surveyEvent("dismiss");
+          if (unlock) unlock();
+          state.trigger = null;
+          if (opener && opener.isConnected) opener.focus();
+          resolve(auto ? finished : confirmed || !!sent);
+        };
+        if (!document.getElementById("ncqfb-style")) {
+          var style = el("style"); style.id = "ncqfb-style"; style.textContent = CSS; document.head.appendChild(style);
+        }
+        root.id = "ncq-survey"; root.setAttribute("role","dialog"); root.setAttribute("aria-modal","true");
+        root.setAttribute("aria-label", tx.title); root.appendChild(card);
+        var closeBtn = el("button","ncqfb-x","×"); closeBtn.type = "button"; closeBtn.setAttribute("aria-label", tx.skip);
+        closeBtn.onclick = function () { close(false); };
+        root.onkeydown = function (e) { if (e.key === "Escape" && state.root === root) close(false); };
+        document.body.appendChild(root);
+        if (w.NcqPopup) state.popup = w.NcqPopup.register(root, {isOpen:function () {return state.root === root;},
+          show:function () {}, hide:function () { if (state.root === root) close(false); }});
+        if (w.NcqReview) unlock = w.NcqReview.block("survey");
+        function heading(title) {
+          card.textContent = ""; card.appendChild(closeBtn); card.appendChild(el("h2", null, title));
+        }
+        function form() {
+          heading(tx.title); card.appendChild(el("p","ncqfb-small",tx.note));
+          var id = newResponseId(), inputs = {}, questions = {}, progress = {}, consent;
+          var sendForm = el("form");
+          card.appendChild(sendForm);
+          ["fun","difficulty","favorite","pain","comment","idea"].forEach(function (key) {
+            var score = key === "fun" || key === "difficulty", choices = tx[key + "_choices"];
+            var label = el("label","ncqfb-label",tx[key] + (score ? "" : " (" + tx.optional + ")"));
+            questions[key] = tx[key];
+            var input = el(score || choices ? "select" : "textarea");
+            input.id = "ncq-survey-" + key; label.htmlFor = input.id; input.required = score;
+            if (input.tagName === "SELECT") {
+              input.add(new Option(tx.choose, ""));
+              (score ? (key === "fun" ? ["1","2","3","4","5"] : tx.levels) : choices).forEach(function (label, i) {
+                input.add(new Option(label, score ? String(i + 1) : label));
+              });
+            } else { input.maxLength = 600; input.rows = 2; }
+            inputs[key] = input; sendForm.appendChild(label); sendForm.appendChild(input);
+          });
+          (survey.progress || []).forEach(function (k) {
+            var v = (options.progress || {})[k];
+            if (typeof v === "boolean" || (Number.isInteger(v) && v >= 0 && v <= 1000000)) progress[k] = v;
+          });
+          if (Object.keys(progress).length) {
+            var preview = el("label","ncqfb-small"); consent = el("input"); consent.type = "checkbox";
+            preview.appendChild(consent); preview.appendChild(document.createTextNode(tx.consent + " · " + JSON.stringify(progress)));
+            sendForm.appendChild(preview);
+          }
+          var err = el("p","ncqfb-err"), go = el("button","ncqfb-send",tx.send); go.type = "submit";
+          err.setAttribute("role","status"); sendForm.appendChild(err); sendForm.appendChild(go);
+          sendForm.onsubmit = function (event) {
+            event.preventDefault();
+            if (go.disabled || !sendForm.reportValidity()) return;
+            var payload = {response_id:id, schema_version:survey.schema_version, build_version:String(NCQ.NCQ_VERSION || "dev"),
+              platform:NCQ.NCQ_PLATFORM || "web", language:locale, trigger:auto ? "auto" : "manual", questions:questions};
+            Object.keys(inputs).forEach(function (k) { payload[k] = inputs[k].value; });
+            payload.fun = Number(payload.fun); payload.difficulty = Number(payload.difficulty);
+            if (consent && consent.checked) { payload.consent = true; payload.progress = progress; }
+            go.disabled = true; go.textContent = tx.sending; err.textContent = ""; surveyEvent("submit_attempt");
+            var ctrl = typeof AbortController === "function" ? new AbortController() : null;
+            var timer = ctrl && setTimeout(function () { ctrl.abort(); }, 12000);
+            fetch(survey.url,{method:"POST", headers:{"Content-Type":"application/json"}, credentials:"omit",
+              signal:ctrl ? ctrl.signal : undefined, body:JSON.stringify(payload)}).then(function (r) {
+              if (r.status === 409) throw new Error("response_conflict");
+              if (!r.ok) throw Error();
+              return r.json();
+            }).then(function (r) {
+              if (!r.ok || r.response_id !== id) throw Error();
+              if (state.root !== root) return;
+              confirmed = true;
+              surveyEvent("submit_confirmed");
+              heading(tx.received);
+              card.appendChild(el("p", "ncqfb-small", tx.receipt));
+              card.appendChild(el("code", null, id));
+              closeBtn.focus();
+            }).catch(function (error) {
+              if (state.root === root) {
+                go.disabled = error.message === "response_conflict"; go.textContent = tx.send;
+                err.textContent = go.disabled ? tx.conflict + " " + id : tx.error;
+              }
+            }).then(function () { if (timer) clearTimeout(timer); });
+          };
+          surveyEvent("open"); inputs.fun.focus();
+        }
+        if (auto) {
+          heading(tx.prompt);
+          var start = el("button","ncqfb-send",tx.start); start.type = "button"; start.onclick = form; card.appendChild(start);
+          w.localStorage.setItem(key, "1"); finished = true; surveyEvent("prompt_shown"); start.focus();
+        } else { form(); }
+      } catch (e) { close(false); }
+    });
+    return result;
+  }
   var api = {
     can: function () { return !!(cfg && cfg.url); },
     open: open,
+    canSurvey: surveyAvailable,
+    openSurvey: function (options) { return surveyDialog(false, options); },
+    promptSurvey: function (options) {
+      if (surveyAvailable() && w.navigator.locks) {
+        return w.navigator.locks.request("ncq:survey:" + survey.environment + ":" + survey.game,
+          {ifAvailable:true}, function (lock) { return lock ? surveyDialog(true, options) : false; })
+          .catch(function () { return false; });
+      }
+      return surveyDialog(true, options);
+    },
     isOpen: function () { return state.open; },
     close: function () { if (state.open) close(false); },
     send: send,

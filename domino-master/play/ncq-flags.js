@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_PUBLIC": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.1.3", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.dominomaster", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/domino-master", "board": "https://ncroquis.github.io/domino-master/feedback/"}, "NCQ_WEB_DESTINATION": "public", "NCQ_SOURCE_COMMIT": "06d67b9c88c048a17f33c6dd5b43548afc8e1a5b", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_PUBLIC": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.1.4", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.dominomaster", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/domino-master", "board": "https://ncroquis.github.io/domino-master/feedback/"}, "NCQ_WEB_DESTINATION": "public", "NCQ_SOURCE_COMMIT": "d4288ed16c798957fb6ce3425a89e4706888cbb9", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
 Object.assign(window, window.NCQ);
 /* NcqViewport — fixed game page, native inner scrolling and editable controls. ES2017. */
 (function (w, d) {
@@ -611,6 +611,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
   // 이름은 정해 둔 것만 받고, 값은 짧은 글·숫자·참거짓만 남긴다 (게임 코드가 부르는 함수가 아니에요)
   var TOOL_EVENTS = {ad_load: 1, ad_fail: 1, ad_show: 1, ad_reward: 1, ad_call: 1, purchase_start: 1, purchase: 1,
                      purchase_cancel: 1, purchase_fail: 1, purchase_restore: 1, save_tamper: 1,
+                     review_eligible: 1, review_request_attempt: 1, review_request_result: 1, review_manual_store_open: 1,
                      promo_reward: 1};
   function toolEvent(name, props) {
     if (typeof name !== "string" || !Object.prototype.hasOwnProperty.call(TOOL_EVENTS, name)) return;
@@ -752,7 +753,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"domino-master","pf":"web","mk":"web","tr":"share","vn":"0.1.3","vc":0,"cm":"06d67b9","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"domino-master","pf":"web","mk":"web","tr":"share","vn":"0.1.4","vc":0,"cm":"d4288ed","ft":[]});
 
 (function(w){
   function no(){return false;}

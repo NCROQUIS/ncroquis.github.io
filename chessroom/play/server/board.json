@@ -10,7 +10,16 @@
     "b5",
     "u1",
     "u1i1",
-    "u2i1"
+    "u2i1",
+    "fc10",
+    "fc20",
+    "fc30",
+    "fb3",
+    "fb3i2",
+    "fb5",
+    "fu1",
+    "fu1i1",
+    "fu2i1"
   ],
   "ratings": "queue",
   "turn_seconds": 600,

@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_PUBLIC": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.3.3", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.yutmaster", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/yut-master", "board": "https://ncroquis.github.io/yut-master/feedback/"}, "NCQ_WEB_DESTINATION": "public", "NCQ_SOURCE_COMMIT": "ed391d7337aefbe0fb8a821a52a58d746b00339e", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_PUBLIC": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.3.4", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.yutmaster", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/yut-master", "board": "https://ncroquis.github.io/yut-master/feedback/"}, "NCQ_WEB_DESTINATION": "public", "NCQ_SOURCE_COMMIT": "200ded3ebf707c136d6a88acd5331f1d0c67df78", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
 Object.assign(window, window.NCQ);
 /* NcqViewport — fixed game page, native inner scrolling and editable controls. ES2017. */
 (function (w, d) {
@@ -611,6 +611,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
   // 이름은 정해 둔 것만 받고, 값은 짧은 글·숫자·참거짓만 남긴다 (게임 코드가 부르는 함수가 아니에요)
   var TOOL_EVENTS = {ad_load: 1, ad_fail: 1, ad_show: 1, ad_reward: 1, ad_call: 1, purchase_start: 1, purchase: 1,
                      purchase_cancel: 1, purchase_fail: 1, purchase_restore: 1, save_tamper: 1,
+                     review_eligible: 1, review_request_attempt: 1, review_request_result: 1, review_manual_store_open: 1,
                      promo_reward: 1};
   function toolEvent(name, props) {
     if (typeof name !== "string" || !Object.prototype.hasOwnProperty.call(TOOL_EVENTS, name)) return;
@@ -752,7 +753,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"yut-master","pf":"web","mk":"web","tr":"share","vn":"0.3.3","vc":0,"cm":"ed391d7","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"yut-master","pf":"web","mk":"web","tr":"share","vn":"0.3.4","vc":0,"cm":"200ded3","ft":[]});
 
 (function(w){
   function no(){return false;}

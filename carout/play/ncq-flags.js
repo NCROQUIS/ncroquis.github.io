@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.1.1", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.carout", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/carout", "board": "https://ncroquis.github.io/carout/feedback/"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "carout", "environment": "test", "platform": "web", "firebase": {"projectId": "ncq-auth-test", "apiKey": "AIzaSyD4CoZ5Zgu5tn1I_xcEqyA-8OdNQY4hoFI", "appId": "1:1092518000531:web:59b3357077a1178a329a66"}}, "NCQ_SOURCE_COMMIT": "f7bf6fc149b504d3273b10eea943bb7e07bf60b1", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_PUBLIC": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.1.2", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.carout", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/carout", "board": "https://ncroquis.github.io/carout/feedback/"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "carout", "environment": "test", "platform": "web", "firebase": {"projectId": "ncq-auth-test", "apiKey": "AIzaSyD4CoZ5Zgu5tn1I_xcEqyA-8OdNQY4hoFI", "appId": "1:1092518000531:web:59b3357077a1178a329a66"}}, "NCQ_WEB_DESTINATION": "public", "NCQ_SOURCE_COMMIT": "621f6ab0154d34573543b2e9ed179f7b89df0d3b", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
 Object.assign(window, window.NCQ);
 /* NcqViewport — fixed game page, native inner scrolling and editable controls. ES2017. */
 (function (w, d) {
@@ -752,4 +752,14 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"carout","pf":"web","mk":"web","tr":"share","vn":"0.1.1","vc":0,"cm":"f7bf6fc","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"carout","pf":"web","mk":"web","tr":"share","vn":"0.1.2","vc":0,"cm":"621f6ab","ft":[]});
+
+(function(w){
+  function no(){return false;}
+  function unavailable(id){return Promise.resolve({ok:false,id:id,code:"UNAVAILABLE"});}
+  var api={version:5,onGrant:function(){return api;},can:no,price:function(){return "";},
+    ready:function(){return Promise.resolve(false);},owned:function(){return Promise.resolve(false);},
+    buy:unavailable,buyOnce:unavailable,restore:function(){return Promise.resolve({ok:false,restored:[],code:"UNAVAILABLE"});},
+    status:function(){return {platform:"web",mode:"off",off:true,ready:false,products:{}};}};
+  w.NcqIap=Object.freeze(api);
+})(window);

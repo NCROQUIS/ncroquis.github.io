@@ -371,7 +371,6 @@
 "<span>내 레이팅</span><b>{0}</b>": "<span>Rating saya</span><b>{0}</b>",
 " <span class=\"inc\">+{0}초/수</span>": " <span class=\"inc\">+{0}dtk/langkah</span>",
 "<span>내 레이팅{0}</span><b>{1}</b>": "<span>Rating saya{0}</span><b>{1}</b>",
-"<span>레이팅</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>": "<span>Rating</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>",
 "둔 수": "Langkah",
 "이전 수": "Langkah sebelumnya",
 "다음 수": "Langkah berikutnya",
@@ -532,5 +531,6 @@
 "한 수로 끝내기": "Tamat dalam satu langkah",
 "두 수 안에 끝내기": "Tamat dalam dua langkah",
 "세 수 안에 끝내기": "Tamat dalam tiga langkah",
-"네 수 안에 끝내기": "Tamat dalam empat langkah"
+"네 수 안에 끝내기": "Tamat dalam empat langkah",
+"<span>레이팅</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>": "<span>Rating</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>"
 }

@@ -371,7 +371,6 @@
 "<span>내 레이팅</span><b>{0}</b>": "<span>Puanım</span><b>{0}</b>",
 " <span class=\"inc\">+{0}초/수</span>": " <span class=\"inc\">+{0}sn/hamle</span>",
 "<span>내 레이팅{0}</span><b>{1}</b>": "<span>Puanım{0}</span><b>{1}</b>",
-"<span>레이팅</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>": "<span>Puan</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>",
 "둔 수": "Hamleler",
 "이전 수": "Önceki hamle",
 "다음 수": "Sonraki hamle",
@@ -532,5 +531,6 @@
 "한 수로 끝내기": "Tek hamlede bitir",
 "두 수 안에 끝내기": "İki hamlede bitir",
 "세 수 안에 끝내기": "Üç hamlede bitir",
-"네 수 안에 끝내기": "Dört hamlede bitir"
+"네 수 안에 끝내기": "Dört hamlede bitir",
+"<span>레이팅</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>": "<span>Puan</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>"
 }

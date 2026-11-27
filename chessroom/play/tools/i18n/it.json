@@ -371,7 +371,6 @@
 "<span>내 레이팅</span><b>{0}</b>": "<span>Il mio punteggio</span><b>{0}</b>",
 " <span class=\"inc\">+{0}초/수</span>": " <span class=\"inc\">+{0}s/mossa</span>",
 "<span>내 레이팅{0}</span><b>{1}</b>": "<span>Il mio punteggio{0}</span><b>{1}</b>",
-"<span>레이팅</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>": "<span>Punteggio</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>",
 "둔 수": "Mosse",
 "이전 수": "Mossa precedente",
 "다음 수": "Mossa successiva",
@@ -532,5 +531,6 @@
 "한 수로 끝내기": "Chiudi in una mossa",
 "두 수 안에 끝내기": "Chiudi in due mosse",
 "세 수 안에 끝내기": "Chiudi in tre mosse",
-"네 수 안에 끝내기": "Chiudi in quattro mosse"
+"네 수 안에 끝내기": "Chiudi in quattro mosse",
+"<span>레이팅</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>": "<span>Punteggio</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>"
 }

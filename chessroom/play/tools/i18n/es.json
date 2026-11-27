@@ -371,7 +371,6 @@
 "<span>내 레이팅</span><b>{0}</b>": "<span>Mi Elo</span><b>{0}</b>",
 " <span class=\"inc\">+{0}초/수</span>": " <span class=\"inc\">+{0}s/jugada</span>",
 "<span>내 레이팅{0}</span><b>{1}</b>": "<span>Mi Elo{0}</span><b>{1}</b>",
-"<span>레이팅</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>": "<span>Elo</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>",
 "둔 수": "Jugadas",
 "이전 수": "Jugada anterior",
 "다음 수": "Jugada siguiente",
@@ -532,5 +531,6 @@
 "한 수로 끝내기": "Termina en una jugada",
 "두 수 안에 끝내기": "Termina en dos jugadas",
 "세 수 안에 끝내기": "Termina en tres jugadas",
-"네 수 안에 끝내기": "Termina en cuatro jugadas"
+"네 수 안에 끝내기": "Termina en cuatro jugadas",
+"<span>레이팅</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>": "<span>Elo</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>"
 }

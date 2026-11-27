@@ -373,7 +373,6 @@
 "<span>내 레이팅</span><b>{0}</b>": "<span>My rating</span><b>{0}</b>",
 " <span class=\"inc\">+{0}초/수</span>": " <span class=\"inc\">+{0}s/move</span>",
 "<span>내 레이팅{0}</span><b>{1}</b>": "<span>My rating{0}</span><b>{1}</b>",
-"<span>레이팅</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>": "<span>Rating</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>",
 "둔 수": "Moves",
 "이전 수": "Previous move",
 "다음 수": "Next move",
@@ -925,5 +924,6 @@
 "한 수로 끝내기": "Finish in one move",
 "두 수 안에 끝내기": "Finish within two moves",
 "세 수 안에 끝내기": "Finish within three moves",
-"네 수 안에 끝내기": "Finish within four moves"
+"네 수 안에 끝내기": "Finish within four moves",
+"<span>레이팅</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>": "<span>Rating</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>"
 }

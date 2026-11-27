@@ -371,7 +371,6 @@
 "<span>내 레이팅</span><b>{0}</b>": "<span>Mój ranking</span><b>{0}</b>",
 " <span class=\"inc\">+{0}초/수</span>": " <span class=\"inc\">+{0}s/ruch</span>",
 "<span>내 레이팅{0}</span><b>{1}</b>": "<span>Mój ranking{0}</span><b>{1}</b>",
-"<span>레이팅</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>": "<span>Rating</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>",
 "둔 수": "Ruchy",
 "이전 수": "Poprzedni ruch",
 "다음 수": "Następny ruch",
@@ -532,5 +531,6 @@
 "한 수로 끝내기": "Zakończ w jednym ruchu",
 "두 수 안에 끝내기": "Zakończ w dwóch ruchach",
 "세 수 안에 끝내기": "Zakończ w trzech ruchach",
-"네 수 안에 끝내기": "Zakończ w czterech ruchach"
+"네 수 안에 끝내기": "Zakończ w czterech ruchach",
+"<span>레이팅</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>": "<span>Rating</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>"
 }

@@ -371,7 +371,6 @@
 "<span>내 레이팅</span><b>{0}</b>": "<span>Mon classement</span><b>{0}</b>",
 " <span class=\"inc\">+{0}초/수</span>": " <span class=\"inc\">+{0}s/coup</span>",
 "<span>내 레이팅{0}</span><b>{1}</b>": "<span>Mon classement{0}</span><b>{1}</b>",
-"<span>레이팅</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>": "<span>Classement</span><b>{0} <i class=\"{1}\">{2}{3}</i></b>",
 "둔 수": "Coups",
 "이전 수": "Coup précédent",
 "다음 수": "Coup suivant",
@@ -532,5 +531,6 @@
 "한 수로 끝내기": "Finir en un coup",
 "두 수 안에 끝내기": "Finir en deux coups",
 "세 수 안에 끝내기": "Finir en trois coups",
-"네 수 안에 끝내기": "Finir en quatre coups"
+"네 수 안에 끝내기": "Finir en quatre coups",
+"<span>레이팅</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>": "<span>Classement</span><b><em class=\"rn\">{0}</em> <i class=\"{1}\">{2}{3}</i></b>"
 }

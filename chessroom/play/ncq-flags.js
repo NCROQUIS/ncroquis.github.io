@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_PUBLIC": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.3.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.chessroom", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/chessroom", "board": "https://ncroquis.github.io/chessroom/feedback/"}, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "chessroom", "environment": "prod", "platform": "web", "firebase": {"projectId": "ncq-auth-prod", "apiKey": "AIzaSyDqEPsungpngw_qgoPvZhCGRZah1KpjQTk", "appId": "1:82264449125:web:1f719a207abad22b95e68c"}}, "NCQ_RANK": {"apiUrl": "https://qqbajkltkhvhlwrxpgfn.supabase.co/functions/v1/ncq-rank", "game": "chessroom", "environment": "prod"}, "NCQ_WEB_DESTINATION": "public", "NCQ_SOURCE_COMMIT": "cb81137fba520dcb381d0b2100419da483e8a7a7", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_PUBLIC": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "0.4.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.chessroom", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/chessroom", "board": "https://ncroquis.github.io/chessroom/feedback/"}, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "chessroom", "environment": "prod", "platform": "web", "firebase": {"projectId": "ncq-auth-prod", "apiKey": "AIzaSyDqEPsungpngw_qgoPvZhCGRZah1KpjQTk", "appId": "1:82264449125:web:1f719a207abad22b95e68c"}}, "NCQ_RANK": {"apiUrl": "https://qqbajkltkhvhlwrxpgfn.supabase.co/functions/v1/ncq-rank", "game": "chessroom", "environment": "prod"}, "NCQ_WEB_DESTINATION": "public", "NCQ_SOURCE_COMMIT": "2fc7565ef786ed802e9020016eab648c6953846a", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
 Object.assign(window, window.NCQ);
 /* NcqViewport — fixed game page, native inner scrolling and editable controls. ES2017. */
 (function (w, d) {
@@ -754,7 +754,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"chessroom","pf":"web","mk":"web","tr":"share","vn":"0.3.0","vc":0,"cm":"cb81137","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"chessroom","pf":"web","mk":"web","tr":"share","vn":"0.4.0","vc":0,"cm":"2fc7565","ft":[]});
 
 (function(w){
   function no(){return false;}

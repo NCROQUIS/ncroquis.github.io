@@ -1,0 +1,2355 @@
+{
+  "version": 2,
+  "scope": "art-assets-only",
+  "reference": {
+    "width": 953,
+    "height": 1650
+  },
+  "units": "native texture pixels; insets ordered by named fields, not engine-specific tuple order",
+  "templates": [
+    {
+      "id": "capsule-dark",
+      "source": "header-profile",
+      "mode": "3-horizontal",
+      "width": 381,
+      "height": 90,
+      "insets": {
+        "left": 46,
+        "right": 46,
+        "top": 0,
+        "bottom": 0
+      },
+      "sizes": [
+        [
+          303,
+          68
+        ],
+        [
+          500,
+          90
+        ],
+        [
+          700,
+          90
+        ]
+      ],
+      "files": {
+        "png": "templates/capsule-dark.png",
+        "webp": "templates/capsule-dark.webp"
+      },
+      "minimumSize": [
+        93,
+        90
+      ],
+      "engineBorders": {
+        "css": [
+          0,
+          46,
+          0,
+          46
+        ],
+        "unity": [
+          46,
+          0,
+          46,
+          0
+        ]
+      },
+      "pieces": [
+        {
+          "name": "left",
+          "rect": [
+            0,
+            0,
+            46,
+            90
+          ],
+          "png": "pieces/capsule-dark/left.png",
+          "webp": "pieces/capsule-dark/left.webp"
+        },
+        {
+          "name": "center",
+          "rect": [
+            46,
+            0,
+            289,
+            90
+          ],
+          "png": "pieces/capsule-dark/center.png",
+          "webp": "pieces/capsule-dark/center.webp"
+        },
+        {
+          "name": "right",
+          "rect": [
+            335,
+            0,
+            46,
+            90
+          ],
+          "png": "pieces/capsule-dark/right.png",
+          "webp": "pieces/capsule-dark/right.webp"
+        }
+      ]
+    },
+    {
+      "id": "play-gold",
+      "source": "button-start",
+      "mode": "3-horizontal",
+      "width": 864,
+      "height": 222,
+      "insets": {
+        "left": 124,
+        "right": 124,
+        "top": 0,
+        "bottom": 0
+      },
+      "sizes": [
+        [
+          520,
+          180
+        ],
+        [
+          787,
+          203
+        ],
+        [
+          1050,
+          222
+        ]
+      ],
+      "files": {
+        "png": "templates/play-gold.png",
+        "webp": "templates/play-gold.webp"
+      },
+      "minimumSize": [
+        249,
+        222
+      ],
+      "engineBorders": {
+        "css": [
+          0,
+          124,
+          0,
+          124
+        ],
+        "unity": [
+          124,
+          0,
+          124,
+          0
+        ]
+      },
+      "pieces": [
+        {
+          "name": "left",
+          "rect": [
+            0,
+            0,
+            124,
+            222
+          ],
+          "png": "pieces/play-gold/left.png",
+          "webp": "pieces/play-gold/left.webp"
+        },
+        {
+          "name": "center",
+          "rect": [
+            124,
+            0,
+            616,
+            222
+          ],
+          "png": "pieces/play-gold/center.png",
+          "webp": "pieces/play-gold/center.webp"
+        },
+        {
+          "name": "right",
+          "rect": [
+            740,
+            0,
+            124,
+            222
+          ],
+          "png": "pieces/play-gold/right.png",
+          "webp": "pieces/play-gold/right.webp"
+        }
+      ]
+    },
+    {
+      "id": "side-dark",
+      "source": "button-sidebar",
+      "mode": "9-slice",
+      "width": 132,
+      "height": 137,
+      "insets": {
+        "left": 42,
+        "right": 42,
+        "top": 42,
+        "bottom": 42
+      },
+      "sizes": [
+        [
+          132,
+          137
+        ],
+        [
+          250,
+          137
+        ],
+        [
+          180,
+          230
+        ]
+      ],
+      "files": {
+        "png": "templates/side-dark.png",
+        "webp": "templates/side-dark.webp"
+      },
+      "minimumSize": [
+        85,
+        85
+      ],
+      "engineBorders": {
+        "css": [
+          42,
+          42,
+          42,
+          42
+        ],
+        "unity": [
+          42,
+          42,
+          42,
+          42
+        ]
+      },
+      "pieces": [
+        {
+          "name": "top-left",
+          "rect": [
+            0,
+            0,
+            42,
+            42
+          ],
+          "png": "pieces/side-dark/top-left.png",
+          "webp": "pieces/side-dark/top-left.webp"
+        },
+        {
+          "name": "top",
+          "rect": [
+            42,
+            0,
+            48,
+            42
+          ],
+          "png": "pieces/side-dark/top.png",
+          "webp": "pieces/side-dark/top.webp"
+        },
+        {
+          "name": "top-right",
+          "rect": [
+            90,
+            0,
+            42,
+            42
+          ],
+          "png": "pieces/side-dark/top-right.png",
+          "webp": "pieces/side-dark/top-right.webp"
+        },
+        {
+          "name": "left",
+          "rect": [
+            0,
+            42,
+            42,
+            53
+          ],
+          "png": "pieces/side-dark/left.png",
+          "webp": "pieces/side-dark/left.webp"
+        },
+        {
+          "name": "center",
+          "rect": [
+            42,
+            42,
+            48,
+            53
+          ],
+          "png": "pieces/side-dark/center.png",
+          "webp": "pieces/side-dark/center.webp"
+        },
+        {
+          "name": "right",
+          "rect": [
+            90,
+            42,
+            42,
+            53
+          ],
+          "png": "pieces/side-dark/right.png",
+          "webp": "pieces/side-dark/right.webp"
+        },
+        {
+          "name": "bottom-left",
+          "rect": [
+            0,
+            95,
+            42,
+            42
+          ],
+          "png": "pieces/side-dark/bottom-left.png",
+          "webp": "pieces/side-dark/bottom-left.webp"
+        },
+        {
+          "name": "bottom",
+          "rect": [
+            42,
+            95,
+            48,
+            42
+          ],
+          "png": "pieces/side-dark/bottom.png",
+          "webp": "pieces/side-dark/bottom.webp"
+        },
+        {
+          "name": "bottom-right",
+          "rect": [
+            90,
+            95,
+            42,
+            42
+          ],
+          "png": "pieces/side-dark/bottom-right.png",
+          "webp": "pieces/side-dark/bottom-right.webp"
+        }
+      ]
+    },
+    {
+      "id": "card-ivory",
+      "source": "card-ranking",
+      "mode": "9-slice",
+      "width": 465,
+      "height": 137,
+      "insets": {
+        "left": 40,
+        "right": 40,
+        "top": 40,
+        "bottom": 44
+      },
+      "sizes": [
+        [
+          320,
+          137
+        ],
+        [
+          890,
+          137
+        ],
+        [
+          465,
+          230
+        ]
+      ],
+      "files": {
+        "png": "templates/card-ivory.png",
+        "webp": "templates/card-ivory.webp"
+      },
+      "minimumSize": [
+        81,
+        85
+      ],
+      "engineBorders": {
+        "css": [
+          40,
+          40,
+          44,
+          40
+        ],
+        "unity": [
+          40,
+          44,
+          40,
+          40
+        ]
+      },
+      "pieces": [
+        {
+          "name": "top-left",
+          "rect": [
+            0,
+            0,
+            40,
+            40
+          ],
+          "png": "pieces/card-ivory/top-left.png",
+          "webp": "pieces/card-ivory/top-left.webp"
+        },
+        {
+          "name": "top",
+          "rect": [
+            40,
+            0,
+            385,
+            40
+          ],
+          "png": "pieces/card-ivory/top.png",
+          "webp": "pieces/card-ivory/top.webp"
+        },
+        {
+          "name": "top-right",
+          "rect": [
+            425,
+            0,
+            40,
+            40
+          ],
+          "png": "pieces/card-ivory/top-right.png",
+          "webp": "pieces/card-ivory/top-right.webp"
+        },
+        {
+          "name": "left",
+          "rect": [
+            0,
+            40,
+            40,
+            53
+          ],
+          "png": "pieces/card-ivory/left.png",
+          "webp": "pieces/card-ivory/left.webp"
+        },
+        {
+          "name": "center",
+          "rect": [
+            40,
+            40,
+            385,
+            53
+          ],
+          "png": "pieces/card-ivory/center.png",
+          "webp": "pieces/card-ivory/center.webp"
+        },
+        {
+          "name": "right",
+          "rect": [
+            425,
+            40,
+            40,
+            53
+          ],
+          "png": "pieces/card-ivory/right.png",
+          "webp": "pieces/card-ivory/right.webp"
+        },
+        {
+          "name": "bottom-left",
+          "rect": [
+            0,
+            93,
+            40,
+            44
+          ],
+          "png": "pieces/card-ivory/bottom-left.png",
+          "webp": "pieces/card-ivory/bottom-left.webp"
+        },
+        {
+          "name": "bottom",
+          "rect": [
+            40,
+            93,
+            385,
+            44
+          ],
+          "png": "pieces/card-ivory/bottom.png",
+          "webp": "pieces/card-ivory/bottom.webp"
+        },
+        {
+          "name": "bottom-right",
+          "rect": [
+            425,
+            93,
+            40,
+            44
+          ],
+          "png": "pieces/card-ivory/bottom-right.png",
+          "webp": "pieces/card-ivory/bottom-right.webp"
+        }
+      ]
+    },
+    {
+      "id": "button-soft",
+      "source": "button-create-room",
+      "mode": "9-slice",
+      "width": 433,
+      "height": 125,
+      "insets": {
+        "left": 62,
+        "right": 62,
+        "top": 57,
+        "bottom": 59
+      },
+      "sizes": [
+        [
+          300,
+          125
+        ],
+        [
+          500,
+          125
+        ],
+        [
+          430,
+          200
+        ]
+      ],
+      "palettes": {
+        "green": null,
+        "blue": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            91,
+            70,
+            81,
+            88
+          ],
+          [
+            170,
+            125,
+            156,
+            179
+          ],
+          [
+            210,
+            156,
+            192,
+            220
+          ],
+          [
+            230,
+            173,
+            210,
+            249
+          ],
+          [
+            237,
+            195,
+            222,
+            250
+          ],
+          [
+            244,
+            213,
+            232,
+            251
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ]
+      },
+      "files": {
+        "png": "templates/button-soft.png",
+        "webp": "templates/button-soft.webp"
+      },
+      "minimumSize": [
+        125,
+        117
+      ],
+      "engineBorders": {
+        "css": [
+          57,
+          62,
+          59,
+          62
+        ],
+        "unity": [
+          62,
+          59,
+          62,
+          57
+        ]
+      },
+      "pieces": [
+        {
+          "name": "top-left",
+          "rect": [
+            0,
+            0,
+            62,
+            57
+          ],
+          "png": "pieces/button-soft/top-left.png",
+          "webp": "pieces/button-soft/top-left.webp"
+        },
+        {
+          "name": "top",
+          "rect": [
+            62,
+            0,
+            309,
+            57
+          ],
+          "png": "pieces/button-soft/top.png",
+          "webp": "pieces/button-soft/top.webp"
+        },
+        {
+          "name": "top-right",
+          "rect": [
+            371,
+            0,
+            62,
+            57
+          ],
+          "png": "pieces/button-soft/top-right.png",
+          "webp": "pieces/button-soft/top-right.webp"
+        },
+        {
+          "name": "left",
+          "rect": [
+            0,
+            57,
+            62,
+            9
+          ],
+          "png": "pieces/button-soft/left.png",
+          "webp": "pieces/button-soft/left.webp"
+        },
+        {
+          "name": "center",
+          "rect": [
+            62,
+            57,
+            309,
+            9
+          ],
+          "png": "pieces/button-soft/center.png",
+          "webp": "pieces/button-soft/center.webp"
+        },
+        {
+          "name": "right",
+          "rect": [
+            371,
+            57,
+            62,
+            9
+          ],
+          "png": "pieces/button-soft/right.png",
+          "webp": "pieces/button-soft/right.webp"
+        },
+        {
+          "name": "bottom-left",
+          "rect": [
+            0,
+            66,
+            62,
+            59
+          ],
+          "png": "pieces/button-soft/bottom-left.png",
+          "webp": "pieces/button-soft/bottom-left.webp"
+        },
+        {
+          "name": "bottom",
+          "rect": [
+            62,
+            66,
+            309,
+            59
+          ],
+          "png": "pieces/button-soft/bottom.png",
+          "webp": "pieces/button-soft/bottom.webp"
+        },
+        {
+          "name": "bottom-right",
+          "rect": [
+            371,
+            66,
+            62,
+            59
+          ],
+          "png": "pieces/button-soft/bottom-right.png",
+          "webp": "pieces/button-soft/bottom-right.webp"
+        }
+      ]
+    },
+    {
+      "id": "stat-inset",
+      "source": "stat-chip",
+      "mode": "9-slice",
+      "width": 105,
+      "height": 56,
+      "insets": {
+        "left": 14,
+        "right": 14,
+        "top": 16,
+        "bottom": 18
+      },
+      "sizes": [
+        [
+          105,
+          56
+        ],
+        [
+          210,
+          56
+        ],
+        [
+          150,
+          95
+        ]
+      ],
+      "files": {
+        "png": "templates/stat-inset.png",
+        "webp": "templates/stat-inset.webp"
+      },
+      "minimumSize": [
+        29,
+        35
+      ],
+      "engineBorders": {
+        "css": [
+          16,
+          14,
+          18,
+          14
+        ],
+        "unity": [
+          14,
+          18,
+          14,
+          16
+        ]
+      },
+      "pieces": [
+        {
+          "name": "top-left",
+          "rect": [
+            0,
+            0,
+            14,
+            16
+          ],
+          "png": "pieces/stat-inset/top-left.png",
+          "webp": "pieces/stat-inset/top-left.webp"
+        },
+        {
+          "name": "top",
+          "rect": [
+            14,
+            0,
+            77,
+            16
+          ],
+          "png": "pieces/stat-inset/top.png",
+          "webp": "pieces/stat-inset/top.webp"
+        },
+        {
+          "name": "top-right",
+          "rect": [
+            91,
+            0,
+            14,
+            16
+          ],
+          "png": "pieces/stat-inset/top-right.png",
+          "webp": "pieces/stat-inset/top-right.webp"
+        },
+        {
+          "name": "left",
+          "rect": [
+            0,
+            16,
+            14,
+            22
+          ],
+          "png": "pieces/stat-inset/left.png",
+          "webp": "pieces/stat-inset/left.webp"
+        },
+        {
+          "name": "center",
+          "rect": [
+            14,
+            16,
+            77,
+            22
+          ],
+          "png": "pieces/stat-inset/center.png",
+          "webp": "pieces/stat-inset/center.webp"
+        },
+        {
+          "name": "right",
+          "rect": [
+            91,
+            16,
+            14,
+            22
+          ],
+          "png": "pieces/stat-inset/right.png",
+          "webp": "pieces/stat-inset/right.webp"
+        },
+        {
+          "name": "bottom-left",
+          "rect": [
+            0,
+            38,
+            14,
+            18
+          ],
+          "png": "pieces/stat-inset/bottom-left.png",
+          "webp": "pieces/stat-inset/bottom-left.webp"
+        },
+        {
+          "name": "bottom",
+          "rect": [
+            14,
+            38,
+            77,
+            18
+          ],
+          "png": "pieces/stat-inset/bottom.png",
+          "webp": "pieces/stat-inset/bottom.webp"
+        },
+        {
+          "name": "bottom-right",
+          "rect": [
+            91,
+            38,
+            14,
+            18
+          ],
+          "png": "pieces/stat-inset/bottom-right.png",
+          "webp": "pieces/stat-inset/bottom-right.webp"
+        }
+      ]
+    },
+    {
+      "id": "gauge-track",
+      "source": "gauge-track",
+      "mode": "9-slice",
+      "width": 304,
+      "height": 45,
+      "insets": {
+        "left": 24,
+        "right": 24,
+        "top": 21,
+        "bottom": 21
+      },
+      "sizes": [
+        [
+          200,
+          45
+        ],
+        [
+          400,
+          45
+        ],
+        [
+          304,
+          65
+        ]
+      ],
+      "files": {
+        "png": "templates/gauge-track.png",
+        "webp": "templates/gauge-track.webp"
+      },
+      "minimumSize": [
+        49,
+        43
+      ],
+      "engineBorders": {
+        "css": [
+          21,
+          24,
+          21,
+          24
+        ],
+        "unity": [
+          24,
+          21,
+          24,
+          21
+        ]
+      },
+      "pieces": [
+        {
+          "name": "top-left",
+          "rect": [
+            0,
+            0,
+            24,
+            21
+          ],
+          "png": "pieces/gauge-track/top-left.png",
+          "webp": "pieces/gauge-track/top-left.webp"
+        },
+        {
+          "name": "top",
+          "rect": [
+            24,
+            0,
+            256,
+            21
+          ],
+          "png": "pieces/gauge-track/top.png",
+          "webp": "pieces/gauge-track/top.webp"
+        },
+        {
+          "name": "top-right",
+          "rect": [
+            280,
+            0,
+            24,
+            21
+          ],
+          "png": "pieces/gauge-track/top-right.png",
+          "webp": "pieces/gauge-track/top-right.webp"
+        },
+        {
+          "name": "left",
+          "rect": [
+            0,
+            21,
+            24,
+            3
+          ],
+          "png": "pieces/gauge-track/left.png",
+          "webp": "pieces/gauge-track/left.webp"
+        },
+        {
+          "name": "center",
+          "rect": [
+            24,
+            21,
+            256,
+            3
+          ],
+          "png": "pieces/gauge-track/center.png",
+          "webp": "pieces/gauge-track/center.webp"
+        },
+        {
+          "name": "right",
+          "rect": [
+            280,
+            21,
+            24,
+            3
+          ],
+          "png": "pieces/gauge-track/right.png",
+          "webp": "pieces/gauge-track/right.webp"
+        },
+        {
+          "name": "bottom-left",
+          "rect": [
+            0,
+            24,
+            24,
+            21
+          ],
+          "png": "pieces/gauge-track/bottom-left.png",
+          "webp": "pieces/gauge-track/bottom-left.webp"
+        },
+        {
+          "name": "bottom",
+          "rect": [
+            24,
+            24,
+            256,
+            21
+          ],
+          "png": "pieces/gauge-track/bottom.png",
+          "webp": "pieces/gauge-track/bottom.webp"
+        },
+        {
+          "name": "bottom-right",
+          "rect": [
+            280,
+            24,
+            24,
+            21
+          ],
+          "png": "pieces/gauge-track/bottom-right.png",
+          "webp": "pieces/gauge-track/bottom-right.webp"
+        }
+      ]
+    },
+    {
+      "id": "gauge-fill",
+      "source": "gauge-fill",
+      "mode": "9-slice",
+      "width": 219,
+      "height": 36,
+      "insets": {
+        "left": 19,
+        "right": 19,
+        "top": 17,
+        "bottom": 17
+      },
+      "sizes": [
+        [
+          140,
+          36
+        ],
+        [
+          350,
+          36
+        ],
+        [
+          219,
+          60
+        ]
+      ],
+      "files": {
+        "png": "templates/gauge-fill.png",
+        "webp": "templates/gauge-fill.webp"
+      },
+      "minimumSize": [
+        39,
+        35
+      ],
+      "engineBorders": {
+        "css": [
+          17,
+          19,
+          17,
+          19
+        ],
+        "unity": [
+          19,
+          17,
+          19,
+          17
+        ]
+      },
+      "pieces": [
+        {
+          "name": "top-left",
+          "rect": [
+            0,
+            0,
+            19,
+            17
+          ],
+          "png": "pieces/gauge-fill/top-left.png",
+          "webp": "pieces/gauge-fill/top-left.webp"
+        },
+        {
+          "name": "top",
+          "rect": [
+            19,
+            0,
+            181,
+            17
+          ],
+          "png": "pieces/gauge-fill/top.png",
+          "webp": "pieces/gauge-fill/top.webp"
+        },
+        {
+          "name": "top-right",
+          "rect": [
+            200,
+            0,
+            19,
+            17
+          ],
+          "png": "pieces/gauge-fill/top-right.png",
+          "webp": "pieces/gauge-fill/top-right.webp"
+        },
+        {
+          "name": "left",
+          "rect": [
+            0,
+            17,
+            19,
+            2
+          ],
+          "png": "pieces/gauge-fill/left.png",
+          "webp": "pieces/gauge-fill/left.webp"
+        },
+        {
+          "name": "center",
+          "rect": [
+            19,
+            17,
+            181,
+            2
+          ],
+          "png": "pieces/gauge-fill/center.png",
+          "webp": "pieces/gauge-fill/center.webp"
+        },
+        {
+          "name": "right",
+          "rect": [
+            200,
+            17,
+            19,
+            2
+          ],
+          "png": "pieces/gauge-fill/right.png",
+          "webp": "pieces/gauge-fill/right.webp"
+        },
+        {
+          "name": "bottom-left",
+          "rect": [
+            0,
+            19,
+            19,
+            17
+          ],
+          "png": "pieces/gauge-fill/bottom-left.png",
+          "webp": "pieces/gauge-fill/bottom-left.webp"
+        },
+        {
+          "name": "bottom",
+          "rect": [
+            19,
+            19,
+            181,
+            17
+          ],
+          "png": "pieces/gauge-fill/bottom.png",
+          "webp": "pieces/gauge-fill/bottom.webp"
+        },
+        {
+          "name": "bottom-right",
+          "rect": [
+            200,
+            19,
+            19,
+            17
+          ],
+          "png": "pieces/gauge-fill/bottom-right.png",
+          "webp": "pieces/gauge-fill/bottom-right.webp"
+        }
+      ]
+    }
+  ],
+  "aliases": {
+    "header-profile": {
+      "template": "capsule-dark"
+    },
+    "header-coins": {
+      "template": "capsule-dark"
+    },
+    "rank-chip": {
+      "template": "capsule-dark"
+    },
+    "button-start": {
+      "template": "play-gold"
+    },
+    "button-sidebar": {
+      "template": "side-dark"
+    },
+    "button-attendance": {
+      "template": "side-dark"
+    },
+    "button-missions": {
+      "template": "side-dark"
+    },
+    "button-pass": {
+      "template": "side-dark"
+    },
+    "button-events": {
+      "template": "side-dark"
+    },
+    "button-learning": {
+      "template": "side-dark"
+    },
+    "button-watch": {
+      "template": "side-dark"
+    },
+    "card-profile": {
+      "template": "card-ivory"
+    },
+    "card-ranking": {
+      "template": "card-ivory"
+    },
+    "card-recent": {
+      "template": "card-ivory"
+    },
+    "button-create-room": {
+      "template": "button-soft",
+      "palette": "green"
+    },
+    "button-find-room": {
+      "template": "button-soft",
+      "palette": "blue"
+    },
+    "stat-chip": {
+      "template": "stat-inset"
+    },
+    "gauge-track": {
+      "template": "gauge-track"
+    },
+    "gauge-fill": {
+      "template": "gauge-fill"
+    }
+  },
+  "fixedAssets": [
+    {
+      "id": "background",
+      "src": "background",
+      "crop": [
+        0,
+        0,
+        988,
+        1592
+      ],
+      "placement": [
+        0,
+        0,
+        953,
+        1650
+      ],
+      "size": [
+        953,
+        1650
+      ],
+      "opaque": true,
+      "width": 953,
+      "height": 1650,
+      "pngBytes": 2622050,
+      "webpBytes": 249662,
+      "alpha": false
+    },
+    {
+      "id": "board-empty",
+      "src": "board-empty",
+      "crop": [
+        40,
+        72,
+        1600,
+        824
+      ],
+      "placement": [
+        150,
+        500,
+        640,
+        320
+      ],
+      "size": [
+        960,
+        495
+      ],
+      "width": 960,
+      "height": 495,
+      "pngBytes": 830689,
+      "webpBytes": 161928,
+      "alpha": true
+    },
+    {
+      "id": "stones-cluster",
+      "src": "stones-and-bowls",
+      "crop": [
+        568,
+        237,
+        650,
+        391
+      ],
+      "placement": [
+        351,
+        550,
+        271,
+        168
+      ],
+      "width": 650,
+      "height": 391,
+      "pngBytes": 263745,
+      "webpBytes": 85504,
+      "alpha": true
+    },
+    {
+      "id": "bowl-white",
+      "src": "stones-and-bowls",
+      "crop": [
+        43,
+        296,
+        444,
+        377
+      ],
+      "placement": [
+        34,
+        603,
+        170,
+        144
+      ],
+      "width": 444,
+      "height": 377,
+      "pngBytes": 303565,
+      "webpBytes": 75468,
+      "alpha": true
+    },
+    {
+      "id": "bowl-black",
+      "src": "stones-and-bowls",
+      "crop": [
+        1286,
+        296,
+        446,
+        378
+      ],
+      "placement": [
+        738,
+        614,
+        159,
+        141
+      ],
+      "width": 446,
+      "height": 378,
+      "pngBytes": 307506,
+      "webpBytes": 76232,
+      "alpha": true
+    },
+    {
+      "id": "stone-white",
+      "src": "stones-and-bowls",
+      "crop": [
+        842,
+        235,
+        110,
+        87
+      ],
+      "placement": null,
+      "width": 110,
+      "height": 87,
+      "pngBytes": 18274,
+      "webpBytes": 7392,
+      "alpha": true
+    },
+    {
+      "id": "stone-black",
+      "src": "stones-and-bowls",
+      "crop": [
+        1027,
+        525,
+        122,
+        104
+      ],
+      "placement": null,
+      "width": 122,
+      "height": 104,
+      "pngBytes": 20159,
+      "webpBytes": 6646,
+      "alpha": true
+    },
+    {
+      "id": "title",
+      "src": "ui-atlas",
+      "crop": [
+        198,
+        108,
+        566,
+        276
+      ],
+      "placement": [
+        199,
+        113,
+        566,
+        276
+      ],
+      "width": 566,
+      "height": 276,
+      "pngBytes": 260989,
+      "webpBytes": 70068,
+      "alpha": true
+    },
+    {
+      "id": "subtitle",
+      "src": "subtitle",
+      "crop": [
+        270,
+        377,
+        450,
+        126
+      ],
+      "placement": [
+        273,
+        384,
+        411,
+        105
+      ],
+      "width": 450,
+      "height": 126,
+      "pngBytes": 73545,
+      "webpBytes": 39064,
+      "alpha": true
+    },
+    {
+      "id": "button-round",
+      "src": "surfaces-atlas",
+      "crop": [
+        875,
+        20,
+        91,
+        91
+      ],
+      "placement": null,
+      "width": 91,
+      "height": 91,
+      "pngBytes": 15008,
+      "webpBytes": 6560,
+      "alpha": true
+    },
+    {
+      "id": "navigation",
+      "src": "surfaces-atlas",
+      "crop": [
+        16,
+        1432,
+        958,
+        153
+      ],
+      "placement": [
+        18,
+        1484,
+        917,
+        151
+      ],
+      "width": 958,
+      "height": 153,
+      "pngBytes": 205915,
+      "webpBytes": 40888,
+      "alpha": true
+    },
+    {
+      "id": "avatar-cat",
+      "src": "icons-atlas",
+      "crop": [
+        25,
+        16,
+        141,
+        142
+      ],
+      "placement": [
+        29,
+        20,
+        109,
+        109
+      ],
+      "width": 141,
+      "height": 142,
+      "pngBytes": 39582,
+      "webpBytes": 14276,
+      "alpha": true
+    },
+    {
+      "id": "icon-coin",
+      "src": "icons-atlas",
+      "crop": [
+        632,
+        43,
+        81,
+        82
+      ],
+      "placement": [
+        609,
+        41,
+        47,
+        47
+      ],
+      "width": 81,
+      "height": 82,
+      "pngBytes": 13815,
+      "webpBytes": 6660,
+      "alpha": true
+    },
+    {
+      "id": "icon-plus",
+      "src": "icons-atlas",
+      "crop": [
+        763,
+        43,
+        81,
+        81
+      ],
+      "placement": [
+        781,
+        40,
+        48,
+        48
+      ],
+      "width": 81,
+      "height": 81,
+      "pngBytes": 12416,
+      "webpBytes": 5886,
+      "alpha": true
+    },
+    {
+      "id": "icon-settings",
+      "src": "icons-atlas",
+      "crop": [
+        865,
+        36,
+        97,
+        97
+      ],
+      "placement": [
+        861,
+        30,
+        72,
+        72
+      ],
+      "width": 97,
+      "height": 97,
+      "pngBytes": 18177,
+      "webpBytes": 7882,
+      "alpha": true
+    },
+    {
+      "id": "icon-attendance",
+      "src": "icons-atlas",
+      "crop": [
+        40,
+        201,
+        102,
+        108
+      ],
+      "placement": [
+        47,
+        198,
+        64,
+        68
+      ],
+      "width": 102,
+      "height": 108,
+      "pngBytes": 22492,
+      "webpBytes": 8964,
+      "alpha": true
+    },
+    {
+      "id": "icon-missions",
+      "src": "icons-atlas",
+      "crop": [
+        40,
+        345,
+        104,
+        107
+      ],
+      "placement": [
+        47,
+        337,
+        64,
+        66
+      ],
+      "width": 104,
+      "height": 107,
+      "pngBytes": 22670,
+      "webpBytes": 8904,
+      "alpha": true
+    },
+    {
+      "id": "icon-pass",
+      "src": "icons-atlas",
+      "crop": [
+        34,
+        501,
+        121,
+        100
+      ],
+      "placement": [
+        44,
+        483,
+        72,
+        60
+      ],
+      "width": 121,
+      "height": 100,
+      "pngBytes": 25418,
+      "webpBytes": 9540,
+      "alpha": true
+    },
+    {
+      "id": "icon-events",
+      "src": "icons-atlas",
+      "crop": [
+        840,
+        198,
+        113,
+        110
+      ],
+      "placement": [
+        838,
+        199,
+        70,
+        68
+      ],
+      "width": 113,
+      "height": 110,
+      "pngBytes": 25367,
+      "webpBytes": 10578,
+      "alpha": true
+    },
+    {
+      "id": "icon-learning",
+      "src": "icons-atlas",
+      "crop": [
+        838,
+        360,
+        118,
+        86
+      ],
+      "placement": [
+        838,
+        342,
+        72,
+        53
+      ],
+      "width": 118,
+      "height": 86,
+      "pngBytes": 23422,
+      "webpBytes": 9006,
+      "alpha": true
+    },
+    {
+      "id": "icon-watch",
+      "src": "icons-atlas",
+      "crop": [
+        842,
+        489,
+        110,
+        112
+      ],
+      "placement": [
+        841,
+        480,
+        67,
+        68
+      ],
+      "width": 110,
+      "height": 112,
+      "pngBytes": 24442,
+      "webpBytes": 9322,
+      "alpha": true
+    },
+    {
+      "id": "rank-emblem",
+      "src": "icons-atlas",
+      "crop": [
+        41,
+        784,
+        152,
+        130
+      ],
+      "placement": [
+        58,
+        857,
+        122,
+        104
+      ],
+      "width": 152,
+      "height": 130,
+      "pngBytes": 36821,
+      "webpBytes": 14398,
+      "alpha": true
+    },
+    {
+      "id": "icon-ranking",
+      "src": "icons-atlas",
+      "crop": [
+        52,
+        949,
+        124,
+        103
+      ],
+      "placement": [
+        61,
+        1000,
+        86,
+        78
+      ],
+      "width": 124,
+      "height": 103,
+      "pngBytes": 23151,
+      "webpBytes": 10624,
+      "alpha": true
+    },
+    {
+      "id": "icon-recent",
+      "src": "icons-atlas",
+      "crop": [
+        502,
+        933,
+        118,
+        119
+      ],
+      "placement": [
+        490,
+        999,
+        80,
+        81
+      ],
+      "width": 118,
+      "height": 119,
+      "pngBytes": 28584,
+      "webpBytes": 11130,
+      "alpha": true
+    },
+    {
+      "id": "icon-start-stones",
+      "src": "icons-atlas",
+      "crop": [
+        191,
+        1100,
+        174,
+        149
+      ],
+      "placement": [
+        199,
+        1161,
+        143,
+        123
+      ],
+      "width": 174,
+      "height": 149,
+      "pngBytes": 37248,
+      "webpBytes": 11752,
+      "alpha": true
+    },
+    {
+      "id": "icon-start-arrow",
+      "src": "icons-atlas",
+      "crop": [
+        738,
+        1138,
+        54,
+        64
+      ],
+      "placement": [
+        729,
+        1194,
+        39,
+        48
+      ],
+      "width": 54,
+      "height": 64,
+      "pngBytes": 3937,
+      "webpBytes": 2526,
+      "alpha": true
+    },
+    {
+      "id": "icon-create-room",
+      "src": "icons-atlas",
+      "crop": [
+        158,
+        1320,
+        93,
+        70
+      ],
+      "placement": [
+        145,
+        1376,
+        78,
+        59
+      ],
+      "width": 93,
+      "height": 70,
+      "pngBytes": 11046,
+      "webpBytes": 6108,
+      "alpha": true
+    },
+    {
+      "id": "icon-find-room",
+      "src": "icons-atlas",
+      "crop": [
+        601,
+        1315,
+        79,
+        78
+      ],
+      "placement": [
+        587,
+        1370,
+        67,
+        66
+      ],
+      "width": 79,
+      "height": 78,
+      "pngBytes": 8405,
+      "webpBytes": 5740,
+      "alpha": true
+    },
+    {
+      "id": "nav-records",
+      "src": "icons-atlas",
+      "crop": [
+        75,
+        1473,
+        83,
+        67
+      ],
+      "placement": [
+        86,
+        1520,
+        58,
+        47
+      ],
+      "width": 83,
+      "height": 67,
+      "pngBytes": 8299,
+      "webpBytes": 5208,
+      "alpha": true
+    },
+    {
+      "id": "nav-watch",
+      "src": "icons-atlas",
+      "crop": [
+        259,
+        1472,
+        88,
+        69
+      ],
+      "placement": [
+        265,
+        1520,
+        61,
+        48
+      ],
+      "width": 88,
+      "height": 69,
+      "pngBytes": 9218,
+      "webpBytes": 5708,
+      "alpha": true
+    },
+    {
+      "id": "nav-home",
+      "src": "icons-atlas",
+      "crop": [
+        452,
+        1461,
+        85,
+        79
+      ],
+      "placement": [
+        444,
+        1508,
+        65,
+        61
+      ],
+      "width": 85,
+      "height": 79,
+      "pngBytes": 11612,
+      "webpBytes": 6406,
+      "alpha": true
+    },
+    {
+      "id": "nav-rankings",
+      "src": "icons-atlas",
+      "crop": [
+        639,
+        1471,
+        82,
+        63
+      ],
+      "placement": [
+        626,
+        1518,
+        60,
+        46
+      ],
+      "width": 82,
+      "height": 63,
+      "pngBytes": 7702,
+      "webpBytes": 4852,
+      "alpha": true
+    },
+    {
+      "id": "nav-shop",
+      "src": "icons-atlas",
+      "crop": [
+        831,
+        1470,
+        86,
+        73
+      ],
+      "placement": [
+        807,
+        1518,
+        61,
+        52
+      ],
+      "width": 86,
+      "height": 73,
+      "pngBytes": 10552,
+      "webpBytes": 6412,
+      "alpha": true
+    },
+    {
+      "id": "notice-dot",
+      "src": "reference",
+      "crop": [
+        102,
+        186,
+        29,
+        30
+      ],
+      "placement": null,
+      "ellipse": true,
+      "width": 29,
+      "height": 30,
+      "pngBytes": 2529,
+      "webpBytes": 1686,
+      "alpha": true
+    },
+    {
+      "id": "icon-chevron",
+      "src": "vector",
+      "crop": [
+        0,
+        0,
+        28,
+        40
+      ],
+      "placement": null,
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 28 40\"><path d=\"m7 6 13 14L7 34\" fill=\"none\" stroke=\"#624a37\" stroke-width=\"6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "width": 28,
+      "height": 40,
+      "pngBytes": 1036,
+      "webpBytes": 1270,
+      "alpha": true
+    },
+    {
+      "id": "icon-chevron-light",
+      "src": "vector",
+      "crop": [
+        0,
+        0,
+        28,
+        40
+      ],
+      "placement": null,
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 28 40\"><path d=\"m7 6 13 14L7 34\" fill=\"none\" stroke=\"#fff2d6\" stroke-width=\"6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>",
+      "width": 28,
+      "height": 40,
+      "pngBytes": 946,
+      "webpBytes": 1218,
+      "alpha": true
+    }
+  ],
+  "layout": [
+    {
+      "id": "background",
+      "rect": [
+        0,
+        0,
+        953,
+        1650
+      ]
+    },
+    {
+      "id": "board-empty",
+      "rect": [
+        150,
+        500,
+        640,
+        320
+      ]
+    },
+    {
+      "id": "stones-cluster",
+      "rect": [
+        351,
+        550,
+        271,
+        168
+      ]
+    },
+    {
+      "id": "bowl-white",
+      "rect": [
+        34,
+        603,
+        170,
+        144
+      ]
+    },
+    {
+      "id": "bowl-black",
+      "rect": [
+        738,
+        614,
+        159,
+        141
+      ]
+    },
+    {
+      "id": "title",
+      "rect": [
+        199,
+        113,
+        566,
+        276
+      ]
+    },
+    {
+      "id": "subtitle",
+      "rect": [
+        273,
+        384,
+        411,
+        105
+      ]
+    },
+    {
+      "id": "header-profile",
+      "rect": [
+        106,
+        29,
+        303,
+        68
+      ],
+      "template": "capsule-dark"
+    },
+    {
+      "id": "header-coins",
+      "rect": [
+        588,
+        27,
+        254,
+        72
+      ],
+      "template": "capsule-dark"
+    },
+    {
+      "id": "button-attendance",
+      "rect": [
+        23,
+        187,
+        111,
+        121
+      ],
+      "template": "side-dark"
+    },
+    {
+      "id": "button-missions",
+      "rect": [
+        23,
+        326,
+        111,
+        121
+      ],
+      "template": "side-dark"
+    },
+    {
+      "id": "button-pass",
+      "rect": [
+        23,
+        464,
+        111,
+        121
+      ],
+      "template": "side-dark"
+    },
+    {
+      "id": "button-events",
+      "rect": [
+        818,
+        187,
+        111,
+        121
+      ],
+      "template": "side-dark"
+    },
+    {
+      "id": "button-learning",
+      "rect": [
+        818,
+        326,
+        111,
+        121
+      ],
+      "template": "side-dark"
+    },
+    {
+      "id": "button-watch",
+      "rect": [
+        818,
+        464,
+        111,
+        121
+      ],
+      "template": "side-dark"
+    },
+    {
+      "id": "card-profile",
+      "rect": [
+        32,
+        848,
+        890,
+        127
+      ],
+      "template": "card-ivory"
+    },
+    {
+      "id": "card-ranking",
+      "rect": [
+        32,
+        984,
+        419,
+        121
+      ],
+      "template": "card-ivory"
+    },
+    {
+      "id": "card-recent",
+      "rect": [
+        461,
+        984,
+        461,
+        121
+      ],
+      "template": "card-ivory"
+    },
+    {
+      "id": "button-start",
+      "rect": [
+        75,
+        1130,
+        787,
+        203
+      ],
+      "template": "play-gold"
+    },
+    {
+      "id": "button-create-room",
+      "rect": [
+        77,
+        1347,
+        396,
+        111
+      ],
+      "template": "button-soft",
+      "palette": "green"
+    },
+    {
+      "id": "button-find-room",
+      "rect": [
+        481,
+        1347,
+        396,
+        111
+      ],
+      "template": "button-soft",
+      "palette": "blue"
+    },
+    {
+      "id": "navigation",
+      "rect": [
+        18,
+        1484,
+        917,
+        151
+      ]
+    },
+    {
+      "id": "avatar-cat",
+      "rect": [
+        29,
+        20,
+        109,
+        109
+      ]
+    },
+    {
+      "id": "icon-coin",
+      "rect": [
+        609,
+        41,
+        47,
+        47
+      ]
+    },
+    {
+      "id": "icon-plus",
+      "rect": [
+        781,
+        40,
+        48,
+        48
+      ]
+    },
+    {
+      "id": "icon-settings",
+      "rect": [
+        861,
+        30,
+        72,
+        72
+      ]
+    },
+    {
+      "id": "icon-attendance",
+      "rect": [
+        47,
+        198,
+        64,
+        68
+      ]
+    },
+    {
+      "id": "icon-missions",
+      "rect": [
+        47,
+        337,
+        64,
+        66
+      ]
+    },
+    {
+      "id": "icon-pass",
+      "rect": [
+        44,
+        483,
+        72,
+        60
+      ]
+    },
+    {
+      "id": "icon-events",
+      "rect": [
+        838,
+        199,
+        70,
+        68
+      ]
+    },
+    {
+      "id": "icon-learning",
+      "rect": [
+        838,
+        342,
+        72,
+        53
+      ]
+    },
+    {
+      "id": "icon-watch",
+      "rect": [
+        841,
+        480,
+        67,
+        68
+      ]
+    },
+    {
+      "id": "rank-emblem",
+      "rect": [
+        58,
+        857,
+        122,
+        104
+      ]
+    },
+    {
+      "id": "icon-ranking",
+      "rect": [
+        61,
+        1000,
+        86,
+        78
+      ]
+    },
+    {
+      "id": "icon-recent",
+      "rect": [
+        490,
+        999,
+        80,
+        81
+      ]
+    },
+    {
+      "id": "icon-start-stones",
+      "rect": [
+        199,
+        1161,
+        143,
+        123
+      ]
+    },
+    {
+      "id": "icon-start-arrow",
+      "rect": [
+        729,
+        1194,
+        39,
+        48
+      ]
+    },
+    {
+      "id": "icon-create-room",
+      "rect": [
+        145,
+        1376,
+        78,
+        59
+      ]
+    },
+    {
+      "id": "icon-find-room",
+      "rect": [
+        587,
+        1370,
+        67,
+        66
+      ]
+    },
+    {
+      "id": "nav-records",
+      "rect": [
+        86,
+        1520,
+        58,
+        47
+      ]
+    },
+    {
+      "id": "nav-watch",
+      "rect": [
+        265,
+        1520,
+        61,
+        48
+      ]
+    },
+    {
+      "id": "nav-home",
+      "rect": [
+        444,
+        1508,
+        65,
+        61
+      ]
+    },
+    {
+      "id": "nav-rankings",
+      "rect": [
+        626,
+        1518,
+        60,
+        46
+      ]
+    },
+    {
+      "id": "nav-shop",
+      "rect": [
+        807,
+        1518,
+        61,
+        52
+      ]
+    }
+  ],
+  "unchanged": [
+    "navigation",
+    "button-round",
+    "all icons",
+    "background",
+    "board and stones"
+  ],
+  "newWebpEncoding": "lossless"
+}

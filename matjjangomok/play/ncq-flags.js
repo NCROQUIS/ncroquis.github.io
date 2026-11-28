@@ -1,5 +1,5 @@
 /* 엔크로키 출시 빌드 표시 (ncq_build.py가 만들어요) */
-window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_SHARE": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "1.19.4", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangomok", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/matjjangomok", "board": "https://ncroquis.github.io/matjjangomok/feedback/"}, "NCQ_SHARE": {"url": "https://ncroquis.github.io/matjjangomok/share/", "title": "맞짱 오목"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "matjjangomok", "environment": "prod", "platform": "web", "firebase": {"projectId": "ncq-auth-prod", "apiKey": "AIzaSyDqEPsungpngw_qgoPvZhCGRZah1KpjQTk", "appId": "1:82264449125:web:1f719a207abad22b95e68c"}}, "NCQ_SOURCE_COMMIT": "9f5b3fddf2947d880c686fd37d96eafb04ee71df", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
+window.NCQ = Object.freeze({"NCQ_MARKET_WEB": true, "NCQ_TRACK_PUBLIC": true, "NCQ_PLATFORM": "web", "NCQ_VERSION": "1.20.0", "NCQ_VERSION_CODE": 0, "NCQ_PACKAGE": "com.ncroquis.matjjangomok", "NCQ_FEEDBACK": {"url": "https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/feedback/matjjangomok", "board": "https://ncroquis.github.io/matjjangomok/feedback/"}, "NCQ_SHARE": {"url": "https://ncroquis.github.io/matjjangomok/share/", "title": "맞짱 오목"}, "NCQ_SAVE": true, "NCQ_AUTH": {"url": "https://ncq-game-api-476465444216.asia-northeast3.run.app", "game": "matjjangomok", "environment": "prod", "platform": "web", "firebase": {"projectId": "ncq-auth-prod", "apiKey": "AIzaSyDqEPsungpngw_qgoPvZhCGRZah1KpjQTk", "appId": "1:82264449125:web:1f719a207abad22b95e68c"}}, "NCQ_WEB_DESTINATION": "public", "NCQ_SOURCE_COMMIT": "cae4d8fcdbcd9b10ac522dd53db6e0c8a7685b9a", "NCQ_VIEWPORT": {"pageScroll": false}, "NCQ_DISPLAY": {"zoom": "locked", "awake": true, "textScale": "web"}});
 Object.assign(window, window.NCQ);
 /* NcqViewport — fixed game page, native inner scrolling and editable controls. ES2017. */
 (function (w, d) {
@@ -197,9 +197,11 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
 })(typeof window !== "undefined" ? window : null, typeof document !== "undefined" ? document : null);
 
 /* 엔크로키 지표 모듈 (ncq_build.py가 ncq-flags.js 뒤에 붙여요. 직접 고치지 마세요)
-   ncq-metrics 9 (2: 판 시작·끝 NcqMetrics.levelStart·levelEnd, 3: 광고·결제 도구가 보내는 광고·결제 이벤트,
+   ncq-metrics 10 (2: 판 시작·끝 NcqMetrics.levelStart·levelEnd, 3: 광고·결제 도구가 보내는 광고·결제 이벤트,
    4: 저장 모듈의 save_tamper, 5: 게임 오류 app_error, 6: 토스 포인트 지급 promo_reward, 7: 진행 단계 NcqMetrics.step,
-   8: 초기 반복 동선 NcqMetrics.flow — 20판·300건·14일, 9: 비정상 종료 app_exit·웹뷰 되살림 app_recover)
+   8: 초기 반복 동선 NcqMetrics.flow — 20판·300건·14일, 9: 비정상 종료 app_exit·웹뷰 되살림 app_recover,
+   10: 판 속성 levelStart·levelEnd의 map·layout·rules, 실험 배정 NcqMetrics.experiment — 더하기만 했어요: 속성 없이 부르는
+       예전 호출과 예전 이벤트는 그대로예요)
 
    아래 이벤트는 게임 코드가 할 일 없이 저절로 모아 킥오프 서버로 보내요.
      first_open     이 기기에서 처음 실행 (설치 ID를 만들 때)
@@ -209,6 +211,12 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
    한 판씩 하는 게임은 판 시작·끝을 알려요 (Firebase 추천 이벤트와 같은 이름. 경험치로 오르는 유저 레벨이 아니에요):
      NcqMetrics.levelStart("stage-3")                  → level_start {level_name, round}
      NcqMetrics.levelEnd("stage-3", true, {score: 120}) → level_end {level_name, round, success, ms, score}
+   판 이름(스테이지 번호)은 그대로 두고, 그 판이 어느 맵인지는 판 속성으로 실어요 (지표 모듈 10, 스테이지 순서를 바꿔도 같은
+   맵끼리 묶어 보려고). 정해 둔 키 map·layout·rules만, 값은 영문 소문자·숫자·하이픈 40자까지이고 어긋난 값은 조용히 버려요:
+     NcqMetrics.levelStart("stage-12", {map: "green-room", layout: "9b9649ea"}) → level_start {level_name, round, map, layout}
+     NcqMetrics.levelEnd("stage-12", true)             → level_end {…, map, layout}  (시작 때 실은 속성이 끝에도 붙어요)
+   실험(대조군·실험군) 배정은 설치마다 실험 이름당 처음 한 번만 알려요 (지표 모듈 10, 이름·값 규칙은 판 속성과 같아요):
+     NcqMetrics.experiment("help", "ladder")           → experiment {exp_name, variant}
    진행 단계는 처음 거친 단계를 알려요 (이탈 지점: 새로 온 사람이 어느 단계까지 왔다가 떠나는지):
      NcqMetrics.step("03_first_match")                 → step {step_name}  (설치마다 단계 이름당 처음 한 번만 보내요)
    판 이름은 스테이지나 모드(예: "endless")예요. ms는 시작부터 끝까지 화면을 보고 있던 시간이고, 끝을 알리지 않은 판은
@@ -229,7 +237,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
   "use strict";
   if (!cfg || !cfg.url || !cfg.cn || typeof window === "undefined" || typeof document === "undefined") return;
 
-  var SDK = 9;
+  var SDK = 10;
   var SESSION_GAP = 30 * 60 * 1000;      // 이만큼 쉬면 새 세션
   var BEAT = 15 * 1000;                  // 살아 있음 기록 (꺼져도 그때까지 시간은 남는다)
   var ENGAGE_EVERY = 5 * 60 * 1000;      // 오래 켜 둬도 이만큼마다 플레이 시간을 보낸다
@@ -291,7 +299,7 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
   var visibleSince = null, pendingMs = 0, lastEngage = now(), lastBeat = now();
   var sendingAt = 0, sendTicket = 0, failures = 0, retryAt = 0;  // 정기 전송은 한 번에 하나 (답이 1분 넘게 없으면 다음)
   var inflight = {};  // 보내는 중인 이벤트 ID → 보낸 시각 (답을 받기 전에 같은 이벤트를 또 보내지 않게)
-  var rounds = {};    // 진행 중인 판: 판 이름 → {r: 판 ID, t: 시작, away: 안 보고 있던 시간, hid: 숨은 시각}
+  var rounds = {};    // 진행 중인 판: 판 이름 → {r: 판 ID, t: 시작, away: 안 보고 있던 시간, hid: 숨은 시각, p: 판 속성}
 
   function persistQueue() {
     var used = {}, c = {}, k;
@@ -482,7 +490,21 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     if (typeof v !== "string") return "";
     return v.replace(/[\u0000-\u001f\u007f]/g, "").replace(/^\s+|\s+$/g, "").slice(0, 60);
   }
-  function levelStart(name, options) {
+  // 판 속성·실험 이름과 값: 영문 소문자·숫자·하이픈 40자까지 (첫 글자는 영문·숫자). 0 이상의 정수는 글자로 바꿔 받는다 (규칙 판 3 → "3")
+  var LEVEL_KEYS = ["map", "layout", "rules"];  // 판 속성으로 받는 키 (서버 collect.py의 LEVEL_TAGS와 같게)
+  function tag(v) {
+    if (typeof v === "number" && isFinite(v) && v >= 0 && Math.floor(v) === v) v = String(v);
+    return typeof v === "string" && /^[a-z0-9][a-z0-9-]{0,39}$/.test(v) ? v : "";
+  }
+  function levelTags(from, into) {  // from(게임이 준 옵션)에서 정해 둔 키만 골라 into에 담는다. 이미 있는 키는 그대로 둔다
+    if (!from || typeof from !== "object") return into;
+    for (var i = 0; i < LEVEL_KEYS.length; i++) {
+      var key = LEVEL_KEYS[i], v = Object.prototype.hasOwnProperty.call(into, key) ? "" : tag(from[key]);
+      if (v) into[key] = v;
+    }
+    return into;
+  }
+  function levelStart(name, options, more) {  // more: 판 속성을 levelEnd처럼 세 번째 자리에 적어도 받아요
     name = roundName(name);
     if (!name) return;
     var t = now(), keys = [], k;
@@ -491,9 +513,11 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
       keys.sort(function (a, b) { return rounds[a].t - rounds[b].t; });
       delete rounds[keys[0]];
     }
-    var rd = {r: rand(12), t: t, away: 0, hid: isHidden() ? t : null};
+    var rd = {r: rand(12), t: t, away: 0, hid: isHidden() ? t : null, p: levelTags(more, levelTags(options, {}))};
     rounds[name] = rd;  // 끝내지 않고 같은 판을 다시 시작하면 앞 판은 그만둔 판이에요
-    track("level_start", {level_name: name, round: rd.r});
+    var started = {level_name: name, round: rd.r};
+    for (k in rd.p) started[k] = rd.p[k];
+    track("level_start", started);
     journeyWork(function (j) {
       if (j.closed) return;
       var key = options && options.round;
@@ -515,12 +539,14 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
       var away = rd.away + (rd.hid !== null ? Math.max(0, t - rd.hid) : 0);
       props.round = rd.r;
       props.ms = Math.max(0, Math.min(MAX_ROUND_MS, Math.round(t - rd.t - away)));
+      for (var key in rd.p) props[key] = rd.p[key];  // 시작 때 실은 판 속성이 끝에도 붙는다 (한 판의 시작과 끝이 같은 맵으로 묶이게)
       delete rounds[name];
     }
     if (success === true || success === "true" || success === 1) props.success = true;
     else if (success === false || success === "false" || success === 0) props.success = false;
     var score = extra && typeof extra === "object" ? extra.score : undefined;
     if (typeof score === "number" && isFinite(score)) props.score = score;
+    levelTags(extra, props);  // 끝에서 준 속성은 시작 때 없던 키만 (시작을 기억하지 못하는 판은 끝의 속성으로)
     track("level_end", props);
   }
   // ------------------------------------------------------------ 진행 단계 (게임이 부르는 함수, 이탈 지점)
@@ -537,6 +563,23 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     stepsSent[name] = 1;
     save("steps", JSON.stringify(stepsSent));
     track("step", {step_name: name});
+  }
+  // ------------------------------------------------------------ 실험 배정 (게임이 부르는 함수, 지표 모듈 10)
+  // 설치마다 실험 이름당 처음 한 번만 보낸다 (열 때마다 불러도 돼요). 먼저 알린 값이 그 설치의 실험군이고 나중에 다른 값으로
+  // 불러도 바꾸지 않는다 (서버도 가장 먼저 온 배정으로 세요). 누구를 어느 군에 넣을지는 게임이 정한다
+  var EXP_MAX = 20;  // 설치 하나가 기억하는 실험 수
+  var expsSent = loadJson("exps");
+  if (!expsSent || typeof expsSent !== "object") expsSent = {};
+  function experiment(name, variant) {
+    name = tag(name);
+    variant = tag(variant);
+    if (!name || !variant || Object.prototype.hasOwnProperty.call(expsSent, name)) return;
+    var n = 0, k;
+    for (k in expsSent) n += 1;
+    if (n >= EXP_MAX) return;
+    expsSent[name] = variant;
+    save("exps", JSON.stringify(expsSent));
+    track("experiment", {exp_name: name, variant: variant});
   }
   // ------------------------------------------------------------ 초기 반복 동선 (설치·게임별 공용 상한)
   // 기존 설치는 SDK 8 도입 이후의 관측임을 별도 표시한다. 판 지표·리텐션 수집은 멈추지 않는다.
@@ -611,6 +654,8 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
   // 이름은 정해 둔 것만 받고, 값은 짧은 글·숫자·참거짓만 남긴다 (게임 코드가 부르는 함수가 아니에요)
   var TOOL_EVENTS = {ad_load: 1, ad_fail: 1, ad_show: 1, ad_reward: 1, ad_call: 1, purchase_start: 1, purchase: 1,
                      purchase_cancel: 1, purchase_fail: 1, purchase_restore: 1, save_tamper: 1,
+                     survey_prompt_shown: 1, survey_open: 1, survey_dismiss: 1, survey_submit_attempt: 1, survey_submit_confirmed: 1,
+                     review_eligible: 1, review_request_attempt: 1, review_request_result: 1, review_manual_store_open: 1,
                      promo_reward: 1};
   function toolEvent(name, props) {
     if (typeof name !== "string" || !Object.prototype.hasOwnProperty.call(TOOL_EVENTS, name)) return;
@@ -718,7 +763,8 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     return function (a, b, c) { try { fn(a, b, c); } catch (err) { /* 무시 */ } };
   }
   try {
-    window.NcqMetrics = {levelStart: guard(levelStart), levelEnd: guard(levelEnd), step: guard(step), flow: guard(flow), _tool: guard(toolEvent), sdk: SDK};
+    window.NcqMetrics = {levelStart: guard(levelStart), levelEnd: guard(levelEnd), step: guard(step), flow: guard(flow),
+                         experiment: guard(experiment), _tool: guard(toolEvent), sdk: SDK};
   } catch (e) { /* 무시 */ }
   try {
     var t0 = now();
@@ -752,4 +798,14 @@ if(window.NcqViewport && typeof window.NcqViewport.configure === 'function' && w
     window.setInterval(safe(function () { flush(false); }), FLUSH_EVERY);
     window.setTimeout(safe(function () { flush(false); }), 2000);
   } catch (e) { /* 지표 때문에 게임이 멈추면 안 된다 */ }
-})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangomok","pf":"web","mk":"web","tr":"share","vn":"1.19.4","vc":0,"cm":"9f5b3fd","ft":[]});
+})({"url":"https://kickoff-476465444216.asia-northeast3.run.app/ncq/v1/sync","cn":"matjjangomok","pf":"web","mk":"web","tr":"share","vn":"1.20.0","vc":0,"cm":"cae4d8f","ft":[]});
+
+(function(w){
+  function no(){return false;}
+  function unavailable(id){return Promise.resolve({ok:false,id:id,code:"UNAVAILABLE"});}
+  var api={version:5,onGrant:function(){return api;},can:no,price:function(){return "";},
+    ready:function(){return Promise.resolve(false);},owned:function(){return Promise.resolve(false);},
+    buy:unavailable,buyOnce:unavailable,restore:function(){return Promise.resolve({ok:false,restored:[],code:"UNAVAILABLE"});},
+    status:function(){return {platform:"web",mode:"off",off:true,ready:false,products:{}};}};
+  w.NcqIap=Object.freeze(api);
+})(window);

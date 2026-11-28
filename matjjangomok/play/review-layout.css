@@ -1,5 +1,5 @@
 /* One playback surface; player rows and metadata no longer create separate cards. */
-.forest-ui.in-review .match { grid-template-rows: auto auto [board-start] auto [board-end] auto auto auto; }
+.forest-ui.in-review .match-body { grid-template-rows: auto [board-start] auto [board-end] auto auto auto; }
 .forest-ui.in-review #review-header {
   grid-template-columns: 36px minmax(0, 1fr) auto;
   gap: 6px;
@@ -34,7 +34,7 @@
 .forest-ui.in-review .review-win[data-outcome="draw"] { border-color: #adc09b; background: #dce7cd; color: #365438; }
 .forest-ui.in-review #review-own-status { flex: 0 1 auto; max-width: 45%; }
 .forest-ui.in-review .review-playback {
-  grid-area: 5 / 1 / 6 / -1;
+  grid-area: 4 / 1 / 5 / -1;
   min-width: 0; padding: 4px 10px; border: 1px solid #cdb990;
   border-radius: 12px; background: linear-gradient(#fff8eb, #eee3cc);
   color: #193e25; box-shadow: inset 0 1px #fffdf580, 0 2px 4px #001a0c40;
@@ -65,7 +65,7 @@
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .forest-ui.in-review #review .review-footer {
-  grid-area: 6 / 1 / 7 / -1;
+  grid-area: 5 / 1 / 6 / -1;
   display: grid; grid-template-columns: 44px minmax(0, 320px) 44px;
   justify-content: center; align-items: center; gap: 8px; padding-top: 4px;
 }

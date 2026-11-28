@@ -4371,8 +4371,8 @@ function watchRoom({
 }
 
 // board.js
-function boardError(code, status = 0) {
-  return Object.assign(new Error(code), { code, status });
+function boardError(code, status = 0, extra) {
+  return Object.assign(new Error(code), { code, status }, extra);
 }
 function create({ apiUrl, getToken, region, profiles }) {
   const url = new URL(apiUrl);
@@ -4537,7 +4537,13 @@ function create({ apiUrl, getToken, region, profiles }) {
       signal: AbortSignal.timeout(timeout)
     });
     const data = await response.json();
-    if (!response.ok) throw boardError(data.error ?? data.code ?? "network", response.status);
+    if (!response.ok) {
+      throw boardError(
+        data.error ?? data.code ?? "network",
+        response.status,
+        typeof data.retryAfterMs === "number" ? { retryAfterMs: data.retryAfterMs } : void 0
+      );
+    }
     return data;
   }
   async function request(path, input, cooldown = 3, expectedPlayer) {
@@ -4576,6 +4582,8 @@ function create({ apiUrl, getToken, region, profiles }) {
     );
   }
   const room = (code, op) => "/rooms/" + encodeURIComponent(code) + "/" + op;
+  const gameRoom = (code) => /^[\da-f]{8}(?:-[\da-f]{4}){3}-[\da-f]{12}$/i.test(code);
+  const friend = (code, op) => "/friend-rooms/" + (String(code ?? "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 12) || "-") + (op ? "/" + op : "");
   return Object.freeze({
     lobby: (cooldown = 3) => read(
       "/lobby",
@@ -4589,6 +4597,13 @@ function create({ apiUrl, getToken, region, profiles }) {
       seconds(cooldown),
       () => send("/spectate/" + encodeURIComponent(code), void 0, void 0, 3500)
     ),
+    // What this game server offers: { runtime, friendRooms?, rematchPriority?, ... }. Public, kept for a minute.
+    status: (cooldown = 60) => read(
+      "/status",
+      void 0,
+      seconds(cooldown),
+      () => send("/status", void 0, void 0, 3500)
+    ),
     match: (input = {}) => request("/matchmaking", { skipFinished: true, replaceIncompatible: true, ...input }),
     cancel: (ticket) => request("/matchmaking/cancel", { ticket }),
     state: (code, cooldown = -1) => request(room(code, "state"), void 0, cooldown),
@@ -4600,9 +4615,13 @@ function create({ apiUrl, getToken, region, profiles }) {
       load: options.load ?? (() => request(room(code, "state"), void 0, -1)),
       presence: options.presence === false ? void 0 : options.presence ?? (() => request(room(code, "presence"), {}))
     }),
-    join: (code) => request(room(code, "join"), {}),
+    // Friend rooms (runtime 11): createRoom → { code, room, game: null }, the friend calls join(code),
+    // the host asks friendRoom(code) until game arrives. From there game.code works like a matched game.
+    createRoom: (input = {}) => request("/friend-rooms", { ...input }),
+    friendRoom: (code, cooldown = -1) => request(friend(code), void 0, cooldown),
+    join: (code) => request(gameRoom(code) ? room(code, "join") : friend(code, "join"), {}),
     move: (code, input) => request(room(code, "move"), input),
-    leave: (code) => request(room(code, "leave"), {}),
+    leave: (code) => request(gameRoom(code) ? room(code, "leave") : friend(code, "leave"), {}),
     rematch: (code, input) => request(room(code, "rematch"), input),
     profile: ownProfile,
     records: (cooldown = 3) => request("/records", void 0, cooldown),
@@ -4618,7 +4637,7 @@ function create({ apiUrl, getToken, region, profiles }) {
     clearCache
   });
 }
-var NcqBoard = Object.freeze({ version: 3, create });
+var NcqBoard = Object.freeze({ version: 4, create });
 if (typeof window !== "undefined") window.NcqBoard = NcqBoard;
 export {
   NcqBoard

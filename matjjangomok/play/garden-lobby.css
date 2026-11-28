@@ -1,0 +1,53 @@
+/* Approved 953×1650 garden artwork, scaled as one unit inside NcqSafe. */
+body.garden-lobby:not(.in-match):not(.in-together) { background: #b7865b url("./assets/garden-lobby/background-calm.webp") center / cover no-repeat fixed; }
+.garden-lobby .shell { position: relative; }
+#lobby-stage-host.garden-stage-host { position: absolute; inset: var(--ncq-top) var(--ncq-right) var(--ncq-bottom) var(--ncq-left); width: min(560px,calc(100% - var(--ncq-left) - var(--ncq-right))); margin-inline: auto; display: grid; place-items: center; min-width: 0; min-height: 0; }
+#garden-stage-frame { position: relative; }
+#garden-stage { position: absolute; inset: 0 auto auto 0; width: 953px; height: 1650px; overflow: hidden; transform-origin: top left; color: #301e10; font-family: "Omok Noto Sans KR",sans-serif; isolation: isolate; }
+#garden-stage .garden-layer { position: absolute; inset: 0; }
+.garden-layer-title { transform: translateY(var(--garden-title-y,0px)) scale(var(--garden-title-scale,1)); transform-origin: 476.5px 250px; }
+.garden-layer-side { transform: translateY(var(--garden-side-y,0px)); }
+.garden-layer-board { transform: translateY(var(--garden-board-y,0px)) scale(var(--garden-board-scale,1)); transform-origin: 476.5px 650px; }
+.garden-layer-profile { transform: translateY(var(--garden-profile-y,0px)); }
+.garden-layer-start { transform: translateY(var(--garden-start-y,0px)); }
+.garden-layer-secondary { transform: translateY(var(--garden-secondary-y,0px)); }
+.garden-layer-nav { transform: translateY(var(--garden-nav-y,0px)); }
+#garden-stage .garden-background { transform: translateY(var(--garden-board-y,0px)); }
+#garden-stage :is(#show-missions,#show-tournament) { --garden-offset-y: var(--garden-side-y); }
+#garden-stage #player-card { --garden-offset-y: var(--garden-profile-y); }
+#garden-stage #start { --garden-offset-y: var(--garden-start-y); }
+#garden-stage :is(#show-ai,#show-together) { --garden-offset-y: var(--garden-secondary-y); }
+#garden-stage #lobby-nav button { --garden-offset-y: var(--garden-nav-y); }
+#garden-stage:not([data-garden-ready]) { visibility: hidden; }
+#garden-scene { position: absolute; inset: 0; pointer-events: none; }
+#garden-stage .garden-art { position: absolute; pointer-events: none; }
+#garden-stage .garden-art img { position: absolute; display: block; max-width: none; }
+.garden-shadow { filter: brightness(var(--garden-brightness,1)) drop-shadow(0 7px 1px rgb(42 22 8 / 36%)) drop-shadow(0 13px 8px rgb(42 22 8 / 25%)); }
+.garden-dark { --garden-brightness: .70; }
+.garden-title-glow { position: absolute; left: 496.5px; top: 262px; width: 720px; height: 460px; border-radius: 50%; background: radial-gradient(ellipse 50% 50% at center,rgb(255 255 255 / 98%) 0%,rgb(255 255 255 / 86%) 35%,rgb(255 255 255 / 48%) 65%,rgb(255 255 255 / 0%) 100%); opacity: .40; transform: translate(-50%,-50%) scale(1.2); }
+#garden-stage :is(.topbar,.header-tools) { position: static; display: contents; }
+#garden-stage :is(.brand,.lobby-showcase) { display: none; }
+#garden-stage :is(#lobby,#lobby-profile-slot,#lobby-mission-slot,#lobby-championship-slot,#lobby-cta-slot,#lobby-entry,#lobby-mode-actions,#lobby-nav) { display: contents; container-type: normal; }
+.forest-ui #garden-stage .garden-control { position: absolute; left: var(--garden-x); top: calc(var(--garden-y) + var(--garden-offset-y,0px)); width: var(--garden-width); height: var(--garden-height); z-index: 2; min-height: 0; min-width: 0; max-width: none; margin: 0; padding: 0; border: 0; border-radius: 20px; background: transparent; box-shadow: none; color: transparent; transform: none; cursor: pointer; }
+#garden-stage .garden-control > * { display: none; }
+#garden-stage .garden-control:is(:hover,:active) { background: transparent; box-shadow: none; transform: none; }
+#garden-stage .garden-control::before,#garden-stage .garden-control::after { display: none !important; }
+#garden-stage .garden-control:focus-visible { outline: 4px solid #fff4b5; outline-offset: 4px; }
+#garden-stage :is(#start,#show-ai,#show-together) { border-radius: 100px; }
+#garden-stage #show-options { border-radius: 50%; }
+#garden-stage .garden-copy { position: absolute; display: flex; align-items: center; white-space: nowrap; line-height: 1; font-weight: 800; letter-spacing: -.5px; font-variant-numeric: tabular-nums; pointer-events: none; }
+#garden-stage .garden-center { justify-content: center; text-align: center; }
+#garden-stage .garden-light { color: #fff9e9; text-shadow: 0 2px 1px #0007; }
+#garden-stage .garden-yellow { color: #ffe9a0; text-shadow: 0 2px 1px #403109; }
+#garden-stage .garden-muted { color: #785b48; }
+#garden-stage .garden-blue { color: #173c43; }
+#garden-stage .garden-start-label { color: #3e2303; letter-spacing: -1.08px; font-weight: 900; -webkit-text-stroke: 1px #ffeda2; paint-order: stroke fill; text-shadow: 0 2px #ffe99a; }
+#garden-stage .garden-divider { position: absolute; background: linear-gradient(transparent,#d2baa0 15%,#cbb08d 85%,transparent); }
+#garden-stage .garden-photo { position: absolute; z-index: 1; left: 39px; top: 29px; width: 88px; height: 88px; border: 3px solid #fff5dd; border-radius: 50%; object-fit: cover; pointer-events: none; }
+#garden-stage #lobby-wallet { position: absolute; min-height: 0; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+#garden-stage #lobby-wallet > * { display: none; }
+#garden-stage #lobby-coin-count { z-index: 1; }
+#garden-stage #championship-countdown { z-index: 1; margin: 0; padding: 0; border: 0; background: none; transform: translateY(var(--garden-side-y,0px)); }
+#garden-stage:not(:has(#show-missions[data-ready])) .garden-mission-dot { display: none; }
+#garden-stage .garden-sparkles { position: absolute; left: 799px; top: 1020px; width: 70px; height: 64px; filter: drop-shadow(0 0 3px #ffbf37); }
+#garden-stage #lobby-error { position: absolute; left: 80px; top: calc(1250px + var(--garden-start-y,0px)); width: 777px; margin: 0; padding: 0; color: #fff5df; font-size: 24px; text-align: center; text-shadow: 0 1px 3px #301e10; }

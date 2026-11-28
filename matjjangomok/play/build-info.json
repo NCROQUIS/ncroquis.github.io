@@ -1,8 +1,8 @@
 {
   "schema": 1,
-  "source_sha": "9f5b3fddf2947d880c686fd37d96eafb04ee71df",
+  "source_sha": "cae4d8fcdbcd9b10ac522dd53db6e0c8a7685b9a",
   "dirty": false,
-  "version": "1.19.4",
+  "version": "1.20.0",
   "platform": "web",
-  "built_at": "2026-11-25T10:45:10+00:00"
+  "built_at": "2026-11-28T07:01:36+00:00"
 }

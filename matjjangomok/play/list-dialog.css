@@ -74,6 +74,7 @@
 .forest-ui #records { flex: 1; max-width: none; width: 100%; min-height: 0; margin: 0; padding: 0; gap: 0; }
 #records-dialog #records > .list-body { margin-top: 18px; padding: 0 3px 5px; }
 #records-dialog #record-list { gap: 10px; }
+#records-dialog #records-retry { align-self: center; min-height: max(44px,calc(44px / var(--list-dialog-scale))); margin: 0 auto 16px; padding: 10px 22px; font-size: 22px; }
 #records-dialog .record-card { min-height: 112px; padding: 6px; }
 #records-dialog .record-open { gap: 12px; }
 #records-dialog .record-title { font-size: 22px; line-height: 30px; }

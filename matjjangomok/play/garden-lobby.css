@@ -40,6 +40,11 @@ body.garden-lobby:not(.in-match):not(.in-together) { background: #b7865b url("./
 #garden-stage .garden-light { color: #fff9e9; text-shadow: 0 2px 1px #0007; }
 #garden-stage .garden-yellow { color: #ffe9a0; text-shadow: 0 2px 1px #403109; }
 #garden-stage .garden-muted { color: #785b48; }
+#garden-stage .garden-profile-title { font-weight: 500; color: #705843; }
+#garden-stage .garden-profile-promotion { font-weight: 600; color: #705843; }
+#garden-stage .garden-record-label { font-weight: 500; color: #785b48; text-shadow: 0 1px #fff; }
+#garden-stage .garden-record-value { font-weight: 700; color: #24140b; letter-spacing: -.7px; }
+#garden-stage .garden-profile-gauge-value { font-weight: 600; overflow: hidden; text-shadow: 0 1px 1px rgb(48 30 16 / 65%); box-sizing: border-box; }
 #garden-stage .garden-blue { color: #173c43; }
 #garden-stage .garden-start-label { color: #3e2303; letter-spacing: -1.08px; font-weight: 900; -webkit-text-stroke: 1px #ffeda2; paint-order: stroke fill; text-shadow: 0 2px #ffe99a; }
 #garden-stage .garden-divider { position: absolute; background: linear-gradient(transparent,#d2baa0 15%,#cbb08d 85%,transparent); }
